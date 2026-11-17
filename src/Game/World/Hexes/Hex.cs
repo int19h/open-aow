@@ -61,7 +61,7 @@ public partial class Hex : AbstractHexagon
                 sbyte hexLevel = GetHexLevel();
                 sbyte hexY = GetHexY();
                 sbyte hexX = GetHexX();
-                base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
+                _ = base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
             }
         }
     }
@@ -76,14 +76,14 @@ public partial class Hex : AbstractHexagon
                 sbyte hexLevel = GetHexLevel();
                 sbyte hexY = GetHexY();
                 sbyte hexX = GetHexX();
-                base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
+                _ = base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
             }
             else
             {
                 sbyte hexLevel = GetHexLevel();
                 sbyte hexY = GetHexY();
                 sbyte hexX = GetHexX();
-                base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, hexLevel, 0);
+                _ = base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, hexLevel, 0);
             }
         }
     }

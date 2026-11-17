@@ -18,7 +18,7 @@ public partial class SampleData : IDisposable
     {
         context.Capture(this);
         _name = name;
-        AudioHost.SampleDataList.Add(this);
+        _ = AudioHost.SampleDataList.Add(this);
         AddRef();
     }
 

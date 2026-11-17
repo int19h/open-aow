@@ -45,7 +45,7 @@ public partial class PlayerMagicControl : EngineObject
         source = new ExternalPowerSource(null) { Holder = CreationHolder() };
         _externalPowerSource = source;
         source.ExternalPowerControl = this;
-        PowerSources.AddChild(source);
+        _ = PowerSources.AddChild(source);
         ResearchPointsLeft = 0;
         ResearchSpellId = 0;
         ResearchPercentage = 50;
@@ -97,7 +97,7 @@ public partial class PlayerMagicControl : EngineObject
             Spells?.Dispose();
             Enchantments?.Dispose();
             _changedEventsStore.Clear();
-            PowerSources.RemoveChild(_externalPowerSource);
+            _ = PowerSources.RemoveChild(_externalPowerSource);
             if (PowerSources.GetCount() != 0 && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
             {
                 try
@@ -182,22 +182,22 @@ public partial class PlayerMagicControl : EngineObject
                     magic = StrategicMap.Current.Players.GetPlayers(i).MagicControl;
                     if (magic.ActiveEnchantments.Contains(PlayerEnchantmentType.WaterMastery))
                     {
-                        EnemyEnchantments = EnemyEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.WaterMastery);
+                        EnemyEnchantments += Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.WaterMastery);
                     }
 
                     if (magic.ActiveEnchantments.Contains(PlayerEnchantmentType.LifeMastery))
                     {
-                        EnemyEnchantments = EnemyEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.LifeMastery);
+                        EnemyEnchantments += Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.LifeMastery);
                     }
 
                     if (magic.ActiveEnchantments.Contains(PlayerEnchantmentType.DeathMastery))
                     {
-                        EnemyEnchantments = EnemyEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.DeathMastery);
+                        EnemyEnchantments += Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.DeathMastery);
                     }
 
                     if (magic.ActiveEnchantments.Contains(PlayerEnchantmentType.AirMastery))
                     {
-                        EnemyEnchantments = EnemyEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.AirMastery);
+                        EnemyEnchantments += Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.AirMastery);
                     }
                 }
             }
@@ -286,8 +286,8 @@ public partial class PlayerMagicControl : EngineObject
                 log.Location = new MapCoordinate(locationX, locationY, locationMapLevel);
                 log.EnchantmentName = Enchantments.GetEnchantments(index).GetName();
                 StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex).EventLogbook.AddEvent(log);
-                log.Release();
-                ExecuteDispelEnchantment(index);
+                _ = log.Release();
+                _ = ExecuteDispelEnchantment(index);
             }
         }
 
@@ -302,7 +302,7 @@ public partial class PlayerMagicControl : EngineObject
     {
         while (Enchantments.GetCount() != 0)
         {
-            ExecuteDispelEnchantment(Enchantments.GetCount() - 1);
+            _ = ExecuteDispelEnchantment(Enchantments.GetCount() - 1);
         }
     }
 
@@ -324,7 +324,7 @@ public partial class PlayerMagicControl : EngineObject
     {
         if (Spells.IndexOf(spellId) == -1)
         {
-            Spells.Add(spellId);
+            _ = Spells.Add(spellId);
         }
 
         if (spellId == ResearchSpellId)
@@ -356,7 +356,7 @@ public partial class PlayerMagicControl : EngineObject
                     spell = GamePack.Current.SpellControl.GetSpell(i);
                     if (spell != null && Spells.IndexOf(i) == -1 && spell.SpellType == kind && (spell.MagicSphere == MagicSphere.Cosmos || Player.Leader.GetSpherePicks(spell.MagicSphere) > 0) && spell.SpellLevel == 1)
                     {
-                        candidates.Add(i);
+                        _ = candidates.Add(i);
                     }
                 }
 
@@ -364,7 +364,7 @@ public partial class PlayerMagicControl : EngineObject
                 {
                     index = StrategicMap.Current.Random(candidates.Count);
                     int item = candidates[index];
-                    Spells.Add(item);
+                    _ = Spells.Add(item);
                 }
             }
 
@@ -389,13 +389,13 @@ public partial class PlayerMagicControl : EngineObject
                     log.Mode = PlayerMagicEventLog.EventMode.SpellResearched;
                     log.SpellId = ResearchSpellId;
                     Player.EventLogbook.AddEvent(log);
-                    ExecuteSpellResearched(ResearchSpellId);
+                    _ = ExecuteSpellResearched(ResearchSpellId);
                     if (Player.PlayerIndex == StrategicMap.Current.SeatedPlayer && Player.PlayerType == PlayerType.Human)
                     {
-                        log.Execute(false, ExecuteTrigger.Event, null);
+                        _ = log.Execute(false, ExecuteTrigger.Event, null);
                     }
 
-                    log.Release();
+                    _ = log.Release();
                 }
             }
             else
@@ -654,7 +654,7 @@ public partial class PlayerMagicControl : EngineObject
         bool result;
         if (Enchantments.IndexOfChild(enchantment) == -1)
         {
-            Enchantments.AddChild(enchantment);
+            _ = Enchantments.AddChild(enchantment);
             ValidateEnchantmentId(enchantment);
             Update();
             result = true;
@@ -685,7 +685,7 @@ public partial class PlayerMagicControl : EngineObject
         bool result;
         if (PowerSources.FindChildIndex(source) == -1)
         {
-            PowerSources.AddChild(source);
+            _ = PowerSources.AddChild(source);
             Update();
             result = true;
         }
@@ -737,7 +737,7 @@ public partial class PlayerMagicControl : EngineObject
             eventValue.Mode = ChangePlayerMagicTokenEventMode.DispelEnchantment;
             eventValue.Value = index;
             StrategicMap.Current.TokenManager.GetTokenControl(Player.PlayerIndex).AddEvent(eventValue);
-            eventValue.Release();
+            _ = eventValue.Release();
             result = true;
         }
         else
@@ -769,7 +769,7 @@ public partial class PlayerMagicControl : EngineObject
                 eventValue.Mode = ChangePlayerMagicTokenEventMode.ChangePowerSettings;
                 eventValue.Value = percentage;
                 StrategicMap.Current.TokenManager.GetTokenControl(Player.PlayerIndex).AddEvent(eventValue);
-                eventValue.Release();
+                _ = eventValue.Release();
             }
 
             result = true;
@@ -813,7 +813,7 @@ public partial class PlayerMagicControl : EngineObject
             eventValue.Mode = ChangePlayerMagicTokenEventMode.ResearchSpell;
             eventValue.Value = spellId;
             StrategicMap.Current.TokenManager.GetTokenControl(Player.PlayerIndex).AddEvent(eventValue);
-            eventValue.Release();
+            _ = eventValue.Release();
             result = true;
         }
         else
@@ -872,7 +872,7 @@ public partial class PlayerMagicControl : EngineObject
             int order = enchantment.GetAIUpkeepPriority();
             if (order <= priority)
             {
-                list.Add(new UpkeepCandidate { Order = order, Upkeep = enchantment.Upkeep, Enchantment = enchantment });
+                _ = list.Add(new UpkeepCandidate { Order = order, Upkeep = enchantment.Upkeep, Enchantment = enchantment });
             }
         }
         GlobalMagicControl global = StrategicMap.Current.GlobalMagicControl;
@@ -887,7 +887,7 @@ public partial class PlayerMagicControl : EngineObject
             int order = enchantment.GetAIUpkeepPriority();
             if (order <= priority)
             {
-                list.Add(new UpkeepCandidate { Order = order, Upkeep = enchantment.GetUpkeep(), GlobalEnchantment = enchantment });
+                _ = list.Add(new UpkeepCandidate { Order = order, Upkeep = enchantment.GetUpkeep(), GlobalEnchantment = enchantment });
             }
         }
         if (list.Count != 0)
@@ -900,14 +900,14 @@ public partial class PlayerMagicControl : EngineObject
                 total += item.Upkeep;
                 if (item.Enchantment != null)
                 {
-                    ExecuteDispelEnchantment(Enchantments.IndexOfChild(item.Enchantment));
+                    _ = ExecuteDispelEnchantment(Enchantments.IndexOfChild(item.Enchantment));
                 }
                 else
                 {
                     GlobalEnchantment enchantment = item.GlobalEnchantment;
-                    enchantment.AddRef();
-                    enchantment.Remove((byte)Player.PlayerIndex);
-                    enchantment.Release();
+                    _ = enchantment.AddRef();
+                    _ = enchantment.Remove((byte)Player.PlayerIndex);
+                    _ = enchantment.Release();
                 }
                 list.Delete(0);
             }

@@ -37,17 +37,14 @@ public partial class CallHero : Spell
     {
         bool showSource;
         bool showTarget;
-        sbyte x = default;
-        sbyte y = default;
-        sbyte layer = default;
         Hero hero;
         ArmyHexSprite army;
         ImageSequenceAnimation animation;
-        base.ExecuteTokenEvent(eventValue, source, executeCount);
+        _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         MapCoordinate coordinate55 = source.GetLocation();
-        x = coordinate55.X;
-        y = coordinate55.Y;
-        layer = coordinate55.MapLevel;
+        sbyte x = coordinate55.X;
+        sbyte y = coordinate55.Y;
+        sbyte layer = coordinate55.MapLevel;
         hero = FindCallHero(source);
         if (hero != null)
         {
@@ -74,7 +71,7 @@ public partial class CallHero : Spell
                 {
                     animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0));
-                    StrategicMap.Current.PlaceHex(animation, x, y, layer);
+                    _ = StrategicMap.Current.PlaceHex(animation, x, y, layer);
                 }
             }
 
@@ -87,7 +84,7 @@ public partial class CallHero : Spell
                     sbyte hexLevel = army.GetHexLevel();
                     sbyte hexY = army.GetHexY();
                     sbyte hexX = army.GetHexX();
-                    StrategicMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
+                    _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
                 }
             }
 
@@ -103,7 +100,7 @@ public partial class CallHero : Spell
                 sbyte hexLevel = army.GetHexLevel();
                 sbyte hexY = army.GetHexY();
                 sbyte hexX = army.GetHexX();
-                StrategicMap.Current.ValidateObservation(source.Player, hexX, hexY, hexLevel, 0);
+                _ = StrategicMap.Current.ValidateObservation(source.Player, hexX, hexY, hexLevel, 0);
             }
 
             bool test = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.Watching(x, y, layer, 0);
@@ -117,7 +114,7 @@ public partial class CallHero : Spell
 
             if (test)
             {
-                GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
+                _ = GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
             }
         }
         else
@@ -126,7 +123,7 @@ public partial class CallHero : Spell
             {
                 string noHeroAnsweredYourCall = AbilityRules.TranslateResourceString(GetEngine(), s_noHeroAnsweredYourCallText);
                 StrategicMap.Current.ShowMessage(noHeroAnsweredYourCall);
-                GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
+                _ = GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
             }
         }
 
@@ -146,7 +143,7 @@ public partial class CallHero : Spell
             eventValue = new SpellTokenEvent(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
-            eventValue.Release();
+            _ = eventValue.Release();
             result = true;
         }
         else
@@ -170,14 +167,7 @@ public partial class CallHero : Spell
             hero = StrategicMap.Current.HeroControl.GetHero(i);
             if (hero.Player == 0 && hero.Owner is Army && hero.ArmyOwner.Location.X != -1)
             {
-                if (hero.OfferToJoin(source.Player))
-                {
-                    heroes.AddAbility(hero, 10);
-                }
-                else
-                {
-                    heroes.AddAbility(hero, 1);
-                }
+                _ = hero.OfferToJoin(source.Player) ? heroes.AddAbility(hero, 10) : heroes.AddAbility(hero, 1);
             }
         }
 
@@ -188,14 +178,7 @@ public partial class CallHero : Spell
                 hero = StrategicMap.Current.HeroControl.GetHero(i);
                 if (!hero.UnitStatus.Contains(UnitStatusElement.Killed) && hero.Player <= 0 && hero.Owner == null)
                 {
-                    if (hero.OfferToJoin(source.Player))
-                    {
-                        heroes.AddAbility(hero, 10);
-                    }
-                    else
-                    {
-                        heroes.AddAbility(hero, 1);
-                    }
+                    _ = hero.OfferToJoin(source.Player) ? heroes.AddAbility(hero, 10) : heroes.AddAbility(hero, 1);
                 }
             }
         }

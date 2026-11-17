@@ -47,7 +47,7 @@ public partial class ExclusiveCombatSpellCombatAction : CombatAction
     {
         if (viewer.Time == 0)
         {
-            GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
+            _ = GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
         }
 
         if (viewer.Delay == viewer.Time)
@@ -63,7 +63,7 @@ public partial class ExclusiveCombatSpellCombatAction : CombatAction
     {
         if (objectValue.Id == SourceId)
         {
-            objectValue.ShowAttackAnimation(viewer.Time, direction, X, Y, surface);
+            _ = objectValue.ShowAttackAnimation(viewer.Time, direction, X, Y, surface);
         }
         else
         {
@@ -79,7 +79,7 @@ public partial class ExclusiveCombatSpellCombatAction : CombatAction
         {
             if (objectValue.Id == TargetId)
             {
-                GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.Show(11, X + 32, Y + 32, viewer.Time, surface);
+                _ = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.Show(11, X + 32, Y + 32, viewer.Time, surface);
             }
         }
     }
@@ -98,7 +98,7 @@ public partial class ExclusiveCombatSpellCombatAction : CombatAction
         {
             if (objectValue.Id == TargetId)
             {
-                GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.Show(11, X + 32, Y + 32, viewer.Time, surface);
+                _ = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.Show(11, X + 32, Y + 32, viewer.Time, surface);
             }
         }
     }

@@ -42,15 +42,12 @@ public partial class TownGate : CityTargetSpell
         ArmyHexSprite army = default;
         MapField field;
         ArmyHexSprite newArmy;
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         ImageSequenceAnimation a;
         MapCoordinate coordinate84 = source.GetLocation();
-        x = coordinate84.X;
-        y = coordinate84.Y;
-        l = coordinate84.MapLevel;
-        townGateEvent.ArmyId.RetrieveArmy(ref army, ref selection);
+        sbyte x = coordinate84.X;
+        sbyte y = coordinate84.Y;
+        sbyte l = coordinate84.MapLevel;
+        _ = townGateEvent.ArmyId.RetrieveArmy(ref army, ref selection);
         field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(townGateEvent.TeleportLocation);
         army.Army.ResetDestinationPosition();
         if (StrategicMap.Current.SelectedArmy.GetArmyHexSprite() == army)
@@ -62,18 +59,18 @@ public partial class TownGate : CityTargetSpell
         {
             newArmy = new ArmyHexSprite(null) { Holder = CreationHolder() };
             newArmy.Army.SetPlayer(army.Army.Player);
-            newArmy.Army.AddUnitSelection(army.Army.Units, selection);
-            StrategicMap.Current.PlaceHex(newArmy, townGateEvent.TeleportLocation.X, townGateEvent.TeleportLocation.Y, townGateEvent.TeleportLocation.MapLevel);
+            _ = newArmy.Army.AddUnitSelection(army.Army.Units, selection);
+            _ = StrategicMap.Current.PlaceHex(newArmy, townGateEvent.TeleportLocation.X, townGateEvent.TeleportLocation.Y, townGateEvent.TeleportLocation.MapLevel);
         }
         else
         {
             if (field.GetArmyHexSprite() != null)
             {
-                field.GetArmyHexSprite().Army.AddUnitSelection(army.Army.Units, selection);
+                _ = field.GetArmyHexSprite().Army.AddUnitSelection(army.Army.Units, selection);
             }
             else
             {
-                army.MoveTo(field, 0);
+                _ = army.MoveTo(field, 0);
             }
         }
 
@@ -85,7 +82,7 @@ public partial class TownGate : CityTargetSpell
             {
                 a = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                 a.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
-                StrategicMap.Current.PlaceHex(a, x, y, l);
+                _ = StrategicMap.Current.PlaceHex(a, x, y, l);
             }
         }
 
@@ -95,7 +92,7 @@ public partial class TownGate : CityTargetSpell
             {
                 a = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                 a.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
-                StrategicMap.Current.PlaceHex(a, field.HexX, field.HexY, field.HexLevel);
+                _ = StrategicMap.Current.PlaceHex(a, field.HexX, field.HexY, field.HexLevel);
             }
         }
 
@@ -107,13 +104,13 @@ public partial class TownGate : CityTargetSpell
         {
             if (!StrategicMap.Current.ValidateObservation(source.Player, field.HexX, field.HexY, field.HexLevel, 0))
             {
-                StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
+                _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
             }
         }
 
         if (StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.Watching(x, y, l, 0) || StrategicMap.Current.Watching(field.HexX, field.HexY, field.HexLevel, 0))
         {
-            GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
+            _ = GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
         }
 
         CastingDone(source, eventValue.EventMana);
@@ -127,7 +124,7 @@ public partial class TownGate : CityTargetSpell
     public override void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
         base.SetupTargetSelection(source, targetSelection);
-        targetSelection.TargetMode = targetSelection.TargetMode - Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.FixedLevel, TargetSelectionModeElement.ValidateDistance);
+        targetSelection.TargetMode -= Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.FixedLevel, TargetSelectionModeElement.ValidateDistance);
     }
 
     // CitySpells.pas:445
@@ -140,7 +137,6 @@ public partial class TownGate : CityTargetSpell
         ArmyHexSprite army;
         bool found;
         MapLevel level;
-        HexNumberWalkData walk = default;
         bool result = base.SetupTokenEvent(eventValue, source, X, Y, L);
         if (result)
         {
@@ -155,7 +151,7 @@ public partial class TownGate : CityTargetSpell
                 ? StrategicMap.Current.SelectedArmy.GetSelection()
                 : (byte)255;
 
-            HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
             found = false;
             level = StrategicMap.Current.MapContainer.GetMapLevel(L);
             while (walk.Radius < 4 && !found)

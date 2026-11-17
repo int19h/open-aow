@@ -33,20 +33,17 @@ public partial class PowerLeak : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1049
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         TwinkleAnimation animation;
-        base.ExecuteTokenEvent(eventValue, source, executeCount);
+        _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         MapCoordinate coordinate74 = source.GetLocation();
-        x = coordinate74.X;
-        y = coordinate74.Y;
-        l = coordinate74.MapLevel;
-        StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
+        sbyte x = coordinate74.X;
+        sbyte y = coordinate74.Y;
+        sbyte l = coordinate74.MapLevel;
+        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
         animation = new TwinkleAnimation(null) { Holder = CreationHolder() };
         animation.Setup(GamePack.Current.SpellControl.GetSpell(48).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Implode), 100, 64, 50, 30);
-        StrategicMap.Current.PlaceHex(animation, x, y, l);
-        CastSounds.Play(0);
+        _ = StrategicMap.Current.PlaceHex(animation, x, y, l);
+        _ = CastSounds.Play(0);
         CastingDone(source, eventValue.EventMana);
         return false;
     }

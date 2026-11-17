@@ -16,7 +16,7 @@ public partial class SummonGreatEagle : SummonSpell
         BaseManaCost = 5;
         SpellLevel = 2;
         MagicSphere = MagicSphere.Air;
-        UnitIndices.Add(234);
+        _ = UnitIndices.Add(234);
         CastDuration = 10;
         AIBasePriority = 250;
     }

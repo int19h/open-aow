@@ -155,7 +155,7 @@ public partial class ScrollBar : Control
                         ApplySmallStep(false);
                         break;
                     case 2:
-                        _position = _position - _largeChange;
+                        _position -= _largeChange;
                         if (TrackClickTarget > _position)
                         {
                             _position = TrackClickTarget;
@@ -167,7 +167,7 @@ public partial class ScrollBar : Control
 
                         break;
                     case 3:
-                        _position = _position + _largeChange;
+                        _position += _largeChange;
                         if (TrackClickTarget + 1 < _position)
                         {
                             _position = TrackClickTarget + 1;

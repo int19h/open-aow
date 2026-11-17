@@ -30,12 +30,12 @@ public partial class OverviewUnitHexSprite : UnitHexSprite
     // OverviewUnit.pas:37
     public void SetU(Troop U)
     {
-        _troop?.Release();
+        _ = (_troop?.Release());
 
         _troop = U;
         if (_troop != null)
         {
-            _troop.AddRef();
+            _ = _troop.AddRef();
             SetUnitGraphicsResourceIndex(_troop.GetUnitGraphicsResourceIndex());
         }
     }

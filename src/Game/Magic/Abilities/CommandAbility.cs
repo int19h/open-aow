@@ -77,11 +77,11 @@ public partial class CommandAbility : TouchAbility
                 if (strike != null)
                 {
                     source.Combat.ExecuteCombatAction(strike);
-                    strike.Release();
+                    _ = strike.Release();
                 }
             }
 
-            action.Release();
+            _ = action.Release();
         }
 
         return true;
@@ -227,7 +227,7 @@ public partial class CommandAbility : TouchAbility
             source.Troop.AddAbilityData(sourceData);
         }
 
-        sourceData.CommandedUnits.Add(target.Id);
+        _ = sourceData.CommandedUnits.Add(target.Id);
     }
 
     // AoWAb.PAS:5259. Draws the random value the touch event used to draw, then builds the action.
@@ -287,11 +287,11 @@ public partial class CommandAbility : TouchAbility
                 target.SetCombatPlayer(data.OriginalCombatPlayer);
             }
 
-            GamePack.Current.AbilityControl.GetAbility(CommandedAbilityId).Remove(target.Troop);
+            _ = GamePack.Current.AbilityControl.GetAbility(CommandedAbilityId).Remove(target.Troop);
             if (source != null)
             {
                 sourceData = GetData(source.Troop);
-                sourceData?.CommandedUnits.Remove(target.Id);
+                _ = (sourceData?.CommandedUnits.Remove(target.Id));
             }
         }
     }

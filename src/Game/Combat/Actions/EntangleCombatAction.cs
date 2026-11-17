@@ -39,7 +39,7 @@ public partial class EntangleCombatAction : SingleTargetCombatAction
         {
             source = combat.CombatData.FindId<CombatUnit>(SourceId);
             target = combat.CombatData.FindId<CombatUnit>(TargetId);
-            GamePack.Current.AbilityControl.GetAbility(94).Expand(target.Troop);
+            _ = GamePack.Current.AbilityControl.GetAbility(94).Expand(target.Troop);
             data = target.Troop.GetAbilityData<UnitEnchantmentAbilityData>(94);
             data?.EnchantmentPlayerIndex = source.CombatPlayer;
         }
@@ -50,7 +50,7 @@ public partial class EntangleCombatAction : SingleTargetCombatAction
     {
         if (viewer.Time == 0)
         {
-            GamePack.Current.AbilityControl.GetAbility(40).SfxLibrary.Play(0);
+            _ = GamePack.Current.AbilityControl.GetAbility(40).SfxLibrary.Play(0);
         }
 
         if (viewer.Delay == viewer.Time)
@@ -67,7 +67,7 @@ public partial class EntangleCombatAction : SingleTargetCombatAction
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == TargetId)
         {
-            GamePack.Current.AbilityControl.GetAbility(40).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
+            _ = GamePack.Current.AbilityControl.GetAbility(40).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
         }
     }
 

@@ -37,7 +37,7 @@ public partial class TacticalBattle : Battle
     {
         base.Initialize();
         CombatData.TurnOrder.Clear();
-        CombatData.TurnOrder.Add((byte)CombatData.AttackerPlayer);
+        _ = CombatData.TurnOrder.Add((byte)CombatData.AttackerPlayer);
         HostPlayer = -1;
         for (int i = 0, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
         {
@@ -59,7 +59,7 @@ public partial class TacticalBattle : Battle
             {
                 if (CombatData.Players.GetPlayers((sbyte)i).SideIndex == 0)
                 {
-                    CombatData.TurnOrder.Add((byte)i);
+                    _ = CombatData.TurnOrder.Add((byte)i);
                 }
             }
 
@@ -86,14 +86,14 @@ public partial class TacticalBattle : Battle
             }
         }
 
-        CombatData.TurnOrder.Add((byte)CombatData.DefenderPlayer);
+        _ = CombatData.TurnOrder.Add((byte)CombatData.DefenderPlayer);
         for (int i = 0, last = CombatData.Players.GetCount() - 1; i <= last; i++)
         {
             if (CombatData.TurnOrder.IndexOf((byte)i) == -1)
             {
                 if (CombatData.Players.GetPlayers((sbyte)i).SideIndex == 1)
                 {
-                    CombatData.TurnOrder.Add((byte)i);
+                    _ = CombatData.TurnOrder.Add((byte)i);
                 }
             }
         }
@@ -165,7 +165,7 @@ public partial class TacticalBattle : Battle
                 {
                     StrategicMap.Current.TokenManager.TokenExecutor.HoldTacticalBattle = true;
                     generator = new RandomBattleMapGenerator(this);
-                    generator.RandomMap(this, CombatData.Location.X, CombatData.Location.Y, CombatData.Location.MapLevel);
+                    _ = generator.RandomMap(this, CombatData.Location.X, CombatData.Location.Y, CombatData.Location.MapLevel);
                     generator?.Dispose();
                     bool condition = StrategicMap.Current.StartingGame || StrategicMap.Current.VisibleForPlayer(CombatData.Location.X, CombatData.Location.Y, CombatData.Location.MapLevel, StrategicMap.Current.SeatedPlayer);
                     CombatMap.Current.PlaySounds = condition;

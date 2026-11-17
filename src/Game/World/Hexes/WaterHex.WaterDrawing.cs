@@ -22,7 +22,7 @@ public partial class WaterHex
         bool showing;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelX = pixelX - pixelXSurface - 8;
-        pixelY = pixelY - pixelYSurface;
+        pixelY -= pixelYSurface;
         // { Original uses the shared engine settings and the Flood enchantment. }
         if (GetEngine().AnimationDetail != 0 && (Owner.FogCount != 0 || !Owner.Owner.Map.FogEnabled))
         {

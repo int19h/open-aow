@@ -91,7 +91,7 @@ public partial class CombatObject : EngineObject
         // flag there too.
         if (persister.Loading || PersistSupport.Translating(persister))
         {
-            Status = Status - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated);
+            Status -= Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated);
         }
     }
 
@@ -168,7 +168,7 @@ public partial class CombatObject : EngineObject
 
             if (TargetStrength != 0)
             {
-                TargetStrength = TargetStrength / Targets.Count;
+                TargetStrength /= Targets.Count;
             }
 
             TargetStrengthInvalid = false;
@@ -205,7 +205,7 @@ public partial class CombatObject : EngineObject
             {
                 combat = Combat;
                 CombatPlayer players = combat.CombatData.Players.GetPlayers(CombatPlayer);
-                combat.Sides[(int)(CombatSideIndex)players.SideIndex].RemoveChild(this);
+                _ = combat.Sides[(int)(CombatSideIndex)players.SideIndex].RemoveChild(this);
             }
 
             CombatPlayer = (sbyte)player;
@@ -213,7 +213,7 @@ public partial class CombatObject : EngineObject
             {
                 newCombat = Combat;
                 CombatPlayer players = newCombat.CombatData.Players.GetPlayers(CombatPlayer);
-                newCombat.Sides[(int)(CombatSideIndex)players.SideIndex].AddChild(this);
+                _ = newCombat.Sides[(int)(CombatSideIndex)players.SideIndex].AddChild(this);
             }
 
             if (changedSide)
@@ -301,14 +301,14 @@ public partial class CombatObject : EngineObject
         byte player;
         Battle combatLocal;
         Combat = combat;
-        Status = Status + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated);
+        Status += Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated);
         player = (byte)CombatPlayer;
         if (player != 255)
         {
             combatLocal = Combat;
             // { This eliminated copy preserves the original saved registers. }
             CombatPlayer players = combatLocal.CombatData.Players.GetPlayers((sbyte)player);
-            combatLocal.Sides[(int)(CombatSideIndex)players.SideIndex].AddChild(this);
+            _ = combatLocal.Sides[(int)(CombatSideIndex)players.SideIndex].AddChild(this);
         }
     }
 
@@ -317,14 +317,14 @@ public partial class CombatObject : EngineObject
     {
         byte player;
         Battle combat;
-        Status = Status - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated);
+        Status -= Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated);
         player = (byte)CombatPlayer;
         if (player != 255)
         {
             combat = Combat;
             // { This eliminated copy preserves the original saved registers. }
             CombatPlayer players = combat.CombatData.Players.GetPlayers((sbyte)player);
-            combat.Sides[(int)(CombatSideIndex)players.SideIndex].RemoveChild(this);
+            _ = combat.Sides[(int)(CombatSideIndex)players.SideIndex].RemoveChild(this);
         }
     }
 
@@ -340,12 +340,10 @@ public partial class CombatObject : EngineObject
     // Combat.pas:5592
     public virtual void ObjectSideChanged(CombatObject objectValue)
     {
-        int combatValue = default;
-        int damageValue = default;
         int wallCombatValue;
         if (objectValue.GetSide() != GetSide())
         {
-            GetTargetCombatValueDamageValue(objectValue, out combatValue, out damageValue);
+            GetTargetCombatValueDamageValue(objectValue, out int combatValue, out int damageValue);
             wallCombatValue = Combat.CombatData.WallType != 0 ? GetTargetWallCombatValue(objectValue) : 0;
 
             AddTarget(objectValue, combatValue, wallCombatValue, damageValue);
@@ -390,7 +388,7 @@ public partial class CombatObject : EngineObject
     {
         if (combatPlayer == (byte)CombatPlayer)
         {
-            Status = Status - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.TurnDone);
+            Status -= Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.TurnDone);
         }
     }
 
@@ -514,7 +512,7 @@ public partial class CombatObject : EngineObject
     public virtual void Surrender()
     {
         SetHitPoints(0);
-        Status = Status + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
+        Status += Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
         ResetTargets();
         Combat.ObjectDestroyed(this);
     }
@@ -523,7 +521,7 @@ public partial class CombatObject : EngineObject
     public virtual void DestroyObject()
     {
         SetHitPoints(0);
-        Status = Status + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
+        Status += Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
         for (int i = GetAbilityCount() - 1; i >= 0; i--)
         {
             if (GetAbilityEnabled(i))
@@ -551,7 +549,7 @@ public partial class CombatObject : EngineObject
         SetHitPoints((byte)(hits - result));
         if (damage != 0)
         {
-            Status = Status + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Damaged);
+            Status += Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Damaged);
         }
 
         if (result != 0 && GetHitPoints() == 0)
@@ -572,7 +570,7 @@ public partial class CombatObject : EngineObject
         a = new CombatObjectTurnDoneCombatAction(null) { Holder = CreationHolder() };
         a.CombatObjectId = Id;
         Combat.ExecuteCombatAction(a);
-        a.Release();
+        _ = a.Release();
     }
 
     // Combat.pas:5776
@@ -584,8 +582,8 @@ public partial class CombatObject : EngineObject
         Assert(Targets.IndexOfItemA(target) == -1, "target already exists use update target", "Combat.pas", 5473);
         CombatValue += combatValue;
         _wallCombatValue += wallCombatValue;
-        Targets.AddABCD(target, combatValue, wallCombatValue, damageValue);
-        target.TargetedBy.AddABCD(this, combatValue, wallCombatValue, damageValue);
+        _ = Targets.AddABCD(target, combatValue, wallCombatValue, damageValue);
+        _ = target.TargetedBy.AddABCD(this, combatValue, wallCombatValue, damageValue);
         target.IncomingCombatValue += combatValue;
         target.IncomingWallCombatValue += wallCombatValue;
         if (combatValue > 0)
@@ -665,8 +663,6 @@ public partial class CombatObject : EngineObject
     // Combat.pas:5575
     public void SetupTargets()
     {
-        int combatValue = default;
-        int damageValue = default;
         int wallCombatValue;
         CombatObject target;
         CombatSide side;
@@ -677,7 +673,7 @@ public partial class CombatObject : EngineObject
             target = side.GetObjects(i);
             if (!target.Status.Contains(CombatObjectStatusElement.Destroyed))
             {
-                GetTargetCombatValueDamageValue(target, out combatValue, out damageValue);
+                GetTargetCombatValueDamageValue(target, out int combatValue, out int damageValue);
                 wallCombatValue = Combat.CombatData.WallType != 0 ? GetTargetWallCombatValue(target) : 0;
 
                 AddTarget(target, combatValue, wallCombatValue, damageValue);

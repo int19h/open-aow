@@ -63,17 +63,14 @@ public partial class MapObjectResource : EngineResource
         _level = persister.Byte("Level", value: _level);
         _name = persister.String("Name", value: _name);
         PersistSupport.TerrainList(persister, name: "TerrainList", list: _terrainList);
-        _imageLibrary.ReduceCount();
+        _ = _imageLibrary.ReduceCount();
         PersistSupport.ImageLibrary(persister, name: "ImageLibrary", library: _imageLibrary);
         if (persister.Loading)
         {
             complex = persister.Boolean("Complex", value: complex);
             if (complex)
             {
-                if (_imageSequenceList == null)
-                {
-                    _imageSequenceList = new ImageSequenceList(null, _imageLibrary);
-                }
+                _imageSequenceList ??= new ImageSequenceList(null, _imageLibrary);
             }
             else
             {

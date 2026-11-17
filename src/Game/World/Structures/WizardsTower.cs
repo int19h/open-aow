@@ -62,7 +62,7 @@ public partial class WizardsTower : Structure
             player = StrategicMap.Current.Players.GetPlayers(tokenEvent.Param);
             int buyCost = BuyCost();
             player.SetGems(player.Gems - buyCost);
-            player.MagicControl.Spells.Add(SpellId);
+            _ = player.MagicControl.Spells.Add(SpellId);
             if (StrategicMap.Current.SeatedPlayer == tokenEvent.Param)
             {
                 Spell spell = GamePack.Current.SpellControl.GetSpell(SpellId);
@@ -116,7 +116,7 @@ public partial class WizardsTower : Structure
                 group.ReturnTargetExpense();
                 Player playerGems = StrategicMap.Current.Players.GetPlayers(army.Player);
                 StrategicMap.Current.Players.GetPlayers(army.Player).SetGems(playerGems.Gems - cost);
-                StrategicMap.Current.Players.GetPlayers(army.Player).MagicControl.Spells.Add(SpellId);
+                _ = StrategicMap.Current.Players.GetPlayers(army.Player).MagicControl.Spells.Add(SpellId);
             }
         }
     }
@@ -180,8 +180,8 @@ public partial class WizardsTower : Structure
         {
             log = new EnterWizardsTowerEventLog(null) { Holder = CreationHolder() };
             log.Tower = this;
-            log.Execute(true, ExecuteTrigger.User, null);
-            log.Release();
+            _ = log.Execute(true, ExecuteTrigger.User, null);
+            _ = log.Release();
             result = true;
         }
         else
@@ -246,7 +246,7 @@ public partial class WizardsTower : Structure
             tokenEvent.Action = 1;
             tokenEvent.Param = player;
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(tokenEvent);
-            tokenEvent.Release();
+            _ = tokenEvent.Release();
             result = true;
         }
         else

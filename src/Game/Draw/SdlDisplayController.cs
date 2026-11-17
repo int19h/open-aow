@@ -29,11 +29,11 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
             for (int i = 1; i <= (int)display.BufferingScheme; i++)
             {
                 _surfaces[i] = new Dib16Surface(display.BackSurfaceWidth, display.BackSurfaceHeight, PixelFormats.pfRGB555);
-                _surfaces[i].Clear(display.Color);
+                _ = _surfaces[i].Clear(display.Color);
             }
             return 0;
         }
-        catch { Deactivate(); throw; }
+        catch { _ = Deactivate(); throw; }
     }
 
     public override int Deactivate()
@@ -58,7 +58,7 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
         }
 
         try { host.Present(descriptor); }
-        finally { surface.Unlock(); }
+        finally { _ = surface.Unlock(); }
         return 0;
     }
 
@@ -72,7 +72,7 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
     {
         foreach (Surface surface in _surfaces.Skip(1))
         {
-            surface?.Resize(width, height);
+            _ = (surface?.Resize(width, height));
         }
 
         host.ResizeImage(width, height);

@@ -16,7 +16,7 @@ public partial class SummonEarthElemental : SummonSpell
         BaseManaCost = 5;
         SpellLevel = 4;
         MagicSphere = MagicSphere.Earth;
-        UnitIndices.Add(225);
+        _ = UnitIndices.Add(225);
         CastDuration = 40;
         AIBasePriority = 750;
     }

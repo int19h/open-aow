@@ -101,16 +101,13 @@ public partial class HeroUpgradeEventLog : EventLog
     public override void ViewLocation()
     {
         Troop u;
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         u = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (u != null)
         {
             MapCoordinate coordinate19 = u.GetLocation();
-            x = coordinate19.X;
-            y = coordinate19.Y;
-            l = coordinate19.MapLevel;
+            sbyte x = coordinate19.X;
+            sbyte y = coordinate19.Y;
+            sbyte l = coordinate19.MapLevel;
             if (x != -1)
             {
                 CenterViewTo(x, y, l);

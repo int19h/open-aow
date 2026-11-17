@@ -273,12 +273,12 @@ public partial class PageTurnControl
             r.Top = _sourceY1;
             r.Right = _sourceX1 + _width + _position;
             r.Bottom = _sourceY1 + _height;
-            LockedSurface.BlitSurfaceDescriptionRectangleClipped(_source1, r, destination, X, Y);
+            _ = LockedSurface.BlitSurfaceDescriptionRectangleClipped(_source1, r, destination, X, Y);
             r.Left = _sourceX2 + _width + _position;
             r.Top = _sourceY2;
             r.Right = (_width * 2) + _sourceX2;
             r.Bottom = _sourceY2 + _height;
-            LockedSurface.BlitSurfaceDescriptionRectangleClipped(_source2, r, destination, X + _width + _position, Y);
+            _ = LockedSurface.BlitSurfaceDescriptionRectangleClipped(_source2, r, destination, X + _width + _position, Y);
             double pi = Math.PI;
             originalLength = Round((double)((double)pi * _radius) * 0.25);
             double mathPI = Math.PI;
@@ -394,7 +394,7 @@ public partial class PageTurnControl
             r.Bottom = _sourceY2 + _height;
             if (r.Right > r.Left)
             {
-                LockedSurface.BlitSurfaceDescriptionRectangleClipped(_source2, r, destination, baseX - (r.Right - r.Left), Y);
+                _ = LockedSurface.BlitSurfaceDescriptionRectangleClipped(_source2, r, destination, baseX - (r.Right - r.Left), Y);
             }
         }
     }
@@ -414,7 +414,7 @@ public partial class PageTurnControl
         r.Top = _sourceY2;
         r.Right = _sourceX2 + (_width * 2);
         r.Bottom = _sourceY2 + _height;
-        LockedSurface.BlitSurfaceDescriptionRectangleClipped(_source2, r, destination, X + _width, Y);
+        _ = LockedSurface.BlitSurfaceDescriptionRectangleClipped(_source2, r, destination, X + _width, Y);
         double pi = Math.PI;
         height = Round((double)Math.Sin((double)(_position * pi) / 180) * _width);
         double mathPI = Math.PI;

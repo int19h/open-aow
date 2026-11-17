@@ -54,7 +54,7 @@ public partial class GroupDefenseSelector : IDisposable
             group = p.AIGroups.GetGroups(i);
             if (group.DefendLocation(location, priority))
             {
-                units.AddUnits(group.Units);
+                _ = units.AddUnits(group.Units);
                 result = true;
             }
         }
@@ -136,7 +136,7 @@ public partial class GroupDefenseSelector : IDisposable
                 if (!EnoughStrength(openedStrengths))
                 {
                     UpdateDefenseLocation(mapField);
-                    GetDefenders(group.Player, (sbyte)walk.X, (sbyte)walk.Y, L, candidates);
+                    _ = GetDefenders(group.Player, (sbyte)walk.X, (sbyte)walk.Y, L, candidates);
                     s_defenseSortGroupId = group.GroupId;
                     s_defenseSortUnits = units;
                     candidates.SortChildren<Troop>(CompareDefenseUnits);
@@ -184,7 +184,7 @@ public partial class GroupDefenseSelector : IDisposable
                         troop = candidates.GetUnit(i);
                         if (Defenders.IndexOfChild(troop) == -1 && UsefulUnit(troop, required))
                         {
-                            Defenders.AddUnit(troop);
+                            _ = Defenders.AddUnit(troop);
                             for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
                             {
                                 damageType = (DamageType)damageTypeOrdinal;

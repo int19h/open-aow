@@ -76,7 +76,7 @@ public partial class PlayerControl : EngineObject
 
             log.Player = (sbyte)i;
             StrategicMap.Current.Players.GetPlayers(i).EventLogbook.AddEvent(log);
-            log.Release();
+            _ = log.Release();
         }
 
         if (StrategicMap.Current.TurnOrderMode == StrategicMapTurnOrderMode.Changing)
@@ -122,7 +122,7 @@ public partial class PlayerControl : EngineObject
             string turnLimitReached = AbilityRules.TranslateResourceString(GetEngine(), s_turnLimitReachedText);
             messageLog.Message.Text = turnLimitReached;
             StrategicMap.Current.TriggerExecuteEventLog(messageLog, false, null);
-            messageLog.Release();
+            _ = messageLog.Release();
             StrategicMap.Current.GameOver(StrategicMap.Current.SeatedPlayer, GameOverStatus.Lost);
             for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
             {
@@ -266,7 +266,7 @@ public partial class PlayerControl : EngineObject
                     }
                 }
 
-                StrategicMap.Current.PlayerCommunicator.ActivatePlayerCommunicationControl(playerCommunicationControl);
+                _ = StrategicMap.Current.PlayerCommunicator.ActivatePlayerCommunicationControl(playerCommunicationControl);
                 playerCommunicationControl.Release();
                 StrategicMap.Current.Players.Update();
             }
@@ -376,11 +376,11 @@ public partial class PlayerControl : EngineObject
                     log.Buttons = MessageEventLogButtons.YesNoCancel;
                     log.Layout = MessageEventLogLayout.Normal;
                     string yourAboutToExitAMultiPlayerGame = AbilityRules.TranslateResourceString(GetEngine(), s_yourAboutToExitMultiPlayerGameText);
-                    log.Message.Add(yourAboutToExitAMultiPlayerGame);
+                    _ = log.Message.Add(yourAboutToExitAMultiPlayerGame);
                     string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_doYouWantToContinueExitingText);
-                    log.Message.Add(translatedText);
+                    _ = log.Message.Add(translatedText);
                     StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ExitNetworkGameCallback);
-                    log.Release();
+                    _ = log.Release();
                 }
                 else
                 {
@@ -389,9 +389,9 @@ public partial class PlayerControl : EngineObject
                     log.Buttons = MessageEventLogButtons.Ok;
                     log.Layout = MessageEventLogLayout.Normal;
                     string pleaseWaitTillItIsYourTurn = AbilityRules.TranslateResourceString(GetEngine(), s_pleaseWaitTillItIsYourTurnText);
-                    log.Message.Add(pleaseWaitTillItIsYourTurn);
+                    _ = log.Message.Add(pleaseWaitTillItIsYourTurn);
                     StrategicMap.Current.TriggerExecuteEventLog(log, false, null);
-                    log.Release();
+                    _ = log.Release();
                 }
             }
             else
@@ -413,7 +413,7 @@ public partial class PlayerControl : EngineObject
                                 // The message names the file the save writes (own-formats.md 4.2).
                                 string fileName = ExtractFileName(FileBoundary.WriteName(StrategicMap.Current.FileName));
                                 string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_saveGameFormat), [fileName]);
-                                log.Message.Add(format);
+                                _ = log.Message.Add(format);
                             }
                             else
                             {
@@ -423,18 +423,18 @@ public partial class PlayerControl : EngineObject
                                     log.Layout = MessageEventLogLayout.Normal;
                                     string fileName = ExtractFileName(FileBoundary.WriteName(GetEngine().Campaign.FileName));
                                     string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_saveGameFormat), [fileName]);
-                                    log.Message.Add(format);
+                                    _ = log.Message.Add(format);
                                 }
                                 else
                                 {
                                     log.Layout = MessageEventLogLayout.Normal;
                                     string doYouWantToSaveThisGame = AbilityRules.TranslateResourceString(GetEngine(), s_doYouWantToSaveThisGameText);
-                                    log.Message.Add(doYouWantToSaveThisGame);
+                                    _ = log.Message.Add(doYouWantToSaveThisGame);
                                 }
                             }
 
                             StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, SaveGameOnExitCallback);
-                            log.Release();
+                            _ = log.Release();
                         }
                         else
                         {
@@ -461,9 +461,6 @@ public partial class PlayerControl : EngineObject
     // PlayerC.PAS:153
     public virtual void EndTurn(sbyte player)
     {
-        int x = default;
-        int y = default;
-        int l = default;
         Player p;
         StrategicMap.Current.LockRelationsChanged();
         if (player == StrategicMap.Current.SeatedPlayer)
@@ -472,7 +469,7 @@ public partial class PlayerControl : EngineObject
             p.SetEndTurn(true);
             if (p != null)
             {
-                StrategicMap.Current.GetViewCenter(out x, out y, out l);
+                StrategicMap.Current.GetViewCenter(out int x, out int y, out int l);
                 p.View = new MapCoordinate(unchecked((sbyte)(byte)x), unchecked((sbyte)(byte)y), unchecked((sbyte)(byte)l));
             }
         }
@@ -520,7 +517,7 @@ public partial class PlayerControl : EngineObject
                         log = new PlayerConnectionEventLog(null, holder: CreationHolder());
                         log.Setup((sbyte)player, 2);
                         StrategicMap.Current.TriggerExecuteEventLog(log, false, null);
-                        log.Release();
+                        _ = log.Release();
                         _disconnectedPlayers.Delete(i);
                     }
                 }
@@ -539,7 +536,7 @@ public partial class PlayerControl : EngineObject
         log = new PlayerConnectionEventLog(null, holder: CreationHolder());
         log.Setup(-1, 2);
         StrategicMap.Current.TriggerExecuteEventLog(log, false, null);
-        log.Release();
+        _ = log.Release();
     }
 
     // PlayerC.PAS:289
@@ -559,7 +556,7 @@ public partial class PlayerControl : EngineObject
                 log = new PlayerConnectionEventLog(null, holder: CreationHolder());
                 log.Setup(-1, 3);
                 StrategicMap.Current.TriggerExecuteEventLog(log, StrategicMap.Current.Combat != null, null);
-                log.Release();
+                _ = log.Release();
                 _outOfSyncShown = true;
             }
             else
@@ -587,7 +584,7 @@ public partial class PlayerControl : EngineObject
             }
 
             text = text + " at system " + IntToStr(playerCommunicationControl.Players[i].SystemId);
-            strings?.Add(text);
+            _ = (strings?.Add(text));
 
             GetEngine().OutputDebugString(text);
         }
@@ -642,7 +639,7 @@ public partial class PlayerControl : EngineObject
 
                 saveLog.Directory = GetEngine().StartupDirectory + "Save\\";
                 StrategicMap.Current.TriggerTypedExecuteEventLog(saveLog, false, ExitSaveGameCallback);
-                saveLog.Release();
+                _ = saveLog.Release();
             }
             else
             {
@@ -698,7 +695,7 @@ public partial class PlayerControl : EngineObject
                 tokenEvent.ExitCallback = _exitCallback;
                 tokenEvent.ExitMode = _exitMode;
                 StrategicMap.Current.TokenManager.GetTokenControl(StrategicMap.Current.SeatedPlayer).AddEvent(tokenEvent);
-                tokenEvent.Release();
+                _ = tokenEvent.Release();
             }
         }
     }
@@ -711,7 +708,7 @@ public partial class PlayerControl : EngineObject
         {
             passwordLog = new PasswordEventLog(null, holder: CreationHolder());
             StrategicMap.Current.TriggerTypedExecuteEventLog(passwordLog, false, ValidatePasswordCallback);
-            passwordLog.Release();
+            _ = passwordLog.Release();
         }
         else
         {
@@ -732,11 +729,11 @@ public partial class PlayerControl : EngineObject
             messageLog.Buttons = MessageEventLogButtons.YesNo;
             string passwordFailed = AbilityRules.TranslateResourceString(GetEngine(), s_passwordFailedText);
             messageLog.Message.Text = passwordFailed;
-            messageLog.Message.Add("");
+            _ = messageLog.Message.Add("");
             string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_doYouWantToTryAgainText);
-            messageLog.Message.Add(translatedText);
+            _ = messageLog.Message.Add(translatedText);
             StrategicMap.Current.TriggerTypedExecuteEventLog(messageLog, false, PasswordTryAgainCallback);
-            messageLog.Release();
+            _ = messageLog.Release();
         }
         else
         {
@@ -756,7 +753,7 @@ public partial class PlayerControl : EngineObject
         _password = password;
         log = new PasswordEventLog(null, holder: CreationHolder());
         StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ValidatePasswordCallback);
-        log.Release();
+        _ = log.Release();
     }
 
     // PlayerC.PAS:551
@@ -764,7 +761,7 @@ public partial class PlayerControl : EngineObject
     {
         if (_disconnectedPlayers.IndexOfItemA(player) == -1)
         {
-            _disconnectedPlayers.AddAbility(player, 150);
+            _ = _disconnectedPlayers.AddAbility(player, 150);
         }
     }
 

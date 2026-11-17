@@ -113,8 +113,8 @@ public partial class AIMoveControlSettings : EngineObject
         ArmyHexSprite = army;
         Selection = selection;
         Player = army.Army.Player;
-        MovePointTable movePointTable = MovePointTable;
-        army.Army.CreateMovePointTable(selection, out movePointTable);
+        _ = MovePointTable;
+        army.Army.CreateMovePointTable(selection, out MovePointTable movePointTable);
         MovePointTable = movePointTable;
     }
 

@@ -18,8 +18,6 @@ public partial class TacticalBattleUnitHexSprite
     {
         ImageSequence sequence;
         int index;
-        int x = default;
-        int y = default;
         int deltaX = default;
         int deltaY = default;
         double progress;
@@ -37,7 +35,7 @@ public partial class TacticalBattleUnitHexSprite
                 OriginalUnitAssert("Invalid Unit Index", "D:\\AoWDev\\AoWTC\\inc\\TCUnitHS.pas", 4262);
             }
 
-            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out x, out y);
+            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
             pixelXSurface = x - pixelXSurface + OffsetX;
             pixelYSurface = y - pixelYSurface - 8 + OffsetY;
             if (Unit.GetPlayer() > 0)
@@ -288,7 +286,7 @@ public partial class TacticalBattleUnitHexSprite
         }
         catch
         {
-            MessageBox(0, "Error during ShowUnit", NullTerminatedText("Error - " + Unit.Troop.GetName()), 0);
+            _ = MessageBox(0, "Error during ShowUnit", NullTerminatedText("Error - " + Unit.Troop.GetName()), 0);
         }
     }
 
@@ -378,8 +376,8 @@ public partial class TacticalBattleUnitHexSprite
                     HexGeometry.HexNumberToPixel(Direction, ref offsetX2, ref offsetY2);
                     OffsetX = offsetX2;
                     OffsetY = offsetY2;
-                    OffsetX = OffsetX / 2;
-                    OffsetY = OffsetY / 2;
+                    OffsetX /= 2;
+                    OffsetY /= 2;
                     ActionDone = true;
                 }
 
@@ -486,7 +484,7 @@ public partial class TacticalBattleUnitHexSprite
                     if (sequence != null && sequence.SpeedCount == sequence.SequenceSpeed && CombatMap.Current.PlaySounds)
                     {
                         int frameIndex = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
-                        UnitGraphicsResource.SfxLibraries[1].Play(frameIndex % 100);
+                        _ = UnitGraphicsResource.SfxLibraries[1].Play(frameIndex % 100);
                     }
                 }
 
@@ -503,24 +501,17 @@ public partial class TacticalBattleUnitHexSprite
                         {
                             if (SelectedSpell is not 112 and not 122 and not 119)
                             {
-                                GamePack.Current.SpellControl.GetSpell(SelectedSpell).CastSounds.Play(0);
+                                _ = GamePack.Current.SpellControl.GetSpell(SelectedSpell).CastSounds.Play(0);
                             }
                         }
                         else
                         {
-                            GamePack.Current.AbilityControl.GetAbility(SelectedAbility).SfxLibrary.Play(0);
+                            _ = GamePack.Current.AbilityControl.GetAbility(SelectedAbility).SfxLibrary.Play(0);
                         }
                     }
                     else
                     {
-                        if (Action == SpriteAction.MeleeMiss)
-                        {
-                            UnitGraphicsResource.SfxLibraries[2].Play(1);
-                        }
-                        else
-                        {
-                            UnitGraphicsResource.SfxLibraries[2].Play(0);
-                        }
+                        _ = Action == SpriteAction.MeleeMiss ? UnitGraphicsResource.SfxLibraries[2].Play(1) : UnitGraphicsResource.SfxLibraries[2].Play(0);
                     }
                 }
 
@@ -529,14 +520,7 @@ public partial class TacticalBattleUnitHexSprite
             case SpriteAction.Killed:
                 if (ActionFrame == 0 && CombatMap.Current.PlaySounds)
                 {
-                    if (Action == SpriteAction.Hit)
-                    {
-                        UnitGraphicsResource.SfxLibraries[3].Play(0);
-                    }
-                    else
-                    {
-                        UnitGraphicsResource.SfxLibraries[4].Play(0);
-                    }
+                    _ = Action == SpriteAction.Hit ? UnitGraphicsResource.SfxLibraries[3].Play(0) : UnitGraphicsResource.SfxLibraries[4].Play(0);
                 }
 
                 break;
@@ -544,14 +528,9 @@ public partial class TacticalBattleUnitHexSprite
             case SpriteAction.RoundAttackHit:
                 if (ActionFrame < 18 && CombatMap.Current.PlaySounds && TacticalTables.RangedAttackDirection[ActionFrame] > 0)
                 {
-                    if (Action == SpriteAction.RoundAttack)
-                    {
-                        UnitGraphicsResource.SfxLibraries[2].Play(1);
-                    }
-                    else
-                    {
-                        UnitGraphicsResource.SfxLibraries[2].Play(0);
-                    }
+                    _ = Action == SpriteAction.RoundAttack
+                        ? UnitGraphicsResource.SfxLibraries[2].Play(1)
+                        : UnitGraphicsResource.SfxLibraries[2].Play(0);
                 }
 
                 break;

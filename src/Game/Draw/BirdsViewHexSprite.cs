@@ -36,21 +36,17 @@ public partial class BirdsViewHexSprite : FixedVisibleHexSprite
     // GlobalSpells.pas:451
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int pixelX = default;
-        int pixelY = default;
         int hex = default;
         int hy = default;
         int intensity;
         int radius;
         int direction;
-        int x = default;
-        int y = default;
         int delay;
         if (StrategicMap.Current.ViewMapLevel == _layer)
         {
             _frame += 1;
             intensity = 100 - (_frame * 2);
-            HexGeometry.HexToPixel(_x, _y, out pixelX, out pixelY);
+            HexGeometry.HexToPixel(_x, _y, out int pixelX, out int pixelY);
             pixelX = pixelX - pixelXSurface - 8;
             pixelY -= pixelYSurface;
             for (int i = 0, last = _hexes.Count - 1; i <= last; i++)
@@ -69,8 +65,8 @@ public partial class BirdsViewHexSprite : FixedVisibleHexSprite
                 delay = Random(30);
                 if (_frame - delay >= 0)
                 {
-                    AbilityRules.PolarToCartesian(direction, radius, out x, out y);
-                    GamePack.Current.SpellControl.GetSpell(57).CastImages.Show(0, pixelX + x, pixelY + y, _frame - delay, lockedSurface);
+                    AbilityRules.PolarToCartesian(direction, radius, out int x, out int y);
+                    _ = GamePack.Current.SpellControl.GetSpell(57).CastImages.Show(0, pixelX + x, pixelY + y, _frame - delay, lockedSurface);
                 }
             }
 
@@ -89,7 +85,7 @@ public partial class BirdsViewHexSprite : FixedVisibleHexSprite
         _y = Y;
         _layer = layer;
         _frame = 0;
-        GamePack.Current.SpellControl.GetSpell(2).CastSounds.Play(0);
+        _ = GamePack.Current.SpellControl.GetSpell(2).CastSounds.Play(0);
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
         level = StrategicMap.Current.MapContainer.MapLevels[layer];
         while (walk.Radius <= radius)
@@ -98,21 +94,21 @@ public partial class BirdsViewHexSprite : FixedVisibleHexSprite
             {
                 if (!level.GetField(walk.X, walk.Y).GetExplored(StrategicMap.Current.SeatedPlayer))
                 {
-                    _hexes.Add(walk.HexNumber);
+                    _ = _hexes.Add(walk.HexNumber);
                 }
             }
 
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
 
-        StrategicMap.Current.DynamicFixedVisibleHexSprite.AddChild(this);
+        _ = StrategicMap.Current.DynamicFixedVisibleHexSprite.AddChild(this);
     }
 
     // GlobalSpells.pas:444
     public void StopAnimation()
     {
-        StrategicMap.Current.DynamicFixedVisibleHexSprite.RemoveChild(this);
-        StrategicMap.Current.DynamicVisibleHexSprite.RemoveChild(this);
+        _ = StrategicMap.Current.DynamicFixedVisibleHexSprite.RemoveChild(this);
+        _ = StrategicMap.Current.DynamicVisibleHexSprite.RemoveChild(this);
         Dispose();
     }
 

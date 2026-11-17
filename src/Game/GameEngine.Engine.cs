@@ -96,7 +96,7 @@ public partial class GameEngine : OwningNode
         _hssFileName = "noname.hss";
         CreateHexSpriteSet();
 
-        Options = Options - Set<EngineModeElement>.Of(EngineModeElement.VerifyEObjects);
+        Options -= Set<EngineModeElement>.Of(EngineModeElement.VerifyEObjects);
         RegisterEngineClasses([EngineClass.Of<GamePack>(), EngineClass.Of<StrategicMap>(), EngineClass.Of<MapLevel>(), EngineClass.Of<Campaign>(), EngineClass.Of<CampaignScenario>()]);
         RegisterEngineClasses([EngineClass.Of<Player>(), EngineClass.Of<Race>(), EngineClass.Of<Unit>(), EngineClass.Of<RaceResource>(), EngineClass.Of<UnitGraphicsResource>(), EngineClass.Of<UnitResource>(), EngineClass.Of<UnitHexSprite>()]);
         RegisterEngineClasses([EngineClass.Of<Hero>(), EngineClass.Of<HeroResource>(), EngineClass.Of<HeroUpgradeTokenEvent>(), EngineClass.Of<HeroJoinEventLog>(), EngineClass.Of<HeroEmergeEventLog>(), EngineClass.Of<Leader>(), EngineClass.Of<ItemGraphics>(), EngineClass.Of<Item>(), EngineClass.Of<ItemTokenEvent>(), EngineClass.Of<ItemHexSprite>(), EngineClass.Of<FaceResource>()]);
@@ -254,7 +254,7 @@ public partial class GameEngine : OwningNode
         {
             if (_options.Contains(VerifyClasses))
             {
-                VerifyEngineObjectClass(classes[i]);
+                _ = VerifyEngineObjectClass(classes[i]);
             }
 
             int classId = classes[i].ClassId;
@@ -273,9 +273,9 @@ public partial class GameEngine : OwningNode
     {
         for (int i = 0, last = classes.Length - 1; i <= last; i++)
         {
-            _engineClasses.Remove(classes[i]);
+            _ = _engineClasses.Remove(classes[i]);
             int classId = classes[i].ClassId;
-            _classTable.Remove(classId);
+            _ = _classTable.Remove(classId);
         }
     }
 
@@ -288,7 +288,7 @@ public partial class GameEngine : OwningNode
         {
             if (classValue.IsAssignableFrom(_engineClasses[i].Type))
             {
-                l.Add(_engineClasses[i]);
+                _ = l.Add(_engineClasses[i]);
             }
         }
 

@@ -31,7 +31,7 @@ public partial class CheatTokenEvent : TokenEvent
     // MoveT.PAS:3467
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        base.Execute(tokenEvent);
+        _ = base.Execute(tokenEvent);
         switch (CheatId)
         {
             case 0:
@@ -146,7 +146,7 @@ public partial class CheatTokenEvent : TokenEvent
                         {
                             if (GamePack.Current.SpellControl.GetSpell(j) != null)
                             {
-                                StrategicMap.Current.Players.GetPlayers(i).MagicControl.Spells.Add(j);
+                                _ = StrategicMap.Current.Players.GetPlayers(i).MagicControl.Spells.Add(j);
                             }
                         }
                     }
@@ -155,7 +155,7 @@ public partial class CheatTokenEvent : TokenEvent
                 break;
         }
 
-        AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB01.WAV");
+        _ = AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB01.WAV");
         return ExecuteResult.Done;
     }
 

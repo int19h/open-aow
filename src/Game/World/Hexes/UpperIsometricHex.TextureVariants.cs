@@ -15,7 +15,7 @@ public partial class UpperIsometricHex
         int variant;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelX = pixelX - pixelXSurface - 8;
-        pixelY = pixelY - pixelYSurface;
+        pixelY -= pixelYSurface;
         imageLibrary = base.Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
         variant = FrameFixtureInputs.TextureVariant(this);
         if (variant == 3)

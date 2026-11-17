@@ -54,7 +54,7 @@ public partial class CombatViewer : IDisposable
 
         Status = Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Initialized);
         Logbook = logbook;
-        Logbook.AddRef();
+        _ = Logbook.AddRef();
         Position = 0;
         Time = -1;
         Combat.CombatData.Assign(logbook.InitialData, Creator.GetEngine());
@@ -69,9 +69,9 @@ public partial class CombatViewer : IDisposable
         {
             Combat.Deactivate();
             Combat.Clear();
-            Logbook.Release();
+            _ = Logbook.Release();
             Logbook = null;
-            Status = Status - Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Initialized);
+            Status -= Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Initialized);
         }
     }
 
@@ -143,7 +143,7 @@ public partial class CombatViewer : IDisposable
     public void Play() => Status = Status + Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Playing) - Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Paused);
 
     // Combat2.pas:632
-    public void Pause() => Status = Status + Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Paused);
+    public void Pause() => Status += Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Paused);
 
     // Combat2.pas:635
     public void Update()

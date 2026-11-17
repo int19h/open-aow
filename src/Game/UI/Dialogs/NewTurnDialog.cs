@@ -52,7 +52,7 @@ public partial class NewTurnDialog : UIModule
         _newTurn = null;
         done?.Invoke(eventValue);
 
-        eventValue?.Release();
+        _ = (eventValue?.Release());
     }
 
     // AoWNewTurnDialog.pas:69
@@ -63,12 +63,12 @@ public partial class NewTurnDialog : UIModule
         switch (eventValue.Mode)
         {
             case NewTurnEventLogMode.Dialog:
-                _newTurn?.Release();
+                _ = (_newTurn?.Release());
                 _newTurn = null;
 
                 Done = done;
                 _newTurn = eventValue;
-                _newTurn.AddRef();
+                _ = _newTurn.AddRef();
                 TurnMessageLabel.Text = eventValue.Text;
                 string name = StrategicMap.Current.Players.GetPlayers(eventValue.TurnPlayer).GetName();
                 PlayerNameLabel.Text = name;

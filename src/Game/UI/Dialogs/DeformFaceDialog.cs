@@ -27,7 +27,7 @@ public partial class DeformFaceDialog : UIModule
     {
         Troop u;
         _caster = caster;
-        _caster.AddRef();
+        _ = _caster.AddRef();
         u = StrategicMap.Current.UnitControl.FindUnit(_caster.TargetUnitId);
         if (u != null)
         {
@@ -44,7 +44,7 @@ public partial class DeformFaceDialog : UIModule
     // AoWDeformFaceDlg.pas:121
     public void Finish()
     {
-        _caster.Release();
+        _ = _caster.Release();
         _caster = null;
     }
 
@@ -62,7 +62,7 @@ public partial class DeformFaceDialog : UIModule
         UI.General.PlayButtonSound(0);
         if (_caster.CanCast(ref reason))
         {
-            _caster.Cast();
+            _ = _caster.Cast();
             Window.Visible = false;
         }
         else
@@ -94,9 +94,9 @@ public partial class DeformFaceDialog : UIModule
         if (face != -1)
         {
             resource = GamePack.Current.FaceResources.GetFaceResource(face);
-            resource.AddRef();
+            _ = resource.AddRef();
             resource.GetFaceImage().ShowStretched(r, lockedSurface);
-            resource.Release();
+            _ = resource.Release();
         }
     }
 

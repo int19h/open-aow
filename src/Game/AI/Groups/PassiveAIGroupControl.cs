@@ -19,7 +19,6 @@ public partial class PassiveAIGroupControl : AIGroupControl
     // MainAG.pas:199
     public override void ProcessStates()
     {
-        MapCoordinate location = default;
         GroupDefenseSelector selector;
         AIGroup group;
         Troop troop;
@@ -27,9 +26,9 @@ public partial class PassiveAIGroupControl : AIGroupControl
         {
             case 0:
                 CombinePassiveGroups();
-                location = Group.GetLocation();
+                MapCoordinate location = Group.GetLocation();
                 selector = new GroupDefenseSelector(this);
-                selector.Execute(Group, location.X, location.Y, location.MapLevel, null);
+                _ = selector.Execute(Group, location.X, location.Y, location.MapLevel, null);
                 if (selector.Defenders.Count != Group.Units.Count && Group.Player != 0)
                 {
                     GroupBehavior randomGroupBehavior = StrategicMap.Current.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
@@ -39,11 +38,11 @@ public partial class PassiveAIGroupControl : AIGroupControl
                         troop = Group.Units.GetUnit(i);
                         if (selector.Defenders.IndexOf(troop) == -1)
                         {
-                            group.AddUnit(troop);
+                            _ = group.AddUnit(troop);
                         }
                     }
 
-                    group.Release();
+                    _ = group.Release();
                 }
 
                 if (selector.DefenseLocation != MapCoordinate.None)
@@ -69,20 +68,18 @@ public partial class PassiveAIGroupControl : AIGroupControl
     public void CombinePassiveGroups()
     {
         Player player;
-        MapCoordinate location = default;
-        MapCoordinate otherLocation = default;
         AIGroup group;
         player = StrategicMap.Current.Players.GetPlayers(Group.Player);
-        location = Group.GetLocation();
+        MapCoordinate location = Group.GetLocation();
         for (int i = player.AIGroups.Count - 1; i >= 0; i--)
         {
             group = player.AIGroups.GetGroups(i);
             if (Group.GroupId != group.GroupId && group.EngineClass.ClassId == 136280 && Group.IndependentRelation == group.IndependentRelation)
             {
-                otherLocation = group.GetLocation();
+                MapCoordinate otherLocation = group.GetLocation();
                 if (location.MapLevel == otherLocation.MapLevel && HexGeometry.DeltaHexToRadius(location.X, location.Y, otherLocation.X, otherLocation.Y) <= 1)
                 {
-                    Group.AddUnits(group.Units);
+                    _ = Group.AddUnits(group.Units);
                 }
             }
         }

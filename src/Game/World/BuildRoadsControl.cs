@@ -28,13 +28,10 @@ public partial class BuildRoadsControl : ConstructionControl
     public override bool CanConstruct(Troop troop, ref string reason)
     {
         bool result;
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         MapCoordinate coordinate29 = troop.GetLocation();
-        x = coordinate29.X;
-        y = coordinate29.Y;
-        l = coordinate29.MapLevel;
+        _ = coordinate29.X;
+        _ = coordinate29.Y;
+        sbyte l = coordinate29.MapLevel;
         if (l == 0)
         {
             result = base.CanConstruct(troop, ref reason);

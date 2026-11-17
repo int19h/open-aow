@@ -81,7 +81,7 @@ public partial class AIPlayerControl
 
                             if (_actionIndex < Actions.Count)
                             {
-                                ActivateAction(_actionIndex);
+                                _ = ActivateAction(_actionIndex);
                             }
                         }
                         if (_action is not null)

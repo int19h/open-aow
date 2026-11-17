@@ -73,11 +73,11 @@ public static class AbilityRules
                     threshold = -threshold;
                     correction = (int)(((uint)((((damage - 1) * threshold * threshold) + threshold + 19) / (threshold + 19))) >> 1);
                     threshold = correction + threshold + 1;
-                    result = result - threshold;
+                    result -= threshold;
                 }
             }
 
-            result = result * 5;
+            result *= 5;
         }
         else
         {
@@ -133,7 +133,7 @@ public static class AbilityRules
             {
                 int sourceTargetPriority = source.GetTargetPriority();
                 sbyte sourceHitPoints = source.GetHitPoints();
-                result = result - (source.GetTargetPriority() + Round(sourceTargetPriority * ((double)targetDamageValue / (sourceHitPoints * 100))));
+                result -= source.GetTargetPriority() + Round(sourceTargetPriority * ((double)targetDamageValue / (sourceHitPoints * 100)));
             }
         }
         else
@@ -147,7 +147,7 @@ public static class AbilityRules
     internal static int StatisticsToMaxDamage(int damage, Set<DamageType> damageTypes, Set<DamageType> immunityTypes, Set<DamageType> protectionTypes)
     {
         int result;
-        damageTypes = damageTypes - immunityTypes;
+        damageTypes -= immunityTypes;
         result = damageTypes != Set<DamageType>.Of()
             ? damageTypes - protectionTypes == Set<DamageType>.Of() ? (int)(((uint)(damage + 1)) >> 1) : damage
             : 0;
@@ -161,10 +161,10 @@ public static class AbilityRules
         int limit;
         int limit100;
         limit = maximum;
-        damageTypes = damageTypes - immunityTypes;
+        damageTypes -= immunityTypes;
         if (damageTypes != Set<DamageType>.Of())
         {
-            attack = attack - defense;
+            attack -= defense;
             if (damageTypes - protectionTypes == Set<DamageType>.Of())
             {
                 damage = (int)(((uint)(damage + 1)) >> 1);
@@ -262,7 +262,7 @@ public static class AbilityRules
             default:
                 result = 50;
                 // { Original leaks the exception without raising it. }
-                new ArgumentException("Invalid TMoral Value");
+                _ = new ArgumentException("Invalid TMoral Value");
                 break;
         }
 
@@ -298,7 +298,7 @@ public static class AbilityRules
                     default:
                         result = Troop.Morale.Ok;
                         // { Original leaks the exception without raising it. }
-                        new ArgumentException("Invalid MoralValue");
+                        _ = new ArgumentException("Invalid MoralValue");
                         break;
                 }
             }
@@ -380,7 +380,7 @@ public static class AbilityRules
                         tries = 50;
                     }
 
-                    unit.Release();
+                    _ = unit.Release();
                 }
             }
         }
@@ -498,7 +498,7 @@ public static class AbilityRules
         string result = "";
         for (int i = 1; i <= text.Length; i++)
         {
-            result = result + Cp1252.Text((byte)(Cp1252.Byte(text[i - 1]) ^ ((text.Length + i + 5) & 255)));
+            result += Cp1252.Text((byte)(Cp1252.Byte(text[i - 1]) ^ ((text.Length + i + 5) & 255)));
         }
 
         return result;
@@ -513,7 +513,7 @@ public static class AbilityRules
             damageType = (DamageType)damageTypeOrdinal;
             if (!types.Contains(damageType))
             {
-                result = result + Set<DamageType>.Of(damageType);
+                result += Set<DamageType>.Of(damageType);
             }
         }
 
@@ -527,8 +527,6 @@ public static class AbilityRules
         int i;
         int j;
         int distance;
-        HexNumberWalkData walk = default;
-        BattleFieldInfo info = default;
         MapLevel level;
         MapField field;
         ArmyHexSprite army;
@@ -543,9 +541,9 @@ public static class AbilityRules
                 i = movePath.Count - targetRange;
             }
 
-            BattleFieldInfo.SetupBattleFieldInfo(out info, player, independentRelation, Set<BattleFieldInfoRequestsElement>.Of(), s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+            BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, player, independentRelation, Set<BattleFieldInfoRequestsElement>.Of(), s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
             info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
-            info.Requests = info.Requests + Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents, BattleFieldInfoRequestsElement.EffectiveStrength);
+            info.Requests += Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents, BattleFieldInfoRequestsElement.EffectiveStrength);
             if (step > 0)
             {
                 units = new UnitUserList(null) { Holder = engine };
@@ -553,7 +551,7 @@ public static class AbilityRules
                 level = StrategicMap.Current.MapContainer.MapLevels[item.Location.MapLevel];
                 PathStep movePathItem = movePath[^1];
                 PathStep item2 = movePath[^1];
-                HexNumberWalkData.InitializeHexNumberWalk(out walk, item2.Location.X, movePathItem.Location.Y, 0);
+                HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, item2.Location.X, movePathItem.Location.Y, 0);
                 while (walk.Radius <= step)
                 {
                     if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -564,7 +562,7 @@ public static class AbilityRules
                             army = field.GetArmyHexSprite();
                             if (army != null && army.Army.Player != player)
                             {
-                                units.AddUnits(army.Army.Units);
+                                _ = units.AddUnits(army.Army.Units);
                             }
                         }
                     }
@@ -688,7 +686,7 @@ public static class AbilityRules
         eventValue.Day = StrategicMap.Current.Day;
         eventValue.Mode = EndTurnTokenEventMode.EndTurn;
         StrategicMap.Current.TokenManager.TokenControls[player].AddEvent(eventValue);
-        eventValue.Release();
+        _ = eventValue.Release();
         return true;
     }
 

@@ -66,8 +66,8 @@ public partial class ArmyCombatMoveTokenEvent
                 for (int i = otherArmyHexSprite.Army.Units.Count - 1; i >= 0; i--)
                 {
                     troop = otherArmyHexSprite.Army.Units.GetUnit(i);
-                    troop.UnitStatus = troop.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
-                    ArmyHexSprite.Army.AddUnit(troop);
+                    troop.UnitStatus -= Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
+                    _ = ArmyHexSprite.Army.AddUnit(troop);
                 }
 
                 ArmyHexSprite armyHexSprite3 = ArmyHexSprite;
@@ -88,7 +88,7 @@ public partial class ArmyCombatMoveTokenEvent
         PathStep fPathItem = Path[0];
         PathStep item2 = Path[0];
         sbyte hexX = ArmyHexSprite.GetHexX();
-        combat.Setup((byte)ArmyHexSprite.Army.Player, (byte)ArmyHexSprite.Army.IndependentRelation, hexX, hexY, hexLevel, (byte)player, independentRelation, item.Location.X, fPathItem.Location.Y, item2.Location.MapLevel, _combatType == CombatType.Fast);
+        _ = combat.Setup((byte)ArmyHexSprite.Army.Player, (byte)ArmyHexSprite.Army.IndependentRelation, hexX, hexY, hexLevel, (byte)player, independentRelation, item.Location.X, fPathItem.Location.Y, item2.Location.MapLevel, _combatType == CombatType.Fast);
         combat.SetExecutedHandler(CombatExecuted);
         message.MessageId = 4359;
         MapFieldMessageParameters param = message.Param;
@@ -123,7 +123,7 @@ public partial class ArmyCombatMoveTokenEvent
                     log = new UserEventLog(null) { Holder = CreationHolder() };
                     log.Data = this;
                     StrategicMap.Current.TriggerExecuteEventLog(log, false, RestoreHotSeatModeCallback);
-                    log.Release();
+                    _ = log.Release();
                     StrategicMap.Current.AIExecutor.Lock();
                     StrategicMap.Current.LockGameOverEvent();
                     _combatMode = ArmyCombatMoveTokenEventMode.RestoringHotSeat;
@@ -146,7 +146,7 @@ public partial class ArmyCombatMoveTokenEvent
                 PathStep item3 = Path[0];
                 PathStep item4 = Path[0];
                 PathStep item5 = Path[0];
-                StrategicMap.Current.PlaceHex(animation, item5.Location.X, item4.Location.Y, item3.Location.MapLevel);
+                _ = StrategicMap.Current.PlaceHex(animation, item5.Location.X, item4.Location.Y, item3.Location.MapLevel);
             }
 
             StrategicMap.Current.DestroyCombat();
@@ -177,7 +177,7 @@ public partial class ArmyCombatMoveTokenEvent
                                 Troop unit = ArmyHexSprite.Army.Units.GetUnit(i);
                                 ArmyHexSprite.Army.Units.GetUnit(i).UnitStatus = unit.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
                                 Troop fArmyUnit = ArmyHexSprite.Army.Units.GetUnit(i);
-                                armyHexSprite.Army.AddUnit(fArmyUnit);
+                                _ = armyHexSprite.Army.AddUnit(fArmyUnit);
                             }
                         }
                     }
@@ -188,7 +188,7 @@ public partial class ArmyCombatMoveTokenEvent
                         PathStep item3 = Path[MoveIndex];
                         PathStep item4 = Path[MoveIndex];
                         PathStep item5 = Path[MoveIndex];
-                        armyHexSprite.PlacePrivate(StrategicMap.Current.MapContainer, item5.Location.X, item4.Location.Y, item3.Location.MapLevel);
+                        _ = armyHexSprite.PlacePrivate(StrategicMap.Current.MapContainer, item5.Location.X, item4.Location.Y, item3.Location.MapLevel);
                         if (ArmyHexSprite.GetSelected())
                         {
                             StrategicMap.Current.Selection.UnselectLocation();
@@ -210,7 +210,7 @@ public partial class ArmyCombatMoveTokenEvent
                     if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.NoDefenders).Contains(combatResult) || base.CanMoveNext())
                     {
                         int direction = GetDirection(MoveIndex);
-                        ArmyHexSprite.MoveFirst(direction, false);
+                        _ = ArmyHexSprite.MoveFirst(direction, false);
                         ArmyHexSprite.SetMoveStatus(50);
                     }
                     else

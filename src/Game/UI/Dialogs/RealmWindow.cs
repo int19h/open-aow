@@ -88,44 +88,44 @@ public partial class RealmWindow : UIModule
         if (value != 0)
         {
             string externalIncome = UI.Engine.TranslateResourceString(s_externalIncomeText);
-            IncomeMemo.Items.Add(externalIncome);
-            IncomeValueMemo.Items.Add(IntToStr(value));
+            _ = IncomeMemo.Items.Add(externalIncome);
+            _ = IncomeValueMemo.Items.Add(IntToStr(value));
         }
 
         value = CityIncome(StrategicMap.Current.SeatedPlayer);
         if (value != 0)
         {
             string cities = UI.Engine.TranslateResourceString(s_citiesText);
-            IncomeMemo.Items.Add(cities);
-            IncomeValueMemo.Items.Add(IntToStr(value));
+            _ = IncomeMemo.Items.Add(cities);
+            _ = IncomeValueMemo.Items.Add(IntToStr(value));
         }
 
         value = FarmIncome(StrategicMap.Current.SeatedPlayer);
         if (value != 0)
         {
             string farms = UI.Engine.TranslateResourceString(s_farmsText);
-            IncomeMemo.Items.Add(farms);
-            IncomeValueMemo.Items.Add(IntToStr(value));
+            _ = IncomeMemo.Items.Add(farms);
+            _ = IncomeValueMemo.Items.Add(IntToStr(value));
         }
 
         value = MineIncome(StrategicMap.Current.SeatedPlayer);
         if (value != 0)
         {
             string mines = UI.Engine.TranslateResourceString(s_minesText);
-            IncomeMemo.Items.Add(mines);
-            IncomeValueMemo.Items.Add(IntToStr(value));
+            _ = IncomeMemo.Items.Add(mines);
+            _ = IncomeValueMemo.Items.Add(IntToStr(value));
         }
 
         value = BuildersGuildIncome(StrategicMap.Current.SeatedPlayer);
         if (value != 0)
         {
             string buildersGuilds = UI.Engine.TranslateResourceString(s_buildersGuildsText);
-            IncomeMemo.Items.Add(buildersGuilds);
-            IncomeValueMemo.Items.Add(IntToStr(value));
+            _ = IncomeMemo.Items.Add(buildersGuilds);
+            _ = IncomeValueMemo.Items.Add(IntToStr(value));
         }
 
         Player playerArmyUpkeep = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
-        UpkeepValueMemo.Items.Add(IntToStr(playerArmyUpkeep.ArmyUpkeep));
+        _ = UpkeepValueMemo.Items.Add(IntToStr(playerArmyUpkeep.ArmyUpkeep));
     }
 
     // AoWRealm.pas:178
@@ -150,71 +150,71 @@ public partial class RealmWindow : UIModule
             {
                 c = found;
                 string name = c.GetName();
-                CityNameList.Items.AddObject(name, c);
+                _ = CityNameList.Items.AddObject(name, c);
                 string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[c.Race]);
-                CityRaceList.Items.Add(raceNamesPlural);
-                CityIncomeList.Items.Add(IntToStr(c.Income));
-                CityLevelList.Items.Add(IntToStr(c.UpgradeLevel));
+                _ = CityRaceList.Items.Add(raceNamesPlural);
+                _ = CityIncomeList.Items.Add(IntToStr(c.Income));
+                _ = CityLevelList.Items.Add(IntToStr(c.UpgradeLevel));
                 switch (c.WallType)
                 {
                     case 1:
-                        CityWallList.Items.Add("1");
+                        _ = CityWallList.Items.Add("1");
                         break;
                     case 2:
-                        CityWallList.Items.Add("2");
+                        _ = CityWallList.Items.Add("2");
                         break;
                     default:
-                        CityWallList.Items.Add("-");
+                        _ = CityWallList.Items.Add("-");
                         break;
                 }
 
                 switch (c.GetCivilStatus())
                 {
                     case City.CivilStatus.Unrest:
-                        CityMoraleList.Items.Add("1");
+                        _ = CityMoraleList.Items.Add("1");
                         break;
                     case City.CivilStatus.Stable:
-                        CityMoraleList.Items.Add("2");
+                        _ = CityMoraleList.Items.Add("2");
                         break;
                     case City.CivilStatus.Content:
-                        CityMoraleList.Items.Add("3");
+                        _ = CityMoraleList.Items.Add("3");
                         break;
                     case City.CivilStatus.Cheerful:
-                        CityMoraleList.Items.Add("4");
+                        _ = CityMoraleList.Items.Add("4");
                         break;
                     default:
-                        CityMoraleList.Items.Add("-");
+                        _ = CityMoraleList.Items.Add("-");
                         break;
                 }
 
                 switch ((int)StrategicMap.Current.Races.GetRace(c.Race).GetPlayerRelation(StrategicMap.Current.SeatedPlayer) & 127)
                 {
                     case 0:
-                        CityRelationList.Items.Add("0");
+                        _ = CityRelationList.Items.Add("0");
                         break;
                     case 1:
-                        CityRelationList.Items.Add("1");
+                        _ = CityRelationList.Items.Add("1");
                         break;
                     case 2:
-                        CityRelationList.Items.Add("2");
+                        _ = CityRelationList.Items.Add("2");
                         break;
                     case 3:
-                        CityRelationList.Items.Add("3");
+                        _ = CityRelationList.Items.Add("3");
                         break;
                     case 4:
-                        CityRelationList.Items.Add("4");
+                        _ = CityRelationList.Items.Add("4");
                         break;
                     default:
-                        CityRelationList.Items.Add("-");
+                        _ = CityRelationList.Items.Add("-");
                         break;
                 }
 
                 ProductionOrder activeOrder = c.GetActiveOrder();
-                CityActionList.Items.Add(activeOrder != null ? activeOrder.RealmActivity(c) : "-");
+                _ = CityActionList.Items.Add(activeOrder != null ? activeOrder.RealmActivity(c) : "-");
 
-                CityEnchantmentList.Items.Add("-");
+                _ = CityEnchantmentList.Items.Add("-");
                 int size = c.GetSize();
-                CitySizeList.Items.Add(IntToStr(size));
+                _ = CitySizeList.Items.Add(IntToStr(size));
             }
         }
     }
@@ -231,9 +231,9 @@ public partial class RealmWindow : UIModule
             if (place is not City)
             {
                 string editName = place.EditName();
-                PlaceNameList.Items.AddObject(editName, place);
+                _ = PlaceNameList.Items.AddObject(editName, place);
                 string currentActivityText = place.GetCurrentActivityText();
-                PlaceActionList.Items.Add(currentActivityText);
+                _ = PlaceActionList.Items.Add(currentActivityText);
             }
         }
     }
@@ -254,12 +254,12 @@ public partial class RealmWindow : UIModule
                 {
                     Army army = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i);
                     string name = u.GetName();
-                    HeroNameList.Items.AddObject(name, army);
+                    _ = HeroNameList.Items.AddObject(name, army);
                     sbyte hitPoints = u.GetHitPoints();
                     sbyte hits = u.GetHits();
-                    HeroHealthList.Items.AddObject(IntToStr(hitPoints) + "/" + IntToStr(hits), hero);
+                    _ = HeroHealthList.Items.AddObject(IntToStr(hitPoints) + "/" + IntToStr(hits), hero);
                     sbyte level = hero.GetLevel();
-                    HeroLevelList.Items.Add(IntToStr(level));
+                    _ = HeroLevelList.Items.Add(IntToStr(level));
                 }
             }
         }
@@ -346,7 +346,7 @@ public partial class RealmWindow : UIModule
 
             LibraryImage previewImage = u.GetPreviewImage();
             LibraryImage uPreviewImage = u.GetPreviewImage();
-            u.Show(drawRectangle.Left - ((uPreviewImage.Width - (drawRectangle.Right - drawRectangle.Left)) / 2), drawRectangle.Top - ((previewImage.Height - (Unit1List.ItemHeight - 10)) / 2), lockedSurface, UI.General.UnitShowInfo);
+            _ = u.Show(drawRectangle.Left - ((uPreviewImage.Width - (drawRectangle.Right - drawRectangle.Left)) / 2), drawRectangle.Top - ((previewImage.Height - (Unit1List.ItemHeight - 10)) / 2), lockedSurface, UI.General.UnitShowInfo);
             Gauge gauge = UnitGauge;
             gauge.Visible = true;
             gauge.Max = u.GetHits();
@@ -665,16 +665,16 @@ public partial class RealmWindow : UIModule
         DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
-        lists.Add(CityNameList);
-        lists.Add(CityRaceList);
-        lists.Add(CityIncomeList);
-        lists.Add(CityLevelList);
-        lists.Add(CityWallList);
-        lists.Add(CitySizeList);
-        lists.Add(CityRelationList);
-        lists.Add(CityMoraleList);
-        lists.Add(CityActionList);
-        lists.Add(CityEnchantmentList);
+        _ = lists.Add(CityNameList);
+        _ = lists.Add(CityRaceList);
+        _ = lists.Add(CityIncomeList);
+        _ = lists.Add(CityLevelList);
+        _ = lists.Add(CityWallList);
+        _ = lists.Add(CitySizeList);
+        _ = lists.Add(CityRelationList);
+        _ = lists.Add(CityMoraleList);
+        _ = lists.Add(CityActionList);
+        _ = lists.Add(CityEnchantmentList);
         UI.General.SortLists(ref lists, 0);
     }
 
@@ -684,16 +684,16 @@ public partial class RealmWindow : UIModule
         DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
-        lists.Add(CityRaceList);
-        lists.Add(CityNameList);
-        lists.Add(CityIncomeList);
-        lists.Add(CityLevelList);
-        lists.Add(CityWallList);
-        lists.Add(CitySizeList);
-        lists.Add(CityRelationList);
-        lists.Add(CityMoraleList);
-        lists.Add(CityActionList);
-        lists.Add(CityEnchantmentList);
+        _ = lists.Add(CityRaceList);
+        _ = lists.Add(CityNameList);
+        _ = lists.Add(CityIncomeList);
+        _ = lists.Add(CityLevelList);
+        _ = lists.Add(CityWallList);
+        _ = lists.Add(CitySizeList);
+        _ = lists.Add(CityRelationList);
+        _ = lists.Add(CityMoraleList);
+        _ = lists.Add(CityActionList);
+        _ = lists.Add(CityEnchantmentList);
         UI.General.SortLists(ref lists, 0);
     }
 
@@ -703,16 +703,16 @@ public partial class RealmWindow : UIModule
         DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
-        lists.Add(CityIncomeList);
-        lists.Add(CityNameList);
-        lists.Add(CityRaceList);
-        lists.Add(CityLevelList);
-        lists.Add(CityWallList);
-        lists.Add(CitySizeList);
-        lists.Add(CityRelationList);
-        lists.Add(CityMoraleList);
-        lists.Add(CityActionList);
-        lists.Add(CityEnchantmentList);
+        _ = lists.Add(CityIncomeList);
+        _ = lists.Add(CityNameList);
+        _ = lists.Add(CityRaceList);
+        _ = lists.Add(CityLevelList);
+        _ = lists.Add(CityWallList);
+        _ = lists.Add(CitySizeList);
+        _ = lists.Add(CityRelationList);
+        _ = lists.Add(CityMoraleList);
+        _ = lists.Add(CityActionList);
+        _ = lists.Add(CityEnchantmentList);
         UI.General.SortLists(ref lists, 2);
     }
 
@@ -722,16 +722,16 @@ public partial class RealmWindow : UIModule
         DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
-        lists.Add(CityLevelList);
-        lists.Add(CityNameList);
-        lists.Add(CityRaceList);
-        lists.Add(CityIncomeList);
-        lists.Add(CityWallList);
-        lists.Add(CitySizeList);
-        lists.Add(CityRelationList);
-        lists.Add(CityMoraleList);
-        lists.Add(CityActionList);
-        lists.Add(CityEnchantmentList);
+        _ = lists.Add(CityLevelList);
+        _ = lists.Add(CityNameList);
+        _ = lists.Add(CityRaceList);
+        _ = lists.Add(CityIncomeList);
+        _ = lists.Add(CityWallList);
+        _ = lists.Add(CitySizeList);
+        _ = lists.Add(CityRelationList);
+        _ = lists.Add(CityMoraleList);
+        _ = lists.Add(CityActionList);
+        _ = lists.Add(CityEnchantmentList);
         UI.General.SortLists(ref lists, 1);
     }
 
@@ -741,16 +741,16 @@ public partial class RealmWindow : UIModule
         DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
-        lists.Add(CityWallList);
-        lists.Add(CityNameList);
-        lists.Add(CityRaceList);
-        lists.Add(CityIncomeList);
-        lists.Add(CityLevelList);
-        lists.Add(CitySizeList);
-        lists.Add(CityRelationList);
-        lists.Add(CityMoraleList);
-        lists.Add(CityActionList);
-        lists.Add(CityEnchantmentList);
+        _ = lists.Add(CityWallList);
+        _ = lists.Add(CityNameList);
+        _ = lists.Add(CityRaceList);
+        _ = lists.Add(CityIncomeList);
+        _ = lists.Add(CityLevelList);
+        _ = lists.Add(CitySizeList);
+        _ = lists.Add(CityRelationList);
+        _ = lists.Add(CityMoraleList);
+        _ = lists.Add(CityActionList);
+        _ = lists.Add(CityEnchantmentList);
         UI.General.SortLists(ref lists, 1);
     }
 
@@ -760,16 +760,16 @@ public partial class RealmWindow : UIModule
         DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
-        lists.Add(CitySizeList);
-        lists.Add(CityNameList);
-        lists.Add(CityRaceList);
-        lists.Add(CityIncomeList);
-        lists.Add(CityLevelList);
-        lists.Add(CityWallList);
-        lists.Add(CityRelationList);
-        lists.Add(CityMoraleList);
-        lists.Add(CityActionList);
-        lists.Add(CityEnchantmentList);
+        _ = lists.Add(CitySizeList);
+        _ = lists.Add(CityNameList);
+        _ = lists.Add(CityRaceList);
+        _ = lists.Add(CityIncomeList);
+        _ = lists.Add(CityLevelList);
+        _ = lists.Add(CityWallList);
+        _ = lists.Add(CityRelationList);
+        _ = lists.Add(CityMoraleList);
+        _ = lists.Add(CityActionList);
+        _ = lists.Add(CityEnchantmentList);
         UI.General.SortLists(ref lists, 1);
     }
 
@@ -779,16 +779,16 @@ public partial class RealmWindow : UIModule
         DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
-        lists.Add(CityRelationList);
-        lists.Add(CityNameList);
-        lists.Add(CityRaceList);
-        lists.Add(CityIncomeList);
-        lists.Add(CityLevelList);
-        lists.Add(CityWallList);
-        lists.Add(CitySizeList);
-        lists.Add(CityMoraleList);
-        lists.Add(CityActionList);
-        lists.Add(CityEnchantmentList);
+        _ = lists.Add(CityRelationList);
+        _ = lists.Add(CityNameList);
+        _ = lists.Add(CityRaceList);
+        _ = lists.Add(CityIncomeList);
+        _ = lists.Add(CityLevelList);
+        _ = lists.Add(CityWallList);
+        _ = lists.Add(CitySizeList);
+        _ = lists.Add(CityMoraleList);
+        _ = lists.Add(CityActionList);
+        _ = lists.Add(CityEnchantmentList);
         UI.General.SortLists(ref lists, 1);
     }
 
@@ -798,16 +798,16 @@ public partial class RealmWindow : UIModule
         DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
-        lists.Add(CityMoraleList);
-        lists.Add(CityNameList);
-        lists.Add(CityRaceList);
-        lists.Add(CityIncomeList);
-        lists.Add(CityLevelList);
-        lists.Add(CityWallList);
-        lists.Add(CitySizeList);
-        lists.Add(CityRelationList);
-        lists.Add(CityActionList);
-        lists.Add(CityEnchantmentList);
+        _ = lists.Add(CityMoraleList);
+        _ = lists.Add(CityNameList);
+        _ = lists.Add(CityRaceList);
+        _ = lists.Add(CityIncomeList);
+        _ = lists.Add(CityLevelList);
+        _ = lists.Add(CityWallList);
+        _ = lists.Add(CitySizeList);
+        _ = lists.Add(CityRelationList);
+        _ = lists.Add(CityActionList);
+        _ = lists.Add(CityEnchantmentList);
         UI.General.SortLists(ref lists, 1);
     }
 
@@ -817,16 +817,16 @@ public partial class RealmWindow : UIModule
         DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
-        lists.Add(CityActionList);
-        lists.Add(CityNameList);
-        lists.Add(CityRaceList);
-        lists.Add(CityIncomeList);
-        lists.Add(CityLevelList);
-        lists.Add(CityWallList);
-        lists.Add(CitySizeList);
-        lists.Add(CityRelationList);
-        lists.Add(CityMoraleList);
-        lists.Add(CityEnchantmentList);
+        _ = lists.Add(CityActionList);
+        _ = lists.Add(CityNameList);
+        _ = lists.Add(CityRaceList);
+        _ = lists.Add(CityIncomeList);
+        _ = lists.Add(CityLevelList);
+        _ = lists.Add(CityWallList);
+        _ = lists.Add(CitySizeList);
+        _ = lists.Add(CityRelationList);
+        _ = lists.Add(CityMoraleList);
+        _ = lists.Add(CityEnchantmentList);
         UI.General.SortLists(ref lists, 1);
     }
 
@@ -836,16 +836,16 @@ public partial class RealmWindow : UIModule
         DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
-        lists.Add(CityEnchantmentList);
-        lists.Add(CityNameList);
-        lists.Add(CityRaceList);
-        lists.Add(CityIncomeList);
-        lists.Add(CityLevelList);
-        lists.Add(CityWallList);
-        lists.Add(CitySizeList);
-        lists.Add(CityRelationList);
-        lists.Add(CityMoraleList);
-        lists.Add(CityActionList);
+        _ = lists.Add(CityEnchantmentList);
+        _ = lists.Add(CityNameList);
+        _ = lists.Add(CityRaceList);
+        _ = lists.Add(CityIncomeList);
+        _ = lists.Add(CityLevelList);
+        _ = lists.Add(CityWallList);
+        _ = lists.Add(CitySizeList);
+        _ = lists.Add(CityRelationList);
+        _ = lists.Add(CityMoraleList);
+        _ = lists.Add(CityActionList);
         UI.General.SortLists(ref lists, 0);
     }
 
@@ -855,8 +855,8 @@ public partial class RealmWindow : UIModule
         DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
-        lists.Add(PlaceNameList);
-        lists.Add(PlaceActionList);
+        _ = lists.Add(PlaceNameList);
+        _ = lists.Add(PlaceActionList);
         UI.General.SortLists(ref lists, 0);
     }
 
@@ -914,9 +914,9 @@ public partial class RealmWindow : UIModule
         DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
-        lists.Add(HeroNameList);
-        lists.Add(HeroHealthList);
-        lists.Add(HeroLevelList);
+        _ = lists.Add(HeroNameList);
+        _ = lists.Add(HeroHealthList);
+        _ = lists.Add(HeroLevelList);
         UI.General.SortLists(ref lists, 0);
     }
 
@@ -926,9 +926,9 @@ public partial class RealmWindow : UIModule
         DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
-        lists.Add(HeroHealthList);
-        lists.Add(HeroNameList);
-        lists.Add(HeroLevelList);
+        _ = lists.Add(HeroHealthList);
+        _ = lists.Add(HeroNameList);
+        _ = lists.Add(HeroLevelList);
         UI.General.SortLists(ref lists, 1);
     }
 
@@ -938,9 +938,9 @@ public partial class RealmWindow : UIModule
         DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
-        lists.Add(HeroLevelList);
-        lists.Add(HeroNameList);
-        lists.Add(HeroHealthList);
+        _ = lists.Add(HeroLevelList);
+        _ = lists.Add(HeroNameList);
+        _ = lists.Add(HeroHealthList);
         UI.General.SortLists(ref lists, 2);
     }
 
@@ -955,7 +955,7 @@ public partial class RealmWindow : UIModule
             for (int j = 0, lastJ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.Count - 1; j <= lastJ; j++)
             {
                 int unitGraphicsResourceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.GetUnit(j).GetUnitGraphicsResourceIndex();
-                GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex).AddRef();
+                _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex).AddRef();
             }
         }
     }
@@ -968,7 +968,7 @@ public partial class RealmWindow : UIModule
             for (int j = 0, lastJ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.Count - 1; j <= lastJ; j++)
             {
                 int unitGraphicsResourceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.GetUnit(j).GetUnitGraphicsResourceIndex();
-                GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex).Release();
+                _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex).Release();
             }
         }
     }
@@ -1000,8 +1000,8 @@ public partial class RealmWindow : UIModule
         DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
-        lists.Add(PlaceActionList);
-        lists.Add(PlaceNameList);
+        _ = lists.Add(PlaceActionList);
+        _ = lists.Add(PlaceNameList);
         UI.General.SortLists(ref lists, 1);
     }
 

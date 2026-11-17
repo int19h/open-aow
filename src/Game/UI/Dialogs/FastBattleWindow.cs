@@ -345,7 +345,7 @@ public partial class FastBattleWindow : UIModule
         _event = null;
         done?.Invoke(log);
 
-        log?.Release();
+        _ = (log?.Release());
     }
 
     // FastCombatWin.pas:549
@@ -395,7 +395,7 @@ public partial class FastBattleWindow : UIModule
                 clipRectangle.Top = MainWindow.WinTop + 24;
                 lockedSurface.ClipRectangle = clipRectangle;
                 DrawCombat(MainWindow.WinLeft + 10, MainWindow.WinTop + 10, ref lockedSurface);
-                surface.Unlock();
+                _ = surface.Unlock();
             }
         }
         catch
@@ -606,7 +606,7 @@ public partial class FastBattleWindow : UIModule
         Assert(dialog._event == null, "", "FastCombatWin.pas", 159);
         dialog.UI.General.Manager.OverlayPriority = 49;
         dialog._event = eventValue;
-        dialog._event.AddRef();
+        _ = dialog._event.AddRef();
         dialog.Done = done;
         dialog._logbook = eventValue.Logbook;
         InitializeCombatDialog(dialog, dialog._logbook);

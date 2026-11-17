@@ -20,16 +20,13 @@ public partial class WaterWalkingEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1322
     public override bool Remove(AbilityOwner owner)
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         bool result = base.Remove(owner);
         if (result && owner is Troop troop && owner.Owner is Army army)
         {
             MapCoordinate coordinate89 = troop.GetLocation();
-            x = coordinate89.X;
-            y = coordinate89.Y;
-            l = coordinate89.MapLevel;
+            sbyte x = coordinate89.X;
+            sbyte y = coordinate89.Y;
+            sbyte l = coordinate89.MapLevel;
             if (x != -1)
             {
                 MapField mapField = StrategicMap.Current.MapContainer.GetField(x, y, l);

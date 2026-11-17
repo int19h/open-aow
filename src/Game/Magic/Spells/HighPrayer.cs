@@ -120,7 +120,7 @@ public partial class HighPrayer : CombatSpell
         }
 
         source.Combat.ExecuteCombatAction(action);
-        action.Release();
+        _ = action.Release();
         return true;
     }
 

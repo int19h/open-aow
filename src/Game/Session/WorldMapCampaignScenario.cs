@@ -68,8 +68,8 @@ public partial class WorldMapCampaignScenario : CampaignScenario
         OutroPages = new WMCampaignScenarioPageList(null) { Holder = CreationHolder() };
         for (int i = 0; i <= 9; i++)
         {
-            new CampaignScenarioPage(IntroPages);
-            new CampaignScenarioPage(OutroPages);
+            _ = new CampaignScenarioPage(IntroPages);
+            _ = new CampaignScenarioPage(OutroPages);
         }
 
         Paths = new Int32List();

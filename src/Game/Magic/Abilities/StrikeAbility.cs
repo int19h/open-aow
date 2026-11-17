@@ -78,7 +78,6 @@ public partial class StrikeAbility : AdjustableAbility
         CombatObject target;
         CombatAction action;
         MoveWallCombatAction moveCombatAction;
-        MeleeRound.Strike strike = default;
         target = command.Target;
         round = new MeleeRound(this);
         round.Calculate(source, target);
@@ -86,7 +85,7 @@ public partial class StrikeAbility : AdjustableAbility
         i = 0;
         if (source is FastBattleUnit fastUnit)
         {
-            fastUnit.State = fastUnit.State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.Vulnerable);
+            fastUnit.State += Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.Vulnerable);
             if (source.FastBattleBehindWall() && source.FastBattleWallInBetween(target.Position) && !target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing))
             {
                 moveCombatAction = new MoveWallCombatAction(null) { Holder = CreationHolder() };
@@ -95,7 +94,7 @@ public partial class StrikeAbility : AdjustableAbility
                 moveCombatAction.InsideWall = 0;
 
                 source.Combat.ExecuteCombatAction(moveCombatAction);
-                moveCombatAction.Release();
+                _ = moveCombatAction.Release();
             }
         }
 
@@ -105,7 +104,7 @@ public partial class StrikeAbility : AdjustableAbility
             if (action != null)
             {
                 source.Combat.ExecuteCombatAction(action);
-                round.GetMeleeStrike(i, out strike);
+                round.GetMeleeStrike(i, out MeleeRound.Strike strike);
                 switch (strike.Side)
                 {
                     case CombatSideIndex.Attacker:
@@ -116,7 +115,7 @@ public partial class StrikeAbility : AdjustableAbility
                         break;
                 }
 
-                action.Release();
+                _ = action.Release();
             }
 
             i += 1;
@@ -260,37 +259,37 @@ public partial class StrikeAbility : AdjustableAbility
             result = Set<DamageType>.Of(DamageType.Physical);
             if (troop.GetAbilityEnabled(14) || troop.GetAbilityEnabled(163))
             {
-                result = result + Set<DamageType>.Of(DamageType.Fire);
+                result += Set<DamageType>.Of(DamageType.Fire);
             }
 
             if (troop.GetAbilityEnabled(15))
             {
-                result = result + Set<DamageType>.Of(DamageType.Cold);
+                result += Set<DamageType>.Of(DamageType.Cold);
             }
 
             if (troop.GetAbilityEnabled(16))
             {
-                result = result + Set<DamageType>.Of(DamageType.Lightning);
+                result += Set<DamageType>.Of(DamageType.Lightning);
             }
 
             if (troop.GetAbilityEnabled(17))
             {
-                result = result + Set<DamageType>.Of(DamageType.Poison);
+                result += Set<DamageType>.Of(DamageType.Poison);
             }
 
             if (troop.GetAbilityEnabled(18) || troop.GetAbilityEnabled(169))
             {
-                result = result + Set<DamageType>.Of(DamageType.Death);
+                result += Set<DamageType>.Of(DamageType.Death);
             }
 
             if (troop.GetAbilityEnabled(19))
             {
-                result = result + Set<DamageType>.Of(DamageType.Holy);
+                result += Set<DamageType>.Of(DamageType.Holy);
             }
 
             if (troop.GetAbilityEnabled(20) || troop.GetAbilityEnabled(154))
             {
-                result = result + Set<DamageType>.Of(DamageType.Magic);
+                result += Set<DamageType>.Of(DamageType.Magic);
             }
         }
         else
@@ -308,7 +307,7 @@ public partial class StrikeAbility : AdjustableAbility
             return false;
         }
 
-        base.Remove(owner);
+        _ = base.Remove(owner);
         for (int i = owner.GetAbCount() - 1; i >= 0; --i)
         {
             if (owner.GetAbEnabled(i) && GamePack.Current.AbilityControl.GetAbility(i) is StrikeEnhancementAbility)

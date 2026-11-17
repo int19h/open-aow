@@ -59,7 +59,7 @@ public partial class EnterArenaEventLog : EventLog
         {
             if (((1 << i) & Selection) != 0)
             {
-                units.Add(UnitIds[i]);
+                _ = units.Add(UnitIds[i]);
             }
         }
 
@@ -77,7 +77,7 @@ public partial class EnterArenaEventLog : EventLog
         {
             if (((1 << i) & Selection) != 0)
             {
-                units.Add(UnitIds[i]);
+                _ = units.Add(UnitIds[i]);
             }
         }
 

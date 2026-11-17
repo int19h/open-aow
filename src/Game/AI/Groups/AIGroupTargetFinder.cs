@@ -35,14 +35,14 @@ public partial class AIGroupTargetFinder : AIGroupTask
     // AIGroup.pas:1948
     public override bool Activate(AIGroupControl control)
     {
-        base.Activate(control);
+        _ = base.Activate(control);
         _control = control;
         if (Mode.Contains(AIGroupTargetFinderModeElement.CalculateMovePathBfs))
         {
             Selector.Mode = Selector.Mode + Set<AIMoveTargetSelectorModeElement>.Of(AIMoveTargetSelectorModeElement.CreateMovePaths);
         }
 
-        Selector.Search(control);
+        _ = Selector.Search(control);
         return true;
     }
 
@@ -96,8 +96,8 @@ public partial class AIGroupTargetFinder : AIGroupTask
         AITargetInfo targetInfo3 = Selector.TargetInfo;
         targetInfo3.Mode = AITargetMode.Attack;
         Selector.TargetInfo = targetInfo3;
-        Selector.Units.AddUnits(control.Group.Units);
-        Mode = Mode + Set<AIGroupTargetFinderModeElement>.Of(AIGroupTargetFinderModeElement.CalculateMovePathBfs);
+        _ = Selector.Units.AddUnits(control.Group.Units);
+        Mode += Set<AIGroupTargetFinderModeElement>.Of(AIGroupTargetFinderModeElement.CalculateMovePathBfs);
         return true;
     }
 
@@ -121,7 +121,7 @@ public partial class AIGroupTargetFinder : AIGroupTask
         }
 
         _control.TargetFoundEvent(this, newTarget, ref searchDone);
-        newTarget.Release();
+        _ = newTarget.Release();
     }
 
     // intf_P5_07.inc:301

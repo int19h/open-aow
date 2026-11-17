@@ -24,22 +24,22 @@ public partial class FreezeWaterTokenEvent : GlobalTargetSpellTokenEvent
     public override bool Process(Troop source, int value)
     {
         TwinkleAnimation twinkle = default;
-        base.Process(source, value);
-        StrategicMap.Current.ValidateTerrainObservation(source.Player, (sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2);
+        _ = base.Process(source, value);
+        _ = StrategicMap.Current.ValidateTerrainObservation(source.Player, (sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2);
         if (StrategicMap.Current.TerrainVisible((sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2))
         {
             twinkle = new TwinkleAnimation(null) { Holder = CreationHolder() };
             twinkle.Setup(GamePack.Current.SpellControl.GetSpell(10).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Expand), 100, 64, 50, 30);
-            StrategicMap.Current.PlaceHex(twinkle, Location.X, Location.Y, Location.MapLevel);
+            _ = StrategicMap.Current.PlaceHex(twinkle, Location.X, Location.Y, Location.MapLevel);
         }
 
         // Use the map's seated player.
         if (StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.WatchingTerrain((sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2))
         {
-            GamePack.Current.SpellControl.GetSpell(10).CastSounds.Play(0);
+            _ = GamePack.Current.SpellControl.GetSpell(10).CastSounds.Play(0);
         }
 
-        StrategicMap.Current.ChangeTerrain(null, Location.X, Location.Y, Location.MapLevel, 1, ChangeTerrain, TerrainChanged);
+        _ = StrategicMap.Current.ChangeTerrain(null, Location.X, Location.Y, Location.MapLevel, 1, ChangeTerrain, TerrainChanged);
         GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
         // The original event result is zero.
         return false;
@@ -87,7 +87,7 @@ public partial class FreezeWaterTokenEvent : GlobalTargetSpellTokenEvent
             if (ice == null)
             {
                 ice = new FrozenWaterHexSprite(null) { Holder = CreationHolder() };
-                StrategicMap.Current.PlaceHex(ice, mapField.HexX, mapField.HexY, mapField.HexLevel);
+                _ = StrategicMap.Current.PlaceHex(ice, mapField.HexX, mapField.HexY, mapField.HexLevel);
             }
 
             ice.DaysRemaining = (sbyte)(((StrategicMap.Current.Random(11) - 5) / 5) + 3);

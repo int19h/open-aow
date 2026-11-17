@@ -161,7 +161,7 @@ public partial class InfoWindow : UIModule
         {
             if (UI.General.Structure.CanRaze(StrategicMap.Current.SeatedPlayer, ref reason))
             {
-                UI.General.Structure.Raze(StrategicMap.Current.SeatedPlayer);
+                _ = UI.General.Structure.Raze(StrategicMap.Current.SeatedPlayer);
             }
             else
             {
@@ -288,9 +288,9 @@ public partial class InfoWindow : UIModule
         dialog.SingleButtonPanel.Visible = true;
         StringCollection description = structure.GetDescription();
         dialog.SingleButtonMemo.Items.Assign(description);
-        dialog.SingleButtonMemo.Items.Add("");
+        _ = dialog.SingleButtonMemo.Items.Add("");
         string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.IncomeFormat), [IntToStr(structure.Income)]);
-        dialog.SingleButtonMemo.Items.Add(format);
+        _ = dialog.SingleButtonMemo.Items.Add(format);
         dialog.RazePanel.Visible = true;
     }
 
@@ -436,14 +436,14 @@ public partial class InfoWindow : UIModule
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.SingleButtonPanel.Visible = true;
-        dialog.SingleButtonMemo.Items.Add("");
-        dialog.SingleButtonMemo.Items.Add("");
-        dialog.SingleButtonMemo.Items.Add("");
-        dialog.SingleButtonMemo.Items.Add("");
-        dialog.SingleButtonMemo.Items.Add("");
-        dialog.SingleButtonMemo.Items.Add("");
+        _ = dialog.SingleButtonMemo.Items.Add("");
+        _ = dialog.SingleButtonMemo.Items.Add("");
+        _ = dialog.SingleButtonMemo.Items.Add("");
+        _ = dialog.SingleButtonMemo.Items.Add("");
+        _ = dialog.SingleButtonMemo.Items.Add("");
+        _ = dialog.SingleButtonMemo.Items.Add("");
         string statusWarMode = dialog.UI.Engine.TranslateResourceString(GameText.StatusWarModeText);
-        dialog.SingleButtonMemo.Items.Add(statusWarMode);
+        _ = dialog.SingleButtonMemo.Items.Add(statusWarMode);
     }
 
     internal static void ShowCityInfo(InfoWindow dialog, City structure)
@@ -478,12 +478,12 @@ public partial class InfoWindow : UIModule
                 if (structure.Production.Settings.TurnsLeft != -1)
                 {
                     string formatTurnsLeftString = DurationText.FormatTurnsLeftString(dialog.UI.Engine, turns: structure.Production.Settings.TurnsLeft);
-                    dialog.ActiveCityActionMemo.Items.Add(formatTurnsLeftString);
+                    _ = dialog.ActiveCityActionMemo.Items.Add(formatTurnsLeftString);
                 }
                 else
                 {
                     string unlimited = dialog.UI.Engine.TranslateResourceString(MapEvents.UnlimitedText);
-                    dialog.ActiveCityActionMemo.Items.Add(LowerCase(unlimited));
+                    _ = dialog.ActiveCityActionMemo.Items.Add(LowerCase(unlimited));
                 }
             }
             else
@@ -491,7 +491,7 @@ public partial class InfoWindow : UIModule
                 if (structure.Production.Status == ProductionControlStatus.Waiting)
                 {
                     ProductionItem queue = structure.Production.Queue.GetItem(0);
-                    structure.Production.CanExecuteProduction(queue, ref reason);
+                    _ = structure.Production.CanExecuteProduction(queue, ref reason);
                     dialog.ProductionWarningLabel.Text = reason;
                     dialog.ProductionWarningLabel.Visible = true;
                 }
@@ -499,9 +499,9 @@ public partial class InfoWindow : UIModule
         }
         else
         {
-            dialog.ActiveCityActionMemo.Items.Add("");
+            _ = dialog.ActiveCityActionMemo.Items.Add("");
             string producingMerchandise = dialog.UI.Engine.TranslateResourceString(GameText.ProducingMerchandiseText);
-            dialog.ActiveCityActionMemo.Items.Add(producingMerchandise);
+            _ = dialog.ActiveCityActionMemo.Items.Add(producingMerchandise);
         }
 
         Status playerRelation = StrategicMap.Current.Races.GetRace(structure.Race).GetPlayerRelation(structure.Player);
@@ -560,13 +560,13 @@ public partial class InfoWindow : UIModule
                 if (structure.ProductionControl.Settings.TurnsLeft != -1)
                 {
                     string formatTurnsLeftString = DurationText.FormatTurnsLeftString(dialog.UI.Engine, turns: structure.ProductionControl.Settings.TurnsLeft);
-                    dialog.ActiveActionMemo.Items.Add(formatTurnsLeftString);
+                    _ = dialog.ActiveActionMemo.Items.Add(formatTurnsLeftString);
                 }
                 else
                 {
                     // { Original writes the city memo in this branch. }
                     string unlimited = dialog.UI.Engine.TranslateResourceString(MapEvents.UnlimitedText);
-                    dialog.ActiveCityActionMemo.Items.Add(LowerCase(unlimited));
+                    _ = dialog.ActiveCityActionMemo.Items.Add(LowerCase(unlimited));
                 }
             }
             else
@@ -574,7 +574,7 @@ public partial class InfoWindow : UIModule
                 if (structure.ProductionControl.Status == ProductionControlStatus.Waiting)
                 {
                     ProductionItem queue = structure.ProductionControl.Queue.GetItem(0);
-                    structure.ProductionControl.CanExecuteProduction(queue, ref reason);
+                    _ = structure.ProductionControl.CanExecuteProduction(queue, ref reason);
                     dialog.CurrentActivityWarningLabel.Text = reason;
                     dialog.CurrentActivityWarningLabel.Visible = true;
                 }
@@ -584,22 +584,22 @@ public partial class InfoWindow : UIModule
         {
             if (structure.GetMagicSphere() == MagicSphere.None)
             {
-                dialog.ActiveActionMemo.Items.Add("");
+                _ = dialog.ActiveActionMemo.Items.Add("");
                 if (structure.GetBaseIncome() != 0)
                 {
                     string producingMerchandise = dialog.UI.Engine.TranslateResourceString(GameText.ProducingMerchandiseText);
-                    dialog.ActiveActionMemo.Items.Add(producingMerchandise);
+                    _ = dialog.ActiveActionMemo.Items.Add(producingMerchandise);
                 }
                 else
                 {
                     string none = dialog.UI.Engine.TranslateResourceString(GameTables.NoneText);
-                    dialog.ActiveActionMemo.Items.Add(none);
+                    _ = dialog.ActiveActionMemo.Items.Add(none);
                 }
             }
             else
             {
                 string generatingExtraPower = dialog.UI.Engine.TranslateResourceString(GameText.GeneratingExtraPowerText);
-                dialog.ActiveActionMemo.Items.Add(generatingExtraPower);
+                _ = dialog.ActiveActionMemo.Items.Add(generatingExtraPower);
             }
         }
 

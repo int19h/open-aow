@@ -544,7 +544,7 @@ public partial class ArmyHexSprite : UnitHexSprite
                 field.SendMapFieldMessage(ref message);
                 if (message.Result.Int == 0)
                 {
-                    base.MoveTo(field, moveCost);
+                    _ = base.MoveTo(field, moveCost);
                     if (oldField != null && (field.HexLevel != oldField.HexLevel || !ConnectingHex(oldField.HexX, oldField.HexY, field.HexX, field.HexY)))
                     {
                         StrategicMap.Current.NotifyPlayerChanged(oldField.HexX, oldField.HexY, oldField.HexLevel);
@@ -688,7 +688,7 @@ public partial class ArmyHexSprite : UnitHexSprite
                         sbyte hexLevel = GetHexLevel();
                         sbyte hexY2 = GetHexY();
                         sbyte hexX = GetHexX();
-                        StrategicMap.Current.PlaceHex(animation, hexX, hexY2, hexLevel);
+                        _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY2, hexLevel);
                     }
                 }
             }
@@ -780,7 +780,7 @@ public partial class ArmyHexSprite : UnitHexSprite
             info.Animation = UnitAnimation.None;
             info.Frame = StrategicMap.Current.Frame + (int)(((uint)(X + Y + Y)) >> 4);
             info.Looped = true;
-            Army.Units.GetUnit(_unitIndex).Show(X - 16, Y - 20, lockedSurface, info);
+            _ = Army.Units.GetUnit(_unitIndex).Show(X - 16, Y - 20, lockedSurface, info);
         }
     }
 
@@ -814,7 +814,7 @@ public partial class ArmyHexSprite : UnitHexSprite
                         {
                             if (Army.CanPlace((sbyte)walk.X, (sbyte)walk.Y, mapLevel))
                             {
-                                MoveTo(field, 0);
+                                _ = MoveTo(field, 0);
                                 result = true;
                             }
                         }
@@ -849,7 +849,7 @@ public partial class ArmyHexSprite : UnitHexSprite
             return move;
         }
 
-        move.Release();
+        _ = move.Release();
         return null;
     }
 
@@ -918,7 +918,7 @@ public partial class ArmyHexSprite : UnitHexSprite
                 if (move != null)
                 {
                     StrategicMap.Current.TokenManager.GetTokenControl(army.Army.Player).AddEvent(move);
-                    move.Release();
+                    _ = move.Release();
                     moved = true;
                 }
             }
@@ -941,13 +941,13 @@ public partial class ArmyHexSprite : UnitHexSprite
         settings.ArmyHexSprite = army;
         settings.Selection = selection;
         settings.SetDestinationPosition(X, Y, L);
-        MovePointTable movePointTable = settings.MovePointTable;
-        army.Army.CreateMovePointTable(selection, out movePointTable);
+        _ = settings.MovePointTable;
+        army.Army.CreateMovePointTable(selection, out MovePointTable movePointTable);
         settings.MovePointTable = movePointTable;
         StrategicMap.Current.MoveControl.ProcessMove(settings);
         result = settings.Path.Count != 0 && MoveArmy(army, selection, settings.Path, Set<ArmyMoveModeElement>.Of(), force);
 
-        settings.Release();
+        _ = settings.Release();
         return result;
     }
 

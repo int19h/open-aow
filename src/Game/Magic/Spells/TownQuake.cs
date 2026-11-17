@@ -40,7 +40,7 @@ public partial class TownQuake : CityTargetSpell
             targetCity = eventValue.GetSelectedCity();
             PlayDefaultCityEffects(source, targetCity);
             targetCity.StartTownQuake();
-            targetCity.ValidateObservation(source.Player);
+            _ = targetCity.ValidateObservation(source.Player);
             result = true;
         }
         else
@@ -55,7 +55,7 @@ public partial class TownQuake : CityTargetSpell
                     targetCity.SetWallType(0);
                 }
 
-                targetCity.ListArmies(armies);
+                _ = targetCity.ListArmies(armies);
                 for (int i = 0, last = armies.Count - 1; i <= last; i++)
                 {
                     TriggerArmyDamage(source, armies.GetArmyHexSprite(i));
@@ -94,7 +94,7 @@ public partial class TownQuake : CityTargetSpell
         log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_townQuakeDamageText);
         log.Player = source.Player;
         string townQuake = AbilityRules.TranslateResourceString(GetEngine(), s_townQuakeText);
-        log.ArmyMessages.Add(townQuake);
+        _ = log.ArmyMessages.Add(townQuake);
         log.ArmyIcon = 2;
         log.ArmyView.Setup(army.Army, 255);
         using (army.Army.BeginUpdate())
@@ -115,8 +115,8 @@ public partial class TownQuake : CityTargetSpell
                     damaged = true;
                 }
 
-                log.DamageValues.Add((byte)damage);
-                log.DamageTypes.Add(7);
+                _ = log.DamageValues.Add((byte)damage);
+                _ = log.DamageTypes.Add(7);
             }
 
             if (damaged)
@@ -125,7 +125,7 @@ public partial class TownQuake : CityTargetSpell
                 EventLog.DistributeLocationEventLog(y: army.GetHexY(), level: army.GetHexLevel(), x: army.GetHexX(), log: log, player: army.Army.Player, execute: true);
             }
 
-            log.Release();
+            _ = log.Release();
             army.Army.Validate();
         }
     }

@@ -32,7 +32,7 @@ public partial class PasswordDialog : UIModule
         _passwordEvent = null;
         done?.Invoke(eventValue);
 
-        eventValue?.Release();
+        _ = (eventValue?.Release());
     }
 
     // AoWPasswordDlg.pas:42
@@ -74,7 +74,7 @@ public partial class PasswordDialog : UIModule
         dialog.Reset();
         dialog.Done = done;
         dialog._passwordEvent = eventValue;
-        dialog._passwordEvent.AddRef();
+        _ = dialog._passwordEvent.AddRef();
         log = dialog._passwordEvent;
         dialog.TitleLabel.Text = log.Title;
         dialog.PasswordLabel.Text = log.Prompt;

@@ -27,7 +27,7 @@ public partial class PowerLeakEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1021
     public override bool Deactivate(byte player)
     {
-        base.Deactivate(player);
+        _ = base.Deactivate(player);
         for (int i = StrategicMap.Current.Players.Count - 1; i >= 0; i--)
         {
             StrategicMap.Current.Players.GetPlayers(i).MagicControl.Update();
@@ -39,7 +39,7 @@ public partial class PowerLeakEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1011
     public override bool Activate(sbyte player)
     {
-        base.Activate(player);
+        _ = base.Activate(player);
         for (int i = StrategicMap.Current.Players.Count - 1; i >= 0; i--)
         {
             StrategicMap.Current.Players.GetPlayers(i).MagicControl.Update();

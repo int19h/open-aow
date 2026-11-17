@@ -55,7 +55,7 @@ public partial class HealingUnitSelector : UnitSelector
                 eventValue.TargetId = target.UnitId;
                 eventValue.TargetPlayer = (byte)target.Player;
                 StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
-                eventValue.Release();
+                _ = eventValue.Release();
                 result = true;
             }
             else

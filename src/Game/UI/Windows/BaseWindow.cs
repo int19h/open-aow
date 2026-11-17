@@ -148,8 +148,6 @@ public partial class BaseWindow : WindowControl
     //   one. A window without a back surface draws itself and its controls straight into Surface. }
     public override void DrawSurface(Surface surface)
     {
-        UIComponent c = default;
-        DirtyRectangle d = default;
         int oldLeft;
         int oldTop;
         bool locked;
@@ -178,11 +176,12 @@ public partial class BaseWindow : WindowControl
                 catch
                 {
                     locked = false;
-                    MessageBox(0, "Verify Surface Error", "Error - " + Name, 0);
+                    _ = MessageBox(0, "Verify Surface Error", "Error - " + Name, 0);
                 }
 
                 if (locked)
                 {
+                    DirtyRectangle d;
                     try
                     {
                         if (!Drawn)
@@ -223,9 +222,10 @@ public partial class BaseWindow : WindowControl
                     }
                     catch
                     {
-                        MessageBox(0, "Draw Error", "Error - " + Name, 0);
+                        _ = MessageBox(0, "Draw Error", "Error - " + Name, 0);
                     }
 
+                    UIComponent c;
                     if (DoubleBuffered)
                     {
                         if (Priority >= WindowManager.OverlayPriority || !Drawn)
@@ -273,7 +273,7 @@ public partial class BaseWindow : WindowControl
 
                         if (locked)
                         {
-                            BackSurface.Unlock();
+                            _ = BackSurface.Unlock();
                         }
 
                         SetWinLeftWithoutInvalidate(oldLeft);
@@ -292,12 +292,12 @@ public partial class BaseWindow : WindowControl
                                         r = new Rect(d.Rectangle.Left, d.Rectangle.Top, d.Rectangle.Right + 1, d.Rectangle.Bottom + 1);
                                         if (!Masked)
                                         {
-                                            BackSurface.BlitAreaClipped(surface, r, d.Rectangle.Left + oldLeft, d.Rectangle.Top + oldTop);
+                                            _ = BackSurface.BlitAreaClipped(surface, r, d.Rectangle.Left + oldLeft, d.Rectangle.Top + oldTop);
                                         }
                                         else
                                         {
                                             int color2PixelInfo = PixelFormats.Color2PixelInfo(pixelFormatId: BackSurface.GetPixelFormatId(), color: MaskColor, palette: null);
-                                            BackSurface.BlitAreaColorKeyClipped(surface, r, d.Rectangle.Left + oldLeft, d.Rectangle.Top + oldTop, color2PixelInfo);
+                                            _ = BackSurface.BlitAreaColorKeyClipped(surface, r, d.Rectangle.Left + oldLeft, d.Rectangle.Top + oldTop, color2PixelInfo);
                                         }
 
                                         r = new Rect(d.Rectangle.Left + oldLeft, d.Rectangle.Top + oldTop, d.Rectangle.Right + oldLeft, d.Rectangle.Bottom + oldTop);
@@ -314,7 +314,7 @@ public partial class BaseWindow : WindowControl
                         }
                         catch
                         {
-                            MessageBox(0, "Blt Error", "Error - " + Name, 0);
+                            _ = MessageBox(0, "Blt Error", "Error - " + Name, 0);
                         }
                     }
                     else
@@ -333,7 +333,7 @@ public partial class BaseWindow : WindowControl
 
                         if (locked)
                         {
-                            surface.Unlock();
+                            _ = surface.Unlock();
                         }
 
                         try
@@ -344,7 +344,7 @@ public partial class BaseWindow : WindowControl
                         }
                         catch
                         {
-                            MessageBox(0, "SB Draw Events Error", "Error - " + Name, 0);
+                            _ = MessageBox(0, "SB Draw Events Error", "Error - " + Name, 0);
                         }
                     }
 
@@ -354,7 +354,7 @@ public partial class BaseWindow : WindowControl
         }
         catch
         {
-            MessageBox(0, "Exception during DrawSurface", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during DrawSurface", "Error - " + Name, 0);
         }
     }
 
@@ -364,13 +364,10 @@ public partial class BaseWindow : WindowControl
     //   copies it into SurfDesc, masked with FMaskColor for a masked window. }
     public override void DrawTo(LockedSurface lockedSurface)
     {
-        UIComponent c = default;
         int oldLeft;
         int oldTop;
         bool ok;
         LockedSurface destinationSurfaceDescription = default;
-        Rect sourceRectangle = default;
-        Rect destinationRectangle = default;
         try
         {
             oldLeft = WinLeft;
@@ -384,7 +381,7 @@ public partial class BaseWindow : WindowControl
                     BackSurface = new DataSurface(WinWidth, WinHeight, lockedSurface.PixelFormatId, null);
                     if (Masked)
                     {
-                        BackSurface.Clear(MaskColor);
+                        _ = BackSurface.Clear(MaskColor);
                     }
 
                     ok = BackSurface.Lock(ref lockedSurface) >= 0;
@@ -396,12 +393,12 @@ public partial class BaseWindow : WindowControl
                     {
                         if (lockedSurface.PixelFormatId != destinationSurfaceDescription.PixelFormatId)
                         {
-                            BackSurface.Unlock();
+                            _ = BackSurface.Unlock();
                             BackSurface?.Dispose();
                             BackSurface = new DataSurface(WinWidth, WinHeight, destinationSurfaceDescription.PixelFormatId, null);
                             if (Masked)
                             {
-                                BackSurface.Clear(MaskColor);
+                                _ = BackSurface.Clear(MaskColor);
                             }
 
                             ok = BackSurface.Lock(ref lockedSurface) >= 0;
@@ -421,7 +418,7 @@ public partial class BaseWindow : WindowControl
                 Draw(lockedSurface);
                 for (int i = 0, last = Children.Count - 1; i <= last; i++)
                 {
-                    c = Children[i];
+                    UIComponent c = Children[i];
                     if (c.Valid && c.Visible && (!Drawn || !c.Drawn))
                     {
                         c.Draw(lockedSurface);
@@ -435,31 +432,26 @@ public partial class BaseWindow : WindowControl
                 {
                     SetWinLeftWithoutInvalidate(oldLeft);
                     SetWinTopWithoutInvalidate(oldTop);
-                    sourceRectangle = new Rect(0, 0, WinWidth, WinHeight);
+                    Rect sourceRectangle = new(0, 0, WinWidth, WinHeight);
                     // { not used }
-                    destinationRectangle = new Rect(WinLeft, WinTop, WinLeft + WinWidth, WinTop + WinHeight);
+                    Rect destinationRectangle = new(WinLeft, WinTop, WinLeft + WinWidth, WinTop + WinHeight);
                     try
                     {
-                        if (Masked)
-                        {
-                            LockedSurface.BlitSpriteClipped16(lockedSurface, sourceRectangle, destinationSurfaceDescription, WinLeft, WinTop, MaskColor);
-                        }
-                        else
-                        {
-                            LockedSurface.BlitSurfaceDescriptionRectangleClipped(lockedSurface, sourceRectangle, destinationSurfaceDescription, WinLeft, WinTop);
-                        }
+                        _ = Masked
+                            ? LockedSurface.BlitSpriteClipped16(lockedSurface, sourceRectangle, destinationSurfaceDescription, WinLeft, WinTop, MaskColor)
+                            : LockedSurface.BlitSurfaceDescriptionRectangleClipped(lockedSurface, sourceRectangle, destinationSurfaceDescription, WinLeft, WinTop);
                     }
                     catch
                     {
                     }
 
-                    BackSurface.Unlock();
+                    _ = BackSurface.Unlock();
                 }
             }
         }
         catch
         {
-            MessageBox(0, "Exception during DrawSurfaceDesc", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during DrawSurfaceDesc", "Error - " + Name, 0);
         }
     }
 

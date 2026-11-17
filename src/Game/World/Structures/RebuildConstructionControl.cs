@@ -17,13 +17,10 @@ public partial class RebuildConstructionControl : ConstructionControl
     // AoWAb.PAS:5404
     public Structure GetStructure(Troop troop)
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         MapCoordinate coordinate36 = troop.GetLocation();
-        x = coordinate36.X;
-        y = coordinate36.Y;
-        l = coordinate36.MapLevel;
+        sbyte x = coordinate36.X;
+        sbyte y = coordinate36.Y;
+        sbyte l = coordinate36.MapLevel;
         Structure result = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<Structure>();
         if (result != null)
         {

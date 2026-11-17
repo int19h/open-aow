@@ -158,7 +158,7 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
 
         if (condition)
         {
-            AudioPlayback.PlaySample("SFX\\EVENTS\\MANA.WAV");
+            _ = AudioPlayback.PlaySample("SFX\\EVENTS\\MANA.WAV");
         }
 
         Player player = StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
@@ -169,7 +169,7 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
         log.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), s_manaCrystalsFoundFormat), [IntToStr(_amount)]);
         log.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());
         StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(log);
-        log.Release();
+        _ = log.Release();
         Dispose();
     }
 

@@ -40,10 +40,7 @@ public partial class HealingTokenEvent : TokenEvent
         Troop target;
         HealingAbility ability;
         ImageSequenceAnimation animation;
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
-        base.Execute(tokenEvent);
+        _ = base.Execute(tokenEvent);
         source = StrategicMap.Current.UnitControl.FindUnit(SourceId);
         target = StrategicMap.Current.UnitControl.FindUnit(TargetId);
         if (source != null && (byte)source.Player == SourcePlayer && target != null && (byte)target.Player == TargetPlayer)
@@ -52,22 +49,22 @@ public partial class HealingTokenEvent : TokenEvent
             if (ability.GetEnabled(source))
             {
                 ability.SetEnabled(source, false);
-                ability.HealUnit(target);
+                _ = ability.HealUnit(target);
                 MapCoordinate coordinate9 = target.GetLocation();
-                x = coordinate9.X;
-                y = coordinate9.Y;
-                l = coordinate9.MapLevel;
-                StrategicMap.Current.ValidateObservation((sbyte)SourcePlayer, x, y, l, 0);
+                sbyte x = coordinate9.X;
+                sbyte y = coordinate9.Y;
+                sbyte l = coordinate9.MapLevel;
+                _ = StrategicMap.Current.ValidateObservation((sbyte)SourcePlayer, x, y, l, 0);
                 if (StrategicMap.Current.Visible(x, y, l, 0))
                 {
                     animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(ability.ImageSequences.GetImageSequence(0));
-                    StrategicMap.Current.PlaceHex(animation, x, y, l);
+                    _ = StrategicMap.Current.PlaceHex(animation, x, y, l);
                 }
 
                 if ((byte)StrategicMap.Current.SeatedPlayer == SourcePlayer || StrategicMap.Current.Watching(x, y, l, 0))
                 {
-                    ability.SfxLibrary.Play(0);
+                    _ = ability.SfxLibrary.Play(0);
                 }
             }
 

@@ -37,7 +37,7 @@ public partial class ChangePlayerMagicTokenEvent : TokenEvent
         ExecuteResult result;
         bool success;
         PlayerMagicControl magic;
-        base.Execute(tokenEvent);
+        _ = base.Execute(tokenEvent);
         success = false;
         magic = StrategicMap.Current.Players.GetPlayers((sbyte)PlayerIndex).MagicControl;
         switch (Mode)

@@ -240,11 +240,6 @@ public partial class ListBox : Control
     //   to F11C, original) clipped to the inside, the selected one on its highlight texture }
     public override void Draw(LockedSurface lockedSurface)
     {
-        int l = default;
-        int w = default;
-        int t = default;
-        int h = default;
-        Rect oldClip = default;
         try
         {
             if (Valid && Visible)
@@ -252,7 +247,11 @@ public partial class ListBox : Control
                 RaisePreDraw(this, lockedSurface);
 
                 base.Font.Color = Color;
-                oldClip = lockedSurface.ClipRectangle;
+                Rect oldClip = lockedSurface.ClipRectangle;
+                int l;
+                int w;
+                int t;
+                int h;
                 switch (_textOnly)
                 {
                     case 0:
@@ -355,7 +354,7 @@ public partial class ListBox : Control
         }
         catch
         {
-            MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
         }
     }
 

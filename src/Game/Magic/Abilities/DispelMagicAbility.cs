@@ -128,7 +128,7 @@ public partial class DispelMagicAbility : TouchAbility
             action = new DispelMagicAbilityCombatAction(null) { Holder = CreationHolder() };
             action.Generate(source, target, GetDispelMana(sourceUnit.Troop));
             source.Combat.ExecuteCombatAction(action);
-            action.Release();
+            _ = action.Release();
         }
 
         return true;
@@ -174,9 +174,9 @@ public partial class DispelMagicAbility : TouchAbility
             }
 
             info.SetUnitSelector(selector);
-            selector.Release();
+            _ = selector.Release();
             StrategicMap.Current.OnActivateAbilityStore.Raise(info);
-            info.Release();
+            _ = info.Release();
             result = true;
         }
         else

@@ -298,7 +298,7 @@ public static class FileBoundary
     private static void RefuseThroughPacket(Prepared prepared, GameProfile profile)
     {
         GameFileTree tree = GameBoundary.ReadTree(prepared.Result ?? throw new InvalidOperationException("A document without an engine image has no prepared result."), use: profile);
-        GameBoundary.WritePacket(tree.Root, classId: tree.ClassId, className: tree.ClassName);
+        _ = GameBoundary.WritePacket(tree.Root, classId: tree.ClassId, className: tree.ClassName);
     }
 
     // The header a listing shows when the document has no engine image. A scenario set's 52
@@ -509,7 +509,7 @@ public static class FileBoundary
         {
             if (!replaced && files.FileExists(temporary))
             {
-                files.DeleteFile(temporary);
+                _ = files.DeleteFile(temporary);
             }
         }
     }

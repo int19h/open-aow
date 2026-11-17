@@ -141,17 +141,17 @@ public partial class ImageLibraryFont : CustomImageLibrary
         switch (_charCase)
         {
             case EditCharCase.Normal:
-                X = X - (int)(((uint)TextWidth(text)) >> 1);
+                X -= (int)(((uint)TextWidth(text)) >> 1);
                 ShowText(X, Y, text, lockedSurface);
                 break;
             case EditCharCase.LowerCase:
                 s = LowerCase(text);
-                X = X - (int)(((uint)TextWidth(s)) >> 1);
+                X -= (int)(((uint)TextWidth(s)) >> 1);
                 ShowText(X, Y, s, lockedSurface);
                 break;
             case EditCharCase.UpperCase:
                 s = UpperCase(text);
-                X = X - (int)(((uint)TextWidth(s)) >> 1);
+                X -= (int)(((uint)TextWidth(s)) >> 1);
                 ShowText(X, Y, s, lockedSurface);
                 break;
         }
@@ -177,7 +177,7 @@ public partial class ImageLibraryFont : CustomImageLibrary
 
         if (mode.Contains(SetTextModeElement.Center))
         {
-            X = X - (int)(((uint)TextWidth(s)) >> 1);
+            X -= (int)(((uint)TextWidth(s)) >> 1);
         }
 
         for (int i = 1; i <= s.Length; i++)

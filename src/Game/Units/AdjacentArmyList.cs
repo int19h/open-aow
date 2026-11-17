@@ -65,7 +65,7 @@ public partial class AdjacentArmyList : OwningNode, IChildList<AdjacentArmy>
         locations = new MapCoordinateList();
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            locations.Add(GetAdjacentArmies(i).Location);
+            _ = locations.Add(GetAdjacentArmies(i).Location);
         }
 
         bool result = MapCoordinateList.LocationsConnected(locations);

@@ -79,7 +79,7 @@ public partial class AIGroupControl : EngineObject
         Targets?.Dispose();
         RecruitmentGroups?.Dispose();
         ProductionLocations?.Dispose();
-        Group.Release();
+        _ = Group.Release();
         base.Dispose();
     }
 
@@ -88,7 +88,7 @@ public partial class AIGroupControl : EngineObject
     {
         if (Group.Transporter != null && !MoveExecutor.GetTransporting())
         {
-            Group.DeleteUnit(Group.Transporter);
+            _ = Group.DeleteUnit(Group.Transporter);
         }
 
         if (MoveExecutor.Status == AIMoveExecutorStatus.Invalidated)
@@ -137,9 +137,9 @@ public partial class AIGroupControl : EngineObject
             if (Location.X != -1)
             {
                 ArmyHexSprite = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).GetArmyHexSprite();
-                Army army = Army;
-                byte selection = Selection;
-                RetrieveGroupArmy(Location.X, Location.Y, Location.MapLevel, out army, out selection);
+                _ = Army;
+                _ = Selection;
+                _ = RetrieveGroupArmy(Location.X, Location.Y, Location.MapLevel, out Army army, out byte selection);
                 Army = army;
                 Selection = selection;
                 UpdateGroupChanges();
@@ -172,9 +172,6 @@ public partial class AIGroupControl : EngineObject
         sbyte x = default;
         sbyte y = default;
         sbyte l = default;
-        sbyte unitX = default;
-        sbyte unitY = default;
-        sbyte unitL = default;
         bool finished;
         bool found;
         bool result = false;
@@ -197,17 +194,17 @@ public partial class AIGroupControl : EngineObject
             {
                 GroupBehavior behavior = Group.GroupClass.Behavior;
                 group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, behavior);
-                group.Status = group.Status + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Split);
+                group.Status += Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Split);
                 i = Group.Units.Count - 1;
                 for (; i >= 0; i -= 1)
                 {
                     MapCoordinate coordinate99 = Group.Units.GetUnit(i).GetLocation();
-                    unitX = coordinate99.X;
-                    unitY = coordinate99.Y;
-                    unitL = coordinate99.MapLevel;
+                    sbyte unitX = coordinate99.X;
+                    sbyte unitY = coordinate99.Y;
+                    sbyte unitL = coordinate99.MapLevel;
                     if (x == unitX && y == unitY && l == unitL)
                     {
-                        group.AddUnit(Group.Units.GetUnit(i));
+                        _ = group.AddUnit(Group.Units.GetUnit(i));
                     }
                 }
 
@@ -217,7 +214,7 @@ public partial class AIGroupControl : EngineObject
                     result = true;
                 }
 
-                group.Release();
+                _ = group.Release();
             }
             else
             {
@@ -234,14 +231,14 @@ public partial class AIGroupControl : EngineObject
         State = 0;
         MoveExecutor = StrategicMap.Current.Players.GetPlayers(Group.Player).AIControl.MoveExecutor;
         StrategicMap.Current.AIExecutor.UseProcessTime(100);
-        _status = _status + Set<StatusElement>.Of(StatusElement.Activated);
+        _status += Set<StatusElement>.Of(StatusElement.Activated);
     }
 
     // AIGroup.pas:1222
     public virtual void Deactivate()
     {
         MoveExecutor.ClearDoneHandler();
-        _status = _status - Set<StatusElement>.Of(StatusElement.Activated);
+        _status -= Set<StatusElement>.Of(StatusElement.Activated);
     }
 
     // AIGroup.pas:1101
@@ -259,7 +256,7 @@ public partial class AIGroupControl : EngineObject
         troop = Group.Leader;
         if (troop != null)
         {
-            MoveExecutor.AddUnit(troop);
+            _ = MoveExecutor.AddUnit(troop);
         }
 
         for (int i = 0, last = Group.Units.Count - 1; i <= last; i++)
@@ -267,7 +264,7 @@ public partial class AIGroupControl : EngineObject
             if (Group.Units.GetUnit(i) != Group.Leader)
             {
                 Troop unit = Group.Units.GetUnit(i);
-                MoveExecutor.AddUnit(unit);
+                _ = MoveExecutor.AddUnit(unit);
             }
         }
 
@@ -293,7 +290,7 @@ public partial class AIGroupControl : EngineObject
             MoveExecutor.Mode = MoveExecutor.Mode + Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent, AIMoveExecutorModeElement.Attack);
         }
 
-        MoveExecutor.ExecuteMove(X, Y, L);
+        _ = MoveExecutor.ExecuteMove(X, Y, L);
     }
 
     // AIGroup.pas:994
@@ -325,7 +322,6 @@ public partial class AIGroupControl : EngineObject
     {
         DamageType damageType;
         Troop troop;
-        MovePointTable movePointTable = default;
         if (Group.Status.Contains(AIGroupStatusElement.Changed) || _processCycles == 1)
         {
             _immunityTypes = AbilityRules.AllDamageTypes;
@@ -348,7 +344,7 @@ public partial class AIGroupControl : EngineObject
             {
                 troop = Group.Units.GetUnit(i);
                 _immunityTypes = troop.GetImmunityTypes() & _immunityTypes;
-                troop.CreateMovePointTable(out movePointTable);
+                troop.CreateMovePointTable(out MovePointTable movePointTable);
                 MovePointTable movePointTable4 = MovePointTable;
                 movePointTable4.Maximize(movePointTable);
                 MovePointTable = movePointTable4;
@@ -394,7 +390,6 @@ public partial class AIGroupControl : EngineObject
     {
         Player player;
         AIGroup group;
-        MapCoordinate location = default;
         player = StrategicMap.Current.Players.GetPlayers(Group.Player);
         for (int i = player.AIGroups.Count - 1; i >= 0; i--)
         {
@@ -404,10 +399,10 @@ public partial class AIGroupControl : EngineObject
                 switch (group.TargetType)
                 {
                     case AIGroupTargetStatus.Idle:
-                        location = group.GetLocation();
+                        MapCoordinate location = group.GetLocation();
                         if (location.MapLevel == Location.MapLevel && HexGeometry.DeltaHexToRadius(location.X, location.Y, Location.X, Location.Y) <= 1)
                         {
-                            Group.AddUnits(group.Units);
+                            _ = Group.AddUnits(group.Units);
                         }
 
                         break;
@@ -456,14 +451,14 @@ public partial class AIGroupControl : EngineObject
     {
         DeactivatePlugin();
         _aiGroupTask = aiGroupTask;
-        _aiGroupTask.AddRef();
-        _aiGroupTask.Activate(this);
+        _ = _aiGroupTask.AddRef();
+        _ = _aiGroupTask.Activate(this);
     }
 
     // AIGroup.pas:1236
     public void DeactivatePlugin()
     {
-        _aiGroupTask?.Release();
+        _ = (_aiGroupTask?.Release());
         _aiGroupTask = null;
     }
 
@@ -542,7 +537,6 @@ public partial class AIGroupControl : EngineObject
         int distance;
         Troop troop;
         DoubleItemList<Troop> list;
-        MapCoordinate location = default;
         Player player;
         list = new DoubleItemList<Troop>();
         player = StrategicMap.Current.Players.GetPlayers(Group.Player);
@@ -555,11 +549,11 @@ public partial class AIGroupControl : EngineObject
                 sbyte locationX = coordinate100.X;
                 sbyte locationY = coordinate100.Y;
                 sbyte locationMapLevel = coordinate100.MapLevel;
-                location = new MapCoordinate(locationX, locationY, locationMapLevel);
+                MapCoordinate location = new(locationX, locationY, locationMapLevel);
                 distance = HexGeometry.DeltaHexToRadius(location.X, location.Y, Location.X, Location.Y);
                 if (Location.MapLevel == location.MapLevel && distance < 30)
                 {
-                    list.AddAbility(troop, distance);
+                    _ = list.AddAbility(troop, distance);
                 }
             }
         }

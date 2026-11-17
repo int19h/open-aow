@@ -51,7 +51,7 @@ public partial class UnitSelector : IDisposable
         }
 
         Units.Clear();
-        Units.AddUnits(units);
+        _ = Units.AddUnits(units);
         Units.SortUnits();
         // { Original accumulates FSelectable rather than clearing it on a new setup. }
         for (int i = Units.GetCount() - 1; i >= 0; i--)

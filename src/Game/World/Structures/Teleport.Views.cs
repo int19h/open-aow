@@ -8,7 +8,7 @@ public partial class Teleport
 
     public override StructureView InfoButton(sbyte viewer)
     {
-        TeleportPlayer(viewer);
+        _ = TeleportPlayer(viewer);
         return StructureView.None;
     }
 

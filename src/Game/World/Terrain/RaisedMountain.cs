@@ -119,7 +119,7 @@ public partial class RaisedMountain : ImageLibraryTerrainMapObject
 
             if (condition)
             {
-                GamePack.Current.SpellControl.GetSpell(19).CastSounds.Play(0);
+                _ = GamePack.Current.SpellControl.GetSpell(19).CastSounds.Play(0);
             }
         }
     }
@@ -133,7 +133,7 @@ public partial class RaisedMountain : ImageLibraryTerrainMapObject
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (field.FindOwnedChild(131434) == this && frameCounter == 9)
         {
-            Mode = Mode - Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);
+            Mode -= Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);
         }
     }
 

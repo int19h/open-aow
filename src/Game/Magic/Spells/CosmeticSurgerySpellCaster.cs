@@ -38,11 +38,11 @@ public partial class CosmeticSurgerySpellCaster : SpellCaster
             eventValue = new UnitSpellTokenEvent(null) { Holder = CreationHolder() };
             Spell spell = GamePack.Current.SpellControl.GetSpell(59);
             eventValue.Initialize(CasterSpellId, source, null, spell.BaseManaCost);
-            eventValue.TargetUnitIds.Add(TargetUnitId);
+            _ = eventValue.TargetUnitIds.Add(TargetUnitId);
             eventValue.SpellData[0] = FaceIndex;
             eventValue.TargetPlayer = (byte)target.Player;
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
-            eventValue.Release();
+            _ = eventValue.Release();
             result = true;
         }
         else

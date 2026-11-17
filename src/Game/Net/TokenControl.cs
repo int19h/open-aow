@@ -65,12 +65,12 @@ public partial class TokenControl : IDisposable
                         int syncValue = executor.GetSyncValue();
                         syncEvent.SyncValue = syncValue;
                         _events.Insert(0, syncEvent);
-                        syncEvent.Release();
+                        _ = syncEvent.Release();
                     }
 
                     tokenEvent = new PassTokenTokenEvent(null) { Holder = _tokenManager.Owner };
                     _events.Add(tokenEvent);
-                    tokenEvent.Release();
+                    _ = tokenEvent.Release();
                 }
 
                 for (int i = 0, last = _events.Count - 1; i <= last; i++)

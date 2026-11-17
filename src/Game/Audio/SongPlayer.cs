@@ -59,12 +59,12 @@ public partial class SongPlayer : IDisposable
 
                 if (_currentIndex == -1 && !_status.Contains(StatusElement.Paused))
                 {
-                    Play(0);
+                    _ = Play(0);
                 }
             }
             else
             {
-                AudioHost.SoundSystem?.StopSong();
+                _ = (AudioHost.SoundSystem?.StopSong());
 
                 _currentIndex = -1;
                 _currentSong = "";
@@ -103,7 +103,7 @@ public partial class SongPlayer : IDisposable
             int count = _songs.Count;
             if (_currentIndex < count)
             {
-                Play(_currentIndex);
+                _ = Play(_currentIndex);
             }
             else
             {
@@ -118,7 +118,7 @@ public partial class SongPlayer : IDisposable
         bool result;
         if (AudioHost.SoundSystem != null && index >= 0 && index < _songs.Count)
         {
-            _status = _status + Set<StatusElement>.Of(StatusElement.Playing);
+            _status += Set<StatusElement>.Of(StatusElement.Playing);
             string item = _songs[index];
             result = AudioHost.SoundSystem.PlaySong(item, fadeOut, fadeIn, false);
             if (result)
@@ -147,7 +147,7 @@ public partial class SongPlayer : IDisposable
         bool result;
         if (AudioHost.SoundSystem != null && index >= 0 && index < _songs.Count)
         {
-            _status = _status + Set<StatusElement>.Of(StatusElement.Playing);
+            _status += Set<StatusElement>.Of(StatusElement.Playing);
             string item = _songs[index];
             result = AudioHost.SoundSystem.PlaySong(item, 2, 0, false);
             if (result)
@@ -178,7 +178,7 @@ public partial class SongPlayer : IDisposable
         {
             result = stopMusic && AudioHost.SoundSystem.StopSong();
 
-            _status = _status - Set<StatusElement>.Of(StatusElement.Playing);
+            _status -= Set<StatusElement>.Of(StatusElement.Playing);
         }
         else
         {
@@ -199,10 +199,10 @@ public partial class SongPlayer : IDisposable
             }
 
             _backup = AudioPlayback.BackupSongStatus();
-            _status = _status + Set<StatusElement>.Of(StatusElement.Paused);
+            _status += Set<StatusElement>.Of(StatusElement.Paused);
             if (stopMusic)
             {
-                AudioHost.SoundSystem.StopSong();
+                _ = AudioHost.SoundSystem.StopSong();
             }
         }
 
@@ -219,18 +219,11 @@ public partial class SongPlayer : IDisposable
             if (_backup != null)
             {
                 _currentIndex = _songs.IndexOf(_backup.FileName);
-                if (_currentIndex == -1)
-                {
-                    Play(0);
-                }
-                else
-                {
-                    SongStatus.RestoreSongStatus(_backup);
-                }
+                _ = _currentIndex == -1 ? Play(0) : SongStatus.RestoreSongStatus(_backup);
                 _backup = null;
             }
 
-            _status = _status - Set<StatusElement>.Of(StatusElement.Paused);
+            _status -= Set<StatusElement>.Of(StatusElement.Paused);
         }
 
         return true;

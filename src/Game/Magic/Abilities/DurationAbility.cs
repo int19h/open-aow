@@ -70,7 +70,7 @@ public partial class DurationAbility : AdjustableAbility
     {
         if (StrategicMap.Current.Day == 1)
         {
-            owner.RemoveAbility(AbilityId);
+            _ = owner.RemoveAbility(AbilityId);
         }
     }
 
@@ -88,13 +88,13 @@ public partial class DurationAbility : AdjustableAbility
                     data.Duration = (byte)(data.Duration - 1);
                     if (data.Duration == 0)
                     {
-                        owner.RemoveAbility(AbilityId);
+                        _ = owner.RemoveAbility(AbilityId);
                     }
                 }
             }
             else
             {
-                owner.RemoveAbility(AbilityId);
+                _ = owner.RemoveAbility(AbilityId);
             }
         }
     }
@@ -140,13 +140,13 @@ public partial class DurationAbility : AdjustableAbility
                     data.Duration = (byte)(data.Duration - 1);
                     if (data.Duration == 0)
                     {
-                        combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
+                        _ = combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
                     }
                 }
             }
             else
             {
-                combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
+                _ = combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
             }
         }
     }
@@ -158,7 +158,7 @@ public partial class DurationAbility : AdjustableAbility
         {
             case DurationMode.CombatTurn:
             case DurationMode.EntireCombat:
-                combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
+                _ = combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
                 break;
         }
     }

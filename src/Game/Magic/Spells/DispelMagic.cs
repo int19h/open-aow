@@ -88,7 +88,7 @@ public partial class DispelMagic : UnitSpell
                 if (chance > StrategicMap.Current.Random(100))
                 {
                     count += 1;
-                    enchantments.GetEnchantments(i).Dispel();
+                    _ = enchantments.GetEnchantments(i).Dispel();
                 }
             }
 

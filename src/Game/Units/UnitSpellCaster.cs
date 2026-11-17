@@ -101,7 +101,7 @@ public partial class UnitSpellCaster : SpellCaster
                 {
                     if (((1 << i) & SelectionMask) != 0)
                     {
-                        targets.AddUnit(TargetUnits.GetUnit(i));
+                        _ = targets.AddUnit(TargetUnits.GetUnit(i));
                     }
                 }
 

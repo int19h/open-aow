@@ -55,7 +55,7 @@ public partial class Tornado : GlobalTargetSpell
 
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             // Original queues through AddEvent
-            eventValue.Release();
+            _ = eventValue.Release();
             result = true;
         }
         else
@@ -110,7 +110,7 @@ public partial class Tornado : GlobalTargetSpell
                 mapField = mapLevel.GetField(x, walk.Y);
                 if (SpellTableCost(table, terrainType: mapField.TerrainType, overlayType: mapField.OverlayType) != -1)
                 {
-                    locations.Add(mapField);
+                    _ = locations.Add(mapField);
                 }
             }
 

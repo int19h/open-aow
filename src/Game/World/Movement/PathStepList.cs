@@ -53,7 +53,7 @@ public class PathStepList : DefaultItemList<PathStep>
             }
             else
             {
-                Add(item);
+                _ = Add(item);
             }
         }
     }

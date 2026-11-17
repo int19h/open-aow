@@ -168,7 +168,7 @@ public static class PersistSupport
             list.SetCapacity(items.Count);
             foreach (int item in items)
             {
-                list.Add(item);
+                _ = list.Add(item);
             }
         });
     }
@@ -196,7 +196,7 @@ public static class PersistSupport
             list.SetCapacity(items.Count);
             foreach (byte item in items)
             {
-                list.Add(item);
+                _ = list.Add(item);
             }
         });
     }
@@ -353,7 +353,7 @@ public static class PersistSupport
         {
             using MemoryStream output = new();
             library.SaveToStream(output);
-            persister.Blob(name, data: output.ToArray());
+            _ = persister.Blob(name, data: output.ToArray());
             return;
         }
         if (persister.Blob(name, data: []) is not { } stored)
@@ -428,7 +428,7 @@ public static class PersistSupport
             lines.Clear();
             foreach (string line in copy)
             {
-                lines.Add(line);
+                _ = lines.Add(line);
             }
         }
         finally
@@ -464,7 +464,7 @@ public static class PersistSupport
             lines.Clear();
             for (int i = 0; i < copy.Count; i++)
             {
-                lines.AddObject(copy[i], IntToObject(objects[i]));
+                _ = lines.AddObject(copy[i], IntToObject(objects[i]));
             }
         }
         finally

@@ -100,7 +100,7 @@ public partial class AIPlayerControl : EngineObject
                 group = troop.Group;
                 if (group == null || group.EngineClass.ClassId == 136295)
                 {
-                    units.AddUnit(troop);
+                    _ = units.AddUnit(troop);
                     result += 1;
                 }
             }
@@ -266,7 +266,7 @@ public partial class AIPlayerControl : EngineObject
                                 unitPriority += 15;
                             }
 
-                            units.AddAbility(troop, unitPriority + groupPriority);
+                            _ = units.AddAbility(troop, unitPriority + groupPriority);
                         }
                     }
                 }
@@ -277,8 +277,8 @@ public partial class AIPlayerControl : EngineObject
             {
                 group = StrategicMap.Current.AIGroupManager.CreateGroup(Player.PlayerIndex, 0, GroupBehavior.Skirmish);
                 item = units[0];
-                group.AddUnit(item.First);
-                group.Release();
+                _ = group.AddUnit(item.First);
+                _ = group.Release();
                 skirmishCount += 1;
                 units.Delete(0);
             }
@@ -319,7 +319,7 @@ public partial class AIPlayerControl : EngineObject
         DiplomaticRelation relation;
         peace.Clear();
         war.Clear();
-        peace.Add((byte)Player.PlayerIndex);
+        _ = peace.Add((byte)Player.PlayerIndex);
         for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
             if (i != Player.PlayerIndex)
@@ -329,13 +329,13 @@ public partial class AIPlayerControl : EngineObject
                     relation = StrategicMap.Current.Players.GetDiplomaticRelation(Player.PlayerIndex, (sbyte)i);
                     if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Alliance).Contains(relation))
                     {
-                        peace.Add((byte)i);
+                        _ = peace.Add((byte)i);
                     }
                     else
                     {
                         if (relation == DiplomaticRelation.War)
                         {
-                            war.Add((byte)i);
+                            _ = war.Add((byte)i);
                         }
                         else
                         {
@@ -343,7 +343,7 @@ public partial class AIPlayerControl : EngineObject
                             {
                                 if (Player.GetFirstDaySeen((sbyte)i) != -1)
                                 {
-                                    unknown.Add((byte)i);
+                                    _ = unknown.Add((byte)i);
                                 }
                             }
                         }
@@ -368,7 +368,7 @@ public partial class AIPlayerControl : EngineObject
         peace.Clear();
         war.Clear();
         doubleItemList = new DoubleItemList();
-        doubleItemList.AddAbility(Player.PlayerIndex, 999);
+        _ = doubleItemList.AddAbility(Player.PlayerIndex, 999);
         for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
             if (i != Player.PlayerIndex && StrategicMap.Current.Players.GetPlayers(i).Status == PlayerStatus.Playing)
@@ -420,7 +420,7 @@ public partial class AIPlayerControl : EngineObject
                     priority -= 5;
                 }
 
-                doubleItemList.AddAbility(i, priority);
+                _ = doubleItemList.AddAbility(i, priority);
             }
         }
 
@@ -428,13 +428,13 @@ public partial class AIPlayerControl : EngineObject
         for (int i = 0, last = (doubleItemList.Count / 2) - 1; i <= last; i++)
         {
             item = doubleItemList[i];
-            peace.Add((byte)item.First);
+            _ = peace.Add((byte)item.First);
         }
 
         for (int i = doubleItemList.Count - 1, last = (doubleItemList.Count + 1) / 2; i >= last; i--)
         {
             item = doubleItemList[i];
-            war.Add((byte)item.First);
+            _ = war.Add((byte)item.First);
         }
 
         if ((doubleItemList.Count & 1) != 0)
@@ -445,14 +445,9 @@ public partial class AIPlayerControl : EngineObject
             Player players = StrategicMap.Current.Players.GetPlayers(middlePlayer);
             Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
             Status defaultRaceRelation = StrategicMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
-            if (Set<Status>.Of(Status.Hostile, Status.Wary).Contains(defaultRaceRelation))
-            {
-                war.Add((byte)middlePlayer);
-            }
-            else
-            {
-                peace.Add((byte)middlePlayer);
-            }
+            _ = Set<Status>.Of(Status.Hostile, Status.Wary).Contains(defaultRaceRelation)
+                ? war.Add((byte)middlePlayer)
+                : peace.Add((byte)middlePlayer);
         }
 
         doubleItemList?.Dispose();
@@ -481,9 +476,9 @@ public partial class AIPlayerControl : EngineObject
             unknown = new ByteList();
             ListPeaceWarUnknownPlayers(peace, war, unknown);
             ListIdealPeaceWarPlayers(idealPeace, idealWar);
-            war.Remove(player);
-            unknown.Remove(player);
-            peace.Remove(player);
+            _ = war.Remove(player);
+            _ = unknown.Remove(player);
+            _ = peace.Remove(player);
             peaceCount = peace.Count;
             warCount = war.Count;
             peaceIndex = idealPeace.IndexOf(player);
@@ -566,9 +561,9 @@ public partial class AIPlayerControl : EngineObject
             unknown = new ByteList();
             ListPeaceWarUnknownPlayers(peace, war, unknown);
             ListIdealPeaceWarPlayers(idealPeace, idealWar);
-            peace.Remove(player);
-            unknown.Remove(player);
-            war.Remove(player);
+            _ = peace.Remove(player);
+            _ = unknown.Remove(player);
+            _ = war.Remove(player);
             peaceCount = peace.Count;
             warCount = war.Count;
             peaceIndex = idealPeace.IndexOf(player);

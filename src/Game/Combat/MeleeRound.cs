@@ -407,7 +407,7 @@ public partial class MeleeRound : IDisposable
                         result.Generate(_attacker, _defender, (sbyte)(attack + strike.AttackBonus), (sbyte)(damage + strike.DamageBonus), AttackerDamageTypes);
                         if (_attacker.GetAbilityEnabled(118))
                         {
-                            result.StrikeMode = result.StrikeMode + Set<StrikeModeElement>.Of(StrikeModeElement.LifeStealing);
+                            result.StrikeMode += Set<StrikeModeElement>.Of(StrikeModeElement.LifeStealing);
                         }
                     }
 

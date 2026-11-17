@@ -26,7 +26,7 @@ public partial class CustomDisplay
             return;
         }
 
-        ExecuteBlitSurfaceEvent();
+        _ = ExecuteBlitSurfaceEvent();
         PresentedFrames++;
         FramePresented?.Invoke(PresentedFrames);
     }
@@ -47,7 +47,7 @@ public partial class CustomDisplay
     public override void Dispose()
     {
         StopUpdateFrameLoop();
-        DeactivateDisplayController();
+        _ = DeactivateDisplayController();
         base.Dispose();
     }
 
@@ -148,8 +148,8 @@ public partial class CustomDisplay
         }
 
         _activeDisplayController.NewFrame();
-        _activeDisplayController.WaitForVerticalBlank();
-        ExecuteBlitSurfaceEvent();
+        _ = _activeDisplayController.WaitForVerticalBlank();
+        _ = ExecuteBlitSurfaceEvent();
         PresentedFrames++;
         FramePresented?.Invoke(PresentedFrames);
     }
@@ -171,11 +171,11 @@ public partial class CustomDisplay
                 for (int i = 1; i <= (int)_bufferingScheme; i++)
                 {
                     saved[i] = new DataSurface(0, 0, 0, null);
-                    saved[i].CaptureSurface(previous.GetSurface(i), default);
+                    _ = saved[i].CaptureSurface(previous.GetSurface(i), default);
                 }
             }
 
-            DeactivateDisplayController();
+            _ = DeactivateDisplayController();
             if (displayController is null)
             {
                 return 0;
@@ -206,7 +206,7 @@ public partial class CustomDisplay
             {
                 if (saved[i] is not null)
                 {
-                    RemapSurface(saved[i], _activeDisplayController.GetSurface(i));
+                    _ = RemapSurface(saved[i], _activeDisplayController.GetSurface(i));
                 }
             }
 

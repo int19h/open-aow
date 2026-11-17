@@ -39,7 +39,7 @@ public partial class SetupEvents : UIModule
     {
         UI.ChatWindow.PlayerList.Items.Clear();
         string allPlayers = UI.Engine.TranslateResourceString(s_allPlayersText);
-        UI.ChatWindow.PlayerList.Items.AddObject(allPlayers, null);
+        _ = UI.ChatWindow.PlayerList.Items.AddObject(allPlayers, null);
         if (StrategicMap.Current != null)
         {
             for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
@@ -48,7 +48,7 @@ public partial class SetupEvents : UIModule
                 {
                     PlayerCommunicationSettings player = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.Players[i];
                     Player playerLeader = StrategicMap.Current.Players.GetPlayers(i);
-                    UI.ChatWindow.PlayerList.Items.AddObject(playerLeader.Leader.HeroName, IntToObject(player.SystemId));
+                    _ = UI.ChatWindow.PlayerList.Items.AddObject(playerLeader.Leader.HeroName, IntToObject(player.SystemId));
                     UI.ChatWindow.PlayerList.Selected = 0;
                 }
             }
@@ -111,15 +111,15 @@ public partial class SetupEvents : UIModule
     {
         if (UI.ScenarioSetup.ScenarioSetupPanel.Visible)
         {
-            UI.ScenarioSetup.ChatMemo.Items.Add(message);
+            _ = UI.ScenarioSetup.ChatMemo.Items.Add(message);
             UI.ScenarioSetup.ChatScrollPending = true;
         }
         else
         {
-            UI.ChatWindow.ChatMemo.Items.Add(message);
+            _ = UI.ChatWindow.ChatMemo.Items.Add(message);
             UI.TaskBar.ChatFlash = 136;
             UI.ChatWindow.ScrollPending = true;
-            AudioPlayback.PlaySample("SFX\\EVENTS\\CHAT.WAV");
+            _ = AudioPlayback.PlaySample("SFX\\EVENTS\\CHAT.WAV");
         }
     }
 
@@ -137,9 +137,9 @@ public partial class SetupEvents : UIModule
             MessageDialog.ResetMessageDialog(UI.MessageDialog);
             string warning = UI.Engine.TranslateResourceString(s_warningText);
             UI.MessageDialog.TitleLabel.Text = warning;
-            UI.MessageDialog.MessageMemo.Items.Add("");
+            _ = UI.MessageDialog.MessageMemo.Items.Add("");
             string youWereEjectedByTheHost = UI.Engine.TranslateResourceString(s_youWereEjectedByHostText);
-            UI.MessageDialog.MessageMemo.Items.Add(youWereEjectedByTheHost);
+            _ = UI.MessageDialog.MessageMemo.Items.Add(youWereEjectedByTheHost);
             UI.MessageDialog.OKPanel.Visible = true;
             UI.MessageDialog.Window.Visible = true;
         }
@@ -174,7 +174,7 @@ public partial class SetupEvents : UIModule
         UI.General.Manager.OverlayPriority = 5000;
         if (!control.Settings.CustomizeLeaders)
         {
-            AudioHost.SongPlayer.Stop(false);
+            _ = AudioHost.SongPlayer.Stop(false);
             AudioHost.SongPlayer.Songs.Clear();
             AudioPlayback.FadeMusicVolume(0, 1);
         }

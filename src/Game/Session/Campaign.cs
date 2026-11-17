@@ -83,7 +83,7 @@ public partial class Campaign : EngineObject
         else if (!PersistSupport.Translating(persister))
         {
             // The original ReadWrite leaves out the map under text only (the translate stream).
-            persister.NestedDocument("Map", profile: "world-hsm", image: Stream.GetBuffer().AsSpan(start: 0, length: (int)Stream.Length).ToArray());
+            _ = persister.NestedDocument("Map", profile: "world-hsm", image: Stream.GetBuffer().AsSpan(start: 0, length: (int)Stream.Length).ToArray());
         }
 
         persister.Object("TransferSettings", objectValue: TransferSettings);
@@ -179,7 +179,7 @@ public partial class Campaign : EngineObject
                     {
                         if (StrategicMap.Current.Players.GetPlayers(i).MagicControl.Spells.IndexOf(j) == -1)
                         {
-                            StrategicMap.Current.Players.GetPlayers(i).MagicControl.Spells.Add(j);
+                            _ = StrategicMap.Current.Players.GetPlayers(i).MagicControl.Spells.Add(j);
                         }
                     }
                 }
@@ -277,7 +277,7 @@ public partial class Campaign : EngineObject
         sbyte player;
         string fileName;
         ScenarioStarted = false;
-        CompletedScenarios.Add(CurrentScenarioId);
+        _ = CompletedScenarios.Add(CurrentScenarioId);
         TransferSettings.Retrieve();
         Stream.Clear();
         player = (sbyte)(StrategicMap.Current.Players.Count - 1);
@@ -290,7 +290,7 @@ public partial class Campaign : EngineObject
         if (RaceHistory.IndexOf((byte)players.PlayerRace) == -1)
         {
             Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
-            RaceHistory.Add((byte)fPlayersPlayers.PlayerRace);
+            _ = RaceHistory.Add((byte)fPlayersPlayers.PlayerRace);
         }
 
         fileName = GetAutoSaveFileName(CampaignAutoSaveType.ScenarioFinished);

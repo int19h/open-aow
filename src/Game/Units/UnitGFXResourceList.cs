@@ -36,7 +36,7 @@ public partial class UnitGFXResourceList : ResourceCollection, IChildList<UnitGr
         {
             if (GetChild(i) != null)
             {
-                list.AddObject(this[i].Name, IntToObject(i));
+                _ = list.AddObject(this[i].Name, IntToObject(i));
             }
         }
     }

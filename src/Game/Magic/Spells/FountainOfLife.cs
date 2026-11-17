@@ -84,7 +84,7 @@ public partial class FountainOfLife : CityEnchantmentSpell
                 deltaY = (vy * t) - Round((double)(t * 0.25) * t);
                 if (t > 0)
                 {
-                    GamePack.Current.SpellControl.GetSpell(52).CastImages.Show(0, cx + deltaX + offset, cy - deltaY, 0, lockedSurface);
+                    _ = GamePack.Current.SpellControl.GetSpell(52).CastImages.Show(0, cx + deltaX + offset, cy - deltaY, 0, lockedSurface);
                 }
             }
         }

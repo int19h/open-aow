@@ -12,23 +12,23 @@ public partial class CombatMapEvents
 {
     public void CombatMapActivateMap()
     {
-        AudioHost.SongPlayer.Pause(false);
+        _ = AudioHost.SongPlayer.Pause(false);
         if (UI.Engine.Demo)
         {
-            AudioPlayback.PlaySong("Songs\\Combat\\Defend.IT", 2, 0, true);
+            _ = AudioPlayback.PlaySong("Songs\\Combat\\Defend.IT", 2, 0, true);
         }
         else
         {
             switch (Random(3))
             {
                 case 0:
-                    AudioPlayback.PlaySong("Songs\\Combat\\Defend.IT", 2, 0, true);
+                    _ = AudioPlayback.PlaySong("Songs\\Combat\\Defend.IT", 2, 0, true);
                     break;
                 case 1:
-                    AudioPlayback.PlaySong("Songs\\Combat\\Outnum.IT", 2, 0, true);
+                    _ = AudioPlayback.PlaySong("Songs\\Combat\\Outnum.IT", 2, 0, true);
                     break;
                 case 2:
-                    AudioPlayback.PlaySong("Songs\\Combat\\Races.IT", 2, 0, true);
+                    _ = AudioPlayback.PlaySong("Songs\\Combat\\Races.IT", 2, 0, true);
                     break;
             }
         }

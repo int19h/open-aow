@@ -27,8 +27,8 @@ internal static class MovementTables
         settings.ArmyHexSprite = army;
         settings.Selection = selection;
         settings.SetDestinationPosition(X, Y, L);
-        MovePointTable movePointTable = settings.MovePointTable;
-        army.Army.CreateMovePointTable(selection, out movePointTable);
+        _ = settings.MovePointTable;
+        army.Army.CreateMovePointTable(selection, out MovePointTable movePointTable);
         settings.MovePointTable = movePointTable;
         StrategicMap.Current.MoveControl.ProcessMove(settings);
         if (settings.Path.Count != 0)
@@ -40,7 +40,7 @@ internal static class MovementTables
                 {
                     StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(result);
                     // { Original returns the token-event pointer after releasing its reference. }
-                    result.Release();
+                    _ = result.Release();
                 }
                 else
                 {
@@ -57,7 +57,7 @@ internal static class MovementTables
             result = null;
         }
 
-        settings.Release();
+        _ = settings.Release();
         return result;
     }
 

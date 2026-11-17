@@ -28,17 +28,14 @@ public partial class SpellWard : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1960
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
-        base.ExecuteTokenEvent(eventValue, source, executeCount);
+        _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         MapCoordinate coordinate79 = source.GetLocation();
-        x = coordinate79.X;
-        y = coordinate79.Y;
-        l = coordinate79.MapLevel;
-        StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
-        StrategicMap.Current.AddEffect(WorldEffectType.SpellWard);
-        CastSounds.Play(0);
+        sbyte x = coordinate79.X;
+        sbyte y = coordinate79.Y;
+        sbyte l = coordinate79.MapLevel;
+        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
+        _ = StrategicMap.Current.AddEffect(WorldEffectType.SpellWard);
+        _ = CastSounds.Play(0);
         CastingDone(source, eventValue.EventMana);
         return false;
     }

@@ -38,7 +38,7 @@ public partial class ArmyCombineMoveTokenEvent : MoveArmyTokenEvent
                 if (combineResult != AddUnitsResult.Ok)
                 {
                     ShowCombineFailure(combineResult);
-                    Mode = Mode - Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation);
+                    Mode -= Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation);
                 }
             }
         }

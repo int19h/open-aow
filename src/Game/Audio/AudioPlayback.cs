@@ -14,7 +14,7 @@ public static class AudioPlayback
             d = AudioHost.SampleDataList.Find(name);
             if (d == null)
             {
-                AudioHost.SoundSystem.SampleDataClass().CreateInstance(name);
+                _ = AudioHost.SoundSystem.SampleDataClass().CreateInstance(name);
             }
             else
             {
@@ -67,11 +67,11 @@ public static class AudioPlayback
     {
         if (AudioHost.SoundSystem != null)
         {
-            AudioHost.SongPlayer?.Stop(true);
+            _ = (AudioHost.SongPlayer?.Stop(true));
 
             AudioHost.SampleList?.Clear();
 
-            AudioHost.SoundSystem.Release();
+            _ = AudioHost.SoundSystem.Release();
             AudioHost.SoundSystem = null;
         }
     }
@@ -118,7 +118,7 @@ public static class AudioPlayback
             title.Clear();
             if (ext == ".IT")
             {
-                stream.Seek(4, SeekOrigin.Begin);
+                _ = stream.Seek(4, SeekOrigin.Begin);
                 stream.ReadExactly(title);
                 result = StrPasBuffer(title);
             }

@@ -63,7 +63,7 @@ public partial class AIRecruitmentGroupList : ReferenceNode, IChildList<AIRecrui
             group = this[i];
             if (!group.Validate(control))
             {
-                RemoveChild(group);
+                _ = RemoveChild(group);
                 result = false;
             }
         }

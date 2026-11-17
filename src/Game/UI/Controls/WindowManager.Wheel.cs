@@ -28,7 +28,7 @@ public partial class WindowManager
                 continue;
             }
 
-            c.CheckMouseWheel(steps, shift, x, y);
+            _ = c.CheckMouseWheel(steps, shift, x, y);
             return true;
         }
 

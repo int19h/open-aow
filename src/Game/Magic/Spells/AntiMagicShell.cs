@@ -47,7 +47,7 @@ public partial class AntiMagicShell : CityEnchantmentSpell
 
         if (condition)
         {
-            GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(1, -1, false, 30, SamplePanning.Center, null);
+            _ = GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(1, -1, false, 30, SamplePanning.Center, null);
         }
     }
 }

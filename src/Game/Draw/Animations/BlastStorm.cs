@@ -48,7 +48,7 @@ public partial class BlastStorm : Storm
         selection.HexNumbers.Clear();
         for (int i = 0, last = HexGeometry.RadiusToHexNumber(5) - 1; i <= last; i++)
         {
-            selection.HexNumbers.Add(0);
+            _ = selection.HexNumbers.Add(0);
         }
     }
 
@@ -69,13 +69,13 @@ public partial class BlastStorm : Storm
         r.Top = -(int)(((uint)_stormImages[0].Height) >> 1);
         r.Bottom = (int)(((uint)_stormImages[0].Height) >> 1);
         SetDimensions(r);
-        StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, 4);
+        _ = StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, 4);
         if (StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.TerrainVisible(X, Y, L, 4))
         {
-            AudioPlayback.PlaySample("SFX\\ATTACK\\STORMBIG.WAV");
+            _ = AudioPlayback.PlaySample("SFX\\ATTACK\\STORMBIG.WAV");
         }
 
-        PlaceHex(StrategicMap.Current.MapContainer, X, Y, L);
+        _ = PlaceHex(StrategicMap.Current.MapContainer, X, Y, L);
     }
 
     // Storms.pas:312
@@ -88,7 +88,7 @@ public partial class BlastStorm : Storm
             sbyte hexLevel = GetHexLevel();
             sbyte hexY = GetHexY();
             sbyte hexX = GetHexX();
-            StrategicMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 1, ChangeStormTerrain, StormTerrainChanged);
+            _ = StrategicMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 1, ChangeStormTerrain, StormTerrainChanged);
         }
         else
         {
@@ -97,7 +97,7 @@ public partial class BlastStorm : Storm
                 sbyte hexLevel = GetHexLevel();
                 sbyte hexY = GetHexY();
                 sbyte hexX = GetHexX();
-                StrategicMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 2, ChangeStormTerrain, StormTerrainChanged);
+                _ = StrategicMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 2, ChangeStormTerrain, StormTerrainChanged);
             }
             else
             {
@@ -106,7 +106,7 @@ public partial class BlastStorm : Storm
                     sbyte hexLevel = GetHexLevel();
                     sbyte hexY = GetHexY();
                     sbyte hexX = GetHexX();
-                    StrategicMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 3, ChangeStormTerrain, StormTerrainChanged);
+                    _ = StrategicMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 3, ChangeStormTerrain, StormTerrainChanged);
                 }
                 else
                 {
@@ -115,7 +115,7 @@ public partial class BlastStorm : Storm
                         sbyte hexLevel = GetHexLevel();
                         sbyte hexY = GetHexY();
                         sbyte hexX = GetHexX();
-                        StrategicMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 4, ChangeStormTerrain, StormTerrainChanged);
+                        _ = StrategicMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 4, ChangeStormTerrain, StormTerrainChanged);
                     }
                 }
             }

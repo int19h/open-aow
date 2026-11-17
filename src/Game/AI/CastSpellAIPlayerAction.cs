@@ -58,14 +58,7 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                 hero = player.Heroes.GetHero(i);
                 if (hero.GetAbilityEnabled(52) && hero.Owner != null)
                 {
-                    if (hero.CastingSpellId == 0)
-                    {
-                        _idleHeroes.Add(hero.UnitId);
-                    }
-                    else
-                    {
-                        _castingHeroes.Add(hero.UnitId);
-                    }
+                    _ = hero.CastingSpellId == 0 ? _idleHeroes.Add(hero.UnitId) : _castingHeroes.Add(hero.UnitId);
                 }
             }
         }
@@ -157,9 +150,9 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
 
                         if (!done)
                         {
-                            _idleHeroes.Add(hero.UnitId);
-                            _castingHeroes.Remove(hero.UnitId);
-                            hero.ExecuteCancelCasting();
+                            _ = _idleHeroes.Add(hero.UnitId);
+                            _ = _castingHeroes.Remove(hero.UnitId);
+                            _ = hero.ExecuteCancelCasting();
                         }
                     }
 
@@ -237,8 +230,8 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                             AICastSpellAction castSpellActions = _castSpellActions.GetCastSpellActions(index);
                             if (GamePack.Current.SpellControl.GetSpell(castSpellActions.SpellId).AIExecuteCastSpellAction(hero))
                             {
-                                _castingHeroes.Add(hero.UnitId);
-                                _idleHeroes.Remove(hero.UnitId);
+                                _ = _castingHeroes.Add(hero.UnitId);
+                                _ = _idleHeroes.Remove(hero.UnitId);
                                 done = true;
                             }
                         }

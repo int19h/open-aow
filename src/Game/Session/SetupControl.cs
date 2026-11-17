@@ -251,7 +251,7 @@ public partial class SetupControl : Component
             Settings.RemotePlayers.GetPlayers(i).Name = "";
             string validatePlayerName = ValidatePlayerName(player.Name);
             Settings.RemotePlayers.GetPlayers(i).Name = validatePlayerName;
-            UpdatePreferredRaces();
+            _ = UpdatePreferredRaces();
             UpdateSettings();
         }
     }
@@ -596,7 +596,7 @@ public partial class SetupControl : Component
 
         if (Settings.MapDay == 0 && Settings.CustomizeLeaders)
         {
-            CustomizeLeaders();
+            _ = CustomizeLeaders();
         }
     }
 
@@ -640,7 +640,7 @@ public partial class SetupControl : Component
             cLC.SetupControl = this;
             cLC.PlayerIndex = i;
             PlayerSetupSettings settingRace = Settings.GetSettings(i);
-            cLC.Items.Add(settingRace.Race);
+            _ = cLC.Items.Add(settingRace.Race);
             PlayerSetupSettings settingLeader = Settings.GetSettings(i);
             cLC.Leader.Assign(settingLeader.Leader, _engine);
             PlayerSetupSettings setting = Settings.GetSettings(i);
@@ -662,7 +662,7 @@ public partial class SetupControl : Component
                 result = true;
             }
 
-            cLC.Release();
+            _ = cLC.Release();
         }
         else
         {
@@ -690,7 +690,7 @@ public partial class SetupControl : Component
         {
             PlayerSetupSettings setting = Settings.GetSettings(control.PlayerIndex);
             Settings.GetSettings(control.PlayerIndex).Status = setting.Status + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.LeaderCustomized);
-            CustomizeLeaders();
+            _ = CustomizeLeaders();
         }
     }
 
@@ -705,13 +705,13 @@ public partial class SetupControl : Component
             switch (playerCommunicationControl.Players[i].ConnectionMode)
             {
                 case ConnectionMode.Global:
-                    s = s + "Global";
+                    s += "Global";
                     break;
                 case ConnectionMode.Local:
-                    s = s + "Local";
+                    s += "Local";
                     break;
                 case ConnectionMode.Remote:
-                    s = s + "Remote";
+                    s += "Remote";
                     break;
             }
 
@@ -827,7 +827,7 @@ public partial class SetupControl : Component
                 }
             }
 
-            StrategicMap.Current.PlayerCommunicator.ActivatePlayerCommunicationControl(remotePlayerCommunicationControl);
+            _ = StrategicMap.Current.PlayerCommunicator.ActivatePlayerCommunicationControl(remotePlayerCommunicationControl);
             remotePlayerCommunicationControl.OnSendData += OnSendData;
             ListPlayerCommunicationControlInfo(remotePlayerCommunicationControl);
             remotePlayerCommunicationControl.Release();
@@ -849,7 +849,7 @@ public partial class SetupControl : Component
                 }
             }
 
-            StrategicMap.Current.PlayerCommunicator.ActivatePlayerCommunicationControl(localPlayerCommunicationControl);
+            _ = StrategicMap.Current.PlayerCommunicator.ActivatePlayerCommunicationControl(localPlayerCommunicationControl);
             ListPlayerCommunicationControlInfo(localPlayerCommunicationControl);
             localPlayerCommunicationControl.Release();
         }
@@ -1087,28 +1087,28 @@ public partial class SetupControl : Component
     {
         if (GetRemote())
         {
-            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[5]));
+            _ = list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[5]));
             for (int i = 0, last = Settings.RemotePlayers.Count - 1; i <= last; i++)
             {
-                list.Add(Settings.RemotePlayers.GetPlayers(i).Name);
+                _ = list.Add(Settings.RemotePlayers.GetPlayers(i).Name);
             }
 
-            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[1]));
-            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[2]));
-            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[3]));
-            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[6]));
-            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[7]));
-            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[4]));
+            _ = list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[1]));
+            _ = list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[2]));
+            _ = list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[3]));
+            _ = list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[6]));
+            _ = list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[7]));
+            _ = list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[4]));
         }
         else
         {
-            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[0]));
-            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[1]));
-            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[2]));
-            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[3]));
-            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[6]));
-            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[7]));
-            list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[4]));
+            _ = list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[0]));
+            _ = list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[1]));
+            _ = list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[2]));
+            _ = list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[3]));
+            _ = list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[6]));
+            _ = list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[7]));
+            _ = list.Add(_engine.TranslateResourceString(GameTables.PlayerTypeTexts[4]));
         }
     }
 
@@ -1447,7 +1447,7 @@ public partial class SetupControl : Component
                 Settings.GetSettings(playerIndex).Status = setting.Status - Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Forced);
             }
 
-            UpdatePreferredRaces();
+            _ = UpdatePreferredRaces();
             UpdateSettings();
         }
     }
@@ -1546,7 +1546,7 @@ public partial class SetupControl : Component
                     settings.BehaviorMode = (byte)(int)player.Behavior;
                     if (player.Participating)
                     {
-                        settings.Status = settings.Status + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Fixed);
+                        settings.Status += Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Fixed);
                     }
 
                     if (GetRemote() && !player.Participating)
@@ -1601,7 +1601,7 @@ public partial class SetupControl : Component
                 if (j != -1)
                 {
                     ResetPlayerSettings(j);
-                    UpdatePreferredRaces();
+                    _ = UpdatePreferredRaces();
                 }
 
                 UpdateSettings();
@@ -1632,11 +1632,11 @@ public partial class SetupControl : Component
         RemotePlayer.PreferredRace = 255;
         RemotePlayer.Version = _engine.Version;
 
-        Status = Status + Set<SetupStatusElement>.Of(SetupStatusElement.Busy);
+        Status += Set<SetupStatusElement>.Of(SetupStatusElement.Busy);
         if (remoteId != 0)
         {
             ConnectPlayer(RemotePlayer);
-            Status = Status + Set<SetupStatusElement>.Of(SetupStatusElement.Remote);
+            Status += Set<SetupStatusElement>.Of(SetupStatusElement.Remote);
         }
 
         return true;
@@ -1650,7 +1650,7 @@ public partial class SetupControl : Component
         RemotePlayer.RemoteId = remoteId;
         RemotePlayer.PreferredRace = 255;
         RemotePlayer.Version = _engine.Version;
-        Status = Status + Set<SetupStatusElement>.Of(SetupStatusElement.Busy, SetupStatusElement.Remote);
+        Status += Set<SetupStatusElement>.Of(SetupStatusElement.Busy, SetupStatusElement.Remote);
         SendHostMessage(1, RemotePlayer, 0, 0);
         _phase = SetupPhase.SetupPlayers;
         return true;

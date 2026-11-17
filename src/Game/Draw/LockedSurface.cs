@@ -71,20 +71,20 @@ public struct LockedSurface
 
         if (sourceRectangle.Left < source.ClipRectangle.Left)
         {
-            X = X + (source.ClipRectangle.Left - sourceRectangle.Left);
+            X += source.ClipRectangle.Left - sourceRectangle.Left;
             sourceRectangle.Left = source.ClipRectangle.Left;
         }
 
         if (X < destination.ClipRectangle.Left)
         {
-            sourceRectangle.Left = sourceRectangle.Left + (destination.ClipRectangle.Left - X);
+            sourceRectangle.Left += destination.ClipRectangle.Left - X;
             X = destination.ClipRectangle.Left;
         }
 
         w = sourceRectangle.Right - sourceRectangle.Left;
         if (X + w > destination.ClipRectangle.Right)
         {
-            w = w - (X + w - destination.ClipRectangle.Right);
+            w -= X + w - destination.ClipRectangle.Right;
         }
 
         if (sourceRectangle.Bottom > source.ClipRectangle.Bottom)
@@ -94,20 +94,20 @@ public struct LockedSurface
 
         if (sourceRectangle.Top < source.ClipRectangle.Top)
         {
-            Y = Y + (source.ClipRectangle.Top - sourceRectangle.Top);
+            Y += source.ClipRectangle.Top - sourceRectangle.Top;
             sourceRectangle.Top = source.ClipRectangle.Top;
         }
 
         if (destination.ClipRectangle.Top > Y)
         {
-            sourceRectangle.Top = sourceRectangle.Top + (destination.ClipRectangle.Top - Y);
+            sourceRectangle.Top += destination.ClipRectangle.Top - Y;
             Y = destination.ClipRectangle.Top;
         }
 
         h = sourceRectangle.Bottom - sourceRectangle.Top;
         if (Y + h > destination.ClipRectangle.Bottom)
         {
-            h = h - (Y + h - destination.ClipRectangle.Bottom);
+            h -= Y + h - destination.ClipRectangle.Bottom;
         }
 
         if (source.PixelFormatId == destination.PixelFormatId)
@@ -147,20 +147,20 @@ public struct LockedSurface
 
             if (sourceRectangle.Left < source.ClipRectangle.Left)
             {
-                X = X + (source.ClipRectangle.Left - sourceRectangle.Left);
+                X += source.ClipRectangle.Left - sourceRectangle.Left;
                 sourceRectangle.Left = source.ClipRectangle.Left;
             }
 
             if (X < destination.ClipRectangle.Left)
             {
-                sourceRectangle.Left = sourceRectangle.Left + (destination.ClipRectangle.Left - X);
+                sourceRectangle.Left += destination.ClipRectangle.Left - X;
                 X = destination.ClipRectangle.Left;
             }
 
             w = sourceRectangle.Right - sourceRectangle.Left;
             if (w + X > destination.ClipRectangle.Right)
             {
-                w = w - (w + X - destination.ClipRectangle.Right);
+                w -= w + X - destination.ClipRectangle.Right;
             }
 
             if (sourceRectangle.Bottom > source.ClipRectangle.Bottom)
@@ -170,20 +170,20 @@ public struct LockedSurface
 
             if (sourceRectangle.Top < source.ClipRectangle.Top)
             {
-                Y = Y + (source.ClipRectangle.Top - sourceRectangle.Top);
+                Y += source.ClipRectangle.Top - sourceRectangle.Top;
                 sourceRectangle.Top = source.ClipRectangle.Top;
             }
 
             if (Y < destination.ClipRectangle.Top)
             {
-                sourceRectangle.Top = sourceRectangle.Top + (destination.ClipRectangle.Top - Y);
+                sourceRectangle.Top += destination.ClipRectangle.Top - Y;
                 Y = destination.ClipRectangle.Top;
             }
 
             h = sourceRectangle.Bottom - sourceRectangle.Top;
             if (Y + h > destination.ClipRectangle.Bottom)
             {
-                h = h - (Y + h - destination.ClipRectangle.Bottom);
+                h -= Y + h - destination.ClipRectangle.Bottom;
             }
 
             if (w > 0 && h > 0)
@@ -209,8 +209,8 @@ public struct LockedSurface
     public static void CreateFrom(in LockedSurface source, in Rect R, out LockedSurface destination)
     {
         destination = source;
-        Rect clipRectangle = destination.ClipRectangle;
-        IntersectRect(out clipRectangle, source.ClipRectangle, R);
+        _ = destination.ClipRectangle;
+        _ = IntersectRect(out Rect clipRectangle, source.ClipRectangle, R);
         destination.ClipRectangle = clipRectangle;
         destination.DataIndex = source.DataIndex + (R.Top * source.Pitch) + ((int)(((uint)source.BitCount) >> 3) * R.Left);
         Rect clipRectangle2 = destination.ClipRectangle;
@@ -344,15 +344,15 @@ public struct LockedSurface
 
         if (sourceX < 0)
         {
-            destinationX = destinationX - sourceX;
-            width = width + sourceX;
+            destinationX -= sourceX;
+            width += sourceX;
             sourceX = 0;
         }
 
         if (sourceY < 0)
         {
-            destinationY = destinationY - sourceY;
-            height = height + sourceY;
+            destinationY -= sourceY;
+            height += sourceY;
             sourceY = 0;
         }
 
@@ -368,15 +368,15 @@ public struct LockedSurface
 
         if (destinationX < 0)
         {
-            sourceX = sourceX - destinationX;
-            width = width + destinationX;
+            sourceX -= destinationX;
+            width += destinationX;
             destinationX = 0;
         }
 
         if (destinationY < 0)
         {
-            sourceY = sourceY - destinationY;
-            height = height + destinationY;
+            sourceY -= destinationY;
+            height += destinationY;
             destinationY = 0;
         }
 

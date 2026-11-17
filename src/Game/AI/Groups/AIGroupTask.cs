@@ -61,13 +61,13 @@ public partial class AIGroupTask : EngineObject
     {
         _processCycles = 0;
         GroupControl = control;
-        Status = Status + Set<AIGroupTaskStatusElement>.Of(AIGroupTaskStatusElement.Activated);
+        Status += Set<AIGroupTaskStatusElement>.Of(AIGroupTaskStatusElement.Activated);
         State = 0;
         return true;
     }
 
     // AIGroup.pas:1397
-    public virtual void Deactivate() => Status = Status - Set<AIGroupTaskStatusElement>.Of(AIGroupTaskStatusElement.Activated);
+    public virtual void Deactivate() => Status -= Set<AIGroupTaskStatusElement>.Of(AIGroupTaskStatusElement.Activated);
 
     // AIGroup.pas:1402
     public virtual bool Process()

@@ -52,7 +52,7 @@ public partial class AbstractHexagon : MapObject
                     sbyte hexLevel = GetHexLevel();
                     sbyte hexY = GetHexY();
                     sbyte hexX = GetHexX();
-                    Resource.GetTerrainControl().Place(Owner.Owner.Owner, hexX, hexY, hexLevel, message.TerrainType);
+                    _ = Resource.GetTerrainControl().Place(Owner.Owner.Owner, hexX, hexY, hexLevel, message.TerrainType);
                 }
             }
         }

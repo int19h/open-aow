@@ -28,7 +28,7 @@ public partial class FleeCombatAction : CombatAction
     {
         CombatObject objectValue;
         objectValue = combat.CombatData.FindId(ObjectId);
-        objectValue.Status = objectValue.Status + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Fled);
+        objectValue.Status += Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Fled);
     }
 
     // intf_P3_02.inc:38

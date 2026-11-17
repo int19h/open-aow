@@ -87,8 +87,8 @@ public partial class HtmlMemo : BaseWindow
         int v;
         void NewLine()
         {
-            _lines.Add("");
-            h = h + ci.Height;
+            _ = _lines.Add("");
+            h += ci.Height;
             lineIndex += 1;
         }
 
@@ -129,7 +129,7 @@ public partial class HtmlMemo : BaseWindow
                         {
                             string line2 = _lines[lineIndex];
                             _lines[lineIndex] = line2 + word;
-                            w = w + tw;
+                            w += tw;
                         }
 
                         start = i;
@@ -239,7 +239,7 @@ public partial class HtmlMemo : BaseWindow
         state = IntegerParseMode.None;
         if (_items.Count > 0 && UpperCase(Copy(_items[0], 1, 5)) == "<INT>")
         {
-            _lines.Add("");
+            _ = _lines.Add("");
             h = BorderHeight * 2;
             _images.Clear();
             for (int i = 0, last = Changes.Count - 1; i <= last; i++)
@@ -515,7 +515,7 @@ public partial class HtmlMemo : BaseWindow
                 }
             }
 
-            h = h + ci.Height;
+            h += ci.Height;
         }
 
         if (WinWidth - _scrollWidth != _textWidth || _textHeight != h)
@@ -527,7 +527,7 @@ public partial class HtmlMemo : BaseWindow
                 _textHeight = WinHeight;
             }
 
-            BackSurface?.Resize(_textWidth, _textHeight);
+            _ = (BackSurface?.Resize(_textWidth, _textHeight));
         }
 
         SurfaceValid = false;
@@ -614,17 +614,7 @@ public partial class HtmlMemo : BaseWindow
     {
         int oldLeft;
         int oldTop;
-        int position = default;
-        int lh = default;
-        int x = default;
-        int y = default;
-        TextAlignment align = default;
-        string fontName = "";
         LockedSurface backSurfaceDescription = default;
-        Rect sourceR = default;
-        int line10 = default;
-        ChangeInfo ci = default;
-        DirtyRectangle r = default;
         try
         {
             if (Valid && Visible)
@@ -652,34 +642,27 @@ public partial class HtmlMemo : BaseWindow
                 {
                     if (_images.Count <= ImageLibraryIndexTexture)
                     {
-                        if (Masked)
-                        {
-                            BackSurface.Clear(MaskColor);
-                        }
-                        else
-                        {
-                            BackSurface.Clear(0);
-                        }
+                        _ = Masked ? BackSurface.Clear(MaskColor) : BackSurface.Clear(0);
 
-                        BackSurface.Lock(ref backSurfaceDescription);
+                        _ = BackSurface.Lock(ref backSurfaceDescription);
                     }
                     else
                     {
-                        BackSurface.Lock(ref backSurfaceDescription);
+                        _ = BackSurface.Lock(ref backSurfaceDescription);
                         SizedRectangle rectangle = new(0, 0, _textWidth, _textHeight);
                         _images.DrawTiled(ImageLibraryIndexTexture, rectangle, ref backSurfaceDescription);
                     }
 
-                    line10 = 1;
-                    ci = Changes[0];
-                    align = TextAlignment.Left;
-                    fontName = "";
-                    x = BorderWidth;
-                    y = BorderHeight;
-                    lh = 10;
+                    int line10 = 1;
+                    ChangeInfo ci = Changes[0];
+                    TextAlignment align = TextAlignment.Left;
+                    string fontName = "";
+                    int x = BorderWidth;
+                    int y = BorderHeight;
+                    int lh = 10;
                     for (int i = 0, last = _lines.Count - 1; i <= last; i++)
                     {
-                        position = 0;
+                        int position = 0;
                         switch (align)
                         {
                             case TextAlignment.Left:
@@ -703,7 +686,7 @@ public partial class HtmlMemo : BaseWindow
                                         string line = _lines[i];
                                         Font.SetText(x, y, Copy(line, position + 1, ci.Position - position), backSurfaceDescription);
                                         string line2 = _lines[i];
-                                        x = x + Font.GetTextWidth(Copy(line2, position + 1, ci.Position - position));
+                                        x += Font.GetTextWidth(Copy(line2, position + 1, ci.Position - position));
                                         break;
                                     case TextAlignment.Center:
                                         string line3 = _lines[i];
@@ -717,7 +700,7 @@ public partial class HtmlMemo : BaseWindow
                                         string line6 = _lines[i];
                                         Font.SetText(x - fontTextWidth, y, Copy(line6, position + 1, ci.Position - position), backSurfaceDescription);
                                         string line7 = _lines[i];
-                                        x = x - Font.GetTextWidth(Copy(line7, position + 1, ci.Position - position));
+                                        x -= Font.GetTextWidth(Copy(line7, position + 1, ci.Position - position));
                                         break;
                                 }
                             }
@@ -725,7 +708,7 @@ public partial class HtmlMemo : BaseWindow
                             position = ci.Position;
                             if (!IsEmpty(ci.Font))
                             {
-                                LoadFont(ci.Font);
+                                _ = LoadFont(ci.Font);
                             }
 
                             Font.FontColorPaletteIndex = 1;
@@ -786,10 +769,10 @@ public partial class HtmlMemo : BaseWindow
                             }
                         }
 
-                        y = y + lh;
+                        y += lh;
                     }
 
-                    BackSurface.Unlock();
+                    _ = BackSurface.Unlock();
                     _backDrawn = true;
                 }
 
@@ -797,12 +780,13 @@ public partial class HtmlMemo : BaseWindow
                 SetWinTopWithoutInvalidate(oldTop);
                 RaisePreDraw(this, lockedSurface);
 
-                BackSurface.Lock(ref backSurfaceDescription);
+                _ = BackSurface.Lock(ref backSurfaceDescription);
+                Rect sourceR;
                 if (SurfaceValid)
                 {
                     for (int i = 0, last = DrawCount - 1; i <= last; i++)
                     {
-                        r = DrawList[i];
+                        DirtyRectangle r = DrawList[i];
                         if (OwnerComponent.WinLeft + WinLeft > r.Rectangle.Left)
                         {
                             Rect rectangle2 = r.Rectangle;
@@ -832,30 +816,20 @@ public partial class HtmlMemo : BaseWindow
                         }
 
                         sourceR = new Rect(r.Rectangle.Left - OwnerComponent.WinLeft - WinLeft, _topItem + r.Rectangle.Top - OwnerComponent.WinTop - WinTop, r.Rectangle.Right - OwnerComponent.WinLeft - WinLeft, _topItem + r.Rectangle.Bottom - OwnerComponent.WinTop - WinTop);
-                        if (Masked)
-                        {
-                            LockedSurface.BlitSpriteClipped16(backSurfaceDescription, sourceR, lockedSurface, r.Rectangle.Left, r.Rectangle.Top, MaskColor);
-                        }
-                        else
-                        {
-                            LockedSurface.BlitSurfaceDescriptionRectangleClipped(backSurfaceDescription, sourceR, lockedSurface, r.Rectangle.Left, r.Rectangle.Top);
-                        }
+                        _ = Masked
+                            ? LockedSurface.BlitSpriteClipped16(backSurfaceDescription, sourceR, lockedSurface, r.Rectangle.Left, r.Rectangle.Top, MaskColor)
+                            : LockedSurface.BlitSurfaceDescriptionRectangleClipped(backSurfaceDescription, sourceR, lockedSurface, r.Rectangle.Left, r.Rectangle.Top);
                     }
                 }
                 else
                 {
                     sourceR = new Rect(0, _topItem, WinWidth, _topItem + WinHeight);
-                    if (Masked)
-                    {
-                        LockedSurface.BlitSpriteClipped16(backSurfaceDescription, sourceR, lockedSurface, _window.WinLeft + WinLeft, _window.WinTop + WinTop, MaskColor);
-                    }
-                    else
-                    {
-                        LockedSurface.BlitSurfaceDescriptionRectangleClipped(backSurfaceDescription, sourceR, lockedSurface, _window.WinLeft + WinLeft, _window.WinTop + WinTop);
-                    }
+                    _ = Masked
+                        ? LockedSurface.BlitSpriteClipped16(backSurfaceDescription, sourceR, lockedSurface, _window.WinLeft + WinLeft, _window.WinTop + WinTop, MaskColor)
+                        : LockedSurface.BlitSurfaceDescriptionRectangleClipped(backSurfaceDescription, sourceR, lockedSurface, _window.WinLeft + WinLeft, _window.WinTop + WinTop);
                 }
 
-                BackSurface.Unlock();
+                _ = BackSurface.Unlock();
                 RaiseDraw(this, lockedSurface);
 
                 SurfaceValid = true;
@@ -863,7 +837,7 @@ public partial class HtmlMemo : BaseWindow
         }
         catch
         {
-            MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
         }
     }
 

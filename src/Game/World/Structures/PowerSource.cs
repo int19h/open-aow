@@ -22,13 +22,10 @@ public partial class PowerSource : EngineObject
     // Spells.PAS:1796
     public virtual void CenterToLocation()
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         MapCoordinate coordinate34 = GetLocation();
-        x = coordinate34.X;
-        y = coordinate34.Y;
-        l = coordinate34.MapLevel;
+        sbyte x = coordinate34.X;
+        sbyte y = coordinate34.Y;
+        sbyte l = coordinate34.MapLevel;
         if (x != -1)
         {
             StrategicMap.Current.CenterViewTo(x, y, l);

@@ -9,7 +9,7 @@ public partial class Dib16Surface { private bool _memoryLocked; }
 public partial class Dib16Surface
 {
     public Dib16Surface(int width, int height, int pixelFormatId)
-    { SetPixelFormatId(pixelFormatId); Resize(width, height); }
+    { SetPixelFormatId(pixelFormatId); _ = Resize(width, height); }
 
     internal void SetPixelFormatId(int value) { if (value is not PixelFormats.pfRGB555 and not PixelFormats.pfRGB565 and not PixelFormats.pfARGB1555) { throw new NotSupportedException("Pixel format"); } if (_memoryLocked && value != _pixelFormatId) { throw new InvalidOperationException("Pixel format after Lock"); } _pixelFormatId = value; }
 

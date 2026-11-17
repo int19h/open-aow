@@ -53,7 +53,7 @@ public partial class PowerNode : PlayerStructure
         base.Activate();
         if (Player != -1)
         {
-            StrategicMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
+            _ = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
         }
     }
 
@@ -62,7 +62,7 @@ public partial class PowerNode : PlayerStructure
     {
         if (Player != -1)
         {
-            StrategicMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
+            _ = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
         }
 
         base.Deactivate();
@@ -74,11 +74,11 @@ public partial class PowerNode : PlayerStructure
         if (value)
         {
             SetPlayer(-1);
-            State = State + Set<StateElement>.Of(StateElement.Razed);
+            State += Set<StateElement>.Of(StateElement.Razed);
         }
         else
         {
-            State = State - Set<StateElement>.Of(StateElement.Razed);
+            State -= Set<StateElement>.Of(StateElement.Razed);
         }
 
         ImageIndex = GetTerrainTypeImage(TerrainType);
@@ -144,13 +144,13 @@ public partial class PowerNode : PlayerStructure
             {
                 if (Player != -1)
                 {
-                    StrategicMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
+                    _ = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
                 }
 
                 base.SetPlayer(player);
                 if (Player != -1)
                 {
-                    StrategicMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
+                    _ = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
                 }
             }
             else

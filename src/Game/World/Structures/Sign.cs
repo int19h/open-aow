@@ -47,7 +47,7 @@ public partial class Sign : Structure
         PersistSupport.Lines(persister, name: "Text", lines: Text);
         if (StrategicMap.Current != null && StrategicMap.Current.ConnectionType != (PlayerConnectionType)1)
         {
-            PersistSupport.BitList(persister, name: "TextSeen", list: TextSeen);
+            _ = PersistSupport.BitList(persister, name: "TextSeen", list: TextSeen);
         }
         else
         {
@@ -100,7 +100,7 @@ public partial class Sign : Structure
             eventValue.Location = new MapCoordinate(GetHexX(), GetHexY(), GetHexLevel());
             eventValue.Text.Assign(text);
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
-            eventValue.Release();
+            _ = eventValue.Release();
             result = true;
         }
         else

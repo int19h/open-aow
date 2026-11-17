@@ -69,7 +69,6 @@ public partial class WindowManager : UIComponent
     // AOWWinManager.pas:176
     public override void Update()
     {
-        UIComponent c = default;
         try
         {
             if (Valid && Visible)
@@ -78,7 +77,7 @@ public partial class WindowManager : UIComponent
 
                 for (int i = 0, last = Children.Count - 1; i <= last; i++)
                 {
-                    c = Children[i];
+                    UIComponent c = Children[i];
                     if (c.Visible && c.Priority >= _overlayPriority)
                     {
                         c.Update();
@@ -93,7 +92,7 @@ public partial class WindowManager : UIComponent
         }
         catch
         {
-            MessageBox(0, "Exception during Update", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Update", "Error - " + Name, 0);
         }
     }
 
@@ -286,7 +285,7 @@ public partial class WindowManager : UIComponent
                         _foregroundTexture.DrawTiled(_imageLibraryIndexTFore, rectangle, ref lockedSurface);
                     }
 
-                    surface.Unlock();
+                    _ = surface.Unlock();
                 }
             }
             else
@@ -345,7 +344,7 @@ public partial class WindowManager : UIComponent
                     }
 
                     DrawCount = 0;
-                    surface.Unlock();
+                    _ = surface.Unlock();
                 }
             }
 
@@ -426,7 +425,7 @@ public partial class WindowManager : UIComponent
                                 _foregroundTexture.DrawTiled(_imageLibraryIndexTFore, rectangle2, ref lockedSurface);
                             }
 
-                            surface.Unlock();
+                            _ = surface.Unlock();
                         }
                     }
 
@@ -440,7 +439,7 @@ public partial class WindowManager : UIComponent
         }
         catch
         {
-            MessageBox(0, "Exception during DrawSurface", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during DrawSurface", "Error - " + Name, 0);
         }
     }
 
@@ -469,15 +468,13 @@ public partial class WindowManager : UIComponent
     // AOWWinManager.pas:449
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int x, int y)
     {
-        UIComponent c = default;
-        bool redraw = default;
         Handled = false;
         for (int i = Children.Count - 1; i >= 0; i--)
         {
-            c = Children[i];
+            UIComponent c = Children[i];
             if (c.Priority >= _overlayPriority)
             {
-                redraw = c.Redraw;
+                bool redraw = c.Redraw;
                 c.Handled = false;
                 if (!Handled || redraw)
                 {
@@ -497,11 +494,10 @@ public partial class WindowManager : UIComponent
     // AOWWinManager.pas:473
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        UIComponent c = default;
         Handled = false;
         for (int i = Children.Count - 1; i >= 0; i--)
         {
-            c = Children[i];
+            UIComponent c = Children[i];
             if (c.Priority >= _overlayPriority)
             {
                 if (!Handled || c.Redraw)
@@ -608,11 +604,10 @@ public partial class WindowManager : UIComponent
     // AOWWinManager.pas:558
     public override void CheckKeyPress(ref byte key)
     {
-        UIComponent c = default;
         Handled = false;
         for (int i = Children.Count - 1; i >= 0; i--)
         {
-            c = Children[i];
+            UIComponent c = Children[i];
             if (c.Priority >= _overlayPriority)
             {
                 c.CheckKeyPress(ref key);
@@ -629,11 +624,10 @@ public partial class WindowManager : UIComponent
     // AOWWinManager.pas:578
     public override void CheckKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        UIComponent c = default;
         Handled = false;
         for (int i = Children.Count - 1; i >= 0; i--)
         {
-            c = Children[i];
+            UIComponent c = Children[i];
             if (!Handled && c.Priority >= _overlayPriority && c.Visible)
             {
                 c.CheckKeyDown(ref key, shift);

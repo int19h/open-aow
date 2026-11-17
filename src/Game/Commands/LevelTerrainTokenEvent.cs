@@ -21,7 +21,7 @@ public partial class LevelTerrainTokenEvent : GlobalTargetSpellTokenEvent
     // GlobalTargetSpells.pas:968
     public override bool Process(Troop source, int value)
     {
-        base.Process(source, value);
+        _ = base.Process(source, value);
         PlayDefaultEffects(Location.X, Location.Y, Location.MapLevel);
         LevelTerrain();
         Spell spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
@@ -46,7 +46,7 @@ public partial class LevelTerrainTokenEvent : GlobalTargetSpellTokenEvent
                     StrategicMap.Current.ClearTerrain(walk.X, walk.Y, Location.MapLevel, 0, -1);
                     if (mapField.TerrainType == (int)TerrainType.Earth)
                     {
-                        StrategicMap.Current.ChangeTerrain(null, walk.X, walk.Y, Location.MapLevel, 0, (int)TerrainType.Dirt);
+                        _ = StrategicMap.Current.ChangeTerrain(null, walk.X, walk.Y, Location.MapLevel, 0, (int)TerrainType.Dirt);
                     }
                 }
             }

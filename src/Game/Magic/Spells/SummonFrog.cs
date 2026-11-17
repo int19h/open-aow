@@ -16,7 +16,7 @@ public partial class SummonFrog : SummonSpell
         BaseManaCost = 5;
         SpellLevel = 1;
         MagicSphere = MagicSphere.Water;
-        UnitIndices.Add(236);
+        _ = UnitIndices.Add(236);
         CastDuration = 5;
         AIBasePriority = 200;
     }

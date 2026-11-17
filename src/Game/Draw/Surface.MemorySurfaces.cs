@@ -32,7 +32,7 @@ public partial class Surface
             }
             return PixelFormats.GFXE_OK;
         }
-        finally { Unlock(); }
+        finally { _ = Unlock(); }
     }
 
 }

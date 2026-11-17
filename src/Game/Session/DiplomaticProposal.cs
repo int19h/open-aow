@@ -148,7 +148,7 @@ public abstract partial record DiplomaticProposal
     {
         if (player == StrategicMap.Current.SeatedPlayer)
         {
-            log.Execute(false, ExecuteTrigger.Event, null);
+            _ = log.Execute(false, ExecuteTrigger.Event, null);
         }
     }
 
@@ -158,7 +158,7 @@ public abstract partial record DiplomaticProposal
         DiplomaticActionEventLog log = action.CreateEventLog();
         BroadcastDiplomaticEvent(log, exclude);
         ShowTo(log, viewer);
-        log.Release();
+        _ = log.Release();
     }
 
     // Delivers the proposal to the target's logbook (Diplomacy.pas:992, the arm of the kinds that wait for an answer).
@@ -174,7 +174,7 @@ public abstract partial record DiplomaticProposal
         DiplomaticActionEventLog log = action.CreateEventLog();
         StrategicMap.Current.Players.GetPlayers(action.Target).EventLogbook.AddEvent(log);
         ShowTo(log, action.Target);
-        log.Release();
+        _ = log.Release();
         StrategicMap.Current.DiplomaticRelationsChangedEventsStore.Raise(action);
     }
 
@@ -223,7 +223,7 @@ public abstract partial record DiplomaticProposal
             {
                 EventLog eventLog = log.Copy<EventLog>(log.GetEngine());
                 players.EventLogbook.AddEvent(eventLog);
-                eventLog.Release();
+                _ = eventLog.Release();
             }
         }
     }

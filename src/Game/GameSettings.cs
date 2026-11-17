@@ -92,7 +92,7 @@ public partial class GameSettings : Registry
                 case ReadWriteMode.Read:
                     if (ValueExists(name))
                     {
-                        ReadBinaryData(name, value, size);
+                        _ = ReadBinaryData(name, value, size);
                     }
 
                     break;
@@ -651,7 +651,7 @@ public partial class GameSettings : Registry
     {
         if (value.Length > 0 && value[^1] != 92)
         {
-            value = value + "\\";
+            value += "\\";
         }
 
         String("Email", "Attachment Directory", ref value, ReadWriteMode.Write);

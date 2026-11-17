@@ -33,7 +33,7 @@ public partial class SelfDestructAbility : TouchAbility
         FastBattleValidateMoveOutsideWall(source, target);
         action = CreateSelfDestructCombatAction(source, target);
         source.Combat.ExecuteCombatAction(action);
-        action.Release();
+        _ = action.Release();
         return true;
     }
 

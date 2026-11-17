@@ -24,7 +24,7 @@ public partial class TerrainMapObject
                 resource.TerrainList.CompareTerrain(Resource.TerrainList,
                     Set<TerrainCompareModeElement>.Of(TerrainCompareModeElement.SameOverlayType)))
             {
-                candidates.Add(resource);
+                _ = candidates.Add(resource);
             }
         }
         TerrainMapObjectResource result = candidates.Count == 0 ? null : candidates[RtlUnit.Random(candidates.Count)];
@@ -65,7 +65,7 @@ public partial class TerrainMapObject
             }
             if (compatible)
             {
-                candidates.Add(resource);
+                _ = candidates.Add(resource);
             }
         }
         TerrainMapObjectResource result = candidates.Count == 0 ? null : candidates[RtlUnit.Random(candidates.Count)];

@@ -38,8 +38,8 @@ public partial class MoveTargetList : ReferenceNode, IChildList<MoveTarget>
         target.MovePoints = movePoints;
         target.TransporterId = transporterId;
         target.Data = data;
-        AddChild(target);
-        target.Release();
+        _ = AddChild(target);
+        _ = target.Release();
     }
 
     // AIGroup.pas:4275

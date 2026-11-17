@@ -118,7 +118,7 @@ public partial class SmtpDialog : UIModule
         dialog.ResetProgress();
         dialog._event = eventValue;
         SmtpEventLog smtpEventLog = dialog._event;
-        smtpEventLog.AddRef();
+        _ = smtpEventLog.AddRef();
 
         string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.RecipientFormat), [eventValue.ToAddress]);
         dialog.RecipientLabel.Text = format;

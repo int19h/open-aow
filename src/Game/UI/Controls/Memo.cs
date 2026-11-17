@@ -161,14 +161,14 @@ public partial class Memo : Control
 
         for (int i = 0, last = ColorList.Count - 1; i <= last; i++)
         {
-            cc = ColorList[i];
+            _ = ColorList[i];
         }
 
         ColorList.Clear();
         Lines.Clear();
         for (int i = 0, last = _items.Count - 1; i <= last; i++)
         {
-            Lines.Add("");
+            _ = Lines.Add("");
             ColorChange colorChange = new();
             ColorList.Add(colorChange);
             j = 0;
@@ -202,7 +202,7 @@ public partial class Memo : Control
                     tw = base.Font.GetTextWidth(s);
                     if (w + tw > WinWidth)
                     {
-                        Lines.Add(s);
+                        _ = Lines.Add(s);
                         ColorChange colorChange2 = new();
                         ColorList.Add(colorChange2);
                         w = !NoFrame
@@ -215,7 +215,7 @@ public partial class Memo : Control
                         string line = Lines[count - 1];
                         int fLinesCount = Lines.Count;
                         Lines[fLinesCount - 1] = line + s;
-                        w = w + tw;
+                        w += tw;
                     }
 
                     start = j + 1;
@@ -336,12 +336,6 @@ public partial class Memo : Control
     //   cursor }
     public override void Draw(LockedSurface lockedSurface)
     {
-        int x = default;
-        int y = default;
-        int w = default;
-        Rect oldClip = default;
-        int h = default;
-        ColorChange cc = default;
         try
         {
             if (Valid && Visible)
@@ -349,7 +343,11 @@ public partial class Memo : Control
                 RaisePreDraw(this, lockedSurface);
 
                 base.Font.Color = Color;
-                oldClip = lockedSurface.ClipRectangle;
+                Rect oldClip = lockedSurface.ClipRectangle;
+                int x;
+                int y;
+                int w;
+                int h;
                 switch (NoFrame)
                 {
                     case false:
@@ -399,7 +397,7 @@ public partial class Memo : Control
                     int count = Lines.Count;
                     if (_topItem + i < count)
                     {
-                        cc = ColorList[_topItem + i];
+                        ColorChange cc = ColorList[_topItem + i];
                         if (cc.HasColor)
                         {
                             base.Font.Color = cc.Color;
@@ -454,7 +452,7 @@ public partial class Memo : Control
         }
         catch
         {
-            MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
         }
     }
 
@@ -494,7 +492,6 @@ public partial class Memo : Control
     {
         bool changed;
         bool moved;
-        byte c = default;
         Handled = Redraw;
         changed = false;
         moved = false;
@@ -553,7 +550,7 @@ public partial class Memo : Control
                     break;
                 default:
                     {
-                        c = key;
+                        byte c = key;
                         if (Lines[_currentLine].Length == _currentColumn)
                         {
                             string itemLength = _items[_realLine];
@@ -761,9 +758,9 @@ public partial class Memo : Control
         for (int i = 0, last = value.Count - 1; i <= last; i++)
         {
             string valueValue = value[i];
-            Lines.Add(valueValue);
+            _ = Lines.Add(valueValue);
             string valueValue2 = value[i];
-            _items.Add(valueValue2);
+            _ = _items.Add(valueValue2);
         }
 
         if (Lines.Count < _numberVisible)
@@ -837,7 +834,7 @@ public partial class Memo : Control
         while (i <= _currentLine)
         {
             string line = Lines[_currentLine];
-            _realColumn = _realColumn + line.Length;
+            _realColumn += line.Length;
             if (_realColumn >= length)
             {
                 _realColumn = 0;
@@ -848,7 +845,7 @@ public partial class Memo : Control
             i += 1;
         }
 
-        _realColumn = _realColumn + _currentColumn;
+        _realColumn += _currentColumn;
     }
 
     // AoWMemo.pas:812
@@ -865,7 +862,7 @@ public partial class Memo : Control
         while (i < _realLine)
         {
             string line = Lines[_currentLine];
-            _currentColumn = _currentColumn + line.Length;
+            _currentColumn += line.Length;
             if (_currentColumn >= length)
             {
                 _currentColumn = 0;
@@ -880,7 +877,7 @@ public partial class Memo : Control
         while (i < _realColumn && Lines.Count > _currentLine)
         {
             _currentLine += 1;
-            i = i + Lines[_currentLine].Length;
+            i += Lines[_currentLine].Length;
         }
 
         _currentColumn = Lines[_currentLine].Length + _realColumn - i;

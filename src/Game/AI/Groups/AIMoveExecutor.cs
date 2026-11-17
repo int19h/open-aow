@@ -110,7 +110,6 @@ public partial class AIMoveExecutor : EngineObject
     // AIGroup.pas:6031
     public AIMoveExecutorUnit AddUnit(Troop troop)
     {
-        MapCoordinate location = default;
         AIMoveExecutorUnit unitEntry;
         if (_player == -1)
         {
@@ -133,7 +132,7 @@ public partial class AIMoveExecutor : EngineObject
         sbyte locationX = coordinate103.X;
         sbyte locationY = coordinate103.Y;
         sbyte locationMapLevel = coordinate103.MapLevel;
-        location = new MapCoordinate(locationX, locationY, locationMapLevel);
+        MapCoordinate location = new(locationX, locationY, locationMapLevel);
         unitEntry = new AIMoveExecutorUnit(null) { Holder = CreationHolder() };
         unitEntry.Initialize(troop, location.X, location.Y, location.MapLevel);
         unitEntry.Owner = Units;
@@ -145,7 +144,7 @@ public partial class AIMoveExecutor : EngineObject
     {
         for (int i = units.Count - 1; i >= 0; i--)
         {
-            AddUnit(units.GetUnit(i));
+            _ = AddUnit(units.GetUnit(i));
         }
     }
 
@@ -156,7 +155,7 @@ public partial class AIMoveExecutor : EngineObject
         {
             if ((selection & 1) != 0)
             {
-                AddUnit(army.Army.Units.GetUnit(i));
+                _ = AddUnit(army.Army.Units.GetUnit(i));
             }
 
             selection = (byte)(int)(((uint)selection) >> 1);
@@ -166,7 +165,6 @@ public partial class AIMoveExecutor : EngineObject
     // AIGroup.pas:6063
     public void AddTransporter(Troop troop)
     {
-        MapCoordinate location = default;
         int index;
         if (Transporter != null)
         {
@@ -183,7 +181,7 @@ public partial class AIMoveExecutor : EngineObject
         sbyte locationX = coordinate104.X;
         sbyte locationY = coordinate104.Y;
         sbyte locationMapLevel = coordinate104.MapLevel;
-        location = new MapCoordinate(locationX, locationY, locationMapLevel);
+        MapCoordinate location = new(locationX, locationY, locationMapLevel);
         Transporter = new AIMoveExecutorUnit(null) { Holder = CreationHolder() };
         Transporter.Initialize(troop, location.X, location.Y, location.MapLevel);
     }
@@ -242,7 +240,7 @@ public partial class AIMoveExecutor : EngineObject
                 unitEntry = Units.GetUnits(i);
                 if (status.Contains(unitEntry.Status))
                 {
-                    used.Add(i);
+                    _ = used.Add(i);
                     army = new AIMoveExecutorArmy(null) { Holder = CreationHolder() };
                     army.Setup(unitEntry);
                     for (int j = 0, lastJ = Units.Count - 1; j <= lastJ; j++)
@@ -252,8 +250,8 @@ public partial class AIMoveExecutor : EngineObject
                             unitEntry = Units.GetUnits(j);
                             if (status.Contains(unitEntry.Status) && army.CanAdd(unitEntry))
                             {
-                                army.AddChild(unitEntry);
-                                used.Add(j);
+                                _ = army.AddChild(unitEntry);
+                                _ = used.Add(j);
                             }
                         }
                     }
@@ -344,11 +342,11 @@ public partial class AIMoveExecutor : EngineObject
     public void ProcessExecuteMoves()
     {
         MultiMoveTokenEvent multiMove;
-        byte selection = default;
-        ArmyHexSprite army = default;
         ArmyDefaultMoveTokenEvent move;
         if (Moves.Count != 0)
         {
+            byte selection;
+            ArmyHexSprite army;
             if (Moves.Count > 1 && Mode.Contains(AIMoveExecutorModeElement.Simultaneous))
             {
                 multiMove = new MultiMoveTokenEvent(null) { Holder = CreationHolder() };
@@ -366,12 +364,12 @@ public partial class AIMoveExecutor : EngineObject
 
                         Moves.GetMoves(i).SetUnitStatus(AIMoveExecutorUnitStatus.Moving);
                         multiMove.Events.Add(move);
-                        move.Release();
+                        _ = move.Release();
                     }
                 }
 
                 StrategicMap.Current.TokenManager.GetTokenControl(_player).AddEvent(multiMove);
-                multiMove.Release();
+                _ = multiMove.Release();
                 Moves.Clear();
             }
             else
@@ -498,7 +496,7 @@ public partial class AIMoveExecutor : EngineObject
         ArmyHexSprite army;
         Troop troop;
         AIMoveExecutorUnit unitEntry;
-        ControlQueue.Add(1);
+        _ = ControlQueue.Add(1);
         capacity = Transporter.Troop.GetTransportCapacity();
         capacity = capacity > 4 ? capacity - 4 : 1;
 
@@ -579,26 +577,21 @@ public partial class AIMoveExecutor : EngineObject
                 if (condition)
                 {
                     Status = AIMoveExecutorStatus.Busy;
-                    if (Mode.Contains(AIMoveExecutorModeElement.Adjacent) && aiMoveExecutorArmyList.Count > 1)
-                    {
-                        ControlQueue.Add(2);
-                    }
-                    else
-                    {
-                        ControlQueue.Add(0);
-                    }
+                    _ = Mode.Contains(AIMoveExecutorModeElement.Adjacent) && aiMoveExecutorArmyList.Count > 1
+                        ? ControlQueue.Add(2)
+                        : ControlQueue.Add(0);
 
                     if (Transporter != null)
                     {
                         SetupTransporter();
                     }
 
-                    Process();
+                    _ = Process();
                 }
                 else
                 {
                     Status = AIMoveExecutorStatus.Done;
-                    Process();
+                    _ = Process();
                 }
 
                 started = true;

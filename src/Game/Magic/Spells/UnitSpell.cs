@@ -69,7 +69,7 @@ public partial class UnitSpell : Spell
         UnitSpellTokenEvent eventValue;
         if (source.CanCastSpell(SpellId, ref reason))
         {
-            AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, 0);
+            _ = AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, 0);
             if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
                 if (source.Owner is IHeroHolder)
@@ -81,9 +81,9 @@ public partial class UnitSpell : Spell
                     eventValue = new UnitSpellTokenEvent(null) { Holder = CreationHolder() };
                     eventValue.Initialize(SpellId, source, null, BaseManaCost);
                     eventValue.TargetPlayer = (byte)source.Player;
-                    eventValue.TargetUnitIds.Add(target.UnitId);
+                    _ = eventValue.TargetUnitIds.Add(target.UnitId);
                     StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
-                    eventValue.Release();
+                    _ = eventValue.Release();
                     result = true;
                 }
                 else
@@ -95,7 +95,7 @@ public partial class UnitSpell : Spell
             {
                 if (source.GetCastingSpellId() != SpellId)
                 {
-                    source.ExecuteStartCasting(SpellId);
+                    _ = source.ExecuteStartCasting(SpellId);
                     result = true;
                 }
                 else
@@ -118,7 +118,7 @@ public partial class UnitSpell : Spell
         bool result;
         UnitSpellCaster caster;
         string reason = "";
-        base.Activate(source);
+        _ = base.Activate(source);
         if (CanActivate(source, ref reason))
         {
             if (TargetRange == 0)
@@ -136,7 +136,7 @@ public partial class UnitSpell : Spell
                 }
 
                 StrategicMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
-                caster.Release();
+                _ = caster.Release();
             }
             else
             {
@@ -227,7 +227,7 @@ public partial class UnitSpell : Spell
             if (targets.Holder is not Army holder || !holder.GetUnitConcealedForPlayer(i, source.Player))
             {
                 Troop troop = targets.GetUnit(i);
-                caster.TargetUnits.AddUnit(troop);
+                _ = caster.TargetUnits.AddUnit(troop);
             }
         }
 
@@ -254,7 +254,7 @@ public partial class UnitSpell : Spell
             eventValue = new UnitSpellTokenEvent(null) { Holder = CreationHolder() };
             eventValue.Initialize(mana: source.CastingMana(this), spellId: SpellId, source: source, targets: targets);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
-            eventValue.Release();
+            _ = eventValue.Release();
             result = true;
         }
         else
@@ -275,7 +275,7 @@ public partial class UnitSpell : Spell
         caster = new UnitSpellCaster(null) { Holder = CreationHolder() };
         SetupUnitSelectionControl(caster, source, party.Army.Units);
         StrategicMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
-        caster.Release();
+        _ = caster.Release();
     }
 
     // Spells.PAS:1224
@@ -331,7 +331,7 @@ public partial class UnitSpell : Spell
             if (ValidTargetUnit(source, targets.GetUnit(i)) && targets.GetUnit(i).GetUnitType() != UnitType.Machine)
             {
                 value = targets.GetUnit(i).GetUnitLevel() + AIValue;
-                list.AddAbility(targets.GetUnit(i), value);
+                _ = list.AddAbility(targets.GetUnit(i), value);
             }
         }
 
@@ -422,10 +422,10 @@ public partial class UnitSpell : Spell
         sbyte y = default;
         sbyte l = default;
         control.Initialize(source);
-        control.TargetMode = control.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ExternalFloater);
+        control.TargetMode += Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ExternalFloater);
         if (TargetRange != -1)
         {
-            control.TargetMode = control.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance);
+            control.TargetMode += Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance);
             control.Range = TargetRange;
         }
         else

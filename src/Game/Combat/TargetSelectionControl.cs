@@ -78,7 +78,7 @@ public partial class TargetSelectionControl : IDisposable
         if (ImageLibrary != null)
         {
             // { Original links the image library again when destroying the control. }
-            GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TARGHEX.ILB");
+            _ = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TARGHEX.ILB");
             ImageLibrary = null;
         }
     }
@@ -200,13 +200,11 @@ public partial class TargetSelectionControl : IDisposable
     {
         int deltaX = default;
         int deltaY = default;
-        int x = default;
-        int y = default;
         int xs;
         int ys;
         if (Status.Contains(TargetSelectionStatusElement.Activated) && Target.X != -1 && Status.Contains(TargetSelectionStatusElement.Visible))
         {
-            HexGeometry.HexToPixel(Target.X, Target.Y, out x, out y);
+            HexGeometry.HexToPixel(Target.X, Target.Y, out int x, out int y);
             x -= pixelXSurface;
             y -= pixelYSurface;
             for (int i = 0, last = HexNumbers.Count - 1; i <= last; i++)
@@ -233,10 +231,7 @@ public partial class TargetSelectionControl : IDisposable
     // Structur.PAS:3915
     public void Initialize(object source)
     {
-        if (ImageLibrary == null)
-        {
-            ImageLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TARGHEX.ILB");
-        }
+        ImageLibrary ??= GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TARGHEX.ILB");
 
         if (!Status.Contains(TargetSelectionStatusElement.Activated))
         {
@@ -255,7 +250,7 @@ public partial class TargetSelectionControl : IDisposable
     {
         if (!Status.Contains(TargetSelectionStatusElement.Activated))
         {
-            Status = Status + Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Activated);
+            Status += Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Activated);
             StrategicMap.Current.Mouse.SetCapture(this);
             StrategicMap.Current.Mouse.OnDown += MouseDownEvent;
             StrategicMap.Current.Mouse.OnMove += MouseMoveEvent;
@@ -278,7 +273,7 @@ public partial class TargetSelectionControl : IDisposable
         ArmyHexSprite armyHexSprite = default;
         if (Status.Contains(TargetSelectionStatusElement.Activated))
         {
-            Status = Status - Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Activated);
+            Status -= Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Activated);
             StrategicMap.Current.Mouse.OnDown -= MouseDownEvent;
             StrategicMap.Current.Mouse.OnMove -= MouseMoveEvent;
             StrategicMap.Current.NewFrameEvents -= NewFrameEvent;

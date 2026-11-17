@@ -39,7 +39,7 @@ public partial class CityJoinDialog : UIModule
         _event = null;
         done?.Invoke(log);
 
-        log?.Release();
+        _ = (log?.Release());
     }
 
     // AoWCityJoinDlg.pas:69
@@ -112,7 +112,7 @@ public partial class CityJoinDialog : UIModule
         City town;
         dialog.Done = done;
         dialog._event = eventValue;
-        dialog._event.AddRef();
+        _ = dialog._event.AddRef();
         log = dialog._event;
         string text = log.JoinMessage.Text;
         dialog.Memo.Items.Text = text;

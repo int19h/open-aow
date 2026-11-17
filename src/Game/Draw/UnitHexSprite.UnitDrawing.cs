@@ -42,7 +42,7 @@ public partial class UnitHexSprite
                     // sound timing gate
                     if (sequence.SpeedCount == sequence.SequenceSpeed)
                     {
-                        UnitGraphicsResource.SfxLibraries[1].Play(index % 100);
+                        _ = UnitGraphicsResource.SfxLibraries[1].Play(index % 100);
                     }
                 }
             }

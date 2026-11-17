@@ -71,9 +71,9 @@ public partial class MultiWindow : UIModule
         if (IsEmpty(UI.Engine.Registry.GetLocalEmailAddress()))
         {
             MessageDialog.ResetMessageDialog(UI.MessageDialog);
-            UI.MessageDialog.MessageMemo.Items.Add("");
+            _ = UI.MessageDialog.MessageMemo.Items.Add("");
             string pleaseSetupEmailSettingsFirst = UI.Engine.TranslateResourceString(s_pleaseSetupEmailSettingsFirstText);
-            UI.MessageDialog.MessageMemo.Items.Add(pleaseSetupEmailSettingsFirst);
+            _ = UI.MessageDialog.MessageMemo.Items.Add(pleaseSetupEmailSettingsFirst);
             UI.MessageDialog.OKPanel.Visible = true;
             UI.MessageDialog.Window.Visible = true;
             result = false;
@@ -163,10 +163,10 @@ public partial class MultiWindow : UIModule
             if (UI.SetupEvents.DirectPlay.CreateSession() == 0)
             {
                 MultiPanel.Visible = false;
-                UI.SetupEvents.SetupControl.SetupHost(UI.SetupEvents.DirectPlay.PlayerName, 1, UI.SetupEvents.DirectPlay.PlayerID);
+                _ = UI.SetupEvents.SetupControl.SetupHost(UI.SetupEvents.DirectPlay.PlayerName, 1, UI.SetupEvents.DirectPlay.PlayerID);
                 if (!IsEmpty(_pendingMap))
                 {
-                    UI.SetupEvents.SetupControl.PickMap(_pendingMap);
+                    _ = UI.SetupEvents.SetupControl.PickMap(_pendingMap);
                 }
 
                 UI.ScenarioSetup.Execute(UI.SetupEvents.SetupControl);
@@ -195,10 +195,10 @@ public partial class MultiWindow : UIModule
     {
         UI.General.PlayButtonSound(0);
         MultiPanel.Visible = false;
-        UI.SetupEvents.SetupControl.SetupHost("", 0, 0);
+        _ = UI.SetupEvents.SetupControl.SetupHost("", 0, 0);
         if (!IsEmpty(_pendingMap))
         {
-            UI.SetupEvents.SetupControl.PickMap(_pendingMap);
+            _ = UI.SetupEvents.SetupControl.PickMap(_pendingMap);
         }
 
         UI.ScenarioSetup.Execute(UI.SetupEvents.SetupControl);
@@ -243,10 +243,10 @@ public partial class MultiWindow : UIModule
         if (ValidateEmail())
         {
             MultiPanel.Visible = false;
-            UI.SetupEvents.SetupControl.SetupHost("", 2, 0);
+            _ = UI.SetupEvents.SetupControl.SetupHost("", 2, 0);
             if (!IsEmpty(_pendingMap))
             {
-                UI.SetupEvents.SetupControl.PickMap(_pendingMap);
+                _ = UI.SetupEvents.SetupControl.PickMap(_pendingMap);
             }
 
             UI.ScenarioSetup.Execute(UI.SetupEvents.SetupControl);
@@ -258,7 +258,7 @@ public partial class MultiWindow : UIModule
     {
         UI.FileDialogWindow.Mode = 0;
         UI.FileDialogWindow.Window.Visible = true;
-        SetCurrentDir(UI.Engine.StartupDirectory + "EmailIn\\");
+        _ = SetCurrentDir(UI.Engine.StartupDirectory + "EmailIn\\");
         UI.FileDialogWindow.FindFiles();
     }
 

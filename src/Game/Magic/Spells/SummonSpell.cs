@@ -63,7 +63,7 @@ public partial class SummonSpell : Spell
         string reason = "";
         if (source.CanCastSpell(SpellId, ref reason))
         {
-            AICastSpellExpenseMade(upkeep: GetAIUpkeepPriority(), source: source, budget: BaseManaCost, mana: ManaUpkeep);
+            _ = AICastSpellExpenseMade(upkeep: GetAIUpkeepPriority(), source: source, budget: BaseManaCost, mana: ManaUpkeep);
             if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
                 result = Activate(source);
@@ -72,7 +72,7 @@ public partial class SummonSpell : Spell
             {
                 if (source.GetCastingSpellId() != SpellId)
                 {
-                    source.ExecuteStartCasting(SpellId);
+                    _ = source.ExecuteStartCasting(SpellId);
                     result = true;
                 }
                 else
@@ -101,7 +101,7 @@ public partial class SummonSpell : Spell
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             SetupSummonSpellTokenEvent(eventValue);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
-            eventValue.Release();
+            _ = eventValue.Release();
             result = true;
         }
         else
@@ -117,7 +117,7 @@ public partial class SummonSpell : Spell
     {
         int random = Random(UnitIndices.Count);
         int unitIndex = UnitIndices[random];
-        eventValue.UnitIndices.Add(unitIndex);
+        _ = eventValue.UnitIndices.Add(unitIndex);
     }
 
     // SummonSpells.pas:283

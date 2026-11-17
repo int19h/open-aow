@@ -73,7 +73,7 @@ public partial class ItemLibraryManager : EngineObject
     {
         ItemLibrary itemLibrary;
         Libraries.Clear();
-        Libraries.AddChild(SystemLibrary);
+        _ = Libraries.AddChild(SystemLibrary);
         // Both extensions list, and a list present in both forms loads its own document once
         // (own-formats.md 4.2).
         foreach (string listed in FileBoundary.FindDocuments(GetEngine().StartupDirectory + "User\\", DocumentKind.ItemList))
@@ -167,8 +167,8 @@ public partial class ItemLibraryManager : EngineObject
         {
             string name = GetLibrary(index).GetName();
             // The list goes in both forms, so an original of the same name does not return.
-            DeleteFile(GetEngine().StartupDirectory + "User\\" + name + DocumentKind.ItemList.OriginalExtension);
-            DeleteFile(GetEngine().StartupDirectory + "User\\" + name + DocumentKind.ItemList.OwnExtension);
+            _ = DeleteFile(GetEngine().StartupDirectory + "User\\" + name + DocumentKind.ItemList.OriginalExtension);
+            _ = DeleteFile(GetEngine().StartupDirectory + "User\\" + name + DocumentKind.ItemList.OwnExtension);
             GetLibrary(index)?.Dispose();
         }
     }

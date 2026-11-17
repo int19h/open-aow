@@ -18,7 +18,7 @@ public partial class TacticalBattleEndCombatTokenEvent : TokenEvent
     // CombatTE.pas:161
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        base.Execute(tokenEvent);
+        _ = base.Execute(tokenEvent);
         for (int i = 0, last = CombatMap.Current.Combat.CombatData.GetCount() - 1; i <= last; i++)
         {
             if (CombatMap.Current.Combat.CombatData.GetObjects(i) != null && CombatMap.Current.Combat.CombatData.GetObjects(i) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects(i).CombatPlayer == CombatMap.Current.CurrentCombatPlayer)

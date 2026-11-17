@@ -57,18 +57,11 @@ public sealed partial record ProposeAlliance(int Gold = 0, int Mana = 0) : Offer
                 chance = 60;
             }
 
-            if (Random(100) < chance)
-            {
-                action.Accept(ref errorText);
-            }
-            else
-            {
-                action.Reject(ref errorText);
-            }
+            _ = Random(100) < chance ? action.Accept(ref errorText) : action.Reject(ref errorText);
         }
         else
         {
-            action.Reject(ref errorText);
+            _ = action.Reject(ref errorText);
         }
     }
 

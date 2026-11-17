@@ -82,8 +82,8 @@ internal static class TacticalTables
 
     internal static void MakeAbilityPath(CombatSideIndex side, short ability, short spell, short x1, short y1, short x2, short y2, ref Point3DList path, ref DelphiList<RangedObstacle> obstacles)
     {
-        int x = default;
-        int y = default;
+        int x;
+        int y;
         switch (ability)
         {
             case 55:
@@ -353,7 +353,7 @@ internal static class TacticalTables
                         {
                             obstacle = new RangedObstacle();
                             obstacle.PathIndex = i;
-                            obstacles.Add(obstacle);
+                            _ = obstacles.Add(obstacle);
                             lastX = x;
                             lastY = y;
                             steps = 1;

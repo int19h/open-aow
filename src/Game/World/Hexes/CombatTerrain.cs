@@ -225,7 +225,7 @@ public partial class CombatTerrain : TerrainMapObject
             base.MakeVisible(visibilityList);
             if (_shadow != null)
             {
-                visibilityList.AddSortChild(sortValue: _shadow.GetShowPriority(), child: _shadow);
+                _ = visibilityList.AddSortChild(sortValue: _shadow.GetShowPriority(), child: _shadow);
             }
         }
     }
@@ -243,7 +243,7 @@ public partial class CombatTerrain : TerrainMapObject
         {
             if (GetVisible())
             {
-                base.Resource.Engine.HexSpriteMap.DynamicVisibleHexSprite.RemoveChild(_shadow);
+                _ = base.Resource.Engine.HexSpriteMap.DynamicVisibleHexSprite.RemoveChild(_shadow);
             }
 
             _shadow?.Dispose();

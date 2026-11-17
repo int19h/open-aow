@@ -198,7 +198,6 @@ public partial class ComboBox : Control
     //   the scroll bar; OnDrawItem is called for every item with FDrawItem and FDrawItemRect set }
     public override void Draw(LockedSurface lockedSurface)
     {
-        Rect oldClip = default;
         try
         {
             if (Valid && Visible)
@@ -206,7 +205,7 @@ public partial class ComboBox : Control
                 RaisePreDraw(this, lockedSurface);
 
                 base.Font.Color = Color;
-                oldClip = lockedSurface.ClipRectangle;
+                Rect oldClip = lockedSurface.ClipRectangle;
                 SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
                 _imageLibraryEdit.DrawHorizontalStrip(_ileIndex, rectangle, ref lockedSurface);
                 if (_selected > -1 && _items.Count > _selected)
@@ -283,7 +282,7 @@ public partial class ComboBox : Control
         }
         catch
         {
-            MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
         }
     }
 

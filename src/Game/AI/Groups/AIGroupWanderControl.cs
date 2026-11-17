@@ -22,7 +22,7 @@ public partial class AIGroupWanderControl : AIGroupTask
     // AGCPlugins.pas:303
     public override void Dispose()
     {
-        _moveSettings.Release();
+        _ = _moveSettings.Release();
         base.Dispose();
     }
 
@@ -55,7 +55,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                 _moveSettings.Reset();
                 {
                     _moveSettings.Player = control.Group.Player;
-                    _moveSettings.Mode = _moveSettings.Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);
+                    _moveSettings.Mode += Set<MoveModeElement>.Of(MoveModeElement.AI);
                     _moveSettings.SetSourcePosition(control.Location);
                 }
 
@@ -65,7 +65,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                     moveControlSettings.ArmyHexSprite = control.ArmyHexSprite;
                     moveControlSettings.Selection = control.Selection;
                     moveControlSettings.MovePointTable = control.MovePointTable;
-                    moveControlSettings.Mode = moveControlSettings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
+                    moveControlSettings.Mode += Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
                     StrategicMap.Current.MoveControl.ProcessMove(_moveSettings);
                 }
 
@@ -92,7 +92,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                             field = settings.ProcessedMapFields[i];
                             if (_moveSettings.GetMovePoints(field.HexX, field.HexY, field.HexLevel) != 16777215)
                             {
-                                fields.AddAbility(b: _moveSettings.GetMovePoints(field.HexX, field.HexY, field.HexLevel), a: field);
+                                _ = fields.AddAbility(b: _moveSettings.GetMovePoints(field.HexX, field.HexY, field.HexLevel), a: field);
                             }
                         }
                     }
@@ -105,7 +105,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                         field = settings.ProcessedMapFields[i];
                         if (_moveSettings.GetMovePoints(field.HexX, field.HexY, field.HexLevel) != 16777215)
                         {
-                            fields.AddAbility(b: _moveSettings.GetMovePoints(field.HexX, field.HexY, field.HexLevel), a: field);
+                            _ = fields.AddAbility(b: _moveSettings.GetMovePoints(field.HexX, field.HexY, field.HexLevel), a: field);
                         }
                     }
                 }
@@ -131,7 +131,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                         // { Original reads the list item before GetXYL. }
                         targetWeight = fields[i].Second;
                         location = field.GetMapCoordinate();
-                        _control.Group.SetupTarget(location, targetWeight, AIGroupTargetStatus.Execute, 1, -1, 0, 0);
+                        _ = _control.Group.SetupTarget(location, targetWeight, AIGroupTargetStatus.Execute, 1, -1, 0, 0);
                         State += 1;
                     }
                     else

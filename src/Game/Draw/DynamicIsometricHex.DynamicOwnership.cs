@@ -16,7 +16,7 @@ public partial class DynamicIsometricHex
     public DynamicIsometricHex(IsometricHex owner) : base(null)
     {
         _hex = owner;
-        Field.AddHexSprite(this, 0);
+        _ = Field.AddHexSprite(this, 0);
     }
 
     public override GameEngine GetEngine() => _hex.GetEngine();
@@ -40,10 +40,10 @@ public partial class DynamicIsometricHex
         {
             if (_hex.GetVisible())
             {
-                Field.Owner.Map.DynamicVisibleHexSprite.RemoveChild(this);
+                _ = Field.Owner.Map.DynamicVisibleHexSprite.RemoveChild(this);
             }
 
-            Field.RemoveHexSprite(this);
+            _ = Field.RemoveHexSprite(this);
             _hex.Dynamic = null;
             _hex = null;
         }

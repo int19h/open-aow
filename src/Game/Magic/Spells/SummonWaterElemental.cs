@@ -16,7 +16,7 @@ public partial class SummonWaterElemental : SummonSpell
         BaseManaCost = 5;
         SpellLevel = 4;
         MagicSphere = MagicSphere.Water;
-        UnitIndices.Add(227);
+        _ = UnitIndices.Add(227);
         CastDuration = 40;
         AIBasePriority = 500;
     }

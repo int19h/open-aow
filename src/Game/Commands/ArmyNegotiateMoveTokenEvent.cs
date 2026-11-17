@@ -145,9 +145,9 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
                 StrategicMap.Current.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
                 if (message.Param[1].Int != 0)
                 {
-                    negotiateRequestEventLog.Execute(mode: true, ExecuteTrigger.Event, null);
+                    _ = negotiateRequestEventLog.Execute(mode: true, ExecuteTrigger.Event, null);
                 }
-                negotiateRequestEventLog.Release();
+                _ = negotiateRequestEventLog.Release();
             }
         }
         else if (StrategicMap.Current.Players.GetPlayers(player).GetLocal())
@@ -166,15 +166,10 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
             message.Param = param4;
             message.Result = (MsgArg)0;
             StrategicMap.Current.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
-            if (message.Param[1].Int != 0 && StrategicMap.Current.Players.GetPlayers(player).Gems >= negotiateRequestEventLog.Gold)
-            {
-                negotiateRequestEventLog.Accept(ref errorText);
-            }
-            else
-            {
-                negotiateRequestEventLog.Reject(ref errorText);
-            }
-            negotiateRequestEventLog.Release();
+            _ = message.Param[1].Int != 0 && StrategicMap.Current.Players.GetPlayers(player).Gems >= negotiateRequestEventLog.Gold
+                ? negotiateRequestEventLog.Accept(ref errorText)
+                : negotiateRequestEventLog.Reject(ref errorText);
+            _ = negotiateRequestEventLog.Release();
         }
     }
 

@@ -36,18 +36,16 @@ public partial class RangedPathHexSprite : FixedVisibleHexSprite
     // AoWTC.pas:4859
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int x = default;
-        int y = default;
         int count8;
         int first;
         int last2;
         int hexX = default;
         int hexY = default;
-        int pixelX = default;
-        int pixelY = default;
         BattleEffectType effectType;
         if (Selection != null)
         {
+            int pixelX;
+            int pixelY;
             if (Range < 100)
             {
                 count8 = 6;
@@ -93,6 +91,8 @@ public partial class RangedPathHexSprite : FixedVisibleHexSprite
                     effectType = TacticalTables.AbilityTypes[tacticalBattleUnitHexSprite.SelectedAbility];
                 }
 
+                int x;
+                int y;
                 switch (effectType)
                 {
                     case BattleEffectType.Breath:

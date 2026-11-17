@@ -65,13 +65,13 @@ public partial class Enchantment : EngineObject
         {
             if (Source > -1)
             {
-                StrategicMap.Current.Players.GetPlayers(Source).MagicControl.UnregisterEnchantment(this);
+                _ = StrategicMap.Current.Players.GetPlayers(Source).MagicControl.UnregisterEnchantment(this);
             }
 
             Source = player;
             if (Source > -1)
             {
-                StrategicMap.Current.Players.GetPlayers(Source).MagicControl.RegisterEnchantment(this);
+                _ = StrategicMap.Current.Players.GetPlayers(Source).MagicControl.RegisterEnchantment(this);
             }
         }
     }
@@ -86,13 +86,10 @@ public partial class Enchantment : EngineObject
     public virtual bool CenterToLocation()
     {
         bool result;
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         MapCoordinate coordinate22 = GetLocation();
-        x = coordinate22.X;
-        y = coordinate22.Y;
-        l = coordinate22.MapLevel;
+        sbyte x = coordinate22.X;
+        sbyte y = coordinate22.Y;
+        sbyte l = coordinate22.MapLevel;
         if (x != -1)
         {
             if (StrategicMap.Current.Visible(x, y, l, 0))

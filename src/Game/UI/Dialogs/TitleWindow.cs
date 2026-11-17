@@ -61,8 +61,8 @@ public partial class TitleWindow : UIModule
     {
         InitializeSplash();
         AudioHost.SongPlayer.Songs.Clear();
-        AudioHost.SongPlayer.Songs.Add("SONGS\\TITLE.IT");
-        AudioHost.SongPlayer.Play(0);
+        _ = AudioHost.SongPlayer.Songs.Add("SONGS\\TITLE.IT");
+        _ = AudioHost.SongPlayer.Play(0);
         SplashPanel.ImageLibraryIndexTexture = 0;
         _splashTimer = 450;
     }
@@ -73,7 +73,7 @@ public partial class TitleWindow : UIModule
         LockedSurface lockedSurface = default;
         if (UI.FactionSelectionWindow.FactionPanel.Visible && UI.FactionSelectionWindow.Fade >= 0)
         {
-            surface.Lock(ref lockedSurface);
+            _ = surface.Lock(ref lockedSurface);
             if (UI.FactionSelectionWindow.FadeDirection == 0)
             {
                 UI.Graphics.FactionWindow[UI.FactionSelectionWindow.FadeImage].ShowBlended(UI.FactionSelectionWindow.FactionPanel.WinLeft, UI.FactionSelectionWindow.FactionPanel.WinTop, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[100 - UI.FactionSelectionWindow.Fade]);
@@ -83,7 +83,7 @@ public partial class TitleWindow : UIModule
                 UI.Graphics.FactionWindow[UI.FactionSelectionWindow.FadeImage].ShowBlended(UI.FactionSelectionWindow.FactionPanel.WinLeft, UI.FactionSelectionWindow.FactionPanel.WinTop, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[UI.FactionSelectionWindow.Fade]);
             }
 
-            surface.Unlock();
+            _ = surface.Unlock();
         }
     }
 

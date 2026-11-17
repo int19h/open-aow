@@ -74,9 +74,9 @@ public partial class ItemGraphics : EngineResource
     public override LibraryImage GetCellImage()
     {
         LibraryImage image;
-        AddRef();
+        _ = AddRef();
         image = _imageLibrary[ImageIndex];
-        Release();
+        _ = Release();
         return image;
     }
 

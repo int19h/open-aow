@@ -74,7 +74,7 @@ public partial class CombatPredictorUnit : IDisposable
         u = Troop;
         if (u != null)
         {
-            u.Release();
+            _ = u.Release();
             Troop = null;
         }
     }
@@ -95,10 +95,7 @@ public partial class CombatPredictorUnit : IDisposable
         int j;
         int v;
         CombatPredictorUnit u;
-        if (Targets == null)
-        {
-            Targets = new QuadItemList<CombatPredictorUnit>();
-        }
+        Targets ??= new QuadItemList<CombatPredictorUnit>();
 
         for (int i = Targets.Count - 1; i >= 0; i--)
         {
@@ -126,7 +123,7 @@ public partial class CombatPredictorUnit : IDisposable
                         v = 0;
                     }
 
-                    Targets.AddABCD(u, v, u.CpuId, 0);
+                    _ = Targets.AddABCD(u, v, u.CpuId, 0);
                     CombatValue += v;
                 }
             }
@@ -144,7 +141,7 @@ public partial class CombatPredictorUnit : IDisposable
                     v = 0;
                 }
 
-                Targets.AddABCD(u, v, u.CpuId, 0);
+                _ = Targets.AddABCD(u, v, u.CpuId, 0);
                 CombatValue += v;
             }
         }
@@ -161,10 +158,7 @@ public partial class CombatPredictorUnit : IDisposable
         bool passing;
         byte mode;
         passing = Troop.GetWallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
-        if (WallTargets == null)
-        {
-            WallTargets = new QuadItemList<CombatPredictorUnit>();
-        }
+        WallTargets ??= new QuadItemList<CombatPredictorUnit>();
 
         for (int i = WallTargets.Count - 1; i >= 0; i--)
         {
@@ -194,7 +188,7 @@ public partial class CombatPredictorUnit : IDisposable
                         v = 0;
                     }
 
-                    WallTargets.AddABCD(u, v, 0, 0);
+                    _ = WallTargets.AddABCD(u, v, 0, 0);
                     WallCombatValue += v;
                 }
             }
@@ -215,7 +209,7 @@ public partial class CombatPredictorUnit : IDisposable
                 }
 
                 // { Original initializes both C and D to zero in the wall cache. }
-                WallTargets.AddABCD(u, v, 0, 0);
+                _ = WallTargets.AddABCD(u, v, 0, 0);
                 WallCombatValue += v;
             }
         }
@@ -369,7 +363,7 @@ public partial class CombatPredictorUnit : IDisposable
     {
         if (HitPoints <= 0)
         {
-            Status = Status + Set<CombatPredictorUnitStatusElement>.Of(CombatPredictorUnitStatusElement.Destroyed);
+            Status += Set<CombatPredictorUnitStatusElement>.Of(CombatPredictorUnitStatusElement.Destroyed);
         }
     }
 

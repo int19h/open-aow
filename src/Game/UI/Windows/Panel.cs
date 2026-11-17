@@ -203,7 +203,7 @@ public partial class Panel : BaseWindow
         }
         catch
         {
-            MessageBox(0, "Exception during Setup", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Setup", "Error - " + Name, 0);
         }
     }
 
@@ -418,8 +418,6 @@ public partial class Panel : BaseWindow
     {
         Rect blitRectangle = default;
         Rect oldClip = default;
-        UIComponent c = default;
-        DirtyRectangle d = default;
         void DrawBack()
         {
             if (WindowStyle != Style.Blank)
@@ -489,6 +487,7 @@ public partial class Panel : BaseWindow
                     lockedSurface.ClipRectangle = clipRectangle4;
                 }
 
+                DirtyRectangle d;
                 if (SurfaceValid)
                 {
                     for (int j = 0, last = DrawCount - 1; j <= last; j++)
@@ -518,7 +517,7 @@ public partial class Panel : BaseWindow
                 Drawn = SurfaceValid;
                 for (int i = 0, lastI = Children.Count - 1; i <= lastI; i++)
                 {
-                    c = Children[i];
+                    UIComponent c = Children[i];
                     if (c.Valid && c.Visible && (!Drawn || !c.Drawn))
                     {
                         c.Drawn = false;
@@ -564,7 +563,7 @@ public partial class Panel : BaseWindow
         }
         catch
         {
-            MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
         }
     }
 
@@ -589,7 +588,6 @@ public partial class Panel : BaseWindow
     // window's position, so the panel still stands at the absolute position while they run.
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        UIComponent c = default;
         Handled = false;
         if (Visible)
         {
@@ -605,7 +603,7 @@ public partial class Panel : BaseWindow
 
             for (int i = Children.Count - 1; i >= 0; i--)
             {
-                c = Children[i];
+                UIComponent c = Children[i];
                 c.Handled = false;
                 if ((!Handled || c.Redraw) && c.Visible && c.CaptureInput)
                 {
@@ -637,7 +635,6 @@ public partial class Panel : BaseWindow
     // AoWPanel.pas:558
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        UIComponent c = default;
         Handled = false;
         if (Visible)
         {
@@ -652,7 +649,7 @@ public partial class Panel : BaseWindow
 
             for (int i = Children.Count - 1; i >= 0; i--)
             {
-                c = Children[i];
+                UIComponent c = Children[i];
                 c.Handled = false;
                 if ((!Handled || c.Redraw) && c.Visible && c.CaptureInput)
                 {
@@ -683,7 +680,6 @@ public partial class Panel : BaseWindow
     // AoWPanel.pas:600
     public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        UIComponent c = default;
         Handled = false;
         if (Visible)
         {
@@ -698,7 +694,7 @@ public partial class Panel : BaseWindow
 
             for (int i = Children.Count - 1; i >= 0; i--)
             {
-                c = Children[i];
+                UIComponent c = Children[i];
                 c.Handled = false;
                 if ((!Handled || c.Redraw || c.ToolTipCount > 0) && c.Visible && c.CaptureInput)
                 {

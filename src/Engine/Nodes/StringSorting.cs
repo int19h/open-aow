@@ -38,7 +38,7 @@ internal static class StringSorting
                 for (int i = 0, last = linkedStrings.Length - 1; i <= last; i++)
                 {
                     linkedStrings[i].BeginUpdate();
-                    lists.Add(linkedStrings[i]);
+                    _ = lists.Add(linkedStrings[i]);
                 }
 
                 context.ExchangeProc = EngineServices.ExchangeLinkedStrings;

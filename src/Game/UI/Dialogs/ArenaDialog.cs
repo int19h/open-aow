@@ -61,7 +61,7 @@ public partial class ArenaDialog : UIModule
             info = default;
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
-            u.Show(X - 8, Y - 5, lockedSurface, info);
+            _ = u.Show(X - 8, Y - 5, lockedSurface, info);
             if ((((int)(((uint)_event.Trainable) >> index)) & 1) == 0)
             {
                 image = UI.Graphics.UnitBackgrounds[7];
@@ -90,7 +90,7 @@ public partial class ArenaDialog : UIModule
         _event = null;
         notify?.Invoke(eventValue);
 
-        eventValue?.Release();
+        _ = (eventValue?.Release());
     }
 
     // AoWArenaDlg.pas:152
@@ -191,7 +191,7 @@ public partial class ArenaDialog : UIModule
 
         LockedSurface.CreateFrom(lockedSurface, r, out LockedSurface mapSurfaceDescription);
         sbyte hexLevel = _event.Arena.GetHexLevel();
-        StrategicMap.Current.SetViewPort(x, y, hexLevel, r.Right - r.Left, r.Bottom - r.Top);
+        _ = StrategicMap.Current.SetViewPort(x, y, hexLevel, r.Right - r.Left, r.Bottom - r.Top);
         StrategicMap.Current.UpdateStaticScene();
         StrategicMap.Current.UpdateDynamicScene();
         StrategicMap.Current.DrawStaticScene(ref mapSurfaceDescription);
@@ -221,7 +221,7 @@ public partial class ArenaDialog : UIModule
         ResetArena(dialog);
         dialog.OnClose = done;
         dialog._event = eventValue;
-        dialog._event.AddRef();
+        _ = dialog._event.AddRef();
         dialog.UI.General.Manager.OverlayPriority = 49;
         dialog.Window.Visible = true;
     }

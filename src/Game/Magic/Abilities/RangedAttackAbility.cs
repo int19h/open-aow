@@ -110,10 +110,10 @@ public partial class RangedAttackAbility : AdjustableAbility
             {
                 action = CreateRangedAttackCombatAction(source, target, penalty);
                 source.Combat.ExecuteCombatAction(action);
-                action.Release();
+                _ = action.Release();
             }
 
-            source.State = source.State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.Vulnerable);
+            source.State += Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.Vulnerable);
         }
 
         return true;
@@ -158,7 +158,7 @@ public partial class RangedAttackAbility : AdjustableAbility
         sbyte damageRangedAttack = GetDamageRangedAttack(attacker);
         damage = AbilityRules.StatisticsToLimitedDamageValue(GetAttackRangedAttack(attacker), damageRangedAttack, damageTypesRangedAttack, hitPoints, defense, resistance, immunityTypes, protectionTypes);
         repeats = GetAttackRepeatRangedAttack(attacker);
-        damage = damage * repeats;
+        damage *= repeats;
         damageValues.SourceDamage = damage;
         damageValues.TargetDamage = 0;
         Set<DamageType> damageTypesRangedAttack2 = GetDamageTypesRangedAttack(attacker);
@@ -205,12 +205,12 @@ public partial class RangedAttackAbility : AdjustableAbility
             sbyte resistance = defender.GetResistance();
             value = AbilityRules.StatisticsToLimitedDamageValue(GetAttackRangedAttack(attacker.GetAbilityOwner()), damage, damageTypes, hitPoints, defense, resistance, immunityTypes, protectionTypes);
             repeats = GetAttackRepeatRangedAttack(attacker.GetAbilityOwner());
-            value = value * repeats;
+            value *= repeats;
             damageValues.SourceDamage = value;
             // { Original swaps protection and immunity for maximum damage. }
             value = AbilityRules.StatisticsToMaxDamage(damage, damageTypes, protectionTypes, immunityTypes);
             repeats = GetAttackRepeatRangedAttack(attacker.GetAbilityOwner());
-            value = value * repeats;
+            value *= repeats;
             damageValues.SourceCost = value;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;

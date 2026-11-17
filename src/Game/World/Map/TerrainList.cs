@@ -160,7 +160,7 @@ public partial class TerrainList : IDisposable
                     {
                         if (result.IndexOf((ushort)hexNumber) == -1)
                         {
-                            result.Add((ushort)hexNumber);
+                            _ = result.Add((ushort)hexNumber);
                         }
                     }
 

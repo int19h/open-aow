@@ -37,13 +37,13 @@ public partial class DeathMastery : GlobalEnchantmentSpell
         sbyte x = default;
         sbyte y = default;
         sbyte l = default;
-        base.ExecuteTokenEvent(eventValue, source, executeCount);
+        _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Death);
         MapCoordinate coordinate63 = source.GetLocation();
         x = coordinate63.X;
         y = coordinate63.Y;
         l = coordinate63.MapLevel;
-        StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
+        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
         Animation animation = new(null) { Holder = CreationHolder() };
         animation.AnimationLevel = 28;
         animation.OnShow += ShowAnimation;
@@ -51,7 +51,7 @@ public partial class DeathMastery : GlobalEnchantmentSpell
         animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
         animation.Activate();
 
-        CastSounds.Play(0);
+        _ = CastSounds.Play(0);
         CastingDone(source, eventValue.EventMana);
         return false;
     }
@@ -92,7 +92,7 @@ public partial class DeathMastery : GlobalEnchantmentSpell
             d = (animation.FrameCounter - 45) * speed;
             x -= d * 2;
             y += d;
-            CastImages.Show(image, lockedSurface.ClipRectangle.Left + x, lockedSurface.ClipRectangle.Top + y, 0, lockedSurface);
+            _ = CastImages.Show(image, lockedSurface.ClipRectangle.Left + x, lockedSurface.ClipRectangle.Top + y, 0, lockedSurface);
         }
 
         if (animation.FrameCounter == 90)

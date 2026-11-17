@@ -109,13 +109,13 @@ public partial class VerticalScrollBar : ScrollBar
     //   increment button is computed from the height of its pressed image in both states (original) }
     public override void Draw(LockedSurface lockedSurface)
     {
-        int thumbPosition = default;
         try
         {
             if (Valid && Visible)
             {
                 RaisePreDraw(this, lockedSurface);
 
+                int thumbPosition;
                 switch (ScrollType)
                 {
                     case Style.Scroll:
@@ -231,7 +231,7 @@ public partial class VerticalScrollBar : ScrollBar
         }
         catch
         {
-            MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
         }
     }
 
@@ -241,7 +241,6 @@ public partial class VerticalScrollBar : ScrollBar
     //   at the height of the increment button (original) }
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        int thumbPosition = default;
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
         if (Visible && X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
@@ -251,7 +250,7 @@ public partial class VerticalScrollBar : ScrollBar
             {
                 HeldUpdateCount = 1;
                 HeldPart = 5;
-                thumbPosition = TrackLength * Position / PositionCount;
+                int thumbPosition = TrackLength * Position / PositionCount;
                 if (thumbPosition + ThumbLength > TrackLength)
                 {
                     thumbPosition = TrackLength - ThumbLength;

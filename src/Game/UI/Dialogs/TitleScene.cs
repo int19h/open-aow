@@ -285,7 +285,7 @@ public partial class TitleScene : UIModule
             r = _sceneRectangle;
             LibraryImage titleSceneImageLibrary = TitleSceneImages[0];
             r.Top += titleSceneImageLibrary.Height;
-            PixelFormats.ColorFillSurfaceDescription(r, 0, surface);
+            _ = PixelFormats.ColorFillSurfaceDescription(r, 0, surface);
         }
 
         y = _sceneRectangle.Top;
@@ -431,7 +431,7 @@ public partial class TitleScene : UIModule
                 }
 
                 VersionLabel.Draw(lockedSurface);
-                surface.Unlock();
+                _ = surface.Unlock();
             }
 
             drawn = true;
@@ -454,104 +454,104 @@ public partial class TitleScene : UIModule
         VersionLabel.Text = format;
         _credits = [];
         lines = new StringList();
-        lines.Add(UI.Engine.TranslateResourceString(s_designerAndDirectorText));
-        lines.Add("Lennart Sas");
-        lines.Add("");
-        lines.Add(UI.Engine.TranslateResourceString(s_additionalDesignText));
-        lines.Add("Arno van Wingerden");
+        _ = lines.Add(UI.Engine.TranslateResourceString(s_designerAndDirectorText));
+        _ = lines.Add("Lennart Sas");
+        _ = lines.Add("");
+        _ = lines.Add(UI.Engine.TranslateResourceString(s_additionalDesignText));
+        _ = lines.Add("Arno van Wingerden");
         _credits.Add(lines);
         lines = new StringList();
-        lines.Add(UI.Engine.TranslateResourceString(s_leadProgrammerText));
-        lines.Add("Arno van Wingerden");
-        lines.Add("");
-        lines.Add(UI.Engine.TranslateResourceString(s_programmerText));
-        lines.Add("Josh Farley");
+        _ = lines.Add(UI.Engine.TranslateResourceString(s_leadProgrammerText));
+        _ = lines.Add("Arno van Wingerden");
+        _ = lines.Add("");
+        _ = lines.Add(UI.Engine.TranslateResourceString(s_programmerText));
+        _ = lines.Add("Josh Farley");
         _credits.Add(lines);
         lines = new StringList();
-        lines.Add(UI.Engine.TranslateResourceString(s_artistsText));
-        lines.Add("Lennart Sas");
-        lines.Add("Thomas Cardin");
-        lines.Add("Roy Postma");
+        _ = lines.Add(UI.Engine.TranslateResourceString(s_artistsText));
+        _ = lines.Add("Lennart Sas");
+        _ = lines.Add("Thomas Cardin");
+        _ = lines.Add("Roy Postma");
         _credits.Add(lines);
         lines = new StringList();
-        lines.Add(UI.Engine.TranslateResourceString(s_leadScenarioDesignerText));
-        lines.Add("Menno Sas");
+        _ = lines.Add(UI.Engine.TranslateResourceString(s_leadScenarioDesignerText));
+        _ = lines.Add("Menno Sas");
         _credits.Add(lines);
         lines = new StringList();
-        lines.Add(UI.Engine.TranslateResourceString(s_scenarioDesignersText));
-        lines.Add("Doug Gibson");
-        lines.Add("Arnout Sas");
-        lines.Add("Hugo van Wingerden");
+        _ = lines.Add(UI.Engine.TranslateResourceString(s_scenarioDesignersText));
+        _ = lines.Add("Doug Gibson");
+        _ = lines.Add("Arnout Sas");
+        _ = lines.Add("Hugo van Wingerden");
         _credits.Add(lines);
         lines = new StringList();
-        lines.Add(UI.Engine.TranslateResourceString(s_writerText));
-        lines.Add("Raymond Bingham");
+        _ = lines.Add(UI.Engine.TranslateResourceString(s_writerText));
+        _ = lines.Add("Raymond Bingham");
         _credits.Add(lines);
         lines = new StringList();
-        lines.Add(UI.Engine.TranslateResourceString(s_musicText));
-        lines.Add("Michiel van den Bos");
-        lines.Add("");
-        lines.Add(UI.Engine.TranslateResourceString(s_soundEffectText));
-        lines.Add("Nando Eweg");
+        _ = lines.Add(UI.Engine.TranslateResourceString(s_musicText));
+        _ = lines.Add("Michiel van den Bos");
+        _ = lines.Add("");
+        _ = lines.Add(UI.Engine.TranslateResourceString(s_soundEffectText));
+        _ = lines.Add("Nando Eweg");
         _credits.Add(lines);
-        lines.Add("");
-        lines.Add(UI.Engine.TranslateResourceString(s_introVoiceText));
-        lines.Add("John McGinn (English)");
-        lines.Add("Norbert Gastell (German)");
+        _ = lines.Add("");
+        _ = lines.Add(UI.Engine.TranslateResourceString(s_introVoiceText));
+        _ = lines.Add("John McGinn (English)");
+        _ = lines.Add("Norbert Gastell (German)");
         lines = new StringList();
-        lines.Add(UI.Engine.TranslateResourceString(s_galaxySoundSystemText));
-        lines.Add("Carlo Vogelsang");
-        _credits.Add(lines);
-        lines = new StringList();
-        lines.Add(UI.Engine.TranslateResourceString(s_internetMailSuiteText));
-        lines.Add("Argo Software Design");
+        _ = lines.Add(UI.Engine.TranslateResourceString(s_galaxySoundSystemText));
+        _ = lines.Add("Carlo Vogelsang");
         _credits.Add(lines);
         lines = new StringList();
-        lines.Add(UI.Engine.TranslateResourceString(s_qaCoreText));
-        lines.Add("Cliff Benjamin");
-        lines.Add("Ian Calderon");
-        lines.Add("Ted Stephenson");
-        lines.Add("Hugo van Wingerden");
+        _ = lines.Add(UI.Engine.TranslateResourceString(s_internetMailSuiteText));
+        _ = lines.Add("Argo Software Design");
         _credits.Add(lines);
         lines = new StringList();
-        lines.Add(UI.Engine.TranslateResourceString("Take 2 Europe"));
-        lines.Add("");
-        lines.Add("Producer");
-        lines.Add("Ken Jordan");
-        lines.Add("");
-        lines.Add("Manuals + Translations");
-        lines.Add("Frazer Nash");
+        _ = lines.Add(UI.Engine.TranslateResourceString(s_qaCoreText));
+        _ = lines.Add("Cliff Benjamin");
+        _ = lines.Add("Ian Calderon");
+        _ = lines.Add("Ted Stephenson");
+        _ = lines.Add("Hugo van Wingerden");
         _credits.Add(lines);
         lines = new StringList();
-        lines.Add("Tarantula Studios testing suite");
-        lines.Add("");
-        lines.Add("Test Manager");
-        lines.Add("Mark Lloyd");
-        lines.Add("");
-        lines.Add("Lead Tester");
-        lines.Add("Paul Byers");
+        _ = lines.Add(UI.Engine.TranslateResourceString("Take 2 Europe"));
+        _ = lines.Add("");
+        _ = lines.Add("Producer");
+        _ = lines.Add("Ken Jordan");
+        _ = lines.Add("");
+        _ = lines.Add("Manuals + Translations");
+        _ = lines.Add("Frazer Nash");
         _credits.Add(lines);
         lines = new StringList();
-        lines.Add("Testers");
-        lines.Add("");
-        lines.Add("Jim Thompson");
-        lines.Add("Kit Brown");
-        lines.Add("Julian Turner");
-        lines.Add("Jim Cree");
-        lines.Add("Lee Johnson");
+        _ = lines.Add("Tarantula Studios testing suite");
+        _ = lines.Add("");
+        _ = lines.Add("Test Manager");
+        _ = lines.Add("Mark Lloyd");
+        _ = lines.Add("");
+        _ = lines.Add("Lead Tester");
+        _ = lines.Add("Paul Byers");
         _credits.Add(lines);
         lines = new StringList();
-        lines.Add(UI.Engine.TranslateResourceString(s_bizzText));
-        lines.Add("Jay Wilbur");
-        lines.Add("Mark Rein");
+        _ = lines.Add("Testers");
+        _ = lines.Add("");
+        _ = lines.Add("Jim Thompson");
+        _ = lines.Add("Kit Brown");
+        _ = lines.Add("Julian Turner");
+        _ = lines.Add("Jim Cree");
+        _ = lines.Add("Lee Johnson");
         _credits.Add(lines);
         lines = new StringList();
-        lines.Add(UI.Engine.TranslateResourceString(s_specialThanksText));
-        lines.Add("Eelco van der Snoek");
-        lines.Add("Doug Gibson");
-        lines.Add("Dietmer Tan");
-        lines.Add("Arjan Brussee");
-        lines.Add("Daniel Cook");
+        _ = lines.Add(UI.Engine.TranslateResourceString(s_bizzText));
+        _ = lines.Add("Jay Wilbur");
+        _ = lines.Add("Mark Rein");
+        _credits.Add(lines);
+        lines = new StringList();
+        _ = lines.Add(UI.Engine.TranslateResourceString(s_specialThanksText));
+        _ = lines.Add("Eelco van der Snoek");
+        _ = lines.Add("Doug Gibson");
+        _ = lines.Add("Dietmer Tan");
+        _ = lines.Add("Arjan Brussee");
+        _ = lines.Add("Daniel Cook");
         _credits.Add(lines);
     }
 
@@ -706,7 +706,7 @@ public partial class TitleScene : UIModule
             controller.Manager.OverlayPriority = 5000;
         }
 
-        AudioHost.SongPlayer.Stop(false);
+        _ = AudioHost.SongPlayer.Stop(false);
         AudioHost.SongPlayer.Songs.Clear();
         AudioPlayback.FadeMusicVolume(0, 1);
         controller.UI.Engine.LoadHsm(fileName, false, (_, message, progression) => controller.MapProgress(message, progression), GameProfile.WorldMap);
@@ -736,25 +736,25 @@ public partial class TitleScene : UIModule
                     if (CompareText(b: controller.UI.Engine.TranslateResourceString(s_fileNotFoundText), a: StrategicMap.Current.StartupSongs.SongNames[i]) != 0)
                     {
                         string song = StrategicMap.Current.StartupSongs.Songs[i];
-                        AudioHost.SongPlayer.Songs.Add(song);
+                        _ = AudioHost.SongPlayer.Songs.Add(song);
                     }
                 }
             }
             else
             {
-                AudioHost.SongPlayer.Songs.Add("Songs\\Heartwoo.it");
+                _ = AudioHost.SongPlayer.Songs.Add("Songs\\Heartwoo.it");
             }
         }
 
-        AudioHost.SongPlayer.Play(0);
+        _ = AudioHost.SongPlayer.Play(0);
         AudioPlayback.SetMusicVolume(controller.UI.SoundDialog.MusicVolumeSlider.Position);
         controller.UI.TaskBar.WorldStartMenuBar.Items.Clear();
         string background = controller.UI.Engine.TranslateResourceString(s_backgroundText);
-        controller.UI.TaskBar.WorldStartMenuBar.Items.Add(background);
+        _ = controller.UI.TaskBar.WorldStartMenuBar.Items.Add(background);
         if (controller.UI.Engine.Campaign != null)
         {
             string campaign = controller.UI.Engine.TranslateResourceString(s_campaignText);
-            controller.UI.TaskBar.WorldStartMenuBar.Items.Add(campaign);
+            _ = controller.UI.TaskBar.WorldStartMenuBar.Items.Add(campaign);
         }
 
         controller.UI.TitleScene.Window.Visible = false;
@@ -774,17 +774,17 @@ public partial class TitleScene : UIModule
         controller.UI.ScannerWindow.Scanner.Sized = false;
         controller.UI.ScannerWindow.ScannerTabs.Items.Clear();
         string surface = controller.UI.Engine.TranslateResourceString(s_surfaceText);
-        controller.UI.ScannerWindow.ScannerTabs.Items.Add(surface);
+        _ = controller.UI.ScannerWindow.ScannerTabs.Items.Add(surface);
         if (StrategicMap.Current.MapContainer.LevelCount > 1)
         {
             string caverns = controller.UI.Engine.TranslateResourceString(s_cavernsText);
-            controller.UI.ScannerWindow.ScannerTabs.Items.Add(caverns);
+            _ = controller.UI.ScannerWindow.ScannerTabs.Items.Add(caverns);
         }
 
         if (StrategicMap.Current.MapContainer.LevelCount > 2)
         {
             string depths = controller.UI.Engine.TranslateResourceString(s_depthsText);
-            controller.UI.ScannerWindow.ScannerTabs.Items.Add(depths);
+            _ = controller.UI.ScannerWindow.ScannerTabs.Items.Add(depths);
         }
 
         controller.UI.ScannerWindow.ScannerTabs.Selected = 0;
@@ -842,9 +842,9 @@ public partial class TitleScene : UIModule
         controller.UI.Engine.CloseCampaign();
         controller.UI.ScannerWindow.Scanner.SetMap(null);
         controller.UI.CombatScanner.Scanner.SetMap(null);
-        AudioHost.SongPlayer.Stop(false);
+        _ = AudioHost.SongPlayer.Stop(false);
         AudioHost.SongPlayer.Songs.Clear();
-        SetCurrentDir(controller.UI.Engine.StartupDirectory);
+        _ = SetCurrentDir(controller.UI.Engine.StartupDirectory);
         HideGameWindows(controller.UI.General);
         controller.UI.TaskBar.TaskWindow.Visible = false;
         controller.UI.TitleWindow.MainWindow.Visible = false;
@@ -878,8 +878,8 @@ public partial class TitleScene : UIModule
             if (condition || AudioHost.SongPlayer.Songs[AudioHost.SongPlayer.CurrentIndex] != "SONGS\\TITLE.IT")
             {
                 AudioHost.SongPlayer.Songs.Clear();
-                AudioHost.SongPlayer.Songs.Add("SONGS\\TITLE.IT");
-                AudioHost.SongPlayer.Play(0);
+                _ = AudioHost.SongPlayer.Songs.Add("SONGS\\TITLE.IT");
+                _ = AudioHost.SongPlayer.Play(0);
             }
         }
 

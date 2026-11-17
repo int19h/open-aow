@@ -255,10 +255,10 @@ public partial class Menu : GenericWindow
 
         if (DoubleBuffered && BackSurface != null)
         {
-            BackSurface.Resize(WinWidth, WinHeight);
+            _ = BackSurface.Resize(WinWidth, WinHeight);
             if (Masked)
             {
-                BackSurface.Clear(MaskColor);
+                _ = BackSurface.Clear(MaskColor);
             }
         }
 
@@ -347,9 +347,6 @@ public partial class Menu : GenericWindow
     //   inside the window manager's screen; hiding it clears the bar's selection }
     public override void SetVisible(bool value)
     {
-        MenuBar bar = default;
-        BaseWindow w = default;
-        MenuBar mb = default;
         if (value != Visible)
         {
             if (Hidden)
@@ -364,8 +361,8 @@ public partial class Menu : GenericWindow
                     Highlighted = -1;
                     if (WindowManager != null && _ownerMenuBar != null)
                     {
-                        mb = _ownerMenuBar;
-                        w = mb.Window;
+                        MenuBar mb = _ownerMenuBar;
+                        BaseWindow w = mb.Window;
                         if (w != null)
                         {
                             int count = mb.Items.Count;
@@ -406,7 +403,7 @@ public partial class Menu : GenericWindow
                 }
                 else
                 {
-                    bar = _ownerMenuBar;
+                    MenuBar bar = _ownerMenuBar;
                     if (bar != null)
                     {
                         bar.Selected = -1;
@@ -505,7 +502,7 @@ public partial class Menu : GenericWindow
         }
         catch
         {
-            MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
         }
     }
 
@@ -615,13 +612,12 @@ public partial class Menu : GenericWindow
     // AOWMenu.pas:634
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        UIComponent c = default;
         Handled = false;
         if (Visible)
         {
             for (int i = Children.Count - 1; i >= 0; i--)
             {
-                c = Children[i];
+                UIComponent c = Children[i];
                 if ((!Handled || c.Redraw) && c.CaptureInput)
                 {
                     c.CheckMouseUp(button, shift, X, Y);
@@ -646,7 +642,6 @@ public partial class Menu : GenericWindow
     //   the old item are hidden (by the item index into the submenu list: original bug) }
     public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        UIComponent c = default;
         int oldHighlighted;
         int i;
         // { Keep the child on the stack and I in a register. }
@@ -660,7 +655,7 @@ public partial class Menu : GenericWindow
             i = Children.Count - 1;
             for (; i >= 0; i -= 1)
             {
-                c = Children[i];
+                UIComponent c = Children[i];
                 if ((!Handled || c.Redraw || c.ToolTipCount > 0) && c.CaptureInput)
                 {
                     c.CheckMouseMove(shift, X, Y);
@@ -742,11 +737,10 @@ public partial class Menu : GenericWindow
     // AOWMenu.pas:714
     public override void CheckKeyPress(ref byte key)
     {
-        UIComponent c = default;
         Handled = false;
         for (int i = 0, last = Children.Count - 1; i <= last; i++)
         {
-            c = Children[i];
+            UIComponent c = Children[i];
             c.CheckKeyPress(ref key);
             if (c.Handled)
             {
@@ -760,11 +754,10 @@ public partial class Menu : GenericWindow
     // AOWMenu.pas:731
     public override void CheckKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        UIComponent c = default;
         Handled = false;
         for (int i = 0, last = Children.Count - 1; i <= last; i++)
         {
-            c = Children[i];
+            UIComponent c = Children[i];
             c.CheckKeyDown(ref key, shift);
             if (c.Handled)
             {
@@ -917,7 +910,7 @@ public partial class Menu : GenericWindow
         for (int i = 0, last = value.Count - 1; i <= last; i++)
         {
             string valueValue = value[i];
-            _items.Add(valueValue);
+            _ = _items.Add(valueValue);
         }
     }
 
@@ -928,7 +921,7 @@ public partial class Menu : GenericWindow
         for (int i = 0, last = value.Count - 1; i <= last; i++)
         {
             string valueValue = value[i];
-            _itemTypes.Add(valueValue);
+            _ = _itemTypes.Add(valueValue);
         }
     }
 

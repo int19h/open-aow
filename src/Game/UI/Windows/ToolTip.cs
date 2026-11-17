@@ -112,7 +112,7 @@ public partial class ToolTip : GenericWindow
         for (; i <= last; i += 1)
         {
             string item = _items[i];
-            _lines.Add(item);
+            _ = _lines.Add(item);
         }
 
         if (_lines.Count > 0)
@@ -160,7 +160,7 @@ public partial class ToolTip : GenericWindow
                     {
                         string lineLength = _lines[i];
                         string line = _lines[i];
-                        _lines.Add(Copy(line, lineLength.Length, 1));
+                        _ = _lines.Add(Copy(line, lineLength.Length, 1));
                     }
 
                     string line3 = _lines[i];
@@ -343,7 +343,7 @@ public partial class ToolTip : GenericWindow
         }
         catch
         {
-            MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
         }
     }
 
@@ -358,9 +358,9 @@ public partial class ToolTip : GenericWindow
         for (int i = 0, last = value.Count - 1; i <= last; i++)
         {
             string valueValue = value[i];
-            _lines.Add(valueValue);
+            _ = _lines.Add(valueValue);
             string valueValue2 = value[i];
-            _items.Add(valueValue2);
+            _ = _items.Add(valueValue2);
         }
 
         Sized = false;

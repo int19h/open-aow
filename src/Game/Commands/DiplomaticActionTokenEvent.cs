@@ -25,7 +25,7 @@ public partial class DiplomaticActionTokenEvent : TokenEvent
         DiplomaticAction action;
         base.Dispose();
         action = Action;
-        action?.Release();
+        _ = (action?.Release());
     }
 
     // Diplomacy.pas:1140
@@ -78,10 +78,10 @@ public partial class DiplomaticActionTokenEvent : TokenEvent
         old = Action;
         if (old != action)
         {
-            old?.Release();
+            _ = (old?.Release());
 
             Action = action;
-            Action?.AddRef();
+            _ = (Action?.AddRef());
         }
     }
 

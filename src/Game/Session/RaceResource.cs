@@ -127,7 +127,7 @@ public partial class RaceResource : EngineResource
     public override LibraryImage GetCellImage()
     {
         int i;
-        AddRef();
+        _ = AddRef();
         LibraryImage result = null;
         if (ImageLibrary != null)
         {
@@ -139,7 +139,7 @@ public partial class RaceResource : EngineResource
             }
         }
 
-        Release();
+        _ = Release();
         return result;
     }
 
@@ -153,11 +153,11 @@ public partial class RaceResource : EngineResource
     {
         LibraryImage result;
         CustomImageLibrary images;
-        AddRef();
+        _ = AddRef();
         images = _faceLibrary;
         result = images?.GetSafe(GetRaceIndex());
 
-        Release();
+        _ = Release();
         return result;
     }
 

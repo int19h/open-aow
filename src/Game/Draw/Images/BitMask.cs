@@ -156,10 +156,9 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
         int left;
         int top;
         int bottom;
-        Rect minRectangle = default;
         void AddBit(bool bit)
         {
-            bits = bits << 1;
+            bits <<= 1;
             if (bit)
             {
                 bits += 1;
@@ -178,10 +177,8 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
 
         void FlushBits()
         {
-            bits = bits << (32 - bitCount);
+            bits <<= 32 - bitCount;
             BinaryPrimitives.WriteInt32LittleEndian(MaskData.AsSpan(offset, 4), bits);
-
-            offset += 4;
             bitCount = 0;
             bits = 0;
         }
@@ -190,7 +187,6 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
         bool result = true;
         DataLoaded = true;
         bits = 0;
-        offset = 0;
         bitCount = 0;
         DataWidth = R.Right - R.Left;
         DataHeight = R.Bottom - R.Top;
@@ -201,6 +197,7 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
         transparentColor = grabInfo.TransparentPixel;
         // CreateGrabInfo builds the nested grab info. Another grab info fails. Null stays null.
         GrabInfo maskGrab = (GrabInfo)grabInfo;
+        Rect minRectangle;
         if (!maskGrab.Inverse)
         {
             LockedSurface.MinimizeTransparentRectangle(lockedSurface, R, transparentColor, out minRectangle);

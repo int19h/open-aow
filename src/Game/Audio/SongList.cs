@@ -74,14 +74,14 @@ public partial class SongList : EngineObject
         string fullPath;
         if (path[^1] != 92)
         {
-            path = path + "\\";
+            path += "\\";
         }
 
         fullPath = AudioHost.BaseSoundEnginePath + path;
         _songs.BeginUpdate();
         foreach (RtlFileEntry entry in Files.FindEntries(fullPath + "*." + ext, attributes: 63 & ~16))
         {
-            _songs.Add(UpperCase(path + entry.Name));
+            _ = _songs.Add(UpperCase(path + entry.Name));
         }
 
         _songs.EndUpdate();

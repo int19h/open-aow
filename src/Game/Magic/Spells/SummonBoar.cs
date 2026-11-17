@@ -16,7 +16,7 @@ public partial class SummonBoar : SummonSpell
         BaseManaCost = 5;
         SpellLevel = 1;
         MagicSphere = MagicSphere.Earth;
-        UnitIndices.Add(235);
+        _ = UnitIndices.Add(235);
         CastDuration = 5;
     }
 

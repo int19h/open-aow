@@ -160,7 +160,7 @@ public partial class ScenarioSetup : UIModule
             {
                 availability = (byte)availabilityOrdinal;
                 string tacticalBattleAvailability = UI.Engine.TranslateResourceString(TacticalCombatAvailabilityTexts[availability]);
-                TacticalCombatComboBox.Items.AddObject(tacticalBattleAvailability, IntToObject(availability));
+                _ = TacticalCombatComboBox.Items.AddObject(tacticalBattleAvailability, IntToObject(availability));
             }
         }
         else
@@ -175,7 +175,7 @@ public partial class ScenarioSetup : UIModule
             CustomizeLeadersCheckBox.CaptureInput = false;
             PlayModeComboBox.Items.Clear();
             string classic = UI.Engine.TranslateResourceString(s_classicText);
-            PlayModeComboBox.Items.AddObject(classic, IntToObject(1));
+            _ = PlayModeComboBox.Items.AddObject(classic, IntToObject(1));
         }
         else
         {
@@ -183,9 +183,9 @@ public partial class ScenarioSetup : UIModule
             CustomizeLeadersCheckBox.CaptureInput = true;
             PlayModeComboBox.Items.Clear();
             string simultaneous = UI.Engine.TranslateResourceString(s_simultaneousText);
-            PlayModeComboBox.Items.AddObject(simultaneous, IntToObject(2));
+            _ = PlayModeComboBox.Items.AddObject(simultaneous, IntToObject(2));
             string classic = UI.Engine.TranslateResourceString(s_classicText);
-            PlayModeComboBox.Items.AddObject(classic, IntToObject(1));
+            _ = PlayModeComboBox.Items.AddObject(classic, IntToObject(1));
         }
 
         bool condition = AudioHost.SongPlayer.CurrentIndex == -1;
@@ -198,8 +198,8 @@ public partial class ScenarioSetup : UIModule
         if (condition || AudioHost.SongPlayer.Songs[AudioHost.SongPlayer.CurrentIndex] != "SONGS\\TITLE.IT")
         {
             AudioHost.SongPlayer.Songs.Clear();
-            AudioHost.SongPlayer.Songs.Add("SONGS\\TITLE.IT");
-            AudioHost.SongPlayer.Play(0);
+            _ = AudioHost.SongPlayer.Songs.Add("SONGS\\TITLE.IT");
+            _ = AudioHost.SongPlayer.Play(0);
         }
 
         UpdateScenarioSetup(this);
@@ -254,7 +254,7 @@ public partial class ScenarioSetup : UIModule
             CloseSetup();
             if (UI.SetupEvents.LobbyGame)
             {
-                GameHost.MainForm.CloseRequested();
+                _ = GameHost.MainForm.CloseRequested();
             }
             else
             {
@@ -611,7 +611,7 @@ public partial class ScenarioSetup : UIModule
             {
                 b = (byte)bOrdinal;
                 string tacticalBattleAvailability = setup.UI.Engine.TranslateResourceString(TacticalCombatAvailabilityTexts[b]);
-                setup.TacticalCombatComboBox.Items.AddObject(tacticalBattleAvailability, IntToObject(b));
+                _ = setup.TacticalCombatComboBox.Items.AddObject(tacticalBattleAvailability, IntToObject(b));
             }
         }
         else
@@ -626,7 +626,7 @@ public partial class ScenarioSetup : UIModule
             setup.CustomizeLeadersCheckBox.CaptureInput = false;
             setup.PlayModeComboBox.Items.Clear();
             string classic = setup.UI.Engine.TranslateResourceString(s_classicText);
-            setup.PlayModeComboBox.Items.AddObject(classic, IntToObject(1));
+            _ = setup.PlayModeComboBox.Items.AddObject(classic, IntToObject(1));
         }
         else
         {
@@ -634,9 +634,9 @@ public partial class ScenarioSetup : UIModule
             setup.CustomizeLeadersCheckBox.CaptureInput = true;
             setup.PlayModeComboBox.Items.Clear();
             string simultaneous = setup.UI.Engine.TranslateResourceString(s_simultaneousText);
-            setup.PlayModeComboBox.Items.AddObject(simultaneous, IntToObject(2));
+            _ = setup.PlayModeComboBox.Items.AddObject(simultaneous, IntToObject(2));
             string classic = setup.UI.Engine.TranslateResourceString(s_classicText);
-            setup.PlayModeComboBox.Items.AddObject(classic, IntToObject(1));
+            _ = setup.PlayModeComboBox.Items.AddObject(classic, IntToObject(1));
         }
 
         bool condition = AudioHost.SongPlayer.CurrentIndex != -1;
@@ -649,8 +649,8 @@ public partial class ScenarioSetup : UIModule
         if (!(condition && AudioHost.SongPlayer.Songs[AudioHost.SongPlayer.CurrentIndex] == "SONGS\\TITLE.IT"))
         {
             AudioHost.SongPlayer.Songs.Clear();
-            AudioHost.SongPlayer.Songs.Add("SONGS\\TITLE.IT");
-            AudioHost.SongPlayer.Play(0);
+            _ = AudioHost.SongPlayer.Songs.Add("SONGS\\TITLE.IT");
+            _ = AudioHost.SongPlayer.Play(0);
         }
 
         UpdateScenarioSetup(setup);
@@ -672,19 +672,19 @@ public partial class ScenarioSetup : UIModule
             for (int i = 0, last = control.Settings.RemotePlayers.Count - 1; i <= last; i++)
             {
                 player = control.Settings.RemotePlayers.GetPlayers(i);
-                setup.PlayerList.Items.AddObject(player.Name, IntToObject(player.RemoteId));
+                _ = setup.PlayerList.Items.AddObject(player.Name, IntToObject(player.RemoteId));
                 if (player.PreferredRace != 255)
                 {
                     string raceNamesPlural = setup.UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[(sbyte)player.PreferredRace]);
-                    setup.PreferredRaceList.Items.Add(raceNamesPlural);
+                    _ = setup.PreferredRaceList.Items.Add(raceNamesPlural);
                 }
                 else
                 {
                     string none = setup.UI.Engine.TranslateResourceString(GameTables.NoneText);
-                    setup.PreferredRaceList.Items.Add(none);
+                    _ = setup.PreferredRaceList.Items.Add(none);
                 }
 
-                setup.PingList.Items.AddObject("", IntToObject(player.RemoteId));
+                _ = setup.PingList.Items.AddObject("", IntToObject(player.RemoteId));
             }
 
             int count = setup.PlayerList.Items.Count;
@@ -721,7 +721,7 @@ public partial class ScenarioSetup : UIModule
             {
                 setup.PreferredRaceComboBox.Items.Clear();
                 string none = setup.UI.Engine.TranslateResourceString(GameTables.NoneText);
-                setup.PreferredRaceComboBox.Items.AddObject(none, IntToObject(-1));
+                _ = setup.PreferredRaceComboBox.Items.AddObject(none, IntToObject(-1));
                 for (int i = 0, last = setup.SetupControl.Settings.Count - 1; i <= last; i++)
                 {
                     if (!setup.SetupControl.Settings.GetSettings(i).Status.Contains(PlayerSetupStatusElement.Fixed))
@@ -729,7 +729,7 @@ public partial class ScenarioSetup : UIModule
                         PlayerSetupSettings settingRace = setup.SetupControl.Settings.GetSettings(i);
                         string raceNamesPlural = setup.UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[settingRace.Race]);
                         PlayerSetupSettings setting = setup.SetupControl.Settings.GetSettings(i);
-                        setup.PreferredRaceComboBox.Items.AddObject(raceNamesPlural, IntToObject(setting.Race));
+                        _ = setup.PreferredRaceComboBox.Items.AddObject(raceNamesPlural, IntToObject(setting.Race));
                     }
                 }
 
@@ -913,7 +913,7 @@ public partial class ScenarioSetup : UIModule
                 {
                     b = (byte)bOrdinal;
                     string playerBehavior = setup.UI.Engine.TranslateResourceString(GameTables.PlayerBehaviorTexts[(int)(PlayerBehavior)b]);
-                    behaviorBox.Items.AddObject(playerBehavior, IntToObject(b));
+                    _ = behaviorBox.Items.AddObject(playerBehavior, IntToObject(b));
                 }
 
                 behaviorBox.Items.EndUpdate();

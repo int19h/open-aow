@@ -147,11 +147,9 @@ public partial class House : CombatStructure
     {
         ImageSequence sequence;
         int imageIndex;
-        int pixelX = default;
-        int pixelY = default;
         if (HitPoints > 0)
         {
-            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
             pixelXSurface = pixelX - pixelXSurface;
             pixelYSurface = pixelY - pixelYSurface;
             sequence = ((MapObject)this).Resource.ImageSequenceList.GetImageSequence(_race + 60);

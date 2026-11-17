@@ -45,9 +45,9 @@ public partial class UnitWindow
             UI.UnitWindow.ManaIcon.Visible = false;
             UI.UnitWindow.UnitTabs.Items.Clear();
             string abilities = UI.Engine.TranslateResourceString(s_abilitiesText);
-            UI.UnitWindow.UnitTabs.Items.Add(abilities);
+            _ = UI.UnitWindow.UnitTabs.Items.Add(abilities);
             string info = UI.Engine.TranslateResourceString(s_infoText);
-            UI.UnitWindow.UnitTabs.Items.Add(info);
+            _ = UI.UnitWindow.UnitTabs.Items.Add(info);
             if (u.GetRace() > -1)
             {
                 sbyte race = u.GetRace();
@@ -233,7 +233,7 @@ public partial class UnitWindow
                 if ((StrategicMap.Current.Combat == null && h.Player == StrategicMap.Current.SeatedPlayer) || (StrategicMap.Current.Combat != null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player == h.Player))
                 {
                     string items = UI.Engine.TranslateResourceString(s_itemsText);
-                    UI.UnitWindow.UnitTabs.Items.Add(items);
+                    _ = UI.UnitWindow.UnitTabs.Items.Add(items);
                 }
 
                 if (h.GetCastingPointsMax() > 0)

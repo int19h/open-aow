@@ -18,14 +18,14 @@ public struct HexNumberWalkData
 
     internal static void WalkToNextHexNumber(ref HexNumberWalkData walk)
     {
-        walk.HexNumber = walk.HexNumber + 1;
+        walk.HexNumber++;
         int parity = walk.X & 1;
         int side = walk.Side;
-        walk.Step = walk.Step + 1;
+        walk.Step++;
         if (walk.Step < walk.Radius || side != 5)
         {
-            walk.X = walk.X + HexGeometry.HexNumberWalkTable[parity][side].X;
-            walk.Y = walk.Y + HexGeometry.HexNumberWalkTable[parity][side].Y;
+            walk.X += HexGeometry.HexNumberWalkTable[parity][side].X;
+            walk.Y += HexGeometry.HexNumberWalkTable[parity][side].Y;
             if (walk.Step >= walk.Radius)
             {
                 walk.Side = side + 1;
@@ -34,7 +34,7 @@ public struct HexNumberWalkData
         }
         else
         {
-            walk.Radius = walk.Radius + 1;
+            walk.Radius++;
             walk.Side = 0;
             walk.Step = 0;
             walk.X = walk.CenterX;

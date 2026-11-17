@@ -10,7 +10,7 @@ public partial class ExplorationSite
 
     public override StructureView InfoButton(sbyte viewer)
     {
-        Search();
+        _ = Search();
         return StructureView.None;
     }
 

@@ -29,6 +29,6 @@ public partial class MapWindow
             return;
         }
 
-        UI.TaskBar?.WorldTurnButton?.Press();
+        _ = (UI.TaskBar?.WorldTurnButton?.Press());
     }
 }

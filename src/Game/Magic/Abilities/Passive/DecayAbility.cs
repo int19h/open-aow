@@ -29,7 +29,7 @@ public partial class DecayAbility : DurationAbility
         {
             if (combatObject.GetAbilityOwner() is Troop)
             {
-                combatObject.ExecuteDamage(1);
+                _ = combatObject.ExecuteDamage(1);
             }
         }
     }

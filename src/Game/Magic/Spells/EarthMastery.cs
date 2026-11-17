@@ -33,18 +33,15 @@ public partial class EarthMastery : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1918
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
-        base.ExecuteTokenEvent(eventValue, source, executeCount);
+        _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Earth);
         MapCoordinate coordinate64 = source.GetLocation();
-        x = coordinate64.X;
-        y = coordinate64.Y;
-        l = coordinate64.MapLevel;
-        StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
-        StrategicMap.Current.AddEffect(WorldEffectType.EarthMastery);
-        CastSounds.Play(0);
+        sbyte x = coordinate64.X;
+        sbyte y = coordinate64.Y;
+        sbyte l = coordinate64.MapLevel;
+        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
+        _ = StrategicMap.Current.AddEffect(WorldEffectType.EarthMastery);
+        _ = CastSounds.Play(0);
         CastingDone(source, eventValue.EventMana);
         return false;
     }
@@ -57,8 +54,6 @@ public partial class EarthMastery : GlobalEnchantmentSpell
     {
         int maxX;
         int maxY;
-        int pixelX = default;
-        int pixelY = default;
         MapLevel mapLevel;
         MapField mapField;
         mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(StrategicMap.Current.ViewMapLevel);
@@ -66,7 +61,7 @@ public partial class EarthMastery : GlobalEnchantmentSpell
         maxY = StrategicMap.Current.ViewHexY + StrategicMap.Current.ViewHeightHex - 1;
         for (int x = StrategicMap.Current.ViewHexX; x <= maxX; x++)
         {
-            HexGeometry.HexToPixel(x, StrategicMap.Current.ViewHexY, out pixelX, out pixelY);
+            HexGeometry.HexToPixel(x, StrategicMap.Current.ViewHexY, out int pixelX, out int pixelY);
             pixelX = pixelX - pixelXSurface + 16;
             pixelY = pixelY - pixelYSurface + 16;
             mapField = mapLevel.GetField(x, StrategicMap.Current.ViewHexY);
@@ -75,7 +70,7 @@ public partial class EarthMastery : GlobalEnchantmentSpell
                 // The original frame offset uses the field address.
                 if (mapField.OverlayType == 4)
                 {
-                    CastImages.Show(0, pixelX, pixelY, animation.FrameCounter - FrameFixtureInputs.FieldFrameOffset(mapField), lockedSurface);
+                    _ = CastImages.Show(0, pixelX, pixelY, animation.FrameCounter - FrameFixtureInputs.FieldFrameOffset(mapField), lockedSurface);
                 }
 
                 // The original steps the field pointer by FHNOffsets[0, 4], one row down. The step

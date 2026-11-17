@@ -39,7 +39,7 @@ public partial class UnitUserList : ObservableNode, IChildList<Troop>, IUnitHold
         {
             for (int index = 0, last = Units.Count - 1; index <= last; index++)
             {
-                Units[index].Release();
+                _ = Units[index].Release();
             }
         }
     }
@@ -49,7 +49,7 @@ public partial class UnitUserList : ObservableNode, IChildList<Troop>, IUnitHold
     {
         for (int index = Count - 1; index >= 0; index--)
         {
-            this[index].Release();
+            _ = this[index].Release();
         }
 
         ClearChildren();
@@ -64,7 +64,7 @@ public partial class UnitUserList : ObservableNode, IChildList<Troop>, IUnitHold
         int result = base.RemoveChild(child);
         if (result != -1)
         {
-            child.Release();
+            _ = child.Release();
         }
 
         return result;
@@ -77,7 +77,7 @@ public partial class UnitUserList : ObservableNode, IChildList<Troop>, IUnitHold
         CheckChild(child);
         if (CanAddUnit((Troop)child))
         {
-            child.AddRef();
+            _ = child.AddRef();
             return base.AddChild(child);
         }
 
@@ -113,7 +113,7 @@ public partial class UnitUserList : ObservableNode, IChildList<Troop>, IUnitHold
     {
         if (CanAddUnit(troop))
         {
-            AddChild(troop);
+            _ = AddChild(troop);
             return true;
         }
 
@@ -125,7 +125,7 @@ public partial class UnitUserList : ObservableNode, IChildList<Troop>, IUnitHold
     {
         if (CanDeleteUnit(troop))
         {
-            RemoveChild(troop);
+            _ = RemoveChild(troop);
             return true;
         }
 
@@ -137,7 +137,7 @@ public partial class UnitUserList : ObservableNode, IChildList<Troop>, IUnitHold
     {
         for (int index = units.Count - 1; index >= 0; index--)
         {
-            AddUnit(units.GetUnit(index));
+            _ = AddUnit(units.GetUnit(index));
         }
 
         return true;
@@ -150,7 +150,7 @@ public partial class UnitUserList : ObservableNode, IChildList<Troop>, IUnitHold
         {
             if (((1 << index) & selection) != 0)
             {
-                AddUnit(units.GetUnit(index));
+                _ = AddUnit(units.GetUnit(index));
             }
         }
     }
@@ -189,7 +189,7 @@ public partial class UnitUserList : ObservableNode, IChildList<Troop>, IUnitHold
 
         if (GetChild(index) != null)
         {
-            this[index].Release();
+            _ = this[index].Release();
         }
 
         PlaceChild(index, child: troop);

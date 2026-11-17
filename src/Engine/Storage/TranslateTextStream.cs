@@ -23,10 +23,10 @@ public partial class TranslateTextStream : TranslateVisit
             text = "";
             for (int i = 0, last = lines.Count - 1; i <= last; i++)
             {
-                text = text + lines[i];
+                text += lines[i];
                 if (i != lines.Count - 1)
                 {
-                    text = text + "<eol>";
+                    text += "<eol>";
                 }
             }
 
@@ -38,14 +38,14 @@ public partial class TranslateTextStream : TranslateVisit
                 lineFeed = Pos("\n", text);
                 if ((endOfLine < lineFeed || lineFeed == 0) && endOfLine != 0)
                 {
-                    lines.Add(Copy(text, 1, endOfLine - 1));
+                    _ = lines.Add(Copy(text, 1, endOfLine - 1));
                     text = Copy(text, endOfLine + 5, text.Length - endOfLine - 4);
                 }
                 else
                 {
                     if ((lineFeed < endOfLine || endOfLine == 0) && lineFeed != 0)
                     {
-                        lines.Add(Copy(text, 1, lineFeed - 1));
+                        _ = lines.Add(Copy(text, 1, lineFeed - 1));
                         // { Original reverses the length comparison before reading the following CR. }
                         if (text.Length < lineFeed + 1 && text[lineFeed] == 13)
                         {
@@ -56,7 +56,7 @@ public partial class TranslateTextStream : TranslateVisit
                     }
                     else
                     {
-                        lines.Add(text);
+                        _ = lines.Add(text);
                         text = "";
                     }
                 }

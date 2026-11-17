@@ -16,7 +16,7 @@ public partial class SummonMermaid : SummonSpell
         BaseManaCost = 5;
         SpellLevel = 1;
         MagicSphere = MagicSphere.Death;
-        UnitIndices.Add(218);
+        _ = UnitIndices.Add(218);
         CastDuration = 5;
         AIBasePriority = -1;
     }

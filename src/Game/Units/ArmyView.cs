@@ -71,7 +71,7 @@ public partial class ArmyView : Army
             {
                 troop = army.Units.GetUnit(i).Copy<Troop>(GetEngine());
                 troop.SetOwner(this);
-                troop.Release();
+                _ = troop.Release();
                 Troop unit = army.Units.GetUnit(i);
                 int count = Units.Count;
                 MoraleValues[count - 1] = unit.MoraleValue;

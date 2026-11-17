@@ -58,7 +58,7 @@ public partial class MultiLevelAbility : AdjustableAbility
         // The original reads the current level cost on every iteration.
         for (int i = level; i >= 1; --i)
         {
-            sum = sum + LevelCosts.Get(level);
+            sum += LevelCosts.Get(level);
         }
 
         return sum;

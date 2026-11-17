@@ -26,7 +26,7 @@ public partial class MoveControl
         MapField neighbor = null;
         while (field != null && (field.HexX != Source.X || field.HexY != Source.Y || field.HexLevel != Source.MapLevel) && !failed)
         {
-            path.AddMapCoordinate(field.HexX, field.HexY, field.HexLevel);
+            _ = path.AddMapCoordinate(field.HexX, field.HexY, field.HexLevel);
             int cost = OnMovePoint(field, 1);
             bool found = false;
             for (int direction = 1; !found && direction <= 6; direction++)
@@ -71,7 +71,7 @@ public partial class MoveControl
         }
         else if (field != null && points == 0)
         {
-            path.AddMapCoordinate(field.HexX, field.HexY, field.HexLevel);
+            _ = path.AddMapCoordinate(field.HexX, field.HexY, field.HexLevel);
         }
 
         if (StrategicMap.Current.AIExecutor.Status.Contains(AIExecutorStatusElement.Executing))
@@ -110,7 +110,7 @@ public partial class MoveControl
 
             if (Mode.Contains(MoveModeElement.LogProcessedMapFields) && old == 0xffffff)
             {
-                _processedMapFields.Add(field);
+                _ = _processedMapFields.Add(field);
             }
 
             if (field.HexX == Destination.X && field.HexY == Destination.Y && field.HexLevel == Destination.MapLevel)

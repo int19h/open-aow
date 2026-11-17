@@ -16,7 +16,7 @@ public partial class SummonFireSprite : SummonSpell
         BaseManaCost = 5;
         SpellLevel = 1;
         MagicSphere = MagicSphere.Fire;
-        UnitIndices.Add(228);
+        _ = UnitIndices.Add(228);
         CastDuration = 10;
         AIBasePriority = 200;
     }

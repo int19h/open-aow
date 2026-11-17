@@ -97,7 +97,7 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     /// </summary>
     internal List<IReadOnlyList<SequenceLayer>> SaveLayers()
     {
-        ReduceCount();
+        _ = ReduceCount();
         List<IReadOnlyList<SequenceLayer>> entries = [with(Count)];
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
@@ -121,11 +121,11 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
             {
                 ImageSequence sequence = new(this);
                 sequence.LoadLayers(layers, index: 0);
-                Add(sequence);
+                _ = Add(sequence);
             }
             else
             {
-                Add(null);
+                _ = Add(null);
             }
         }
 
@@ -158,7 +158,7 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     {
         while (index >= Count)
         {
-            Add(null);
+            _ = Add(null);
         }
 
         if (List[index] != null)
@@ -382,7 +382,6 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
     public void GetDimensions(int index, out Rect R)
     {
         ImageSequence sequence;
-        Rect sr = default;
         // The out value is assigned before its members are written.
         R = default;
         if (index < Count && index >= 0)
@@ -390,8 +389,8 @@ public partial class ImageSequenceList : DelphiList<ImageSequence>
             sequence = List[index];
             while (sequence != null)
             {
-                sequence.GetDimensions(out sr);
-                UnionRect(out R, R, sr);
+                sequence.GetDimensions(out Rect sr);
+                _ = UnionRect(out R, R, sr);
                 sequence = sequence.Next;
             }
         }

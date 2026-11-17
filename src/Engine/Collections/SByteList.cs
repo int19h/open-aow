@@ -286,7 +286,7 @@ public partial class SByteList : Persistent
             }
             else
             {
-                Add(item);
+                _ = Add(item);
             }
         }
     }

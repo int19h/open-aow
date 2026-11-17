@@ -276,7 +276,6 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
         DataSurface surface;
         LockedSurface lSD = default;
         Rect gr = default;
-        Rect mr = default;
         int c;
         void AddWord(ushort W)
         {
@@ -337,7 +336,7 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
                     gr.Right = width;
                     int height = surface.GetHeight();
                     gr.Bottom = height;
-                    surface.Lock(ref lSD);
+                    _ = surface.Lock(ref lSD);
                     if (LockedSurface.RemapSurfacePart(width: surface.GetWidth(), height: surface.GetHeight(), source: lockedSurface, sourceX: R.Left, sourceY: R.Top, destination: lSD, destinationX: 0, destinationY: 0) != 0)
                     {
                         throw new ArgumentException("Invalid PixelFormat");
@@ -364,7 +363,7 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
                 PixelFormatId = StoredPixelFormatId;
                 position = 0;
                 skip = 0;
-                LockedSurface.MinimizeTransparentRectangle(lSD, gr, _colorKey, out mr);
+                LockedSurface.MinimizeTransparentRectangle(lSD, gr, _colorKey, out Rect mr);
                 _spriteX = mr.Left - gr.Left;
                 _spriteY = mr.Top - gr.Top;
                 _spriteWidth = mr.Right - mr.Left;

@@ -59,7 +59,7 @@ public partial class IceStorm : BlastStorm
             if (ice == null)
             {
                 ice = new FrozenWaterHexSprite(null) { Holder = CreationHolder() };
-                StrategicMap.Current.PlaceHex(ice, mapField.HexX, mapField.HexY, mapField.HexLevel);
+                _ = StrategicMap.Current.PlaceHex(ice, mapField.HexX, mapField.HexY, mapField.HexLevel);
             }
 
             ice.DaysRemaining = (sbyte)(3 + ((StrategicMap.Current.Random(11) - 5) / 5));

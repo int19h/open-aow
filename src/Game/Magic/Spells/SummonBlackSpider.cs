@@ -18,7 +18,7 @@ public partial class SummonBlackSpider : SummonSpell
         BaseManaCost = 5;
         SpellLevel = 1;
         MagicSphere = MagicSphere.Death;
-        UnitIndices.Add(222);
+        _ = UnitIndices.Add(222);
         CastDuration = 5;
         AIBasePriority = 200;
     }

@@ -128,8 +128,8 @@ public partial class AIExecutor : EngineObject
         bool result;
         if (_players.IndexOf((byte)player) == -1)
         {
-            _players.Add((byte)player);
-            Status = Status + Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Enabled);
+            _ = _players.Add((byte)player);
+            Status += Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Enabled);
             StrategicMap.Current.Players.GetPlayers(player).AIControl.Activate(this);
             if (Player == -1)
             {
@@ -151,12 +151,12 @@ public partial class AIExecutor : EngineObject
     {
         if (_players.IndexOf((byte)player) != -1)
         {
-            _players.Remove((byte)player);
+            _ = _players.Remove((byte)player);
             StrategicMap.Current.Players.GetPlayers(player).AIControl.Deactivate();
             if (_players.Count == 0)
             {
                 Player = -1;
-                Status = Status - Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Enabled);
+                Status -= Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Enabled);
             }
         }
     }
@@ -188,7 +188,7 @@ public partial class AIExecutor : EngineObject
     public void CaptureTokenCycles(int cycles)
     {
         Assert(!Status.Contains(AIExecutorStatusElement.TokenLocked), "", "AI.pas", 937);
-        Status = Status + Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.TokenLocked);
+        Status += Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.TokenLocked);
         StrategicMap.Current.TokenManager.TokenExecutor.Lock();
         _tokenCycle = 0;
         _tokenCycles = cycles;
@@ -198,7 +198,7 @@ public partial class AIExecutor : EngineObject
     public void TokenCyclesCaptured()
     {
         Assert(Status.Contains(AIExecutorStatusElement.TokenLocked), "", "AI.pas", 947);
-        Status = Status - Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.TokenLocked);
+        Status -= Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.TokenLocked);
         StrategicMap.Current.TokenManager.TokenExecutor.Unlock();
     }
 
@@ -210,7 +210,7 @@ public partial class AIExecutor : EngineObject
         int index;
         if (Status.Contains(AIExecutorStatusElement.Enabled) && LockCount == 0)
         {
-            Status = Status + Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Executing);
+            Status += Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Executing);
             StrategicMap.Current.SynchronizeBegin();
             _processTimeUsed = 0;
             _processStarted = _processTimeMode == AIExecutorProcessTimeMode.Dynamic ? PixelFormats.GetElapsedMilliseconds() : 0;
@@ -223,7 +223,7 @@ public partial class AIExecutor : EngineObject
                         if (!StrategicMap.Current.Players.GetPlayers(Player).GetBusy() && StrategicMap.Current.TokenManager.PlayerReady(Player))
                         {
                             ProcessCycles += 1;
-                            StrategicMap.Current.Players.GetPlayers(Player).AIControl.Process(this, _tokenControlDone);
+                            _ = StrategicMap.Current.Players.GetPlayers(Player).AIControl.Process(this, _tokenControlDone);
                             _tokenControlDone = false;
                         }
 
@@ -279,7 +279,7 @@ public partial class AIExecutor : EngineObject
             }
 
             StrategicMap.Current.SynchronizeEnd();
-            Status = Status - Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Executing);
+            Status -= Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Executing);
         }
     }
 

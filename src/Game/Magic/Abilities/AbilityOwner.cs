@@ -72,13 +72,13 @@ public partial class AbilityOwner : CustomAbilityList
         Int32List stored = new();
         for (AbilityData data = AbilityData; data != null; data = data.Next)
         {
-            stored.Add(data.GetAbilityId());
+            _ = stored.Add(data.GetAbilityId());
         }
 
         PersistSupport.Int32List(persister, "AbilityDataIds", stored);
         for (AbilityData data = AbilityData; data != null; data = data.Next)
         {
-            persister.CreatedSlot("AbilityData", slot: data.GetAbilityId(), objectValue: data);
+            _ = persister.CreatedSlot("AbilityData", slot: data.GetAbilityId(), objectValue: data);
         }
 
         stored.Dispose();
@@ -126,7 +126,7 @@ public partial class AbilityOwner : CustomAbilityList
                 ability = GamePack.Current.AbilityControl.GetAbility(i);
                 if ((ability.SelectionTypes & types) != Set<AbilitySelectionType>.Of())
                 {
-                    text.AddObject(ability.GetName(this), IntToObject(i));
+                    _ = text.AddObject(ability.GetName(this), IntToObject(i));
                 }
             }
         }
@@ -408,44 +408,44 @@ public partial class AbilityOwner : CustomAbilityList
         Set<MoveType> result = Set<MoveType>.Of();
         if (GetAbEnabled(0))
         {
-            result = result + Set<MoveType>.Of(MoveType.Walking);
+            result += Set<MoveType>.Of(MoveType.Walking);
         }
 
         if (GetAbEnabled(1) || GetAbEnabled(165) || GetAbEnabled(59))
         {
-            result = result + Set<MoveType>.Of(MoveType.Flying);
+            result += Set<MoveType>.Of(MoveType.Flying);
         }
 
         if (GetAbEnabled(2) || GetAbEnabled(23) || GetAbEnabled(164) || GetAbEnabled(166))
         {
-            result = result + Set<MoveType>.Of(MoveType.Swimming);
+            result += Set<MoveType>.Of(MoveType.Swimming);
         }
 
         if (GetAbEnabled(3) || GetAbEnabled(157))
         {
-            result = result + Set<MoveType>.Of(MoveType.Forestry);
+            result += Set<MoveType>.Of(MoveType.Forestry);
         }
 
         if (GetAbEnabled(4) || GetAbEnabled(157))
         {
-            result = result + Set<MoveType>.Of(MoveType.CaveCrawling);
+            result += Set<MoveType>.Of(MoveType.CaveCrawling);
         }
 
         if (GetAbEnabled(5) || GetAbEnabled(157))
         {
-            result = result + Set<MoveType>.Of(MoveType.Mountaineering);
+            result += Set<MoveType>.Of(MoveType.Mountaineering);
         }
 
         if (GetAbEnabled(7) || GetAbEnabled(163))
         {
             // The original set constant is $40.
-            result = result + Set<MoveType>.Of(MoveType.LavaCrossing);
+            result += Set<MoveType>.Of(MoveType.LavaCrossing);
         }
 
         if (GetAbEnabled(42))
         {
             // The original set constant is $80.
-            result = result + Set<MoveType>.Of(MoveType.Tunneling);
+            result += Set<MoveType>.Of(MoveType.Tunneling);
         }
 
         return result;
@@ -460,7 +460,7 @@ public partial class AbilityOwner : CustomAbilityList
         {
             if (GetAbEnabled(i))
             {
-                result = result & GamePack.Current.AbilityControl.GetAbility(i).GetWallCombatFeatures(this);
+                result &= GamePack.Current.AbilityControl.GetAbility(i).GetWallCombatFeatures(this);
             }
         }
 
@@ -473,42 +473,42 @@ public partial class AbilityOwner : CustomAbilityList
         Set<DamageType> result = Set<DamageType>.Of();
         if (GetAbEnabled(77) || GetAbEnabled(166))
         {
-            result = result + Set<DamageType>.Of(DamageType.Physical);
+            result += Set<DamageType>.Of(DamageType.Physical);
         }
 
         if (GetAbEnabled(71) || GetAbEnabled(167))
         {
-            result = result + Set<DamageType>.Of(DamageType.Fire);
+            result += Set<DamageType>.Of(DamageType.Fire);
         }
 
         if (GetAbEnabled(75))
         {
-            result = result + Set<DamageType>.Of(DamageType.Magic);
+            result += Set<DamageType>.Of(DamageType.Magic);
         }
 
         if (GetAbEnabled(76))
         {
-            result = result + Set<DamageType>.Of(DamageType.Cold);
+            result += Set<DamageType>.Of(DamageType.Cold);
         }
 
         if (GetAbEnabled(74))
         {
-            result = result + Set<DamageType>.Of(DamageType.Lightning);
+            result += Set<DamageType>.Of(DamageType.Lightning);
         }
 
         if (GetAbEnabled(73))
         {
-            result = result + Set<DamageType>.Of(DamageType.Poison);
+            result += Set<DamageType>.Of(DamageType.Poison);
         }
 
         if (GetAbEnabled(70) || GetAbEnabled(158))
         {
-            result = result + Set<DamageType>.Of(DamageType.Death);
+            result += Set<DamageType>.Of(DamageType.Death);
         }
 
         if (GetAbEnabled(72))
         {
-            result = result + Set<DamageType>.Of(DamageType.Holy);
+            result += Set<DamageType>.Of(DamageType.Holy);
         }
 
         return result;
@@ -520,42 +520,42 @@ public partial class AbilityOwner : CustomAbilityList
         Set<DamageType> result = Set<DamageType>.Of();
         if (GetAbEnabled(13))
         {
-            result = result + Set<DamageType>.Of(DamageType.Physical);
+            result += Set<DamageType>.Of(DamageType.Physical);
         }
 
         if (GetAbEnabled(7) || GetAbEnabled(163))
         {
-            result = result + Set<DamageType>.Of(DamageType.Fire);
+            result += Set<DamageType>.Of(DamageType.Fire);
         }
 
         if (GetAbEnabled(6))
         {
-            result = result + Set<DamageType>.Of(DamageType.Magic);
+            result += Set<DamageType>.Of(DamageType.Magic);
         }
 
         if (GetAbEnabled(8))
         {
-            result = result + Set<DamageType>.Of(DamageType.Cold);
+            result += Set<DamageType>.Of(DamageType.Cold);
         }
 
         if (GetAbEnabled(9))
         {
-            result = result + Set<DamageType>.Of(DamageType.Lightning);
+            result += Set<DamageType>.Of(DamageType.Lightning);
         }
 
         if (GetAbEnabled(10))
         {
-            result = result + Set<DamageType>.Of(DamageType.Poison);
+            result += Set<DamageType>.Of(DamageType.Poison);
         }
 
         if (GetAbEnabled(11))
         {
-            result = result + Set<DamageType>.Of(DamageType.Death);
+            result += Set<DamageType>.Of(DamageType.Death);
         }
 
         if (GetAbEnabled(12))
         {
-            result = result + Set<DamageType>.Of(DamageType.Holy);
+            result += Set<DamageType>.Of(DamageType.Holy);
         }
 
         return result;
@@ -629,7 +629,7 @@ public partial class AbilityOwner : CustomAbilityList
                 name = ability.GetName(this);
                 if (!IsEmpty(name))
                 {
-                    text.AddObject(name, IntToObject(i));
+                    _ = text.AddObject(name, IntToObject(i));
                 }
             }
         }

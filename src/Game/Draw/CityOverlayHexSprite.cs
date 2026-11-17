@@ -111,7 +111,7 @@ public partial class CityOverlayHexSprite : SingleHexSprite
                                 frame = _shellEndFrame - StrategicMap.Current.Frame;
                                 if (frame <= 20)
                                 {
-                                    intensity = intensity + ((10 - Math.Abs(frame - 10)) * 3);
+                                    intensity += (10 - Math.Abs(frame - 10)) * 3;
                                 }
                                 else
                                 {

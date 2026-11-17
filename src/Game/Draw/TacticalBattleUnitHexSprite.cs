@@ -102,7 +102,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                     }
 
                     CombatMap.Current.Combat.ExecuteCombatAction(selfDestruct);
-                    selfDestruct.Release();
+                    _ = selfDestruct.Release();
                 }
                 else
                 {
@@ -117,7 +117,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                         }
 
                         CombatMap.Current.Combat.ExecuteCombatAction(spellDamage);
-                        spellDamage.Release();
+                        _ = spellDamage.Release();
                     }
                     else
                     {
@@ -131,7 +131,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                             }
 
                             CombatMap.Current.Combat.ExecuteCombatAction(spellDamage);
-                            spellDamage.Release();
+                            _ = spellDamage.Release();
                         }
                         else
                         {
@@ -145,7 +145,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                 }
 
                                 CombatMap.Current.Combat.ExecuteCombatAction(rangedDamage);
-                                rangedDamage.Release();
+                                _ = rangedDamage.Release();
                             }
                             else
                             {
@@ -159,7 +159,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                     }
 
                                     CombatMap.Current.Combat.ExecuteCombatAction(spellDamage);
-                                    spellDamage.Release();
+                                    _ = spellDamage.Release();
                                 }
                                 else
                                 {
@@ -173,7 +173,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                         }
 
                                         CombatMap.Current.Combat.ExecuteCombatAction(rangedDamage);
-                                        rangedDamage.Release();
+                                        _ = rangedDamage.Release();
                                     }
                                     else
                                     {
@@ -187,7 +187,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                             }
 
                                             CombatMap.Current.Combat.ExecuteCombatAction(spellDamage);
-                                            spellDamage.Release();
+                                            _ = spellDamage.Release();
                                         }
                                         else
                                         {
@@ -201,7 +201,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                                 }
 
                                                 CombatMap.Current.Combat.ExecuteCombatAction(spellDamage);
-                                                spellDamage.Release();
+                                                _ = spellDamage.Release();
                                             }
                                             else
                                             {
@@ -215,7 +215,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                                     }
 
                                                     CombatMap.Current.Combat.ExecuteCombatAction(spellDamage);
-                                                    spellDamage.Release();
+                                                    _ = spellDamage.Release();
                                                 }
                                                 else
                                                 {
@@ -229,7 +229,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                                         }
 
                                                         CombatMap.Current.Combat.ExecuteCombatAction(spellDamage);
-                                                        spellDamage.Release();
+                                                        _ = spellDamage.Release();
                                                     }
                                                     else
                                                     {
@@ -243,7 +243,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                                             }
 
                                                             CombatMap.Current.Combat.ExecuteCombatAction(spellDamage);
-                                                            spellDamage.Release();
+                                                            _ = spellDamage.Release();
                                                         }
                                                         else
                                                         {
@@ -283,7 +283,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                                                                 }
 
                                                                                 CombatMap.Current.Combat.ExecuteCombatAction(spellDamage);
-                                                                                spellDamage.Release();
+                                                                                _ = spellDamage.Release();
                                                                             }
                                                                         }
                                                                     }
@@ -462,7 +462,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
             int visibilityRange = Unit.GetVisibilityRange();
             sbyte hexY = GetHexY();
             sbyte hexX = GetHexX();
-            CombatMap.Current.ExploreArea(hexX, hexY, 0, player, visibilityRange);
+            _ = CombatMap.Current.ExploreArea(hexX, hexY, 0, player, visibilityRange);
         }
 
         ActionFrame = -1;
@@ -511,7 +511,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
             CombatMap.Current.UnitSelection.SetTacticalBattleUnitHexSprite(this);
         }
 
-        UnitGraphicsResource.SfxLibraries[0].Play(0);
+        _ = UnitGraphicsResource.SfxLibraries[0].Play(0);
         if (CombatMap.Current.SeatedCombatPlayer == Unit.CombatPlayer)
         {
             CombatMap.Current.Players.GetPlayers(CombatMap.Current.SeatedCombatPlayer).LastUnit = Unit;
@@ -573,7 +573,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
             {
                 sbyte fUnitPlayer = Unit.GetPlayer();
                 StrategicMap.Current.TokenManager.GetTokenControl(fUnitPlayer).AddEvent(tokenEvent);
-                tokenEvent.Release();
+                _ = tokenEvent.Release();
                 result = true;
             }
         }
@@ -585,7 +585,6 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
     public int SelectAbility(int abilityId)
     {
         int index;
-        string reason = "";
         CombatMap.Current.UnitSelection.DeactivateRangedPath();
         SelectedAbility = -1;
         int result = -1;
@@ -606,7 +605,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                 {
                     if (Unit.Troop.GetMoves() == Unit.MovePoints)
                     {
-                        GamePack.Current.AbilityControl.GetAbility(abilityId).ActivateCombat(Unit.Troop, out reason);
+                        _ = GamePack.Current.AbilityControl.GetAbility(abilityId).ActivateCombat(Unit.Troop, out _);
                         SelectedSpell = -1;
                         SelectedAbility = abilityId;
                         result = index;
@@ -626,7 +625,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                     : (ushort)12;
 
                             CombatMap.Current.UnitSelection.RangedPathHexSprite.Selection = CombatMap.Current.UnitSelection;
-                            CombatMap.Current.DynamicFixedVisibleHexSprite.AddChild(CombatMap.Current.UnitSelection.RangedPathHexSprite);
+                            _ = CombatMap.Current.DynamicFixedVisibleHexSprite.AddChild(CombatMap.Current.UnitSelection.RangedPathHexSprite);
                             SelectedAbility = abilityId;
                             result = index;
                         }
@@ -664,7 +663,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
             CombatMap.Current.UnitSelection.RangedPathHexSprite.Range = info.Range == -1 ? (ushort)100 : (ushort)info.Range;
 
             CombatMap.Current.UnitSelection.RangedPathHexSprite.Selection = CombatMap.Current.UnitSelection;
-            CombatMap.Current.DynamicFixedVisibleHexSprite.AddChild(CombatMap.Current.UnitSelection.RangedPathHexSprite);
+            _ = CombatMap.Current.DynamicFixedVisibleHexSprite.AddChild(CombatMap.Current.UnitSelection.RangedPathHexSprite);
         }
 
         int result = spellId;
@@ -682,7 +681,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
             case BattleEffectType.Tremors:
             case BattleEffectType.HighPrayer:
             case BattleEffectType.ShockWave:
-                AbilityRangedTacticalBattle(0, 0);
+                _ = AbilityRangedTacticalBattle(0, 0);
                 result = -1;
                 Unselect();
                 break;
@@ -734,18 +733,18 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {
             CombatAbilityRef ability = Abilities[i];
-            names.AddObject(GamePack.Current.AbilityControl.GetAbility(ability.Ability).GetName(Unit.Troop), IntToObject(Abilities[i].Ability));
+            _ = names.AddObject(GamePack.Current.AbilityControl.GetAbility(ability.Ability).GetName(Unit.Troop), IntToObject(Abilities[i].Ability));
             if (types != null)
             {
                 CombatAbilityRef ability2 = Abilities[i];
                 AbilityType abilityType = GamePack.Current.AbilityControl.GetAbility(ability2.Ability).GetAbilityType();
-                types.Add(AbilityRules.TranslateResourceString(GetEngine(), GameTables.AbilityTypeTexts[(int)abilityType]));
+                _ = types.Add(AbilityRules.TranslateResourceString(GetEngine(), GameTables.AbilityTypeTexts[(int)abilityType]));
             }
 
             if (sources != null)
             {
                 CombatAbilityRef ability2 = Abilities[i];
-                sources.Add(GamePack.Current.AbilityControl.GetAbility(ability2.Ability).GetSourceName(Unit.Troop));
+                _ = sources.Add(GamePack.Current.AbilityControl.GetAbility(ability2.Ability).GetSourceName(Unit.Troop));
             }
         }
     }
@@ -792,7 +791,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                 {
                     sbyte fUnitPlayer = Unit.GetPlayer();
                     StrategicMap.Current.TokenManager.GetTokenControl(fUnitPlayer).AddEvent(tokenEvent);
-                    tokenEvent.Release();
+                    _ = tokenEvent.Release();
                     result = true;
                 }
             }
@@ -802,7 +801,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                 if (buffer.TargetTypes.Contains(CombatTargetTypeElement.Friend))
                 {
                     PathStep pathLocal = path[0];
-                    AbilityRangedTacticalBattle((ushort)path[0].Location.X, (ushort)pathLocal.Location.Y);
+                    _ = AbilityRangedTacticalBattle((ushort)path[0].Location.X, (ushort)pathLocal.Location.Y);
                 }
             }
         }
@@ -823,7 +822,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
             {
                 sbyte fUnitPlayer = Unit.GetPlayer();
                 StrategicMap.Current.TokenManager.GetTokenControl(fUnitPlayer).AddEvent(tokenEvent);
-                tokenEvent.Release();
+                _ = tokenEvent.Release();
                 result = true;
             }
         }
@@ -838,7 +837,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
     private static TacticalBattleMeleeMoveTokenEvent CreateTacticalBattleMeleeMoveTokenEvent(TacticalBattleUnit unitObject, MovePath path)
     {
         TacticalBattleMeleeMoveTokenEvent tacticalBattleMeleeMoveTokenEvent = new(null) { Holder = unitObject };
-        tacticalBattleMeleeMoveTokenEvent?.Setup(unitObject, path);
+        _ = (tacticalBattleMeleeMoveTokenEvent?.Setup(unitObject, path));
         return tacticalBattleMeleeMoveTokenEvent;
     }
 
@@ -847,7 +846,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         CombatAbilityTouchMoveTokenEvent tacticalBattleAbilityTouchMoveTokenEvent = new(null) { Holder = unitObject };
         if (tacticalBattleAbilityTouchMoveTokenEvent != null)
         {
-            tacticalBattleAbilityTouchMoveTokenEvent.Setup(unitObject, path);
+            _ = tacticalBattleAbilityTouchMoveTokenEvent.Setup(unitObject, path);
             tacticalBattleAbilityTouchMoveTokenEvent.AbilityId = abilityId;
         }
         return tacticalBattleAbilityTouchMoveTokenEvent;

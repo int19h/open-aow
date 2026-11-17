@@ -26,7 +26,7 @@ public partial class FlameThrowingAbility : BreathAbility
         sbyte attackRepeatRangedAttack = GetAttackRepeatRangedAttack(owner);
         sbyte damageRangedAttack = GetDamageRangedAttack(owner);
         strength = AbilityRules.LimitedDamage(GetAttackRangedAttack(owner), damageRangedAttack, attackRepeatRangedAttack);
-        strength = strength * 2;
+        strength *= 2;
         types = GetDamageTypesRangedAttack(owner);
     }
 

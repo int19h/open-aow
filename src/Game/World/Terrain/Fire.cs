@@ -112,15 +112,13 @@ public partial class Fire : ImageLibraryTerrainMapObject
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         int frame;
-        int x = default;
-        int y = default;
         if (_explosionFrame != 0)
         {
             frame = StrategicMap.Current.Frame - _explosionFrame;
             if (frame >= 0 && frame < base.Resource.ImageSequenceList.GetImageSequence(20).GetTotalSequenceFrames())
             {
-                HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out x, out y);
-                base.Resource.ImageSequenceList.Show(20, x - pixelXSurface, y - pixelYSurface, frame, lockedSurface);
+                HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
+                _ = base.Resource.ImageSequenceList.Show(20, x - pixelXSurface, y - pixelYSurface, frame, lockedSurface);
             }
             else
             {
@@ -222,7 +220,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
         if (!Status.Contains(MapObjectStatusElement.Visible) && _explosionFrame != 0 && StrategicMap.Current.Frame == _explosionFrame)
         {
             sbyte hexX = GetHexX();
-            AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[(hexX + StrategicMap.Current.Frame) % 2]);
+            _ = AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[(hexX + StrategicMap.Current.Frame) % 2]);
         }
 
         base.MakeVisible(visibilityList);
@@ -367,7 +365,6 @@ public partial class Fire : ImageLibraryTerrainMapObject
     // Structur.PAS:3627
     public void NewTurnDone()
     {
-        HexNumberWalkData walk = default;
         MapLevel mapLevel;
         int chance;
         Fire fire;
@@ -376,7 +373,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
             mapLevel = Owner.Owner;
             sbyte hexY = GetHexY();
             sbyte hexX = GetHexX();
-            HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 1);
+            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 1);
             while (walk.Radius == 1)
             {
                 // { Original excludes the top row when spreading fire. }

@@ -28,14 +28,12 @@ public partial class UnitPositionControl : EngineObject
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
         UnitPositionHexSprite hexSprite;
-        int x = default;
-        int y = default;
         int l;
         base.MessageProc(ref message, sender);
         if (message.MessageId == 65541)
         {
             l = message.Data[1];
-            HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out x, out y);
+            HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out int x, out int y);
             if (CombatMap.Current.MapContainer.GetField(x, y, l).TerrainType != 15)
             {
                 hexSprite = CombatMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild<UnitPositionHexSprite>(2228483);

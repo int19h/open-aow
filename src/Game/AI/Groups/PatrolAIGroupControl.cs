@@ -88,13 +88,13 @@ public partial class PatrolAIGroupControl : AIGroupControl
                 defense = new AIGroupDefenseControl(null) { Holder = CreationHolder() };
                 defense.DefendMode = AIGroupDefenseControl.GroupDefendMode.Wait;
                 ActivatePlugin(defense);
-                defense.Release();
+                _ = defense.Release();
                 State = 1;
                 break;
             case 1:
                 if (Group.PatrolTo.X == -1 || (Group.PatrolTo.MapLevel == Location.MapLevel && HexGeometry.DeltaHexToRadius(Group.PatrolTo.X, Group.PatrolTo.Y, Location.X, Location.Y) <= 2))
                 {
-                    ResetPatrolToLocation();
+                    _ = ResetPatrolToLocation();
                 }
 
                 State += 1;
@@ -104,9 +104,9 @@ public partial class PatrolAIGroupControl : AIGroupControl
                 {
                     State += 1;
                     recruitment = new AIRecruitmentGroupFinder(null) { Holder = CreationHolder() };
-                    recruitment.Setup(this);
+                    _ = recruitment.Setup(this);
                     ActivatePlugin(recruitment);
-                    recruitment.Release();
+                    _ = recruitment.Release();
                 }
                 else
                 {
@@ -122,22 +122,22 @@ public partial class PatrolAIGroupControl : AIGroupControl
                     recruit.RecruitStrength = Group.PatrolStrength - StrengthMax;
                     recruit.Mode = AIGroupRecruitControlMode.AutoRecruit;
                     ActivatePlugin(recruit);
-                    recruit.Release();
+                    _ = recruit.Release();
                 }
 
                 State += 1;
                 break;
             case 4:
                 finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
-                finder.Setup(this);
+                _ = finder.Setup(this);
                 sbyte moves = Army.Moves(Selection);
                 finder.Selector.MovePointsMax = moves;
                 ActivatePlugin(finder);
-                finder.Release();
+                _ = finder.Release();
                 State += 1;
                 break;
             case 5:
-                Targets.Validate();
+                _ = Targets.Validate();
                 if (Targets.Count != 0)
                 {
                     SetupME();
@@ -168,11 +168,11 @@ public partial class PatrolAIGroupControl : AIGroupControl
             case 7:
                 settings = new MoveControlSettings(null) { Holder = CreationHolder() };
                 settings.Player = Group.Player;
-                settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);
+                settings.Mode += Set<MoveModeElement>.Of(MoveModeElement.AI);
                 settings.SetSourcePosition(Location);
                 settings.SetDestinationPosition(Group.PatrolFrom);
                 settings.MovePointsMax = 48;
-                settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.IgnoreArmies);
+                settings.Mode += Set<MoveModeElement>.Of(MoveModeElement.IgnoreArmies);
                 settings.ArmyHexSprite = ArmyHexSprite;
                 settings.Selection = Selection;
                 settings.MovePointTable = MovePointTable;
@@ -182,7 +182,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
                     Group.PatrolFrom = MapCoordinate.None;
                 }
 
-                settings.Release();
+                _ = settings.Release();
                 Done();
                 break;
         }
@@ -215,10 +215,10 @@ public partial class PatrolAIGroupControl : AIGroupControl
 
         settings = new MoveControlSettings(null) { Holder = CreationHolder() };
         settings.Player = group.Player;
-        settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.AI, MoveModeElement.IgnoreArmies);
+        settings.Mode += Set<MoveModeElement>.Of(MoveModeElement.AI, MoveModeElement.IgnoreArmies);
         settings.SetSourcePosition(group.PatrolFrom);
         settings.MovePointsMax = 48;
-        settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
+        settings.Mode += Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
         settings.ArmyHexSprite = ArmyHexSprite;
         settings.Selection = Selection;
         settings.MovePointTable = MovePointTable;
@@ -240,7 +240,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
                 mapField = fields.List[i];
                 heading = HexGeometry.DeltaHexToHexDirection(x, y, mapField.HexX, mapField.HexY);
                 int movePoints = settings.GetMovePoints(mapField.HexX, mapField.HexY, mapField.HexLevel);
-                lists[heading].AddAbility(mapField, movePoints);
+                _ = lists[heading].AddAbility(mapField, movePoints);
             }
         }
 
@@ -267,7 +267,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
                     if (message.Result.Int == 0)
                     {
                         DoubleItem<MapField> item = lists[i][j];
-                        newList.Add(item);
+                        _ = newList.Add(item);
                     }
                 }
 
@@ -281,7 +281,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
         mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(group.PatrolFrom);
         if (mapField.GetPlayer() == -1)
         {
-            lists[0].AddAbility(mapField, 0);
+            _ = lists[0].AddAbility(mapField, 0);
         }
 
         lastHeading = group.PatrolTo.X != -1
@@ -296,7 +296,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
             {
                 if (previousHeading == 0 || PatrolHeadingDistance(i, lastHeading) > 1 || PatrolHeadingDistance(i, previousHeading) > 1)
                 {
-                    choices.Add((byte)i);
+                    _ = choices.Add((byte)i);
                 }
             }
         }
@@ -307,7 +307,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
             {
                 if (lists[i].Count != 0 && lastHeading != i)
                 {
-                    choices.Add((byte)i);
+                    _ = choices.Add((byte)i);
                 }
             }
         }
@@ -334,7 +334,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
         }
 
         choices?.Dispose();
-        settings.Release();
+        _ = settings.Release();
         return result;
     }
 

@@ -46,7 +46,7 @@ public partial class ItemList : ObservableNode, IChildList<Item>, IItemHolder
             {
                 if (GetChild(i) != null)
                 {
-                    this[i].Release();
+                    _ = this[i].Release();
                 }
             }
         }
@@ -65,7 +65,7 @@ public partial class ItemList : ObservableNode, IChildList<Item>, IItemHolder
                 {
                     if (child.Owner != this)
                     {
-                        child.Release();
+                        _ = child.Release();
                         DeleteChildAt(i);
                     }
                     else
@@ -92,7 +92,7 @@ public partial class ItemList : ObservableNode, IChildList<Item>, IItemHolder
         int result = base.RemoveChild(child);
         if (result != -1)
         {
-            child.Release();
+            _ = child.Release();
         }
 
         return result;
@@ -104,7 +104,7 @@ public partial class ItemList : ObservableNode, IChildList<Item>, IItemHolder
         int result = base.AddChild(child);
         if (result != -1)
         {
-            child.AddRef();
+            _ = child.AddRef();
         }
 
         return result;

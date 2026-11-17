@@ -92,7 +92,7 @@ public partial class ArmyInfoEventLog : EventLog
                     }
                     else
                     {
-                        AudioPlayback.PlaySample("SFX\\EVENTS\\NEWEVENT.WAV");
+                        _ = AudioPlayback.PlaySample("SFX\\EVENTS\\NEWEVENT.WAV");
                     }
 
                     break;

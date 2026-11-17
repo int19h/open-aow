@@ -43,20 +43,17 @@ public partial class SummonSpellTokenEvent : SpellTokenEvent
     public override bool Process(Troop source, int value)
     {
         bool done;
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         Unit u;
         ArmyHexSprite army;
         UnitEnchantment enchantment;
         AIGroup group;
         ImageSequenceAnimation animation;
-        base.Process(source, value);
+        _ = base.Process(source, value);
         done = false;
         MapCoordinate coordinate11 = source.GetLocation();
-        x = coordinate11.X;
-        y = coordinate11.Y;
-        l = coordinate11.MapLevel;
+        sbyte x = coordinate11.X;
+        sbyte y = coordinate11.Y;
+        sbyte l = coordinate11.MapLevel;
         for (int i = 0, last = UnitIndices.Count - 1; i <= last; i++)
         {
             u = new Unit(null) { Holder = CreationHolder() };
@@ -76,7 +73,7 @@ public partial class SummonSpellTokenEvent : SpellTokenEvent
                         enchantment.SetSource(source.Player);
                         enchantment.DispelResistance = (sbyte)GamePack.Current.SpellControl.GetSpell<SummonSpell>(EventSpellId).GetDispelResistance(u);
                         group = source.Group;
-                        group?.AddUnit(u);
+                        _ = (group?.AddUnit(u));
                     }
 
                     done = true;
@@ -87,7 +84,7 @@ public partial class SummonSpellTokenEvent : SpellTokenEvent
                 }
             }
 
-            u.Release();
+            _ = u.Release();
         }
 
         if (done)
@@ -97,19 +94,19 @@ public partial class SummonSpellTokenEvent : SpellTokenEvent
                 StrategicMap.Current.MakeVisible(x, y, l, 3);
             }
 
-            StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
+            _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
             if (StrategicMap.Current.Visible(x, y, l, 0))
             {
                 if (GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] != null)
                 {
                     animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
-                    StrategicMap.Current.PlaceHex(animation, x, y, l);
+                    _ = StrategicMap.Current.PlaceHex(animation, x, y, l);
                 }
 
                 if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(x, y, l, 0))
                 {
-                    GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
+                    _ = GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
                 }
             }
 

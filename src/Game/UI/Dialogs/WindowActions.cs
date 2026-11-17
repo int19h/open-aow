@@ -70,8 +70,8 @@ public static class WindowActions
             unitWindow.WinHeight = unitWindow.MinHeight;
         }
 
-        controller.UI.Engine.Registry.GetRectangle(3);
-        controller.UI.Engine.Registry.GetRectangle(4);
+        _ = controller.UI.Engine.Registry.GetRectangle(3);
+        _ = controller.UI.Engine.Registry.GetRectangle(4);
         r = controller.UI.Engine.Registry.GetRectangle(5);
         Window realm = controller.UI.RealmWindow.Window;
         if (r.Right != 0)

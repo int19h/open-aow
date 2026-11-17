@@ -134,11 +134,11 @@ public partial class BookWindow : Window
         if (BackSurface != null && _pageSurface != null)
         {
             r = new Rect(0, 0, WinWidth, WinHeight);
-            BackSurface.Lock(ref source);
-            _pageSurface.Lock(ref destination);
-            LockedSurface.BlitSurfaceDescriptionRectangleClipped(source, r, destination, 0, 0);
-            _pageSurface.Unlock();
-            BackSurface.Unlock();
+            _ = BackSurface.Lock(ref source);
+            _ = _pageSurface.Lock(ref destination);
+            _ = LockedSurface.BlitSurfaceDescriptionRectangleClipped(source, r, destination, 0, 0);
+            _ = _pageSurface.Unlock();
+            _ = BackSurface.Unlock();
             PageTurn.SetPageDimensions(271, 368);
             PageTurn.Speed = 15;
             PageTurn.Start(mode);

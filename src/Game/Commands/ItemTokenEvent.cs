@@ -38,7 +38,7 @@ public partial class ItemTokenEvent : TokenEvent
         bool done;
         Item item;
         Hero hero;
-        base.Execute(tokenEvent);
+        _ = base.Execute(tokenEvent);
         done = false;
         item = StrategicMap.Current.ItemControl.FindItem(ItemId);
         if (item != null)

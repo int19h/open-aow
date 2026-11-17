@@ -111,7 +111,7 @@ public partial class Terror : CombatSpell
         }
 
         source.Combat.ExecuteCombatAction(action);
-        action.Release();
+        _ = action.Release();
         return true;
     }
 

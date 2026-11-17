@@ -63,7 +63,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
         StringList message = new();
         foreach (string line in Proposal.Message)
         {
-            message.Add(line);
+            _ = message.Add(line);
         }
 
         Source = PersistSupport.UnsignedByte(persister, name: "Source", value: Source);
@@ -258,7 +258,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
             tokenEvent.SetDiplomaticAction(this);
             tokenEvent.Operation = 0;
             StrategicMap.Current.TokenManager.TokenControls[Source].AddEvent(tokenEvent);
-            tokenEvent.Release();
+            _ = tokenEvent.Release();
             result = true;
         }
         else
@@ -283,7 +283,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
             tokenEvent.SetDiplomaticAction(this);
             tokenEvent.Operation = 1;
             StrategicMap.Current.TokenManager.TokenControls[Target].AddEvent(tokenEvent);
-            tokenEvent.Release();
+            _ = tokenEvent.Release();
             result = true;
         }
         else
@@ -308,7 +308,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
             tokenEvent.SetDiplomaticAction(this);
             tokenEvent.Operation = 2;
             StrategicMap.Current.TokenManager.TokenControls[Target].AddEvent(tokenEvent);
-            tokenEvent.Release();
+            _ = tokenEvent.Release();
             result = true;
         }
         else
@@ -344,8 +344,8 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
         {
             action = Copy<DiplomaticAction>(GetEngine());
             action.Proposal = action.Proposal with { Message = [] };
-            StrategicMap.Current.Players.GetPlayers(player).DiplomaticActions.AddChild(action);
-            action.Release();
+            _ = StrategicMap.Current.Players.GetPlayers(player).DiplomaticActions.AddChild(action);
+            _ = action.Release();
         }
     }
 

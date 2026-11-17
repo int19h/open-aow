@@ -123,11 +123,11 @@ public partial class ImageSequence : IDisposable
     public void GetDimensions(out Rect R)
     {
         LibraryImage image;
-        Rect ir = default;
         // The out value is assigned before its members are written.
         R = default;
         if (_imageLibrary != null)
         {
+            Rect ir;
             switch (_sequenceMode)
             {
                 case SequenceMode.FrameTable:
@@ -140,7 +140,7 @@ public partial class ImageSequence : IDisposable
                             if (image != null)
                             {
                                 image.GetVisualDimensions(out ir);
-                                UnionRect(out R, R, ir);
+                                _ = UnionRect(out R, R, ir);
                             }
                         }
                     }
@@ -156,7 +156,7 @@ public partial class ImageSequence : IDisposable
                             if (image != null)
                             {
                                 image.GetVisualDimensions(out ir);
-                                UnionRect(out R, R, ir);
+                                _ = UnionRect(out R, R, ir);
                             }
                         }
                     }
@@ -228,7 +228,7 @@ public partial class ImageSequence : IDisposable
                         result = _frameCounter + offset;
                         if (_frameTable.Count != 0)
                         {
-                            result = result % _frameTable.Count;
+                            result %= _frameTable.Count;
                             result = _frameTable.List[result];
                         }
                         else
@@ -254,7 +254,7 @@ public partial class ImageSequence : IDisposable
                         }
 
                         result = _frameCounter + offset;
-                        result = result % _imageLibrary.Count;
+                        result %= _imageLibrary.Count;
                         break;
                     case SequenceMode.UpDown:
                         if (frame != _lastFrame)
@@ -427,10 +427,7 @@ public partial class ImageSequence : IDisposable
         stream.ReadExactly(Bytes.Of(ref _offsetY, 4));
         if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RandomFrameTable).Contains(_sequenceMode))
         {
-            if (_frameTable == null)
-            {
-                _frameTable = new FrameTableList();
-            }
+            _frameTable ??= new FrameTableList();
 
             _frameTable.LoadFromStream(stream);
             _imageIndex = Random(_frameTable.Count);
@@ -490,10 +487,7 @@ public partial class ImageSequence : IDisposable
         _offsetY = stored.OffsetY;
         if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RandomFrameTable).Contains(_sequenceMode))
         {
-            if (_frameTable == null)
-            {
-                _frameTable = new FrameTableList();
-            }
+            _frameTable ??= new FrameTableList();
 
             _frameTable.LoadItems(stored.Frames.Default, stored.Frames.Items);
             _imageIndex = Random(_frameTable.Count);
@@ -535,8 +529,8 @@ public partial class ImageSequence : IDisposable
         Dib16Surface surface;
         int index;
         surface = new Dib16Surface(R.Right - R.Left, R.Bottom - R.Top, PixelFormats.pfRGB565);
-        surface.Clear(bkColor);
-        surface.Lock(ref lockedSurface);
+        _ = surface.Clear(bkColor);
+        _ = surface.Lock(ref lockedSurface);
         while (sequence != null)
         {
             index = sequence.GetUnloopedFrameIndex(frame);
@@ -548,7 +542,7 @@ public partial class ImageSequence : IDisposable
             sequence = sequence._next;
         }
 
-        surface.Unlock();
+        _ = surface.Unlock();
         /* TODO: Implement cell or array backing for this address. */
         throw new NotImplementedException();
         surface?.Dispose();

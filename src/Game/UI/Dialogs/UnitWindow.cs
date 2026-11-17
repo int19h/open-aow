@@ -373,9 +373,9 @@ public partial class UnitWindow : UIModule
         DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
-        lists.Add(AbilityAbilityList);
-        lists.Add(AbilityTypeList);
-        lists.Add(AbilitySourceList);
+        _ = lists.Add(AbilityAbilityList);
+        _ = lists.Add(AbilityTypeList);
+        _ = lists.Add(AbilitySourceList);
         UI.General.SortLists(ref lists, 0);
         AbilityUseButton.Visible = false;
     }
@@ -386,9 +386,9 @@ public partial class UnitWindow : UIModule
         DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
-        lists.Add(AbilityTypeList);
-        lists.Add(AbilityAbilityList);
-        lists.Add(AbilitySourceList);
+        _ = lists.Add(AbilityTypeList);
+        _ = lists.Add(AbilityAbilityList);
+        _ = lists.Add(AbilitySourceList);
         UI.General.SortLists(ref lists, 0);
         AbilityUseButton.Visible = false;
     }
@@ -399,9 +399,9 @@ public partial class UnitWindow : UIModule
         DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
-        lists.Add(AbilitySourceList);
-        lists.Add(AbilityAbilityList);
-        lists.Add(AbilityTypeList);
+        _ = lists.Add(AbilitySourceList);
+        _ = lists.Add(AbilityAbilityList);
+        _ = lists.Add(AbilityTypeList);
         UI.General.SortLists(ref lists, 0);
         AbilityUseButton.Visible = false;
     }
@@ -456,7 +456,7 @@ public partial class UnitWindow : UIModule
         {
             if (hero.CanUseItem(s_selectedItem.Tag, ref reason))
             {
-                hero.UseItem(s_selectedItem.Tag);
+                _ = hero.UseItem(s_selectedItem.Tag);
             }
             else
             {
@@ -544,7 +544,7 @@ public partial class UnitWindow : UIModule
                 : Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.Rank);
 
             UIComponent image = sender;
-            UI.General.SelectedUnit.Show(image.WinLeft + 49, image.WinTop + 78, lockedSurface, _showInfo);
+            _ = UI.General.SelectedUnit.Show(image.WinLeft + 49, image.WinTop + 78, lockedSurface, _showInfo);
         }
     }
 

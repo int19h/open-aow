@@ -40,7 +40,7 @@ public partial class StrikeCombatAction : DamageCombatAction
         DamageDone = (byte)source.DoDamage(target, Damage);
         if (Effects != Set<DamageType>.Of())
         {
-            target.ExecuteDamageEffects(Effects);
+            _ = target.ExecuteDamageEffects(Effects);
         }
 
         if (DamageDone != 0 && StrikeMode.Contains(StrikeModeElement.LifeStealing) && target is CombatUnit targetUnit && targetUnit.Troop.GetUnitType() != UnitType.Machine)
@@ -50,12 +50,12 @@ public partial class StrikeCombatAction : DamageCombatAction
 
         if (StrikeMode.Contains(StrikeModeElement.CausedFear) && target is CombatUnit fearTarget)
         {
-            GamePack.Current.AbilityControl.GetAbility(108).Expand(fearTarget.Troop);
+            _ = GamePack.Current.AbilityControl.GetAbility(108).Expand(fearTarget.Troop);
         }
 
         if (StrikeMode.Contains(StrikeModeElement.Entangled) && target is CombatUnit entangledTarget)
         {
-            GamePack.Current.AbilityControl.GetAbility(94).Expand(entangledTarget.Troop);
+            _ = GamePack.Current.AbilityControl.GetAbility(94).Expand(entangledTarget.Troop);
             data = entangledTarget.Troop.GetAbilityData<UnitEnchantmentAbilityData>(94);
             data?.EnchantmentPlayerIndex = source.CombatPlayer;
         }
@@ -87,12 +87,12 @@ public partial class StrikeCombatAction : DamageCombatAction
         {
             if (source.GetAbilityEnabled(51) && !target.GetAbilityEnabled(67) && HitChance.HitRole(3 - target.GetResistance()))
             {
-                StrikeMode = StrikeMode + Set<StrikeModeElement>.Of(StrikeModeElement.CausedFear);
+                StrikeMode += Set<StrikeModeElement>.Of(StrikeModeElement.CausedFear);
             }
 
             if (source.GetAbilityEnabled(119) && HitChance.HitRole(7 - target.GetResistance()))
             {
-                StrikeMode = StrikeMode + Set<StrikeModeElement>.Of(StrikeModeElement.Entangled);
+                StrikeMode += Set<StrikeModeElement>.Of(StrikeModeElement.Entangled);
             }
         }
     }

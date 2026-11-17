@@ -16,7 +16,7 @@ public partial class SummonAirElemental : SummonSpell
         BaseManaCost = 5;
         SpellLevel = 4;
         MagicSphere = MagicSphere.Air;
-        UnitIndices.Add(224);
+        _ = UnitIndices.Add(224);
         CastDuration = 40;
         AIBasePriority = 750;
     }

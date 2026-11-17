@@ -105,12 +105,12 @@ public partial class BattleAI : IDisposable
         {
             if (targetUnit.Troop is Hero)
             {
-                strength = strength * 2;
+                strength *= 2;
             }
 
             if (targetUnit.Troop is Leader)
             {
-                strength = strength * 2;
+                strength *= 2;
             }
         }
 
@@ -120,16 +120,16 @@ public partial class BattleAI : IDisposable
         {
             if (sourceUnit.Troop is Hero)
             {
-                strength = strength * 2;
+                strength *= 2;
             }
 
             if (sourceUnit.Troop is Leader)
             {
-                strength = strength * 2;
+                strength *= 2;
             }
         }
 
-        result = result - (strength * damageValue2);
+        result -= strength * damageValue2;
         return result / 100;
     }
 
@@ -212,7 +212,7 @@ public partial class BattleAI : IDisposable
             result = unit.GetTargetStrength() * 20 * unit.GetHitPoints() / unit.GetHits();
             if (unit.Troop is Leader)
             {
-                result = result / 2;
+                result /= 2;
             }
 
             for (int i = 0, last = _enemies.Count - 1; i <= last; i++)
@@ -221,7 +221,7 @@ public partial class BattleAI : IDisposable
                 distance = HexGeometry.DeltaHexToRadius(x, y, _enemies[i].UnitHexSprite.GetHexX(), hexY);
                 if (distance < 15 && _enemies[i].GetTargetStrength() > 0)
                 {
-                    result = result - (_enemies[i].GetTargetStrength() * (15 - distance));
+                    result -= _enemies[i].GetTargetStrength() * (15 - distance);
                 }
             }
 
@@ -233,7 +233,7 @@ public partial class BattleAI : IDisposable
                     distance = HexGeometry.DeltaHexToRadius(x, y, _units[i].UnitHexSprite.GetHexX(), hexY);
                     if (distance < 15 && _units[i].GetTargetStrength() > 0)
                     {
-                        result = result + (_units[i].GetTargetStrength() * (15 - distance));
+                        result += _units[i].GetTargetStrength() * (15 - distance);
                     }
                 }
             }
@@ -244,7 +244,7 @@ public partial class BattleAI : IDisposable
                 distance = HexGeometry.DeltaHexToRadius(x, y, _allies[i].UnitHexSprite.GetHexX(), hexY);
                 if (distance < 15 && _allies[i].GetTargetStrength() > 0)
                 {
-                    result = result + (_allies[i].GetTargetStrength() * (15 - distance));
+                    result += _allies[i].GetTargetStrength() * (15 - distance);
                 }
             }
         }
@@ -285,7 +285,7 @@ public partial class BattleAI : IDisposable
                             if (hexSprite != null && hexSprite.Unit != ignore && hexSprite.Unit.GetSide() != unit.GetSide() && CombatObject.MeleeDamageTypes(hexSprite.Unit) != Set<DamageType>.Of() && !hexSprite.Unit.GetLocked() && hexSprite.Unit.GetAbilityEnabled(1) == unit.GetAbilityEnabled(1))
                             {
                                 int tacticalBattleDamageValueToDamageEvaluation2 = TacticalBattleDamageValueToDamageEvaluation(CombatObject.StrikeDamageValue(hexSprite.Unit, unit), 0, hexSprite.Unit, unit);
-                                value = value - (tacticalBattleDamageValueToDamageEvaluation2 * 10);
+                                value -= tacticalBattleDamageValueToDamageEvaluation2 * 10;
                             }
                         }
                     }
@@ -375,13 +375,13 @@ public partial class BattleAI : IDisposable
                         }
                     }
 
-                    result = result + path.List[i].MoveCost;
+                    result += path.List[i].MoveCost;
                 }
             }
         }
         catch
         {
-            MessageBox(0, "Error during Eval Movepath", NullTerminatedText("Error - TCAI " + unit.Troop.GetName()), 0);
+            _ = MessageBox(0, "Error during Eval Movepath", NullTerminatedText("Error - TCAI " + unit.Troop.GetName()), 0);
         }
 
         return result;
@@ -397,12 +397,12 @@ public partial class BattleAI : IDisposable
             {
                 if (multiplier != 1)
                 {
-                    result = result * multiplier;
+                    result *= multiplier;
                 }
 
                 if (divider is not 1 and not 0)
                 {
-                    result = result / divider;
+                    result /= divider;
                 }
             }
             catch
@@ -411,12 +411,12 @@ public partial class BattleAI : IDisposable
                 {
                     if (divider is not 1 and not 0)
                     {
-                        result = result / divider;
+                        result /= divider;
                     }
 
                     if (multiplier != 1)
                     {
-                        result = result * multiplier;
+                        result *= multiplier;
                     }
                 }
                 catch
@@ -431,12 +431,12 @@ public partial class BattleAI : IDisposable
             {
                 if (divider != 1)
                 {
-                    result = result * divider;
+                    result *= divider;
                 }
 
                 if (multiplier is not 1 and not 0)
                 {
-                    result = result / multiplier;
+                    result /= multiplier;
                 }
             }
             catch
@@ -445,12 +445,12 @@ public partial class BattleAI : IDisposable
                 {
                     if (multiplier is not 1 and not 0)
                     {
-                        result = result / multiplier;
+                        result /= multiplier;
                     }
 
                     if (divider != 1)
                     {
-                        result = result * divider;
+                        result *= divider;
                     }
                 }
                 catch
@@ -492,12 +492,12 @@ public partial class BattleAI : IDisposable
                             if (target.GetSide() != _side)
                             {
                                 int tacticalBattleDamageValueToDamageEvaluation2 = TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, target);
-                                value = value - tacticalBattleDamageValueToDamageEvaluation2;
+                                value -= tacticalBattleDamageValueToDamageEvaluation2;
                             }
                             else
                             {
                                 int tacticalBattleDamageValueToDamageEvaluation2 = TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, target);
-                                value = value + tacticalBattleDamageValueToDamageEvaluation2;
+                                value += tacticalBattleDamageValueToDamageEvaluation2;
                             }
 
                             break;
@@ -507,14 +507,14 @@ public partial class BattleAI : IDisposable
                                 sbyte hitPoints = target.GetHitPoints();
                                 sbyte hits = target.GetHits();
                                 int multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, target), hits, hitPoints);
-                                value = value + multDamageEvaluation;
+                                value += multDamageEvaluation;
                             }
                             else
                             {
                                 sbyte hitPoints = target.GetHitPoints();
                                 sbyte hits = target.GetHits();
                                 int multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, target), hits, hitPoints);
-                                value = value - multDamageEvaluation;
+                                value -= multDamageEvaluation;
                             }
 
                             break;
@@ -565,12 +565,12 @@ public partial class BattleAI : IDisposable
                                 if (hexSprite.Unit.GetSide() != U.GetSide())
                                 {
                                     int tacticalBattleDamageValueToDamageEvaluation2 = TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, hexSprite.Unit);
-                                    value = value + tacticalBattleDamageValueToDamageEvaluation2;
+                                    value += tacticalBattleDamageValueToDamageEvaluation2;
                                 }
                                 else
                                 {
                                     int tacticalBattleDamageValueToDamageEvaluation2 = TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, hexSprite.Unit);
-                                    value = value - tacticalBattleDamageValueToDamageEvaluation2;
+                                    value -= tacticalBattleDamageValueToDamageEvaluation2;
                                 }
 
                                 break;
@@ -580,14 +580,14 @@ public partial class BattleAI : IDisposable
                                     sbyte hitPoints = hexSprite.Unit.GetHitPoints();
                                     sbyte hits = hexSprite.Unit.GetHits();
                                     int multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, hexSprite.Unit), hits, hitPoints);
-                                    value = value + multDamageEvaluation;
+                                    value += multDamageEvaluation;
                                 }
                                 else
                                 {
                                     sbyte hitPoints = hexSprite.Unit.GetHitPoints();
                                     sbyte hits = hexSprite.Unit.GetHits();
                                     int multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, hexSprite.Unit), hits, hitPoints);
-                                    value = value - multDamageEvaluation;
+                                    value -= multDamageEvaluation;
                                 }
 
                                 break;
@@ -600,14 +600,14 @@ public partial class BattleAI : IDisposable
                             sbyte hitPoints = hexSprite.Unit.GetHitPoints();
                             sbyte hits = hexSprite.Unit.GetHits();
                             int multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, hexSprite.Unit), hits, hitPoints);
-                            value = value + multDamageEvaluation;
+                            value += multDamageEvaluation;
                         }
                         else
                         {
                             sbyte hitPoints = hexSprite.Unit.GetHitPoints();
                             sbyte hits = hexSprite.Unit.GetHits();
                             int multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, hexSprite.Unit), hits, hitPoints);
-                            value = value - multDamageEvaluation;
+                            value -= multDamageEvaluation;
                         }
 
                         break;
@@ -646,12 +646,12 @@ public partial class BattleAI : IDisposable
                     if (U.GetSide() == CombatSideIndex.Attacker)
                     {
                         int multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, CombatMap.Current.Combat.CombatData.Wall), TacticalTables.WallMaxHitPoints[wall.WallType - 1], wall.HitPoints);
-                        value = value + multDamageEvaluation;
+                        value += multDamageEvaluation;
                     }
                     else
                     {
                         int multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, CombatMap.Current.Combat.CombatData.Wall), TacticalTables.WallMaxHitPoints[wall.WallType - 1], wall.HitPoints);
-                        value = value - multDamageEvaluation;
+                        value -= multDamageEvaluation;
                     }
                 }
             }
@@ -679,8 +679,6 @@ public partial class BattleAI : IDisposable
         int result;
         Point3DList point3DList;
         DelphiList<RangedObstacle> obstacles;
-        int x = default;
-        int y = default;
         int v = default;
         int total;
         int original;
@@ -715,17 +713,17 @@ public partial class BattleAI : IDisposable
                         RangedObstacle obstacle = obstacles[i];
                         Point3D path = point3DList[obstacle.PathIndex];
                         RangedObstacle obstacle2 = obstacles[i];
-                        HexGeometry.PixelToHex(point3DList[obstacle2.PathIndex].X, path.Y, out x, out y);
+                        HexGeometry.PixelToHex(point3DList[obstacle2.PathIndex].X, path.Y, out int x, out int y);
                         v = 0;
                         EvalHex(ignore, ability, spell, x, y, ref v, hitWalls, true, U, ignoreWall);
                         try
                         {
                             RangedObstacle obstacle3 = obstacles[i];
-                            total = total + (v * chance / 100 * obstacle3.Chance / 100);
+                            total += v * chance / 100 * obstacle3.Chance / 100;
                         }
                         catch
                         {
-                            total = total + (obstacles[i].Chance * (v / 100 * chance / 100));
+                            total += obstacles[i].Chance * (v / 100 * chance / 100);
                         }
 
                         chance = (100 - obstacles[i].Chance) * chance / 100;
@@ -741,7 +739,7 @@ public partial class BattleAI : IDisposable
                     value = value / 100 * chance;
                 }
 
-                value = value + total;
+                value += total;
                 point3DList?.Dispose();
                 {
                     for (int i = 0, last = obstacles.Count - 1; i <= last; i++)
@@ -780,11 +778,11 @@ public partial class BattleAI : IDisposable
             {
                 sbyte fUnitHexSpriteHexX = U.UnitHexSprite.GetHexX();
                 sbyte fUnitHexSpriteHexY = U.UnitHexSprite.GetHexY();
-                EvalPath(ref v, ignore, ability, spell, fUnitHexSpriteHexX, fUnitHexSpriteHexY, x, y, false, U, null);
+                _ = EvalPath(ref v, ignore, ability, spell, fUnitHexSpriteHexX, fUnitHexSpriteHexY, x, y, false, U, null);
             }
 
-            value = value + v;
-            result = result - v;
+            value += v;
+            result -= v;
         }
 
         return result;
@@ -839,7 +837,7 @@ public partial class BattleAI : IDisposable
             int last = basePath.Count - 1;
             for (; i <= last; i += 1)
             {
-                pathStepList.Add(basePath[i]);
+                _ = pathStepList.Add(basePath[i]);
             }
         }
         else
@@ -946,7 +944,7 @@ public partial class BattleAI : IDisposable
             }
             catch
             {
-                MessageBox(0, "Error during Melee Check", "Error - TCAI ", 0);
+                _ = MessageBox(0, "Error during Melee Check", "Error - TCAI ", 0);
             }
 
             for (int abilityIndex = 0, last = abilities.Count - 1; abilityIndex <= last; abilityIndex++)
@@ -956,7 +954,7 @@ public partial class BattleAI : IDisposable
                 int limit = basePath.Count - 1;
                 for (; i <= limit; i += 1)
                 {
-                    pathStepList.Add(basePath[i]);
+                    _ = pathStepList.Add(basePath[i]);
                 }
 
                 ability = abilities[abilityIndex].Ability;
@@ -1335,7 +1333,7 @@ public partial class BattleAI : IDisposable
                                                             int last2 = pathStepList.Count - 1;
                                                             for (; i <= last2; i += 1)
                                                             {
-                                                                detourPathPathStepList.Add(pathStepList[i]);
+                                                                _ = detourPathPathStepList.Add(pathStepList[i]);
                                                             }
 
                                                             terrainValue = 0;
@@ -1461,7 +1459,7 @@ public partial class BattleAI : IDisposable
                         }
                         catch
                         {
-                            MessageBox(0, "Error during Spell Check", NullTerminatedText("Error - TCAI " + IntToStr(ability) + " " + IntToStr(spell)), 0);
+                            _ = MessageBox(0, "Error during Spell Check", NullTerminatedText("Error - TCAI " + IntToStr(ability) + " " + IntToStr(spell)), 0);
                         }
 
                         break;
@@ -1600,7 +1598,7 @@ public partial class BattleAI : IDisposable
                                     }
                                     catch
                                     {
-                                        MessageBox(0, "Error during Touch Check", NullTerminatedText("Error - TCAI " + IntToStr(ability) + " " + IntToStr(spell)), 0);
+                                        _ = MessageBox(0, "Error during Touch Check", NullTerminatedText("Error - TCAI " + IntToStr(ability) + " " + IntToStr(spell)), 0);
                                     }
                                 }
 
@@ -1744,7 +1742,7 @@ public partial class BattleAI : IDisposable
                                                         int last2 = pathStepList.Count - 1;
                                                         for (; i <= last2; i += 1)
                                                         {
-                                                            detourPathPathStepList.Add(pathStepList[i]);
+                                                            _ = detourPathPathStepList.Add(pathStepList[i]);
                                                         }
 
                                                         terrainValue = 0;
@@ -1871,7 +1869,7 @@ public partial class BattleAI : IDisposable
                                 }
                                 catch
                                 {
-                                    MessageBox(0, "Error during Ranged Check", NullTerminatedText("Error - TCAI " + IntToStr(ability) + " " + IntToStr(spell)), 0);
+                                    _ = MessageBox(0, "Error during Ranged Check", NullTerminatedText("Error - TCAI " + IntToStr(ability) + " " + IntToStr(spell)), 0);
                                 }
 
                                 break;
@@ -2051,7 +2049,7 @@ public partial class BattleAI : IDisposable
                                                                     sbyte hexY2 = target.UnitHexSprite.GetHexY();
                                                                     sbyte hexX2 = u.UnitHexSprite.GetHexX();
                                                                     sbyte hexY3 = u.UnitHexSprite.GetHexY();
-                                                                    EvalPath(ref value, u, l, n, fUnitHexSpriteHexX, hexY2, hexX2, hexY3, false, target, null);
+                                                                    _ = EvalPath(ref value, u, l, n, fUnitHexSpriteHexX, hexY2, hexX2, hexY3, false, target, null);
                                                                     if (value > 0)
                                                                     {
                                                                         _ignoreWalls = true;
@@ -2090,7 +2088,7 @@ public partial class BattleAI : IDisposable
                                                                     sbyte hexY2 = target.UnitHexSprite.GetHexY();
                                                                     sbyte hexX2 = u.UnitHexSprite.GetHexX();
                                                                     sbyte hexY3 = u.UnitHexSprite.GetHexY();
-                                                                    EvalPath(ref value, u, l, 0, fUnitHexSpriteHexX, hexY2, hexX2, hexY3, false, target, null);
+                                                                    _ = EvalPath(ref value, u, l, 0, fUnitHexSpriteHexX, hexY2, hexX2, hexY3, false, target, null);
                                                                     if (value > 0)
                                                                     {
                                                                         _ignoreWalls = true;
@@ -2117,7 +2115,7 @@ public partial class BattleAI : IDisposable
                     }
                     catch
                     {
-                        MessageBox(0, "Error - TCAI", "Error during Create Unit List", 0);
+                        _ = MessageBox(0, "Error - TCAI", "Error during Create Unit List", 0);
                     }
 
                     break;
@@ -2164,7 +2162,7 @@ public partial class BattleAI : IDisposable
                                                         GamePack.Current.SpellControl.GetSpell(k).GetCombatInfo(u.Troop, ref spellInfo);
                                                         if (spellInfo.TargetTypes.Contains(CombatTargetTypeElement.Enemy))
                                                         {
-                                                            abilities.Add(new CombatAbilityRef());
+                                                            _ = abilities.Add(new CombatAbilityRef());
                                                             abilities[^1].Ability = j;
                                                             abilities[^1].Spell = k;
                                                         }
@@ -2178,7 +2176,7 @@ public partial class BattleAI : IDisposable
                                                     GamePack.Current.AbilityControl.GetAbility(j).GetCombatInfo(u.Troop, ref aiInfo);
                                                     if ((((byte)aiInfo.TargetTypes.Image) & 2) != 0)
                                                     {
-                                                        abilities.Add(new CombatAbilityRef());
+                                                        _ = abilities.Add(new CombatAbilityRef());
                                                         abilities[^1].Ability = j;
                                                     }
                                                 }
@@ -2188,7 +2186,7 @@ public partial class BattleAI : IDisposable
                                 }
                                 catch
                                 {
-                                    MessageBox(0, "Error during Eval Enemies", NullTerminatedText("Error - TCAI " + u.Troop.GetName()), 0);
+                                    _ = MessageBox(0, "Error during Eval Enemies", NullTerminatedText("Error - TCAI " + u.Troop.GetName()), 0);
                                 }
 
                                 settings = new CombatMoveControlSettings(null) { Holder = Creator.CreationHolder() };
@@ -2255,7 +2253,7 @@ public partial class BattleAI : IDisposable
                                                         GamePack.Current.SpellControl.GetSpell(k).GetCombatInfo(u.Troop, ref spellInfo);
                                                         if (spellInfo.TargetTypes.Contains(CombatTargetTypeElement.Friend))
                                                         {
-                                                            abilities.Add(new CombatAbilityRef());
+                                                            _ = abilities.Add(new CombatAbilityRef());
                                                             abilities[^1].Ability = j;
                                                             abilities[^1].Spell = k;
                                                         }
@@ -2269,7 +2267,7 @@ public partial class BattleAI : IDisposable
                                                     GamePack.Current.AbilityControl.GetAbility(j).GetCombatInfo(u.Troop, ref aiInfo);
                                                     if ((((byte)aiInfo.TargetTypes.Image) & 1) != 0)
                                                     {
-                                                        abilities.Add(new CombatAbilityRef());
+                                                        _ = abilities.Add(new CombatAbilityRef());
                                                         abilities[^1].Ability = j;
                                                     }
                                                 }
@@ -2279,7 +2277,7 @@ public partial class BattleAI : IDisposable
                                 }
                                 catch
                                 {
-                                    MessageBox(0, "Error during Eval Friends", NullTerminatedText("Error - TCAI " + u.Troop.GetName()), 0);
+                                    _ = MessageBox(0, "Error during Eval Friends", NullTerminatedText("Error - TCAI " + u.Troop.GetName()), 0);
                                 }
 
                                 if (abilities.Count > 0)
@@ -2369,7 +2367,7 @@ public partial class BattleAI : IDisposable
                             }
                             catch
                             {
-                                MessageBox(0, "Error - TCAI ", "Error during Eval Ending", 0);
+                                _ = MessageBox(0, "Error - TCAI ", "Error during Eval Ending", 0);
                             }
                         }
 
@@ -2377,7 +2375,7 @@ public partial class BattleAI : IDisposable
                     }
                     catch
                     {
-                        MessageBox(0, "Error - TCAI", "Error during Create Move List", 0);
+                        _ = MessageBox(0, "Error - TCAI", "Error during Create Move List", 0);
                     }
 
                     break;
@@ -2425,7 +2423,7 @@ public partial class BattleAI : IDisposable
                                                         if (spellInfo.DamageTypes.Contains(DamageType.Wall))
                                                         {
                                                             _flee = false;
-                                                            abilities.Add(new CombatAbilityRef());
+                                                            _ = abilities.Add(new CombatAbilityRef());
                                                             abilities[^1].Ability = j;
                                                             abilities[^1].Spell = k;
                                                         }
@@ -2441,7 +2439,7 @@ public partial class BattleAI : IDisposable
                                                 if (aiInfo.DamageTypes.Contains(DamageType.Wall))
                                                 {
                                                     _flee = false;
-                                                    abilities.Add(new CombatAbilityRef());
+                                                    _ = abilities.Add(new CombatAbilityRef());
                                                     abilities[^1].Ability = j;
                                                 }
                                             }
@@ -2460,7 +2458,7 @@ public partial class BattleAI : IDisposable
                                         settings.MoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee, CombatMoveModeElement.Move, CombatMoveModeElement.Wall);
                                         if (u.GetAbilityEnabled(65) || u.GetAbilityEnabled(117))
                                         {
-                                            settings.MoveFlags = settings.MoveFlags + Set<CombatMoveModeElement>.Of(CombatMoveModeElement.WallCrushing);
+                                            settings.MoveFlags += Set<CombatMoveModeElement>.Of(CombatMoveModeElement.WallCrushing);
                                         }
 
                                         MovePointTable movePointTable2 = settings.MovePointTable;
@@ -2537,7 +2535,7 @@ public partial class BattleAI : IDisposable
                     }
                     catch
                     {
-                        MessageBox(0, "Error - TCAI", "Error during Create WallCrush List", 0);
+                        _ = MessageBox(0, "Error - TCAI", "Error during Create WallCrush List", 0);
                     }
 
                     break;
@@ -2611,7 +2609,7 @@ public partial class BattleAI : IDisposable
                     }
                     catch
                     {
-                        MessageBox(0, "Error - TCAI", "Error during Build Group Bonuses", 0);
+                        _ = MessageBox(0, "Error - TCAI", "Error during Build Group Bonuses", 0);
                     }
 
                     break;
@@ -2762,7 +2760,7 @@ public partial class BattleAI : IDisposable
                     }
                     catch
                     {
-                        MessageBox(0, "Error - TCAI", "Error during Add Group Bonuses", 0);
+                        _ = MessageBox(0, "Error - TCAI", "Error during Add Group Bonuses", 0);
                     }
 
                     break;
@@ -2800,7 +2798,7 @@ public partial class BattleAI : IDisposable
                                             {
                                                 if (!_ignoreWalls || !ChargeFromPosition((int)(((uint)move.UnitHexSprite.Unit.Position) >> 4)) || _side == CombatSideIndex.Attacker)
                                                 {
-                                                    settings.MoveFlags = settings.MoveFlags + Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Wall);
+                                                    settings.MoveFlags += Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Wall);
                                                 }
                                             }
                                         }
@@ -2812,7 +2810,7 @@ public partial class BattleAI : IDisposable
                                         CombatMap.Current.MoveControl.ProcessMove(settings);
                                         if (settings.Path.Count < 2 && !settings.MoveFlags.Contains(CombatMoveModeElement.Wall))
                                         {
-                                            settings.MoveFlags = settings.MoveFlags + Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Wall);
+                                            settings.MoveFlags += Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Wall);
                                             CombatMap.Current.MoveControl.ProcessMove(settings);
                                         }
 
@@ -2914,7 +2912,7 @@ public partial class BattleAI : IDisposable
                                     settings.MoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee);
                                     if (aiInfo.DamageTypes.Contains(DamageType.Wall))
                                     {
-                                        settings.MoveFlags = settings.MoveFlags + Set<CombatMoveModeElement>.Of(CombatMoveModeElement.WallCrushing);
+                                        settings.MoveFlags += Set<CombatMoveModeElement>.Of(CombatMoveModeElement.WallCrushing);
                                     }
 
                                     MovePointTable movePointTable6 = settings.MovePointTable;
@@ -2985,7 +2983,7 @@ public partial class BattleAI : IDisposable
                     }
                     catch
                     {
-                        MessageBox(0, "Error - TCAI", "Error during Execute Moves", 0);
+                        _ = MessageBox(0, "Error - TCAI", "Error during Execute Moves", 0);
                     }
 
                     break;

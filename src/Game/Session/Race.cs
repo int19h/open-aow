@@ -195,7 +195,7 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
         {
             for (int i = 0; i <= 11; i++)
             {
-                DefaultRelations.Add((byte)(int)s_defaultRaceRelations[RaceIndex][i]);
+                _ = DefaultRelations.Add((byte)(int)s_defaultRaceRelations[RaceIndex][i]);
             }
         }
     }
@@ -208,7 +208,7 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
         {
             Player players = StrategicMap.Current.Players.GetPlayers(i);
             int statusToStatusValue = StatusToStatusValue((Status)DefaultRelations[players.PlayerRace]);
-            _playerRelations.Add(statusToStatusValue);
+            _ = _playerRelations.Add(statusToStatusValue);
         }
     }
 
@@ -226,14 +226,9 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
         {
             if (GamePack.Current.RaceResources.GetRaceResource(RaceIndex) != null)
             {
-                if (value)
-                {
-                    GamePack.Current.RaceResources.GetRaceResource(RaceIndex).AddRef();
-                }
-                else
-                {
-                    GamePack.Current.RaceResources.GetRaceResource(RaceIndex).Release();
-                }
+                _ = value
+                    ? GamePack.Current.RaceResources.GetRaceResource(RaceIndex).AddRef()
+                    : GamePack.Current.RaceResources.GetRaceResource(RaceIndex).Release();
 
                 Enabled = value;
             }
@@ -264,7 +259,7 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
                 break;
             default:
                 result = 50;
-                new ArgumentException("Invalid TStatus Value");
+                _ = new ArgumentException("Invalid TStatus Value");
                 break;
         }
         return result;
@@ -353,7 +348,7 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
                     break;
                 default:
                     result = Status.Neutral;
-                    new ArgumentException("Invalid StatusValue");
+                    _ = new ArgumentException("Invalid StatusValue");
                     break;
             }
         }

@@ -14,7 +14,7 @@ public partial class TouchAbility : AdjustableAbility
     // AoWAb.PAS:1843
     public TouchAbility(CustomNode owner) : base(owner)
     {
-        SelectionTypes = SelectionTypes + Set<AbilitySelectionType>.Of(AbilitySelectionType.UseItem);
+        SelectionTypes += Set<AbilitySelectionType>.Of(AbilitySelectionType.UseItem);
         AbilityType = AbilityType.Combat;
     }
 
@@ -133,7 +133,7 @@ public partial class TouchAbility : AdjustableAbility
             action.CombatObjectId = source.Id;
             action.InsideWall = 0;
             source.Combat.ExecuteCombatAction(action);
-            action.Release();
+            _ = action.Release();
         }
     }
 }

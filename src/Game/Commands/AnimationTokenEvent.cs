@@ -48,7 +48,7 @@ public partial class AnimationTokenEvent : TokenEvent
             {
                 if (!_animation.ExecuteTokenEvent(this, tokenEvent))
                 {
-                    _animation.RemoveTokenEvent(this, tokenEvent);
+                    _ = _animation.RemoveTokenEvent(this, tokenEvent);
                     _state = AnimationTokenEventState.Done;
                 }
             }

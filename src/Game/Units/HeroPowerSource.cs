@@ -32,14 +32,11 @@ public partial class HeroPowerSource : PowerSource
     // Hero.PAS:597
     public override void Select()
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         ArmyHexSprite armyHexSprite;
         MapCoordinate coordinate27 = GetLocation();
-        x = coordinate27.X;
-        y = coordinate27.Y;
-        l = coordinate27.MapLevel;
+        sbyte x = coordinate27.X;
+        sbyte y = coordinate27.Y;
+        sbyte l = coordinate27.MapLevel;
         if (x != -1)
         {
             armyHexSprite = StrategicMap.Current.MapContainer.GetField(x, y, l).GetArmyHexSprite();

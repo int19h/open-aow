@@ -49,7 +49,7 @@ public partial class RoundAttackAbility : TouchAbility
                 moveAction.CombatObjectId = source.Id;
                 moveAction.InsideWall = 0;
                 source.Combat.ExecuteCombatAction(moveAction);
-                moveAction.Release();
+                _ = moveAction.Release();
             }
         }
 
@@ -57,7 +57,7 @@ public partial class RoundAttackAbility : TouchAbility
         if (action != null)
         {
             combat.ExecuteCombatAction(action);
-            action.Release();
+            _ = action.Release();
         }
 
         for (int i = combat.Sides[(int)target.GetSide()].GetCount() - 1; i >= 0; i--)
@@ -66,7 +66,7 @@ public partial class RoundAttackAbility : TouchAbility
             other = combat.Sides[(int)side].GetObjects(i);
             if (other != target && other.GetEnabled() && (int)(((uint)other.Position) >> 4) == (int)(((uint)target.Position) >> 4) && (!other.GetAbilityEnabled(1) || source.GetAbilityEnabled(1)) && !source.FastBattleWallInBetween(other.Position) && other.FastBattleRoundDistance() <= combat.GetRound() - 1 && damageTypes - other.GetImmunityTypes() != Set<DamageType>.Of())
             {
-                targets.Add(other);
+                _ = targets.Add(other);
             }
         }
 
@@ -78,10 +78,10 @@ public partial class RoundAttackAbility : TouchAbility
             if (action != null)
             {
                 combat.ExecuteCombatAction(action);
-                action.Release();
+                _ = action.Release();
             }
 
-            targets.Remove(other);
+            _ = targets.Remove(other);
             count -= 1;
         }
 

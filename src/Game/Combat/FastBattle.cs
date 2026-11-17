@@ -34,7 +34,7 @@ public partial class FastBattle : Battle
     {
         string header;
         CombatSide side;
-        base.Execute();
+        _ = base.Execute();
         CombatResult = CombatResult.Busy;
         if (ValidateWallBreaching())
         {
@@ -211,7 +211,7 @@ public partial class FastBattle : Battle
                 objectValue = CombatData.GetObjects(i);
                 if (objectValue.CombatPlayer == (sbyte)CombatData.CurrentPlayer && objectValue.GetEnabled() && !objectValue.GetLocked() && !objectValue.Status.Contains(CombatObjectStatusElement.TurnDone))
                 {
-                    objects.Add(objectValue);
+                    _ = objects.Add(objectValue);
                 }
             }
 

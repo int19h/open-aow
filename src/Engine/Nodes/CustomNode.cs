@@ -61,7 +61,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
                 {
                     if (!(c.Owner == this && c.GetControlStyle().Contains(EngineServices.Shared)))
                     {
-                        RemoveChild(c);
+                        _ = RemoveChild(c);
                     }
                 }
             }
@@ -120,7 +120,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
                 c = Children[i];
                 if (c != null)
                 {
-                    RemoveChild(c);
+                    _ = RemoveChild(c);
                 }
             }
         }
@@ -131,7 +131,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
     {
         for (int i = Count - 1; i >= 0; i--)
         {
-            RemoveChild(Children[i]);
+            _ = RemoveChild(Children[i]);
         }
     }
 

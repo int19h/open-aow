@@ -20,16 +20,13 @@ public partial class WindWalkingEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1343
     public override bool Remove(AbilityOwner owner)
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         bool result = base.Remove(owner);
         if (result && owner is Troop troop && owner.Owner is Army army)
         {
             MapCoordinate coordinate90 = troop.GetLocation();
-            x = coordinate90.X;
-            y = coordinate90.Y;
-            l = coordinate90.MapLevel;
+            sbyte x = coordinate90.X;
+            sbyte y = coordinate90.Y;
+            sbyte l = coordinate90.MapLevel;
             if (x != -1)
             {
                 MapField mapField = StrategicMap.Current.MapContainer.GetField(x, y, l);

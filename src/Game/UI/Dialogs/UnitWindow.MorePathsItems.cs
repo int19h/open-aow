@@ -24,14 +24,10 @@ public partial class UnitWindow
         {
             if (selected is not null)
             {
-                AudioPlayback.PlaySample("SFX\\Events\\NewEvent.Wav");
-                if (check.Tag != -1)
-                {
-                    hero.SwapItem(selected.Tag, check.Tag);
-                }
-                else
-                {
-                    hero.PlaceItem(position: check == HeadSlotCheckBox ? HeroItemPosition.HeadSlot :
+                _ = AudioPlayback.PlaySample("SFX\\Events\\NewEvent.Wav");
+                _ = check.Tag != -1
+                    ? hero.SwapItem(selected.Tag, check.Tag)
+                    : hero.PlaceItem(position: check == HeadSlotCheckBox ? HeroItemPosition.HeadSlot :
                         check == TorsoSlotCheckBox ? HeroItemPosition.TorsoSlot :
                         check == AttackSlotCheckBox ? HeroItemPosition.AttackSlot :
                         check == DefendSlotCheckBox ? HeroItemPosition.DefenseSlot :
@@ -45,7 +41,6 @@ public partial class UnitWindow
                         check == Backpack6CheckBox ? HeroItemPosition.InventorySlot6 :
                         check == Backpack7CheckBox ? HeroItemPosition.InventorySlot7 :
                         check == Backpack8CheckBox ? HeroItemPosition.InventorySlot8 : HeroItemPosition.Ground, itemId: selected.Tag);
-                }
                 check.Checked = false;
                 selected.Checked = false;
                 ClearItemSelection();

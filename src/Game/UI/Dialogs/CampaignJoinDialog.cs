@@ -39,30 +39,30 @@ public partial class CampaignJoinDialog : UIModule
         control = new LeaderSetupControl(null) { Holder = UI.Engine };
         control.Leader.Assign(Leader, UI.Engine);
         control.OriginalLeader.Assign(Leader, UI.Engine);
-        control.Mode = control.Mode + Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Campaign);
+        control.Mode += Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Campaign);
         switch (Faction)
         {
             case 0:
-                control.Items.Add(4);
-                control.Items.Add(6);
-                control.Items.Add(5);
-                control.Items.Add(2);
-                control.Items.Add(1);
-                control.Items.Add(3);
+                _ = control.Items.Add(4);
+                _ = control.Items.Add(6);
+                _ = control.Items.Add(5);
+                _ = control.Items.Add(2);
+                _ = control.Items.Add(1);
+                _ = control.Items.Add(3);
                 break;
             case 1:
-                control.Items.Add(8);
-                control.Items.Add(9);
-                control.Items.Add(10);
-                control.Items.Add(2);
-                control.Items.Add(1);
-                control.Items.Add(3);
+                _ = control.Items.Add(8);
+                _ = control.Items.Add(9);
+                _ = control.Items.Add(10);
+                _ = control.Items.Add(2);
+                _ = control.Items.Add(1);
+                _ = control.Items.Add(3);
                 break;
         }
 
         UI.LeaderSetupWindow.Execute(control);
         control.OnDone += LeaderCustomized;
-        control.Release();
+        _ = control.Release();
         UI.LeaderSetupWindow.LeaderPanel.ImageLibraryTexture = UI.Graphics.FactionWindow;
         UI.LeaderSetupWindow.LeaderPanel.ImageLibraryIndexTexture = Faction + 10;
     }
@@ -76,7 +76,7 @@ public partial class CampaignJoinDialog : UIModule
         {
             leader = leaderSetupControl.OriginalLeader.Copy<Leader>(UI.Engine);
             UI.WorldMap.GetCampaign().TransferSettings.SetLeader(leader);
-            leader.Release();
+            _ = leader.Release();
             FinishSelection();
         }
         else
@@ -123,7 +123,7 @@ public partial class CampaignJoinDialog : UIModule
     // AoWCampaignJoin.pas:64
     public void CampaignJoinDialogDestroy()
     {
-        Leader.Release();
+        _ = Leader.Release();
         ScrollText?.Dispose();
     }
 

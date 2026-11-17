@@ -88,9 +88,9 @@ public sealed partial record ResearchSpell(int Index) : ProductionOrder
     public override void ActivityLines(ProductionControl control, StringCollection lines)
     {
         Unit unit = control.CreateUnitProduction(Index);
-        lines.Add(AbilityRules.TranslateResourceString(control.GetEngine(), s_installingText));
-        lines.Add(unit.GetName());
-        unit.Release();
+        _ = lines.Add(AbilityRules.TranslateResourceString(control.GetEngine(), s_installingText));
+        _ = lines.Add(unit.GetName());
+        _ = unit.Release();
     }
 
     private static readonly string s_installingText = "Installing";

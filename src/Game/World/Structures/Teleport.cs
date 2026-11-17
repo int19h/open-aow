@@ -58,7 +58,7 @@ public partial class Teleport : Structure
 
             if (notFogEnabled || StrategicMap.Current.VisibleForPlayer(Destination.X, Destination.Y, Destination.MapLevel, StrategicMap.Current.SeatedPlayer))
             {
-                AudioPlayback.PlaySample("SFX\\PLACES\\TELEPORT.WAV");
+                _ = AudioPlayback.PlaySample("SFX\\PLACES\\TELEPORT.WAV");
             }
 
             ShowTeleportAnimations();
@@ -86,7 +86,7 @@ public partial class Teleport : Structure
     public override void Deactivate()
     {
         base.Deactivate();
-        Status = Status - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Activated);
+        Status -= Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Activated);
         Owner.UpdateMapField();
     }
 
@@ -113,7 +113,7 @@ public partial class Teleport : Structure
         bool result;
         if (Destination.X == 0 || Destination.Y == 0)
         {
-            messages.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.WarningText) + ": " + AbilityRules.TranslateResourceString(GetEngine(), s_invalidLocationSpecifiedText));
+            _ = messages.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.WarningText) + ": " + AbilityRules.TranslateResourceString(GetEngine(), s_invalidLocationSpecifiedText));
             result = false;
         }
         else
@@ -133,10 +133,10 @@ public partial class Teleport : Structure
         sbyte hexLevel = GetHexLevel();
         sbyte hexY = GetHexY();
         sbyte hexX = GetHexX();
-        StrategicMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
+        _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
         animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
         animation.SetImageSequence(GamePack.Current.ImageSequences.ImageSequences[12]);
-        StrategicMap.Current.PlaceHex(animation, Destination.X, Destination.Y, Destination.MapLevel);
+        _ = StrategicMap.Current.PlaceHex(animation, Destination.X, Destination.Y, Destination.MapLevel);
     }
 
     // Teleport.pas:185
@@ -189,8 +189,8 @@ public partial class Teleport : Structure
             {
                 armyHexSprite.Army.ResetDestinationPosition();
                 path = new MovePath();
-                path.AddMapCoordinate(Destination.X, Destination.Y, Destination.MapLevel);
-                path.AddMapCoordinate(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX());
+                _ = path.AddMapCoordinate(Destination.X, Destination.Y, Destination.MapLevel);
+                _ = path.AddMapCoordinate(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX());
                 field = StrategicMap.Current.MapContainer.GetField(Destination.X, Destination.Y, Destination.MapLevel);
                 bool condition = field.GetMoveAction(armyHexSprite.Army.Player) != MoveAction.Attack || field.GetPlayer() <= 0;
                 if (!condition)
@@ -211,7 +211,7 @@ public partial class Teleport : Structure
                             if (eventValue != null)
                             {
                                 StrategicMap.Current.TokenManager.GetTokenControl(armyHexSprite.Army.Player).AddEvent(eventValue);
-                                eventValue.Release();
+                                _ = eventValue.Release();
                                 result = true;
                             }
                             else

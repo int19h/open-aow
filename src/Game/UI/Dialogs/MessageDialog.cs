@@ -41,7 +41,7 @@ public partial class MessageDialog : UIModule
         _event = null;
         done?.Invoke(log);
 
-        log?.Release();
+        _ = (log?.Release());
     }
 
     // AoWMessageDlg.pas:83
@@ -100,9 +100,9 @@ public partial class MessageDialog : UIModule
     internal void ShowDemoMessage()
     {
         ResetMessageDialog(UI.MessageDialog);
-        UI.MessageDialog.MessageMemo.Items.Add("");
+        _ = UI.MessageDialog.MessageMemo.Items.Add("");
         string demoVersionMessage = UI.Engine.TranslateResourceString(GameText.DemoVersionMessageText);
-        UI.MessageDialog.MessageMemo.Items.Add(demoVersionMessage);
+        _ = UI.MessageDialog.MessageMemo.Items.Add(demoVersionMessage);
         UI.MessageDialog.OKPanel.Visible = true;
         UI.MessageDialog.Window.Visible = true;
     }
@@ -126,7 +126,7 @@ public partial class MessageDialog : UIModule
         ResetMessageDialog(dialog);
         dialog.Done = done;
         dialog._event = eventValue;
-        dialog._event.AddRef();
+        _ = dialog._event.AddRef();
         log = dialog._event;
         dialog.TitleLabel.Text = log.Title;
         switch (log.Layout)

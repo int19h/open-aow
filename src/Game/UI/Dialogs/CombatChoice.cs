@@ -41,7 +41,7 @@ public partial class CombatChoice : UIModule
         _request = null;
         done?.Invoke(request);
 
-        request?.Release();
+        _ = (request?.Release());
     }
 
     // TCFCDlg.pas:57
@@ -120,7 +120,7 @@ public partial class CombatChoice : UIModule
         }
 
         LockedSurface.CreateFrom(lockedSurface, r, out LockedSurface viewSurfaceDescription);
-        StrategicMap.Current.SetViewPort(x, y, _request.Location.MapLevel, r.Right - r.Left, r.Bottom - r.Top);
+        _ = StrategicMap.Current.SetViewPort(x, y, _request.Location.MapLevel, r.Right - r.Left, r.Bottom - r.Top);
         StrategicMap.Current.UpdateStaticScene();
         StrategicMap.Current.UpdateDynamicScene();
         StrategicMap.Current.DrawStaticScene(ref viewSurfaceDescription);
@@ -173,7 +173,7 @@ public partial class CombatChoice : UIModule
         else
         {
             dialog._request = eventValue;
-            dialog._request.AddRef();
+            _ = dialog._request.AddRef();
             dialog.OnDone = RebindDelegate<NotifyEvent<object>>(done);
             dialog.UI.General.Manager.OverlayPriority = 49;
             if (dialog.TacticalCombatCheckBox.Checked)

@@ -257,10 +257,10 @@ public partial class Window : GenericWindow
 
         if (DoubleBuffered && BackSurface != null)
         {
-            BackSurface.Resize(WinWidth, WinHeight);
+            _ = BackSurface.Resize(WinWidth, WinHeight);
             if (Masked)
             {
-                BackSurface.Clear(MaskColor);
+                _ = BackSurface.Clear(MaskColor);
             }
         }
 
@@ -327,7 +327,7 @@ public partial class Window : GenericWindow
         }
         catch
         {
-            MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
         }
     }
 
@@ -336,7 +336,6 @@ public partial class Window : GenericWindow
     //   click in the title area starts dragging, one on a border (Resizable) starts resizing }
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        UIComponent c = default;
         Handled = false;
         Redraw = false;
         Dragging = 0;
@@ -349,7 +348,7 @@ public partial class Window : GenericWindow
 
             for (int i = Children.Count - 1; i >= 0; i--)
             {
-                c = Children[i];
+                UIComponent c = Children[i];
                 c.Handled = false;
                 if ((!Handled || c.Redraw) && c.Visible && c.CaptureInput)
                 {
@@ -481,14 +480,13 @@ public partial class Window : GenericWindow
     // AoWWindow.pas:376
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        UIComponent c = default;
         Handled = false;
         if (Visible && Valid)
         {
             Dragging = 0;
             for (int i = Children.Count - 1; i >= 0; i--)
             {
-                c = Children[i];
+                UIComponent c = Children[i];
                 c.Handled = false;
                 if ((!Handled || c.Redraw) && c.Visible && c.CaptureInput)
                 {
@@ -531,8 +529,6 @@ public partial class Window : GenericWindow
     public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
         bool resized;
-        int i = default;
-        UIComponent c = default;
         Handled = false;
         OldCursor = Cursor;
         Cursor = WindowCursor;
@@ -540,6 +536,7 @@ public partial class Window : GenericWindow
         resized = false;
         if (Visible)
         {
+            int i;
             switch (Dragging)
             {
                 case 1:
@@ -697,7 +694,7 @@ public partial class Window : GenericWindow
             i = Children.Count - 1;
             for (; i >= 0; i -= 1)
             {
-                c = Children[i];
+                UIComponent c = Children[i];
                 c.Handled = false;
                 if ((!Handled || c.Redraw || c.ToolTipCount > 0) && c.Visible && c.CaptureInput)
                 {

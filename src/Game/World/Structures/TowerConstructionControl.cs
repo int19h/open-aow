@@ -26,13 +26,10 @@ public partial class TowerConstructionControl : StructureConstructionControl
     public override bool CanConstruct(Troop troop, ref string reason)
     {
         bool result;
-        sbyte hexX = default;
-        sbyte hexY = default;
-        sbyte hexLevel = default;
         MapCoordinate coordinate40 = troop.GetLocation();
-        hexX = coordinate40.X;
-        hexY = coordinate40.Y;
-        hexLevel = coordinate40.MapLevel;
+        _ = coordinate40.X;
+        _ = coordinate40.Y;
+        sbyte hexLevel = coordinate40.MapLevel;
         if (hexLevel == 0)
         {
             result = base.CanConstruct(troop, ref reason);

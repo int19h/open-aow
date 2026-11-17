@@ -28,13 +28,13 @@ public partial class ExpanderAIGroupControl : BehaviorAIGroupControl
                 defense = new AIGroupDefenseControl(null) { Holder = CreationHolder() };
                 defense.DefendMode = AIGroupDefenseControl.GroupDefendMode.Split;
                 ActivatePlugin(defense);
-                defense.Release();
+                _ = defense.Release();
                 State += 1;
                 break;
             case 1:
                 Targets.Clear();
                 finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
-                finder.Setup(this);
+                _ = finder.Setup(this);
                 if (Group.Transporter == null)
                 {
                     Troop availableTransporter = FindAvailableTransporter();
@@ -46,16 +46,16 @@ public partial class ExpanderAIGroupControl : BehaviorAIGroupControl
                 }
 
                 ActivatePlugin(finder);
-                finder.Release();
+                _ = finder.Release();
                 State += 1;
                 break;
             case 2:
                 if (Targets.Count != 0)
                 {
                     recruitment = new AIRecruitmentGroupFinder(null) { Holder = CreationHolder() };
-                    recruitment.Setup(this);
+                    _ = recruitment.Setup(this);
                     ActivatePlugin(recruitment);
-                    recruitment.Release();
+                    _ = recruitment.Release();
                     State += 1;
                 }
                 else
@@ -69,9 +69,9 @@ public partial class ExpanderAIGroupControl : BehaviorAIGroupControl
                 {
                     ProductionLocations.Clear();
                     production = new AIProductionLocationFinder(null) { Holder = CreationHolder() };
-                    production.Setup(this);
+                    _ = production.Setup(this);
                     ActivatePlugin(production);
-                    production.Release();
+                    _ = production.Release();
                     State += 1;
                 }
                 else
@@ -83,7 +83,7 @@ public partial class ExpanderAIGroupControl : BehaviorAIGroupControl
             case 4:
                 if (Targets.Count != 0)
                 {
-                    TargetSelector.Setup(this);
+                    _ = TargetSelector.Setup(this);
                     TargetSelector.MoveDayFactor = (float)0.05;
                     TargetSelector.Priorities.SetupBonus = 25;
                     TargetSelector.Priorities.ExecuteBonus = 25;
@@ -103,9 +103,9 @@ public partial class ExpanderAIGroupControl : BehaviorAIGroupControl
                 if (TargetSelector.TargetStatus == AIGroupTargetingStatus.TargetConquered)
                 {
                     raze = new AIGroupRazeControl(null) { Holder = CreationHolder() };
-                    raze.Setup(this);
+                    _ = raze.Setup(this);
                     ActivatePlugin(raze);
-                    raze.Release();
+                    _ = raze.Release();
                     State = 6;
                 }
                 else
@@ -135,16 +135,16 @@ public partial class ExpanderAIGroupControl : BehaviorAIGroupControl
                 break;
             case 10:
                 wander = new AIGroupWanderControl(null) { Holder = CreationHolder() };
-                wander.Setup(this);
+                _ = wander.Setup(this);
                 wander.MovePointsMax = 100;
                 ActivatePlugin(wander);
-                wander.Release();
+                _ = wander.Release();
                 State += 1;
                 break;
             case 11:
                 if (Group.Transporter != null)
                 {
-                    Group.DeleteUnit(Group.Transporter);
+                    _ = Group.DeleteUnit(Group.Transporter);
                 }
 
                 CombineIdleGroups();

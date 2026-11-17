@@ -50,7 +50,7 @@ public partial class ImageLibraryManagerList : StringList<ImageLibraryManagerObj
         ImageLibraryManagerObject objectValue;
         objectValue = new ImageLibraryManagerObject();
         fileName = UpperCase(fileName);
-        AddObject(fileName, objectValue);
+        _ = AddObject(fileName, objectValue);
         HashTables.Add(HashTable, key: fileName, value: objectValue);
         return objectValue;
     }
@@ -65,8 +65,8 @@ public partial class ImageLibraryManagerList : StringList<ImageLibraryManagerObj
         s = UpperCase(name);
         objectValue = new ImageLibraryManagerObject();
         objectValue.ImageLibrary = imageLibrary;
-        AddObject(s, objectValue);
-        HashTable.Remove(s);
+        _ = AddObject(s, objectValue);
+        _ = HashTable.Remove(s);
         return objectValue;
     }
 
@@ -78,7 +78,7 @@ public partial class ImageLibraryManagerList : StringList<ImageLibraryManagerObj
         objectValue?.ImageLibrary?.Dispose();
 
         string item = Strings[index];
-        HashTable.Remove(item);
+        _ = HashTable.Remove(item);
         base.Delete(index);
     }
 
@@ -103,7 +103,7 @@ public partial class ImageLibraryManagerList : StringList<ImageLibraryManagerObj
     {
         CustomImageLibrary result;
         fileName = UpperCase(fileName);
-        HashTable.TryGetValue(fileName, out ImageLibraryManagerObject objectValue);
+        _ = HashTable.TryGetValue(fileName, out ImageLibraryManagerObject objectValue);
         if (objectValue != null)
         {
             objectValue.RefCount += 1;
@@ -136,7 +136,7 @@ public partial class ImageLibraryManagerList : StringList<ImageLibraryManagerObj
     {
         bool result;
         fileName = UpperCase(fileName);
-        HashTable.TryGetValue(fileName, out ImageLibraryManagerObject objectValue);
+        _ = HashTable.TryGetValue(fileName, out ImageLibraryManagerObject objectValue);
         if (objectValue != null)
         {
             objectValue.RefCount -= 1;
@@ -167,7 +167,7 @@ public partial class ImageLibraryManagerList : StringList<ImageLibraryManagerObj
             LibraryDrawing.ReadStringFromStream(ref name, stream);
             imageLibrary = new ImageLibrary(null);
             imageLibrary.LoadFromStream(stream);
-            AddImageLibraryManagerObject(name, imageLibrary);
+            _ = AddImageLibraryManagerObject(name, imageLibrary);
         }
     }
 

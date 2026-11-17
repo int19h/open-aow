@@ -131,16 +131,13 @@ public partial class Altar : PlayerStructure
     {
         Storm storm;
         MapCoordinate target = default;
-        BattleFieldInfo friendly = default;
-        BattleFieldInfo enemy = default;
-        StormDamageInfo damage = default;
         int value;
         if (player == Player && (phase == 1 || phase == 2))
         {
             storm = CreateStorm();
             sbyte hexLevel = GetHexLevel();
             sbyte hexY = GetHexY();
-            if (storm.GetBestTarget(player, GetHexX(), hexY, hexLevel, 12, ref target, out damage))
+            if (storm.GetBestTarget(player, GetHexX(), hexY, hexLevel, 12, ref target, out StormDamageInfo damage))
             {
                 value = damage.EnemyDamage - damage.FriendlyDamage;
                 if (value > TargetMana() * 0.75)
@@ -149,13 +146,13 @@ public partial class Altar : PlayerStructure
                     int targetMana = TargetMana();
                     if (StrategicMap.Current.Players.GetPlayers(player).AIBudget.RequestBudgetExpense(0, targetMana, playerAIBudget.AIBudget.DefaultBudget, true))
                     {
-                        BattleFieldInfo.SetupBattleFieldInfo(out friendly, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                        BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo friendly, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                         friendly.EnemyRelations = Set<byte>.WithBounds(0, 7);
                         sbyte hexLevel2 = GetHexLevel();
                         sbyte hexY2 = GetHexY();
                         sbyte hexX = GetHexX();
                         StrategicMap.Current.RetrieveBattleFieldInfo(hexX, hexY2, hexLevel2, 1, ref friendly);
-                        BattleFieldInfo.SetupBattleFieldInfo(out enemy, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                        BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo enemy, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                         sbyte hexLevel3 = GetHexLevel();
                         sbyte hexY3 = GetHexY();
                         sbyte hexX2 = GetHexX();
@@ -166,7 +163,7 @@ public partial class Altar : PlayerStructure
                             {
                                 Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
                                 int targetMana2 = TargetMana();
-                                StrategicMap.Current.Players.GetPlayers(player).AIBudget.BudgetExpenseMade(0, targetMana2, playerLocal.AIBudget.DefaultBudget, AIBudgetManager.ExpenseMode.PoolThenBudget);
+                                _ = StrategicMap.Current.Players.GetPlayers(player).AIBudget.BudgetExpenseMade(0, targetMana2, playerLocal.AIBudget.DefaultBudget, AIBudgetManager.ExpenseMode.PoolThenBudget);
                             }
                         }
                     }
@@ -211,7 +208,7 @@ public partial class Altar : PlayerStructure
             eventValue.Param = X + (Y << 8) + (L << 16);
             eventValue.Action = 0;
             StrategicMap.Current.TokenManager.GetTokenControl(Player).AddEvent(eventValue);
-            eventValue.Release();
+            _ = eventValue.Release();
             result = true;
         }
         else
@@ -252,7 +249,7 @@ public partial class Altar : PlayerStructure
         if (!GetRazed() && Player >= 0 && TargetMana() <= StrategicMap.Current.Players.GetPlayers(Player).MagicControl.Mana && CanTarget(ref reason) && _storm == null)
         {
             selection.Initialize(this);
-            selection.TargetMode = selection.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
+            selection.TargetMode += Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
             selection.SourceLocation = new MapCoordinate(GetHexX(), GetHexY(), GetHexLevel());
             selection.Range = 12;
             selection.Changed += OnTargetSelectionChange;

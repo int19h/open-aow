@@ -16,7 +16,7 @@ public partial class SummonSyron : SummonSpell
         BaseManaCost = 5;
         SpellLevel = 4;
         MagicSphere = MagicSphere.Cosmos;
-        UnitIndices.Add(221);
+        _ = UnitIndices.Add(221);
         CastDuration = 40;
         AIBasePriority = 500;
     }

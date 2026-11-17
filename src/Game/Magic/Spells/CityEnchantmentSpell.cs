@@ -50,16 +50,13 @@ public partial class CityEnchantmentSpell : CityTargetSpell
         bool valid;
         AICastSpellAction action;
         string reason = "";
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         City targetCity;
         if (AIPriority != -1)
         {
             MapCoordinate coordinate56 = source.GetLocation();
-            x = coordinate56.X;
-            y = coordinate56.Y;
-            l = coordinate56.MapLevel;
+            sbyte x = coordinate56.X;
+            sbyte y = coordinate56.Y;
+            sbyte l = coordinate56.MapLevel;
             targetCity = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
             bool condition = targetCity != null;
             if (condition)
@@ -89,18 +86,15 @@ public partial class CityEnchantmentSpell : CityTargetSpell
     {
         bool result;
         string reason = "";
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         City targetCity;
         MapCoordinate coordinate57 = source.GetLocation();
-        x = coordinate57.X;
-        y = coordinate57.Y;
-        l = coordinate57.MapLevel;
+        sbyte x = coordinate57.X;
+        sbyte y = coordinate57.Y;
+        sbyte l = coordinate57.MapLevel;
         targetCity = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
         if (targetCity != null && ValidTargetCity(source, targetCity) && source.CanCastSpell(SpellId, ref reason))
         {
-            AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, AIBudget);
+            _ = AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, AIBudget);
             if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
                 result = TargetSelected(source, x, y, l);
@@ -109,7 +103,7 @@ public partial class CityEnchantmentSpell : CityTargetSpell
             {
                 if (source.GetCastingSpellId() != SpellId)
                 {
-                    source.ExecuteStartCasting(SpellId);
+                    _ = source.ExecuteStartCasting(SpellId);
                     result = true;
                 }
                 else

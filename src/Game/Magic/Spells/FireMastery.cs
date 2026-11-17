@@ -45,7 +45,7 @@ public partial class FireMastery : GlobalEnchantmentSpell
             y = coordinate66.Y;
             l = coordinate66.MapLevel;
             SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Fire);
-            StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
+            _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
             Animation animation = new(null) { Holder = CreationHolder() };
             animation.AnimationLevel = 27;
             animation.OnShow += ShowAnimation;
@@ -53,13 +53,13 @@ public partial class FireMastery : GlobalEnchantmentSpell
             animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
             animation.Activate();
 
-            CastSounds.Play(0);
+            _ = CastSounds.Play(0);
             CastingDone(source, eventValue.EventMana);
         }
 
         if (executeCount == 20)
         {
-            base.ExecuteTokenEvent(eventValue, source, 0);
+            _ = base.ExecuteTokenEvent(eventValue, source, 0);
             result = false;
         }
         else
@@ -99,10 +99,10 @@ public partial class FireMastery : GlobalEnchantmentSpell
                 }
 
                 int delay = Random(40);
-                CastImages.Show(0, pixelX, pixelY, animation.FrameCounter - delay, surface);
+                _ = CastImages.Show(0, pixelX, pixelY, animation.FrameCounter - delay, surface);
                 if (animation.FrameCounter == delay && GetEngine().AnimationDetail != 0)
                 {
-                    AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[x % 2]);
+                    _ = AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[x % 2]);
                 }
             }
         }

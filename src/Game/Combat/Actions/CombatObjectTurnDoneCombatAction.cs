@@ -28,7 +28,7 @@ public partial class CombatObjectTurnDoneCombatAction : CombatAction
     {
         CombatObject objectValue;
         objectValue = combat.CombatData.FindId(CombatObjectId);
-        objectValue.Status = objectValue.Status + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.TurnDone);
+        objectValue.Status += Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.TurnDone);
     }
 
     // intf_P3_02.inc:38

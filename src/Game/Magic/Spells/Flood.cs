@@ -31,20 +31,17 @@ public partial class Flood : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1370
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         TwinkleAnimation twinkle;
-        base.ExecuteTokenEvent(eventValue, source, executeCount);
+        _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         MapCoordinate coordinate67 = source.GetLocation();
-        x = coordinate67.X;
-        y = coordinate67.Y;
-        l = coordinate67.MapLevel;
-        StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
+        sbyte x = coordinate67.X;
+        sbyte y = coordinate67.Y;
+        sbyte l = coordinate67.MapLevel;
+        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
         twinkle = new TwinkleAnimation(null) { Holder = CreationHolder() };
         twinkle.Setup(GamePack.Current.SpellControl.GetSpell(50).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
-        StrategicMap.Current.PlaceHex(twinkle, x, y, l);
-        CastSounds.Play(0);
+        _ = StrategicMap.Current.PlaceHex(twinkle, x, y, l);
+        _ = CastSounds.Play(0);
         CastingDone(source, eventValue.EventMana);
         return false;
     }

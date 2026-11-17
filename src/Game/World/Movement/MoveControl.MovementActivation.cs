@@ -36,7 +36,7 @@ public partial class MoveControl
 
         _status += Set<StatusElement>.Of(StatusElement.Activated);
         Settings = settings;
-        Settings.AddRef();
+        _ = Settings.AddRef();
         if (Settings.Status == MoveControlSettingsStatus.Idle)
         {
             MapContainer container = Map.MapContainer;

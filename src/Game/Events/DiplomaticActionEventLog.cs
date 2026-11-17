@@ -30,7 +30,7 @@ public partial class DiplomaticActionEventLog : EventLog
         action = Action;
         if (action != null)
         {
-            action.Release();
+            _ = action.Release();
             Action = null;
         }
 
@@ -220,7 +220,7 @@ public partial class DiplomaticActionEventLog : EventLog
         old = Action;
         if (old != action)
         {
-            old?.Release();
+            _ = (old?.Release());
 
             Action = action?.Copy<DiplomaticAction>(GetEngine());
         }

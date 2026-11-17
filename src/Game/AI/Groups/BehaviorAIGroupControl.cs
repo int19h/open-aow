@@ -12,7 +12,7 @@ public partial class BehaviorAIGroupControl : AIGroupControl
     // BehaviorAG.pas:150
     public override void Dispose()
     {
-        TargetSelector.Release();
+        _ = TargetSelector.Release();
         base.Dispose();
     }
 

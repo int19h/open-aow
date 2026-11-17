@@ -290,17 +290,17 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         version = GetBuildNumber();
         if (version < 1000)
         {
-            result = result + "0";
+            result += "0";
         }
 
         if (version < 100)
         {
-            result = result + "0";
+            result += "0";
         }
 
         if (version < 10)
         {
-            result = result + "0";
+            result += "0";
         }
 
         return result + IntToStr(version);
@@ -331,7 +331,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
             try
             {
                 memory.Position = 0;
-                memory.Read(Bytes.Of(ref registered, 1));
+                _ = memory.Read(Bytes.Of(ref registered, 1));
                 StringFromStream(ref name, memory);
                 result = registered;
             }
@@ -361,7 +361,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
             try
             {
                 memory.LoadFromFile(StartupDirectory + "RELEASE\\GENERAL.PFS");
-                memory.Read(Bytes.Of(ref registered, 1));
+                _ = memory.Read(Bytes.Of(ref registered, 1));
                 StringFromStream(ref name, memory);
                 result = AbilityRules.Encode(name, 0);
             }
@@ -397,7 +397,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
                 for (int i = 1; i <= 4; i++)
                 {
                     hex = IntToHex((Cp1252.Byte(text[i - 1]) * value) + i, 6);
-                    result = result + hex[^1].ToString();
+                    result += hex[^1].ToString();
                     value += Cp1252.Byte(hex[^1]) + Cp1252.Byte(hex[0]);
                 }
             }

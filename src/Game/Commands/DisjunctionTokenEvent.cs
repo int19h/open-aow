@@ -57,23 +57,20 @@ public partial class DisjunctionTokenEvent : SpellTokenEvent
     {
         GlobalEnchantment enchantment;
         int index;
-        sbyte x = default;
-        sbyte y = default;
-        sbyte layer = default;
         TwinkleAnimation twinkle;
         int mana;
-        base.Process(source, value);
+        _ = base.Process(source, value);
         index = StrategicMap.Current.GlobalMagicControl.IndexOfId(EnchantmentId);
         enchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index);
         MapCoordinate coordinate7 = source.GetLocation();
-        x = coordinate7.X;
-        y = coordinate7.Y;
-        layer = coordinate7.MapLevel;
-        StrategicMap.Current.ValidateObservation(source.Player, x, y, layer, 0);
+        sbyte x = coordinate7.X;
+        sbyte y = coordinate7.Y;
+        sbyte layer = coordinate7.MapLevel;
+        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, layer, 0);
         twinkle = new TwinkleAnimation(null) { Holder = CreationHolder() };
         twinkle.Setup(GamePack.Current.SpellControl.GetSpell(51).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Expand, TwinkleModeElement.Explode), EventMana + 50, 192, 50, 30);
-        StrategicMap.Current.PlaceHex(twinkle, x, y, layer);
-        GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
+        _ = StrategicMap.Current.PlaceHex(twinkle, x, y, layer);
+        _ = GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
         mana = Round((double)(enchantment.DispelMana * 0.02) * DispelChance);
         Player player = StrategicMap.Current.Players.GetPlayers(source.Player);
         StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.SetMana(player.MagicControl.Mana - mana);
@@ -86,7 +83,7 @@ public partial class DisjunctionTokenEvent : SpellTokenEvent
                 StrategicMap.Current.ShowMessage(format);
             }
 
-            StrategicMap.Current.GlobalMagicControl.ExecuteDispelEnchantment(source.Player, EnchantmentId);
+            _ = StrategicMap.Current.GlobalMagicControl.ExecuteDispelEnchantment(source.Player, EnchantmentId);
         }
         else
         {

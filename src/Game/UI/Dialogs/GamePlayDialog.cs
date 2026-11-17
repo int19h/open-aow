@@ -58,7 +58,7 @@ public partial class GamePlayDialog : UIModule
                 password.Title = UI.Engine.TranslateResourceString(s_passwordConfirmationText);
                 password.Prompt = UI.Engine.TranslateResourceString(s_reenterNewPasswordText);
                 StrategicMap.Current.TriggerTypedExecuteEventLog(password, true, PasswordConfirmed);
-                password.Release();
+                _ = password.Release();
             }
             else
             {
@@ -78,9 +78,9 @@ public partial class GamePlayDialog : UIModule
         else
         {
             MessageDialog.ResetMessageDialog(UI.MessageDialog);
-            UI.MessageDialog.MessageMemo.Items.Add("");
+            _ = UI.MessageDialog.MessageMemo.Items.Add("");
             string confirmationFailed = UI.Engine.TranslateResourceString(s_confirmationFailedText);
-            UI.MessageDialog.MessageMemo.Items.Add(confirmationFailed);
+            _ = UI.MessageDialog.MessageMemo.Items.Add(confirmationFailed);
             UI.MessageDialog.OKPanel.Visible = true;
             UI.MessageDialog.Window.Visible = true;
         }
@@ -113,7 +113,7 @@ public partial class GamePlayDialog : UIModule
         {
             mode = (GameSettings.CombatResolveMode)modeOrdinal;
             string combatResolveMode = UI.Engine.TranslateResourceString(s_combatResolveModeTexts[(int)mode]);
-            CombatResolveModeComboBox.Items.AddObject(combatResolveMode, IntToObject((int)mode));
+            _ = CombatResolveModeComboBox.Items.AddObject(combatResolveMode, IntToObject((int)mode));
         }
 
         GameSettings.CombatResolveMode fRegistryCombatResolveMode = UI.Engine.Registry.GetCombatResolveMode();
@@ -150,7 +150,7 @@ public partial class GamePlayDialog : UIModule
             log = new PasswordEventLog(null, holder: UI.Engine);
             log.Prompt = UI.Engine.TranslateResourceString(s_enterNewPasswordText);
             StrategicMap.Current.TriggerTypedExecuteEventLog(log, true, PasswordEntered);
-            log.Release();
+            _ = log.Release();
         }
     }
 
@@ -171,9 +171,9 @@ public partial class GamePlayDialog : UIModule
                 if (!StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).ChangePlayerSettings(PasswordEdit.Text, ref error))
                 {
                     MessageDialog.ResetMessageDialog(UI.MessageDialog);
-                    UI.MessageDialog.MessageMemo.Items.Add("");
+                    _ = UI.MessageDialog.MessageMemo.Items.Add("");
                     string couldNotChangePassword = UI.Engine.TranslateResourceString(s_couldNotChangePasswordText);
-                    UI.MessageDialog.MessageMemo.Items.Add(couldNotChangePassword);
+                    _ = UI.MessageDialog.MessageMemo.Items.Add(couldNotChangePassword);
                     UI.MessageDialog.OKPanel.Visible = true;
                     UI.MessageDialog.Window.Visible = true;
                 }
@@ -188,84 +188,84 @@ public partial class GamePlayDialog : UIModule
         events = Set<WindowPopupEvent>.Of();
         if (Classic1CheckBox.Checked)
         {
-            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.Combat);
+            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.Combat);
         }
 
         if (Classic2CheckBox.Checked)
         {
-            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.Diplomacy);
+            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.Diplomacy);
         }
 
         if (Classic3CheckBox.Checked)
         {
-            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.SpellResearched);
+            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.SpellResearched);
         }
 
         if (Classic4CheckBox.Checked)
         {
-            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.SpellReady);
+            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.SpellReady);
         }
 
         if (Classic5CheckBox.Checked)
         {
-            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.Rebellion);
+            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.Rebellion);
         }
 
         if (Classic6CheckBox.Checked)
         {
-            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.PartyDamage);
+            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.PartyDamage);
         }
 
         if (Classic7CheckBox.Checked)
         {
-            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroUpgrade);
+            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroUpgrade);
         }
 
         if (Classic8CheckBox.Checked)
         {
-            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroJoin);
+            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroJoin);
         }
 
         UI.Engine.Registry.SetClassicWindowPopupEvents(events);
         events = Set<WindowPopupEvent>.Of();
         if (Simultaneous1CheckBox.Checked)
         {
-            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.Combat);
+            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.Combat);
         }
 
         if (Simultaneous2CheckBox.Checked)
         {
-            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.Diplomacy);
+            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.Diplomacy);
         }
 
         if (Simultaneous3CheckBox.Checked)
         {
-            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.SpellResearched);
+            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.SpellResearched);
         }
 
         if (Simultaneous4CheckBox.Checked)
         {
-            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.SpellReady);
+            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.SpellReady);
         }
 
         if (Simultaneous5CheckBox.Checked)
         {
-            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.Rebellion);
+            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.Rebellion);
         }
 
         if (Simultaneous6CheckBox.Checked)
         {
-            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.PartyDamage);
+            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.PartyDamage);
         }
 
         if (Simultaneous7CheckBox.Checked)
         {
-            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroUpgrade);
+            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroUpgrade);
         }
 
         if (Simultaneous8CheckBox.Checked)
         {
-            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroJoin);
+            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroJoin);
         }
 
         UI.Engine.Registry.SetSimultaneousWindowPopupEvents(events);

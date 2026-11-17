@@ -8,7 +8,7 @@ public partial class CombatPredictorUnit
     public void Setup(Troop troop, CombatPredictor predictor, byte side)
     {
         Troop = troop;
-        troop.AddRef();
+        _ = troop.AddRef();
         _predictor = predictor;
         CpuId = predictor.CreateUniqueCpuId();
         Side = side;

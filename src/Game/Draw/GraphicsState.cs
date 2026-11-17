@@ -19,14 +19,9 @@ public static class GraphicsState
         for (int i = 0, last = classes.Length - 1; i <= last; i++)
         {
             string extension = classes[i].Extension;
-            if (ImageFileClassList.FindClass(extension) == null)
-            {
-                ImageFileClassList.Add(classes[i]);
-            }
-            else
-            {
-                throw new InvalidOperationException("ImageFile class with " + classes[i].Extension + " extension is already registered");
-            }
+            _ = ImageFileClassList.FindClass(extension) == null
+                ? ImageFileClassList.Add(classes[i])
+                : throw new InvalidOperationException("ImageFile class with " + classes[i].Extension + " extension is already registered");
         }
     }
 
@@ -36,11 +31,11 @@ public static class GraphicsState
 
     internal static void InitializeBlendTables(int bits, int count)
     {
-        AlphaBlendTable.GenerateLookupTables(bits, BlendTable.GenerateAlphaBlendTable, count);
-        IntensityBlendTable.GenerateLookupTables(bits, BlendTable.GenerateIntensityBlendTable, count);
-        BrightenBlendTable.GenerateLookupTables(bits, BlendTable.GenerateBrightenBlendTable, count);
-        ShadowBlendTable.GenerateLookupTables(bits, BlendTable.GenerateShadowBlendTable, count);
-        LinearAlphaBlendTable.GenerateLookupTables(bits, BlendTable.GenerateLinearAlphaBlendTable, count);
+        _ = AlphaBlendTable.GenerateLookupTables(bits, BlendTable.GenerateAlphaBlendTable, count);
+        _ = IntensityBlendTable.GenerateLookupTables(bits, BlendTable.GenerateIntensityBlendTable, count);
+        _ = BrightenBlendTable.GenerateLookupTables(bits, BlendTable.GenerateBrightenBlendTable, count);
+        _ = ShadowBlendTable.GenerateLookupTables(bits, BlendTable.GenerateShadowBlendTable, count);
+        _ = LinearAlphaBlendTable.GenerateLookupTables(bits, BlendTable.GenerateLinearAlphaBlendTable, count);
     }
 
     public static void Initialize()

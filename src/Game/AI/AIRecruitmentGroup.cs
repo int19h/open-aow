@@ -59,10 +59,9 @@ public partial class AIRecruitmentGroup : EngineObject, IOwned<AIRecruitmentGrou
     public virtual bool Validate(AIGroupControl control)
     {
         bool result;
-        MapCoordinate location = default;
         if (Group.Units.Count != 0)
         {
-            location = Group.GetLocation();
+            MapCoordinate location = Group.GetLocation();
             result = location.X == Location.X && location.Y == Location.Y && location.MapLevel == Location.MapLevel && Group.Player == control.Group.Player;
         }
         else
@@ -80,10 +79,10 @@ public partial class AIRecruitmentGroup : EngineObject, IOwned<AIRecruitmentGrou
         oldGroup = Group;
         if (oldGroup != group)
         {
-            oldGroup?.Release();
+            _ = (oldGroup?.Release());
 
             Group = group;
-            Group?.AddRef();
+            _ = (Group?.AddRef());
         }
     }
 

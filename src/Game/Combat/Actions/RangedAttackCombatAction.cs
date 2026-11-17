@@ -34,7 +34,7 @@ public partial class RangedAttackCombatAction : DamageCombatAction
     {
         if (viewer.Time == 1)
         {
-            GamePack.Current.AbilityControl.GetAbility(AbilityId).SfxLibrary.Play(0);
+            _ = GamePack.Current.AbilityControl.GetAbility(AbilityId).SfxLibrary.Play(0);
         }
 
         return base.Play(viewer);

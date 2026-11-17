@@ -80,7 +80,7 @@ public static class HexGeometry
 
         newHexY = (hexX & 1) != 0 && (newHexX & 1) != 0 ? newHexY + hexY + 1 : newHexY + hexY;
 
-        newHexX = newHexX + hexX;
+        newHexX += hexX;
     }
 
     internal static void TranslateHex(int fromHexX, int fromHexY, int toHexX, int toHexY, int hexX, int hexY, out int newHexX, out int newHexY)
@@ -342,12 +342,10 @@ public static class HexGeometry
         int r;
         int side;
         int position;
-        int h = default;
-        int v = default;
         r = HexToRadius(hexX, hexY);
         if (r != 0)
         {
-            HexToHV(hexX, hexY, out h, out v);
+            HexToHV(hexX, hexY, out int h, out int v);
             if (r == h)
             {
                 side = 0;
@@ -442,8 +440,8 @@ public static class HexGeometry
 
     internal static int DeltaHexToHexDirection(int x1, int y1, int x2, int y2)
     {
-        x2 = x2 - x1;
-        y2 = y2 - y1;
+        x2 -= x1;
+        y2 -= y1;
         if ((x2 & 1) != 0 && (x1 & 1) != 0)
         {
             y2 -= 1;

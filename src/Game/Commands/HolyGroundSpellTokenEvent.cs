@@ -26,9 +26,9 @@ public partial class HolyGroundSpellTokenEvent : GlobalTargetSpellTokenEvent
     // HolyG.pas:329
     public override bool Process(Troop source, int value)
     {
-        base.Process(source, value);
+        _ = base.Process(source, value);
         CreateHolyGround(source);
-        StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 1);
+        _ = StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 1);
         GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
         return false;
     }
@@ -68,7 +68,7 @@ public partial class HolyGroundSpellTokenEvent : GlobalTargetSpellTokenEvent
                             animation.OnNewFrame += ground.NewFrameSummonAnimation;
                             animation.FrameCounter = -StrategicMap.Current.Random(15);
                             animation.Tag = caster.Player;
-                            StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, Location.MapLevel);
+                            _ = StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, Location.MapLevel);
                         }
                         else
                         {

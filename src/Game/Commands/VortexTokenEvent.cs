@@ -60,10 +60,10 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
             _angle = 0;
             Spell spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
             GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
-            StrategicMap.Current.ValidateObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 2);
+            _ = StrategicMap.Current.ValidateObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 2);
             if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(Location.X, Location.Y, Location.MapLevel, 2))
             {
-                GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
+                _ = GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
             }
 
             animation = new Animation(null) { Holder = CreationHolder() };
@@ -83,7 +83,7 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
                 log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_vortexDamageText);
                 log.Player = source.Player;
                 string vortex = AbilityRules.TranslateResourceString(GetEngine(), GameText.VortexText);
-                log.ArmyMessages.Add(vortex);
+                _ = log.ArmyMessages.Add(vortex);
                 log.ArmyIcon = 2;
                 log.ArmyView.Setup(army.Army, 255);
                 using (army.Army.BeginUpdate())
@@ -113,8 +113,8 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
                             damage = 0;
                         }
 
-                        log.DamageValues.Add((byte)damage);
-                        log.DamageTypes.Add(7);
+                        _ = log.DamageValues.Add((byte)damage);
+                        _ = log.DamageTypes.Add(7);
                     }
 
                     if (damaged)
@@ -123,7 +123,7 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
                         EventLog.DistributeLocationEventLog(y: army.HexY, x: army.HexX, log: log, player: army.Army.Player, level: army.HexLevel, execute: true);
                     }
 
-                    log.Release();
+                    _ = log.Release();
                     army.Army.Validate();
                     army.Army.ValidateTerrain(army.Owner.TerrainType, army.Owner.OverlayType, source.Player);
                 }
@@ -143,8 +143,6 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
     // GlobalTargetSpells.pas:1945
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int pixelX = default;
-        int pixelY = default;
         int xShift;
         int height;
         int x;
@@ -155,7 +153,7 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
         int count;
         if (StrategicMap.Current.ViewMapLevel == Location.MapLevel)
         {
-            HexGeometry.HexToPixel(Location.X, Location.Y, out pixelX, out pixelY);
+            HexGeometry.HexToPixel(Location.X, Location.Y, out int pixelX, out int pixelY);
             pixelX -= pixelXSurface;
             pixelY -= pixelYSurface;
             _angle = _angle + 20 + (_animation.FrameCounter / 5);
@@ -178,7 +176,7 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
                     {
                         x = Round((double)Math.Cos(angle) * radius) + xShift;
                         y = Round((double)((double)Math.Sin(angle) * radius) / 1.75) + height;
-                        GamePack.Current.SpellControl.GetSpell(70).CastImages.Show(0, pixelX + x, pixelY - y, 0, lockedSurface);
+                        _ = GamePack.Current.SpellControl.GetSpell(70).CastImages.Show(0, pixelX + x, pixelY - y, 0, lockedSurface);
                         angle = (float)((double)0.035 + angle);
                     }
                 }

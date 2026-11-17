@@ -95,8 +95,8 @@ public partial class ItemExplorationSite : ExplorationSite
             for (int i = _items.Count - 1; i >= 0; i--)
             {
                 item = _items.GetItem(i);
-                log.ItemIds.Add(item.ItemId);
-                item.PlaceOnMap(level: GetHexLevel(), y: GetHexY(), x: GetHexX(), map: StrategicMap.Current);
+                _ = log.ItemIds.Add(item.ItemId);
+                _ = item.PlaceOnMap(level: GetHexLevel(), y: GetHexY(), x: GetHexX(), map: StrategicMap.Current);
             }
 
             // { Original parses the formatted text as CSV. }
@@ -104,8 +104,8 @@ public partial class ItemExplorationSite : ExplorationSite
             string resourceEditName = Resource.ResourceEditName();
             string format = Format(itemsExplored, [resourceEditName]);
             log.Messages.CommaText = format;
-            log.Execute(false, ExecuteTrigger.Event, null);
-            log.Release();
+            _ = log.Execute(false, ExecuteTrigger.Event, null);
+            _ = log.Release();
             Update();
         }
     }

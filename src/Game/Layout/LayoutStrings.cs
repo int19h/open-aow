@@ -22,7 +22,7 @@ public sealed class LayoutStrings : IEnumerable<string>
         {
             target.Clear(); foreach (string value in _values)
             {
-                target.Add(value);
+                _ = target.Add(value);
             }
         }
         finally { target.EndUpdate(); }

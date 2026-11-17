@@ -83,8 +83,7 @@ public partial class GlobalEnchantment : EngineObject
     // Spells.PAS:2490
     public virtual MapCoordinate GetLocation()
     {
-        MapCoordinate result = default;
-        result = MapCoordinate.None;
+        MapCoordinate result = MapCoordinate.None;
         return result;
     }
 
@@ -97,14 +96,14 @@ public partial class GlobalEnchantment : EngineObject
     // Spells.PAS:2565
     public virtual bool Deactivate(byte player)
     {
-        EnchantmentStatus = EnchantmentStatus - Set<GlobalEnchantmentStatusElement>.Of(GlobalEnchantmentStatusElement.Activated);
+        EnchantmentStatus -= Set<GlobalEnchantmentStatusElement>.Of(GlobalEnchantmentStatusElement.Activated);
         if (EnchantmentMode.Contains(GlobalEnchantmentModeElement.Owned))
         {
             Owner = null;
         }
         else
         {
-            StrategicMap.Current.GlobalMagicControl.Enchantments.RemoveChild(this);
+            _ = StrategicMap.Current.GlobalMagicControl.Enchantments.RemoveChild(this);
         }
 
         StrategicMap.Current.GlobalMagicControl.Update();
@@ -113,7 +112,7 @@ public partial class GlobalEnchantment : EngineObject
             StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.Update();
         }
 
-        Release();
+        _ = Release();
         return true;
     }
 
@@ -139,18 +138,18 @@ public partial class GlobalEnchantment : EngineObject
     public virtual bool Activate(sbyte player)
     {
         PlayerIndex = player;
-        EnchantmentStatus = EnchantmentStatus + Set<GlobalEnchantmentStatusElement>.Of(GlobalEnchantmentStatusElement.Activated);
-        StrategicMap.Current.GlobalMagicControl.ValidateEnchantmentId(this);
+        EnchantmentStatus += Set<GlobalEnchantmentStatusElement>.Of(GlobalEnchantmentStatusElement.Activated);
+        _ = StrategicMap.Current.GlobalMagicControl.ValidateEnchantmentId(this);
         if (EnchantmentMode.Contains(GlobalEnchantmentModeElement.Owned))
         {
             Owner = StrategicMap.Current.GlobalMagicControl.Enchantments;
         }
         else
         {
-            StrategicMap.Current.GlobalMagicControl.Enchantments.AddChild(this);
+            _ = StrategicMap.Current.GlobalMagicControl.Enchantments.AddChild(this);
         }
 
-        AddRef();
+        _ = AddRef();
         StrategicMap.Current.GlobalMagicControl.Update();
         if (EnchantmentManaUpkeep != 0)
         {
@@ -179,7 +178,7 @@ public partial class GlobalEnchantment : EngineObject
                 log.Player = player;
                 log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [Name]);
                 EventLog.DistributeEventLog(log, false);
-                log.Release();
+                _ = log.Release();
             }
         }
         else
@@ -202,7 +201,7 @@ public partial class GlobalEnchantment : EngineObject
         GlobalEnchantmentEventLog log;
         if (CanDispel((sbyte)player, ref reason))
         {
-            AddRef();
+            _ = AddRef();
             location = GetLocation();
             for (int i = 1, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
             {
@@ -215,12 +214,12 @@ public partial class GlobalEnchantment : EngineObject
                     string name = GetName();
                     log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_dispelledFormat), [name]);
                     StrategicMap.Current.Players.GetPlayers(i).EventLogbook.AddEvent(log);
-                    log.Release();
+                    _ = log.Release();
                 }
             }
 
             result = Deactivate(player);
-            Release();
+            _ = Release();
         }
         else
         {
@@ -246,7 +245,7 @@ public partial class GlobalEnchantment : EngineObject
         GlobalEnchantmentEventLog log;
         if (CanRemove((sbyte)player, ref reason))
         {
-            AddRef();
+            _ = AddRef();
             location = GetLocation();
             for (int i = 1, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
             {
@@ -259,12 +258,12 @@ public partial class GlobalEnchantment : EngineObject
                     string name = GetName();
                     log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.RemovedFormat), [name]);
                     StrategicMap.Current.Players.GetPlayers(i).EventLogbook.AddEvent(log);
-                    log.Release();
+                    _ = log.Release();
                 }
             }
 
             result = Deactivate((byte)PlayerIndex);
-            Release();
+            _ = Release();
         }
         else
         {

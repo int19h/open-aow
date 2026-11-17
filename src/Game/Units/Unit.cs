@@ -60,7 +60,7 @@ public partial class Unit : Troop
         else
         {
             short resourceIndex = UnitResource != null ? (short)UnitResource.UnitResourceIndex() : (short)-1;
-            persister.UInt16("UnitResourceIndex", value: unchecked((ushort)resourceIndex));
+            _ = persister.UInt16("UnitResourceIndex", value: unchecked((ushort)resourceIndex));
         }
     }
 
@@ -367,9 +367,9 @@ public partial class Unit : Troop
             return;
         }
 
-        AddRef();
-        AddRef();
-        AddRef();
+        _ = AddRef();
+        _ = AddRef();
+        _ = AddRef();
         Dispose();
     }
 
@@ -459,7 +459,7 @@ public partial class Unit : Troop
             UnitResource = resource;
             if (UnitResource != null)
             {
-                UpdateMoraleValue();
+                _ = UpdateMoraleValue();
                 for (int rankOrdinal = (int)Rank.None, last = (int)GetRank(); rankOrdinal <= last; rankOrdinal++)
                 {
                     rank = (Rank)rankOrdinal;

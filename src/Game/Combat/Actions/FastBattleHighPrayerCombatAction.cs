@@ -23,7 +23,7 @@ public partial class FastBattleHighPrayerCombatAction : MultiTargetCombatSpellCo
             byte targetId = TargetIds[i];
             target = combat.CombatData.FindId<CombatUnit>(targetId);
             target.SetHitPoints((byte)(target.GetHitPoints() + 5));
-            GamePack.Current.AbilityControl.GetAbility(100).Expand(target.Troop);
+            _ = GamePack.Current.AbilityControl.GetAbility(100).Expand(target.Troop);
         }
     }
 
@@ -43,7 +43,7 @@ public partial class FastBattleHighPrayerCombatAction : MultiTargetCombatSpellCo
             target = combatSide.GetObjects(i);
             if (target is CombatUnit && !target.Status.Contains(CombatObjectStatusElement.Destroyed))
             {
-                TargetIds.Add(target.Id);
+                _ = TargetIds.Add(target.Id);
             }
         }
     }

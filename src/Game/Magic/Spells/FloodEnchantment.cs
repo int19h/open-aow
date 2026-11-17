@@ -70,7 +70,7 @@ public partial class FloodEnchantment : GlobalEnchantment
                 if (RestoreDays <= 0)
                 {
                     FloodControl.Restore();
-                    base.Deactivate((byte)DispelPlayer);
+                    _ = base.Deactivate((byte)DispelPlayer);
                 }
             }
         }
@@ -148,7 +148,7 @@ public partial class FloodEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1320
     public override bool Activate(sbyte player)
     {
-        base.Activate(player);
+        _ = base.Activate(player);
         Removed = false;
         FloodControl.Setup();
         return true;

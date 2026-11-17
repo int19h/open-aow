@@ -33,7 +33,7 @@ public partial class FireStorm : Storm
         sbyte hexY = GetHexY();
         HexGeometry.HexToPixel(GetHexX(), hexY, out int x, out int y);
         x = x - pixelXSurface + 8;
-        y = y - pixelYSurface;
+        y -= pixelYSurface;
         sequence = GamePack.Current.ImageSequences.ImageSequences[0];
         while (sequence != null)
         {
@@ -57,7 +57,7 @@ public partial class FireStorm : Storm
         // { Original adds to the map selection, without clearing its existing hexes. }
         for (int i = 0, last = HexGeometry.RadiusToHexNumber(3) - 1; i <= last; i++)
         {
-            StrategicMap.Current.TargetSelection.HexNumbers.Add(0);
+            _ = StrategicMap.Current.TargetSelection.HexNumbers.Add(0);
         }
     }
 
@@ -71,8 +71,8 @@ public partial class FireStorm : Storm
         r.Top = -80;
         r.Bottom = 96;
         SetDimensions(r);
-        StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, 2);
-        PlaceHex(StrategicMap.Current.MapContainer, X, Y, L);
+        _ = StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, 2);
+        _ = PlaceHex(StrategicMap.Current.MapContainer, X, Y, L);
     }
 
     // Storms.pas:569
@@ -88,7 +88,7 @@ public partial class FireStorm : Storm
             sbyte hexLevel2 = GetHexLevel();
             sbyte hexY2 = GetHexY();
             sbyte hexX = GetHexX();
-            StrategicMap.Current.ChangeTerrain(this, hexX, hexY2, hexLevel2, 2, ChangeStormTerrain, null);
+            _ = StrategicMap.Current.ChangeTerrain(this, hexX, hexY2, hexLevel2, 2, ChangeStormTerrain, null);
         }
 
         sequence = GamePack.Current.ImageSequences.ImageSequences[0];
@@ -113,7 +113,7 @@ public partial class FireStorm : Storm
             if (condition)
             {
                 int random = Random(2);
-                AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[random]);
+                _ = AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[random]);
             }
         }
 

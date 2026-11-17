@@ -72,69 +72,69 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
         SfxManager.ExecutePathSearch(GetEngine().StartupDirectory + "SFX");
         ImageSequences = new ImageSequenceList(ImageLibraryManager, null);
         string water = AbilityRules.TranslateResourceString(GetEngine(), GameTables.WaterText);
-        TerrainTypes.Add(water);
+        _ = TerrainTypes.Add(water);
         string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_grassText);
-        TerrainTypes.Add(translatedText);
+        _ = TerrainTypes.Add(translatedText);
         string desert = AbilityRules.TranslateResourceString(GetEngine(), s_desertText);
-        TerrainTypes.Add(desert);
+        _ = TerrainTypes.Add(desert);
         string snow = AbilityRules.TranslateResourceString(GetEngine(), s_snowText);
-        TerrainTypes.Add(snow);
+        _ = TerrainTypes.Add(snow);
         string steppe = AbilityRules.TranslateResourceString(GetEngine(), s_steppeText);
-        TerrainTypes.Add(steppe);
+        _ = TerrainTypes.Add(steppe);
         string wasteland = AbilityRules.TranslateResourceString(GetEngine(), s_wastelandText);
-        TerrainTypes.Add(wasteland);
+        _ = TerrainTypes.Add(wasteland);
         string ice = AbilityRules.TranslateResourceString(GetEngine(), s_iceText);
-        TerrainTypes.Add(ice);
+        _ = TerrainTypes.Add(ice);
         string earth = AbilityRules.TranslateResourceString(GetEngine(), GameTables.EarthText);
-        TerrainTypes.Add(earth);
+        _ = TerrainTypes.Add(earth);
         string rock = AbilityRules.TranslateResourceString(GetEngine(), s_rockText);
-        TerrainTypes.Add(rock);
+        _ = TerrainTypes.Add(rock);
         string lava = AbilityRules.TranslateResourceString(GetEngine(), s_lavaText);
-        TerrainTypes.Add(lava);
+        _ = TerrainTypes.Add(lava);
         string waterText = AbilityRules.TranslateResourceString(GetEngine(), GameTables.WaterText);
-        TerrainTypes.Add(waterText);
+        _ = TerrainTypes.Add(waterText);
         string reserved = AbilityRules.TranslateResourceString(GetEngine(), s_reservedText);
-        TerrainTypes.Add(reserved);
+        _ = TerrainTypes.Add(reserved);
         string dirt = AbilityRules.TranslateResourceString(GetEngine(), s_dirtText);
-        TerrainTypes.Add(dirt);
+        _ = TerrainTypes.Add(dirt);
         string iceText = AbilityRules.TranslateResourceString(GetEngine(), s_iceText);
-        TerrainTypes.Add(iceText);
+        _ = TerrainTypes.Add(iceText);
         string coast = AbilityRules.TranslateResourceString(GetEngine(), s_coastText);
-        TerrainTypes.Add(coast);
+        _ = TerrainTypes.Add(coast);
         string border = AbilityRules.TranslateResourceString(GetEngine(), s_borderText);
-        TerrainTypes.Add(border);
+        _ = TerrainTypes.Add(border);
         string mountain = AbilityRules.TranslateResourceString(GetEngine(), GameText.MountainText);
-        OverlayTypes.Add(mountain);
+        _ = OverlayTypes.Add(mountain);
         string denseVegetation = AbilityRules.TranslateResourceString(GetEngine(), s_denseVegetationText);
-        OverlayTypes.Add(denseVegetation);
+        _ = OverlayTypes.Add(denseVegetation);
         string hill = AbilityRules.TranslateResourceString(GetEngine(), GameText.HillText);
-        OverlayTypes.Add(hill);
+        _ = OverlayTypes.Add(hill);
         string vegetation = AbilityRules.TranslateResourceString(GetEngine(), s_vegetationText);
-        OverlayTypes.Add(vegetation);
+        _ = OverlayTypes.Add(vegetation);
         string road = AbilityRules.TranslateResourceString(GetEngine(), s_roadText);
-        OverlayTypes.Add(road);
+        _ = OverlayTypes.Add(road);
         string bridge = AbilityRules.TranslateResourceString(GetEngine(), s_bridgeText);
-        OverlayTypes.Add(bridge);
+        _ = OverlayTypes.Add(bridge);
         string rubble = AbilityRules.TranslateResourceString(GetEngine(), s_rubbleText);
-        OverlayTypes.Add(rubble);
+        _ = OverlayTypes.Add(rubble);
         string structure = AbilityRules.TranslateResourceString(GetEngine(), GameText.StructureText);
-        OverlayTypes.Add(structure);
+        _ = OverlayTypes.Add(structure);
         string obstacle = AbilityRules.TranslateResourceString(GetEngine(), GameText.ObstacleText);
-        OverlayTypes.Add(obstacle);
+        _ = OverlayTypes.Add(obstacle);
         string lightVegetation = AbilityRules.TranslateResourceString(GetEngine(), s_lightVegetationText);
-        OverlayTypes.Add(lightVegetation);
+        _ = OverlayTypes.Add(lightVegetation);
         string solid = AbilityRules.TranslateResourceString(GetEngine(), s_solidText);
-        OverlayTypes.Add(solid);
+        _ = OverlayTypes.Add(solid);
         string none = AbilityRules.TranslateResourceString(GetEngine(), GameTables.NoneText);
-        DecorationTypes.Add(none);
+        _ = DecorationTypes.Add(none);
         string rocks = AbilityRules.TranslateResourceString(GetEngine(), s_rocksText);
-        DecorationTypes.Add(rocks);
+        _ = DecorationTypes.Add(rocks);
         string bones = AbilityRules.TranslateResourceString(GetEngine(), s_bonesText);
-        DecorationTypes.Add(bones);
+        _ = DecorationTypes.Add(bones);
         string deadTree = AbilityRules.TranslateResourceString(GetEngine(), s_deadTreeText);
-        DecorationTypes.Add(deadTree);
+        _ = DecorationTypes.Add(deadTree);
         string toadstools = AbilityRules.TranslateResourceString(GetEngine(), s_toadstoolsText);
-        DecorationTypes.Add(toadstools);
+        _ = DecorationTypes.Add(toadstools);
         PadControl = new PadControl(this);
         enabled = PadControl.TerrainTypes;
         enabled[1] = true;
@@ -189,7 +189,7 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
         SpellControl.UnregisterAll();
         ItemLibraries?.Dispose();
         HeroLibraries?.Dispose();
-        _status = _status + Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Destroying);
+        _status += Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Destroying);
         EngineMessage.InitializeMessage(out EngineMessage message, 66564, this);
         if (_activatedEngine != null && _activatedEngine.ControlNode != null)
         {
@@ -214,7 +214,7 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
             _activatedEngine.ControlNode.MessageProc(ref message, this);
         }
 
-        _status = _status - Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Destroying);
+        _status -= Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Destroying);
 
         AbilityControl?.Dispose();
         SpellControl?.Dispose();
@@ -319,29 +319,28 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
     {
         EngineMessage.InitializeMessage(out EngineMessage message, 66560, this);
         GetEngine().ControlNode.MessageProc(ref message, this);
-        _status = _status + Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Activated);
+        _status += Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Activated);
         if (edit)
         {
             EngineMessage.InitializeMessage(out message, 66562, this);
             GetEngine().ControlNode.MessageProc(ref message, this);
-            _status = _status + Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
+            _status += Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
         }
     }
 
     // HSEngine.pas:3436
     public void DeActivate()
     {
-        EngineMessage message = default;
         if (_status.Contains(HexSpriteSetStatusElement.Activated))
         {
-            EngineMessage.InitializeMessage(out message, 66561, this);
+            EngineMessage.InitializeMessage(out EngineMessage message, 66561, this);
             GetEngine().ControlNode.MessageProc(ref message, this);
-            _status = _status - Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Activated);
+            _status -= Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Activated);
             if (_status.Contains(HexSpriteSetStatusElement.Editting))
             {
                 EngineMessage.InitializeMessage(out message, 66563, this);
                 GetEngine().ControlNode.MessageProc(ref message, this);
-                _status = _status - Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
+                _status -= Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
             }
         }
     }
@@ -351,18 +350,18 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
     {
         if (_status.Contains(HexSpriteSetStatusElement.Editting))
         {
-            _status = _status + Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Modified);
+            _status += Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Modified);
         }
     }
 
     // HSEngine.pas:3459
-    public void ResetModified() => _status = _status - Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Modified);
+    public void ResetModified() => _status -= Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Modified);
 
     // HSEngine.pas:3464
-    public void SetEditting() => _status = _status + Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
+    public void SetEditting() => _status += Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
 
     // HSEngine.pas:3468
-    public void ResetEditting() => _status = _status - Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
+    public void ResetEditting() => _status -= Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
 
     public Set<HexSpriteSetStatusElement> Status => _status;
     public HexControl HexControl => _hexControl;
@@ -447,19 +446,19 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
         crCs = new Int32List();
         path = ExtractFilePath(GetEngine().HssFileName);
         // { Original includes ABILITY.PFS twice and does not free CRCs on a read error. }
-        crCs.Add(GetFileCrc(path + "ABILITY.PFS", false));
-        crCs.Add(GetFileCrc(path + "ABILITY.PFS", false));
-        crCs.Add(GetFileCrc(path + "UNITRES.PFS", false));
-        crCs.Add(GetFileCrc(path + "UNITGFX.PFS", false));
-        crCs.Add(GetFileCrc(path + "HERORES.PFS", false));
-        crCs.Add(GetFileCrc(path + "ITEMGFX.PFS", false));
-        crCs.Add(GetFileCrc(path + "FACERES.PFS", false));
-        crCs.Add(GetFileCrc(path + "COMB_RES.PFS", false));
-        crCs.Add(GetFileCrc(path + "SPELLS.PFS", false));
+        _ = crCs.Add(GetFileCrc(path + "ABILITY.PFS", false));
+        _ = crCs.Add(GetFileCrc(path + "ABILITY.PFS", false));
+        _ = crCs.Add(GetFileCrc(path + "UNITRES.PFS", false));
+        _ = crCs.Add(GetFileCrc(path + "UNITGFX.PFS", false));
+        _ = crCs.Add(GetFileCrc(path + "HERORES.PFS", false));
+        _ = crCs.Add(GetFileCrc(path + "ITEMGFX.PFS", false));
+        _ = crCs.Add(GetFileCrc(path + "FACERES.PFS", false));
+        _ = crCs.Add(GetFileCrc(path + "COMB_RES.PFS", false));
+        _ = crCs.Add(GetFileCrc(path + "SPELLS.PFS", false));
         // The scenario set's stored CRC is the tail of its engine image, so an own document agrees
         // with its original (own-formats.md 4.1). A document with no image has no stored CRC and
         // the call refuses through the packet profile. The PFS files keep their original bytes.
-        crCs.Add(FileBoundary.ImageTailInt32(FileBoundary.ReadName(path + "RELEASE.HSS"), GameProfile.ScenarioSet));
+        _ = crCs.Add(FileBoundary.ImageTailInt32(FileBoundary.ReadName(path + "RELEASE.HSS"), GameProfile.ScenarioSet));
         int result = EngineServices.GetCrc32(MemoryMarshal.AsBytes(crCs.List.AsSpan()), crCs.Count * 4);
         crCs?.Dispose();
         return result;

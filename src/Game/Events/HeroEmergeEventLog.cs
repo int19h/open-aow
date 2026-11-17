@@ -51,7 +51,7 @@ public partial class HeroEmergeEventLog : EventLog
         if (log != null)
         {
             result = log.Execute(mode, trigger, done);
-            log.Release();
+            _ = log.Release();
         }
         else
         {
@@ -80,16 +80,13 @@ public partial class HeroEmergeEventLog : EventLog
     public override void ViewLocation()
     {
         Troop u;
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         u = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (u != null)
         {
             MapCoordinate coordinate17 = u.GetLocation();
-            x = coordinate17.X;
-            y = coordinate17.Y;
-            l = coordinate17.MapLevel;
+            sbyte x = coordinate17.X;
+            sbyte y = coordinate17.Y;
+            sbyte l = coordinate17.MapLevel;
             if (x != -1)
             {
                 CenterViewTo(x, y, l);
@@ -158,7 +155,7 @@ public partial class HeroEmergeEventLog : EventLog
         if (log != null)
         {
             result = log.ExecuteAI();
-            log.Release();
+            _ = log.Release();
         }
         else
         {

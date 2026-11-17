@@ -30,13 +30,13 @@ public partial class StructureAIPlayerAction : AIPlayerAction
     public override bool Activate()
     {
         bool result;
-        base.Activate();
+        _ = base.Activate();
         if (Control.Player.PlayerIndex > 0)
         {
             for (int i = 0, last = StrategicMap.Current.StructureControl.GetCount() - 1; i <= last; i++)
             {
                 Structure structure = StrategicMap.Current.StructureControl.GetStructure(i);
-                _structureIds.Add(structure.StructureId);
+                _ = _structureIds.Add(structure.StructureId);
             }
 
             result = true;

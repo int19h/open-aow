@@ -56,7 +56,7 @@ public partial class ArmyInfoDialog : UIModule
             info = default;
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
-            _event.ArmyView.Units.GetUnit(index).Show(x - 33, y - 35, lockedSurface, info);
+            _ = _event.ArmyView.Units.GetUnit(index).Show(x - 33, y - 35, lockedSurface, info);
             if ((((int)(((uint)_event.Selection) >> index)) & 1) == 0)
             {
                 image = UI.Graphics.UnitBackgrounds[7];
@@ -85,7 +85,7 @@ public partial class ArmyInfoDialog : UIModule
         _event = null;
         notify?.Invoke(eventValue);
 
-        eventValue?.Release();
+        _ = (eventValue?.Release());
     }
 
     // AoWArmyInfoDlg.pas:109
@@ -168,7 +168,7 @@ public partial class ArmyInfoDialog : UIModule
     {
         dialog.OnClose = done;
         dialog._event = eventValue;
-        dialog._event.AddRef();
+        _ = dialog._event.AddRef();
         string text = eventValue.Messages.Text;
         dialog.MessageMemo.Items.Text = text;
         dialog.TitleLabel.Text = eventValue.Title;

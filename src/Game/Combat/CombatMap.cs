@@ -128,9 +128,9 @@ public partial class CombatMap : GameMap
         while (Effects.Count > 0)
         {
             BattleEffectSprite effect = Effects[0];
-            DynamicFixedVisibleHexSprite.RemoveChild(effect);
+            _ = DynamicFixedVisibleHexSprite.RemoveChild(effect);
             BattleEffectSprite effect2 = Effects[0];
-            DynamicVisibleHexSprite.RemoveChild(effect2);
+            _ = DynamicVisibleHexSprite.RemoveChild(effect2);
             (Effects[0] as IDisposable)?.Dispose();
             Effects.RemoveAt(0);
         }
@@ -213,7 +213,7 @@ public partial class CombatMap : GameMap
         {
             for (int y = 6, lastY = MapContainer.Height - 7; y <= lastY; y++)
             {
-                GamePack.Current.CombatHexes.Place(MapContainer, (sbyte)x, (sbyte)y, 0, 1);
+                _ = GamePack.Current.CombatHexes.Place(MapContainer, (sbyte)x, (sbyte)y, 0, 1);
             }
         }
 
@@ -222,12 +222,12 @@ public partial class CombatMap : GameMap
         {
             for (int y = 0; y <= 5; y++)
             {
-                control.Place(MapContainer, (sbyte)x, (sbyte)y, 0, 15);
+                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, 0, 15);
             }
 
             for (int y = MapContainer.Height - 6, lastY = MapContainer.Height - 1; y <= lastY; y++)
             {
-                control.Place(MapContainer, (sbyte)x, (sbyte)y, 0, 15);
+                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, 0, 15);
             }
         }
 
@@ -235,12 +235,12 @@ public partial class CombatMap : GameMap
         {
             for (int x = 0; x <= 5; x++)
             {
-                control.Place(MapContainer, (sbyte)x, (sbyte)y, 0, 15);
+                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, 0, 15);
             }
 
             for (int x = MapContainer.Width - 6, last = MapContainer.Width - 1; x <= last; x++)
             {
-                control.Place(MapContainer, (sbyte)x, (sbyte)y, 0, 15);
+                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, 0, 15);
             }
         }
     }
@@ -279,8 +279,8 @@ public partial class CombatMap : GameMap
                 effect = Effects[i];
                 if (effect.Done)
                 {
-                    DynamicFixedVisibleHexSprite.RemoveChild(effect);
-                    DynamicVisibleHexSprite.RemoveChild(effect);
+                    _ = DynamicFixedVisibleHexSprite.RemoveChild(effect);
+                    _ = DynamicVisibleHexSprite.RemoveChild(effect);
                     effect?.Dispose();
                     Effects.RemoveAt(i);
                 }
@@ -490,7 +490,7 @@ public partial class CombatMap : GameMap
             }
         }
 
-        AudioPlayback.PlaySample("Sfx\\Events\\NewEvent.wav");
+        _ = AudioPlayback.PlaySample("Sfx\\Events\\NewEvent.wav");
         EngineMessage.InitializeMessage(out EngineMessage message, 537006081, this);
         SendMessage(ref message, this);
         if (ExplorationEnabled)
@@ -530,7 +530,7 @@ public partial class CombatMap : GameMap
             if (tokenEvent != null)
             {
                 StrategicMap.Current.TokenManager.GetTokenControl(CurrentPlayer).AddEvent(tokenEvent);
-                tokenEvent.Release();
+                _ = tokenEvent.Release();
                 result = true;
                 EndTurnPending = false;
             }
@@ -598,7 +598,7 @@ public partial class CombatMap : GameMap
                 index = -10;
             }
 
-            index = index + step;
+            index += step;
         }
 
         if (result == U)
@@ -613,7 +613,7 @@ public partial class CombatMap : GameMap
                     index = -10;
                 }
 
-                index = index + step;
+                index += step;
             }
         }
 
@@ -627,7 +627,7 @@ public partial class CombatMap : GameMap
         Effects.Add(result);
         result.Activate();
         result.EffectType = effectType;
-        DynamicFixedVisibleHexSprite.AddChild(result);
+        _ = DynamicFixedVisibleHexSprite.AddChild(result);
         return result;
     }
 
@@ -666,15 +666,13 @@ public partial class CombatMap : GameMap
         TerminateCombatTokenEvent tokenEvent;
         tokenEvent = new TerminateCombatTokenEvent(null) { Holder = CreationHolder() };
         StrategicMap.Current.TokenManager.TokenExecutor.AddSystemEvent(tokenEvent);
-        tokenEvent.Release();
+        _ = tokenEvent.Release();
     }
 
     // AoWTC.pas:2497
     public void SelectNextUnit(bool forward)
     {
         TacticalBattleUnit u;
-        int x = default;
-        int y = default;
         if (SeatedCombatPlayer == CurrentCombatPlayer)
         {
             u = GetNextUnit(Players.GetPlayers(SeatedCombatPlayer).LastUnit, false, forward);
@@ -687,7 +685,7 @@ public partial class CombatMap : GameMap
                     CenterViewTo(u.UnitHexSprite.GetHexX(), hexY, 0);
                     Selection.UnselectLocation();
                     sbyte fUnitHexSpriteHexY = u.UnitHexSprite.GetHexY();
-                    HexGeometry.HexToPixel(u.UnitHexSprite.GetHexX(), fUnitHexSpriteHexY, out x, out y);
+                    HexGeometry.HexToPixel(u.UnitHexSprite.GetHexX(), fUnitHexSpriteHexY, out int x, out int y);
                     Selection.SelectLocation(x, y, 0);
                 }
             }
@@ -731,7 +729,7 @@ public partial class CombatMap : GameMap
             if (tokenEvent != null)
             {
                 StrategicMap.Current.TokenManager.GetTokenControl(CurrentPlayer).AddEvent(tokenEvent);
-                tokenEvent.Release();
+                _ = tokenEvent.Release();
             }
         }
     }

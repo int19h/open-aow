@@ -74,12 +74,12 @@ public partial class AIGroupRecruitControl : AIGroupTask
             case 0:
                 StrategicMap.Current.AIExecutor.UseProcessTime(500);
                 i = 0;
-                _control.RecruitmentGroups.Validate(_control);
+                _ = _control.RecruitmentGroups.Validate(_control);
                 while (!Complete && i != _control.RecruitmentGroups.Count)
                 {
                     if (ValidRecruitmentGroup(_control.RecruitmentGroups.GetRecruitmentGroups(i)))
                     {
-                        RecruitFromGroup(_control.RecruitmentGroups.GetRecruitmentGroups(i));
+                        _ = RecruitFromGroup(_control.RecruitmentGroups.GetRecruitmentGroups(i));
                     }
 
                     i += 1;
@@ -189,7 +189,7 @@ public partial class AIGroupRecruitControl : AIGroupTask
 
             if (Superiority != -1)
             {
-                _control.CombatPredictor.Execute();
+                _ = _control.CombatPredictor.Execute();
                 if (_control.CombatPredictor.GetSuperiority() < Superiority)
                 {
                     Complete = false;
@@ -202,7 +202,7 @@ public partial class AIGroupRecruitControl : AIGroupTask
     public void AddRecruitUnit(Troop troop)
     {
         DamageType d;
-        Units.AddUnit(troop);
+        _ = Units.AddUnit(troop);
         for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
         {
             d = (DamageType)dOrdinal;
@@ -240,7 +240,7 @@ public partial class AIGroupRecruitControl : AIGroupTask
                 _control.CombatPredictor.DeleteUnit(troop);
             }
 
-            Units.DeleteUnit(troop);
+            _ = Units.DeleteUnit(troop);
             UpdateCompletion();
         }
     }
@@ -284,21 +284,16 @@ public partial class AIGroupRecruitControl : AIGroupTask
         {
             if (UsefulRecruitUnit(group.Group.Units.GetUnit(i)))
             {
-                units.AddUnit(group.Group.Units.GetUnit(i));
+                _ = units.AddUnit(group.Group.Units.GetUnit(i));
             }
         }
 
         if (units.Count != 0)
         {
             recruitable = new UnitUserList(null) { Holder = CreationHolder() };
-            if (Mode != AIGroupRecruitControlMode.ForceRecruit)
-            {
-                group.Group.GetRecruitableUnits(_control.Group, units, recruitable);
-            }
-            else
-            {
-                recruitable.AddUnits(units.Units);
-            }
+            _ = Mode != AIGroupRecruitControlMode.ForceRecruit
+                ? group.Group.GetRecruitableUnits(_control.Group, units, recruitable)
+                : recruitable.AddUnits(units.Units);
 
             i = 0;
             while (i < recruitable.Count && !Complete)

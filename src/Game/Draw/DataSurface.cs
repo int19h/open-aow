@@ -31,7 +31,7 @@ public partial class DataSurface : Surface
         _bitCount = (byte)(pixelFormatId & 255);
         _pixelFormatId = pixelFormatId;
         SetPalette(palette);
-        Resize(width, height);
+        _ = Resize(width, height);
     }
 
     // GFXE.pas:12396
@@ -84,7 +84,7 @@ public partial class DataSurface : Surface
                 h = R.Value.Bottom - R.Value.Top;
                 if (w > 0 && h > 0)
                 {
-                    Resize(w, h);
+                    _ = Resize(w, h);
                     SetPalette(lockedSurface.Palette);
                     X = R.Value.Left;
                     Y = R.Value.Top;
@@ -96,7 +96,7 @@ public partial class DataSurface : Surface
                 X = 30;
             }
 
-            surface.Unlock();
+            _ = surface.Unlock();
             result = PixelFormats.GFXE_OK;
         }
 
@@ -108,10 +108,7 @@ public partial class DataSurface : Surface
     {
         if (palette != null)
         {
-            if (_palette == null)
-            {
-                _palette = new Palette();
-            }
+            _palette ??= new Palette();
 
             _palette.Assign(palette);
         }

@@ -112,7 +112,7 @@ public sealed class UIContext(GameEngine engine) : IDisposable
         {
             if (published is null)
             {
-                _modules.Remove(typeof(T));
+                _ = _modules.Remove(typeof(T));
             }
             else
             {

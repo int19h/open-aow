@@ -64,7 +64,7 @@ public partial class ProductionSettings : EngineObject
         u = Unit;
         if (u != null)
         {
-            u.Release();
+            _ = u.Release();
             Unit = null;
         }
     }

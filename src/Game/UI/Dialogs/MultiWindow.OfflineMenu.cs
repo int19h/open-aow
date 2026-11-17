@@ -13,8 +13,8 @@ public partial class MultiWindow
         if (songs.CurrentIndex == -1 || songs.CurrentIndex >= songs.Songs.Count || songs.Songs[songs.CurrentIndex] != "SONGS\\TITLE.IT")
         {
             songs.Songs.Clear();
-            songs.Songs.Add("SONGS\\TITLE.IT");
-            songs.Play(0);
+            _ = songs.Songs.Add("SONGS\\TITLE.IT");
+            _ = songs.Play(0);
         }
         UI.VideoDialog.SetSceneSize(640, 480);
         _pendingMap = mapName;

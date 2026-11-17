@@ -68,7 +68,7 @@ public partial class Sample : IDisposable
     protected Sample(ConstructionContext context, SampleData sampleData)
     {
         context.Capture(this);
-        AudioHost.SampleList.Add(this);
+        _ = AudioHost.SampleList.Add(this);
         _sampleData = sampleData;
         _sampleData.AddRef();
     }
@@ -91,7 +91,7 @@ public partial class Sample : IDisposable
         _sampleData?.Release();
 
         _sampleData = null;
-        AudioHost.SampleList.Remove(this);
+        _ = AudioHost.SampleList.Remove(this);
     }
 
     // Sound.pas:774
@@ -104,7 +104,7 @@ public partial class Sample : IDisposable
                 Play();
             }
 
-            _status = _status + Set<StatusElement>.Of(StatusElement.Running);
+            _status += Set<StatusElement>.Of(StatusElement.Running);
         }
     }
 

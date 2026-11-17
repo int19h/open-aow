@@ -69,9 +69,9 @@ public partial class FaceResource : EngineResource
     // Ability.PAS:496
     public override LibraryImage GetCellImage()
     {
-        AddRef();
+        _ = AddRef();
         LibraryImage result = _imageLibrary[_imageIndex];
-        Release();
+        _ = Release();
         return result;
     }
 

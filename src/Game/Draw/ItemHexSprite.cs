@@ -79,11 +79,9 @@ public partial class ItemHexSprite : SingleHexSprite
     // Army.PAS:5287
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int pixelX = default;
-        int pixelY = default;
         if (!GetSelected() || (StrategicMap.Current.Frame & 6) != 6)
         {
-            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
             GamePack.Current.GeneralImages[0].Show(pixelX - pixelXSurface, pixelY - pixelYSurface, lockedSurface);
         }
     }

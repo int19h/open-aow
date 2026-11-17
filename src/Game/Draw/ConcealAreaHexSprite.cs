@@ -43,8 +43,6 @@ public partial class ConcealAreaHexSprite : FixedVisibleHexSprite
         int intensity;
         int radius;
         int direction;
-        int x = default;
-        int y = default;
         int delay;
         if (StrategicMap.Current.ViewMapLevel == _layer)
         {
@@ -73,8 +71,8 @@ public partial class ConcealAreaHexSprite : FixedVisibleHexSprite
                 delay = Random(20);
                 if (_frame - delay >= 0)
                 {
-                    AbilityRules.PolarToCartesian(direction, radius, out x, out y);
-                    GamePack.Current.SpellControl.GetSpell(57).CastImages.Show(0, pixelX + x, pixelY + y, _frame - delay, lockedSurface);
+                    AbilityRules.PolarToCartesian(direction, radius, out int x, out int y);
+                    _ = GamePack.Current.SpellControl.GetSpell(57).CastImages.Show(0, pixelX + x, pixelY + y, _frame - delay, lockedSurface);
                 }
             }
 
@@ -93,8 +91,8 @@ public partial class ConcealAreaHexSprite : FixedVisibleHexSprite
         _y = Y;
         _layer = layer;
         _frame = 0;
-        GamePack.Current.SpellControl.GetSpell(1).CastSounds.Play(0);
-        StrategicMap.Current.DynamicFixedVisibleHexSprite.AddChild(this);
+        _ = GamePack.Current.SpellControl.GetSpell(1).CastSounds.Play(0);
+        _ = StrategicMap.Current.DynamicFixedVisibleHexSprite.AddChild(this);
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, _x, _y, 0);
         level = StrategicMap.Current.MapContainer.MapLevels[_layer];
         while (walk.Radius <= radius)
@@ -103,7 +101,7 @@ public partial class ConcealAreaHexSprite : FixedVisibleHexSprite
             {
                 if (level.GetField(walk.X, walk.Y).GetExplored(StrategicMap.Current.SeatedPlayer))
                 {
-                    _hexes.Add(walk.HexNumber);
+                    _ = _hexes.Add(walk.HexNumber);
                 }
             }
 
@@ -114,8 +112,8 @@ public partial class ConcealAreaHexSprite : FixedVisibleHexSprite
     // GlobalSpells.pas:237
     public void StopAnimation()
     {
-        StrategicMap.Current.DynamicFixedVisibleHexSprite.RemoveChild(this);
-        StrategicMap.Current.DynamicVisibleHexSprite.RemoveChild(this);
+        _ = StrategicMap.Current.DynamicFixedVisibleHexSprite.RemoveChild(this);
+        _ = StrategicMap.Current.DynamicVisibleHexSprite.RemoveChild(this);
         Dispose();
     }
 

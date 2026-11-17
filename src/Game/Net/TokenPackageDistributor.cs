@@ -55,8 +55,8 @@ public partial class TokenPackageDistributor
         TokenPackage tp;
         tp = new TokenPackage(null) { Holder = Pc };
         tp.TokenEvents.Assign(events, null);
-        Pc.SendDataPackage(tp, player, receiver);
-        tp.Release();
+        _ = Pc.SendDataPackage(tp, player, receiver);
+        _ = tp.Release();
     }
 
     // NetworkE.pas:1119

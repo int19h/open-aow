@@ -48,24 +48,20 @@ public partial class StormSpell : Spell
         bool result;
         string reason = "";
         MapCoordinate target = default;
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         Storm storm;
-        StormDamageInfo info = default;
         if (AICastSpellPriority(source) != -1)
         {
-            AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, 0);
+            _ = AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, 0);
             if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
                 MapCoordinate coordinate80 = source.GetLocation();
-                x = coordinate80.X;
-                y = coordinate80.Y;
-                l = coordinate80.MapLevel;
+                sbyte x = coordinate80.X;
+                sbyte y = coordinate80.Y;
+                sbyte l = coordinate80.MapLevel;
                 storm = CreateStorm();
-                if (storm.GetBestTarget(source.Player, x, y, l, 12, ref target, out info))
+                if (storm.GetBestTarget(source.Player, x, y, l, 12, ref target, out _))
                 {
-                    ExecuteStormSpell(source, target.X, target.Y, target.MapLevel);
+                    _ = ExecuteStormSpell(source, target.X, target.Y, target.MapLevel);
                     result = true;
                 }
                 else
@@ -79,7 +75,7 @@ public partial class StormSpell : Spell
             {
                 if (source.GetCastingSpellId() != SpellId)
                 {
-                    source.ExecuteStartCasting(SpellId);
+                    _ = source.ExecuteStartCasting(SpellId);
                     result = true;
                 }
                 else
@@ -99,16 +95,13 @@ public partial class StormSpell : Spell
     // Storms.pas:809
     public override bool CanActivate(Troop source, ref string messageText)
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         bool result = base.CanActivate(source, ref messageText);
         if (result)
         {
             MapCoordinate coordinate81 = source.GetLocation();
-            x = coordinate81.X;
-            y = coordinate81.Y;
-            l = coordinate81.MapLevel;
+            _ = coordinate81.X;
+            _ = coordinate81.Y;
+            sbyte l = coordinate81.MapLevel;
             if (l != 0)
             {
                 result = false;
@@ -128,7 +121,7 @@ public partial class StormSpell : Spell
         sbyte l = default;
         string reason = "";
         TargetSelectionControl selection = default;
-        base.Activate(source);
+        _ = base.Activate(source);
         if (CanActivate(source, ref reason))
         {
             _source = source;
@@ -139,7 +132,7 @@ public partial class StormSpell : Spell
             selection = StrategicMap.Current.TargetSelection;
             _targetStorm = CreateStorm();
             selection.Initialize(this);
-            selection.TargetMode = selection.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
+            selection.TargetMode += Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
             selection.SourceLocation = new MapCoordinate(x, y, l);
             StrategicMap.Current.MakeVisible(x, y, l, 5);
             string name = _targetStorm.Name();
@@ -178,7 +171,7 @@ public partial class StormSpell : Spell
             tokenEvent.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             tokenEvent.Location = new MapCoordinate(X, Y, L);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(tokenEvent);
-            tokenEvent.Release();
+            _ = tokenEvent.Release();
             result = true;
         }
         else
@@ -194,24 +187,20 @@ public partial class StormSpell : Spell
     {
         int result;
         MapCoordinate target = default;
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         string reason = "";
         Storm storm;
-        StormDamageInfo info = default;
         int damage;
         if (CanActivate(source, ref reason))
         {
             result = -1;
             MapCoordinate coordinate83 = source.GetLocation();
-            x = coordinate83.X;
-            y = coordinate83.Y;
-            l = coordinate83.MapLevel;
+            sbyte x = coordinate83.X;
+            sbyte y = coordinate83.Y;
+            sbyte l = coordinate83.MapLevel;
             if (l == 0)
             {
                 storm = CreateStorm();
-                if (storm.GetBestTarget(source.Player, x, y, l, 12, ref target, out info))
+                if (storm.GetBestTarget(source.Player, x, y, l, 12, ref target, out StormDamageInfo info))
                 {
                     damage = info.EnemyDamage - info.FriendlyDamage;
                     if ((double)(BaseManaCost * 0.75) < damage)

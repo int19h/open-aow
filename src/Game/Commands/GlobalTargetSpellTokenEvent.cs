@@ -46,10 +46,10 @@ public partial class GlobalTargetSpellTokenEvent : SpellTokenEvent
         {
             animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
             animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
-            StrategicMap.Current.PlaceHex(animation, X, Y, layer);
+            _ = StrategicMap.Current.PlaceHex(animation, X, Y, layer);
         }
 
-        GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
+        _ = GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
     }
 
     // NetworkE.pas:230

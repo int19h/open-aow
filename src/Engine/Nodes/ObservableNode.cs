@@ -29,7 +29,7 @@ public partial class ObservableNode : CustomNode
     // Engine.pas:7212
     public override void Dispose()
     {
-        BeginUpdate();
+        _ = BeginUpdate();
         base.Dispose();
         _children?.Dispose();
         _children = null;
@@ -65,7 +65,7 @@ public partial class ObservableNode : CustomNode
             {
                 if (!(c.Owner == this && c.GetControlStyle().Contains(EngineServices.Shared)))
                 {
-                    RemoveChild(c);
+                    _ = RemoveChild(c);
                 }
             }
         }
@@ -93,7 +93,7 @@ public partial class ObservableNode : CustomNode
         EngineObject previous = index >= 0 && index < Count ? _children.List[index] : null;
         while (index >= Count)
         {
-            _children.Add(null);
+            _ = _children.Add(null);
         }
 
         _children[index] = child;
@@ -1010,7 +1010,7 @@ public partial class ObservableNode : CustomNode
     public override int AddChild(EngineObject child)
     {
         CheckChild(child);
-        _children.Add(child);
+        _ = _children.Add(child);
         if (_updateCount == 0)
         {
             Emit(ObservableChange.Added(_children.Count - 1, item: child));
@@ -1108,7 +1108,7 @@ public partial class ObservableNode : CustomNode
         CheckChild(child);
         while (index >= Count)
         {
-            _children.Add(null);
+            _ = _children.Add(null);
         }
 
         _children.List[index] = child;

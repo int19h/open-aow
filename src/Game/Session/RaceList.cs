@@ -58,7 +58,7 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
         {
             if (GetChild(i) != null && this[i].Enabled)
             {
-                races.Add(this[i]);
+                _ = races.Add(this[i]);
             }
         }
 

@@ -107,7 +107,7 @@ public partial class CombatPredictor : IDisposable
     {
         if (Invalid != 0)
         {
-            Execute();
+            _ = Execute();
         }
     }
 
@@ -170,7 +170,7 @@ public partial class CombatPredictor : IDisposable
             if (u.Enabled != 0 && u.RoundTargets.Count != 0)
             {
                 u.SortRoundTargets();
-                _activeUnits.Add(u);
+                _ = _activeUnits.Add(u);
             }
         }
     }
@@ -359,8 +359,8 @@ public partial class CombatPredictor : IDisposable
         u = new CombatPredictorUnit();
         u.Setup(troop, (CombatPredictor)(object)this, side);
         u.BehindWall = behindWall;
-        _allUnits.Add(u);
-        Sides[side].Add(u);
+        _ = _allUnits.Add(u);
+        _ = Sides[side].Add(u);
         Sides[side].UnitRemovedFlags[0] = 1;
         for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
         {
@@ -416,7 +416,7 @@ public partial class CombatPredictor : IDisposable
             wall.Hits = (sbyte)(wall.Hits + 5);
             wall.HitPoints = (sbyte)(wall.HitPoints + 5);
             _wall = AddUnit(wall, 1, 0);
-            wall.Release();
+            _ = wall.Release();
         }
         else
         {
@@ -468,7 +468,6 @@ public partial class CombatPredictor : IDisposable
         CombatSideIndex side;
         MapField field;
         MapFieldMessage message = default;
-        HexNumberWalkData walk = default;
         AddUnits(army.Army.Units);
         level = StrategicMap.Current.MapContainer.GetMapLevel(L);
         Army armyLocal = army.Army;
@@ -491,7 +490,7 @@ public partial class CombatPredictor : IDisposable
                 AddWall((WallType)message.Result.Int);
             }
 
-            HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
             while (walk.Radius <= 1)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -515,7 +514,7 @@ public partial class CombatPredictor : IDisposable
                                 u = armyHexSprite.Army.Units.GetUnit(i);
                                 if (u.ValidTerrain(field.TerrainType, field.OverlayType))
                                 {
-                                    AddUnit(u, (byte)(int)side, (byte)((WallType)message.Result.Int != WallType.None ? 1 : 0));
+                                    _ = AddUnit(u, (byte)(int)side, (byte)((WallType)message.Result.Int != WallType.None ? 1 : 0));
                                 }
                             }
                         }
@@ -538,7 +537,6 @@ public partial class CombatPredictor : IDisposable
         CombatSideIndex side;
         MapField field;
         MapFieldMessage message = default;
-        HexNumberWalkData walk = default;
         level = StrategicMap.Current.MapContainer.GetMapLevel(L);
         defender = (byte)level.GetField(X, Y).GetPlayer();
         defenderRelation = level.GetField(X, Y).GetIndependentRelation();
@@ -556,7 +554,7 @@ public partial class CombatPredictor : IDisposable
                 AddWall((WallType)message.Result.Int);
             }
 
-            HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
             while (walk.Radius <= 1)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -580,7 +578,7 @@ public partial class CombatPredictor : IDisposable
                                 u = armyHexSprite.Army.Units.GetUnit(i);
                                 if (u.ValidTerrain(field.TerrainType, field.OverlayType))
                                 {
-                                    AddUnit(u, (byte)(int)side, (byte)((WallType)message.Result.Int != WallType.None ? 1 : 0));
+                                    _ = AddUnit(u, (byte)(int)side, (byte)((WallType)message.Result.Int != WallType.None ? 1 : 0));
                                 }
                             }
                         }
@@ -709,7 +707,7 @@ public partial class CombatPredictor : IDisposable
                 score = u.IncomingCombatValue != 0 ? u.CombatValueTotal * 100 / u.IncomingCombatValue : 9999;
 
                 total += u.CombatValueTotal;
-                list.AddAbility(u, score);
+                _ = list.AddAbility(u, score);
             }
 
             list.Sort(CompareRequiredUnits);
@@ -754,7 +752,7 @@ public partial class CombatPredictor : IDisposable
                     list.List[i].First.SetEnabled(0);
                 }
 
-                Execute();
+                _ = Execute();
                 if (GetSuperiority() >= superiority)
                 {
                     previous = count;
@@ -800,7 +798,7 @@ public partial class CombatPredictor : IDisposable
             {
                 for (int i = 0; i <= minimum - 1; i++)
                 {
-                    required.AddUnit(list.List[i].First.Troop);
+                    _ = required.AddUnit(list.List[i].First.Troop);
                 }
             }
 
@@ -808,7 +806,7 @@ public partial class CombatPredictor : IDisposable
             {
                 for (int i = list.Count - 1; i >= minimum; i--)
                 {
-                    optional.AddUnit(list.List[i].First.Troop);
+                    _ = optional.AddUnit(list.List[i].First.Troop);
                 }
             }
 
@@ -819,7 +817,7 @@ public partial class CombatPredictor : IDisposable
                     u = list.List[i].First;
                     if (u.CombatValueTotal <= 0)
                     {
-                        useless.AddUnit(u.Troop);
+                        _ = useless.AddUnit(u.Troop);
                     }
                 }
             }
@@ -831,14 +829,7 @@ public partial class CombatPredictor : IDisposable
             for (int i = Sides[0].Count - 1; i >= 0; i--)
             {
                 u = Sides[0].List[i];
-                if (u.CombatValueTotal == 0)
-                {
-                    useless?.AddUnit(u.Troop);
-                }
-                else
-                {
-                    required?.AddUnit(u.Troop);
-                }
+                _ = u.CombatValueTotal == 0 ? (useless?.AddUnit(u.Troop)) : (required?.AddUnit(u.Troop));
             }
         }
     }
@@ -858,7 +849,7 @@ public partial class CombatPredictor : IDisposable
             u = Sides[0].List[i];
             if (u.CombatValueTotal <= 0)
             {
-                useless.AddUnit(u.Troop);
+                _ = useless.AddUnit(u.Troop);
             }
         }
     }
@@ -896,7 +887,7 @@ public partial class CombatPredictor : IDisposable
 
             if (useful)
             {
-                result = result | 8388608;
+                result |= 8388608;
             }
         }
         else
@@ -925,7 +916,7 @@ public partial class CombatPredictor : IDisposable
 
             if (useful)
             {
-                result = result | 8388608;
+                result |= 8388608;
             }
         }
 

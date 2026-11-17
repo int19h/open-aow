@@ -46,9 +46,9 @@ public partial class Anarchy : CityTargetSpell
             log.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [SpellName]);
             log.SetLocation(level: targetCity.GetHexLevel(), y: targetCity.GetHexY(), x: targetCity.GetHexX());
             StrategicMap.Current.Players.GetPlayers(targetCity.Player).EventLogbook.AddEvent(log);
-            log.Release();
+            _ = log.Release();
             PlayDefaultCityEffects(source, targetCity);
-            targetCity.ValidateObservation(source.Player);
+            _ = targetCity.ValidateObservation(source.Player);
             if (targetCity.Resource.ImageSequenceList.ImageSequences[16] != null)
             {
                 a = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
@@ -61,7 +61,7 @@ public partial class Anarchy : CityTargetSpell
                 sbyte targetCityHexLevel = targetCity.GetHexLevel();
                 sbyte targetCityHexY = targetCity.GetHexY();
                 sbyte hexX = targetCity.GetHexX();
-                StrategicMap.Current.PlaceHex(a, hexX, targetCityHexY, targetCityHexLevel);
+                _ = StrategicMap.Current.PlaceHex(a, hexX, targetCityHexY, targetCityHexLevel);
             }
 
             result = true;
@@ -101,7 +101,7 @@ public partial class Anarchy : CityTargetSpell
         if (imageSequenceAnimation.ImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FrameCounter) == 0 && GetEngine().AnimationDetail != 0)
         {
             int random = Random(2);
-            AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[random]);
+            _ = AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[random]);
         }
     }
 

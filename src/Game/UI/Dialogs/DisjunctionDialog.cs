@@ -38,7 +38,7 @@ public partial class DisjunctionDialog : UIModule
     public void ClearCaster()
     {
         UI.General.Manager.OverlayPriority = 0;
-        _caster?.Release();
+        _ = (_caster?.Release());
         _caster = null;
     }
 
@@ -61,10 +61,10 @@ public partial class DisjunctionDialog : UIModule
                         reason = magic.Enchantments.GetEnchantments(i).GetName();
                         string name = magic.Enchantments.GetEnchantments(i).GetName();
                         GlobalEnchantment enchantmentEnchantmentId = magic.Enchantments.GetEnchantments(i);
-                        EnchantmentList.Items.AddObject(name, IntToObject(enchantmentEnchantmentId.EnchantmentId));
+                        _ = EnchantmentList.Items.AddObject(name, IntToObject(enchantmentEnchantmentId.EnchantmentId));
                         GlobalEnchantment enchantmentPlayerIndex = magic.Enchantments.GetEnchantments(i);
                         Player player = StrategicMap.Current.Players.GetPlayers(enchantmentPlayerIndex.PlayerIndex);
-                        OwnerList.Items.Add(player.Leader.HeroName);
+                        _ = OwnerList.Items.Add(player.Leader.HeroName);
                     }
                 }
             }
@@ -155,10 +155,10 @@ public partial class DisjunctionDialog : UIModule
     // AoWDisjunctionDlg.pas:262
     public void Execute(DisjunctionSpellCaster caster)
     {
-        _caster?.Release();
+        _ = (_caster?.Release());
 
         _caster = caster;
-        _caster.AddRef();
+        _ = _caster.AddRef();
         UpdateEnchantments();
         SelectEnchantment(0);
         UI.General.Manager.OverlayPriority = 49;
@@ -258,7 +258,7 @@ public partial class DisjunctionDialog : UIModule
         }
 
         LockedSurface.CreateFrom(lockedSurface, r, out LockedSurface mapSurfaceDescription);
-        StrategicMap.Current.SetViewPort(x, y, Location.MapLevel, r.Right - r.Left, r.Bottom - r.Top);
+        _ = StrategicMap.Current.SetViewPort(x, y, Location.MapLevel, r.Right - r.Left, r.Bottom - r.Top);
         StrategicMap.Current.UpdateStaticScene();
         StrategicMap.Current.UpdateDynamicScene();
         StrategicMap.Current.DrawStaticScene(ref mapSurfaceDescription);

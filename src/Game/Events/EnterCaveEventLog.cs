@@ -17,7 +17,7 @@ public partial class EnterCaveEventLog : MessageEventLog
     // Cave.pas:442
     public override bool Yes()
     {
-        Cave.Enter();
+        _ = Cave.Enter();
         return true;
     }
 

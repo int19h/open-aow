@@ -15,7 +15,7 @@ public partial class WallCrushingAbility
         {
             DamageCombatAction action = CreateDamageCombatAction(source, target, 6, 6, Set<DamageType>.Of(DamageType.Wall));
             source.Combat.ExecuteCombatAction(action);
-            action.Release();
+            _ = action.Release();
         }
         return true;
     }

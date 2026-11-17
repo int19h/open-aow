@@ -27,10 +27,10 @@ public partial class ConstructDialog : UIModule
     // AoWConstructDlg.pas:117
     public void Execute(AbilityActivation request)
     {
-        _request?.Release();
+        _ = (_request?.Release());
 
         _request = request;
-        _request.AddRef();
+        _ = _request.AddRef();
         UpdateConstructions();
         Window.Visible = true;
     }
@@ -38,17 +38,14 @@ public partial class ConstructDialog : UIModule
     // AoWConstructDlg.pas:108
     public void Finish()
     {
-        _request?.Release();
+        _ = (_request?.Release());
         _request = null;
     }
 
     // AoWConstructDlg.pas:142
     public void UpdateConstructions()
     {
-        int days = default;
-        int gold = default;
         Troop u;
-        string name = "";
         ConstructionControl control;
         Window.Drawn = false;
         u = StrategicMap.Current.UnitControl.FindUnit(_request.UnitId);
@@ -59,25 +56,11 @@ public partial class ConstructDialog : UIModule
         for (int i = 0, last = controls.Count - 1; i <= last; i++)
         {
             control = controls.GetConstructionControl(i);
-            control.GetInfo(u, out name, out gold, out days);
-            ConstructionList.Items.AddObject(name, control);
-            if (gold != 0)
-            {
-                ConstructionCostList.Items.Add(IntToStr(gold));
-            }
-            else
-            {
-                ConstructionCostList.Items.Add("-");
-            }
+            control.GetInfo(u, out string name, out int gold, out int days);
+            _ = ConstructionList.Items.AddObject(name, control);
+            _ = gold != 0 ? ConstructionCostList.Items.Add(IntToStr(gold)) : ConstructionCostList.Items.Add("-");
 
-            if (days != 0)
-            {
-                ConstructionTurnsList.Items.Add(IntToStr(days));
-            }
-            else
-            {
-                ConstructionTurnsList.Items.Add("-");
-            }
+            _ = days != 0 ? ConstructionTurnsList.Items.Add(IntToStr(days)) : ConstructionTurnsList.Items.Add("-");
         }
     }
 

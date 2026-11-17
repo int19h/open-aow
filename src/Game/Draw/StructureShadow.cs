@@ -24,7 +24,7 @@ public partial class StructureShadow : HexSprite
     {
         if (ShadowStatus.Contains(StructureShadowStatusElement.Visible))
         {
-            StrategicMap.Current.StaticVisibleHexSprite.RemoveChild(this);
+            _ = StrategicMap.Current.StaticVisibleHexSprite.RemoveChild(this);
         }
 
         base.Dispose();
@@ -47,20 +47,19 @@ public partial class StructureShadow : HexSprite
     // Structur.PAS:951
     public override void Connect()
     {
-        HexNumberWalkData walk = default;
         int count;
         MapLevel level;
         if (!ShadowStatus.Contains(StructureShadowStatusElement.Connected))
         {
-            ShadowStatus = ShadowStatus + Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Connected);
+            ShadowStatus += Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Connected);
             count = Structure.GetTerrainCount();
             level = Structure.Owner.Owner;
-            HexNumberWalkData.InitializeHexNumberWalk(out walk, Structure.StoredHexX, Structure.StoredHexY, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Structure.StoredHexX, Structure.StoredHexY, 0);
             while (walk.HexNumber < count)
             {
                 if ((Structure.GetTerrain(walk.HexNumber) >= -1 || Structure.GetOverlay(walk.HexNumber) >= -1) && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
-                    level.GetField(walk.X, walk.Y).AddHexSprite(this, walk.HexNumber);
+                    _ = level.GetField(walk.X, walk.Y).AddHexSprite(this, walk.HexNumber);
                 }
 
                 HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -71,20 +70,19 @@ public partial class StructureShadow : HexSprite
     // Structur.PAS:973
     public override void Disconnect()
     {
-        HexNumberWalkData walk = default;
         int count;
         MapLevel level;
         if (ShadowStatus.Contains(StructureShadowStatusElement.Connected))
         {
             count = Structure.GetTerrainCount();
-            ShadowStatus = ShadowStatus - Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Connected);
+            ShadowStatus -= Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Connected);
             level = Structure.Owner.Owner;
-            HexNumberWalkData.InitializeHexNumberWalk(out walk, Structure.StoredHexX, Structure.StoredHexY, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Structure.StoredHexX, Structure.StoredHexY, 0);
             while (walk.HexNumber < count)
             {
                 if ((Structure.GetTerrain(walk.HexNumber) >= -1 || Structure.GetOverlay(walk.HexNumber) >= -1) && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
-                    level.GetField(walk.X, walk.Y).RemoveHexSprite(this);
+                    _ = level.GetField(walk.X, walk.Y).RemoveHexSprite(this);
                 }
 
                 HexNumberWalkData.WalkToNextHexNumber(ref walk);

@@ -68,10 +68,10 @@ public partial class AIGroupUnitProduction : EngineObject, IOwned<AIGroupUnitPro
     {
         if (U != Unit)
         {
-            Unit?.Release();
+            _ = (Unit?.Release());
 
             Unit = U;
-            Unit?.AddRef();
+            _ = (Unit?.AddRef());
         }
     }
 
@@ -80,10 +80,10 @@ public partial class AIGroupUnitProduction : EngineObject, IOwned<AIGroupUnitPro
     {
         if (location != ProductionLocation)
         {
-            ProductionLocation?.Release();
+            _ = (ProductionLocation?.Release());
 
             ProductionLocation = location;
-            ProductionLocation?.AddRef();
+            _ = (ProductionLocation?.AddRef());
         }
     }
 

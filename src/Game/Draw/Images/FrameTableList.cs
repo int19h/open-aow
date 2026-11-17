@@ -355,7 +355,7 @@ public partial class FrameTableList : Persistent
 
             n = !IsEmpty(s) ? StrToInt(s) : 0;
 
-            Add(n);
+            _ = Add(n);
             i = Pos(",", value);
         }
     }

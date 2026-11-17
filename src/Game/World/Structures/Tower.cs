@@ -44,11 +44,11 @@ public partial class Tower : PlayerStructure
         if (value)
         {
             SetPlayer(-1);
-            State = State + Set<StateElement>.Of(StateElement.Razed);
+            State += Set<StateElement>.Of(StateElement.Razed);
         }
         else
         {
-            State = State - Set<StateElement>.Of(StateElement.Razed);
+            State -= Set<StateElement>.Of(StateElement.Razed);
         }
 
         ImageIndex = GetTerrainTypeImage(TerrainType);

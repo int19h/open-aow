@@ -40,11 +40,11 @@ public partial class EntangleAbility : TouchAbility
             if (strike != null)
             {
                 source.Combat.ExecuteCombatAction(strike);
-                strike.Release();
+                _ = strike.Release();
             }
         }
 
-        action.Release();
+        _ = action.Release();
         return true;
     }
 

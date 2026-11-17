@@ -25,13 +25,13 @@ public partial class TacticalBattleEndTurnTokenEvent : TokenEvent
     {
         int turnIndex;
         bool found;
-        base.Execute(tokenEvent);
+        _ = base.Execute(tokenEvent);
         RandSeed = StrategicMap.Current.Random(16777215);
         turnIndex = CombatMap.Current.Combat.CombatData.TurnOrder.IndexOf((byte)CombatMap.Current.CurrentCombatPlayer);
         found = false;
         while (!found)
         {
-            turnIndex = turnIndex + 1;
+            turnIndex++;
             if (CombatMap.Current.Combat.CombatData.TurnOrder.Count <= turnIndex)
             {
                 turnIndex = 0;

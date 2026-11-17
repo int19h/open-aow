@@ -51,7 +51,7 @@ public partial class MoveTokenEvent : TokenEvent
         Path.Default = Step(stored);
         for (int index = 0; index < items.Count; index++)
         {
-            Path.Add(Step(items[index]));
+            _ = Path.Add(Step(items[index]));
         }
     }
 
@@ -67,14 +67,14 @@ public partial class MoveTokenEvent : TokenEvent
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         ExecuteResult result;
-        base.Execute(tokenEvent);
+        _ = base.Execute(tokenEvent);
         if (_status == MoveStatus.Idle)
         {
             if (Validate())
             {
                 _status = MoveStatus.Moving;
                 InitializeMove();
-                StrategicMap.Current.Random(1048575);
+                _ = StrategicMap.Current.Random(1048575);
                 switch (Path.Count)
                 {
                     case >= 0 and <= 1:

@@ -126,7 +126,7 @@ public partial class Dungeon : ExplorationSite
             for (int i = 0, last = Prisoners.Units.Count - 1; i <= last; i++)
             {
                 Troop troop = Prisoners.Units.GetUnit(i);
-                log.UnitIds.Add(troop.UnitId);
+                _ = log.UnitIds.Add(troop.UnitId);
             }
 
             if (Prisoners.Units.Count == 1)
@@ -140,8 +140,8 @@ public partial class Dungeon : ExplorationSite
                 log.JoinMessage.Text = liberatePrisonersMessage;
             }
 
-            log.Execute(false, ExecuteTrigger.Event, null);
-            log.Release();
+            _ = log.Execute(false, ExecuteTrigger.Event, null);
+            _ = log.Release();
         }
     }
 
@@ -164,10 +164,10 @@ public partial class Dungeon : ExplorationSite
             collections = GetResource<Resource>().PrisonerCollections;
             for (int i = collections.GetCollectionCount(collection) - 1; i >= 0; i--)
             {
-                list.Add(collections.GetU(collection, i));
+                _ = list.Add(collections.GetU(collection, i));
             }
 
-            Int32List.FillWithRandomUnits(list, Prisoners.Units, 4, (int)_prisonersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
+            _ = Int32List.FillWithRandomUnits(list, Prisoners.Units, 4, (int)_prisonersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
             list?.Dispose();
         }
     }
@@ -185,7 +185,7 @@ public partial class Dungeon : ExplorationSite
         locationLog.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), s_exploredFormat), [name]);
         locationLog.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());
         EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), log: locationLog, player: player, x: GetHexX(), execute: false);
-        locationLog.Release();
+        _ = locationLog.Release();
         armyLog = new ArmyInfoEventLog(null) { Holder = CreationHolder() };
         armyLog.ArmyView.Setup(Prisoners, 255);
         sbyte hexX = GetHexX();
@@ -226,13 +226,13 @@ public partial class Dungeon : ExplorationSite
             armyLog.Messages.Text = format;
         }
         EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), log: armyLog, player: -1, x: GetHexX(), execute: false);
-        armyLog.Release();
+        _ = armyLog.Release();
         army = new ArmyHexSprite(null) { Holder = CreationHolder() };
         using (army.Army.BeginUpdate())
         {
             army.Army.SetPlayer(player);
-            army.Army.AddUnits(Prisoners.Units);
-            army.Place(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX(), mode: Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea));
+            _ = army.Army.AddUnits(Prisoners.Units);
+            _ = army.Place(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX(), mode: Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea));
             army.Activate();
         }
     }

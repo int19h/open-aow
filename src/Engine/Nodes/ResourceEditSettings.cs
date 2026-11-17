@@ -76,7 +76,7 @@ public partial class ResourceEditSettings : ControlStyleObject
         else
         {
             result = GetUniqueEditId();
-            _editors.AddObject(name, IntToObject(result));
+            _ = _editors.AddObject(name, IntToObject(result));
         }
 
         return result;

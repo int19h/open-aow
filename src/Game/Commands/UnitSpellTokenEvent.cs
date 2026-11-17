@@ -54,17 +54,11 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
     {
         int i;
         Troop target;
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
-        sbyte targetX = default;
-        sbyte targetY = default;
-        sbyte targetL = default;
         bool result = base.Validate(source);
         MapCoordinate coordinate12 = source.GetLocation();
-        x = coordinate12.X;
-        y = coordinate12.Y;
-        l = coordinate12.MapLevel;
+        sbyte x = coordinate12.X;
+        sbyte y = coordinate12.Y;
+        _ = coordinate12.MapLevel;
         i = TargetUnitIds.Count;
         while (result && i != 0)
         {
@@ -74,9 +68,9 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
             if (target != null)
             {
                 MapCoordinate coordinate13 = target.GetLocation();
-                targetX = coordinate13.X;
-                targetY = coordinate13.Y;
-                targetL = coordinate13.MapLevel;
+                sbyte targetX = coordinate13.X;
+                sbyte targetY = coordinate13.Y;
+                _ = coordinate13.MapLevel;
                 result = target.GetHitPoints() != 0 && (byte)target.Player == TargetPlayer;
                 if (result)
                 {
@@ -86,7 +80,7 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
                     }
                 }
 
-                _targetUnits.AddUnit(target);
+                _ = _targetUnits.AddUnit(target);
             }
             else
             {
@@ -100,29 +94,26 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
     // Spells.PAS:1185
     public override bool Process(Troop source, int value)
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         Troop target;
-        base.Process(source, value);
+        _ = base.Process(source, value);
         if (_targetUnits.GetCount() != 0)
         {
             MapCoordinate coordinate14 = _targetUnits.GetUnit(0).GetLocation();
-            x = coordinate14.X;
-            y = coordinate14.Y;
-            l = coordinate14.MapLevel;
+            sbyte x = coordinate14.X;
+            sbyte y = coordinate14.Y;
+            sbyte l = coordinate14.MapLevel;
             GamePack.Current.SpellControl.GetSpell(EventSpellId).PlayDefaultCastEffects(source.Player, x, y, l);
             for (int i = 0, last = _targetUnits.GetCount() - 1; i <= last; i++)
             {
                 target = _targetUnits.GetUnit(i);
-                target.AddRef();
+                _ = target.AddRef();
                 if (GamePack.Current.SpellControl.GetSpell<UnitSpell>(EventSpellId).ExecuteSpell(source, target, EventMana, SpellData))
                 {
                     GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
                     target.Changed();
                 }
 
-                target.Release();
+                _ = target.Release();
             }
         }
 
@@ -142,7 +133,7 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
             for (int i = 0, last = targets.GetCount() - 1; i <= last; i++)
             {
                 Troop troop = targets.GetUnit(i);
-                TargetUnitIds.Add(troop.UnitId);
+                _ = TargetUnitIds.Add(troop.UnitId);
             }
         }
         else

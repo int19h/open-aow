@@ -29,7 +29,7 @@ public partial class TurnUndeadCombatAction : DamageCombatAction
             target = combat.CombatData.FindId<CombatUnit>(TargetId);
             if (!target.Status.Contains(CombatObjectStatusElement.Destroyed))
             {
-                GamePack.Current.AbilityControl.GetAbility(34).Expand(target.Troop);
+                _ = GamePack.Current.AbilityControl.GetAbility(34).Expand(target.Troop);
                 data = target.Troop.GetAbilityData<UnitEnchantmentAbilityData>(34);
 
                 data?.EnchantmentPlayerIndex = source.CombatPlayer;
@@ -43,7 +43,7 @@ public partial class TurnUndeadCombatAction : DamageCombatAction
         bool result = base.Play(viewer);
         if (viewer.Time == 0)
         {
-            GamePack.Current.AbilityControl.GetAbility(38).SfxLibrary.Play(0);
+            _ = GamePack.Current.AbilityControl.GetAbility(38).SfxLibrary.Play(0);
         }
 
         return result;
@@ -55,7 +55,7 @@ public partial class TurnUndeadCombatAction : DamageCombatAction
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == TargetId)
         {
-            GamePack.Current.AbilityControl.GetAbility(38).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
+            _ = GamePack.Current.AbilityControl.GetAbility(38).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
         }
     }
 

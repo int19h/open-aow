@@ -14,8 +14,6 @@ public partial class ArmyHexSprite
     {
         ImageSequence sequence;
         int frame;
-        int pixelX = default;
-        int pixelY = default;
         int deltaX = default;
         int deltaY = default;
         double part;
@@ -27,7 +25,7 @@ public partial class ArmyHexSprite
                 throw new NotImplementedException();
             }
 
-            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
             pixelXSurface = pixelX - pixelXSurface;
             pixelYSurface = pixelY - pixelYSurface;
             if (MoveStep != -1)
@@ -179,14 +177,12 @@ public partial class ArmyHexSprite
     {
         ImageSequence sequence;
         float part;
-        int pixelX = default;
-        int pixelY = default;
         int deltaX = default;
         int deltaY = default;
         int frame;
         if ((Owner.FogCount != 0 || !StrategicMap.Current.FogEnabled) && !Army.Status.Contains(ArmyStatusElement.FullyConcealed))
         {
-            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
             X = pixelX - X;
             Y = pixelY - Y;
             if (MoveStep != -1)
@@ -227,7 +223,7 @@ public partial class ArmyHexSprite
                 frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                 if (sequence.SpeedCount == sequence.SequenceSpeed)
                 {
-                    UnitGraphicsResource.SfxLibraries[1].Play(frame % 100);
+                    _ = UnitGraphicsResource.SfxLibraries[1].Play(frame % 100);
                 }
             }
         }

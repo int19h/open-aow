@@ -38,7 +38,7 @@ public partial class PoisonPlantSpell : GlobalTargetSpell
         targetSelection.HexNumbers.Clear();
         for (int i = 0, last = HexGeometry.RadiusToHexNumber(2) - 1; i <= last; i++)
         {
-            targetSelection.HexNumbers.Add(0);
+            _ = targetSelection.HexNumbers.Add(0);
         }
     }
 
@@ -50,7 +50,7 @@ public partial class PoisonPlantSpell : GlobalTargetSpell
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
-        eventValue.Release();
+        _ = eventValue.Release();
         return true;
     }
 

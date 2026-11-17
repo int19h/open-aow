@@ -54,14 +54,13 @@ public partial class ArnoLine : Control
     // AoWArnoLine.pas:99
     public override void Draw(LockedSurface lockedSurface)
     {
-        Rect oldClip = default;
         try
         {
             if (Valid && Visible)
             {
                 RaisePreDraw(this, lockedSurface);
 
-                oldClip = lockedSurface.ClipRectangle;
+                Rect oldClip = lockedSurface.ClipRectangle;
                 if (WinTop > lockedSurface.ClipRectangle.Top)
                 {
                     Rect clipRectangle = lockedSurface.ClipRectangle;
@@ -78,7 +77,7 @@ public partial class ArnoLine : Control
         }
         catch
         {
-            MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
         }
     }
 

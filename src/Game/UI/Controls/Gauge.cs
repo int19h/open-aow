@@ -104,15 +104,14 @@ public partial class Gauge : Control
     //   the gauge is only right for Min = 0) }
     public override void Draw(LockedSurface lockedSurface)
     {
-        Rect oldClip = default;
-        int p = default;
         try
         {
             if (Valid && Visible)
             {
                 RaisePreDraw(this, lockedSurface);
 
-                oldClip = lockedSurface.ClipRectangle;
+                Rect oldClip = lockedSurface.ClipRectangle;
+                int p;
                 switch (_style)
                 {
                     case GaugeType.Normal:
@@ -168,7 +167,7 @@ public partial class Gauge : Control
         }
         catch
         {
-            MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
         }
     }
 

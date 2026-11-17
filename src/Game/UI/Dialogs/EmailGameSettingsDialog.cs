@@ -85,9 +85,9 @@ public partial class EmailGameSettingsDialog : UIModule
         else
         {
             MessageDialog.ResetMessageDialog(UI.MessageDialog);
-            UI.MessageDialog.MessageMemo.Items.Add("");
+            _ = UI.MessageDialog.MessageMemo.Items.Add("");
             string pleaseFillInAllSettings = UI.Engine.TranslateResourceString(s_pleaseFillInAllSettingsText);
-            UI.MessageDialog.MessageMemo.Items.Add(pleaseFillInAllSettings);
+            _ = UI.MessageDialog.MessageMemo.Items.Add(pleaseFillInAllSettings);
             UI.MessageDialog.OKPanel.Visible = true;
             UI.MessageDialog.Window.Visible = true;
         }
@@ -120,9 +120,9 @@ public partial class EmailGameSettingsDialog : UIModule
         {
             object objectValue = EmailAddresses.Objects[i];
             r = GamePack.Current.RaceResources.GetRaceResource(ObjectToInt(objectValue));
-            r.AddRef();
+            _ = r.AddRef();
             r.ImageLibrary[38].Show(panel.WinLeft, panel.WinTop, lockedSurface);
-            r.Release();
+            _ = r.Release();
         }
     }
 
@@ -208,7 +208,7 @@ public partial class EmailGameSettingsDialog : UIModule
             {
                 PlayerSetupSettings setting = c.Settings.GetSettings(i);
                 string localEmailAddress = UI.Engine.Registry.GetLocalEmailAddress();
-                EmailAddresses.AddObject(localEmailAddress, IntToObject(setting.Race));
+                _ = EmailAddresses.AddObject(localEmailAddress, IntToObject(setting.Race));
             }
         }
 
@@ -220,9 +220,9 @@ public partial class EmailGameSettingsDialog : UIModule
         else
         {
             MessageDialog.ResetMessageDialog(UI.MessageDialog);
-            UI.MessageDialog.MessageMemo.Items.Add("");
+            _ = UI.MessageDialog.MessageMemo.Items.Add("");
             string youNeed2HumanPlayersToPlayAnEmailGame = UI.Engine.TranslateResourceString(s_youNeed2HumanPlayersToPlayEmailGameText);
-            UI.MessageDialog.MessageMemo.Items.Add(youNeed2HumanPlayersToPlayAnEmailGame);
+            _ = UI.MessageDialog.MessageMemo.Items.Add(youNeed2HumanPlayersToPlayAnEmailGame);
             UI.MessageDialog.OKPanel.Visible = true;
             UI.MessageDialog.Window.Visible = true;
         }

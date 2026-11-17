@@ -64,12 +64,12 @@ public partial class SingleHexSprite : HexSprite
             {
                 if (GetLevel() <= 15)
                 {
-                    mapField.Owner.MapContainer.Map.StaticVisibleHexSprite.RemoveChild(this);
+                    _ = mapField.Owner.MapContainer.Map.StaticVisibleHexSprite.RemoveChild(this);
                     mapField.Owner.MapContainer.Map.StaticSceneInvalid = true;
                 }
                 else
                 {
-                    mapField.Owner.MapContainer.Map.DynamicVisibleHexSprite.RemoveChild(this);
+                    _ = mapField.Owner.MapContainer.Map.DynamicVisibleHexSprite.RemoveChild(this);
                 }
             }
 
@@ -93,7 +93,7 @@ public partial class SingleHexSprite : HexSprite
         if ((_status & 1) == 0)
         {
             _status = (byte)(_status | 1);
-            visibilityList.AddSortChild(this, GetShowPriority());
+            _ = visibilityList.AddSortChild(this, GetShowPriority());
         }
     }
 

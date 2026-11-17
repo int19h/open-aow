@@ -53,7 +53,7 @@ public partial class Vortex : GlobalTargetSpell
 
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             // Original queues through AddEvent
-            eventValue.Release();
+            _ = eventValue.Release();
             result = true;
         }
         else

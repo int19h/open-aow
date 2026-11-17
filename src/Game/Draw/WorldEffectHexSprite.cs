@@ -207,7 +207,7 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
         }
         catch
         {
-            MessageBox(0, "Error during Show", "Error - WorldfxHS " + IntToStr((int)EffectType), 0);
+            _ = MessageBox(0, "Error during Show", "Error - WorldfxHS " + IntToStr((int)EffectType), 0);
         }
     }
 
@@ -344,7 +344,7 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                         case >= 0 and <= 199:
                             if (Frame % 5 == 0)
                             {
-                                GamePack.Current.SpellControl.GetSpell(45).CastSounds.Play(1);
+                                _ = GamePack.Current.SpellControl.GetSpell(45).CastSounds.Play(1);
                                 count2 = Random(10) + 100;
                                 for (int j = 0; j <= count2; j++)
                                 {
@@ -507,7 +507,7 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
         }
         catch
         {
-            MessageBox(0, "Error - WorldfxHS " + IntToStr((int)EffectType), "Error during NewFrame", 0);
+            _ = MessageBox(0, "Error - WorldfxHS " + IntToStr((int)EffectType), "Error during NewFrame", 0);
         }
     }
 

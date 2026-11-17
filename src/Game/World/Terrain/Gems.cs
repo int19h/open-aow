@@ -143,7 +143,7 @@ public partial class Gems : ImageLibraryTerrainMapObject
 
             if (condition)
             {
-                AudioPlayback.PlaySample("SFX\\EVENTS\\GOLD.WAV");
+                _ = AudioPlayback.PlaySample("SFX\\EVENTS\\GOLD.WAV");
             }
 
             Player player = StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
@@ -154,7 +154,7 @@ public partial class Gems : ImageLibraryTerrainMapObject
             eventValue.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), s_goldFoundFormat), [IntToStr(_amount)]);
             eventValue.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());
             StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(eventValue);
-            eventValue.Release();
+            _ = eventValue.Release();
             Dispose();
         }
     }

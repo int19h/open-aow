@@ -286,7 +286,7 @@ public partial class UInt16List : Persistent
             }
             else
             {
-                Add(item);
+                _ = Add(item);
             }
         }
     }

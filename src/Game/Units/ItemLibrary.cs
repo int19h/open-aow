@@ -59,7 +59,7 @@ public partial class ItemLibrary : ObservableNode, IChildList<Item>, IItemHolder
         int result = base.AddChild(child);
         if (result != -1)
         {
-            child.AddRef();
+            _ = child.AddRef();
         }
 
         return result;
@@ -75,7 +75,7 @@ public partial class ItemLibrary : ObservableNode, IChildList<Item>, IItemHolder
             {
                 if (GetChild(i) != null)
                 {
-                    Items[i].Release();
+                    _ = Items[i].Release();
                 }
             }
         }
@@ -94,7 +94,7 @@ public partial class ItemLibrary : ObservableNode, IChildList<Item>, IItemHolder
                 {
                     if (child.Owner != this)
                     {
-                        child.Release();
+                        _ = child.Release();
                         DeleteChildAt(i);
                     }
                     else
@@ -121,7 +121,7 @@ public partial class ItemLibrary : ObservableNode, IChildList<Item>, IItemHolder
         int result = base.RemoveChild(child);
         if (result != -1)
         {
-            child.Release();
+            _ = child.Release();
         }
 
         return result;
@@ -193,7 +193,7 @@ public partial class ItemLibrary : ObservableNode, IChildList<Item>, IItemHolder
         item.LibraryId = CreateUniqueLibraryId();
         item.LibraryName = Name;
         item.SetOwner(this);
-        item.Release();
+        _ = item.Release();
         return item;
     }
 

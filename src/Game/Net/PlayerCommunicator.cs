@@ -110,7 +110,7 @@ public partial class PlayerCommunicator : EngineObject
                 {
                     _receivedPackage = received;
                     OnReceiveStore.Raise(this);
-                    _receivedPackage.Release();
+                    _ = _receivedPackage.Release();
                 }
                 else
                 {

@@ -19,7 +19,7 @@ public sealed class PlayerSlots : ReferenceDomain
             {
                 if (child is JsonObject { } player && player["$slot"] is JsonInteger slot)
                 {
-                    slots.Add(slot.Value);
+                    _ = slots.Add(slot.Value);
                 }
             }
         }

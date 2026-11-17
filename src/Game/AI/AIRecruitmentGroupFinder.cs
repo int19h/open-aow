@@ -39,14 +39,14 @@ public partial class AIRecruitmentGroupFinder : AIGroupTask
     // AIGroup.pas:2051
     public override bool Activate(AIGroupControl control)
     {
-        base.Activate(control);
+        _ = base.Activate(control);
         _control = control;
         if (_mode.Contains(ModeElement.CalculateMovePathBfs))
         {
-            _selector.Mode = _selector.Mode + Set<AIMoveTargetSelectorModeElement>.Of(AIMoveTargetSelectorModeElement.CreateMovePaths);
+            _selector.Mode += Set<AIMoveTargetSelectorModeElement>.Of(AIMoveTargetSelectorModeElement.CreateMovePaths);
         }
 
-        _selector.Search(control);
+        _ = _selector.Search(control);
         return true;
     }
 
@@ -78,7 +78,7 @@ public partial class AIRecruitmentGroupFinder : AIGroupTask
         targetInfo3.Mode = AITargetMode.Recruit;
         _selector.TargetInfo = targetInfo3;
         _selector.MovePointsMax = 75;
-        _mode = _mode + Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
+        _mode += Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
         return true;
     }
 
@@ -107,7 +107,7 @@ public partial class AIRecruitmentGroupFinder : AIGroupTask
                     }
 
                     _control.RecruitmentGroupFoundEvent(group, ref searchDone);
-                    group.Release();
+                    _ = group.Release();
                 }
             }
         }

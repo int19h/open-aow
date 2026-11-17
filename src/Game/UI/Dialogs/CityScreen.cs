@@ -141,7 +141,7 @@ public partial class CityScreen : UIModule
         for (int i = _images.Count - 1; i >= 0; i--)
         {
             int image = _images[i];
-            GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(image).Release();
+            _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(image).Release();
         }
 
         _images.Clear();
@@ -152,8 +152,8 @@ public partial class CityScreen : UIModule
     {
         int graphics;
         graphics = GamePack.Current.UnitResources.GetUnitResource(index).UnitGraphicsResourceIndex;
-        GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(graphics).AddRef();
-        _images.Add(graphics);
+        _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(graphics).AddRef();
+        _ = _images.Add(graphics);
     }
 
     // AoWCityScreen.pas:775
@@ -607,7 +607,7 @@ public partial class CityScreen : UIModule
                     UnitTurnsLabel.Text = IntToStr(unitResearchTime);
                 }
 
-                u.Release();
+                _ = u.Release();
                 break;
         }
 
@@ -623,28 +623,28 @@ public partial class CityScreen : UIModule
         StructureNameLabel.Text = name;
         PopulationHeader.Items.Clear();
         string population = UI.Engine.TranslateResourceString(s_populationText);
-        PopulationHeader.Items.Add(population + ":");
+        _ = PopulationHeader.Items.Add(population + ":");
         string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[_city.Race]);
-        PopulationHeader.Items.Add(" " + raceNamesPlural);
+        _ = PopulationHeader.Items.Add(" " + raceNamesPlural);
         string status = UI.Engine.TranslateResourceString(StatusText);
-        PopulationHeader.Items.Add(status + ":");
+        _ = PopulationHeader.Items.Add(status + ":");
         City.CivilStatus civilStatus = _city.GetCivilStatus();
         string civilStatusText = UI.Engine.TranslateResourceString(CivilStatusTexts[(int)civilStatus]);
-        PopulationHeader.Items.Add(" " + civilStatusText);
+        _ = PopulationHeader.Items.Add(" " + civilStatusText);
         PopulationMemo.Items.Clear();
         _city.ListCivilStatusInfo(PopulationMemo.Items);
         IncomeHeader.Items.Clear();
         string income = UI.Engine.TranslateResourceString(GameText.IncomeText);
-        IncomeHeader.Items.Add(income);
+        _ = IncomeHeader.Items.Add(income);
         string xGold = UI.Engine.TranslateResourceString(GameText.GoldFormat);
         string format = AbilityRules.Format(" " + xGold, [IntToStr(_city.Income)]);
-        IncomeHeader.Items.Add(format);
+        _ = IncomeHeader.Items.Add(format);
         IncomeMemo.Items.Clear();
         IncomeGoldMemo.Items.Clear();
         _city.ListIncomeInfo(IncomeMemo.Items, IncomeGoldMemo.Items);
         EnhancementsHeader.Items.Clear();
         string enhancements = UI.Engine.TranslateResourceString(s_enhancementsText);
-        EnhancementsHeader.Items.Add(enhancements);
+        _ = EnhancementsHeader.Items.Add(enhancements);
         EnhancementsMemo.Items.Clear();
         _city.ListEnhancementsInfo(EnhancementsMemo.Items);
         if (_migrations != null)
@@ -669,12 +669,12 @@ public partial class CityScreen : UIModule
                 MigrationItem itemRace = _migrations.GetItems(i);
                 string raceNamesPlural3 = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[itemRace.Race]);
                 MigrationItem migrationItem = _migrations.GetItems(i);
-                MigrationRaceList.Items.AddObject(raceNamesPlural3, migrationItem);
+                _ = MigrationRaceList.Items.AddObject(raceNamesPlural3, migrationItem);
                 MigrationItem itemTime = _migrations.GetItems(i);
-                MigrationTurnsList.Items.Add(IntToStr(itemTime.Time));
+                _ = MigrationTurnsList.Items.Add(IntToStr(itemTime.Time));
                 MigrationItem itemRelation = _migrations.GetItems(i);
                 string status3 = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)itemRelation.Relation]);
-                MigrationRelationList.Items.Add(status3);
+                _ = MigrationRelationList.Items.Add(status3);
             }
         }
 
@@ -683,13 +683,13 @@ public partial class CityScreen : UIModule
         for (int i = 0, last = _city.Production.Queue.GetCount() - 1; i <= last; i++)
         {
             string name2 = _city.Production.Queue.GetItem(i).GetName();
-            QueueList.Items.Add(IntToStr(i + 1) + ". " + name2);
+            _ = QueueList.Items.Add(IntToStr(i + 1) + ". " + name2);
         }
 
         for (int i = _city.Production.Queue.GetCount(); i <= 4; i++)
         {
             string emptyQueue = UI.Engine.TranslateResourceString(GameText.EmptyQueueText);
-            QueueList.Items.Add(IntToStr(i + 1) + ". " + emptyQueue);
+            _ = QueueList.Items.Add(IntToStr(i + 1) + ". " + emptyQueue);
         }
 
         int count = _city.Production.Queue.GetCount();
@@ -745,7 +745,7 @@ public partial class CityScreen : UIModule
                 string nameProgressive = _city.Production.Queue.GetItem(0).GetNameProgressive();
                 ActiveActionLabel.Text = nameProgressive;
                 ProductionItem queue = _city.Production.Queue.GetItem(0);
-                _city.Production.CanExecuteProduction(queue, ref reason);
+                _ = _city.Production.CanExecuteProduction(queue, ref reason);
                 ActiveActionTurnsLabel.Text = reason;
                 ActiveActionTurnsLabel.TextColor = 255;
                 ActiveActionTurnsBar.Visible = false;
@@ -809,7 +809,7 @@ public partial class CityScreen : UIModule
         _preview = generator.RandomMap(null, _city.GetHexX(), hexY, hexLevel);
         generator?.Dispose();
         armies = new ArmyHSList(null) { Holder = UI.Engine };
-        _city.ListArmies(armies);
+        _ = _city.ListArmies(armies);
         for (int i = 0, last = armies.GetCount() - 1; i <= last; i++)
         {
             army = armies.GetArmyHexSprite(i);
@@ -927,7 +927,7 @@ public partial class CityScreen : UIModule
                     case CityAction.Trade:
                         if (_city.CanTrade(false, ref reason))
                         {
-                            _city.Trade(false);
+                            _ = _city.Trade(false);
                             SetMode(0);
                         }
                         else
@@ -939,7 +939,7 @@ public partial class CityScreen : UIModule
                     case CityAction.Loot:
                         if (_city.CanLoot(ref reason))
                         {
-                            _city.Loot();
+                            _ = _city.Loot();
                             SetMode(0);
                         }
                         else
@@ -951,7 +951,7 @@ public partial class CityScreen : UIModule
                     case CityAction.Raze:
                         if (_city.CanRaze(StrategicMap.Current.SeatedPlayer, ref reason))
                         {
-                            _city.Raze(StrategicMap.Current.SeatedPlayer);
+                            _ = _city.Raze(StrategicMap.Current.SeatedPlayer);
                             Window.Visible = false;
                         }
                         else
@@ -963,7 +963,7 @@ public partial class CityScreen : UIModule
                     case CityAction.Upgrade:
                         if (_city.CanUpgrade(false, ref reason))
                         {
-                            _city.Upgrade(false);
+                            _ = _city.Upgrade(false);
                             SetMode(0);
                         }
                         else
@@ -975,7 +975,7 @@ public partial class CityScreen : UIModule
                     case CityAction.Fortify:
                         if (_city.CanFortify(false, ref reason))
                         {
-                            _city.Fortify(false);
+                            _ = _city.Fortify(false);
                             SetMode(0);
                         }
                         else
@@ -988,7 +988,7 @@ public partial class CityScreen : UIModule
                         if (_city.CanProduce(_productionIndex, false, ref reason))
                         {
                             StrategicMap.Current.TutorialControl.ShowMessage(59, true, true);
-                            _city.Produce(_productionIndex, false);
+                            _ = _city.Produce(_productionIndex, false);
                             SetMode(0);
                         }
                         else
@@ -1000,7 +1000,7 @@ public partial class CityScreen : UIModule
                     case CityAction.Research:
                         if (_city.CanResearch(_productionIndex, false, ref reason))
                         {
-                            _city.Research(_productionIndex, false);
+                            _ = _city.Research(_productionIndex, false);
                             SetMode(0);
                         }
                         else
@@ -1014,7 +1014,7 @@ public partial class CityScreen : UIModule
                         if (_city.CanMigrate(race, ref reason))
                         {
                             StrategicMap.Current.TutorialControl.ShowMessage(66, true, true);
-                            _city.Migrate(race);
+                            _ = _city.Migrate(race);
                             SetMode(0);
                         }
 
@@ -1025,7 +1025,7 @@ public partial class CityScreen : UIModule
             case 2:
                 if (_queueIndex != -1)
                 {
-                    _city.Production.DeleteProduction(_queueIndex);
+                    _ = _city.Production.DeleteProduction(_queueIndex);
                 }
 
                 break;
@@ -1044,7 +1044,7 @@ public partial class CityScreen : UIModule
                     case CityAction.Trade:
                         if (_city.CanTrade(true, ref reason))
                         {
-                            _city.Trade(true);
+                            _ = _city.Trade(true);
                         }
                         else
                         {
@@ -1055,7 +1055,7 @@ public partial class CityScreen : UIModule
                     case CityAction.Upgrade:
                         if (_city.CanUpgrade(true, ref reason))
                         {
-                            _city.Upgrade(true);
+                            _ = _city.Upgrade(true);
                         }
                         else
                         {
@@ -1066,7 +1066,7 @@ public partial class CityScreen : UIModule
                     case CityAction.Fortify:
                         if (_city.CanFortify(true, ref reason))
                         {
-                            _city.Fortify(true);
+                            _ = _city.Fortify(true);
                         }
                         else
                         {
@@ -1077,7 +1077,7 @@ public partial class CityScreen : UIModule
                     case CityAction.Produce:
                         if (_city.CanProduce(_productionIndex, true, ref reason))
                         {
-                            _city.Produce(_productionIndex, true);
+                            _ = _city.Produce(_productionIndex, true);
                         }
                         else
                         {
@@ -1088,7 +1088,7 @@ public partial class CityScreen : UIModule
                     case CityAction.Research:
                         if (_city.CanResearch(_productionIndex, true, ref reason))
                         {
-                            _city.Research(_productionIndex, true);
+                            _ = _city.Research(_productionIndex, true);
                         }
                         else
                         {
@@ -1154,7 +1154,7 @@ public partial class CityScreen : UIModule
             {
                 UI.Graphics.CityWindow[5].Show(r.Left + 2, r.Top + 2, lockedSurface);
                 info.Direction = 5;
-                u?.Show(r.Left - 4, r.Top, lockedSurface, info);
+                _ = (u?.Show(r.Left - 4, r.Top, lockedSurface, info));
 
                 BlendTable lookupTable = GraphicsState.AlphaBlendTable.GetLookupTables(45);
                 UI.Graphics.CityWindow[5].ShowBlended(r.Left + 2, r.Top + 2, lockedSurface, lookupTable);
@@ -1162,10 +1162,10 @@ public partial class CityScreen : UIModule
             else
             {
                 UI.Graphics.CityWindow[4].Show(r.Left + 2, r.Top + 2, lockedSurface);
-                u?.Show(r.Left - 4, r.Top, lockedSurface, info);
+                _ = (u?.Show(r.Left - 4, r.Top, lockedSurface, info));
             }
 
-            u?.Release();
+            _ = (u?.Release());
         }
         else
         {
@@ -1224,7 +1224,7 @@ public partial class CityScreen : UIModule
         {
             r = new Rect(UnitPictureFramePanel.WinLeft + sender.WinLeft + 2, UnitPictureFramePanel.WinTop + sender.WinTop + 2, UnitPictureFramePanel.WinLeft + sender.WinLeft + sender.WinWidth - 4, UnitPictureFramePanel.WinTop + sender.WinTop + sender.WinHeight - 2);
             u.ShowFace(r, lockedSurface);
-            u.Release();
+            _ = u.Release();
         }
     }
 
@@ -1312,8 +1312,8 @@ public partial class CityScreen : UIModule
                         info.Direction = 5;
                     }
 
-                    u.Show(r.Left - 8, r.Top - 5, lockedSurface, info);
-                    u.Release();
+                    _ = u.Show(r.Left - 8, r.Top - 5, lockedSurface, info);
+                    _ = u.Release();
                 }
             }
         }
@@ -1333,7 +1333,6 @@ public partial class CityScreen : UIModule
     // AoWCityScreen.pas:641
     public void MapViewDraw(UserDrawBox sender, LockedSurface lockedSurface)
     {
-        LockedSurface viewSurfaceDescription = default;
         Rect r;
         int w;
         int h;
@@ -1366,10 +1365,10 @@ public partial class CityScreen : UIModule
                 _viewY = 16;
             }
 
-            LockedSurface.CreateFrom(lockedSurface, r, out viewSurfaceDescription);
+            LockedSurface.CreateFrom(lockedSurface, r, out LockedSurface viewSurfaceDescription);
             _preview.SetExplorationEnabled(false);
             _preview.SetFogEnabled(false);
-            _preview.SetViewPort(_viewX, _viewY, 0, width, r.Bottom - r.Top);
+            _ = _preview.SetViewPort(_viewX, _viewY, 0, width, r.Bottom - r.Top);
             _preview.UpdateStaticScene();
             _preview.UpdateDynamicScene();
             _preview.DrawStaticScene(ref viewSurfaceDescription);

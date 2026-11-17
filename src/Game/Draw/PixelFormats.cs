@@ -95,7 +95,7 @@ public static class PixelFormats
         while (!!swapped);
         for (int i = 0; i <= 3; i++)
         {
-            result = result + (i << ((order[i] * 2) + 8));
+            result += i << ((order[i] * 2) + 8);
         }
 
         for (int i = 0; i <= 3; i++)
@@ -111,7 +111,7 @@ public static class PixelFormats
                 masks[i] = (int)(((uint)masks[i]) >> 1);
             }
 
-            result = result + (bits << ((i * 4) + 16));
+            result += bits << ((i * 4) + 16);
         }
 
         return result;

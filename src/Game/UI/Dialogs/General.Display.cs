@@ -50,7 +50,7 @@ public partial class General
         if (display?.ActiveDisplayController is { } displayController)
         {
             Manager.DrawSurface(displayController.GetSurface(1));
-            displayController.BlitSurface(display.SurfaceIndex);
+            _ = displayController.BlitSurface(display.SurfaceIndex);
         }
     }
 }

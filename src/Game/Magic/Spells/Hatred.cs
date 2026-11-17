@@ -28,17 +28,14 @@ public partial class Hatred : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:900
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
-        base.ExecuteTokenEvent(eventValue, source, executeCount);
+        _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         MapCoordinate coordinate72 = source.GetLocation();
-        x = coordinate72.X;
-        y = coordinate72.Y;
-        l = coordinate72.MapLevel;
-        StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
-        StrategicMap.Current.AddEffect(WorldEffectType.Hatred);
-        CastSounds.Play(0);
+        sbyte x = coordinate72.X;
+        sbyte y = coordinate72.Y;
+        sbyte l = coordinate72.MapLevel;
+        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
+        _ = StrategicMap.Current.AddEffect(WorldEffectType.Hatred);
+        _ = CastSounds.Play(0);
         CastingDone(source, eventValue.EventMana);
         return false;
     }

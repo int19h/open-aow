@@ -79,7 +79,7 @@ public partial class CustomAbilityList : EngineObject
                 ability = GamePack.Current.AbilityControl.GetAbility(i);
                 if ((Set<byte>.FromMask(ability.SelectionTypes.Mask) & Set<byte>.FromMask(types.Mask)) != Set<byte>.WithBounds(0, 15))
                 {
-                    text.AddObject(ability.GetName(null), IntToObject(i));
+                    _ = text.AddObject(ability.GetName(null), IntToObject(i));
                 }
             }
         }

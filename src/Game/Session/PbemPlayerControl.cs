@@ -49,7 +49,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
                 log.Mode = 2;
                 log.SendPlayer = player;
                 StrategicMap.Current.TriggerExecuteEventLog(log, false, SendEmailGameCallback);
-                log.Release();
+                _ = log.Release();
             }
             else
             {
@@ -150,7 +150,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
 
                 log.Directory = GetEngine().StartupDirectory + "EmailIn\\";
                 StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ExitGameSaveAsCallback);
-                log.Release();
+                _ = log.Release();
             }
             else
             {
@@ -185,7 +185,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
 
                 saveLog.Directory = GetEngine().StartupDirectory + "EmailIn\\";
                 StrategicMap.Current.TriggerTypedExecuteEventLog(saveLog, false, EndTurnGameSavedCallback);
-                saveLog.Release();
+                _ = saveLog.Release();
             }
             else
             {
@@ -213,7 +213,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
                     string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CouldNotSaveFormat) + ".", [StrategicMap.Current.FileName]);
                     messageLog.Message.Text = format;
                     StrategicMap.Current.TriggerExecuteEventLog(messageLog, false, TerminateEmailGameCallback);
-                    messageLog.Release();
+                    _ = messageLog.Release();
                 }
             }
         }
@@ -234,14 +234,14 @@ public partial class PbemPlayerControl : TurnPlayerControl
     public void SendEmailGameAutomatedCallback(SmtpEventLog log)
     {
         SendEmailGameEventLog sendLog = default;
-        DeleteFile(log.FileName);
+        _ = DeleteFile(log.FileName);
         if (!log.Success)
         {
             sendLog = new SendEmailGameEventLog(null) { Holder = CreationHolder() };
             sendLog.Mode = 1;
             sendLog.SendPlayer = StrategicMap.Current.CurrentPlayer;
             StrategicMap.Current.TriggerExecuteEventLog(sendLog, false, SendEmailGameCallback);
-            sendLog.Release();
+            _ = sendLog.Release();
         }
         else
         {
@@ -279,7 +279,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
             string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CouldNotSaveFormat) + ".", [log.FileName]);
             messageLog.Message.Text = format;
             StrategicMap.Current.TriggerExecuteEventLog(messageLog, false, TerminateEmailGameCallback);
-            messageLog.Release();
+            _ = messageLog.Release();
         }
         else
         {
@@ -287,7 +287,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
             string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_gameSuccessfullySavedText) + ".", [log.FileName]);
             messageLog.Message.Text = format;
             StrategicMap.Current.TriggerExecuteEventLog(messageLog, false, TerminateEmailGameCallback);
-            messageLog.Release();
+            _ = messageLog.Release();
         }
     }
 
@@ -307,7 +307,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
         string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_gameRestartEventLogFormat), [name]);
         log.Message.Text = format;
         EventLog.DistributeEventLog(log, false);
-        log.Release();
+        _ = log.Release();
         StrategicMap.Current.SynchronizeEnd();
     }
 
@@ -352,7 +352,7 @@ public partial class PbemPlayerControl : TurnPlayerControl
     {
         StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.EmailGame.LastDay = StrategicMap.Current.Day;
         Player players = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer);
-        GetEngine().EmailGames.UpdateGame(players.PbemSettings.EmailGame);
+        _ = GetEngine().EmailGames.UpdateGame(players.PbemSettings.EmailGame);
         Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer);
         StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.Status = fPlayersPlayers.PbemSettings.Status + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.Playing);
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.Status.Contains(PbemPlayerStatusElement.NewTurn))
@@ -435,11 +435,11 @@ public partial class PbemPlayerControl : TurnPlayerControl
                 log.Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.WarningText);
                 string pbemRestartCheat = AbilityRules.TranslateResourceString(GetEngine(), s_pbemRestartCheatText);
                 log.Message.Text = pbemRestartCheat;
-                log.Message.Add("");
+                _ = log.Message.Add("");
                 string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_doYouWantToContinueText);
-                log.Message.Add(translatedText);
+                _ = log.Message.Add(translatedText);
                 StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ContinueRestartedGameCallback);
-                log.Release();
+                _ = log.Release();
             }
             else
             {
@@ -451,11 +451,11 @@ public partial class PbemPlayerControl : TurnPlayerControl
                     log.Buttons = MessageEventLogButtons.YesNo;
                     string pbemGameEnded = AbilityRules.TranslateResourceString(GetEngine(), s_pbemGameEndedText);
                     log.Message.Text = pbemGameEnded;
-                    log.Message.Add("");
+                    _ = log.Message.Add("");
                     string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_doYouWantToContinueText);
-                    log.Message.Add(translatedText);
+                    _ = log.Message.Add(translatedText);
                     StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ContinueTurnDoneGameCallback);
-                    log.Release();
+                    _ = log.Release();
                 }
                 else
                 {

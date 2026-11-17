@@ -191,7 +191,7 @@ public partial class FastBattleUnit : CombatUnit
                         }
                     }
 
-                    TargetPriority = TargetPriority * (count + 2);
+                    TargetPriority *= count + 2;
                     i = TargetedBy.Count;
                     // { The original stores normalized priority in the target-strength field. }
                     TargetStrength = i != 0 ? TargetPriority / i : 0;
@@ -221,7 +221,7 @@ public partial class FastBattleUnit : CombatUnit
                         }
                     }
 
-                    TargetPriority = TargetPriority * (count + 2);
+                    TargetPriority *= count + 2;
                     i = TargetedBy.Count;
                     TargetStrength = i != 0 ? TargetPriority / i : 0;
                 }
@@ -313,7 +313,7 @@ public partial class FastBattleUnit : CombatUnit
             {
                 if (FastCombat.AttackerCanCrushWall() || FastCombat.GetAttackerBallisticCombatValue() > FastCombat.GetDefenderBallisticCombatValue() * 1.5)
                 {
-                    State = State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);
+                    State += Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);
                     troop = Troop;
                     for (int i = troop.GetAbilityCount() - 1; i >= 0; i--)
                     {
@@ -324,7 +324,7 @@ public partial class FastBattleUnit : CombatUnit
                         }
                     }
 
-                    State = State - Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);
+                    State -= Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);
                 }
             }
         }
@@ -371,7 +371,7 @@ public partial class FastBattleUnit : CombatUnit
                     action = new FleeCombatAction(null) { Holder = CreationHolder() };
                     action.ObjectId = Id;
                     Combat.ExecuteCombatAction(action);
-                    action.Release();
+                    _ = action.Release();
                     executed = true;
                 }
                 else
@@ -483,7 +483,7 @@ public partial class FastBattleUnit : CombatUnit
             if (!State.Contains(FastBattleUnitStateElement.WallSiegeObjectRegistered))
             {
                 FastCombat.WallSiegeObjectCount += 1;
-                State = State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.WallSiegeObjectRegistered);
+                State += Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.WallSiegeObjectRegistered);
             }
         }
         else
@@ -491,7 +491,7 @@ public partial class FastBattleUnit : CombatUnit
             if (State.Contains(FastBattleUnitStateElement.WallSiegeObjectRegistered))
             {
                 FastCombat.WallSiegeObjectCount -= 1;
-                State = State - Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.WallSiegeObjectRegistered);
+                State -= Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.WallSiegeObjectRegistered);
             }
         }
     }

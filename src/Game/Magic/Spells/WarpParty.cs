@@ -37,7 +37,7 @@ public partial class WarpParty : Spell
         bool result;
         string reason = "";
         WarpPartyTokenEvent eventValue;
-        base.Activate(source);
+        _ = base.Activate(source);
         if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             // Without an army the source has no party to move.
@@ -62,7 +62,7 @@ public partial class WarpParty : Spell
                 result = false;
             }
 
-            eventValue.Release();
+            _ = eventValue.Release();
         }
         else
         {
@@ -115,7 +115,7 @@ public partial class WarpParty : Spell
                 field = level.GetField(walk.X, walk.Y);
                 if (table[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay] != -1)
                 {
-                    candidates.Add(field);
+                    _ = candidates.Add(field);
                 }
             }
 
@@ -137,7 +137,7 @@ public partial class WarpParty : Spell
                         field = level.GetField(walk.X, walk.Y);
                         if (table[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay] != -1)
                         {
-                            candidates.Add(field);
+                            _ = candidates.Add(field);
                         }
                     }
 

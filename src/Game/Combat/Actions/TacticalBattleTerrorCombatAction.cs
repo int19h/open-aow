@@ -43,7 +43,7 @@ public partial class TacticalBattleTerrorCombatAction : CombatAction
         if (_succeeded)
         {
             target = combat.CombatData.FindId<CombatUnit>(_targetId);
-            GamePack.Current.AbilityControl.GetAbility(108).Expand(target.Troop);
+            _ = GamePack.Current.AbilityControl.GetAbility(108).Expand(target.Troop);
         }
 
         if (ManaCost != 0 && combat.Status.Contains(CombatStatusElement.Executing))

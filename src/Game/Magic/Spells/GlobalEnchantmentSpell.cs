@@ -24,7 +24,7 @@ public partial class GlobalEnchantmentSpell : Spell
         if (executeCount == 0)
         {
             // GlobalEnchantmentSpell.Activate constructs the GlobalEnchantmentSpellTokenEvent this spell executes.
-            ((GlobalEnchantmentSpellTokenEvent)eventValue).Enchantment.Cast(source.Player);
+            _ = ((GlobalEnchantmentSpellTokenEvent)eventValue).Enchantment.Cast(source.Player);
         }
 
         return false;
@@ -56,7 +56,7 @@ public partial class GlobalEnchantmentSpell : Spell
         string reason = "";
         if (AICanCastSpell(source))
         {
-            AICastSpellExpenseMade(upkeep: AIUpkeepPriority(), source: source, budget: BaseManaCost, mana: ManaUpkeep);
+            _ = AICastSpellExpenseMade(upkeep: AIUpkeepPriority(), source: source, budget: BaseManaCost, mana: ManaUpkeep);
             if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
                 result = Activate(source);
@@ -65,7 +65,7 @@ public partial class GlobalEnchantmentSpell : Spell
             {
                 if (source.GetCastingSpellId() != SpellId)
                 {
-                    source.ExecuteStartCasting(SpellId);
+                    _ = source.ExecuteStartCasting(SpellId);
                     result = true;
                 }
                 else
@@ -96,7 +96,7 @@ public partial class GlobalEnchantmentSpell : Spell
                 {
                     SetupEnchantment(source, enchantment);
                     result = enchantment.CanCast(source.Player, ref messageText);
-                    enchantment.Release();
+                    _ = enchantment.Release();
                 }
             }
             else
@@ -122,7 +122,7 @@ public partial class GlobalEnchantmentSpell : Spell
             eventValue.Enchantment = CreateEnchantment();
             SetupEnchantment(source, eventValue.Enchantment);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
-            eventValue.Release();
+            _ = eventValue.Release();
             result = true;
         }
         else
@@ -154,7 +154,7 @@ public partial class GlobalEnchantmentSpell : Spell
         // { Original creates the base enchantment here. }
         enchantment = new GlobalEnchantment(null) { Holder = CreationHolder() };
         int result = enchantment.GetAIUpkeepPriority();
-        enchantment.Release();
+        _ = enchantment.Release();
         return result;
     }
 }

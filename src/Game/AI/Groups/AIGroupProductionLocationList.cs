@@ -50,7 +50,7 @@ public partial class AIGroupProductionLocationList : ReferenceNode, IChildList<A
             location = this[i];
             if (!location.Validate(control))
             {
-                RemoveChild(location);
+                _ = RemoveChild(location);
                 result = false;
             }
         }

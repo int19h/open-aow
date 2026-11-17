@@ -59,7 +59,7 @@ public partial class CombatUnit : CombatObject
         {
             u = persister.Created("Troop", objectValue: u);
             SetUnit(u);
-            u?.Release();
+            _ = (u?.Release());
         }
         else
         {
@@ -157,7 +157,7 @@ public partial class CombatUnit : CombatObject
     {
         if (TargetPriorityInvalid)
         {
-            base.GetTargetPriority();
+            _ = base.GetTargetPriority();
             int commandingTargetPriority = CommandingTargetPriority();
             TargetPriority += commandingTargetPriority;
             return TargetPriority;
@@ -171,7 +171,7 @@ public partial class CombatUnit : CombatObject
     {
         if (TargetStrengthInvalid)
         {
-            base.GetTargetStrength();
+            _ = base.GetTargetStrength();
             int commandingTargetStrength = CommandingTargetStrength();
             TargetStrength += commandingTargetStrength;
             return TargetStrength;
@@ -331,7 +331,7 @@ public partial class CombatUnit : CombatObject
         base.Initialize(combat);
         if (Troop is Leader)
         {
-            combat.CombatData.InvolvedLeaders.Add((byte)CombatPlayer);
+            _ = combat.CombatData.InvolvedLeaders.Add((byte)CombatPlayer);
         }
     }
 
@@ -376,12 +376,12 @@ public partial class CombatUnit : CombatObject
                     sbyte player = GetPlayer();
                     if (StrategicMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.Lost)
                     {
-                        Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, Combat.CombatData.Location.MapLevel, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                        _ = Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, Combat.CombatData.Location.MapLevel, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                     }
                     else
                     {
                         sbyte player2 = GetPlayer();
-                        Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, Combat.CombatData.Location.MapLevel, player2, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                        _ = Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, Combat.CombatData.Location.MapLevel, player2, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                     }
 
                     Dispose();
@@ -391,7 +391,7 @@ public partial class CombatUnit : CombatObject
                     if (party != null && (sbyte)party.PlayerIndex != CombatPlayer)
                     {
                         sbyte player = GetPlayer();
-                        Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, Combat.CombatData.Location.MapLevel, player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                        _ = Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, Combat.CombatData.Location.MapLevel, player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                     }
                 }
             }
@@ -438,22 +438,22 @@ public partial class CombatUnit : CombatObject
             case 0:
                 int unitGraphicsResourceIndex = Troop.GetUnitGraphicsResourceIndex();
                 UnitGraphicsResource unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
-                unitGraphicsResource.SfxLibraries[2].Play(0);
+                _ = unitGraphicsResource.SfxLibraries[2].Play(0);
                 break;
             case 1:
                 int fUnitUnitGraphicsResourceIndex = Troop.GetUnitGraphicsResourceIndex();
                 UnitGraphicsResource fUnitGraphicsResourcesUnitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(fUnitUnitGraphicsResourceIndex);
-                fUnitGraphicsResourcesUnitGraphicsResource.SfxLibraries[2].Play(1);
+                _ = fUnitGraphicsResourcesUnitGraphicsResource.SfxLibraries[2].Play(1);
                 break;
             case 2:
                 int unitGraphicsResourceIndex2 = Troop.GetUnitGraphicsResourceIndex();
                 UnitGraphicsResource unitGraphicsResource2 = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex2);
-                unitGraphicsResource2.SfxLibraries[3].Play(0);
+                _ = unitGraphicsResource2.SfxLibraries[3].Play(0);
                 break;
             case 3:
                 int unitGraphicsResourceIndex3 = Troop.GetUnitGraphicsResourceIndex();
                 UnitGraphicsResource unitGraphicsResource3 = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex3);
-                unitGraphicsResource3.SfxLibraries[4].Play(0);
+                _ = unitGraphicsResource3.SfxLibraries[4].Play(0);
                 break;
         }
     }
@@ -501,7 +501,7 @@ public partial class CombatUnit : CombatObject
                 info.Looped = true;
             }
 
-            u.Show(X, Y, surface, info);
+            _ = u.Show(X, Y, surface, info);
             if (Status.Contains(CombatObjectStatusElement.Fled))
             {
                 GamePack.Current.CombatImages[7].Show(X + 18, Y + 10, surface);
@@ -566,11 +566,11 @@ public partial class CombatUnit : CombatObject
             SetHitPoints(0);
         }
 
-        Status = Status + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
+        Status += Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
         ResetTargets();
         if (Troop is Leader)
         {
-            Combat.CombatData.DefeatedLeaders.Add((byte)CombatPlayer);
+            _ = Combat.CombatData.DefeatedLeaders.Add((byte)CombatPlayer);
         }
 
         Combat.ObjectDestroyed(this);
@@ -589,7 +589,7 @@ public partial class CombatUnit : CombatObject
             SetHitPoints(0);
         }
 
-        Status = Status + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
+        Status += Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
         u = Troop;
         if (u != null)
         {
@@ -607,7 +607,7 @@ public partial class CombatUnit : CombatObject
             ResetTargets();
             if (Troop is Leader)
             {
-                Combat.CombatData.DefeatedLeaders.Add((byte)CombatPlayer);
+                _ = Combat.CombatData.DefeatedLeaders.Add((byte)CombatPlayer);
             }
 
             Combat.ObjectDestroyed(this);
@@ -654,18 +654,18 @@ public partial class CombatUnit : CombatObject
                     Troop.SetOwner(null);
                 }
 
-                Troop.Release();
+                _ = Troop.Release();
             }
 
             Troop = troop;
             u = Troop;
             if (u != null)
             {
-                u.AddRef();
+                _ = u.AddRef();
                 party = _party;
                 if (party != null && !Status.Contains(CombatObjectStatusElement.Destroyed))
                 {
-                    party.Army.AddUnit(Troop);
+                    _ = party.Army.AddUnit(Troop);
                 }
             }
         }
@@ -698,7 +698,7 @@ public partial class CombatUnit : CombatObject
             WallCombatFeaturesValue = u.GetWallCombatFeatures();
             if (Troop.GetAbilityEnabled(52) && GamePack.Current.AbilityControl.GetAbility<SpellCastingAbility>(52).CanCastBreachWallSpell(Troop))
             {
-                WallCombatFeaturesValue = WallCombatFeaturesValue + Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching);
+                WallCombatFeaturesValue += Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching);
             }
         }
         else
@@ -761,7 +761,7 @@ public partial class CombatUnit : CombatObject
             ReleaseUnitGraphicsResource();
             if (index != -1)
             {
-                GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index).AddRef();
+                _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index).AddRef();
                 _unitGraphicsResourceIndex = index;
             }
         }
@@ -774,7 +774,7 @@ public partial class CombatUnit : CombatObject
         index = _unitGraphicsResourceIndex;
         if (index != -1)
         {
-            GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index).Release();
+            _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index).Release();
             _unitGraphicsResourceIndex = -1;
         }
     }

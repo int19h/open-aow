@@ -139,7 +139,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         if (_version >= 3)
         {
             ShowInfo showInfoValue = ShowInfoValue;
-            showInfoValue.ReadImage(stream, false);
+            _ = showInfoValue.ReadImage(stream, false);
             ShowInfoValue = showInfoValue;
         }
     }
@@ -162,7 +162,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         stream.Write(Bytes.Of(ref _width, 4));
         stream.Write(Bytes.Of(ref _height, 4));
         ShowInfo showInfoValue = ShowInfoValue;
-        showInfoValue.WriteImage(stream, false);
+        _ = showInfoValue.WriteImage(stream, false);
         ShowInfoValue = showInfoValue;
     }
 
@@ -186,7 +186,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
             stream = new FastLoadFileStream(_owner.LoadedFileName);
             try
             {
-                stream.Seek(_dataPosition + _owner.DataOffset, SeekOrigin.Begin);
+                _ = stream.Seek(_dataPosition + _owner.DataOffset, SeekOrigin.Begin);
                 ReadDiscardableImageData(stream);
                 _dataLoaded = true;
             }
@@ -293,7 +293,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         string result = Name() + " " + IntToStr(_width) + "x" + IntToStr(_height);
         if (GetTransparent())
         {
-            result = result + " Transparent";
+            result += " Transparent";
         }
 
         return result;
@@ -359,7 +359,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
             }
             else
             {
-                stream.Seek(_dataSize, SeekOrigin.Current);
+                _ = stream.Seek(_dataSize, SeekOrigin.Current);
                 _reloadingEnabled = true;
             }
         }

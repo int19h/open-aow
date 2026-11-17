@@ -7,13 +7,13 @@ public partial class Arena
 
     public override StructureView InfoButton(sbyte viewer)
     {
-        Enter();
+        _ = Enter();
         return StructureView.None;
     }
 
     public override StructureView DoubleClick(sbyte viewer)
     {
-        Enter();
+        _ = Enter();
         return StructureView.None;
     }
 }

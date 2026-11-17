@@ -237,7 +237,6 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
         int count;
         object temporary;
         int line;
-        Rect minRectangle = default;
         int b;
         int left;
         int top;
@@ -310,7 +309,7 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
                     FileIndex = grabInfo.FileIndex;
                     position = 0;
                     count = 0;
-                    LockedSurface.MinimizeTransparentRectangle(lockedSurface, R, _transparentColor, out minRectangle);
+                    LockedSurface.MinimizeTransparentRectangle(lockedSurface, R, _transparentColor, out Rect minRectangle);
                     left = minRectangle.Left;
                     RleLeft = left - R.Left;
                     top = minRectangle.Top;

@@ -273,7 +273,7 @@ public partial class FactionSelectionWindow : UIModule
             int textWidth = font.GetTextWidth(text2);
             if (number + textWidth > maxWidth && !RtlUnit.IsEmpty(textLocal))
             {
-                strings.Add(textLocal);
+                _ = strings.Add(textLocal);
                 textLocal = "";
                 number = 0;
             }
@@ -289,7 +289,7 @@ public partial class FactionSelectionWindow : UIModule
             }
             if (i + j <= length && text[i + j - 1] == '\n')
             {
-                strings.Add(textLocal);
+                _ = strings.Add(textLocal);
                 textLocal = "";
                 number = 0;
                 i++;
@@ -297,7 +297,7 @@ public partial class FactionSelectionWindow : UIModule
         }
         if (!RtlUnit.IsEmpty(textLocal))
         {
-            strings.Add(textLocal);
+            _ = strings.Add(textLocal);
         }
     }
 }
