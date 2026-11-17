@@ -55,7 +55,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     public override void SetOwner(CustomNode owner) => SetOwnerWithoutNotify(owner);
 
     // The level the field belongs to. AcceptsOwner admits only a level, so the cast never fails.
-    public new MapLevel Owner { get => (MapLevel)base.Owner; set => SetOwner(value); }
+    public new MapLevel Owner { get => GetOwner<MapLevel>(); set => SetOwner(value); }
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is MapLevel;
 
@@ -165,6 +165,9 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
 
     // The kind selects the sprite. A sprite of another kind throws, the same way the call site did.
     public T FindOwnedHexSprite<T>() where T : HexSprite => (T)FindOwnedHexSprite(typeof(T));
+
+    // The runtime class selects the sprite. A sprite of another class throws, the same way the call site did.
+    public T FindOwnedHexSprite<T>(Type classValue) where T : HexSprite => (T)FindOwnedHexSprite(classValue);
 
     // HSEngine.pas:2172
     public HexSprite FindOwnedHexSprite(Type classValue)

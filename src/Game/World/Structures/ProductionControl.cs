@@ -182,7 +182,7 @@ public partial class ProductionControl : EngineObject
     {
         ProductionItem newItem;
         BeginUpdate();
-        newItem = (ProductionItem)item.Copy(GetEngine());
+        newItem = item.Copy<ProductionItem>(GetEngine());
         newItem.SetOwner(Queue);
         if (Queue.Count == 1)
         {
@@ -681,7 +681,7 @@ public partial class ProductionControl : EngineObject
             eventValue = CreateProductionTokenEvent();
             eventValue.Command = 0;
             eventValue.Queue = queue;
-            eventValue.Item = (ProductionItem)item.Copy(GetEngine());
+            eventValue.Item = item.Copy<ProductionItem>(GetEngine());
             sbyte player2 = GetPlayer();
             StrategicMap.Current.TokenManager.GetTokenControl(player2).AddEvent(eventValue);
             eventValue.Release();

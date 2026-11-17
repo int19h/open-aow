@@ -375,6 +375,11 @@ public partial class GameEngine : OwningNode
         return result;
     }
 
+    // The file stores the map. A file that stores another map class throws, the same way the call site did.
+    public T LoadHsmMap<T>(string fileName, bool edit, ProgressEvent progress, GameProfile profile)
+        where T : GameMap
+        => (T)LoadHsmMap(fileName, edit: edit, progress: progress, profile: profile);
+
     // HSEngine.pas:5251
     // The stream holds an original map file (a campaign's map, a map a network host sent) or the
     // map's own document. An image inflates and the original backend reads its root. A document

@@ -1310,6 +1310,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     // Structur.PAS:1795
     public void ShowRazeAnimation(Animation animation, int X, int Y, in LockedSurface lockedSurface)
     {
+        // The show event passes the animation. The raze handler reads an image sequence, and another kind fails here.
         if (((ImageSequenceAnimation)animation).ImageSequence.GetUnloopedFrameIndex(animation.FrameCounter) == 0 && GetEngine().AnimationDetail != (byte)DetailLevel.Low)
         {
             int random = Random(2);

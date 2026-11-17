@@ -22,7 +22,7 @@ public readonly struct MoveTargetCollection : IReadOnlyList<MoveTarget>
 
     // The target in slot index, read as the original reads the list, without a range check. The
     // list admits only move targets, so the cast never fails.
-    public MoveTarget this[int index] => (MoveTarget)_list.GetChild(index);
+    public MoveTarget this[int index] => _list.GetChild<MoveTarget>(index);
 
     public IEnumerator<MoveTarget> GetEnumerator()
     {

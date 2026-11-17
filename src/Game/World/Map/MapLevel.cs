@@ -12,7 +12,7 @@ public partial class MapLevel : CustomNode, IOwned<MapContainer>, IOwnedSink<Map
 {
     // The container the level belongs to. AcceptsOwner admits only a container, so the cast never
     // fails.
-    public new MapContainer Owner { get => (MapContainer)base.Owner; set => SetOwner(value); }
+    public new MapContainer Owner { get => GetOwner<MapContainer>(); set => SetOwner(value); }
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is MapContainer;
 

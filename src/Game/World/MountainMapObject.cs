@@ -73,7 +73,7 @@ public partial class MountainMapObject : Hexes.Terrain
         i = 0;
         while (i != mapField.Count && valid)
         {
-            hexSprite = (MapObject)mapField.HexSpriteList[i];
+            hexSprite = mapField.GetChild<MapObject>(i);
             if (hexSprite.EngineClass.ClassId == 131432)
             {
                 int hexNumberOfHexSprite = mapField.GetHexNumberOfHexSprite(hexSprite);

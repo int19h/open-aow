@@ -9,7 +9,7 @@ public partial class ProductionQueue : OwningNode, IChildList<ProductionItem>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a ProductionItem, so the cast never fails.
-    public ProductionItem this[int index] => (ProductionItem)GetChild(index);
+    public ProductionItem this[int index] => GetChild<ProductionItem>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is ProductionItem;
 

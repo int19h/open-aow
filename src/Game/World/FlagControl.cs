@@ -35,7 +35,7 @@ public partial class FlagControl : ControlStyleObject
     private protected FlagControl(ConstructionContext context, CustomNode owner) : base(context, owner)
     {
         // Both creation paths pass the game set: GamePack.Create and a game set child load.
-        GamePack gameSet = (GamePack)owner;
+        GamePack gameSet = GetOwner<GamePack>();
         Flags = gameSet.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "Flags.ILB");
         _raceResources = gameSet.RaceResources;
 

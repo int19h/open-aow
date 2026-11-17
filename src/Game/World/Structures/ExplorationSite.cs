@@ -376,11 +376,13 @@ public partial class ExplorationSite : Structure
             _defendersMode = (ExplorationSiteDefendersMode)(Random(3) + 1);
         }
 
-        collection = ((ExplorationSiteResource)Resource).DefenderCollections.GetRandomCollection();
+        // Defender lists live on the exploration resource. Another resource throws, as the old cast did.
+        ExplorationSiteResource siteResource = GetResource<ExplorationSiteResource>();
+        collection = siteResource.DefenderCollections.GetRandomCollection();
         if (collection != -1)
         {
             list = new UnitIndexList();
-            collections = ((ExplorationSiteResource)Resource).DefenderCollections;
+            collections = siteResource.DefenderCollections;
             for (int i = collections.GetCollectionCount(collection) - 1; i >= 0; i--)
             {
                 list.Add(collections.GetU(collection, i));

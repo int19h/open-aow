@@ -11,7 +11,7 @@ public partial class MoveTarget : EngineObject, IOwned<MoveTargetList>, IOwnedSi
 {
     // A reference list holds the target and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
-    public new MoveTargetList Owner { get => (MoveTargetList)base.Owner; set => SetOwner(value); }
+    public new MoveTargetList Owner { get => GetOwner<MoveTargetList>(); set => SetOwner(value); }
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is MoveTargetList;
 

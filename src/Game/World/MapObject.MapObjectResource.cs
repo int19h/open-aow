@@ -1,6 +1,5 @@
 #nullable disable
 using Aow.Engine;
-using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
 namespace Aow.Game.World;
@@ -26,10 +25,10 @@ public partial class MapObject
     {
         if (!GetResourceLinked())
         {
-            EngineResource resource = GetResourceList(engine).FindResource(_unlinkedResourceId);
+            MapObjectResource resource = GetResourceList(engine).FindResource<MapObjectResource>(_unlinkedResourceId);
             if (resource != null)
             {
-                _resource = (MapObjectResource)resource;
+                _resource = resource;
                 SetResourceLinked(true);
             }
         }

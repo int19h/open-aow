@@ -28,7 +28,7 @@ public partial class Hex : AbstractHexagon
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
-        ((HexagonResource)base.Resource).Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface, this);
+        GetResource<HexagonResource>().Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface, this);
     }
 
     // Hexagon.pas:74
@@ -247,7 +247,7 @@ public partial class Hex : AbstractHexagon
 
         if (Transitions[side] != 255)
         {
-            imageLibrary = ((HexagonResource)base.Resource).TransitionLibrary;
+            imageLibrary = GetResource<HexagonResource>().TransitionLibrary;
             image = Transitions[side];
             if (image < imageLibrary.Count)
             {

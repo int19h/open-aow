@@ -44,26 +44,27 @@ public partial class HexagonResource : AbstractHexagonResource
     {
         MapField mapField;
         mapField = map.MapContainer.GetField(hexX, hexY, hexLevel);
-        MapObject result = (MapObject)mapField.FindOwnedChild(ResourceUserClassId());
-        if (result != null)
+        // The resource user class (131410) registers only Hex.
+        Hex found = mapField.FindOwnedChild<Hex>(ResourceUserClassId());
+        MapObject result = found;
+        if (found != null)
         {
-            if (result.GetTerrain(0) != TerrainList.GetTerrain(0))
+            if (found.GetTerrain(0) != TerrainList.GetTerrain(0))
             {
-                result.SetResource(this);
+                found.SetResource(this);
                 mapField.UpdateTerrainType();
-                // The resource user class (131410) registers only Hex, so the cast never fails.
-                ((AbstractHexagon)result).UpdateTransitions();
+                found.UpdateTransitions();
             }
             else
             {
-                result.SetResource(this);
+                found.SetResource(this);
             }
 
             map.InvalidateStaticScene(hexX, hexY, hexLevel);
         }
         else
         {
-            result = (MapObject)CreateResourceUser();
+            result = CreateResourceUser();
             if (!result.PlaceHex(map.MapContainer, hexX, hexY, hexLevel))
             {
                 result?.Dispose();

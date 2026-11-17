@@ -301,7 +301,7 @@ public partial class PlayerCropStructure : PlayerStructure
             HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, Resource.CropLocations.List[i], ref x, ref y);
             if (x >= 0 && mapLevel.Width > x && y >= 0 && mapLevel.Height > y)
             {
-                crop = (Crop)mapLevel.GetField(x, y).FindOwnedChild(131946);
+                crop = mapLevel.GetField(x, y).FindOwnedChild<Crop>(131946);
                 crop?.UpdateSettings();
             }
         }
@@ -321,7 +321,7 @@ public partial class PlayerCropStructure : PlayerStructure
             HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, Resource.CropLocations.List[i], ref x, ref y);
             if (x >= 0 && mapLevel.Width > x && y >= 0 && mapLevel.Height > y)
             {
-                crop = (Crop)mapLevel.GetField(x, y).FindChild(131946);
+                crop = mapLevel.GetField(x, y).FindChild<Crop>(131946);
                 if (crop != null)
                 {
                     if (crop.CropOwner == this)
@@ -361,7 +361,7 @@ public partial class PlayerCropStructure : PlayerStructure
                 if (x >= 0 && x < mapLevel.Width && y >= 0 && y < mapLevel.Height)
                 {
                     field = mapLevel.GetField(x, y);
-                    crop = (Crop)field.FindOwnedChild(131946);
+                    crop = field.FindOwnedChild<Crop>(131946);
                     if (crop != null || !CanPlaceCrop(field))
                     {
                         if (crop != null && crop.CropOwner == this)
@@ -437,7 +437,7 @@ public partial class PlayerCropStructure : PlayerStructure
             HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, Resource.CropLocations.List[i], ref x, ref y);
             if (x >= 0 && mapLevel.Width > x && y >= 0 && mapLevel.Height > y)
             {
-                crop = (Crop)mapLevel.GetField(x, y).FindChild(131946);
+                crop = mapLevel.GetField(x, y).FindChild<Crop>(131946);
                 crop?.SetCropOwner(this);
             }
         }

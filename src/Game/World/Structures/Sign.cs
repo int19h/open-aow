@@ -139,6 +139,7 @@ public partial class Sign : Structure
             {
                 index = structure.ImageIndex;
                 offset = structure.Owner.HexX + (structure.Owner.HexY * 16);
+                // Show takes every structure. This resource draws a sign, and another kind fails here.
                 animate = StrategicMap.Current.SeatedPlayer < 0 || !((Sign)structure).GetTextSeen(StrategicMap.Current.SeatedPlayer);
                 sequence = index < ImageSequenceList.Count ? ImageSequenceList.List[index] : null;
 

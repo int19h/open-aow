@@ -148,27 +148,27 @@ public partial class MapObjectResource : EngineResource
     public override void SetCellImage(LibraryImage value) => _imageLibrary.SetImage(0, value);
 
     // MAPOBJ.PAS:525
-    public override EngineObject CreateResourceUser()
+    // The user class is a map object. Another class throws, and a class id of zero stays null.
+    public override MapObject CreateResourceUser()
     {
-        int id;
-        MapObject mapObject;
-        id = ResourceUserClassId();
-        if (id != 0)
+        int id = ResourceUserClassId();
+        if (id == 0)
         {
-            mapObject = (MapObject)_engine.CreateEngineObject(id, null);
-            if (mapObject != null)
-            {
-                mapObject.SetResource(this);
-                mapObject.SetResourceLinked(true);
-            }
+            return null;
         }
-        else
+
+        MapObject mapObject = _engine.CreateEngineObject<MapObject>(id, owner: null);
+        if (mapObject != null)
         {
-            mapObject = null;
+            mapObject.SetResource(this);
+            mapObject.SetResourceLinked(true);
         }
 
         return mapObject;
     }
+
+    // The resource's user class selects the map object. Another class throws, and null stays null.
+    public T CreateResourceUser<T>() where T : MapObject => (T)CreateResourceUser();
 
     // MAPOBJ.PAS:420
     public override void Draw(Canvas canvas, Rect rectangle, BlitMode mode, int scaleX, int scaleY, int bkColor, int color)
@@ -215,8 +215,13 @@ public partial class MapObjectResource : EngineResource
 
     // MAPOBJ.PAS:556
     public virtual MapObject PlaceResourceUser(GameMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
+        => PlaceCreatedUser(hexSpriteMap, hexX, hexY, hexLevel);
+
+    // Places the object this resource creates. A subclass that adjusts the placed object calls this
+    // and then the adjustment, so the typed form does not re-enter that override.
+    protected MapObject PlaceCreatedUser(GameMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        MapObject result = (MapObject)CreateResourceUser();
+        MapObject result = CreateResourceUser();
         HexGeometry.HexToPixel(hexX, hexY, out int pixelX, out int pixelY);
         pixelX += 16;
         pixelY += 16;
@@ -228,6 +233,11 @@ public partial class MapObjectResource : EngineResource
 
         return result;
     }
+
+    // The created user has the caller's class. Another class throws, and null stays null.
+    protected T PlaceCreatedUser<T>(GameMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
+        where T : MapObject
+        => (T)PlaceCreatedUser(hexSpriteMap, hexX, hexY, hexLevel);
 
     // The resource's user class selects the map object. Another class throws, and null stays null.
     public T PlaceResourceUser<T>(GameMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
