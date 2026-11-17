@@ -117,11 +117,11 @@ public sealed class ResourcePayloadTests
     public void AnImageLibraryLoadsThroughItsStreamLoad()
     {
         byte[] payload = Library();
-        using ImageLibrary viaStream = new(null!);
+        using ImageLibrary viaStream = new(null);
         viaStream.LoadFromStream(new MemoryStream(payload));
         foreach (ObjectNode tree in Backends("MapObjectResource", Stored("MapObjectResource", "ImageLibrary", payload)))
         {
-            using ImageLibrary loaded = new(null!);
+            using ImageLibrary loaded = new(null);
             TreeReader.Read(tree, objectValue: new Holder((persister, _) => PersistSupport.ImageLibrary(persister, name: "ImageLibrary", library: loaded)), factory: Factory);
             Assert.Equal(viaStream.Count, loaded.Count);
         }
@@ -136,7 +136,7 @@ public sealed class ResourcePayloadTests
         byte[] payload = Saved(source.Units.SaveToStream);
         Assert.Equal(payload, Payload("StructureResource", "Defenders", written));
         JsonObject document = DocumentBackend.Write(written, s_schema.Get("StructureResource"), s_schema, "game");
-        Assert.Equal("""{"groups": [[198, 201, 199], [203, 200]], "count": 10}""", Compact(document["Defenders"]!));
+        Assert.Equal("""{"groups": [[198, 201, 199], [203, 200]], "count": 10}""", Compact(document["Defenders"]));
         foreach (ObjectNode tree in Backends("StructureResource", Stored("StructureResource", "Defenders", payload)))
         {
             using UnitIndexListCollection loaded = new();
@@ -270,20 +270,20 @@ public sealed class ResourcePayloadTests
     // The tree of one stored payload, read by the direct path from its bytes.
     private static ObjectNode Stored(string className, string property, byte[] payload)
     {
-        SchemaProperty prop = s_schema.Get(className).PropertyByName(property)!;
+        SchemaProperty prop = s_schema.Get(className).PropertyByName(property);
         DecodeContext context = new(payload, s_schema, "game", "game", null, FormatLimits.Default, new LayoutCounts());
         ObjectNode node = new(null, null);
-        node.Add(property, prop.Codec.ReadImage(context, 0, payload.Length, new ImageFrame { Property = prop, Id = prop.Id!.Value, Path = DocumentNodePath.Root.Member(property) }));
+        node.Add(property, prop.Codec.ReadImage(context, 0, payload.Length, new ImageFrame { Property = prop, Id = prop.Id.Value, Path = DocumentNodePath.Root.Member(property) }));
         return node;
     }
 
     // The bytes the direct path writes for one member of a tree.
     private static byte[] Payload(string className, string property, ObjectNode tree)
     {
-        SchemaProperty prop = s_schema.Get(className).PropertyByName(property)!;
+        SchemaProperty prop = s_schema.Get(className).PropertyByName(property);
         EncodeContext context = new(s_schema, "game", "game", null, FormatLimits.Default, ExportOptions.Default);
         ByteBuffer data = new();
-        prop.Codec.WriteImage(tree.Find(property)!, context, data, new ImageFrame { Property = prop, Id = prop.Id!.Value, Path = DocumentNodePath.Root.Member(property) });
+        prop.Codec.WriteImage(tree.Find(property), context, data, new ImageFrame { Property = prop, Id = prop.Id.Value, Path = DocumentNodePath.Root.Member(property) });
         return data.ToArray();
     }
 

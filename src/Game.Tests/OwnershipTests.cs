@@ -20,10 +20,10 @@ public sealed class OwnershipTests
     [Fact]
     public void ChildrenAndOwnerWalkTheTreeThroughTheInterfaces()
     {
-        OwningNode root = new(null!) { Holder = EngineFixture.Engine };
+        OwningNode root = new(null) { Holder = EngineFixture.Engine };
         OwningNode first = new(root);
         OwningNode second = new(first);
-        OwningNode shared = new(null!) { Holder = EngineFixture.Engine };
+        OwningNode shared = new(null) { Holder = EngineFixture.Engine };
         root.AddChild(shared);
         try
         {

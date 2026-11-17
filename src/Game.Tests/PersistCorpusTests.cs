@@ -91,7 +91,7 @@ public sealed class PersistCorpusTests
     public void CorpusInstancesMatchTheConverter()
     {
         StrategicMap previous = StrategicMap.Current;
-        StrategicMap map = new(null!, holder: EngineFixture.Engine);
+        StrategicMap map = new(null, holder: EngineFixture.Engine);
         map.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
         s_reaper = map;
         // A player's write reads the current map (its seat, its connection type and the view
@@ -126,10 +126,10 @@ public sealed class PersistCorpusTests
                 }
 
                 ImportResult imported = GameFiles.Import(bytes, found.Profile, found.Kind, relative);
-                Assert.Equal(OwnFormat.CurrentVersion, ((JsonInteger)imported.Document["$version"]!).Value);
-                JsonObject root = (JsonObject)imported.Document["root"]!;
+                Assert.Equal(OwnFormat.CurrentVersion, ((JsonInteger)imported.Document["$version"]).Value);
+                JsonObject root = (JsonObject)imported.Document["root"];
                 SchemaClass classValue = found.Profile.RootHasClass
-                    ? schema.Get(((JsonString)root["$class"]!).Value)
+                    ? schema.Get(((JsonString)root["$class"]).Value)
                     : schema.Get(found.Profile.RootFamily);
                 Walk(root, classValue, found.Profile.Engine, relative, schema, factory, counts);
             }
@@ -144,7 +144,7 @@ public sealed class PersistCorpusTests
                 byte[] bytes = File.ReadAllBytes(path);
                 WrittenObjectProfile profile = new("pfs", ["pfs"], rootClass, engine);
                 ImportResult imported = GameFiles.Import(bytes[4..^4], profile, "pfs", relative);
-                Walk((JsonObject)imported.Document["root"]!, schema.Get(rootClass), engine, relative, schema, factory, counts);
+                Walk((JsonObject)imported.Document["root"], schema.Get(rootClass), engine, relative, schema, factory, counts);
             }
             SortedSet<string> printed = [with(StringComparer.Ordinal)];
             foreach (KeyValuePair<string, int> pair in counts)
@@ -237,7 +237,7 @@ public sealed class PersistCorpusTests
     // reads the image between them.
     private static UnitResourceList UnitResources()
     {
-        UnitResourceList list = new(null!) { Holder = EngineFixture.Engine };
+        UnitResourceList list = new(null) { Holder = EngineFixture.Engine };
         byte[] bytes = File.ReadAllBytes(Path.Combine(Root, "Release", "Unitres.pfs"));
         EngineFixture.Engine.ReadObjectImage(bytes[4..^4], objectValue: list, progress: null, classTable: "game");
         return list;
@@ -482,7 +482,7 @@ public sealed class PersistCorpusTests
         EqualBytes(direct, PilotImage.Encode(expected, classValue.Name, engine), label + " direct canonical");
         EqualJson(expected, DocumentBackend.Write(tree, classValue, schema, engine), label + " direct document");
         EqualBytes(direct, OriginalBackend.Write(DocumentBackend.Read(expected, classValue, schema, engine), classValue, schema, engine), label + " direct document read");
-        GridNode grid = (GridNode)tree.Find("Fields")!;
+        GridNode grid = (GridNode)tree.Find("Fields");
         long sprites = 0;
         foreach (ObjectNode field in grid.Fields)
         {
@@ -667,7 +667,7 @@ public sealed class PersistCorpusTests
         {
             if (engineClass.StorageKey == className)
             {
-                return engineClass.CreateInstance(null!, holder: EngineFixture.Engine);
+                return engineClass.CreateInstance(null, holder: EngineFixture.Engine);
             }
         }
 
@@ -793,7 +793,7 @@ public sealed class PersistCorpusTests
     {
         foreach (string pattern in s_patterns)
         {
-            string directory = Path.Combine(Root, Path.GetDirectoryName(pattern)!);
+            string directory = Path.Combine(Root, Path.GetDirectoryName(pattern));
             if (!Directory.Exists(directory))
             {
                 continue;

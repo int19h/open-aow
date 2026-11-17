@@ -14,8 +14,8 @@ public sealed class HashTableReplacementTests
     [Fact]
     public void UnitTableHitsMissesAndKeepsTheFirstDuplicate()
     {
-        UnitControl control = new(null!) { Holder = EngineFixture.Engine };
-        Unit unit = new(null!) { Holder = EngineFixture.Engine, UnitId = 7 };
+        UnitControl control = new(null) { Holder = EngineFixture.Engine };
+        Unit unit = new(null) { Holder = EngineFixture.Engine, UnitId = 7 };
         control.RegisterUnit(unit);
         Assert.Same(unit, control.FindUnit(7));
         Assert.Same(unit, control.FindUnit<Unit>(7));
@@ -24,7 +24,7 @@ public sealed class HashTableReplacementTests
         Assert.Null(control.FindUnit<Hero>(7));
 
         InvalidOperationException duplicate = Assert.Throws<InvalidOperationException>(() =>
-            HashTables.Add(control.UnitTable, key: 7, value: new Unit(null!) { Holder = EngineFixture.Engine }));
+            HashTables.Add(control.UnitTable, key: 7, value: new Unit(null) { Holder = EngineFixture.Engine }));
         Assert.Equal("ID already in HashTable", duplicate.Message);
         Assert.Same(unit, control.FindUnit(7));
     }
@@ -32,10 +32,10 @@ public sealed class HashTableReplacementTests
     [Fact]
     public void UnregisterRemovesOnlyTheStoredUnit()
     {
-        UnitControl control = new(null!) { Holder = EngineFixture.Engine };
-        Unit first = new(null!) { Holder = EngineFixture.Engine, UnitId = 4 };
+        UnitControl control = new(null) { Holder = EngineFixture.Engine };
+        Unit first = new(null) { Holder = EngineFixture.Engine, UnitId = 4 };
         control.RegisterUnit(first);
-        Unit other = new(null!)
+        Unit other = new(null)
         {
             Holder = EngineFixture.Engine,
             UnitId = 4,
@@ -52,7 +52,7 @@ public sealed class HashTableReplacementTests
     [Fact]
     public void ClassTableHitsMissesAndRejectsASecondRegistration()
     {
-        GameEngine engine = new(null!);
+        GameEngine engine = new(null);
         try
         {
             EngineClass style = EngineClass.Of<ControlStyleObject>();
@@ -74,7 +74,7 @@ public sealed class HashTableReplacementTests
     [Fact]
     public void ImageLibraryNamesHitMissAndRejectASecondFile()
     {
-        ImageLibraryManagerList list = new(new ImageLibraryManager(null!));
+        ImageLibraryManagerList list = new(new ImageLibraryManager(null));
         ImageLibraryManagerObject added = list.AddImageLibraryFile("Town.ilb");
         Assert.True(list.HashTable.TryGetValue("TOWN.ILB", out ImageLibraryManagerObject? found));
         Assert.Same(added, found);

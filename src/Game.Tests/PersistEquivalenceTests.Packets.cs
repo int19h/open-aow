@@ -66,7 +66,7 @@ public sealed partial class PersistEquivalenceTests
 
         try
         {
-            MoveArmyTokenEvent move = new(null!) { Holder = EngineFixture.Engine };
+            MoveArmyTokenEvent move = new(null) { Holder = EngineFixture.Engine };
             move.Path.Assign(path);
             Alike("MoveArmyTokenEvent", objectValue: move);
         }
@@ -79,7 +79,7 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void AUnitSpellPacketMatchesReadWrite()
     {
-        UnitSpellTokenEvent spell = new(null!) { Holder = EngineFixture.Engine };
+        UnitSpellTokenEvent spell = new(null) { Holder = EngineFixture.Engine };
         spell.TargetUnitIds.Add(3);
         spell.TargetUnitIds.Add(9);
         spell.SpellData[0] = 11;
@@ -91,7 +91,7 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void ADataPackageWithPartiesMatchesReadWrite()
     {
-        DataPackage package = new(null!) { Holder = EngineFixture.Engine, Sender = 4, Receiver = 7 };
+        DataPackage package = new(null) { Holder = EngineFixture.Engine, Sender = 4, Receiver = 7 };
         Alike("DataPackage", objectValue: package);
     }
 
@@ -119,10 +119,10 @@ public sealed partial class PersistEquivalenceTests
             EngineFixture.Engine.RegisterEngineClasses([descriptor]);
         }
 
-        CombatMoveTokenEvent move = new(null!) { Holder = EngineFixture.Engine, TokenCounter = 4 };
+        CombatMoveTokenEvent move = new(null) { Holder = EngineFixture.Engine, TokenCounter = 4 };
         try
         {
-            using TokenPackage package = new(null!) { Holder = EngineFixture.Engine };
+            using TokenPackage package = new(null) { Holder = EngineFixture.Engine };
             package.TokenEvents.Add(move);
             using MemoryStream memory = new();
             EngineFixture.Engine.StoreEngineObject(memory, objectValue: package, progress: null);
@@ -165,7 +165,7 @@ public sealed partial class PersistEquivalenceTests
             }
             viaPersist = Blank(className);
             Load(viaPersist, image: image);
-            EqualBytes(image, actual: Image(viaPersist!), label: className + " read");
+            EqualBytes(image, actual: Image(viaPersist), label: className + " read");
             bool registered = EngineFixture.Engine.ClassTable.TryGetValue(objectValue.EngineClass.ClassId, out EngineClass registeredClass)
                 && registeredClass is not null
                 && registeredClass.Type == objectValue.GetType();

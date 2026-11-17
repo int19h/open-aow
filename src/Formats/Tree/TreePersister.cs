@@ -695,7 +695,7 @@ internal sealed class MemberPersister : IPersister
         if (Loading)
         {
             TreeValue? found = Take(name);
-            return found is null || found is NullNode
+            return found is null or NullNode
                 ? null
                 : found is not ObjectNode node || node.ClassName is not string className
                 ? throw Type(name, "a created object")
@@ -715,7 +715,7 @@ internal sealed class MemberPersister : IPersister
     public T? Created<T>(string name, T? objectValue) where T : class, IPersistable
     {
         IPersistable? box = Created(name, (IPersistable?)objectValue);
-        return box is not null && box is not T
+        return box is not null and not T
             ? throw TreeErrors.Fail(Codes.ClassFamily, $"Created class {Factory.ClassName(box)} is not a {typeof(T).Name}.", _path.Member(name), value: Factory.ClassName(box), constraint: typeof(T).Name)
             : (T?)box;
     }
@@ -743,7 +743,7 @@ internal sealed class MemberPersister : IPersister
                 _slotMembers[name] = stored;
             }
             TreeValue? value = stored?.Find(slot);
-            return value is null || value is NullNode
+            return value is null or NullNode
                 ? null
                 : value is not ObjectNode node || node.ClassName is not string className
                 ? throw TreeErrors.Fail(Codes.Type, "A slot of " + name + " is a created object.", at)
@@ -774,7 +774,7 @@ internal sealed class MemberPersister : IPersister
     public T? CreatedSlot<T>(string name, int slot, T? objectValue) where T : class, IPersistable
     {
         IPersistable? box = CreatedSlot(name, slot, (IPersistable?)objectValue);
-        return box is not null && box is not T
+        return box is not null and not T
             ? throw TreeErrors.Fail(Codes.ClassFamily, $"Created class {Factory.ClassName(box)} is not a {typeof(T).Name}.", _path.Member(name).Item(slot), value: Factory.ClassName(box), constraint: typeof(T).Name)
             : (T?)box;
     }
@@ -1421,7 +1421,7 @@ internal sealed class ItemSlot : IItemSlot
         Use();
         if (_loading)
         {
-            if (_loaded is NullNode || _loaded is null)
+            if (_loaded is NullNode or null)
             {
                 return null;
             }

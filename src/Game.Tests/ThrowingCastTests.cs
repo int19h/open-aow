@@ -31,7 +31,7 @@ public sealed class ThrowingCastTests
 
         public MapScope()
         {
-            Map = new StrategicMap(null!, holder: EngineFixture.Engine);
+            Map = new StrategicMap(null, holder: EngineFixture.Engine);
             StrategicMap.Current = Map;
         }
 
@@ -43,7 +43,7 @@ public sealed class ThrowingCastTests
     // A hero that always wishes to join the seated player.
     private sealed class JoiningHero : Hero
     {
-        public JoiningHero() : base(null!)
+        public JoiningHero() : base(null)
         {
         }
 
@@ -54,7 +54,7 @@ public sealed class ThrowingCastTests
 
     private sealed class ItemSite : Structure
     {
-        public ItemSite() : base(null!)
+        public ItemSite() : base(null)
         {
         }
 
@@ -77,8 +77,8 @@ public sealed class ThrowingCastTests
     [Fact]
     public void HeroListOwnerIsAbsentAndAnArmyStillReportsItsPlace()
     {
-        Player player = new(null!) { Holder = EngineFixture.Engine };
-        Leader leader = new(null!) { Holder = EngineFixture.Engine };
+        Player player = new(null) { Holder = EngineFixture.Engine };
+        Leader leader = new(null) { Holder = EngineFixture.Engine };
         leader.SetOwnerWithoutNotify(player.Heroes);
         player.Leader = leader;
         player.GetLeaderLocation(out sbyte x, out sbyte y, out sbyte level);
@@ -86,7 +86,7 @@ public sealed class ThrowingCastTests
         Assert.Equal((sbyte)-1, y);
         Assert.Equal((sbyte)-1, level);
 
-        Army army = new(null!) { Holder = EngineFixture.Engine };
+        Army army = new(null) { Holder = EngineFixture.Engine };
         army.Status = Set<ArmyStatusElement>.Of(ArmyStatusElement.Activated);
         army.Location = new MapCoordinate(4, 6, 1);
         leader.SetOwnerWithoutNotify(army);
@@ -100,8 +100,8 @@ public sealed class ThrowingCastTests
     public void HealingLeavesAHeroListOutOfTheSelector()
     {
         using MapScope scope = new();
-        HeroList heroList = new(null!) { Holder = EngineFixture.Engine };
-        Troop troop = new(null!) { Holder = EngineFixture.Engine, UnitId = 9 };
+        HeroList heroList = new(null) { Holder = EngineFixture.Engine };
+        Troop troop = new(null) { Holder = EngineFixture.Engine, UnitId = 9 };
         troop.SetOwnerWithoutNotify(heroList);
         int source = -1;
         int count = -1;
@@ -111,14 +111,14 @@ public sealed class ThrowingCastTests
             source = info.UnitSelector.SourceUnitId;
             count = info.UnitSelector.Units.GetCount();
         };
-        HealingAbility ability = new(null!, holder: EngineFixture.Engine);
+        HealingAbility ability = new(null, holder: EngineFixture.Engine);
         string reason = "";
         Assert.True(ability.Activate(troop, ref reason));
         Assert.Equal(9, source);
         Assert.Equal(0, count);
 
-        UnitUserList list = new(null!) { Holder = EngineFixture.Engine };
-        Troop listed = new(null!) { Holder = EngineFixture.Engine, UnitId = 8 };
+        UnitUserList list = new(null) { Holder = EngineFixture.Engine };
+        Troop listed = new(null) { Holder = EngineFixture.Engine, UnitId = 8 };
         listed.SetOwnerWithoutNotify(list);
         source = -1;
         Assert.True(ability.Activate(listed, ref reason));
@@ -130,19 +130,19 @@ public sealed class ThrowingCastTests
     {
         using MapScope scope = new();
         scope.Map.SeatedPlayer = 0;
-        Troop troop = new(null!) { Holder = EngineFixture.Engine, UnitId = 42, Player = 0 };
-        Hero hero = new(null!) { Holder = EngineFixture.Engine, UnitId = 43, Player = 4 };
+        Troop troop = new(null) { Holder = EngineFixture.Engine, UnitId = 42, Player = 0 };
+        Hero hero = new(null) { Holder = EngineFixture.Engine, UnitId = 43, Player = 4 };
         scope.Map.UnitControl.RegisterUnit(troop);
         scope.Map.UnitControl.RegisterUnit(hero);
 
-        HeroUpgradeEventLog skipped = new(null!) { Holder = EngineFixture.Engine, UnitId = 42 };
-        Assert.False(skipped.Execute(false, ExecuteTrigger.User, null!));
+        HeroUpgradeEventLog skipped = new(null) { Holder = EngineFixture.Engine, UnitId = 42 };
+        Assert.False(skipped.Execute(false, ExecuteTrigger.User, null));
 
-        HeroUpgradeEventLog resolved = new(null!) { Holder = EngineFixture.Engine, UnitId = 43 };
-        Assert.False(resolved.Execute(false, ExecuteTrigger.User, null!));
+        HeroUpgradeEventLog resolved = new(null) { Holder = EngineFixture.Engine, UnitId = 43 };
+        Assert.False(resolved.Execute(false, ExecuteTrigger.User, null));
 
-        SpellTokenEvent spell = new(null!) { Holder = EngineFixture.Engine, EventSourceId = 42 };
-        TokenExecutor executor = new(null!);
+        SpellTokenEvent spell = new(null) { Holder = EngineFixture.Engine, EventSourceId = 42 };
+        TokenExecutor executor = new(null);
         Assert.Equal(ExecuteResult.DoneHalt, spell.Execute(executor));
 
         executor.ExecuteCount = 1;
@@ -159,32 +159,32 @@ public sealed class ThrowingCastTests
     public void SharedWallIdSkipsAStructureAndKeepsADoor()
     {
         CombatMap previous = CombatMap.Current;
-        CombatMap map = new(null!) { Holder = EngineFixture.Engine };
+        CombatMap map = new(null) { Holder = EngineFixture.Engine };
         try
         {
-            MapContainer container = new(null!) { Holder = EngineFixture.Engine };
+            MapContainer container = new(null) { Holder = EngineFixture.Engine };
             MapLevel level = new(container);
             level.CreateMapFieldList(1, 1);
             container.Map = map;
             map.MapContainer = container;
-            TacticalBattle combat = new(null!) { Holder = EngineFixture.Engine };
+            TacticalBattle combat = new(null) { Holder = EngineFixture.Engine };
             map.SetCombat(combat);
             combat.CombatData.WallType = 1;
             MapField field = container.MapLevels[0].Field[0, 0];
-            CombatStructure structure = new(null!) { Holder = EngineFixture.Engine };
+            CombatStructure structure = new(null) { Holder = EngineFixture.Engine };
             structure.SetOwnerWithoutNotify(field);
             field.HexSpriteList[0] = structure;
             field.StoredCount = 1;
             BattleAI ai = new(EngineFixture.Engine);
             int value = 7;
-            ai.EvalHex(null!, 0, 0, 0, 0, ref value, true, false, null!, null);
+            ai.EvalHex(null, 0, 0, 0, 0, ref value, true, false, null, null);
             Assert.Equal(7, value);
 
-            CityWallDoor door = new(null!) { Holder = EngineFixture.Engine };
+            CityWallDoor door = new(null) { Holder = EngineFixture.Engine };
             door.SetOwnerWithoutNotify(field);
             field.HexSpriteList[0] = door;
             value = 7;
-            ai.EvalHex(null!, 0, 0, 0, 0, ref value, true, false, null!, null);
+            ai.EvalHex(null, 0, 0, 0, 0, ref value, true, false, null, null);
             Assert.Equal(7, value);
         }
         finally
@@ -200,7 +200,7 @@ public sealed class ThrowingCastTests
         using MapScope scope = new();
         try
         {
-            MapContainer container = new(null!) { Holder = EngineFixture.Engine };
+            MapContainer container = new(null) { Holder = EngineFixture.Engine };
             MapLevel level = new(container);
             level.CreateMapFieldList(7, 7);
             container.Map = scope.Map;
@@ -208,8 +208,8 @@ public sealed class ThrowingCastTests
             MapField field = container.MapLevels[0].Field[3, 3];
             field.AddHexSprite(new ItemSite(), 0);
 
-            TacticalBattle combat = new(null!) { Holder = EngineFixture.Engine, ExplorationSite = 1 };
-            combat.Items = new PrisonersArmy(null!) { Holder = EngineFixture.Engine };
+            TacticalBattle combat = new(null) { Holder = EngineFixture.Engine, ExplorationSite = 1 };
+            combat.Items = new PrisonersArmy(null) { Holder = EngineFixture.Engine };
             RandomBattleMapGenerator prisoners = new(EngineFixture.Engine);
             Exception error = Record.Exception(() => prisoners.RandomMap(combat, 3, 3, 0));
             Assert.Null(prisoners.Items);
@@ -220,7 +220,7 @@ public sealed class ThrowingCastTests
                 Assert.DoesNotContain("ItemList", cast.Message);
             }
 
-            ItemList items = new(null!) { Holder = EngineFixture.Engine };
+            ItemList items = new(null) { Holder = EngineFixture.Engine };
             combat.Items = items;
             RandomBattleMapGenerator laidOut = new(EngineFixture.Engine);
             Record.Exception(() => laidOut.RandomMap(combat, 3, 3, 0));
@@ -236,7 +236,7 @@ public sealed class ThrowingCastTests
     public void MovementSpriteOfTheOtherKindIsAbsent()
     {
         using MapScope scope = new();
-        MapContainer container = new(null!) { Holder = EngineFixture.Engine };
+        MapContainer container = new(null) { Holder = EngineFixture.Engine };
         MapLevel level = new(container);
         level.CreateMapFieldList(1, 1);
         container.Map = scope.Map;
@@ -245,8 +245,8 @@ public sealed class ThrowingCastTests
         container.LevelCount = 1;
         scope.Map.MapContainer = container;
 
-        MoveControlSettings tactical = new(null!) { Holder = EngineFixture.Engine };
-        tactical.ArmyHexSprite = new TacticalBattleUnitHexSprite(null!) { Holder = EngineFixture.Engine };
+        MoveControlSettings tactical = new(null) { Holder = EngineFixture.Engine };
+        tactical.ArmyHexSprite = new TacticalBattleUnitHexSprite(null) { Holder = EngineFixture.Engine };
         tactical.SetSourcePosition(0, 0, 0);
         tactical.SetDestinationPosition(1, 0, 0);
         Exception error = Record.Exception(() => scope.Map.MoveControl.Activate(tactical));
@@ -254,8 +254,8 @@ public sealed class ThrowingCastTests
         Assert.Null(error);
 
         scope.Map.MoveControl.Deactivate();
-        ArmyHexSprite army = new(null!) { Holder = EngineFixture.Engine };
-        MoveControlSettings world = new(null!) { Holder = EngineFixture.Engine };
+        ArmyHexSprite army = new(null) { Holder = EngineFixture.Engine };
+        MoveControlSettings world = new(null) { Holder = EngineFixture.Engine };
         world.ArmyHexSprite = army;
         world.SetSourcePosition(0, 0, 0);
         world.SetDestinationPosition(1, 0, 0);
@@ -263,18 +263,18 @@ public sealed class ThrowingCastTests
         Assert.Same(army, scope.Map.MoveControl.ArmyHexSprite);
 
         CombatMap previous = CombatMap.Current;
-        CombatMap combatMap = new(null!) { Holder = EngineFixture.Engine };
+        CombatMap combatMap = new(null) { Holder = EngineFixture.Engine };
         try
         {
-            CombatMoveControlSettings settings = new(null!) { Holder = EngineFixture.Engine };
-            settings.ArmyHexSprite = new ArmyHexSprite(null!) { Holder = EngineFixture.Engine };
+            CombatMoveControlSettings settings = new(null) { Holder = EngineFixture.Engine };
+            settings.ArmyHexSprite = new ArmyHexSprite(null) { Holder = EngineFixture.Engine };
             settings.SetSourcePosition(-1, -1, -1);
             settings.SetDestinationPosition(-1, -1, -1);
             CombatMoveControl control = combatMap.MoveControl;
             control.ProcessMove(settings);
             Assert.Null(control.UnitHexSprite);
 
-            TacticalBattleUnitHexSprite unit = new(null!) { Holder = EngineFixture.Engine };
+            TacticalBattleUnitHexSprite unit = new(null) { Holder = EngineFixture.Engine };
             settings.ArmyHexSprite = unit;
             control.ProcessMove(settings);
             Assert.Same(unit, control.UnitHexSprite);
@@ -288,12 +288,12 @@ public sealed class ThrowingCastTests
     [Fact]
     public void ArmyOwnerIsNullForEveryNonArmyOwner()
     {
-        Army army = new(null!) { Holder = EngineFixture.Engine };
-        UnitList units = new(null!) { Holder = EngineFixture.Engine };
-        UnitUserList users = new(null!) { Holder = EngineFixture.Engine };
-        HeroList heroes = new(null!) { Holder = EngineFixture.Engine };
-        HeroLibrary library = new(null!) { Holder = EngineFixture.Engine };
-        Troop troop = new(null!) { Holder = EngineFixture.Engine };
+        Army army = new(null) { Holder = EngineFixture.Engine };
+        UnitList units = new(null) { Holder = EngineFixture.Engine };
+        UnitUserList users = new(null) { Holder = EngineFixture.Engine };
+        HeroList heroes = new(null) { Holder = EngineFixture.Engine };
+        HeroLibrary library = new(null) { Holder = EngineFixture.Engine };
+        Troop troop = new(null) { Holder = EngineFixture.Engine };
         troop.SetOwnerWithoutNotify(army);
         Assert.Same(army, troop.ArmyOwner);
         troop.SetOwnerWithoutNotify(units);
@@ -305,7 +305,7 @@ public sealed class ThrowingCastTests
 
         // A hero admits the same owners. A unit list and a unit user list hold generated
         // troops and campaign transfers, a hero list and a library the heroes outside armies.
-        Hero hero = new(null!) { Holder = EngineFixture.Engine };
+        Hero hero = new(null) { Holder = EngineFixture.Engine };
         hero.SetOwnerWithoutNotify(army);
         Assert.Same(army, hero.ArmyOwner);
         hero.SetOwnerWithoutNotify(units);
@@ -322,17 +322,17 @@ public sealed class ThrowingCastTests
     public void JoiningHeroOutsideAnArmyMakesNoJoinLog()
     {
         using MapScope scope = new();
-        UnitList units = new(null!) { Holder = EngineFixture.Engine };
+        UnitList units = new(null) { Holder = EngineFixture.Engine };
         JoiningHero hero = new() { Holder = EngineFixture.Engine, UnitId = 42, Player = 0 };
         hero.SetOwnerWithoutNotify(units);
         scope.Map.UnitControl.RegisterUnit(hero);
-        HeroEmergeEventLog emerge = new(null!) { Holder = EngineFixture.Engine, UnitId = 42, Player = 1 };
-        HeroJoinEventLog log = null!;
+        HeroEmergeEventLog emerge = new(null) { Holder = EngineFixture.Engine, UnitId = 42, Player = 1 };
+        HeroJoinEventLog log = null;
         Exception error = Record.Exception(() => log = emerge.CreateHeroJoinEventLog());
         Assert.Null(error);
         Assert.Null(log);
 
-        HeroList heroes = new(null!) { Holder = EngineFixture.Engine };
+        HeroList heroes = new(null) { Holder = EngineFixture.Engine };
         hero.SetOwnerWithoutNotify(heroes);
         error = Record.Exception(() => log = emerge.CreateHeroJoinEventLog());
         Assert.Null(error);
@@ -344,10 +344,10 @@ public sealed class ThrowingCastTests
     {
         using MapScope scope = new();
         scope.Map.TokenManager.CreatePlayer(1);
-        UnitList units = new(null!) { Holder = EngineFixture.Engine };
-        Hero hero = new(null!) { Holder = EngineFixture.Engine, UnitId = 7, Player = 1 };
+        UnitList units = new(null) { Holder = EngineFixture.Engine };
+        Hero hero = new(null) { Holder = EngineFixture.Engine, UnitId = 7, Player = 1 };
         hero.SetOwnerWithoutNotify(units);
-        WarpParty spell = new(null!, EngineFixture.Engine);
+        WarpParty spell = new(null, EngineFixture.Engine);
         bool result = true;
         Exception error = Record.Exception(() => result = spell.Activate(hero));
         Assert.Null(error);
@@ -358,12 +358,12 @@ public sealed class ThrowingCastTests
     public void TransporterWithoutArmyLeavesNoTransporterArmy()
     {
         using MapScope scope = new();
-        UnitList units = new(null!) { Holder = EngineFixture.Engine };
-        Troop transporter = new(null!) { Holder = EngineFixture.Engine, UnitId = 5 };
+        UnitList units = new(null) { Holder = EngineFixture.Engine };
+        Troop transporter = new(null) { Holder = EngineFixture.Engine, UnitId = 5 };
         transporter.SetOwnerWithoutNotify(units);
-        AIMoveControlSettings settings = new(null!) { Holder = EngineFixture.Engine };
+        AIMoveControlSettings settings = new(null) { Holder = EngineFixture.Engine };
         settings.Transporter = transporter;
-        AIMoveControl control = new(null!) { Holder = EngineFixture.Engine };
+        AIMoveControl control = new(null) { Holder = EngineFixture.Engine };
         bool result = false;
         Exception error = Record.Exception(() => result = control.CanMove(settings));
         Assert.Null(error);
@@ -375,22 +375,22 @@ public sealed class ThrowingCastTests
     public void UnitSelectionWithoutAnArmySkipsConcealment()
     {
         using MapScope scope = new();
-        UnitList units = new(null!) { Holder = EngineFixture.Engine };
-        Troop source = new(null!) { Holder = EngineFixture.Engine, UnitId = 6, Player = 1 };
-        Troop target = new(null!) { Holder = EngineFixture.Engine, UnitId = 9, Player = 1 };
+        UnitList units = new(null) { Holder = EngineFixture.Engine };
+        Troop source = new(null) { Holder = EngineFixture.Engine, UnitId = 6, Player = 1 };
+        Troop target = new(null) { Holder = EngineFixture.Engine, UnitId = 9, Player = 1 };
         units.Units.AddUnit(source);
         units.Units.AddUnit(target);
-        UnitSpell spell = new(null!) { Holder = EngineFixture.Engine };
-        UnitSpellCaster caster = new(null!) { Holder = EngineFixture.Engine };
+        UnitSpell spell = new(null) { Holder = EngineFixture.Engine };
+        UnitSpellCaster caster = new(null) { Holder = EngineFixture.Engine };
         Exception error = Record.Exception(() => spell.SetupUnitSelectionControl(caster, source, source.OwnerUnits));
         Assert.Null(error);
         Assert.Equal(2, caster.TargetUnits.GetCount());
 
-        Army army = new(null!) { Holder = EngineFixture.Engine };
+        Army army = new(null) { Holder = EngineFixture.Engine };
         army.Player = 1;
         army.Units.AddUnit(source);
         army.Units.AddUnit(target);
-        UnitSpellCaster listed = new(null!) { Holder = EngineFixture.Engine };
+        UnitSpellCaster listed = new(null) { Holder = EngineFixture.Engine };
         error = Record.Exception(() => spell.SetupUnitSelectionControl(listed, source, source.OwnerUnits));
         Assert.Null(error);
         Assert.Equal(2, listed.TargetUnits.GetCount());

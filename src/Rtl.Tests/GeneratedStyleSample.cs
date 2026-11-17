@@ -24,7 +24,7 @@ public struct SampleRecord
 
     public string Name
     {
-        get
+        readonly get
         {
             string result = "";
             for (int i = 1; i <= _name[0]; i++)

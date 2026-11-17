@@ -163,11 +163,11 @@ public sealed class ObservableNodeTests
     [Fact]
     public void ItemListOnChangedRunsBeforeTheCollectionEvent()
     {
-        ItemList items = new(null!) { Holder = EngineFixture.Engine };
+        ItemList items = new(null) { Holder = EngineFixture.Engine };
         List<string> trace = [];
         items.OnChanged += _ => trace.Add("on");
         items.CollectionChanged += (_, _) => trace.Add("collection");
-        items.AddChild(new Item(null!) { Holder = EngineFixture.Engine });
+        items.AddChild(new Item(null) { Holder = EngineFixture.Engine });
         Assert.Equal(["on", "collection"], trace);
     }
 
@@ -190,7 +190,7 @@ public sealed class ObservableNodeTests
 
     private sealed class Leaf : EngineObject
     {
-        public Leaf(int tag) : base(null!)
+        public Leaf(int tag) : base(null)
         {
             Holder = EngineFixture.Engine;
             Tag = tag;
@@ -201,7 +201,7 @@ public sealed class ObservableNodeTests
 
     private class RecordingNode : ObservableNode
     {
-        public RecordingNode() : base(null!)
+        public RecordingNode() : base(null)
         {
             Holder = EngineFixture.Engine;
             CollectionChanged += (_, change) => Trace.Add(Format(change));

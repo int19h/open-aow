@@ -14,7 +14,7 @@ public sealed class SurfaceRectangleTests
 
     private static DataSurface MakeSource()
     {
-        DataSurface surface = new(SourceWidth, SourceHeight, PixelFormats.pfRGB555, null!);
+        DataSurface surface = new(SourceWidth, SourceHeight, PixelFormats.pfRGB555, null);
         LockedSurface lockedSurface = default;
         Assert.Equal(PixelFormats.GFXE_OK, surface.Lock(ref lockedSurface));
         for (int y = 0; y < SourceHeight; y++)
@@ -62,7 +62,7 @@ public sealed class SurfaceRectangleTests
     private static void Run(Func<Surface, Surface, int> copy, int[,] expected, int result = PixelFormats.GFXE_OK)
     {
         DataSurface source = MakeSource();
-        DataSurface destination = new(DestinationWidth, DestinationHeight, PixelFormats.pfRGB555, null!);
+        DataSurface destination = new(DestinationWidth, DestinationHeight, PixelFormats.pfRGB555, null);
         try
         {
             Assert.Equal(result, copy(source, destination));
@@ -208,7 +208,7 @@ public sealed class SurfaceRectangleTests
     [Fact]
     public void ControllersReturnThePrimaryRegion()
     {
-        using Component owner = new(null!);
+        using Component owner = new(null);
         DisplayController displayController = new(owner);
         SdlDisplayController sdl = new(new NullDisplayHost(), owner);
         Rect region = new(3, 4, 643, 484);

@@ -321,7 +321,7 @@ public sealed class MapNetSoundConstructionTests
     [Fact]
     public void TokenControlPublicationHasNoLaterConstructorWork()
     {
-        using TokenManager manager = new(null!);
+        using TokenManager manager = new(null);
         TokenControl control = new(manager, 7);
         Assert.Same(control, manager.TokenExecutor.TacticalBattleList[0]);
         Assert.Single(manager.TokenExecutor.TacticalBattleList);

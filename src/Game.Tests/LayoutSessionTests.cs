@@ -19,7 +19,7 @@ public sealed class LayoutSessionTests
     // The second label is complete and owned when its Name setter rejects the duplicate.
     private class FailingModule : DataModule, ILayoutModule
     {
-        public FailingModule() : base(null!) { }
+        public FailingModule() : base(null) { }
 
         public Tracked? First { get; private set; }
         public Label? Second { get; private set; }
@@ -47,7 +47,7 @@ public sealed class LayoutSessionTests
 
     private sealed class GoodModule : DataModule, ILayoutModule
     {
-        public GoodModule() : base(null!) { }
+        public GoodModule() : base(null) { }
 
         public Tracked? Child { get; private set; }
 
@@ -120,7 +120,7 @@ public sealed class LayoutSessionTests
     public void LoadingFlagsAreSetByTheSessionAndClearedInTwoSteps()
     {
         LayoutSession session = new();
-        using DataModule root = new(null!);
+        using DataModule root = new(null);
         Label child = new(root);
         Assert.True(child.ComponentState.IsEmpty);
         session.Begin(root);

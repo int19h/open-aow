@@ -97,7 +97,7 @@ public static partial class RtlUnit
     {
         string output = conversion == 'D' ? value.ToString(CultureInfo.InvariantCulture)
             : unchecked((uint)value).ToString(conversion == 'X' ? "X" : "D", CultureInfo.InvariantCulture);
-        if (precision > 0 && precision < 16)
+        if (precision is > 0 and < 16)
         {
             output = output.StartsWith('-') ? "-" + output[1..].PadLeft(precision, '0') : output.PadLeft(precision, '0');
         }

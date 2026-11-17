@@ -13,7 +13,7 @@ public sealed class UnitSelectorTests
         private readonly sbyte _hits;
         private readonly sbyte _hitPoints;
 
-        internal WoundedHero(int id, sbyte hits, sbyte hitPoints) : base(null!)
+        internal WoundedHero(int id, sbyte hits, sbyte hitPoints) : base(null)
         {
             UnitId = id;
             _hits = hits;
@@ -32,14 +32,14 @@ public sealed class UnitSelectorTests
     [Fact]
     public void HealingSetupAcceptsHeroesAndSelectsOnlyTheWounded()
     {
-        GamePack.Current = null!;
-        UnitUserList units = new(null!) { Holder = EngineFixture.Engine };
+        GamePack.Current = null;
+        UnitUserList units = new(null) { Holder = EngineFixture.Engine };
         HealingUnitSelector selector = new(EngineFixture.Engine);
         try
         {
             units.AddUnit(new WoundedHero(1, 10, 10));
             units.AddUnit(new WoundedHero(2, 4, 10));
-            selector.Setup(null!, units.Units);
+            selector.Setup(null, units.Units);
             // The sort puts the higher unit id first, so the wounded hero is item 0.
             Assert.Equal(2, selector.Units.GetUnit(0).UnitId);
             Assert.Equal(0b01, selector.Selectable);

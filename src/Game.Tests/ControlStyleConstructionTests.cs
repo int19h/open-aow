@@ -104,8 +104,8 @@ public sealed class ControlStyleConstructionTests
     public void NullFlagOwnerFailsBeforeAnUnacquiredLinkIsReleased()
     {
         using FlagFixture fixture = new(loaded: true);
-        Assert.Throws<NullReferenceException>(() => FlagControl.Create(null!));
-        Assert.Throws<NullReferenceException>(() => EngineClass.Of<FlagControl>().CreateInstance(null!, holder: EngineFixture.Engine));
+        Assert.Throws<NullReferenceException>(() => FlagControl.Create(null));
+        Assert.Throws<NullReferenceException>(() => EngineClass.Of<FlagControl>().CreateInstance(null, holder: EngineFixture.Engine));
         Assert.Equal(0, fixture.Entry.RefCount);
         Assert.Empty(fixture.Owner.Members);
     }
@@ -114,7 +114,7 @@ public sealed class ControlStyleConstructionTests
 
     private sealed class FlagOwner : GamePack
     {
-        public FlagOwner() : base(null!, null!, EngineFixture.Engine) { }
+        public FlagOwner() : base(null, null, EngineFixture.Engine) { }
 
         internal List<EngineObject> Members { get; } = [];
 
@@ -127,7 +127,7 @@ public sealed class ControlStyleConstructionTests
     {
         internal FlagOwner Owner { get; }
 
-        private readonly ImageLibraryManager _manager = new(null!);
+        private readonly ImageLibraryManager _manager = new(null);
 
         internal ImageLibraryManagerObject Entry { get; }
 
@@ -338,5 +338,5 @@ public sealed class ControlStyleConstructionTests
         }
     }
 
-    private static GameEngine CreateEngine() => new(null!);
+    private static GameEngine CreateEngine() => new(null);
 }

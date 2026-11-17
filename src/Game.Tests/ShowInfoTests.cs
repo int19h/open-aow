@@ -48,7 +48,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
             Assert.Same(table, user.Value);
             Assert.Throws<InvalidCastException>(() => user.Percentage);
 
-            BlendValue nil = null!;
+            BlendValue nil = null;
             Assert.False(nil.HasValue);
             Assert.Equal(0, nil.Percentage);
         }
@@ -206,7 +206,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
     [Fact]
     public void DrawingThroughTheBlendSlotAllocatesNothing() => WithBlendTables(() =>
     {
-        using LibraryImage image = new(null!);
+        using LibraryImage image = new(null);
         image.ShowInfoValue = new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = BlendMode.Shadow, Blend = 40 };
         ShowInfo caller = new() { ShowMode = ShowMode.Blended, Blend = 60 };
         LockedSurface lockedSurface = default;

@@ -116,7 +116,7 @@ public abstract class StringCollection : Persistent
                 bool quote = false;
                 for (int p = 1; p <= s.Length && s[p - 1] != 0; p++)
                 {
-                    if (s[p - 1] <= 32 || s[p - 1] is '"' or ',') { quote = true; break; }
+                    if (s[p - 1] is <= (char)32 or '"' or ',') { quote = true; break; }
                 }
 
                 if (quote)
@@ -158,7 +158,7 @@ public abstract class StringCollection : Persistent
                     }
                     else
                     {
-                        int start = p; while (At() > 32 && At() != 44)
+                        int start = p; while (At() is > 32 and not 44)
                         {
                             p++;
                         }

@@ -25,10 +25,10 @@ public sealed class TacticalBattleWallCastTests
     public void TerrainPathAcceptsTheCombatWallAsIgnore()
     {
         BattleAI ai = new(EngineFixture.Engine);
-        CombatMoveControlSettings settings = new(null!) { Holder = EngineFixture.Engine };
+        CombatMoveControlSettings settings = new(null) { Holder = EngineFixture.Engine };
         MovePath path = new();
         int value = 7;
-        TacticalBattle combat = new(null!) { Holder = EngineFixture.Engine };
+        TacticalBattle combat = new(null) { Holder = EngineFixture.Engine };
         OwningNode objects = combat.CombatData.CombatObjects;
         TacticalBattleUnit unit = new(objects) { Combat = combat };
         CombatWall wall = new(objects) { Combat = combat };
@@ -47,29 +47,29 @@ public sealed class TacticalBattleWallCastTests
     public void UnitLocationSkipsTheCombatWallAndFindsTheUnit()
     {
         CombatMap previous = CombatMap.Current;
-        CombatMap map = new(null!) { Holder = EngineFixture.Engine };
+        CombatMap map = new(null) { Holder = EngineFixture.Engine };
         try
         {
-            TacticalBattle combat = new(null!) { Holder = EngineFixture.Engine };
+            TacticalBattle combat = new(null) { Holder = EngineFixture.Engine };
             map.SetCombat(combat);
             OwningNode objects = combat.CombatData.CombatObjects;
-            Troop hero = new(null!) { Holder = EngineFixture.Engine };
+            Troop hero = new(null) { Holder = EngineFixture.Engine };
             CombatWall wall = new(objects) { Combat = combat };
             wall.Setup(1, 1, 0);
             TacticalBattleUnit unit = new(objects) { Combat = combat, Id = 2, Position = 1, Troop = hero };
-            unit.UnitHexSprite = new PlacedUnitHexSprite(null!) { Holder = EngineFixture.Engine, Unit = unit };
+            unit.UnitHexSprite = new PlacedUnitHexSprite(null) { Holder = EngineFixture.Engine, Unit = unit };
             sbyte y = 0;
             sbyte l = 0;
             map.GetUnitLocation(hero, out sbyte x, ref y, ref l);
             Assert.Equal((sbyte)4, x);
             Assert.Equal((sbyte)9, y);
             Assert.Equal((sbyte)0, l);
-            map.GetUnitLocation(new Troop(null!) { Holder = EngineFixture.Engine }, x: out x, y: ref y, level: ref l);
+            map.GetUnitLocation(new Troop(null) { Holder = EngineFixture.Engine }, x: out x, y: ref y, level: ref l);
             Assert.Equal((sbyte)-1, x);
         }
         finally
         {
-            map.SetOwner(null!);
+            map.SetOwner(null);
             map.Dispose();
             CombatMap.Current = previous;
         }

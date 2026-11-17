@@ -45,19 +45,19 @@ public sealed partial class RuleConstructionTests
     {
         private readonly GamePack _previousSet = GamePack.Current;
         private readonly StrategicMap _previousMap = StrategicMap.Current;
-        private readonly ImageLibraryManager _manager = new(null!);
+        private readonly ImageLibraryManager _manager = new(null);
 
         internal StrategicMap Map { get; }
 
         internal Fixture()
         {
-            Map = new StrategicMap(null!, holder: EngineFixture.Engine);
+            Map = new StrategicMap(null, holder: EngineFixture.Engine);
             GamePack set = EngineFixture.CreateGameSet(_manager);
             GamePack.Current = set;
             Map.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
-            Map.Races = new RaceList(null!) { Holder = EngineFixture.Engine };
-            Map.UnitControl = new UnitControl(null!) { Holder = EngineFixture.Engine };
-            Map.HeroControl = new HeroControl(null!) { Holder = EngineFixture.Engine };
+            Map.Races = new RaceList(null) { Holder = EngineFixture.Engine };
+            Map.UnitControl = new UnitControl(null) { Holder = EngineFixture.Engine };
+            Map.HeroControl = new HeroControl(null) { Holder = EngineFixture.Engine };
             StrategicMap.Current = Map;
         }
 
@@ -421,7 +421,7 @@ public sealed partial class RuleConstructionTests
                 Assert.NotNull(army.Army);
             }
 
-            value.SetOwner(null!);
+            value.SetOwner(null);
             value.Dispose();
             Assert.Empty(owner.Members);
             Assert.Equal(1, owner.Removals);

@@ -181,7 +181,7 @@ public static class JsonWriter
                 case '\f': builder.Append("\\f"); break;
                 case '\r': builder.Append("\\r"); break;
                 default:
-                    if (c < ' ' || c is >= '\u007f' and <= '\u009f')
+                    if (c is < ' ' or (>= '\u007f' and <= '\u009f'))
                     {
                         builder.Append("\\u").Append(((int)c).ToString("x4", CultureInfo.InvariantCulture));
                     }

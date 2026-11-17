@@ -124,16 +124,16 @@ public sealed class OfflineStubTests
         using SavedGlobals saved = new();
         UIContext ui = new(EngineFixture.Engine);
         SetupEvents events = OfflineSetupEvents(ui);
-        HeroResourceList heroes = new(null!) { Holder = EngineFixture.Engine };
+        HeroResourceList heroes = new(null) { Holder = EngineFixture.Engine };
         new HeroResource(heroes);
         GamePack.Current.HeroResources = heroes;
         LeaderSetupWindow window = Populate(new LeaderSetupWindow(ui));
-        LeaderSetupControl control = new(null!) { Holder = EngineFixture.Engine, OriginalLeader = new Leader(null!) { Holder = EngineFixture.Engine } };
+        LeaderSetupControl control = new(null) { Holder = EngineFixture.Engine, OriginalLeader = new Leader(null) { Holder = EngineFixture.Engine } };
         bool done = false;
         control.OnDone += sender => done = ReferenceEquals(sender, control);
         control.AddRef();
         window.Setup = control;
-        window.Leader = new Leader(null!) { Holder = EngineFixture.Engine, HeroName = "Gorbag" };
+        window.Leader = new Leader(null) { Holder = EngineFixture.Engine, HeroName = "Gorbag" };
         window.Leader.SetHeroResourceIndex(0);
         window.LeaderPanel.Visible = true;
 
@@ -253,7 +253,7 @@ public sealed class OfflineStubTests
     {
         using SavedGlobals saved = new();
         UIContext ui = new(EngineFixture.Engine);
-        TextControl text = new(null!) { Holder = EngineFixture.Engine };
+        TextControl text = new(null) { Holder = EngineFixture.Engine };
         foreach ((int id, string? header) in new[] { (507, "Topic 507"), (500, "Topic 500") })
         {
             TextControlItem item = text.New();
@@ -263,7 +263,7 @@ public sealed class OfflineStubTests
         GamePack.Current.TextControl = text;
         HelpWindow help = ui.Add(Populate(new HelpWindow(ui)));
         PopupWindows popups = new(ui);
-        Menu menu = new(null!);
+        Menu menu = new(null);
 
         menu.SelectedItem = 0;
         popups.HelpMenuSelect(menu);
@@ -291,7 +291,7 @@ public sealed class OfflineStubTests
     {
         using SavedGlobals saved = new();
         RecordingImage recorder = new();
-        CustomImageLibrary library = new(null!);
+        CustomImageLibrary library = new(null);
         CustomImageLibrary.ImageItem[] images = new CustomImageLibrary.ImageItem[128];
         for (int i = 0; i < 128; i++)
         {
@@ -300,27 +300,27 @@ public sealed class OfflineStubTests
 
         SetField(library, "Images", images);
         SetField(library, "_count", 128);
-        MapLevel level = new(null!) { Holder = EngineFixture.Engine };
+        MapLevel level = new(null) { Holder = EngineFixture.Engine };
         SetField(level, "_width", 2);
         int[] overlaid = [0, 4, 3];
-        MapField[] fields = Enumerable.Range(0, 6).Select(i => new MapField(null!)
+        MapField[] fields = Enumerable.Range(0, 6).Select(i => new MapField(null)
         { Holder = EngineFixture.Engine, HexX = (sbyte)(i % 2), HexY = (sbyte)(i / 2), OverlayType = (sbyte)(overlaid.Contains(i) ? 4 : 0) }).ToArray();
         SetField(level, "_fields", fields);
-        MapContainer container = new(null!) { Holder = EngineFixture.Engine };
+        MapContainer container = new(null) { Holder = EngineFixture.Engine };
         EngineObjectList levels = new();
         levels.Add(level);
         SetField(container, "_children", levels);
-        StrategicMap map = new(null!, holder: EngineFixture.Engine);
+        StrategicMap map = new(null, holder: EngineFixture.Engine);
         SetField(map, "_mapContainer", container);
         SetField(map, "_viewWidthHex", 2);
         SetField(map, "_viewHeightHex", 3);
         StrategicMap.Current = map;
-        ImageSequence sequence = new(null!);
+        ImageSequence sequence = new(null);
         SetField(sequence, "_imageLibrary", library);
         sequence.SequenceMode = SequenceMode.Up;
-        ImageSequenceList cast = new(null!, null!);
+        ImageSequenceList cast = new(null, null);
         cast.Add(sequence);
-        EarthMastery spell = new(null!, holder: EngineFixture.Engine);
+        EarthMastery spell = new(null, holder: EngineFixture.Engine);
         spell.CastImages?.Dispose();
         spell.CastImages = cast;
         FinishedAnimation animation = new() { FrameCounter = 100 };

@@ -62,7 +62,7 @@ public sealed class ProductionOrderTests
 
     private static GameEngine CreateEngine()
     {
-        GameEngine engine = new(null!);
+        GameEngine engine = new(null);
         engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
         engine.RegisterEngineClasses([EngineClass.Of<ProductionItem>(), EngineClass.Of<ProductionTokenEvent>()]);
         return engine;
@@ -92,12 +92,12 @@ public sealed class ProductionOrderTests
             Assert.Equal(Expected(id, parameter, groupId), order);
             Assert.Equal((id, parameter, groupId), order.ToFields());
 
-            ProductionItem item = new(null!) { Holder = EngineFixture.Engine, Order = Expected(id, parameter, groupId) };
+            ProductionItem item = new(null) { Holder = EngineFixture.Engine, Order = Expected(id, parameter, groupId) };
             Assert.Equal(itemBytes, Write(engine, item));
             item.Dispose();
 
-            ProductionTokenEvent tokenEvent = new(null!) { Holder = EngineFixture.Engine, Location = new MapCoordinate(3, 4, 1), Player = 2, Queue = true, Index = 1 };
-            tokenEvent.Item = new ProductionItem(null!) { Holder = EngineFixture.Engine, Order = Expected(id, parameter, groupId) };
+            ProductionTokenEvent tokenEvent = new(null) { Holder = EngineFixture.Engine, Location = new MapCoordinate(3, 4, 1), Player = 2, Queue = true, Index = 1 };
+            tokenEvent.Item = new ProductionItem(null) { Holder = EngineFixture.Engine, Order = Expected(id, parameter, groupId) };
             Assert.Equal(eventBytes, Write(engine, tokenEvent));
             tokenEvent.Dispose();
 
@@ -126,7 +126,7 @@ public sealed class ProductionOrderTests
             Assert.Equal(new UnknownOrder(id, parameter, groupId), order);
             Assert.Equal((id, parameter, groupId), order.ToFields());
         }
-        Assert.Equal(new UnknownOrder(0, 0, 0), new ProductionItem(null!) { Holder = EngineFixture.Engine }.Order);
+        Assert.Equal(new UnknownOrder(0, 0, 0), new ProductionItem(null) { Holder = EngineFixture.Engine }.Order);
     }
 
     [Fact]
@@ -146,7 +146,7 @@ public sealed class ProductionOrderTests
     [Fact]
     public void QueueFindsAnEqualOrder()
     {
-        using ProductionQueue queue = new(null!) { Holder = EngineFixture.Engine };
+        using ProductionQueue queue = new(null) { Holder = EngineFixture.Engine };
         foreach (ProductionOrder order in new ProductionOrder[] { new ProduceUnit(5, 12), new ResearchSpell(5), new Migrate(6), new Upgrade() })
         {
             _ = new ProductionItem(queue) { Order = order };
@@ -272,7 +272,7 @@ public sealed class ProductionOrderTests
     public void OrdersAnswerAsTheOldSwitches()
     {
         StrategicMap previousMap = StrategicMap.Current;
-        StrategicMap map = new(null!, holder: EngineFixture.Engine);
+        StrategicMap map = new(null, holder: EngineFixture.Engine);
         StrategicMap.Current = map;
         EngineFixture.FieldOwner owner = new(new EngineFixture.Owner());
         City city = (City)EngineClass.Of<City>().CreateInstance(owner, holder: EngineFixture.Engine);

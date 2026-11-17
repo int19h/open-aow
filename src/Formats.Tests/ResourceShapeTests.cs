@@ -281,7 +281,7 @@ public sealed class ResourceShapeTests : FormatsTest
     public void AMalformedFixedSlotIsRefused()
     {
         SchemaClass classValue = s_schema.Get("AbilityControl");
-        JsonObject Root(string abilities) => new JsonObject().Add("Abilities", JsonReader.Parse(abilities));
+        static JsonObject Root(string abilities) => new JsonObject().Add("Abilities", JsonReader.Parse(abilities));
         ConversionException missing = Assert.Throws<ConversionException>(() => PilotImage.Encode(Root("""[{"SkillPointCost":1}]"""), "AbilityControl"));
         Assert.Equal(Codes.MissingMember, missing.Diagnostic.Code);
         Assert.Equal("root.Abilities[0]", missing.Diagnostic.Path);

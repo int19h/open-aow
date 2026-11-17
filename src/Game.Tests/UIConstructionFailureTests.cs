@@ -22,9 +22,9 @@ public sealed class UIConstructionFailureTests
         EventStore<GameMap> previousClose = engine.OnHsmCloseStore;
         engine.OnHsmLoadedStore = new EventStore<GameMap>();
         engine.OnHsmCloseStore = new EventStore<GameMap>();
-        StrategicMap.Current = null!;
-        CombatMap.Current = null!;
-        Component owner = new(null!);
+        StrategicMap.Current = null;
+        CombatMap.Current = null;
+        Component owner = new(null);
         try
         {
             Component value = family switch

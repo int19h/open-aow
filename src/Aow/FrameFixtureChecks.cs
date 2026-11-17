@@ -78,13 +78,13 @@ internal static class FrameFixtureChecks
             controller.HideTransientWindows();
             Check(!menu.Visible && mapWindow.Visible, "hide modal sibling and retain map");
 
-            PlayerCollection players = new(null!) { Holder = startup.Engine };
+            PlayerCollection players = new(null) { Holder = startup.Engine };
             // The constructor sizes the list for two players. The check wants exactly three.
             players.ClearChildren();
-            players.AddChild(new Player(null!) { Holder = startup.Engine, Status = PlayerStatus.Playing });
-            players.AddChild(new Player(null!) { Holder = startup.Engine, Status = PlayerStatus.Terminated });
-            players.AddChild(new Player(null!) { Holder = startup.Engine, Status = PlayerStatus.Playing });
-            StrategicMap.Current = new StrategicMap(null!, holder: startup.Engine);
+            players.AddChild(new Player(null) { Holder = startup.Engine, Status = PlayerStatus.Playing });
+            players.AddChild(new Player(null) { Holder = startup.Engine, Status = PlayerStatus.Terminated });
+            players.AddChild(new Player(null) { Holder = startup.Engine, Status = PlayerStatus.Playing });
+            StrategicMap.Current = new StrategicMap(null, holder: startup.Engine);
             StrategicMap.Current.Players = players;
             TaskBar bar = new(ui)
             {
@@ -169,7 +169,7 @@ internal static class FrameFixtureChecks
 
     private sealed class MovementArmy : ArmyHexSprite
     {
-        public MovementArmy() : base(null!) { }
+        public MovementArmy() : base(null) { }
 
         public override void CalculateShowPriority() { }
 

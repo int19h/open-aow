@@ -67,8 +67,8 @@ public sealed partial class EngineFixture
             }
 
             _files.SetCurrentDirectory(_root);
-            GamePack.Current = null!;
-            StrategicMap.Current = null!;
+            GamePack.Current = null;
+            StrategicMap.Current = null;
             ImageLibraries.BaseImageLibraryPath = AudioHost.BaseSoundEnginePath = "";
             LocalizationRuntime.StartupDirectory = "";
         }

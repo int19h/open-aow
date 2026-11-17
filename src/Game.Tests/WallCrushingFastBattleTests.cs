@@ -18,7 +18,7 @@ public sealed class WallCrushingFastBattleTests
     private sealed class Fixture : IDisposable
     {
         private readonly GamePack _previousSet = GamePack.Current;
-        private readonly ImageLibraryManager _manager = new(null!);
+        private readonly ImageLibraryManager _manager = new(null);
 
         internal Fixture() => GamePack.Current = EngineFixture.CreateGameSet(_manager);
 
@@ -44,7 +44,7 @@ public sealed class WallCrushingFastBattleTests
 
     private static (Battle Combat, Attacker Source, RecordingWall Wall) Build()
     {
-        Battle combat = new(null!) { Holder = EngineFixture.Engine };
+        Battle combat = new(null) { Holder = EngineFixture.Engine };
         combat.Status = combat.Status + Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions);
         OwningNode objects = combat.CombatData.CombatObjects;
         Attacker source = new(objects) { Combat = combat, Id = 1 };
@@ -58,7 +58,7 @@ public sealed class WallCrushingFastBattleTests
     {
         using Fixture fixture = new();
         (Battle? combat, Attacker? source, RecordingWall? wall) = Build();
-        WallCrushingAbility ability = new(null!, holder: EngineFixture.Engine);
+        WallCrushingAbility ability = new(null, holder: EngineFixture.Engine);
         FastBattleCommand command = new(117) { Target = wall };
         Assert.Equal(10, wall.GetHitPoints());
         int seed = RtlUnit.RandSeed;
@@ -95,7 +95,7 @@ public sealed class WallCrushingFastBattleTests
         using Fixture fixture = new();
         (Battle? combat, Attacker? source, RecordingWall? wall) = Build();
         wall.Status = wall.Status + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
-        WallCrushingAbility ability = new(null!, holder: EngineFixture.Engine);
+        WallCrushingAbility ability = new(null, holder: EngineFixture.Engine);
         Assert.True(ability.FastBattleExecuteCombatCommand(command: new FastBattleCommand(117) { Target = wall }, source: source));
         Assert.Empty(wall.Rolls);
         Assert.Equal(0, combat.Logbook.Actions.Count);
