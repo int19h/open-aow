@@ -128,14 +128,13 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     public override bool ExecuteAI(sbyte player, int phase)
     {
         Storm storm;
-        MapCoordinate target = default;
         int value;
         if (player == Player && (phase == 1 || phase == 2))
         {
             storm = CreateStorm();
             sbyte hexLevel = GetHexLevel();
             sbyte hexY = GetHexY();
-            if (storm.GetBestTarget(player, GetHexX(), hexY, hexLevel, 12, ref target, out StormDamageInfo damage))
+            if (storm.GetBestTarget(player, GetHexX(), hexY, hexLevel, 12, out MapCoordinate target, out StormDamageInfo damage))
             {
                 value = damage.EnemyDamage - damage.FriendlyDamage;
                 if (value > TargetMana() * 0.75)

@@ -20,9 +20,9 @@ internal static class CombatEvents
             BattleEffectSprite effect;
             int count;
             float z = default;
-            float speed = default;
+            float speed;
             float vz = default;
-            float gravity = default;
+            float gravity;
             count = Random(5) + 8;
             for (int i = 1; i <= count - 1; i++)
             {
@@ -33,7 +33,7 @@ internal static class CombatEvents
 
                 z = 0;
                 Point3DList path = effect.Path;
-                EffectPaths.MakeArcPath(X, Y, i * 360 / count, ref z, ref speed, ref vz, ref gravity, ref path);
+                EffectPaths.MakeArcPath(X, Y, i * 360 / count, ref z, speed, ref vz, gravity, path);
                 effect.Path = path;
             }
         }

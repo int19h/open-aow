@@ -223,7 +223,7 @@ public partial class General(UIContext ui) : UIModule(ui)
     }
 
     // AoWWinMan.pas:123
-    public void SortLists(ref DelphiList<ListBox> lists, byte order)
+    public void SortLists(DelphiList<ListBox> lists, byte order)
     {
         ListBox l;
         int j;
@@ -641,7 +641,7 @@ public partial class General(UIContext ui) : UIModule(ui)
     public void ManagerDebugMessage(string text) => UI.DebugWindow.AddMessage(text);
 
     // AoWWinMan.pas:351
-    public void ManagerKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void ManagerKeyDown(in ushort key, Set<ShiftState> shift)
     {
         Player player;
         string s;

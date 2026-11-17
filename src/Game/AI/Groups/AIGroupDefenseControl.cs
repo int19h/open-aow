@@ -24,11 +24,11 @@ public partial class AIGroupDefenseControl : AIGroupTask
 
     private readonly GroupDefenseSelector _selector;
 
-    public int CustomState { get; set; }
+    public int CustomState { get; init; }
 
     private readonly Set<ModeElement> _mode;
 
-    public GroupDefendMode DefendMode { get; set; }
+    public GroupDefendMode DefendMode { get; init; }
 
     // AIGroup.pas:1816
     public override void Dispose()

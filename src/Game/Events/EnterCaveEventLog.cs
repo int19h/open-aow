@@ -9,7 +9,7 @@ namespace Aow.Game.Events;
 // Cave
 public partial class EnterCaveEventLog(CustomNode owner, EngineObject holder) : MessageEventLog(owner, holder)
 {
-    public Cave Cave { get; set; }
+    public Cave Cave { get; init; }
 
     // Cave.pas:442
     public override bool Yes()

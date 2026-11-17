@@ -31,7 +31,7 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
     public int LockCount { get; private set; }
 
     // AoWHSMap.PAS:946
-    public virtual void KeyDown(ref ushort key, Set<ShiftState> shift)
+    public virtual void KeyDown(in ushort key, Set<ShiftState> shift)
     {
         ushort translatedKey;
         int i;

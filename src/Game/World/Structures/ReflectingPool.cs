@@ -179,7 +179,7 @@ public partial class ReflectingPool : PlayerStructure
     public override int GetDefaultAITargetPriority() => 1;
 
     // ReflectingPool.pas:61
-    public void ListReflectingPools(ref PlayerStructureList list)
+    public void ListReflectingPools(PlayerStructureList list)
     {
         for (int p = StrategicMap.Current.Players.Count - 1; p >= 0; p--)
         {
@@ -202,7 +202,7 @@ public partial class ReflectingPool : PlayerStructure
             if (_centerFrame % 8 == 0)
             {
                 list = new PlayerStructureList(null) { Holder = CreationHolder() };
-                ListReflectingPools(ref list);
+                ListReflectingPools(list);
                 _ = list.RemoveChild(this);
                 list.SortStable(ComparePools);
                 int count = list.Count;

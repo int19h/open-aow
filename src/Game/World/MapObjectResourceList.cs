@@ -21,7 +21,7 @@ public partial class MapObjectResourceList(CustomNode owner) : ResourceCollectio
     public MapObjectResource GetMapObjectResource(int index) => this[index];
 
     // MAPOBJ.PAS:646
-    public bool FindMapObjectResource(int classId, TerrainList terrainList, Set<TerrainCompareModeElement> mode, ref DelphiList<MapObjectResource> list)
+    public bool FindMapObjectResource(int classId, TerrainList terrainList, Set<TerrainCompareModeElement> mode, DelphiList<MapObjectResource> list)
     {
         MapObjectResource r;
         int[] iCell = new int[1];

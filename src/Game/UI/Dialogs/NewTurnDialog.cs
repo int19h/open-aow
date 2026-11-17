@@ -124,7 +124,7 @@ public partial class NewTurnDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWNewTurnDialog.pas:111
-    public void NewTDlgKeyPress(ref byte key)
+    public void NewTDlgKeyPress(in byte key)
     {
         if (_newTurn.DialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable) && (key == 32 || key == 13 || key == 27))
         {

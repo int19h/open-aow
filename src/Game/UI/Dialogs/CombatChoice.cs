@@ -120,7 +120,7 @@ public partial class CombatChoice(UIContext ui) : UIModule(ui)
         _ = StrategicMap.Current.SetViewPort(x, y, _request.Location.MapLevel, r.Right - r.Left, r.Bottom - r.Top);
         StrategicMap.Current.UpdateStaticScene();
         StrategicMap.Current.UpdateDynamicScene();
-        StrategicMap.Current.DrawStaticScene(ref viewSurfaceDescription);
+        StrategicMap.Current.DrawStaticScene(in viewSurfaceDescription);
         StrategicMap.Current.DrawDynamicScene(ref viewSurfaceDescription);
     }
 

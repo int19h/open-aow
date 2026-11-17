@@ -28,7 +28,7 @@ public partial class ResearchSpellAIPlayerAction(CustomNode owner) : AIPlayerAct
         {
             spells = new SpellList();
             choices = new DoubleItemList();
-            Control.Player.MagicControl.ListResearchSpells(ref spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
+            Control.Player.MagicControl.ListResearchSpells(spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
             for (int i = 0, last = spells.GetCount() - 1; i <= last; i++)
             {
                 value = (spells.GetSpell(i).CastDuration * 100) + 100;

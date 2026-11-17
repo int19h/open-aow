@@ -18,7 +18,7 @@ public partial class Pop3Dialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.OnKeyDown += (_, ref key, shift) => DlgKeyDown(ref key, shift);
+        Window.OnKeyDown += (_, ref key, shift) => DlgKeyDown(key, shift);
         Window.OnUpdate += _ => DlgUpdate();
         Window.Visible = false;
         Window.Priority = 300;

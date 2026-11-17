@@ -259,7 +259,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         HighlightPlayer(player);
         ShowPlayerInformation(player);
         selected = ActionsList.Selected;
-        _ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).ListDiplomaticActions(player, ref _actions);
+        _ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).ListDiplomaticActions(player, _actions);
         for (int i = 0, last = _actions.GetCount() - 1; i <= last; i++)
         {
             string name = _actions.GetDiplomaticActions(i).GetName(StrategicMap.Current.SeatedPlayer);
@@ -796,7 +796,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         action = _action;
         if (action != null)
         {
-            if (action.Accept(ref reason))
+            if (action.Accept(reason))
             {
                 FinishEvent();
                 ShowPlayerActions(_action.Source);
@@ -817,7 +817,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         action = _action;
         if (action != null)
         {
-            if (action.Reject(ref reason))
+            if (action.Reject(reason))
             {
                 FinishEvent();
                 ShowPlayerActions(_action.Source);
@@ -1068,7 +1068,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWRelations.pas:925
-    public void RelWinKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void RelWinKeyDown(in ushort key, Set<ShiftState> shift)
     {
         if (key == 27)
         {

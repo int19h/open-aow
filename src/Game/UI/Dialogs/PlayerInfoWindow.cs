@@ -81,7 +81,7 @@ public partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWPInfoWin.pas:78
-    public void EventListPreDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
+    public void EventListPreDrawItem(in Rect drawRectangle, int drawItem, ref readonly LockedSurface lockedSurface)
     {
         if (drawItem != EventList.Selected)
         {
@@ -92,7 +92,7 @@ public partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWPInfoWin.pas:85
-    public void EventListDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
+    public void EventListDrawItem(in Rect drawRectangle, int drawItem, ref readonly LockedSurface lockedSurface)
     {
         int leftIcon;
         int middleIcon;

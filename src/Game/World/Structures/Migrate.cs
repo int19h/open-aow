@@ -25,7 +25,7 @@ public sealed partial record Migrate(int Race) : ProductionOrder
     public override bool CanExecute(ProductionControl control, ref string reason)
     {
         City city = control.ProductionCity();
-        return city != null ? city.CanMigrate((sbyte)Race, ref reason) : base.CanExecute(control, ref reason);
+        return city != null ? city.CanMigrate((sbyte)Race, reason) : base.CanExecute(control, ref reason);
     }
 
     public override void Executed(ProductionControl control)

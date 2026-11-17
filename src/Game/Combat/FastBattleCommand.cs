@@ -6,14 +6,16 @@ namespace Aow.Game.Combat;
 
 // { Interface declaration run owned by P5. }
 // ability ID, source DV, target DV, expected DV, move cost, target
-public partial class FastBattleCommand(int abilityId)
+public partial record class FastBattleCommand
 {
-    public int AbilityId { get; } = abilityId;
-    public int SourceDamageValue { get; set; }
-    public int TargetDamageValue { get; set; }
-    public int ExpectedDamageValue { get; set; }
-    public int MoveCost { get; set; }
-    public CombatObject Target { get; set; }
+    public FastBattleCommand(int abilityId) => AbilityId = abilityId;
+
+    public int AbilityId { get; }
+    public int SourceDamageValue { get; init; }
+    public int TargetDamageValue { get; init; }
+    public int ExpectedDamageValue { get; init; }
+    public int MoveCost { get; init; }
+    public CombatObject Target { get; init; }
 
     // AIGroup.pas:6710
     public virtual string GetName()

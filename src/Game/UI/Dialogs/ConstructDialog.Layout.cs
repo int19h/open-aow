@@ -193,7 +193,7 @@ public partial class ConstructDialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.OnKeyDown += (_, ref key, shift) => DlgKeyDown(ref key, shift);
+        Window.OnKeyDown += (_, ref key, shift) => DlgKeyDown(key, shift);
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 140;

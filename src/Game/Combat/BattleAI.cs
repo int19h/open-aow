@@ -247,7 +247,7 @@ public partial class BattleAI(EngineObject creator) : IDisposable
     // The tactical AI passes the wall as Ignore. The original casts that object to TTacticalCombatUnit
     // without a check and compares the reference with the sprite's unit. Ignore is a combat object so the
     // wall reaches the same comparison.
-    public int MakeTerrainPath(CombatMoveControlSettings moveControlSettings, ref MovePath path, ref int value, TacticalBattleUnit unit, CombatObject ignore, bool freeStrikes, bool findWalls, int cost)
+    public int MakeTerrainPath(CombatMoveControlSettings moveControlSettings, MovePath path, ref int value, TacticalBattleUnit unit, CombatObject ignore, bool freeStrikes, bool findWalls, int cost)
     {
         int result;
         int j;
@@ -688,11 +688,11 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                 obstacles = new DelphiList<RangedObstacle>();
                 if (effect == BattleEffectType.Breath)
                 {
-                    TacticalTables.MakeRangedPath(U.GetSide(), 50, 20, 50, (short)x1, (short)y1, (short)x2, (short)y2, 0, 0, false, ref point3DList, ref obstacles);
+                    TacticalTables.MakeRangedPath(U.GetSide(), 50, 20, 50, (short)x1, (short)y1, (short)x2, (short)y2, 0, 0, false, point3DList, obstacles);
                 }
                 else
                 {
-                    TacticalTables.MakeAbilityPath(U.GetSide(), (short)ability, (short)spell, (short)x1, (short)y1, (short)x2, (short)y2, ref point3DList, ref obstacles);
+                    TacticalTables.MakeAbilityPath(U.GetSide(), (short)ability, (short)spell, (short)x1, (short)y1, (short)x2, (short)y2, point3DList, obstacles);
                 }
 
                 total = 0;
@@ -866,7 +866,7 @@ public partial class BattleAI(EngineObject creator) : IDisposable
         if (unit.MovePoints > 0)
         {
             CombatMap.Current.MoveControl.CalculatePath(settings, basePath, (sbyte)x2, (sbyte)y2, 0);
-            pathCost = MakeTerrainPath(settings, ref basePath, ref terrainValue, unit, target, true, target is TacticalBattleUnit && _side == CombatSideIndex.Attacker, 1);
+            pathCost = MakeTerrainPath(settings, basePath, ref terrainValue, unit, target, true, target is TacticalBattleUnit && _side == CombatSideIndex.Attacker, 1);
             i = 0;
             int last = basePath.Count - 1;
             for (; i <= last; i += 1)
@@ -1355,7 +1355,7 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                                             }
 
                                                             terrainValue = 0;
-                                                            pathCost = MakeTerrainPath(settings, ref detourPathPathStepList, ref terrainValue, unit, target, true, false, 1);
+                                                            pathCost = MakeTerrainPath(settings, detourPathPathStepList, ref terrainValue, unit, target, true, false, 1);
                                                             pathValue += bestValue;
                                                             pathCost = pathStepList.PositionToMovePoints(0);
                                                         }
@@ -1786,7 +1786,7 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                                         }
 
                                                         terrainValue = 0;
-                                                        pathCost = MakeTerrainPath(settings, ref detourPathPathStepList, ref terrainValue, unit, target, true, false, 1);
+                                                        pathCost = MakeTerrainPath(settings, detourPathPathStepList, ref terrainValue, unit, target, true, false, 1);
                                                         pathValue += bestValue;
                                                         pathCost = pathStepList.PositionToMovePoints(0);
                                                     }
@@ -1978,7 +1978,7 @@ public partial class BattleAI(EngineObject creator) : IDisposable
         int pathCost;
         List<int> bonuses;
         string reason = "";
-        MovePath pathStepList = default;
+        MovePath pathStepList;
         AbilityCombatInfo aiInfo = default;
         SpellCombatInfo spellInfo = default;
         CityWall cityWall;
@@ -2906,7 +2906,7 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                             if (settings.Path.Count > 1)
                                             {
                                                 pathStepList = settings.Path;
-                                                pathCost = MakeTerrainPath(settings, ref pathStepList, ref terrainCost, move.UnitHexSprite.Unit, null, false, false, 0);
+                                                pathCost = MakeTerrainPath(settings, pathStepList, ref terrainCost, move.UnitHexSprite.Unit, null, false, false, 0);
                                                 if (pathStepList.Count > 1 && pathCost > -1)
                                                 {
                                                     if (pathStepList[^2].MoveCost > 0 && pathStepList[^2].MoveCost <= move.UnitHexSprite.Unit.MovePoints)
@@ -2964,7 +2964,7 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                     if (settings.Path.Count > 1)
                                     {
                                         pathStepList = settings.Path;
-                                        pathCost = MakeTerrainPath(settings, ref pathStepList, ref terrainCost, move.UnitHexSprite.Unit, null, false, false, 1);
+                                        pathCost = MakeTerrainPath(settings, pathStepList, ref terrainCost, move.UnitHexSprite.Unit, null, false, false, 1);
                                         if (pathStepList.Count > 1 && pathCost > -1)
                                         {
                                             if (pathStepList[^2].MoveCost <= move.UnitHexSprite.Unit.MovePoints)
@@ -3006,7 +3006,7 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                     if (settings.Path.Count > 1)
                                     {
                                         pathStepList = settings.Path;
-                                        pathCost = MakeTerrainPath(settings, ref pathStepList, ref terrainCost, move.UnitHexSprite.Unit, null, false, false, 1);
+                                        pathCost = MakeTerrainPath(settings, pathStepList, ref terrainCost, move.UnitHexSprite.Unit, null, false, false, 1);
                                         if (pathStepList.Count > 1 && pathCost > -1)
                                         {
                                             if (pathStepList[^2].MoveCost <= move.UnitHexSprite.Unit.MovePoints)

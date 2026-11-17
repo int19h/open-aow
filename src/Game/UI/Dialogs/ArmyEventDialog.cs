@@ -171,7 +171,7 @@ public partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
     public void ArmyEventWinHide() => ClearEvent();
 
     // AoWArmyEventDlg.pas:203
-    public void ArmyEventWinKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void ArmyEventWinKeyDown(in ushort key, Set<ShiftState> shift)
     {
         if (key is 27 or 32)
         {

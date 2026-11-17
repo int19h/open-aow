@@ -21,7 +21,7 @@ public partial class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHex
     public new const int ClassId = 2228488;
 
     public TacticalBattleUnit Unit { get; set; }
-    public UnitGraphicsResource UnitGraphics { get; set; }
+    public UnitGraphicsResource UnitGraphics { get; init; }
     public int Frame { get; set; }
     public int OffsetX { get; set; }
     public int OffsetY { get; set; }
@@ -81,9 +81,9 @@ public partial class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHex
         int deltaY;
         BattleEffectSprite effect;
         float z = default;
-        float speed = default;
+        float speed;
         float vz = default;
-        float gravity = default;
+        float gravity;
         TacticalBattleUnitHexSprite unitHexSprite;
         base.MapFieldMessageProc(ref message);
         if (Unit != null)
@@ -133,7 +133,7 @@ public partial class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHex
                             double sin = Math.Sin((double)(((i * 5) + n) * pi) / 180);
                             double mathPI = Math.PI;
                             Point3DList path = effect.Path;
-                            EffectPaths.MakeLinePath(Round((double)Math.Cos((double)(((i * 5) + n) * mathPI) / 180) * deltaX) + x + 16, (Round((double)sin * deltaY) / 2) + y + 16, x + 16, y + 16, 100, ref path);
+                            EffectPaths.MakeLinePath(Round((double)Math.Cos((double)(((i * 5) + n) * mathPI) / 180) * deltaX) + x + 16, (Round((double)sin * deltaY) / 2) + y + 16, x + 16, y + 16, 100, path);
                             effect.Path = path;
                         }
                     }
@@ -162,7 +162,7 @@ public partial class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHex
                         vz = (float)((Random(50) + 50) * 0.05);
                         z = 0;
                         Point3DList path2 = effect.Path;
-                        EffectPaths.MakeArcPath(x + 16, y + 16, i * 360 / n, ref z, ref speed, ref vz, ref gravity, ref path2);
+                        EffectPaths.MakeArcPath(x + 16, y + 16, i * 360 / n, ref z, speed, ref vz, gravity, path2);
                         effect.Path = path2;
                     }
 

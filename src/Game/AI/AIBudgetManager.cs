@@ -27,7 +27,7 @@ public partial class AIBudgetManager : EngineObject
         _manaReserveFactor = (float)0.5;
     }
 
-    public Player Player { get; set; }
+    public Player Player { get; init; }
     public AIBudgetList Budgets { get; }
 
     private readonly float _goldIncomeFactor;

@@ -15,7 +15,7 @@ public partial class DeathStorm(CustomNode owner) : BlastStorm(owner)
     public new const int ClassId = 135741;
 
     // Storms.pas:502
-    public override void ChangeStormTerrain(MapField mapField, ref sbyte terrainType, ref sbyte overlayType)
+    public override void ChangeStormTerrain(MapField mapField, ref sbyte terrainType, in sbyte overlayType)
     {
         if (terrainType is not 0 and not 6)
         {

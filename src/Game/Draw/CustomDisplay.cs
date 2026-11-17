@@ -354,9 +354,9 @@ public partial class CustomDisplay : Component
 
     public int Cursor { get => GetCursor(); set => SetCursor(value); }
     public DisplayController ActiveDisplayController { get; private set; }
-    protected internal Set<OptionsElement> Options { get; set; }
+    protected internal Set<OptionsElement> Options { get; }
     protected internal BufferingScheme BufferingScheme { get => _bufferingScheme; set => SetBufferingScheme(value); }
-    protected internal BackSurfaceControlMode BackSurfaceControlMode { get; set; }
+    protected internal BackSurfaceControlMode BackSurfaceControlMode { get; }
     protected internal int BackSurfaceWidth { get => _backSurfaceWidth; set => SetBackSurfaceWidth(value); }
     protected internal int BackSurfaceHeight { get => _backSurfaceHeight; set => SetBackSurfaceHeight(value); }
     protected internal int FrameRate { get => _frameRate; set => SetFrameRate(value); }

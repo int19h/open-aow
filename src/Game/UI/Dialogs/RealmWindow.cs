@@ -339,7 +339,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWRealm.pas:388
-    public void T2WallLBDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
+    public void T2WallLBDrawItem(in Rect drawRectangle, int drawItem, ref readonly LockedSurface lockedSurface)
     {
         string text = CityWallList.Items[drawItem];
         switch (IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0]))
@@ -409,7 +409,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWRealm.pas:448
-    public void T2MorLBDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
+    public void T2MorLBDrawItem(in Rect drawRectangle, int drawItem, ref readonly LockedSurface lockedSurface)
     {
         int icon;
         string text = CityMoraleList.Items[drawItem];
@@ -565,7 +565,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWRealm.pas:567
-    public void T2ActLBDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
+    public void T2ActLBDrawItem(in Rect drawRectangle, int drawItem, ref readonly LockedSurface lockedSurface)
     {
         byte icon;
         string text = CityActionList.Items[drawItem];
@@ -585,7 +585,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWRealm.pas:583
-    public void T2RelLBDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
+    public void T2RelLBDrawItem(in Rect drawRectangle, int drawItem, ref readonly LockedSurface lockedSurface)
     {
         int icon;
         string text = CityRelationList.Items[drawItem];
@@ -645,7 +645,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(CityMoraleList);
         _ = lists.Add(CityActionList);
         _ = lists.Add(CityEnchantmentList);
-        UI.General.SortLists(ref lists, 0);
+        UI.General.SortLists(lists, 0);
     }
 
     // AoWRealm.pas:649
@@ -664,7 +664,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(CityMoraleList);
         _ = lists.Add(CityActionList);
         _ = lists.Add(CityEnchantmentList);
-        UI.General.SortLists(ref lists, 0);
+        UI.General.SortLists(lists, 0);
     }
 
     // AoWRealm.pas:668
@@ -683,7 +683,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(CityMoraleList);
         _ = lists.Add(CityActionList);
         _ = lists.Add(CityEnchantmentList);
-        UI.General.SortLists(ref lists, 2);
+        UI.General.SortLists(lists, 2);
     }
 
     // AoWRealm.pas:687
@@ -702,7 +702,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(CityMoraleList);
         _ = lists.Add(CityActionList);
         _ = lists.Add(CityEnchantmentList);
-        UI.General.SortLists(ref lists, 1);
+        UI.General.SortLists(lists, 1);
     }
 
     // AoWRealm.pas:706
@@ -721,7 +721,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(CityMoraleList);
         _ = lists.Add(CityActionList);
         _ = lists.Add(CityEnchantmentList);
-        UI.General.SortLists(ref lists, 1);
+        UI.General.SortLists(lists, 1);
     }
 
     // AoWRealm.pas:725
@@ -740,7 +740,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(CityMoraleList);
         _ = lists.Add(CityActionList);
         _ = lists.Add(CityEnchantmentList);
-        UI.General.SortLists(ref lists, 1);
+        UI.General.SortLists(lists, 1);
     }
 
     // AoWRealm.pas:744
@@ -759,7 +759,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(CityMoraleList);
         _ = lists.Add(CityActionList);
         _ = lists.Add(CityEnchantmentList);
-        UI.General.SortLists(ref lists, 1);
+        UI.General.SortLists(lists, 1);
     }
 
     // AoWRealm.pas:763
@@ -778,7 +778,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(CityRelationList);
         _ = lists.Add(CityActionList);
         _ = lists.Add(CityEnchantmentList);
-        UI.General.SortLists(ref lists, 1);
+        UI.General.SortLists(lists, 1);
     }
 
     // AoWRealm.pas:782
@@ -797,7 +797,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(CityRelationList);
         _ = lists.Add(CityMoraleList);
         _ = lists.Add(CityEnchantmentList);
-        UI.General.SortLists(ref lists, 1);
+        UI.General.SortLists(lists, 1);
     }
 
     // AoWRealm.pas:801
@@ -816,7 +816,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(CityRelationList);
         _ = lists.Add(CityMoraleList);
         _ = lists.Add(CityActionList);
-        UI.General.SortLists(ref lists, 0);
+        UI.General.SortLists(lists, 0);
     }
 
     // AoWRealm.pas:820
@@ -827,7 +827,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         lists = new DelphiList<ListBox>();
         _ = lists.Add(PlaceNameList);
         _ = lists.Add(PlaceActionList);
-        UI.General.SortLists(ref lists, 0);
+        UI.General.SortLists(lists, 0);
     }
 
     // AoWRealm.pas:831
@@ -887,7 +887,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(HeroNameList);
         _ = lists.Add(HeroHealthList);
         _ = lists.Add(HeroLevelList);
-        UI.General.SortLists(ref lists, 0);
+        UI.General.SortLists(lists, 0);
     }
 
     // AoWRealm.pas:887
@@ -899,7 +899,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(HeroHealthList);
         _ = lists.Add(HeroNameList);
         _ = lists.Add(HeroLevelList);
-        UI.General.SortLists(ref lists, 1);
+        UI.General.SortLists(lists, 1);
     }
 
     // AoWRealm.pas:899
@@ -911,7 +911,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(HeroLevelList);
         _ = lists.Add(HeroNameList);
         _ = lists.Add(HeroHealthList);
-        UI.General.SortLists(ref lists, 2);
+        UI.General.SortLists(lists, 2);
     }
 
     // AoWRealm.pas:911
@@ -972,7 +972,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         lists = new DelphiList<ListBox>();
         _ = lists.Add(PlaceActionList);
         _ = lists.Add(PlaceNameList);
-        UI.General.SortLists(ref lists, 1);
+        UI.General.SortLists(lists, 1);
     }
 
     // AoWRealm.pas:962

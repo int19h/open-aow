@@ -51,7 +51,7 @@ public partial class Storm(CustomNode owner) : Animation(owner)
     }
 
     // Storms.pas:242
-    public bool GetBestTarget(sbyte player, int X, int Y, int L, int range, ref MapCoordinate target, out StormDamageInfo info)
+    public bool GetBestTarget(sbyte player, int X, int Y, int L, int range, out MapCoordinate target, out StormDamageInfo info)
     {
         StormDamageInfo candidate;
         MapLevel level;

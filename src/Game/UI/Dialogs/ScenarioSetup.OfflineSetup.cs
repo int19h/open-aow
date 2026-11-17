@@ -14,5 +14,5 @@ public partial class ScenarioSetup
 
     public void ScenSetupPnlUpdate() { }
 
-    public void PingListDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface surface) { }
+    public void PingListDrawItem(in Rect drawRectangle, int drawItem, ref readonly LockedSurface surface) { }
 }

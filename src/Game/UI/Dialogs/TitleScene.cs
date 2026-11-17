@@ -55,7 +55,7 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
     private ImageLibraryFont _creditsFont;
 
     // AoWTitleScene.pas:103
-    public void DrawCredits(ref LockedSurface surface)
+    public void DrawCredits(ref readonly LockedSurface surface)
     {
         int x;
         int y;
@@ -128,7 +128,7 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
     }
 
     // AoWTitleScene.pas:148
-    public void DrawIntro(ref LockedSurface surface)
+    public void DrawIntro(ref readonly LockedSurface surface)
     {
         int page;
         int x;
@@ -252,7 +252,7 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
     }
 
     // AoWTitleScene.pas:212
-    public void DrawScene(ref LockedSurface surface)
+    public void DrawScene(ref readonly LockedSurface surface)
     {
         int x;
         int y;
@@ -323,12 +323,12 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
 
         if (_showCredits)
         {
-            DrawCredits(ref surface);
+            DrawCredits(in surface);
         }
 
         if (_showIntro)
         {
-            DrawIntro(ref surface);
+            DrawIntro(in surface);
         }
     }
 
@@ -406,7 +406,7 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
         {
             if (Succeeded(surface.Lock(ref lockedSurface)))
             {
-                DrawScene(ref lockedSurface);
+                DrawScene(in lockedSurface);
                 if (UI.Engine.RegisteredVersion() && !_showCredits)
                 {
                     LegalNoticeMemo.Draw(lockedSurface);

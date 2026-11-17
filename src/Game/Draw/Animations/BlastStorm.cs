@@ -141,7 +141,7 @@ public partial class BlastStorm(CustomNode owner) : Storm(owner)
     }
 
     // Storms.pas:304
-    public virtual void ChangeStormTerrain(MapField mapField, ref sbyte terrainType, ref sbyte overlayType)
+    public virtual void ChangeStormTerrain(MapField mapField, ref sbyte terrainType, in sbyte overlayType)
     {
     }
 

@@ -2,7 +2,7 @@
 
 namespace Aow.Game.UI.Controls;
 
-public partial class FileTime
+public partial record class FileTime
 {
-    public double Time { get; set; }
+    public double Time { get; init; }
 }

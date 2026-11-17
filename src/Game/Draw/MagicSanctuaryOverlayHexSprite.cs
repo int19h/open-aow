@@ -14,7 +14,7 @@ public partial class MagicSanctuaryOverlayHexSprite : SingleHexSprite
 {
     public MagicSanctuaryOverlayHexSprite(CustomNode owner) : base(owner) => _fadeEndFrame = -1;
 
-    public MagicSanctuary Structure { get; set; }
+    public MagicSanctuary Structure { get; init; }
 
     private int _fadeEndFrame;
 

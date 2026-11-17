@@ -21,7 +21,7 @@ public partial class FastBattleWindow : ILayoutModule
         MainWindow = new Window(this);
         session.BeginRead(MainWindow);
         MainWindow.Name = "FCWin";
-        MainWindow.OnKeyDown += (_, ref key, shift) => FCWinKeyDown(ref key, shift);
+        MainWindow.OnKeyDown += (_, ref key, shift) => FCWinKeyDown(key, shift);
         MainWindow.OnUpdate += _ => FCWinUpdate();
         MainWindow.Visible = false;
         MainWindow.Priority = 55;

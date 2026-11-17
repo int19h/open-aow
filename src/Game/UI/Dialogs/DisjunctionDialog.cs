@@ -226,7 +226,7 @@ public partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
     public void DlgHide() => ClearCaster();
 
     // AoWDisjunctionDlg.pas:142
-    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void DlgKeyDown(in ushort key, Set<ShiftState> shift)
     {
         if (key == 27)
         {
@@ -260,7 +260,7 @@ public partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
         _ = StrategicMap.Current.SetViewPort(x, y, Location.MapLevel, r.Right - r.Left, r.Bottom - r.Top);
         StrategicMap.Current.UpdateStaticScene();
         StrategicMap.Current.UpdateDynamicScene();
-        StrategicMap.Current.DrawStaticScene(ref mapSurfaceDescription);
+        StrategicMap.Current.DrawStaticScene(in mapSurfaceDescription);
         StrategicMap.Current.DrawDynamicScene(ref mapSurfaceDescription);
     }
 

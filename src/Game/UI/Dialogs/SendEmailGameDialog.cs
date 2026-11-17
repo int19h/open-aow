@@ -98,7 +98,7 @@ public partial class SendEmailGameDialog(UIContext ui) : UIModule(ui)
     public void EmailAddressEditChange() => StrategicMap.Current.Players.GetPlayers(_sendEvent.SendPlayer).PbemSettings.EmailGame.EmailAddress = EmailAddressEdit.Text;
 
     // AoWSendEmailGameDlg.pas:125
-    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void DlgKeyDown(in ushort key, Set<ShiftState> shift)
     {
         if (key == 27)
         {

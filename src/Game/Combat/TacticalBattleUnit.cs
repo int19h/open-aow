@@ -46,9 +46,9 @@ public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
         TacticalBattleCorpseHexSprite corpse;
         ImageSequence sequence;
         BattleEffectSprite effect;
-        float speed = default;
+        float speed;
         float vz = default;
-        float gravity = default;
+        float gravity;
         float z = default;
         Rect r;
         void MakeBlood()
@@ -126,7 +126,7 @@ public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
                             int count2 = effect.Path.Count;
                             Point3D pathX = effect.Path[count2 - 1];
                             Point3DList path4 = effect.Path;
-                            EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: ref speed, vz: ref vz, gravity: ref gravity, list: ref path4);
+                            EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: speed, vz: ref vz, gravity: gravity, list: path4);
                             effect.Path = path4;
                         }
                     }

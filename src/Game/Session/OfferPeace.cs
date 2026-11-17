@@ -53,8 +53,8 @@ public sealed partial record OfferPeace(int Gold = 0, int Mana = 0) : OfferPropo
         if (idealPeace.IndexOf((byte)source) != -1 || (last != null && StrategicMap.Current.Day - last.Day <= 1))
         {
             _ = StrategicMap.Current.Players.GetPlayers(target).AIControl.CanOfferPeace((byte)source)
-                ? action.Accept(ref errorText)
-                : action.Reject(ref errorText);
+                ? action.Accept(errorText)
+                : action.Reject(errorText);
         }
         else
         {
@@ -67,22 +67,22 @@ public sealed partial record OfferPeace(int Gold = 0, int Mana = 0) : OfferPropo
                     {
                         // { Original bug: escrow gold is counted twice. }
                         _ = StrategicMap.Current.Random(3) == 1 && StrategicMap.Current.Random(250) + 100 < action.EscrowGold + action.EscrowGold
-                            ? action.Accept(ref errorText)
-                            : action.Reject(ref errorText);
+                            ? action.Accept(errorText)
+                            : action.Reject(errorText);
                     }
                     else
                     {
-                        _ = action.Reject(ref errorText);
+                        _ = action.Reject(errorText);
                     }
                 }
                 else
                 {
-                    _ = action.Reject(ref errorText);
+                    _ = action.Reject(errorText);
                 }
             }
             else
             {
-                _ = action.Reject(ref errorText);
+                _ = action.Reject(errorText);
             }
         }
     }

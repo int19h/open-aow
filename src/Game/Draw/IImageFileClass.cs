@@ -9,5 +9,5 @@ public interface IImageFileClass
 
     static abstract int GetPixelFormatId(string fileName);
     static abstract Surface CreateSurface(string fileName);
-    static abstract int LoadToSurfaceDescription(string fileName, ref LockedSurface surface, int x, int y);
+    static abstract int LoadToSurfaceDescription(string fileName, ref readonly LockedSurface surface, int x, int y);
 }

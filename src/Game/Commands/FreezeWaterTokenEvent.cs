@@ -43,7 +43,7 @@ public partial class FreezeWaterTokenEvent(CustomNode owner) : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:641
-    public void ChangeTerrain(MapField mapField, ref sbyte terrainType, ref sbyte overlayType)
+    public void ChangeTerrain(MapField mapField, ref sbyte terrainType, in sbyte overlayType)
     {
         FrozenWaterHexSprite ice;
         if (mapField.GetArmyHexSprite() == null)

@@ -1673,7 +1673,7 @@ public partial class City : PlayerCropStructure
     public int ProductionTime(int index) => Production.UnitProductionTime(index);
 
     // City.pas:1440
-    public bool CanProduce(int index, bool queue, ref string reason) => Production.CanProduceUnit(index, queue, ref reason);
+    public bool CanProduce(int index, bool queue, string reason) => Production.CanProduceUnit(index, queue, reason);
 
     // City.pas:1445
     public bool Produce(int index, bool queue) => Production.ProduceUnit(index, queue);
@@ -1691,7 +1691,7 @@ public partial class City : PlayerCropStructure
     public bool Research(int index, bool queue) => Production.ResearchUnit(index, queue);
 
     // City.pas:1470
-    public bool CanTrade(bool queue, ref string reason) => true;
+    public bool CanTrade(bool queue, string reason) => true;
 
     // City.pas:1475
     public bool Trade(bool queue)
@@ -1699,7 +1699,7 @@ public partial class City : PlayerCropStructure
         bool result;
         ProductionItem item;
         string reason = "";
-        if (CanTrade(queue, ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
+        if (CanTrade(queue, reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
             item = new ProductionItem(null)
             {
@@ -1723,7 +1723,7 @@ public partial class City : PlayerCropStructure
     public int LootTime() => GetSize();
 
     // City.pas:1496
-    public bool CanLoot(ref string reason) => !Mode.Contains(ModeElement.Razed);
+    public bool CanLoot(string reason) => !Mode.Contains(ModeElement.Razed);
 
     // City.pas:1499
     public bool Loot()
@@ -1731,7 +1731,7 @@ public partial class City : PlayerCropStructure
         bool result;
         ProductionItem item;
         string reason = "";
-        if (CanLoot(ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
+        if (CanLoot(reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
             item = new ProductionItem(null)
             {
@@ -1758,7 +1758,7 @@ public partial class City : PlayerCropStructure
         MapLevel mapLevel;
         int radius;
         City city;
-        if (CanMigrate(race, ref reason))
+        if (CanMigrate(race, reason))
         {
             if (race != Race)
             {
@@ -1795,7 +1795,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:1544
-    public bool CanMigrate(sbyte race, ref string reason)
+    public bool CanMigrate(sbyte race, string reason)
     {
         bool result;
         int i;
@@ -1825,7 +1825,7 @@ public partial class City : PlayerCropStructure
         bool result;
         ProductionItem item;
         string reason = "";
-        if (CanMigrate(race, ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
+        if (CanMigrate(race, reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
             item = new ProductionItem(null)
             {
@@ -1849,7 +1849,7 @@ public partial class City : PlayerCropStructure
     {
         MigrationItem result;
         string reason = "";
-        result = CanMigrate(race, ref reason)
+        result = CanMigrate(race, reason)
             ? new MigrationItem(null)
             {
                 Holder = CreationHolder(),

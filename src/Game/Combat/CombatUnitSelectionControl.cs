@@ -854,7 +854,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
                 TacticalBattleUnitHexSprite tacticalBattleUnitHexSprite = GetTacticalBattleUnitHexSprite();
                 Point3DList rangedPath = RangedPath;
                 DelphiList<RangedObstacle> obstacles = Obstacles;
-                TacticalTables.MakeAbilityPath(side, (short)GetTacticalBattleUnitHexSprite().SelectedAbility, (short)tacticalBattleUnitHexSprite.SelectedSpell, xhx, hexY3, (short)hexX, (short)hexY, ref rangedPath, ref obstacles);
+                TacticalTables.MakeAbilityPath(side, (short)GetTacticalBattleUnitHexSprite().SelectedAbility, (short)tacticalBattleUnitHexSprite.SelectedSpell, xhx, hexY3, (short)hexX, (short)hexY, rangedPath, obstacles);
                 RangedPath = rangedPath;
                 Obstacles = obstacles;
             }

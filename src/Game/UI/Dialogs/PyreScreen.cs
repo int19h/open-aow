@@ -176,7 +176,7 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
     }
 
     // AOWPyreScrn.pas:110
-    public void DeadPnlKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void DeadPnlKeyDown(in ushort key, Set<ShiftState> shift)
     {
         switch (key)
         {

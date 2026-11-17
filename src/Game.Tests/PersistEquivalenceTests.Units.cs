@@ -285,7 +285,7 @@ public sealed partial class PersistEquivalenceTests
             value = dictionary.GetValueOrDefault(value, value);
         }
 
-        public override void TranslateStrings(ref StringCollection lines)
+        public override void TranslateStrings(StringCollection lines)
         {
             Visited.Add("lines " + lines.Count);
             for (int index = 0; index < lines.Count; index++)

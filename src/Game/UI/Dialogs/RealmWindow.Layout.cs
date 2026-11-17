@@ -553,7 +553,7 @@ public partial class RealmWindow : ILayoutModule
         CityWallList.OnChange += CityListChange;
         CityWallList.OnDoubleClick += CityDoubleClick;
         CityWallList.Selected = -1;
-        CityWallList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => T2WallLBDrawItem(drawRectangle, drawItem, ref surface);
+        CityWallList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => T2WallLBDrawItem(drawRectangle, drawItem, in surface);
         CityWallList.TextColor = 9415072;
         CityWallList.TextSelectedColor = 0;
         CityWallList.ImageLibraryIndexFrame = 113;
@@ -907,7 +907,7 @@ public partial class RealmWindow : ILayoutModule
         CityActionList.OnChange += CityListChange;
         CityActionList.OnDoubleClick += CityDoubleClick;
         CityActionList.Selected = -1;
-        CityActionList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => T2ActLBDrawItem(drawRectangle, drawItem, ref surface);
+        CityActionList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => T2ActLBDrawItem(drawRectangle, drawItem, in surface);
         CityActionList.TextColor = 9415072;
         CityActionList.TextSelectedColor = 0;
         CityActionList.ImageLibraryIndexFrame = 113;
@@ -979,7 +979,7 @@ public partial class RealmWindow : ILayoutModule
         CityRelationList.OnChange += CityListChange;
         CityRelationList.OnDoubleClick += CityDoubleClick;
         CityRelationList.Selected = -1;
-        CityRelationList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => T2RelLBDrawItem(drawRectangle, drawItem, ref surface);
+        CityRelationList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => T2RelLBDrawItem(drawRectangle, drawItem, in surface);
         CityRelationList.TextColor = 9415072;
         CityRelationList.TextSelectedColor = 0;
         CityRelationList.ImageLibraryIndexFrame = 113;
@@ -1051,7 +1051,7 @@ public partial class RealmWindow : ILayoutModule
         CityMoraleList.OnChange += CityListChange;
         CityMoraleList.OnDoubleClick += CityDoubleClick;
         CityMoraleList.Selected = -1;
-        CityMoraleList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => T2MorLBDrawItem(drawRectangle, drawItem, ref surface);
+        CityMoraleList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => T2MorLBDrawItem(drawRectangle, drawItem, in surface);
         CityMoraleList.TextColor = 9415072;
         CityMoraleList.TextSelectedColor = 0;
         CityMoraleList.ImageLibraryIndexFrame = 113;

@@ -14,7 +14,7 @@ namespace Aow.Game.Draw;
 public partial class StructureShadow(CustomNode owner) : HexSprite(owner)
 {
     public Set<StructureShadowStatusElement> ShadowStatus { get; private set; }
-    public Structure Structure { get; set; }
+    public Structure Structure { get; init; }
 
     // Structur.PAS:934
     public override void Dispose()

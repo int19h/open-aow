@@ -23,10 +23,10 @@ public partial class AIGroupProductionLocation : EngineObject, IOwned<AIGroupPro
 
     private int _refCount;
 
-    public ProductionControl ProductionControl { get; set; }
-    public MapCoordinate Location { get; set; }
-    public int MovePoints { get; set; }
-    public int TransporterId { get; set; }
+    public ProductionControl ProductionControl { get; init; }
+    public MapCoordinate Location { get; init; }
+    public int MovePoints { get; init; }
+    public int TransporterId { get; init; }
     public int PathStrength { get; set; }
 
     // AIGroup.pas:892

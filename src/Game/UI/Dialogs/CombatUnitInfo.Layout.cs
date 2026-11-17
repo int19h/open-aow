@@ -616,7 +616,7 @@ public partial class CombatUnitInfo : ILayoutModule
         UnitAbilityList.BorderWidth = 20;
         UnitAbilityList.BorderHeight = 3;
         UnitAbilityList.Selected = -1;
-        UnitAbilityList.OnPreDrawItem += (_, in drawRectangle, drawItem, ref surface) => UAbilLBPreDrawItem(drawRectangle, drawItem, ref surface);
+        UnitAbilityList.OnPreDrawItem += (_, in drawRectangle, drawItem, ref surface) => UAbilLBPreDrawItem(drawRectangle, drawItem, in surface);
         UnitAbilityList.TextColor = 9415072;
         UnitAbilityList.TextSelectedColor = 0;
         UnitAbilityList.ImageLibraryIndexFrame = 113;

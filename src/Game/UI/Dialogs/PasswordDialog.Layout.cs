@@ -18,7 +18,7 @@ public partial class PasswordDialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.OnKeyDown += (_, ref key, shift) => DlgKeyDown(ref key, shift);
+        Window.OnKeyDown += (_, ref key, shift) => DlgKeyDown(key, shift);
         Window.Visible = false;
         Window.Priority = 600;
         Window.WinLeft = 160;

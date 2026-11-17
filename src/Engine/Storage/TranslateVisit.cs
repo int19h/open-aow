@@ -63,7 +63,7 @@ public partial class TranslateVisit(GameEngine engine) : IDisposable
     }
 
     // Engine.pas:10901
-    public virtual void TranslateStrings(ref StringCollection lines)
+    public virtual void TranslateStrings(StringCollection lines)
     {
     }
 

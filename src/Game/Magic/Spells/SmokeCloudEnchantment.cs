@@ -15,7 +15,7 @@ public partial class SmokeCloudEnchantment : GlobalEnchantment
     // SmokeCloud.pas:99
     public new const int ClassId = 135748;
 
-    public SmokeCloud Cloud { get; set; }
+    public SmokeCloud Cloud { get; init; }
 
     // SmokeCloud.pas:91
     public SmokeCloudEnchantment(CustomNode owner) : base(owner)

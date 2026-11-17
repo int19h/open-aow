@@ -15,7 +15,7 @@ namespace Aow.Game.Units;
 // Hero
 public partial class HeroPowerSource(CustomNode owner) : PowerSource(owner)
 {
-    public Hero Hero { get; set; }
+    public Hero Hero { get; init; }
 
     // Hero.PAS:587
     public override string Name() => Hero.HeroName;

@@ -60,7 +60,7 @@ public partial class SimultaneousPlayerControl(CustomNode owner) : PlayerControl
                     if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId == 0)
                     {
                         spells = new SpellList();
-                        StrategicMap.Current.Players.GetPlayers(player).MagicControl.ListResearchSpells(ref spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
+                        StrategicMap.Current.Players.GetPlayers(player).MagicControl.ListResearchSpells(spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
                         if (spells.GetCount() > 0)
                         {
                             PlayerMagicEventLog research = new(null)

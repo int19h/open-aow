@@ -19,8 +19,8 @@ public partial class PasswordEventLog : EventLog
     }
 
     public string Password { get; set; } = "";
-    public string Title { get; set; } = "";
-    public string Prompt { get; set; } = "";
+    public string Title { get; init; } = "";
+    public string Prompt { get; init; } = "";
     public PressedEventLogButton PressedButton { get; set; }
 
     private static readonly string s_enterPasswordText = "Enter password:";

@@ -18,7 +18,7 @@ public partial class CityRebelDialog : ILayoutModule
         RebelWindow = new Window(this);
         session.BeginRead(RebelWindow);
         RebelWindow.Name = "RebelWin";
-        RebelWindow.OnKeyDown += (_, ref key, shift) => RebelWinKeyDown(ref key, shift);
+        RebelWindow.OnKeyDown += (_, ref key, shift) => RebelWinKeyDown(key, shift);
         RebelWindow.Visible = false;
         RebelWindow.Priority = 300;
         RebelWindow.WinLeft = 162;

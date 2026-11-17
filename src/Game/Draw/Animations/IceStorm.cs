@@ -18,7 +18,7 @@ public partial class IceStorm(CustomNode owner) : BlastStorm(owner)
     public new const int ClassId = 135738;
 
     // Storms.pas:390
-    public override void ChangeStormTerrain(MapField mapField, ref sbyte terrainType, ref sbyte overlayType)
+    public override void ChangeStormTerrain(MapField mapField, ref sbyte terrainType, in sbyte overlayType)
     {
         FrozenWaterHexSprite ice;
         // { Original sends terrain 13 to the default branch before the ice refresh test. }

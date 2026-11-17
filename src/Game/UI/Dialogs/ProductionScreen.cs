@@ -710,7 +710,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                     case >= 0 and <= 3:
                         if (_place.ProductionControl.UnitProductions.GetItem(_productionIndex).Researched)
                         {
-                            if (_place.CanProduce(_productionIndex, false, ref reason))
+                            if (_place.CanProduce(_productionIndex, false, reason))
                             {
                                 _ = _place.Produce(_productionIndex, false);
                                 SetMode(0);
@@ -787,7 +787,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                     case >= 0 and <= 3:
                         if (_place.ProductionControl.UnitProductions.GetItem(_productionIndex).Researched)
                         {
-                            if (_place.CanProduce(_productionIndex, true, ref reason))
+                            if (_place.CanProduce(_productionIndex, true, reason))
                             {
                                 _ = _place.Produce(_productionIndex, true);
                             }
@@ -1005,13 +1005,13 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
             _ = _preview.SetViewPort(_viewX, _viewY, 0, width, r.Bottom - r.Top);
             _preview.UpdateStaticScene();
             _preview.UpdateDynamicScene();
-            _preview.DrawStaticScene(ref viewSurfaceDescription);
+            _preview.DrawStaticScene(in viewSurfaceDescription);
             _preview.DrawDynamicScene(ref viewSurfaceDescription);
         }
     }
 
     // AoWProdScreen.pas:510
-    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void DlgKeyDown(in ushort key, Set<ShiftState> shift)
     {
         switch (key)
         {

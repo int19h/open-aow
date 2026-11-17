@@ -106,7 +106,7 @@ public partial class AIRecruitmentGroupFinder : AIGroupTask
                         group.PathStrength = AbilityRules.GetMovePathBattleFieldStrength(_control.Group.Player, _control.Group.IndependentRelation, target.MovePath, _targetRange, _range, _step, engine: GetEngine());
                     }
 
-                    _control.RecruitmentGroupFoundEvent(group, ref searchDone);
+                    _control.RecruitmentGroupFoundEvent(group, searchDone);
                     _ = group.Release();
                 }
             }

@@ -19,7 +19,7 @@ public partial class FactionSelectionWindow : ILayoutModule
         session.BeginRead(FactionPanel);
         FactionPanel.Name = "FactionPnl";
         FactionPanel.OnMouseMove += (_, shift, x, y) => FactionPnlMouseMove(shift, x, y);
-        FactionPanel.OnKeyDown += (_, ref key, shift) => FactionPnlKeyDown(ref key, shift);
+        FactionPanel.OnKeyDown += (_, ref key, shift) => FactionPnlKeyDown(key, shift);
         FactionPanel.OnUpdate += _ => FactionPnlUpdate();
         FactionPanel.Visible = false;
         FactionPanel.Priority = 5;

@@ -167,7 +167,7 @@ public partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWItemsFoundDlg.pas:173
-    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void DlgKeyDown(in ushort key, Set<ShiftState> shift)
     {
         if (key == 27)
         {

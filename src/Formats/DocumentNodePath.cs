@@ -3,7 +3,7 @@ using System.Text;
 namespace Aow.Formats;
 
 /// <summary>A JSON path such as root.Players.Children[1].Leader, built only when a diagnostic needs it.</summary>
-public sealed class DocumentNodePath
+public sealed record class DocumentNodePath
 {
     private readonly DocumentNodePath? _parent;
     private readonly string? _name;

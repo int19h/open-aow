@@ -64,7 +64,7 @@ public partial class Gems : ImageLibraryTerrainMapObject
             AITargetInfo info = message.Param[0].As<AITargetQuery>().Info;
             AITargetData data = message.Param[0].As<AITargetQuery>().Data;
             int priority = data.Priority;
-            UpdateAITarget(ref info, ref priority);
+            UpdateAITarget(in info, ref priority);
             message.Param[0].As<AITargetQuery>().Info = info;
             data.Priority = priority;
             message.Param[0].As<AITargetQuery>().Data = data;
@@ -111,7 +111,7 @@ public partial class Gems : ImageLibraryTerrainMapObject
     }
 
     // Gems.pas:74
-    public void UpdateAITarget(ref AITargetInfo info, ref int priority)
+    public void UpdateAITarget(ref readonly AITargetInfo info, ref int priority)
     {
         int value;
         switch (info.Mode)

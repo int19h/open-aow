@@ -241,7 +241,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                 case 2:
                 case 3:
                     _spells.Clear();
-                    StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ListResearchSpells(ref _spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
+                    StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ListResearchSpells(_spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
                     _spells.SortOnLevel();
                     string spellType = UI.Engine.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
                     string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_researchSpellFormat), [spellType]);
@@ -257,7 +257,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                     break;
                 case 0:
                     _spells.Clear();
-                    StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ListSpells(ref _spells, Set<SpellType>.Of(_spellType));
+                    StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ListSpells(_spells, Set<SpellType>.Of(_spellType));
                     _spells.SortOnLevel();
                     string spellType3 = UI.Engine.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
                     string format2 = AbilityRules.Format(UI.Engine.TranslateResourceString(s_castSpellFormat), [spellType3]);
@@ -268,7 +268,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                     break;
                 case 1:
                     _spells.Clear();
-                    StrategicMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).MagicControl.ListSpells(ref _spells, Set<SpellType>.Of(_spellType));
+                    StrategicMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).MagicControl.ListSpells(_spells, Set<SpellType>.Of(_spellType));
                     _spells.SortOnLevel();
                     string spellType5 = UI.Engine.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
                     string format4 = AbilityRules.Format(UI.Engine.TranslateResourceString(s_castSpellFormat), [spellType5]);
@@ -842,7 +842,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
             else
             {
                 _spells.Clear();
-                StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ListSpells(ref _spells, Set<SpellType>.Of(_spellType));
+                StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ListSpells(_spells, Set<SpellType>.Of(_spellType));
                 if (_spells.GetCount() == 0 || _spells.GetCount() <= Page * 8)
                 {
                     _spells.Clear();
@@ -850,7 +850,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                     while (_spells.GetCount() == 0 && (int)_spellType != 0)
                     {
                         _spellType = (SpellType)((int)_spellType - 1);
-                        StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ListSpells(ref _spells, Set<SpellType>.Of(_spellType));
+                        StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ListSpells(_spells, Set<SpellType>.Of(_spellType));
                     }
                 }
 
@@ -888,7 +888,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                 while (_spells.GetCount() == 0 && (int)_spellType != 0)
                 {
                     _spellType = (SpellType)((int)_spellType - 1);
-                    StrategicMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).MagicControl.ListSpells(ref _spells, Set<SpellType>.Of(_spellType));
+                    StrategicMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).MagicControl.ListSpells(_spells, Set<SpellType>.Of(_spellType));
                 }
 
                 SetPageKind(1);
@@ -1174,7 +1174,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
     }
 
     // AoWSpellBook.pas:375
-    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void DlgKeyDown(in ushort key, Set<ShiftState> shift)
     {
         if (key == 27)
         {

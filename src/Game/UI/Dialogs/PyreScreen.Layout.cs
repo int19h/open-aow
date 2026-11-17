@@ -18,7 +18,7 @@ public partial class PyreScreen : ILayoutModule
         session.BeginRead(DeadPanel);
         DeadPanel.Name = "DeadPnl";
         DeadPanel.OnMouseDown += (_, button, shift, x, y) => DeadPnlMouseDown(button, shift, x, y);
-        DeadPanel.OnKeyDown += (_, ref key, shift) => DeadPnlKeyDown(ref key, shift);
+        DeadPanel.OnKeyDown += (_, ref key, shift) => DeadPnlKeyDown(key, shift);
         DeadPanel.OnUpdate += _ => DeadPnlUpdate();
         DeadPanel.Visible = false;
         DeadPanel.Priority = 5;

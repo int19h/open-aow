@@ -360,7 +360,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
     }
 
     // aowMapEvents.pas:362
-    public void TheMapMapChanged(ref MapChangedInfo info)
+    public void TheMapMapChanged(ref readonly MapChangedInfo info)
     {
         if (info.MapLevel == UI.ScannerWindow.Scanner.Level)
         {
@@ -369,7 +369,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
     }
 
     // aowMapEvents.pas:370
-    public void TheMapScannerIconsChanged(ref MapChangedInfo info)
+    public void TheMapScannerIconsChanged(ref readonly MapChangedInfo info)
     {
         if (info.MapLevel == UI.ScannerWindow.Scanner.Level)
         {
@@ -519,7 +519,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
     }
 
     // aowMapEvents.pas:440
-    public void TheMapShowMessage(ref ShowMessageInfo info)
+    public void TheMapShowMessage(ref readonly ShowMessageInfo info)
     {
         UI.TaskBar.WorldMessageEdit.TextColor = info.Color;
         UI.TaskBar.WorldMessageEdit.Text = info.Text;

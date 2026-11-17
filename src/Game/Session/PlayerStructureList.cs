@@ -17,7 +17,7 @@ public partial class PlayerStructureList(CustomNode owner) : ObservableEventList
 
     int IChildSink<PlayerStructure>.AddChild(PlayerStructure child) => AddChild(child);
 
-    public Player Player { get; set; }
+    public Player Player { get; init; }
 
     // Player.PAS:1
     public PlayerStructure GetStructure(int index) => this[index];

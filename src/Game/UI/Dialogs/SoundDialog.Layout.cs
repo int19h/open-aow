@@ -20,7 +20,7 @@ public partial class SoundDialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.OnKeyDown += (_, ref key, shift) => DlgKeyDown(ref key, shift);
+        Window.OnKeyDown += (_, ref key, shift) => DlgKeyDown(key, shift);
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 110;
@@ -351,7 +351,7 @@ public partial class SoundDialog : ILayoutModule
         PlayList.OnChange += _ => PlayLBChange();
         PlayList.OnDoubleClick += _ => PlayBtnClick();
         PlayList.Selected = -1;
-        PlayList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => PlayLBDrawItem(drawRectangle, drawItem, ref surface);
+        PlayList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => PlayLBDrawItem(drawRectangle, drawItem, in surface);
         PlayList.TextColor = 9415072;
         PlayList.TextSelectedColor = 0;
         PlayList.ImageLibraryIndexFrame = 113;

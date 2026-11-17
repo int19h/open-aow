@@ -1125,7 +1125,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                 sbyte hexX = _unit.UnitHexSprite.HexX;
                 sbyte hexY3 = _unit.UnitHexSprite.HexY;
                 Point3DList path19 = effect.Path;
-                TacticalTables.MakeRangedPath(_unit.GetSide(), 50, 20, 50, hexX, hexY3, (short)j, (short)k, (short)deltaX, (short)deltaY, false, ref path19, ref obstacles);
+                TacticalTables.MakeRangedPath(_unit.GetSide(), 50, 20, 50, hexX, hexY3, (short)j, (short)k, (short)deltaX, (short)deltaY, false, path19, obstacles);
                 effect.Path = path19;
                 if (_strikeIndex < 12)
                 {
@@ -1333,7 +1333,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                 Point3D path4 = effect.Path[count6 - 1];
                 int count7 = effect.Path.Count;
                 Point3DList path22 = effect.Path;
-                EffectPaths.MakeArcPathXY((short)effect.Path[count7 - 1].X, (short)(path2.Y - path3.Z), (short)(path4.X + j - 150), (short)(path.Y - pathZ.Z + k - 150), (short)(((Math.Abs(j - 150) + Math.Abs(k - 150)) / 50) + 2), 100, ref path22);
+                EffectPaths.MakeArcPathXY((short)effect.Path[count7 - 1].X, (short)(path2.Y - path3.Z), (short)(path4.X + j - 150), (short)(path.Y - pathZ.Z + k - 150), (short)(((Math.Abs(j - 150) + Math.Abs(k - 150)) / 50) + 2), 100, path22);
                 effect.Path = path22;
                 effect.TargetX = effect.Path.Count;
                 j = Random(200);
@@ -1350,7 +1350,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                 Point3D path9 = effect.Path[count12 - 1];
                 int count13 = effect.Path.Count;
                 Point3DList path23 = effect.Path;
-                EffectPaths.MakeArcPathXY((short)effect.Path[count13 - 1].X, (short)(path7.Y - path8.Z), (short)(path9.X + j - 100), (short)(path5.Y - path6.Z + k - 100), (short)(((Math.Abs(j - 100) + Math.Abs(k - 100)) / 50) + 3), 100, ref path23);
+                EffectPaths.MakeArcPathXY((short)effect.Path[count13 - 1].X, (short)(path7.Y - path8.Z), (short)(path9.X + j - 100), (short)(path5.Y - path6.Z + k - 100), (short)(((Math.Abs(j - 100) + Math.Abs(k - 100)) / 50) + 3), 100, path23);
                 effect.Path = path23;
                 effect.TargetY = effect.Path.Count;
                 int count14 = effect.Path.Count;
@@ -1365,7 +1365,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                 Point3D path12 = effect.Path[count18 - 1];
                 int count19 = effect.Path.Count;
                 Point3DList path24 = effect.Path;
-                EffectPaths.MakeArcPathXY((short)effect.Path[count19 - 1].X, (short)(path11.Y - path12.Z), (short)(deltaX + 16), (short)(deltaY + 16), (short)(((Math.Abs(item.Y - fPathItem.Z - deltaY) + Math.Abs(path10.X - deltaX)) / 50) + 4), 100, ref path24);
+                EffectPaths.MakeArcPathXY((short)effect.Path[count19 - 1].X, (short)(path11.Y - path12.Z), (short)(deltaX + 16), (short)(deltaY + 16), (short)(((Math.Abs(item.Y - fPathItem.Z - deltaY) + Math.Abs(path10.X - deltaX)) / 50) + 4), 100, path24);
                 effect.Path = path24;
                 break;
             case BattleEffectType.ScreenNESW:
@@ -1393,7 +1393,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                 x1 = Random(20) + 6;
                 y1 = Random(20) + 6;
                 Point3DList path25 = effect.Path;
-                EffectPaths.MakeLinePath(x2 + x1 - 100, y2 + y1 - 300, x2 + x1, y2 + y1, 30, ref path25);
+                EffectPaths.MakeLinePath(x2 + x1 - 100, y2 + y1 - 300, x2 + x1, y2 + y1, 30, path25);
                 effect.Path = path25;
                 switch (SpellId)
                 {
@@ -1418,7 +1418,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                 HexGeometry.HexToPixel(_unit.UnitHexSprite.HexX, hexY6, out x1, out y1);
                 HexGeometry.HexToPixel(TargetX, TargetY, out x2, out y2);
                 Point3DList path26 = effect.Path;
-                EffectPaths.MakeLightningPath(x1 + 16, y1, x2 + 16, y2, ref path26);
+                EffectPaths.MakeLightningPath(x1 + 16, y1, x2 + 16, y2, path26);
                 effect.Path = path26;
                 int count20 = effect.Path.Count;
                 Point3DList path27 = effect.Path;
@@ -1442,7 +1442,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                     sbyte hexY4 = target.UnitHexSprite.HexY;
                     HexGeometry.HexToPixel(target.UnitHexSprite.HexX, hexY4, out x2, out y2);
                     Point3DList path28 = effect.Path;
-                    EffectPaths.MakeLightningPath(x1, y1, x2 + 16, y2, ref path28);
+                    EffectPaths.MakeLightningPath(x1, y1, x2 + 16, y2, path28);
                     effect.Path = path28;
                     i -= 1;
                     sbyte hexY5 = target.UnitHexSprite.HexY;
@@ -1461,7 +1461,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                 int random7 = Random(90);
                 int random8 = Random(5);
                 Point3DList path29 = effect.Path;
-                EffectPaths.MakeSwarmPath(Random(10) + 10, random8 + 20, random7, random3, random4 + x1 + 6, random5 + y1 - 10, (SwarmDirection)random6, ref path29);
+                EffectPaths.MakeSwarmPath(Random(10) + 10, random8 + 20, random7, random3, random4 + x1 + 6, random5 + y1 - 10, (SwarmDirection)random6, path29);
                 effect.Path = path29;
                 k = effect.Path.Count - 1;
                 {
@@ -1487,7 +1487,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                 Point3D path13 = effect.Path[count21 - 1];
                 int count22 = effect.Path.Count;
                 Point3DList path30 = effect.Path;
-                EffectPaths.MakeLinePath(effect.Path[count22 - 1].X, path13.Y, x2 + 16, y2, 15, ref path30);
+                EffectPaths.MakeLinePath(effect.Path[count22 - 1].X, path13.Y, x2 + 16, y2, 15, path30);
                 effect.Path = path30;
                 point3DList = new Point3DList();
                 int random9 = Random(360);
@@ -1498,7 +1498,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                 int random10 = Random(2);
                 int random11 = Random(90);
                 int random12 = Random(5);
-                EffectPaths.MakeSwarmPath(Random(10) + 10, random12 + 20, random11, random9, path14.X, path15.Y, (SwarmDirection)random10, ref point3DList);
+                EffectPaths.MakeSwarmPath(Random(10) + 10, random12 + 20, random11, random9, path14.X, path15.Y, (SwarmDirection)random10, point3DList);
                 Point3D pathItem = point3DList[0];
                 int count25 = effect.Path.Count;
                 Point3D path16 = effect.Path[count25 - 1];
@@ -1506,7 +1506,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                 Point3D path17 = effect.Path[count26 - 1];
                 Point3D pathX2 = point3DList[0];
                 Point3DList path31 = effect.Path;
-                EffectPaths.MakeLinePath(path17.X, path16.Y, pathX2.X, pathItem.Y, 5, ref path31);
+                EffectPaths.MakeLinePath(path17.X, path16.Y, pathX2.X, pathItem.Y, 5, path31);
                 effect.Path = path31;
                 {
                     i = 0;
@@ -1573,7 +1573,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                 int random17 = Random(90);
                 int random18 = Random(10);
                 Point3DList path32 = effect.Path;
-                EffectPaths.MakeSwarmPath(Random(10) + 10, random18 + 25, random17, random13, random14, random15 - 10, (SwarmDirection)random16, ref path32);
+                EffectPaths.MakeSwarmPath(Random(10) + 10, random18 + 25, random17, random13, random14, random15 - 10, (SwarmDirection)random16, path32);
                 effect.Path = path32;
                 k = effect.Path.Count - 1;
                 {
@@ -1611,7 +1611,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                 effect.TargetY = TargetY;
                 CombatMap.Current.CenterViewTo(TargetX - 3, TargetY - 3, 0);
                 Point3DList path34 = effect.Path;
-                EffectPaths.MakeArcPathXY((short)(x2 - 200), (short)(y2 - 200), (short)(x2 + 16), (short)(y2 + 16), 5, 100, ref path34);
+                EffectPaths.MakeArcPathXY((short)(x2 - 200), (short)(y2 - 200), (short)(x2 + 16), (short)(y2 + 16), 5, 100, path34);
                 effect.Path = path34;
                 break;
             case BattleEffectType.Ray:
@@ -1619,7 +1619,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                 sbyte hexX3 = _unit.UnitHexSprite.HexX;
                 sbyte hexY8 = _unit.UnitHexSprite.HexY;
                 Point3DList path35 = effect.Path;
-                TacticalTables.MakeRangedPath(_unit.GetSide(), 10, 0, 50, hexX3, hexY8, (short)TargetX, (short)TargetY, 0, 0, true, ref path35, ref obstacles);
+                TacticalTables.MakeRangedPath(_unit.GetSide(), 10, 0, 50, hexX3, hexY8, (short)TargetX, (short)TargetY, 0, 0, true, path35, obstacles);
                 effect.Path = path35;
                 break;
             case BattleEffectType.None:
@@ -1659,7 +1659,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                 sbyte hexX4 = _unit.UnitHexSprite.HexX;
                 sbyte hexY9 = _unit.UnitHexSprite.HexY;
                 Point3DList path36 = effect.Path;
-                TacticalTables.MakeAbilityPath(_unit.GetSide(), (short)AbilityId, (short)SpellId, hexX4, hexY9, (short)TargetX, (short)TargetY, ref path36, ref obstacles);
+                TacticalTables.MakeAbilityPath(_unit.GetSide(), (short)AbilityId, (short)SpellId, hexX4, hexY9, (short)TargetX, (short)TargetY, path36, obstacles);
                 effect.Path = path36;
                 break;
         }

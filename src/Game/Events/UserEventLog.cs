@@ -6,5 +6,5 @@ namespace Aow.Game.Events;
 
 public partial class UserEventLog(CustomNode owner) : EventLog(owner)
 {
-    public object Data { get; set; }
+    public object Data { get; init; }
 }

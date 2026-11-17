@@ -89,26 +89,26 @@ internal static class TacticalTables
 
     internal static ReadOnlySpan<int> WallMaxHitPoints => [7, 13];
 
-    internal static void MakeAbilityPath(CombatSideIndex side, short ability, short spell, short x1, short y1, short x2, short y2, ref Point3DList path, ref DelphiList<RangedObstacle> obstacles)
+    internal static void MakeAbilityPath(CombatSideIndex side, short ability, short spell, short x1, short y1, short x2, short y2, Point3DList path, DelphiList<RangedObstacle> obstacles)
     {
         int x;
         int y;
         switch (ability)
         {
             case 55:
-                MakeRangedPath(side, 25, 0, 50, x1, y1, x2, y2, 0, 0, true, ref path, ref obstacles);
+                MakeRangedPath(side, 25, 0, 50, x1, y1, x2, y2, 0, 0, true, path, obstacles);
                 break;
             case 22:
             case 24:
             case 25:
-                MakeRangedPath(side, 50, 100, 50, x1, y1, x2, y2, 0, 0, true, ref path, ref obstacles);
+                MakeRangedPath(side, 50, 100, 50, x1, y1, x2, y2, 0, 0, true, path, obstacles);
                 break;
             case 44:
             case 45:
             case 57:
             case 58:
             case 123:
-                MakeRangedPath(side, 50, 20, 50, x1, y1, x2, y2, 0, 0, true, ref path, ref obstacles);
+                MakeRangedPath(side, 50, 20, 50, x1, y1, x2, y2, 0, 0, true, path, obstacles);
                 break;
             case 30:
             case 31:
@@ -123,20 +123,20 @@ internal static class TacticalTables
                 switch (spell)
                 {
                     case 103:
-                        MakeRangedPath(side, 25, 0, 50, x1, y1, x2, y2, 0, 0, true, ref path, ref obstacles);
+                        MakeRangedPath(side, 25, 0, 50, x1, y1, x2, y2, 0, 0, true, path, obstacles);
                         break;
                     case 107:
-                        MakeRangedPath(side, 25, 0, 50, x1, y1, x2, y2, 0, 0, true, ref path, ref obstacles);
+                        MakeRangedPath(side, 25, 0, 50, x1, y1, x2, y2, 0, 0, true, path, obstacles);
                         obstacles.Clear();
                         break;
                     case 117:
-                        MakeRangedPath(side, 50, 50, 50, x1, y1, x2, y2, 0, 0, true, ref path, ref obstacles);
+                        MakeRangedPath(side, 50, 50, 50, x1, y1, x2, y2, 0, 0, true, path, obstacles);
                         break;
                     case 100:
-                        MakeRangedPath(side, 50, 35, 50, x1, y1, x2, y2, 0, 0, true, ref path, ref obstacles);
+                        MakeRangedPath(side, 50, 35, 50, x1, y1, x2, y2, 0, 0, true, path, obstacles);
                         break;
                     case 119:
-                        MakeRangedPath(side, 50, 20, 50, x1, y1, x2, y2, 0, 0, true, ref path, ref obstacles);
+                        MakeRangedPath(side, 50, 20, 50, x1, y1, x2, y2, 0, 0, true, path, obstacles);
                         break;
                     default:
                         switch (SpellTypes[spell])
@@ -198,7 +198,7 @@ internal static class TacticalTables
                             case BattleEffectType.SacFire:
                             case BattleEffectType.BreathDam:
                             default:
-                                MakeRangedPath(side, 50, 50, 50, x1, y1, x2, y2, 0, 0, true, ref path, ref obstacles);
+                                MakeRangedPath(side, 50, 50, 50, x1, y1, x2, y2, 0, 0, true, path, obstacles);
                                 break;
                         }
 
@@ -207,13 +207,13 @@ internal static class TacticalTables
 
                 break;
             default:
-                MakeRangedPath(side, 50, 50, 50, x1, y1, x2, y2, 0, 0, true, ref path, ref obstacles);
+                MakeRangedPath(side, 50, 50, 50, x1, y1, x2, y2, 0, 0, true, path, obstacles);
                 break;
         }
     }
 
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps unusedHeight on purpose.")]
-    internal static void MakeRangedPath(CombatSideIndex side, short speed, short arc, short unusedHeight, short x1, short y1, short x2, short y2, short offsetX, short offsetY, bool includeUnits, ref Point3DList path, ref DelphiList<RangedObstacle> obstacles)
+    internal static void MakeRangedPath(CombatSideIndex side, short speed, short arc, short unusedHeight, short x1, short y1, short x2, short y2, short offsetX, short offsetY, bool includeUnits, Point3DList path, DelphiList<RangedObstacle> obstacles)
     {
         int i;
         int a;

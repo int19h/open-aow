@@ -153,7 +153,7 @@ public partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
     public void DlgHide() => FinishDialog();
 
     // AoWHeroInfoDlg.pas:208
-    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void DlgKeyDown(in ushort key, Set<ShiftState> shift)
     {
         if (key is 27 or 32)
         {

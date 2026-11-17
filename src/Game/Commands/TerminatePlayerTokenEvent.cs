@@ -17,8 +17,8 @@ public partial class TerminatePlayerTokenEvent(CustomNode owner) : TokenEvent(ow
 
     public sbyte Player { get; set; }
 
-    public ExitGameCallBack ExitCallback { get; set; }
-    public ExitGameMode ExitMode { get; set; }
+    public ExitGameCallBack ExitCallback { get; init; }
+    public ExitGameMode ExitMode { get; init; }
 
     // MoveT.PAS:3249
     public override void PersistFields(IPersister persister)

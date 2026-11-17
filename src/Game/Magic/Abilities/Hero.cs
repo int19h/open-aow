@@ -1432,7 +1432,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:1221
-    public void ListSpells(ref SpellList list) => StrategicMap.Current.Players.GetPlayers(Player).MagicControl.ListSpells(ref list, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
+    public void ListSpells(SpellList list) => StrategicMap.Current.Players.GetPlayers(Player).MagicControl.ListSpells(list, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
 
     // Hero.PAS:1226
     public void ExecuteUpgradeHeroAI()

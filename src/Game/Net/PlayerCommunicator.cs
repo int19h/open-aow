@@ -136,7 +136,7 @@ public partial class PlayerCommunicator : EngineObject
         return PlayerCommunicationControl.SendPackageData(receiver, SendStream);
     }
 
-    public GameEngine Engine { get; set; }
+    public GameEngine Engine { get; init; }
 
     public event NotifyEvent<PlayerCommunicator> OnReceive
     {

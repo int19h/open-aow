@@ -3,4 +3,4 @@
 
 namespace Aow.Game.Layout;
 
-public delegate void SmtpError<in TSender>(TSender sender, ref string error);
+public delegate void SmtpError<in TSender>(TSender sender, string error);

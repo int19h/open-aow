@@ -17,7 +17,7 @@ public partial class MoveSettings : EngineObject
 
     public MovePath Path { get; }
     public int PathMovePoints { get; set; }
-    public object MoveObject { get; set; }
+    public object MoveObject { get; init; }
     public int MovePoints { get; set; }
     public int Moves { get; set; }
 

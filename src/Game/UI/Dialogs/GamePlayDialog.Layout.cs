@@ -18,7 +18,7 @@ public partial class GamePlayDialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "GamePlayDlg";
-        Window.OnKeyDown += (_, ref key, shift) => WindowKeyDown(ref key, shift);
+        Window.OnKeyDown += (_, ref key, shift) => WindowKeyDown(key, shift);
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 150;

@@ -80,7 +80,7 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
         throw new NotImplementedException();
 
     // aowSetupEvents.pas:111
-    public void DPlayFileStartMessage(int id, ref string name, int size, ref byte response)
+    public void DPlayFileStartMessage(int id, string name, int size, in byte response)
     {
         UI.ProgressDialog.StatusLabel.Text = "0k of " + IntToStr(size / 1000) + "k";
         UI.ProgressDialog.TitleLabel.Text = "Receiving File";
@@ -104,7 +104,7 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
     }
 
     // aowSetupEvents.pas:134
-    public void DPlayChatMessage(ref string message, ref int toId, ref int fromId)
+    public void DPlayChatMessage(string message, in int toId, in int fromId)
     {
         if (UI.ScenarioSetup.ScenarioSetupPanel.Visible)
         {
@@ -121,7 +121,7 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
     }
 
     // aowSetupEvents.pas:150
-    public void DPlayMessageTimeout(ref GDMessage message) =>
+    public void DPlayMessageTimeout(GDMessage message) =>
         /* TODO: Implement aowDPlayComp.FToID in the platform or editor service. */
         throw new NotImplementedException();
 
@@ -206,7 +206,7 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
         throw new NotImplementedException();
 
     // aowSetupEvents.pas:231
-    public void DPlayMessage(ref object data, ref int size, ref int toId, ref int fromId)
+    public void DPlayMessage(object data, in int size, in int toId, in int fromId)
     {
         if (SetupControl.Status.Contains(SetupStatusElement.Busy))
         {

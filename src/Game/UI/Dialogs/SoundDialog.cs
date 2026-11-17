@@ -333,7 +333,7 @@ public partial class SoundDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWSoundDlg.pas:317
-    public void PlayLBDrawItem(in Rect R, int index, ref LockedSurface lockedSurface)
+    public void PlayLBDrawItem(in Rect R, int index, ref readonly LockedSurface lockedSurface)
     {
         if (AudioHost.SongPlayer.CurrentIndex == index)
         {
@@ -405,7 +405,7 @@ public partial class SoundDialog(UIContext ui) : UIModule(ui)
     public void SoundTabChange() => UI.General.PlayButtonSound(0);
 
     // AoWSoundDlg.pas:352
-    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
+    public void DlgKeyDown(in ushort key, Set<ShiftState> shift)
     {
         if (key == 27)
         {

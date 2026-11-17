@@ -1650,7 +1650,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     }
 
     // Player.PAS:1226
-    public int ListDiplomaticActions(sbyte player, ref DiplomaticActionList actions)
+    public int ListDiplomaticActions(sbyte player, DiplomaticActionList actions)
     {
         int count;
         DiplomaticRelation relation;
@@ -1813,7 +1813,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     }
 
     // Player.PAS:1398
-    public bool ChangePlayerSettings(string settings, ref string error)
+    public bool ChangePlayerSettings(string settings, string error)
     {
         bool result;
         ChangePlayerSettingsTokenEvent eventValue;
@@ -1918,8 +1918,8 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         {
             string errorText = "";
             _ = Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Alliance).Contains(relation)
-                ? action.Accept(ref errorText)
-                : StrategicMap.Current.Random(200) + 50 < Gold + Mana ? action.Accept(ref errorText) : action.Reject(ref errorText);
+                ? action.Accept(errorText)
+                : StrategicMap.Current.Random(200) + 50 < Gold + Mana ? action.Accept(errorText) : action.Reject(errorText);
         }
 
         internal static string MakeTributeText { get; } = "Make tribute";
@@ -2004,8 +2004,8 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         {
             string errorText = "";
             _ = Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.Alliance
-                ? action.Accept(ref errorText)
-                : action.Reject(ref errorText);
+                ? action.Accept(errorText)
+                : action.Reject(errorText);
         }
 
         public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race) =>
@@ -2074,14 +2074,14 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         {
             string errorText = "";
             _ = Relation(action.Target, action.OtherPlayer) == DiplomaticRelation.War
-                ? action.Accept(ref errorText)
+                ? action.Accept(errorText)
                 : idealWar.IndexOf((byte)action.OtherPlayer) != -1
                     ? StrategicMap.Current.Players.GetPlayers(action.Target).AIControl.CanDeclareWar((byte)action.OtherPlayer)
                         ? StrategicMap.Current.Random(5) == 1 && StrategicMap.Current.Random(550) + 250 < action.EscrowGold + action.EscrowMana
-                            ? action.Accept(ref errorText)
-                            : action.Reject(ref errorText)
-                        : action.Reject(ref errorText)
-                    : action.Reject(ref errorText);
+                            ? action.Accept(errorText)
+                            : action.Reject(errorText)
+                        : action.Reject(errorText)
+                    : action.Reject(errorText);
         }
 
         public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race)

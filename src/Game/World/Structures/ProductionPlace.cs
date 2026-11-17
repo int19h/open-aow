@@ -552,7 +552,7 @@ public partial class ProductionPlace : PlayerStructure
     }
 
     // PrdPlace.pas:469
-    public bool CanProduce(int index, bool queue, ref string reason) => ProductionControl.CanProduceUnit(index, queue, ref reason);
+    public bool CanProduce(int index, bool queue, string reason) => ProductionControl.CanProduceUnit(index, queue, reason);
 
     // PrdPlace.pas:472
     public bool Produce(int index, bool queue) => ProductionControl.ProduceUnit(index, queue);

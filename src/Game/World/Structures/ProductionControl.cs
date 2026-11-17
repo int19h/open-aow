@@ -521,7 +521,7 @@ public partial class ProductionControl : EngineObject
     }
 
     // Structur.PAS:604
-    public virtual bool CanProduceUnit(int index, bool queue, ref string reason) => true;
+    public virtual bool CanProduceUnit(int index, bool queue, string reason) => true;
 
     // Structur.PAS:607
     public virtual bool ProduceUnit(int index, int groupId, bool queue)
@@ -529,7 +529,7 @@ public partial class ProductionControl : EngineObject
         bool result;
         ProductionTokenEvent eventValue;
         string reason = "";
-        bool condition = CanProduceUnit(index, queue, ref reason);
+        bool condition = CanProduceUnit(index, queue, reason);
         if (condition)
         {
             sbyte player = GetPlayer();
