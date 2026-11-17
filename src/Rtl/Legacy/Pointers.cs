@@ -88,7 +88,7 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
     }
 
     private static PointerElement<U> View<U>(Array root, int start)
-        => (int i) => ref Unsafe.As<byte, U>(ref Unsafe.Add(ref MemoryMarshal.GetArrayDataReference(root), start + (i * Unsafe.SizeOf<U>())));
+        => i => ref Unsafe.As<byte, U>(ref Unsafe.Add(ref MemoryMarshal.GetArrayDataReference(root), start + (i * Unsafe.SizeOf<U>())));
 
     // The state a view captures, for the tests that pin that views never nest.
     internal readonly object? ViewState => view?.Target;

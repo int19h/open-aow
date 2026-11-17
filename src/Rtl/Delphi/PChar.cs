@@ -7,7 +7,7 @@ public static partial class RtlUnit
             ? ""
             : source.IsNull
                 ? Resized("", length)
-                : Cp1252.Decode(source.Array!.AsSpan(source.Index, length).ToArray());
+                : Cp1252.Decode(source.Array.AsSpan(source.Index, length).ToArray());
 
     public static int StrLen(Ptr<byte> value)
     {

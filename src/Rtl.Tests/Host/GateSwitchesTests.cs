@@ -44,7 +44,7 @@ public sealed class GateSwitchesTests
             Assert.Equal("", lines[2]);
             using JsonDocument first = JsonDocument.Parse(lines[0]);
             Assert.Equal("Game", first.RootElement.GetProperty("host").GetString());
-            Assert.Equal(["--fixture", "a b"], first.RootElement.GetProperty("arguments").EnumerateArray().Select(a => a.GetString()!));
+            Assert.Equal(["--fixture", "a b"], first.RootElement.GetProperty("arguments").EnumerateArray().Select(a => a.GetString()));
             Assert.Equal(ExceptionCensus.Kinds, first.RootElement.GetProperty("counts").EnumerateObject().Select(p => p.Name));
             Assert.Equal([1L, 2, 3, 4, 5, 0], first.RootElement.GetProperty("counts").EnumerateObject().Select(p => p.Value.GetInt64()));
             using JsonDocument second = JsonDocument.Parse(lines[1]);

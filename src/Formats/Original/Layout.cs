@@ -307,9 +307,8 @@ internal sealed class LayoutReader
                     List<TableEntry> entries = [];
                     for (int i = 0; i < list.Items.Count; i++)
                     {
-                        JsonArray? e = list.Items[i] as JsonArray;
                         DocumentNodePath ep = path.Member("entries").Item(i);
-                        if (e is null || e.Items.Count != 3)
+                        if (list.Items[i] is not JsonArray e || e.Items.Count != 3)
                         {
                             throw context.Fail(Codes.Layout, "A table entry is [id, offset, long].", list.Items[i], ep);
                         }

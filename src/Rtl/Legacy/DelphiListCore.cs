@@ -46,7 +46,7 @@ internal static class DelphiListCore
 
     internal static void SetCount<T>(ref T[] items, ref int count, int value)
     {
-        if (value < 0 || value > 134217727)
+        if (value is < 0 or > 134217727)
         {
             Error("List count out of bounds (%d)", value);
         }

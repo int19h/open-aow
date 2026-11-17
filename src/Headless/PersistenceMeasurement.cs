@@ -53,15 +53,15 @@ internal static class PersistenceMeasurement
         switch (kind)
         {
             case "map":
-                engine.LoadHsm(Path.GetFullPath(file), edit: false, progress: null!, profile: GameProfile.WorldMap);
+                engine.LoadHsm(Path.GetFullPath(file), edit: false, progress: null, profile: GameProfile.WorldMap);
                 Require(engine.HexSpriteMap is not null, "original load");
                 break;
             case "set":
-                engine.LoadHss(Path.GetFullPath(file), edit: false, progress: null!, profile: GameProfile.ScenarioSet);
+                engine.LoadHss(Path.GetFullPath(file), edit: false, progress: null, profile: GameProfile.ScenarioSet);
                 break;
             default:
                 engine.LoadCampaign(Path.GetFullPath(file));
-                engine.LoadHsm(Path.GetFullPath(map ?? throw new ArgumentException("a campaign needs --map")), edit: false, progress: null!, profile: GameProfile.WorldMap);
+                engine.LoadHsm(Path.GetFullPath(map ?? throw new ArgumentException("a campaign needs --map")), edit: false, progress: null, profile: GameProfile.WorldMap);
                 Require(engine.Campaign is not null && engine.HexSpriteMap is not null, "original load");
                 break;
         }
@@ -70,30 +70,30 @@ internal static class PersistenceMeasurement
         switch (kind)
         {
             case "map":
-                engine.SaveHsm(saved, progress: null!, profile: GameProfile.WorldMap);
+                engine.SaveHsm(saved, progress: null, profile: GameProfile.WorldMap);
                 break;
             case "set":
-                engine.SaveHss(saved, progress: null!, profile: GameProfile.ScenarioSet);
+                engine.SaveHss(saved, progress: null, profile: GameProfile.ScenarioSet);
                 break;
             default:
                 engine.SaveCampaign(saved);
                 break;
         }
         double save = watch.Elapsed.TotalMilliseconds;
-        engine.CloseHsm(null!);
+        engine.CloseHsm(null);
         watch.Restart();
         switch (kind)
         {
             case "map":
-                engine.LoadHsm(saved, edit: false, progress: null!, profile: GameProfile.WorldMap);
+                engine.LoadHsm(saved, edit: false, progress: null, profile: GameProfile.WorldMap);
                 Require(engine.HexSpriteMap is not null, "own load");
                 break;
             case "set":
-                engine.LoadHss(saved, edit: false, progress: null!, profile: GameProfile.ScenarioSet);
+                engine.LoadHss(saved, edit: false, progress: null, profile: GameProfile.ScenarioSet);
                 break;
             default:
                 engine.LoadCampaign(saved);
-                engine.LoadCampaignMap(null!);
+                engine.LoadCampaignMap(null);
                 Require(engine.Campaign is not null && engine.HexSpriteMap is not null, "own load");
                 break;
         }

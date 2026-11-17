@@ -38,7 +38,7 @@ public static class StreamExtensions
 
     public static int Write(this Stream stream, ReadOnlySpan<byte> buffer, int count) => WriteCounted(stream, buffer, count);
 
-    public static int Read(this Stream stream, Ptr<byte> buffer, int count) => count <= 0 ? 0 : stream.Read(buffer.Array!.AsSpan(buffer.Index, count));
+    public static int Read(this Stream stream, Ptr<byte> buffer, int count) => count <= 0 ? 0 : stream.Read(buffer.Array.AsSpan(buffer.Index, count));
 
     public static int Write(this Stream stream, Ptr<byte> buffer, int count) => WritePointer(stream, buffer, count);
 
@@ -75,7 +75,7 @@ public static class StreamExtensions
             throw new EndOfStreamException("Stream read error");
         }
 
-        ReadBufferExact(stream, buffer.Array!.AsSpan(buffer.Index, count));
+        ReadBufferExact(stream, buffer.Array.AsSpan(buffer.Index, count));
     }
 
     public static void WriteBuffer(this Stream stream, Ptr<byte> buffer, int count)
@@ -164,7 +164,7 @@ public static class StreamExtensions
             return 0;
         }
 
-        ReadOnlySpan<byte> slice = count == 0 || buffer.IsNull ? default : buffer.Array!.AsSpan(buffer.Index, count);
+        ReadOnlySpan<byte> slice = count == 0 || buffer.IsNull ? default : buffer.Array.AsSpan(buffer.Index, count);
         return WriteSpan(stream, slice);
     }
 

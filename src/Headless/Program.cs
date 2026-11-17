@@ -73,7 +73,7 @@ internal static class Program
                         long seedValue = seedText.StartsWith("0x", StringComparison.OrdinalIgnoreCase)
                             ? long.Parse(seedText.AsSpan(2), NumberStyles.HexNumber, CultureInfo.InvariantCulture)
                             : long.Parse(seedText, CultureInfo.InvariantCulture);
-                        if (seedValue < int.MinValue || seedValue > uint.MaxValue)
+                        if (seedValue is < int.MinValue or > uint.MaxValue)
                         {
                             throw new ArgumentOutOfRangeException("seed");
                         }
@@ -154,7 +154,7 @@ internal static class Program
             NullSoundSystem.Install();
             CombatClasses.Register(engine);
             gameplay = true;
-            engine.LoadHsm(input, false, null!, GameProfile.WorldMap);
+            engine.LoadHsm(input, false, null, GameProfile.WorldMap);
             if (engine.HexSpriteMap is not StrategicMap map)
             {
                 throw new InvalidDataException("engine load failed" + (FileBoundary.LastFailure is { } refused ? ": " + refused : ""));
@@ -235,7 +235,7 @@ internal static class Program
             }
 
             map.UpdateFPS(animationFps);
-            HexSpriteMapViewer viewer = new(null!);
+            HexSpriteMapViewer viewer = new(null);
             viewer.HexSpriteMap = map;
             viewer.SceneWidth = viewportWidth;
             viewer.SceneHeight = viewportHeight;
