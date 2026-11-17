@@ -38,7 +38,7 @@ public partial class AIMoveControl : EngineObject
     public override void Dispose()
     {
         Clear();
-        _pathSettings.Release();
+        _ = _pathSettings.Release();
         base.Dispose();
     }
 
@@ -49,14 +49,14 @@ public partial class AIMoveControl : EngineObject
         settings = Settings;
         if (settings != null)
         {
-            settings.Release();
+            _ = settings.Release();
             Settings = null;
         }
 
         Status = AIMoveControlStatus.Idle;
         _processCycles = 0;
         _pathSettings.Reset();
-        _pathSettings.Mode = _pathSettings.Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);
+        _pathSettings.Mode += Set<MoveModeElement>.Of(MoveModeElement.AI);
     }
 
     // AIGroup.pas:3941
@@ -204,7 +204,6 @@ public partial class AIMoveControl : EngineObject
     public void ProcessTransporterCanMove()
     {
         int points;
-        MapCoordinate mapCoordinate = default;
         switch (_state)
         {
             case 0:
@@ -247,7 +246,7 @@ public partial class AIMoveControl : EngineObject
                         sbyte locationX = coordinate102.X;
                         sbyte locationY = coordinate102.Y;
                         sbyte locationMapLevel = coordinate102.MapLevel;
-                        mapCoordinate = new MapCoordinate(locationX, locationY, locationMapLevel);
+                        MapCoordinate mapCoordinate = new(locationX, locationY, locationMapLevel);
                         _pathSettings.SetSourcePosition(mapCoordinate);
                         MapCoordinate location = Settings.TransportSource;
                         _pathSettings.SetDestinationPosition(location);
@@ -341,12 +340,12 @@ public partial class AIMoveControl : EngineObject
         AIMoveControlSettings oldSettings;
         Troop transporter;
         oldSettings = Settings;
-        oldSettings?.Release();
+        _ = (oldSettings?.Release());
 
         Settings = settings;
         if (Settings != null)
         {
-            Settings.AddRef();
+            _ = Settings.AddRef();
             Settings.MovePoints = -1;
             Settings.TransportSource = Settings.TransportSource with { X = -1 };
             Settings.TransportDestination = Settings.TransportDestination with { X = -1 };

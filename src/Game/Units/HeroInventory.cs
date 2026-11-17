@@ -48,7 +48,7 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
             {
                 if (GetChild(i) != null)
                 {
-                    Items[i].Release();
+                    _ = Items[i].Release();
                 }
             }
         }
@@ -67,7 +67,7 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
                 {
                     if (child.Owner != this)
                     {
-                        child.Release();
+                        _ = child.Release();
                         DeleteChildAt(i);
                     }
                     else
@@ -94,7 +94,7 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
         int result = base.RemoveChild(child);
         if (result != -1)
         {
-            child.Release();
+            _ = child.Release();
         }
 
         return result;
@@ -106,7 +106,7 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
         int result = base.AddChild(child);
         if (result != -1)
         {
-            child.AddRef();
+            _ = child.AddRef();
         }
 
         return result;

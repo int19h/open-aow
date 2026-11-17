@@ -155,14 +155,14 @@ public partial class SpellBook : UIModule
     {
         ExecuteDoneEvent done;
         PlayerMagicEventLog eventValue;
-        AudioPlayback.PlaySample("SFX\\INT\\BOOKCLSE.WAV");
+        _ = AudioPlayback.PlaySample("SFX\\INT\\BOOKCLSE.WAV");
         done = Done;
         eventValue = _event;
         Done = null;
         _event = null;
         done?.Invoke(eventValue);
 
-        eventValue?.Release();
+        _ = (eventValue?.Release());
 
         UI.General.Manager.OverlayPriority = 0;
         UI.General.Manager.DrawOverlay = true;
@@ -189,7 +189,7 @@ public partial class SpellBook : UIModule
     // AoWSpellBook.pas:427
     public void Reset()
     {
-        _activation?.Release();
+        _ = (_activation?.Release());
         _activation = null;
 
         _spells.Clear();
@@ -610,7 +610,7 @@ public partial class SpellBook : UIModule
                 spellClass.TextColor = 5000268;
                 cost.TextColor = 5000268;
                 button.Visible = false;
-                icon.Tag = icon.Tag | 16;
+                icon.Tag |= 16;
             }
             else
             {
@@ -619,7 +619,7 @@ public partial class SpellBook : UIModule
                 spellClass.TextColor = 5908276;
                 cost.TextColor = 5908276;
                 button.Visible = true;
-                icon.Tag = icon.Tag & 15;
+                icon.Tag &= 15;
             }
 
             if (spell.ManaUpkeep > 0)
@@ -784,7 +784,7 @@ public partial class SpellBook : UIModule
     public void ShowResearchEvent(PlayerMagicEventLog eventValue, ExecuteDoneEvent done)
     {
         _event = eventValue;
-        _event.AddRef();
+        _ = _event.AddRef();
         Done = done;
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchSpellId == 0)
         {
@@ -815,7 +815,7 @@ public partial class SpellBook : UIModule
     public void ShowResearchedEvent(PlayerMagicEventLog eventValue, ExecuteDoneEvent done)
     {
         _event = eventValue;
-        _event.AddRef();
+        _ = _event.AddRef();
         Done = done;
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchSpellId == 0)
         {
@@ -841,7 +841,7 @@ public partial class SpellBook : UIModule
     {
         Reset();
         _activation = activation;
-        _activation.AddRef();
+        _ = _activation.AddRef();
         Mode = 0;
         if (ValidateHero())
         {
@@ -884,7 +884,7 @@ public partial class SpellBook : UIModule
     {
         Reset();
         _activation = activation;
-        _activation.AddRef();
+        _ = _activation.AddRef();
         Mode = 1;
         if (ValidateHero())
         {
@@ -930,7 +930,7 @@ public partial class SpellBook : UIModule
     // AoWSpellBook.pas:206
     public void SpellBookDestroy()
     {
-        _activation?.Release();
+        _ = (_activation?.Release());
         _activation = null;
 
         _playerPages?.Dispose();
@@ -942,7 +942,7 @@ public partial class SpellBook : UIModule
     {
         if (StrategicMap.Current.CombatMap != null && UI.General.CombatUnit != null)
         {
-            UI.General.CombatUnit.SelectAbility(-1);
+            _ = UI.General.CombatUnit.SelectAbility(-1);
         }
 
         UI.General.PlayButtonSound(0);
@@ -956,7 +956,7 @@ public partial class SpellBook : UIModule
         UpdateSpellPages();
         Book.StartAnimation(PageTurnMode.Left);
         Book.PageTurn.Speed = 25;
-        AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
+        _ = AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
     }
 
     // AoWSpellBook.pas:229
@@ -966,7 +966,7 @@ public partial class SpellBook : UIModule
         UpdateSpellPages();
         Book.StartAnimation(PageTurnMode.Right);
         Book.PageTurn.Speed = 25;
-        AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
+        _ = AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
     }
 
     // AoWSpellBook.pas:236
@@ -983,7 +983,7 @@ public partial class SpellBook : UIModule
                 Image image = sender;
                 x = image.Window.WinLeft;
                 y = image.Window.WinTop;
-                _spells.GetSpell(index).CastImages.Show(10, image.WinLeft + x, image.WinTop + y, 0, lockedSurface);
+                _ = _spells.GetSpell(index).CastImages.Show(10, image.WinLeft + x, image.WinTop + y, 0, lockedSurface);
             }
         }
     }
@@ -1005,7 +1005,7 @@ public partial class SpellBook : UIModule
                 Book.StartAnimation(PageTurnMode.Right);
             }
 
-            AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
+            _ = AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
             _spellType = SpellType.Global;
             Page = 0;
             UpdateSpellPages();
@@ -1027,7 +1027,7 @@ public partial class SpellBook : UIModule
                 Book.StartAnimation(PageTurnMode.Right);
             }
 
-            AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
+            _ = AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
             _spellType = SpellType.Unit;
             Page = 0;
             UpdateSpellPages();
@@ -1041,7 +1041,7 @@ public partial class SpellBook : UIModule
         if (_spellType != SpellType.Combat || Page != 0 || PageKind != 1)
         {
             Book.StartAnimation(PageTurnMode.Left);
-            AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
+            _ = AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
             _spellType = SpellType.Combat;
             Page = 0;
             UpdateSpellPages();
@@ -1055,7 +1055,7 @@ public partial class SpellBook : UIModule
         if (PageKind != 0)
         {
             Book.StartAnimation(PageTurnMode.Right);
-            AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
+            _ = AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
             SetPageKind(0);
         }
     }
@@ -1093,7 +1093,7 @@ public partial class SpellBook : UIModule
         UI.General.PlayButtonSound(0);
         if (ValidateHero())
         {
-            _hero.CancelCasting();
+            _ = _hero.CancelCasting();
         }
     }
 
@@ -1121,7 +1121,7 @@ public partial class SpellBook : UIModule
         if (spell != null)
         {
             x = sender.Window.WinLeft;
-            spell.CastImages.Show(10, sender.WinLeft + x, sender.Window.WinTop + sender.WinTop, 0, lockedSurface);
+            _ = spell.CastImages.Show(10, sender.WinLeft + x, sender.Window.WinTop + sender.WinTop, 0, lockedSurface);
         }
     }
 
@@ -1138,7 +1138,7 @@ public partial class SpellBook : UIModule
                 if (spell != null)
                 {
                     x = sender.Window.WinLeft;
-                    spell.CastImages.Show(10, sender.WinLeft + x, sender.Window.WinTop + sender.WinTop, 0, lockedSurface);
+                    _ = spell.CastImages.Show(10, sender.WinLeft + x, sender.Window.WinTop + sender.WinTop, 0, lockedSurface);
                 }
             }
         }
@@ -1154,7 +1154,7 @@ public partial class SpellBook : UIModule
             control = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl;
             if (control.ResearchSpellId != 0)
             {
-                control.ResearchSpell(0);
+                _ = control.ResearchSpell(0);
             }
             else
             {
@@ -1188,7 +1188,7 @@ public partial class SpellBook : UIModule
         {
             if (StrategicMap.Current.CombatMap != null && UI.General.CombatUnit != null)
             {
-                UI.General.CombatUnit.SelectAbility(-1);
+                _ = UI.General.CombatUnit.SelectAbility(-1);
             }
 
             Book.Visible = false;

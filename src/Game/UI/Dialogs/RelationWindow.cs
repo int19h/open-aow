@@ -152,7 +152,7 @@ public partial class RelationWindow : UIModule
         {
             if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen((sbyte)i) != -1 && StrategicMap.Current.Players.GetPlayers(i).Status == PlayerStatus.Playing)
             {
-                Players.Add(i);
+                _ = Players.Add(i);
             }
         }
 
@@ -165,7 +165,7 @@ public partial class RelationWindow : UIModule
                 check.ToolTipText.Clear();
                 int player = Players[i - 1];
                 string name = StrategicMap.Current.Players.GetPlayers(player).GetName();
-                check.ToolTipText.Add(name);
+                _ = check.ToolTipText.Add(name);
             }
             else
             {
@@ -190,7 +190,7 @@ public partial class RelationWindow : UIModule
         {
             if (StrategicMap.Current.Races.GetRace(i).Enabled)
             {
-                Races.Add(i);
+                _ = Races.Add(i);
             }
         }
 
@@ -204,7 +204,7 @@ public partial class RelationWindow : UIModule
                 int race = Races[i];
                 Race fRacesRace = StrategicMap.Current.Races.GetRace(race);
                 string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[fRacesRace.RaceIndex]);
-                check.ToolTipText.Add(raceNamesPlural);
+                _ = check.ToolTipText.Add(raceNamesPlural);
             }
             else
             {
@@ -262,12 +262,12 @@ public partial class RelationWindow : UIModule
         HighlightPlayer(player);
         ShowPlayerInformation(player);
         selected = ActionsList.Selected;
-        StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).ListDiplomaticActions(player, ref _actions);
+        _ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).ListDiplomaticActions(player, ref _actions);
         for (int i = 0, last = _actions.GetCount() - 1; i <= last; i++)
         {
             string name = _actions.GetDiplomaticActions(i).GetName(StrategicMap.Current.SeatedPlayer);
             DiplomaticAction diplomaticAction = _actions.GetDiplomaticActions(i);
-            ActionsList.Items.AddObject(name, diplomaticAction);
+            _ = ActionsList.Items.AddObject(name, diplomaticAction);
         }
 
         ActionsList.Selected = selected;
@@ -411,7 +411,7 @@ public partial class RelationWindow : UIModule
                                 {
                                     int player3 = Players[i];
                                     DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(SelectedPlayer, (sbyte)player3);
-                                    image.ToolTipText.Add(GameTables.DiplomaticRelationTexts[(int)diplomaticRelation]);
+                                    _ = image.ToolTipText.Add(GameTables.DiplomaticRelationTexts[(int)diplomaticRelation]);
                                 }
                             }
                         }
@@ -442,7 +442,7 @@ public partial class RelationWindow : UIModule
                             string status = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation]);
                             int race2 = Races[i];
                             int playerRelationValue = StrategicMap.Current.Races.GetRace(race2).GetPlayerRelationValue(SelectedPlayer);
-                            image.ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
+                            _ = image.ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
                         }
                     }
 
@@ -525,7 +525,7 @@ public partial class RelationWindow : UIModule
                         string status = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation]);
                         int player3 = Players[i];
                         int playerRelationValue = StrategicMap.Current.Races.GetRace(SelectedRace).GetPlayerRelationValue((sbyte)player3);
-                        image.ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
+                        _ = image.ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
                     }
 
                     break;
@@ -548,10 +548,10 @@ public partial class RelationWindow : UIModule
     {
         if (action != _action)
         {
-            _action?.Release();
+            _ = (_action?.Release());
 
             _action = action;
-            _action?.AddRef();
+            _ = (_action?.AddRef());
         }
     }
 
@@ -570,7 +570,7 @@ public partial class RelationWindow : UIModule
             _event = null;
             done?.Invoke(eventValue);
 
-            eventValue?.Release();
+            _ = (eventValue?.Release());
         }
     }
 
@@ -1108,7 +1108,7 @@ public partial class RelationWindow : UIModule
 
         dialog.Done = done;
         dialog._event = eventValue;
-        eventValue.AddRef();
+        _ = eventValue.AddRef();
 
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Status == PlayerStatus.Playing)
         {
@@ -1137,7 +1137,7 @@ public partial class RelationWindow : UIModule
                     dialog.HighlightPlayer(dialog._action.Source);
                     dialog.ShowPlayerInformation(dialog._action.Source);
                     dialog.IncomingPanel.Visible = true;
-                    (byte _, int gold, int mana) = proposal.ToFields();
+                    (_, int gold, int mana) = proposal.ToFields();
                     dialog.ReceivedGoldLabel.Text = IntToStr(gold);
                     dialog.ReceivedManaLabel.Text = IntToStr(mana);
                     string text2 = proposal.MessageText;

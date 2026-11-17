@@ -80,7 +80,7 @@ public sealed class EngineClass
         ArgumentNullException.ThrowIfNull(create);
         if (type != typeof(EngineObject))
         {
-            Of(type.BaseType);
+            _ = Of(type.BaseType);
         }
 
         return s_catalog.Add(type, new EngineClass(type, classId, create));
@@ -105,7 +105,7 @@ public sealed class EngineClass
         ArgumentNullException.ThrowIfNull(create);
         if (type != typeof(EngineObject))
         {
-            Of(type.BaseType);
+            _ = Of(type.BaseType);
         }
 
         EngineClass alias = new(type, classId, create);

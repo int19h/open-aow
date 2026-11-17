@@ -58,11 +58,11 @@ public partial class PossessCombatAction : SingleTargetCombatAction
             }
 
             newUnit = target.Troop;
-            newUnit.AddRef();
+            _ = newUnit.AddRef();
             target.SetUnit(null);
             target.DestroyObject();
             oldUnit = source.Troop;
-            oldUnit.AddRef();
+            _ = oldUnit.AddRef();
             oldUnit.Killed();
             oldUnit.SetOwner(null);
             source.SetUnit(newUnit);
@@ -71,7 +71,7 @@ public partial class PossessCombatAction : SingleTargetCombatAction
                 source.Troop.UnitStatus = source.Troop.UnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
             }
 
-            GamePack.Current.AbilityControl.GetAbility(107).Expand(source.Troop);
+            _ = GamePack.Current.AbilityControl.GetAbility(107).Expand(source.Troop);
             if (oldUnit.GetAbilityEnabled(107))
             {
                 data = GamePack.Current.AbilityControl.GetAbility<PossessedAbility>(107).GetData(oldUnit);
@@ -85,8 +85,8 @@ public partial class PossessCombatAction : SingleTargetCombatAction
             data = GamePack.Current.AbilityControl.GetAbility<PossessedAbility>(107).GetData(source.Troop);
             data?.SourceExperience = source.Troop.GetUnitLevel() + experience;
 
-            newUnit.Release();
-            oldUnit.Release();
+            _ = newUnit.Release();
+            _ = oldUnit.Release();
         }
     }
 
@@ -95,7 +95,7 @@ public partial class PossessCombatAction : SingleTargetCombatAction
     {
         if (viewer.Time == 0)
         {
-            GamePack.Current.AbilityControl.GetAbility(106).SfxLibrary.Play(0);
+            _ = GamePack.Current.AbilityControl.GetAbility(106).SfxLibrary.Play(0);
         }
 
         if (viewer.Delay == viewer.Time)
@@ -112,7 +112,7 @@ public partial class PossessCombatAction : SingleTargetCombatAction
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == SourceId || objectValue.Id == TargetId)
         {
-            GamePack.Current.AbilityControl.GetAbility(106).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
+            _ = GamePack.Current.AbilityControl.GetAbility(106).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
         }
     }
 

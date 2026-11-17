@@ -132,9 +132,9 @@ public partial class UnitGraphicsResource : EngineResource
     public override LibraryImage GetCellImage()
     {
         LibraryImage result;
-        AddRef();
+        _ = AddRef();
         result = Sequences.GetImageSequence(2)?.GetPreviewImage() ?? Sequences.GetPreviewImage();
-        Release();
+        _ = Release();
         return result;
     }
 
@@ -186,10 +186,10 @@ public partial class UnitGraphicsResource : EngineResource
     public LibraryImage GetFaceImage()
     {
         LibraryImage result;
-        AddRef();
+        _ = AddRef();
         result = _faceImageLibrary?.GetSafe(_faceIndex);
 
-        Release();
+        _ = Release();
         return result;
     }
 
@@ -198,7 +198,7 @@ public partial class UnitGraphicsResource : EngineResource
     {
         ImageSequence sequence;
         int index;
-        AddRef();
+        _ = AddRef();
         sequence = Sequences.List[direction - 1];
         while (sequence != null)
         {
@@ -211,7 +211,7 @@ public partial class UnitGraphicsResource : EngineResource
             sequence = sequence.Next;
         }
 
-        Release();
+        _ = Release();
     }
 
     // UnitHS.PAS:112

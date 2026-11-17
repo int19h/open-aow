@@ -42,13 +42,10 @@ public partial class DisbandUnitTokenEvent : TokenEvent
         GroupBehavior behavior;
         int i;
         int n;
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (troop != null && troop.Player == Player)
         {
-            troop.AddRef();
+            _ = troop.AddRef();
             if (troop.GetRace() == 5 && troop.Player > 0 && StrategicMap.Current.Players.GetPlayers(troop.Player).PlayerRace == 5 && (troop.GetAbilityEnabled(162) || troop.GetAbilityEnabled(164) || troop.GetAbilityEnabled(165)))
             {
                 StrategicMap.Current.Players.GetPlayers(troop.Player).HeroEmerging = true;
@@ -57,9 +54,9 @@ public partial class DisbandUnitTokenEvent : TokenEvent
             if (!troop.GetAbilityEnabled(155))
             {
                 MapCoordinate coordinate5 = troop.GetLocation();
-                x = coordinate5.X;
-                y = coordinate5.Y;
-                l = coordinate5.MapLevel;
+                sbyte x = coordinate5.X;
+                sbyte y = coordinate5.Y;
+                sbyte l = coordinate5.MapLevel;
                 structure = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
                 if (troop.Owner is not Army || troop.Owner.Count > 1 || (structure != null && structure.Player > 0))
                 {
@@ -101,7 +98,7 @@ public partial class DisbandUnitTokenEvent : TokenEvent
             }
 
             troop.RemoveEnchantments();
-            troop.Release();
+            _ = troop.Release();
             if (StrategicMap.Current.SeatedPlayer == Player)
             {
                 StrategicMap.Current.SelectedArmy.Unselect();

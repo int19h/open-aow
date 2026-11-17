@@ -80,7 +80,7 @@ public partial class HexSpriteMapViewer : Component
             }
             else
             {
-                _staticSurface.Resize(_sceneWidth, _sceneHeight);
+                _ = _staticSurface.Resize(_sceneWidth, _sceneHeight);
             }
 
             _hexSpriteMap.StaticSceneInvalid = true;
@@ -106,11 +106,9 @@ public partial class HexSpriteMapViewer : Component
     // HSEngine.pas:4702
     public void CenterScene(int hexX, int hexY, int hexLevel)
     {
-        int pixelX = default;
-        int pixelY = default;
         if (_hexSpriteMap != null)
         {
-            HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
+            HexGeometry.HexToPixel(hexX, hexY, out int pixelX, out int pixelY);
             SetSceneX(pixelX + 16 - (int)(((uint)_sceneWidth) >> 1));
             SetSceneY(pixelY + 16 - (int)(((uint)_sceneHeight) >> 1));
             SetSceneL(hexLevel);
@@ -248,7 +246,7 @@ public partial class HexSpriteMapViewer : Component
                     {
                         m.DrawStaticScene(ref lockedSurface);
                         m.DrawDynamicScene(ref lockedSurface);
-                        surface.Unlock(lockedSurface);
+                        _ = surface.Unlock(lockedSurface);
                     }
 
                     _staticSurfaceValid = false;
@@ -257,12 +255,12 @@ public partial class HexSpriteMapViewer : Component
                 {
                     if (_staticSurfaceValid)
                     {
-                        _staticSurface.BlitClipped(surface, X, Y);
+                        _ = _staticSurface.BlitClipped(surface, X, Y);
                         m.UpdateDynamicScene();
                         if (surface.Lock(ref lockedSurface, r) >= 0)
                         {
                             m.DrawDynamicScene(ref lockedSurface);
-                            surface.Unlock(lockedSurface);
+                            _ = surface.Unlock(lockedSurface);
                         }
                     }
                     else
@@ -271,7 +269,7 @@ public partial class HexSpriteMapViewer : Component
                         if (_staticSurface.Lock(ref lockedSurface) >= 0)
                         {
                             m.DrawStaticScene(ref lockedSurface);
-                            _staticSurface.Unlock();
+                            _ = _staticSurface.Unlock();
                             _staticSurfaceValid = true;
                         }
 
@@ -281,7 +279,7 @@ public partial class HexSpriteMapViewer : Component
                             if (surface.Lock(ref lockedSurface, r) >= 0)
                             {
                                 m.DrawDynamicScene(ref lockedSurface);
-                                surface.Unlock(lockedSurface);
+                                _ = surface.Unlock(lockedSurface);
                             }
                         }
                     }
@@ -371,7 +369,7 @@ public partial class HexSpriteMapViewer : Component
         }
         else if (CenteredSurface.GetWidth() != _sceneWidth || CenteredSurface.GetHeight() != _sceneHeight)
         {
-            CenteredSurface.Resize(_sceneWidth, _sceneHeight);
+            _ = CenteredSurface.Resize(_sceneWidth, _sceneHeight);
         }
 
         return CenteredSurface;
@@ -387,19 +385,19 @@ public partial class HexSpriteMapViewer : Component
         if (target.Lock(ref lockedSurface, new Rect(X, Y, X + _sceneWidth, Y + _sceneHeight)) >= 0)
         {
             FillOutsideRectangle(shown, lockedSurface);
-            target.Unlock(lockedSurface);
+            _ = target.Unlock(lockedSurface);
         }
 
-        CenteredSurface.BlitClipped(target, source, X + shown.Left, Y + shown.Top);
+        _ = CenteredSurface.BlitClipped(target, source, X + shown.Left, Y + shown.Top);
     }
 
     // Port extension: fills every pixel of SD outside Inside black.
     public static void FillOutsideRectangle(Rect inside, in LockedSurface lockedSurface)
     {
-        PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, inside.Top), 0, lockedSurface);
-        PixelFormats.ColorFillSurfaceDescription(new Rect(0, inside.Bottom, lockedSurface.Width, lockedSurface.Height), 0, lockedSurface);
-        PixelFormats.ColorFillSurfaceDescription(new Rect(0, inside.Top, inside.Left, inside.Bottom), 0, lockedSurface);
-        PixelFormats.ColorFillSurfaceDescription(new Rect(inside.Right, inside.Top, lockedSurface.Width, inside.Bottom), 0, lockedSurface);
+        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, inside.Top), 0, lockedSurface);
+        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, inside.Bottom, lockedSurface.Width, lockedSurface.Height), 0, lockedSurface);
+        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, inside.Top, inside.Left, inside.Bottom), 0, lockedSurface);
+        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(inside.Right, inside.Top, lockedSurface.Width, inside.Bottom), 0, lockedSurface);
     }
 
     public GameMap HexSpriteMap { get => _hexSpriteMap; set => SetHexSpriteMap(value); }

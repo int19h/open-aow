@@ -50,7 +50,7 @@ public partial class FireMasteryEnchantment : GlobalEnchantment
     public override bool Deactivate(byte player)
     {
         Player playerLocal;
-        base.Deactivate(player);
+        _ = base.Deactivate(player);
         playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         PlayerMagicControl playerMagicControl = playerLocal.MagicControl;
         playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.FireMastery));
@@ -91,7 +91,7 @@ public partial class FireMasteryEnchantment : GlobalEnchantment
     public override bool Activate(sbyte player)
     {
         Player playerLocal;
-        base.Activate(player);
+        _ = base.Activate(player);
         // { Original doubles Water. }
         StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Water);
         playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);

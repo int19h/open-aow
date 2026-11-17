@@ -46,11 +46,11 @@ public partial class Farm : PlayerCropStructure
         if (value)
         {
             SetPlayer(-1);
-            Mode = Mode + Set<ModeElement>.Of(ModeElement.Razed);
+            Mode += Set<ModeElement>.Of(ModeElement.Razed);
         }
         else
         {
-            Mode = Mode - Set<ModeElement>.Of(ModeElement.Razed);
+            Mode -= Set<ModeElement>.Of(ModeElement.Razed);
         }
 
         UpdateCrops();

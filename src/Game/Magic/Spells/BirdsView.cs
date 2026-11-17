@@ -29,22 +29,19 @@ public partial class BirdsView : Spell
     // GlobalSpells.pas:505
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte layer = default;
-        base.ExecuteTokenEvent(eventValue, source, executeCount);
+        _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         CastingDone(source, eventValue.EventMana);
         MapCoordinate coordinate53 = source.GetLocation();
-        x = coordinate53.X;
-        y = coordinate53.Y;
-        layer = coordinate53.MapLevel;
+        sbyte x = coordinate53.X;
+        sbyte y = coordinate53.Y;
+        sbyte layer = coordinate53.MapLevel;
         if (StrategicMap.Current.SeatedPlayer == source.Player)
         {
             BirdsViewHexSprite birdsViewHexSprite = new(null) { Holder = CreationHolder() };
             birdsViewHexSprite.StartAnimation(x, y, layer, 14);
         }
 
-        StrategicMap.Current.ExploreArea(x, y, layer, source.Player, 14);
+        _ = StrategicMap.Current.ExploreArea(x, y, layer, source.Player, 14);
         return false;
     }
 
@@ -54,16 +51,13 @@ public partial class BirdsView : Spell
     // GlobalSpells.pas:518
     public override bool CanActivate(Troop source, ref string messageText)
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte layer = default;
         bool result = base.CanActivate(source, ref messageText);
         if (result)
         {
             MapCoordinate coordinate54 = source.GetLocation();
-            x = coordinate54.X;
-            y = coordinate54.Y;
-            layer = coordinate54.MapLevel;
+            _ = coordinate54.X;
+            _ = coordinate54.Y;
+            sbyte layer = coordinate54.MapLevel;
             if (layer != 0)
             {
                 messageText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotCastSpellInUndergroundText);
@@ -80,13 +74,13 @@ public partial class BirdsView : Spell
         bool result;
         string reason = "";
         SpellTokenEvent eventValue;
-        base.Activate(source);
+        _ = base.Activate(source);
         if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             eventValue = new SpellTokenEvent(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
-            eventValue.Release();
+            _ = eventValue.Release();
             result = true;
         }
         else

@@ -37,7 +37,7 @@ public partial class MoveSelector : IDisposable
     public virtual void Dispose()
     {
         Clear();
-        MoveControlSettings.Release();
+        _ = MoveControlSettings.Release();
         MoveSettingsList?.Dispose();
     }
 
@@ -136,7 +136,7 @@ public partial class MoveSelector : IDisposable
         Map.Mouse.OnCaptureChanged += MouseDownEvent;
         Map.Mouse.CursorMode = 256;
         UpdateMoveCursor();
-        Status = Status + Set<MoveSelectorStatusElement>.Of(MoveSelectorStatusElement.Activated);
+        Status += Set<MoveSelectorStatusElement>.Of(MoveSelectorStatusElement.Activated);
         Map.ShowHexSelector();
     }
 
@@ -145,7 +145,7 @@ public partial class MoveSelector : IDisposable
     {
         if (Status.Contains(MoveSelectorStatusElement.Activated))
         {
-            Status = Status - Set<MoveSelectorStatusElement>.Of(MoveSelectorStatusElement.Activated);
+            Status -= Set<MoveSelectorStatusElement>.Of(MoveSelectorStatusElement.Activated);
             Map.Mouse.OnDown -= MouseDownEvent;
             Map.Mouse.OnMove -= MouseMoveEvent;
             Map.Mouse.OnCaptureChanged -= MouseDownEvent;
@@ -170,8 +170,6 @@ public partial class MoveSelector : IDisposable
         int imageIndex;
         int maxX;
         int maxY;
-        int pixelX = default;
-        int pixelY = default;
         int pointsLeft;
         int direction;
         MoveSettings settings;
@@ -185,6 +183,8 @@ public partial class MoveSelector : IDisposable
             {
                 settings = MoveSettingsList.GetMoveSettings(i);
                 pointsLeft = settings.PathMovePoints;
+                int pixelX;
+                int pixelY;
                 if (settings.Path.Count > 1)
                 {
                     j = 0;

@@ -53,7 +53,7 @@ public partial class WarpPartyTokenEvent : SpellTokenEvent
         bool result = base.Validate(source) && ArmyId.Valid();
         if (result)
         {
-            ArmyId.RetrieveArmy(ref army, ref selection);
+            _ = ArmyId.RetrieveArmy(ref army, ref selection);
             result = GamePack.Current.SpellControl.GetSpell<WarpParty>(EventSpellId).ValidTarget(army, WarpLocation.X, WarpLocation.Y, WarpLocation.MapLevel);
         }
 
@@ -66,34 +66,31 @@ public partial class WarpPartyTokenEvent : SpellTokenEvent
         bool showSource;
         bool showTarget;
         byte selection = default;
-        sbyte x = default;
-        sbyte y = default;
-        sbyte layer = default;
         ArmyHexSprite army = default;
         MapField field;
         ImageSequenceAnimation animation;
-        base.Process(source, value);
+        _ = base.Process(source, value);
         MapCoordinate coordinate15 = source.GetLocation();
-        x = coordinate15.X;
-        y = coordinate15.Y;
-        layer = coordinate15.MapLevel;
-        ArmyId.RetrieveArmy(ref army, ref selection);
+        sbyte x = coordinate15.X;
+        sbyte y = coordinate15.Y;
+        sbyte layer = coordinate15.MapLevel;
+        _ = ArmyId.RetrieveArmy(ref army, ref selection);
         field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(WarpLocation);
-        army.MoveTo(field, 0);
+        _ = army.MoveTo(field, 0);
         showSource = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(x, y, layer, StrategicMap.Current.SeatedPlayer);
         showTarget = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(field.HexX, field.HexY, field.HexLevel, StrategicMap.Current.SeatedPlayer);
         if (showSource && GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] != null)
         {
             animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
             animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
-            StrategicMap.Current.PlaceHex(animation, x, y, layer);
+            _ = StrategicMap.Current.PlaceHex(animation, x, y, layer);
         }
 
         if (showTarget && GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] != null)
         {
             animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
             animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
-            StrategicMap.Current.PlaceHex(animation, field.HexX, field.HexY, field.HexLevel);
+            _ = StrategicMap.Current.PlaceHex(animation, field.HexX, field.HexY, field.HexLevel);
         }
 
         if (source.Player == StrategicMap.Current.SeatedPlayer)
@@ -102,12 +99,12 @@ public partial class WarpPartyTokenEvent : SpellTokenEvent
         }
         else
         {
-            StrategicMap.Current.ValidateObservation(source.Player, field.HexX, field.HexY, field.HexLevel, 0);
+            _ = StrategicMap.Current.ValidateObservation(source.Player, field.HexX, field.HexY, field.HexLevel, 0);
         }
 
         if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(x, y, layer, 0) || StrategicMap.Current.Watching(field.HexX, field.HexY, field.HexLevel, 0))
         {
-            GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
+            _ = GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
         }
 
         Spell spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);

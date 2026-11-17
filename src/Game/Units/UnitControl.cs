@@ -92,7 +92,7 @@ public partial class UnitControl : EngineObject
             if (troop.UnitId == -1)
             {
                 troop.UnitId = GetFreeId();
-                troop.UnitStatus = troop.UnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Registered);
+                troop.UnitStatus += Set<UnitStatusElement>.Of(UnitStatusElement.Registered);
                 HashTables.Add(UnitTable, key: troop.UnitId, value: troop);
                 Units.Add(troop);
             }
@@ -102,7 +102,7 @@ public partial class UnitControl : EngineObject
                 if (existingUnit != troop)
                 {
                     Units.Add(troop);
-                    troop.UnitStatus = troop.UnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Registered);
+                    troop.UnitStatus += Set<UnitStatusElement>.Of(UnitStatusElement.Registered);
                     if (existingUnit == null)
                     {
                         HashTables.Add(UnitTable, key: troop.UnitId, value: troop);
@@ -137,13 +137,13 @@ public partial class UnitControl : EngineObject
     {
         if (troop.UnitStatus.Contains(UnitStatusElement.Registered))
         {
-            troop.UnitStatus = troop.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Registered);
+            troop.UnitStatus -= Set<UnitStatusElement>.Of(UnitStatusElement.Registered);
             if (UnitTable.TryGetValue(troop.UnitId, out Troop stored) && stored == troop)
             {
-                UnitTable.Remove(troop.UnitId);
+                _ = UnitTable.Remove(troop.UnitId);
             }
 
-            Units.Remove(troop);
+            _ = Units.Remove(troop);
         }
     }
 

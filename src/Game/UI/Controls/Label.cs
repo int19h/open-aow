@@ -51,7 +51,7 @@ public partial class Label : Control
         }
         catch
         {
-            MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
         }
     }
 

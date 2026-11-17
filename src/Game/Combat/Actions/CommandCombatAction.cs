@@ -63,7 +63,7 @@ public partial class CommandCombatAction : SingleTargetCombatAction
     {
         if (viewer.Time == 0)
         {
-            GamePack.Current.AbilityControl.GetAbility(AbilityId).SfxLibrary.Play(0);
+            _ = GamePack.Current.AbilityControl.GetAbility(AbilityId).SfxLibrary.Play(0);
         }
 
         if (viewer.Delay == viewer.Time)
@@ -80,7 +80,7 @@ public partial class CommandCombatAction : SingleTargetCombatAction
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == SourceId)
         {
-            GamePack.Current.AbilityControl.GetAbility(AbilityId).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
+            _ = GamePack.Current.AbilityControl.GetAbility(AbilityId).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
         }
     }
 

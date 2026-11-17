@@ -16,7 +16,7 @@ public sealed class DebugWindow(UIContext ui, Window window, Label frameRateLabe
     // AOWDialogWin.pas:113
     public void AddMessage(string text)
     {
-        memo.Items.Add(text);
+        _ = memo.Items.Add(text);
         if (memo.Items.Count > 99)
         {
             memo.Items.Delete(0);

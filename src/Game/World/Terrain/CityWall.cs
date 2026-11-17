@@ -305,15 +305,15 @@ public partial class CityWall : CombatImageLibraryTerrain
                 CombatMap.Current.Combat.CombatData.WallBreached = true;
                 if (_playSound && CombatMap.Current.PlaySounds)
                 {
-                    AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODLG.WAV");
+                    _ = AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODLG.WAV");
                 }
 
                 effect = CombatMap.Current.AddEffect(BattleEffectType.WallSmoke);
                 point = new Point3D();
                 effect.Path.Add(point);
-                int x = point.X;
-                int y = point.Y;
-                HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out x, out y);
+                _ = point.X;
+                _ = point.Y;
+                HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
                 point.X = x;
                 point.Y = y;
                 point.X = Random(20) + point.X + 6;
@@ -323,7 +323,7 @@ public partial class CityWall : CombatImageLibraryTerrain
             {
                 if (_playSound && CombatMap.Current.PlaySounds)
                 {
-                    AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODMD.WAV");
+                    _ = AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODMD.WAV");
                 }
             }
         }

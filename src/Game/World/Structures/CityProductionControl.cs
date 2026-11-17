@@ -74,7 +74,7 @@ public partial class CityProductionControl : ProductionControl
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducedFormat), [name, fCityName]);
         log.SetLocation(level: city.GetHexLevel(), y: city.GetHexY(), x: city.GetHexX());
         StrategicMap.Current.Players.GetPlayers(log.Player).EventLogbook.AddEvent(log);
-        log.Release();
+        _ = log.Release();
         return valid;
     }
 
@@ -93,7 +93,7 @@ public partial class CityProductionControl : ProductionControl
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.InstalledFormat), [unitName, name]);
         log.SetLocation(level: city.GetHexLevel(), y: city.GetHexY(), x: city.GetHexX());
         StrategicMap.Current.Players.GetPlayers(log.Player).EventLogbook.AddEvent(log);
-        log.Release();
+        _ = log.Release();
     }
 
     // City.pas:639

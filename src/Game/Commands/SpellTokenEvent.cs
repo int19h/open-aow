@@ -46,26 +46,24 @@ public partial class SpellTokenEvent : TokenEvent
     public virtual bool Validate(Hero source)
     {
         string reason = "";
-        try { return (byte)source.Player == EventPlayerIndex && source.CanCastSpellInstantly(EventSpellId, EventMana, ref reason); }
-        finally { reason = ""; }
+        return (byte)source.Player == EventPlayerIndex && source.CanCastSpellInstantly(EventSpellId, EventMana, ref reason);
     }
 
     public virtual bool Process(Troop source, int value) => GamePack.Current.SpellControl.GetSpell(EventSpellId).ExecuteTokenEvent(this, source, value);
 
     public virtual void PlayDefaultCastEffects(int unused1, int unused2)
     {
-        sbyte x = 0, y = 0, l = 0;
         MapCoordinate coordinate10 = GetSource().GetLocation();
-        x = coordinate10.X;
-        y = coordinate10.Y;
-        l = coordinate10.MapLevel;
+        sbyte x = coordinate10.X;
+        sbyte y = coordinate10.Y;
+        sbyte l = coordinate10.MapLevel;
         Spell spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
         spell.PlayDefaultCastEffects(GetSource().Player, x, y, l);
     }
 
     public override ExecuteResult Execute(TokenExecutor executor)
     {
-        base.Execute(executor);
+        _ = base.Execute(executor);
         // ExecuteCount binds tighter than the null test. A non-hero with a later count still reaches Process.
         Troop source = StrategicMap.Current.UnitControl.FindUnit(EventSourceId);
         return source == null

@@ -180,14 +180,14 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
         log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_poisonPlantDamageText);
         log.Player = armyHexSprite.Army.Player;
         string poisonPlantDamage = AbilityRules.TranslateResourceString(GetEngine(), s_poisonPlantDamageText);
-        log.ArmyMessages.Add(poisonPlantDamage);
+        _ = log.ArmyMessages.Add(poisonPlantDamage);
         log.ArmyIcon = 1;
         log.ArmyView.Setup(armyHexSprite.Army, 255);
         units = armyHexSprite.Army.Units;
         for (int i = 0, last = units.Count - 1; i <= last; i++)
         {
             u = units.GetUnit(i);
-            u.AddRef();
+            _ = u.AddRef();
             if (!u.GetImmunityTypes().Contains(DamageType.Poison) && !u.GetAbilityEnabled(1))
             {
                 damage = u.ExecuteDamageRole(4, 3, Set<DamageType>.Of(DamageType.Poison));
@@ -201,22 +201,22 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
                     u.SetHitPoints((sbyte)(u.GetHitPoints() - damage));
                     if (u.GetHitPoints() != 0)
                     {
-                        u.ExecuteDamageEffects(Set<DamageType>.Of(DamageType.Poison));
+                        _ = u.ExecuteDamageEffects(Set<DamageType>.Of(DamageType.Poison));
                     }
 
                     count += 1;
                 }
 
-                log.DamageValues.Add((byte)damage);
-                log.DamageTypes.Add((int)DamageType.Poison);
+                _ = log.DamageValues.Add((byte)damage);
+                _ = log.DamageTypes.Add((int)DamageType.Poison);
             }
             else
             {
-                log.DamageValues.Add(0);
-                log.DamageTypes.Add((int)DamageType.None);
+                _ = log.DamageValues.Add(0);
+                _ = log.DamageTypes.Add((int)DamageType.None);
             }
 
-            u.Release();
+            _ = u.Release();
         }
 
         log.ValidateGameOver();
@@ -226,7 +226,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
         }
 
         armyHexSprite.Army.Validate();
-        log.Release();
+        _ = log.Release();
     }
 
     // PoisonP.pas:168
@@ -296,7 +296,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
 
             if (condition)
             {
-                GamePack.Current.SpellControl.GetSpell(12).CastSounds.Play(0);
+                _ = GamePack.Current.SpellControl.GetSpell(12).CastSounds.Play(0);
             }
         }
     }
@@ -310,7 +310,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(131998) && frameCounter == 9)
         {
-            PlantStatus = PlantStatus - Set<PoisonPlantStatusElement>.Of(PoisonPlantStatusElement.Summoning);
+            PlantStatus -= Set<PoisonPlantStatusElement>.Of(PoisonPlantStatusElement.Summoning);
         }
     }
 

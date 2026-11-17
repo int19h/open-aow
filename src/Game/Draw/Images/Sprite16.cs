@@ -461,7 +461,7 @@ public partial class Sprite16 : Image16, ILibraryImageClass
                     gr.Right = width;
                     int height = surface.GetHeight();
                     gr.Bottom = height;
-                    surface.Lock(ref lSD);
+                    _ = surface.Lock(ref lSD);
                     if (LockedSurface.RemapSurfacePart(width: surface.GetWidth(), height: surface.GetHeight(), source: lockedSurface, sourceX: R.Left, sourceY: R.Top, destination: lSD, destinationX: 0, destinationY: 0) != 0)
                     {
                         throw new ArgumentException("Invalid PixelFormat");

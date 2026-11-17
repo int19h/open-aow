@@ -122,7 +122,7 @@ public partial class MoveControl : IDisposable
             field = MapLevel.GetField(Source.X, Source.Y);
             if (Mode.Contains(MoveModeElement.LogProcessedMapFields))
             {
-                _processedMapFields.Add(field);
+                _ = _processedMapFields.Add(field);
             }
 
             pathFindingStep = SetupSubMove(field, null);
@@ -171,7 +171,7 @@ public partial class MoveControl : IDisposable
         else
         {
             settings.Path.Clear();
-            settings.Path.AddMapCoordinate(settings.Source.X, settings.Source.Y, settings.Source.MapLevel);
+            _ = settings.Path.AddMapCoordinate(settings.Source.X, settings.Source.Y, settings.Source.MapLevel);
             settings.Status = MoveControlSettingsStatus.Processed;
         }
     }
@@ -277,7 +277,7 @@ public partial class MoveControl : IDisposable
 
                 if (Mode.Contains(MoveModeElement.LogProcessedMapFields) && previous == 16777215)
                 {
-                    _processedMapFields.Add(target);
+                    _ = _processedMapFields.Add(target);
                 }
 
                 Settings.SetMovePoints(target.HexX, target.HexY, target.HexLevel, points);
@@ -402,7 +402,7 @@ public partial class MoveControl : IDisposable
         switch (Settings.Status)
         {
             case MoveControlSettingsStatus.Idle:
-                SetupMove();
+                _ = SetupMove();
                 Settings.Status = MoveControlSettingsStatus.Processing;
                 break;
             case MoveControlSettingsStatus.Processing:
@@ -430,7 +430,7 @@ public partial class MoveControl : IDisposable
     // MoveT.PAS:1436
     public void CalculatePath(MoveControlSettings settings, MovePath path, sbyte X, sbyte Y, sbyte L)
     {
-        Activate(settings);
+        _ = Activate(settings);
         CalculatePath(path, X, Y, L);
         Deactivate();
     }
@@ -460,13 +460,13 @@ public partial class MoveControl : IDisposable
     {
         if (_status.Contains(StatusElement.Activated))
         {
-            _status = _status - Set<StatusElement>.Of(StatusElement.Activated);
+            _status -= Set<StatusElement>.Of(StatusElement.Activated);
             if (Settings.Status == MoveControlSettingsStatus.Processing)
             {
                 Settings.MovePointsLimit = MovePointsLimit;
             }
 
-            Settings.Release();
+            _ = Settings.Release();
             Settings = null;
         }
     }
@@ -555,7 +555,7 @@ public partial class MoveControl : IDisposable
         GapEnds.Count = 0;
         _directRoute.Count = 0;
         overCode = 1;
-        _directRoute.AddMapCoordinate((sbyte)sourceX, (sbyte)sourceY, 0);
+        _ = _directRoute.AddMapCoordinate((sbyte)sourceX, (sbyte)sourceY, 0);
         x = 0;
         y = 0;
         direction = 0;
@@ -672,7 +672,7 @@ public partial class MoveControl : IDisposable
             {
                 if (clear)
                 {
-                    GapStarts.AddMapCoordinate((sbyte)sourceX, (sbyte)sourceY, (sbyte)direction);
+                    _ = GapStarts.AddMapCoordinate((sbyte)sourceX, (sbyte)sourceY, (sbyte)direction);
                     clear = false;
                     overCode = 1;
                 }
@@ -681,19 +681,19 @@ public partial class MoveControl : IDisposable
             {
                 if (!clear)
                 {
-                    GapEnds.AddMapCoordinate((sbyte)x, (sbyte)y, -1);
+                    _ = GapEnds.AddMapCoordinate((sbyte)x, (sbyte)y, -1);
                     clear = true;
                 }
             }
 
             sourceX = x;
             sourceY = y;
-            _directRoute.AddMapCoordinate((sbyte)sourceX, (sbyte)sourceY, (sbyte)points);
+            _ = _directRoute.AddMapCoordinate((sbyte)sourceX, (sbyte)sourceY, (sbyte)points);
         }
 
         if (!clear)
         {
-            GapEnds.AddMapCoordinate((sbyte)destinationX, (sbyte)destinationY, -1);
+            _ = GapEnds.AddMapCoordinate((sbyte)destinationX, (sbyte)destinationY, -1);
         }
     }
 

@@ -33,10 +33,10 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
         // SmokeCloudSpell.TargetSelected constructs the GlobalTargetSpellTokenEvent this spell executes.
         GlobalTargetSpellTokenEvent targetEvent = (GlobalTargetSpellTokenEvent)eventValue;
         Troop sourceLocal = targetEvent.GetSource();
-        StrategicMap.Current.ValidateObservation(sourceLocal.Player, targetEvent.Location.X, targetEvent.Location.Y, targetEvent.Location.MapLevel, 2);
+        _ = StrategicMap.Current.ValidateObservation(sourceLocal.Player, targetEvent.Location.X, targetEvent.Location.Y, targetEvent.Location.MapLevel, 2);
         if (targetEvent.GetSource().Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(targetEvent.Location.X, targetEvent.Location.Y, targetEvent.Location.MapLevel, 2))
         {
-            GamePack.Current.SpellControl.GetSpell(targetEvent.EventSpellId).CastSounds.Play(0);
+            _ = GamePack.Current.SpellControl.GetSpell(targetEvent.EventSpellId).CastSounds.Play(0);
         }
 
         resource = ((CustomNode)(object)GamePack.Current.MapObjectResourceList).FindChild<EngineResource>(135747);
@@ -68,7 +68,7 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
         target.HexNumbers.Clear();
         for (int i = 0, last = HexGeometry.RadiusToHexNumber(4) - 1; i <= last; i++)
         {
-            target.HexNumbers.Add(0);
+            _ = target.HexNumbers.Add(0);
         }
     }
 
@@ -80,7 +80,7 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
-        eventValue.Release();
+        _ = eventValue.Release();
         return true;
     }
 

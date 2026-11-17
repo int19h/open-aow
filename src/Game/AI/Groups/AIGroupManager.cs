@@ -61,7 +61,7 @@ public partial class AIGroupManager : OwningNode, IChildList<AIGroup>
     {
         for (int i = 0, last = classes.Length - 1; i <= last; i++)
         {
-            RegisteredClasses.Remove(classes[i]);
+            _ = RegisteredClasses.Remove(classes[i]);
         }
     }
 
@@ -85,7 +85,7 @@ public partial class AIGroupManager : OwningNode, IChildList<AIGroup>
             result.GroupId = CreateUniqueId();
             result.Player = player;
             result.IndependentRelation = relation;
-            result.AddRef();
+            _ = result.AddRef();
             result.Activate();
         }
         else

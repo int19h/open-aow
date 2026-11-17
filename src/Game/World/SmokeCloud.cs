@@ -44,7 +44,7 @@ public partial class SmokeCloud : MultiHexMapObject
     public override void Dispose()
     {
         base.Dispose();
-        Enchantment.Release();
+        _ = Enchantment.Release();
     }
 
     // SmokeCloud.pas:206
@@ -154,7 +154,7 @@ public partial class SmokeCloud : MultiHexMapObject
         SmokeCloudEnchantment smokeCloudEnchantment = Enchantment;
         if (smokeCloudEnchantment.PlayerIndex > 0 && !smokeCloudEnchantment.EnchantmentStatus.Contains(GlobalEnchantmentStatusElement.Activated))
         {
-            smokeCloudEnchantment.Activate(smokeCloudEnchantment.PlayerIndex);
+            _ = smokeCloudEnchantment.Activate(smokeCloudEnchantment.PlayerIndex);
         }
         UpdateConcealment(hexY: HexY, hexX: HexX, hexLevel: HexLevel);
         UpdateVisibleForSeatedPlayer();
@@ -166,7 +166,7 @@ public partial class SmokeCloud : MultiHexMapObject
         base.Deactivate();
         if (Enchantment.PlayerIndex > 0)
         {
-            Enchantment.Deactivate((byte)Enchantment.PlayerIndex);
+            _ = Enchantment.Deactivate((byte)Enchantment.PlayerIndex);
         }
         UpdateConcealment(hexLevel: GetHexLevel(), hexY: GetHexY(), hexX: GetHexX());
     }
@@ -184,12 +184,10 @@ public partial class SmokeCloud : MultiHexMapObject
     public override bool CanSelect(int pixelX, int pixelY)
     {
         bool result;
-        int hexX = default;
-        int hexY = default;
         int hexNumber;
         if (base.Resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            HexGeometry.PixelToHex(pixelX, pixelY, out hexX, out hexY);
+            HexGeometry.PixelToHex(pixelX, pixelY, out int hexX, out int hexY);
             hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, hexX, hexY);
             result = hexNumber < base.Resource.TerrainList.Count && base.Resource.TerrainList.Terrain[hexNumber] >= -1;
         }
@@ -273,24 +271,10 @@ public partial class SmokeCloud : MultiHexMapObject
                 direction = 0;
                 directions = new ByteList();
                 valid = false;
-                directions.Add(_direction);
-                if (_direction != 1)
-                {
-                    directions.Add((byte)(_direction - 1));
-                }
-                else
-                {
-                    directions.Add(6);
-                }
+                _ = directions.Add(_direction);
+                _ = _direction != 1 ? directions.Add((byte)(_direction - 1)) : directions.Add(6);
 
-                if (_direction != 6)
-                {
-                    directions.Add((byte)(_direction + 1));
-                }
-                else
-                {
-                    directions.Add(1);
-                }
+                _ = _direction != 6 ? directions.Add((byte)(_direction + 1)) : directions.Add(1);
 
                 while (directions.Count != 0 && !valid)
                 {
@@ -298,7 +282,7 @@ public partial class SmokeCloud : MultiHexMapObject
                     valid = ValidMoveDirection(direction);
                     if (!valid)
                     {
-                        directions.Remove((byte)direction);
+                        _ = directions.Remove((byte)direction);
                     }
                 }
 

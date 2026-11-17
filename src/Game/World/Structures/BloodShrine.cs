@@ -36,7 +36,7 @@ public partial class BloodShrine : Structure
         HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int pixelX, out int pixelY);
         pixelX -= pixelXSurface;
         pixelY -= pixelYSurface;
-        base.Resource.ImageSequenceList.Show(20, pixelX, pixelY, animation.FrameCounter, lockedSurface);
+        _ = base.Resource.ImageSequenceList.Show(20, pixelX, pixelY, animation.FrameCounter, lockedSurface);
     }
 
     // BloodShrine.pas:77
@@ -48,7 +48,7 @@ public partial class BloodShrine : Structure
         for (int i = 0, last = armyHexSprite.Army.Units.Count - 1; i <= last; i++)
         {
             troop = armyHexSprite.Army.Units.GetUnit(i);
-            GamePack.Current.AbilityControl.GetAbility(168).Expand(troop);
+            _ = GamePack.Current.AbilityControl.GetAbility(168).Expand(troop);
         }
 
         bool condition = armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer;
@@ -62,7 +62,7 @@ public partial class BloodShrine : Structure
 
         if (condition)
         {
-            AudioPlayback.PlaySample("SFX\\ATTACK\\ENCHP02.WAV");
+            _ = AudioPlayback.PlaySample("SFX\\ATTACK\\ENCHP02.WAV");
         }
 
         sbyte hexLevel2 = GetHexLevel();
@@ -78,7 +78,7 @@ public partial class BloodShrine : Structure
             sbyte hexLevel = GetHexLevel();
             sbyte hexY = GetHexY();
             sbyte hexX = GetHexX();
-            StrategicMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
+            _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
         }
     }
 

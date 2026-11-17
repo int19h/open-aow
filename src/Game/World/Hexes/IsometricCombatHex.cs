@@ -27,7 +27,7 @@ public partial class IsometricCombatHex : UpperIsometricHex
         int variant;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelX = pixelX - pixelXSurface - 8;
-        pixelY = pixelY - pixelYSurface;
+        pixelY -= pixelYSurface;
         imageLibrary = ((MapObject)this).Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
         variant = FrameFixtureInputs.CombatTextureVariant(this);
         if (variant == 3)

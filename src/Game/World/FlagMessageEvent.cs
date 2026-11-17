@@ -51,7 +51,7 @@ public partial class FlagMessageEvent : FlagEvent
             string text = _message.Text;
             log.Message.Text = text;
             StrategicMap.Current.TriggerExecuteEventLog(log, TriggerMode == FlagEventTriggerMode.Instant, null);
-            log.Release();
+            _ = log.Release();
         }
 
         return true;

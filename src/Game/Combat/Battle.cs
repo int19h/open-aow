@@ -98,7 +98,7 @@ public partial class Battle : EngineObject
         Sides[(int)CombatSideIndex.Attacker]?.Dispose();
         Sides[(int)CombatSideIndex.Defender]?.Dispose();
         CombatData?.Dispose();
-        Logbook.Release();
+        _ = Logbook.Release();
         base.Dispose();
     }
 
@@ -245,7 +245,7 @@ public partial class Battle : EngineObject
         byte wallType;
         byte player;
         LockExecuted();
-        Status = Status + Set<CombatStatusElement>.Of(CombatStatusElement.Executing);
+        Status += Set<CombatStatusElement>.Of(CombatStatusElement.Executing);
         wallType = 0;
         j = 0;
         while (wallType == 0 && j != CombatData.Parties.Count)
@@ -271,23 +271,23 @@ public partial class Battle : EngineObject
             CombatData.WallType = party.Wall;
         }
 
-        CombatData.TurnOrder.Add((byte)CombatData.DefenderPlayer);
+        _ = CombatData.TurnOrder.Add((byte)CombatData.DefenderPlayer);
         for (int i = 0, last = CombatData.Players.Count - 1; i <= last; i++)
         {
             player = (byte)i;
             if (CombatData.TurnOrder.IndexOf(player) == -1 && CombatData.Players.GetPlayers((sbyte)player).SideIndex == 1)
             {
-                CombatData.TurnOrder.Add(player);
+                _ = CombatData.TurnOrder.Add(player);
             }
         }
 
-        CombatData.TurnOrder.Add((byte)CombatData.AttackerPlayer);
+        _ = CombatData.TurnOrder.Add((byte)CombatData.AttackerPlayer);
         for (int i = 0, last = CombatData.Players.Count - 1; i <= last; i++)
         {
             player = (byte)i;
             if (CombatData.TurnOrder.IndexOf(player) == -1 && CombatData.Players.GetPlayers((sbyte)player).SideIndex == 0)
             {
-                CombatData.TurnOrder.Add(player);
+                _ = CombatData.TurnOrder.Add(player);
             }
         }
 
@@ -322,7 +322,7 @@ public partial class Battle : EngineObject
         }
 
         Logbook.SetFinalData(CombatData);
-        Status = Status - Set<CombatStatusElement>.Of(CombatStatusElement.Executing);
+        Status -= Set<CombatStatusElement>.Of(CombatStatusElement.Executing);
         data = CombatData;
         for (int i = data.GetCount() - 1; i >= 0; i--)
         {
@@ -381,7 +381,7 @@ public partial class Battle : EngineObject
     public virtual void Activate()
     {
         Assert(!Status.Contains(CombatStatusElement.Activated), "Combat already activated", "Combat.pas", 6595);
-        Status = Status + Set<CombatStatusElement>.Of(CombatStatusElement.Activated);
+        Status += Set<CombatStatusElement>.Of(CombatStatusElement.Activated);
         CombatData.Parties.Activate(this);
         for (int i = CombatData.GetCount() - 1; i >= 0; i--)
         {
@@ -403,7 +403,7 @@ public partial class Battle : EngineObject
     public virtual void Deactivate()
     {
         Assert(Status.Contains(CombatStatusElement.Activated), "Combat Failure during Deactivating", "Combat.pas", 6612);
-        Status = Status - Set<CombatStatusElement>.Of(CombatStatusElement.Activated);
+        Status -= Set<CombatStatusElement>.Of(CombatStatusElement.Activated);
         for (int i = CombatData.GetCount() - 1; i >= 0; i--)
         {
             CombatData.GetObjects(i).Deactivate();
@@ -419,7 +419,7 @@ public partial class Battle : EngineObject
         a = new NewCombatTurnCombatAction(null) { Holder = CreationHolder() };
         a.CombatPlayer = combatPlayer;
         ExecuteCombatAction(a);
-        a.Release();
+        _ = a.Release();
         UpdateSidesSettings();
     }
 
@@ -429,7 +429,7 @@ public partial class Battle : EngineObject
         NewCombatRoundCombatAction a;
         a = new NewCombatRoundCombatAction(null) { Holder = CreationHolder() };
         ExecuteCombatAction(a);
-        a.Release();
+        _ = a.Release();
     }
 
     // Combat.pas:6094
@@ -505,7 +505,7 @@ public partial class Battle : EngineObject
     {
         if (Status.Contains(CombatStatusElement.LogCombatActions))
         {
-            Logbook.Actions.AddChild(action);
+            _ = Logbook.Actions.AddChild(action);
         }
 
         action.Execute(this);
@@ -596,7 +596,7 @@ public partial class Battle : EngineObject
         a = new UpdateHeaderCombatAction(null) { Holder = CreationHolder() };
         a.Header = header;
         ExecuteCombatAction(a);
-        a.Release();
+        _ = a.Release();
     }
 
     // Combat.pas:6245
@@ -631,7 +631,7 @@ public partial class Battle : EngineObject
 
                     if (side != CombatSideIndex.Neutral)
                     {
-                        AddArmy(armyHexSprite.Army, side, walk.X, walk.Y, data.Location.MapLevel);
+                        _ = AddArmy(armyHexSprite.Army, side, walk.X, walk.Y, data.Location.MapLevel);
                     }
                 }
                 else
@@ -710,7 +710,7 @@ public partial class Battle : EngineObject
                     if (!valid)
                     {
                         unitObject.Disabled = true;
-                        unitObject.ControlMode = unitObject.ControlMode - Set<CombatObjectControlModeElement>.Of(CombatObjectControlModeElement.ConquerObject);
+                        unitObject.ControlMode -= Set<CombatObjectControlModeElement>.Of(CombatObjectControlModeElement.ConquerObject);
                     }
 
                     CombatData.AddObject(unitObject);
@@ -812,11 +812,11 @@ public partial class Battle : EngineObject
         if (GetPartyPosition(X, Y, L) == 7)
         {
             ExplorationSite = 2;
-            AddArmy(army, CombatSideIndex.Attacker, X, Y, L);
+            _ = AddArmy(army, CombatSideIndex.Attacker, X, Y, L);
             armyHexSprite = StrategicMap.Current.MapContainer.GetField(data.Location.X, data.Location.Y, data.Location.MapLevel).GetArmyHexSprite();
             if (armyHexSprite != null)
             {
-                AddArmy(armyHexSprite.Army, CombatSideIndex.Defender, data.Location.X, data.Location.Y, data.Location.MapLevel);
+                _ = AddArmy(armyHexSprite.Army, CombatSideIndex.Defender, data.Location.X, data.Location.Y, data.Location.MapLevel);
             }
             else
             {

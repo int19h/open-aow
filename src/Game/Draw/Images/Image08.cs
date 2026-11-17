@@ -100,10 +100,7 @@ public partial class Image08 : LibraryImage, ILibraryImageClass
     public void CreateLibraryImagePalette(Palette palette)
     {
         UnregisterPalette();
-        if (_imagePalette == null)
-        {
-            _imagePalette = new LibraryImagePalette();
-        }
+        _imagePalette ??= new LibraryImagePalette();
 
         _imagePalette.Palette.Assign(palette);
         RemapPaletteValue = _imagePalette.Palette;

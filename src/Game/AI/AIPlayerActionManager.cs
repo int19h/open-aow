@@ -37,7 +37,7 @@ public partial class AIPlayerActionManager : EngineObject
                 throw new InvalidOperationException("AIPlayerAction already Registered");
             }
 
-            _registeredClasses.Add(classes[i]);
+            _ = _registeredClasses.Add(classes[i]);
         }
 
         _registeredClasses.Sort(CompareAIPlayerActionClasses);
@@ -48,7 +48,7 @@ public partial class AIPlayerActionManager : EngineObject
     {
         for (int i = 0, last = classes.Length - 1; i <= last; i++)
         {
-            _registeredClasses.Remove(classes[i]);
+            _ = _registeredClasses.Remove(classes[i]);
         }
     }
 

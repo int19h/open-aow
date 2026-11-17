@@ -89,7 +89,7 @@ public partial class ItemControl : EngineObject
                 {
                     ValidateItem(item);
                     _items.Add(item);
-                    item.Status = item.Status + Set<ItemStatusElement>.Of(ItemStatusElement.Registered);
+                    item.Status += Set<ItemStatusElement>.Of(ItemStatusElement.Registered);
                 }
 
                 slot += 1;
@@ -103,7 +103,7 @@ public partial class ItemControl : EngineObject
         {
             if (_items[i].Owner == null)
             {
-                persister.CreatedSlot("Items", slot: next, objectValue: _items[i]);
+                _ = persister.CreatedSlot("Items", slot: next, objectValue: _items[i]);
                 next += 1;
             }
         }
@@ -213,9 +213,9 @@ public partial class ItemControl : EngineObject
             }
 
             ValidateItem(item);
-            item.Status = item.Status + Set<ItemStatusElement>.Of(ItemStatusElement.Registered);
+            item.Status += Set<ItemStatusElement>.Of(ItemStatusElement.Registered);
             _items.Add(item);
-            item.AddRef();
+            _ = item.AddRef();
             if (_status.Contains(StatusElement.Activated) && !item.Status.Contains(ItemStatusElement.Activated))
             {
                 item.Activate();
@@ -230,9 +230,9 @@ public partial class ItemControl : EngineObject
     {
         if (item.Status.Contains(ItemStatusElement.Registered))
         {
-            _items.Remove(item);
-            item.Status = item.Status - Set<ItemStatusElement>.Of(ItemStatusElement.Registered);
-            item.Release();
+            _ = _items.Remove(item);
+            item.Status -= Set<ItemStatusElement>.Of(ItemStatusElement.Registered);
+            _ = item.Release();
             NotifyChanged();
         }
     }
@@ -253,7 +253,7 @@ public partial class ItemControl : EngineObject
                 value = item.GetObtainValue();
                 if (value >= minValue && value <= maxValue)
                 {
-                    list.AddAbility(item, (int)item.Availability);
+                    _ = list.AddAbility(item, (int)item.Availability);
                 }
             }
         }
@@ -282,7 +282,7 @@ public partial class ItemControl : EngineObject
             item = _items[i];
             if (types.Contains(item.ItemType) && item.RefCount == 1)
             {
-                list.AddAbility(item, (int)item.Availability);
+                _ = list.AddAbility(item, (int)item.Availability);
             }
         }
 
@@ -333,7 +333,7 @@ public partial class ItemControl : EngineObject
     {
         if (!_status.Contains(StatusElement.Activated))
         {
-            _status = _status + Set<StatusElement>.Of(StatusElement.Activated);
+            _status += Set<StatusElement>.Of(StatusElement.Activated);
             for (int i = _items.Count - 1; i >= 0; i--)
             {
                 _items[i].Activate();
@@ -346,7 +346,7 @@ public partial class ItemControl : EngineObject
     {
         if (_status.Contains(StatusElement.Activated))
         {
-            _status = _status - Set<StatusElement>.Of(StatusElement.Activated);
+            _status -= Set<StatusElement>.Of(StatusElement.Activated);
             for (int i = _items.Count - 1; i >= 0; i--)
             {
                 _items[i].Deactivate();

@@ -96,14 +96,13 @@ public partial class TabPanel : Control
     //   with the down image and its text BorderHeightSelected pixels down }
     public override void Draw(LockedSurface lockedSurface)
     {
-        Rect oldClip = default;
         try
         {
             if (Valid && Visible)
             {
                 RaisePreDraw(this, lockedSurface);
 
-                oldClip = lockedSurface.ClipRectangle;
+                Rect oldClip = lockedSurface.ClipRectangle;
                 for (int i = 0, last = _items.Count - 1; i <= last; i++)
                 {
                     if (i != _selected)
@@ -145,7 +144,7 @@ public partial class TabPanel : Control
         }
         catch
         {
-            MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
         }
     }
 
@@ -231,7 +230,7 @@ public partial class TabPanel : Control
         for (int i = 0, last = value.Count - 1; i <= last; i++)
         {
             string valueValue = value[i];
-            _items.Add(valueValue);
+            _ = _items.Add(valueValue);
         }
     }
 

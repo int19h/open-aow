@@ -17,7 +17,7 @@ public partial class City
         StrategicMap map = StrategicMap.Current;
         if (Player != -1)
         {
-            map.Players.GetPlayers(Player).ProductionControls.Add(Production);
+            _ = map.Players.GetPlayers(Player).ProductionControls.Add(Production);
         }
 
         if (map.Status.Contains(HexSpriteMapStatusElement.Editting) && map.Day == 0)
@@ -46,10 +46,7 @@ public partial class City
                     CityImage = race.GetCityImage(size, terrain, field.HexLevel);
                 }
 
-                if (CityImage == null)
-                {
-                    CityImage = images[images.ImageExist(offset) ? offset : 0];
-                }
+                CityImage ??= images[images.ImageExist(offset) ? offset : 0];
             }
             else
             {

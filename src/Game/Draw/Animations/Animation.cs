@@ -101,32 +101,23 @@ public partial class Animation : HexSprite
     // Animation.pas:315
     public override void Connect()
     {
-        int x = default;
-        int y = default;
         if (!_state.Contains(StateElement.Placed))
         {
-            HexGeometry.HexToPixel(Location.X, Location.Y, out x, out y);
-            if (AnimationControlMode().Contains(AnimationControlModeElement.OwnedByMap))
-            {
-                PlaceOnMap(AnimationMap.MapContainer, x + Dimensions.Left, y + Dimensions.Top, Location.MapLevel, x + Dimensions.Right, y + Dimensions.Bottom);
-            }
-            else
-            {
-                PlaceUserOnMap(AnimationMap.MapContainer, x + Dimensions.Left, y + Dimensions.Top, Location.MapLevel, x + Dimensions.Right, y + Dimensions.Bottom);
-            }
+            HexGeometry.HexToPixel(Location.X, Location.Y, out int x, out int y);
+            _ = AnimationControlMode().Contains(AnimationControlModeElement.OwnedByMap)
+                ? PlaceOnMap(AnimationMap.MapContainer, x + Dimensions.Left, y + Dimensions.Top, Location.MapLevel, x + Dimensions.Right, y + Dimensions.Bottom)
+                : PlaceUserOnMap(AnimationMap.MapContainer, x + Dimensions.Left, y + Dimensions.Top, Location.MapLevel, x + Dimensions.Right, y + Dimensions.Bottom);
 
-            _state = _state + Set<StateElement>.Of(StateElement.Placed);
+            _state += Set<StateElement>.Of(StateElement.Placed);
         }
     }
 
     // Animation.pas:332
     public override void Disconnect()
     {
-        int x = default;
-        int y = default;
         if (_state.Contains(StateElement.Placed))
         {
-            HexGeometry.HexToPixel(Location.X, Location.Y, out x, out y);
+            HexGeometry.HexToPixel(Location.X, Location.Y, out int x, out int y);
             if (AnimationControlMode().Contains(AnimationControlModeElement.OwnedByMap))
             {
                 RemoveFromMap(x + Dimensions.Left, y + Dimensions.Top, x + Dimensions.Right, y + Dimensions.Bottom);
@@ -136,7 +127,7 @@ public partial class Animation : HexSprite
                 RemoveUserFromMap(AnimationMap.MapContainer, x + Dimensions.Left, y + Dimensions.Top, Location.MapLevel, x + Dimensions.Right, y + Dimensions.Bottom);
             }
 
-            _state = _state - Set<StateElement>.Of(StateElement.Placed);
+            _state -= Set<StateElement>.Of(StateElement.Placed);
         }
     }
 
@@ -156,14 +147,9 @@ public partial class Animation : HexSprite
         base.Remove();
         if (GetVisible())
         {
-            if (AnimationLevel <= 15)
-            {
-                AnimationMap.StaticVisibleHexSprite.RemoveChild(this);
-            }
-            else
-            {
-                AnimationMap.DynamicVisibleHexSprite.RemoveChild(this);
-            }
+            _ = AnimationLevel <= 15
+                ? AnimationMap.StaticVisibleHexSprite.RemoveChild(this)
+                : AnimationMap.DynamicVisibleHexSprite.RemoveChild(this);
 
             SetVisible(false);
         }
@@ -173,7 +159,7 @@ public partial class Animation : HexSprite
     public override void Activate()
     {
         base.Activate();
-        _state = _state + Set<StateElement>.Of(StateElement.Activated);
+        _state += Set<StateElement>.Of(StateElement.Activated);
         if (AnimationControlMode().Contains(AnimationControlModeElement.LinkToNewFrame))
         {
             AnimationMap.NewFrameEvents += NewFrameEvent;
@@ -181,7 +167,7 @@ public partial class Animation : HexSprite
 
         if (AnimationControlMode().Contains(AnimationControlModeElement.FixedVisible))
         {
-            AnimationMap.DynamicFixedVisibleHexSprite.AddChild(this);
+            _ = AnimationMap.DynamicFixedVisibleHexSprite.AddChild(this);
         }
 
         if (AnimationControlMode().Contains(AnimationControlModeElement.LinkToOnDestroy))
@@ -196,11 +182,11 @@ public partial class Animation : HexSprite
         base.Deactivate();
         if (_state.Contains(StateElement.Activated))
         {
-            _state = _state - Set<StateElement>.Of(StateElement.Activated);
+            _state -= Set<StateElement>.Of(StateElement.Activated);
             if (AnimationControlMode().Contains(AnimationControlModeElement.FixedVisible))
             {
-                AnimationMap.DynamicFixedVisibleHexSprite.RemoveChild(this);
-                AnimationMap.DynamicVisibleHexSprite.RemoveChild(this);
+                _ = AnimationMap.DynamicFixedVisibleHexSprite.RemoveChild(this);
+                _ = AnimationMap.DynamicVisibleHexSprite.RemoveChild(this);
             }
 
             if (AnimationControlMode().Contains(AnimationControlModeElement.LinkToNewFrame))
@@ -220,8 +206,8 @@ public partial class Animation : HexSprite
     {
         if (!_state.Contains(StateElement.Visible))
         {
-            _state = _state + Set<StateElement>.Of(StateElement.Visible);
-            visibilityList.AddSortChild(this, GetShowPriority());
+            _state += Set<StateElement>.Of(StateElement.Visible);
+            _ = visibilityList.AddSortChild(this, GetShowPriority());
         }
     }
 
@@ -229,14 +215,14 @@ public partial class Animation : HexSprite
     public override void Select()
     {
         base.Select();
-        _state = _state + Set<StateElement>.Of(StateElement.Selected);
+        _state += Set<StateElement>.Of(StateElement.Selected);
     }
 
     // Animation.pas:244
     public override void Unselect()
     {
         base.Unselect();
-        _state = _state - Set<StateElement>.Of(StateElement.Selected);
+        _state -= Set<StateElement>.Of(StateElement.Selected);
     }
 
     // Animation.pas:286

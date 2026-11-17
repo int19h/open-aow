@@ -61,14 +61,14 @@ public partial class SuicidalAIGroupControl : AIGroupControl
         {
             case 0:
                 finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
-                finder.Setup(this);
+                _ = finder.Setup(this);
                 finder.Selector.MovePointsMax = 100;
                 ActivatePlugin(finder);
-                finder.Release();
+                _ = finder.Release();
                 State += 1;
                 break;
             case 1:
-                Targets.Validate();
+                _ = Targets.Validate();
                 if (Targets.Count != 0)
                 {
                     Targets.SortOnPriority();

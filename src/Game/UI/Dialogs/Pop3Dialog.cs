@@ -83,7 +83,7 @@ public partial class Pop3Dialog : UIModule
         switch (_checkDelay)
         {
             case 25:
-                CheckAttachments();
+                _ = CheckAttachments();
                 break;
         }
     }

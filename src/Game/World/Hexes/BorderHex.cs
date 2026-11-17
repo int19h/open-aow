@@ -25,14 +25,14 @@ public partial class BorderHex : AbstractBorderHexagon
             MapField oldField = Owner;
             if (oldField != null && oldField.HexY != 0)
             {
-                oldField.Owner.GetField(oldField.HexX, Owner.HexY - 1).RemoveChild(this);
+                _ = oldField.Owner.GetField(oldField.HexX, Owner.HexY - 1).RemoveChild(this);
             }
 
             base.SetOwner(owner);
             MapField field = Owner;
             if (field != null && field.HexY != 0)
             {
-                field.Owner.GetField(field.HexX, Owner.HexY - 1).AddHexSprite(this, 1);
+                _ = field.Owner.GetField(field.HexX, Owner.HexY - 1).AddHexSprite(this, 1);
             }
         }
         else

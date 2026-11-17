@@ -19,7 +19,7 @@ public partial class Troop
         int resourceIndex;
         int result = 0;
         resourceIndex = GetUnitGraphicsResourceIndex();
-        GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(resourceIndex).AddRef();
+        _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(resourceIndex).AddRef();
         if (info.Animation != UnitAnimation.None)
         {
             sequence = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(resourceIndex).Sequences.List[((int)info.Animation * 6) + info.Direction - 1];
@@ -84,7 +84,7 @@ public partial class Troop
             }
             else
             {
-                GamePack.Current.AbilityControl.GetAbility(96).ImageSequences.Show(0, X + 32, Y + 32, 4, lockedSurface);
+                _ = GamePack.Current.AbilityControl.GetAbility(96).ImageSequences.Show(0, X + 32, Y + 32, 4, lockedSurface);
             }
         }
 
@@ -96,7 +96,7 @@ public partial class Troop
             }
             else
             {
-                GamePack.Current.AbilityControl.GetAbility(98).ImageSequences.Show(0, X + 32, Y + 32, 4, lockedSurface);
+                _ = GamePack.Current.AbilityControl.GetAbility(98).ImageSequences.Show(0, X + 32, Y + 32, 4, lockedSurface);
             }
         }
 
@@ -108,7 +108,7 @@ public partial class Troop
             }
             else
             {
-                GamePack.Current.AbilityControl.GetAbility(93).ImageSequences.Show(0, X + 32, Y + 32, 4, lockedSurface);
+                _ = GamePack.Current.AbilityControl.GetAbility(93).ImageSequences.Show(0, X + 32, Y + 32, 4, lockedSurface);
             }
         }
 
@@ -184,11 +184,11 @@ public partial class Troop
             }
             else
             {
-                GamePack.Current.ImageSequences.Show(70, X + 32, Y + 40, 5, lockedSurface);
+                _ = GamePack.Current.ImageSequences.Show(70, X + 32, Y + 40, 5, lockedSurface);
             }
         }
 
-        GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(resourceIndex).Release();
+        _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(resourceIndex).Release();
         return result;
     }
 }

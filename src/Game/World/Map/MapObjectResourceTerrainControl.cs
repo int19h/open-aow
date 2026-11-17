@@ -232,7 +232,7 @@ public partial class MapObjectResourceTerrainControl : EngineObject
                 throw new InvalidOperationException("Resource double defined (TMORTerrainControl)");
             }
 
-            _resources[terrainType].Add(resource);
+            _ = _resources[terrainType].Add(resource);
         }
     }
 

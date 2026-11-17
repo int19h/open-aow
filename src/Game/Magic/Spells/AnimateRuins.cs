@@ -50,9 +50,9 @@ public partial class AnimateRuins : CityTargetSpell
             log.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [animateRuins]);
             log.SetLocation(level: targetCity.GetHexLevel(), y: targetCity.GetHexY(), x: targetCity.GetHexX());
             EventLog.DistributeLocationEventLog(y: targetCity.GetHexY(), level: targetCity.GetHexLevel(), x: targetCity.GetHexX(), log: log, player: source.Player, execute: false);
-            log.Release();
+            _ = log.Release();
             PlayDefaultCityEffects(source, targetCity);
-            targetCity.ValidateObservation(source.Player);
+            _ = targetCity.ValidateObservation(source.Player);
             if (targetCity.Resource.ImageSequenceList.ImageSequences[20] != null)
             {
                 a = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
@@ -63,7 +63,7 @@ public partial class AnimateRuins : CityTargetSpell
                 sbyte hexLevel2 = targetCity.GetHexLevel();
                 sbyte hexY2 = targetCity.GetHexY();
                 sbyte targetCityHexX = targetCity.GetHexX();
-                StrategicMap.Current.PlaceHex(a, targetCityHexX, hexY2, hexLevel2);
+                _ = StrategicMap.Current.PlaceHex(a, targetCityHexX, hexY2, hexLevel2);
             }
 
             result = true;
@@ -84,8 +84,8 @@ public partial class AnimateRuins : CityTargetSpell
                     unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(UndeadUnitResourceIds[random]));
                     sbyte hexLevel = targetCity.GetHexLevel();
                     sbyte hexY = targetCity.GetHexY();
-                    unit.Place(targetCity.GetHexX(), hexY, hexLevel, source.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
-                    unit.Release();
+                    _ = unit.Place(targetCity.GetHexX(), hexY, hexLevel, source.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                    _ = unit.Release();
                 }
 
                 CastingDone(source, eventValue.EventMana);
@@ -115,7 +115,7 @@ public partial class AnimateRuins : CityTargetSpell
         if (imageSequenceAnimation.ImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FrameCounter) == 0 && GetEngine().AnimationDetail != 0)
         {
             int random = Random(2);
-            AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[random]);
+            _ = AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[random]);
         }
     }
 

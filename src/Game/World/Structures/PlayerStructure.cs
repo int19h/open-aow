@@ -54,7 +54,7 @@ public partial class PlayerStructure : Structure
     {
         base.PersistFields(persister);
         Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
-        PersistSupport.BitList(persister, name: "VictoryLocations", list: _victoryLocations);
+        _ = PersistSupport.BitList(persister, name: "VictoryLocations", list: _victoryLocations);
         ProductionPriority = persister.Byte("ProductionPriority", value: ProductionPriority);
     }
 
@@ -272,7 +272,7 @@ public partial class PlayerStructure : Structure
         RegisterVictoryLocations();
         if (Player != -1)
         {
-            StrategicMap.Current.Players.GetPlayers(Player).Structures.AddChild(this);
+            _ = StrategicMap.Current.Players.GetPlayers(Player).Structures.AddChild(this);
         }
     }
 
@@ -281,7 +281,7 @@ public partial class PlayerStructure : Structure
     {
         if (Player != -1)
         {
-            StrategicMap.Current.Players.GetPlayers(Player).Structures.RemoveChild(this);
+            _ = StrategicMap.Current.Players.GetPlayers(Player).Structures.RemoveChild(this);
         }
 
         UnregisterVictoryLocations();
@@ -336,7 +336,7 @@ public partial class PlayerStructure : Structure
     public override void BuildingDone()
     {
         base.BuildingDone();
-        UpdatePlayer();
+        _ = UpdatePlayer();
         UpdateExploration();
         UpdateUnfog();
     }
@@ -405,7 +405,7 @@ public partial class PlayerStructure : Structure
             ProductionPriority = 0;
             if (Player != -1)
             {
-                StrategicMap.Current.Players.GetPlayers(Player).Structures.RemoveChild(this);
+                _ = StrategicMap.Current.Players.GetPlayers(Player).Structures.RemoveChild(this);
             }
 
             if (StrategicMap.Current.Day > 0)
@@ -430,7 +430,7 @@ public partial class PlayerStructure : Structure
             StrategicMap.Current.NotifyPlayerChanged(hexX2, hexY2, hexLevel2);
             if (Player != -1)
             {
-                StrategicMap.Current.Players.GetPlayers(Player).Structures.AddChild(this);
+                _ = StrategicMap.Current.Players.GetPlayers(Player).Structures.AddChild(this);
             }
 
             if (Player > 0 && StrategicMap.Current.VictoryCondition == StrategicMapVictoryCondition.CaptureLocations)
@@ -511,7 +511,7 @@ public partial class PlayerStructure : Structure
                     if (Resource.TerrainList.Terrain[i] >= 0)
                     {
                         HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, i, ref x, ref y);
-                        StrategicMap.Current.FogArea(x, y, Owner.HexLevel, UnfogRange);
+                        _ = StrategicMap.Current.FogArea(x, y, Owner.HexLevel, UnfogRange);
                     }
                 }
             }
@@ -524,7 +524,7 @@ public partial class PlayerStructure : Structure
                     if (Resource.TerrainList.Terrain[i] >= 0)
                     {
                         HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, i, ref x, ref y);
-                        StrategicMap.Current.UnFogArea(x, y, Owner.HexLevel, UnfogRange);
+                        _ = StrategicMap.Current.UnFogArea(x, y, Owner.HexLevel, UnfogRange);
                     }
                 }
             }
@@ -548,7 +548,7 @@ public partial class PlayerStructure : Structure
                         {
                             HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, i, ref x, ref y);
                             int visibilityRange = VisibilityRange();
-                            StrategicMap.Current.ExploreArea(x, y, Owner.HexLevel, (sbyte)player, visibilityRange);
+                            _ = StrategicMap.Current.ExploreArea(x, y, Owner.HexLevel, (sbyte)player, visibilityRange);
                         }
                     }
                 }
@@ -598,7 +598,7 @@ public partial class PlayerStructure : Structure
             log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.StructureCapturedFormat), [editName]);
             log.Location = new MapCoordinate(GetHexX(), GetHexY(), GetHexLevel());
             EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), x: GetHexX(), log: log, player: Player, execute: false);
-            log.Release();
+            _ = log.Release();
         }
     }
 

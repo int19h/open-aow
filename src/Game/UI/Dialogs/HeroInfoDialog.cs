@@ -47,7 +47,7 @@ public partial class HeroInfoDialog : UIModule
         _armyInfo = null;
         done?.Invoke(eventValue);
 
-        eventValue?.Release();
+        _ = (eventValue?.Release());
     }
 
     // AoWHeroInfoDlg.pas:118
@@ -74,7 +74,7 @@ public partial class HeroInfoDialog : UIModule
             info = default;
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
-            _armyInfo.ArmyView.Units.GetUnit(index).Show(x - 33, y - 35, surface, info);
+            _ = _armyInfo.ArmyView.Units.GetUnit(index).Show(x - 33, y - 35, surface, info);
             if ((((int)(((uint)_armyInfo.Selection) >> index)) & 1) == 0)
             {
                 LibraryImage image = UI.Graphics.UnitBackgrounds[7];
@@ -170,7 +170,7 @@ public partial class HeroInfoDialog : UIModule
         Assert(dialog._armyInfo == null, "", "AoWHeroInfoDlg.pas", 80);
         dialog.Done = done;
         dialog._armyInfo = eventValue;
-        dialog._armyInfo.AddRef();
+        _ = dialog._armyInfo.AddRef();
         string text = eventValue.Messages.Text;
         dialog.MessageMemo.Items.Text = text;
         hero = dialog._armyInfo.ArmyView.Hero(dialog._armyInfo.Selection, RosterTables.AllHeroTypes);

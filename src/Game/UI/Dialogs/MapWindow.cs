@@ -252,7 +252,7 @@ public partial class MapWindow : UIModule
                 case 13:
                     if (shift.Contains(ShiftState.Ctrl) && CombatMap.Current != null)
                     {
-                        CombatMap.Current.EndTurn(false);
+                        _ = CombatMap.Current.EndTurn(false);
                         sender.Handled = true;
                     }
 

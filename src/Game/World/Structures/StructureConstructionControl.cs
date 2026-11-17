@@ -36,7 +36,7 @@ public partial class StructureConstructionControl : ConstructionControl
             eventValue.Player = troop.Player;
             eventValue.ControlId = Id();
             StrategicMap.Current.TokenManager.GetTokenControl(troop.Player).AddEvent(eventValue);
-            eventValue.Release();
+            _ = eventValue.Release();
             result = true;
         }
         else
@@ -51,17 +51,14 @@ public partial class StructureConstructionControl : ConstructionControl
     public virtual bool ValidateLocation(Troop troop, ref string reason)
     {
         StructureResource resource;
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         MapLevel level;
         MapField mapField;
         bool result = true;
         resource = StructureResource(troop);
         MapCoordinate coordinate39 = troop.GetLocation();
-        x = coordinate39.X;
-        y = coordinate39.Y;
-        l = coordinate39.MapLevel;
+        sbyte x = coordinate39.X;
+        sbyte y = coordinate39.Y;
+        sbyte l = coordinate39.MapLevel;
         level = StrategicMap.Current.MapContainer.GetMapLevel(l);
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, 0);
         while (resource.TerrainList.Count > walk.HexNumber && result)

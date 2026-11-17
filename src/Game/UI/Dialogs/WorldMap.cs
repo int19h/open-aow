@@ -104,7 +104,7 @@ public partial class WorldMap : UIModule
 
                     if (condition)
                     {
-                        SetCurrentDir(UI.Engine.StartupDirectory + "\\Int\\Scenes");
+                        _ = SetCurrentDir(UI.Engine.StartupDirectory + "\\Int\\Scenes");
                         WorldMapCampaign campaign2 = GetCampaign();
                         WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign2.CurrentScenarioId);
                         WorldMapCampaign campaign3 = GetCampaign();
@@ -226,7 +226,7 @@ public partial class WorldMap : UIModule
                         SetButton.Visible = false;
                         ShowButton.Visible = false;
                         QuitButton.Visible = false;
-                        Book.BackSurface?.Clear(Book.MaskColor);
+                        _ = (Book.BackSurface?.Clear(Book.MaskColor));
 
                         if (UI.TitleWindow.MainWindow.Visible)
                         {
@@ -420,7 +420,7 @@ public partial class WorldMap : UIModule
                         campaign2.State += 1;
                         WorldMapCampaign campaign3 = GetCampaign();
                         GetCampaign().StartScenario(campaign3.NextScenarioId, null);
-                        SetCurrentDir(UI.Engine.StartupDirectory + "Scenario\\Campaign\\");
+                        _ = SetCurrentDir(UI.Engine.StartupDirectory + "Scenario\\Campaign\\");
                         WorldMapCampaign campaign4 = GetCampaign();
                         WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign4.CurrentScenarioId);
                         General.LoadGame(UI.General, FileBoundary.ReadName(campaignScenario.FileName));
@@ -448,7 +448,7 @@ public partial class WorldMap : UIModule
     // AoWWorldMap.pas:347
     public void ShowIntroPages(int index)
     {
-        SetCurrentDir(UI.Engine.StartupDirectory + "Int\\Scenes");
+        _ = SetCurrentDir(UI.Engine.StartupDirectory + "Int\\Scenes");
         WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
         WorldMapCampaign campaign = GetCampaign();
         CampaignScenarioPage campaignPage = GetCampaignPage(campaignScenario.IntroPages, campaign.Page);
@@ -539,7 +539,7 @@ public partial class WorldMap : UIModule
         bookWindow.Hidden = true;
         bookWindow.Visible = true;
 
-        Book.BackSurface?.Clear(Book.MaskColor);
+        _ = (Book.BackSurface?.Clear(Book.MaskColor));
 
         if (UI.TitleWindow.MainWindow.Visible)
         {
@@ -568,7 +568,7 @@ public partial class WorldMap : UIModule
         string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_assignNewSpheresFormat), [IntToStr(2)]);
         UI.LeaderSetupWindow.Phase3Header.Text = format;
         control.OnDone += SpheresDone;
-        control.Release();
+        _ = control.Release();
         UI.LeaderSetupWindow.LeaderPanel.ImageLibraryTexture = UI.Graphics.WorldMap;
         UI.LeaderSetupWindow.LeaderPanel.ImageLibraryIndexTexture = 0;
     }
@@ -584,7 +584,7 @@ public partial class WorldMap : UIModule
             for (int i = GetCampaign().TransferSettings.Leader.GetSphereCount(), last = leader.GetSphereCount() - 1; i <= last; i++)
             {
                 MagicSphere sphere = leader.GetSpheres(i);
-                GetCampaign().TransferSettings.SelectedSpheres.Add((byte)(int)sphere);
+                _ = GetCampaign().TransferSettings.SelectedSpheres.Add((byte)(int)sphere);
             }
 
             WorldPanel.Visible = true;
@@ -605,7 +605,7 @@ public partial class WorldMap : UIModule
         BookContext = null;
         done?.Invoke(context);
 
-        context?.Release();
+        _ = (context?.Release());
 
         UI.General.Manager.OverlayPriority = 0;
     }
@@ -666,9 +666,9 @@ public partial class WorldMap : UIModule
         button.Visible = false;
 
         Book.Drawn = false;
-        Book.BackSurface?.Clear(Book.MaskColor);
+        _ = (Book.BackSurface?.Clear(Book.MaskColor));
 
-        AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
+        _ = AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
         BookAction = 1;
     }
 
@@ -681,7 +681,7 @@ public partial class WorldMap : UIModule
         BackButton.CaptureInput = false;
         NextButton.CaptureInput = false;
         BookStartButton.CaptureInput = false;
-        AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
+        _ = AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
         BookAction = 2;
     }
 
@@ -862,7 +862,7 @@ public partial class WorldMap : UIModule
     {
         GetCampaign().ResetNextScenario();
         GetCampaign().State = 1;
-        AudioPlayback.PlaySample("Sfx\\Int\\BookClse.wav");
+        _ = AudioPlayback.PlaySample("Sfx\\Int\\BookClse.wav");
         UpdateCampaignState();
     }
 
@@ -1017,7 +1017,7 @@ public partial class WorldMap : UIModule
     public void BookStartClick()
     {
         Book.Visible = false;
-        AudioPlayback.PlaySample("Sfx\\Int\\BookClse.wav");
+        _ = AudioPlayback.PlaySample("Sfx\\Int\\BookClse.wav");
         if (!WorldPanel.Visible)
         {
             UI.General.Manager.OverlayPriority = 0;
@@ -1234,8 +1234,8 @@ public partial class WorldMap : UIModule
         dialog._pathDelay = 5;
         dialog.DescriptionLabel.Text = "";
         dialog.UI.General.Manager.OverlayPriority = 249;
-        AudioHost.SongPlayer.Stop(false);
-        SetCurrentDir(dialog.UI.Engine.StartupDirectory);
+        _ = AudioHost.SongPlayer.Stop(false);
+        _ = SetCurrentDir(dialog.UI.Engine.StartupDirectory);
         WorldMapCampaign campaign = dialog.GetCampaign();
         if (IsEmpty(WorldMapCampaign.GetCampaignScenario(dialog.GetCampaign(), campaign.CurrentScenarioId).ImageLibrary))
         {
@@ -1247,7 +1247,7 @@ public partial class WorldMap : UIModule
             song = "Songs\\" + WorldMapCampaign.GetCampaignScenario(dialog.GetCampaign(), dialogCampaign.CurrentScenarioId).ImageLibrary;
         }
 
-        AudioPlayback.PlaySong(song, 1, 0, true);
+        _ = AudioPlayback.PlaySong(song, 1, 0, true);
         WorldMapCampaign campaign2 = dialog.GetCampaign();
         dialog.PlayerPawnImage.CurrentImage = campaign2.Faction + 7;
         WorldMapCampaign campaign3 = dialog.GetCampaign();

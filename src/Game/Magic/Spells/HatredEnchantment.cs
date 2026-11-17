@@ -48,7 +48,7 @@ public partial class HatredEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:876
     public override bool Deactivate(byte player)
     {
-        base.Deactivate(player);
+        _ = base.Deactivate(player);
         if (DaysActive > 10)
         {
             StrategicMap.Current.Races.RelationOffset += 40;
@@ -64,7 +64,7 @@ public partial class HatredEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:869
     public override bool Activate(sbyte player)
     {
-        base.Activate(player);
+        _ = base.Activate(player);
         NewDay();
         return true;
     }

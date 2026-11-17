@@ -59,17 +59,17 @@ public partial class RaidAIGroupControl : AIGroupControl
         {
             case 0:
                 AIGroupTargetFinder finder = new(null!) { Holder = CreationHolder() };
-                finder.Setup(this);
+                _ = finder.Setup(this);
                 finder.Selector.MovePointsMax = 100;
                 AITargetInfo targetInfo = finder.Selector.TargetInfo;
                 targetInfo.Mode = AITargetMode.Raid;
                 finder.Selector.TargetInfo = targetInfo;
                 ActivatePlugin(finder);
-                finder.Release();
+                _ = finder.Release();
                 State++;
                 break;
             case 1:
-                Targets.Validate();
+                _ = Targets.Validate();
                 if (Targets.Count != 0)
                 {
                     Targets.SortOnPriority();
@@ -87,11 +87,11 @@ public partial class RaidAIGroupControl : AIGroupControl
                 break;
             case 2:
                 AIGroupRazeControl raze = new(null!) { Holder = CreationHolder() };
-                raze.Setup(this);
+                _ = raze.Setup(this);
                 // loads the set byte 04 from in the original
                 raze.Mode = Set<AIGroupRazeControlModeElement>.Of(AIGroupRazeControlModeElement.Always);
                 ActivatePlugin(raze);
-                raze.Release();
+                _ = raze.Release();
                 State = 1;
                 break;
         }

@@ -20,9 +20,9 @@ public partial class DefaultMoveExecutorControl : AIMoveExecutorControl
         int i;
         AIMoveExecutorArmyList armies;
         AIMoveExecutorMove move;
-        byte moveResult = default;
         Set<CreateMoveModeElement> mode;
         bool cannotMove;
+        byte moveResult;
         switch (State)
         {
             case 0:
@@ -91,7 +91,7 @@ public partial class DefaultMoveExecutorControl : AIMoveExecutorControl
                     move = null;
                     while (move == null && i != armies.Count)
                     {
-                        move = CreateMove(armies.GetArmies(i), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(), out moveResult);
+                        move = CreateMove(armies.GetArmies(i), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(), out _);
                         if (move != null)
                         {
                             Executor.ExecuteMoves();

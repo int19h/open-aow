@@ -41,7 +41,7 @@ public partial class MapObjectResourceList : ResourceCollection, IChildList<MapO
                 if (terrainList == null || r.TerrainList.CompareTerrain(terrainList, mode))
                 {
                     result = true;
-                    list.Add(r);
+                    _ = list.Add(r);
                 }
             }
         }

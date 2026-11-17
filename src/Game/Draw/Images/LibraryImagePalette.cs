@@ -38,16 +38,13 @@ public partial class LibraryImagePalette : Persistent
         }
         else
         {
-            PixelFormats.Color2PixelInfo(0, pixelFormatId, _palette);
+            _ = PixelFormats.Color2PixelInfo(0, pixelFormatId, _palette);
             if (RemapPaletteValue == null || pixelFormatId != RemapPaletteValue.PixelFormatId)
             {
-                if (RemapPaletteValue == null)
-                {
-                    RemapPaletteValue = new Palette();
-                }
+                RemapPaletteValue ??= new Palette();
 
                 RemapPaletteValue.Assign(_palette);
-                RemapPaletteValue.Remap(pixelFormatId);
+                _ = RemapPaletteValue.Remap(pixelFormatId);
             }
 
             result = RemapPaletteValue;
@@ -64,10 +61,7 @@ public partial class LibraryImagePalette : Persistent
             _palette.Assign(palette._palette);
             if (palette.RemapPaletteValue != null)
             {
-                if (RemapPaletteValue == null)
-                {
-                    RemapPaletteValue = new Palette();
-                }
+                RemapPaletteValue ??= new Palette();
 
                 RemapPaletteValue.Assign(palette.RemapPaletteValue);
             }

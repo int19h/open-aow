@@ -58,7 +58,7 @@ public partial class CosmeticSurgery : UnitSpell
             caster.FaceIndex = targets.GetUnit(0) is Hero faceTarget ? faceTarget.FaceIndex : 0;
 
             StrategicMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
-            caster.Release();
+            _ = caster.Release();
             result = true;
         }
         else

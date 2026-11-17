@@ -32,16 +32,13 @@ public partial class GlobalTargetSpell : Spell
     // GlobalTargetSpells.pas:569
     public override bool CanActivate(Troop source, ref string messageText)
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte layer = default;
         bool result = base.CanActivate(source, ref messageText);
         if (result && AboveGroundOnly)
         {
             MapCoordinate coordinate68 = source.GetLocation();
-            x = coordinate68.X;
-            y = coordinate68.Y;
-            layer = coordinate68.MapLevel;
+            _ = coordinate68.X;
+            _ = coordinate68.Y;
+            sbyte layer = coordinate68.MapLevel;
             if (layer != 0)
             {
                 result = false;
@@ -57,7 +54,7 @@ public partial class GlobalTargetSpell : Spell
     {
         bool result;
         string messageText = "";
-        base.Activate(source);
+        _ = base.Activate(source);
         if (CanActivate(source, ref messageText))
         {
             _casterId = source.UnitId;
@@ -109,7 +106,7 @@ public partial class GlobalTargetSpell : Spell
         sbyte unitY = default;
         sbyte unitLayer = default;
         targetSelection.Initialize(source);
-        targetSelection.TargetMode = targetSelection.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.OwnerDraw, TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
+        targetSelection.TargetMode += Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.OwnerDraw, TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
         MapCoordinate coordinate69 = source.GetLocation();
         unitX = coordinate69.X;
         unitY = coordinate69.Y;
@@ -167,16 +164,13 @@ public partial class GlobalTargetSpell : Spell
 
     internal static bool GlobalTargetCanActivate(GlobalTargetSpell spell, Troop caster, ref string messageText)
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte layer = default;
         bool result = spell.CanActivateStatic(caster, ref messageText);
         if (result && spell.AboveGroundOnly)
         {
             MapCoordinate coordinate70 = caster.GetLocation();
-            x = coordinate70.X;
-            y = coordinate70.Y;
-            layer = coordinate70.MapLevel;
+            _ = coordinate70.X;
+            _ = coordinate70.Y;
+            sbyte layer = coordinate70.MapLevel;
             if (layer != 0)
             {
                 result = false;
@@ -191,7 +185,7 @@ public partial class GlobalTargetSpell : Spell
     {
         bool result;
         string messageText = "";
-        spell.ActivateStatic(caster);
+        _ = spell.ActivateStatic(caster);
         if (spell.CanActivate(caster, ref messageText))
         {
             spell._casterId = caster.UnitId;

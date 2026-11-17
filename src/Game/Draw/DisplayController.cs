@@ -24,10 +24,6 @@ public partial class DisplayController : Component
         Matrix m;
         int bw = default;
         int bh = default;
-        int pixelX2 = default;
-        int pixelY2 = default;
-        int blockWidth = default;
-        int blockHeight = default;
         int v;
         Rect clipR = default;
         Rect sourceR = default;
@@ -66,12 +62,14 @@ public partial class DisplayController : Component
 
                         if (m.GetValue((byte)i, (byte)j) != 0)
                         {
-                            GetInverseBlockSize(i, j, m, ref bw, ref bh);
-                            int left = sourceR.Left;
-                            int top = sourceR.Top;
-                            GetPixelPositionOfBlock(i, j, clipR, out left, out top, out blockWidth, out blockHeight);
+                            _ = GetInverseBlockSize(i, j, m, ref bw, ref bh);
+                            _ = sourceR.Left;
+                            _ = sourceR.Top;
+                            GetPixelPositionOfBlock(i, j, clipR, out int left, out int top, out int blockWidth, out int blockHeight);
                             sourceR.Left = left;
                             sourceR.Top = top;
+                            int pixelX2;
+                            int pixelY2;
                             if (bw > 1 || bh > 1)
                             {
                                 GetPixelPositionOfBlock(i + bw - 1, j + bh - 1, clipR, out pixelX2, out pixelY2, out blockWidth, out blockHeight);
@@ -85,9 +83,9 @@ public partial class DisplayController : Component
                             }
 
                             Rect? primarySurfaceRegion = GetPrimarySurfaceRegion();
-                            int left2 = destinationR.Left;
-                            int top2 = destinationR.Top;
-                            GetPixelPositionOfBlock(i, j, primarySurfaceRegion.Value, out left2, out top2, out blockWidth, out blockHeight);
+                            _ = destinationR.Left;
+                            _ = destinationR.Top;
+                            GetPixelPositionOfBlock(i, j, primarySurfaceRegion.Value, out int left2, out int top2, out blockWidth, out blockHeight);
                             destinationR.Left = left2;
                             destinationR.Top = top2;
                             Rect? primarySurfaceRegion2 = GetPrimarySurfaceRegion();
@@ -151,7 +149,7 @@ public partial class DisplayController : Component
     {
         if (Status.Contains(DisplayControllerStatusElement.Activated))
         {
-            Deactivate();
+            _ = Deactivate();
         }
 
         _inverseMatrix?.Dispose();
@@ -226,7 +224,7 @@ public partial class DisplayController : Component
         if (!Status.Contains(DisplayControllerStatusElement.Activated))
         {
             _display = display;
-            Status = Status + Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Activated);
+            Status += Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Activated);
             _display.CurrentFrameRate = _display.FrameRate;
             InvalidateAll();
             result = 0;
@@ -245,8 +243,8 @@ public partial class DisplayController : Component
         int result;
         if (Status.Contains(DisplayControllerStatusElement.Activated))
         {
-            Status = Status - Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Activated);
-            _display?.DeactivateDisplayController();
+            Status -= Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Activated);
+            _ = (_display?.DeactivateDisplayController());
 
             result = 0;
             _display = null;
@@ -273,7 +271,7 @@ public partial class DisplayController : Component
         }
         else
         {
-            RealizePaletteNow();
+            _ = RealizePaletteNow();
         }
     }
 
@@ -290,14 +288,14 @@ public partial class DisplayController : Component
     // DisplayC.pas:830
     public virtual int Hide()
     {
-        Status = Status - Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Visible);
+        Status -= Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Visible);
         return 0;
     }
 
     // DisplayC.pas:836
     public virtual int Show()
     {
-        Status = Status + Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Visible);
+        Status += Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Visible);
         return 0;
     }
 
@@ -368,7 +366,7 @@ public partial class DisplayController : Component
                 if (ok)
                 {
                     h1 += 1;
-                    q = q + matrix.Width;
+                    q += matrix.Width;
                     w1 = l;
                     size1 = h1 * l;
                 }
@@ -450,10 +448,6 @@ public partial class DisplayController : Component
     //   the range test checks BY2 >= 0 where BX2 >= 0 was meant (and BY1 twice). }
     public void InverseWndwithValue(int X, int Y, int W, int H, byte value)
     {
-        int bx1 = default;
-        int bx2 = default;
-        int by1 = default;
-        int by2 = default;
         Matrix m;
         Rect r = default;
         if (_inverseMatrix != null)
@@ -463,8 +457,8 @@ public partial class DisplayController : Component
             r.Right = GetSurface(1).Width;
             r.Top = 0;
             r.Bottom = GetSurface(1).Height;
-            GetBlockPositionOfPixel(X, Y, r, out bx1, out by1);
-            GetBlockPositionOfPixel(X + W, Y + H, r, out bx2, out by2);
+            GetBlockPositionOfPixel(X, Y, r, out int bx1, out int by1);
+            GetBlockPositionOfPixel(X + W, Y + H, r, out int bx2, out int by2);
             if (m.Width > bx1 && m.Height > by1 && by2 >= 0 && by1 >= 0)
             {
                 if (bx1 < 0)

@@ -52,7 +52,7 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
             {
                 if (GetChild(i) != null)
                 {
-                    Items[i].Release();
+                    _ = Items[i].Release();
                 }
             }
         }
@@ -71,7 +71,7 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
                 {
                     if (child.Owner != this)
                     {
-                        child.Release();
+                        _ = child.Release();
                         DeleteChildAt(i);
                     }
                     else
@@ -98,7 +98,7 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
         int result = base.RemoveChild(child);
         if (result != -1)
         {
-            child.Release();
+            _ = child.Release();
         }
 
         return result;
@@ -110,7 +110,7 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
         int result = base.AddChild(child);
         if (result != -1)
         {
-            child.AddRef();
+            _ = child.AddRef();
         }
 
         return result;
@@ -201,7 +201,7 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
             item = Items[i];
             if (item != null)
             {
-                result = result + item.GetAbilityMoveTypesAll();
+                result += item.GetAbilityMoveTypesAll();
             }
         }
 
@@ -218,7 +218,7 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
             item = Items[i];
             if (item != null)
             {
-                result = result + item.GetAbilityImmunityTypesAll();
+                result += item.GetAbilityImmunityTypesAll();
             }
         }
 
@@ -235,7 +235,7 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
             item = Items[i];
             if (item != null)
             {
-                result = result + item.GetAbilityProtectionTypesAll();
+                result += item.GetAbilityProtectionTypesAll();
             }
         }
 

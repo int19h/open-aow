@@ -25,10 +25,7 @@ public static class AudioHost
 
         SampleList = new SampleList();
         SampleDataList = new SampleDataList();
-        if (SoundSystems == null)
-        {
-            SoundSystems = new SoundSystemList();
-        }
+        SoundSystems ??= new SoundSystemList();
 
         SongPlayer = new SongPlayer();
     }
@@ -46,7 +43,7 @@ public static class AudioHost
 
         SampleDataList?.Dispose();
         SampleDataList = null;
-        SoundSystem?.Release();
+        _ = (SoundSystem?.Release());
 
         SoundSystems?.Dispose();
     }

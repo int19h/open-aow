@@ -108,13 +108,13 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
                     data.EnchantmentDuration = (sbyte)(data.EnchantmentDuration - 1);
                     if (data.EnchantmentDuration == 0)
                     {
-                        owner.RemoveAbility(AbilityId);
+                        _ = owner.RemoveAbility(AbilityId);
                     }
                 }
             }
             else
             {
-                owner.RemoveAbility(AbilityId);
+                _ = owner.RemoveAbility(AbilityId);
             }
         }
     }
@@ -170,7 +170,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
         {
             if (StrategicMap.Current != null && data.Enchantment.Source > -1)
             {
-                StrategicMap.Current.Players.GetPlayers(data.Enchantment.Source).MagicControl.UnregisterEnchantment(data.Enchantment);
+                _ = StrategicMap.Current.Players.GetPlayers(data.Enchantment.Source).MagicControl.UnregisterEnchantment(data.Enchantment);
             }
 
             SetAbility(owner, AbilityId, 0);
@@ -199,13 +199,13 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
                     data.EnchantmentDuration = (sbyte)(data.EnchantmentDuration - 1);
                     if (data.EnchantmentDuration == 0)
                     {
-                        combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
+                        _ = combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
                     }
                 }
             }
             else
             {
-                combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
+                _ = combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
             }
         }
     }
@@ -217,7 +217,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
         {
             case DurationMode.CombatTurn:
             case DurationMode.EntireCombat:
-                combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
+                _ = combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
                 break;
         }
     }

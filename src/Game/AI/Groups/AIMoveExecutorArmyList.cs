@@ -28,10 +28,8 @@ public partial class AIMoveExecutorArmyList : OwningNode, IChildList<AIMoveExecu
     // AIGroup.pas:4647
     public int IndexOf(ArmyHexSprite army, byte selection)
     {
-        byte foundSelection = default;
         int i;
         AIMoveExecutorArmy entry;
-        ArmyHexSprite foundArmy = default;
         // { byte local precedes the pointer local }
         i = Count;
         while (i != 0)
@@ -40,7 +38,7 @@ public partial class AIMoveExecutorArmyList : OwningNode, IChildList<AIMoveExecu
             entry = this[i];
             if (army.GetHexX() == entry.Location.X && army.GetHexY() == entry.Location.Y && army.GetHexLevel() == entry.Location.MapLevel)
             {
-                entry.RetrieveArmy(255, out foundArmy, out foundSelection);
+                entry.RetrieveArmy(255, out ArmyHexSprite foundArmy, out byte foundSelection);
                 if (army == foundArmy && foundSelection == selection)
                 {
                     return i;

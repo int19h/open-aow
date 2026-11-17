@@ -32,7 +32,7 @@ public partial class CityRebelDialog : UIModule
         _event = null;
         notify?.Invoke(eventValue);
 
-        eventValue?.Release();
+        _ = (eventValue?.Release());
     }
 
     // AoWCityRebelDlg.pas:60
@@ -66,7 +66,7 @@ public partial class CityRebelDialog : UIModule
     {
         dialog.OnClose = done;
         dialog._event = eventValue;
-        dialog._event.AddRef();
+        _ = dialog._event.AddRef();
         dialog.CityNameLabel.Text = dialog._event.CityName;
         dialog.RebelWindow.Visible = true;
     }

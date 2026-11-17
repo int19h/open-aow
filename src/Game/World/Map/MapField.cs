@@ -237,7 +237,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         bool done;
         int i;
         int level;
-        HexGeometry.HexToPixel(_location.X, _location.Y, out int pixelX, out int pixelY);
+        HexGeometry.HexToPixel(_location.X, _location.Y, out _, out _);
         i = StoredCount - 1;
         // { Preserve the original stack slot. }
         done = false;

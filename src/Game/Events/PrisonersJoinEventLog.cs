@@ -36,7 +36,7 @@ public partial class PrisonersJoinEventLog : JoinEventLog
             tokenEvent.Param = Player;
             tokenEvent.Action = 1;
             StrategicMap.Current.TokenManager.GetTokenControl(Player).AddEvent(tokenEvent);
-            tokenEvent.Release();
+            _ = tokenEvent.Release();
             result = true;
         }
         else
@@ -65,7 +65,7 @@ public partial class PrisonersJoinEventLog : JoinEventLog
                     {
                         int random = Random(15);
                         UnitGraphicsResource unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index);
-                        unitGraphicsResource.SfxLibraries[3].Play(0, 100, false, random, SamplePanning.Center, null);
+                        _ = unitGraphicsResource.SfxLibraries[3].Play(0, 100, false, random, SamplePanning.Center, null);
                     }
                 }
             }

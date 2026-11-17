@@ -73,7 +73,7 @@ public partial class HeroUpgradeDialog : UIModule
         _referencedHero = null;
         onClose?.Invoke(hero);
 
-        hero?.Release();
+        _ = (hero?.Release());
 
         _editedHero?.Dispose();
         _editedHero = null;
@@ -187,9 +187,9 @@ public partial class HeroUpgradeDialog : UIModule
             if (ability != null && ability.CanExpand(_editedHero) && ability.SelectionTypes.Contains(AbilitySelectionType.HeroUpgrade))
             {
                 string expandName = ability.ExpandName(_editedHero);
-                AvailableAbilitiesList.Items.AddObject(expandName, IntToObject(i));
+                _ = AvailableAbilitiesList.Items.AddObject(expandName, IntToObject(i));
                 int expandCost = ability.ExpandCost(_editedHero);
-                AvailableAbilitiesCostList.Items.Add(IntToStr(expandCost));
+                _ = AvailableAbilitiesCostList.Items.Add(IntToStr(expandCost));
             }
         }
 
@@ -211,8 +211,8 @@ public partial class HeroUpgradeDialog : UIModule
                     cost = IntToStr(ability.GetSkillPoints(_editedHero) - ability.GetSkillPoints(_hero));
                 }
 
-                SelectedAbilitiesCostList.Items.Add(cost);
-                SelectedAbilitiesList.Items.AddObject(name, IntToObject(i));
+                _ = SelectedAbilitiesCostList.Items.Add(cost);
+                _ = SelectedAbilitiesList.Items.AddObject(name, IntToObject(i));
             }
         }
 
@@ -425,7 +425,7 @@ public partial class HeroUpgradeDialog : UIModule
             abilityId = ObjectToInt(list.Items.Objects[index]);
             if (CanAddAbility(abilityId))
             {
-                _editedHero.ExpandAbility(abilityId);
+                _ = _editedHero.ExpandAbility(abilityId);
                 RefreshAbilities();
                 RefreshStatistics();
             }
@@ -452,7 +452,7 @@ public partial class HeroUpgradeDialog : UIModule
                 }
             }
 
-            _editedHero.RemoveAbility(abilityId);
+            _ = _editedHero.RemoveAbility(abilityId);
             RefreshAbilities();
             RefreshStatistics();
         }
@@ -512,7 +512,7 @@ public partial class HeroUpgradeDialog : UIModule
                 eventValue.Moves = (sbyte)(_editedHero.UnitMoves - _hero.UnitMoves);
                 eventValue.Abilities.AssignAbility(_editedHero);
                 StrategicMap.Current.TokenManager.GetTokenControl(_hero.Player).AddEvent(eventValue);
-                eventValue.Release();
+                _ = eventValue.Release();
                 Window.Visible = false;
             }
         }
@@ -563,7 +563,7 @@ public partial class HeroUpgradeDialog : UIModule
     internal static void ShowHeroUpgrade(HeroUpgradeDialog dialog, HeroUpgradeEventLog eventValue, ExecuteDoneEvent completed)
     {
         dialog._referencedHero = eventValue;
-        dialog._referencedHero.AddRef();
+        _ = dialog._referencedHero.AddRef();
         dialog.OnClose = completed;
         if (dialog.ValidateHero())
         {

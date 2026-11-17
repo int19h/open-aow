@@ -144,13 +144,13 @@ public partial class NegotiateTokenEvent : TokenEvent
             if (ArmyHexSprite != null && Mode.Contains(NegotiateModeElement.MoveOnAccept))
             {
                 path = new MovePath();
-                path.AddMapCoordinate(Location.X, Location.Y, Location.MapLevel);
-                path.AddMapCoordinate(y: ArmyHexSprite.HexY, x: ArmyHexSprite.HexX, mapLevel: ArmyHexSprite.HexLevel);
+                _ = path.AddMapCoordinate(Location.X, Location.Y, Location.MapLevel);
+                _ = path.AddMapCoordinate(y: ArmyHexSprite.HexY, x: ArmyHexSprite.HexX, mapLevel: ArmyHexSprite.HexLevel);
                 path.List[0] = path.List[0] with { MoveCost = (sbyte)MovePoints };
                 move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, (MoveAction)(byte)3, Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation));
-                StrategicMap.Current.TokenManager.TokenExecutor.InsertExecuteEvent(move);
+                _ = StrategicMap.Current.TokenManager.TokenExecutor.InsertExecuteEvent(move);
                 // { Original bug: no nil check after CreateArmyMoveTE can return nil. }
-                move.Release();
+                _ = move.Release();
                 path?.Dispose();
             }
         }
@@ -164,13 +164,13 @@ public partial class NegotiateTokenEvent : TokenEvent
         if (Offer == NegotiateOffer.ForceOffer && ArmyHexSprite != null && Mode.Contains(NegotiateModeElement.AttackOnReject))
         {
             path = new MovePath();
-            path.AddMapCoordinate(Location.X, Location.Y, Location.MapLevel);
-            path.AddMapCoordinate(y: ArmyHexSprite.HexY, x: ArmyHexSprite.HexX, mapLevel: ArmyHexSprite.HexLevel);
+            _ = path.AddMapCoordinate(Location.X, Location.Y, Location.MapLevel);
+            _ = path.AddMapCoordinate(y: ArmyHexSprite.HexY, x: ArmyHexSprite.HexX, mapLevel: ArmyHexSprite.HexLevel);
             path.List[0] = path.List[0] with { MoveCost = (sbyte)MovePoints };
             move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, (MoveAction)(byte)1, Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation));
-            StrategicMap.Current.TokenManager.TokenExecutor.InsertExecuteEvent(move);
+            _ = StrategicMap.Current.TokenManager.TokenExecutor.InsertExecuteEvent(move);
             // { Original bug: no nil check after CreateArmyMoveTE can return nil. }
-            move.Release();
+            _ = move.Release();
             path?.Dispose();
         }
     }

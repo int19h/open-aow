@@ -34,7 +34,7 @@ public partial class EndTurnTokenEvent : TokenEvent
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         ExecuteResult result;
-        base.Execute(tokenEvent);
+        _ = base.Execute(tokenEvent);
         if (StrategicMap.Current.Day == Day)
         {
             if (Mode == EndTurnTokenEventMode.EndTurn && !StrategicMap.Current.Players.GetPlayers(Player).SingleProcessCycle)

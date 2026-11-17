@@ -103,12 +103,12 @@ public partial class ProductionPlace : PlayerStructure
         {
             if (GetMagicSphere() == MagicSphere.None)
             {
-                StrategicMap.Current.Players.GetPlayers(Player).ProductionControls.Add(ProductionControl);
+                _ = StrategicMap.Current.Players.GetPlayers(Player).ProductionControls.Add(ProductionControl);
             }
 
             if (_powerSource != null)
             {
-                StrategicMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
+                _ = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
             }
 
             if (_incomeSource != null)
@@ -125,12 +125,12 @@ public partial class ProductionPlace : PlayerStructure
         {
             if (GetMagicSphere() == MagicSphere.None)
             {
-                StrategicMap.Current.Players.GetPlayers(Player).ProductionControls.Remove(ProductionControl);
+                _ = StrategicMap.Current.Players.GetPlayers(Player).ProductionControls.Remove(ProductionControl);
             }
 
             if (_powerSource != null)
             {
-                StrategicMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
+                _ = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
             }
 
             if (_incomeSource != null)
@@ -257,7 +257,7 @@ public partial class ProductionPlace : PlayerStructure
                 case AITargetMode.Produce:
                     if (info.Player == Player)
                     {
-                        data.Priority = data.Priority | 2;
+                        data.Priority |= 2;
                     }
 
                     break;
@@ -304,7 +304,7 @@ public partial class ProductionPlace : PlayerStructure
             {
                 if (_powerSource != null)
                 {
-                    StrategicMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
+                    _ = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
                 }
 
                 if (_incomeSource != null)
@@ -314,7 +314,7 @@ public partial class ProductionPlace : PlayerStructure
 
                 if (GetMagicSphere() == MagicSphere.None)
                 {
-                    StrategicMap.Current.Players.GetPlayers(Player).ProductionControls.Remove(ProductionControl);
+                    _ = StrategicMap.Current.Players.GetPlayers(Player).ProductionControls.Remove(ProductionControl);
                 }
             }
 
@@ -323,7 +323,7 @@ public partial class ProductionPlace : PlayerStructure
             {
                 if (_powerSource != null)
                 {
-                    StrategicMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
+                    _ = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
                 }
 
                 if (_incomeSource != null)
@@ -333,7 +333,7 @@ public partial class ProductionPlace : PlayerStructure
 
                 if (GetMagicSphere() == MagicSphere.None)
                 {
-                    StrategicMap.Current.Players.GetPlayers(Player).ProductionControls.Add(ProductionControl);
+                    _ = StrategicMap.Current.Players.GetPlayers(Player).ProductionControls.Add(ProductionControl);
                 }
             }
         }
@@ -386,7 +386,7 @@ public partial class ProductionPlace : PlayerStructure
             log.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.StructureCapturedFormat), [editName]);
             log.Location = new MapCoordinate(HexX, HexY, HexLevel);
             EventLog.DistributeLocationEventLog(y: HexY, x: HexX, log: log, player: Player, level: HexLevel, execute: false);
-            log.Release();
+            _ = log.Release();
         }
     }
 
@@ -424,11 +424,11 @@ public partial class ProductionPlace : PlayerStructure
                     UnitIndexListCollection unitIndexListCollection = Resource.Defenders;
                     for (int i = unitIndexListCollection.GetCollectionCount(collection) - 1; i >= 0; i--)
                     {
-                        units.Add(unitIndexListCollection.GetU(collection, i));
+                        _ = units.Add(unitIndexListCollection.GetU(collection, i));
                     }
 
                     sbyte hexY = HexY;
-                    AbilityRules.PlaceRandomUnits(HexX, hexY, HexLevel, 0, units, 4, budget, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature), engine: GetEngine());
+                    _ = AbilityRules.PlaceRandomUnits(HexX, hexY, HexLevel, 0, units, 4, budget, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature), engine: GetEngine());
                     armyHexSprite = Owner.GetArmyHexSprite();
                     if (armyHexSprite != null && armyHexSprite.Army.Player == 0)
                     {
@@ -459,12 +459,12 @@ public partial class ProductionPlace : PlayerStructure
         {
             if (GetBaseIncome() > 0)
             {
-                names.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.BaseIncomeText));
-                values.Add(IntToStr(GetBaseIncome()));
+                _ = names.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.BaseIncomeText));
+                _ = values.Add(IntToStr(GetBaseIncome()));
                 if (ProductionControl.Status != ProductionControlStatus.Producing || (ProductionControl.Queue.GetItem(0).Order is Trade && GetBaseIncome() > 0))
                 {
-                    names.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducingMerchandiseText));
-                    values.Add(IntToStr(Round(GetBaseIncome() * 0.25)));
+                    _ = names.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducingMerchandiseText));
+                    _ = values.Add(IntToStr(Round(GetBaseIncome() * 0.25)));
                 }
             }
         }
@@ -476,12 +476,12 @@ public partial class ProductionPlace : PlayerStructure
                 picks = StrategicMap.Current.Players.GetPlayers(Player).Leader.GetSpherePicks(magicSphere);
                 MagicSphere magicSphere2 = GetMagicSphere();
                 string magicSphereText = AbilityRules.TranslateResourceString(GetEngine(), GameTables.MagicSphereTexts[(int)magicSphere2]);
-                names.Add(Format(AbilityRules.TranslateResourceString(GetEngine(), s_sphereCountFormat), [IntToStr(picks), LowerCase(magicSphereText)]));
-                values.Add(IntToStr(picks * 5));
+                _ = names.Add(Format(AbilityRules.TranslateResourceString(GetEngine(), s_sphereCountFormat), [IntToStr(picks), LowerCase(magicSphereText)]));
+                _ = values.Add(IntToStr(picks * 5));
                 if (ProductionControl.Status != ProductionControlStatus.Producing || ProductionControl.Queue.GetItem(0).Order is Trade)
                 {
-                    names.Add(AbilityRules.TranslateResourceString(GetEngine(), s_extraPowerText));
-                    values.Add(IntToStr(Round(picks * 5 * 0.25)));
+                    _ = names.Add(AbilityRules.TranslateResourceString(GetEngine(), s_extraPowerText));
+                    _ = values.Add(IntToStr(Round(picks * 5 * 0.25)));
                 }
             }
         }
@@ -547,11 +547,11 @@ public partial class ProductionPlace : PlayerStructure
                         animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(29).CastImages.GetImageSequence(0));
                         sbyte hexY2 = HexY;
                         sbyte hexX2 = HexX;
-                        StrategicMap.Current.PlaceHex(animation, hexX2, hexY2, HexLevel);
+                        _ = StrategicMap.Current.PlaceHex(animation, hexX2, hexY2, HexLevel);
                     }
                 }
 
-                unit.Release();
+                _ = unit.Release();
             }
         }
     }
@@ -622,7 +622,7 @@ public partial class ProductionPlace : PlayerStructure
             item = new ProductionItem(null) { Holder = CreationHolder() };
             item.Order = queue ? new Trade(1) : new Trade(-1);
 
-            ProductionControl.Produce(item, queue);
+            _ = ProductionControl.Produce(item, queue);
             item?.Dispose();
             result = true;
         }

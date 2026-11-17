@@ -158,7 +158,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
 
         if (count == 0)
         {
-            player.AIBudget.ReturnExpense(budget.Gold, budget.Mana);
+            _ = player.AIBudget.ReturnExpense(budget.Gold, budget.Mana);
             budget.Gold = 0;
             budget.Mana = 0;
             budget.RequiredGold = 0;
@@ -216,7 +216,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
                 if (valid)
                 {
                     priority = (city.GetSize() * 2) + city.ProductionPriority + (city.WallType * 3);
-                    cities.AddAbility(city, priority);
+                    _ = cities.AddAbility(city, priority);
                 }
             }
         }
@@ -246,12 +246,12 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
                 if (index > researchBudget.Gold)
                 {
                     index -= researchBudget.Gold;
-                    player.AIBudget.BudgetExpenseMade(researchBudget.Gold, 0, researchBudget, AIBudgetManager.ExpenseMode.Budget);
-                    player.AIBudget.BudgetExpenseMade(index, 0, upgradeBudget, AIBudgetManager.ExpenseMode.Budget);
+                    _ = player.AIBudget.BudgetExpenseMade(researchBudget.Gold, 0, researchBudget, AIBudgetManager.ExpenseMode.Budget);
+                    _ = player.AIBudget.BudgetExpenseMade(index, 0, upgradeBudget, AIBudgetManager.ExpenseMode.Budget);
                 }
                 else
                 {
-                    player.AIBudget.BudgetExpenseMade(index, 0, researchBudget, AIBudgetManager.ExpenseMode.Budget);
+                    _ = player.AIBudget.BudgetExpenseMade(index, 0, researchBudget, AIBudgetManager.ExpenseMode.Budget);
                 }
 
                 result = true;
@@ -318,7 +318,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
             {
                 city = found;
                 priority = (city.GetSize() * 2) + city.ProductionPriority + (city.WallType * 3);
-                cities.AddAbility(city, priority);
+                _ = cities.AddAbility(city, priority);
             }
         }
 
@@ -331,7 +331,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
             production.Order = new Upgrade();
             city.Production.ExecuteAddProduction(production);
             production?.Dispose();
-            player.AIBudget.BudgetExpenseMade(250, 0, budget, AIBudgetManager.ExpenseMode.Budget);
+            _ = player.AIBudget.BudgetExpenseMade(250, 0, budget, AIBudgetManager.ExpenseMode.Budget);
 
             result = true;
         }
@@ -367,7 +367,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
 
         if (count == 0)
         {
-            player.AIBudget.ReturnExpense(budget.Gold, budget.Mana);
+            _ = player.AIBudget.ReturnExpense(budget.Gold, budget.Mana);
             budget.Gold = 0;
             budget.Mana = 0;
             budget.RequiredGold = 0;
@@ -441,7 +441,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
                     priority += 3;
                 }
 
-                cities.AddAbility(city, priority);
+                _ = cities.AddAbility(city, priority);
             }
         }
 
@@ -451,7 +451,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
             city = cities[0].First;
             city.Production.ExecuteDeleteProductions();
             int fortifyCost = city.FortifyCost();
-            player.AIBudget.BudgetExpenseMade(fortifyCost, 0, budget, AIBudgetManager.ExpenseMode.Budget);
+            _ = player.AIBudget.BudgetExpenseMade(fortifyCost, 0, budget, AIBudgetManager.ExpenseMode.Budget);
             production = new ProductionItem(null) { Holder = CreationHolder() };
             production.Order = new Fortify();
             city.Production.ExecuteAddProduction(production);
@@ -491,7 +491,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
 
         if (count == 0)
         {
-            player.AIBudget.ReturnExpense(budget.Gold, budget.Mana);
+            _ = player.AIBudget.ReturnExpense(budget.Gold, budget.Mana);
             budget.Gold = 0;
             budget.Mana = 0;
             budget.RequiredGold = 0;

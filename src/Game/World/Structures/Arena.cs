@@ -179,7 +179,7 @@ public partial class Arena : Structure
             tokenEvent.Param = player;
             tokenEvent.Action = 1;
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(tokenEvent);
-            tokenEvent.Release();
+            _ = tokenEvent.Release();
             result = true;
         }
         else
@@ -215,15 +215,15 @@ public partial class Arena : Structure
             for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
             {
                 Troop troop = army.Army.Units.GetUnit(i);
-                log.UnitIds.Add(troop.UnitId);
+                _ = log.UnitIds.Add(troop.UnitId);
                 if (UnitTrainCost(army.Army.Units.GetUnit(i)) != -1)
                 {
                     log.Trainable = (byte)(log.Trainable | (1 << i));
                 }
             }
 
-            log.Execute(true, ExecuteTrigger.User, null);
-            log.Release();
+            _ = log.Execute(true, ExecuteTrigger.User, null);
+            _ = log.Release();
             result = true;
         }
         else

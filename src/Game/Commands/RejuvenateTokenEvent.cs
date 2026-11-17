@@ -24,22 +24,22 @@ public partial class RejuvenateTokenEvent : GlobalTargetSpellTokenEvent
     public override bool Process(Troop source, int value)
     {
         TwinkleAnimation twinkle = default;
-        base.Process(source, value);
-        StrategicMap.Current.ValidateTerrainObservation(source.Player, (sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2);
+        _ = base.Process(source, value);
+        _ = StrategicMap.Current.ValidateTerrainObservation(source.Player, (sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2);
         if (StrategicMap.Current.TerrainVisible((sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2))
         {
             twinkle = new TwinkleAnimation(null) { Holder = CreationHolder() };
             twinkle.Setup(GamePack.Current.SpellControl.GetSpell(41).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 100, 64, 50, 30);
-            StrategicMap.Current.PlaceHex(twinkle, Location.X, Location.Y, Location.MapLevel);
+            _ = StrategicMap.Current.PlaceHex(twinkle, Location.X, Location.Y, Location.MapLevel);
         }
 
         // Use the map's seated player.
         if (StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.WatchingTerrain((sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2))
         {
-            GamePack.Current.SpellControl.GetSpell(41).CastSounds.Play(0);
+            _ = GamePack.Current.SpellControl.GetSpell(41).CastSounds.Play(0);
         }
 
-        StrategicMap.Current.ChangeTerrain(null, Location.X, Location.Y, Location.MapLevel, 2, RejuvenateTerrain, null);
+        _ = StrategicMap.Current.ChangeTerrain(null, Location.X, Location.Y, Location.MapLevel, 2, RejuvenateTerrain, null);
         Spell spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
         GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
         // The original event result is zero.

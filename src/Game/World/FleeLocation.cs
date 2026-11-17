@@ -30,11 +30,9 @@ public partial class FleeLocation : MapObject
     // FleeLoc.pas:151
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int x = default;
-        int y = default;
         if (_alpha > 0)
         {
-            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out x, out y);
+            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
             base.Resource.ImageLibrary.Get(0).ShowBlended(x - pixelXSurface - 8, y - pixelYSurface, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[_alpha]);
         }
     }
@@ -91,7 +89,7 @@ public partial class FleeLocation : MapObject
             if (oldHex != null)
             {
                 oldHex?.Dispose();
-                GamePack.Current.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, 0, 1);
+                _ = GamePack.Current.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, 0, 1);
             }
         }
 
@@ -124,7 +122,7 @@ public partial class FleeLocation : MapObject
         {
             if ((_alpha > 0 && _alphaStep < 0) || (_alpha < 50 && _alphaStep > 0))
             {
-                _alpha = _alpha + _alphaStep;
+                _alpha += _alphaStep;
             }
         }
     }

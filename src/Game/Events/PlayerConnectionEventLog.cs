@@ -30,7 +30,7 @@ public partial class PlayerConnectionEventLog : MessageEventLog
         log.DefaultName = "";
         log.Directory = GetEngine().StartupDirectory + "Save\\";
         StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ExitSaveGameCallback);
-        log.Release();
+        _ = log.Release();
         return true;
     }
 
@@ -53,16 +53,16 @@ public partial class PlayerConnectionEventLog : MessageEventLog
                 string outOfSync = AbilityRules.TranslateResourceString(GetEngine(), s_outOfSyncText);
                 Message.Text = outOfSync;
                 string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_terminateGameSaveText);
-                Message.Add(translatedText);
+                _ = Message.Add(translatedText);
                 break;
             case 1:
                 Buttons = MessageEventLogButtons.YesNo;
                 string name = StrategicMap.Current.Players.GetPlayers(_disconnectedPlayer).GetName();
                 string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_connectionTimeOutFormat), [name]);
                 Message.Text = format;
-                Message.Add("");
+                _ = Message.Add("");
                 string terminateGameSave = AbilityRules.TranslateResourceString(GetEngine(), s_terminateGameSaveText);
-                Message.Add(terminateGameSave);
+                _ = Message.Add(terminateGameSave);
                 break;
             case 2:
                 Buttons = MessageEventLogButtons.YesNo;
@@ -78,9 +78,9 @@ public partial class PlayerConnectionEventLog : MessageEventLog
                     Message.Text = connectionLost;
                 }
 
-                Message.Add("");
+                _ = Message.Add("");
                 string terminateGameSaveText = AbilityRules.TranslateResourceString(GetEngine(), s_terminateGameSaveText);
-                Message.Add(terminateGameSaveText);
+                _ = Message.Add(terminateGameSaveText);
                 break;
         }
     }

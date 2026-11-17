@@ -20,16 +20,13 @@ public partial class LiquidFormEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1364
     public override bool Remove(AbilityOwner owner)
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         bool result = base.Remove(owner);
         if (result && owner is Troop troop && owner.Owner is Army army)
         {
             MapCoordinate coordinate88 = troop.GetLocation();
-            x = coordinate88.X;
-            y = coordinate88.Y;
-            l = coordinate88.MapLevel;
+            sbyte x = coordinate88.X;
+            sbyte y = coordinate88.Y;
+            sbyte l = coordinate88.MapLevel;
             if (x != -1)
             {
                 MapField mapField = StrategicMap.Current.MapContainer.GetField(x, y, l);

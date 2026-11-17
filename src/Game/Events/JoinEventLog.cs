@@ -78,7 +78,6 @@ public partial class JoinEventLog : EventLog
     {
         int i;
         Troop troop;
-        MapCoordinate location = default;
         bool result = true;
         i = UnitIds.Count;
         while (result && i != 0)
@@ -93,7 +92,7 @@ public partial class JoinEventLog : EventLog
                 sbyte locationX = coordinate20.X;
                 sbyte locationY = coordinate20.Y;
                 sbyte locationMapLevel = coordinate20.MapLevel;
-                location = new MapCoordinate(locationX, locationY, locationMapLevel);
+                MapCoordinate location = new(locationX, locationY, locationMapLevel);
                 result = _location.X == location.X && _location.Y == location.Y && _location.MapLevel == location.MapLevel;
             }
         }
@@ -109,7 +108,7 @@ public partial class JoinEventLog : EventLog
         {
             int item = UnitIds[i];
             troop = StrategicMap.Current.UnitControl.FindUnit(item);
-            units.AddUnit(troop);
+            _ = units.AddUnit(troop);
         }
 
         selection = Selection;
@@ -157,7 +156,7 @@ public partial class JoinEventLog : EventLog
             }
 
             Troop troop = army.Units.GetUnit(i);
-            UnitIds.Add(troop.UnitId);
+            _ = UnitIds.Add(troop.UnitId);
         }
 
         _location = HexGeometry.PackMapCoordinate(army.Location.X, army.Location.Y, army.Location.MapLevel);

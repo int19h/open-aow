@@ -48,7 +48,7 @@ public partial class MapObject
             SetResourceLinked(false);
             _unlinkedResourceId = persister.Int32("ResourceId", value: _unlinkedResourceId);
             _resource = null;
-            LinkToResource(PersistSupport.Engine(persister));
+            _ = LinkToResource(PersistSupport.Engine(persister));
             if (!GetResourceLinked())
             {
                 throw new MapObjectResourceMissingException($"Resource Missing {GetType().Name} {_unlinkedResourceId}");
@@ -57,7 +57,7 @@ public partial class MapObject
         else
         {
             int id = GetResourceId();
-            id = persister.Int32("ResourceId", value: id);
+            _ = persister.Int32("ResourceId", value: id);
         }
     }
 }

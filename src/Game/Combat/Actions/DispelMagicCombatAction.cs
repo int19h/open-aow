@@ -55,12 +55,12 @@ public partial class DispelMagicCombatAction : SingleTargetCombatAction
             for (int i = EnchantmentIds.Count - 1; i >= 0; i--)
             {
                 enchantment = enchantments.FindId(EnchantmentIds[i]);
-                enchantment?.Dispel();
+                _ = (enchantment?.Dispel());
             }
 
             if (wasSummoned && !targetUnit.Troop.GetAbilityEnabled(155))
             {
-                source.DoDamage(target, target.GetHitPoints());
+                _ = source.DoDamage(target, target.GetHitPoints());
             }
 
             enchantments?.Dispose();
@@ -72,7 +72,7 @@ public partial class DispelMagicCombatAction : SingleTargetCombatAction
     {
         if (viewer.Time == 0)
         {
-            GamePack.Current.AbilityControl.GetAbility(60).SfxLibrary.Play(0);
+            _ = GamePack.Current.AbilityControl.GetAbility(60).SfxLibrary.Play(0);
         }
 
         if (viewer.Delay == viewer.Time)
@@ -89,7 +89,7 @@ public partial class DispelMagicCombatAction : SingleTargetCombatAction
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == TargetId)
         {
-            GamePack.Current.AbilityControl.GetAbility(60).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
+            _ = GamePack.Current.AbilityControl.GetAbility(60).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
         }
     }
 
@@ -110,7 +110,7 @@ public partial class DispelMagicCombatAction : SingleTargetCombatAction
                 if (chance > StrategicMap.Current.Random(100))
                 {
                     Enchantment enchantments = enchantmentList.GetEnchantments(i);
-                    EnchantmentIds.Add(enchantments.EnchantmentId);
+                    _ = EnchantmentIds.Add(enchantments.EnchantmentId);
                 }
             }
 

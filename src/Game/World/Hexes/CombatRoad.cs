@@ -35,7 +35,7 @@ public partial class CombatRoad : AbstractRoad
         CustomImageLibrary images;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
         x = x - pixelXSurface - 8;
-        y = y - pixelYSurface;
+        y -= pixelYSurface;
         images = base.Resource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
         images.Get(_images[0]).Show(x, y, lockedSurface);
         for (int i = 1; i <= 6; i++)
@@ -159,10 +159,7 @@ public partial class CombatRoad : AbstractRoad
                 result = ImageSequenceList.GetImageSequence(0).ImageLibrary.Get(10);
             }
 
-            if (result == null)
-            {
-                result = base.GetCellImage();
-            }
+            result ??= base.GetCellImage();
 
             return result;
         }

@@ -67,7 +67,7 @@ public partial class CombatImageLibraryTerrain : ImageLibraryTerrainMapObject
             base.MakeVisible(visibilityList);
             if (_shadow != null)
             {
-                visibilityList.AddSortChild(sortValue: _shadow.GetShowPriority(), child: _shadow);
+                _ = visibilityList.AddSortChild(sortValue: _shadow.GetShowPriority(), child: _shadow);
             }
         }
     }
@@ -100,7 +100,7 @@ public partial class CombatImageLibraryTerrain : ImageLibraryTerrainMapObject
         {
             if (GetVisible())
             {
-                Resource.Engine.HexSpriteMap.DynamicVisibleHexSprite.RemoveChild(_shadow);
+                _ = Resource.Engine.HexSpriteMap.DynamicVisibleHexSprite.RemoveChild(_shadow);
             }
 
             _shadow?.Dispose();

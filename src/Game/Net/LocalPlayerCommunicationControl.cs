@@ -59,7 +59,7 @@ public partial class LocalPlayerCommunicationControl : PlayerCommunicationContro
     // NetworkE.pas:743
     public new void Setup(int count)
     {
-        base.Setup(count);
+        _ = base.Setup(count);
         for (int i = PlayerCommunicationSettingsList.Count - 1; i >= 0; i--)
         {
             int localSystemId = GetLocalSystemId();

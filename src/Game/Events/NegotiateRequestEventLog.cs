@@ -75,7 +75,7 @@ public partial class NegotiateRequestEventLog : JoinEventLog
             tokenEvent.Offer = NegotiateTokenEvent.NegotiateOffer.OfferBribe;
             tokenEvent.Result = NegotiateTokenEvent.NegotiateResult.Accept;
             StrategicMap.Current.TokenManager.TokenControls[Player].AddEvent(tokenEvent);
-            tokenEvent.Release();
+            _ = tokenEvent.Release();
             result = true;
         }
 
@@ -102,7 +102,7 @@ public partial class NegotiateRequestEventLog : JoinEventLog
             tokenEvent.Offer = NegotiateTokenEvent.NegotiateOffer.ForceOffer;
             tokenEvent.Result = NegotiateTokenEvent.NegotiateResult.Reject;
             StrategicMap.Current.TokenManager.TokenControls[Player].AddEvent(tokenEvent);
-            tokenEvent.Release();
+            _ = tokenEvent.Release();
             result = true;
         }
 

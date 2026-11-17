@@ -80,7 +80,7 @@ public partial class PlayerInfoWindow : UIModule
     public void EventListDoubleClick()
     {
         object objectValue = EventList.Items.Objects[EventList.Selected];
-        StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue)).Execute(true, ExecuteTrigger.User, null);
+        _ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue)).Execute(true, ExecuteTrigger.User, null);
     }
 
     // AoWPInfoWin.pas:78
@@ -150,13 +150,10 @@ public partial class PlayerInfoWindow : UIModule
     // AoWPInfoWin.pas:116
     public void CenterButtonClick()
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         UI.General.PlayButtonSound(0);
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader != null)
         {
-            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(out x, out y, out l);
+            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(out sbyte x, out sbyte y, out sbyte l);
             if (x > -1)
             {
                 StrategicMap.Current.CenterViewTo(x, y, l);
@@ -182,12 +179,9 @@ public partial class PlayerInfoWindow : UIModule
     // AoWPInfoWin.pas:149
     public void FaceFrMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        sbyte hexX = default;
-        sbyte hexY = default;
-        sbyte hexLevel = default;
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader != null)
         {
-            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(out hexX, out hexY, out hexLevel);
+            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(out sbyte hexX, out _, out _);
             if (hexX > -1)
             {
                 Player player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);

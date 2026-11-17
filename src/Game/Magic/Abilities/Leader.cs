@@ -171,7 +171,7 @@ public partial class Leader : Hero
         else
         {
             SetOwner(null);
-            Release();
+            _ = Release();
         }
     }
 
@@ -300,7 +300,7 @@ public partial class Leader : Hero
         bool result = CanAddSphere(sphere);
         if (result)
         {
-            _spheres.Add((byte)sphere);
+            _ = _spheres.Add((byte)sphere);
         }
 
         return result;

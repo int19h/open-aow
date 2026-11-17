@@ -38,7 +38,7 @@ public partial class FixedVisibleHexSprite : HexSprite
         if ((_status & 1) == 0)
         {
             _status = (byte)(_status | 1);
-            visibilityList.AddSortChild(this, GetShowPriority());
+            _ = visibilityList.AddSortChild(this, GetShowPriority());
         }
     }
 }

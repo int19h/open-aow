@@ -13,7 +13,7 @@ public sealed class NullSoundSystem : SoundSystem
     public static void Install()
     {
         RegisterSoundSystem(Descriptor);
-        AudioPlayback.InitializeSoundSystem("Galaxy", default);
+        _ = AudioPlayback.InitializeSoundSystem("Galaxy", default);
     }
 
     public static string Name => "Galaxy";
@@ -69,14 +69,11 @@ public sealed class NullSoundSystem : SoundSystem
 
     internal static void RegisterSoundSystem(SoundSystemClass classValue)
     {
-        if (AudioHost.SoundSystems == null)
-        {
-            AudioHost.SoundSystems = new SoundSystemList();
-        }
+        AudioHost.SoundSystems ??= new SoundSystemList();
         string name = classValue.Name;
         if (AudioHost.SoundSystems.Find(name) == null)
         {
-            AudioHost.SoundSystems.Add(classValue);
+            _ = AudioHost.SoundSystems.Add(classValue);
             return;
         }
         throw new InvalidOperationException("Sound System with name: " + classValue.Name + " already registered");

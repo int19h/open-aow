@@ -26,10 +26,10 @@ public partial class SelfDestructCombatAction : DamageCombatAction
         DamageDone = (byte)source.DoDamage(target, Damage);
         if (Effects != Set<DamageType>.Of())
         {
-            target.ExecuteDamageEffects(Effects);
+            _ = target.ExecuteDamageEffects(Effects);
         }
 
-        source.ExecuteDamage(source.GetHitPoints());
+        _ = source.ExecuteDamage(source.GetHitPoints());
     }
 
     // AoWAb.PAS:2127
@@ -38,7 +38,7 @@ public partial class SelfDestructCombatAction : DamageCombatAction
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if ((objectValue.Id == TargetId || objectValue.Id == SourceId) && viewer.Time >= viewer.Delay - 2)
         {
-            GamePack.Current.AbilityControl.GetAbility(65).ImageSequences.Show(40, X + 32, Y + 32, viewer.Time, surface);
+            _ = GamePack.Current.AbilityControl.GetAbility(65).ImageSequences.Show(40, X + 32, Y + 32, viewer.Time, surface);
         }
     }
 

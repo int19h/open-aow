@@ -34,7 +34,7 @@ public partial class ChangeGlobalMagicTokenEvent : TokenEvent
     {
         ExecuteResult result;
         bool success;
-        base.Execute(tokenEvent);
+        _ = base.Execute(tokenEvent);
         success = false;
         switch (Mode)
         {

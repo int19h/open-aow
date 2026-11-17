@@ -186,7 +186,7 @@ public partial class ProductionControl : EngineObject
         newItem.SetOwner(Queue);
         if (Queue.Count == 1)
         {
-            ExecuteProduction(newItem);
+            _ = ExecuteProduction(newItem);
         }
 
         EndUpdate();
@@ -202,7 +202,7 @@ public partial class ProductionControl : EngineObject
             Queue.GetItem(index)?.Dispose();
             if (Queue.Count != 0)
             {
-                ExecuteProduction(Queue.GetItem(0));
+                _ = ExecuteProduction(Queue.GetItem(0));
             }
             else
             {
@@ -254,7 +254,7 @@ public partial class ProductionControl : EngineObject
             case 3:
                 if (Queue.Count != 0 && Status == ProductionControlStatus.Waiting)
                 {
-                    ExecuteProduction(Queue.GetItem(0));
+                    _ = ExecuteProduction(Queue.GetItem(0));
                 }
 
                 result = ExecuteResult.Done;
@@ -277,13 +277,13 @@ public partial class ProductionControl : EngineObject
     {
         ProductionTokenEvent eventValue;
         eventValue = new ProductionTokenEvent(null) { Holder = CreationHolder() };
-        sbyte x = eventValue.Location.X;
-        sbyte y = eventValue.Location.Y;
-        sbyte mapLevel = eventValue.Location.MapLevel;
+        _ = eventValue.Location.X;
+        _ = eventValue.Location.Y;
+        _ = eventValue.Location.MapLevel;
         MapCoordinate coordinate35 = GetLocation();
-        x = coordinate35.X;
-        y = coordinate35.Y;
-        mapLevel = coordinate35.MapLevel;
+        sbyte x = coordinate35.X;
+        sbyte y = coordinate35.Y;
+        sbyte mapLevel = coordinate35.MapLevel;
         eventValue.Location = new MapCoordinate(x, y, mapLevel);
         eventValue.Player = GetPlayer();
         return eventValue;
@@ -367,7 +367,7 @@ public partial class ProductionControl : EngineObject
         {
             if (Queue.Count != 0)
             {
-                ExecuteProduction(Queue.GetItem(0));
+                _ = ExecuteProduction(Queue.GetItem(0));
             }
             else
             {
@@ -436,7 +436,7 @@ public partial class ProductionControl : EngineObject
             eventValue.Index = index;
             sbyte player = GetPlayer();
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
-            eventValue.Release();
+            _ = eventValue.Release();
             result = true;
         }
         else
@@ -465,7 +465,7 @@ public partial class ProductionControl : EngineObject
             eventValue.Command = 2;
             sbyte player = GetPlayer();
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
-            eventValue.Release();
+            _ = eventValue.Release();
             result = true;
         }
         else
@@ -538,7 +538,7 @@ public partial class ProductionControl : EngineObject
 
             sbyte player = GetPlayer();
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
-            eventValue.Release();
+            _ = eventValue.Release();
             result = true;
         }
         else
@@ -612,7 +612,7 @@ public partial class ProductionControl : EngineObject
 
             sbyte player = GetPlayer();
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
-            eventValue.Release();
+            _ = eventValue.Release();
             // { Original returns False after successfully queueing research. }
             result = false;
         }
@@ -684,7 +684,7 @@ public partial class ProductionControl : EngineObject
             eventValue.Item = item.Copy<ProductionItem>(GetEngine());
             sbyte player2 = GetPlayer();
             StrategicMap.Current.TokenManager.GetTokenControl(player2).AddEvent(eventValue);
-            eventValue.Release();
+            _ = eventValue.Release();
             // { Original returns False after successfully queueing production. }
             result = false;
         }
@@ -716,7 +716,7 @@ public partial class ProductionControl : EngineObject
                 eventValue.Command = 3;
                 sbyte player = GetPlayer();
                 StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
-                eventValue.Release();
+                _ = eventValue.Release();
                 result = true;
             }
             else
@@ -752,7 +752,7 @@ public partial class ProductionControl : EngineObject
 
             sbyte player = GetPlayer();
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
-            eventValue.Release();
+            _ = eventValue.Release();
             result = true;
         }
         else
@@ -779,7 +779,7 @@ public partial class ProductionControl : EngineObject
 
         if (Queue.Count != 0)
         {
-            ExecuteProduction(Queue.GetItem(0));
+            _ = ExecuteProduction(Queue.GetItem(0));
         }
         else
         {
@@ -823,7 +823,7 @@ public partial class ProductionControl : EngineObject
 
                 if (include)
                 {
-                    productions.AddAbility(i, priority);
+                    _ = productions.AddAbility(i, priority);
                 }
             }
         }

@@ -32,7 +32,7 @@ public partial class TutorialWindow : UIModule
         _event = null;
         done?.Invoke(log);
 
-        log?.Release();
+        _ = (log?.Release());
     }
 
     // AoWTutorialWin.pas:38
@@ -54,13 +54,13 @@ public partial class TutorialWindow : UIModule
         dialog.AbilityScrollBar.Position = 0;
         dialog.FinishDialog();
         dialog._event = eventValue;
-        dialog._event.AddRef();
+        _ = dialog._event.AddRef();
         dialog.Done = done;
         dialog.HeaderMemo.Items.Clear();
         if (eventValue.Message.Count > 0)
         {
             string message = eventValue.Message[0];
-            dialog.HeaderMemo.Items.Add(message);
+            _ = dialog.HeaderMemo.Items.Add(message);
         }
 
         dialog.MessageMemo.Items.Clear();
@@ -83,10 +83,10 @@ public partial class TutorialWindow : UIModule
         dialog.AbilityScrollBar.Position = 0;
         dialog.FinishDialog();
         dialog._event = eventValue;
-        dialog._event.AddRef();
+        _ = dialog._event.AddRef();
         dialog.Done = done;
         dialog.HeaderMemo.Items.Clear();
-        dialog.HeaderMemo.Items.Add(eventValue.HelpFileName);
+        _ = dialog.HeaderMemo.Items.Add(eventValue.HelpFileName);
         dialog.MessageMemo.Items.Clear();
         dialog.MessageMemo.Items.AddStrings(eventValue.Message);
         dialog.Window.Visible = true;

@@ -93,7 +93,7 @@ public partial class TokenEventList : EngineObject
         for (int i = 0, last = events.Count - 1; i <= last; i++)
         {
             TokenEvent tokenEvent = events[i];
-            List.AddChild(tokenEvent);
+            _ = List.AddChild(tokenEvent);
         }
     }
 
@@ -104,14 +104,14 @@ public partial class TokenEventList : EngineObject
     public void Delete(int index)
     {
         EngineObject child = List.Children[index];
-        List.RemoveChild(child);
+        _ = List.RemoveChild(child);
     }
 
     // NetworkE.pas:1080
     // { Inserts without TEReferenceNode.AddChild, so the reference is taken here }
     public void Insert(int index, TokenEvent tokenEvent)
     {
-        tokenEvent.AddRef();
+        _ = tokenEvent.AddRef();
         List.InsertChild(index, tokenEvent);
     }
 

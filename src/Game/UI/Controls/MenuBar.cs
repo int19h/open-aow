@@ -112,14 +112,13 @@ public partial class MenuBar : Control
     //   image and the text one pixel lower }
     public override void Draw(LockedSurface lockedSurface)
     {
-        Rect oldClip = default;
         try
         {
             if (Valid && Visible)
             {
                 RaisePreDraw(this, lockedSurface);
 
-                oldClip = lockedSurface.ClipRectangle;
+                Rect oldClip = lockedSurface.ClipRectangle;
                 for (int i = 0, last = _items.Count - 1; i <= last; i++)
                 {
                     if (i != _selected)
@@ -157,7 +156,7 @@ public partial class MenuBar : Control
         }
         catch
         {
-            MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
         }
     }
 
@@ -166,7 +165,6 @@ public partial class MenuBar : Control
     //   was selected; a click outside the bar closes the selected item }
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        int i = default;
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
         if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
@@ -176,7 +174,7 @@ public partial class MenuBar : Control
             if (button == MouseButton.Left)
             {
                 int count = _items.Count;
-                i = (X - Window.WinLeft - WinLeft) / (WinWidth / count);
+                int i = (X - Window.WinLeft - WinLeft) / (WinWidth / count);
                 if (i == _selected)
                 {
                     _selected = -1;
@@ -285,7 +283,7 @@ public partial class MenuBar : Control
         for (int i = 0, last = value.Count - 1; i <= last; i++)
         {
             string valueValue = value[i];
-            _items.Add(valueValue);
+            _ = _items.Add(valueValue);
         }
     }
 

@@ -16,7 +16,7 @@ public partial class SummonGoldDragon : SummonSpell
         BaseManaCost = 5;
         SpellLevel = 4;
         MagicSphere = MagicSphere.Life;
-        UnitIndices.Add(216);
+        _ = UnitIndices.Add(216);
         CastDuration = 40;
         AIBasePriority = 750;
     }

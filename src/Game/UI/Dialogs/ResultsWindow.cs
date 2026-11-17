@@ -209,7 +209,7 @@ public partial class ResultsWindow : UIModule
                 y1 = nextY;
                 x2 = width - 1;
                 // { Original repeats the rounding and discards its result. }
-                Round((double)lastY * yStep);
+                _ = Round((double)lastY * yStep);
                 y2 = nextY;
                 DrawImageLine(image, x1 + R.Left, R.Bottom - y1, R.Left + x2, R.Bottom - y2, 1, surface);
             }
@@ -225,7 +225,7 @@ public partial class ResultsWindow : UIModule
         info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
-            values.Add(info.GetTurnInfo(i).Gold);
+            _ = values.Add(info.GetTurnInfo(i).Gold);
         }
 
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
@@ -243,7 +243,7 @@ public partial class ResultsWindow : UIModule
         info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
-            values.Add(info.GetTurnInfo(i).Mana);
+            _ = values.Add(info.GetTurnInfo(i).Mana);
         }
 
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
@@ -261,7 +261,7 @@ public partial class ResultsWindow : UIModule
         info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
-            values.Add(info.GetTurnInfo(i).Heroes);
+            _ = values.Add(info.GetTurnInfo(i).Heroes);
         }
 
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
@@ -279,7 +279,7 @@ public partial class ResultsWindow : UIModule
         info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
-            values.Add(info.GetTurnInfo(i).ArmyStrength);
+            _ = values.Add(info.GetTurnInfo(i).ArmyStrength);
         }
 
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
@@ -297,7 +297,7 @@ public partial class ResultsWindow : UIModule
         info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
-            values.Add(info.GetTurnInfo(i).Structures);
+            _ = values.Add(info.GetTurnInfo(i).Structures);
         }
 
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
@@ -315,7 +315,7 @@ public partial class ResultsWindow : UIModule
         info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
-            values.Add(info.GetTurnInfo(i).GetSuperiority());
+            _ = values.Add(info.GetTurnInfo(i).GetSuperiority());
         }
 
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
@@ -434,10 +434,10 @@ public partial class ResultsWindow : UIModule
             }
 
             ResultValuesMemo.Items.Clear();
-            ResultValuesMemo.Items.Add("0%");
-            ResultValuesMemo.Items.Add("0%");
-            ResultValuesMemo.Items.Add("0%");
-            ResultValuesMemo.Items.Add("0%");
+            _ = ResultValuesMemo.Items.Add("0%");
+            _ = ResultValuesMemo.Items.Add("0%");
+            _ = ResultValuesMemo.Items.Add("0%");
+            _ = ResultValuesMemo.Items.Add("0%");
         }
     }
 
@@ -449,7 +449,7 @@ public partial class ResultsWindow : UIModule
         dialog.ClearFire();
         if (dialog.SavedSongStatus != null)
         {
-            SongStatus.RestoreSongStatus(dialog.SavedSongStatus);
+            _ = SongStatus.RestoreSongStatus(dialog.SavedSongStatus);
             dialog.SavedSongStatus = null;
         }
         dialog.GameOverEvent.Handled();
@@ -458,7 +458,7 @@ public partial class ResultsWindow : UIModule
         GameOverEventLog fGameOverEvent = dialog.GameOverEvent;
         dialog.GameOverEvent = null;
         fDone?.Invoke(fGameOverEvent);
-        fGameOverEvent?.Release();
+        _ = (fGameOverEvent?.Release());
     }
 
     private static void DrawImageLine(LibraryImage image, int x1, int y1, int x2, int y2, int spacing, in LockedSurface lockedSurface)

@@ -209,7 +209,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
         image = ImageStreams.ReadImageFromStream(stream, Owner);
         while (image != null)
         {
-            Add(image);
+            _ = Add(image);
             image = ImageStreams.ReadImageFromStream(stream, Owner);
         }
     }
@@ -221,7 +221,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
         image = ImageStreams.ReadImageFromStream(stream, dataStream, Owner);
         while (image != null)
         {
-            Add(image);
+            _ = Add(image);
             image = ImageStreams.ReadImageFromStream(stream, dataStream, Owner);
         }
     }

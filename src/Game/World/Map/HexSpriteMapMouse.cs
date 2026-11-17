@@ -269,11 +269,10 @@ public partial class HexSpriteMapMouse : IDisposable
     // { Both GetXhx and GetYhx test the result against the width and the height of the map. }
     public int GetHexX()
     {
-        int result = default;
-        int y = default;
+        int result;
         if (_x != -2147483648)
         {
-            HexGeometry.PixelToHex(_hexSpriteMap.ViewPixelX + _x, 0, out result, out y);
+            HexGeometry.PixelToHex(_hexSpriteMap.ViewPixelX + _x, 0, out result, out _);
             if (result < 0 || _hexSpriteMap.MapContainer.Width <= result || _hexSpriteMap.MapContainer.Height <= result)
             {
                 result = -1;
@@ -290,11 +289,10 @@ public partial class HexSpriteMapMouse : IDisposable
     // HSEngine.pas:3555
     public int GetHexY()
     {
-        int result = default;
-        int x = default;
+        int result;
         if (_y != -2147483648)
         {
-            HexGeometry.PixelToHex(_hexSpriteMap.ViewPixelX + _x, _hexSpriteMap.ViewPixelY + _y, out x, out result);
+            HexGeometry.PixelToHex(_hexSpriteMap.ViewPixelX + _x, _hexSpriteMap.ViewPixelY + _y, out _, out result);
             if (result < 0 || _hexSpriteMap.MapContainer.Width <= result || _hexSpriteMap.MapContainer.Height <= result)
             {
                 result = -1;
@@ -313,7 +311,7 @@ public partial class HexSpriteMapMouse : IDisposable
     {
         if (!_status.Contains(StatusElement.ChangingCapture) && value != _capture)
         {
-            _status = _status + Set<StatusElement>.Of(StatusElement.ChangingCapture);
+            _status += Set<StatusElement>.Of(StatusElement.ChangingCapture);
             _capture = value;
             if (value == null)
             {
@@ -321,7 +319,7 @@ public partial class HexSpriteMapMouse : IDisposable
             }
 
             OnCaptureChangedStore.Raise(this);
-            _status = _status - Set<StatusElement>.Of(StatusElement.ChangingCapture);
+            _status -= Set<StatusElement>.Of(StatusElement.ChangingCapture);
         }
     }
 

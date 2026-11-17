@@ -83,7 +83,7 @@ public partial class AbilityControl : EngineObject
 
             Abilities[id] = ability;
             AbilityType abilityType = ability.GetAbilityType();
-            AbilitiesByType[(int)abilityType].Add(ability);
+            _ = AbilitiesByType[(int)abilityType].Add(ability);
             ability.ImageSequences.LinkToImageLibrary();
         }
         else
@@ -107,7 +107,7 @@ public partial class AbilityControl : EngineObject
             if (Abilities[id] != null)
             {
                 AbilityType abilityType = ability.GetAbilityType();
-                AbilitiesByType[(int)abilityType].Remove(ability);
+                _ = AbilitiesByType[(int)abilityType].Remove(ability);
                 Abilities[id].ImageSequences.ReleaseImageLibrary();
                 (Abilities[id] as IDisposable)?.Dispose();
                 Abilities[id] = null;
@@ -141,7 +141,7 @@ public partial class AbilityControl : EngineObject
             {
                 if ((Abilities[i].SelectionTypes & types) != Set<AbilitySelectionType>.Of() || (types == Set<AbilitySelectionType>.Of().WithRange(0, (AbilitySelectionType)9) && Abilities[i].SelectionTypes == Set<AbilitySelectionType>.Of()))
                 {
-                    text.AddObject(Abilities[i].GetName(null), IntToObject(i));
+                    _ = text.AddObject(Abilities[i].GetName(null), IntToObject(i));
                 }
             }
         }
@@ -156,7 +156,7 @@ public partial class AbilityControl : EngineObject
         {
             if (Abilities[i] != null)
             {
-                list.Add(Abilities[i]);
+                _ = list.Add(Abilities[i]);
             }
         }
 
@@ -169,8 +169,8 @@ public partial class AbilityControl : EngineObject
         for (int i = 0, last = list.Count - 1; i <= last; i++)
         {
             list[i].ListInfo(text, mode);
-            text.Add("-------------------------------------------------");
-            text.Add("");
+            _ = text.Add("-------------------------------------------------");
+            _ = text.Add("");
         }
 
         list?.Dispose();

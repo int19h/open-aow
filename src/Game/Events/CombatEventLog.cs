@@ -33,7 +33,7 @@ public partial class CombatEventLog : EventLog
         l = Logbook;
         if (l != null)
         {
-            l.Release();
+            _ = l.Release();
             Logbook = null;
         }
 
@@ -114,14 +114,9 @@ public partial class CombatEventLog : EventLog
     // Combat2.pas:467
     public override void PlayLoggedSfx(EventLogbook logbook)
     {
-        if (Logbook.InitialData.Players.IndexOfPlayer((byte)StrategicMap.Current.SeatedPlayer) != -1)
-        {
-            AudioPlayback.PlaySample("SFX\\EVENTS\\ROLL.WAV");
-        }
-        else
-        {
-            AudioPlayback.PlaySample("SFX\\EVENTS\\NEWEVENT.WAV");
-        }
+        _ = Logbook.InitialData.Players.IndexOfPlayer((byte)StrategicMap.Current.SeatedPlayer) != -1
+            ? AudioPlayback.PlaySample("SFX\\EVENTS\\ROLL.WAV")
+            : AudioPlayback.PlaySample("SFX\\EVENTS\\NEWEVENT.WAV");
     }
 
     // Combat2.pas:474
@@ -176,10 +171,10 @@ public partial class CombatEventLog : EventLog
         old = Logbook;
         if (old != logbook)
         {
-            old?.Release();
+            _ = (old?.Release());
 
             Logbook = logbook;
-            Logbook?.AddRef();
+            _ = (Logbook?.AddRef());
         }
     }
 

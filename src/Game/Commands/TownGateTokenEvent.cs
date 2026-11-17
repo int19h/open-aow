@@ -53,7 +53,7 @@ public partial class TownGateTokenEvent : CityTargetSpellTokenEvent
         bool result = base.Validate(source) && ArmyId.Valid();
         if (result)
         {
-            ArmyId.RetrieveArmy(ref army, ref selection);
+            _ = ArmyId.RetrieveArmy(ref army, ref selection);
             result = GamePack.Current.SpellControl.GetSpell<TownGate>(EventSpellId).ValidTeleportLocation(army, selection, TeleportLocation.X, TeleportLocation.Y, TeleportLocation.MapLevel);
         }
 

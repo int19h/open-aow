@@ -59,7 +59,7 @@ public partial class UnitBanner : UIModule
             {
                 a = UI.General.Abilities[i];
                 string name2 = GamePack.Current.AbilityControl.GetAbility(a.Ability).GetName(UI.General.SelectedUnit);
-                AbilityList.Items.Add(name2);
+                _ = AbilityList.Items.Add(name2);
             }
 
             AbilityList.Selected = -1;
@@ -104,7 +104,7 @@ public partial class UnitBanner : UIModule
             if (AbilityList.Selected > -1 && AbilityList.Selected < UI.General.ActiveAbilityCount)
             {
                 CombatAbilityRef ability = UI.General.Abilities[AbilityList.Selected];
-                GamePack.Current.AbilityControl.GetAbility(ability.Ability).Activate(UI.General.SelectedUnit, ref reason);
+                _ = GamePack.Current.AbilityControl.GetAbility(ability.Ability).Activate(UI.General.SelectedUnit, ref reason);
                 BannerMenu.Visible = false;
             }
             else

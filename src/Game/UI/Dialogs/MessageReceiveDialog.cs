@@ -34,7 +34,7 @@ public partial class MessageReceiveDialog : UIModule
         _event = null;
         done?.Invoke(log);
 
-        log?.Release();
+        _ = (log?.Release());
     }
 
     // AoWMsgReceiveDlg.pas:40
@@ -50,7 +50,7 @@ public partial class MessageReceiveDialog : UIModule
     internal static void ShowReceivedMessage(MessageReceiveDialog dialog, GameOverEventLog eventValue, ExecuteDoneEvent done)
     {
         dialog._event = eventValue;
-        dialog._event.AddRef();
+        _ = dialog._event.AddRef();
         dialog.Done = done;
         string text = eventValue.GetText();
         dialog.HeaderMemo.Items.Text = text;

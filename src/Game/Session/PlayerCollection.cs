@@ -315,7 +315,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
         {
             if (races.GetRace(i).Enabled)
             {
-                available.Add(i);
+                _ = available.Add(i);
             }
         }
 
@@ -326,7 +326,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
             index = available.IndexOf(this[i].PlayerRace);
             if (index == -1)
             {
-                invalid.Add(i);
+                _ = invalid.Add(i);
             }
             else
             {
@@ -467,20 +467,20 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
 
             if (player.GameOverStatus != GameOverStatus.Lost && i != 0)
             {
-                ActivePlayers.Add((byte)i);
+                _ = ActivePlayers.Add((byte)i);
             }
 
             if (player.GetLocal())
             {
-                _localControlledPlayers.Add((byte)i);
+                _ = _localControlledPlayers.Add((byte)i);
                 if (player.PlayerType == PlayerType.Human)
                 {
-                    LocalHumanPlayers.Add((byte)i);
+                    _ = LocalHumanPlayers.Add((byte)i);
                 }
             }
             if (player.PlayerType == PlayerType.Human)
             {
-                LocalPlayers.Add((byte)i);
+                _ = LocalPlayers.Add((byte)i);
             }
         }
     }

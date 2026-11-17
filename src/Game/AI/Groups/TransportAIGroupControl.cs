@@ -66,14 +66,14 @@ public partial class TransportAIGroupControl : AIGroupControl
         {
             case 0:
                 finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
-                finder.Setup(this);
+                _ = finder.Setup(this);
                 finder.Selector.MovePointsMax = 100;
                 ActivatePlugin(finder);
-                finder.Release();
+                _ = finder.Release();
                 State += 1;
                 break;
             case 1:
-                Targets.Validate();
+                _ = Targets.Validate();
                 if (Targets.Count != 0)
                 {
                     Targets.SortOnPriority();
@@ -91,10 +91,10 @@ public partial class TransportAIGroupControl : AIGroupControl
                 break;
             case 2:
                 wander = new AIGroupWanderControl(null) { Holder = CreationHolder() };
-                wander.Setup(this);
+                _ = wander.Setup(this);
                 wander.MovePointsMax = 125;
                 ActivatePlugin(wander);
-                wander.Release();
+                _ = wander.Release();
                 State += 1;
                 break;
             case 3:
@@ -125,7 +125,7 @@ public partial class TransportAIGroupControl : AIGroupControl
                 if (condition)
                 {
                     Troop troop = army.Units.GetUnit(i);
-                    MoveExecutor.AddUnit(troop);
+                    _ = MoveExecutor.AddUnit(troop);
                 }
             }
         }

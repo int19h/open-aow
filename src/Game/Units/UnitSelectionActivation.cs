@@ -20,7 +20,7 @@ public partial class UnitSelectionActivation : AbilityActivation
         selector = UnitSelector;
         if (selector != null)
         {
-            selector.Release();
+            _ = selector.Release();
             UnitSelector = null;
         }
 
@@ -34,11 +34,11 @@ public partial class UnitSelectionActivation : AbilityActivation
         old = UnitSelector;
         if (old != value)
         {
-            old?.Release();
+            _ = (old?.Release());
 
             old = value;
             UnitSelector = old;
-            old?.AddRef();
+            _ = (old?.AddRef());
         }
     }
 

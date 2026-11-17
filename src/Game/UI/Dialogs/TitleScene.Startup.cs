@@ -15,8 +15,8 @@ public partial class TitleScene
         if (playMusic && !(player.CurrentIndex >= 0 && player.CurrentIndex < player.Songs.Count && player.Songs[player.CurrentIndex] == "SONGS\\TITLE.IT"))
         {
             player.Songs.Clear();
-            player.Songs.Add("SONGS\\TITLE.IT");
-            player.Play(0);
+            _ = player.Songs.Add("SONGS\\TITLE.IT");
+            _ = player.Play(0);
         }
         UI.General.Manager.OverlayPriority = 0;
         TitleSceneImages.LoadDiscardableImageData();
@@ -95,7 +95,7 @@ public partial class TitleScene
                     }
                     else
                     {
-                        GameHost.MainForm.CloseRequested();
+                        _ = GameHost.MainForm.CloseRequested();
                     }
 
                     break;

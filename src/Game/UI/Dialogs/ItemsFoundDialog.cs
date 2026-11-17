@@ -62,7 +62,7 @@ public partial class ItemsFoundDialog : UIModule
         _event = null;
         done?.Invoke(eventValue);
 
-        eventValue?.Release();
+        _ = (eventValue?.Release());
     }
 
     // AoWItemsFoundDlg.pas:62
@@ -118,7 +118,7 @@ public partial class ItemsFoundDialog : UIModule
                     StrategicMap.Current.TriggerExecuteEventLog(eventValue, true, null);
                 }
 
-                eventValue.Release();
+                _ = eventValue.Release();
             }
         }
 
@@ -182,7 +182,7 @@ public partial class ItemsFoundDialog : UIModule
         dialog.Reset();
         dialog.OnDone = done;
         dialog._event = eventValue;
-        dialog._event.AddRef();
+        _ = dialog._event.AddRef();
         log = dialog._event;
         dialog.TitleLabel.Text = log.Title;
         string text = log.Messages.Text;

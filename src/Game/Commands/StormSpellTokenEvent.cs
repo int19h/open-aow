@@ -34,7 +34,7 @@ public partial class StormSpellTokenEvent : SpellTokenEvent
     public override bool Process(Troop source, int value)
     {
         bool result;
-        base.Process(source, value);
+        _ = base.Process(source, value);
         if (value == 0)
         {
             _storm = GamePack.Current.SpellControl.GetSpell<StormSpell>(EventSpellId).CreateStorm();

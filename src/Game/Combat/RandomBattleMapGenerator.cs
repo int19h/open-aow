@@ -161,7 +161,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                 HexGeometry.CenterHexNumberToHex(X, Y, direction, ref j, ref k);
                 return StrategicMap.Current.MapContainer.MapLevels[L].Field[j, k].FindNoneTransparentHexSprite(kind) != null;
             });
-            fileName = fileName + structure.CombatMapName(site);
+            fileName += structure.CombatMapName(site);
             randomTerrain = site.RandomTerrain;
             // Prisoners are an army on the same field. Only an item list is laid out.
             if (site.TakesCombatItems && combat.Items is ItemList items)
@@ -183,36 +183,36 @@ public partial class RandomBattleMapGenerator : IDisposable
         {
             randomTerrain = false;
             _randomTerrain = false;
-            fileName = fileName + "Br";
+            fileName += "Br";
             switch (_terrain[0])
             {
                 case 10:
-                    fileName = fileName + "UW";
+                    fileName += "UW";
                     break;
                 case 6:
-                    fileName = fileName + "Ic";
+                    fileName += "Ic";
                     break;
                 case 9:
-                    fileName = fileName + "La";
+                    fileName += "La";
                     break;
                 case 13:
-                    fileName = fileName + "UI";
+                    fileName += "UI";
                     break;
                 default:
-                    fileName = fileName + "Wa";
+                    fileName += "Wa";
                     break;
             }
 
             switch (bridge.Direction)
             {
                 case 1:
-                    fileName = fileName + "A000";
+                    fileName += "A000";
                     break;
                 case 2:
-                    fileName = fileName + "B000";
+                    fileName += "B000";
                     break;
                 default:
-                    fileName = fileName + "C000";
+                    fileName += "C000";
                     break;
             }
 
@@ -221,13 +221,13 @@ public partial class RandomBattleMapGenerator : IDisposable
 
         if (_tags[0] != 127)
         {
-            fileName = fileName + "Blank000";
+            fileName += "Blank000";
         }
 
-        fileName = fileName + ".HSM";
+        fileName += ".HSM";
         if (combat == null)
         {
-            Creator.GetEngine().LoadHsmMap(FileBoundary.ReadName(Creator.GetEngine().StartupDirectory + fileName), false, null, GameProfile.TacticalMap);
+            _ = Creator.GetEngine().LoadHsmMap(FileBoundary.ReadName(Creator.GetEngine().StartupDirectory + fileName), false, null, GameProfile.TacticalMap);
         }
         else
         {
@@ -395,7 +395,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                         {
                             if (_tags[shape - 1] != 127 && weights[shape - 1] == 4)
                             {
-                                GamePack.Current.CombatRoads.Place(CombatMap.Current.MapContainer, (sbyte)column, (sbyte)row, 0, 1);
+                                _ = GamePack.Current.CombatRoads.Place(CombatMap.Current.MapContainer, (sbyte)column, (sbyte)row, 0, 1);
                                 terrainBuffer[(row * 65) + column] = 251;
                             }
                         }
@@ -670,7 +670,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                                 if (_resources[(_terrain[i - 1] * 19) + j].Count > 0)
                                 {
                                     int random = Random(_resources[(_terrain[i - 1] * 19) + j].Count);
-                                    _resources[(_terrain[i - 1] * 19) + j][random].PlaceResourceUser(CombatMap.Current, (sbyte)column, (sbyte)row, 0);
+                                    _ = _resources[(_terrain[i - 1] * 19) + j][random].PlaceResourceUser(CombatMap.Current, (sbyte)column, (sbyte)row, 0);
                                 }
                             }
                         }
@@ -723,7 +723,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                     {
                         if ((int)(((uint)CombatMap.Current.Combat.CombatData.GetObjects(i).Position) >> 4) == position)
                         {
-                            units.Add(CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i));
+                            _ = units.Add(CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i));
                             u = units[^1];
                             u.PositionIndex = (byte)(u.Position & 15);
                             u.PositionGroup = (byte)(int)(((uint)u.Position) >> 4);
@@ -1003,7 +1003,7 @@ public partial class RandomBattleMapGenerator : IDisposable
             hexNumber += 1;
         }
         while (!(slot != 8 && targetHexSprite == null));
-        CombatMap.Current.PlaceHex(unitHexSprite, hexX, hexY, 0);
+        _ = CombatMap.Current.PlaceHex(unitHexSprite, hexX, hexY, 0);
         if (HexGeometry.DeltaHexToHexNumber(CombatMap.Current.Combat.CombatData.Location.X, CombatMap.Current.Combat.CombatData.Location.Y, CombatMap.Current.Combat.CombatData.AttackerLocation.X, CombatMap.Current.Combat.CombatData.AttackerLocation.Y) == position && CombatMap.Current.Players.GetPlayers(unitHexSprite.Unit.CombatPlayer).LastX == 0)
         {
             sbyte xhx = unitHexSprite.GetHexX();

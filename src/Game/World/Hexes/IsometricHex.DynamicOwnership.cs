@@ -40,10 +40,7 @@ public partial class IsometricHex
         }
         if (water || OpenSides != 0)
         {
-            if (Dynamic == null)
-            {
-                Dynamic = new DynamicIsometricHex(this);
-            }
+            Dynamic ??= new DynamicIsometricHex(this);
         }
         else if (Dynamic != null)
         {

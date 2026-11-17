@@ -52,7 +52,7 @@ public partial class BreathAbility : RangedAttackAbility
 
                 if (condition)
                 {
-                    targets.Add(other);
+                    _ = targets.Add(other);
                 }
             }
 
@@ -62,8 +62,8 @@ public partial class BreathAbility : RangedAttackAbility
                 other = targets[StrategicMap.Current.Random(targets.Count)];
                 action = CreateRangedAttackCombatAction(source, other, 2);
                 source.Combat.ExecuteCombatAction(action);
-                action.Release();
-                targets.Remove(other);
+                _ = action.Release();
+                _ = targets.Remove(other);
                 count -= 1;
             }
 
@@ -79,7 +79,7 @@ public partial class BreathAbility : RangedAttackAbility
         sbyte attackRepeatRangedAttack = GetAttackRepeatRangedAttack(owner);
         sbyte damageRangedAttack = GetDamageRangedAttack(owner);
         strength = AbilityRules.LimitedDamage(GetAttackRangedAttack(owner), damageRangedAttack, attackRepeatRangedAttack);
-        strength = strength * 2;
+        strength *= 2;
         types = GetDamageTypesRangedAttack(owner);
     }
 

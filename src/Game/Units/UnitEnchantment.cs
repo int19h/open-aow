@@ -100,14 +100,11 @@ public partial class UnitEnchantment : Enchantment
     // AoWAb.PAS:842
     public override void Select()
     {
-        sbyte hexX = default;
-        sbyte hexY = default;
-        sbyte hexLevel = default;
         ArmyHexSprite armyHexSprite;
         MapCoordinate coordinate28 = GetLocation();
-        hexX = coordinate28.X;
-        hexY = coordinate28.Y;
-        hexLevel = coordinate28.MapLevel;
+        sbyte hexX = coordinate28.X;
+        sbyte hexY = coordinate28.Y;
+        sbyte hexLevel = coordinate28.MapLevel;
         if (hexX != -1)
         {
             if (StrategicMap.Current.Visible(hexX, hexY, hexLevel, 0))

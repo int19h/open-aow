@@ -64,10 +64,10 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                                 budget.RequiredGold += 15;
                             }
 
-                            ProduceTransporter(budget);
+                            _ = ProduceTransporter(budget);
                             if (!TransporterProductionControlExists())
                             {
-                                player.AIBudget.ReturnExpense(budget.Gold, budget.Mana);
+                                _ = player.AIBudget.ReturnExpense(budget.Gold, budget.Mana);
                                 budget.Gold = 0;
                                 budget.Mana = 0;
                                 budget.RequiredGold = 0;
@@ -140,7 +140,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
 
                     i = StrategicMap.Current.Random(i + 1);
                     QuadItem<ProductionControl> item = _productions[i];
-                    ExecuteProduce(_productions[i].First, item.Second);
+                    _ = ExecuteProduce(_productions[i].First, item.Second);
                     _productions.Delete(i);
                     if (!(_productions.Count != 0 && (_goldUpkeep > 2 || _manaUpkeep > 2) && (Control.Player.AIBudget.Gold > 25 || Control.Player.AIBudget.Mana > 25)))
                     {
@@ -173,7 +173,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                         priority = Control.UnitIndexToPriority(unitIndex);
                         if (priority != -1)
                         {
-                            _productions.AddABCD(control, i, 0, priority + bonus);
+                            _ = _productions.AddABCD(control, i, 0, priority + bonus);
                         }
                     }
                 }
@@ -205,7 +205,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                         int unitProductionMana = control.UnitProductionMana(index);
                         int unitProductionGoldUpkeep = control.UnitProductionGoldUpkeep(index);
                         int unitProductionGold = control.UnitProductionGold(index);
-                        Control.Player.AIBudget.ProductionExpenseMade(unitProductionGold, unitProductionGoldUpkeep, unitProductionMana, unitProductionManaUpkeep);
+                        _ = Control.Player.AIBudget.ProductionExpenseMade(unitProductionGold, unitProductionGoldUpkeep, unitProductionMana, unitProductionManaUpkeep);
                         _goldUpkeep -= goldUpkeep;
                         _manaUpkeep -= manaUpkeep;
                         result = true;
@@ -234,7 +234,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                 {
                     int unitResearchMana = control.UnitResearchMana(index);
                     int unitResearchGold = control.UnitResearchGold(index);
-                    Control.Player.AIBudget.ExpenseMade(unitResearchGold, unitResearchMana);
+                    _ = Control.Player.AIBudget.ExpenseMade(unitResearchGold, unitResearchMana);
                     result = true;
                 }
             }
@@ -256,7 +256,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
             unit.SetUnitResource(resource);
             unit.UpdateOffensiveStrength();
             result = unit.MaxOffensiveStrength;
-            unit.Release();
+            _ = unit.Release();
             if (result <= 0)
             {
                 result = -1;
@@ -321,7 +321,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                                                 : Round((double)(priority * 0.5) * structure.ProductionPriority);
                                         }
 
-                                        candidates.AddABCD(control, j, 0, priority);
+                                        _ = candidates.AddABCD(control, j, 0, priority);
                                     }
                                 }
                             }
@@ -333,7 +333,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
             if (candidates.Count != 0)
             {
                 candidates.Sort(CompareAutoProductions);
-                player.AIBudget.ReturnExpense(budget.Gold, budget.Mana);
+                _ = player.AIBudget.ReturnExpense(budget.Gold, budget.Mana);
                 QuadItem<ProductionControl> item = candidates[0];
                 if (ExecuteResearch(candidates[0].First, item.Second))
                 {
@@ -344,7 +344,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                 }
                 else
                 {
-                    player.AIBudget.ExpenseMade(budget.Gold, budget.Mana);
+                    _ = player.AIBudget.ExpenseMade(budget.Gold, budget.Mana);
                 }
             }
 
@@ -417,7 +417,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                                                 }
                                             }
 
-                                            candidates.AddABCD(control, j, 0, priority);
+                                            _ = candidates.AddABCD(control, j, 0, priority);
                                         }
                                     }
                                 }
@@ -430,7 +430,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
             if (candidates.Count != 0)
             {
                 candidates.Sort(CompareAutoProductions);
-                player.AIBudget.ReturnExpense(budget.Gold, budget.Mana);
+                _ = player.AIBudget.ReturnExpense(budget.Gold, budget.Mana);
                 QuadItem<ProductionControl> item = candidates[0];
                 if (ExecuteProduce(candidates[0].First, item.Second))
                 {
@@ -441,14 +441,14 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                 }
                 else
                 {
-                    player.AIBudget.ExpenseMade(budget.Gold, budget.Mana);
+                    _ = player.AIBudget.ExpenseMade(budget.Gold, budget.Mana);
                 }
             }
             else
             {
                 if (!ResearchingTransporter())
                 {
-                    ResearchTransporter(budget);
+                    _ = ResearchTransporter(budget);
                 }
             }
 

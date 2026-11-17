@@ -73,7 +73,7 @@ public partial class Terrain : TerrainMapObject
                     RemoveFromMap();
                     SetResource(r);
                     Owner = oldOwner;
-                    PlaceOnMap();
+                    _ = PlaceOnMap();
                     if (base.Resource.Level <= 15)
                     {
                         base.Resource.Engine.HexSpriteMap.StaticSceneInvalid = true;
@@ -104,7 +104,7 @@ public partial class Terrain : TerrainMapObject
         RemoveFromMap();
         SetResource(resource);
         Owner = owner;
-        PlaceOnMap();
+        _ = PlaceOnMap();
         if (base.Resource.Level <= 15)
         {
             base.Resource.Engine.HexSpriteMap.StaticSceneInvalid = true;

@@ -51,7 +51,7 @@ public partial class AIMoveExecutorMove : AIMoveExecutorUnitList
         {
             if ((selection & 1) != 0)
             {
-                AddChild(units.GetUnits(i));
+                _ = AddChild(units.GetUnits(i));
             }
 
             selection = (byte)(int)(((uint)selection) >> 1);

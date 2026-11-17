@@ -36,7 +36,7 @@ public partial class InvokeDeathCombatAction : SingleTargetCombatAction
         {
             source = combat.CombatData.FindId(SourceId);
             target = combat.CombatData.FindId(TargetId);
-            source.DoDamage(target, target.GetHitPoints());
+            _ = source.DoDamage(target, target.GetHitPoints());
         }
     }
 
@@ -45,7 +45,7 @@ public partial class InvokeDeathCombatAction : SingleTargetCombatAction
     {
         if (viewer.Time == 0)
         {
-            GamePack.Current.AbilityControl.GetAbility(35).SfxLibrary.Play(0);
+            _ = GamePack.Current.AbilityControl.GetAbility(35).SfxLibrary.Play(0);
         }
 
         if (viewer.Delay == viewer.Time)
@@ -62,7 +62,7 @@ public partial class InvokeDeathCombatAction : SingleTargetCombatAction
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == TargetId)
         {
-            GamePack.Current.AbilityControl.GetAbility(35).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
+            _ = GamePack.Current.AbilityControl.GetAbility(35).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
         }
     }
 

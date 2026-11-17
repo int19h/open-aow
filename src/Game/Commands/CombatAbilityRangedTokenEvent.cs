@@ -67,7 +67,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
         TacticalBattleOozeHexSprite ooze = default;
         CombatAction action = default;
         MapFieldMessage message = default;
-        base.Execute(tokenEvent);
+        _ = base.Execute(tokenEvent);
         ExecuteResult result = ExecuteResult.Retry;
         try
         {
@@ -187,7 +187,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                     }
                     catch
                     {
-                        MessageBox(0, "Error during Token Start", "Error - TCRangedToken " + IntToStr(AbilityId) + "/" + IntToStr(SpellId), 0);
+                        _ = MessageBox(0, "Error during Token Start", "Error - TCRangedToken " + IntToStr(AbilityId) + "/" + IntToStr(SpellId), 0);
                     }
 
                     break;
@@ -268,7 +268,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                             }
 
                                             CombatMap.Current.Combat.ExecuteCombatAction(effect.CombatAction);
-                                            effect.CombatAction.Release();
+                                            _ = effect.CombatAction.Release();
                                             effect.CombatAction = null;
                                         }
                                     }
@@ -486,7 +486,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                     }
 
                                                                     CombatMap.Current.Combat.ExecuteCombatAction(action);
-                                                                    action.Release();
+                                                                    _ = action.Release();
                                                                 }
                                                             }
 
@@ -602,7 +602,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                         if (effect.CombatAction != null && effect.Target != null)
                                                                         {
                                                                             CombatMap.Current.Combat.ExecuteCombatAction(effect.CombatAction);
-                                                                            effect.CombatAction.Release();
+                                                                            _ = effect.CombatAction.Release();
                                                                             effect.CombatAction = null;
                                                                             if (!effect.Target.GetEnabled())
                                                                             {
@@ -700,7 +700,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                                                         if (CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 0 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 10 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).OverlayType != 2 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).OverlayType != 11 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).OverlayType != 8 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 9 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 15 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 7)
                                                                                                         {
                                                                                                             ooze = new TacticalBattleOozeHexSprite(null) { Holder = CreationHolder() };
-                                                                                                            CombatMap.Current.PlaceHex(ooze, endX, endY, 0);
+                                                                                                            _ = CombatMap.Current.PlaceHex(ooze, endX, endY, 0);
                                                                                                         }
 
                                                                                                         break;
@@ -776,7 +776,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                     }
                     catch
                     {
-                        MessageBox(0, "Error during Token Execute", "Error - TCRangedToken " + IntToStr(AbilityId) + "/" + IntToStr(SpellId), 0);
+                        _ = MessageBox(0, "Error during Token Execute", "Error - TCRangedToken " + IntToStr(AbilityId) + "/" + IntToStr(SpellId), 0);
                     }
 
                     break;
@@ -806,7 +806,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
         }
         catch
         {
-            MessageBox(0, "Error during Token", "Error - TCRangedToken " + IntToStr(AbilityId) + "/" + IntToStr(SpellId), 0);
+            _ = MessageBox(0, "Error during Token", "Error - TCRangedToken " + IntToStr(AbilityId) + "/" + IntToStr(SpellId), 0);
         }
 
         return result;
@@ -824,10 +824,6 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
         float sweep;
         float angle;
         float radius;
-        int x1 = default;
-        int y1 = default;
-        int x2 = default;
-        int y2 = default;
         int deltaX = default;
         int deltaY = default;
         int i;
@@ -896,8 +892,8 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                     distance = HexGeometry.DeltaHexToRadius(TargetX, TargetY, hexX, hexY);
                     if (distance < 13)
                     {
-                        total = total + (13 - distance);
-                        used.Add(CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i2));
+                        total += 13 - distance;
+                        _ = used.Add(CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i2));
                         weights.Add(13 - distance);
                     }
                 }
@@ -905,9 +901,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
 
             if (target != null)
             {
-                used.Add(target);
+                _ = used.Add(target);
                 weights.Add(total);
-                total = total + total;
+                total += total;
             }
 
             if (used.Count > 0)
@@ -916,8 +912,8 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 index = 0;
                 while (index < used.Count - 1 && i2 > 0)
                 {
-                    index = index + 1;
-                    i2 = i2 - weights[index];
+                    index++;
+                    i2 -= weights[index];
                 }
 
                 target = used[index];
@@ -933,6 +929,10 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
 
         effect = CombatMap.Current.AddEffect(BattleEffectType.None);
         obstacles = new DelphiList<RangedObstacle>();
+        int x1;
+        int y1;
+        int x2;
+        int y2;
         switch (_effectType)
         {
             case BattleEffectType.Breath:
@@ -1224,17 +1224,17 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 effect.Path = path27;
                 i = 3;
                 used = new DelphiList<TacticalBattleUnit>();
-                used.Add(_unit);
+                _ = used.Add(_unit);
                 hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                 if (hexSprite != null)
                 {
-                    used.Add(hexSprite.Unit);
+                    _ = used.Add(hexSprite.Unit);
                 }
 
                 target = FindTarget(TargetX, TargetY);
                 while (target != null && i > 0)
                 {
-                    used.Add(target);
+                    _ = used.Add(target);
                     x1 = x2 + 16;
                     y1 = y2 + 16;
                     sbyte hexY4 = target.UnitHexSprite.HexY;

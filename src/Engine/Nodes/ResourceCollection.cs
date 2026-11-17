@@ -65,7 +65,7 @@ public partial class ResourceCollection : EngineNode, IChildList<EngineResource>
         {
             id = GetResource(index).ResourceId;
             EngineResource resource = GetResource(index);
-            resource.ResourceId = resource.ResourceId ^ 65535;
+            resource.ResourceId ^= 65535;
 
             if (FindResource(id) != null)
             {

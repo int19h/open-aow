@@ -38,7 +38,7 @@ internal static class CombatEvents
             }
         }
 
-        X = X + 16;
+        X += 16;
         if (damageTypes.Contains(DamageType.Lightning))
         {
             MakeEffect(BattleEffectType.DamLightning);

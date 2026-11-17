@@ -100,12 +100,12 @@ public partial class CombatObstacle : MultiHexMapObject
             base.MakeVisible(visibilityList);
             if (_shadow != null)
             {
-                visibilityList.AddSortChild(sortValue: _shadow.GetShowPriority(), child: _shadow);
+                _ = visibilityList.AddSortChild(sortValue: _shadow.GetShowPriority(), child: _shadow);
             }
 
             if (_overlay != null)
             {
-                visibilityList.AddSortChild(sortValue: _overlay.GetShowPriority(), child: _overlay);
+                _ = visibilityList.AddSortChild(sortValue: _overlay.GetShowPriority(), child: _overlay);
             }
         }
     }
@@ -144,7 +144,7 @@ public partial class CombatObstacle : MultiHexMapObject
         {
             if (GetVisible())
             {
-                CombatMap.Current.DynamicVisibleHexSprite.RemoveChild(_shadow);
+                _ = CombatMap.Current.DynamicVisibleHexSprite.RemoveChild(_shadow);
             }
 
             _shadow?.Dispose();
@@ -177,7 +177,7 @@ public partial class CombatObstacle : MultiHexMapObject
         {
             if (GetVisible())
             {
-                CombatMap.Current.DynamicVisibleHexSprite.RemoveChild(_overlay);
+                _ = CombatMap.Current.DynamicVisibleHexSprite.RemoveChild(_overlay);
             }
 
             _overlay?.Dispose();

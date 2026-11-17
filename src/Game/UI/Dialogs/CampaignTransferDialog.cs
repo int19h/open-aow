@@ -167,7 +167,7 @@ public partial class CampaignTransferDialog : UIModule
     public void BookStartClick()
     {
         Book.Visible = false;
-        AudioPlayback.PlaySample("Sfx\\Int\\BookClse.wav");
+        _ = AudioPlayback.PlaySample("Sfx\\Int\\BookClse.wav");
         WorldMapCampaign campaign = UI.WorldMap.GetCampaign();
         campaign.State += 1;
         UI.WorldMap.UpdateCampaignState();
@@ -178,7 +178,7 @@ public partial class CampaignTransferDialog : UIModule
     {
         Book.Visible = false;
         UI.Engine.Campaign.ResetNextScenario();
-        AudioPlayback.PlaySample("Sfx\\Int\\BookClse.wav");
+        _ = AudioPlayback.PlaySample("Sfx\\Int\\BookClse.wav");
         UI.WorldMap.GetCampaign().State = 1;
         UI.WorldMap.UpdateCampaignState();
     }
@@ -433,7 +433,7 @@ public partial class CampaignTransferDialog : UIModule
                 info.Animation = UnitAnimation.StandStill;
                 info.Frame = 0;
                 info.Looped = false;
-                objectValue.Show(r.Left - 8, r.Top, lockedSurface, info);
+                _ = objectValue.Show(r.Left - 8, r.Top, lockedSurface, info);
                 if (s.SelectedUnits.IndexOf(_leftUnit + slot) != -1)
                 {
                     UI.Graphics.CityWindow[5].ShowBlended(r.Left, r.Top, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[65]);
@@ -475,7 +475,7 @@ public partial class CampaignTransferDialog : UIModule
                 info.Animation = UnitAnimation.StandStill;
                 info.Frame = 0;
                 info.Looped = false;
-                objectValue.Show(r.Left - 8, r.Top, lockedSurface, info);
+                _ = objectValue.Show(r.Left - 8, r.Top, lockedSurface, info);
                 if (sender.Lit)
                 {
                     UI.Graphics.CampaignTransfer[20].ShowBlended(r.Left - 1, r.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);

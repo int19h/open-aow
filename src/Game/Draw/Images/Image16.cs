@@ -33,7 +33,7 @@ public partial class Image16 : LibraryImage, ILibraryImageClass
     public override void WriteImageData(Stream stream)
     {
         base.WriteImageData(stream);
-        RemapToPixelFormat(StoredPixelFormatId);
+        _ = RemapToPixelFormat(StoredPixelFormatId);
         int storedPixelFormatId = StoredPixelFormatId;
         stream.Write(Bytes.Of(ref storedPixelFormatId, 4));
         StoredPixelFormatId = storedPixelFormatId;

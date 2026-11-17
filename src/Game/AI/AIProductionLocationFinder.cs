@@ -40,14 +40,14 @@ public partial class AIProductionLocationFinder : AIGroupTask
     // AIGroup.pas:2365
     public override bool Activate(AIGroupControl control)
     {
-        base.Activate(control);
+        _ = base.Activate(control);
         _control = control;
         if (_mode.Contains(ModeElement.CalculateMovePathBfs))
         {
             Selector.Mode = Selector.Mode + Set<AIMoveTargetSelectorModeElement>.Of(AIMoveTargetSelectorModeElement.CreateMovePaths);
         }
 
-        Selector.Search(control);
+        _ = Selector.Search(control);
         return true;
     }
 
@@ -88,7 +88,7 @@ public partial class AIProductionLocationFinder : AIGroupTask
         targetInfo3.Mode = AITargetMode.Produce;
         Selector.TargetInfo = targetInfo3;
         Selector.MovePointsMax = 75;
-        _mode = _mode + Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
+        _mode += Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
         return true;
     }
 
@@ -111,7 +111,7 @@ public partial class AIProductionLocationFinder : AIGroupTask
             }
 
             _control.ProductionLocationFoundEvent(location, ref searchDone);
-            location.Release();
+            _ = location.Release();
         }
     }
 

@@ -177,13 +177,12 @@ public partial class WindowControl : UIComponent
     // AoWWinControl.pas:224
     public override void CheckKeyPress(ref byte key)
     {
-        UIComponent c = default;
         Handled = false;
         if (Visible)
         {
             for (int i = Children.Count - 1; i >= 0; i--)
             {
-                c = Children[i];
+                UIComponent c = Children[i];
                 c.CheckKeyPress(ref key);
                 if (c.Handled)
                 {
@@ -206,13 +205,12 @@ public partial class WindowControl : UIComponent
     // AoWWinControl.pas:246
     public override void CheckKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        UIComponent c = default;
         Handled = false;
         if (Visible)
         {
             for (int i = Children.Count - 1; i >= 0; i--)
             {
-                c = Children[i];
+                UIComponent c = Children[i];
                 c.CheckKeyDown(ref key, shift);
                 if (c.Handled)
                 {
@@ -243,12 +241,12 @@ public partial class WindowControl : UIComponent
         r = new Rect(0, 0, WinWidth, WinHeight);
         if (!Masked)
         {
-            BackSurface.BlitAreaClipped(surface, r, WinLeft, WinTop);
+            _ = BackSurface.BlitAreaClipped(surface, r, WinLeft, WinTop);
         }
         else
         {
             int color2PixelInfo = PixelFormats.Color2PixelInfo(pixelFormatId: BackSurface.GetPixelFormatId(), color: MaskColor, palette: null);
-            BackSurface.BlitAreaColorKeyClipped(surface, r, WinLeft, WinTop, color2PixelInfo);
+            _ = BackSurface.BlitAreaColorKeyClipped(surface, r, WinLeft, WinTop, color2PixelInfo);
         }
 
         OnDrawSurface?.Invoke(this, surface, WinLeft, WinTop);
@@ -300,7 +298,7 @@ public partial class WindowControl : UIComponent
                 BackSurface = new DataSurface(WinWidth, WinHeight, pixelFormatId, null);
                 if (Masked)
                 {
-                    BackSurface.Clear(MaskColor);
+                    _ = BackSurface.Clear(MaskColor);
                 }
 
                 result = true;

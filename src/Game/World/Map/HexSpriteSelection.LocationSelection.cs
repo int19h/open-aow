@@ -75,14 +75,12 @@ public partial class HexSpriteSelection
     public int FindLocationHexSpriteIndex(MapField mapField)
     {
         int i;
-        int pixelX = default;
-        int pixelY = default;
         HexSprite hexSprite;
         int result = -1;
         if (_locationHexSprite.Count != 0)
         {
             i = 0;
-            HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out pixelX, out pixelY);
+            HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out int pixelX, out int pixelY);
             while (result == -1 && i != mapField.Count)
             {
                 hexSprite = mapField.HexSpriteList[i];

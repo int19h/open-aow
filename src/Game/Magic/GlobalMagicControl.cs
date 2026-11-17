@@ -110,10 +110,10 @@ public partial class GlobalMagicControl : EngineObject
                 log.Mode = PlayerMagicEventLog.EventMode.OutOfMana;
                 log.EnchantmentName = Enchantments.GetEnchantments(index).GetName();
                 EventLog.DistributeEventLog(log, false);
-                log.Release();
-                enchantment.AddRef();
-                enchantment.Deactivate((byte)player);
-                enchantment.Release();
+                _ = log.Release();
+                _ = enchantment.AddRef();
+                _ = enchantment.Deactivate((byte)player);
+                _ = enchantment.Release();
             }
         }
     }
@@ -125,7 +125,7 @@ public partial class GlobalMagicControl : EngineObject
         {
             if (player == Enchantments.GetEnchantments(i).PlayerIndex)
             {
-                Enchantments.GetEnchantments(i).Remove((byte)player);
+                _ = Enchantments.GetEnchantments(i).Remove((byte)player);
             }
         }
     }
@@ -181,7 +181,7 @@ public partial class GlobalMagicControl : EngineObject
         for (int i = Enchantments.GetCount() - 1; i >= 0; i--)
         {
             GlobalEnchantment enchantments = Enchantments.GetEnchantments(i);
-            ActiveEnchantments = ActiveEnchantments + Set<GlobalEnchantmentType>.Of(enchantments.EnchantmentType);
+            ActiveEnchantments += Set<GlobalEnchantmentType>.Of(enchantments.EnchantmentType);
         }
     }
 
@@ -269,7 +269,7 @@ public partial class GlobalMagicControl : EngineObject
                 eventValue.EnchantmentId = enchantment.EnchantmentId;
                 eventValue.PlayerIndex = (byte)player;
                 StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
-                eventValue.Release();
+                _ = eventValue.Release();
                 result = true;
             }
             else
@@ -316,7 +316,7 @@ public partial class GlobalMagicControl : EngineObject
                 eventValue.EnchantmentId = enchantment.EnchantmentId;
                 eventValue.PlayerIndex = (byte)player;
                 StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
-                eventValue.Release();
+                _ = eventValue.Release();
                 result = true;
             }
             else

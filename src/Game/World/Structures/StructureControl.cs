@@ -107,7 +107,7 @@ public partial class StructureControl : EngineObject
             structure.StructureId = CreateUniqueId();
         }
 
-        _structures.AddChild(structure);
+        _ = _structures.AddChild(structure);
         if (structure.EngineClass.ClassId == 131336)
         {
             CityCount += 1;
@@ -117,7 +117,7 @@ public partial class StructureControl : EngineObject
     // Structur.PAS:3306
     public void Unregister(Structure structure)
     {
-        _structures.DropChild(structure);
+        _ = _structures.DropChild(structure);
         if (structure.EngineClass.ClassId == 131336)
         {
             CityCount -= 1;

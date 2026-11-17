@@ -45,7 +45,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
     public override bool Activate(AIGroupControl control)
     {
         _control = control;
-        _selector.Search(control);
+        _ = _selector.Search(control);
         State = 0;
         return true;
     }
@@ -69,7 +69,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
             case 1:
                 if (_targets.Count != 0)
                 {
-                    _control.Group.SetupTarget(null, AIGroupTargetStatus.Idle, 0);
+                    _ = _control.Group.SetupTarget(null, AIGroupTargetStatus.Idle, 0);
                     _control.SetupME();
                     AIGroupControlTarget targetLocation = _targets.GetTargets(0);
                     if (targetLocation.Location == _control.Location)
@@ -87,12 +87,12 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
                 {
                     _control.SetupME();
                     AIMoveExecutor aiMoveExecutor = _control.MoveExecutor;
-                    aiMoveExecutor.Mode = aiMoveExecutor.Mode - Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent);
+                    aiMoveExecutor.Mode -= Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent);
 
                     AIGroupControl aiGroupControl = _control;
                     aiGroupControl.ExecuteME(aiGroupControl.Location.X, aiGroupControl.Location.Y, aiGroupControl.Location.MapLevel);
 
-                    _control.Group.SetupTarget(null, AIGroupTargetStatus.Idle, 0);
+                    _ = _control.Group.SetupTarget(null, AIGroupTargetStatus.Idle, 0);
                     Done();
                 }
 
@@ -133,14 +133,13 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
     {
         int result;
         int i;
-        BattleFieldInfo info = default;
         if (path != null && _pathStep < path.Count)
         {
             result = 0;
             i = _pathStep;
-            BattleFieldInfo.SetupBattleFieldInfo(out info, _control.Group.Player, _control.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), _damageTypes);
+            BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, _control.Group.Player, _control.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), _damageTypes);
             info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
-            info.Requests = info.Requests + Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents);
+            info.Requests += Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents);
             while (i < path.Count)
             {
                 info.Strength = 0;
@@ -192,7 +191,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
             _targets.Add(newTarget);
         }
 
-        newTarget.Release();
+        _ = newTarget.Release();
     }
 
     // AGCPlugins.pas:229
@@ -210,16 +209,16 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
         switch (StrategicMap.Current.Players.GetPlayers(control.Group.Player).PlayerType)
         {
             case PlayerType.Cpu2:
-                _mode = _mode + Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
+                _mode += Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
                 break;
             case PlayerType.Cpu3:
-                _mode = _mode + Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
+                _mode += Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
                 break;
             case PlayerType.Cpu4:
-                _mode = _mode + Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
+                _mode += Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
                 break;
             case PlayerType.Cpu5:
-                _mode = _mode + Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
+                _mode += Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
                 break;
         }
 

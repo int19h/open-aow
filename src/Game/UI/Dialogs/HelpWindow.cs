@@ -33,7 +33,7 @@ public partial class HelpWindow : UIModule
         _helpEvent = null;
         done?.Invoke(eventValue);
 
-        eventValue?.Release();
+        _ = (eventValue?.Release());
     }
 
     // aowHelpWin.pas:66
@@ -41,12 +41,12 @@ public partial class HelpWindow : UIModule
     {
         FinishDialog();
         _helpEvent = eventValue;
-        _helpEvent.AddRef();
+        _ = _helpEvent.AddRef();
         HeaderMemo.Items.Clear();
         if (eventValue.Message.Count > 0)
         {
             string message = eventValue.Message[0];
-            HeaderMemo.Items.Add(message);
+            _ = HeaderMemo.Items.Add(message);
         }
 
         HelpMemo.Items.Clear();
@@ -103,7 +103,7 @@ public partial class HelpWindow : UIModule
         if (lines.Count > 0)
         {
             string line = lines[0];
-            UI.HelpWindow.HeaderMemo.Items.Add(line);
+            _ = UI.HelpWindow.HeaderMemo.Items.Add(line);
         }
 
         UI.HelpWindow.HelpMemo.Items.Clear();

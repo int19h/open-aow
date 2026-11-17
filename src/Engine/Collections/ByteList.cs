@@ -119,7 +119,7 @@ public partial class ByteList : Persistent
                 v = 0;
             }
 
-            Add((byte)v);
+            _ = Add((byte)v);
             p = Pos(",", S);
         }
     }

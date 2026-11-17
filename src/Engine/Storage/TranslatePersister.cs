@@ -140,7 +140,7 @@ internal sealed class TranslatePersister(TranslateVisit stream, EngineObject nod
         {
             if (items.IsStored(index))
             {
-                Created(name, items.Get(index));
+                _ = Created(name, items.Get(index));
             }
         }
     }

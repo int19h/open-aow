@@ -39,7 +39,7 @@ public partial class NewCombatTurnCombatAction : CombatAction
         if (viewer.Time == 0)
         {
             Execute(viewer.Combat);
-            AudioPlayback.PlaySample("SFX\\EVENTS\\INFO2.WAV");
+            _ = AudioPlayback.PlaySample("SFX\\EVENTS\\INFO2.WAV");
         }
 
         return viewer.Delay > viewer.Time;

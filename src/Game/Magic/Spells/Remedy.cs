@@ -41,12 +41,12 @@ public partial class Remedy : UnitSpell
             }
 
             target.SetHitPoints((sbyte)hitPoints);
-            target.RemoveAbility(93);
-            target.RemoveAbility(96);
-            target.RemoveAbility(108);
-            target.RemoveAbility(53);
-            target.RemoveAbility(92);
-            target.RemoveAbility(127);
+            _ = target.RemoveAbility(93);
+            _ = target.RemoveAbility(96);
+            _ = target.RemoveAbility(108);
+            _ = target.RemoveAbility(53);
+            _ = target.RemoveAbility(92);
+            _ = target.RemoveAbility(127);
             result = true;
         }
         else

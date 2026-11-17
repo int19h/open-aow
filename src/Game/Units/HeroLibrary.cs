@@ -51,7 +51,7 @@ public partial class HeroLibrary : Engine.Nodes.ReferenceNode, IChildList<Hero>,
             hero.LibraryId = CreateUniqueLibraryId();
         }
 
-        AppendChild(child);
+        _ = AppendChild(child);
         return child.AddRef() == -1 ? throw new NotSupportedException("EObject doesn't support ReferenceCounting") : Heroes.Count - 1;
     }
 
@@ -86,7 +86,7 @@ public partial class HeroLibrary : Engine.Nodes.ReferenceNode, IChildList<Hero>,
         hero.LibraryId = CreateUniqueLibraryId();
         hero.LibraryName = LibraryName;
         hero.SetOwner(this);
-        hero.Release();
+        _ = hero.Release();
         return hero;
     }
 

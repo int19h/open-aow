@@ -42,7 +42,6 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
     public override MoveStatus LastMove()
     {
         Point3D point;
-        int i = default;
         int x = default;
         int y = default;
         TacticalBattleUnitHexSprite hexSprite;
@@ -50,6 +49,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
         MoveStatus result = MoveStatus.Moving;
         try
         {
+            int i;
             switch (Step)
             {
                 case TokenStep.Start:
@@ -138,7 +138,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                     }
                     catch
                     {
-                        MessageBox(0, "Error during Token Start", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
+                        _ = MessageBox(0, "Error during Token Start", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
                     }
 
                     break;
@@ -153,7 +153,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                     }
                     catch
                     {
-                        MessageBox(0, "Error during Token StepUp", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
+                        _ = MessageBox(0, "Error during Token StepUp", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
                     }
 
                     break;
@@ -212,7 +212,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                     }
                     catch
                     {
-                        MessageBox(0, "Error during Token InitStrike", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
+                        _ = MessageBox(0, "Error during Token InitStrike", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
                     }
 
                     break;
@@ -268,7 +268,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                                             Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.RoundAttack);
                                                         }
 
-                                                        Strike.Release();
+                                                        _ = Strike.Release();
                                                         Strike = null;
                                                     }
                                                 }
@@ -297,14 +297,14 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                     {
                                         _successful = touchAction.TouchSucceeded;
                                         CombatMap.Current.Combat.ExecuteCombatAction(touchAction);
-                                        touchAction.Release();
+                                        _ = touchAction.Release();
                                         if (touchAction is PossessCombatAction)
                                         {
                                             int unitGraphicsResourceIndex = Unit.Troop.GetUnitGraphicsResourceIndex();
                                             Unit.UnitHexSprite.SetUnitGraphicsResourceIndex(unitGraphicsResourceIndex);
                                             if (!PreviousUnit.GetEnabled())
                                             {
-                                                Unit.UnitHexSprite.MoveTo(PreviousUnit.UnitHexSprite.Owner, 0);
+                                                _ = Unit.UnitHexSprite.MoveTo(PreviousUnit.UnitHexSprite.Owner, 0);
                                                 Unit.UnitHexSprite.SetDirection(PreviousUnit.UnitHexSprite.Direction);
                                                 Unit.UnitHexSprite.OffsetX = 0;
                                                 Unit.UnitHexSprite.OffsetY = 0;
@@ -379,7 +379,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                     }
                     catch
                     {
-                        MessageBox(0, "Error during Token ExeStrike", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
+                        _ = MessageBox(0, "Error during Token ExeStrike", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
                     }
 
                     break;
@@ -411,7 +411,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                     }
                     catch
                     {
-                        MessageBox(0, "Error during Token StrikeBack", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
+                        _ = MessageBox(0, "Error during Token StrikeBack", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
                     }
 
                     break;
@@ -438,7 +438,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                     }
                     catch
                     {
-                        MessageBox(0, "Error during Token ExeStrikeBack", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
+                        _ = MessageBox(0, "Error during Token ExeStrikeBack", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
                     }
 
                     break;
@@ -471,7 +471,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
         }
         catch
         {
-            MessageBox(0, "Error during Token", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
+            _ = MessageBox(0, "Error during Token", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
         }
 
         return result;

@@ -18,7 +18,7 @@ internal static class PassiveAbilities
         ability.MoveTypes = moveTypes;
         if (moveTypes.Contains(MoveType.Mountaineering) || moveTypes.Contains(MoveType.Forestry) || moveTypes.Contains(MoveType.CaveCrawling))
         {
-            ability.SelectionTypes = ability.SelectionTypes + Set<AbilitySelectionType>.Of(AbilitySelectionType.Editor);
+            ability.SelectionTypes += Set<AbilitySelectionType>.Of(AbilitySelectionType.Editor);
         }
 
         return ability;
@@ -39,7 +39,7 @@ internal static class PassiveAbilities
 
         if ((Set<DamageType>.Of(DamageType.Physical, DamageType.Magic) & damageTypes) == Set<DamageType>.Of())
         {
-            ability.SelectionTypes = ability.SelectionTypes + Set<AbilitySelectionType>.Of(AbilitySelectionType.TorsoItem);
+            ability.SelectionTypes += Set<AbilitySelectionType>.Of(AbilitySelectionType.TorsoItem);
         }
 
         return ability;

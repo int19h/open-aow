@@ -50,7 +50,6 @@ public partial class HeroJoinEventLog : JoinEventLog
     {
         NegotiateTokenEvent tokenEvent;
         Troop u;
-        MapCoordinate location = default;
         bool result = base.Accept(ref errorText);
         if (result && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
@@ -59,7 +58,7 @@ public partial class HeroJoinEventLog : JoinEventLog
             sbyte locationX = coordinate18.X;
             sbyte locationY = coordinate18.Y;
             sbyte locationMapLevel = coordinate18.MapLevel;
-            location = new MapCoordinate(locationX, locationY, locationMapLevel);
+            MapCoordinate location = new(locationX, locationY, locationMapLevel);
             tokenEvent = new NegotiateTokenEvent(null) { Holder = CreationHolder() };
             tokenEvent.Player = Player;
             tokenEvent.Object = NegotiateObject.Army;
@@ -70,7 +69,7 @@ public partial class HeroJoinEventLog : JoinEventLog
             tokenEvent.Result = NegotiateTokenEvent.NegotiateResult.Accept;
             tokenEvent.EventLogId = JoinIndex;
             StrategicMap.Current.TokenManager.GetTokenControl(Player).AddEvent(tokenEvent);
-            tokenEvent.Release();
+            _ = tokenEvent.Release();
         }
 
         return result;
@@ -94,7 +93,7 @@ public partial class HeroJoinEventLog : JoinEventLog
                 if (Accept(ref errorText))
                 {
                     Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player);
-                    StrategicMap.Current.Players.GetPlayers(Player).AIBudget.BudgetExpenseMade(Gold, 0, fPlayersPlayers.AIBudget.DefaultBudget, AIBudgetManager.ExpenseMode.BudgetThenPool);
+                    _ = StrategicMap.Current.Players.GetPlayers(Player).AIBudget.BudgetExpenseMade(Gold, 0, fPlayersPlayers.AIBudget.DefaultBudget, AIBudgetManager.ExpenseMode.BudgetThenPool);
                 }
 
                 result = true;

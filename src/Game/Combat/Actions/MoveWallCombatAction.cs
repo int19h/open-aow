@@ -32,12 +32,12 @@ public partial class MoveWallCombatAction : CombatAction
         objectValue = combat.CombatData.FindId<FastBattleUnit>(CombatObjectId);
         if (InsideWall == 0)
         {
-            objectValue.State = objectValue.State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);
+            objectValue.State += Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);
         }
 
         if (InsideWall == 1)
         {
-            objectValue.State = objectValue.State - Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);
+            objectValue.State -= Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);
         }
     }
 

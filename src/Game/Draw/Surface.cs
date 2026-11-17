@@ -55,7 +55,7 @@ public partial class Surface : IDisposable
             }
             finally
             {
-                Unlock();
+                _ = Unlock();
             }
         }
         else
@@ -110,7 +110,7 @@ public partial class Surface : IDisposable
             }
             finally
             {
-                Unlock();
+                _ = Unlock();
             }
         }
         else
@@ -136,7 +136,7 @@ public partial class Surface : IDisposable
         if (Succeeded(Lock(ref lockedSurface)))
         {
             result = lockedSurface.PixelFormatId;
-            Unlock();
+            _ = Unlock();
         }
         else
         {
@@ -173,7 +173,7 @@ public partial class Surface : IDisposable
                     s = sourceSurface.View((sourceRectangle.Value.Left * sourceSurface.BitCount / 8) + (sourceRectangle.Value.Top * sourceSurface.Pitch));
                     d = destinationSurface.View((X * destinationSurface.BitCount / 8) + (Y * destinationSurface.Pitch));
                     BlitRects.BlitRectangle(s, d, (sourceRectangle.Value.Right - sourceRectangle.Value.Left) * destinationSurface.BitCount / 8, sourceRectangle.Value.Bottom - sourceRectangle.Value.Top);
-                    Unlock();
+                    _ = Unlock();
                     result = PixelFormats.GFXE_OK;
                 }
                 else
@@ -181,7 +181,7 @@ public partial class Surface : IDisposable
                     result = GFXE_CANNOTLOCK;
                 }
 
-                destination.Unlock();
+                _ = destination.Unlock();
             }
             else
             {
@@ -224,21 +224,21 @@ public partial class Surface : IDisposable
 
             if (r.Left < 0)
             {
-                X = X - r.Left;
+                X -= r.Left;
                 r.Left = 0;
             }
         }
 
         if (X < 0)
         {
-            r.Left = r.Left - X;
+            r.Left -= X;
             X = 0;
         }
 
         w = r.Right - r.Left;
         if (destination.GetWidth() < X + w)
         {
-            w = w - (X + w - destination.GetWidth());
+            w -= X + w - destination.GetWidth();
         }
 
         int height2 = GetHeight();
@@ -250,20 +250,20 @@ public partial class Surface : IDisposable
 
         if (r.Top < 0)
         {
-            Y = Y - r.Top;
+            Y -= r.Top;
             r.Top = 0;
         }
 
         if (Y < 0)
         {
-            r.Top = r.Top - Y;
+            r.Top -= Y;
             Y = 0;
         }
 
         h = r.Bottom - r.Top;
         if (destination.GetHeight() < h + Y)
         {
-            h = h - (h + Y - destination.GetHeight());
+            h -= h + Y - destination.GetHeight();
         }
 
         if (w > 0 && h > 0)
@@ -308,14 +308,14 @@ public partial class Surface : IDisposable
                     d = destinationSurface.View((X * destinationSurface.BitCount / 8) + (Y * destinationSurface.Pitch));
                     BlitRects.BlitColorKey16(s, d, sourceRectangle.Value.Right - sourceRectangle.Value.Left, sourceRectangle.Value.Bottom - sourceRectangle.Value.Top, colorKey);
                     result = PixelFormats.GFXE_OK;
-                    Unlock();
+                    _ = Unlock();
                 }
                 else
                 {
                     result = GFXE_CANNOTLOCK;
                 }
 
-                destination.Unlock();
+                _ = destination.Unlock();
             }
             else
             {
@@ -358,21 +358,21 @@ public partial class Surface : IDisposable
 
             if (r.Left < 0)
             {
-                X = X - r.Left;
+                X -= r.Left;
                 r.Left = 0;
             }
         }
 
         if (X < 0)
         {
-            r.Left = r.Left - X;
+            r.Left -= X;
             X = 0;
         }
 
         w = r.Right - r.Left;
         if (destination.GetWidth() < X + w)
         {
-            w = w - (X + w - destination.GetWidth());
+            w -= X + w - destination.GetWidth();
         }
 
         int height2 = GetHeight();
@@ -384,20 +384,20 @@ public partial class Surface : IDisposable
 
         if (r.Top < 0)
         {
-            Y = Y - r.Top;
+            Y -= r.Top;
             r.Top = 0;
         }
 
         if (Y < 0)
         {
-            r.Top = r.Top - Y;
+            r.Top -= Y;
             Y = 0;
         }
 
         h = r.Bottom - r.Top;
         if (destination.GetHeight() < h + Y)
         {
-            h = h - (h + Y - destination.GetHeight());
+            h -= h + Y - destination.GetHeight();
         }
 
         if (w > 0 && h > 0)

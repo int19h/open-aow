@@ -116,8 +116,8 @@ public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder
     {
         Unit unit = control.CreateUnitProduction(Index);
         lines.Clear();
-        lines.Add(AbilityRules.TranslateResourceString(control.GetEngine(), GameText.ProducingText));
-        lines.Add(unit.GetName());
-        unit.Release();
+        _ = lines.Add(AbilityRules.TranslateResourceString(control.GetEngine(), GameText.ProducingText));
+        _ = lines.Add(unit.GetName());
+        _ = unit.Release();
     }
 }

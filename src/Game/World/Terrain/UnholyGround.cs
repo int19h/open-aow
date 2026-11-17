@@ -168,7 +168,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
         log = new ArmyEventLog(null) { Holder = CreationHolder() };
         log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_unholyGroundDamageText);
         string unholyGroundDamage = AbilityRules.TranslateResourceString(GetEngine(), s_unholyGroundDamageText);
-        log.ArmyMessages.Add(unholyGroundDamage);
+        _ = log.ArmyMessages.Add(unholyGroundDamage);
         log.ArmyIcon = 2;
         Army armyLocal = army.Army;
         for (int i = 0, last = armyLocal.Units.Count - 1; i <= last; i++)
@@ -195,13 +195,13 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
                     damaged += 1;
                 }
 
-                log.DamageValues.Add((byte)damage);
-                log.DamageTypes.Add((int)DamageType.Death);
+                _ = log.DamageValues.Add((byte)damage);
+                _ = log.DamageTypes.Add((int)DamageType.Death);
             }
             else
             {
-                log.DamageValues.Add(0);
-                log.DamageTypes.Add((int)DamageType.Death);
+                _ = log.DamageValues.Add(0);
+                _ = log.DamageTypes.Add((int)DamageType.Death);
             }
         }
 
@@ -215,7 +215,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
             EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), x: GetHexX(), log: log, player: log.Player, execute: true);
         }
 
-        log.Release();
+        _ = log.Release();
         army.Army.Validate();
     }
 
@@ -307,7 +307,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
 
             if (condition)
             {
-                GamePack.Current.SpellControl.GetSpell(14).CastSounds.Play(0);
+                _ = GamePack.Current.SpellControl.GetSpell(14).CastSounds.Play(0);
             }
         }
     }
@@ -321,7 +321,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(131985) && frameCounter == 9)
         {
-            Mode = Mode - Set<UnholySummoning>.Of(UnholySummoning.Summoning);
+            Mode -= Set<UnholySummoning>.Of(UnholySummoning.Summoning);
         }
     }
 

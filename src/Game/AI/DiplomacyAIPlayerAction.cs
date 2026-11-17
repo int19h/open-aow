@@ -37,7 +37,7 @@ public partial class DiplomacyAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
     public override bool Process()
     {
         bool result;
-        base.Process();
+        _ = base.Process();
         if (Control.Player.PlayerIndex != 0)
         {
             while (true)
@@ -63,7 +63,7 @@ public partial class DiplomacyAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                 int count2 = StrategicMap.Current.Players.Count;
                 if (_nextPlayer < count2)
                 {
-                    ExecuteDiplomacy(_nextPlayer);
+                    _ = ExecuteDiplomacy(_nextPlayer);
                 }
             }
 
@@ -187,7 +187,7 @@ public partial class DiplomacyAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                                 score = -i;
                                 score -= StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)candidate, Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace)) * 5;
                                 score -= StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)candidate, Set<DiplomaticRelation>.Of(DiplomaticRelation.Alliance)) * 10;
-                                candidates.AddAbility(candidate, score);
+                                _ = candidates.AddAbility(candidate, score);
                             }
 
                             action = null;
@@ -207,7 +207,7 @@ public partial class DiplomacyAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                                     score = j;
                                     score -= StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)candidate, Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace)) * 5;
                                     score -= StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)candidate, Set<DiplomaticRelation>.Of(DiplomaticRelation.Alliance)) * 10;
-                                    candidates.AddAbility(candidate, score);
+                                    _ = candidates.AddAbility(candidate, score);
                                 }
 
                                 action = null;
@@ -232,8 +232,8 @@ public partial class DiplomacyAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
 
         if (action != null)
         {
-            action.Send(ref errorText);
-            action.Release();
+            _ = action.Send(ref errorText);
+            _ = action.Release();
         }
 
         peace?.Dispose();

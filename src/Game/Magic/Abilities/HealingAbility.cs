@@ -98,7 +98,7 @@ public partial class HealingAbility : TouchAbility
         FastBattleValidateMoveOutsideWall(source, target);
         action = CreateHealingCombatAction(source, target);
         source.Combat.ExecuteCombatAction(action);
-        action.Release();
+        _ = action.Release();
         return true;
     }
 
@@ -144,7 +144,7 @@ public partial class HealingAbility : TouchAbility
             info.SetUnitSelector(selector);
             // { Original omits Selector.Release here. }
             StrategicMap.Current.OnActivateAbilityStore.Raise(info);
-            info.Release();
+            _ = info.Release();
             result = true;
         }
         else
@@ -331,19 +331,19 @@ public partial class HealingAbility : TouchAbility
 
         if (troop.GetAbilityEnabled(96))
         {
-            troop.RemoveAbility(96);
+            _ = troop.RemoveAbility(96);
             result = true;
         }
 
         if (troop.GetAbilityEnabled(53))
         {
-            troop.RemoveAbility(53);
+            _ = troop.RemoveAbility(53);
             result = true;
         }
 
         if (troop.GetAbilityEnabled(108))
         {
-            troop.RemoveAbility(108);
+            _ = troop.RemoveAbility(108);
             result = true;
         }
 

@@ -86,7 +86,7 @@ public partial class DisjunctionSpellCaster : SpellCaster
                 eventValue.EnchantmentId = EnchantmentId;
                 eventValue.DispelChance = DispelChance;
                 StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
-                eventValue.Release();
+                _ = eventValue.Release();
                 result = true;
             }
             else

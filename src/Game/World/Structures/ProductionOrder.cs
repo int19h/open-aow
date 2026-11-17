@@ -120,7 +120,7 @@ public abstract partial record ProductionOrder
         eventValue.Text = text;
         eventValue.SetLocation(level: city.GetHexLevel(), y: city.GetHexY(), x: city.GetHexX());
         StrategicMap.Current.Players.GetPlayers(eventValue.Player).EventLogbook.AddEvent(eventValue);
-        eventValue.Release();
+        _ = eventValue.Release();
     }
 
     // Charges the settings' costs to the settings' player.

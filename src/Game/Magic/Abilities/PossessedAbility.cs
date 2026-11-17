@@ -84,7 +84,7 @@ public partial class PossessedAbility : PossessAbility
 
             combatUnit.Troop.Killed();
             combatUnit.SetUnit(newUnit);
-            newUnit.Release();
+            _ = newUnit.Release();
         }
     }
 

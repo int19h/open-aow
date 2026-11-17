@@ -100,7 +100,7 @@ public partial class AIGroupProductionControl : AIGroupTask
                 {
                     StrategicMap.Current.AIExecutor.UseProcessTime(500);
                     finished = false;
-                    _control.ProductionLocations.Validate(_control);
+                    _ = _control.ProductionLocations.Validate(_control);
                     while (!Complete && !finished)
                     {
                         UpdateProducibleUnits();
@@ -141,7 +141,7 @@ public partial class AIGroupProductionControl : AIGroupTask
 
                     if ((Productions.Count != 0 && Mode == AIGroupProductionControlMode.AutoProduce) || (Mode == AIGroupProductionControlMode.CompleteProduceOnly && Complete))
                     {
-                        ExecuteProductions(_groupId);
+                        _ = ExecuteProductions(_groupId);
                     }
 
                     Done();
@@ -168,7 +168,7 @@ public partial class AIGroupProductionControl : AIGroupTask
                             }
                         }
 
-                        production.Release();
+                        _ = production.Release();
                     }
 
                     Done();
@@ -299,7 +299,7 @@ public partial class AIGroupProductionControl : AIGroupTask
 
             if (Superiority != -1)
             {
-                _control.CombatPredictor.Execute();
+                _ = _control.CombatPredictor.Execute();
                 if (_control.CombatPredictor.GetSuperiority() < Superiority)
                 {
                     Complete = false;
@@ -323,7 +323,7 @@ public partial class AIGroupProductionControl : AIGroupTask
                 int unitResourceIndex = production.Unit.UnitResource.UnitResourceIndex();
                 if (control.ExecuteAIProduction(control.UnitProductions.IndexOf(unitResourceIndex), groupId))
                 {
-                    StrategicMap.Current.Players.GetPlayers(_control.Group.Player).AIBudget.ProductionExpenseMade(production.Gold, production.GoldUpkeep, production.Mana, production.ManaUpkeep);
+                    _ = StrategicMap.Current.Players.GetPlayers(_control.Group.Player).AIBudget.ProductionExpenseMade(production.Gold, production.GoldUpkeep, production.Mana, production.ManaUpkeep);
                 }
                 else
                 {
@@ -335,7 +335,7 @@ public partial class AIGroupProductionControl : AIGroupTask
                 int unitResourceIndex = production.Unit.UnitResource.UnitResourceIndex();
                 if (control.ExecuteAIResearch(control.UnitProductions.IndexOf(unitResourceIndex)))
                 {
-                    StrategicMap.Current.Players.GetPlayers(_control.Group.Player).AIBudget.ProductionExpenseMade(production.Gold, production.GoldUpkeep, production.Mana, production.ManaUpkeep);
+                    _ = StrategicMap.Current.Players.GetPlayers(_control.Group.Player).AIBudget.ProductionExpenseMade(production.Gold, production.GoldUpkeep, production.Mana, production.ManaUpkeep);
                 }
             }
         }
@@ -347,7 +347,7 @@ public partial class AIGroupProductionControl : AIGroupTask
     public void AddProduction(AIGroupUnitProduction production)
     {
         DamageType d;
-        Productions.AddChild(production);
+        _ = Productions.AddChild(production);
         _gold += production.Gold;
         _mana += production.Mana;
         // { Original bug: upkeep is based on total costs rather than accumulated upkeep. }
@@ -396,7 +396,7 @@ public partial class AIGroupProductionControl : AIGroupTask
                 _control.CombatPredictor.DeleteUnit(production.Unit);
             }
 
-            Productions.RemoveChild(production);
+            _ = Productions.RemoveChild(production);
             UpdateCompletion();
         }
     }
@@ -469,9 +469,9 @@ public partial class AIGroupProductionControl : AIGroupTask
                                 production.Priority = (_movePointPriority * location.MovePoints) + priority;
                                 production.Research = false;
                                 production.ProductionTime = location.ProductionControl.UnitProductionTime(i);
-                                _producibleUnits.AddChild(production);
-                                production.Release();
-                                newUnit.Release();
+                                _ = _producibleUnits.AddChild(production);
+                                _ = production.Release();
+                                _ = newUnit.Release();
                                 result = true;
                             }
                         }
@@ -501,9 +501,9 @@ public partial class AIGroupProductionControl : AIGroupTask
                                     production.SetProductionLocation(location);
                                     production.Priority = (_movePointPriority * location.MovePoints) + priority + _researchPriority;
                                     production.Research = true;
-                                    _producibleUnits.AddChild(production);
-                                    production.Release();
-                                    newUnit.Release();
+                                    _ = _producibleUnits.AddChild(production);
+                                    _ = production.Release();
+                                    _ = newUnit.Release();
                                     result = true;
                                 }
                             }
@@ -533,7 +533,7 @@ public partial class AIGroupProductionControl : AIGroupTask
         {
             if (ValidProductionLocation(_control.ProductionLocations.GetProductionLocation(i)))
             {
-                ListProducibleUnits(_control.ProductionLocations.GetProductionLocation(i));
+                _ = ListProducibleUnits(_control.ProductionLocations.GetProductionLocation(i));
             }
         }
 

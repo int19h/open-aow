@@ -74,7 +74,7 @@ public partial class FileDialogWindow : UIModule
         _saveEvent = null;
         done?.Invoke(eventValue);
 
-        eventValue?.Release();
+        _ = (eventValue?.Release());
     }
 
     // AoWFileDialog.pas:132
@@ -92,7 +92,6 @@ public partial class FileDialogWindow : UIModule
     // TAoWEngine.LoadCampaign closes the campaign. The original closed both first.
     public void LoadSelectedGame(string name)
     {
-        StrategicMap map = default;
         if (DocumentKind.CampaignSave.HasExtension(ExtractFileExt(name)))
         {
             if (!UI.Engine.Demo)
@@ -108,7 +107,7 @@ public partial class FileDialogWindow : UIModule
         }
         else
         {
-            map = UI.Engine.CreatePreviewHsm<StrategicMap>(name, profile: GameProfile.WorldMap);
+            StrategicMap map = UI.Engine.CreatePreviewHsm<StrategicMap>(name, profile: GameProfile.WorldMap);
             if (map != null)
             {
                 UI.Engine.CloseCampaign();
@@ -208,7 +207,7 @@ public partial class FileDialogWindow : UIModule
             {
                 if ((entry.Attribute & 16) == 16)
                 {
-                    Directories.Add(entry.Name);
+                    _ = Directories.Add(entry.Name);
                 }
                 else
                 {
@@ -218,7 +217,7 @@ public partial class FileDialogWindow : UIModule
                     {
                         stamp = new FileTime();
                         stamp.Time = FileDateToDateTime(entry.FileDate);
-                        Files.AddObject(entry.Name, stamp);
+                        _ = Files.AddObject(entry.Name, stamp);
                     }
                 }
             }
@@ -241,14 +240,14 @@ public partial class FileDialogWindow : UIModule
         PathEdit.Text = directory + "\\";
         for (int i = 0, last = Directories.Count - 1; i <= last; i++)
         {
-            DateList.Items.Add("");
+            _ = DateList.Items.Add("");
         }
 
         for (int i = 0, last = Files.Count - 1; i <= last; i++)
         {
             string dateTimeToString = DateTimeToStr(Files.Objects[i].Time);
             FileTime objectValue = Files.Objects[i];
-            DateList.Items.AddObject(dateTimeToString, objectValue);
+            _ = DateList.Items.AddObject(dateTimeToString, objectValue);
         }
 
         RestoreSortOrder();
@@ -308,7 +307,7 @@ public partial class FileDialogWindow : UIModule
             path = GetCurrentDir();
             if (path.Length > 0 && path[^1] != 92)
             {
-                path = path + "\\";
+                path += "\\";
             }
 
             switch (Mode)
@@ -526,7 +525,7 @@ public partial class FileDialogWindow : UIModule
         switch (Mode)
         {
             case 0:
-                SetCurrentDir(Directory);
+                _ = SetCurrentDir(Directory);
                 string fileName = ExtractFileName(LastFileName);
                 SaveFileNameEdit.Text = fileName;
                 FileNameEdit.Text = SaveFileNameEdit.Text;
@@ -539,7 +538,7 @@ public partial class FileDialogWindow : UIModule
                 NewPanel.Visible = false;
                 break;
             case 1:
-                SetCurrentDir(Directory);
+                _ = SetCurrentDir(Directory);
                 string fileName2 = ExtractFileName(LastFileName);
                 SaveFileNameEdit.Text = fileName2;
                 if (Pos(".", SaveFileNameEdit.Text) != 0)
@@ -576,7 +575,7 @@ public partial class FileDialogWindow : UIModule
                     FileNameEdit.Text = "";
                 }
 
-                SetCurrentDir(UI.Engine.StartupDirectory + "Scenario\\Custom\\");
+                _ = SetCurrentDir(UI.Engine.StartupDirectory + "Scenario\\Custom\\");
                 string selectAMap = UI.Engine.TranslateResourceString(s_selectMapText);
                 UI.FileDialogWindow.TitleLabel.Text = selectAMap;
                 string select = UI.Engine.TranslateResourceString(s_selectText);
@@ -729,7 +728,7 @@ public partial class FileDialogWindow : UIModule
         Drives.Clear();
         string drive = RtlUnit.Files.VirtualDrive + "\\";
         string label = OperatingSystem.IsWindows() ? new DriveInfo(drive).VolumeLabel + " " : "";
-        Drives.Add($"{label}({drive})");
+        _ = Drives.Add($"{label}({drive})");
         DriveComboBox.Items.Clear();
         DriveComboBox.Items.AddStrings(Drives);
         DriveComboBox.Selected = 0;
@@ -796,7 +795,7 @@ public partial class FileDialogWindow : UIModule
                     controller.UI.General.Manager.OverlayPriority = 5000;
                 }
 
-                AudioHost.SongPlayer.Stop(false);
+                _ = AudioHost.SongPlayer.Stop(false);
                 AudioHost.SongPlayer.Songs.Clear();
                 AudioPlayback.FadeMusicVolume(0, 1);
                 controller.UI.Engine.LoadCampaignMap((_, message, progression) => controller.MapProgress(message, progression));
@@ -822,7 +821,7 @@ public partial class FileDialogWindow : UIModule
         string currentDirectory = GetCurrentDir();
         name = ExtractRelativePath(dialog.UI.Engine.StartupDirectory, currentDirectory + "\\" + name);
         dialog.UI.FileDialogWindow.Window.Visible = false;
-        dialog.SetupControl.PickMap(name);
+        _ = dialog.SetupControl.PickMap(name);
     }
 
     internal static void OpenSelectedGame(FileDialogWindow dialog) => dialog.LoadSelectedGame(dialog.LastFileName);
@@ -831,12 +830,12 @@ public partial class FileDialogWindow : UIModule
     {
         dialog.Done = done;
         dialog._saveEvent = eventValue;
-        dialog._saveEvent.AddRef();
+        _ = dialog._saveEvent.AddRef();
         dialog.Mode = 1;
         dialog.Window.Visible = true;
         if (!IsEmpty(eventValue.Directory))
         {
-            SetCurrentDir(eventValue.Directory);
+            _ = SetCurrentDir(eventValue.Directory);
         }
 
         dialog.SaveFileNameEdit.Text = eventValue.DefaultName;

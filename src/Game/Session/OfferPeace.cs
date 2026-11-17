@@ -52,14 +52,9 @@ public sealed partial record OfferPeace(int Gold = 0, int Mana = 0) : OfferPropo
         DiplomaticAction last = StrategicMap.Current.Players.GetPlayers(target).DiplomaticActions.FindLastAction(Kind, DiplomaticActionReaction.None, target, source, -1);
         if (idealPeace.IndexOf((byte)source) != -1 || (last != null && StrategicMap.Current.Day - last.Day <= 1))
         {
-            if (StrategicMap.Current.Players.GetPlayers(target).AIControl.CanOfferPeace((byte)source))
-            {
-                action.Accept(ref errorText);
-            }
-            else
-            {
-                action.Reject(ref errorText);
-            }
+            _ = StrategicMap.Current.Players.GetPlayers(target).AIControl.CanOfferPeace((byte)source)
+                ? action.Accept(ref errorText)
+                : action.Reject(ref errorText);
         }
         else
         {
@@ -71,28 +66,23 @@ public sealed partial record OfferPeace(int Gold = 0, int Mana = 0) : OfferPropo
                     if (last == null || StrategicMap.Current.Day - last.Day > 8)
                     {
                         // { Original bug: escrow gold is counted twice. }
-                        if (StrategicMap.Current.Random(3) == 1 && StrategicMap.Current.Random(250) + 100 < action.EscrowGold + action.EscrowGold)
-                        {
-                            action.Accept(ref errorText);
-                        }
-                        else
-                        {
-                            action.Reject(ref errorText);
-                        }
+                        _ = StrategicMap.Current.Random(3) == 1 && StrategicMap.Current.Random(250) + 100 < action.EscrowGold + action.EscrowGold
+                            ? action.Accept(ref errorText)
+                            : action.Reject(ref errorText);
                     }
                     else
                     {
-                        action.Reject(ref errorText);
+                        _ = action.Reject(ref errorText);
                     }
                 }
                 else
                 {
-                    action.Reject(ref errorText);
+                    _ = action.Reject(ref errorText);
                 }
             }
             else
             {
-                action.Reject(ref errorText);
+                _ = action.Reject(ref errorText);
             }
         }
     }
@@ -106,8 +96,8 @@ public sealed partial record OfferPeace(int Gold = 0, int Mana = 0) : OfferPropo
             DiplomaticAction last = StrategicMap.Current.Players.GetPlayers(action.Source).CreateDiplomaticAction(new DeclareWar(), action.Target, -1);
             if (last != null)
             {
-                last.Send(ref errorText);
-                last.Release();
+                _ = last.Send(ref errorText);
+                _ = last.Release();
             }
         }
     }

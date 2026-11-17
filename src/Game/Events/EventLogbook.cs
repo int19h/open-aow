@@ -64,7 +64,7 @@ public partial class EventLogbook : EngineObject
         {
             if (_events[i].GetVisible())
             {
-                strings.AddObject(_events[i].GetText(), IntToObject(i));
+                _ = strings.AddObject(_events[i].GetText(), IntToObject(i));
             }
         }
     }

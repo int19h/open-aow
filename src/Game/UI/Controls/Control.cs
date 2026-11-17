@@ -223,7 +223,7 @@ public partial class Control : UIComponent
         for (int i = 0, last = value.Count - 1; i <= last; i++)
         {
             string valueValue = value[i];
-            _toolTipText.Add(valueValue);
+            _ = _toolTipText.Add(valueValue);
         }
     }
 

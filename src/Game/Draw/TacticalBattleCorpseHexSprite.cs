@@ -80,8 +80,6 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
         CombatAction animateAction;
         CombatAction raiseAction;
         int n;
-        int x = default;
-        int y = default;
         int deltaX;
         int deltaY;
         BattleEffectSprite effect;
@@ -93,6 +91,8 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
         base.MapFieldMessageProc(ref message);
         if (Unit != null)
         {
+            int x;
+            int y;
             if (message.MessageId == 200712 && message.HexNumber == 0)
             {
                 sbyte hexY = GetHexY();
@@ -173,13 +173,13 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
                             RandSeed = StrategicMap.Current.Random(16777215);
                             animateAction = GamePack.Current.SpellControl.GetSpell(130).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
                             CombatMap.Current.Combat.ExecuteCombatAction(animateAction);
-                            animateAction.Release();
+                            _ = animateAction.Release();
                             break;
                         case 129:
                             RandSeed = StrategicMap.Current.Random(16777215);
                             raiseAction = GamePack.Current.SpellControl.GetSpell(129).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
                             CombatMap.Current.Combat.ExecuteCombatAction(raiseAction);
-                            raiseAction.Release();
+                            _ = raiseAction.Release();
                             break;
                     }
 
@@ -190,7 +190,7 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
                         unitHexSprite.SetDirection((byte)(Random(6) + 1));
                         sbyte hexY3 = GetHexY();
                         sbyte hexX2 = GetHexX();
-                        CombatMap.Current.PlaceHex(unitHexSprite, hexX2, hexY3, 0);
+                        _ = CombatMap.Current.PlaceHex(unitHexSprite, hexX2, hexY3, 0);
                     }
 
                     Dispose();
@@ -208,7 +208,7 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
             CombatMap.Current.NewFrameEvents += NewFrame;
         }
 
-        UnitGraphics.AddRef();
+        _ = UnitGraphics.AddRef();
         _sequenceFrame = -1;
     }
 
@@ -216,7 +216,7 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
     public override void Deactivate()
     {
         CombatMap.Current.NewFrameEvents -= NewFrame;
-        UnitGraphics.Release();
+        _ = UnitGraphics.Release();
         base.Deactivate();
     }
 

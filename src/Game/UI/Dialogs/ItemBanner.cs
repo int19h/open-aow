@@ -128,7 +128,7 @@ public partial class ItemBanner : UIModule
                 if (item.GetAbEnabled(x))
                 {
                     string name = GamePack.Current.AbilityControl.GetAbility(x).GetName(item);
-                    AbilityList.Items.AddObject(name, IntToObject(x));
+                    _ = AbilityList.Items.AddObject(name, IntToObject(x));
                 }
             }
 

@@ -54,14 +54,14 @@ public partial class VideoDialog : UIModule
         string s;
         DisplayModesList.Items.Clear();
         string desktopWindow = UI.Engine.TranslateResourceString(s_desktopWindowText);
-        DisplayModesList.Items.AddObject(desktopWindow, IntToObject(-1));
+        _ = DisplayModesList.Items.AddObject(desktopWindow, IntToObject(-1));
         for (int i = 0, last = _displayModes.Count - 1; i <= last; i++)
         {
             mode = _displayModes.Items[i];
             if (mode.Width >= 640 && mode.Height >= 480)
             {
                 string fullScreen = UI.Engine.TranslateResourceString(s_fullScreenText);
-                DisplayModesList.Items.AddObject(fullScreen + ":" + IntToStr(mode.Width) + "x" + IntToStr(mode.Height), IntToObject(i));
+                _ = DisplayModesList.Items.AddObject(fullScreen + ":" + IntToStr(mode.Width) + "x" + IntToStr(mode.Height), IntToObject(i));
             }
         }
 

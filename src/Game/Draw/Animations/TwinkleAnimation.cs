@@ -32,8 +32,6 @@ public partial class TwinkleAnimation : Animation
         ImageSequence sequence;
         int oldSeed;
         int delay;
-        int deltaX = default;
-        int deltaY = default;
         int radius;
         int angle;
         int index;
@@ -71,7 +69,7 @@ public partial class TwinkleAnimation : Animation
                     angle += FrameCounter * 4;
                 }
 
-                AbilityRules.PolarToCartesian(angle, radius, out deltaX, out deltaY);
+                AbilityRules.PolarToCartesian(angle, radius, out int deltaX, out int deltaY);
                 sequence = _imageSequence;
                 while (sequence != null)
                 {

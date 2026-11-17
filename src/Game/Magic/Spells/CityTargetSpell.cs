@@ -113,7 +113,7 @@ public partial class CityTargetSpell : Spell
                     a.FrameCounter = Random(5);
                     a.AnimationLevel = 27;
                     sbyte targetCityHexLevel = targetCity.GetHexLevel();
-                    StrategicMap.Current.PlaceHex(a, walk.X, walk.Y, targetCityHexLevel);
+                    _ = StrategicMap.Current.PlaceHex(a, walk.X, walk.Y, targetCityHexLevel);
                     bool test = source.Player == StrategicMap.Current.SeatedPlayer;
                     if (!test)
                     {
@@ -133,7 +133,7 @@ public partial class CityTargetSpell : Spell
 
         if (playSound)
         {
-            GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
+            _ = GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
         }
     }
 
@@ -144,7 +144,7 @@ public partial class CityTargetSpell : Spell
         sbyte y = default;
         sbyte l = default;
         targetSelection.Initialize(source);
-        targetSelection.TargetMode = targetSelection.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
+        targetSelection.TargetMode += Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
         string format = Format(AbilityRules.TranslateResourceString(GetEngine(), s_selectTargetCityForOnMapFormat), [SpellName]);
         targetSelection.Text.Text = format;
         targetSelection.Title = SpellName;
@@ -186,7 +186,7 @@ public partial class CityTargetSpell : Spell
                 result = false;
             }
 
-            eventValue.Release();
+            _ = eventValue.Release();
         }
         else
         {
@@ -199,18 +199,15 @@ public partial class CityTargetSpell : Spell
     // CitySpells.pas:248
     public virtual bool ValidTargetCity(Troop source, City targetCity)
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         City found;
         bool result = (CityTargetMode.Contains(CityTargetModeElement.Own) && targetCity.Player == source.Player) || (CityTargetMode.Contains(CityTargetModeElement.Enemy) && targetCity.Player != source.Player);
         result = result && (!targetCity.GetRazed() || CityTargetMode.Contains(CityTargetModeElement.Razed));
         if (result && CityTargetMode.Contains(CityTargetModeElement.SkipSource))
         {
             MapCoordinate coordinate59 = source.GetLocation();
-            x = coordinate59.X;
-            y = coordinate59.Y;
-            l = coordinate59.MapLevel;
+            sbyte x = coordinate59.X;
+            sbyte y = coordinate59.Y;
+            sbyte l = coordinate59.MapLevel;
             found = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
             result = targetCity != found;
         }

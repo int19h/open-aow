@@ -61,7 +61,7 @@ public partial class UnitSelectionDialog : UIModule
             info = default;
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
-            Event.Units.GetUnit(index).Show(X - 8, Y - 5, lockedSurface, info);
+            _ = Event.Units.GetUnit(index).Show(X - 8, Y - 5, lockedSurface, info);
             if ((((int)(((uint)Event.Selectable) >> index)) & 1) == 0)
             {
                 image = UI.Graphics.UnitBackgrounds[7];
@@ -75,9 +75,9 @@ public partial class UnitSelectionDialog : UIModule
     // AoWUnitSelDlg.pas:177
     public void ResetSelection()
     {
-        Event?.Release();
+        _ = (Event?.Release());
         Event = null;
-        _eventLog?.Release();
+        _ = (_eventLog?.Release());
         _eventLog = null;
 
         Unit1CheckBox.Checked = false;
@@ -97,9 +97,9 @@ public partial class UnitSelectionDialog : UIModule
         Troop u;
         ResetSelection();
         _eventLog = request;
-        _eventLog.AddRef();
+        _ = _eventLog.AddRef();
         Event = request.UnitSelector;
-        Event.AddRef();
+        _ = Event.AddRef();
         u = StrategicMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
         if (u != null)
         {
@@ -119,9 +119,9 @@ public partial class UnitSelectionDialog : UIModule
     // AoWUnitSelDlg.pas:95
     public void ClearEvent()
     {
-        Event?.Release();
+        _ = (Event?.Release());
         Event = null;
-        _eventLog?.Release();
+        _ = (_eventLog?.Release());
         _eventLog = null;
     }
 
@@ -139,7 +139,7 @@ public partial class UnitSelectionDialog : UIModule
         UI.General.PlayButtonSound(0);
         if (Event.CanSelect(ref reason))
         {
-            Event.Select();
+            _ = Event.Select();
             Window.Visible = false;
         }
         else

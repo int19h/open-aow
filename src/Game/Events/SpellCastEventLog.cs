@@ -49,7 +49,7 @@ public partial class SpellCastEventLog : EventLog
             Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
             if (hero != null && hero.CastingSpellId == SpellId && hero.CastingReady())
             {
-                GamePack.Current.AbilityControl.GetAbility(52).Activate(hero, ref reason);
+                _ = GamePack.Current.AbilityControl.GetAbility(52).Activate(hero, ref reason);
             }
         }
 
@@ -60,16 +60,13 @@ public partial class SpellCastEventLog : EventLog
     public override void ViewLocation()
     {
         Troop troop;
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (troop != null)
         {
             MapCoordinate coordinate21 = troop.GetLocation();
-            x = coordinate21.X;
-            y = coordinate21.Y;
-            l = coordinate21.MapLevel;
+            sbyte x = coordinate21.X;
+            sbyte y = coordinate21.Y;
+            sbyte l = coordinate21.MapLevel;
             CenterViewTo(x, y, l);
         }
     }

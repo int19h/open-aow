@@ -62,7 +62,7 @@ public partial class ImageLibraryManager : Component
             StringList list;
             foreach (RtlFileEntry entry in Files.FindEntries(_searchPath + subDirectory + "*.ilb", attributes: 63 - 16))
             {
-                _diskList.AddImageLibraryFile(subDirectory + UpperCase(entry.Name));
+                _ = _diskList.AddImageLibraryFile(subDirectory + UpperCase(entry.Name));
             }
 
             list = new StringList();
@@ -70,7 +70,7 @@ public partial class ImageLibraryManager : Component
             {
                 if ((entry.Attribute & 16) != 0 && entry.Name != "." && entry.Name != "..")
                 {
-                    list.Add(subDirectory + UpperCase(entry.Name) + "\\");
+                    _ = list.Add(subDirectory + UpperCase(entry.Name) + "\\");
                 }
             }
 
@@ -86,13 +86,13 @@ public partial class ImageLibraryManager : Component
         _searchPath = UpperCase(path);
         if (_searchPath[^1] != 92)
         {
-            _searchPath = _searchPath + "\\";
+            _searchPath += "\\";
         }
 
         directory = GetCurrentDir();
-        SetCurrentDir(path);
+        _ = SetCurrentDir(path);
         SearchDirectory("");
-        SetCurrentDir(directory);
+        _ = SetCurrentDir(directory);
     }
 
     // ImageLib.pas:8331
@@ -112,7 +112,7 @@ public partial class ImageLibraryManager : Component
             if (result == null)
             {
                 result = new ImageLibrary(null);
-                _ownedList.AddImageLibraryManagerObject(fileName, result);
+                _ = _ownedList.AddImageLibraryManagerObject(fileName, result);
             }
         }
 
@@ -142,7 +142,7 @@ public partial class ImageLibraryManager : Component
 
         if (category.Contains(ImageLibraryManagerCategoryElement.Owned) && !released)
         {
-            _ownedList.ReleaseImageLibrary(fileName);
+            _ = _ownedList.ReleaseImageLibrary(fileName);
         }
     }
 

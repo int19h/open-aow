@@ -38,14 +38,13 @@ public partial class Bridge : AbstractRoad
     {
         MapField mapField;
         HexSprite oldRoad;
-        MapField oldOwner;
         mapField = mapContainer.GetField(hexX, hexY, hexLevel);
         oldRoad = mapField.FindHexSprite(typeof(AbstractRoad));
         oldRoad?.Dispose();
 
-        oldOwner = Owner;
+        _ = Owner;
         Owner = mapField;
-        Status = Status + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
+        Status += Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
         // { The original refreshes the overlay of the previous field's owner, a map level read as a map field, which is undefined, so skipped.
         //   The owner of a field is always a map level, so the port has no call here. }
         mapField.UpdateOverlayType();

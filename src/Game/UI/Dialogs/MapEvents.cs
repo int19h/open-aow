@@ -546,7 +546,7 @@ public partial class MapEvents : UIModule
     // aowMapEvents.pas:457
     public void TheMapStructureDeselected()
     {
-        UI.General.Sign?.ChangeText(StrategicMap.Current.SeatedPlayer, UI.InfoWindow.SignTextMemo.Items);
+        _ = (UI.General.Sign?.ChangeText(StrategicMap.Current.SeatedPlayer, UI.InfoWindow.SignTextMemo.Items));
 
         UI.General.Structure = null;
         UI.General.City = null;
@@ -673,7 +673,7 @@ public partial class MapEvents : UIModule
             UI.MapWindow.MapViewer.HexSpriteMap = null;
             if (UI.SetupEvents.LobbyGame)
             {
-                GameHost.MainForm.CloseRequested();
+                _ = GameHost.MainForm.CloseRequested();
             }
         }
         catch
@@ -749,7 +749,7 @@ public partial class MapEvents : UIModule
             int i = 0;
             for (int number = items.Items.Count - 1; i <= number; i++)
             {
-                dialog.ItemBagList.Items.Add("");
+                _ = dialog.ItemBagList.Items.Add("");
             }
             dialog.ItemsInBagLabel.Visible = true;
         }
@@ -842,9 +842,9 @@ public partial class MapEvents : UIModule
 
     private static void ShowUnitSpellCaster(CastUnitSpellDialog dialog, UnitSpellCaster caster)
     {
-        dialog.Caster?.Release();
+        _ = (dialog.Caster?.Release());
         dialog.Caster = caster;
-        dialog.Caster.AddRef();
+        _ = dialog.Caster.AddRef();
         Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(dialog.Caster.CasterSourceId);
         if (hero != null)
         {

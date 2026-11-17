@@ -49,7 +49,7 @@ public partial class TerrainMapObject : MultiHexMapObject
                     RemoveFromMap();
                     SetResource(r);
                     Owner = oldOwner;
-                    PlaceOnMap();
+                    _ = PlaceOnMap();
                     if (Resource.Level <= 15)
                     {
                         Resource.Engine.HexSpriteMap.StaticSceneInvalid = true;
@@ -153,7 +153,7 @@ public partial class TerrainMapObject : MultiHexMapObject
                     if (terrainList.GetTerrain(i) >= 0 && i != hexNumber)
                     {
                         HexGeometry.CenterHexNumberToHex(hexX, hexY, i, ref x, ref y);
-                        r.PlaceResourceUser(map, (sbyte)x, (sbyte)y, (sbyte)hexLevel);
+                        _ = r.PlaceResourceUser(map, (sbyte)x, (sbyte)y, (sbyte)hexLevel);
                     }
                 }
             }
@@ -184,7 +184,7 @@ public partial class TerrainMapObject : MultiHexMapObject
                 r = terrain;
                 if (r.EngineClass.ClassId == Resource.EngineClass.ClassId && r.TerrainType == Resource.TerrainType && r.DecorationType == decorationType && r != Resource && r.TerrainList.CompareTerrain(Resource.TerrainList, Set<TerrainCompareModeElement>.Of(TerrainCompareModeElement.SameOverlayType)))
                 {
-                    candidates.Add(r);
+                    _ = candidates.Add(r);
                 }
             }
         }

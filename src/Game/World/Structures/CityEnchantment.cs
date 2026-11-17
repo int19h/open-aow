@@ -38,7 +38,7 @@ public partial class CityEnchantment : GlobalEnchantment
     }
 
     // City.pas:2716
-    public CityEnchantment(CustomNode owner) : base(owner) => EnchantmentMode = EnchantmentMode - Set<GlobalEnchantmentModeElement>.Of(GlobalEnchantmentModeElement.TrueGlobal, GlobalEnchantmentModeElement.Owned);
+    public CityEnchantment(CustomNode owner) : base(owner) => EnchantmentMode -= Set<GlobalEnchantmentModeElement>.Of(GlobalEnchantmentModeElement.TrueGlobal, GlobalEnchantmentModeElement.Owned);
 
     // City.pas:2762
     public override string GetName() => AbilityRules.TranslateResourceString(GetEngine(), s_cityEnchantmentIdTexts[(int)CityEnchantmentId]);
@@ -46,8 +46,7 @@ public partial class CityEnchantment : GlobalEnchantment
     // City.pas:2739
     public override MapCoordinate GetLocation()
     {
-        MapCoordinate result = default;
-        result = new MapCoordinate(X: EnchantmentLocation.X, Y: EnchantmentLocation.Y, MapLevel: EnchantmentLocation.MapLevel);
+        MapCoordinate result = new(X: EnchantmentLocation.X, Y: EnchantmentLocation.Y, MapLevel: EnchantmentLocation.MapLevel);
         return result;
     }
 

@@ -34,7 +34,7 @@ public partial class WebCombatAction : SingleTargetCombatAction
         if (Successful)
         {
             target = combat.CombatData.FindId<CombatUnit>(TargetId);
-            GamePack.Current.AbilityControl.GetAbility(97).Expand(target.Troop);
+            _ = GamePack.Current.AbilityControl.GetAbility(97).Expand(target.Troop);
         }
     }
 
@@ -43,7 +43,7 @@ public partial class WebCombatAction : SingleTargetCombatAction
     {
         if (viewer.Time == 0)
         {
-            GamePack.Current.AbilityControl.GetAbility(27).SfxLibrary.Play(0);
+            _ = GamePack.Current.AbilityControl.GetAbility(27).SfxLibrary.Play(0);
         }
 
         if (viewer.Delay == viewer.Time)
@@ -60,7 +60,7 @@ public partial class WebCombatAction : SingleTargetCombatAction
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == TargetId)
         {
-            GamePack.Current.AbilityControl.GetAbility(27).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
+            _ = GamePack.Current.AbilityControl.GetAbility(27).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
         }
     }
 

@@ -38,20 +38,20 @@ public partial class AirMastery : GlobalEnchantmentSpell
         sbyte y = default;
         sbyte l = default;
         Animation animation = default;
-        base.ExecuteTokenEvent(eventValue, source, executeCount);
+        _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Air);
         MapCoordinate coordinate50 = source.GetLocation();
         x = coordinate50.X;
         y = coordinate50.Y;
         l = coordinate50.MapLevel;
-        StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
+        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
         animation = new Animation(null) { Holder = CreationHolder() };
         animation.AnimationLevel = 28;
         animation.OnShow += ShowAnimation;
         animation.AnimationMap = StrategicMap.Current;
         animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
         animation.Activate();
-        GamePack.Current.SpellControl.GetSpell(60).CastSounds.Play(0);
+        _ = GamePack.Current.SpellControl.GetSpell(60).CastSounds.Play(0);
         CastingDone(source, eventValue.EventMana);
         return false;
     }
@@ -91,7 +91,7 @@ public partial class AirMastery : GlobalEnchantmentSpell
                 image = Random(3);
                 x += (animation.FrameCounter - 45) * speed * 2;
                 y -= (animation.FrameCounter - 45) * speed;
-                CastImages.Show(image, lockedSurface.ClipRectangle.Left + x, lockedSurface.ClipRectangle.Top + y, 0, lockedSurface);
+                _ = CastImages.Show(image, lockedSurface.ClipRectangle.Left + x, lockedSurface.ClipRectangle.Top + y, 0, lockedSurface);
             }
         }
 

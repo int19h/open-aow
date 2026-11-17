@@ -64,7 +64,7 @@ public partial class ArmyEventDialog : UIModule
             info.Direction = 3;
             info.Animation = UnitAnimation.Hit;
             byte unit3 = _units[index];
-            eventValue.ArmyView.Units.GetUnit(unit3).Show(X, Y, lockedSurface, info);
+            _ = eventValue.ArmyView.Units.GetUnit(unit3).Show(X, Y, lockedSurface, info);
             if (frame == 5)
             {
                 byte unit4 = _units[index];
@@ -73,14 +73,14 @@ public partial class ArmyEventDialog : UIModule
                     byte unit5 = _units[index];
                     int unitGraphicsResourceIndex = eventValue.ArmyView.Units.GetUnit(unit5).GetUnitGraphicsResourceIndex();
                     UnitGraphicsResource unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
-                    unitGraphicsResource.SfxLibraries[3].Play(0);
+                    _ = unitGraphicsResource.SfxLibraries[3].Play(0);
                 }
                 else
                 {
                     byte unit5 = _units[index];
                     int unitGraphicsResourceIndex = eventValue.ArmyView.Units.GetUnit(unit5).GetUnitGraphicsResourceIndex();
                     UnitGraphicsResource unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
-                    unitGraphicsResource.SfxLibraries[4].Play(0);
+                    _ = unitGraphicsResource.SfxLibraries[4].Play(0);
                 }
             }
 
@@ -126,7 +126,7 @@ public partial class ArmyEventDialog : UIModule
             resource = _event.ArmyView.Units.GetUnit(unit).GetUnitGraphicsResourceIndex();
             if (resource != -1)
             {
-                GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(resource).Release();
+                _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(resource).Release();
             }
         }
 
@@ -136,7 +136,7 @@ public partial class ArmyEventDialog : UIModule
         _event = null;
         notify?.Invoke(eventValue);
 
-        eventValue?.Release();
+        _ = (eventValue?.Release());
     }
 
     // AoWArmyEventDlg.pas:171
@@ -190,7 +190,7 @@ public partial class ArmyEventDialog : UIModule
         Assert(dialog._event == null, "", "AoWArmyEventDlg.pas", 92);
         dialog.OnClose = done;
         dialog._event = eventValue;
-        dialog._event.AddRef();
+        _ = dialog._event.AddRef();
         log = dialog._event;
         dialog.DamagePicture.CurrentImage = log.ArmyIcon;
         string text = log.ArmyMessages.Text;
@@ -201,11 +201,11 @@ public partial class ArmyEventDialog : UIModule
         {
             if (!army.GetUnitConcealedForPlayer(i, StrategicMap.Current.SeatedPlayer) || log.DamageValues[i] != 0)
             {
-                dialog._units.Add((byte)i);
+                _ = dialog._units.Add((byte)i);
                 image = log.ArmyView.Units.GetUnit(i).GetUnitGraphicsResourceIndex();
                 if (image != -1)
                 {
-                    GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(image).AddRef();
+                    _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(image).AddRef();
                 }
             }
         }

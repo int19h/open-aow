@@ -32,7 +32,7 @@ public partial class EarthMasteryEnchantment : GlobalEnchantment
     public override bool Deactivate(byte player)
     {
         Player playerLocal;
-        base.Deactivate(player);
+        _ = base.Deactivate(player);
         playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         PlayerMagicControl playerMagicControl = playerLocal.MagicControl;
         playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EarthMastery));
@@ -70,7 +70,7 @@ public partial class EarthMasteryEnchantment : GlobalEnchantment
     public override bool Activate(sbyte player)
     {
         Player playerLocal;
-        base.Activate(player);
+        _ = base.Activate(player);
         // { Original doubles Air. }
         StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Air);
         playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);

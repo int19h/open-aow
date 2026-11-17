@@ -118,7 +118,7 @@ public partial class Cave : Structure
     public override void Deactivate()
     {
         base.Deactivate();
-        Status = Status - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Activated);
+        Status -= Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Activated);
         Owner.UpdateMapField();
     }
 
@@ -253,7 +253,7 @@ public partial class Cave : Structure
             byte visibilityRange = armyHexSprite.Army.VisibilityRange();
             sbyte hexY = armyHexSprite.GetHexY();
             sbyte hexX = armyHexSprite.GetHexX();
-            StrategicMap.Current.MapContainer.GetMapLevel(l).ExploreArea(hexX, hexY, armyHexSprite.Army.Player, visibilityRange);
+            _ = StrategicMap.Current.MapContainer.GetMapLevel(l).ExploreArea(hexX, hexY, armyHexSprite.Army.Player, visibilityRange);
         }
     }
 
@@ -326,10 +326,10 @@ public partial class Cave : Structure
                     l = (sbyte)(GetHexLevel() - 1);
                     break;
             }
-            path.AddMapCoordinate(y: GetHexY(), x: GetHexX(), mapLevel: l);
+            _ = path.AddMapCoordinate(y: GetHexY(), x: GetHexX(), mapLevel: l);
             sbyte enterMovePoints = EnterMovePoints(armyHexSprite.Army, selection);
             path.List[0] = path.List[0] with { MoveCost = enterMovePoints };
-            path.AddMapCoordinate(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX());
+            _ = path.AddMapCoordinate(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX());
             sbyte hexY3 = GetHexY();
             sbyte hexX = GetHexX();
             field = StrategicMap.Current.MapContainer.GetField(hexX, hexY3, l);
@@ -352,7 +352,7 @@ public partial class Cave : Structure
                         if (eventValue != null)
                         {
                             StrategicMap.Current.TokenManager.GetTokenControl(armyHexSprite.Army.Player).AddEvent(eventValue);
-                            eventValue.Release();
+                            _ = eventValue.Release();
                             result = true;
                         }
                         else
@@ -418,8 +418,8 @@ public partial class Cave : Structure
                 string splitOnEnterCaveWarning = AbilityRules.TranslateResourceString(GetEngine(), s_splitOnEnterCaveWarningText);
                 log.Message.Text = splitOnEnterCaveWarning;
                 log.Buttons = MessageEventLogButtons.YesNo;
-                log.Execute(true, ExecuteTrigger.User, null);
-                log.Release();
+                _ = log.Execute(true, ExecuteTrigger.User, null);
+                _ = log.Release();
                 result = true;
             }
             else

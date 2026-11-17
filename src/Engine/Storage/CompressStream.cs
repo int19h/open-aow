@@ -24,7 +24,7 @@ public partial class CompressStream : MemoryStream
         if (!magic.SequenceEqual(CompressMagic))
         {
             compressed = false;
-            stream.Seek(0, SeekOrigin.Begin);
+            _ = stream.Seek(0, SeekOrigin.Begin);
         }
 
         if (compressed)
@@ -52,7 +52,7 @@ public partial class CompressStream : MemoryStream
         }
         else
         {
-            this.CopyFrom(stream, (int)(stream.Length - stream.Position));
+            _ = this.CopyFrom(stream, (int)(stream.Length - stream.Position));
         }
 
         Position = 0;
@@ -73,7 +73,7 @@ public partial class CompressStream : MemoryStream
             c = new ZLibStream(stream, ZLibLevels.ForByte((byte)level), true);
             try
             {
-                c.CopyFrom(this, 0);
+                _ = c.CopyFrom(this, 0);
                 result = Round((double)(1 - ((double)(stream.Length - startSize) / Length)) * 100);
             }
             finally
@@ -83,7 +83,7 @@ public partial class CompressStream : MemoryStream
         }
         else
         {
-            stream.CopyFrom(this, 0);
+            _ = stream.CopyFrom(this, 0);
         }
 
         return result;
@@ -117,7 +117,7 @@ public partial class CompressStream : MemoryStream
         f = OpenFile(fileName, 65535);
         try
         {
-            SaveToStream(f, Level.Default);
+            _ = SaveToStream(f, Level.Default);
         }
         finally
         {

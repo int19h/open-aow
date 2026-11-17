@@ -58,25 +58,25 @@ internal static class EffectPaths
             switch (direction)
             {
                 case SwarmDirection.Forward:
-                    angle = angle + step;
+                    angle += step;
                     if (angle >= 360)
                     {
-                        angle = angle - 360;
+                        angle -= 360;
                     }
 
                     break;
                 case SwarmDirection.Backward:
-                    angle = angle - step;
+                    angle -= step;
                     // { sic: tests 360 instead of 0, so the angle is never wrapped back }
                     if (angle < 360)
                     {
-                        angle = angle + 360;
+                        angle += 360;
                     }
 
                     break;
             }
 
-            total = total + step;
+            total += step;
         }
         while (!(total >= 360));
     }
@@ -113,7 +113,7 @@ internal static class EffectPaths
             cx = hexX;
             cy = hexY;
             seg = Math.Abs(Round((double)Math.Cos((double)a2 - angle) * seg));
-            dist = dist + seg;
+            dist += seg;
             seg = Random(15) + 5;
         }
 

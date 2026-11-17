@@ -18,13 +18,11 @@ public partial class UpperIsometricHex : IsometricHex
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         CustomImageLibrary imageLibrary;
-        int pixelX = default;
-        int pixelY = default;
         if (Dynamic == null)
         {
-            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
             pixelX = pixelX - pixelXSurface - 8;
-            pixelY = pixelY - pixelYSurface;
+            pixelY -= pixelYSurface;
             imageLibrary = base.Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
             imageLibrary[(int)(((uint)Sides) >> 6) + 40].Show(pixelX, pixelY, lockedSurface);
             pixelX -= 6;

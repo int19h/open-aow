@@ -36,7 +36,7 @@ public partial class MindDecayCombatAction : ExclusiveCombatSpellCombatAction
                 GamePack.Current.AbilityControl.GetAbility<CommandAbility>(AbilityRules.CommandAbilityIds[i]).Uncommand(target);
             }
 
-            GamePack.Current.AbilityControl.GetAbility(131).Expand(target.Troop);
+            _ = GamePack.Current.AbilityControl.GetAbility(131).Expand(target.Troop);
             target.SetCombatPlayer((byte)source.CombatPlayer);
         }
     }

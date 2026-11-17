@@ -31,7 +31,7 @@ public partial class SaveGameTokenEvent : TokenEvent
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         ExecuteResult result = default;
-        base.Execute(tokenEvent);
+        _ = base.Execute(tokenEvent);
         if (StrategicMap.Current.SeatedPlayer == tokenEvent.ActiveTacticalBattleIndex)
         {
             if (tokenEvent.ExecuteCount == 0)

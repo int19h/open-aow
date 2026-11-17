@@ -109,7 +109,7 @@ public partial class ProductionScreen : UIModule
         for (int i = _images.Count - 1; i >= 0; i--)
         {
             int image = _images[i];
-            GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(image).Release();
+            _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(image).Release();
         }
 
         _images.Clear();
@@ -120,8 +120,8 @@ public partial class ProductionScreen : UIModule
     {
         int graphics;
         graphics = GamePack.Current.UnitResources.GetUnitResource(index).UnitGraphicsResourceIndex;
-        GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(graphics).AddRef();
-        _images.Add(graphics);
+        _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(graphics).AddRef();
+        _ = _images.Add(graphics);
     }
 
     // AoWProdScreen.pas:617
@@ -340,7 +340,7 @@ public partial class ProductionScreen : UIModule
 
                     PreviousButton.Visible = !MainButton2.Visible;
                     NextButton.Visible = !MainButton2.Visible;
-                    u.Release();
+                    _ = u.Release();
                 }
                 else
                 {
@@ -399,13 +399,13 @@ public partial class ProductionScreen : UIModule
         string name = _place.GetName();
         StructureNameLabel.Text = name;
         string income = UI.Engine.TranslateResourceString(GameText.IncomeText);
-        IncomeHeader.Items.Add(income);
+        _ = IncomeHeader.Items.Add(income);
         if (_place.GetMagicSphere() != MagicSphere.None)
         {
             int power = _place.GetPower();
             string xPower = UI.Engine.TranslateResourceString(s_powerFormat);
             string format = AbilityRules.Format(" " + xPower, [IntToStr(power)]);
-            IncomeHeader.Items.Add(format);
+            _ = IncomeHeader.Items.Add(format);
         }
 
         if (_place.GetIncome() != 0)
@@ -413,7 +413,7 @@ public partial class ProductionScreen : UIModule
             int fPlaceIncome = _place.GetIncome();
             string xGold = UI.Engine.TranslateResourceString(GameText.GoldFormat);
             string format = AbilityRules.Format(" " + xGold, [IntToStr(fPlaceIncome)]);
-            IncomeHeader.Items.Add(format);
+            _ = IncomeHeader.Items.Add(format);
         }
 
         if (_place.GetMagicSphere() != MagicSphere.None)
@@ -449,13 +449,13 @@ public partial class ProductionScreen : UIModule
         for (int i = 0, last = _place.ProductionControl.Queue.GetCount() - 1; i <= last; i++)
         {
             string name2 = _place.ProductionControl.Queue.GetItem(i).GetName();
-            QueueList.Items.Add(IntToStr(i + 1) + ". " + name2);
+            _ = QueueList.Items.Add(IntToStr(i + 1) + ". " + name2);
         }
 
         for (int i = _place.ProductionControl.Queue.GetCount(); i <= 4; i++)
         {
             string emptyQueue = UI.Engine.TranslateResourceString(GameText.EmptyQueueText);
-            QueueList.Items.Add(IntToStr(i + 1) + ". " + emptyQueue);
+            _ = QueueList.Items.Add(IntToStr(i + 1) + ". " + emptyQueue);
         }
 
         int count = _place.ProductionControl.Queue.GetCount();
@@ -523,7 +523,7 @@ public partial class ProductionScreen : UIModule
                     string nameProgressive = _place.ProductionControl.Queue.GetItem(0).GetNameProgressive();
                     ActiveActionLabel.Text = nameProgressive;
                     ProductionItem queue = _place.ProductionControl.Queue.GetItem(0);
-                    _place.ProductionControl.CanExecuteProduction(queue, ref reason);
+                    _ = _place.ProductionControl.CanExecuteProduction(queue, ref reason);
                     ActiveActionTurnsLabel.Text = reason;
                     ActiveActionTurnsLabel.TextColor = 255;
                     ActiveActionTurnsLabel.Visible = true;
@@ -652,7 +652,7 @@ public partial class ProductionScreen : UIModule
                     {
                         UI.Graphics.CityWindow[5].Show(r.Left + 2, r.Top + 2, lockedSurface);
                         info.Direction = 5;
-                        u?.Show(r.Left - 4, r.Top, lockedSurface, info);
+                        _ = (u?.Show(r.Left - 4, r.Top, lockedSurface, info));
 
                         BlendTable lookupTable = GraphicsState.AlphaBlendTable.GetLookupTables(45);
                         UI.Graphics.CityWindow[5].ShowBlended(r.Left + 2, r.Top + 2, lockedSurface, lookupTable);
@@ -660,10 +660,10 @@ public partial class ProductionScreen : UIModule
                     else
                     {
                         UI.Graphics.CityWindow[4].Show(r.Left + 2, r.Top + 2, lockedSurface);
-                        u?.Show(r.Left - 4, r.Top, lockedSurface, info);
+                        _ = (u?.Show(r.Left - 4, r.Top, lockedSurface, info));
                     }
 
-                    u.Release();
+                    _ = u.Release();
                 }
                 else
                 {
@@ -707,7 +707,7 @@ public partial class ProductionScreen : UIModule
                         {
                             if (_place.CanProduce(_productionIndex, false, ref reason))
                             {
-                                _place.Produce(_productionIndex, false);
+                                _ = _place.Produce(_productionIndex, false);
                                 SetMode(0);
                             }
                             else
@@ -719,7 +719,7 @@ public partial class ProductionScreen : UIModule
                         {
                             if (_place.CanResearch(_productionIndex, false, ref reason))
                             {
-                                _place.Research(_productionIndex, false);
+                                _ = _place.Research(_productionIndex, false);
                                 SetMode(0);
                             }
                             else
@@ -732,7 +732,7 @@ public partial class ProductionScreen : UIModule
                     case 4:
                         if (_place.CanTrade(false, ref reason))
                         {
-                            _place.Trade(false);
+                            _ = _place.Trade(false);
                             SetMode(0);
                         }
                         else
@@ -744,7 +744,7 @@ public partial class ProductionScreen : UIModule
                     case 5:
                         if (_place.CanRaze(StrategicMap.Current.SeatedPlayer, ref reason))
                         {
-                            _place.Raze(StrategicMap.Current.SeatedPlayer);
+                            _ = _place.Raze(StrategicMap.Current.SeatedPlayer);
                             Window.Visible = false;
                         }
                         else
@@ -759,7 +759,7 @@ public partial class ProductionScreen : UIModule
             case 2:
                 if (QueueList.Selected != -1)
                 {
-                    _place.ProductionControl.DeleteProduction(QueueList.Selected);
+                    _ = _place.ProductionControl.DeleteProduction(QueueList.Selected);
                 }
 
                 break;
@@ -780,7 +780,7 @@ public partial class ProductionScreen : UIModule
                         {
                             if (_place.CanProduce(_productionIndex, true, ref reason))
                             {
-                                _place.Produce(_productionIndex, true);
+                                _ = _place.Produce(_productionIndex, true);
                             }
                             else
                             {
@@ -791,7 +791,7 @@ public partial class ProductionScreen : UIModule
                         {
                             if (_place.CanResearch(_productionIndex, true, ref reason))
                             {
-                                _place.Research(_productionIndex, true);
+                                _ = _place.Research(_productionIndex, true);
                             }
                             else
                             {
@@ -803,7 +803,7 @@ public partial class ProductionScreen : UIModule
                     case 4:
                         if (_place.CanTrade(true, ref reason))
                         {
-                            _place.Trade(true);
+                            _ = _place.Trade(true);
                         }
                         else
                         {
@@ -855,7 +855,7 @@ public partial class ProductionScreen : UIModule
         {
             r = new Rect(UnitPictureFramePanel.WinLeft + sender.WinLeft + 2, UnitPictureFramePanel.WinTop + sender.WinTop + 2, UnitPictureFramePanel.WinLeft + sender.WinLeft + sender.WinWidth - 4, UnitPictureFramePanel.WinTop + sender.WinTop + sender.WinHeight - 2);
             u.ShowFace(r, lockedSurface);
-            u.Release();
+            _ = u.Release();
         }
     }
 
@@ -943,8 +943,8 @@ public partial class ProductionScreen : UIModule
                         info.Animation = 0;
                         info.Frame = 0;
                         info.Looped = false;
-                        u.Show(r.Left - 12, r.Top - 5, lockedSurface, info);
-                        u.Release();
+                        _ = u.Show(r.Left - 12, r.Top - 5, lockedSurface, info);
+                        _ = u.Release();
                     }
                 }
             }
@@ -954,7 +954,6 @@ public partial class ProductionScreen : UIModule
     // AoWProdScreen.pas:483
     public void MapViewDraw(UserDrawBox sender, LockedSurface lockedSurface)
     {
-        LockedSurface viewSurfaceDescription = default;
         Rect r;
         int w;
         int h;
@@ -987,10 +986,10 @@ public partial class ProductionScreen : UIModule
                 _viewY = 16;
             }
 
-            LockedSurface.CreateFrom(lockedSurface, r, out viewSurfaceDescription);
+            LockedSurface.CreateFrom(lockedSurface, r, out LockedSurface viewSurfaceDescription);
             _preview.SetExplorationEnabled(false);
             _preview.SetFogEnabled(false);
-            _preview.SetViewPort(_viewX, _viewY, 0, width, r.Bottom - r.Top);
+            _ = _preview.SetViewPort(_viewX, _viewY, 0, width, r.Bottom - r.Top);
             _preview.UpdateStaticScene();
             _preview.UpdateDynamicScene();
             _preview.DrawStaticScene(ref viewSurfaceDescription);

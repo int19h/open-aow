@@ -48,10 +48,10 @@ public partial class CombatTypeRequestEventLog : EventLog
     public void SetTokenEvent(TokenEvent tokenEvent)
     {
         // { Original releases the old token before retaining its replacement. }
-        _tokenEvent?.Release();
+        _ = (_tokenEvent?.Release());
 
         _tokenEvent = tokenEvent;
-        _tokenEvent?.AddRef();
+        _ = (_tokenEvent?.AddRef());
     }
 
     // Combat2.pas:27

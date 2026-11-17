@@ -103,10 +103,10 @@ public partial class Scanner : Control
             _drawableHeight = WinHeight - _halfRowInset;
             if (_mapSurface != null)
             {
-                _objectSurface.Resize(WinWidth, WinHeight);
-                _objectSurface.Clear(65280);
-                _mapSurface.Resize(WinWidth, WinHeight);
-                _mapSurface.Lock(ref lockedSurface);
+                _ = _objectSurface.Resize(WinWidth, WinHeight);
+                _ = _objectSurface.Clear(65280);
+                _ = _mapSurface.Resize(WinWidth, WinHeight);
+                _ = _mapSurface.Lock(ref lockedSurface);
                 for (int x = 0, last = WinWidth / _fogImageLibrary[0].Width; x <= last; x++)
                 {
                     for (int y = 0, lastY = WinHeight / _fogImageLibrary[0].Height; y <= lastY; y++)
@@ -117,7 +117,7 @@ public partial class Scanner : Control
                     }
                 }
 
-                _mapSurface.Unlock();
+                _ = _mapSurface.Unlock();
                 if (!Incremental)
                 {
                     DrawMap(0, 0, _mapWidth, _mapHeight);
@@ -162,7 +162,6 @@ public partial class Scanner : Control
     // Scanner.pas:445
     public override void Draw(LockedSurface lockedSurface)
     {
-        Rect r = default;
         LockedSurface surfaceDescription = default;
         try
         {
@@ -180,9 +179,9 @@ public partial class Scanner : Control
                 if (_mapSurface == null)
                 {
                     _objectSurface = new DataSurface(WinWidth, WinHeight, lockedSurface.PixelFormatId, null);
-                    _objectSurface.Clear(65280);
+                    _ = _objectSurface.Clear(65280);
                     _mapSurface = new DataSurface(WinWidth, WinHeight, lockedSurface.PixelFormatId, null);
-                    _mapSurface.Lock(ref surfaceDescription);
+                    _ = _mapSurface.Lock(ref surfaceDescription);
                     for (int x = 0, last = WinWidth / _fogImageLibrary[0].Width; x <= last; x++)
                     {
                         for (int y = 0, lastY = WinHeight / _fogImageLibrary[0].Height; y <= lastY; y++)
@@ -193,7 +192,7 @@ public partial class Scanner : Control
                         }
                     }
 
-                    _mapSurface.Unlock();
+                    _ = _mapSurface.Unlock();
                     if (!Incremental)
                     {
                         DrawMap(0, 0, _mapWidth, _mapHeight);
@@ -210,16 +209,16 @@ public partial class Scanner : Control
                     DrawObjects();
                 }
 
-                r = new Rect(0, 0, WinWidth, WinHeight);
+                Rect r = new(0, 0, WinWidth, WinHeight);
                 surfaceDescription = lockedSurface;
                 Rect rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, Window.WinLeft + WinLeft + WinWidth, Window.WinTop + WinTop + WinHeight);
                 surfaceDescription.ClipRectangle = rectangle;
-                _mapSurface.Lock(ref lockedSurface);
-                LockedSurface.BlitSurfaceDescriptionRectangleClipped(lockedSurface, r, surfaceDescription, Window.WinLeft + WinLeft, Window.WinTop + WinTop);
-                _mapSurface.Unlock();
-                _objectSurface.Lock(ref lockedSurface);
-                LockedSurface.BlitSpriteClipped16(lockedSurface, r, surfaceDescription, Window.WinLeft + WinLeft, Window.WinTop + WinTop, 65280);
-                _objectSurface.Unlock();
+                _ = _mapSurface.Lock(ref lockedSurface);
+                _ = LockedSurface.BlitSurfaceDescriptionRectangleClipped(lockedSurface, r, surfaceDescription, Window.WinLeft + WinLeft, Window.WinTop + WinTop);
+                _ = _mapSurface.Unlock();
+                _ = _objectSurface.Lock(ref lockedSurface);
+                _ = LockedSurface.BlitSpriteClipped16(lockedSurface, r, surfaceDescription, Window.WinLeft + WinLeft, Window.WinTop + WinTop, 65280);
+                _ = _objectSurface.Unlock();
                 if (_mapWidth > 0 && _mapHeight > 0)
                 {
                     SizedRectangle rectangle2 = new(Window.WinLeft + WinLeft + (TLeft * WinWidth / _mapWidth), Window.WinTop + WinTop + (TTop * WinHeight / _mapHeight), _tWidth * WinWidth / _mapWidth, (_tHeight + 2) * WinHeight / _mapHeight);
@@ -231,7 +230,7 @@ public partial class Scanner : Control
         }
         catch
         {
-            MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
         }
     }
 
@@ -274,10 +273,6 @@ public partial class Scanner : Control
     // Scanner.pas:455
     public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        int mapX = default;
-        int mapY = default;
-        int oldLeft = default;
-        int oldTop = default;
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
         if (X >= Window.WinLeft + WinLeft && X <= Window.WinLeft + WinLeft + WinWidth - 1 && Y >= Window.WinTop + WinTop && Y <= Window.WinTop + WinTop + WinHeight - 1)
@@ -285,10 +280,10 @@ public partial class Scanner : Control
             Handled = true;
             if (MouseDown)
             {
-                oldLeft = TLeft;
-                oldTop = TTop;
-                mapX = (X - Window.WinLeft - WinLeft) * _mapWidth / WinWidth;
-                mapY = (Y - Window.WinTop - WinTop) * _mapHeight / _drawableHeight;
+                int oldLeft = TLeft;
+                int oldTop = TTop;
+                int mapX = (X - Window.WinLeft - WinLeft) * _mapWidth / WinWidth;
+                int mapY = (Y - Window.WinTop - WinTop) * _mapHeight / _drawableHeight;
                 TLeft = mapX - (_tWidth / 2);
                 TTop = mapY - (_tHeight / 2);
                 if (TTop != oldTop || TLeft != oldLeft)
@@ -468,9 +463,9 @@ public partial class Scanner : Control
     public byte GetExplored(int X, int Y)
     {
         byte result;
-        MapField field = StrategicMap.Current.CombatMap != null ? Level.GetField(X + 8, Y + 6) : Level.GetField(X + 6, Y + 6);
+        _ = StrategicMap.Current.CombatMap != null ? Level.GetField(X + 8, Y + 6) : Level.GetField(X + 6, Y + 6);
 
-        field = StrategicMap.Current.CombatMap != null ? Level.GetField(X + 8, Y + 6) : Level.GetField(X + 6, Y + 6);
+        MapField field = StrategicMap.Current.CombatMap != null ? Level.GetField(X + 8, Y + 6) : Level.GetField(X + 6, Y + 6);
 
         result = _map.ExplorationEnabled
             ? field.GetExplored(_map.SeatedPlayer) ? _map.FogEnabled ? field.FogCount == 0 ? (byte)2 : (byte)1 : (byte)1 : (byte)0
@@ -727,7 +722,7 @@ public partial class Scanner : Control
                         yOffset = yOffset == 0 ? _halfRowInset : 0;
                     }
 
-                    _mapSurface.Unlock();
+                    _ = _mapSurface.Unlock();
                     SetObDrawn(false);
                     Drawn = false;
                 }
@@ -735,7 +730,7 @@ public partial class Scanner : Control
         }
         catch
         {
-            MessageBox(0, "Exception during DrawMap", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during DrawMap", "Error - " + Name, 0);
         }
     }
 
@@ -751,7 +746,7 @@ public partial class Scanner : Control
         LockedSurface lockedSurface = default;
         if (_objectSurface != null)
         {
-            _objectSurface.Clear(65280);
+            _ = _objectSurface.Clear(65280);
             yOffset = 0;
             if (_objectSurface.Lock(ref lockedSurface) >= 0)
             {
@@ -808,7 +803,7 @@ public partial class Scanner : Control
                     yOffset = yOffset == 0 ? _halfRowInset : 0;
                 }
 
-                _objectSurface.Unlock();
+                _ = _objectSurface.Unlock();
                 Drawn = false;
                 SetObDrawn(true);
             }

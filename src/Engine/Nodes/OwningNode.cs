@@ -51,7 +51,7 @@ public partial class OwningNode : CustomNode
                 {
                     if (!(c.Owner == this && c.GetControlStyle().Contains(EngineServices.Shared)))
                     {
-                        RemoveChild(c);
+                        _ = RemoveChild(c);
                     }
                 }
             }
@@ -74,7 +74,7 @@ public partial class OwningNode : CustomNode
         CheckChild(child);
         while (index >= Count)
         {
-            _children.Add(null);
+            _ = _children.Add(null);
         }
 
         if (_children.List[index] != null && _children.List[index].Owner == this)
@@ -252,7 +252,7 @@ public partial class OwningNode : CustomNode
     public override int AddChild(EngineObject child)
     {
         CheckChild(child);
-        _children.Add(child);
+        _ = _children.Add(child);
         return _children.Count - 1;
     }
 
@@ -372,7 +372,7 @@ public partial class OwningNode : CustomNode
         CheckChild(child);
         while (index >= Count)
         {
-            _children.Add(null);
+            _ = _children.Add(null);
         }
 
         _children.List[index] = child;

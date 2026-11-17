@@ -40,7 +40,7 @@ public partial class AIMoveExecutorArmy : AIMoveExecutorUnitList
         ArrivalPoint = transporter.ArrivalPoint;
         TransportSource = transporter.TransportSource;
         TransportDestination = transporter.TransportDestination;
-        AddChild(transporter);
+        _ = AddChild(transporter);
     }
 
     // AIGroup.pas:4547

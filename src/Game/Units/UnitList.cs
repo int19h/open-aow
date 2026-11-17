@@ -42,7 +42,7 @@ public partial class UnitList : ObservableNode, IChildList<Troop>, IUnitHolder
         {
             for (int i = 0, last = Count - 1; i <= last; i++)
             {
-                this[i].Release();
+                _ = this[i].Release();
             }
         }
     }
@@ -67,7 +67,7 @@ public partial class UnitList : ObservableNode, IChildList<Troop>, IUnitHolder
         int result = base.RemoveChild(child);
         if (result != -1)
         {
-            child.Release();
+            _ = child.Release();
         }
 
         return result;
@@ -82,7 +82,7 @@ public partial class UnitList : ObservableNode, IChildList<Troop>, IUnitHolder
         EngineObject unit = child;
         if (CanAddUnit((Troop)child))
         {
-            unit.AddRef();
+            _ = unit.AddRef();
             result = base.AddChild(child);
         }
         else
@@ -146,7 +146,7 @@ public partial class UnitList : ObservableNode, IChildList<Troop>, IUnitHolder
     {
         for (int i = units.Count - 1; i >= 0; i--)
         {
-            AddUnit(units.GetUnit(i));
+            _ = AddUnit(units.GetUnit(i));
         }
 
         return true;
@@ -186,7 +186,7 @@ public partial class UnitList : ObservableNode, IChildList<Troop>, IUnitHolder
 
         if (GetChild(index) != null)
         {
-            this[index].Release();
+            _ = this[index].Release();
         }
 
         PlaceChild(index, child: troop);

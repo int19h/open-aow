@@ -48,7 +48,7 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1509
     public override bool Deactivate(byte player)
     {
-        base.Deactivate(player);
+        _ = base.Deactivate(player);
         // { Original doubles Life. }
         StrategicMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Life);
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
@@ -79,7 +79,7 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1500
     public override bool Activate(sbyte player)
     {
-        base.Activate(player);
+        _ = base.Activate(player);
         // { Original doubles Life. }
         StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Life);
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);

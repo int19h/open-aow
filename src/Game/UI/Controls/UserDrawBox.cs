@@ -35,7 +35,7 @@ public partial class UserDrawBox : Control
         }
         catch
         {
-            MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
         }
     }
 

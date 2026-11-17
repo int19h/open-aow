@@ -111,7 +111,7 @@ public partial class SoundSystem : IDisposable
     {
         if (_status.Contains(SoundSystemStatusElement.Activated))
         {
-            Deactivate();
+            _ = Deactivate();
         }
     }
 

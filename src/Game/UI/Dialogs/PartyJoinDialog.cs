@@ -67,7 +67,7 @@ public partial class PartyJoinDialog : UIModule
         _joinEvent = null;
         done?.Invoke(eventValue);
 
-        eventValue?.Release();
+        _ = (eventValue?.Release());
     }
 
     // AoWPartyJoin.pas:99
@@ -94,7 +94,7 @@ public partial class PartyJoinDialog : UIModule
             info = default;
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
-            _units.GetUnit(index).Show(x - 33, y - 35, surface, info);
+            _ = _units.GetUnit(index).Show(x - 33, y - 35, surface, info);
             if ((((int)(((uint)_selection) >> index)) & 1) == 0)
             {
                 LibraryImage image = UI.Graphics.UnitBackgrounds[7];
@@ -254,7 +254,7 @@ public partial class PartyJoinDialog : UIModule
         ResetPartyJoin(dialog);
         dialog.Window.Visible = true;
         dialog._joinEvent = eventValue;
-        dialog._joinEvent.AddRef();
+        _ = dialog._joinEvent.AddRef();
         dialog.Done = done;
         string accept = dialog.UI.Engine.TranslateResourceString(GameText.AcceptText);
         dialog.LeftButton.Text = accept;
@@ -273,7 +273,7 @@ public partial class PartyJoinDialog : UIModule
         string prisonerLiberation = dialog.UI.Engine.TranslateResourceString(Dungeon.PrisonerLiberationText);
         dialog.TitleLabel.Text = prisonerLiberation;
         dialog._joinEvent = eventValue;
-        dialog._joinEvent.AddRef();
+        _ = dialog._joinEvent.AddRef();
         dialog.Done = done;
         string accept = dialog.UI.Engine.TranslateResourceString(GameText.AcceptText);
         dialog.LeftButton.Text = accept;

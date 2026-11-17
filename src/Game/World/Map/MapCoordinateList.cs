@@ -105,7 +105,7 @@ public partial class MapCoordinateList : DefaultItemList<MapCoordinate>
     {
         bool result = default;
         MapCoordinateList locations;
-        bool[] reached = [];
+        bool[] reached;
         void Connect(MapCoordinate mapCoordinate)
         {
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, mapCoordinate.X, mapCoordinate.Y, 1);
@@ -135,7 +135,7 @@ public partial class MapCoordinateList : DefaultItemList<MapCoordinate>
             MapCoordinate mapCoordinate = list[i];
             if (locations.IndexOf(mapCoordinate) == -1)
             {
-                locations.Add(mapCoordinate);
+                _ = locations.Add(mapCoordinate);
             }
         }
 

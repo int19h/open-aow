@@ -168,7 +168,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
         log = new ArmyEventLog(null) { Holder = CreationHolder() };
         log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_holyGroundDamageText);
         string holyGroundDamage = AbilityRules.TranslateResourceString(GetEngine(), s_holyGroundDamageText);
-        log.ArmyMessages.Add(holyGroundDamage);
+        _ = log.ArmyMessages.Add(holyGroundDamage);
         log.ArmyIcon = 2;
         log.Player = army.Army.Player;
         log.ArmyView.Setup(army.Army, 255);
@@ -197,13 +197,13 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
                     damaged += 1;
                 }
 
-                log.DamageValues.Add((byte)damage);
-                log.DamageTypes.Add((int)DamageType.Holy);
+                _ = log.DamageValues.Add((byte)damage);
+                _ = log.DamageTypes.Add((int)DamageType.Holy);
             }
             else
             {
-                log.DamageValues.Add(0);
-                log.DamageTypes.Add((int)DamageType.None);
+                _ = log.DamageValues.Add(0);
+                _ = log.DamageTypes.Add((int)DamageType.None);
             }
         }
 
@@ -213,7 +213,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
             EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), x: GetHexX(), log: log, player: log.Player, execute: true);
         }
 
-        log.Release();
+        _ = log.Release();
         army.Army.Validate();
     }
 
@@ -305,7 +305,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
 
             if (condition)
             {
-                GamePack.Current.SpellControl.GetSpell(13).CastSounds.Play(0);
+                _ = GamePack.Current.SpellControl.GetSpell(13).CastSounds.Play(0);
             }
         }
     }
@@ -319,7 +319,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(131987) && frameCounter == 9)
         {
-            Mode = Mode - Set<HolySummoning>.Of(HolySummoning.Summoning);
+            Mode -= Set<HolySummoning>.Of(HolySummoning.Summoning);
         }
     }
 

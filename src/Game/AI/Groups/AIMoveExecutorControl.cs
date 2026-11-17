@@ -71,7 +71,7 @@ public partial class AIMoveExecutorControl : EngineObject
                     {
                         if (CanMoveTo(army, selection, (sbyte)walk.X, (sbyte)walk.Y, mapLevel) == selection)
                         {
-                            candidates.Add(new SurroundCandidate(Location: HexGeometry.PackMapCoordinate((sbyte)walk.X, (sbyte)walk.Y, mapLevel), MovePoints: points));
+                            _ = candidates.Add(new SurroundCandidate(Location: HexGeometry.PackMapCoordinate((sbyte)walk.X, (sbyte)walk.Y, mapLevel), MovePoints: points));
                         }
                     }
                 }
@@ -146,7 +146,7 @@ public partial class AIMoveExecutorControl : EngineObject
                     for (int i = position, last = settings.Path.Count - 1; i <= last; i++)
                     {
                         PathStep item = settings.Path[i];
-                        move.Path.Add(item);
+                        _ = move.Path.Add(item);
                     }
 
                     move.MovePoints = points;
@@ -172,7 +172,7 @@ public partial class AIMoveExecutorControl : EngineObject
             }
         }
 
-        settings.Release();
+        _ = settings.Release();
         return move;
     }
 
@@ -332,7 +332,7 @@ public partial class AIMoveExecutorControl : EngineObject
         timeLeft = 5;
         if (MoveControl.Status == AIMoveControlStatus.Processing)
         {
-            MoveControl.Process();
+            _ = MoveControl.Process();
         }
 
         while (MoveControl.Status != AIMoveControlStatus.Processing && timeLeft > 0 && Executor.Status == AIMoveExecutorStatus.Busy && Executor.State == 0 && State != -1)

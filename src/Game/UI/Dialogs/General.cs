@@ -67,9 +67,9 @@ public partial class General : UIModule
         UI.Engine.CloseCampaign();
         UI.ScannerWindow.Scanner.SetMap(null);
         UI.CombatScanner.Scanner.SetMap(null);
-        AudioHost.SongPlayer.Stop(false);
+        _ = AudioHost.SongPlayer.Stop(false);
         AudioHost.SongPlayer.Songs.Clear();
-        SetCurrentDir(UI.Engine.StartupDirectory);
+        _ = SetCurrentDir(UI.Engine.StartupDirectory);
         UI.General.HideWindows();
         UI.TaskBar.TaskWindow.Visible = false;
         UI.TitleWindow.MainWindow.Visible = false;
@@ -209,16 +209,16 @@ public partial class General : UIModule
         switch (kind)
         {
             case 0:
-                AudioPlayback.PlaySample("Sfx\\Int\\Btn1.wav");
+                _ = AudioPlayback.PlaySample("Sfx\\Int\\Btn1.wav");
                 break;
             case 3:
-                AudioPlayback.PlaySample("Sfx\\Int\\Btn3.wav");
+                _ = AudioPlayback.PlaySample("Sfx\\Int\\Btn3.wav");
                 break;
             case 1:
-                AudioPlayback.PlaySample("Sfx\\Int\\Btn5.wav");
+                _ = AudioPlayback.PlaySample("Sfx\\Int\\Btn5.wav");
                 break;
             case 2:
-                AudioPlayback.PlaySample("Sfx\\Int\\Btn6.wav");
+                _ = AudioPlayback.PlaySample("Sfx\\Int\\Btn6.wav");
                 break;
         }
     }
@@ -674,15 +674,15 @@ public partial class General : UIModule
             {
                 case 122:
                     s = ExtractFileDir(RtlUnit.Application.ExeName);
-                    s = s + "\\Scenario\\Custom";
-                    SetCurrentDir(s);
+                    s += "\\Scenario\\Custom";
+                    _ = SetCurrentDir(s);
                     LoadGame(this, FileBoundary.ReadName("Crap.hsm"));
                     StartGame(this);
                     break;
                 case 123:
                     s = ExtractFileDir(RtlUnit.Application.ExeName);
-                    s = s + "\\Scenario\\Custom";
-                    SetCurrentDir(s);
+                    s += "\\Scenario\\Custom";
+                    _ = SetCurrentDir(s);
                     LoadGame(this, FileBoundary.ReadName("demomap.hsm"));
                     StartGame(this);
                     break;
@@ -750,9 +750,9 @@ public partial class General : UIModule
         controller.UI.Engine.CloseCampaign();
         controller.UI.ScannerWindow.Scanner.SetMap(null);
         controller.UI.CombatScanner.Scanner.SetMap(null);
-        AudioHost.SongPlayer.Stop(false);
+        _ = AudioHost.SongPlayer.Stop(false);
         AudioHost.SongPlayer.Songs.Clear();
-        SetCurrentDir(controller.UI.Engine.StartupDirectory);
+        _ = SetCurrentDir(controller.UI.Engine.StartupDirectory);
         HideGameWindows(controller.UI.General);
         controller.UI.TaskBar.TaskWindow.Visible = false;
         controller.UI.TitleWindow.MainWindow.Visible = false;
@@ -891,7 +891,7 @@ public partial class General : UIModule
             controller.UI.General.Manager.OverlayPriority = 5000;
         }
 
-        AudioHost.SongPlayer.Stop(false);
+        _ = AudioHost.SongPlayer.Stop(false);
         AudioHost.SongPlayer.Songs.Clear();
         AudioPlayback.FadeMusicVolume(0, 1);
         controller.UI.Engine.LoadHsm(name, false, (_, message, progression) => controller.MapProgress(message, progression), GameProfile.WorldMap);
@@ -918,23 +918,23 @@ public partial class General : UIModule
             {
                 if (CompareText(StrategicMap.Current.StartupSongs.SongNames[i], controller.UI.Engine.TranslateResourceString(LayerText.FileNotFoundText)) != 0)
                 {
-                    AudioHost.SongPlayer.Songs.Add(StrategicMap.Current.StartupSongs.Songs[i]);
+                    _ = AudioHost.SongPlayer.Songs.Add(StrategicMap.Current.StartupSongs.Songs[i]);
                 }
             }
         }
         else
         {
-            AudioHost.SongPlayer.Songs.Add("Songs\\Heartwoo.it");
+            _ = AudioHost.SongPlayer.Songs.Add("Songs\\Heartwoo.it");
         }
 
-        AudioHost.SongPlayer.Play(0);
+        _ = AudioHost.SongPlayer.Play(0);
         AudioPlayback.SetMusicVolume(controller.UI.SoundDialog.MusicVolumeSlider.Position);
         StringList menu = controller.UI.PopupWindows.OverviewsMenu.Items;
         menu.Clear();
-        menu.Add(controller.UI.Engine.TranslateResourceString(LayerText.BackgroundText));
+        _ = menu.Add(controller.UI.Engine.TranslateResourceString(LayerText.BackgroundText));
         if (controller.UI.Engine.Campaign != null)
         {
-            menu.Add(controller.UI.Engine.TranslateResourceString(LayerText.CampaignText));
+            _ = menu.Add(controller.UI.Engine.TranslateResourceString(LayerText.CampaignText));
         }
 
         controller.UI.TitleScene.Window.Visible = false;
@@ -954,15 +954,15 @@ public partial class General : UIModule
         scanner.Sized = false;
         TabPanel tabs = controller.UI.ScannerWindow.ScannerTabs;
         tabs.Items.Clear();
-        tabs.Items.Add(controller.UI.Engine.TranslateResourceString(LayerText.SurfaceText));
+        _ = tabs.Items.Add(controller.UI.Engine.TranslateResourceString(LayerText.SurfaceText));
         if (StrategicMap.Current.MapContainer.LevelCount > 1)
         {
-            tabs.Items.Add(controller.UI.Engine.TranslateResourceString(LayerText.CavernsText));
+            _ = tabs.Items.Add(controller.UI.Engine.TranslateResourceString(LayerText.CavernsText));
         }
 
         if (StrategicMap.Current.MapContainer.LevelCount > 2)
         {
-            tabs.Items.Add(controller.UI.Engine.TranslateResourceString(LayerText.DepthsText));
+            _ = tabs.Items.Add(controller.UI.Engine.TranslateResourceString(LayerText.DepthsText));
         }
 
         tabs.Selected = 0;

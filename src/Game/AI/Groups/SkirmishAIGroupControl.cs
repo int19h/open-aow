@@ -23,7 +23,7 @@ public partial class SkirmishAIGroupControl : BehaviorAIGroupControl
             case 0:
                 Targets.Clear();
                 finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
-                finder.Setup(this);
+                _ = finder.Setup(this);
                 if (Group.Transporter == null)
                 {
                     Troop availableTransporter = FindAvailableTransporter();
@@ -35,13 +35,13 @@ public partial class SkirmishAIGroupControl : BehaviorAIGroupControl
                 }
 
                 ActivatePlugin(finder);
-                finder.Release();
+                _ = finder.Release();
                 State += 1;
                 break;
             case 1:
                 if (Targets.Count != 0)
                 {
-                    TargetSelector.Setup(this);
+                    _ = TargetSelector.Setup(this);
                     TargetSelector.Superiority = 3;
                     TargetSelector.NearSuperiority = 2;
                     TargetSelector.Mode = TargetSelector.Mode - Set<AIGroupTargetingModes>.Of(AIGroupTargetingModes.Cooperate, AIGroupTargetingModes.Recruit, AIGroupTargetingModes.Produce);
@@ -87,13 +87,13 @@ public partial class SkirmishAIGroupControl : BehaviorAIGroupControl
             case 10:
                 if (Group.Transporter != null)
                 {
-                    Group.DeleteUnit(Group.Transporter);
+                    _ = Group.DeleteUnit(Group.Transporter);
                 }
 
                 GroupBehavior randomGroupBehavior = StrategicMap.Current.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
                 group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, 0, randomGroupBehavior);
-                group.AddUnits(Group.Units);
-                group.Release();
+                _ = group.AddUnits(Group.Units);
+                _ = group.Release();
                 Done();
                 break;
         }

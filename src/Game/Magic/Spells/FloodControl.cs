@@ -184,7 +184,7 @@ public partial class FloodControl : EngineObject
                     mapField = mapLevel.GetField(x, y);
                     if (Set<byte>.WithBounds(0, 255).With(4).With(5).Contains((byte)overlay))
                     {
-                        GamePack.Current.RoadControl.Place(StrategicMap.Current.MapContainer, (sbyte)x, (sbyte)y, 0, mapField.TerrainType);
+                        _ = GamePack.Current.RoadControl.Place(StrategicMap.Current.MapContainer, (sbyte)x, (sbyte)y, 0, mapField.TerrainType);
                     }
                     else
                     {
@@ -194,13 +194,13 @@ public partial class FloodControl : EngineObject
                             resource = resources[i];
                             if (resource.EngineClass.ClassId == 131431 && resource.TerrainList.UsedTerrain() == 1 && resource.TerrainList.Terrain[0] == mapField.TerrainType && overlay == resource.TerrainList.Overlay[0])
                             {
-                                candidates.Add(resource);
+                                _ = candidates.Add(resource);
                             }
                         }
 
                         if (candidates.Count != 0)
                         {
-                            candidates[StrategicMap.Current.Random(candidates.Count)].PlaceResourceUser(StrategicMap.Current, (sbyte)x, (sbyte)y, 0);
+                            _ = candidates[StrategicMap.Current.Random(candidates.Count)].PlaceResourceUser(StrategicMap.Current, (sbyte)x, (sbyte)y, 0);
                         }
                     }
                 }

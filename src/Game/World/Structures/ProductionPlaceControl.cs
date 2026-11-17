@@ -55,7 +55,7 @@ public partial class ProductionPlaceControl : ProductionControl
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducedFormat), [name, fProductionPlaceName]);
         log.SetLocation(y: productionPlace.HexY, x: productionPlace.HexX, level: productionPlace.HexLevel);
         StrategicMap.Current.Players.GetPlayers(log.Player).EventLogbook.AddEvent(log);
-        log.Release();
+        _ = log.Release();
 
         return result;
     }
@@ -74,7 +74,7 @@ public partial class ProductionPlaceControl : ProductionControl
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.InstalledFormat), [unitName, name]);
         log.SetLocation(y: productionPlace.HexY, x: productionPlace.HexX, level: productionPlace.HexLevel);
         StrategicMap.Current.Players.GetPlayers(log.Player).EventLogbook.AddEvent(log);
-        log.Release();
+        _ = log.Release();
     }
 
     // PrdPlace.pas:219

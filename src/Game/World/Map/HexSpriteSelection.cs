@@ -94,10 +94,10 @@ public partial class HexSpriteSelection : ControlStyleNode, IChildList<HexSprite
     {
         int i;
         i = IndexOfChild(hexSprite);
-        _locationHexSprite.Remove(hexSprite);
+        _ = _locationHexSprite.Remove(hexSprite);
         if (i != -1)
         {
-            DropChild(hexSprite);
+            _ = DropChild(hexSprite);
             if (IndexOfChild(hexSprite) == -1)
             {
                 if (hexSprite.GetSelected())
@@ -113,7 +113,7 @@ public partial class HexSpriteSelection : ControlStyleNode, IChildList<HexSprite
     // HSEngine.pas:3727
     public void Select(HexSprite hexSprite)
     {
-        AddChild(hexSprite);
+        _ = AddChild(hexSprite);
         hexSprite.Select();
         TriggerSelectEvent(hexSprite);
     }

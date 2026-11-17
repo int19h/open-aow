@@ -374,7 +374,7 @@ public partial class AIBudgetManager : EngineObject
     {
         if (ManaUpkeep < 0)
         {
-            Player.MagicControl.AIOverrideUpkeep(16777215, Math.Abs(ManaUpkeep));
+            _ = Player.MagicControl.AIOverrideUpkeep(16777215, Math.Abs(ManaUpkeep));
         }
     }
 

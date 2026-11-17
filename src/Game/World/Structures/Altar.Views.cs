@@ -13,7 +13,7 @@ public partial class Altar
         {
             if (CanTarget(ref reason))
             {
-                Target();
+                _ = Target();
             }
             else
             {
@@ -22,7 +22,7 @@ public partial class Altar
         }
         else
         {
-            CancelTargeting();
+            _ = CancelTargeting();
         }
 
         return StructureView.None;

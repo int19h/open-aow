@@ -76,11 +76,9 @@ public partial class ExplorationSite : Structure
     public override bool CanSelect(int pixelX, int pixelY)
     {
         bool result;
-        int hexX = default;
-        int hexY = default;
         if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            HexGeometry.PixelToHex(pixelX, pixelY, out hexX, out hexY);
+            HexGeometry.PixelToHex(pixelX, pixelY, out int hexX, out int hexY);
             result = Owner.HexX == hexX && Owner.HexY == hexY && base.CanSelect(pixelX, pixelY);
         }
         else
@@ -151,12 +149,12 @@ public partial class ExplorationSite : Structure
         sbyte hexY2 = GetHexY();
         sbyte hexLevel2 = GetHexLevel();
         sbyte armyHexX = army.GetHexX();
-        combat.Setup((byte)army.Army.Player, (byte)army.Army.IndependentRelation, armyHexX, hexY, hexLevel, (byte)_defenders.Player, (byte)_defenders.IndependentRelation, hexX, hexY2, hexLevel2, true);
+        _ = combat.Setup((byte)army.Army.Player, (byte)army.Army.IndependentRelation, armyHexX, hexY, hexLevel, (byte)_defenders.Player, (byte)_defenders.IndependentRelation, hexX, hexY2, hexLevel2, true);
         sbyte hexY3 = GetHexY();
         sbyte hexLevel3 = GetHexLevel();
         sbyte hexX2 = GetHexX();
-        combat.AddArmy(army.Army, CombatSideIndex.Attacker, hexX2, hexY3, hexLevel3);
-        combat.AddArmy(_defenders, CombatSideIndex.Defender, -1, -1, -1, 1);
+        _ = combat.AddArmy(army.Army, CombatSideIndex.Attacker, hexX2, hexY3, hexLevel3);
+        _ = combat.AddArmy(_defenders, CombatSideIndex.Defender, -1, -1, -1, 1);
         combat.ExplorationSite = 1;
     }
 
@@ -191,7 +189,7 @@ public partial class ExplorationSite : Structure
                     combat.LockExecuted();
                     combat.Initialize();
                     combat.Activate();
-                    combat.Execute();
+                    _ = combat.Execute();
                     combat.Deactivate();
                     combat.Finalize();
                     string name = GetName();
@@ -201,10 +199,10 @@ public partial class ExplorationSite : Structure
                     StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(eventValue);
                     if (StrategicMap.Current.SeatedPlayer == player && StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
                     {
-                        eventValue.Execute(false, ExecuteTrigger.Event, null);
+                        _ = eventValue.Execute(false, ExecuteTrigger.Event, null);
                     }
 
-                    eventValue.Release();
+                    _ = eventValue.Release();
                     combat.UnlockExecuted();
                     StrategicMap.Current.DestroyCombat();
                     StrategicMap.Current.UnlockGameOverEvent();
@@ -226,10 +224,10 @@ public partial class ExplorationSite : Structure
                         StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(eventValue);
                         if (StrategicMap.Current.SeatedPlayer == player && StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
                         {
-                            eventValue.Execute(false, ExecuteTrigger.Event, null);
+                            _ = eventValue.Execute(false, ExecuteTrigger.Event, null);
                         }
 
-                        eventValue.Release();
+                        _ = eventValue.Release();
                         StrategicMap.Current.DestroyCombat();
                     }
                 }
@@ -265,7 +263,7 @@ public partial class ExplorationSite : Structure
                 request.AttackerPlayer = armyHexSprite.Army.Player;
                 request.DefenderPlayer = 0;
                 StrategicMap.Current.TriggerTypedExecuteEventLog(request, true, RequestCombatTypeCallback);
-                request.Release();
+                _ = request.Release();
                 result = true;
             }
             else
@@ -277,7 +275,7 @@ public partial class ExplorationSite : Structure
                     tokenEvent.Action = 0;
                     tokenEvent.Param = 1;
                     StrategicMap.Current.TokenManager.GetTokenControl(tokenEvent.Player).AddEvent(tokenEvent);
-                    tokenEvent.Release();
+                    _ = tokenEvent.Release();
                     result = true;
                 }
                 else
@@ -307,10 +305,10 @@ public partial class ExplorationSite : Structure
             if (objectValue is CombatUnit combatUnit && objectValue.GetPlayer() == 0)
             {
                 troop = combatUnit.Troop;
-                troop.AddRef();
+                _ = troop.AddRef();
                 combatUnit.SetUnit(null);
-                _defenders.AddUnit(troop);
-                troop.Release();
+                _ = _defenders.AddUnit(troop);
+                _ = troop.Release();
             }
         }
 
@@ -335,7 +333,7 @@ public partial class ExplorationSite : Structure
             tokenEvent.Action = 0;
             tokenEvent.Param = (int)log.CombatType;
             StrategicMap.Current.TokenManager.GetTokenControl(tokenEvent.Player).AddEvent(tokenEvent);
-            tokenEvent.Release();
+            _ = tokenEvent.Release();
         }
     }
 
@@ -385,12 +383,12 @@ public partial class ExplorationSite : Structure
             collections = siteResource.DefenderCollections;
             for (int i = collections.GetCollectionCount(collection) - 1; i >= 0; i--)
             {
-                list.Add(collections.GetU(collection, i));
+                _ = list.Add(collections.GetU(collection, i));
             }
 
             try
             {
-                Int32List.FillWithRandomUnits(list, _defenders.Units, 4, (int)_defendersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
+                _ = Int32List.FillWithRandomUnits(list, _defenders.Units, 4, (int)_defendersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
             }
             catch
             {

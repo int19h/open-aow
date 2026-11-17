@@ -56,10 +56,10 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
         if (owner != _owner)
         {
             CheckOwner(owner);
-            _owner?.RemoveChild(this);
+            _ = (_owner?.RemoveChild(this));
 
             _owner = owner;
-            _owner?.AddChild(this);
+            _ = (_owner?.AddChild(this));
         }
     }
 
@@ -161,10 +161,7 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
             }
         }
 
-        if (result == null)
-        {
-            result = EditorClass.Of<EngineObjectEditor>();
-        }
+        result ??= EditorClass.Of<EngineObjectEditor>();
 
         return result;
     }
@@ -193,7 +190,7 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     public virtual void SetArrayOwner(CustomNode owner, int index)
     {
         CheckOwner(owner);
-        _owner?.RemoveChild(this);
+        _ = (_owner?.RemoveChild(this));
 
         _owner = owner;
         _owner?.SetChild(index, this);

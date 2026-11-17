@@ -152,12 +152,12 @@ public partial class MoveControlSettings : EngineObject
         Units.AddUnits(army.Army.Units, selection);
         Source = new MapCoordinate(army.HexX, army.HexY, army.HexLevel);
         Player = army.Army.Player;
-        MovePointTable movePointTable = MovePointTable;
-        army.Army.CreateMovePointTable(selection, out movePointTable);
+        _ = MovePointTable;
+        army.Army.CreateMovePointTable(selection, out MovePointTable movePointTable);
         MovePointTable = movePointTable;
         if (StrategicMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human)
         {
-            Mode = Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);
+            Mode += Set<MoveModeElement>.Of(MoveModeElement.AI);
         }
     }
 

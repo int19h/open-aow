@@ -90,19 +90,19 @@ public partial class HuntAIGroupControl : AIGroupControl
                 if (group.TargetUnitIds.Count != 0)
                 {
                     finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
-                    finder.Setup(this);
+                    _ = finder.Setup(this);
                     AITargetInfo targetInfo = finder.Selector.TargetInfo;
                     targetInfo.Mode = AITargetMode.Hunt;
                     finder.Selector.TargetInfo = targetInfo;
                     ActivatePlugin(finder);
-                    finder.Release();
+                    _ = finder.Release();
                     State += 1;
                 }
                 else
                 {
                     newGroup = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, GroupBehavior.Patrol);
-                    newGroup.AddUnits(Group.Units);
-                    newGroup.Release();
+                    _ = newGroup.AddUnits(Group.Units);
+                    _ = newGroup.Release();
                     Done();
                 }
 

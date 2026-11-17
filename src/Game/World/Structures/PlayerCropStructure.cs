@@ -366,7 +366,7 @@ public partial class PlayerCropStructure : PlayerStructure
                     {
                         if (crop != null && crop.CropOwner == this)
                         {
-                            crops.Add(crop);
+                            _ = crops.Add(crop);
                         }
 
                         locations.Delete(i);
@@ -390,7 +390,7 @@ public partial class PlayerCropStructure : PlayerStructure
                         crop = resource.PlaceCrop((sbyte)x, (sbyte)y, (sbyte)mapLevel.HexLevel, this);
                         if (crop != null)
                         {
-                            crops.Add(crop);
+                            _ = crops.Add(crop);
                             crop.SetCropOwner(this);
                         }
 

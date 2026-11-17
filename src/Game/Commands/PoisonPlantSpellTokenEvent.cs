@@ -26,9 +26,9 @@ public partial class PoisonPlantSpellTokenEvent : GlobalTargetSpellTokenEvent
     // PoisonP.pas:361
     public override bool Process(Troop source, int value)
     {
-        base.Process(source, value);
+        _ = base.Process(source, value);
         CreatePoisonPlant(source);
-        StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 1);
+        _ = StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 1);
         GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
         return false;
     }
@@ -69,10 +69,10 @@ public partial class PoisonPlantSpellTokenEvent : GlobalTargetSpellTokenEvent
                         animation.OnNewFrame += plant.NewFrameSummonAnimation;
                         animation.FrameCounter = -StrategicMap.Current.Random(15);
                         animation.AnimationLevel = 27;
-                        StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, Location.MapLevel);
+                        _ = StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, Location.MapLevel);
                         twinkle = new TwinkleAnimation(null) { Holder = CreationHolder() };
                         twinkle.Setup(GamePack.Current.SpellControl.GetSpell(2).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(), 2, 6, Math.Abs(animation.FrameCounter + 5), Math.Abs(animation.FrameCounter + 5) / 2);
-                        StrategicMap.Current.PlaceHex(twinkle, walk.X, walk.Y, Location.MapLevel);
+                        _ = StrategicMap.Current.PlaceHex(twinkle, walk.X, walk.Y, Location.MapLevel);
                     }
                     else
                     {

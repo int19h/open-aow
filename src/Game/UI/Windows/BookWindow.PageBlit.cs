@@ -19,7 +19,7 @@ public partial class BookWindow
         if (_pageSurface is null)
         {
             _pageSurface = new DataSurface(WinWidth, WinHeight, BackSurface.PixelFormatId, null);
-            BackSurface.BlitAreaClipped(_pageSurface, area, 0, 0);
+            _ = BackSurface.BlitAreaClipped(_pageSurface, area, 0, 0);
         }
         if (!Animating)
         {
@@ -32,27 +32,22 @@ public partial class BookWindow
             Surface initial = _pageTurnMode == PageTurnMode.Left ? BackSurface : _pageSurface;
             if (_pageTurnMode is PageTurnMode.Left or PageTurnMode.Right)
             {
-                if (!Masked)
-                {
-                    initial.BlitAreaClipped(surface, area, WinLeft, WinTop);
-                }
-                else
-                {
-                    initial.BlitAreaColorKeyClipped(surface, area, WinLeft, WinTop,
+                _ = !Masked
+                    ? initial.BlitAreaClipped(surface, area, WinLeft, WinTop)
+                    : initial.BlitAreaColorKeyClipped(surface, area, WinLeft, WinTop,
                     PixelFormats.Color2PixelInfo(MaskColor, BackSurface.PixelFormatId, null));
-                }
             }
             _firstAnimationFrame = false;
         }
         LockedSurface destination = default, source = default, oldPage = default;
-        surface.Lock(ref destination);
-        BackSurface.Lock(ref source);
-        _pageSurface.Lock(ref oldPage);
+        _ = surface.Lock(ref destination);
+        _ = BackSurface.Lock(ref source);
+        _ = _pageSurface.Lock(ref oldPage);
         PageTurn.RenderScene(WinLeft + BorderWidth, WinTop + BorderHeight, destination,
             BorderWidth, BorderHeight, oldPage, BorderWidth, BorderHeight, source, ref area);
-        _pageSurface.Unlock();
-        BackSurface.Unlock();
-        surface.Unlock();
+        _ = _pageSurface.Unlock();
+        _ = BackSurface.Unlock();
+        _ = surface.Unlock();
         Rect backRectangle = BackRectangle;
         backRectangle.Top = area.Top;
         BackRectangle = backRectangle;

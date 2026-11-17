@@ -105,10 +105,10 @@ public partial class LeaderSetupWindow : UIModule
     public void Execute(LeaderSetupControl control)
     {
         Reset();
-        Setup?.Release();
+        _ = (Setup?.Release());
 
         Setup = control;
-        Setup.AddRef();
+        _ = Setup.AddRef();
         _selectedSort = 0;
         _availableSort = 0;
         LeaderPanel.ImageLibraryTexture = UI.Graphics.TitleScreen;
@@ -123,7 +123,7 @@ public partial class LeaderSetupWindow : UIModule
                 int item = Setup.Items[i];
                 string raceNames = UI.Engine.TranslateResourceString(GameTables.RaceNames[item]);
                 int item2 = Setup.Items[i];
-                RaceComboBox.Items.AddObject(raceNames, IntToObject(item2));
+                _ = RaceComboBox.Items.AddObject(raceNames, IntToObject(item2));
             }
 
             int indexOf = Setup.Items.IndexOf(Setup.OriginalLeader.Race);
@@ -169,8 +169,8 @@ public partial class LeaderSetupWindow : UIModule
         Setup = null;
         LeaderPanel.Visible = false;
         UI.SetupEvents.UpdatePlayerName(control.OriginalLeader.HeroName);
-        control.Done();
-        control.Release();
+        _ = control.Done();
+        _ = control.Release();
     }
 
     // AoWLeaderSetup.pas:1097
@@ -182,8 +182,8 @@ public partial class LeaderSetupWindow : UIModule
         control.Status = LeaderSetupControl.LeaderSetupStatus.Canceled;
         Setup = null;
         LeaderPanel.Visible = false;
-        control.Done();
-        control.Release();
+        _ = control.Done();
+        _ = control.Release();
     }
 
     // AoWLeaderSetup.pas:750
@@ -320,9 +320,9 @@ public partial class LeaderSetupWindow : UIModule
                 if (GamePack.Current.AbilityControl.GetAbility(i).CanExpand(Leader))
                 {
                     string expandName = GamePack.Current.AbilityControl.GetAbility(i).ExpandName(Leader);
-                    AvailableAbilitiesList.Items.AddObject(expandName, IntToObject(i));
+                    _ = AvailableAbilitiesList.Items.AddObject(expandName, IntToObject(i));
                     int expandCost = GamePack.Current.AbilityControl.GetAbility(i).ExpandCost(Leader);
-                    AvailableAbilitiesCostList.Items.Add(IntToStr(expandCost));
+                    _ = AvailableAbilitiesCostList.Items.Add(IntToStr(expandCost));
                 }
             }
         }
@@ -345,8 +345,8 @@ public partial class LeaderSetupWindow : UIModule
                     cost = IntToStr(ability.GetSkillPoints(Leader) - ability.GetSkillPoints(Leader.HeroResource.Abilities));
                 }
 
-                SelectedAbilitiesCostList.Items.Add(cost);
-                SelectedAbilitiesList.Items.AddObject(name, IntToObject(i));
+                _ = SelectedAbilitiesCostList.Items.Add(cost);
+                _ = SelectedAbilitiesList.Items.AddObject(name, IntToObject(i));
             }
         }
 
@@ -521,7 +521,7 @@ public partial class LeaderSetupWindow : UIModule
             if (i < _fixedSpheres)
             {
                 button.CaptureInput = false;
-                button.ImageLibraryIndexUp = button.ImageLibraryIndexUp + 1;
+                button.ImageLibraryIndexUp++;
             }
             else
             {
@@ -622,7 +622,7 @@ public partial class LeaderSetupWindow : UIModule
             abilityId = ObjectToInt(AvailableAbilitiesList.Items.Objects[AvailableAbilitiesList.Selected]);
             if (CanAddAbility(abilityId))
             {
-                Leader.ExpandAbility(abilityId);
+                _ = Leader.ExpandAbility(abilityId);
                 UpdateAbilities();
                 UpdateLeader();
             }
@@ -642,7 +642,7 @@ public partial class LeaderSetupWindow : UIModule
                 return;
             }
 
-            Leader.RemoveAbility(abilityId);
+            _ = Leader.RemoveAbility(abilityId);
             UpdateAbilities();
             UpdateLeader();
         }
@@ -675,9 +675,9 @@ public partial class LeaderSetupWindow : UIModule
         if (setup.OriginalLeader.GetFace() != null)
         {
             face = GamePack.Current.FaceResources.GetFaceResource(index);
-            face.AddRef();
+            _ = face.AddRef();
             face.GetFaceImage().ShowStretched(r, lockedSurface);
-            face.Release();
+            _ = face.Release();
         }
     }
 
@@ -785,9 +785,9 @@ public partial class LeaderSetupWindow : UIModule
                 else
                 {
                     MessageDialog.ResetMessageDialog(UI.MessageDialog);
-                    UI.MessageDialog.MessageMemo.Items.Add("");
+                    _ = UI.MessageDialog.MessageMemo.Items.Add("");
                     string pleaseAssignAllSpheres = UI.Engine.TranslateResourceString(s_pleaseAssignAllSpheresText);
-                    UI.MessageDialog.MessageMemo.Items.Add(pleaseAssignAllSpheres);
+                    _ = UI.MessageDialog.MessageMemo.Items.Add(pleaseAssignAllSpheres);
                     UI.MessageDialog.OKPanel.Visible = true;
                     UI.MessageDialog.Window.Visible = true;
                 }
@@ -1009,7 +1009,7 @@ public partial class LeaderSetupWindow : UIModule
                     leader.ClearSpheres();
                     for (int i = 0, last = Setup.Leader.GetSphereCount() - 1; i <= last; i++)
                     {
-                        leader.AddSphere(Setup.Leader.GetSpheres(i));
+                        _ = leader.AddSphere(Setup.Leader.GetSpheres(i));
                     }
 
                     UpdateLeader();
@@ -1026,7 +1026,7 @@ public partial class LeaderSetupWindow : UIModule
         UI.General.PlayButtonSound(0);
         if (Leader.CanAddSphere(MagicSphere.Life))
         {
-            Leader.AddSphere(MagicSphere.Life);
+            _ = Leader.AddSphere(MagicSphere.Life);
             UpdateSpheres();
         }
     }
@@ -1037,7 +1037,7 @@ public partial class LeaderSetupWindow : UIModule
         UI.General.PlayButtonSound(0);
         if (Leader.CanAddSphere(MagicSphere.Fire))
         {
-            Leader.AddSphere(MagicSphere.Fire);
+            _ = Leader.AddSphere(MagicSphere.Fire);
             UpdateSpheres();
         }
     }
@@ -1048,7 +1048,7 @@ public partial class LeaderSetupWindow : UIModule
         UI.General.PlayButtonSound(0);
         if (Leader.CanAddSphere(MagicSphere.Death))
         {
-            Leader.AddSphere(MagicSphere.Death);
+            _ = Leader.AddSphere(MagicSphere.Death);
             UpdateSpheres();
         }
     }
@@ -1059,7 +1059,7 @@ public partial class LeaderSetupWindow : UIModule
         UI.General.PlayButtonSound(0);
         if (Leader.CanAddSphere(MagicSphere.Water))
         {
-            Leader.AddSphere(MagicSphere.Water);
+            _ = Leader.AddSphere(MagicSphere.Water);
             UpdateSpheres();
         }
     }
@@ -1070,7 +1070,7 @@ public partial class LeaderSetupWindow : UIModule
         UI.General.PlayButtonSound(0);
         if (Leader.CanAddSphere(MagicSphere.Air))
         {
-            Leader.AddSphere(MagicSphere.Air);
+            _ = Leader.AddSphere(MagicSphere.Air);
             UpdateSpheres();
         }
     }
@@ -1081,7 +1081,7 @@ public partial class LeaderSetupWindow : UIModule
         UI.General.PlayButtonSound(0);
         if (Leader.CanAddSphere(MagicSphere.Earth))
         {
-            Leader.AddSphere(MagicSphere.Earth);
+            _ = Leader.AddSphere(MagicSphere.Earth);
             UpdateSpheres();
         }
     }
@@ -1093,7 +1093,7 @@ public partial class LeaderSetupWindow : UIModule
         int sphereCount = Leader.GetSphereCount();
         if (slot < sphereCount)
         {
-            Leader.DeleteSphereIndex(slot);
+            _ = Leader.DeleteSphereIndex(slot);
         }
 
         UpdateSpheres();

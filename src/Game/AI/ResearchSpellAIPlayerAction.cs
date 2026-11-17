@@ -36,13 +36,13 @@ public partial class ResearchSpellAIPlayerAction : AIPlayerAction, IAIPlayerActi
                 value = (spells.GetSpell(i).CastDuration * 100) + 100;
                 Spell spell = spells.GetSpell(i);
                 int netPowerToResearch = Control.Player.MagicControl.GetNetPowerToResearch();
-                value = value - Control.Player.MagicControl.ResearchTurns(netPowerToResearch, spell.ResearchCost);
+                value -= Control.Player.MagicControl.ResearchTurns(netPowerToResearch, spell.ResearchCost);
                 if (value <= 0)
                 {
                     value = 1;
                 }
 
-                choices.AddAbility(spells.GetSpell(i).SpellId, value);
+                _ = choices.AddAbility(spells.GetSpell(i).SpellId, value);
             }
 
             if (choices.Count != 0)
@@ -50,7 +50,7 @@ public partial class ResearchSpellAIPlayerAction : AIPlayerAction, IAIPlayerActi
                 RandSeed = StrategicMap.Current.Random(16777215);
                 index = choices.RandomChanceItemB(0);
                 DoubleItemList.DoubleItem item = choices[index];
-                Control.Player.MagicControl.ExecuteResearchSpell(item.First);
+                _ = Control.Player.MagicControl.ExecuteResearchSpell(item.First);
             }
 
             choices?.Dispose();

@@ -33,7 +33,7 @@ public partial class HealingWater : UnitSpell
         bool result;
         if (ValidTargetUnit(source, target))
         {
-            target.RemoveAbility(127);
+            _ = target.RemoveAbility(127);
             target.SetHitPoints(target.GetHits());
             result = true;
         }

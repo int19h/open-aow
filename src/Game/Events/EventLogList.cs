@@ -47,7 +47,7 @@ public partial class EventLogList : OwningNode, IChildList<EventLog>
             {
                 for (int i = 0, last = Count - 1; i <= last; i++)
                 {
-                    this[i].Release();
+                    _ = this[i].Release();
                 }
             }
 
@@ -60,7 +60,7 @@ public partial class EventLogList : OwningNode, IChildList<EventLog>
     {
         for (int i = GetCount() - 1; i >= 0; i--)
         {
-            this[i].Release();
+            _ = this[i].Release();
         }
 
         ClearChildren();
@@ -76,7 +76,7 @@ public partial class EventLogList : OwningNode, IChildList<EventLog>
         if (result != -1)
         {
             child.SetOwner(null);
-            child.Release();
+            _ = child.Release();
             Changed();
         }
 
@@ -86,7 +86,7 @@ public partial class EventLogList : OwningNode, IChildList<EventLog>
     // EventLog.pas:456
     public override int AddChild(EngineObject child)
     {
-        AppendChild(child);
+        _ = AppendChild(child);
         if (child.AddRef() == -1)
         {
             throw new NotSupportedException("EObject doesn't support ReferenceCounting");

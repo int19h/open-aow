@@ -44,7 +44,7 @@ public partial class WizardsTowerDialog : UIModule
         _event = null;
         notify?.Invoke(eventValue);
 
-        eventValue?.Release();
+        _ = (eventValue?.Release());
 
         StrategicMap.Current.TutorialControl.ShowMessage(69, true, true);
     }
@@ -89,7 +89,7 @@ public partial class WizardsTowerDialog : UIModule
                 {
                     x = sender.Window.WinLeft;
                     y = sender.Window.WinTop;
-                    s.CastImages.Show(10, sender.WinLeft + x, sender.WinTop + y, 0, lockedSurface);
+                    _ = s.CastImages.Show(10, sender.WinLeft + x, sender.WinTop + y, 0, lockedSurface);
                 }
             }
         }
@@ -110,7 +110,7 @@ public partial class WizardsTowerDialog : UIModule
         Spell spell;
         dialog.OnClose = done;
         dialog._event = eventValue;
-        dialog._event.AddRef();
+        _ = dialog._event.AddRef();
         tower = dialog._event.Tower;
         if (tower.SpellId != 0)
         {

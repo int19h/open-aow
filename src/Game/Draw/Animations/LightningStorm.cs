@@ -29,14 +29,12 @@ public partial class LightningStorm : Storm
     // Storms.pas:429
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int x = default;
-        int y = default;
         int frame;
         frame = FrameCounter % _stormImages.Count;
         if (_stormImages[frame] != null)
         {
             sbyte hexY = GetHexY();
-            HexGeometry.HexToPixel(GetHexX(), hexY, out x, out y);
+            HexGeometry.HexToPixel(GetHexX(), hexY, out int x, out int y);
             LibraryImage stormImageWidth = _stormImages[frame];
             x = x - (int)(((uint)stormImageWidth.Width) >> 1) + 20;
             LibraryImage stormImageHeight = _stormImages[frame];
@@ -55,7 +53,7 @@ public partial class LightningStorm : Storm
         // { Original adds to the map selection, without clearing its existing hexes. }
         for (int i = 0, last = HexGeometry.RadiusToHexNumber(2) - 1; i <= last; i++)
         {
-            StrategicMap.Current.TargetSelection.HexNumbers.Add(0);
+            _ = StrategicMap.Current.TargetSelection.HexNumbers.Add(0);
         }
     }
 
@@ -75,8 +73,8 @@ public partial class LightningStorm : Storm
         r.Top = -_stormImages[0].Height + 32;
         r.Bottom = 32;
         SetDimensions(r);
-        StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, 2);
-        PlaceHex(StrategicMap.Current.MapContainer, X, Y, L);
+        _ = StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, 2);
+        _ = PlaceHex(StrategicMap.Current.MapContainer, X, Y, L);
     }
 
     // Storms.pas:466
@@ -86,7 +84,7 @@ public partial class LightningStorm : Storm
         NewFrame();
         if (_stormImages.GetSafe(FrameCounter) != null)
         {
-            AudioPlayback.PlaySample("SFX\\ATTACK\\LIGHTNG.WAV");
+            _ = AudioPlayback.PlaySample("SFX\\ATTACK\\LIGHTNG.WAV");
         }
 
         if (_stormImages.Count == FrameCounter)

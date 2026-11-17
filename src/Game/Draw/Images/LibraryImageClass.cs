@@ -52,7 +52,7 @@ public sealed class LibraryImageClass
         else
         {
             rects = new RectangleList();
-            rects.Add(new Rectangle(0, 0, lockedSurface.Width, lockedSurface.Height));
+            _ = rects.Add(new Rectangle(0, 0, lockedSurface.Width, lockedSurface.Height));
         }
 
         if (rects != null && imageClass != null)
@@ -108,7 +108,7 @@ public sealed class LibraryImageClass
                     Rectangle rectangle = FindRectangle(x, number2);
                     if (rectangle != null)
                     {
-                        rectangleList.Add(rectangle);
+                        _ = rectangleList.Add(rectangle);
                     }
                 }
             }

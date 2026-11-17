@@ -113,8 +113,6 @@ public partial class Edit : Control
     // AoWEdit.pas:155
     public override void Draw(LockedSurface lockedSurface)
     {
-        string s = "";
-        Rect oldClip = default;
         try
         {
             if (Valid && Visible)
@@ -123,7 +121,7 @@ public partial class Edit : Control
 
                 SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
                 _imageLibraryEdit.DrawHorizontalStrip(_imageLibraryIndex, rectangle, ref lockedSurface);
-                oldClip = lockedSurface.ClipRectangle;
+                Rect oldClip = lockedSurface.ClipRectangle;
                 LibraryImage imageLibraryEditWidth = _imageLibraryEdit[_imageLibraryIndex + 2];
                 if (Window.WinLeft + WinLeft + WinWidth - imageLibraryEditWidth.Width < oldClip.Right)
                 {
@@ -140,10 +138,10 @@ public partial class Edit : Control
                 }
                 else
                 {
-                    s = "";
+                    string s = "";
                     for (int i = 0, last = _shownChars - 1; i <= last; i++)
                     {
-                        s = s + Cp1252.Text(_passWordChar);
+                        s += Cp1252.Text(_passWordChar);
                     }
 
                     base.Font.SetText(Window.WinLeft + WinLeft + BorderWidth, Window.WinTop + WinTop + BorderHeight, s, lockedSurface);
@@ -161,7 +159,7 @@ public partial class Edit : Control
         }
         catch
         {
-            MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
         }
     }
 

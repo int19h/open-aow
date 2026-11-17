@@ -226,15 +226,12 @@ dotnet_diagnostic.IDE0051.severity = suggestion
 dotnet_diagnostic.IDE0052.severity = suggestion
 # IDE0053 is clean on the code of 2026-11-15.
 dotnet_diagnostic.IDE0053.severity = warning
-# IDE0054 raises to warning in the manual remainder.
-dotnet_diagnostic.IDE0054.severity = suggestion
+dotnet_diagnostic.IDE0054.severity = warning
 dotnet_diagnostic.IDE0056.severity = warning
 # IDE0057 raises to warning in the manual remainder.
 dotnet_diagnostic.IDE0057.severity = suggestion
-# IDE0058 raises to warning in the manual remainder.
-dotnet_diagnostic.IDE0058.severity = suggestion
-# IDE0059 raises to warning in the manual remainder.
-dotnet_diagnostic.IDE0059.severity = suggestion
+dotnet_diagnostic.IDE0058.severity = warning
+dotnet_diagnostic.IDE0059.severity = warning
 # IDE0060 raises to warning in the manual remainder.
 dotnet_diagnostic.IDE0060.severity = suggestion
 # IDE0061 is clean on the code of 2026-11-15.
@@ -251,8 +248,7 @@ dotnet_diagnostic.IDE0070.severity = warning
 dotnet_diagnostic.IDE0071.severity = warning
 # IDE0072 raises to warning in the manual remainder.
 dotnet_diagnostic.IDE0072.severity = suggestion
-# IDE0074 raises to warning in the manual remainder.
-dotnet_diagnostic.IDE0074.severity = suggestion
+dotnet_diagnostic.IDE0074.severity = warning
 dotnet_diagnostic.IDE0075.severity = warning
 dotnet_diagnostic.IDE0078.severity = warning
 # IDE0079 is clean on the code of 2026-11-15.

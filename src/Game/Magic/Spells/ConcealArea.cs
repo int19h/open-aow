@@ -36,19 +36,16 @@ public partial class ConcealArea : Spell
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         MapField mapField;
-        sbyte x = default;
-        sbyte y = default;
-        sbyte layer = default;
         HexNumberWalkData walk = default;
         MapLevel level;
         LocationTextEventLog log;
         ConcealAreaHexSprite conceal;
-        base.ExecuteTokenEvent(eventValue, source, executeCount);
+        _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         CastingDone(source, eventValue.EventMana);
         MapCoordinate coordinate60 = source.GetLocation();
-        x = coordinate60.X;
-        y = coordinate60.Y;
-        layer = coordinate60.MapLevel;
+        sbyte x = coordinate60.X;
+        sbyte y = coordinate60.Y;
+        sbyte layer = coordinate60.MapLevel;
         if (source.Player == StrategicMap.Current.SeatedPlayer)
         {
             conceal = new ConcealAreaHexSprite(null) { Holder = CreationHolder() };
@@ -78,7 +75,7 @@ public partial class ConcealArea : Spell
                                 string concealArea = AbilityRules.TranslateResourceString(GetEngine(), s_concealAreaText);
                                 log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [concealArea]);
                                 StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(log);
-                                log.Release();
+                                _ = log.Release();
                             }
                         }
                     }
@@ -96,7 +93,7 @@ public partial class ConcealArea : Spell
                     string concealArea = AbilityRules.TranslateResourceString(GetEngine(), s_concealAreaText);
                     log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [concealArea]);
                     StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(log);
-                    log.Release();
+                    _ = log.Release();
                 }
             }
         }
@@ -137,13 +134,13 @@ public partial class ConcealArea : Spell
         bool result;
         string reason = "";
         SpellTokenEvent eventValue;
-        base.Activate(source);
+        _ = base.Activate(source);
         if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             eventValue = new SpellTokenEvent(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
-            eventValue.Release();
+            _ = eventValue.Release();
             result = true;
         }
         else

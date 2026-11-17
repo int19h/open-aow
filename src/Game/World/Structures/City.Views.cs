@@ -27,14 +27,14 @@ public partial class City
         {
             if (site.NeighborHolds(i, typeof(City)))
             {
-                stem = stem + IntToStr(i);
+                stem += IntToStr(i);
                 site.FixTag(i);
             }
         }
 
         while (stem.Length < 4)
         {
-            stem = stem + "x";
+            stem += "x";
         }
 
         return stem + "C000";

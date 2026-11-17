@@ -168,7 +168,7 @@ public partial class UnitResource : TroopResource
         unit = new Unit(null) { Holder = CreationHolder() };
         unit.SetUnitResource(this);
         bool result = unit.Place(hexX, hexY, hexLevel, player, Set<UnitPlaceModeElement>.Of()) != null;
-        unit.Release();
+        _ = unit.Release();
         return result;
     }
 

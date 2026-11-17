@@ -11,7 +11,7 @@ public partial class ScrollBar
     {
         if (up)
         {
-            _position = _position - _smallChange;
+            _position -= _smallChange;
             if (_min > _position)
             {
                 _position = _min;
@@ -19,7 +19,7 @@ public partial class ScrollBar
         }
         else
         {
-            _position = _position + _smallChange;
+            _position += _smallChange;
             if (_max + 1 - _numberVisible < _position)
             {
                 _position = _max + 1 - _numberVisible;

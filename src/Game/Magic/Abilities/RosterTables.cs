@@ -73,7 +73,7 @@ internal static class RosterTables
 
                     if (resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(65))
                     {
-                        result = result / 2;
+                        result /= 2;
                     }
                 }
                 else

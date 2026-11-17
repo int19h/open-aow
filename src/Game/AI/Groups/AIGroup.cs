@@ -135,7 +135,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         {
             for (int index = 0, last = Units.Count - 1; index <= last; index++)
             {
-                Units[index].Release();
+                _ = Units[index].Release();
             }
         }
     }
@@ -149,7 +149,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         int result = base.RemoveChild(child);
         if (result != -1)
         {
-            child.Release();
+            _ = child.Release();
         }
 
         return result;
@@ -162,7 +162,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         CheckChild(child);
         if (CanAddUnit((Troop)child))
         {
-            child.AddRef();
+            _ = child.AddRef();
             return base.AddChild(child);
         }
 
@@ -195,13 +195,13 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         Troop transporter;
         while (Units.Count != 0)
         {
-            DeleteUnit(Units[^1]);
+            _ = DeleteUnit(Units[^1]);
         }
 
         transporter = Transporter;
         if (transporter != null)
         {
-            DeleteUnit(transporter);
+            _ = DeleteUnit(transporter);
         }
 
         Leader = null;
@@ -234,11 +234,11 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         if (Units.IndexOf(troop) == -1)
         {
             group = troop.Group;
-            group?.DeleteUnit(troop);
+            _ = (group?.DeleteUnit(troop));
 
             if (troop.UnitId != TransporterId || !troop.GetTransporter())
             {
-                AddChild(troop);
+                _ = AddChild(troop);
                 if (LeaderId == -1)
                 {
                     SetLeader(troop);
@@ -247,12 +247,12 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
             else
             {
                 Transporter = troop;
-                Transporter.AddRef();
+                _ = Transporter.AddRef();
             }
 
             troop.GroupId = GroupId;
             troop.Group = this;
-            Status = Status + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Changed);
+            Status += Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Changed);
             result = true;
         }
         else
@@ -269,14 +269,8 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     {
         bool result;
         int i;
-        sbyte x1 = default;
-        sbyte y1 = default;
-        sbyte l1 = default;
-        sbyte x2 = default;
-        sbyte y2 = default;
-        sbyte l2 = default;
         Troop leader;
-        troop.AddRef();
+        _ = troop.AddRef();
         if (RemoveChild(troop) != -1)
         {
             troop.GroupId = 0;
@@ -285,9 +279,9 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
             if (leader == troop)
             {
                 MapCoordinate coordinate91 = leader.GetLocation();
-                x1 = coordinate91.X;
-                y1 = coordinate91.Y;
-                l1 = coordinate91.MapLevel;
+                sbyte x1 = coordinate91.X;
+                sbyte y1 = coordinate91.Y;
+                sbyte l1 = coordinate91.MapLevel;
                 Leader = null;
                 LeaderId = -1;
                 i = Units.Count;
@@ -295,9 +289,9 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
                 {
                     i -= 1;
                     MapCoordinate coordinate92 = Units[i].GetLocation();
-                    x2 = coordinate92.X;
-                    y2 = coordinate92.Y;
-                    l2 = coordinate92.MapLevel;
+                    sbyte x2 = coordinate92.X;
+                    sbyte y2 = coordinate92.Y;
+                    sbyte l2 = coordinate92.MapLevel;
                     if (x1 == x2 && y1 == y2 && l1 == l2)
                     {
                         SetLeader(Units[i]);
@@ -310,7 +304,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
                 }
             }
 
-            Status = Status + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Changed);
+            Status += Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Changed);
             result = true;
         }
         else
@@ -320,9 +314,9 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
                 troop.GroupId = 0;
                 troop.Group = null;
                 TransporterId = -1;
-                Transporter.Release();
+                _ = Transporter.Release();
                 Transporter = null;
-                Status = Status + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Changed);
+                Status += Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Changed);
                 result = true;
             }
             else
@@ -332,20 +326,20 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         }
 
         ValidateEmpty();
-        troop.Release();
+        _ = troop.Release();
         return result;
     }
 
     // AIGroup.pas:391
     public virtual bool AddUnits(UnitCollection units)
     {
-        AddRef();
+        _ = AddRef();
         for (int i = units.Count - 1; i >= 0; i--)
         {
-            AddUnit(units.GetUnit(i));
+            _ = AddUnit(units.GetUnit(i));
         }
 
-        Release();
+        _ = Release();
         return true;
     }
 
@@ -358,7 +352,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     // AIGroup.pas:148
     public virtual MapCoordinate GetLocation()
     {
-        MapCoordinate location = default;
+        MapCoordinate location;
         // { Reach the leader through its field. }
         if (Leader != null)
         {
@@ -381,7 +375,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     {
         if (player == Player)
         {
-            Status = Status - Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Done);
+            Status -= Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Done);
         }
     }
 
@@ -390,7 +384,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     {
         AIGroupControl result = GroupControlClass().Create<AIGroupControl>(null, holder: CreationHolder());
         result.Group = this;
-        AddRef();
+        _ = AddRef();
         return result;
     }
 
@@ -398,8 +392,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     public virtual bool DefendLocation(MapCoordinate location, DefensePriority priority)
     {
         bool result;
-        MapCoordinate groupLocation = default;
-        groupLocation = GetLocation();
+        MapCoordinate groupLocation = GetLocation();
         result = location.MapLevel == groupLocation.MapLevel && HexGeometry.DeltaHexToRadius(location.X, location.Y, groupLocation.X, groupLocation.Y) <= 1;
 
         return result;
@@ -418,17 +411,14 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     public bool GetAdjacent()
     {
         MapCoordinateList locations;
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         locations = new MapCoordinateList();
         for (int i = Units.Count - 1; i >= 0; i--)
         {
             MapCoordinate coordinate94 = Units.GetUnit(i).GetLocation();
-            x = coordinate94.X;
-            y = coordinate94.Y;
-            l = coordinate94.MapLevel;
-            locations.Add(HexGeometry.PackMapCoordinate(x, y, l));
+            sbyte x = coordinate94.X;
+            sbyte y = coordinate94.Y;
+            sbyte l = coordinate94.MapLevel;
+            _ = locations.Add(HexGeometry.PackMapCoordinate(x, y, l));
         }
 
         bool result = MapCoordinateList.LocationsConnected(locations);
@@ -488,7 +478,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     {
         if (GoldBudget > 0 || ManaBudget > 0)
         {
-            StrategicMap.Current.Players.GetPlayers(Player).AIBudget.ReturnExpense(GoldBudget, ManaBudget);
+            _ = StrategicMap.Current.Players.GetPlayers(Player).AIBudget.ReturnExpense(GoldBudget, ManaBudget);
             GoldBudget = 0;
             ManaBudget = 0;
         }
@@ -566,7 +556,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
             transporter = Transporter;
             if (transporter != null)
             {
-                DeleteUnit(transporter);
+                _ = DeleteUnit(transporter);
             }
         }
 
@@ -610,7 +600,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
             transporter = Transporter;
             if (transporter != null)
             {
-                DeleteUnit(transporter);
+                _ = DeleteUnit(transporter);
             }
         }
 
@@ -624,15 +614,15 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         empty = Units.Count == 0 && TransporterId == -1;
         if (empty && !Status.Contains(AIGroupStatusElement.Empty))
         {
-            Status = Status + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Empty);
-            Release();
+            Status += Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Empty);
+            _ = Release();
         }
         else
         {
             if (!empty && Status.Contains(AIGroupStatusElement.Empty))
             {
-                Status = Status - Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Empty);
-                AddRef();
+                Status -= Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Empty);
+                _ = AddRef();
             }
         }
     }
@@ -649,19 +639,19 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
             {
                 oldTransporter.Group = null;
                 oldTransporter.GroupId = 0;
-                oldTransporter.Release();
+                _ = oldTransporter.Release();
             }
 
             group = troop.Group;
             if (group != null)
             {
-                group.DeleteUnit(troop);
+                _ = group.DeleteUnit(troop);
                 troop.GroupId = 0;
             }
 
             TransporterId = troop.UnitId;
             Transporter = troop;
-            Transporter.AddRef();
+            _ = Transporter.AddRef();
             troop.GroupId = GroupId;
             troop.Group = this;
             ValidateEmpty();
@@ -671,25 +661,19 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     // AIGroup.pas:446
     public void UnitProduced(ProductionControl control, Troop troop)
     {
-        sbyte x1 = default;
-        sbyte y1 = default;
-        sbyte l1 = default;
-        sbyte x2 = default;
-        sbyte y2 = default;
-        sbyte l2 = default;
         if (Leader != null)
         {
             MapCoordinate coordinate95 = GetLocation();
-            x1 = coordinate95.X;
-            y1 = coordinate95.Y;
-            l1 = coordinate95.MapLevel;
+            sbyte x1 = coordinate95.X;
+            sbyte y1 = coordinate95.Y;
+            sbyte l1 = coordinate95.MapLevel;
             MapCoordinate coordinate96 = troop.GetLocation();
-            x2 = coordinate96.X;
-            y2 = coordinate96.Y;
-            l2 = coordinate96.MapLevel;
+            sbyte x2 = coordinate96.X;
+            sbyte y2 = coordinate96.Y;
+            sbyte l2 = coordinate96.MapLevel;
             if (l1 == l2 && HexGeometry.DeltaHexToRadius(x1, y1, x2, y2) <= 2)
             {
-                AddUnit(troop);
+                _ = AddUnit(troop);
             }
 
             Productions.DeleteUnit(troop);
@@ -701,11 +685,11 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     {
         sbyte player;
         Assert(!Status.Contains(AIGroupStatusElement.Activated), "", "AIGroup.pas", 479);
-        Status = Status + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Activated);
+        Status += Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Activated);
         player = Player;
         if (player != -1)
         {
-            StrategicMap.Current.Players.GetPlayers(player).AIGroups.AddChild(this);
+            _ = StrategicMap.Current.Players.GetPlayers(player).AIGroups.AddChild(this);
         }
 
         Leader = Units.FindId(LeaderId);
@@ -722,11 +706,11 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
             Assert(false, "Assertion failure", "D:\\AoWDev\\AoWE\\inc\\AIGroup.pas", 24094);
         }
 
-        Status = Status - Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Activated);
+        Status -= Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Activated);
         player = Player;
         if (player != -1)
         {
-            StrategicMap.Current.Players.GetPlayers(player).AIGroups.RemoveChild(this);
+            _ = StrategicMap.Current.Players.GetPlayers(player).AIGroups.RemoveChild(this);
         }
     }
 
@@ -737,13 +721,13 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         {
             if (Status.Contains(AIGroupStatusElement.Activated) && Player != -1)
             {
-                StrategicMap.Current.Players.GetPlayers(Player).AIGroups.RemoveChild(this);
+                _ = StrategicMap.Current.Players.GetPlayers(Player).AIGroups.RemoveChild(this);
             }
 
             Player = player;
             if (Status.Contains(AIGroupStatusElement.Activated) && Player != -1)
             {
-                StrategicMap.Current.Players.GetPlayers(Player).AIGroups.AddChild(this);
+                _ = StrategicMap.Current.Players.GetPlayers(Player).AIGroups.AddChild(this);
             }
         }
     }

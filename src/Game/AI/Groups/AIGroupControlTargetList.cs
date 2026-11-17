@@ -52,7 +52,7 @@ public partial class AIGroupControlTargetList : ReferenceNode, IChildList<AIGrou
             target = this[i];
             if (!target.Validate(Control))
             {
-                RemoveChild(target);
+                _ = RemoveChild(target);
                 result = false;
             }
         }

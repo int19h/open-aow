@@ -31,14 +31,14 @@ public partial class CombatHex : AbstractHexagon
                 sbyte hexLevel = GetHexLevel();
                 sbyte hexY = GetHexY();
                 sbyte hexX = GetHexX();
-                base.Resource.Engine.HexSpriteSet.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
+                _ = base.Resource.Engine.HexSpriteSet.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
             }
             else
             {
                 sbyte hexLevel = GetHexLevel();
                 sbyte hexY = GetHexY();
                 sbyte hexX = GetHexX();
-                base.Resource.Engine.HexSpriteSet.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, hexLevel, 0);
+                _ = base.Resource.Engine.HexSpriteSet.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, hexLevel, 0);
             }
         }
     }
@@ -66,14 +66,12 @@ public partial class CombatHex : AbstractHexagon
     // CombatHex.pas:148
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int pixelX = default;
-        int pixelY = default;
         CustomImageLibrary images;
         if (Owner.OverlayType != 4)
         {
-            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out pixelX, out pixelY);
+            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
             pixelX = pixelX - pixelXSurface - 8;
-            pixelY = pixelY - pixelYSurface;
+            pixelY -= pixelYSurface;
             images = base.Resource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
             images[_imageVariant].Show(pixelX, pixelY, lockedSurface);
             images = GetResource<Resource>().TransitionLibrary;
@@ -254,10 +252,7 @@ public partial class CombatHex : AbstractHexagon
                 result = ImageSequenceList.GetImageSequence(0).ImageLibrary[10];
             }
 
-            if (result == null)
-            {
-                result = base.GetCellImage();
-            }
+            result ??= base.GetCellImage();
 
             return result;
         }

@@ -144,7 +144,7 @@ public partial class PopupWindows : UIModule
                 }
                 else
                 {
-                    GameHost.MainForm.CloseRequested();
+                    _ = GameHost.MainForm.CloseRequested();
                 }
 
                 break;
@@ -183,7 +183,7 @@ public partial class PopupWindows : UIModule
     {
         dialog.SetBookClosedHandler(RtlUnit.RebindDelegate<NotifyEvent<object>>(done));
         dialog.BookContext = eventValue;
-        dialog.BookContext?.AddRef();
+        _ = (dialog.BookContext?.AddRef());
         dialog.LeftPageLabel.Text = StrategicMap.Current.MapName;
         dialog.LeftPageMemo.Items.Clear();
         dialog.LeftPageMemo.Items.AddStrings((StringCollection)(object)StrategicMap.Current.Description);
@@ -196,7 +196,7 @@ public partial class PopupWindows : UIModule
             string s = dialog.UI.Engine.TranslateResourceString(s_objectiveFormat);
             FormatArg value = (FormatArg)text2;
             string text3 = AbilityRules.Format(s, new ReadOnlySpan<FormatArg>(ref value));
-            dialog.RightPageMemo.Items.Add(text3);
+            _ = dialog.RightPageMemo.Items.Add(text3);
         }
         else
         {
@@ -204,14 +204,14 @@ public partial class PopupWindows : UIModule
             string s2 = dialog.UI.Engine.TranslateResourceString(s_objectiveFormat);
             FormatArg value2 = (FormatArg)text4;
             string text5 = AbilityRules.Format(s2, new ReadOnlySpan<FormatArg>(ref value2));
-            dialog.RightPageMemo.Items.Add(text5);
+            _ = dialog.RightPageMemo.Items.Add(text5);
         }
         if (StrategicMap.Current.DayLimit > 0)
         {
             string s3 = dialog.UI.Engine.TranslateResourceString(s_dayLimitFormat);
             FormatArg value3 = (FormatArg)RtlUnit.IntToStr(StrategicMap.Current.DayLimit);
             string text6 = AbilityRules.Format(s3, new ReadOnlySpan<FormatArg>(ref value3));
-            dialog.RightPageMemo.Items.Add(text6);
+            _ = dialog.RightPageMemo.Items.Add(text6);
         }
         if (StrategicMap.Current.AlliedVictory)
         {
@@ -219,7 +219,7 @@ public partial class PopupWindows : UIModule
             string s4 = dialog.UI.Engine.TranslateResourceString(s_alliedVictoryFormat);
             FormatArg value4 = (FormatArg)text7;
             string text8 = AbilityRules.Format(s4, new ReadOnlySpan<FormatArg>(ref value4));
-            dialog.RightPageMemo.Items.Add(text8);
+            _ = dialog.RightPageMemo.Items.Add(text8);
         }
         else
         {
@@ -227,21 +227,21 @@ public partial class PopupWindows : UIModule
             string s5 = dialog.UI.Engine.TranslateResourceString(s_alliedVictoryFormat);
             FormatArg value5 = (FormatArg)text9;
             string text10 = AbilityRules.Format(s5, new ReadOnlySpan<FormatArg>(ref value5));
-            dialog.RightPageMemo.Items.Add(text10);
+            _ = dialog.RightPageMemo.Items.Add(text10);
         }
         int count = StrategicMap.Current.Players.GetCount();
         string s6 = dialog.UI.Engine.TranslateResourceString(s_playersOnMapFormat);
         FormatArg value6 = (FormatArg)RtlUnit.IntToStr(count - 1);
         string text11 = AbilityRules.Format(s6, new ReadOnlySpan<FormatArg>(ref value6));
-        dialog.RightPageMemo.Items.Add(text11);
+        _ = dialog.RightPageMemo.Items.Add(text11);
         string s7 = dialog.UI.Engine.TranslateResourceString(s_maximumSphereLevelFormat);
         FormatArg value7 = (FormatArg)RtlUnit.IntToStr(StrategicMap.Current.SphereCount);
         string text12 = AbilityRules.Format(s7, new ReadOnlySpan<FormatArg>(ref value7));
-        dialog.RightPageMemo.Items.Add(text12);
+        _ = dialog.RightPageMemo.Items.Add(text12);
         string s8 = dialog.UI.Engine.TranslateResourceString(s_maximumPlayerHeroesFormat);
         FormatArg value8 = (FormatArg)RtlUnit.IntToStr(StrategicMap.Current.HeroCountMax);
         string text13 = AbilityRules.Format(s8, new ReadOnlySpan<FormatArg>(ref value8));
-        dialog.RightPageMemo.Items.Add(text13);
+        _ = dialog.RightPageMemo.Items.Add(text13);
         if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Local && StrategicMap.Current.RequestCombatType)
         {
             string text14 = dialog.UI.Engine.TranslateResourceString(s_playerConnectionTypeTexts[(int)StrategicMap.Current.ConnectionType]);
@@ -249,7 +249,7 @@ public partial class PopupWindows : UIModule
             string s9 = dialog.UI.Engine.TranslateResourceString(s_gameTypeFormat);
             FormatArg value9 = (FormatArg)(text14 + "/" + text15);
             string text16 = AbilityRules.Format(s9, new ReadOnlySpan<FormatArg>(ref value9));
-            dialog.RightPageMemo.Items.Add(text16);
+            _ = dialog.RightPageMemo.Items.Add(text16);
         }
         else
         {
@@ -257,13 +257,13 @@ public partial class PopupWindows : UIModule
             string s10 = dialog.UI.Engine.TranslateResourceString(s_gameTypeFormat);
             FormatArg value10 = (FormatArg)text17;
             string text18 = AbilityRules.Format(s10, new ReadOnlySpan<FormatArg>(ref value10));
-            dialog.RightPageMemo.Items.Add(text18);
+            _ = dialog.RightPageMemo.Items.Add(text18);
         }
         string text19 = dialog.UI.Engine.TranslateResourceString(GameText.PlayModeTexts[(int)StrategicMap.Current.PlayMode]);
         string s11 = dialog.UI.Engine.TranslateResourceString(s_turnModeFormat);
         FormatArg value11 = (FormatArg)text19;
         string text20 = AbilityRules.Format(s11, new ReadOnlySpan<FormatArg>(ref value11));
-        dialog.RightPageMemo.Items.Add(text20);
+        _ = dialog.RightPageMemo.Items.Add(text20);
         dialog.LeftPagePicture.Visible = false;
         dialog.RightPagePicture.Visible = false;
         dialog.LeftPageMemo.Visible = true;
@@ -272,7 +272,7 @@ public partial class PopupWindows : UIModule
         dialog.CancelButton.Visible = false;
         dialog.NextButton.Visible = false;
         dialog.Book.Visible = true;
-        dialog.Book.BackSurface?.Clear(dialog.Book.MaskColor);
+        _ = (dialog.Book.BackSurface?.Clear(dialog.Book.MaskColor));
         dialog.UI.General.Manager.OverlayPriority = 49;
     }
 }

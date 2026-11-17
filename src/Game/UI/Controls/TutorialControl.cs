@@ -51,8 +51,8 @@ public partial class TutorialControl : EngineObject
             TextControlItem idLocal = StrategicMap.Current.TextControl.FindId(id);
             log.Message.Assign(idLocal.Text);
             StrategicMap.Current.TriggerExecuteEventLog(log, immediate, null);
-            log.Release();
-            _shownMessages.Add(id);
+            _ = log.Release();
+            _ = _shownMessages.Add(id);
         }
     }
 

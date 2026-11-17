@@ -59,7 +59,7 @@ public partial class WorldMapCampaign : Campaign
             }
 
             // The campaign autosave takes the extension the host writes (own-formats.md 4.2).
-            result = result + FileBoundary.WriteExtension(DocumentKind.CampaignSave);
+            result += FileBoundary.WriteExtension(DocumentKind.CampaignSave);
         }
         else
         {

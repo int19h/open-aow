@@ -32,8 +32,8 @@ public partial class Ooze : CombatSpell
     // CombatSpells.pas:1635
     public override void GetCombatDamageValues(CombatObject source, CombatObject target, ref AbilityDamageValues values)
     {
-        target.GetProtectionTypes();
-        target.GetImmunityTypes();
+        _ = target.GetProtectionTypes();
+        _ = target.GetImmunityTypes();
         values.DamageTypes = CombatInfo.DamageTypes;
         sbyte resistance = target.GetResistance();
         float hitRoleProbability = HitChance.HitRoleProbability(CombatInfo.Attack - resistance);

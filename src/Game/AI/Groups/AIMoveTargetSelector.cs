@@ -61,7 +61,7 @@ public partial class AIMoveTargetSelector : EngineObject
     // AIGroup.pas:6384
     public override void Dispose()
     {
-        _settings.Release();
+        _ = _settings.Release();
         _targets?.Dispose();
         _bufferedTargets?.Dispose();
         Units?.Dispose();
@@ -73,10 +73,10 @@ public partial class AIMoveTargetSelector : EngineObject
     {
         if (transporter != _transporter)
         {
-            _transporter?.Release();
+            _ = (_transporter?.Release());
 
             _transporter = transporter;
-            _transporter?.AddRef();
+            _ = (_transporter?.AddRef());
         }
     }
 
@@ -119,8 +119,8 @@ public partial class AIMoveTargetSelector : EngineObject
             TargetInfo = targetInfo2;
         }
 
-        MovePointTable movePointTable = MovePointTable;
-        army.Army.CreateMovePointTable(selection, out movePointTable);
+        _ = MovePointTable;
+        army.Army.CreateMovePointTable(selection, out MovePointTable movePointTable);
         MovePointTable = movePointTable;
         return true;
     }
@@ -166,9 +166,9 @@ public partial class AIMoveTargetSelector : EngineObject
         {
             TriggerTargetFound(_bufferedTargets.GetTarget(0));
             MoveTarget target = _bufferedTargets.GetTarget(0);
-            _targets.AddChild(target);
+            _ = _targets.AddChild(target);
             MoveTarget fBufferedTargetsTarget = _bufferedTargets.GetTarget(0);
-            _bufferedTargets.RemoveChild(fBufferedTargetsTarget);
+            _ = _bufferedTargets.RemoveChild(fBufferedTargetsTarget);
         }
 
         return _bufferedTargets.Count != 0 && _state != -1;
@@ -177,7 +177,6 @@ public partial class AIMoveTargetSelector : EngineObject
     // AIGroup.pas:6467
     public bool ProcessBufferedTransportTargets()
     {
-        MapCoordinate location = default;
         Int32List gaps;
         MoveTarget target;
         bool valid;
@@ -190,12 +189,12 @@ public partial class AIMoveTargetSelector : EngineObject
             sbyte locationX = coordinate106.X;
             sbyte locationY = coordinate106.Y;
             sbyte locationMapLevel = coordinate106.MapLevel;
-            location = new MapCoordinate(locationX, locationY, locationMapLevel);
+            MapCoordinate location = new(locationX, locationY, locationMapLevel);
             if (ListMovementGaps(StrategicMap.Current, target.MovePath, MovePointTable, gaps, null) != 0)
             {
                 _settings.Reset();
                 _settings.Player = TargetInfo.Player;
-                _settings.Mode = _settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
+                _settings.Mode += Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
                 _settings.SetSourcePosition(location);
 
                 _settings.MovePointsMax = MovePointsMax;
@@ -224,10 +223,10 @@ public partial class AIMoveTargetSelector : EngineObject
             if (valid)
             {
                 TriggerTargetFound(target);
-                _targets.AddChild(target);
+                _ = _targets.AddChild(target);
             }
 
-            _bufferedTargets.RemoveChild(target);
+            _ = _bufferedTargets.RemoveChild(target);
             gaps?.Dispose();
         }
 
@@ -244,8 +243,8 @@ public partial class AIMoveTargetSelector : EngineObject
         MoveControlSettings settings;
         MapField field;
         MoveTarget target;
-        AITargetData data = default;
         yield = false;
+        AITargetData data;
         switch (_state)
         {
             case 0:
@@ -254,12 +253,12 @@ public partial class AIMoveTargetSelector : EngineObject
                     _bufferedTargets.Clear();
                     _settings.Reset();
                     _settings.Player = TargetInfo.Player;
-                    _settings.Mode = _settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
+                    _settings.Mode += Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
                     _settings.SetSourcePosition(SourceLocation);
 
                     _settings.MovePointsMax = MovePointsMax;
                     _settings.MovePointTable = MovePointTable;
-                    _settings.Units.AddUnits(Units.Units);
+                    _ = _settings.Units.AddUnits(Units.Units);
                     _state = 1;
                 }
                 else
@@ -270,7 +269,7 @@ public partial class AIMoveTargetSelector : EngineObject
                 yield = false;
                 break;
             case 1:
-                StrategicMap.Current.MoveControl.Activate(_settings);
+                _ = StrategicMap.Current.MoveControl.Activate(_settings);
                 processing = true;
                 while (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0 && processing)
                 {
@@ -307,21 +306,21 @@ public partial class AIMoveTargetSelector : EngineObject
                             if (Mode.Contains(AIMoveTargetSelectorModeElement.CreateMovePaths))
                             {
                                 target.MovePath = new MovePath();
-                                StrategicMap.Current.MoveControl.Activate(_settings);
+                                _ = StrategicMap.Current.MoveControl.Activate(_settings);
                                 StrategicMap.Current.MoveControl.CalculatePath(target.MovePath, field.HexX, field.HexY, field.HexLevel);
                                 if (target.MovePath.Count != 0)
                                 {
-                                    _bufferedTargets.AddChild(target);
+                                    _ = _bufferedTargets.AddChild(target);
                                 }
 
                                 StrategicMap.Current.MoveControl.Deactivate();
                             }
                             else
                             {
-                                _bufferedTargets.AddChild(target);
+                                _ = _bufferedTargets.AddChild(target);
                             }
 
-                            target.Release();
+                            _ = target.Release();
                             found = true;
                         }
                     }
@@ -351,12 +350,12 @@ public partial class AIMoveTargetSelector : EngineObject
                     _bufferedTargets.Clear();
                     _settings.Reset();
                     _settings.Player = TargetInfo.Player;
-                    _settings.Mode = _settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI, MoveModeElement.AvoidArmies);
+                    _settings.Mode += Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI, MoveModeElement.AvoidArmies);
                     _settings.SetSourcePosition(SourceLocation);
 
                     _settings.MovePointsMax = MovePointsMin;
                     _settings.MovePointTable = MovePointTable;
-                    _settings.Units.AddUnits(Units.Units);
+                    _ = _settings.Units.AddUnits(Units.Units);
                     _transporter.CreateMovePointTable(out _transportMovePointTable);
                     for (int terrain = 0; terrain <= 15; terrain++)
                     {
@@ -381,7 +380,7 @@ public partial class AIMoveTargetSelector : EngineObject
                 yield = false;
                 break;
             case 11:
-                StrategicMap.Current.MoveControl.Activate(_settings);
+                _ = StrategicMap.Current.MoveControl.Activate(_settings);
                 while (StrategicMap.Current.MoveControl.Process() && StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0)
                 {
                 }
@@ -413,11 +412,11 @@ public partial class AIMoveTargetSelector : EngineObject
                             target.TransporterId = _transporter.UnitId;
                             target.Data = data;
                             target.MovePath = new MovePath();
-                            StrategicMap.Current.MoveControl.Activate(_settings);
+                            _ = StrategicMap.Current.MoveControl.Activate(_settings);
                             StrategicMap.Current.MoveControl.CalculatePath(target.MovePath, field.HexX, field.HexY, field.HexLevel);
                             StrategicMap.Current.MoveControl.Deactivate();
-                            _bufferedTargets.AddChild(target);
-                            target.Release();
+                            _ = _bufferedTargets.AddChild(target);
+                            _ = target.Release();
                             found = true;
                         }
                     }
@@ -501,19 +500,19 @@ public partial class AIMoveTargetSelector : EngineObject
                 if (!flag)
                 {
                     number2++;
-                    starts?.Add(number);
+                    _ = (starts?.Add(number));
                     flag = true;
                 }
             }
             else if (flag)
             {
-                ends?.Add(number);
+                _ = (ends?.Add(number));
                 flag = false;
             }
         }
         if (flag)
         {
-            ends?.Add(1);
+            _ = (ends?.Add(1));
         }
         return number2;
     }

@@ -22,13 +22,10 @@ public partial class IncomeSource : EngineObject
     // Player.PAS:219
     public virtual void CenterToLocation()
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         MapCoordinate coordinate33 = GetLocation();
-        x = coordinate33.X;
-        y = coordinate33.Y;
-        l = coordinate33.MapLevel;
+        sbyte x = coordinate33.X;
+        sbyte y = coordinate33.Y;
+        sbyte l = coordinate33.MapLevel;
         if (x != -1)
         {
             StrategicMap.Current.CenterViewTo(x, y, l);

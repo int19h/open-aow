@@ -41,17 +41,10 @@ public partial class ConstructStructureTokenEvent : TokenEvent
         StructureResource resource;
         Structure structure;
         string reason = "";
-        string text = "";
-        int gold = default;
-        int days = default;
         ObservableNode owner;
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         MapLevel level;
-        HexNumberWalkData walk = default;
         ExecuteResult result = ExecuteResult.DoneHalt;
-        base.Execute(tokenEvent);
+        _ = base.Execute(tokenEvent);
         troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         control = GamePack.Current.AbilityControl.GetAbility<ConstructAbility>(125).ConstructionControls.FindId<StructureConstructionControl>(ControlId);
         if (control != null && troop != null && troop.Player == Player && control.CanConstruct(troop, ref reason))
@@ -60,11 +53,11 @@ public partial class ConstructStructureTokenEvent : TokenEvent
             if (resource != null)
             {
                 MapCoordinate coordinate4 = troop.GetLocation();
-                x = coordinate4.X;
-                y = coordinate4.Y;
-                l = coordinate4.MapLevel;
+                sbyte x = coordinate4.X;
+                sbyte y = coordinate4.Y;
+                sbyte l = coordinate4.MapLevel;
                 level = StrategicMap.Current.MapContainer.GetMapLevel(l);
-                HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 0);
+                HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, 0);
                 while (walk.HexNumber < resource.TerrainList.Count)
                 {
                     if (walk.X >= 0 && walk.Y >= 0 && level.Width > walk.X && level.Height > walk.Y && resource.TerrainList.GetUsed(walk.HexNumber))
@@ -81,8 +74,8 @@ public partial class ConstructStructureTokenEvent : TokenEvent
                 structure = resource.PlaceResourceUser<Structure>(StrategicMap.Current, hexX: x, hexY: y, hexLevel: l);
                 if (structure != null)
                 {
-                    control.GetInfo(troop, out text, out gold, out days);
-                    structure.ExecuteBuild(troop, days);
+                    control.GetInfo(troop, out string text, out int gold, out int days);
+                    _ = structure.ExecuteBuild(troop, days);
                     Player players = StrategicMap.Current.Players.GetPlayers(troop.Player);
                     StrategicMap.Current.Players.GetPlayers(troop.Player).SetGems(players.Gems - gold);
                     troop.Killed();

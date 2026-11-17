@@ -26,7 +26,7 @@ public partial class Storm : Animation
     public virtual void UpdateTargetSelection(TargetSelectionControl selection)
     {
         selection.SetShowHandler(ShowTargetSelection);
-        selection.TargetMode = selection.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.OwnerDraw);
+        selection.TargetMode += Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.OwnerDraw);
     }
 
     // Storms.pas:209

@@ -32,21 +32,21 @@ public partial class BurningAbility : DurationAbility
                 data.Duration = (byte)(data.Duration - 1);
                 if (data.Duration == 0)
                 {
-                    combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
+                    _ = combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
                 }
 
                 if (combatObject.GetAbilityOwner() is Troop troop)
                 {
                     if (HitChance.HitRole(4 - troop.GetResistance()))
                     {
-                        combatObject.ExecuteDamage(1);
+                        _ = combatObject.ExecuteDamage(1);
                     }
                 }
             }
         }
         else
         {
-            combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
+            _ = combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
         }
     }
 

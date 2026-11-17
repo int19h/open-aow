@@ -20,8 +20,6 @@ public partial class BattleEffectSprite
         ImageSequence sequence;
         int index;
         ImageSequence firstSequence;
-        int i = default;
-        int j = default;
         void SelectSequence(int number)
         {
             sequence = AbilityIndex == 52
@@ -404,6 +402,8 @@ public partial class BattleEffectSprite
             {
                 sequence = null;
                 index = 0;
+                int i;
+                int j;
                 switch (EffectType)
                 {
                     case BattleEffectType.Arrow:
@@ -636,7 +636,7 @@ public partial class BattleEffectSprite
         catch
         {
             // { Original puts the diagnostic in the message-box caption. }
-            MessageBox(0, "Error during Show", NullTerminatedText("Error - fxHS " + IntToStr(AbilityIndex) + " " + IntToStr(SpellIndex)), 0);
+            _ = MessageBox(0, "Error during Show", NullTerminatedText("Error - fxHS " + IntToStr(AbilityIndex) + " " + IntToStr(SpellIndex)), 0);
         }
     }
 }

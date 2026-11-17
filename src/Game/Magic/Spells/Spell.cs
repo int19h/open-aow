@@ -83,17 +83,17 @@ public partial class Spell : EngineObject
         ImageSequenceAnimation animation;
         if (StrategicMap.Current.Visible(X, Y, layer, 0))
         {
-            StrategicMap.Current.ValidateObservation(player, X, Y, layer, 0);
+            _ = StrategicMap.Current.ValidateObservation(player, X, Y, layer, 0);
             if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0) != null)
             {
                 animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                 animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0));
-                StrategicMap.Current.PlaceHex(animation, X, Y, layer);
+                _ = StrategicMap.Current.PlaceHex(animation, X, Y, layer);
             }
 
             if (StrategicMap.Current.SeatedPlayer == player || StrategicMap.Current.Watching(X, Y, layer, 0))
             {
-                GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
+                _ = GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
             }
         }
     }
@@ -162,15 +162,12 @@ public partial class Spell : EngineObject
     // Spells.PAS:54
     public virtual bool Activate(Troop source)
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         if (StrategicMap.Current.SeatedPlayer == source.Player)
         {
             MapCoordinate coordinate77 = source.GetLocation();
-            x = coordinate77.X;
-            y = coordinate77.Y;
-            l = coordinate77.MapLevel;
+            sbyte x = coordinate77.X;
+            sbyte y = coordinate77.Y;
+            sbyte l = coordinate77.MapLevel;
             if (x != -1)
             {
                 StrategicMap.Current.MakeVisible(x, y, l, 3);
@@ -183,15 +180,12 @@ public partial class Spell : EngineObject
 
     public bool ActivateStatic(Troop source)
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         if (StrategicMap.Current.SeatedPlayer == source.Player)
         {
             MapCoordinate coordinate78 = source.GetLocation();
-            x = coordinate78.X;
-            y = coordinate78.Y;
-            l = coordinate78.MapLevel;
+            sbyte x = coordinate78.X;
+            sbyte y = coordinate78.Y;
+            sbyte l = coordinate78.MapLevel;
             if (x != -1)
             {
                 StrategicMap.Current.MakeVisible(x, y, l, 3);
@@ -214,7 +208,7 @@ public partial class Spell : EngineObject
             caster.CombatCasterSpellId = SpellId;
             caster.CombatCasterSourceId = source.UnitId;
             StrategicMap.Current.CombatMap.CombatStartedEventsStore.Raise(caster);
-            caster.Release();
+            _ = caster.Release();
             result = true;
         }
         else

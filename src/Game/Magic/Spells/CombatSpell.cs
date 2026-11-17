@@ -170,7 +170,7 @@ public partial class CombatSpell : Spell
             {
                 action = CreateCombatAction(source, target, i == 0);
                 source.Combat.ExecuteCombatAction(action);
-                action.Release();
+                _ = action.Release();
             }
         }
 
@@ -211,7 +211,7 @@ public partial class CombatSpell : Spell
 
                 if (condition)
                 {
-                    targets.Add(other);
+                    _ = targets.Add(other);
                 }
             }
 
@@ -226,11 +226,11 @@ public partial class CombatSpell : Spell
                     {
                         action = CreateCombatAction(source, other, false);
                         source.Combat.ExecuteCombatAction(action);
-                        action.Release();
+                        _ = action.Release();
                     }
                 }
 
-                targets.Remove(other);
+                _ = targets.Remove(other);
                 count -= 1;
             }
 

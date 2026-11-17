@@ -28,9 +28,9 @@ public partial class RaiseTerrainTokenEvent : GlobalTargetSpellTokenEvent
     // Mountain.pas:317
     public override bool Process(Troop source, int value)
     {
-        base.Process(source, value);
+        _ = base.Process(source, value);
         RaiseTerrain(source);
-        StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 1);
+        _ = StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 1);
         GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
         return false;
     }
@@ -76,13 +76,13 @@ public partial class RaiseTerrainTokenEvent : GlobalTargetSpellTokenEvent
                         StrategicMap.Current.ClearTerrain(walk.X, walk.Y, Location.MapLevel, 0, -1);
                         if (StrategicMap.Current.PlaceHex(mountain, walk.X, walk.Y, Location.MapLevel))
                         {
-                            mountain.Mode = mountain.Mode + Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);
+                            mountain.Mode += Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);
                             animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                             animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(19).CastImages.ImageSequences[0]);
                             animation.OnShow += mountain.ShowRaiseTerrainAnimation;
                             animation.OnNewFrame += mountain.NewFrameRaiseTerrainAnimation;
                             animation.FrameCounter = -StrategicMap.Current.Random(15);
-                            StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, Location.MapLevel);
+                            _ = StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, Location.MapLevel);
                         }
                     }
                 }

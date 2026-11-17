@@ -46,7 +46,7 @@ public partial class CastUnitSpellDialog : UIModule
     // AoWCastUnitSpellDlg.pas:79
     public void ClearCaster()
     {
-        Caster.Release();
+        _ = Caster.Release();
         Caster = null;
     }
 
@@ -71,7 +71,7 @@ public partial class CastUnitSpellDialog : UIModule
             info = default;
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
-            Caster.TargetUnits.GetUnit(index).Show(X - 8, Y - 4, surface, info);
+            _ = Caster.TargetUnits.GetUnit(index).Show(X - 8, Y - 4, surface, info);
             if ((((int)(((uint)Caster.ValidSelection) >> index)) & 1) == 0)
             {
                 LibraryImage image = UI.Graphics.UnitBackgrounds[7];
@@ -96,7 +96,7 @@ public partial class CastUnitSpellDialog : UIModule
         UI.General.PlayButtonSound(0);
         if (Caster.CanCast(ref reason))
         {
-            Caster.Cast();
+            _ = Caster.Cast();
             Window.Visible = false;
         }
         else
@@ -147,7 +147,7 @@ public partial class CastUnitSpellDialog : UIModule
 
                 if (spell.CastImages.GetImageSequence(10) != null)
                 {
-                    spell.CastImages.Show(10, r.Left + 5, r.Top + 15, 0, surface);
+                    _ = spell.CastImages.Show(10, r.Left + 5, r.Top + 15, 0, surface);
                 }
             }
         }

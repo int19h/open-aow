@@ -262,7 +262,7 @@ public partial class CustomDisplay : Component
         {
             if (_activeDisplayController.GetSurface(1).Width != width || _activeDisplayController.GetSurface(1).Height != height)
             {
-                _activeDisplayController.ResizeBackSurfaces(_backSurfaceWidth, _backSurfaceHeight);
+                _ = _activeDisplayController.ResizeBackSurfaces(_backSurfaceWidth, _backSurfaceHeight);
                 for (int i = 1, last = (int)_bufferingScheme; i <= last; i++)
                 {
                     SurfaceDataLost(i);
@@ -328,7 +328,7 @@ public partial class CustomDisplay : Component
 
         if (_activeDisplayController != null && !ComponentState.Contains(Rtl.ComponentState.Designing))
         {
-            _activeDisplayController.Hide();
+            _ = _activeDisplayController.Hide();
         }
     }
 
@@ -337,7 +337,7 @@ public partial class CustomDisplay : Component
     {
         if (_activeDisplayController != null && !ComponentState.Contains(Rtl.ComponentState.Designing))
         {
-            _activeDisplayController.Show();
+            _ = _activeDisplayController.Show();
         }
 
         OnShow?.Invoke(this);
@@ -357,7 +357,7 @@ public partial class CustomDisplay : Component
         {
             OnDeactivateDisplayController?.Invoke(this, _activeDisplayController);
 
-            _activeDisplayController.Deactivate();
+            _ = _activeDisplayController.Deactivate();
             _activeDisplayController = null;
         }
 
@@ -382,11 +382,11 @@ public partial class CustomDisplay : Component
     {
         LockedSurface lockedSurface = default;
         LockedSurface lockedSurface2 = default;
-        source.Lock(ref lockedSurface);
-        destination.Lock(ref lockedSurface2);
+        _ = source.Lock(ref lockedSurface);
+        _ = destination.Lock(ref lockedSurface2);
         int result = LockedSurface.RemapSurfacePart(in lockedSurface, 0, 0, lockedSurface.Width, lockedSurface.Height, in lockedSurface2, 0, 0);
-        source.Unlock();
-        destination.Unlock();
+        _ = source.Unlock();
+        _ = destination.Unlock();
         return result;
     }
 

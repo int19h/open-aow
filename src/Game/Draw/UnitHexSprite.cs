@@ -54,10 +54,10 @@ public partial class UnitHexSprite : HexSprite
     {
         if (owner != Owner)
         {
-            Owner?.RemoveChild(this);
+            _ = (Owner?.RemoveChild(this));
 
             SetOwnerWithoutNotify(owner);
-            Owner?.AddChild(this);
+            _ = (Owner?.AddChild(this));
         }
     }
 
@@ -113,14 +113,14 @@ public partial class UnitHexSprite : HexSprite
         MapLevel level;
         CalculateShowPriority();
         field = Owner;
-        field.RemoveChild(this);
+        _ = field.RemoveChild(this);
         level = field.Owner;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, field.HexX, field.HexY, 0);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.X < level.Width && walk.Y >= 0 && walk.Y < level.Height)
             {
-                level.GetField(walk.X, walk.Y).AddHexSprite(this, walk.HexNumber);
+                _ = level.GetField(walk.X, walk.Y).AddHexSprite(this, walk.HexNumber);
                 level.GetField(walk.X, walk.Y).UpdateMapField();
             }
 
@@ -133,17 +133,16 @@ public partial class UnitHexSprite : HexSprite
     {
         MapField field;
         MapLevel level;
-        HexNumberWalkData walk = default;
         if (Owner != null)
         {
             field = Owner;
             level = field.Owner;
-            HexNumberWalkData.InitializeHexNumberWalk(out walk, field.HexX, field.HexY, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, field.HexX, field.HexY, 0);
             while (walk.Radius <= 1)
             {
                 if (walk.X >= 0 && walk.X < level.Width && walk.Y >= 0 && walk.Y < level.Height)
                 {
-                    level.GetField(walk.X, walk.Y).RemoveHexSprite(this);
+                    _ = level.GetField(walk.X, walk.Y).RemoveHexSprite(this);
                     level.GetField(walk.X, walk.Y).UpdateMapField();
                 }
 
@@ -202,7 +201,7 @@ public partial class UnitHexSprite : HexSprite
         RemoveFromMap();
         if (GetVisible())
         {
-            field.Owner.Map.DynamicVisibleHexSprite.RemoveChild(this);
+            _ = field.Owner.Map.DynamicVisibleHexSprite.RemoveChild(this);
             SetVisible(false);
         }
     }
@@ -250,11 +249,11 @@ public partial class UnitHexSprite : HexSprite
         if ((Status & 1) == 0)
         {
             Status = (byte)(Status | 1);
-            visibilityList.AddSortChild(this, _showPriority);
+            _ = visibilityList.AddSortChild(this, _showPriority);
             // { Read Shadow directly. }
             if (_shadow != null)
             {
-                visibilityList.AddSortChild(sortValue: _shadow.GetShowPriority(), child: _shadow);
+                _ = visibilityList.AddSortChild(sortValue: _shadow.GetShowPriority(), child: _shadow);
             }
         }
     }
@@ -263,11 +262,9 @@ public partial class UnitHexSprite : HexSprite
     public override bool CanSelect(int pixelX, int pixelY)
     {
         bool result;
-        int x = default;
-        int y = default;
         if (!Moving())
         {
-            HexGeometry.PixelToHex(pixelX, pixelY, out x, out y);
+            HexGeometry.PixelToHex(pixelX, pixelY, out int x, out int y);
             result = Owner.HexX == x && Owner.HexY == y;
         }
         else
@@ -328,8 +325,8 @@ public partial class UnitHexSprite : HexSprite
 
         SetOwnerWithoutNotify(field);
         CalculateShowPriority();
-        PlaceOnMap();
-        field.RemoveChild(this);
+        _ = PlaceOnMap();
+        _ = field.RemoveChild(this);
         SetOwnerWithoutNotify(null);
         SetOwner(field);
         return true;
@@ -344,7 +341,7 @@ public partial class UnitHexSprite : HexSprite
         SetOwnerWithoutNotify(field);
         CalculateShowPriority();
         success = PlaceOnMap();
-        field.RemoveChild(this);
+        _ = field.RemoveChild(this);
         SetOwnerWithoutNotify(null);
         SetOwner(field);
         return success;
@@ -417,7 +414,7 @@ public partial class UnitHexSprite : HexSprite
         {
             if (GetVisible())
             {
-                Owner.Owner.Map.DynamicVisibleHexSprite.RemoveChild(_shadow);
+                _ = Owner.Owner.Map.DynamicVisibleHexSprite.RemoveChild(_shadow);
             }
 
             _shadow?.Dispose();
@@ -438,11 +435,11 @@ public partial class UnitHexSprite : HexSprite
         if (resource == null || value != resource.GetIndex())
         {
             old = UnitGraphicsResource;
-            old?.Release();
+            _ = (old?.Release());
 
             resource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(value);
             UnitGraphicsResource = resource;
-            resource?.AddRef();
+            _ = (resource?.AddRef());
         }
     }
 

@@ -74,7 +74,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     // Army.PAS:4220
     public override void Dispose()
     {
-        AddRef();
+        _ = AddRef();
         if (Status.Contains(ItemStatusElement.Activated))
         {
             Deactivate();
@@ -94,8 +94,8 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     {
         if (owner != Owner)
         {
-            AddRef();
-            Owner?.RemoveChild(this);
+            _ = AddRef();
+            _ = (Owner?.RemoveChild(this));
 
             SetOwnerWithoutNotify(owner);
             if (Owner != null)
@@ -107,7 +107,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
             }
 
             Changed();
-            Release();
+            _ = Release();
         }
     }
 
@@ -190,15 +190,15 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     // Army.PAS:4311
     public override void SetArrayOwner(CustomNode owner, int index)
     {
-        AddRef();
+        _ = AddRef();
         base.SetArrayOwner(owner, index);
         if (Owner != null)
         {
-            AddRef();
+            _ = AddRef();
         }
 
         Changed();
-        Release();
+        _ = Release();
     }
 
     // Army.PAS:4399
@@ -283,7 +283,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
             eventValue.ItemId = ItemId;
             eventValue.HeroId = hero.UnitId;
             StrategicMap.Current.TokenManager.GetTokenControl(hero.Player).AddEvent(eventValue);
-            eventValue.Release();
+            _ = eventValue.Release();
             result = true;
         }
         else
@@ -305,10 +305,10 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
             switch (ItemType)
             {
                 case ItemType.Scroll:
-                    StrategicMap.Current.Players.GetPlayers(hero.Player).MagicControl.ExecuteSpellResearched(_spellId);
+                    _ = StrategicMap.Current.Players.GetPlayers(hero.Player).MagicControl.ExecuteSpellResearched(_spellId);
                     if (StrategicMap.Current.SeatedPlayer == hero.Player)
                     {
-                        AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB01.WAV");
+                        _ = AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB01.WAV");
                         Spell spell = GamePack.Current.SpellControl.GetSpell(_spellId);
                         string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_itemSpellResearchedFormat), [spell.SpellName]);
                         StrategicMap.Current.ShowMessage(format);
@@ -330,9 +330,9 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
         graphics = GamePack.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
         if (graphics != null)
         {
-            graphics.AddRef();
+            _ = graphics.AddRef();
             graphics.GetItemImage().Show(X, Y, surface);
-            graphics.Release();
+            _ = graphics.Release();
         }
     }
 
@@ -346,7 +346,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
                 UpdateFromLibrary();
             }
 
-            Status = Status + Set<ItemStatusElement>.Of(ItemStatusElement.Activated);
+            Status += Set<ItemStatusElement>.Of(ItemStatusElement.Activated);
         }
     }
 
@@ -355,7 +355,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     {
         if (Status.Contains(ItemStatusElement.Activated))
         {
-            Status = Status - Set<ItemStatusElement>.Of(ItemStatusElement.Activated);
+            Status -= Set<ItemStatusElement>.Of(ItemStatusElement.Activated);
         }
     }
 
@@ -373,9 +373,9 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
         graphics = GamePack.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
         if (graphics != null)
         {
-            graphics.AddRef();
+            _ = graphics.AddRef();
             result = graphics.GetItemImage();
-            graphics.Release();
+            _ = graphics.Release();
         }
         else
         {

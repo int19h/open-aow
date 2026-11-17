@@ -119,7 +119,7 @@ public partial class TokenExecutor : IDisposable
     // NetworkE.pas:1372
     public int GetSyncValue()
     {
-        int result = default;
+        int result;
         if (OnGetSyncValue != null)
         {
             OnGetSyncValue(out result);
@@ -219,7 +219,7 @@ public partial class TokenExecutor : IDisposable
         OnActivateTacticalBattleStore.Raise(this);
         if (_state.Contains(TokenExecutorState.Executing))
         {
-            _state = _state + Set<TokenExecutorState>.Of(TokenExecutorState.TacticalBattleActivated);
+            _state += Set<TokenExecutorState>.Of(TokenExecutorState.TacticalBattleActivated);
         }
     }
 
@@ -312,13 +312,13 @@ public partial class TokenExecutor : IDisposable
             {
                 if (!_state.Contains(TokenExecutorState.Executing))
                 {
-                    _state = _state + Set<TokenExecutorState>.Of(TokenExecutorState.Prefetching);
+                    _state += Set<TokenExecutorState>.Of(TokenExecutorState.Prefetching);
                     Events.Clear();
                     prefetched = _activeTacticalBattle.PrefetchTokenEvents(this);
-                    _state = _state - Set<TokenExecutorState>.Of(TokenExecutorState.Prefetching);
+                    _state -= Set<TokenExecutorState>.Of(TokenExecutorState.Prefetching);
                     if (prefetched)
                     {
-                        _state = _state + Set<TokenExecutorState>.Of(TokenExecutorState.Executing);
+                        _state += Set<TokenExecutorState>.Of(TokenExecutorState.Executing);
                         _prefetchTacticalBattle = _activeTacticalBattle;
                         _activeTacticalBattle.TokenEventsPrefetched(this, Events);
                     }
@@ -339,14 +339,14 @@ public partial class TokenExecutor : IDisposable
 
                     if (Events.Count == 0)
                     {
-                        _state = _state - Set<TokenExecutorState>.Of(TokenExecutorState.Executing);
+                        _state -= Set<TokenExecutorState>.Of(TokenExecutorState.Executing);
                         OnEventsExecutedStore.Raise(this);
                         if (!_holdTacticalBattle && !_state.Contains(TokenExecutorState.TacticalBattleActivated))
                         {
                             ActivateNextTacticalBattle();
                         }
 
-                        _state = _state - Set<TokenExecutorState>.Of(TokenExecutorState.TacticalBattleActivated);
+                        _state -= Set<TokenExecutorState>.Of(TokenExecutorState.TacticalBattleActivated);
                         _prefetchTacticalBattle = null;
                         i += 1;
                     }

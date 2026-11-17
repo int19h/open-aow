@@ -31,13 +31,12 @@ public partial class PassiveAIGroup : AIGroup, IAIGroupClass
     // MainAG.pas:147
     public override bool GetRecruitableUnits(AIGroup recruiter, UnitUserList units, UnitUserList recruitable)
     {
-        MapCoordinate location = default;
         GroupDefenseSelector selector;
         Troop troop;
-        location = GetLocation();
+        MapCoordinate location = GetLocation();
         bool result = false;
         selector = new GroupDefenseSelector(this);
-        selector.Execute(this, location.X, location.Y, location.MapLevel, units);
+        _ = selector.Execute(this, location.X, location.Y, location.MapLevel, units);
         if (selector.Defenders.Count != 0)
         {
             for (int i = units.Count - 1; i >= 0; i--)
@@ -45,14 +44,14 @@ public partial class PassiveAIGroup : AIGroup, IAIGroupClass
                 troop = units.GetUnit(i);
                 if (selector.Defenders.IndexOf(troop) == -1)
                 {
-                    recruitable.AddUnit(troop);
+                    _ = recruitable.AddUnit(troop);
                     result = true;
                 }
             }
         }
         else
         {
-            recruitable.AddUnits(units.Units);
+            _ = recruitable.AddUnits(units.Units);
             result = true;
         }
 

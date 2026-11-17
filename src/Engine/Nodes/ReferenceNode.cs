@@ -17,7 +17,7 @@ public partial class ReferenceNode : OwningNode
     {
         for (int i = Count - 1; i >= 0; i--)
         {
-            GetChild(i).Release();
+            _ = GetChild(i).Release();
         }
 
         ClearChildren();
@@ -35,7 +35,7 @@ public partial class ReferenceNode : OwningNode
         {
             for (int index = 0, last = Count - 1; index <= last; index++)
             {
-                GetChild(index).Release();
+                _ = GetChild(index).Release();
             }
         }
     }
@@ -49,7 +49,7 @@ public partial class ReferenceNode : OwningNode
         int result = DropChild(child);
         if (result != -1)
         {
-            child.Release();
+            _ = child.Release();
         }
 
         return result;
@@ -64,7 +64,7 @@ public partial class ReferenceNode : OwningNode
             child.SetOwnerWithoutNotify(null);
         }
 
-        AppendChild(child);
+        _ = AppendChild(child);
         return child.AddRef() == -1 ? throw new NotSupportedException("EObject doesn't support ReferenceCounting") : Count - 1;
     }
 

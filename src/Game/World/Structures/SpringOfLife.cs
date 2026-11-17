@@ -39,7 +39,7 @@ public partial class SpringOfLife : Structure
         HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int pixelX, out int pixelY);
         pixelX -= pixelXSurface;
         pixelY -= pixelYSurface;
-        base.Resource.ImageSequenceList.Show(20, pixelX, pixelY, animation.FrameCounter, lockedSurface);
+        _ = base.Resource.ImageSequenceList.Show(20, pixelX, pixelY, animation.FrameCounter, lockedSurface);
     }
 
     // Spring.pas:86
@@ -50,7 +50,7 @@ public partial class SpringOfLife : Structure
         // { Keep the parameter in its original stack slot. }
         for (int i = 0, last = armyHexSprite.Army.Units.Count - 1; i <= last; i++)
         {
-            armyHexSprite.Army.Units.GetUnit(i).ExpandAbility(99);
+            _ = armyHexSprite.Army.Units.GetUnit(i).ExpandAbility(99);
         }
 
         bool condition = armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer;
@@ -64,7 +64,7 @@ public partial class SpringOfLife : Structure
 
         if (condition)
         {
-            AudioPlayback.PlaySample("SFX\\ATTACK\\ENCHP02.WAV");
+            _ = AudioPlayback.PlaySample("SFX\\ATTACK\\ENCHP02.WAV");
         }
 
         sbyte hexLevel2 = GetHexLevel();
@@ -80,7 +80,7 @@ public partial class SpringOfLife : Structure
             sbyte hexLevel = GetHexLevel();
             sbyte hexY = GetHexY();
             sbyte hexX = GetHexX();
-            StrategicMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
+            _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
         }
     }
 

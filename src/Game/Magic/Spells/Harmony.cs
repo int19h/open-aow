@@ -28,17 +28,14 @@ public partial class Harmony : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:980
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
-        base.ExecuteTokenEvent(eventValue, source, executeCount);
+        _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         MapCoordinate coordinate71 = source.GetLocation();
-        x = coordinate71.X;
-        y = coordinate71.Y;
-        l = coordinate71.MapLevel;
-        StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
-        StrategicMap.Current.AddEffect(WorldEffectType.Tranquility);
-        CastSounds.Play(0);
+        sbyte x = coordinate71.X;
+        sbyte y = coordinate71.Y;
+        sbyte l = coordinate71.MapLevel;
+        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
+        _ = StrategicMap.Current.AddEffect(WorldEffectType.Tranquility);
+        _ = CastSounds.Play(0);
         CastingDone(source, eventValue.EventMana);
         return false;
     }

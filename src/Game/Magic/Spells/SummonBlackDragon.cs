@@ -16,7 +16,7 @@ public partial class SummonBlackDragon : SummonSpell
         BaseManaCost = 5;
         SpellLevel = 4;
         MagicSphere = MagicSphere.Death;
-        UnitIndices.Add(217);
+        _ = UnitIndices.Add(217);
         CastDuration = 40;
         AIBasePriority = 750;
     }

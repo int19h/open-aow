@@ -41,7 +41,7 @@ public partial class HeroResourceList : ResourceCollection, IChildList<HeroResou
             resource = this[i];
             if (resource != null && (GetEngine().User.Contains(EngineUserElement.Designer) || !resource.Hidden) && heroTypes.Contains(resource.HeroType))
             {
-                list.AddObject(resource.Name, IntToObject(i));
+                _ = list.AddObject(resource.Name, IntToObject(i));
             }
         }
 

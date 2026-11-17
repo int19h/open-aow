@@ -59,7 +59,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
         MapField mapField;
         int index;
         TacticalBattleUnitHexSprite hexSprite;
-        base.Validate();
+        _ = base.Validate();
         index = Path.Count - 1;
         mapField = GetMapField(Path[index].Location);
         hexSprite = mapField.FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
@@ -82,8 +82,6 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
     {
         MapField mapField;
         int direction;
-        int x = default;
-        int y = default;
         void CheckFreeStrike()
         {
             int hexNumber = default;
@@ -120,7 +118,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
                         }
                     }
 
-                    hexNumber = hexNumber + 1;
+                    hexNumber++;
                 }
 
                 if (_freeStrikeUnit == null)
@@ -157,7 +155,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
                         }
                         catch
                         {
-                            MessageBox(0, "Error during Token Start", "Error - TCMoveToken", 0);
+                            _ = MessageBox(0, "Error during Token Start", "Error - TCMoveToken", 0);
                         }
 
                         break;
@@ -183,7 +181,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
                         }
                         catch
                         {
-                            MessageBox(0, "Error during Token InitStrike", "Error - TCMoveToken", 0);
+                            _ = MessageBox(0, "Error during Token InitStrike", "Error - TCMoveToken", 0);
                         }
 
                         break;
@@ -199,7 +197,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
                                 }
 
                                 sbyte hexY = Unit.UnitHexSprite.HexY;
-                                HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, out x, out y);
+                                HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, out int x, out int y);
                                 if (Strike.DamageTypes - Strike.Effects != Set<DamageType>.Of())
                                 {
                                     CombatEvents.MakeDamageEffectHexSpriteList(x, y, Strike.DamageTypes - Strike.Effects, false);
@@ -215,7 +213,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
                         }
                         catch
                         {
-                            MessageBox(0, "Error during Token ExeStrike", "Error - TCMoveToken", 0);
+                            _ = MessageBox(0, "Error during Token ExeStrike", "Error - TCMoveToken", 0);
                         }
 
                         break;
@@ -235,7 +233,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
                         }
                         catch
                         {
-                            MessageBox(0, "Error during Token EndStrike", "Error - TCMoveToken", 0);
+                            _ = MessageBox(0, "Error during Token EndStrike", "Error - TCMoveToken", 0);
                         }
 
                         break;
@@ -261,7 +259,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
                                     }
                                 }
 
-                                Strike?.Release();
+                                _ = (Strike?.Release());
                                 Strike = null;
 
                                 _freeStrikeUnit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Move);
@@ -272,7 +270,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
                         }
                         catch
                         {
-                            MessageBox(0, "Error during Token End", "Error - TCMoveToken", 0);
+                            _ = MessageBox(0, "Error during Token End", "Error - TCMoveToken", 0);
                         }
 
                         break;
@@ -360,7 +358,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
         }
         catch
         {
-            MessageBox(0, "Error during Token", "Error - TCMoveToken", 0);
+            _ = MessageBox(0, "Error during Token", "Error - TCMoveToken", 0);
         }
 
         return result;
@@ -378,7 +376,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
             for (int i = startIndex, last = path.Count - 1; i <= last; i++)
             {
                 PathStep pathLocal = path[i];
-                Path.Add(pathLocal);
+                _ = Path.Add(pathLocal);
             }
 
             result = true;
@@ -398,10 +396,10 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
         MapField newField;
         MapField oldField;
         Rect r;
-        Move();
+        _ = Move();
         oldField = Unit.UnitHexSprite.Owner;
         newField = GetMapField(Path[MoveIndex].Location);
-        Unit.UnitHexSprite.MoveTo(newField, 0);
+        _ = Unit.UnitHexSprite.MoveTo(newField, 0);
         if (newField.FindChildIndex(Unit.UnitHexSprite) != -1)
         {
             result = ProcessMove();
@@ -429,7 +427,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
                     int visibilityRange = Unit.GetVisibilityRange();
                     sbyte hexY = Unit.UnitHexSprite.HexY;
                     sbyte hexX = Unit.UnitHexSprite.HexX;
-                    CombatMap.Current.ExploreArea(hexX, hexY, 0, player, visibilityRange);
+                    _ = CombatMap.Current.ExploreArea(hexX, hexY, 0, player, visibilityRange);
                     int fUnitVisibilityRange = Unit.GetVisibilityRange();
                     sbyte fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;
                     sbyte fUnitHexSpriteHexX = Unit.UnitHexSprite.HexX;

@@ -28,12 +28,10 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
     public override MoveStatus LastMove()
     {
         TacticalBattleUnitHexSprite hexSprite;
-        int x = default;
-        int y = default;
-        MeleeRound.Strike strike = default;
         MoveStatus result = MoveStatus.Moving;
         try
         {
+            MeleeRound.Strike strike;
             switch (Step)
             {
                 case TokenStep.Start:
@@ -94,7 +92,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
                     }
                     catch
                     {
-                        MessageBox(0, "Error during Token Start", "Error - TCMelMoveToken", 0);
+                        _ = MessageBox(0, "Error during Token Start", "Error - TCMelMoveToken", 0);
                     }
 
                     break;
@@ -108,7 +106,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
                 case TokenStep.DelayStrike:
                     if (Delay > 0)
                     {
-                        Delay = Delay - 1;
+                        Delay--;
                     }
                     else
                     {
@@ -120,6 +118,8 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
                     try
                     {
                         _meleeRound.GetMeleeStrike(_strikeIndex - 1, out strike);
+                        int x;
+                        int y;
                         if (strike.Side == CombatSideIndex.Defender && PreviousUnit.UnitHexSprite.ActionDone)
                         {
                             if (Strike.Damage > 0)
@@ -169,7 +169,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
                     }
                     catch
                     {
-                        MessageBox(0, "Error during Token InitStrike", "Error - TCMelMoveToken", 0);
+                        _ = MessageBox(0, "Error during Token InitStrike", "Error - TCMelMoveToken", 0);
                     }
 
                     break;
@@ -215,7 +215,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
                     }
                     catch
                     {
-                        MessageBox(0, "Error during Token ExeStrike", "Error - TCMelMoveToken", 0);
+                        _ = MessageBox(0, "Error during Token ExeStrike", "Error - TCMelMoveToken", 0);
                     }
 
                     break;
@@ -232,7 +232,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
                     _meleeRound?.Dispose();
                 }
 
-                Strike?.Release();
+                _ = (Strike?.Release());
 
                 if (Unit.GetEnabled())
                 {
@@ -250,7 +250,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
         }
         catch
         {
-            MessageBox(0, "Error during Token", "Error - TCMelMoveToken", 0);
+            _ = MessageBox(0, "Error during Token", "Error - TCMelMoveToken", 0);
         }
 
         return result;
@@ -260,16 +260,15 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
     public void NextStrike()
     {
         bool locked;
-        MeleeRound.Strike strike = default;
         locked = true;
         while (locked && _strikeIndex < _meleeRound.Count)
         {
-            _meleeRound.GetMeleeStrike(_strikeIndex, out strike);
+            _meleeRound.GetMeleeStrike(_strikeIndex, out MeleeRound.Strike strike);
             locked = strike.Side == CombatSideIndex.Attacker ? Unit.GetLocked() : PreviousUnit.GetLocked();
 
             if (locked)
             {
-                _strikeIndex = _strikeIndex + 1;
+                _strikeIndex++;
             }
         }
 
@@ -288,7 +287,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
     // CombatTE.pas:602
     public void ExecuteStrike()
     {
-        Strike?.Release();
+        _ = (Strike?.Release());
 
         RandSeed = StrategicMap.Current.Random(16777215);
         Strike = _meleeRound.CreateStrikeCombatAction(_strikeIndex);
@@ -316,7 +315,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
             }
         }
 
-        _strikeIndex = _strikeIndex + 1;
+        _strikeIndex++;
         Step = TokenStep.InitializeStrike;
     }
 

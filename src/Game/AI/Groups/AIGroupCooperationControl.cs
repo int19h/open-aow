@@ -69,7 +69,7 @@ public partial class AIGroupCooperationControl : AIGroupTask
         {
             case 0:
                 StrategicMap.Current.AIExecutor.UseProcessTime(500);
-                _control.RecruitmentGroups.Validate(_control);
+                _ = _control.RecruitmentGroups.Validate(_control);
                 i = 0;
                 while (!Complete && i != _control.RecruitmentGroups.Count)
                 {
@@ -152,7 +152,7 @@ public partial class AIGroupCooperationControl : AIGroupTask
 
             if (Superiority != -1)
             {
-                _control.CombatPredictor.Execute();
+                _ = _control.CombatPredictor.Execute();
                 if (_control.CombatPredictor.GetSuperiority() < Superiority)
                 {
                     Complete = false;
@@ -181,7 +181,7 @@ public partial class AIGroupCooperationControl : AIGroupTask
     {
         Troop troop;
         DamageType d;
-        Groups.AddChild(group);
+        _ = Groups.AddChild(group);
         for (int i = group.Group.Units.Count - 1; i >= 0; i--)
         {
             troop = group.Group.Units.GetUnit(i);
@@ -291,7 +291,7 @@ public partial class AIGroupCooperationControl : AIGroupTask
                 group.Productions.ChangeGroup(j, _control.Group);
             }
 
-            _control.Group.AddUnits(group.Units);
+            _ = _control.Group.AddUnits(group.Units);
             _control.Group.SetLeader(leader);
         }
     }

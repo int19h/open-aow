@@ -37,13 +37,13 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
         bool healed2 = default;
         bool playSound = default;
         HexSprite cloud = default;
-        base.Process(source, value);
+        _ = base.Process(source, value);
         if (value == 0)
         {
-            StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 2);
+            _ = StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 2);
             if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.WatchingTerrain(Location.X, Location.Y, Location.MapLevel, 2))
             {
-                GamePack.Current.SpellControl.GetSpell(73).CastSounds.Play(0);
+                _ = GamePack.Current.SpellControl.GetSpell(73).CastSounds.Play(0);
             }
 
             // The original constructs a plain animation and stores it on the event. The later shower uses an image sequence.
@@ -59,7 +59,7 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
         if (value == 50)
         {
             playSound = false;
-            StrategicMap.Current.ChangeTerrain(null, Location.X, Location.Y, Location.MapLevel, 1, ChangeTerrain, null);
+            _ = StrategicMap.Current.ChangeTerrain(null, Location.X, Location.Y, Location.MapLevel, 1, ChangeTerrain, null);
             level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
             HexNumberWalkData.InitializeHexNumberWalk(out walk, Location.X, Location.Y, 0);
             while (walk.Radius <= 1)
@@ -83,7 +83,7 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
 
                                 if (troopObject.GetAbilityEnabled(96))
                                 {
-                                    troopObject.RemoveAbility(96);
+                                    _ = troopObject.RemoveAbility(96);
                                     healed2 = true;
                                 }
                             }
@@ -113,7 +113,7 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
                                 animation.AnimationLevel = 27;
                                 sbyte armyHexY = army.HexY;
                                 sbyte armyHexX = army.HexX;
-                                StrategicMap.Current.PlaceHex(animation, armyHexX, armyHexY, army.HexLevel);
+                                _ = StrategicMap.Current.PlaceHex(animation, armyHexX, armyHexY, army.HexLevel);
                             }
                         }
 
@@ -130,7 +130,7 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
 
             if (playSound)
             {
-                GamePack.Current.AbilityControl.GetAbility(47).SfxLibrary.Play(0);
+                _ = GamePack.Current.AbilityControl.GetAbility(47).SfxLibrary.Play(0);
             }
         }
 
@@ -155,13 +155,11 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
         int xShift;
         int yShift;
         int speed;
-        int pixelX = default;
-        int pixelY = default;
         int count;
         int frame;
         if (StrategicMap.Current.ViewMapLevel == Location.MapLevel)
         {
-            HexGeometry.HexToPixel(Location.X, Location.Y, out pixelX, out pixelY);
+            HexGeometry.HexToPixel(Location.X, Location.Y, out int pixelX, out int pixelY);
             pixelX -= pixelXSurface;
             pixelY -= pixelYSurface;
             switch (GetEngine().Registry.GetDetailLevel())
@@ -187,7 +185,7 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
                 frame = animation.FrameCounter - random;
                 if (frame is >= 0 and < 50)
                 {
-                    frame = frame % 30;
+                    frame %= 30;
                     x -= Round(frame * 4 * (speed * 0.2));
                     y += Round(frame * 20 * (speed * 0.2));
                     if (y < 500)
@@ -196,7 +194,7 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
                         {
                             xShift = x - Round(j * 2 * 0.1);
                             yShift = y + Round(j * 10 * 0.1);
-                            GamePack.Current.SpellControl.GetSpell(73).CastImages.Show(0, pixelX + xShift + 120, pixelY + yShift - 500 + 30, 0, lockedSurface);
+                            _ = GamePack.Current.SpellControl.GetSpell(73).CastImages.Show(0, pixelX + xShift + 120, pixelY + yShift - 500 + 30, 0, lockedSurface);
                         }
                     }
                 }

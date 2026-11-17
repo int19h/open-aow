@@ -20,7 +20,7 @@ public partial class RazeStructureEventLog : MessageEventLog
     // (Structure)
     public override bool Yes()
     {
-        Structure.RazeWithoutConfirmation(StrategicMap.Current.SeatedPlayer);
+        _ = Structure.RazeWithoutConfirmation(StrategicMap.Current.SeatedPlayer);
         return true;
     }
 

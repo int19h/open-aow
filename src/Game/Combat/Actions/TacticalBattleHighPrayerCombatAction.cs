@@ -22,7 +22,7 @@ public partial class TacticalBattleHighPrayerCombatAction : ExclusiveCombatSpell
         {
             target = combat.CombatData.FindId<CombatUnit>(TargetId);
             target.SetHitPoints((byte)(target.GetHitPoints() + 5));
-            GamePack.Current.AbilityControl.GetAbility(100).Expand(target.Troop);
+            _ = GamePack.Current.AbilityControl.GetAbility(100).Expand(target.Troop);
         }
     }
 

@@ -85,7 +85,7 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
                 }
 
                 finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
-                finder.Setup(this);
+                _ = finder.Setup(this);
                 {
                     finder.Selector.SourceLocation = Group.GuardLocation;
                     AITargetInfo targetInfo = finder.Selector.TargetInfo;
@@ -96,18 +96,18 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
                 sbyte moves = Army.Moves(Selection);
                 finder.Selector.MovePointsMax = moves;
                 ActivatePlugin(finder);
-                finder.Release();
+                _ = finder.Release();
                 State += 1;
                 break;
             case 1:
-                Targets.Validate();
+                _ = Targets.Validate();
                 if (Targets.Count != 0)
                 {
                     if (Army.Moves(Selection) != Army.MovePoints(Selection) || Group.GuardLocation != Location)
                     {
                         settings = new MoveControlSettings(null) { Holder = CreationHolder() };
                         settings.Player = Army.Player;
-                        settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);
+                        settings.Mode += Set<MoveModeElement>.Of(MoveModeElement.AI);
                         settings.SetSourcePosition(Army.Location);
                         settings.MovePointsMax = Army.MovePoints(Selection);
                         settings.ArmyHexSprite = ArmyHexSprite;
@@ -122,7 +122,7 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
                             }
                         }
 
-                        settings.Release();
+                        _ = settings.Release();
                     }
 
                     if (Targets.Count != 0)

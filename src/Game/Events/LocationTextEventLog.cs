@@ -30,7 +30,7 @@ public partial class LocationTextEventLog : TextEventLog
     // EventLog.pas:743
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        base.Execute(mode, trigger, done);
+        _ = base.Execute(mode, trigger, done);
         if (trigger == ExecuteTrigger.User)
         {
             ViewLocation();

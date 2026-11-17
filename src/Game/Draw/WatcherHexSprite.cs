@@ -39,7 +39,7 @@ public partial class WatcherHexSprite : SingleHexSprite
     {
         base.Dispose();
         _unexplored?.Dispose();
-        Enchantment.Release();
+        _ = Enchantment.Release();
     }
 
     // GlobalTargetSpells.pas:1344
@@ -85,10 +85,6 @@ public partial class WatcherHexSprite : SingleHexSprite
     // GlobalTargetSpells.pas:1255
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int x = default;
-        int y = default;
-        int deltaX = default;
-        int deltaY = default;
         int radius;
         int angle;
         int pixelX = default;
@@ -106,7 +102,7 @@ public partial class WatcherHexSprite : SingleHexSprite
         if (condition)
         {
             sbyte hexY = HexY;
-            HexGeometry.HexToPixel(HexX, hexY, out x, out y);
+            HexGeometry.HexToPixel(HexX, hexY, out int x, out int y);
             x = x - pixelXSurface + 16;
             y = y - pixelYSurface + 16;
             GamePack.Current.SpellControl.GetSpell(57).CastImages?.ShowLooped(1, x, y, StrategicMap.Current.Frame, lockedSurface);
@@ -122,7 +118,7 @@ public partial class WatcherHexSprite : SingleHexSprite
                     sbyte hexY2 = HexY;
                     HexGeometry.HexToPixel(HexX, hexY2, out x, out y);
                     x = x - pixelXSurface - 8;
-                    y = y - pixelYSurface;
+                    y -= pixelYSurface;
                     for (int i = _unexplored.Count - 1; i >= 0; i--)
                     {
                         HexGeometry.HexNumberToPixel(_unexplored[i], ref pixelX, ref pixelY);
@@ -141,8 +137,8 @@ public partial class WatcherHexSprite : SingleHexSprite
                     delay = Random(80);
                     if (_animationFrame - delay >= 0)
                     {
-                        AbilityRules.PolarToCartesian(angle, radius, out deltaX, out deltaY);
-                        GamePack.Current.SpellControl.GetSpell(57).CastImages.Show(0, x + deltaX, y + deltaY, _animationFrame - delay, lockedSurface);
+                        AbilityRules.PolarToCartesian(angle, radius, out int deltaX, out int deltaY);
+                        _ = GamePack.Current.SpellControl.GetSpell(57).CastImages.Show(0, x + deltaX, y + deltaY, _animationFrame - delay, lockedSurface);
                     }
                 }
 
@@ -227,7 +223,7 @@ public partial class WatcherHexSprite : SingleHexSprite
         MapField mapFieldLocal;
         base.Activate();
         WatcherState = (byte)(Set<StateElement>.FromMask(WatcherState) + Set<StateElement>.Of(StateElement.Active)).Image;
-        Enchantment.Activate(Enchantment.PlayerIndex);
+        _ = Enchantment.Activate(Enchantment.PlayerIndex);
         MapField mapField = Owner;
         StrategicMap.Current.NotifyPlayerChanged(mapField.HexX, mapField.HexY, mapField.HexLevel);
 
@@ -246,7 +242,7 @@ public partial class WatcherHexSprite : SingleHexSprite
         WatcherState = (byte)(Set<StateElement>.FromMask(WatcherState) - Set<StateElement>.Of(StateElement.Active)).Image;
         if (Enchantment.EnchantmentStatus.Contains(GlobalEnchantmentStatusElement.Activated))
         {
-            Enchantment.Deactivate((byte)Enchantment.PlayerIndex);
+            _ = Enchantment.Deactivate((byte)Enchantment.PlayerIndex);
         }
 
         StrategicMap.Current.NotifyPlayerChanged(Owner.HexX, Owner.HexY, Owner.HexLevel);
@@ -265,15 +261,14 @@ public partial class WatcherHexSprite : SingleHexSprite
     // GlobalTargetSpells.pas:1226
     public void StartAnimation(sbyte X, sbyte Y, sbyte layer)
     {
-        HexNumberWalkData walk = default;
         MapLevel level;
         _animationFrame = 0;
-        StrategicMap.Current.DynamicFixedVisibleHexSprite.AddChild(this);
-        GamePack.Current.SpellControl.GetSpell(57).CastSounds.Play(0);
+        _ = StrategicMap.Current.DynamicFixedVisibleHexSprite.AddChild(this);
+        _ = GamePack.Current.SpellControl.GetSpell(57).CastSounds.Play(0);
         _unexplored.Clear();
         if (StrategicMap.Current.ExplorationEnabled)
         {
-            HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
             level = StrategicMap.Current.MapContainer.MapLevels[layer];
             while (true)
             {
@@ -287,7 +282,7 @@ public partial class WatcherHexSprite : SingleHexSprite
                 {
                     if (!level.Field[walk.X, walk.Y].GetExplored(StrategicMap.Current.SeatedPlayer))
                     {
-                        _unexplored.Add(walk.HexNumber);
+                        _ = _unexplored.Add(walk.HexNumber);
                     }
                 }
 
@@ -299,7 +294,7 @@ public partial class WatcherHexSprite : SingleHexSprite
     // GlobalTargetSpells.pas:1248
     public void StopAnimation()
     {
-        StrategicMap.Current.DynamicFixedVisibleHexSprite.RemoveChild(this);
+        _ = StrategicMap.Current.DynamicFixedVisibleHexSprite.RemoveChild(this);
         _animationFrame = -1;
         _unexplored.Clear();
     }
@@ -318,7 +313,7 @@ public partial class WatcherHexSprite : SingleHexSprite
                     int visibilityRange = VisibilityRange();
                     sbyte hexY = HexY;
                     sbyte hexX = HexX;
-                    StrategicMap.Current.ExploreArea(hexX, hexY, HexLevel, (sbyte)i, visibilityRange);
+                    _ = StrategicMap.Current.ExploreArea(hexX, hexY, HexLevel, (sbyte)i, visibilityRange);
                 }
             }
         }
@@ -336,7 +331,7 @@ public partial class WatcherHexSprite : SingleHexSprite
             {
                 sbyte hexY = HexY;
                 sbyte hexX = HexX;
-                StrategicMap.Current.FogArea(hexX, hexY, HexLevel, _unfogRadius);
+                _ = StrategicMap.Current.FogArea(hexX, hexY, HexLevel, _unfogRadius);
             }
 
             _unfogRadius = (byte)radius;
@@ -344,7 +339,7 @@ public partial class WatcherHexSprite : SingleHexSprite
             {
                 sbyte hexY = HexY;
                 sbyte hexX = HexX;
-                StrategicMap.Current.UnFogArea(hexX, hexY, HexLevel, _unfogRadius);
+                _ = StrategicMap.Current.UnFogArea(hexX, hexY, HexLevel, _unfogRadius);
             }
         }
     }

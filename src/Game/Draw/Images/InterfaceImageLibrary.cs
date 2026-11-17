@@ -25,7 +25,7 @@ public partial class InterfaceImageLibrary : ImageLibrary
         if (index + count > Count)
         {
             result = null;
-            MessageBox(0, Name + " must have " + IntToStr(index + count) + " Images", "Error - " + sender.Name, 0);
+            _ = MessageBox(0, Name + " must have " + IntToStr(index + count) + " Images", "Error - " + sender.Name, 0);
         }
         else
         {
@@ -33,7 +33,7 @@ public partial class InterfaceImageLibrary : ImageLibrary
             {
                 if (!ImageExist(i))
                 {
-                    MessageBox(0, Name + " Image # " + IntToStr(i) + " is invalid", "Error - " + sender.Name, 0);
+                    _ = MessageBox(0, Name + " Image # " + IntToStr(i) + " is invalid", "Error - " + sender.Name, 0);
                     result = null;
                 }
             }

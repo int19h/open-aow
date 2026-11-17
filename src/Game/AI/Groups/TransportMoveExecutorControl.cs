@@ -50,13 +50,13 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                         settings.OnDone += CalculateTransportPathCallback;
                         settings.MoveMode = Set<MoveModeElement>.Of(MoveModeElement.AI);
                         MoveControl.Reset();
-                        MoveControl.CanMove(settings);
+                        _ = MoveControl.CanMove(settings);
                         if (MoveControl.Status != AIMoveControlStatus.Processing)
                         {
                             timeLeft = StrategicMap.Current.AIExecutor.GetProcessTimeLeft();
                         }
 
-                        settings.Release();
+                        _ = settings.Release();
                     }
 
                     i += 1;
@@ -372,7 +372,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
             unitEntry = Executor.Units.GetUnits(i);
             if (unitEntry.Location == Executor.Transporter.Location)
             {
-                army.AddChild(unitEntry);
+                _ = army.AddChild(unitEntry);
             }
         }
 
@@ -414,7 +414,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     for (int i = position, last = settings.Path.Count - 1; i <= last; i++)
                     {
                         PathStep item = settings.Path[i];
-                        move.Path.Add(item);
+                        _ = move.Path.Add(item);
                     }
 
                     move.MovePoints = movePoints;
@@ -431,7 +431,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
         }
 
         army?.Dispose();
-        settings.Release();
+        _ = settings.Release();
         return move;
     }
 
@@ -463,8 +463,6 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
         byte transporting;
         byte others;
         MoveControlSettings settings;
-        byte selection = default;
-        ArmyHexSprite armyHexSprite = default;
         DelphiList<MapField> fields;
         DelphiList<MapField> otherFields;
         int i;
@@ -486,13 +484,15 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
             }
         }
 
+        byte selection;
+        ArmyHexSprite armyHexSprite;
         if (transporting != 0)
         {
             settings = new MoveControlSettings(null) { Holder = CreationHolder() };
             army.RetrieveArmy(transporting, out armyHexSprite, out selection);
             settings.SetupArmy(armyHexSprite, selection);
             settings.MovePointsMax = armyHexSprite.Army.Moves(selection);
-            settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
+            settings.Mode += Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
             StrategicMap.Current.MoveControl.ProcessMove(settings);
             fields = settings.ProcessedMapFields;
             found = false;
@@ -530,7 +530,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 army.SetTransportStatus(transporting, AIMoveExecutorTransportStatus.Guarding);
             }
 
-            settings.Release();
+            _ = settings.Release();
         }
 
         if (transporting == 0 && others != 0)
@@ -539,7 +539,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
             army.RetrieveArmy(others, out armyHexSprite, out selection);
             settings.SetupArmy(armyHexSprite, selection);
             settings.MovePointsMax = armyHexSprite.Army.Moves(selection);
-            settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
+            settings.Mode += Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
             StrategicMap.Current.MoveControl.ProcessMove(settings);
             field = null;
             otherFields = settings.ProcessedMapFields;
@@ -577,7 +577,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 army.SetTransportStatus(others, AIMoveExecutorTransportStatus.Guarding);
             }
 
-            settings.Release();
+            _ = settings.Release();
         }
     }
 
@@ -586,10 +586,8 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
     {
         AIMoveExecutorArmyList aiMoveExecutorArmyList;
         MoveControlSettings settings;
-        byte selection = default;
         int i;
         bool found;
-        ArmyHexSprite armyHexSprite = default;
         // { Addressability survives elimination of this assignment. }
         found = false;
         if ((Executor.Mode & Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent, AIMoveExecutorModeElement.Attack)) != Set<AIMoveExecutorModeElement>.Of())
@@ -626,7 +624,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
             if (found)
             {
                 settings = new MoveControlSettings(null) { Holder = CreationHolder() };
-                aiMoveExecutorArmyList.GetArmies(i).RetrieveArmy(255, out armyHexSprite, out selection);
+                aiMoveExecutorArmyList.GetArmies(i).RetrieveArmy(255, out ArmyHexSprite armyHexSprite, out byte selection);
                 settings.SetupArmy(armyHexSprite, selection);
                 settings.SetSourcePosition(_meetingPoint.Location);
                 settings.SetDestinationPosition(Executor.Destination);
@@ -650,7 +648,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     }
                 }
 
-                settings.Release();
+                _ = settings.Release();
             }
 
             aiMoveExecutorArmyList?.Dispose();

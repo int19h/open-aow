@@ -22,13 +22,13 @@ public partial class WatcherTokenEvent : GlobalTargetSpellTokenEvent
     public override bool Process(Troop source, int value)
     {
         WatcherHexSprite watcher;
-        base.Process(source, value);
+        _ = base.Process(source, value);
         PlayDefaultEffects(Location.X, Location.Y, Location.MapLevel);
         watcher = new WatcherHexSprite(null) { Holder = CreationHolder() };
         watcher.Enchantment.PlayerIndex = source.Player;
         Spell spell = GamePack.Current.SpellControl.GetSpell(57);
         watcher.Enchantment.EnchantmentManaUpkeep = spell.ManaUpkeep;
-        StrategicMap.Current.PlaceHex(watcher, Location.X, Location.Y, Location.MapLevel);
+        _ = StrategicMap.Current.PlaceHex(watcher, Location.X, Location.Y, Location.MapLevel);
         if ((byte)StrategicMap.Current.SeatedPlayer == EventPlayerIndex)
         {
             watcher.StartAnimation(Location.X, Location.Y, Location.MapLevel);

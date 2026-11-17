@@ -71,7 +71,7 @@ public partial class FrozenWaterHexSprite : SingleHexSprite
         {
             sbyte hexY = HexY;
             sbyte hexX = HexX;
-            StrategicMap.Current.ChangeTerrain(this, hexX, hexY, HexLevel, 0, 0);
+            _ = StrategicMap.Current.ChangeTerrain(this, hexX, hexY, HexLevel, 0, 0);
         }
         else
         {
@@ -79,7 +79,7 @@ public partial class FrozenWaterHexSprite : SingleHexSprite
             {
                 sbyte hexY = HexY;
                 sbyte hexX = HexX;
-                StrategicMap.Current.ChangeTerrain(this, hexX, hexY, HexLevel, 0, 10);
+                _ = StrategicMap.Current.ChangeTerrain(this, hexX, hexY, HexLevel, 0, 10);
             }
             else
             {

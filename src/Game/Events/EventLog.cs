@@ -36,9 +36,9 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     {
         if (RefCount != 0)
         {
-            AddRef();
+            _ = AddRef();
             base.SetOwner(owner);
-            Release();
+            _ = Release();
         }
         else
         {
@@ -147,7 +147,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
         {
             if (trigger == ExecuteTrigger.Event)
             {
-                AudioPlayback.PlaySample("SFX\\EVENTS\\NEWEVENT.WAV");
+                _ = AudioPlayback.PlaySample("SFX\\EVENTS\\NEWEVENT.WAV");
             }
 
             result = false;
@@ -159,13 +159,10 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     // EventLog.pas:432
     public virtual void ViewLocation()
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         MapCoordinate coordinate16 = GetLocation();
-        x = coordinate16.X;
-        y = coordinate16.Y;
-        l = coordinate16.MapLevel;
+        sbyte x = coordinate16.X;
+        sbyte y = coordinate16.Y;
+        sbyte l = coordinate16.MapLevel;
         if (x != -1)
         {
             StrategicMap.Current.CenterViewTo(x, y, l);
@@ -193,10 +190,10 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
                 player.EventLogbook.AddEvent(copyLog);
                 if (i == StrategicMap.Current.SeatedPlayer && execute)
                 {
-                    copyLog.Execute(false, ExecuteTrigger.Event, null);
+                    _ = copyLog.Execute(false, ExecuteTrigger.Event, null);
                 }
 
-                copyLog.Release();
+                _ = copyLog.Release();
             }
         }
     }
@@ -214,10 +211,10 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
                 targetPlayer.EventLogbook.AddEvent(copyLog);
                 if (i == StrategicMap.Current.SeatedPlayer && StrategicMap.Current.Players.GetPlayers(i).PlayerType == PlayerType.Human && execute)
                 {
-                    copyLog.Execute(false, ExecuteTrigger.Event, null);
+                    _ = copyLog.Execute(false, ExecuteTrigger.Event, null);
                 }
 
-                copyLog.Release();
+                _ = copyLog.Release();
             }
         }
     }

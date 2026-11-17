@@ -35,7 +35,7 @@ public partial class SfxManager : Component
             StringList directories;
             foreach (RtlFileEntry entry in Files.FindEntries(_searchPath + directory + "*." + s_sfxExtension, attributes: 63 & ~16))
             {
-                _sfx.Add(UpperCase(directory + entry.Name));
+                _ = _sfx.Add(UpperCase(directory + entry.Name));
             }
 
             directories = new StringList();
@@ -43,7 +43,7 @@ public partial class SfxManager : Component
             {
                 if ((entry.Attribute & 16) != 0 && entry.Name != "." && entry.Name != "..")
                 {
-                    directories.Add(directory + UpperCase(entry.Name) + "\\");
+                    _ = directories.Add(directory + UpperCase(entry.Name) + "\\");
                 }
             }
 
@@ -59,13 +59,13 @@ public partial class SfxManager : Component
         _searchPath = UpperCase(path);
         if (_searchPath[^1] != 92)
         {
-            _searchPath = _searchPath + "\\";
+            _searchPath += "\\";
         }
 
         oldDirectory = GetCurrentDir();
-        SetCurrentDir(path);
+        _ = SetCurrentDir(path);
         Search("");
-        SetCurrentDir(oldDirectory);
+        _ = SetCurrentDir(oldDirectory);
         _searchPath = UpperCase(ExtractRelativePath(AudioHost.BaseSoundEnginePath, _searchPath));
     }
 

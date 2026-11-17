@@ -31,7 +31,7 @@ public partial class EnchantedRoadsEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:563
     public override bool Deactivate(byte player)
     {
-        base.Deactivate(player);
+        _ = base.Deactivate(player);
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EnchantedRoads));
         return true;
@@ -55,7 +55,7 @@ public partial class EnchantedRoadsEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:555
     public override bool Activate(sbyte player)
     {
-        base.Activate(player);
+        _ = base.Activate(player);
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EnchantedRoads));
         return true;

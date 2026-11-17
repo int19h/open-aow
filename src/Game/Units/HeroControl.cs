@@ -223,7 +223,7 @@ public partial class HeroControl : EngineObject
         if (!hero.Registered)
         {
             hero.Registered = true;
-            _heroes.AddChild(hero);
+            _ = _heroes.AddChild(hero);
             NotifyChanged();
             result = true;
         }
@@ -241,7 +241,7 @@ public partial class HeroControl : EngineObject
         if (hero.Registered)
         {
             hero.Registered = false;
-            _heroes.RemoveChild(hero);
+            _ = _heroes.RemoveChild(hero);
             NotifyChanged();
         }
     }
@@ -303,7 +303,7 @@ public partial class HeroControl : EngineObject
             hero = _heroes[i];
             if (hero.HeroStatus.Contains(HeroStatusElement.Died))
             {
-                list.AddChild(hero);
+                _ = list.AddChild(hero);
             }
         }
     }

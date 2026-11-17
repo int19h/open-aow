@@ -13,8 +13,8 @@ public partial class Memo
         Redraw = false;
         if (_editable && _items.Count == 0)
         {
-            _items.Add("");
-            Lines.Add("");
+            _ = _items.Add("");
+            _ = Lines.Add("");
             ColorList.Add(new ColorChange());
         }
         if (x > Window.WinLeft + WinLeft - 1 && x < Window.WinLeft + WinLeft + WinWidth &&

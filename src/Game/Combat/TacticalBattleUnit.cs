@@ -53,8 +53,6 @@ public partial class TacticalBattleUnit : CombatUnit
         float vz = default;
         float gravity = default;
         float z = default;
-        int x = default;
-        int y = default;
         Rect r;
         void MakeBlood()
         {
@@ -109,7 +107,7 @@ public partial class TacticalBattleUnit : CombatUnit
                         effect.AbilityIndex = 52;
                         effect.SpellIndex = 106;
                         sbyte hexY = UnitHexSprite.GetHexY();
-                        HexGeometry.HexToPixel(UnitHexSprite.GetHexX(), hexY, out x, out y);
+                        HexGeometry.HexToPixel(UnitHexSprite.GetHexX(), hexY, out int x, out int y);
                         Point3D xyz = new();
                         effect.Path.Add(xyz);
                         Point3DList path2 = effect.Path;
@@ -224,12 +222,12 @@ public partial class TacticalBattleUnit : CombatUnit
         int result = GetAttack() + GetDamage() + GetDefense() + (GetMoves() / 3);
         if (SupportCombatMode(Set<CombatMode>.Of(CombatMode.MediumRange)))
         {
-            result = result - 100;
+            result -= 100;
         }
 
         if (SupportCombatMode(Set<CombatMode>.Of(CombatMode.LongRange)))
         {
-            result = result - 200;
+            result -= 200;
         }
 
         return result;
@@ -238,7 +236,7 @@ public partial class TacticalBattleUnit : CombatUnit
     // AoWTC.pas:2618
     public void MovedTo(MapField oldField, MapField newField, int moveCost)
     {
-        MovePoints = MovePoints - moveCost;
+        MovePoints -= moveCost;
         if (MovePoints < 0)
         {
             MovePoints = 0;
@@ -276,14 +274,14 @@ public partial class TacticalBattleUnit : CombatUnit
         switch (unitObject.Troop.GetBloodType())
         {
             case BloodType.None:
-                point.Z = point.Z + 5;
+                point.Z += 5;
                 break;
         }
 
         sbyte hexY = unitObject.UnitHexSprite.HexY;
-        int x = point.X;
-        int y = point.Y;
-        HexGeometry.HexToPixel(unitObject.UnitHexSprite.HexX, hexY, out x, out y);
+        _ = point.X;
+        _ = point.Y;
+        HexGeometry.HexToPixel(unitObject.UnitHexSprite.HexX, hexY, out int x, out int y);
         point.X = x;
         point.Y = y;
         point.X = Random(10) + point.X + 11;
@@ -294,7 +292,7 @@ public partial class TacticalBattleUnit : CombatUnit
     internal static CombatMoveTokenEvent CreateCombatMoveTokenEvent(TacticalBattleUnit unitObject, MovePath path)
     {
         CombatMoveTokenEvent result = new(null) { Holder = unitObject };
-        result?.Setup(unitObject, path);
+        _ = (result?.Setup(unitObject, path));
 
         return result;
     }
@@ -315,13 +313,13 @@ public partial class TacticalBattleUnit : CombatUnit
             index = path.Count;
             while (index != 0 && cost <= movePoints)
             {
-                index = index - 1;
-                cost = cost + path[index].MoveCost;
+                index--;
+                cost += path[index].MoveCost;
             }
 
             if (cost > movePoints)
             {
-                index = index + 1;
+                index++;
             }
 
             if (index < path.Count - 1)
@@ -329,7 +327,7 @@ public partial class TacticalBattleUnit : CombatUnit
                 newPath = new MovePath();
                 for (int i = index, last = path.Count - 1; i <= last; i++)
                 {
-                    newPath.Add(path[i]);
+                    _ = newPath.Add(path[i]);
                 }
 
                 eventValue = CreateCombatMoveTokenEvent(unitObject, newPath);
@@ -337,7 +335,7 @@ public partial class TacticalBattleUnit : CombatUnit
                 {
                     sbyte unitObjectPlayer = unitObject.GetPlayer();
                     StrategicMap.Current.TokenManager.GetTokenControl(unitObjectPlayer).AddEvent(eventValue);
-                    eventValue.Release();
+                    _ = eventValue.Release();
                     result = true;
                 }
 

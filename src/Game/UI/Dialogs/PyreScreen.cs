@@ -70,7 +70,7 @@ public partial class PyreScreen : UIModule
     {
         _animationFrame = 0;
         GameOverEvent = eventValue;
-        GameOverEvent.AddRef();
+        _ = GameOverEvent.AddRef();
         Done = done;
         SavedSongStatus = AudioPlayback.BackupSongStatus();
         AudioPlayback.FadeMusicVolume(0, 1);
@@ -93,7 +93,7 @@ public partial class PyreScreen : UIModule
         VideoDialog.SetVideoMode(UI.VideoDialog, VideoDialog.ScreenMode.Title);
         UI.VideoDialog.ApplyMode();
         UI.TitleWindow.MainWindow.Visible = true;
-        SetCurrentDir(ExtractFileDir(RtlUnit.Application.ExeName));
+        _ = SetCurrentDir(ExtractFileDir(RtlUnit.Application.ExeName));
     }
 
     // AOWPyreScrn.pas:48
@@ -194,14 +194,9 @@ public partial class PyreScreen : UIModule
 
     private static void ShowResults(ResultsWindow window)
     {
-        if (window.UI.Engine.Demo)
-        {
-            AudioPlayback.PlaySong("Songs\\Special\\end2.s3m", 2, 2, true);
-        }
-        else
-        {
-            AudioPlayback.PlaySong("Songs\\Special\\Sunset.it", 2, 2, true);
-        }
+        _ = window.UI.Engine.Demo
+            ? AudioPlayback.PlaySong("Songs\\Special\\end2.s3m", 2, 2, true)
+            : AudioPlayback.PlaySong("Songs\\Special\\Sunset.it", 2, 2, true);
 
         AudioPlayback.SetMusicVolume(0);
         AudioPlayback.FadeMusicVolume(window.UI.SoundDialog.MusicVolumeSlider.Position, 1);
@@ -210,7 +205,7 @@ public partial class PyreScreen : UIModule
         {
             if (StrategicMap.Current.Players.GetPlayers(i).PlayerType != PlayerType.Independent)
             {
-                window.Players.Add((byte)i);
+                _ = window.Players.Add((byte)i);
             }
         }
 

@@ -34,8 +34,6 @@ public partial class StartMenu : Menu
     // StartMenu.pas:41
     public override void SetVisible(bool value)
     {
-        WindowManager m = default;
-        MenuBar b = default;
         if (value != Visible)
         {
             SetVisibleWithoutUpdate(value);
@@ -43,7 +41,7 @@ public partial class StartMenu : Menu
             {
                 Highlighted = -1;
                 SetWinHeightWithoutInvalidate(377);
-                m = WindowManager;
+                WindowManager m = WindowManager;
                 if (m != null && OwnerMenuBar != null)
                 {
                     SetWinTopWithoutInvalidate(m.WinHeight - 393);
@@ -71,7 +69,7 @@ public partial class StartMenu : Menu
             }
             else
             {
-                b = OwnerMenuBar;
+                MenuBar b = OwnerMenuBar;
                 if (b != null)
                 {
                     b.Selected = -1;
@@ -100,14 +98,13 @@ public partial class StartMenu : Menu
     // StartMenu.pas:87
     public override void Draw(LockedSurface lockedSurface)
     {
-        Rect oldClip = default;
         try
         {
             if (Valid && Visible)
             {
                 if (!Drawn)
                 {
-                    oldClip = lockedSurface.ClipRectangle;
+                    Rect oldClip = lockedSurface.ClipRectangle;
                     Font.Color = Color;
                     _imageLibraryWholeMenu[Highlighted + 1].ShowClipped(0, 0, lockedSurface);
                     for (int i = 0, last = Items.Count - 1; i <= last; i++)
@@ -154,7 +151,7 @@ public partial class StartMenu : Menu
         }
         catch
         {
-            MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
         }
     }
 

@@ -157,7 +157,7 @@ public partial class SpellControl : EngineObject
         {
             if (RegisteredSpells[i] != null && spheres.Contains(RegisteredSpells[i].MagicSphere))
             {
-                spellStrings.AddObject(RegisteredSpells[i].SpellName, IntToObject(i));
+                _ = spellStrings.AddObject(RegisteredSpells[i].SpellName, IntToObject(i));
             }
         }
     }
@@ -174,7 +174,7 @@ public partial class SpellControl : EngineObject
             spell = RegisteredSpells[i];
             if (spell != null && spheres.Contains(spell.MagicSphere) && spell.SpellLevel >= minLevel && spell.SpellLevel <= maxLevel)
             {
-                candidates.Add(i);
+                _ = candidates.Add(i);
             }
         }
 

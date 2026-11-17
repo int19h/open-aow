@@ -34,7 +34,7 @@ public partial class PestilenceStorm : Storm
         sbyte hexY = GetHexY();
         HexGeometry.HexToPixel(GetHexX(), hexY, out int x, out int y);
         x = x - pixelXSurface + 8;
-        y = y - pixelYSurface;
+        y -= pixelYSurface;
         sequence = _cloudResource.ImageSequenceList.ImageSequences[0];
         while (sequence != null)
         {
@@ -61,7 +61,7 @@ public partial class PestilenceStorm : Storm
         // { Original adds to the map selection without clearing its existing hexes. }
         for (int i = 0, last = HexGeometry.RadiusToHexNumber(3) - 1; i <= last; i++)
         {
-            StrategicMap.Current.TargetSelection.HexNumbers.Add(0);
+            _ = StrategicMap.Current.TargetSelection.HexNumbers.Add(0);
         }
     }
 
@@ -76,13 +76,13 @@ public partial class PestilenceStorm : Storm
         r.Top = -80;
         r.Bottom = 96;
         SetDimensions(r);
-        StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, 2);
+        _ = StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, 2);
         if (StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.TerrainVisible(X, Y, L, 2))
         {
-            GamePack.Current.SpellControl.GetSpell(9).CastSounds.Play(0);
+            _ = GamePack.Current.SpellControl.GetSpell(9).CastSounds.Play(0);
         }
 
-        PlaceHex(StrategicMap.Current.MapContainer, X, Y, L);
+        _ = PlaceHex(StrategicMap.Current.MapContainer, X, Y, L);
     }
 
     // Storms.pas:690

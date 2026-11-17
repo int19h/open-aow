@@ -55,7 +55,7 @@ public partial class DamageCombatAction : SingleTargetCombatAction
 
         if (Effects != Set<DamageType>.Of())
         {
-            target.ExecuteDamageEffects(Effects);
+            _ = target.ExecuteDamageEffects(Effects);
         }
     }
 
@@ -110,7 +110,7 @@ public partial class DamageCombatAction : SingleTargetCombatAction
         int hitFrame;
         if (objectValue.Id == SourceId)
         {
-            objectValue.ShowAttackAnimation(viewer.Time, direction, X, Y, surface);
+            _ = objectValue.ShowAttackAnimation(viewer.Time, direction, X, Y, surface);
         }
         else
         {
@@ -121,7 +121,7 @@ public partial class DamageCombatAction : SingleTargetCombatAction
                 objectValue.Show(frame, direction, X, Y, surface);
                 if (Effects != Set<DamageType>.Of())
                 {
-                    ShowDamageEffects(Effects, X, Y, viewer.Time - hitFrame, surface);
+                    _ = ShowDamageEffects(Effects, X, Y, viewer.Time - hitFrame, surface);
                 }
                 AbilityRules.ShowDamageIcon(damageType: DamageTypesToDamageType(DamageTypes), engine: GetEngine(), x: X, y: Y, surface: surface, damage: DamageDone);
             }
@@ -142,7 +142,7 @@ public partial class DamageCombatAction : SingleTargetCombatAction
         DamageTypes = damageTypes;
         if (defensive)
         {
-            Mode = Mode + Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive);
+            Mode += Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive);
         }
     }
 

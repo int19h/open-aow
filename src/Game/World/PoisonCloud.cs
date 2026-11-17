@@ -168,12 +168,10 @@ public partial class PoisonCloud : MultiHexMapObject
     public override bool CanSelect(int pixelX, int pixelY)
     {
         bool result;
-        int hexX = default;
-        int hexY = default;
         int hexNumber;
         if (base.Resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            HexGeometry.PixelToHex(pixelX, pixelY, out hexX, out hexY);
+            HexGeometry.PixelToHex(pixelX, pixelY, out int hexX, out int hexY);
             hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, hexX, hexY);
             result = hexNumber < base.Resource.TerrainList.Count && base.Resource.TerrainList.Terrain[hexNumber] >= -1;
         }
@@ -297,24 +295,10 @@ public partial class PoisonCloud : MultiHexMapObject
                 direction = 0;
                 directions = new ByteList();
                 valid = false;
-                directions.Add(_direction);
-                if (_direction != 1)
-                {
-                    directions.Add((byte)(_direction - 1));
-                }
-                else
-                {
-                    directions.Add(6);
-                }
+                _ = directions.Add(_direction);
+                _ = _direction != 1 ? directions.Add((byte)(_direction - 1)) : directions.Add(6);
 
-                if (_direction != 6)
-                {
-                    directions.Add((byte)(_direction + 1));
-                }
-                else
-                {
-                    directions.Add(1);
-                }
+                _ = _direction != 6 ? directions.Add((byte)(_direction + 1)) : directions.Add(1);
 
                 while (directions.Count != 0 && !valid)
                 {
@@ -322,7 +306,7 @@ public partial class PoisonCloud : MultiHexMapObject
                     valid = ValidMoveDirection(direction);
                     if (!valid)
                     {
-                        directions.Remove((byte)direction);
+                        _ = directions.Remove((byte)direction);
                     }
                 }
 

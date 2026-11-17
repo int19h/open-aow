@@ -190,7 +190,7 @@ public partial class Ability : EngineObject
             info.UnitId = owner is Troop troop ? troop.UnitId : 0;
 
             StrategicMap.Current.OnActivateAbilityStore.Raise(info);
-            info.Release();
+            _ = info.Release();
             result = true;
         }
         else
@@ -220,7 +220,7 @@ public partial class Ability : EngineObject
             info.UnitId = owner is Troop troop ? troop.UnitId : 0;
 
             StrategicMap.Current.CombatMap.AbilityActivatedEventsStore.Raise(info);
-            info.Release();
+            _ = info.Release();
             result = true;
         }
         else
@@ -317,45 +317,45 @@ public partial class Ability : EngineObject
         int strength = default;
         string damageNames;
         DamageType damageType;
-        text.Add("Name: " + GetName(null));
-        text.Add("-------------------------------------------------");
+        _ = text.Add("Name: " + GetName(null));
+        _ = text.Add("-------------------------------------------------");
         if (mode.Contains(AbilityInfoModeElement.Id))
         {
-            text.Add("ID: " + IntToStr(AbilityId));
+            _ = text.Add("ID: " + IntToStr(AbilityId));
         }
 
         AbilityType abilityType = GetAbilityType();
-        text.Add("Type: " + AbilityRules.TranslateResourceString(GetEngine(), GameTables.AbilityTypeTexts[(int)abilityType]));
+        _ = text.Add("Type: " + AbilityRules.TranslateResourceString(GetEngine(), GameTables.AbilityTypeTexts[(int)abilityType]));
         if (GetAttack(null) != 0)
         {
-            text.Add("Attack modifier: " + IntToStr(GetAttack(null)));
+            _ = text.Add("Attack modifier: " + IntToStr(GetAttack(null)));
         }
 
         if (GetDefense(null) != 0)
         {
-            text.Add("Defense modifier: " + IntToStr(GetDefense(null)));
+            _ = text.Add("Defense modifier: " + IntToStr(GetDefense(null)));
         }
 
         if (GetDamage(null) != 0)
         {
-            text.Add("Damage modifier: " + IntToStr(GetDamage(null)));
+            _ = text.Add("Damage modifier: " + IntToStr(GetDamage(null)));
         }
 
         if (GetResistance(null) != 0)
         {
-            text.Add("Resistance modifier: " + IntToStr(GetResistance(null)));
+            _ = text.Add("Resistance modifier: " + IntToStr(GetResistance(null)));
         }
 
         if (mode.Contains(AbilityInfoModeElement.Description))
         {
-            text.Add("Description: ");
+            _ = text.Add("Description: ");
             text.AddStrings(Description);
         }
 
         if (GetCombatMode(null) != CombatMode.None)
         {
             CombatMode combatMode = GetCombatMode(null);
-            text.Add("Combat mode: " + AbilityRules.TranslateResourceString(GetEngine(), s_combatModeTexts[(int)combatMode]));
+            _ = text.Add("Combat mode: " + AbilityRules.TranslateResourceString(GetEngine(), s_combatModeTexts[(int)combatMode]));
         }
 
         if (mode.Contains(AbilityInfoModeElement.Statistics))
@@ -363,17 +363,17 @@ public partial class Ability : EngineObject
             GetCombatInfo(null, ref info);
             if (info.Attack != -1)
             {
-                text.Add("Attack: " + IntToStr(info.Attack));
+                _ = text.Add("Attack: " + IntToStr(info.Attack));
             }
 
             if (info.Damage != -1)
             {
-                text.Add("Damage: " + IntToStr(info.Damage));
+                _ = text.Add("Damage: " + IntToStr(info.Damage));
             }
 
             if (info.RepeatCount != -1)
             {
-                text.Add("Repeat: " + IntToStr(info.RepeatCount));
+                _ = text.Add("Repeat: " + IntToStr(info.RepeatCount));
             }
 
             if (info.DamageTypes != Set<DamageType>.Of())
@@ -386,14 +386,14 @@ public partial class Ability : EngineObject
                     {
                         if (!IsEmpty(damageNames))
                         {
-                            damageNames = damageNames + ",";
+                            damageNames += ",";
                         }
 
-                        damageNames = damageNames + AbilityRules.TranslateResourceString(GetEngine(), s_damageTypeTexts[(int)damageType]);
+                        damageNames += AbilityRules.TranslateResourceString(GetEngine(), s_damageTypeTexts[(int)damageType]);
                     }
                 }
 
-                text.Add("Damage Types: " + damageNames);
+                _ = text.Add("Damage Types: " + damageNames);
             }
         }
 
@@ -402,7 +402,7 @@ public partial class Ability : EngineObject
             GetOffensiveStrength(null, ref strength, ref types);
             if (strength != 0)
             {
-                text.Add("Strength: " + IntToStr(strength));
+                _ = text.Add("Strength: " + IntToStr(strength));
             }
         }
     }

@@ -8,7 +8,7 @@ public partial class Cave
 
     public override StructureView InfoButton(sbyte viewer)
     {
-        Enter(viewer);
+        _ = Enter(viewer);
         return StructureView.None;
     }
 

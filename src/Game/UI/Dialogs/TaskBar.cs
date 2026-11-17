@@ -104,7 +104,7 @@ public partial class TaskBar : UIModule
     public void TBNextButtonClick()
     {
         UI.General.PlayButtonSound(0);
-        StrategicMap.Current.SelectNextArmy();
+        _ = StrategicMap.Current.SelectNextArmy();
     }
 
     // AoWTBWindow.pas:159
@@ -299,15 +299,13 @@ public partial class TaskBar : UIModule
     // AoWTBWindow.pas:285
     public void TBWorldUpdate()
     {
-        ushort hour = default;
-        ushort minute = default;
-        ushort second = default;
-        ushort millisecond = default;
         if (WorldPanel.Visible && StrategicMap.Current != null)
         {
             WorldClockDelay = (short)(WorldClockDelay - 1);
             if (WorldClockDelay < 0)
             {
+                ushort minute;
+                ushort second;
                 if (StrategicMap.Current.TurnTime != 0)
                 {
                     WorldClockDelay = 10;
@@ -326,7 +324,7 @@ public partial class TaskBar : UIModule
                 else
                 {
                     WorldClockDelay = 900;
-                    DecodeTime(Time(), out hour, out minute, out second, out millisecond);
+                    DecodeTime(Time(), out ushort hour, out minute, out _, out _);
                     if (hour > 12)
                     {
                         hour = (ushort)(hour - 12);
@@ -352,17 +350,13 @@ public partial class TaskBar : UIModule
     // AoWTBWindow.pas:317
     public void TBCombatUpdate()
     {
-        ushort hour = default;
-        ushort minute = default;
-        ushort second = default;
-        ushort millisecond = default;
         if (CombatPanel.Visible && CombatMap.Current != null)
         {
             _combatClockDelay = (short)(_combatClockDelay - 1);
             if (_combatClockDelay < 0)
             {
                 _combatClockDelay = 900;
-                DecodeTime(Time(), out hour, out minute, out second, out millisecond);
+                DecodeTime(Time(), out ushort hour, out ushort minute, out _, out _);
                 if (hour > 12)
                 {
                     hour = (ushort)(hour - 12);

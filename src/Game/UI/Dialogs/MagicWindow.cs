@@ -207,7 +207,7 @@ public partial class MagicWindow : UIModule
 
             if (condition)
             {
-                EnchantmentList.Items.Objects[EnchantmentList.Selected].CenterToLocation();
+                _ = EnchantmentList.Items.Objects[EnchantmentList.Selected].CenterToLocation();
             }
         }
     }
@@ -226,7 +226,7 @@ public partial class MagicWindow : UIModule
         if (condition)
         {
             Enchantment enchantment = EnchantmentList.Items.Objects[EnchantmentList.Selected];
-            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.DispelEnchantment(enchantment);
+            _ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.DispelEnchantment(enchantment);
         }
     }
 
@@ -253,7 +253,7 @@ public partial class MagicWindow : UIModule
         if (condition)
         {
             GlobalEnchantment globalEnchantment = GlobalEnchantmentList.Items.Objects[GlobalEnchantmentList.Selected];
-            StrategicMap.Current.GlobalMagicControl.RemoveEnchantment(StrategicMap.Current.SeatedPlayer, globalEnchantment);
+            _ = StrategicMap.Current.GlobalMagicControl.RemoveEnchantment(StrategicMap.Current.SeatedPlayer, globalEnchantment);
         }
     }
 
@@ -303,7 +303,7 @@ public partial class MagicWindow : UIModule
                 {
                     x = sender.Window.WinLeft;
                     y = sender.Window.WinTop + sender.WinTop;
-                    spell.CastImages.Show(10, sender.WinLeft + x, y, 0, surface);
+                    _ = spell.CastImages.Show(10, sender.WinLeft + x, y, 0, surface);
                 }
             }
         }
@@ -519,11 +519,11 @@ public partial class MagicWindow : UIModule
             {
                 string name = control.Enchantments.GetEnchantments(i).GetName();
                 Enchantment enchantment = control.Enchantments.GetEnchantments(i);
-                window.EnchantmentList.Items.AddObject(name, enchantment);
+                _ = window.EnchantmentList.Items.AddObject(name, enchantment);
                 string binding = control.Enchantments.GetEnchantments(i).GetBinding();
-                window.BindingList.Items.Add(binding);
+                _ = window.BindingList.Items.Add(binding);
                 Enchantment enchantmentUpkeep = control.Enchantments.GetEnchantments(i);
-                window.UpkeepList.Items.Add(IntToStr(enchantmentUpkeep.Upkeep));
+                _ = window.UpkeepList.Items.Add(IntToStr(enchantmentUpkeep.Upkeep));
             }
 
             window.PowerSourceList.Items.Clear();
@@ -534,9 +534,9 @@ public partial class MagicWindow : UIModule
                 {
                     string name = control.PowerSources.GetItems(i).Name();
                     PowerSource powerSource = control.PowerSources.GetItems(i);
-                    window.PowerSourceList.Items.AddObject(name, powerSource);
+                    _ = window.PowerSourceList.Items.AddObject(name, powerSource);
                     int power = control.PowerSources.GetItems(i).Power();
-                    window.PowerValueList.Items.Add(IntToStr(power));
+                    _ = window.PowerValueList.Items.Add(IntToStr(power));
                 }
             }
 
@@ -598,12 +598,12 @@ public partial class MagicWindow : UIModule
             {
                 string name = control.Enchantments.GetEnchantments(i).GetName();
                 GlobalEnchantment enchantment = control.Enchantments.GetEnchantments(i);
-                window.GlobalEnchantmentList.Items.AddObject(name, enchantment);
+                _ = window.GlobalEnchantmentList.Items.AddObject(name, enchantment);
                 GlobalEnchantment enchantmentPlayerIndex = control.Enchantments.GetEnchantments(i);
                 Player player = StrategicMap.Current.Players.GetPlayers(enchantmentPlayerIndex.PlayerIndex);
-                window.GlobalNameList.Items.Add(player.Leader.HeroName);
+                _ = window.GlobalNameList.Items.Add(player.Leader.HeroName);
                 int upkeep = control.Enchantments.GetEnchantments(i).GetUpkeep();
-                window.GlobalUpkeepList.Items.Add(IntToStr(upkeep));
+                _ = window.GlobalUpkeepList.Items.Add(IntToStr(upkeep));
             }
         }
 

@@ -39,7 +39,7 @@ public partial class SendEmailGameDialog : UIModule
         _sendEvent = null;
         done?.Invoke(eventValue);
 
-        eventValue?.Release();
+        _ = (eventValue?.Release());
     }
 
     // AoWSendEmailGameDlg.pas:77
@@ -47,7 +47,7 @@ public partial class SendEmailGameDialog : UIModule
     {
         Done = done;
         _sendEvent = eventValue;
-        _sendEvent.AddRef();
+        _ = _sendEvent.AddRef();
         SendEmailGameEventLog sendEmailGameEventLog = _sendEvent;
         Player player = StrategicMap.Current.Players.GetPlayers(_sendEvent.SendPlayer);
         EmailAddressEdit.Text = player.PbemSettings.EmailGame.EmailAddress;

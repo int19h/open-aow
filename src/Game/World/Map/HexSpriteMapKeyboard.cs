@@ -130,14 +130,14 @@ public partial class HexSpriteMapKeyboard : EngineObject
                             break;
                         case 78:
                         case 188:
-                            StrategicMap.Current.SelectNextArmy();
+                            _ = StrategicMap.Current.SelectNextArmy();
                             break;
                         case 80:
                         case 190:
-                            StrategicMap.Current.SelectPreviousArmy();
+                            _ = StrategicMap.Current.SelectPreviousArmy();
                             break;
                         case 72:
-                            StrategicMap.Current.SelectNextHero();
+                            _ = StrategicMap.Current.SelectNextHero();
                             break;
                         case 77:
                             StrategicMap.Current.SelectedArmy.ExecuteMove();
@@ -175,7 +175,7 @@ public partial class HexSpriteMapKeyboard : EngineObject
                         case 65:
                             if (GetEngine().Registry.GetDeveloper() && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).PlayerType != PlayerType.Human)
                             {
-                                StrategicMap.Current.AIExecutor.ActivatePlayer(StrategicMap.Current.SeatedPlayer);
+                                _ = StrategicMap.Current.AIExecutor.ActivatePlayer(StrategicMap.Current.SeatedPlayer);
                             }
 
                             break;
@@ -196,7 +196,7 @@ public partial class HexSpriteMapKeyboard : EngineObject
 
                 break;
             case HexSpriteMapKeyboardMode.Cheat:
-                _cheatText = _cheatText + Cp1252.Text((byte)key);
+                _cheatText += Cp1252.Text((byte)key);
                 i = 10;
                 complete = false;
                 prefix = false;
@@ -213,7 +213,7 @@ public partial class HexSpriteMapKeyboard : EngineObject
                     cheat.Player = StrategicMap.Current.SeatedPlayer;
                     cheat.CheatId = i;
                     StrategicMap.Current.TokenManager.GetTokenControl(StrategicMap.Current.SeatedPlayer).AddEvent(cheat);
-                    cheat.Release();
+                    _ = cheat.Release();
                     _cheatText = "";
                     Mode = HexSpriteMapKeyboardMode.Default;
                 }
@@ -231,7 +231,7 @@ public partial class HexSpriteMapKeyboard : EngineObject
 
         if (key == 67 && (Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) & shift) == Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) && CompareText(ParamStr(1), "beatrix") == 0 && StrategicMap.Current.ConnectionType != PlayerConnectionType.Network && StrategicMap.Current.ConnectionType != PlayerConnectionType.Email && !GetEngine().Demo)
         {
-            AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB02.WAV");
+            _ = AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB02.WAV");
             Mode = HexSpriteMapKeyboardMode.Cheat;
             _cheatText = "";
         }

@@ -122,7 +122,7 @@ public partial class Int32List : Persistent
 
             v = !IsEmpty(item) ? StrToInt(item) : 0;
 
-            Add(v);
+            _ = Add(v);
             p = Pos(",", S);
         }
     }
@@ -354,7 +354,7 @@ public partial class Int32List : Persistent
             }
             else
             {
-                Add(item);
+                _ = Add(item);
             }
         }
     }
@@ -564,16 +564,16 @@ public partial class Int32List : Persistent
 
                         unit = new Unit(null) { Holder = units.Holder };
                         unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
-                        units.AddUnit(unit);
+                        _ = units.AddUnit(unit);
                         result += unit.GetObtainValue();
                         tries = 50;
-                        unit.Release();
+                        _ = unit.Release();
                     }
                 }
             }
 
         }
-        testUnit.Release();
+        _ = testUnit.Release();
         return result;
     }
 
@@ -637,14 +637,14 @@ public partial class Int32List : Persistent
                         index = bestIndex;
                     }
 
-                    units.Add(index);
+                    _ = units.Add(index);
                     result += GamePack.Current.UnitResources.GetUnitResource(index).ObtainValue;
                     tries = 50;
                 }
             }
         }
 
-        testUnit.Release();
+        _ = testUnit.Release();
         return result;
     }
 

@@ -59,7 +59,7 @@ public partial class AIGroupDefenseControl : AIGroupTask
             case 0:
                 {
                     AIGroupControl aiGroupControl = GroupControl;
-                    _selector.Execute(aiGroupControl.Group, aiGroupControl.Location.X, aiGroupControl.Location.Y, aiGroupControl.Location.MapLevel, null);
+                    _ = _selector.Execute(aiGroupControl.Group, aiGroupControl.Location.X, aiGroupControl.Location.Y, aiGroupControl.Location.MapLevel, null);
                 }
 
                 if (_selector.Defenders.Count != 0)
@@ -70,21 +70,21 @@ public partial class AIGroupDefenseControl : AIGroupTask
                             units = new UnitUserList(null) { Holder = CreationHolder() };
                             {
                                 AIGroupControl aiGroupControl = GroupControl;
-                                _selector.GetDefenders(aiGroupControl.Group.Player, aiGroupControl.Location.X, aiGroupControl.Location.Y, aiGroupControl.Location.MapLevel, units);
+                                _ = _selector.GetDefenders(aiGroupControl.Group.Player, aiGroupControl.Location.X, aiGroupControl.Location.Y, aiGroupControl.Location.MapLevel, units);
                             }
 
                             index = units.IndexOfBehavior(GroupBehavior.Passive);
                             if (index == -1)
                             {
                                 group = StrategicMap.Current.AIGroupManager.CreateGroup(GroupControl.Group.Player, GroupControl.Group.IndependentRelation, GroupBehavior.Passive);
-                                group.AddUnits(_selector.Defenders.Units);
-                                group.SetupTarget(GroupControl.Location, 0, AIGroupTargetStatus.None, 2, -1, 0, 0);
-                                group.Release();
+                                _ = group.AddUnits(_selector.Defenders.Units);
+                                _ = group.SetupTarget(GroupControl.Location, 0, AIGroupTargetStatus.None, 2, -1, 0, 0);
+                                _ = group.Release();
                             }
                             else
                             {
                                 group = units.GetUnit(index).Group;
-                                group.AddUnits(_selector.Defenders.Units);
+                                _ = group.AddUnits(_selector.Defenders.Units);
                             }
 
                             units?.Dispose();

@@ -38,12 +38,12 @@ public partial class EnchantedRoads : GlobalEnchantmentSpell
         sbyte l = default;
         Animation animation = default;
         TwinkleAnimation twinkle = default;
-        base.ExecuteTokenEvent(eventValue, source, executeCount);
+        _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         MapCoordinate coordinate65 = source.GetLocation();
         x = coordinate65.X;
         y = coordinate65.Y;
         l = coordinate65.MapLevel;
-        StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
+        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
         animation = new Animation(null) { Holder = CreationHolder() };
         animation.AnimationLevel = 27;
         animation.OnShow += ShowAnimation;
@@ -51,8 +51,8 @@ public partial class EnchantedRoads : GlobalEnchantmentSpell
         animation.Activate();
         twinkle = new TwinkleAnimation(null) { Holder = CreationHolder() };
         twinkle.Setup(GamePack.Current.SpellControl.GetSpell(44).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
-        StrategicMap.Current.PlaceHex(twinkle, x, y, l);
-        CastSounds.Play(0);
+        _ = StrategicMap.Current.PlaceHex(twinkle, x, y, l);
+        _ = CastSounds.Play(0);
         CastingDone(source, eventValue.EventMana);
         return false;
     }
@@ -75,7 +75,7 @@ public partial class EnchantedRoads : GlobalEnchantmentSpell
                 MapField field = level.GetField(x, y);
                 if (field.OverlayType == 4 && map.SeatedPlayer != -1 && field.GetExplored(map.SeatedPlayer))
                 {
-                    CastImages.Show(0, pixelX, pixelY, animation.FrameCounter - ((field.HexX + (field.HexY * 8) + field.FogCount) & 15), surface);
+                    _ = CastImages.Show(0, pixelX, pixelY, animation.FrameCounter - ((field.HexX + (field.HexY * 8) + field.FogCount) & 15), surface);
                 }
             }
         }

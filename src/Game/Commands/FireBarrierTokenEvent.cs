@@ -23,7 +23,7 @@ public partial class FireBarrierTokenEvent : GlobalTargetSpellTokenEvent
     // GlobalTargetSpells.pas:873
     public override bool Process(Troop source, int value)
     {
-        base.Process(source, value);
+        _ = base.Process(source, value);
         CreateFireBarrier();
         Spell spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
         GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);

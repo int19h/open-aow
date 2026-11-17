@@ -31,10 +31,10 @@ public partial class RecallSpiritCombatAction : ExclusiveCombatSpellCombatAction
             newUnit = new Unit(null) { Holder = CreationHolder() };
             newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(130));
             newUnit.SetPlayer(source.Troop.Player);
-            newUnit.ExpandAbility(130);
+            _ = newUnit.ExpandAbility(130);
             newUnit.Activate();
             target.SetUnit(newUnit);
-            newUnit.Release();
+            _ = newUnit.Release();
             target.SetStatus(target.Status - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed));
             target.SetCombatPlayer((byte)source.CombatPlayer);
         }

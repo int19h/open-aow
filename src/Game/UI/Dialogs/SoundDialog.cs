@@ -64,14 +64,14 @@ public partial class SoundDialog : UIModule
             int count = AudioHost.SongPlayer.Songs.Count;
             if (PlayList.Selected < count)
             {
-                AudioHost.SongPlayer.Play(PlayList.Selected);
+                _ = AudioHost.SongPlayer.Play(PlayList.Selected);
             }
             else
             {
                 if (AudioHost.SongPlayer.Songs.Count != 0)
                 {
                     int songsCount = AudioHost.SongPlayer.Songs.Count;
-                    AudioHost.SongPlayer.Play(songsCount - 1);
+                    _ = AudioHost.SongPlayer.Play(songsCount - 1);
                 }
             }
         }
@@ -86,7 +86,7 @@ public partial class SoundDialog : UIModule
         for (int i = 0, last = AudioHost.SongPlayer.SongNames.Count - 1; i <= last; i++)
         {
             string songName = AudioHost.SongPlayer.SongNames[i];
-            PlayList.Items.Add(songName);
+            _ = PlayList.Items.Add(songName);
         }
 
         PlayList.Selected = AudioHost.SongPlayer.CurrentIndex;
@@ -121,7 +121,7 @@ public partial class SoundDialog : UIModule
     {
         UI.General.PlayButtonSound(0);
         PlayList.Drawn = false;
-        AudioHost.SongPlayer.Play(PlayList.Selected);
+        _ = AudioHost.SongPlayer.Play(PlayList.Selected);
     }
 
     // AoWSoundDlg.pas:172
@@ -139,7 +139,7 @@ public partial class SoundDialog : UIModule
         string directory;
         SongList.Items.Clear();
         s_songFiles.Clear();
-        SetCurrentDir(UI.Engine.StartupDirectory + "\\Songs");
+        _ = SetCurrentDir(UI.Engine.StartupDirectory + "\\Songs");
         directory = GetCurrentDir();
         if (Copy(directory, directory.Length, 1) == "\\")
         {
@@ -152,9 +152,9 @@ public partial class SoundDialog : UIModule
             {
                 if (UpperCase(Copy(entry.Name, entry.Name.Length - 3, 4)) == ".S3M" || UpperCase(Copy(entry.Name, entry.Name.Length - 2, 3)) == ".IT")
                 {
-                    s_songFiles.Add("Songs\\" + entry.Name);
+                    _ = s_songFiles.Add("Songs\\" + entry.Name);
                     string songName = AudioPlayback.GetSongName("Songs\\" + entry.Name);
-                    SongList.Items.Add(songName);
+                    _ = SongList.Items.Add(songName);
                 }
             }
         }
@@ -179,7 +179,7 @@ public partial class SoundDialog : UIModule
     {
         UI.General.PlayButtonSound(0);
         string songFile = s_songFiles[SongList.Selected];
-        AudioHost.SongPlayer.Songs.Add(songFile);
+        _ = AudioHost.SongPlayer.Songs.Add(songFile);
         SoundSetup();
     }
 
@@ -235,7 +235,7 @@ public partial class SoundDialog : UIModule
                 SoundSettings settings2 = Settings;
                 settings2.SampleRate = 22050;
                 Settings = settings2;
-                SetSoundSettings(Settings);
+                _ = SetSoundSettings(Settings);
             }
             else
             {
@@ -245,7 +245,7 @@ public partial class SoundDialog : UIModule
                 SoundSettings settings4 = Settings;
                 settings4.SampleRate = 22050;
                 Settings = settings4;
-                AudioPlayback.InitializeSoundSystem("Galaxy", Settings);
+                _ = AudioPlayback.InitializeSoundSystem("Galaxy", Settings);
             }
         }
 
@@ -273,7 +273,7 @@ public partial class SoundDialog : UIModule
                 SoundSettings settings2 = Settings;
                 settings2.SampleRate = 44100;
                 Settings = settings2;
-                SetSoundSettings(Settings);
+                _ = SetSoundSettings(Settings);
             }
             else
             {
@@ -283,7 +283,7 @@ public partial class SoundDialog : UIModule
                 SoundSettings settings4 = Settings;
                 settings4.SampleRate = 44100;
                 Settings = settings4;
-                AudioPlayback.InitializeSoundSystem("Galaxy", Settings);
+                _ = AudioPlayback.InitializeSoundSystem("Galaxy", Settings);
             }
         }
 
@@ -311,7 +311,7 @@ public partial class SoundDialog : UIModule
                 SoundSettings settings2 = Settings;
                 settings2.SampleRate = 44100;
                 Settings = settings2;
-                SetSoundSettings(Settings);
+                _ = SetSoundSettings(Settings);
             }
             else
             {
@@ -321,7 +321,7 @@ public partial class SoundDialog : UIModule
                 SoundSettings settings4 = Settings;
                 settings4.SampleRate = 44100;
                 Settings = settings4;
-                AudioPlayback.InitializeSoundSystem("Galaxy", Settings);
+                _ = AudioPlayback.InitializeSoundSystem("Galaxy", Settings);
             }
         }
 
@@ -350,10 +350,10 @@ public partial class SoundDialog : UIModule
         SoundSettings settings = Settings;
         settings.MusicEnabled = MusicEnabledCheckBox.Checked;
         Settings = settings;
-        SetMusicEnabled(Settings.MusicEnabled);
+        _ = SetMusicEnabled(Settings.MusicEnabled);
         if (Settings.MusicEnabled && SoundQuality != 0)
         {
-            AudioHost.SongPlayer.Play(0);
+            _ = AudioHost.SongPlayer.Play(0);
         }
 
         if (sender.Checked)
@@ -372,7 +372,7 @@ public partial class SoundDialog : UIModule
         SoundSettings settings = Settings;
         settings.SfxEnabled = EffectsEnabledCheckBox.Checked;
         Settings = settings;
-        SetSfxEnabled(Settings.SfxEnabled);
+        _ = SetSfxEnabled(Settings.SfxEnabled);
         if (sender.Checked)
         {
             UI.General.PlayButtonSound(1);
@@ -391,7 +391,7 @@ public partial class SoundDialog : UIModule
         Settings = settings;
         if (SoundSystemStatus().Contains(SoundSystemStatusElement.Activated))
         {
-            SetSoundSettings(Settings);
+            _ = SetSoundSettings(Settings);
         }
 
         if (sender.Checked)
