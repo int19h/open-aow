@@ -7,8 +7,8 @@ namespace Aow.Game.Net;
 public partial class PlayerCommunicationSettingsList : OwningNode, IChildList<PlayerCommunicationSettings>
 {
     // The child in slot index, read as the original reads the list, without a range check.
-    // AcceptsChild admits only a PlayerCommunicationSettings, so the cast never fails.
-    public PlayerCommunicationSettings this[int index] => (PlayerCommunicationSettings)GetChild(index);
+    // AcceptsChild admits only a PlayerCommunicationSettings, so the read never fails.
+    public PlayerCommunicationSettings this[int index] => GetChild<PlayerCommunicationSettings>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is PlayerCommunicationSettings;
 

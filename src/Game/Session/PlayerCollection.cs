@@ -41,7 +41,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     // Player.PAS:1543
     public override void Assign(EngineObject source, GameEngine engine)
     {
-        // Assign copies a player collection, so the source is a player collection.
+        // Assign's source is EngineObject. This override copies a player collection, and the cast stays.
         PlayerCollection other = (PlayerCollection)source;
         SetNumberOfPlayers(other.GetNumberOfPlayers());
         for (int i = 0, last = Count - 1; i <= last; i++)

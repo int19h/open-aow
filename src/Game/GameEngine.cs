@@ -53,7 +53,11 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     public bool Debug { get; set; }
     public byte AnimationDetail { get; private set; }
     public bool Demo { get; private set; }
-    public Campaign Campaign { get; private set; }
+
+    // Keepers.CAM and Storm.CAM store class id 2248704, and a save of those campaigns stores the
+    // same class. The engine holds that world map campaign.
+    public WorldMapCampaign Campaign { get; private set; }
+
     public EmailGameControl EmailGames { get; private set; }
     public IvBinaryDictionary Dictionary { get; set; }
     public byte Language { get; private set; }
@@ -432,8 +436,8 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     public void LoadCampaign(string fileName, GameFileTree tree)
     {
         CloseCampaign();
-        // The tree stores a campaign class, and the reader returns the engine object it creates.
-        Campaign = (Campaign)RetrieveFromTree(tree, progress: null);
+        // The file stores a world map campaign, and the reader returns that class.
+        Campaign = RetrieveFromTree<WorldMapCampaign>(tree, progress: null);
         TranslateEngineObjectFromFile(Campaign, StartupDirectory + "Dict\\" + "Campaign" + ".mld");
         Campaign.FileName = fileName;
     }
@@ -457,8 +461,8 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     public void NewCampaign(int classId)
     {
         CloseCampaign();
-        // The class id selects a campaign class, and the factory returns the engine object it creates.
-        Campaign = (Campaign)CreateEngineObject(classId, null);
+        // The class id selects the world map campaign, and the factory returns that class.
+        Campaign = CreateEngineObject<WorldMapCampaign>(classId, owner: null);
     }
 
     // intf_P2_08.inc:29. The flag is set before construction and cleared when it returns.

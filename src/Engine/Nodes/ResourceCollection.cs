@@ -10,8 +10,8 @@ public partial class ResourceCollection : EngineNode, IChildList<EngineResource>
     public new const int ClassId = 1025;
 
     // The resource in slot index, read as the original reads the list, without a range check.
-    // AcceptsChild admits only a resource, so the cast never fails.
-    public EngineResource this[int index] => (EngineResource)GetChild(index);
+    // AcceptsChild admits only a resource, so the read never fails.
+    public EngineResource this[int index] => GetChild<EngineResource>(index);
 
     // A resource list takes resources only. A list of one kind of resource narrows that through
     // AcceptsResource, and cannot widen it.

@@ -11,8 +11,8 @@ namespace Aow.Game.Audio;
 public partial class SfxSequence : OwningNode, IChildList<Sfx>
 {
     // The sound effect in slot index, read as the original reads the list, without a range check.
-    // AcceptsChild admits only a Sfx, so the cast never fails.
-    public Sfx this[int index] => (Sfx)GetChild(index);
+    // AcceptsChild admits only a Sfx, so the read never fails.
+    public Sfx this[int index] => GetChild<Sfx>(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is Sfx;
 
