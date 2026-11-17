@@ -1060,7 +1060,7 @@ public partial class RealmWindow : UIModule
                 PlayerStructure structure = players.Structures.GetStructure(i);
                 if (structure.EngineClass.ClassId == 131336 && structure.Player == player)
                 {
-                    number += ((PlayerCropStructure)structure).Income;
+                    number += structure.GetIncome();
                 }
             }
         }
@@ -1084,7 +1084,7 @@ public partial class RealmWindow : UIModule
                 PlayerStructure structure = players.Structures.GetStructure(i);
                 if (structure.EngineClass.ClassId == 131950 && structure.Player == player)
                 {
-                    number += ((PlayerCropStructure)structure).Income;
+                    number += structure.GetIncome();
                 }
             }
         }

@@ -180,6 +180,7 @@ public partial class Control : UIComponent
     public override void SetOwner(UIComponent value)
     {
         base.SetOwner(value);
+        // The owner is a UIComponent. This control sits in a window, and the cast stays.
         _window = (BaseWindow)OwnerComponent;
     }
 

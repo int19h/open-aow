@@ -344,7 +344,7 @@ public partial class SetupControl : Component
         switch (package.MessageId)
         {
             case 1:
-                // Message id 1 carries a remote player in Data.
+                // Message id 1 carries a remote player in Data, and the cast stays.
                 ConnectPlayer((RemotePlayer)package.Data);
                 break;
             case 2:
@@ -357,7 +357,7 @@ public partial class SetupControl : Component
             case 3:
                 if (GetHost())
                 {
-                    // Message id 3 carries a remote player in Data.
+                    // Message id 3 carries a remote player in Data, and the cast stays.
                     UpdatePlayer((RemotePlayer)package.Data);
                 }
 
@@ -413,7 +413,7 @@ public partial class SetupControl : Component
             case 8:
                 if (GetHost())
                 {
-                    // Message 8 carries the customized leader in Data. Another class throws.
+                    // Message 8 carries the customized leader in Data. The id selects the class, and the cast stays.
                     LeaderCustomized(package.Param2, (Leader)package.Data);
                 }
 
