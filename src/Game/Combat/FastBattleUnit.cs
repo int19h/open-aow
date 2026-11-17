@@ -30,7 +30,8 @@ public partial class FastBattleUnit : CombatUnit
 
     public int RoundDistance { get; set; }
 
-    // FastBattle.CreateCombatUnit makes this unit, so its battle is a fast battle.
+    // Combat is assigned when the battle initializes the unit, after construction. A fast battle
+    // creates only this unit, so the battle is a fast battle. Null stays null. Another battle fails.
     private FastBattle FastCombat => (FastBattle)Combat;
 
     public Set<FastBattleUnitStateElement> State { get; set; }

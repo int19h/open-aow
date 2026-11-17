@@ -52,10 +52,10 @@ public partial class UnholyGroundSpellTokenEvent : GlobalTargetSpellTokenEvent
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 mapField = level.GetField(walk.X, walk.Y);
-                if (((GlobalTargetSpell)GamePack.Current.SpellControl.GetSpell(14)).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() == null)
+                if (GamePack.Current.SpellControl.GetSpell<GlobalTargetSpell>(14).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() == null)
                 {
                     mapField.RestoreTerrain();
-                    ground = (UnholyGround)resource.CreateResourceUser();
+                    ground = resource.CreateResourceUser<UnholyGround>();
                     ground.Duration = (sbyte)(3 + ((StrategicMap.Current.Random(11) - 5) / 5));
                     ground.Player = source.Player;
                     ground.OriginalOverlay = mapField.OverlayType;

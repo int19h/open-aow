@@ -1896,39 +1896,41 @@ public partial class Hero : Troop
         bool result;
         Item item1;
         Item item2;
-        ObservableNode owner1;
-        ObservableNode owner2;
+        ItemOwner owner1;
+        ItemOwner owner2;
         int index1;
         int index2;
         if (CanSwapItem(itemId1, itemId2))
         {
             item1 = StrategicMap.Current.ItemControl.FindItem(itemId1);
             item2 = StrategicMap.Current.ItemControl.FindItem(itemId2);
-            owner1 = (ObservableNode)item1.Owner;
-            owner2 = (ObservableNode)item2.Owner;
-            using (owner1.BeginUpdate())
-            using (owner2.BeginUpdate())
+            // An item admits only an item owner. Another owner fails in Of. Null stays null and
+            // BeginUpdate fails on it.
+            owner1 = ItemOwner.Of(item1.Owner);
+            owner2 = ItemOwner.Of(item2.Owner);
+            using (owner1.Observable.BeginUpdate())
+            using (owner2.Observable.BeginUpdate())
             {
                 index1 = item1.Owner.FindChildIndex(item1);
                 index2 = item2.Owner.FindChildIndex(item2);
                 item1.SetOwner(null);
                 item2.SetOwner(null);
-                if (owner1.GetControlStyle().Contains(ControlStyleElement.ArrayMode))
+                if (owner1.Observable.GetControlStyle().Contains(ControlStyleElement.ArrayMode))
                 {
-                    item2.SetArrayOwner(owner1, index1);
+                    item2.SetArrayOwner(owner1.Observable, index1);
                 }
                 else
                 {
-                    item2.SetOwner(owner1);
+                    item2.SetOwner(owner1.Observable);
                 }
 
-                if (owner2.GetControlStyle().Contains(ControlStyleElement.ArrayMode))
+                if (owner2.Observable.GetControlStyle().Contains(ControlStyleElement.ArrayMode))
                 {
-                    item1.SetArrayOwner(owner2, index2);
+                    item1.SetArrayOwner(owner2.Observable, index2);
                 }
                 else
                 {
-                    item1.SetOwner(owner2);
+                    item1.SetOwner(owner2.Observable);
                 }
 
             }

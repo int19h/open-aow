@@ -5,6 +5,8 @@ using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 
+using Aow.Game.World.Map;
+
 using Aow.Rtl;
 
 using static Aow.Rtl.RtlUnit;
@@ -23,7 +25,7 @@ public partial class WebAbility : TouchAbility
     }
 
     // AoWAb.PAS:2901
-    public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
+    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
         CombatObject target;
         WebCombatAction action;
@@ -134,7 +136,13 @@ public partial class WebAbility : TouchAbility
     // AoWAb.PAS:2825
     public override bool CanTouch(CombatObject source, CombatObject target) => base.CanTouch(source, target) && source is CombatUnit && target is CombatUnit && !target.GetAbilityEnabled(97);
 
-    // AoWAb.PAS:2819
+    // AoWAb.PAS:2819. Draws the random value the touch event used to draw, then builds the action.
+    public override CombatAction CreateTouchMoveCombatAction(CombatUnit source, CombatUnit target)
+    {
+        RandSeed = StrategicMap.Current.Random(16777215);
+        return CreateWebCombatAction(source, target: target);
+    }
+
     public WebCombatAction CreateWebCombatAction(CombatObject source, CombatObject target)
     {
         WebCombatAction result = new(null) { Holder = CreationHolder() };

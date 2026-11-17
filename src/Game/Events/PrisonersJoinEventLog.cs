@@ -28,7 +28,7 @@ public partial class PrisonersJoinEventLog : JoinEventLog
         bool result;
         Dungeon dungeon;
         StructureTokenEvent tokenEvent;
-        dungeon = (Dungeon)StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild(131882);
+        dungeon = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild<Dungeon>(131882);
         if (dungeon != null && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
             tokenEvent = dungeon.CreateTokenEvent();
@@ -52,7 +52,7 @@ public partial class PrisonersJoinEventLog : JoinEventLog
     {
         Dungeon dungeon;
         int index;
-        dungeon = (Dungeon)StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild(131882);
+        dungeon = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild<Dungeon>(131882);
         if (dungeon != null)
         {
             for (int i = 0, last = dungeon.Prisoners.Units.Count - 1; i <= last; i++)

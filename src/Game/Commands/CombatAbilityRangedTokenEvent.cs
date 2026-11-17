@@ -252,9 +252,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                         if (hexSprite != null)
                                         {
                                             RandSeed = StrategicMap.Current.Random(16777215);
-                                            effect.CombatAction = GamePack.Current.SpellControl.GetSpell(effect.SpellIndex).CreateCombatAction(_unit, hexSprite.Unit, false);
-                                            // The spell factory returns the base action type by design. Spell 107 always builds a damage action.
-                                            DamageCombatAction damage = (DamageCombatAction)effect.CombatAction;
+                                            // Spell 107 builds a damage action. Another action class fails in the typed create.
+                                            DamageCombatAction damage = GamePack.Current.SpellControl.GetSpell(effect.SpellIndex).CreateCombatAction<DamageCombatAction>(_unit, target: hexSprite.Unit, chargeMana: false);
+                                            effect.CombatAction = damage;
                                             sbyte hexY = hexSprite.HexY;
                                             HexGeometry.HexToPixel(hexSprite.HexX, hexY, out i, out x);
                                             if (damage.DamageTypes - damage.Effects != Set<DamageType>.Of())
@@ -478,8 +478,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                 {
                                                                     RandSeed = StrategicMap.Current.Random(16777215);
                                                                     CombatObject combatObject = CombatMap.Current.Combat.CombatData.GetObjects(i);
-                                                                    action = GamePack.Current.SpellControl.GetSpell(SpellId).CreateCombatAction(_unit, combatObject, false);
-                                                                    if (((ExclusiveCombatSpellCombatAction)action).Succeeded)
+                                                                    ExclusiveCombatSpellCombatAction exclusive = GamePack.Current.SpellControl.GetSpell(SpellId).CreateCombatAction<ExclusiveCombatSpellCombatAction>(_unit, target: combatObject, chargeMana: false);
+                                                                    action = exclusive;
+                                                                    if (exclusive.Succeeded)
                                                                     {
                                                                         CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
                                                                     }
@@ -552,11 +553,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                         RandSeed = StrategicMap.Current.Random(16777215);
                                                                         effect.CombatAction = AbilityId == 52
                                                                             ? GamePack.Current.SpellControl.GetSpell(SpellId).CreateCombatAction(_unit, effect.Target, false)
-                                                                            : AbilityId == 47
-                                                                                ? GamePack.Current.AbilityControl.GetAbility<HealingAbility>(AbilityId).CreateHealingCombatAction(_unit, effect.Target)
-                                                                                : AbilityId == 60
-                                                                                    ? GamePack.Current.AbilityControl.GetAbility<DispelMagicAbility>(AbilityId).CreateCombatAction(_unit, effect.Target)
-                                                                                    : GamePack.Current.AbilityControl.GetAbility<RangedAttackAbility>(AbilityId).CreateRangedAttackCombatAction(_unit, effect.Target, 0);
+                                                                            : GamePack.Current.AbilityControl.GetAbility(AbilityId).CreateRangedCombatAction(_unit, target: effect.Target);
 
                                                                         if (effect.CombatAction is DamageCombatAction damage)
                                                                         {
@@ -575,16 +572,13 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                         }
                                                                         else
                                                                         {
-                                                                            if (effect.CombatAction is EntangleSpellCombatAction)
+                                                                            if (effect.CombatAction is EntangleSpellCombatAction { Succeeded: true })
                                                                             {
-                                                                                if (((ExclusiveCombatSpellCombatAction)effect.CombatAction).Succeeded)
-                                                                                {
-                                                                                    effect.Target.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
-                                                                                }
+                                                                                effect.Target.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
                                                                             }
                                                                             else
                                                                             {
-                                                                                if (effect.CombatAction is MindDecayCombatAction && ((ExclusiveCombatSpellCombatAction)effect.CombatAction).Succeeded)
+                                                                                if (effect.CombatAction is MindDecayCombatAction { Succeeded: true })
                                                                                 {
                                                                                     effect.Target.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
                                                                                 }

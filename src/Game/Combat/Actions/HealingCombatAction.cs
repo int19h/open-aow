@@ -16,6 +16,8 @@ public partial class HealingCombatAction : SingleTargetCombatAction
     public HealingCombatAction(CustomNode owner) : base(owner)
     { }
 
+    public override bool TouchSucceeded => true;
+
     // AoWAb.PAS:3579
     public override void Execute(Battle combat)
     {

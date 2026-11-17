@@ -70,7 +70,7 @@ public partial class StrikeAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:1399
-    public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
+    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
         MeleeRound round;
         int i;

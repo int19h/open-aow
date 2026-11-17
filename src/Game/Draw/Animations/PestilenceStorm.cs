@@ -103,7 +103,7 @@ public partial class PestilenceStorm : Storm
 
         if (frame == -1)
         {
-            cloud = (PoisonCloud)_cloudResource.CreateResourceUser();
+            cloud = _cloudResource.CreateResourceUser<PoisonCloud>();
             cloud.TurnsRemaining = 3;
             cloud.Player = StrategicMap.Current.CurrentPlayer;
             sbyte hexLevel = GetHexLevel();

@@ -25,7 +25,7 @@ public partial class BreathAbility : RangedAttackAbility
     }
 
     // AoWAb.PAS:4894
-    public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
+    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
         Battle combat;
         DelphiList<CombatObject> targets;

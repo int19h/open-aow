@@ -26,4 +26,7 @@ public readonly union ItemOwner(ItemList, HeroInventory, HeroItems, ItemLibrary)
 
     /// <summary>The owner as the node the untyped owner stores.</summary>
     public readonly CustomNode Node => (CustomNode)Value;
+
+    /// <summary>The owner as the observable node every admitted kind is. Null stays null.</summary>
+    public readonly ObservableNode Observable => (ObservableNode)Value;
 }

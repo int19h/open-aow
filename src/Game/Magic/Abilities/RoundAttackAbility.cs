@@ -25,7 +25,7 @@ public partial class RoundAttackAbility : TouchAbility
     }
 
     // AoWAb.PAS:2404
-    public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
+    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
         Set<DamageType> damageTypes;
         int count;

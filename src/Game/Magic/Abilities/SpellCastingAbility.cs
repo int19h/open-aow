@@ -86,7 +86,13 @@ public partial class SpellCastingAbility : MultiLevelAbility
     }
 
     // AoWAb.PAS:4484
-    public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command) => GamePack.Current.SpellControl.GetSpell(((FastBattleSpellCommand)command).SpellId).FastBattleExecuteCombatCommand(source, command);
+    // The command list stores every command as the base command. Spell casting runs a spell command.
+    // Another command fails. Null stays null and the spell id read fails on it.
+    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
+    {
+        FastBattleSpellCommand spellCommand = (FastBattleSpellCommand)command;
+        return GamePack.Current.SpellControl.GetSpell(spellCommand.SpellId).FastBattleExecuteCombatCommand(source, command: spellCommand);
+    }
 
     // AoWAb.PAS:4479
     public override bool CanActivate(AbilityOwner owner, ref string reason)

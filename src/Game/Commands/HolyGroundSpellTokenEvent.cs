@@ -49,12 +49,12 @@ public partial class HolyGroundSpellTokenEvent : GlobalTargetSpellTokenEvent
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 field = level.Field[walk.X, walk.Y];
-                if (((GlobalTargetSpell)GamePack.Current.SpellControl.GetSpell(13)).ValidTargetMapField(field))
+                if (GamePack.Current.SpellControl.GetSpell<GlobalTargetSpell>(13).ValidTargetMapField(field))
                 {
                     if (field.GetArmyHexSprite() == null)
                     {
                         field.RestoreTerrain();
-                        ground = (HolyGround)resource.CreateResourceUser();
+                        ground = resource.CreateResourceUser<HolyGround>();
                         ground.Duration = (sbyte)(((StrategicMap.Current.Random(11) - 5) / 5) + 3);
                         ground.Player = caster.Player;
                         ground.OriginalOverlay = field.OverlayType;

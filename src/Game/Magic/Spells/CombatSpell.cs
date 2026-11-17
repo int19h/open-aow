@@ -154,7 +154,7 @@ public partial class CombatSpell : Spell
     }
 
     // CombatSpells.pas:791
-    public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
+    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
         int count;
         CombatAction action;

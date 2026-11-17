@@ -96,6 +96,7 @@ public partial class Anarchy : CityTargetSpell
     // CitySpells.pas:867
     public void ShowAnimation(Animation animation, int X, int Y, in LockedSurface lockedSurface)
     {
+        // The spell builds an image sequence. Another animation fails. Null stays null.
         ImageSequenceAnimation imageSequenceAnimation = (ImageSequenceAnimation)animation;
         if (imageSequenceAnimation.ImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FrameCounter) == 0 && GetEngine().AnimationDetail != 0)
         {

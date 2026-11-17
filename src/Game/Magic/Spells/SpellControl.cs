@@ -72,6 +72,11 @@ public partial class SpellControl : EngineObject
         return result;
     }
 
+    // RegisterSpell stores exactly one instance per id and refuses a second registration. The caller names
+    // the kind registered at that id. Another class throws InvalidCastException. An id past the list returns
+    // null, as GetSpell does.
+    public T GetSpell<T>(int index) where T : Spell => (T)GetSpell(index);
+
     // Spells.PAS:610
     public void RegisterSpell(Spell spell)
     {

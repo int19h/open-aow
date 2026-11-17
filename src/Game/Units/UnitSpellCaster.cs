@@ -105,7 +105,7 @@ public partial class UnitSpellCaster : SpellCaster
                     }
                 }
 
-                result = ((UnitSpell)GamePack.Current.SpellControl.GetSpell(CasterSpellId)).CastSpell(source, targets);
+                result = GamePack.Current.SpellControl.GetSpell<UnitSpell>(CasterSpellId).CastSpell(source, targets);
                 targets?.Dispose();
             }
             else
@@ -156,7 +156,7 @@ public partial class UnitSpellCaster : SpellCaster
     {
         byte value = selection;
         Troop source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
-        ((UnitSpell)GamePack.Current.SpellControl.GetSpell(CasterSpellId)).ValidateUnitSelection(source, TargetUnits, ref value);
+        GamePack.Current.SpellControl.GetSpell<UnitSpell>(CasterSpellId).ValidateUnitSelection(source, TargetUnits, ref value);
         SelectionMask = value;
     }
 }

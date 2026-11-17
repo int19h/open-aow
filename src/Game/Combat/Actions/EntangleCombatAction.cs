@@ -20,6 +20,8 @@ public partial class EntangleCombatAction : SingleTargetCombatAction
 
     public bool Successful { get; private set; }
 
+    public override bool TouchSucceeded => Successful;
+
     // AoWAb.PAS:2927
     public override void PersistFields(IPersister persister)
     {

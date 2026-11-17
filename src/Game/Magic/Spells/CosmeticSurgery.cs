@@ -81,6 +81,8 @@ public partial class CosmeticSurgery : UnitSpell
 
             if (expanded)
             {
+                // Ability 126 stores the enchantment its ability builds. Another enchantment fails.
+                // Null stays null and the upkeep write fails on it.
                 enchantment = (CosmeticSurgeryEnchantment)target.GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.FaceIndex = data[0];

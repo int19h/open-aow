@@ -597,23 +597,7 @@
           }
         },
         "CombatUnitSelectionControl.TargetImages": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.RangedPathHexSprite.RangedPathHexSprite._targetImages",
-        "CombatUnitSelectionControl._cursorFrame": 0,
-        "CombatUnitSelectionControl._cursorImage": 0,
-        "CombatUnitSelectionControl._pathInvalid": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set`1.a": 0,
-          "Set`1.b": 0,
-          "Set`1.bounded": false,
-          "Set`1.c": 0,
-          "Set`1.d": 0,
-          "Set`1.high": 0,
-          "Set`1.low": 0
-        },
-        "CombatUnitSelectionControl._targetX": 0,
-        "CombatUnitSelectionControl._targetY": 0,
-        "MoveSelector.CurrentMove": -1,
-        "MoveSelector.Map": null,
-        "MoveSelector.MoveControlSettings": {
+        "CombatUnitSelectionControl._combatMoveSettings": {
           "$type": "Aow.Game.Combat.CombatMoveControlSettings",
           "CombatMoveControlSettings.MoveFlags": {
             "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1003,7 +987,7 @@
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList`1.count": 0,
-              "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
+              "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
             },
             "ObservableNode._updateCount": 0
           },
@@ -1015,13 +999,30 @@
           "MoveControlSettings._rowOffsets": [],
           "MoveControlSettings._width": 0
         },
+        "CombatUnitSelectionControl._cursorFrame": 0,
+        "CombatUnitSelectionControl._cursorImage": 0,
+        "CombatUnitSelectionControl._pathInvalid": {
+          "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set`1.a": 0,
+          "Set`1.b": 0,
+          "Set`1.bounded": false,
+          "Set`1.c": 0,
+          "Set`1.d": 0,
+          "Set`1.high": 0,
+          "Set`1.low": 0
+        },
+        "CombatUnitSelectionControl._targetX": 0,
+        "CombatUnitSelectionControl._targetY": 0,
+        "MoveSelector.CurrentMove": -1,
+        "MoveSelector.Map": null,
+        "MoveSelector.MoveControlSettings": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings",
         "MoveSelector.MoveSettingsList": {
           "$type": "Aow.Game.World.Movement.MoveSettingsList",
           "EngineObject._owner": null,
           "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList`1.count": 0,
-            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
           }
         },
         "MoveSelector.Status": {
@@ -1268,7 +1269,7 @@
         "OwningNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList`1.count": 0,
-          "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
+          "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
         }
       },
       "GameMap._selectorX": 0,
@@ -1950,23 +1951,7 @@
           }
         },
         "CombatUnitSelectionControl.TargetImages": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.RangedPathHexSprite.RangedPathHexSprite._targetImages",
-        "CombatUnitSelectionControl._cursorFrame": 0,
-        "CombatUnitSelectionControl._cursorImage": 0,
-        "CombatUnitSelectionControl._pathInvalid": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set`1.a": 0,
-          "Set`1.b": 0,
-          "Set`1.bounded": false,
-          "Set`1.c": 0,
-          "Set`1.d": 0,
-          "Set`1.high": 0,
-          "Set`1.low": 0
-        },
-        "CombatUnitSelectionControl._targetX": 0,
-        "CombatUnitSelectionControl._targetY": 0,
-        "MoveSelector.CurrentMove": -1,
-        "MoveSelector.Map": null,
-        "MoveSelector.MoveControlSettings": {
+        "CombatUnitSelectionControl._combatMoveSettings": {
           "$type": "Aow.Game.Combat.CombatMoveControlSettings",
           "CombatMoveControlSettings.MoveFlags": {
             "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2356,7 +2341,7 @@
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList`1.count": 0,
-              "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
+              "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
             },
             "ObservableNode._updateCount": 0
           },
@@ -2368,13 +2353,30 @@
           "MoveControlSettings._rowOffsets": [],
           "MoveControlSettings._width": 0
         },
+        "CombatUnitSelectionControl._cursorFrame": 0,
+        "CombatUnitSelectionControl._cursorImage": 0,
+        "CombatUnitSelectionControl._pathInvalid": {
+          "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set`1.a": 0,
+          "Set`1.b": 0,
+          "Set`1.bounded": false,
+          "Set`1.c": 0,
+          "Set`1.d": 0,
+          "Set`1.high": 0,
+          "Set`1.low": 0
+        },
+        "CombatUnitSelectionControl._targetX": 0,
+        "CombatUnitSelectionControl._targetY": 0,
+        "MoveSelector.CurrentMove": -1,
+        "MoveSelector.Map": null,
+        "MoveSelector.MoveControlSettings": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings",
         "MoveSelector.MoveSettingsList": {
           "$type": "Aow.Game.World.Movement.MoveSettingsList",
           "EngineObject._owner": null,
           "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList`1.count": 0,
-            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
           }
         },
         "MoveSelector.Status": {
@@ -2621,7 +2623,7 @@
         "OwningNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList`1.count": 0,
-          "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
+          "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
         }
       },
       "GameMap._selectorX": 0,
@@ -3303,23 +3305,7 @@
           }
         },
         "CombatUnitSelectionControl.TargetImages": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.RangedPathHexSprite.RangedPathHexSprite._targetImages",
-        "CombatUnitSelectionControl._cursorFrame": 0,
-        "CombatUnitSelectionControl._cursorImage": 0,
-        "CombatUnitSelectionControl._pathInvalid": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set`1.a": 0,
-          "Set`1.b": 0,
-          "Set`1.bounded": false,
-          "Set`1.c": 0,
-          "Set`1.d": 0,
-          "Set`1.high": 0,
-          "Set`1.low": 0
-        },
-        "CombatUnitSelectionControl._targetX": 0,
-        "CombatUnitSelectionControl._targetY": 0,
-        "MoveSelector.CurrentMove": -1,
-        "MoveSelector.Map": null,
-        "MoveSelector.MoveControlSettings": {
+        "CombatUnitSelectionControl._combatMoveSettings": {
           "$type": "Aow.Game.Combat.CombatMoveControlSettings",
           "CombatMoveControlSettings.MoveFlags": {
             "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3709,7 +3695,7 @@
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList`1.count": 0,
-              "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
+              "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
             },
             "ObservableNode._updateCount": 0
           },
@@ -3721,13 +3707,30 @@
           "MoveControlSettings._rowOffsets": [],
           "MoveControlSettings._width": 0
         },
+        "CombatUnitSelectionControl._cursorFrame": 0,
+        "CombatUnitSelectionControl._cursorImage": 0,
+        "CombatUnitSelectionControl._pathInvalid": {
+          "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set`1.a": 0,
+          "Set`1.b": 0,
+          "Set`1.bounded": false,
+          "Set`1.c": 0,
+          "Set`1.d": 0,
+          "Set`1.high": 0,
+          "Set`1.low": 0
+        },
+        "CombatUnitSelectionControl._targetX": 0,
+        "CombatUnitSelectionControl._targetY": 0,
+        "MoveSelector.CurrentMove": -1,
+        "MoveSelector.Map": null,
+        "MoveSelector.MoveControlSettings": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings",
         "MoveSelector.MoveSettingsList": {
           "$type": "Aow.Game.World.Movement.MoveSettingsList",
           "EngineObject._owner": null,
           "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList`1.count": 0,
-            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
           }
         },
         "MoveSelector.Status": {
@@ -3974,7 +3977,7 @@
         "OwningNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList`1.count": 0,
-          "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
+          "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
         }
       },
       "GameMap._selectorX": 0,
@@ -4656,23 +4659,7 @@
           }
         },
         "CombatUnitSelectionControl.TargetImages": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.RangedPathHexSprite.RangedPathHexSprite._targetImages",
-        "CombatUnitSelectionControl._cursorFrame": 0,
-        "CombatUnitSelectionControl._cursorImage": 0,
-        "CombatUnitSelectionControl._pathInvalid": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set`1.a": 0,
-          "Set`1.b": 0,
-          "Set`1.bounded": false,
-          "Set`1.c": 0,
-          "Set`1.d": 0,
-          "Set`1.high": 0,
-          "Set`1.low": 0
-        },
-        "CombatUnitSelectionControl._targetX": 0,
-        "CombatUnitSelectionControl._targetY": 0,
-        "MoveSelector.CurrentMove": -1,
-        "MoveSelector.Map": null,
-        "MoveSelector.MoveControlSettings": {
+        "CombatUnitSelectionControl._combatMoveSettings": {
           "$type": "Aow.Game.Combat.CombatMoveControlSettings",
           "CombatMoveControlSettings.MoveFlags": {
             "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -5062,7 +5049,7 @@
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList`1.count": 0,
-              "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
+              "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
             },
             "ObservableNode._updateCount": 0
           },
@@ -5074,13 +5061,30 @@
           "MoveControlSettings._rowOffsets": [],
           "MoveControlSettings._width": 0
         },
+        "CombatUnitSelectionControl._cursorFrame": 0,
+        "CombatUnitSelectionControl._cursorImage": 0,
+        "CombatUnitSelectionControl._pathInvalid": {
+          "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set`1.a": 0,
+          "Set`1.b": 0,
+          "Set`1.bounded": false,
+          "Set`1.c": 0,
+          "Set`1.d": 0,
+          "Set`1.high": 0,
+          "Set`1.low": 0
+        },
+        "CombatUnitSelectionControl._targetX": 0,
+        "CombatUnitSelectionControl._targetY": 0,
+        "MoveSelector.CurrentMove": -1,
+        "MoveSelector.Map": null,
+        "MoveSelector.MoveControlSettings": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings",
         "MoveSelector.MoveSettingsList": {
           "$type": "Aow.Game.World.Movement.MoveSettingsList",
           "EngineObject._owner": null,
           "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList`1.count": 0,
-            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
           }
         },
         "MoveSelector.Status": {
@@ -5327,7 +5331,7 @@
         "OwningNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList`1.count": 0,
-          "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
+          "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
         }
       },
       "GameMap._selectorX": 0,
@@ -6011,23 +6015,7 @@
           }
         },
         "CombatUnitSelectionControl.TargetImages": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.RangedPathHexSprite.RangedPathHexSprite._targetImages",
-        "CombatUnitSelectionControl._cursorFrame": 0,
-        "CombatUnitSelectionControl._cursorImage": 0,
-        "CombatUnitSelectionControl._pathInvalid": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set`1.a": 0,
-          "Set`1.b": 0,
-          "Set`1.bounded": false,
-          "Set`1.c": 0,
-          "Set`1.d": 0,
-          "Set`1.high": 0,
-          "Set`1.low": 0
-        },
-        "CombatUnitSelectionControl._targetX": 0,
-        "CombatUnitSelectionControl._targetY": 0,
-        "MoveSelector.CurrentMove": -1,
-        "MoveSelector.Map": null,
-        "MoveSelector.MoveControlSettings": {
+        "CombatUnitSelectionControl._combatMoveSettings": {
           "$type": "Aow.Game.Combat.CombatMoveControlSettings",
           "CombatMoveControlSettings.MoveFlags": {
             "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -6417,7 +6405,7 @@
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList`1.count": 0,
-              "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
+              "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
             },
             "ObservableNode._updateCount": 0
           },
@@ -6429,13 +6417,30 @@
           "MoveControlSettings._rowOffsets": [],
           "MoveControlSettings._width": 0
         },
+        "CombatUnitSelectionControl._cursorFrame": 0,
+        "CombatUnitSelectionControl._cursorImage": 0,
+        "CombatUnitSelectionControl._pathInvalid": {
+          "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set`1.a": 0,
+          "Set`1.b": 0,
+          "Set`1.bounded": false,
+          "Set`1.c": 0,
+          "Set`1.d": 0,
+          "Set`1.high": 0,
+          "Set`1.low": 0
+        },
+        "CombatUnitSelectionControl._targetX": 0,
+        "CombatUnitSelectionControl._targetY": 0,
+        "MoveSelector.CurrentMove": -1,
+        "MoveSelector.Map": null,
+        "MoveSelector.MoveControlSettings": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings",
         "MoveSelector.MoveSettingsList": {
           "$type": "Aow.Game.World.Movement.MoveSettingsList",
           "EngineObject._owner": null,
           "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList`1.count": 0,
-            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
           }
         },
         "MoveSelector.Status": {
@@ -6682,7 +6687,7 @@
         "OwningNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList`1.count": 0,
-          "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
+          "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
         }
       },
       "GameMap._selectorX": 0,
@@ -7366,23 +7371,7 @@
           }
         },
         "CombatUnitSelectionControl.TargetImages": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.RangedPathHexSprite.RangedPathHexSprite._targetImages",
-        "CombatUnitSelectionControl._cursorFrame": 0,
-        "CombatUnitSelectionControl._cursorImage": 0,
-        "CombatUnitSelectionControl._pathInvalid": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set`1.a": 0,
-          "Set`1.b": 0,
-          "Set`1.bounded": false,
-          "Set`1.c": 0,
-          "Set`1.d": 0,
-          "Set`1.high": 0,
-          "Set`1.low": 0
-        },
-        "CombatUnitSelectionControl._targetX": 0,
-        "CombatUnitSelectionControl._targetY": 0,
-        "MoveSelector.CurrentMove": -1,
-        "MoveSelector.Map": null,
-        "MoveSelector.MoveControlSettings": {
+        "CombatUnitSelectionControl._combatMoveSettings": {
           "$type": "Aow.Game.Combat.CombatMoveControlSettings",
           "CombatMoveControlSettings.MoveFlags": {
             "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -7772,7 +7761,7 @@
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList`1.count": 0,
-              "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
+              "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
             },
             "ObservableNode._updateCount": 0
           },
@@ -7784,13 +7773,30 @@
           "MoveControlSettings._rowOffsets": [],
           "MoveControlSettings._width": 0
         },
+        "CombatUnitSelectionControl._cursorFrame": 0,
+        "CombatUnitSelectionControl._cursorImage": 0,
+        "CombatUnitSelectionControl._pathInvalid": {
+          "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set`1.a": 0,
+          "Set`1.b": 0,
+          "Set`1.bounded": false,
+          "Set`1.c": 0,
+          "Set`1.d": 0,
+          "Set`1.high": 0,
+          "Set`1.low": 0
+        },
+        "CombatUnitSelectionControl._targetX": 0,
+        "CombatUnitSelectionControl._targetY": 0,
+        "MoveSelector.CurrentMove": -1,
+        "MoveSelector.Map": null,
+        "MoveSelector.MoveControlSettings": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings",
         "MoveSelector.MoveSettingsList": {
           "$type": "Aow.Game.World.Movement.MoveSettingsList",
           "EngineObject._owner": null,
           "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList`1.count": 0,
-            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
           }
         },
         "MoveSelector.Status": {
@@ -8037,7 +8043,7 @@
         "OwningNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList`1.count": 0,
-          "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
+          "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
         }
       },
       "GameMap._selectorX": 0,
@@ -8721,23 +8727,7 @@
           }
         },
         "CombatUnitSelectionControl.TargetImages": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.RangedPathHexSprite.RangedPathHexSprite._targetImages",
-        "CombatUnitSelectionControl._cursorFrame": 0,
-        "CombatUnitSelectionControl._cursorImage": 0,
-        "CombatUnitSelectionControl._pathInvalid": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set`1.a": 0,
-          "Set`1.b": 0,
-          "Set`1.bounded": false,
-          "Set`1.c": 0,
-          "Set`1.d": 0,
-          "Set`1.high": 0,
-          "Set`1.low": 0
-        },
-        "CombatUnitSelectionControl._targetX": 0,
-        "CombatUnitSelectionControl._targetY": 0,
-        "MoveSelector.CurrentMove": -1,
-        "MoveSelector.Map": null,
-        "MoveSelector.MoveControlSettings": {
+        "CombatUnitSelectionControl._combatMoveSettings": {
           "$type": "Aow.Game.Combat.CombatMoveControlSettings",
           "CombatMoveControlSettings.MoveFlags": {
             "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -9127,7 +9117,7 @@
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList`1.count": 0,
-              "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
+              "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
             },
             "ObservableNode._updateCount": 0
           },
@@ -9139,13 +9129,30 @@
           "MoveControlSettings._rowOffsets": [],
           "MoveControlSettings._width": 0
         },
+        "CombatUnitSelectionControl._cursorFrame": 0,
+        "CombatUnitSelectionControl._cursorImage": 0,
+        "CombatUnitSelectionControl._pathInvalid": {
+          "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set`1.a": 0,
+          "Set`1.b": 0,
+          "Set`1.bounded": false,
+          "Set`1.c": 0,
+          "Set`1.d": 0,
+          "Set`1.high": 0,
+          "Set`1.low": 0
+        },
+        "CombatUnitSelectionControl._targetX": 0,
+        "CombatUnitSelectionControl._targetY": 0,
+        "MoveSelector.CurrentMove": -1,
+        "MoveSelector.Map": null,
+        "MoveSelector.MoveControlSettings": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings",
         "MoveSelector.MoveSettingsList": {
           "$type": "Aow.Game.World.Movement.MoveSettingsList",
           "EngineObject._owner": null,
           "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList`1.count": 0,
-            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
           }
         },
         "MoveSelector.Status": {
@@ -9392,7 +9399,7 @@
         "OwningNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList`1.count": 0,
-          "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
+          "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
         }
       },
       "GameMap._selectorX": 0,
@@ -10076,23 +10083,7 @@
           }
         },
         "CombatUnitSelectionControl.TargetImages": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.RangedPathHexSprite.RangedPathHexSprite._targetImages",
-        "CombatUnitSelectionControl._cursorFrame": 0,
-        "CombatUnitSelectionControl._cursorImage": 0,
-        "CombatUnitSelectionControl._pathInvalid": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set`1.a": 0,
-          "Set`1.b": 0,
-          "Set`1.bounded": false,
-          "Set`1.c": 0,
-          "Set`1.d": 0,
-          "Set`1.high": 0,
-          "Set`1.low": 0
-        },
-        "CombatUnitSelectionControl._targetX": 0,
-        "CombatUnitSelectionControl._targetY": 0,
-        "MoveSelector.CurrentMove": -1,
-        "MoveSelector.Map": null,
-        "MoveSelector.MoveControlSettings": {
+        "CombatUnitSelectionControl._combatMoveSettings": {
           "$type": "Aow.Game.Combat.CombatMoveControlSettings",
           "CombatMoveControlSettings.MoveFlags": {
             "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -10482,7 +10473,7 @@
             "ObservableNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList`1.count": 0,
-              "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
+              "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
             },
             "ObservableNode._updateCount": 0
           },
@@ -10494,13 +10485,30 @@
           "MoveControlSettings._rowOffsets": [],
           "MoveControlSettings._width": 0
         },
+        "CombatUnitSelectionControl._cursorFrame": 0,
+        "CombatUnitSelectionControl._cursorImage": 0,
+        "CombatUnitSelectionControl._pathInvalid": {
+          "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "Set`1.a": 0,
+          "Set`1.b": 0,
+          "Set`1.bounded": false,
+          "Set`1.c": 0,
+          "Set`1.d": 0,
+          "Set`1.high": 0,
+          "Set`1.low": 0
+        },
+        "CombatUnitSelectionControl._targetX": 0,
+        "CombatUnitSelectionControl._targetY": 0,
+        "MoveSelector.CurrentMove": -1,
+        "MoveSelector.Map": null,
+        "MoveSelector.MoveControlSettings": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings",
         "MoveSelector.MoveSettingsList": {
           "$type": "Aow.Game.World.Movement.MoveSettingsList",
           "EngineObject._owner": null,
           "OwningNode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
             "DelphiList`1.count": 0,
-            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
           }
         },
         "MoveSelector.Status": {
@@ -10747,7 +10755,7 @@
         "OwningNode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
           "DelphiList`1.count": 0,
-          "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
+          "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList`1.items"
         }
       },
       "GameMap._selectorX": 0,

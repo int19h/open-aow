@@ -60,7 +60,7 @@ public partial class CommandAbility : TouchAbility
     }
 
     // AoWAb.PAS:5266
-    public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
+    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
         CombatObject target;
         CommandCombatAction action;
@@ -230,7 +230,13 @@ public partial class CommandAbility : TouchAbility
         sourceData.CommandedUnits.Add(target.Id);
     }
 
-    // AoWAb.PAS:5259
+    // AoWAb.PAS:5259. Draws the random value the touch event used to draw, then builds the action.
+    public override CombatAction CreateTouchMoveCombatAction(CombatUnit source, CombatUnit target)
+    {
+        RandSeed = StrategicMap.Current.Random(16777215);
+        return CreateCommandCombatAction(source, target: target);
+    }
+
     public virtual CommandCombatAction CreateCommandCombatAction(CombatUnit source, CombatUnit target)
     {
         CommandCombatAction result = new(null) { Holder = CreationHolder() };

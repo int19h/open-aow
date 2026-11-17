@@ -43,6 +43,10 @@ public partial class CombatAction : EngineObject, IOwned<CombatActionList>, IOwn
         return result;
     }
 
+    // A touch move reads this after it builds the action. Healing always succeeds. The other touch
+    // actions report the result they stored. A combat action that is not a touch action is not asked.
+    public virtual bool TouchSucceeded => false;
+
     // Combat2.pas:713
     public virtual string GetName() => GetType().Name;
 

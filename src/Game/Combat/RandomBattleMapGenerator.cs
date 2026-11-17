@@ -150,7 +150,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         bridge = null;
         if (structure == null)
         {
-            bridge = (HexBridge)StrategicMap.Current.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHexSprite(typeof(HexBridge));
+            bridge = StrategicMap.Current.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHexSprite<HexBridge>();
         }
 
         if (structure != null)

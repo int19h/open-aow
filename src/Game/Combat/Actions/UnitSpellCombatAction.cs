@@ -39,7 +39,7 @@ public partial class UnitSpellCombatAction : CombatAction
     }
 
     // Spells.PAS:1111
-    public override void Execute(Battle combat) => ((UnitSpell)GamePack.Current.SpellControl.GetSpell(SpellId)).ExecuteCombatAction(combat, this);
+    public override void Execute(Battle combat) => GamePack.Current.SpellControl.GetSpell<UnitSpell>(SpellId).ExecuteCombatAction(combat, action: this);
 
     // Spells.PAS:1115
     public override bool Play(CombatViewer viewer)

@@ -25,8 +25,11 @@ public partial class TacticalBattleItemHexSprite : ItemHexSprite
         {
             // An item site's combat returns the items to the site's list. A dungeon's combat holds
             // its prisoners there, and the items go to the prisoners' own item list.
+            // An item site stores an item list. A dungeon stores a prisoners army.
+            // Another object fails. Null stays null.
             items = CombatMap.Current.Combat.Items switch
             {
+                null => null,
                 PrisonersArmy prisoners => prisoners.Items,
                 var other => (ItemList)other,
             };

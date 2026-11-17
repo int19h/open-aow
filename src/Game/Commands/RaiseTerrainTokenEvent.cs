@@ -55,7 +55,7 @@ public partial class RaiseTerrainTokenEvent : GlobalTargetSpellTokenEvent
             {
                 field = level.Field[walk.X, walk.Y];
                 resource = null;
-                if (((GlobalTargetSpell)GamePack.Current.SpellControl.GetSpell(19)).ValidTargetMapField(field))
+                if (GamePack.Current.SpellControl.GetSpell<GlobalTargetSpell>(19).ValidTargetMapField(field))
                 {
                     found = false;
                     i = resources.Count;
@@ -69,7 +69,7 @@ public partial class RaiseTerrainTokenEvent : GlobalTargetSpellTokenEvent
                     if (found)
                     {
                         field.RestoreTerrain();
-                        mountain = (RaisedMountain)resource.CreateResourceUser();
+                        mountain = resource.CreateResourceUser<RaisedMountain>();
                         mountain.Duration = (sbyte)(((StrategicMap.Current.Random(11) - 5) / 5) + 3);
                         mountain.Player = caster.Player;
                         mountain.OriginalOverlay = field.OverlayType;
