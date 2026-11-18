@@ -752,11 +752,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -915,11 +915,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -1017,11 +1017,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -1128,11 +1128,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -1253,11 +1253,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -1360,11 +1360,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -1472,11 +1472,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -1598,11 +1598,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -1706,11 +1706,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -1818,11 +1818,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -1944,11 +1944,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -2052,11 +2052,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -2190,11 +2190,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -2342,11 +2342,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -2465,11 +2465,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -2567,11 +2567,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -2683,11 +2683,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -2781,11 +2781,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -2897,11 +2897,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -3027,11 +3027,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -3139,11 +3139,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -3249,11 +3249,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -3373,11 +3373,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -3479,11 +3479,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -3591,11 +3591,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -3717,11 +3717,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -3825,11 +3825,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -3955,11 +3955,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -4099,11 +4099,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -4225,11 +4225,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -4334,11 +4334,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -4457,11 +4457,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -4562,11 +4562,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -4664,11 +4664,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -4780,11 +4780,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -4878,11 +4878,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -5019,11 +5019,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -5174,11 +5174,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -5300,11 +5300,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -5455,11 +5455,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -5624,11 +5624,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -5755,11 +5755,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -5876,11 +5876,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -6011,11 +6011,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -6117,11 +6117,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -6247,11 +6247,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -6391,11 +6391,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -6517,11 +6517,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -6637,11 +6637,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -6771,11 +6771,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -6876,11 +6876,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -6965,11 +6965,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -7068,11 +7068,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -7162,11 +7162,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -7264,11 +7264,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -7380,11 +7380,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -7478,11 +7478,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -7608,11 +7608,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -7752,11 +7752,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -7878,11 +7878,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -7967,11 +7967,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -8016,11 +8016,11 @@
             "UIComponent._winTop": 0,
             "UIComponent._winWidth": 0,
             "WindowControl.BackRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "WindowControl.BackSurface": null,
             "WindowControl.Dockable": false,
@@ -8117,11 +8117,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -8166,11 +8166,11 @@
             "UIComponent._winTop": 0,
             "UIComponent._winWidth": 0,
             "WindowControl.BackRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "WindowControl.BackSurface": null,
             "WindowControl.Dockable": false,
@@ -8258,11 +8258,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -8293,11 +8293,11 @@
               "UIComponent._winTop": 0,
               "UIComponent._winWidth": 0,
               "WindowControl.BackRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "WindowControl.BackSurface": null,
               "WindowControl.Dockable": false,
@@ -8394,11 +8394,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -8511,11 +8511,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -8619,11 +8619,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -14045,11 +14045,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -14190,11 +14190,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -14317,11 +14317,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -14429,11 +14429,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -14555,11 +14555,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -14663,11 +14663,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -14757,11 +14757,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -14806,11 +14806,11 @@
             "UIComponent._winTop": 0,
             "UIComponent._winWidth": 0,
             "WindowControl.BackRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "WindowControl.BackSurface": null,
             "WindowControl.Dockable": false,
@@ -14912,11 +14912,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -14961,11 +14961,11 @@
             "UIComponent._winTop": 0,
             "UIComponent._winWidth": 0,
             "WindowControl.BackRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "WindowControl.BackSurface": null,
             "WindowControl.Dockable": false,
@@ -15058,11 +15058,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -15093,11 +15093,11 @@
               "UIComponent._winTop": 0,
               "UIComponent._winWidth": 0,
               "WindowControl.BackRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "WindowControl.BackSurface": null,
               "WindowControl.Dockable": false,
@@ -15780,11 +15780,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -15829,11 +15829,11 @@
             "UIComponent._winTop": 0,
             "UIComponent._winWidth": 0,
             "WindowControl.BackRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "WindowControl.BackSurface": null,
             "WindowControl.Dockable": false,
@@ -16516,11 +16516,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -16565,11 +16565,11 @@
             "UIComponent._winTop": 0,
             "UIComponent._winWidth": 0,
             "WindowControl.BackRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "WindowControl.BackSurface": null,
             "WindowControl.Dockable": false,
@@ -16669,11 +16669,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -16704,11 +16704,11 @@
               "UIComponent._winTop": 0,
               "UIComponent._winWidth": 0,
               "WindowControl.BackRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "WindowControl.BackSurface": null,
               "WindowControl.Dockable": false,
@@ -16810,11 +16810,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -16859,11 +16859,11 @@
             "UIComponent._winTop": 0,
             "UIComponent._winWidth": 0,
             "WindowControl.BackRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "WindowControl.BackSurface": null,
             "WindowControl.Dockable": false,
@@ -16965,11 +16965,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -17014,11 +17014,11 @@
             "UIComponent._winTop": 0,
             "UIComponent._winWidth": 0,
             "WindowControl.BackRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "WindowControl.BackSurface": null,
             "WindowControl.Dockable": false,
@@ -17111,11 +17111,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -17146,11 +17146,11 @@
               "UIComponent._winTop": 0,
               "UIComponent._winWidth": 0,
               "WindowControl.BackRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "WindowControl.BackSurface": null,
               "WindowControl.Dockable": false,
@@ -17328,11 +17328,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -17377,11 +17377,11 @@
             "UIComponent._winTop": 0,
             "UIComponent._winWidth": 0,
             "WindowControl.BackRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "WindowControl.BackSurface": null,
             "WindowControl.Dockable": false,
@@ -17559,11 +17559,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -17608,11 +17608,11 @@
             "UIComponent._winTop": 0,
             "UIComponent._winWidth": 0,
             "WindowControl.BackRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "WindowControl.BackSurface": null,
             "WindowControl.Dockable": false,
@@ -17718,11 +17718,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -17753,11 +17753,11 @@
               "UIComponent._winTop": 0,
               "UIComponent._winWidth": 0,
               "WindowControl.BackRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "WindowControl.BackSurface": null,
               "WindowControl.Dockable": false,
@@ -17896,11 +17896,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -17945,11 +17945,11 @@
             "UIComponent._winTop": 0,
             "UIComponent._winWidth": 0,
             "WindowControl.BackRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "WindowControl.BackSurface": null,
             "WindowControl.Dockable": false,
@@ -18088,11 +18088,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -18137,11 +18137,11 @@
             "UIComponent._winTop": 0,
             "UIComponent._winWidth": 0,
             "WindowControl.BackRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "WindowControl.BackSurface": null,
             "WindowControl.Dockable": false,
@@ -18260,11 +18260,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -18295,11 +18295,11 @@
               "UIComponent._winTop": 0,
               "UIComponent._winWidth": 0,
               "WindowControl.BackRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "WindowControl.BackSurface": null,
               "WindowControl.Dockable": false,
@@ -18403,11 +18403,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -18452,11 +18452,11 @@
             "UIComponent._winTop": 0,
             "UIComponent._winWidth": 0,
             "WindowControl.BackRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "WindowControl.BackSurface": null,
             "WindowControl.Dockable": false,
@@ -18560,11 +18560,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -18609,11 +18609,11 @@
             "UIComponent._winTop": 0,
             "UIComponent._winWidth": 0,
             "WindowControl.BackRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "WindowControl.BackSurface": null,
             "WindowControl.Dockable": false,
@@ -18708,11 +18708,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -18743,11 +18743,11 @@
               "UIComponent._winTop": 0,
               "UIComponent._winWidth": 0,
               "WindowControl.BackRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "WindowControl.BackSurface": null,
               "WindowControl.Dockable": false,
@@ -18887,11 +18887,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -18936,11 +18936,11 @@
             "UIComponent._winTop": 0,
             "UIComponent._winWidth": 0,
             "WindowControl.BackRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "WindowControl.BackSurface": null,
             "WindowControl.Dockable": false,
@@ -19080,11 +19080,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -19129,11 +19129,11 @@
             "UIComponent._winTop": 0,
             "UIComponent._winWidth": 0,
             "WindowControl.BackRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "WindowControl.BackSurface": null,
             "WindowControl.Dockable": false,
@@ -19253,11 +19253,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -19288,11 +19288,11 @@
               "UIComponent._winTop": 0,
               "UIComponent._winWidth": 0,
               "WindowControl.BackRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "WindowControl.BackSurface": null,
               "WindowControl.Dockable": false,
@@ -19428,11 +19428,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -19477,11 +19477,11 @@
             "UIComponent._winTop": 0,
             "UIComponent._winWidth": 0,
             "WindowControl.BackRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "WindowControl.BackSurface": null,
             "WindowControl.Dockable": false,
@@ -19617,11 +19617,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -19666,11 +19666,11 @@
             "UIComponent._winTop": 0,
             "UIComponent._winWidth": 0,
             "WindowControl.BackRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "WindowControl.BackSurface": null,
             "WindowControl.Dockable": false,
@@ -19777,11 +19777,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -19812,11 +19812,11 @@
               "UIComponent._winTop": 0,
               "UIComponent._winWidth": 0,
               "WindowControl.BackRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "WindowControl.BackSurface": null,
               "WindowControl.Dockable": false,
@@ -19918,11 +19918,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -19968,11 +19968,11 @@
             "UIComponent._winWidth": 0,
             "UserWindow.OnCustomDrawSurface": null,
             "WindowControl.BackRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "WindowControl.BackSurface": null,
             "WindowControl.Dockable": false,
@@ -20074,11 +20074,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -20124,11 +20124,11 @@
             "UIComponent._winWidth": 0,
             "UserWindow.OnCustomDrawSurface": null,
             "WindowControl.BackRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "WindowControl.BackSurface": null,
             "WindowControl.Dockable": false,
@@ -20221,11 +20221,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -20257,11 +20257,11 @@
               "UIComponent._winWidth": 0,
               "UserWindow.OnCustomDrawSurface": null,
               "WindowControl.BackRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "WindowControl.BackSurface": null,
               "WindowControl.Dockable": false,
@@ -20363,11 +20363,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -20412,11 +20412,11 @@
             "UIComponent._winTop": 0,
             "UIComponent._winWidth": 0,
             "WindowControl.BackRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "WindowControl.BackSurface": null,
             "WindowControl.Dockable": false,
@@ -20518,11 +20518,11 @@
             "UIComponent.MouseDown": false,
             "UIComponent.MouseIn": false,
             "UIComponent.OldRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "UIComponent.OnChange": null,
             "UIComponent.OnDraw": null,
@@ -20567,11 +20567,11 @@
             "UIComponent._winTop": 0,
             "UIComponent._winWidth": 0,
             "WindowControl.BackRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
+              "$type": "Aow.Game.Draw.SizedRectangle",
+              "SizedRectangle.Height": 0,
+              "SizedRectangle.Left": 0,
+              "SizedRectangle.Top": 0,
+              "SizedRectangle.Width": 0
             },
             "WindowControl.BackSurface": null,
             "WindowControl.Dockable": false,
@@ -20664,11 +20664,11 @@
               "UIComponent.MouseDown": false,
               "UIComponent.MouseIn": false,
               "UIComponent.OldRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "UIComponent.OnChange": null,
               "UIComponent.OnDraw": null,
@@ -20699,11 +20699,11 @@
               "UIComponent._winTop": 0,
               "UIComponent._winWidth": 0,
               "WindowControl.BackRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
+                "$type": "Aow.Game.Draw.SizedRectangle",
+                "SizedRectangle.Height": 0,
+                "SizedRectangle.Left": 0,
+                "SizedRectangle.Top": 0,
+                "SizedRectangle.Width": 0
               },
               "WindowControl.BackSurface": null,
               "WindowControl.Dockable": false,

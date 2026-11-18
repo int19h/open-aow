@@ -139,7 +139,7 @@ public partial class CampaignJoinDialog(UIContext ui) : UIModule(ui)
     public void DefaultFacePnlDraw(LockedSurface lockedSurface)
     {
         Rect r;
-        r = new Rect(DefaultFacePanel.WinLeft + 1, DefaultFacePanel.WinTop + 1, DefaultFacePanel.WinLeft + DefaultFacePanel.WinWidth - 2, DefaultFacePanel.WinTop + DefaultFacePanel.WinHeight - 2);
+        r = new Rect(DefaultFacePanel.AbsoluteLeft + 1, DefaultFacePanel.AbsoluteTop + 1, DefaultFacePanel.AbsoluteLeft + DefaultFacePanel.WinWidth - 2, DefaultFacePanel.AbsoluteTop + DefaultFacePanel.WinHeight - 2);
         Leader.ShowFace(r, lockedSurface);
     }
 
@@ -182,18 +182,18 @@ public partial class CampaignJoinDialog(UIContext ui) : UIModule(ui)
         int x;
         int y;
         Rect clipRectangle = lockedSurface.ClipRectangle;
-        clipRectangle.Left = CharacterGenerationPanel.WinLeft + ScrollTextView.WinLeft;
+        clipRectangle.Left = CharacterGenerationPanel.AbsoluteLeft + ScrollTextView.WinLeft;
         lockedSurface.ClipRectangle = clipRectangle;
         Rect clipRectangle2 = lockedSurface.ClipRectangle;
         clipRectangle2.Right = clipRectangle2.Left + ScrollTextView.WinWidth;
         lockedSurface.ClipRectangle = clipRectangle2;
         Rect clipRectangle3 = lockedSurface.ClipRectangle;
-        clipRectangle3.Top = CharacterGenerationPanel.WinTop + ScrollTextView.WinTop;
+        clipRectangle3.Top = CharacterGenerationPanel.AbsoluteTop + ScrollTextView.WinTop;
         lockedSurface.ClipRectangle = clipRectangle3;
         Rect clipRectangle4 = lockedSurface.ClipRectangle;
         clipRectangle4.Bottom = clipRectangle4.Top + ScrollTextView.WinHeight;
         lockedSurface.ClipRectangle = clipRectangle4;
-        x = CharacterGenerationPanel.WinLeft + ScrollTextView.WinLeft + (ScrollTextView.WinWidth / 2);
+        x = CharacterGenerationPanel.AbsoluteLeft + ScrollTextView.WinLeft + (ScrollTextView.WinWidth / 2);
         y = lockedSurface.ClipRectangle.Top + ScrollTextView.WinHeight - _scrollPosition;
         for (int i = 0, last = ScrollText.Count - 1; i <= last; i++)
         {

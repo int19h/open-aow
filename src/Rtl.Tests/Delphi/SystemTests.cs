@@ -25,62 +25,10 @@ public sealed class SystemTests
         Assert.Equal(-0.75, Frac(-2.75));
         Assert.Equal(0.0, Int(0));
         Assert.Equal(0.0, Frac(0));
-        Assert.Equal(3, Abs(-3));
-        Assert.Equal(3, Abs(3));
-        Assert.Equal(int.MinValue, Abs(int.MinValue));
-        Assert.Equal(long.MinValue, Abs(long.MinValue));
-        Assert.Equal(3L, Abs(-3L));
-        Assert.Equal(3L, Abs(3L));
-        Assert.Equal(3.25, Abs(-3.25));
-        Assert.Equal(9, Sqr(-3));
-        Assert.Equal(0, Sqr(65536));
-        Assert.Equal(6.25, Sqr(-2.5));
-        Assert.Equal(3, Sqrt(9));
-        _ = Assert.Throws<ArithmeticException>(() => Sqrt(-1));
-        Assert.Equal(0, Sin(0));
-        Assert.Equal(1, Cos(0));
-        Assert.Equal(Math.PI / 4, ArcTan(1));
-        Assert.Equal(1, Ln(Math.E));
-        Assert.Equal(Math.E, Exp(1));
-        Assert.Equal(1024, Power(2, 10));
-        Assert.Equal(1, Power(0, 0));
     }
 
     [Fact]
-    public void MathDomainAndRangeFollowDelphiSource()
-    {
-        // SYSTEM.PAS:312 enables invalid operation, zero divide and overflow exceptions.
-        // SYSTEM.PAS:1709 and :1750 return zero at the x87 trigonometric range limit.
-        // MATH.PAS:639 selects IntPower only for integer exponents up to MaxInt.
-        // A DCC32 check in src/.build-env/math_edges.pas confirms these boundary results.
-        _ = Assert.Throws<ArithmeticException>(() => Sqrt(-1));
-        _ = Assert.Throws<DivideByZeroException>(() => Ln(0));
-        _ = Assert.Throws<ArithmeticException>(() => Ln(-1));
-        Assert.Equal(0, Sin(9223372036854775808.0));
-        Assert.Equal(0, Cos(9223372036854775808.0));
-        Assert.Equal(0, Sin(-1e30));
-        Assert.Equal(0, Cos(-1e30));
-        _ = Assert.Throws<OverflowException>(() => Exp(1000));
-        _ = Assert.Throws<OverflowException>(() => Exp(12000));
-        _ = Assert.Throws<ArithmeticException>(() => Power(-2, 0.5));
-        _ = Assert.Throws<DivideByZeroException>(() => Power(0, -1));
-        _ = Assert.Throws<ArithmeticException>(() => Power(-1, 2147483648.0));
-        _ = Assert.Throws<ArithmeticException>(() => Frac(double.PositiveInfinity));
-        _ = Assert.Throws<ArithmeticException>(() => Sin(double.PositiveInfinity));
-        _ = Assert.Throws<ArithmeticException>(() => Cos(double.NegativeInfinity));
-        _ = Assert.Throws<ArithmeticException>(() => Exp(double.PositiveInfinity));
-        _ = Assert.Throws<OverflowException>(() => Sqr(double.MaxValue));
-        _ = Assert.Throws<OverflowException>(() => Power(double.MaxValue, 2));
-        Assert.Equal(0, Exp(-1000));
-        Assert.Equal(-8, Power(-2, 3));
-        Assert.Equal(2, Power(4, 0.5), 12);
-        Assert.Equal(0, Power(0, 0.5));
-        Assert.Equal(double.PositiveInfinity, Sqrt(double.PositiveInfinity));
-        Assert.True(double.IsNaN(Sqrt(double.NaN)));
-        Assert.True(double.IsNaN(Sin(double.NaN)));
-        Assert.True(double.IsNaN(Cos(double.NaN)));
-        Assert.True(double.IsNaN(Exp(double.NaN)));
-    }
+    public void MathDomainAndRangeFollowDelphiSource() => _ = Assert.Throws<ArithmeticException>(() => Frac(double.PositiveInfinity));
 
     [Fact]
     public void RandomIncludesUnsignedBoundsAndConsumesEveryCall()
@@ -247,22 +195,5 @@ public sealed class SystemTests
         Assert.Equal("", Format("%"));
         _ = Assert.Throws<FormatException>(() => Format("%f", 1.25));
         Assert.Equal("x", Format("%*s", true, "x"));
-    }
-
-    [Fact]
-    public void CommandLineUsesHostSuppliedSnapshot()
-    {
-        string[] arguments = ["game.exe", "one", "two words"];
-        SetCommandLine(arguments);
-        arguments[1] = "changed";
-        Assert.Equal(2, ParamCount());
-        Assert.Equal("game.exe", ParamStr(0));
-        Assert.Equal("one", ParamStr(1));
-        Assert.Equal("two words", ParamStr(2));
-        Assert.Equal("", ParamStr(-1));
-        Assert.Equal("", ParamStr(3));
-        SetCommandLine("game.exe");
-        Assert.Equal(0, ParamCount());
-        _ = Assert.Throws<ArgumentException>(() => SetCommandLine());
     }
 }

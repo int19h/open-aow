@@ -658,7 +658,7 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         }
 
         Frame image = sender;
-        r = new Rect(Phase1Panel.WinLeft + image.WinLeft + 2, Phase1Panel.WinTop + image.WinTop, Phase1Panel.WinLeft + image.WinLeft + image.WinWidth - 2, Phase1Panel.WinTop + image.WinTop + image.WinHeight - 2);
+        r = new Rect(Phase1Panel.AbsoluteLeft + image.WinLeft + 2, Phase1Panel.AbsoluteTop + image.WinTop, Phase1Panel.AbsoluteLeft + image.WinLeft + image.WinWidth - 2, Phase1Panel.AbsoluteTop + image.WinTop + image.WinHeight - 2);
 
         if (setup.OriginalLeader.GetFace() != null)
         {
@@ -797,7 +797,7 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         if (_phase > 1)
         {
             Frame frame = sender;
-            r = new Rect(LeaderMainPanel.WinLeft + frame.WinLeft + 2, LeaderMainPanel.WinTop + frame.WinTop, LeaderMainPanel.WinLeft + frame.WinLeft + frame.WinWidth - 2, LeaderMainPanel.WinTop + frame.WinTop + frame.WinHeight - 2);
+            r = new Rect(LeaderMainPanel.AbsoluteLeft + frame.WinLeft + 2, LeaderMainPanel.AbsoluteTop + frame.WinTop, LeaderMainPanel.AbsoluteLeft + frame.WinLeft + frame.WinWidth - 2, LeaderMainPanel.AbsoluteTop + frame.WinTop + frame.WinHeight - 2);
 
             setup.OriginalLeader.GetFace()?.ShowStretched(r, lockedSurface);
         }

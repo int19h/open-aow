@@ -117,11 +117,11 @@ public partial class TurnButton : Control
 
                 if (!Animating && ButtonChecked)
                 {
-                    _imageLibrary[_frameOffset + (CurrentPlayer * 7) + 6].ShowClipped(Window.WinLeft + WinLeft, Window.WinTop + WinTop, lockedSurface);
+                    _imageLibrary[_frameOffset + (CurrentPlayer * 7) + 6].ShowClipped(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, lockedSurface);
                 }
                 else
                 {
-                    _imageLibrary[_frameOffset + AnimationFrame].ShowClipped(Window.WinLeft + WinLeft, Window.WinTop + WinTop, lockedSurface);
+                    _imageLibrary[_frameOffset + AnimationFrame].ShowClipped(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, lockedSurface);
                 }
 
                 RaiseDraw(this, lockedSurface);
@@ -138,7 +138,7 @@ public partial class TurnButton : Control
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
             if (button == MouseButton.Left && Press())
@@ -152,7 +152,7 @@ public partial class TurnButton : Control
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
             RaiseMouseUp(this, button, shift, X, Y);
@@ -164,7 +164,7 @@ public partial class TurnButton : Control
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
-        if (X >= Window.WinLeft + WinLeft && X <= Window.WinLeft + WinLeft + WinWidth - 1 && Y >= Window.WinTop + WinTop && Y <= Window.WinTop + WinTop + WinHeight - 1)
+        if (X >= Window.AbsoluteLeft + WinLeft && X <= Window.AbsoluteLeft + WinLeft + WinWidth - 1 && Y >= Window.AbsoluteTop + WinTop && Y <= Window.AbsoluteTop + WinTop + WinHeight - 1)
         {
             Handled = true;
             RaiseMouseMove(this, shift, X, Y);

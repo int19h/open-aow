@@ -8,8 +8,8 @@ namespace Aow.Game.Draw.Images;
 // { The AOWInterfaceImgLib unit of aowInt.dpl: TInterfaceIL, the image library that holds the
 //   pieces the controls are drawn from (frames, textures, lines, icons). Its Draw* methods draw a
 //   frame, a texture tile, a single image or a horizontal or vertical line of images into a
-//   rectangle given as (Left, Top, Width, Height) in a TRect, clipped to the surface's clip rectangle,
-//   which they narrow while drawing and restore. }
+//   SizedRectangle, clipped to the surface's clip rectangle, which they narrow while drawing and
+//   restore. }
 // no fields or virtual methods of its own
 public partial class InterfaceImageLibrary(Component owner) : ImageLibrary(owner)
 {

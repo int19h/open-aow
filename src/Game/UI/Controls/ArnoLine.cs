@@ -68,7 +68,7 @@ public partial class ArnoLine : Control
                     lockedSurface.ClipRectangle = clipRectangle;
                 }
 
-                SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
                 _lineLibrary.DrawVerticalStrip(0, rectangle, ref lockedSurface);
                 RaiseDraw(this, lockedSurface);
 

@@ -112,9 +112,9 @@ public partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
         {
             if (u.GetFace() != null)
             {
-                r.Left = FaceFrame.WinLeft + TopPanel.WinLeft;
+                r.Left = FaceFrame.WinLeft + TopPanel.AbsoluteLeft;
                 r.Right = r.Left + FaceFrame.WinWidth;
-                r.Top = FaceFrame.WinTop + TopPanel.WinTop;
+                r.Top = FaceFrame.WinTop + TopPanel.AbsoluteTop;
                 r.Bottom = r.Top + FaceFrame.WinHeight;
 
                 u.GetFace().ShowStretched(r, surface);
@@ -137,9 +137,9 @@ public partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
             spell = GamePack.Current.SpellControl.GetSpell(Caster.CasterSpellId);
             if (spell != null)
             {
-                r.Left = SpellFrame.WinLeft + TopPanel.WinLeft;
+                r.Left = SpellFrame.WinLeft + TopPanel.AbsoluteLeft;
                 r.Right = r.Left + SpellFrame.WinWidth;
-                r.Top = SpellFrame.WinTop + TopPanel.WinTop;
+                r.Top = SpellFrame.WinTop + TopPanel.AbsoluteTop;
                 r.Bottom = r.Top + SpellFrame.WinHeight;
 
                 if (spell.CastImages.GetImageSequence(10) != null)
@@ -197,7 +197,7 @@ public partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
 
     // AoWCastUnitSpellDlg.pas:183
     public void U1PreDraw(CheckBox sender, LockedSurface surface, int slot) =>
-        DrawUnit(slot, UnitPanel.WinLeft + sender.WinLeft, UnitPanel.WinTop + sender.WinTop, ref surface);
+        DrawUnit(slot, UnitPanel.AbsoluteLeft + sender.WinLeft, UnitPanel.AbsoluteTop + sender.WinTop, ref surface);
 
     private static readonly string s_requiredManaText = "Required Mana";
 }

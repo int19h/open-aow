@@ -135,7 +135,7 @@ public sealed class MldDictionary
             string native = reader.Text();
             string form = ContextCode is 1 or 3 ? reader.Text() : "";
             string component = ContextCode is 1 or 2 ? reader.Text() : "";
-            string[] translations = RtlUnit.Strings(languageCount - 1);
+            string[] translations = new string[languageCount - 1];
             for (int j = 0; j < translations.Length; j++)
             {
                 translations[j] = reader.Text();
@@ -150,7 +150,7 @@ public sealed class MldDictionary
             reader.Seek(infoOffset);
             string description = reader.Text();
             string owner = reader.Text();
-            string[] users = RtlUnit.Strings(reader.UInt16());
+            string[] users = new string[reader.UInt16()];
             for (int i = 0; i < users.Length; i++)
             {
                 users[i] = reader.Text();

@@ -149,7 +149,7 @@ public partial class UIComponent : Rtl.Component
     public int DrawCount { get; protected set; }
     public int ToolTipLeft { get; protected set; }
 
-    public Rect OldRectangle { get; protected set; }
+    public SizedRectangle OldRectangle { get; protected set; }
 
     public bool Hidden { get; set; }
 
@@ -1045,9 +1045,17 @@ public partial class UIComponent : Rtl.Component
 
     public int WinLeft { get => _winLeft; set => SetWinLeft(value); }
 
+    public int AbsoluteLeft => OwnerComponent is Windows.BaseWindow owner ? WinLeft + owner.AbsoluteLeft : WinLeft;
+
+    public int WindowRelativeLeft => OwnerComponent is Windows.Panel panel ? WinLeft + panel.WindowRelativeLeft : WinLeft;
+
     protected internal void SetWinLeftWithoutInvalidate(int value) => _winLeft = value;
 
     public int WinTop { get => _winTop; set => SetWinTop(value); }
+
+    public int AbsoluteTop => OwnerComponent is Windows.BaseWindow owner ? WinTop + owner.AbsoluteTop : WinTop;
+
+    public int WindowRelativeTop => OwnerComponent is Windows.Panel panel ? WinTop + panel.WindowRelativeTop : WinTop;
 
     protected internal void SetWinTopWithoutInvalidate(int value) => _winTop = value;
 

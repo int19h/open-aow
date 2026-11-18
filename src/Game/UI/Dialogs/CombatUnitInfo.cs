@@ -85,7 +85,7 @@ public partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
     }
 
     // AoWTCUnit.pas:138
-    public void TCUnitPnlDrawBack(LockedSurface lockedSurface) => UI.General.CombatUnit?.Unit.Troop.Show(CombatUnitPanel.WinLeft - 10, CombatUnitPanel.WinTop - 2, lockedSurface, UI.General.UnitShowInfo);
+    public void TCUnitPnlDrawBack(LockedSurface lockedSurface) => UI.General.CombatUnit?.Unit.Troop.Show(CombatUnitPanel.AbsoluteLeft - 10, CombatUnitPanel.AbsoluteTop - 2, lockedSurface, UI.General.UnitShowInfo);
 
     // AoWTCUnit.pas:146
     public void UAbilLBUpdate()

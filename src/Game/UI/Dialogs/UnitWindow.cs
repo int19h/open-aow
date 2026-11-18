@@ -513,7 +513,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
             if (item != null)
             {
                 UIComponent checkBox = component;
-                item.GetImage()?.ShowClipped(InventoryPanel.WinLeft + checkBox.WinLeft, InventoryPanel.WinTop + checkBox.WinTop, lockedSurface);
+                item.GetImage()?.ShowClipped(InventoryPanel.AbsoluteLeft + checkBox.WinLeft, InventoryPanel.AbsoluteTop + checkBox.WinTop, lockedSurface);
             }
         }
     }
@@ -580,7 +580,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
         if (s_selectedItem != null && sender != s_selectedItem && _itemType == 0)
         {
             UIComponent checkBox = sender;
-            UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.WinLeft + checkBox.WinLeft, InventoryPanel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
+            UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.AbsoluteLeft + checkBox.WinLeft, InventoryPanel.AbsoluteTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
 
@@ -591,7 +591,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
         if (s_selectedItem != null && sender != s_selectedItem && _itemType == (ItemType)1)
         {
             UIComponent checkBox = sender;
-            UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.WinLeft + checkBox.WinLeft, InventoryPanel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
+            UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.AbsoluteLeft + checkBox.WinLeft, InventoryPanel.AbsoluteTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
 
@@ -602,7 +602,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
         if (s_selectedItem != null && sender != s_selectedItem && _itemType == (ItemType)2)
         {
             UIComponent checkBox = sender;
-            UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.WinLeft + checkBox.WinLeft, InventoryPanel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
+            UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.AbsoluteLeft + checkBox.WinLeft, InventoryPanel.AbsoluteTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
 
@@ -613,7 +613,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
         if (s_selectedItem != null && sender != s_selectedItem && _itemType == (ItemType)3)
         {
             UIComponent checkBox = sender;
-            UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.WinLeft + checkBox.WinLeft, InventoryPanel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
+            UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.AbsoluteLeft + checkBox.WinLeft, InventoryPanel.AbsoluteTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
 
@@ -624,7 +624,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
         if (s_selectedItem != null && sender != s_selectedItem && _itemType == (ItemType)4)
         {
             UIComponent checkBox = sender;
-            UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.WinLeft + checkBox.WinLeft, InventoryPanel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
+            UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.AbsoluteLeft + checkBox.WinLeft, InventoryPanel.AbsoluteTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
 

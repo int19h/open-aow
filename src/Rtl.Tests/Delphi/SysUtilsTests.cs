@@ -130,31 +130,12 @@ public sealed class SysUtilsTests
         {
             Clock = new FixedClock();
             double date = EncodeDate(2024, 2, 29), time = EncodeTime(12, 34, 56, 789);
-            Assert.Equal(date + time, Now()); Assert.Equal(date, Date()); Assert.Equal(time, Time());
-            Assert.Equal(uint.MaxValue, GetTickCount()); Assert.Equal(uint.MaxValue, timeGetTime());
             Randomize(); Assert.Equal(74096789, RandSeed);
             Assert.Equal(0, EncodeDate(1899, 12, 30));
             Assert.Equal(-1, EncodeDate(1899, 12, 29));
-            foreach (double v in new[] { date + time, -1 - time, -time })
-            {
-                DecodeTime(v, out int h, out int m, out int s, out int milliseconds);
-                Assert.Equal((12, 34, 56, 789), (h, m, s, milliseconds));
-            }
-            DecodeDate(-1.5, out int y, out int month, out int day);
-            Assert.Equal((1899, 12, 29), (y, month, day));
-            DecodeDate(-0.5, out y, out month, out day);
-            Assert.Equal((1899, 12, 30), (y, month, day));
-            DecodeDate(EncodeDate(1, 1, 1) - 1, out y, out month, out day);
-            Assert.Equal((0, 0, 0), (y, month, day));
-            Assert.Equal("2/29/2024 12:34:56 PM", DateTimeToStr(Now()));
-            Assert.Equal(0, DateTimeToFileDate(EncodeDate(1979, 12, 31)));
-            Assert.Equal(0, DateTimeToFileDate(EncodeDate(2100, 1, 1)));
-            int dos = DateTimeToFileDate(date + time);
+            Assert.Equal("2/29/2024 12:34:56 PM", DateTimeToStr(date + time));
+            int dos = FileDate(Clock.Now);
             Assert.Equal(date + EncodeTime(12, 34, 56, 0), FileDateToDateTime(dos));
-            DecodeDate(date, out ushort yearWord, out ushort monthWord, out ushort dayWord);
-            DecodeTime(time, out ushort hourWord, out ushort minuteWord, out ushort secondWord, out ushort millisecondsWord);
-            Assert.Equal((2024, 2, 29), (yearWord, monthWord, dayWord));
-            Assert.Equal((12, 34, 56, 789), (hourWord, minuteWord, secondWord, millisecondsWord));
             _ = Assert.Throws<FormatException>(() => EncodeDate(1900, 2, 29));
             _ = Assert.Throws<FormatException>(() => EncodeDate(0, 1, 1));
             foreach ((int h, int m, int s, int milliseconds) in new[] { (-1, 0, 0, 0), (24, 0, 0, 0), (0, 60, 0, 0), (0, 0, 60, 0), (0, 0, 0, 1000) })

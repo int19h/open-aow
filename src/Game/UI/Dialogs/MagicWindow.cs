@@ -304,8 +304,8 @@ public partial class MagicWindow(UIContext ui) : UIModule(ui)
             {
                 if (spell.CastImages.GetImageSequence(10) != null)
                 {
-                    x = sender.Window.WinLeft;
-                    y = sender.Window.WinTop + sender.WinTop;
+                    x = sender.Window.AbsoluteLeft;
+                    y = sender.Window.AbsoluteTop + sender.WinTop;
                     _ = spell.CastImages.Show(10, sender.WinLeft + x, y, 0, surface);
                 }
             }

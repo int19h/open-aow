@@ -260,7 +260,7 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         if (ValidateHero())
         {
             UIComponent image = sender;
-            r = new Rect(TopPanel.WinLeft + image.WinLeft + 2, TopPanel.WinTop + image.WinTop, TopPanel.WinLeft + image.WinLeft + image.WinWidth - 2, TopPanel.WinTop + image.WinTop + image.WinHeight - 2);
+            r = new Rect(TopPanel.AbsoluteLeft + image.WinLeft + 2, TopPanel.AbsoluteTop + image.WinTop, TopPanel.AbsoluteLeft + image.WinLeft + image.WinWidth - 2, TopPanel.AbsoluteTop + image.WinTop + image.WinHeight - 2);
 
             _hero.GetFace().ShowStretched(r, lockedSurface);
         }

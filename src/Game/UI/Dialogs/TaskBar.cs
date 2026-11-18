@@ -321,7 +321,9 @@ public partial class TaskBar(UIContext ui) : UIModule(ui)
                 else
                 {
                     WorldClockDelay = 900;
-                    DecodeTime(Time(), out ushort hour, out minute, out _, out _);
+                    DateTime now = Clock.Now;
+                    ushort hour = (ushort)now.Hour;
+                    minute = (ushort)now.Minute;
                     if (hour > 12)
                     {
                         hour = (ushort)(hour - 12);
@@ -353,7 +355,9 @@ public partial class TaskBar(UIContext ui) : UIModule(ui)
             if (_combatClockDelay < 0)
             {
                 _combatClockDelay = 900;
-                DecodeTime(Time(), out ushort hour, out ushort minute, out _, out _);
+                DateTime now = Clock.Now;
+                ushort hour = (ushort)now.Hour;
+                ushort minute = (ushort)now.Minute;
                 if (hour > 12)
                 {
                     hour = (ushort)(hour - 12);

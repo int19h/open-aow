@@ -209,17 +209,17 @@ public partial class Scanner : Control
 
                 Rect r = new(0, 0, WinWidth, WinHeight);
                 surfaceDescription = lockedSurface;
-                Rect rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, Window.WinLeft + WinLeft + WinWidth, Window.WinTop + WinTop + WinHeight);
+                Rect rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, Window.AbsoluteLeft + WinLeft + WinWidth, Window.AbsoluteTop + WinTop + WinHeight);
                 surfaceDescription.ClipRectangle = rectangle;
                 _ = _mapSurface.Lock(ref lockedSurface);
-                _ = LockedSurface.BlitSurfaceDescriptionRectangleClipped(lockedSurface, r, surfaceDescription, Window.WinLeft + WinLeft, Window.WinTop + WinTop);
+                _ = LockedSurface.BlitSurfaceDescriptionRectangleClipped(lockedSurface, r, surfaceDescription, Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop);
                 _ = _mapSurface.Unlock();
                 _ = _objectSurface.Lock(ref lockedSurface);
-                _ = LockedSurface.BlitSpriteClipped16(lockedSurface, r, surfaceDescription, Window.WinLeft + WinLeft, Window.WinTop + WinTop, 65280);
+                _ = LockedSurface.BlitSpriteClipped16(lockedSurface, r, surfaceDescription, Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, 65280);
                 _ = _objectSurface.Unlock();
                 if (_mapWidth > 0 && _mapHeight > 0)
                 {
-                    SizedRectangle rectangle2 = new(Window.WinLeft + WinLeft + (TLeft * WinWidth / _mapWidth), Window.WinTop + WinTop + (TTop * WinHeight / _mapHeight), _tWidth * WinWidth / _mapWidth, (_tHeight + 2) * WinHeight / _mapHeight);
+                    SizedRectangle rectangle2 = new(Window.AbsoluteLeft + WinLeft + (TLeft * WinWidth / _mapWidth), Window.AbsoluteTop + WinTop + (TTop * WinHeight / _mapHeight), _tWidth * WinWidth / _mapWidth, (_tHeight + 2) * WinHeight / _mapHeight);
                     _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle2, ref surfaceDescription);
                 }
 
@@ -238,11 +238,11 @@ public partial class Scanner : Control
         int mapY;
         int oldLeft;
         int oldTop;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             MouseDown = true;
-            X = (X - Window.WinLeft - WinLeft) * _mapWidth / WinWidth;
-            mapY = (Y - Window.WinTop - WinTop) * _mapHeight / _drawableHeight;
+            X = (X - Window.AbsoluteLeft - WinLeft) * _mapWidth / WinWidth;
+            mapY = (Y - Window.AbsoluteTop - WinTop) * _mapHeight / _drawableHeight;
             oldLeft = TLeft;
             oldTop = TTop;
             TLeft = X - (_tWidth / 2);
@@ -259,7 +259,7 @@ public partial class Scanner : Control
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
             RaiseMouseUp(this, button, shift, X, Y);
@@ -273,15 +273,15 @@ public partial class Scanner : Control
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
-        if (X >= Window.WinLeft + WinLeft && X <= Window.WinLeft + WinLeft + WinWidth - 1 && Y >= Window.WinTop + WinTop && Y <= Window.WinTop + WinTop + WinHeight - 1)
+        if (X >= Window.AbsoluteLeft + WinLeft && X <= Window.AbsoluteLeft + WinLeft + WinWidth - 1 && Y >= Window.AbsoluteTop + WinTop && Y <= Window.AbsoluteTop + WinTop + WinHeight - 1)
         {
             Handled = true;
             if (MouseDown)
             {
                 int oldLeft = TLeft;
                 int oldTop = TTop;
-                int mapX = (X - Window.WinLeft - WinLeft) * _mapWidth / WinWidth;
-                int mapY = (Y - Window.WinTop - WinTop) * _mapHeight / _drawableHeight;
+                int mapX = (X - Window.AbsoluteLeft - WinLeft) * _mapWidth / WinWidth;
+                int mapY = (Y - Window.AbsoluteTop - WinTop) * _mapHeight / _drawableHeight;
                 TLeft = mapX - (_tWidth / 2);
                 TTop = mapY - (_tHeight / 2);
                 if (TTop != oldTop || TLeft != oldLeft)

@@ -9,7 +9,7 @@ public partial class ScenarioSetup
     public void SidePanelDrawBack(Panel sender, LockedSurface surface, int slot)
     {
         Panel panel = sender;
-        UI.Graphics.Shields[slot].Show(panel.WinLeft + 5, panel.WinTop + 5, surface);
+        UI.Graphics.Shields[slot].Show(panel.AbsoluteLeft + 5, panel.AbsoluteTop + 5, surface);
     }
 
     public void ScenSetupPnlUpdate() { }

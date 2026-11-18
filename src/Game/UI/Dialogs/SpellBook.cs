@@ -971,8 +971,8 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
             if (_spells.GetSpell(index).CastImages.GetImageSequence(10) != null)
             {
                 Image image = sender;
-                x = image.Window.WinLeft;
-                y = image.Window.WinTop;
+                x = image.Window.AbsoluteLeft;
+                y = image.Window.AbsoluteTop;
                 _ = _spells.GetSpell(index).CastImages.Show(10, image.WinLeft + x, image.WinTop + y, 0, lockedSurface);
             }
         }
@@ -1093,7 +1093,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
     public void FaceDraw(Image sender, LockedSurface lockedSurface)
     {
         Rect r;
-        r = new Rect(LeftInfoPage.WinLeft + sender.WinLeft, LeftInfoPage.WinTop + sender.WinTop, LeftInfoPage.WinLeft + sender.WinLeft + sender.WinWidth, LeftInfoPage.WinTop + sender.WinTop + sender.WinHeight);
+        r = new Rect(LeftInfoPage.AbsoluteLeft + sender.WinLeft, LeftInfoPage.AbsoluteTop + sender.WinTop, LeftInfoPage.AbsoluteLeft + sender.WinLeft + sender.WinWidth, LeftInfoPage.AbsoluteTop + sender.WinTop + sender.WinHeight);
 
         _hero.GetFace().ShowStretched(r, lockedSurface);
     }
@@ -1112,8 +1112,8 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
 
         if (spell != null)
         {
-            x = sender.Window.WinLeft;
-            _ = spell.CastImages.Show(10, sender.WinLeft + x, sender.Window.WinTop + sender.WinTop, 0, lockedSurface);
+            x = sender.Window.AbsoluteLeft;
+            _ = spell.CastImages.Show(10, sender.WinLeft + x, sender.Window.AbsoluteTop + sender.WinTop, 0, lockedSurface);
         }
     }
 
@@ -1129,8 +1129,8 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                 spell = GamePack.Current.SpellControl.GetSpell(_hero.CastingSpellId);
                 if (spell != null)
                 {
-                    x = sender.Window.WinLeft;
-                    _ = spell.CastImages.Show(10, sender.WinLeft + x, sender.Window.WinTop + sender.WinTop, 0, lockedSurface);
+                    x = sender.Window.AbsoluteLeft;
+                    _ = spell.CastImages.Show(10, sender.WinLeft + x, sender.Window.AbsoluteTop + sender.WinTop, 0, lockedSurface);
                 }
             }
         }

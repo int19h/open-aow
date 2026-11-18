@@ -615,7 +615,7 @@ public partial class HtmlMemo : BaseWindow
         {
             r = OwnerComponent.OwnerComponent.OwnerComponent == null
                 ? new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1)
-                : new Rect(OwnerComponent.WinLeft + WinLeft, OwnerComponent.WinTop + WinTop, OwnerComponent.WinLeft + WinLeft + WinWidth - 1, OwnerComponent.WinTop + WinTop + WinHeight - 1);
+                : new Rect(OwnerComponent.WindowRelativeLeft + WinLeft, OwnerComponent.WindowRelativeTop + WinTop, OwnerComponent.WindowRelativeLeft + WinLeft + WinWidth - 1, OwnerComponent.WindowRelativeTop + WinTop + WinHeight - 1);
 
             OwnerComponent.AddDrawRectangle(ref r, this);
         }
@@ -826,35 +826,35 @@ public partial class HtmlMemo : BaseWindow
                     for (int i = 0, last = DrawCount - 1; i <= last; i++)
                     {
                         DirtyRectangle r = DrawList[i];
-                        if (OwnerComponent.WinLeft + WinLeft > r.Rectangle.Left)
+                        if (OwnerComponent.AbsoluteLeft + WinLeft > r.Rectangle.Left)
                         {
                             Rect rectangle2 = r.Rectangle;
-                            rectangle2.Left = OwnerComponent.WinLeft + WinLeft;
+                            rectangle2.Left = OwnerComponent.AbsoluteLeft + WinLeft;
                             r.Rectangle = rectangle2;
                         }
 
-                        if (OwnerComponent.WinTop + WinTop > r.Rectangle.Top)
+                        if (OwnerComponent.AbsoluteTop + WinTop > r.Rectangle.Top)
                         {
                             Rect rectangle3 = r.Rectangle;
-                            rectangle3.Top = OwnerComponent.WinTop + WinTop;
+                            rectangle3.Top = OwnerComponent.AbsoluteTop + WinTop;
                             r.Rectangle = rectangle3;
                         }
 
-                        if (OwnerComponent.WinLeft + WinLeft + WinWidth < r.Rectangle.Right)
+                        if (OwnerComponent.AbsoluteLeft + WinLeft + WinWidth < r.Rectangle.Right)
                         {
                             Rect rectangle4 = r.Rectangle;
-                            rectangle4.Right = OwnerComponent.WinLeft + WinLeft + WinWidth;
+                            rectangle4.Right = OwnerComponent.AbsoluteLeft + WinLeft + WinWidth;
                             r.Rectangle = rectangle4;
                         }
 
-                        if (OwnerComponent.WinTop + WinTop + WinHeight < r.Rectangle.Bottom)
+                        if (OwnerComponent.AbsoluteTop + WinTop + WinHeight < r.Rectangle.Bottom)
                         {
                             Rect rectangle5 = r.Rectangle;
-                            rectangle5.Bottom = OwnerComponent.WinTop + WinTop + WinHeight;
+                            rectangle5.Bottom = OwnerComponent.AbsoluteTop + WinTop + WinHeight;
                             r.Rectangle = rectangle5;
                         }
 
-                        sourceR = new Rect(r.Rectangle.Left - OwnerComponent.WinLeft - WinLeft, _topItem + r.Rectangle.Top - OwnerComponent.WinTop - WinTop, r.Rectangle.Right - OwnerComponent.WinLeft - WinLeft, _topItem + r.Rectangle.Bottom - OwnerComponent.WinTop - WinTop);
+                        sourceR = new Rect(r.Rectangle.Left - OwnerComponent.AbsoluteLeft - WinLeft, _topItem + r.Rectangle.Top - OwnerComponent.AbsoluteTop - WinTop, r.Rectangle.Right - OwnerComponent.AbsoluteLeft - WinLeft, _topItem + r.Rectangle.Bottom - OwnerComponent.AbsoluteTop - WinTop);
                         _ = Masked
                             ? LockedSurface.BlitSpriteClipped16(backSurfaceDescription, sourceR, lockedSurface, r.Rectangle.Left, r.Rectangle.Top, MaskColor)
                             : LockedSurface.BlitSurfaceDescriptionRectangleClipped(backSurfaceDescription, sourceR, lockedSurface, r.Rectangle.Left, r.Rectangle.Top);
@@ -864,8 +864,8 @@ public partial class HtmlMemo : BaseWindow
                 {
                     sourceR = new Rect(0, _topItem, WinWidth, _topItem + WinHeight);
                     _ = Masked
-                        ? LockedSurface.BlitSpriteClipped16(backSurfaceDescription, sourceR, lockedSurface, _window.WinLeft + WinLeft, _window.WinTop + WinTop, MaskColor)
-                        : LockedSurface.BlitSurfaceDescriptionRectangleClipped(backSurfaceDescription, sourceR, lockedSurface, _window.WinLeft + WinLeft, _window.WinTop + WinTop);
+                        ? LockedSurface.BlitSpriteClipped16(backSurfaceDescription, sourceR, lockedSurface, _window.AbsoluteLeft + WinLeft, _window.AbsoluteTop + WinTop, MaskColor)
+                        : LockedSurface.BlitSurfaceDescriptionRectangleClipped(backSurfaceDescription, sourceR, lockedSurface, _window.AbsoluteLeft + WinLeft, _window.AbsoluteTop + WinTop);
                 }
 
                 _ = BackSurface.Unlock();

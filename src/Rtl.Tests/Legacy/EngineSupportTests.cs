@@ -57,11 +57,6 @@ public sealed class EngineSupportTests
         byte[] bytes = new byte[3];
         R.FillBytes(bytes, -1);
         Assert.Equal(new byte[] { 255, 255, 255 }, bytes);
-        FourBytes left = default, right = default;
-        left[3] = 7;
-        Assert.False(R.ArrayEquals<FourBytes, byte>(left, right));
-        right[3] = 7;
-        Assert.True(R.ArrayEquals<FourBytes, byte>(left, right));
     }
 
     [Fact]

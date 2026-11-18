@@ -208,7 +208,7 @@ public partial class Menu : GenericWindow
             {
                 int count = mb.Items.Count;
                 SetWinLeftWithoutInvalidate(w.WinLeft + mb.WinLeft + (mb.WinWidth / count * _ownerMenuBar.Selected));
-                SetWinTopWithoutInvalidate(_ownerMenuBar.Window.WinTop + _ownerMenuBar.WinTop + _ownerMenuBar.WinHeight);
+                SetWinTopWithoutInvalidate(_ownerMenuBar.Window.AbsoluteTop + _ownerMenuBar.WinTop + _ownerMenuBar.WinHeight);
                 if (WindowManager.WinWidth < WinLeft + WinWidth)
                 {
                     SetWinLeftWithoutInvalidate(WindowManager.WinWidth - WinWidth);
@@ -216,7 +216,7 @@ public partial class Menu : GenericWindow
 
                 if (WinTop + WinHeight > WindowManager.WinHeight)
                 {
-                    SetWinTopWithoutInvalidate(_ownerMenuBar.Window.WinTop + _ownerMenuBar.WinTop - WinHeight);
+                    SetWinTopWithoutInvalidate(_ownerMenuBar.Window.AbsoluteTop + _ownerMenuBar.WinTop - WinHeight);
                 }
             }
         }
@@ -368,7 +368,7 @@ public partial class Menu : GenericWindow
                         {
                             int count = mb.Items.Count;
                             SetWinLeftWithoutInvalidate(w.WinLeft + mb.WinLeft + (mb.WinWidth / count * _ownerMenuBar.Selected));
-                            SetWinTopWithoutInvalidate(_ownerMenuBar.Window.WinTop + _ownerMenuBar.WinTop + _ownerMenuBar.WinHeight);
+                            SetWinTopWithoutInvalidate(_ownerMenuBar.Window.AbsoluteTop + _ownerMenuBar.WinTop + _ownerMenuBar.WinHeight);
                             if (WindowManager.WinWidth < WinLeft + WinWidth)
                             {
                                 SetWinLeftWithoutInvalidate(WindowManager.WinWidth - WinWidth);
@@ -376,7 +376,7 @@ public partial class Menu : GenericWindow
 
                             if (WinTop + WinHeight > WindowManager.WinHeight)
                             {
-                                SetWinTopWithoutInvalidate(_ownerMenuBar.Window.WinTop + _ownerMenuBar.WinTop - WinHeight);
+                                SetWinTopWithoutInvalidate(_ownerMenuBar.Window.AbsoluteTop + _ownerMenuBar.WinTop - WinHeight);
                             }
                         }
                     }
@@ -384,18 +384,7 @@ public partial class Menu : GenericWindow
                     Drawn = false;
                     if (!Hidden)
                     {
-                        Rect backRectangle = BackRectangle;
-                        backRectangle.Right = WinWidth;
-                        BackRectangle = backRectangle;
-                        Rect backRectangle2 = BackRectangle;
-                        backRectangle2.Bottom = WinHeight;
-                        BackRectangle = backRectangle2;
-                        Rect backRectangle3 = BackRectangle;
-                        backRectangle3.Top = WinTop;
-                        BackRectangle = backRectangle3;
-                        Rect backRectangle4 = BackRectangle;
-                        backRectangle4.Left = WinLeft;
-                        BackRectangle = backRectangle4;
+                        BackRectangle = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
                     }
 
                     Hidden = false;

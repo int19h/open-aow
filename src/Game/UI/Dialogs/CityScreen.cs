@@ -889,7 +889,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
     {
         int image;
         image = ActivityImage((CityAction)((byte)slot + 1));
-        UI.Graphics.CityWindow[image].Show(ActivityPanel2.WinLeft + sender.WinLeft + 2, ActivityPanel2.WinTop + sender.WinTop + 2, lockedSurface);
+        UI.Graphics.CityWindow[image].Show(ActivityPanel2.AbsoluteLeft + sender.WinLeft + 2, ActivityPanel2.AbsoluteTop + sender.WinTop + 2, lockedSurface);
     }
 
     // AoWCityScreen.pas:354
@@ -1135,7 +1135,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
         UnitShowInfo info = default;
         Unit u;
         UnitProduction p;
-        r = new Rect(ActivityPanel.WinLeft + sender.WinLeft, ActivityPanel.WinTop + sender.WinTop, ActivityPanel2.WinLeft + sender.WinLeft + sender.WinWidth, ActivityPanel.WinTop + sender.WinTop + sender.WinHeight);
+        r = new Rect(ActivityPanel.AbsoluteLeft + sender.WinLeft, ActivityPanel.AbsoluteTop + sender.WinTop, ActivityPanel2.AbsoluteLeft + sender.WinLeft + sender.WinWidth, ActivityPanel.AbsoluteTop + sender.WinTop + sender.WinHeight);
         // { Original uses two different panels. }
         p = _city.Production.UnitProductions.GetItem(slot);
         if (p != null)
@@ -1218,7 +1218,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
         u = _city.Production.CreateUnitProduction(_productionIndex);
         if (u != null)
         {
-            r = new Rect(UnitPictureFramePanel.WinLeft + sender.WinLeft + 2, UnitPictureFramePanel.WinTop + sender.WinTop + 2, UnitPictureFramePanel.WinLeft + sender.WinLeft + sender.WinWidth - 4, UnitPictureFramePanel.WinTop + sender.WinTop + sender.WinHeight - 2);
+            r = new Rect(UnitPictureFramePanel.AbsoluteLeft + sender.WinLeft + 2, UnitPictureFramePanel.AbsoluteTop + sender.WinTop + 2, UnitPictureFramePanel.AbsoluteLeft + sender.WinLeft + sender.WinWidth - 4, UnitPictureFramePanel.AbsoluteTop + sender.WinTop + sender.WinHeight - 2);
             u.ShowFace(r, lockedSurface);
             _ = u.Release();
         }
@@ -1294,7 +1294,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
         {
             if (_city.Production.Queue.GetItem(0).Order.UnitProductionIndex is int index)
             {
-                r = new Rect(ActiveActionPanel.WinLeft + sender.WinLeft, ActiveActionPanel.WinTop + sender.WinTop, ActiveActionPanel.WinLeft + sender.WinLeft + sender.WinWidth, ActiveActionPanel.WinTop + sender.WinTop + sender.WinHeight);
+                r = new Rect(ActiveActionPanel.AbsoluteLeft + sender.WinLeft, ActiveActionPanel.AbsoluteTop + sender.WinTop, ActiveActionPanel.AbsoluteLeft + sender.WinLeft + sender.WinWidth, ActiveActionPanel.AbsoluteTop + sender.WinTop + sender.WinHeight);
                 u = _city.Production.CreateUnitProduction(index);
                 if (u != null)
                 {
@@ -1322,7 +1322,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
     public void RacePortraitDraw(Image sender, LockedSurface lockedSurface)
     {
         Rect r;
-        r = new Rect(PopulationPanel.WinLeft + sender.WinLeft, PopulationPanel.WinTop + sender.WinTop, PopulationPanel.WinLeft + sender.WinLeft + sender.WinWidth, PopulationPanel.WinTop + sender.WinTop + sender.WinHeight);
+        r = new Rect(PopulationPanel.AbsoluteLeft + sender.WinLeft, PopulationPanel.AbsoluteTop + sender.WinTop, PopulationPanel.AbsoluteLeft + sender.WinLeft + sender.WinWidth, PopulationPanel.AbsoluteTop + sender.WinTop + sender.WinHeight);
         GamePack.Current.RaceResources.GetRaceResource(_city.Race).GetFace().ShowStretched(r, lockedSurface);
     }
 

@@ -47,18 +47,7 @@ public partial class StartMenu(Component owner) : Menu(owner)
                 Drawn = false;
                 if (!Hidden)
                 {
-                    Rect backRectangle = BackRectangle;
-                    backRectangle.Right = WinWidth;
-                    BackRectangle = backRectangle;
-                    Rect backRectangle2 = BackRectangle;
-                    backRectangle2.Bottom = WinHeight;
-                    BackRectangle = backRectangle2;
-                    Rect backRectangle3 = BackRectangle;
-                    backRectangle3.Top = WinTop;
-                    BackRectangle = backRectangle3;
-                    Rect backRectangle4 = BackRectangle;
-                    backRectangle4.Left = WinLeft;
-                    BackRectangle = backRectangle4;
+                    BackRectangle = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
                 }
 
                 RaiseShow(this);

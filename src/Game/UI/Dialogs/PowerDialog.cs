@@ -99,8 +99,8 @@ public partial class PowerDialog(UIContext ui) : UIModule(ui)
         int x;
         int y;
         int intensity;
-        x = sender.Window.WinLeft;
-        y = sender.Window.WinTop;
+        x = sender.Window.AbsoluteLeft;
+        y = sender.Window.AbsoluteTop;
         intensity = Round((double)((100 - PowerSlider.Position) * 50) / 100);
         UI.Graphics.MiscArt[7].ShowBlended(sender.WinLeft + x, sender.WinTop + y, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
     }
@@ -111,8 +111,8 @@ public partial class PowerDialog(UIContext ui) : UIModule(ui)
         int x;
         int y;
         int intensity;
-        x = sender.Window.WinLeft;
-        y = sender.Window.WinTop;
+        x = sender.Window.AbsoluteLeft;
+        y = sender.Window.AbsoluteTop;
         intensity = Round((double)(PowerSlider.Position * 50) / 100);
         UI.Graphics.MiscArt[8].ShowBlended(sender.WinLeft + x, sender.WinTop + y, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
     }

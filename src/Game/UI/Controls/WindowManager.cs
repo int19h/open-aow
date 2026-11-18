@@ -172,7 +172,7 @@ public partial class WindowManager : UIComponent
                             }
                             else
                             {
-                                if (c.Visible && Drawn && c.BackRectangle.Right > 0 && c.BackRectangle.Bottom > 0)
+                                if (c.Visible && Drawn && c.BackRectangle.Width > 0 && c.BackRectangle.Height > 0)
                                 {
                                     // { the window moved: add the parts of its old place it no longer covers. For a
                                     //                 masked window the strips are off (original bugs): the third strip of the left
@@ -182,16 +182,16 @@ public partial class WindowManager : UIComponent
                                     {
                                         if (c.Masked)
                                         {
-                                            r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top, c.WinLeft + c.FrameLeft, c.BackRectangle.Top + c.BackRectangle.Bottom);
+                                            r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top, c.WinLeft + c.FrameLeft, c.BackRectangle.Top + c.BackRectangle.Height);
                                             AddDrawRectangle(ref r, c);
-                                            r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top, c.BackRectangle.Left + c.BackRectangle.Right, c.BackRectangle.Top + c.FrameBottom);
+                                            r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top, c.BackRectangle.Left + c.BackRectangle.Width, c.BackRectangle.Top + c.FrameBottom);
                                             AddDrawRectangle(ref r, c);
-                                            r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top + c.FrameBottom, c.BackRectangle.Left + c.BackRectangle.Right, c.BackRectangle.Top + c.BackRectangle.Bottom);
+                                            r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top + c.FrameBottom, c.BackRectangle.Left + c.BackRectangle.Width, c.BackRectangle.Top + c.BackRectangle.Height);
                                             AddDrawRectangle(ref r, c);
                                         }
                                         else
                                         {
-                                            r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top, c.WinLeft, c.BackRectangle.Top + c.BackRectangle.Bottom);
+                                            r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top, c.WinLeft, c.BackRectangle.Top + c.BackRectangle.Height);
                                             AddDrawRectangle(ref r, c);
                                         }
                                     }
@@ -200,69 +200,58 @@ public partial class WindowManager : UIComponent
                                     {
                                         if (c.Masked)
                                         {
-                                            r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top, c.BackRectangle.Left + c.BackRectangle.Right, c.WinTop + c.FrameTop);
+                                            r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top, c.BackRectangle.Left + c.BackRectangle.Width, c.WinTop + c.FrameTop);
                                             AddDrawRectangle(ref r, c);
-                                            r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top, c.BackRectangle.Left + c.FrameLeft, c.BackRectangle.Top + c.BackRectangle.Bottom);
+                                            r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top, c.BackRectangle.Left + c.FrameLeft, c.BackRectangle.Top + c.BackRectangle.Height);
                                             AddDrawRectangle(ref r, c);
-                                            r = new Rect(c.BackRectangle.Left + c.FrameRight, c.BackRectangle.Top, c.BackRectangle.Left + c.BackRectangle.Right, c.BackRectangle.Top + c.BackRectangle.Bottom);
+                                            r = new Rect(c.BackRectangle.Left + c.FrameRight, c.BackRectangle.Top, c.BackRectangle.Left + c.BackRectangle.Width, c.BackRectangle.Top + c.BackRectangle.Height);
                                             AddDrawRectangle(ref r, c);
                                         }
                                         else
                                         {
-                                            r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top, c.BackRectangle.Left + c.BackRectangle.Right, c.WinTop);
+                                            r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top, c.BackRectangle.Left + c.BackRectangle.Width, c.WinTop);
                                             AddDrawRectangle(ref r, c);
                                         }
                                     }
 
-                                    if (c.BackRectangle.Left + c.BackRectangle.Right > c.WinLeft + c.WinWidth)
+                                    if (c.BackRectangle.Left + c.BackRectangle.Width > c.WinLeft + c.WinWidth)
                                     {
                                         if (c.Masked)
                                         {
-                                            r = new Rect(c.WinLeft + c.FrameRight, c.BackRectangle.Top, c.BackRectangle.Left + c.BackRectangle.Right, c.BackRectangle.Top + c.BackRectangle.Bottom);
+                                            r = new Rect(c.WinLeft + c.FrameRight, c.BackRectangle.Top, c.BackRectangle.Left + c.BackRectangle.Width, c.BackRectangle.Top + c.BackRectangle.Height);
                                             AddDrawRectangle(ref r, c);
-                                            r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top, c.BackRectangle.Left + c.BackRectangle.Right, c.BackRectangle.Top + c.FrameBottom);
+                                            r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top, c.BackRectangle.Left + c.BackRectangle.Width, c.BackRectangle.Top + c.FrameBottom);
                                             AddDrawRectangle(ref r, c);
-                                            r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top + c.FrameBottom, c.BackRectangle.Left + c.BackRectangle.Right, c.BackRectangle.Top + c.BackRectangle.Bottom);
+                                            r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top + c.FrameBottom, c.BackRectangle.Left + c.BackRectangle.Width, c.BackRectangle.Top + c.BackRectangle.Height);
                                             AddDrawRectangle(ref r, c);
                                         }
                                         else
                                         {
-                                            r = new Rect(c.WinLeft + c.WinWidth, c.BackRectangle.Top, c.BackRectangle.Left + c.BackRectangle.Right, c.BackRectangle.Top + c.BackRectangle.Bottom);
+                                            r = new Rect(c.WinLeft + c.WinWidth, c.BackRectangle.Top, c.BackRectangle.Left + c.BackRectangle.Width, c.BackRectangle.Top + c.BackRectangle.Height);
                                             AddDrawRectangle(ref r, c);
                                         }
                                     }
 
-                                    if (c.BackRectangle.Top + c.BackRectangle.Bottom > c.WinTop + c.WinHeight)
+                                    if (c.BackRectangle.Top + c.BackRectangle.Height > c.WinTop + c.WinHeight)
                                     {
                                         if (c.Masked)
                                         {
-                                            r = new Rect(c.BackRectangle.Left, c.WinTop + c.FrameTop, c.BackRectangle.Left + c.BackRectangle.Right, c.BackRectangle.Top + c.BackRectangle.Bottom);
+                                            r = new Rect(c.BackRectangle.Left, c.WinTop + c.FrameTop, c.BackRectangle.Left + c.BackRectangle.Width, c.BackRectangle.Top + c.BackRectangle.Height);
                                             AddDrawRectangle(ref r, c);
-                                            r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top, c.BackRectangle.Left + c.FrameLeft, c.BackRectangle.Top + c.BackRectangle.Bottom);
+                                            r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top, c.BackRectangle.Left + c.FrameLeft, c.BackRectangle.Top + c.BackRectangle.Height);
                                             AddDrawRectangle(ref r, c);
-                                            r = new Rect(c.BackRectangle.Left + c.FrameRight, c.BackRectangle.Top, c.BackRectangle.Left + c.BackRectangle.Right, c.BackRectangle.Top + c.BackRectangle.Bottom);
+                                            r = new Rect(c.BackRectangle.Left + c.FrameRight, c.BackRectangle.Top, c.BackRectangle.Left + c.BackRectangle.Width, c.BackRectangle.Top + c.BackRectangle.Height);
                                             AddDrawRectangle(ref r, c);
                                         }
                                         else
                                         {
-                                            r = new Rect(c.BackRectangle.Left, c.WinTop + c.WinHeight, c.BackRectangle.Left + c.BackRectangle.Right, c.BackRectangle.Top + c.BackRectangle.Bottom);
+                                            r = new Rect(c.BackRectangle.Left, c.WinTop + c.WinHeight, c.BackRectangle.Left + c.BackRectangle.Width, c.BackRectangle.Top + c.BackRectangle.Height);
                                             AddDrawRectangle(ref r, c);
                                         }
                                     }
                                 }
 
-                                Rect backRectangle = c.BackRectangle;
-                                backRectangle.Top = c.WinTop;
-                                c.BackRectangle = backRectangle;
-                                Rect backRectangle2 = c.BackRectangle;
-                                backRectangle2.Left = c.WinLeft;
-                                c.BackRectangle = backRectangle2;
-                                Rect backRectangle3 = c.BackRectangle;
-                                backRectangle3.Right = c.WinWidth;
-                                c.BackRectangle = backRectangle3;
-                                Rect backRectangle4 = c.BackRectangle;
-                                backRectangle4.Bottom = c.WinHeight;
-                                c.BackRectangle = backRectangle4;
+                                c.BackRectangle = new SizedRectangle(c.WinLeft, c.WinTop, c.WinWidth, c.WinHeight);
                             }
                         }
                     }

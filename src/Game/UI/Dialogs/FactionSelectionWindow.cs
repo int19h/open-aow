@@ -195,7 +195,7 @@ public partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
                 }
             }
 
-            r = new Rect(FactionPanel.WinLeft, FactionPanel.WinTop, FactionPanel.WinLeft + FactionPanel.WinWidth, FactionPanel.WinTop + FactionPanel.WinHeight);
+            r = new Rect(FactionPanel.AbsoluteLeft, FactionPanel.AbsoluteTop, FactionPanel.AbsoluteLeft + FactionPanel.WinWidth, FactionPanel.AbsoluteTop + FactionPanel.WinHeight);
 
             UI.TitleWindow.MainWindow.AddBlitRectangle(ref r, null);
         }

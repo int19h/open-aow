@@ -115,7 +115,6 @@ internal static class LegacyRoots
         typeof(GDConnection),
         typeof(GDFile),
         typeof(GDMessage),
-        typeof(IToolServices),
         typeof(IniFile),
         typeof(Persistent),
         typeof(PopupMenu),

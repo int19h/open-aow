@@ -110,9 +110,9 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
         Rect r = default;
         if (StrategicMap.Current != null)
         {
-            r.Left = DeadPanel.WinLeft + LeaderFaceFrame.WinLeft + 45;
+            r.Left = DeadPanel.AbsoluteLeft + LeaderFaceFrame.WinLeft + 45;
             r.Right = r.Left + 103;
-            r.Top = DeadPanel.WinTop + LeaderFaceFrame.WinTop + 35;
+            r.Top = DeadPanel.AbsoluteTop + LeaderFaceFrame.WinTop + 35;
             r.Bottom = r.Top + 128;
             StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader.ShowFace(r, lockedSurface);
         }
@@ -149,8 +149,8 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
             y = 400;
         }
 
-        y += DeadPanel.WinTop;
-        x += DeadPanel.WinLeft;
+        y += DeadPanel.AbsoluteTop;
+        x += DeadPanel.AbsoluteLeft;
         switch (StrategicMap.Current.Players.GetPlayers(GameOverEvent.Player).GameOverStatus)
         {
             case GameOverStatus.Lost:
@@ -160,12 +160,12 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
                     frame = 0;
                 }
 
-                UI.Graphics.PyreFrames[frame].Show(DeadPanel.WinLeft + PyreAnimationView.WinLeft, DeadPanel.WinTop + PyreAnimationView.WinTop, lockedSurface);
+                UI.Graphics.PyreFrames[frame].Show(DeadPanel.AbsoluteLeft + PyreAnimationView.WinLeft, DeadPanel.AbsoluteTop + PyreAnimationView.WinTop, lockedSurface);
                 text = StrategicMap.Current.Players.GetPlayers(GameOverEvent.Player).GetNameWithRace() + ", " + UI.Engine.TranslateResourceString(s_yourReignHasEndedText);
                 UI.Fonts.Age15BlackOnBrown.SetTextCentered(x, y, text, lockedSurface);
                 break;
             case GameOverStatus.Won:
-                UI.Graphics.VictoryFrames[0].Show(DeadPanel.WinLeft + PyreAnimationView.WinLeft, DeadPanel.WinTop, lockedSurface);
+                UI.Graphics.VictoryFrames[0].Show(DeadPanel.AbsoluteLeft + PyreAnimationView.WinLeft, DeadPanel.AbsoluteTop, lockedSurface);
                 text = StrategicMap.Current.Players.GetPlayers(GameOverEvent.Player).GetNameWithRace() + ", " + UI.Engine.TranslateResourceString(s_youWereVictoriousText);
                 UI.Fonts.Age15WhiteOnGrey.SetTextCentered(x, y, text, lockedSurface);
                 break;

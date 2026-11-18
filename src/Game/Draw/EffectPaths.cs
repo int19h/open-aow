@@ -100,7 +100,7 @@ internal static class EffectPaths
         seg = Random(15) + 5;
         while (dist + seg < length)
         {
-            a2 = (double)a2 > angle ? (float)((double)angle - DegToRad(Random(40) + 40)) : (float)((double)angle + DegToRad(Random(40) + 40));
+            a2 = (double)a2 > angle ? (float)((double)angle - double.DegreesToRadians(Random(40) + 40)) : (float)((double)angle + double.DegreesToRadians(Random(40) + 40));
 
             double cos = Math.Cos(angle);
             double mathCos = Math.Cos(a2);

@@ -113,7 +113,7 @@ public partial class WindowControl : UIComponent
 
     public Surface BackSurface { get; protected set; }
 
-    public Rect BackRectangle { get; internal set; }
+    public SizedRectangle BackRectangle { get; internal set; }
 
     [Published]
     public event AoWOnDrawBackEvent<WindowControl> OnDrawBack;
@@ -272,9 +272,9 @@ public partial class WindowControl : UIComponent
     }
 
     // AoWWinControl.pas:170
-    // { VerifyBackSurface makes the back surface match Surface (a DirectDraw surface in video memory
-    //   when Surface is one and UseVMem is set, else a surface in system memory or a data surface);
-    //   True when the back surface was created or restored and has to be drawn again }
+    // { VerifyBackSurface makes the back surface match Surface. It returns true when the back
+    //   surface was created or recreated because the pixel format changed and has to be drawn
+    //   again. }
     // The port draws on memory surfaces only, so the back surface is a data surface and is never
     // lost.
     public bool VerifyBackSurface(Surface surface)

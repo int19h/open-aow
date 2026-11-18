@@ -292,7 +292,7 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
 
     private static readonly string s_youWereEjectedByHostText = "You were ejected by the host.";
 
-    private static readonly GUID s_applicationGuid = "{3205D060-4FF5-11D3-811F-0050042E6D24}";
+    private static readonly Guid s_applicationGuid = new("3205D060-4FF5-11D3-811F-0050042E6D24");
 
     private static readonly string s_warningText = "Warning";
 

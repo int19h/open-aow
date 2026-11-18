@@ -113,22 +113,22 @@ public partial class Edit : Control
             {
                 RaisePreDraw(this, lockedSurface);
 
-                SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
                 _imageLibraryEdit.DrawHorizontalStrip(_imageLibraryIndex, rectangle, ref lockedSurface);
                 Rect oldClip = lockedSurface.ClipRectangle;
                 LibraryImage imageLibraryEditWidth = _imageLibraryEdit[_imageLibraryIndex + 2];
-                if (Window.WinLeft + WinLeft + WinWidth - imageLibraryEditWidth.Width < oldClip.Right)
+                if (Window.AbsoluteLeft + WinLeft + WinWidth - imageLibraryEditWidth.Width < oldClip.Right)
                 {
                     LibraryImage imageLibraryEdit = _imageLibraryEdit[_imageLibraryIndex + 2];
                     Rect clipRectangle = lockedSurface.ClipRectangle;
-                    clipRectangle.Right = Window.WinLeft + WinLeft + WinWidth - imageLibraryEdit.Width;
+                    clipRectangle.Right = Window.AbsoluteLeft + WinLeft + WinWidth - imageLibraryEdit.Width;
                     lockedSurface.ClipRectangle = clipRectangle;
                 }
 
                 base.Font.Color = Color;
                 if (PassWordChar == 0)
                 {
-                    base.Font.SetText(Window.WinLeft + WinLeft + BorderWidth, Window.WinTop + WinTop + BorderHeight, Copy(base.Text, FirstChar, _shownChars), lockedSurface);
+                    base.Font.SetText(Window.AbsoluteLeft + WinLeft + BorderWidth, Window.AbsoluteTop + WinTop + BorderHeight, Copy(base.Text, FirstChar, _shownChars), lockedSurface);
                 }
                 else
                 {
@@ -138,14 +138,14 @@ public partial class Edit : Control
                         s += Cp1252.Text(PassWordChar);
                     }
 
-                    base.Font.SetText(Window.WinLeft + WinLeft + BorderWidth, Window.WinTop + WinTop + BorderHeight, s, lockedSurface);
+                    base.Font.SetText(Window.AbsoluteLeft + WinLeft + BorderWidth, Window.AbsoluteTop + WinTop + BorderHeight, s, lockedSurface);
                 }
 
                 lockedSurface.ClipRectangle = oldClip;
                 if (Editable && Redraw && _cursorShown)
                 {
                     int textWidth = base.Font.GetTextWidth(Copy(base.Text, FirstChar, _cursorPosition));
-                    base.Font.SetText(Window.WinLeft + WinLeft + BorderWidth + textWidth, Window.WinTop + WinTop + BorderHeight, Cp1252.Text(CursorChar), lockedSurface);
+                    base.Font.SetText(Window.AbsoluteLeft + WinLeft + BorderWidth + textWidth, Window.AbsoluteTop + WinTop + BorderHeight, Cp1252.Text(CursorChar), lockedSurface);
                 }
 
                 RaiseDraw(this, lockedSurface);
@@ -167,7 +167,7 @@ public partial class Edit : Control
         Handled = false;
         MouseDown = false;
         oldRedraw = Redraw;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
             if (Valid && Visible)
@@ -180,7 +180,7 @@ public partial class Edit : Control
                     }
 
                     int textWidth = base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length));
-                    if (X > Window.WinLeft + WinLeft + BorderWidth + textWidth)
+                    if (X > Window.AbsoluteLeft + WinLeft + BorderWidth + textWidth)
                     {
                         FirstChar = 1;
                         if (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length - FirstChar)) > WinWidth - (2 * BorderWidth) - 1)
@@ -197,7 +197,7 @@ public partial class Edit : Control
                     {
                         i = 0;
                         w = base.Font.GetTextWidth(Copy(base.Text, FirstChar, i + 1));
-                        while (X > Window.WinLeft + WinLeft + BorderWidth + w && base.Text.Length > i + FirstChar - 1)
+                        while (X > Window.AbsoluteLeft + WinLeft + BorderWidth + w && base.Text.Length > i + FirstChar - 1)
                         {
                             i += 1;
                             w = base.Font.GetTextWidth(Copy(base.Text, FirstChar, i + 1));
@@ -235,7 +235,7 @@ public partial class Edit : Control
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
             RaiseMouseUp(this, button, shift, X, Y);
@@ -247,7 +247,7 @@ public partial class Edit : Control
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
-        if (Visible && X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (Visible && X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
             if (Editable)
