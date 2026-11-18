@@ -84,8 +84,8 @@ public partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
             {
                 if (s.CastImages.GetImageSequence(10) != null)
                 {
-                    x = sender.Window.WinLeft;
-                    y = sender.Window.WinTop;
+                    x = sender.Window.AbsoluteLeft;
+                    y = sender.Window.AbsoluteTop;
                     _ = s.CastImages.Show(10, sender.WinLeft + x, sender.WinTop + y, 0, lockedSurface);
                 }
             }

@@ -255,18 +255,7 @@ public partial class ToolTip : GenericWindow
 
                 if (!Hidden)
                 {
-                    Rect backRectangle = BackRectangle;
-                    backRectangle.Right = WinWidth;
-                    BackRectangle = backRectangle;
-                    Rect backRectangle2 = BackRectangle;
-                    backRectangle2.Bottom = WinHeight;
-                    BackRectangle = backRectangle2;
-                    Rect backRectangle3 = BackRectangle;
-                    backRectangle3.Top = WinTop;
-                    BackRectangle = backRectangle3;
-                    Rect backRectangle4 = BackRectangle;
-                    backRectangle4.Left = WinLeft;
-                    BackRectangle = backRectangle4;
+                    BackRectangle = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
                 }
 
                 RaiseShow(this);
@@ -279,12 +268,7 @@ public partial class ToolTip : GenericWindow
             }
         }
 
-        Rect backRectangle5 = BackRectangle;
-        backRectangle5.Right = 0;
-        BackRectangle = backRectangle5;
-        Rect backRectangle6 = BackRectangle;
-        backRectangle6.Bottom = 0;
-        BackRectangle = backRectangle6;
+        BackRectangle = BackRectangle with { Width = 0, Height = 0 };
     }
 
     // AOWToolTip.pas:223

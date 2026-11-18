@@ -43,7 +43,7 @@ public partial class Label(Component owner) : Control(owner)
                 RaisePreDraw(this, lockedSurface);
 
                 base.Font.Color = Color;
-                base.Font.SetText(Window.WinLeft + WinLeft, Window.WinTop + WinTop, base.Text, lockedSurface);
+                base.Font.SetText(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, base.Text, lockedSurface);
                 RaiseDraw(this, lockedSurface);
             }
         }
@@ -58,7 +58,7 @@ public partial class Label(Component owner) : Control(owner)
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = CaptureInput;
             RaiseMouseDown(this, button, shift, X, Y);
@@ -69,7 +69,7 @@ public partial class Label(Component owner) : Control(owner)
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = CaptureInput;
             RaiseMouseUp(this, button, shift, X, Y);
@@ -81,7 +81,7 @@ public partial class Label(Component owner) : Control(owner)
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = CaptureInput;
             RaiseMouseMove(this, shift, X, Y);

@@ -116,107 +116,33 @@ public partial class CustomDisplay : Component
         }
     }
 
-    // (inc\TDisplay.PAS in the original) How the display works, as far as the code of this unit
-    // tells: The display control has no surfaces of its own. It shows the surfaces of its
-    // active display controller (_activeDisplayController), which is one of PrimaryDisplayController and SecondaryDisplayController. SwapDisplayController
-    // (also Alt+Enter in KeyDown) switches between the two. A controller owns surface 0, the
-    // output (the window through GDI, or the DirectDraw primary surface), and with double or
-    // triple buffering (BufferingScheme) back surfaces 1 and 2 that the game draws on.
-    // FSurfaceIndex is the back surface to show next. with triple buffering UpdateFrame
-    // alternates it between 1 and 2. Life cycle: - Create sets the size to 100 x 100, the color
-    // to black, the default options [doAutoSwapDC, doAutoStartUpdateFrameLoop,
-    // doAutoActivatePrimaryDC, doBltOnWMPAINT], double buffering and back surfaces of 640 x
-    // 480, and (outside the designer) makes the owner the parent and creates the
-    // TDDrawFSWinControl that the full screen controllers draw in. - Loaded creates the window
-    // handle. CreateWnd lets the active controller know that the window was recreated
-    // (WindowRecreated) and, with doAutoActivatePrimaryDC, posts WM_DISPLAYC with WParam 2 to
-    // activate the primary controller once the window exists. - ActivateDC deactivates the
-    // active controller and activates the new one. With doRestoreSurfacesOnSwap the contents of
-    // the old surfaces are captured in TDataSurfaces first and remapped into the surfaces of
-    // the new controller. When the new controller cannot be activated, the old one is activated
-    // again and the result is DCERR_ACTIVATEFAILED. The frame loop is paused meanwhile. a
-    // change of the output size calls Resize, a change of the back surface size
-    // OnResizeBackSurface, then OnActivateDC follows and, with doAutoStartUpdateFrameLoop, the
-    // frame loop starts. - DeactivateDC calls OnDeactivateDC and deactivates the active
-    // controller. - Destroy stops the frame loop, deactivates the controller and frees the full
-    // screen window unless it is already being destroyed. The frame loop: -
-    // StartUpdateFrameLoop runs UpdateFrame at FrameRate frames per second. In umAsynchrone
-    // mode a TUpdateFrameThread waits for the frame time (FFrameTime, 1000 / FrameRate ms, 2 ms
-    // less for the thread) and calls UpdateFrame in the main thread through Synchronize. in
-    // umSynchrone mode StartUpdateFrameLoop itself loops, calling UpdateFrame and
-    // Application.ProcessMessages, until the loop is stopped or the application terminates. -
-    // PauseFrameUpdateLoop and ResumeFrameUpdateLoop nest (_pauseCount) and suspend and resume
-    // the thread. StopUpdateFrameLoop resumes the thread as often as needed and terminates it.
-    // - UpdateFrame switches the triple buffer, sends a MouseMove(-1, -1) when the mouse left
-    // the output with no button down, calls OnUpdateFrame (the game draws the frame on the back
-    // surface it gets. an exception there only shows a message), counts the frame for the frame
-    // rate (NewFrame), waits for the frame time or the vertical blank (WaitForVerticalBlank)
-    // and shows the back surface (ExecuteBltSurfaceEvent). - ExecuteBltSurfaceEvent calls
-    // OnBltSurface and then, depending on BackSurfaceControlMode: bmBltSurface blits the whole
-    // back surface to the output (BltSurface), bmBltInvalidatedSurface blits only the blocks
-    // marked in the controller's invalidation matrix (BltInvalidatedSurface. Invalidate and
-    // InvalidateAll mark them), bmPageFlipping flips (FlipSurface. controllers that cannot flip
-    // blit and return DCERR_NOFLIP) and bmNone shows nothing. With doShowFrameRate the
-    // controller writes the frame rate on the output. The options (Options): -
-    // doAutoResizeBackSurface: the back surfaces follow the size of the output (Resize and the
-    // controllers' Activate). - doAutoSwapDC: not tested in this unit. -
-    // doAutoStartUpdateFrameLoop: ActivateDC and SetUpdateFrameMode start the frame loop. -
-    // doAutoActivatePrimaryDC: CreateWnd activates the primary controller. - doShowFrameRate:
-    // ExecuteBltSurfaceEvent shows the frame rate. - doShowErrors: ShowError shows a message
-    // box. - doFocusAble: a mouse click focuses the output window. - doRestoreSurfacesOnSwap:
-    // ActivateDC copies the surface contents to the new controller. - doBltOnWMPAINT: WM_PAINT
-    // invalidates everything and shows the back surface again. - doAutoEnableDDraw:
-    // TWindows16DC activates DirectDraw to find the best 16 bit format. The status (FStatus):
-    // dsFrameLoopActive and dsFrameLoopPaused belong to the frame loop. dsDDrawEnabled,
-    // dsDirectInputEnabled, dsAsynchrone and dsExclusiveAccess are not used here. The events: -
-    // OnBltSurface(Sender): before the back surface is shown. - OnUpdateFrame(Sender, DC,
-    // SurfaceType): draw the frame on back surface SurfaceType of DC. - OnSurfaceDataLost(DC,
-    // SurfaceType): the contents of a surface were lost (a DirectDraw surface was restored, or
-    // the back surfaces were resized) and must be drawn again. - OnResize(Sender): the output
-    // changed its size. - OnError(ErrorStr, Error): declared and published, not called in this
-    // unit. - OnActivateDisplayController, OnDeactivateDisplayController(Sender, DC): a controller was activated or is
-    // deactivated. - OnHide, OnShow(Sender): the output is hidden or shown (Hide and Show. the
-    // full screen controllers hide when the application is deactivated and show again through
-    // WM_DISPLAYC with WParam 1). - OnResizeBackSurface(DC, Width, Height): the back surfaces
-    // got a new size. - OnSwapDC(DC): SwapDC is about to activate DC. The messages: WM_SIZE
-    // calls Resize. WM_PAINT is handled as described for doBltOnWMPAINT. the windowed
-    // controllers see the window messages first (TAbstractDC.WndProc) and swallow WM_NCPAINT
-    // and WM_ERASEBKGND. CM_WANTSPECIALKEY and CN_KEYUP keep the arrow keys for the display.
-    // WM_DISPLAYC carries the posted requests. The controllers (Register puts them on the GFX
-    // Engine page of the component palette. TDDrawFullScr08DC and the TDDrawWnd DCs have
-    // bitmaps in the package but no code): - TWindowsDC and its descendants draw in the
-    // display's window through GDI: TWindows08DC with 8 bit DIBs and a logical palette,
-    // TWindows16DC with 16 bit DIB sections (555 or 565, PixelFormat), TWindows24DC and
-    // TWindows32DC with 24 and 32 bit ones. Every block of the invalidation matrix is blitted
-    // on its own (GetInvBlockSize). - TDDrawFullScrDC and its descendants switch the screen to
-    // DisplayWidth x DisplayHeight at 16, 24 or 32 bits and draw in the full screen window
-    // through DirectDraw: a flipping chain in video memory when the back surfaces have the size
-    // of the screen (UseVideoMemory), else separate back surfaces that are blitted. They hide
-    // the application's forms while they are active, hook the main window for WM_ACTIVATEAPP
-    // and WM_DISPLAYCHANGE, and restore lost surfaces (VerifyLostSurfaces). UseVerticalBlank
-    // waits for the vertical blank. DebugMode leaves the window where it is. Enable3D asks for
-    // 3D capable surfaces. The error codes: DCERR_NOTSUPPORTED (not supported by the
-    // controller), DCERR_ACTIVATEFAILED, DCERR_FAILED (no invalidation matrix, or an exception
-    // during activation), DCERR_ACTIVATED (already activated), DCERR_NOTACTIVATED and
-    // DCERR_NOFLIP (blitted instead of flipped). The controller interface (TAbstractDC), in the
-    // methods: - GetInvMatrix, InitInvMatrix, Invalidate, InvalidateAll: the invalidation
-    // matrix (blocks of the back surface that changed. TMatrix values count down once per shown
-    // frame). - SetPrimarySurfaceRgn, GetPrimarySurfaceRgn: the rectangle of the output that
-    // shows the back surface. - GetStatus (dsVisible, dsActivated, dsWindowed). GetDisplay,
-    // OutputWnd and Handle: the display, the control and the window drawn in. - GetPalette,
-    // GetHPalette, SetPalet, RealizePaletNow: the palette of 8 bit controllers. - GetSurface,
-    // GetSurfaceCount: surface 0 (the output) and the back surfaces. - WndProc: the window
-    // messages of the windowed controllers (False swallows a message). - SupportDisplayMode:
-    // whether the controller can work with the display (SupportDC). - WindowRecreated: the
-    // window handle changed. - ShowError passes an error message to the display. Hide and Show
-    // hide and show the output. - GetPixPosofBlock, GetBlockPosofPix, GetInvBlockSize: block
-    // and pixel coordinates of the invalidation matrix. - NewFrame, ShowFrameRate: the frame
-    // rate. Activate, Deactivate: start and stop working. - FlipSurface, BltSurface,
-    // BltInvalidatedSurface: show a back surface. - ResizeBackSurfaces: gives the back surfaces
-    // a new size. - GetMousePos: the mouse position in output coordinates (-1, -1 outside). -
-    // WaitForVerticalBlank: waits for the frame time or the vertical blank. The port keeps the
-    // display without the VCL window control: the window handle, the window messages, the
-    // palette and the focus belong to the platform host.
+    // DisplayC.pas: How the display works in the port.
+    // The display has no surfaces of its own. It shows the surfaces of its active display
+    // controller (ActiveDisplayController), which is PrimaryDisplayController or
+    // SecondaryDisplayController. SwapDisplayController toggles Host.Fullscreen through IDisplayHost,
+    // raises OnSwapDisplayController and resizes the back surfaces. A controller owns surface 0
+    // (the output surface) and, with double or triple buffering (BufferingScheme), back surfaces 1
+    // and 2 that the game draws on. SurfaceIndex is the back surface to show next. With triple
+    // buffering UpdateFrame alternates it between 1 and 2.
+    // - Construction sets Double buffering, BlitSurface mode, 640 x 480 back surfaces, 30 fps and
+    //   Synchronous update mode.
+    // - ActivateDisplayController pauses the frame loop, optionally captures and remaps existing
+    //   back surfaces when Options contains RestoreSurfacesOnSwap, deactivates the previous
+    //   controller, activates the new one (falling back to the previous on failure), resizes and
+    //   raises OnActivateDisplayController.
+    // - DeactivateDisplayController raises OnDeactivateDisplayController and deactivates the active
+    //   controller. Dispose stops the frame loop and deactivates the controller.
+    // - StartUpdateFrameLoop runs a synchronous loop calling UpdateFrame and Host.PumpEvents until
+    //   StopUpdateFrameLoop or Terminated returns true. UpdateFrameMode.Asynchronous throws
+    //   NotSupportedException. PauseFrameUpdateLoop and ResumeFrameUpdateLoop nest via _pauseCount.
+    // - UpdateFrame alternates the triple buffer, emits MouseMove(-1, -1) when the mouse left the
+    //   output with no button down, raises OnUpdateFrame, calls NewFrame and WaitForVerticalBlank,
+    //   presents via ExecuteBlitSurfaceEvent and increments PresentedFrames.
+    // - ExecuteBlitSurfaceEvent raises OnBlitSurface, copies or flips the back surface according to
+    //   BackSurfaceControlMode and optionally calls ShowFrameRate.
+    // - Status: FrameLoopActive and FrameLoopPaused track the frame loop. DirectInputEnabled,
+    //   Asynchronous and ExclusiveAccess are unused.
+    // - Host windowing, events, palette and focus belong to IDisplayHost and IDisplayEvents.
 
     // DisplayC.pas:1541
     public virtual DisplayController GetDisplayController(int index)

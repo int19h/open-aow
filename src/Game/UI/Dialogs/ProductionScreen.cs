@@ -639,7 +639,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
         UnitShowInfo info = default;
         Rect r;
         Unit u;
-        r = new Rect(ActivityPanel2.WinLeft + sender.WinLeft, ActivityPanel2.WinTop + sender.WinTop, ActivityPanel2.WinLeft + sender.WinLeft + sender.WinWidth, ActivityPanel2.WinTop + sender.WinTop + sender.WinHeight);
+        r = new Rect(ActivityPanel2.AbsoluteLeft + sender.WinLeft, ActivityPanel2.AbsoluteTop + sender.WinTop, ActivityPanel2.AbsoluteLeft + sender.WinLeft + sender.WinWidth, ActivityPanel2.AbsoluteTop + sender.WinTop + sender.WinHeight);
         switch (slot)
         {
             case >= 0 and <= 3:
@@ -866,7 +866,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
         u = _place.ProductionControl.CreateUnitProduction(_productionIndex);
         if (u != null)
         {
-            r = new Rect(UnitPictureFramePanel.WinLeft + sender.WinLeft + 2, UnitPictureFramePanel.WinTop + sender.WinTop + 2, UnitPictureFramePanel.WinLeft + sender.WinLeft + sender.WinWidth - 4, UnitPictureFramePanel.WinTop + sender.WinTop + sender.WinHeight - 2);
+            r = new Rect(UnitPictureFramePanel.AbsoluteLeft + sender.WinLeft + 2, UnitPictureFramePanel.AbsoluteTop + sender.WinTop + 2, UnitPictureFramePanel.AbsoluteLeft + sender.WinLeft + sender.WinWidth - 4, UnitPictureFramePanel.AbsoluteTop + sender.WinTop + sender.WinHeight - 2);
             u.ShowFace(r, lockedSurface);
             _ = u.Release();
         }
@@ -944,7 +944,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
         {
             if (_place.ProductionControl.Queue.GetItem(0).Order.UnitProductionIndex != null)
             {
-                r = new Rect(ActiveActionPanel.WinLeft + sender.WinLeft, ActiveActionPanel.WinTop + sender.WinTop, ActiveActionPanel.WinLeft + sender.WinLeft + sender.WinWidth, ActiveActionPanel.WinTop + sender.WinTop + sender.WinHeight);
+                r = new Rect(ActiveActionPanel.AbsoluteLeft + sender.WinLeft, ActiveActionPanel.AbsoluteTop + sender.WinTop, ActiveActionPanel.AbsoluteLeft + sender.WinLeft + sender.WinWidth, ActiveActionPanel.AbsoluteTop + sender.WinTop + sender.WinHeight);
                 ProductionPlaceControl productionPlaceControl = _place.ProductionControl;
                 if (productionPlaceControl.UnitProductions.GetItem(productionPlaceControl.Settings.UnitProductionIndex) != null)
                 {

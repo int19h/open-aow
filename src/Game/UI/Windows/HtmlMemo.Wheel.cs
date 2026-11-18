@@ -13,8 +13,8 @@ public partial class HtmlMemo
         int top = WinTop;
         if (_window != null)
         {
-            left += _window.WinLeft;
-            top += _window.WinTop;
+            left += _window.AbsoluteLeft;
+            top += _window.AbsoluteTop;
         }
 
         return PointInside(X, Y, left, top, WinWidth, WinHeight);

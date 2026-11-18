@@ -255,19 +255,19 @@ public partial class ListBox : Control
                 switch (_textOnly)
                 {
                     case 0:
-                        SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                        SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
                         _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle, ref lockedSurface);
                         LibraryImage imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         LibraryImage imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
                         LibraryImage imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                         LibraryImage imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         LibraryImage imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        SizedRectangle rectangle2 = new(Window.WinLeft + WinLeft + imageLibraryFrame3.Width, Window.WinTop + WinTop + imageLibraryFrame2.Height, WinWidth - imageLibraryFrameWidth.Width - _scrollWidth, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
+                        SizedRectangle rectangle2 = new(Window.AbsoluteLeft + WinLeft + imageLibraryFrame3.Width, Window.AbsoluteTop + WinTop + imageLibraryFrame2.Height, WinWidth - imageLibraryFrameWidth.Width - _scrollWidth, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                         _imageLibraryTextureNormal.DrawTiled(_imageLibraryIndexTNormal, rectangle2, ref lockedSurface);
                         LibraryImage imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        l = Window.WinLeft + WinLeft + imageLibraryFrame4.Width;
+                        l = Window.AbsoluteLeft + WinLeft + imageLibraryFrame4.Width;
                         LibraryImage imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                        t = Window.WinTop + WinTop + imageLibraryFrame5.Height;
+                        t = Window.AbsoluteTop + WinTop + imageLibraryFrame5.Height;
                         LibraryImage imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         LibraryImage imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
                         h = WinHeight - imageLibraryFrame6.Height - imageLibraryFrame7.Height;
@@ -275,8 +275,8 @@ public partial class ListBox : Control
                         w = WinWidth - imageLibraryFrame8.Width - _scrollWidth;
                         break;
                     default:
-                        l = Window.WinLeft + WinLeft;
-                        t = Window.WinTop + WinTop;
+                        l = Window.AbsoluteLeft + WinLeft;
+                        t = Window.AbsoluteTop + WinTop;
                         h = WinHeight;
                         w = WinWidth - _scrollWidth;
                         break;
@@ -368,17 +368,17 @@ public partial class ListBox : Control
         int i;
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
-        if (!OwnerComponent.Handled && X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth - _scrollWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (!OwnerComponent.Handled && X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth - _scrollWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
             if (_textOnly == 0)
             {
                 LibraryImage imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame];
-                i = ((Y - Window.WinTop - WinTop - imageLibraryFrame.Height) / ItemHeight) + FirstShownItem;
+                i = ((Y - Window.AbsoluteTop - WinTop - imageLibraryFrame.Height) / ItemHeight) + FirstShownItem;
             }
             else
             {
-                i = ((Y - Window.WinTop - WinTop) / ItemHeight) + FirstShownItem;
+                i = ((Y - Window.AbsoluteTop - WinTop) / ItemHeight) + FirstShownItem;
             }
 
             if (_items.Count > i)
@@ -440,7 +440,7 @@ public partial class ListBox : Control
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth - _scrollWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth - _scrollWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
             RaiseMouseUp(this, button, shift, X, Y);
@@ -453,7 +453,7 @@ public partial class ListBox : Control
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
-        if (X < Window.WinLeft + WinLeft || X > Window.WinLeft + WinLeft + WinWidth - _scrollWidth - 1 || Y < Window.WinTop + WinTop || Y > Window.WinTop + WinTop + WinHeight - 1)
+        if (X < Window.AbsoluteLeft + WinLeft || X > Window.AbsoluteLeft + WinLeft + WinWidth - _scrollWidth - 1 || Y < Window.AbsoluteTop + WinTop || Y > Window.AbsoluteTop + WinTop + WinHeight - 1)
         {
             HoverItem = -1;
         }
@@ -463,11 +463,11 @@ public partial class ListBox : Control
             if (_textOnly == 0)
             {
                 LibraryImage imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame];
-                HoverItem = ((Y - Window.WinTop - WinTop - imageLibraryFrame.Height) / ItemHeight) + FirstShownItem;
+                HoverItem = ((Y - Window.AbsoluteTop - WinTop - imageLibraryFrame.Height) / ItemHeight) + FirstShownItem;
             }
             else
             {
-                HoverItem = ((Y - Window.WinTop - WinTop) / ItemHeight) + FirstShownItem;
+                HoverItem = ((Y - Window.AbsoluteTop - WinTop) / ItemHeight) + FirstShownItem;
             }
 
             RaiseMouseMove(this, shift, X, Y);

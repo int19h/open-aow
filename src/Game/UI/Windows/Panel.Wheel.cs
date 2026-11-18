@@ -13,8 +13,7 @@ public partial class Panel
         return PointInside(X, Y, absolute.Left, absolute.Top, absolute.Width, absolute.Height);
     }
 
-    // The panel moves by its window, as CheckMouseDown does, so a child hit test sees screen pixels.
-    // The panel's own hit test reads the absolute rectangle from a local.
+    // Child hit tests read AbsoluteLeft and AbsoluteTop so the panel's coordinates stay fixed.
     // A wheel that nobody handles is not consumed, so a book page can still turn.
     public override bool CheckMouseWheel(int steps, Set<ShiftState> shift, int X, int Y)
     {
@@ -23,24 +22,8 @@ public partial class Panel
             return false;
         }
 
-        int ownLeft = WinLeft;
-        int ownTop = WinTop;
         SizedRectangle absolute = AbsoluteArea();
-        try
-        {
-            if (_window != null)
-            {
-                SetWinLeftWithoutInvalidate(absolute.Left);
-                SetWinTopWithoutInvalidate(absolute.Top);
-            }
-
-            UIComponent child = TopWheelChild(X, Y);
-            return (child != null && child.CheckMouseWheel(steps, shift, X, Y)) || (PointInside(X, Y, absolute.Left, absolute.Top, WinWidth, WinHeight) && ScrollOwnedBar(steps));
-        }
-        finally
-        {
-            SetWinLeftWithoutInvalidate(ownLeft);
-            SetWinTopWithoutInvalidate(ownTop);
-        }
+        UIComponent child = TopWheelChild(X, Y);
+        return (child != null && child.CheckMouseWheel(steps, shift, X, Y)) || (PointInside(X, Y, absolute.Left, absolute.Top, WinWidth, WinHeight) && ScrollOwnedBar(steps));
     }
 }

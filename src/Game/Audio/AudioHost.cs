@@ -21,7 +21,7 @@ public static class AudioHost
 
     internal static void Initialize()
     {
-        BaseSoundEnginePath = ToolServices != null ? ExtractFilePath(ToolServices.GetProjectName()) : ExtractFilePath(RtlUnit.Application.ExeName);
+        BaseSoundEnginePath = ExtractFilePath(RtlUnit.Application.ExeName);
 
         SampleList = new SampleList();
         SampleDataList = new SampleDataList();

@@ -9,13 +9,6 @@ public static partial class RtlUnit
 
     public static bool IsEmpty(string? value) => RequireString(value).Length == 0;
 
-    public static string[] Strings(int length)
-    {
-        string[] result = new string[length];
-        Array.Fill(result, "");
-        return result;
-    }
-
     public static string WithChar(string? value, int index, char character)
     {
         value = RequireString(value);

@@ -20,7 +20,7 @@ public partial class CheckBox(Component owner) : BaseButton(owner)
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
         Lit = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight && Valid && Visible)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight && Valid && Visible)
         {
             Handled = true;
             RaiseMouseDown(this, button, shift, X, Y);
@@ -83,7 +83,7 @@ public partial class CheckBox(Component owner) : BaseButton(owner)
     {
         Handled = false;
         Lit = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight && Valid && Visible)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight && Valid && Visible)
         {
             Handled = true;
             RaiseMouseUp(this, button, shift, X, Y);
@@ -97,7 +97,7 @@ public partial class CheckBox(Component owner) : BaseButton(owner)
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
         oldLit = Lit;
-        if (X < Window.WinLeft + WinLeft || X > Window.WinLeft + WinLeft + WinWidth - 1 || Y < Window.WinTop + WinTop || Y > Window.WinTop + WinTop + WinHeight - 1)
+        if (X < Window.AbsoluteLeft + WinLeft || X > Window.AbsoluteLeft + WinLeft + WinWidth - 1 || Y < Window.AbsoluteTop + WinTop || Y > Window.AbsoluteTop + WinTop + WinHeight - 1)
         {
             Lit = false;
         }

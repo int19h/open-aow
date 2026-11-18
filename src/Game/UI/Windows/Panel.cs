@@ -9,12 +9,11 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Windows;
 
 // { The AoWPanel unit of aowInt.dpl: TAOWPanel, a window inside a window (Window), drawn into
-//   its owner's surface. Its controls are positioned relative to it: while it updates, draws or
-//   passes input on, it moves itself by the window's position and restores its own position
-//   afterwards. A panel can belong to a tab of a TAOWTabPanel (TabPanel and OwnerItem): it is then
-//   visible only while its tab is selected. }
-// Fields: _tabPanel, _window. The original saved the panel's own position in FOrgLeft and FOrgTop
-// while the panel was moved by its window's position. Each method keeps it in a local.
+//   its owner's surface. Its controls are positioned relative to it and read its AbsoluteLeft and
+//   AbsoluteTop (or WindowRelativeLeft and WindowRelativeTop during Update) so the panel's own
+//   coordinates never change. A panel can belong to a tab of a TAOWTabPanel (TabPanel and
+//   OwnerItem): it is then visible only while its tab is selected. }
+// Fields: _tabPanel, _window.
 public partial class Panel : BaseWindow
 {
     private TabPanel _tabPanel;
@@ -184,21 +183,11 @@ public partial class Panel : BaseWindow
                     SetSize();
                 }
 
-                int savedLeft = WinLeft;
-                int savedTop = WinTop;
-                if (_window is Panel)
-                {
-                    SetWinLeftWithoutInvalidate(WinLeft + _window.WinLeft);
-                    SetWinTopWithoutInvalidate(WinTop + _window.WinTop);
-                }
-
                 for (int i = 0, last = Children.Count - 1; i <= last; i++)
                 {
                     Children[i].Setup();
                 }
 
-                SetWinLeftWithoutInvalidate(savedLeft);
-                SetWinTopWithoutInvalidate(savedTop);
                 BlitCount = 0;
                 DrawCount = 0;
             }
@@ -210,21 +199,12 @@ public partial class Panel : BaseWindow
     }
 
     // AoWPanel.pas:333
-    // { Update: the controls are updated with the panel moved by its window's position; when the
-    //   panel moved or changed size, its old rectangle is redrawn in the owner }
+    // { Update: when the panel moved or changed size, its old rectangle is redrawn in the owner }
     public override void Update()
     {
         Rect r = default;
         if (Visible)
         {
-            int savedLeft = WinLeft;
-            int savedTop = WinTop;
-            if (_window is Panel)
-            {
-                SetWinLeftWithoutInvalidate(WinLeft + _window.WinLeft);
-                SetWinTopWithoutInvalidate(WinTop + _window.WinTop);
-            }
-
             RaiseUpdate(this);
 
             for (int i = 0, last = Children.Count - 1; i <= last; i++)
@@ -232,13 +212,11 @@ public partial class Panel : BaseWindow
                 Children[i].Update();
             }
 
-            SetWinLeftWithoutInvalidate(savedLeft);
-            SetWinTopWithoutInvalidate(savedTop);
-            if (OldRectangle.Right > 0 && OldRectangle.Bottom > 0 && (OldRectangle.Left != WinLeft || OldRectangle.Top != WinTop || OldRectangle.Right != WinWidth || OldRectangle.Bottom != WinHeight))
+            if (OldRectangle.Width > 0 && OldRectangle.Height > 0 && (OldRectangle.Left != WinLeft || OldRectangle.Top != WinTop || OldRectangle.Width != WinWidth || OldRectangle.Height != WinHeight))
             {
                 r = OwnerComponent.OwnerComponent.OwnerComponent == null
-                    ? new Rect(OldRectangle.Left, OldRectangle.Top, OldRectangle.Left + OldRectangle.Right - 1, OldRectangle.Top + OldRectangle.Bottom - 1)
-                    : new Rect(OwnerComponent.WinLeft + OldRectangle.Left, OwnerComponent.WinTop + OldRectangle.Top, OwnerComponent.WinLeft + OldRectangle.Left + OldRectangle.Right - 1, OwnerComponent.WinTop + OldRectangle.Top + OldRectangle.Bottom - 1);
+                    ? new Rect(OldRectangle.Left, OldRectangle.Top, OldRectangle.Left + OldRectangle.Width - 1, OldRectangle.Top + OldRectangle.Height - 1)
+                    : new Rect(OwnerComponent.WindowRelativeLeft + OldRectangle.Left, OwnerComponent.WindowRelativeTop + OldRectangle.Top, OwnerComponent.WindowRelativeLeft + OldRectangle.Left + OldRectangle.Width - 1, OwnerComponent.WindowRelativeTop + OldRectangle.Top + OldRectangle.Height - 1);
 
                 if (Masked)
                 {
@@ -250,18 +228,7 @@ public partial class Panel : BaseWindow
                 }
             }
 
-            Rect oldRectangle = OldRectangle;
-            oldRectangle.Left = WinLeft;
-            OldRectangle = oldRectangle;
-            Rect oldRectangle2 = OldRectangle;
-            oldRectangle2.Top = WinTop;
-            OldRectangle = oldRectangle2;
-            Rect oldRectangle3 = OldRectangle;
-            oldRectangle3.Right = WinWidth;
-            OldRectangle = oldRectangle3;
-            Rect oldRectangle4 = OldRectangle;
-            oldRectangle4.Bottom = WinHeight;
-            OldRectangle = oldRectangle4;
+            OldRectangle = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
         }
         else
         {
@@ -269,7 +236,7 @@ public partial class Panel : BaseWindow
             {
                 r = OwnerComponent.OwnerComponent.OwnerComponent == null
                     ? new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1)
-                    : new Rect(OwnerComponent.WinLeft + WinLeft, OwnerComponent.WinTop + WinTop, OwnerComponent.WinLeft + WinLeft + WinWidth - 1, OwnerComponent.WinTop + WinTop + WinHeight - 1);
+                    : new Rect(OwnerComponent.WindowRelativeLeft + WinLeft, OwnerComponent.WindowRelativeTop + WinTop, OwnerComponent.WindowRelativeLeft + WinLeft + WinWidth - 1, OwnerComponent.WindowRelativeTop + WinTop + WinHeight - 1);
 
                 OwnerComponent.AddDrawRectangle(ref r, this);
                 Hidden = false;
@@ -286,8 +253,6 @@ public partial class Panel : BaseWindow
     //   invalidate the rectangle themselves), then the windows above the panel in its owner }
     public override void InvalidateRectangle(int index, ref Rect rectangle, UIComponent sender)
     {
-        int oldLeft;
-        int oldTop;
         UIComponent c;
         Rect r = default;
         if (Valid && Visible && WindowStyle != Style.Blank)
@@ -295,16 +260,14 @@ public partial class Panel : BaseWindow
             AddDrawRectangle(ref rectangle, sender);
         }
 
-        oldLeft = WinLeft;
-        oldTop = WinTop;
-        SetWinLeftWithoutInvalidate(WinLeft + OwnerComponent.WinLeft);
-        SetWinTopWithoutInvalidate(WinTop + OwnerComponent.WinTop);
+        int absLeft = AbsoluteLeft;
+        int absTop = AbsoluteTop;
         for (int i = index, last = Children.Count - 1; i <= last; i++)
         {
             c = Children[i];
             if (c.Visible)
             {
-                if (((WinLeft + c.WinLeft >= rectangle.Left && WinLeft + c.WinLeft <= rectangle.Right) || (WinLeft + c.WinLeft <= rectangle.Left && rectangle.Left <= WinLeft + c.WinLeft + c.WinWidth)) && ((WinTop + c.WinTop >= rectangle.Top && WinTop + c.WinTop <= rectangle.Bottom) || (WinTop + c.WinTop <= rectangle.Top && rectangle.Top <= WinTop + c.WinTop + c.WinHeight)) && c != sender)
+                if (((absLeft + c.WinLeft >= rectangle.Left && absLeft + c.WinLeft <= rectangle.Right) || (absLeft + c.WinLeft <= rectangle.Left && rectangle.Left <= absLeft + c.WinLeft + c.WinWidth)) && ((absTop + c.WinTop >= rectangle.Top && absTop + c.WinTop <= rectangle.Bottom) || (absTop + c.WinTop <= rectangle.Top && rectangle.Top <= absTop + c.WinTop + c.WinHeight)) && c != sender)
                 {
                     if (c is BaseWindow)
                     {
@@ -317,7 +280,7 @@ public partial class Panel : BaseWindow
                             c.Drawn = false;
                             if (c.Masked)
                             {
-                                r = new Rect(WinLeft + c.WinLeft, WinTop + c.WinTop, WinLeft + c.WinLeft + c.WinWidth, WinTop + c.WinTop + c.WinHeight);
+                                r = new Rect(absLeft + c.WinLeft, absTop + c.WinTop, absLeft + c.WinLeft + c.WinWidth, absTop + c.WinTop + c.WinHeight);
                                 AddDrawRectangle(ref r, this);
                             }
                         }
@@ -331,9 +294,6 @@ public partial class Panel : BaseWindow
             int indexOf = OwnerComponent.Children.IndexOf(this);
             OwnerComponent.InvalidateRectangle(indexOf + 1, ref rectangle, this);
         }
-
-        SetWinLeftWithoutInvalidate(oldLeft);
-        SetWinTopWithoutInvalidate(oldTop);
     }
 
     // AoWPanel.pas:82
@@ -379,18 +339,7 @@ public partial class Panel : BaseWindow
                 Drawn = false;
                 if (!Hidden)
                 {
-                    Rect backRectangle = BackRectangle;
-                    backRectangle.Right = WinWidth;
-                    BackRectangle = backRectangle;
-                    Rect backRectangle2 = BackRectangle;
-                    backRectangle2.Bottom = WinHeight;
-                    BackRectangle = backRectangle2;
-                    Rect backRectangle3 = BackRectangle;
-                    backRectangle3.Top = WinTop;
-                    BackRectangle = backRectangle3;
-                    Rect backRectangle4 = BackRectangle;
-                    backRectangle4.Left = WinLeft;
-                    BackRectangle = backRectangle4;
+                    BackRectangle = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
                     Hidden = true;
                 }
 
@@ -420,6 +369,8 @@ public partial class Panel : BaseWindow
     {
         Rect blitRectangle = default;
         Rect oldClip = default;
+        int absLeft = AbsoluteLeft;
+        int absTop = AbsoluteTop;
         void DrawBack()
         {
             if (WindowStyle != Style.Blank)
@@ -427,7 +378,7 @@ public partial class Panel : BaseWindow
                 switch (WindowStyle)
                 {
                     case Style.Normal:
-                        SizedRectangle rectangle = new(WinLeft, WinTop, WinWidth, WinHeight);
+                        SizedRectangle rectangle = new(absLeft, absTop, WinWidth, WinHeight);
                         ImageLibraryFrame.DrawFrame(ImageLibraryIndexFrame, rectangle, ref lockedSurface);
                         LibraryImage imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
                         LibraryImage imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
@@ -435,15 +386,15 @@ public partial class Panel : BaseWindow
                         LibraryImage imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
                         LibraryImage imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
                         LibraryImage imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
-                        SizedRectangle rectangle2 = new(WinLeft + imageLibraryFrame4.Width, WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
+                        SizedRectangle rectangle2 = new(absLeft + imageLibraryFrame4.Width, absTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                         ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, rectangle2, ref lockedSurface);
                         break;
                     case Style.Hollow:
-                        SizedRectangle rectangle3 = new(WinLeft, WinTop, WinWidth, WinHeight);
+                        SizedRectangle rectangle3 = new(absLeft, absTop, WinWidth, WinHeight);
                         ImageLibraryFrame.DrawFrame(ImageLibraryIndexFrame, rectangle3, ref lockedSurface);
                         break;
                     case Style.Borderless:
-                        SizedRectangle rectangle4 = new(WinLeft, WinTop, WinWidth, WinHeight);
+                        SizedRectangle rectangle4 = new(absLeft, absTop, WinWidth, WinHeight);
                         ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, rectangle4, ref lockedSurface);
                         break;
                     case Style.Blank:
@@ -460,35 +411,31 @@ public partial class Panel : BaseWindow
         {
             if (Valid && Visible)
             {
-                int savedLeft = WinLeft;
-                int savedTop = WinTop;
-                SetWinLeftWithoutInvalidate(WinLeft + _window.WinLeft);
-                SetWinTopWithoutInvalidate(WinTop + _window.WinTop);
-                if (WinLeft < lockedSurface.ClipRectangle.Right && WinLeft > lockedSurface.ClipRectangle.Left)
+                if (absLeft < lockedSurface.ClipRectangle.Right && absLeft > lockedSurface.ClipRectangle.Left)
                 {
                     Rect clipRectangle = lockedSurface.ClipRectangle;
-                    clipRectangle.Left = WinLeft;
+                    clipRectangle.Left = absLeft;
                     lockedSurface.ClipRectangle = clipRectangle;
                 }
 
-                if (WinTop < lockedSurface.ClipRectangle.Bottom && WinTop > lockedSurface.ClipRectangle.Top)
+                if (absTop < lockedSurface.ClipRectangle.Bottom && absTop > lockedSurface.ClipRectangle.Top)
                 {
                     Rect clipRectangle2 = lockedSurface.ClipRectangle;
-                    clipRectangle2.Top = WinTop;
+                    clipRectangle2.Top = absTop;
                     lockedSurface.ClipRectangle = clipRectangle2;
                 }
 
-                if (WinLeft + WinWidth > lockedSurface.ClipRectangle.Left && WinLeft + WinWidth < lockedSurface.ClipRectangle.Right)
+                if (absLeft + WinWidth > lockedSurface.ClipRectangle.Left && absLeft + WinWidth < lockedSurface.ClipRectangle.Right)
                 {
                     Rect clipRectangle3 = lockedSurface.ClipRectangle;
-                    clipRectangle3.Right = WinLeft + WinWidth;
+                    clipRectangle3.Right = absLeft + WinWidth;
                     lockedSurface.ClipRectangle = clipRectangle3;
                 }
 
-                if (WinTop + WinHeight > lockedSurface.ClipRectangle.Top && WinTop + WinHeight < lockedSurface.ClipRectangle.Bottom)
+                if (absTop + WinHeight > lockedSurface.ClipRectangle.Top && absTop + WinHeight < lockedSurface.ClipRectangle.Bottom)
                 {
                     Rect clipRectangle4 = lockedSurface.ClipRectangle;
-                    clipRectangle4.Bottom = WinTop + WinHeight;
+                    clipRectangle4.Bottom = absTop + WinHeight;
                     lockedSurface.ClipRectangle = clipRectangle4;
                 }
 
@@ -503,13 +450,9 @@ public partial class Panel : BaseWindow
                         lockedSurface.ClipRectangle = rectangle;
                         DrawBack();
                         lockedSurface.ClipRectangle = oldClip;
-                        SetWinLeftWithoutInvalidate(savedLeft);
-                        SetWinTopWithoutInvalidate(savedTop);
                         Rect rectangle5 = d.Rectangle;
                         InvalidateRectangle(0, ref rectangle5, d.Owner);
                         d.Rectangle = rectangle5;
-                        SetWinLeftWithoutInvalidate(WinLeft + _window.WinLeft);
-                        SetWinTopWithoutInvalidate(WinTop + _window.WinTop);
                     }
                 }
                 else
@@ -545,14 +488,10 @@ public partial class Panel : BaseWindow
                         DrawCount = 0;
                         if (!Drawn || !c.FirstDraw)
                         {
-                            blitRectangle = new Rect(WinLeft + c.WinLeft, WinTop + c.WinTop, WinLeft + c.WinLeft + c.WinWidth, WinTop + c.WinTop + c.WinHeight);
+                            blitRectangle = new Rect(absLeft + c.WinLeft, absTop + c.WinTop, absLeft + c.WinLeft + c.WinWidth, absTop + c.WinTop + c.WinHeight);
                             OwnerComponent.AddBlitRectangle(ref blitRectangle, this);
-                            SetWinLeftWithoutInvalidate(savedLeft);
-                            SetWinTopWithoutInvalidate(savedTop);
-                            blitRectangle = new Rect(_window.WinLeft + WinLeft + c.WinLeft, _window.WinTop + WinTop + c.WinTop, _window.WinLeft + WinLeft + c.WinLeft + c.WinWidth - 1, _window.WinTop + WinTop + c.WinTop + c.WinHeight - 1);
+                            blitRectangle = new Rect(absLeft + c.WinLeft, absTop + c.WinTop, absLeft + c.WinLeft + c.WinWidth - 1, absTop + c.WinTop + c.WinHeight - 1);
                             InvalidateRectangle(i + 1, ref blitRectangle, c);
-                            SetWinLeftWithoutInvalidate(WinLeft + _window.WinLeft);
-                            SetWinTopWithoutInvalidate(WinTop + _window.WinTop);
                         }
                     }
                 }
@@ -561,8 +500,6 @@ public partial class Panel : BaseWindow
 
                 Drawn = SurfaceValid;
                 lockedSurface.ClipRectangle = oldClip;
-                SetWinLeftWithoutInvalidate(savedLeft);
-                SetWinTopWithoutInvalidate(savedTop);
                 SurfaceValid = true;
             }
         }
@@ -573,36 +510,19 @@ public partial class Panel : BaseWindow
     }
 
     // The panel's rectangle on the screen: its own position moved by its window's position.
-    private SizedRectangle AbsoluteArea()
-    {
-        int left = WinLeft;
-        int top = WinTop;
-        if (_window != null)
-        {
-            left += _window.WinLeft;
-            top += _window.WinTop;
-        }
-
-        return new SizedRectangle(left, top, WinWidth, WinHeight);
-    }
+    private SizedRectangle AbsoluteArea() => new(AbsoluteLeft, AbsoluteTop, WinWidth, WinHeight);
 
     // AoWPanel.pas:513
-    // { CheckMouseDown: the controls first (from the top), with the panel moved by its window's
-    //   position }
-    // The panel's own hit test reads the absolute rectangle from a local. Its controls read their
-    // window's position, so the panel still stands at the absolute position while they run.
+    // { CheckMouseDown: the controls first (from the top), with the panel's absolute origin read
+    //   through AbsoluteLeft and AbsoluteTop. }
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
         if (Visible)
         {
-            int ownLeft = WinLeft;
-            int ownTop = WinTop;
             SizedRectangle absolute = AbsoluteArea();
             if (_window != null)
             {
-                SetWinLeftWithoutInvalidate(absolute.Left);
-                SetWinTopWithoutInvalidate(absolute.Top);
                 Handled = _window.Handled;
             }
 
@@ -626,8 +546,6 @@ public partial class Panel : BaseWindow
                 }
             }
 
-            SetWinLeftWithoutInvalidate(ownLeft);
-            SetWinTopWithoutInvalidate(ownTop);
             if (X > absolute.Left - 1 && X < absolute.Left + WinWidth && Y > absolute.Top - 1 && Y < absolute.Top + WinHeight)
             {
                 Handled = true;
@@ -643,12 +561,9 @@ public partial class Panel : BaseWindow
         Handled = false;
         if (Visible)
         {
-            int savedLeft = WinLeft;
-            int savedTop = WinTop;
+            SizedRectangle absolute = AbsoluteArea();
             if (_window != null)
             {
-                SetWinLeftWithoutInvalidate(WinLeft + _window.WinLeft);
-                SetWinTopWithoutInvalidate(WinTop + _window.WinTop);
                 Handled = _window.Handled;
             }
 
@@ -667,17 +582,10 @@ public partial class Panel : BaseWindow
                 }
             }
 
-            if (X > WinLeft - 1 && X < WinLeft + WinWidth && Y > WinTop - 1 && Y < WinTop + WinHeight)
+            if (X > absolute.Left - 1 && X < absolute.Left + WinWidth && Y > absolute.Top - 1 && Y < absolute.Top + WinHeight)
             {
                 Handled = true;
-                SetWinLeftWithoutInvalidate(savedLeft);
-                SetWinTopWithoutInvalidate(savedTop);
                 RaiseMouseUp(this, button, shift, X, Y);
-            }
-            else
-            {
-                SetWinLeftWithoutInvalidate(savedLeft);
-                SetWinTopWithoutInvalidate(savedTop);
             }
         }
     }
@@ -688,12 +596,9 @@ public partial class Panel : BaseWindow
         Handled = false;
         if (Visible)
         {
-            int savedLeft = WinLeft;
-            int savedTop = WinTop;
+            SizedRectangle absolute = AbsoluteArea();
             if (_window != null)
             {
-                SetWinLeftWithoutInvalidate(WinLeft + _window.WinLeft);
-                SetWinTopWithoutInvalidate(WinTop + _window.WinTop);
                 Handled = _window.Handled;
             }
 
@@ -712,17 +617,10 @@ public partial class Panel : BaseWindow
                 }
             }
 
-            if (X > WinLeft - 1 && X < WinLeft + WinWidth && Y > WinTop - 1 && Y < WinTop + WinHeight)
+            if (X > absolute.Left - 1 && X < absolute.Left + WinWidth && Y > absolute.Top - 1 && Y < absolute.Top + WinHeight)
             {
                 Handled = true;
-                SetWinLeftWithoutInvalidate(savedLeft);
-                SetWinTopWithoutInvalidate(savedTop);
                 RaiseMouseMove(this, shift, X, Y);
-            }
-            else
-            {
-                SetWinLeftWithoutInvalidate(savedLeft);
-                SetWinTopWithoutInvalidate(savedTop);
             }
         }
     }

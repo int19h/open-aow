@@ -319,9 +319,9 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
             gauge.Visible = true;
             gauge.Max = u.GetHits();
             gauge.Position = u.GetHitPoints();
-            gauge.WinLeft = drawRectangle.Left - PartyListPanel.WinLeft + 5;
+            gauge.WinLeft = drawRectangle.Left - PartyListPanel.AbsoluteLeft + 5;
             gauge.WinWidth = drawRectangle.Right - drawRectangle.Left - 10;
-            gauge.WinTop = drawRectangle.Top + Unit1List.ItemHeight - PartyListPanel.WinTop - 9;
+            gauge.WinTop = drawRectangle.Top + Unit1List.ItemHeight - PartyListPanel.AbsoluteTop - 9;
             // { Original sizes and draws the gauge directly. }
             gauge.SetSize();
             gauge.Draw(lockedSurface);
@@ -859,7 +859,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         if (index > -1)
         {
             hero = HeroHealthList.Items.Objects[index << 0];
-            r = new Rect(HeroHeroInfoPanel.WinLeft + 1, HeroHeroInfoPanel.WinTop + 1, HeroHeroInfoPanel.WinLeft + HeroHeroInfoPanel.WinWidth - 1, HeroHeroInfoPanel.WinTop + HeroHeroInfoPanel.WinHeight - 1);
+            r = new Rect(HeroHeroInfoPanel.AbsoluteLeft + 1, HeroHeroInfoPanel.AbsoluteTop + 1, HeroHeroInfoPanel.AbsoluteLeft + HeroHeroInfoPanel.WinWidth - 1, HeroHeroInfoPanel.AbsoluteTop + HeroHeroInfoPanel.WinHeight - 1);
             if (hero.GetFace() != null)
             {
                 hero.ShowFace(r, lockedSurface);

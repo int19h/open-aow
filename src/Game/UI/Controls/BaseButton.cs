@@ -130,12 +130,12 @@ public partial class BaseButton(Component owner) : Control(owner)
                 {
                     if (_buttonType == UIComponentButtonType.Text)
                     {
-                        SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                        SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexDown, rectangle, ref lockedSurface);
                     }
                     else
                     {
-                        SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                        SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
                         _imageLibraryIcon.DrawImage(_imageLibraryIndexDown, rectangle, ref lockedSurface);
                     }
 
@@ -143,7 +143,7 @@ public partial class BaseButton(Component owner) : Control(owner)
                     {
                         base.Font.Color = SelectedColor;
                         int textWidth = base.Font.GetTextWidth(base.Text);
-                        base.Font.SetText(Window.WinLeft + WinLeft + (WinWidth / 2) - (textWidth / 2), Window.WinTop + WinTop + BorderHeightSelected, base.Text, lockedSurface);
+                        base.Font.SetText(Window.AbsoluteLeft + WinLeft + (WinWidth / 2) - (textWidth / 2), Window.AbsoluteTop + WinTop + BorderHeightSelected, base.Text, lockedSurface);
                     }
                 }
                 else
@@ -152,12 +152,12 @@ public partial class BaseButton(Component owner) : Control(owner)
                     {
                         if (Lit)
                         {
-                            SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                            SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
                             _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexLit, rectangle, ref lockedSurface);
                         }
                         else
                         {
-                            SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                            SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
                             _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexUp, rectangle, ref lockedSurface);
                         }
                     }
@@ -165,12 +165,12 @@ public partial class BaseButton(Component owner) : Control(owner)
                     {
                         if (Lit)
                         {
-                            SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                            SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
                             _imageLibraryIcon.DrawImage(_imageLibraryIndexLit, rectangle, ref lockedSurface);
                         }
                         else
                         {
-                            SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                            SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
                             _imageLibraryIcon.DrawImage(_imageLibraryIndexUp, rectangle, ref lockedSurface);
                         }
                     }
@@ -179,7 +179,7 @@ public partial class BaseButton(Component owner) : Control(owner)
                     {
                         base.Font.Color = Color;
                         int textWidth = base.Font.GetTextWidth(base.Text);
-                        base.Font.SetText(Window.WinLeft + WinLeft + (WinWidth / 2) - (textWidth / 2), Window.WinTop + WinTop + BorderHeight, base.Text, lockedSurface);
+                        base.Font.SetText(Window.AbsoluteLeft + WinLeft + (WinWidth / 2) - (textWidth / 2), Window.AbsoluteTop + WinTop + BorderHeight, base.Text, lockedSurface);
                     }
                 }
 

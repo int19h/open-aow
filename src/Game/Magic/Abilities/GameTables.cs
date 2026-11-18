@@ -1,7 +1,6 @@
 using System.Collections.Immutable;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Session;
-using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -143,9 +142,9 @@ public static class GameTables
 
     internal static string[] DiplomaticRelationTexts { get; } = ["", "", "", ""];
 
-    internal static string[] StatusTexts { get; } = Strings(5);
+    internal static string[] StatusTexts { get; } = ["", "", "", "", ""];
 
-    internal static string[] RaceNamesPluralTexts { get; } = Strings(13);
+    internal static string[] RaceNamesPluralTexts { get; } = ["", "", "", "", "", "", "", "", "", "", "", "", ""];
 
     internal static string[] RaceNames { get; } = ["", "", "", "", "", "", "", "", "", "", "", "", ""];
 

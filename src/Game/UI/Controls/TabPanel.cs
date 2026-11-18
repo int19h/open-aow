@@ -110,7 +110,7 @@ public partial class TabPanel : Control
                     {
                         int count = _items.Count;
                         int fItemsCount = _items.Count;
-                        SizedRectangle rectangle = new(Window.WinLeft + WinLeft + (WinWidth * i / fItemsCount), Window.WinTop + WinTop, WinWidth / count, WinHeight);
+                        SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft + (WinWidth * i / fItemsCount), Window.AbsoluteTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexUp, rectangle, ref lockedSurface);
                         if (base.Font != null)
                         {
@@ -119,14 +119,14 @@ public partial class TabPanel : Control
                             int textWidth = base.Font.GetTextWidth(item);
                             int count2 = _items.Count;
                             string item2 = _items[i];
-                            base.Font.SetText(Window.WinLeft + WinLeft + (WinWidth * ((2 * i) + 1) / (2 * count2)) - (textWidth / 2), Window.WinTop + WinTop + BorderHeight, item2, lockedSurface);
+                            base.Font.SetText(Window.AbsoluteLeft + WinLeft + (WinWidth * ((2 * i) + 1) / (2 * count2)) - (textWidth / 2), Window.AbsoluteTop + WinTop + BorderHeight, item2, lockedSurface);
                         }
                     }
                     else
                     {
                         int count = _items.Count;
                         int fItemsCount = _items.Count;
-                        SizedRectangle rectangle = new(Window.WinLeft + WinLeft + (WinWidth * i / fItemsCount), Window.WinTop + WinTop, WinWidth / count, WinHeight);
+                        SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft + (WinWidth * i / fItemsCount), Window.AbsoluteTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexDown, rectangle, ref lockedSurface);
                         if (base.Font != null)
                         {
@@ -135,7 +135,7 @@ public partial class TabPanel : Control
                             int textWidth = base.Font.GetTextWidth(item);
                             int count2 = _items.Count;
                             string item2 = _items[i];
-                            base.Font.SetText(Window.WinLeft + WinLeft + (WinWidth * ((2 * i) + 1) / (2 * count2)) - (textWidth / 2), Window.WinTop + WinTop + BorderHeightSelected, item2, lockedSurface);
+                            base.Font.SetText(Window.AbsoluteLeft + WinLeft + (WinWidth * ((2 * i) + 1) / (2 * count2)) - (textWidth / 2), Window.AbsoluteTop + WinTop + BorderHeightSelected, item2, lockedSurface);
                         }
                     }
                 }
@@ -155,13 +155,13 @@ public partial class TabPanel : Control
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
             if (button == MouseButton.Left)
             {
                 int count = _items.Count;
-                SetIndex((X - Window.WinLeft - WinLeft) / (WinWidth / count));
+                SetIndex((X - Window.AbsoluteLeft - WinLeft) / (WinWidth / count));
             }
 
             RaiseMouseDown(this, button, shift, X, Y);
@@ -172,7 +172,7 @@ public partial class TabPanel : Control
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight && Valid && Visible)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight && Valid && Visible)
         {
             Handled = true;
             RaiseMouseUp(this, button, shift, X, Y);
@@ -184,7 +184,7 @@ public partial class TabPanel : Control
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
-        if (X >= Window.WinLeft + WinLeft && X <= Window.WinLeft + WinLeft + WinWidth - 1 && Y >= Window.WinTop + WinTop && Y <= Window.WinTop + WinTop + WinHeight - 1)
+        if (X >= Window.AbsoluteLeft + WinLeft && X <= Window.AbsoluteLeft + WinLeft + WinWidth - 1 && Y >= Window.AbsoluteTop + WinTop && Y <= Window.AbsoluteTop + WinTop + WinHeight - 1)
         {
             Handled = true;
             RaiseMouseMove(this, shift, X, Y);

@@ -7,11 +7,11 @@ public class GDPlay(Component? owner = null) : Component(owner)
 {
 
     // DPlay.pas: the TCP/IP service provider.
-    public static GUID DPSPGUID_TCPIP { get; } = "36E95EE0-8577-11CF-960C-0080C7534E82";
+    public static Guid DPSPGUID_TCPIP { get; } = new("36E95EE0-8577-11CF-960C-0080C7534E82");
 
     public const int E_FAIL = unchecked((int)0x80004005);
 
-    public GUID AppGUID { get; set; }
+    public Guid AppGUID { get; set; }
     public bool Connected => false;
     public bool InSession => false;
     public ConnectionType ConnectionType => ConnectionType.None;
@@ -52,7 +52,7 @@ public class GDPlay(Component? owner = null) : Component(owner)
 // aowDPlayComp.pas: a service provider found by EnumConnections.
 public class GDConnection
 {
-    public GUID FGuid { get; init; }
+    public Guid FGuid { get; init; }
     public ConnectionType FType { get; init; }
 }
 

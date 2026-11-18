@@ -128,10 +128,10 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
     public void DrawGraphs(in LockedSurface surface)
     {
         Rect bounds = default;
-        bounds.Left = ResultsPanel.WinLeft + AxisImage.WinLeft + 5;
-        bounds.Top = ResultsPanel.WinTop + AxisImage.WinTop + 4;
-        bounds.Right = ResultsPanel.WinLeft + AxisImage.WinLeft + 338;
-        bounds.Bottom = ResultsPanel.WinTop + AxisImage.WinTop + 117;
+        bounds.Left = ResultsPanel.AbsoluteLeft + AxisImage.WinLeft + 5;
+        bounds.Top = ResultsPanel.AbsoluteTop + AxisImage.WinTop + 4;
+        bounds.Right = ResultsPanel.AbsoluteLeft + AxisImage.WinLeft + 338;
+        bounds.Bottom = ResultsPanel.AbsoluteTop + AxisImage.WinTop + 117;
         for (int i = 0, last = Players.Count - 1; i <= last; i++)
         {
             if (GoldCheckBox.Checked)
@@ -402,7 +402,7 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
         CheckBox component = sender;
         if (slot < Players.Count)
         {
-            r = new Rect(component.WinLeft + ResultsPanel.WinLeft + 1, component.WinTop + ResultsPanel.WinTop + 1, component.WinLeft + component.WinWidth + ResultsPanel.WinLeft - 1, component.WinTop + component.WinHeight + ResultsPanel.WinTop - 1);
+            r = new Rect(component.WinLeft + ResultsPanel.AbsoluteLeft + 1, component.WinTop + ResultsPanel.AbsoluteTop + 1, component.WinLeft + component.WinWidth + ResultsPanel.AbsoluteLeft - 1, component.WinTop + component.WinHeight + ResultsPanel.AbsoluteTop - 1);
             byte player = Players[slot];
             if (StrategicMap.Current.Players.GetPlayers(player).GetFace() != null)
             {
@@ -412,7 +412,7 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
 
             byte player3 = Players[slot];
             Player playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player3);
-            UI.Graphics.RelationWindow[playerPlayerRace.PlayerRace + 16].ShowClipped(component.WinLeft + ResultsPanel.WinLeft, component.WinTop + ResultsPanel.WinTop, surface);
+            UI.Graphics.RelationWindow[playerPlayerRace.PlayerRace + 16].ShowClipped(component.WinLeft + ResultsPanel.AbsoluteLeft, component.WinTop + ResultsPanel.AbsoluteTop, surface);
         }
     }
 

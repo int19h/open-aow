@@ -128,19 +128,19 @@ public partial class Frame(Component owner) : Control(owner)
                 switch (FrameType)
                 {
                     case FrameType.VertLine:
-                        SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                        SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
                         _imageLibraryLine.DrawVerticalStrip(_imageLibraryIndexLine, rectangle, ref lockedSurface);
                         break;
                     case FrameType.HorizontalLine:
-                        SizedRectangle rectangle2 = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                        SizedRectangle rectangle2 = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
                         _imageLibraryLine.DrawHorizontalStrip(_imageLibraryIndexLine, rectangle2, ref lockedSurface);
                         break;
                     case FrameType.HollowBox:
-                        SizedRectangle rectangle3 = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                        SizedRectangle rectangle3 = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
                         _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle3, ref lockedSurface);
                         break;
                     case FrameType.FilledBox:
-                        SizedRectangle rectangle4 = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                        SizedRectangle rectangle4 = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
                         _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle4, ref lockedSurface);
                         LibraryImage imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         LibraryImage imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
@@ -148,7 +148,7 @@ public partial class Frame(Component owner) : Control(owner)
                         LibraryImage imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
                         LibraryImage imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         LibraryImage imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        SizedRectangle rectangle5 = new(Window.WinLeft + WinLeft + imageLibraryFrame4.Width, Window.WinTop + WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
+                        SizedRectangle rectangle5 = new(Window.AbsoluteLeft + WinLeft + imageLibraryFrame4.Width, Window.AbsoluteTop + WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                         _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, rectangle5, ref lockedSurface);
                         break;
                     default:
@@ -169,7 +169,7 @@ public partial class Frame(Component owner) : Control(owner)
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
             RaiseMouseDown(this, button, shift, X, Y);
@@ -216,7 +216,7 @@ public partial class Frame(Component owner) : Control(owner)
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             RaiseMouseUp(this, button, shift, X, Y);
         }
@@ -226,7 +226,7 @@ public partial class Frame(Component owner) : Control(owner)
     public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             RaiseMouseMove(this, shift, X, Y);
         }

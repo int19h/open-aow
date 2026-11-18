@@ -126,28 +126,28 @@ public partial class MenuBar : Control
                     {
                         int count = _items.Count;
                         int fItemsCount = _items.Count;
-                        SizedRectangle rectangle = new(Window.WinLeft + WinLeft + (WinWidth * i / fItemsCount), Window.WinTop + WinTop, WinWidth / count, WinHeight);
+                        SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft + (WinWidth * i / fItemsCount), Window.AbsoluteTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexDown, rectangle, ref lockedSurface);
                         if (base.Font != null)
                         {
                             base.Font.Color = SelectedColor;
                             string item = _items[i];
                             int count2 = _items.Count;
-                            base.Font.SetText(Window.WinLeft + WinLeft + (WinWidth * i / count2) + BorderWidth, Window.WinTop + WinTop + BorderHeight, item, lockedSurface);
+                            base.Font.SetText(Window.AbsoluteLeft + WinLeft + (WinWidth * i / count2) + BorderWidth, Window.AbsoluteTop + WinTop + BorderHeight, item, lockedSurface);
                         }
                     }
                     else
                     {
                         int count = _items.Count;
                         int fItemsCount = _items.Count;
-                        SizedRectangle rectangle = new(Window.WinLeft + WinLeft + (WinWidth * i / fItemsCount), Window.WinTop + WinTop, WinWidth / count, WinHeight);
+                        SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft + (WinWidth * i / fItemsCount), Window.AbsoluteTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexUp, rectangle, ref lockedSurface);
                         if (base.Font != null)
                         {
                             base.Font.Color = Color;
                             string item = _items[i];
                             int count2 = _items.Count;
-                            base.Font.SetText(Window.WinLeft + WinLeft + (WinWidth * i / count2) + BorderWidth, Window.WinTop + WinTop + BorderHeight + 1, item, lockedSurface);
+                            base.Font.SetText(Window.AbsoluteLeft + WinLeft + (WinWidth * i / count2) + BorderWidth, Window.AbsoluteTop + WinTop + BorderHeight + 1, item, lockedSurface);
                         }
                     }
                 }
@@ -168,14 +168,14 @@ public partial class MenuBar : Control
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
             Redraw = true;
             if (button == MouseButton.Left)
             {
                 int count = _items.Count;
-                int i = (X - Window.WinLeft - WinLeft) / (WinWidth / count);
+                int i = (X - Window.AbsoluteLeft - WinLeft) / (WinWidth / count);
                 if (i == Selected)
                 {
                     Selected = -1;
@@ -225,7 +225,7 @@ public partial class MenuBar : Control
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight && Valid && Visible)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight && Valid && Visible)
         {
             Handled = true;
             RaiseMouseUp(this, button, shift, X, Y);
@@ -237,7 +237,7 @@ public partial class MenuBar : Control
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
-        if (X >= Window.WinLeft + WinLeft && X <= Window.WinLeft + WinLeft + WinWidth - 1 && Y >= Window.WinTop + WinTop && Y <= Window.WinTop + WinTop + WinHeight - 1)
+        if (X >= Window.AbsoluteLeft + WinLeft && X <= Window.AbsoluteLeft + WinLeft + WinWidth - 1 && Y >= Window.AbsoluteTop + WinTop && Y <= Window.AbsoluteTop + WinTop + WinHeight - 1)
         {
             Handled = true;
             RaiseMouseMove(this, shift, X, Y);

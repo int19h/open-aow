@@ -59,11 +59,6 @@ public sealed class StringRoutineTests
     [Fact]
     public void StringsResizeAndWithCharKeepIndependentValuesAndOneBasedIndices()
     {
-        string[] strings = RtlUnit.Strings(4);
-        Assert.Equal(new[] { "", "", "", "" }, strings);
-        strings[1] = "one";
-        Assert.Equal("", strings[0]);
-        Assert.Empty(RtlUnit.Strings(0));
         foreach (string text in new[] { "abc", "a\0\u20ac\u00ffz", "" })
         {
             string ansi = Ansi(text);

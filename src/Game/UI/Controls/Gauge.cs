@@ -117,14 +117,14 @@ public partial class Gauge : Control
                         LibraryImage imageLibraryFrameWidth = _imageLibraryFrame[ImageLibraryIndexFrame + 3];
                         LibraryImage imageLibraryFrame = _imageLibraryFrame[ImageLibraryIndexFrame + 4];
                         p = (WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame.Width) * _position / (Max - Min);
-                        SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                        SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
                         _imageLibraryFrame.DrawFrame(ImageLibraryIndexFrame, rectangle, ref lockedSurface);
                         LibraryImage imageLibraryFrame2 = _imageLibraryFrame[ImageLibraryIndexFrame + 3];
-                        if (Window.WinLeft + p + WinLeft + imageLibraryFrame2.Width > lockedSurface.ClipRectangle.Left)
+                        if (Window.AbsoluteLeft + p + WinLeft + imageLibraryFrame2.Width > lockedSurface.ClipRectangle.Left)
                         {
                             LibraryImage imageLibraryFrame3 = _imageLibraryFrame[ImageLibraryIndexFrame + 3];
                             Rect clipRectangle = lockedSurface.ClipRectangle;
-                            clipRectangle.Left = Window.WinLeft + p + WinLeft + imageLibraryFrame3.Width;
+                            clipRectangle.Left = Window.AbsoluteLeft + p + WinLeft + imageLibraryFrame3.Width;
                             lockedSurface.ClipRectangle = clipRectangle;
                         }
 
@@ -134,29 +134,29 @@ public partial class Gauge : Control
                         LibraryImage imageLibraryFrame6 = _imageLibraryFrame[ImageLibraryIndexFrame + 4];
                         LibraryImage imageLibraryFrame7 = _imageLibraryFrame[ImageLibraryIndexFrame + 1];
                         LibraryImage imageLibraryFrame8 = _imageLibraryFrame[ImageLibraryIndexFrame + 3];
-                        SizedRectangle rectangle2 = new(Window.WinLeft + WinLeft + imageLibraryFrame8.Width, Window.WinTop + WinTop + imageLibraryFrame7.Height, WinWidth - imageLibraryFrame5.Width - imageLibraryFrame6.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame4.Height);
+                        SizedRectangle rectangle2 = new(Window.AbsoluteLeft + WinLeft + imageLibraryFrame8.Width, Window.AbsoluteTop + WinTop + imageLibraryFrame7.Height, WinWidth - imageLibraryFrame5.Width - imageLibraryFrame6.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame4.Height);
                         _imageLibraryTextureNormal.DrawTiled(_imageLibraryIndexTNormal, rectangle2, ref lockedSurface);
                         lockedSurface.ClipRectangle = oldClip;
                         LibraryImage imageLibraryFrame9 = _imageLibraryFrame[ImageLibraryIndexFrame + 1];
                         LibraryImage libraryImage = _imageLibraryFrame[ImageLibraryIndexFrame + 6];
                         LibraryImage filFrameItem = _imageLibraryFrame[ImageLibraryIndexFrame + 1];
                         LibraryImage imageLibraryFrameWidth2 = _imageLibraryFrame[ImageLibraryIndexFrame + 3];
-                        SizedRectangle rectangle3 = new(Window.WinLeft + WinLeft + imageLibraryFrameWidth2.Width, Window.WinTop + WinTop + filFrameItem.Height, p, WinHeight - imageLibraryFrame9.Height - libraryImage.Height);
+                        SizedRectangle rectangle3 = new(Window.AbsoluteLeft + WinLeft + imageLibraryFrameWidth2.Width, Window.AbsoluteTop + WinTop + filFrameItem.Height, p, WinHeight - imageLibraryFrame9.Height - libraryImage.Height);
                         _imageLibraryTextureSelected.DrawTiled(_imageLibraryIndexTSelected, rectangle3, ref lockedSurface);
                         break;
                     case GaugeType.Borderless:
                         p = _position * WinWidth / (Max - Min);
-                        if (Window.WinLeft + p + WinLeft > lockedSurface.ClipRectangle.Left)
+                        if (Window.AbsoluteLeft + p + WinLeft > lockedSurface.ClipRectangle.Left)
                         {
                             Rect clipRectangle2 = lockedSurface.ClipRectangle;
-                            clipRectangle2.Left = Window.WinLeft + p + WinLeft;
+                            clipRectangle2.Left = Window.AbsoluteLeft + p + WinLeft;
                             lockedSurface.ClipRectangle = clipRectangle2;
                         }
 
-                        SizedRectangle rectangle4 = new(Window.WinLeft + p + WinLeft, Window.WinTop + WinTop, WinWidth - p, WinHeight);
+                        SizedRectangle rectangle4 = new(Window.AbsoluteLeft + p + WinLeft, Window.AbsoluteTop + WinTop, WinWidth - p, WinHeight);
                         _imageLibraryTextureNormal.DrawTiled(_imageLibraryIndexTNormal, rectangle4, ref lockedSurface);
                         lockedSurface.ClipRectangle = oldClip;
-                        SizedRectangle rectangle5 = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, p, WinHeight);
+                        SizedRectangle rectangle5 = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, p, WinHeight);
                         _imageLibraryTextureSelected.DrawTiled(_imageLibraryIndexTSelected, rectangle5, ref lockedSurface);
                         break;
                     default:
@@ -177,7 +177,7 @@ public partial class Gauge : Control
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
             RaiseMouseDown(this, button, shift, X, Y);
@@ -188,7 +188,7 @@ public partial class Gauge : Control
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
             RaiseMouseUp(this, button, shift, X, Y);
@@ -199,7 +199,7 @@ public partial class Gauge : Control
     public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
             RaiseMouseMove(this, shift, X, Y);

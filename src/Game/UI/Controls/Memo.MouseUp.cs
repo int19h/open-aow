@@ -17,23 +17,23 @@ public partial class Memo
             _ = Lines.Add("");
             ColorList.Add(new ColorChange());
         }
-        if (x > Window.WinLeft + WinLeft - 1 && x < Window.WinLeft + WinLeft + WinWidth &&
-            y > Window.WinTop + WinTop - 1 && y < Window.WinTop + WinTop + WinHeight)
+        if (x > Window.AbsoluteLeft + WinLeft - 1 && x < Window.AbsoluteLeft + WinLeft + WinWidth &&
+            y > Window.AbsoluteTop + WinTop - 1 && y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             int left, top, bottom;
             if (!NoFrame)
             {
-                left = Window.WinLeft + WinLeft + _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width - 1;
-                top = Window.WinTop + WinTop + BorderHeight + _imageLibraryFrame[_imageLibraryIndexFrame + 1].Height - 1;
-                bottom = Window.WinTop + WinTop + WinHeight - _imageLibraryFrame[_imageLibraryIndexFrame + 6].Height;
+                left = Window.AbsoluteLeft + WinLeft + _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width - 1;
+                top = Window.AbsoluteTop + WinTop + BorderHeight + _imageLibraryFrame[_imageLibraryIndexFrame + 1].Height - 1;
+                bottom = Window.AbsoluteTop + WinTop + WinHeight - _imageLibraryFrame[_imageLibraryIndexFrame + 6].Height;
             }
             else
             {
-                left = Window.WinLeft + WinLeft - 1;
-                top = Window.WinTop + WinTop + BorderHeight - 1;
-                bottom = Window.WinTop + WinTop + WinHeight;
+                left = Window.AbsoluteLeft + WinLeft - 1;
+                top = Window.AbsoluteTop + WinTop + BorderHeight - 1;
+                bottom = Window.AbsoluteTop + WinTop + WinHeight;
             }
-            if (Editable && x > left && x < Window.WinLeft + WinLeft + WinWidth - _scrollWidth && y > top && y < bottom && button == MouseButton.Left)
+            if (Editable && x > left && x < Window.AbsoluteLeft + WinLeft + WinWidth - _scrollWidth && y > top && y < bottom && button == MouseButton.Left)
             {
                 if (Editable)
                 {

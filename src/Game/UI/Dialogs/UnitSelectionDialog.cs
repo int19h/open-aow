@@ -196,7 +196,7 @@ public partial class UnitSelectionDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWUnitSelDlg.pas:146
-    public void U1PreDraw(CheckBox sender, LockedSurface lockedSurface, int slot) => DrawUnit(slot, UnitPanel.WinLeft + sender.WinLeft, UnitPanel.WinTop + sender.WinTop, ref lockedSurface);
+    public void U1PreDraw(CheckBox sender, LockedSurface lockedSurface, int slot) => DrawUnit(slot, UnitPanel.AbsoluteLeft + sender.WinLeft, UnitPanel.AbsoluteTop + sender.WinTop, ref lockedSurface);
 
     // AoWUnitSelDlg.pas:151
     public void SourceFacePreDraw(LockedSurface lockedSurface)
@@ -208,9 +208,9 @@ public partial class UnitSelectionDialog(UIContext ui) : UIModule(ui)
             u = StrategicMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
             if (u != null)
             {
-                r.Left = SourceFace.WinLeft + SourcePanel.WinLeft;
+                r.Left = SourceFace.WinLeft + SourcePanel.AbsoluteLeft;
                 r.Right = SourceFace.WinWidth + r.Left;
-                r.Top = SourceFace.WinTop + SourcePanel.WinTop;
+                r.Top = SourceFace.WinTop + SourcePanel.AbsoluteTop;
                 r.Bottom = SourceFace.WinHeight + r.Top;
 
                 u.GetFace()?.ShowStretched(r, lockedSurface);

@@ -353,7 +353,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
         if (objectValue != null)
         {
             CheckBox checkBox = sender;
-            r = new Rect(AvailableHeroPanel.WinLeft + checkBox.WinLeft + 1, AvailableHeroPanel.WinTop + checkBox.WinTop + 2, AvailableHeroPanel.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 2, AvailableHeroPanel.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
+            r = new Rect(AvailableHeroPanel.AbsoluteLeft + checkBox.WinLeft + 1, AvailableHeroPanel.AbsoluteTop + checkBox.WinTop + 2, AvailableHeroPanel.AbsoluteLeft + checkBox.WinLeft + checkBox.WinWidth - 2, AvailableHeroPanel.AbsoluteTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
             r.Left += 1;
             objectValue.ShowFace(r, lockedSurface);
@@ -389,7 +389,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
             if (objectValue != null)
             {
                 CheckBox checkBox = sender;
-                r = new Rect(TransferHeroPanel.WinLeft + checkBox.WinLeft + 1, TransferHeroPanel.WinTop + checkBox.WinTop + 2, TransferHeroPanel.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 2, TransferHeroPanel.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
+                r = new Rect(TransferHeroPanel.AbsoluteLeft + checkBox.WinLeft + 1, TransferHeroPanel.AbsoluteTop + checkBox.WinTop + 2, TransferHeroPanel.AbsoluteLeft + checkBox.WinLeft + checkBox.WinWidth - 2, TransferHeroPanel.AbsoluteTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
                 r.Left += 1;
                 objectValue.ShowFace(r, lockedSurface);
@@ -422,7 +422,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
             if (objectValue != null)
             {
                 CheckBox checkBox = sender;
-                r = new Rect(AvailableUnitPanel.WinLeft + checkBox.WinLeft + 1, AvailableUnitPanel.WinTop + checkBox.WinTop + 2, AvailableUnitPanel.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 2, AvailableUnitPanel.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
+                r = new Rect(AvailableUnitPanel.AbsoluteLeft + checkBox.WinLeft + 1, AvailableUnitPanel.AbsoluteTop + checkBox.WinTop + 2, AvailableUnitPanel.AbsoluteLeft + checkBox.WinLeft + checkBox.WinWidth - 2, AvailableUnitPanel.AbsoluteTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
                 UI.Graphics.CityWindow[4].Show(r.Left + 1, r.Top, lockedSurface);
                 info.Direction = 3;
@@ -464,7 +464,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
             if (objectValue != null)
             {
                 CheckBox checkBox = sender;
-                r = new Rect(TransferUnitPanel.WinLeft + checkBox.WinLeft + 1, TransferUnitPanel.WinTop + checkBox.WinTop + 2, TransferUnitPanel.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 2, TransferUnitPanel.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
+                r = new Rect(TransferUnitPanel.AbsoluteLeft + checkBox.WinLeft + 1, TransferUnitPanel.AbsoluteTop + checkBox.WinTop + 2, TransferUnitPanel.AbsoluteLeft + checkBox.WinLeft + checkBox.WinWidth - 2, TransferUnitPanel.AbsoluteTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
                 UI.Graphics.CityWindow[4].Show(r.Left + 1, r.Top, lockedSurface);
                 info.Direction = 3;
@@ -497,7 +497,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
         if (objectValue != null)
         {
             CheckBox checkBox = sender;
-            r = new Rect(AvailableItemPanel.WinLeft + checkBox.WinLeft + 2, AvailableItemPanel.WinTop + checkBox.WinTop + 2, AvailableItemPanel.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 4, AvailableItemPanel.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
+            r = new Rect(AvailableItemPanel.AbsoluteLeft + checkBox.WinLeft + 2, AvailableItemPanel.AbsoluteTop + checkBox.WinTop + 2, AvailableItemPanel.AbsoluteLeft + checkBox.WinLeft + checkBox.WinWidth - 4, AvailableItemPanel.AbsoluteTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
             UI.Graphics.CityWindow[4].Show(r.Left, r.Top, lockedSurface);
             objectValue.Show(r.Left + 5, r.Top + 10, lockedSurface);
@@ -532,7 +532,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
             if (objectValue != null)
             {
                 CheckBox checkBox = sender;
-                r = new Rect(TransferItemPanel.WinLeft + checkBox.WinLeft + 2, TransferItemPanel.WinTop + checkBox.WinTop + 2, TransferItemPanel.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 4, TransferItemPanel.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
+                r = new Rect(TransferItemPanel.AbsoluteLeft + checkBox.WinLeft + 2, TransferItemPanel.AbsoluteTop + checkBox.WinTop + 2, TransferItemPanel.AbsoluteLeft + checkBox.WinLeft + checkBox.WinWidth - 4, TransferItemPanel.AbsoluteTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
                 UI.Graphics.CityWindow[4].Show(r.Left, r.Top, lockedSurface);
                 objectValue.Show(r.Left + 5, r.Top + 10, lockedSurface);

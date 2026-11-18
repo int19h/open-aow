@@ -68,9 +68,7 @@ public partial class CustomImageLibrary : Component
         string path;
         if (!IsEmpty(_fileName))
         {
-            path = ComponentState.Contains(Rtl.ComponentState.Designing)
-                ? ExtractFilePath(ToolServices.GetProjectName())
-                : ImageLibraries.BaseImageLibraryPath;
+            path = ImageLibraries.BaseImageLibraryPath;
 
             drive = ExtractFileDrive(_fileName);
             result = IsEmpty(drive) || drive == ExtractFileDrive(path) ? ExpandFileName(path + _fileName) : _fileName;
@@ -86,9 +84,7 @@ public partial class CustomImageLibrary : Component
     // ImageLib.pas:9743
     internal void SetFileName(string value)
     {
-        string path = ComponentState.Contains(Rtl.ComponentState.Designing)
-            ? ExtractFilePath(ToolServices.GetProjectName())
-            : ImageLibraries.BaseImageLibraryPath;
+        string path = ImageLibraries.BaseImageLibraryPath;
         value = ExtractRelativePath(path, value);
         if ((ComponentState.Contains(Rtl.ComponentState.Designing) || ComponentState.Contains(Rtl.ComponentState.Loading)) && value != _fileName)
         {

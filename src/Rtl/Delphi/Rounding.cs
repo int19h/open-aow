@@ -2,8 +2,6 @@ namespace Aow.Rtl;
 
 public static partial class RtlUnit
 {
-    public static double DegToRad(double degrees) => degrees * (Math.PI / 180);
-
     public static Action<double, int, int>? TraceRound { get; set; }
 
     public static int Round(double value)
@@ -29,53 +27,4 @@ public static partial class RtlUnit
 
     public static double Frac(double value) => double.IsInfinity(value)
         ? throw new ArithmeticException("Invalid floating point operation") : value - Math.Truncate(value);
-
-    public static int Abs(int value) => value < 0 ? unchecked(-value) : value;
-    public static long Abs(long value) => value < 0 ? unchecked(-value) : value;
-    public static double Abs(double value) => Math.Abs(value);
-    public static int Sqr(int value) => unchecked(value * value);
-    public static double Sqr(double value) => FloatingResult(value * value, double.IsFinite(value));
-
-    public static double Sqrt(double value) => value < 0
-        ? throw new ArithmeticException("Invalid floating point operation") : Math.Sqrt(value);
-
-    // SYSTEM.PAS:1709 and :1750 return zero when the x87 C2 range flag is set.
-    public static double Sin(double value) => Trig(value, Math.Sin);
-    public static double Cos(double value) => Trig(value, Math.Cos);
-
-    private static double Trig(double value, Func<double, double> function)
-    {
-        return double.IsInfinity(value)
-            ? throw new ArithmeticException("Invalid floating point operation")
-            : Math.Abs(value) >= 9223372036854775808.0 ? 0 : function(value);
-    }
-
-    public static double ArcTan(double value) => Math.Atan(value);
-
-    public static double Ln(double value) => value == 0 ? throw new DivideByZeroException("Floating point division by zero")
-        : value < 0 ? throw new ArithmeticException("Invalid floating point operation") : Math.Log(value);
-
-    public static double Exp(double value)
-    {
-        return double.IsInfinity(value)
-            ? throw new ArithmeticException("Invalid floating point operation")
-            : FloatingResult(Math.Exp(value), double.IsFinite(value));
-    }
-
-    public static double Power(double value, double exponent)
-    {
-        // MATH.PAS:639 takes the integer path only within the signed 32-bit range.
-        return exponent == 0
-            ? 1
-            : value == 0 && exponent > 0
-            ? 0
-            : Frac(exponent) == 0 && Math.Abs(exponent) <= int.MaxValue
-            ? value == 0
-                ? throw new DivideByZeroException("Floating point division by zero")
-                : FloatingResult(Math.Pow(value, exponent), double.IsFinite(value))
-            : Exp(exponent * Ln(value));
-    }
-
-    private static double FloatingResult(double result, bool finiteInput) => double.IsInfinity(result) && finiteInput
-        ? throw new OverflowException("Floating point overflow") : result;
 }

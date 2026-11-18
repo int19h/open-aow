@@ -65,10 +65,10 @@ public partial class Image(Component owner) : Control(owner)
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = CaptureInput;
-            RaiseMouseDown(this, button, shift, X - Window.WinLeft - WinLeft, Y - Window.WinTop - WinTop);
+            RaiseMouseDown(this, button, shift, X - Window.AbsoluteLeft - WinLeft, Y - Window.AbsoluteTop - WinTop);
         }
     }
 
@@ -77,7 +77,7 @@ public partial class Image(Component owner) : Control(owner)
     {
         Handled = false;
         Redraw = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = CaptureInput;
             RaiseMouseUp(this, button, shift, X, Y);
@@ -89,10 +89,10 @@ public partial class Image(Component owner) : Control(owner)
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = CaptureInput;
-            RaiseMouseMove(this, shift, X - Window.WinLeft - WinLeft, Y - Window.WinTop - WinTop);
+            RaiseMouseMove(this, shift, X - Window.AbsoluteLeft - WinLeft, Y - Window.AbsoluteTop - WinTop);
         }
     }
 

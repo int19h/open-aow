@@ -22,7 +22,7 @@ public partial class Button(Component owner) : BaseButton(owner)
         Lit = false;
         if (!Window.Handled)
         {
-            if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+            if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
             {
                 Handled = true;
                 if (button == MouseButton.Left)
@@ -44,7 +44,7 @@ public partial class Button(Component owner) : BaseButton(owner)
         Handled = false;
         Checked = false;
         Lit = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
             if (button == MouseButton.Left)
@@ -78,7 +78,7 @@ public partial class Button(Component owner) : BaseButton(owner)
         oldChecked = Checked;
         oldLit = Lit;
         Redraw = false;
-        if (Window.Handled || X < Window.WinLeft + WinLeft || X > Window.WinLeft + WinLeft + WinWidth - 1 || Y < Window.WinTop + WinTop || Y > Window.WinTop + WinTop + WinHeight - 1)
+        if (Window.Handled || X < Window.AbsoluteLeft + WinLeft || X > Window.AbsoluteLeft + WinLeft + WinWidth - 1 || Y < Window.AbsoluteTop + WinTop || Y > Window.AbsoluteTop + WinTop + WinHeight - 1)
         {
             Checked = false;
             Lit = false;

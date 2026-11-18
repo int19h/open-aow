@@ -346,19 +346,19 @@ public partial class Memo : Control
                 switch (NoFrame)
                 {
                     case false:
-                        SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                        SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
                         _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle, ref lockedSurface);
                         LibraryImage imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         LibraryImage imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
                         LibraryImage imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                         LibraryImage imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         LibraryImage imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        SizedRectangle rectangle2 = new(Window.WinLeft + WinLeft + imageLibraryFrame3.Width, Window.WinTop + WinTop + imageLibraryFrame2.Height, WinWidth - imageLibraryFrameWidth.Width - _scrollWidth, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
+                        SizedRectangle rectangle2 = new(Window.AbsoluteLeft + WinLeft + imageLibraryFrame3.Width, Window.AbsoluteTop + WinTop + imageLibraryFrame2.Height, WinWidth - imageLibraryFrameWidth.Width - _scrollWidth, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                         _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, rectangle2, ref lockedSurface);
                         LibraryImage imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        x = Window.WinLeft + WinLeft + imageLibraryFrame4.Width;
+                        x = Window.AbsoluteLeft + WinLeft + imageLibraryFrame4.Width;
                         LibraryImage imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                        y = Window.WinTop + WinTop + imageLibraryFrame5.Height;
+                        y = Window.AbsoluteTop + WinTop + imageLibraryFrame5.Height;
                         LibraryImage imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         LibraryImage imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
                         h = WinHeight - imageLibraryFrame6.Height - imageLibraryFrame7.Height;
@@ -366,8 +366,8 @@ public partial class Memo : Control
                         w = WinWidth - imageLibraryFrame8.Width - _scrollWidth;
                         break;
                     default:
-                        x = Window.WinLeft + WinLeft;
-                        y = Window.WinTop + WinTop;
+                        x = Window.AbsoluteLeft + WinLeft;
+                        y = Window.AbsoluteTop + WinTop;
                         h = WinHeight;
                         w = WinWidth - _scrollWidth;
                         break;
@@ -457,7 +457,7 @@ public partial class Memo : Control
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
             RaiseMouseDown(this, button, shift, X, Y);
@@ -469,7 +469,7 @@ public partial class Memo : Control
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
-        if (Visible && X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth - _scrollWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (Visible && X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth - _scrollWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
             if (Editable)

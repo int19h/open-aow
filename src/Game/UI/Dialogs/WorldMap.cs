@@ -1141,13 +1141,13 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
     }
 
     // AoWWorldMap.pas:800
-    public void StarImgDraw(LockedSurface surface) => UI.Graphics.WorldMap[_starImageValue].ShowBlended(WorldPanel.WinLeft + StarImage.WinLeft, WorldPanel.WinTop + StarImage.WinTop, surface, GraphicsState.IntensityBlendTable.LookupTables[_starIntensity]);
+    public void StarImgDraw(LockedSurface surface) => UI.Graphics.WorldMap[_starImageValue].ShowBlended(WorldPanel.AbsoluteLeft + StarImage.WinLeft, WorldPanel.AbsoluteTop + StarImage.WinTop, surface, GraphicsState.IntensityBlendTable.LookupTables[_starIntensity]);
 
     // AoWWorldMap.pas:806
     public void Ally1PnlPreDraw(LockedSurface surface)
     {
         Rect r;
-        r = new Rect(InfoPanel.WinLeft + Ally1Frame.WinLeft, InfoPanel.WinTop + Ally1Frame.WinTop, InfoPanel.WinLeft + Ally1Frame.WinLeft + Ally1Frame.WinWidth, InfoPanel.WinTop + Ally1Frame.WinTop + Ally1Frame.WinHeight);
+        r = new Rect(InfoPanel.AbsoluteLeft + Ally1Frame.WinLeft, InfoPanel.AbsoluteTop + Ally1Frame.WinTop, InfoPanel.AbsoluteLeft + Ally1Frame.WinLeft + Ally1Frame.WinWidth, InfoPanel.AbsoluteTop + Ally1Frame.WinTop + Ally1Frame.WinHeight);
         if (GetCampaign().RaceHistory.Count > 0)
         {
             byte raceHistory = GetCampaign().RaceHistory[0];
@@ -1159,7 +1159,7 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
     public void Ally2PnlPreDraw(LockedSurface surface)
     {
         Rect r;
-        r = new Rect(InfoPanel.WinLeft + Ally2Frame.WinLeft, InfoPanel.WinTop + Ally2Frame.WinTop, InfoPanel.WinLeft + Ally2Frame.WinLeft + Ally2Frame.WinWidth, InfoPanel.WinTop + Ally2Frame.WinTop + Ally2Frame.WinHeight);
+        r = new Rect(InfoPanel.AbsoluteLeft + Ally2Frame.WinLeft, InfoPanel.AbsoluteTop + Ally2Frame.WinTop, InfoPanel.AbsoluteLeft + Ally2Frame.WinLeft + Ally2Frame.WinWidth, InfoPanel.AbsoluteTop + Ally2Frame.WinTop + Ally2Frame.WinHeight);
         if (GetCampaign().RaceHistory.Count > 1)
         {
             byte raceHistory = GetCampaign().RaceHistory[1];
@@ -1171,7 +1171,7 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
     public void Ally3PnlPreDraw(LockedSurface surface)
     {
         Rect r;
-        r = new Rect(InfoPanel.WinLeft + Ally3Frame.WinLeft, InfoPanel.WinTop + Ally3Frame.WinTop, InfoPanel.WinLeft + Ally3Frame.WinLeft + Ally3Frame.WinWidth, InfoPanel.WinTop + Ally3Frame.WinTop + Ally3Frame.WinHeight);
+        r = new Rect(InfoPanel.AbsoluteLeft + Ally3Frame.WinLeft, InfoPanel.AbsoluteTop + Ally3Frame.WinTop, InfoPanel.AbsoluteLeft + Ally3Frame.WinLeft + Ally3Frame.WinWidth, InfoPanel.AbsoluteTop + Ally3Frame.WinTop + Ally3Frame.WinHeight);
         if (GetCampaign().RaceHistory.Count > 2)
         {
             byte raceHistory = GetCampaign().RaceHistory[2];
@@ -1183,7 +1183,7 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
     public void HeroPnlPreDraw(LockedSurface surface)
     {
         Rect r;
-        r = new Rect(InfoPanel.WinLeft + HeroFrame.WinLeft, InfoPanel.WinTop + HeroFrame.WinTop, InfoPanel.WinLeft + HeroFrame.WinLeft + HeroFrame.WinWidth, InfoPanel.WinTop + HeroFrame.WinTop + HeroFrame.WinHeight);
+        r = new Rect(InfoPanel.AbsoluteLeft + HeroFrame.WinLeft, InfoPanel.AbsoluteTop + HeroFrame.WinTop, InfoPanel.AbsoluteLeft + HeroFrame.WinLeft + HeroFrame.WinWidth, InfoPanel.AbsoluteTop + HeroFrame.WinTop + HeroFrame.WinHeight);
         GetCampaign().TransferSettings.Leader?.ShowFace(r, surface);
     }
 

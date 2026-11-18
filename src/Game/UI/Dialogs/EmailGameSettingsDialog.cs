@@ -118,7 +118,7 @@ public partial class EmailGameSettingsDialog(UIContext ui) : UIModule(ui)
             object objectValue = EmailAddresses.Objects[i];
             r = GamePack.Current.RaceResources.GetRaceResource(ObjectToInt(objectValue));
             _ = r.AddRef();
-            r.ImageLibrary[38].Show(panel.WinLeft, panel.WinTop, lockedSurface);
+            r.ImageLibrary[38].Show(panel.AbsoluteLeft, panel.AbsoluteTop, lockedSurface);
             _ = r.Release();
         }
     }

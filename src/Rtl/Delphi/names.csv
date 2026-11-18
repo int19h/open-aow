@@ -1128,7 +1128,6 @@ type,TGDPingMessageEvent,Aow.Game.Layout.LayoutDirectPlay.GDPingMessageEvent
 type,TGDPlay,Aow.Rtl.GDPlay
 type,TGDSessionLostEvent,Aow.Game.Layout.LayoutDirectPlay.GDSessionLostEvent
 type,TGFXEPalette,Aow.Game.Draw.Palette
-type,TGUID,Aow.Rtl.GUID
 type,TGameOverEventLog,Aow.Game.Events.GameOverEventLog
 type,TGameOverStatus,Aow.Game.Session.GameOverStatus
 type,TGameOverTE,Aow.Game.Commands.GameOverTokenEvent
@@ -1256,7 +1255,6 @@ type,TILManagerList,Aow.Game.Draw.Images.ImageLibraryManagerList
 type,TILManagerObject,Aow.Game.Draw.Images.ImageLibraryManagerObject
 type,TILTerrainMO,Aow.Game.World.Terrain.ImageLibraryTerrainMapObject
 type,TILTerrainMOR,Aow.Game.World.Terrain.ImageLibraryTerrainMapObjectResource
-type,TIToolServices,Aow.Rtl.IToolServices
 type,TIWindow,Aow.Game.UI.Dialogs.InfoWindow
 type,TIceShards,Aow.Game.Magic.Spells.IceShards
 type,TIceStorm,Aow.Game.Draw.Animations.IceStorm
@@ -3150,7 +3148,6 @@ member,TDisplayOptionsElement.doRestoreSurfacesOnSwap,Aow.Game.Draw.CustomDispla
 member,TDisplayOptionsElement.doShowErrors,Aow.Game.Draw.CustomDisplay.OptionsElement.ShowErrors
 member,TDisplayOptionsElement.doShowFrameRate,Aow.Game.Draw.CustomDisplay.OptionsElement.ShowFrameRate
 member,TDisplayStatusElement.dsAsynchrone,Aow.Game.Draw.DisplayStatusElement.Asynchronous
-member,TDisplayStatusElement.dsDDrawEnabled,Aow.Game.Draw.DisplayStatusElement.DDrawEnabled
 member,TDisplayStatusElement.dsDirectInputEnabled,Aow.Game.Draw.DisplayStatusElement.DirectInputEnabled
 member,TDisplayStatusElement.dsExclusiveAccess,Aow.Game.Draw.DisplayStatusElement.ExclusiveAccess
 member,TDisplayStatusElement.dsFrameLoopActive,Aow.Game.Draw.DisplayStatusElement.FrameLoopActive

@@ -127,33 +127,33 @@ public partial class VerticalScrollBar(Component owner) : ScrollBar(owner)
                         {
                             LibraryImage imageLibraryImageIncrementHeight = ImageLibraryImageIncrement[ImageLibraryIndexIncrementDown];
                             LibraryImage imageLibraryImageIncrement = ImageLibraryImageIncrement[ImageLibraryIndexIncrementDown];
-                            SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop + WinHeight - imageLibraryImageIncrement.Height, WinWidth, imageLibraryImageIncrementHeight.Height);
+                            SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop + WinHeight - imageLibraryImageIncrement.Height, WinWidth, imageLibraryImageIncrementHeight.Height);
                             ImageLibraryImageIncrement.DrawTiled(ImageLibraryIndexIncrementDown, rectangle, ref lockedSurface);
                         }
                         else
                         {
                             LibraryImage imageLibraryImageIncrement = ImageLibraryImageIncrement[ImageLibraryIndexIncrementUp];
                             LibraryImage imageLibraryImageIncrementHeight = ImageLibraryImageIncrement[ImageLibraryIndexIncrementDown];
-                            SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop + WinHeight - imageLibraryImageIncrementHeight.Height, WinWidth, imageLibraryImageIncrement.Height);
+                            SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop + WinHeight - imageLibraryImageIncrementHeight.Height, WinWidth, imageLibraryImageIncrement.Height);
                             ImageLibraryImageIncrement.DrawTiled(ImageLibraryIndexIncrementUp, rectangle, ref lockedSurface);
                         }
 
                         if (HeldPart == 1 && HeldUpdateCount > 0)
                         {
                             LibraryImage imageLibraryImageDecrement = ImageLibraryIDecrement[ImageLibraryIndexDecrementDown];
-                            SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, imageLibraryImageDecrement.Height);
+                            SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, imageLibraryImageDecrement.Height);
                             ImageLibraryIDecrement.DrawTiled(ImageLibraryIndexDecrementDown, rectangle, ref lockedSurface);
                         }
                         else
                         {
                             LibraryImage imageLibraryImageDecrement = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
-                            SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, imageLibraryImageDecrement.Height);
+                            SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, imageLibraryImageDecrement.Height);
                             ImageLibraryIDecrement.DrawTiled(ImageLibraryIndexDecrementUp, rectangle, ref lockedSurface);
                         }
 
                         LibraryImage imageLibraryTileBack = ImageLibraryTileBack[ImageLibraryIndexBack];
                         LibraryImage imageLibraryImageDecrementHeight = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
-                        SizedRectangle rectangle2 = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop + imageLibraryImageDecrementHeight.Height, imageLibraryTileBack.Width, TrackLength);
+                        SizedRectangle rectangle2 = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop + imageLibraryImageDecrementHeight.Height, imageLibraryTileBack.Width, TrackLength);
                         ImageLibraryTileBack.DrawTiled(ImageLibraryIndexBack, rectangle2, ref lockedSurface);
                         thumbPosition = TrackLength * Position / PositionCount;
                         if (ThumbLength + thumbPosition > TrackLength)
@@ -165,12 +165,12 @@ public partial class VerticalScrollBar(Component owner) : ScrollBar(owner)
                         {
                             case ScrollBarThumbStyle.Icon:
                                 LibraryImage imageLibraryImageDecrement = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
-                                SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop + imageLibraryImageDecrement.Height + thumbPosition, WinWidth, ThumbLength);
+                                SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop + imageLibraryImageDecrement.Height + thumbPosition, WinWidth, ThumbLength);
                                 ThumbImage.DrawTiled(ThumbImageIndex, rectangle, ref lockedSurface);
                                 break;
                             case ScrollBarThumbStyle.Bar:
                                 LibraryImage imageLibraryImageDecrement2 = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
-                                SizedRectangle rectangle3 = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop + imageLibraryImageDecrement2.Height + thumbPosition, WinWidth, ThumbLength);
+                                SizedRectangle rectangle3 = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop + imageLibraryImageDecrement2.Height + thumbPosition, WinWidth, ThumbLength);
                                 ThumbStrip.DrawVerticalStrip(ThumbImageIndex, rectangle3, ref lockedSurface);
                                 break;
                             default:
@@ -179,7 +179,7 @@ public partial class VerticalScrollBar(Component owner) : ScrollBar(owner)
 
                         break;
                     case Style.Slider:
-                        SizedRectangle rectangle4 = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                        SizedRectangle rectangle4 = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
                         ImageLibraryLineBack.DrawVerticalStrip(ImageLibraryIndexBack, rectangle4, ref lockedSurface);
                         thumbPosition = TrackLength * Position / PositionCount;
                         if (ThumbLength + thumbPosition > TrackLength)
@@ -190,11 +190,11 @@ public partial class VerticalScrollBar(Component owner) : ScrollBar(owner)
                         switch (ThumbStyle)
                         {
                             case ScrollBarThumbStyle.Icon:
-                                SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop + thumbPosition, WinWidth, ThumbLength);
+                                SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop + thumbPosition, WinWidth, ThumbLength);
                                 ThumbImage.DrawTiled(ThumbImageIndex, rectangle, ref lockedSurface);
                                 break;
                             case ScrollBarThumbStyle.Bar:
-                                SizedRectangle rectangle3 = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop + thumbPosition, WinWidth, ThumbLength);
+                                SizedRectangle rectangle3 = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop + thumbPosition, WinWidth, ThumbLength);
                                 ThumbStrip.DrawVerticalStrip(ThumbImageIndex, rectangle3, ref lockedSurface);
                                 break;
                             default:
@@ -207,27 +207,27 @@ public partial class VerticalScrollBar(Component owner) : ScrollBar(owner)
                         {
                             LibraryImage imageLibraryImageIncrementHeight = ImageLibraryImageIncrement[ImageLibraryIndexIncrementDown];
                             LibraryImage imageLibraryImageIncrement = ImageLibraryImageIncrement[ImageLibraryIndexIncrementDown];
-                            SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop + WinHeight - imageLibraryImageIncrement.Height, WinWidth, imageLibraryImageIncrementHeight.Height);
+                            SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop + WinHeight - imageLibraryImageIncrement.Height, WinWidth, imageLibraryImageIncrementHeight.Height);
                             ImageLibraryImageIncrement.DrawTiled(ImageLibraryIndexIncrementDown, rectangle, ref lockedSurface);
                         }
                         else
                         {
                             LibraryImage imageLibraryImageIncrement = ImageLibraryImageIncrement[ImageLibraryIndexIncrementUp];
                             LibraryImage imageLibraryImageIncrementHeight = ImageLibraryImageIncrement[ImageLibraryIndexIncrementDown];
-                            SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop + WinHeight - imageLibraryImageIncrementHeight.Height, WinWidth, imageLibraryImageIncrement.Height);
+                            SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop + WinHeight - imageLibraryImageIncrementHeight.Height, WinWidth, imageLibraryImageIncrement.Height);
                             ImageLibraryImageIncrement.DrawTiled(ImageLibraryIndexIncrementUp, rectangle, ref lockedSurface);
                         }
 
                         if (HeldPart == 1 && HeldUpdateCount > 0)
                         {
                             LibraryImage imageLibraryImageDecrement = ImageLibraryIDecrement[ImageLibraryIndexDecrementDown];
-                            SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, imageLibraryImageDecrement.Height);
+                            SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, imageLibraryImageDecrement.Height);
                             ImageLibraryIDecrement.DrawTiled(ImageLibraryIndexDecrementDown, rectangle, ref lockedSurface);
                         }
                         else
                         {
                             LibraryImage imageLibraryImageDecrement = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
-                            SizedRectangle rectangle = new(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, imageLibraryImageDecrement.Height);
+                            SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, imageLibraryImageDecrement.Height);
                             ImageLibraryIDecrement.DrawTiled(ImageLibraryIndexDecrementUp, rectangle, ref lockedSurface);
                         }
 
@@ -253,7 +253,7 @@ public partial class VerticalScrollBar(Component owner) : ScrollBar(owner)
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
-        if (Visible && X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (Visible && X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
             if (button == MouseButton.Left)
@@ -269,14 +269,14 @@ public partial class VerticalScrollBar(Component owner) : ScrollBar(owner)
                 if (ScrollType != Style.Slider)
                 {
                     LibraryImage imageLibraryImageDecrement = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
-                    if (Y < Window.WinTop + WinTop + imageLibraryImageDecrement.Height - 1)
+                    if (Y < Window.AbsoluteTop + WinTop + imageLibraryImageDecrement.Height - 1)
                     {
                         HeldPart = 1;
                         ApplySmallStep(true);
                     }
 
                     LibraryImage imageLibraryImageIncrement = ImageLibraryImageIncrement[ImageLibraryIndexIncrementUp];
-                    if (Y > Window.WinTop + WinTop + WinHeight - imageLibraryImageIncrement.Height)
+                    if (Y > Window.AbsoluteTop + WinTop + WinHeight - imageLibraryImageIncrement.Height)
                     {
                         HeldPart = 4;
                         ApplySmallStep(false);
@@ -289,17 +289,17 @@ public partial class VerticalScrollBar(Component owner) : ScrollBar(owner)
                     {
                         case Style.Scroll:
                             LibraryImage imageLibraryImageDecrementHeight = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
-                            bool condition = Y > Window.WinTop + WinTop + imageLibraryImageDecrementHeight.Height;
+                            bool condition = Y > Window.AbsoluteTop + WinTop + imageLibraryImageDecrementHeight.Height;
                             if (condition)
                             {
                                 LibraryImage imageLibraryImageIncrement = ImageLibraryImageIncrement[ImageLibraryIndexIncrementUp];
-                                condition = Y < Window.WinTop + WinTop + thumbPosition + imageLibraryImageIncrement.Height;
+                                condition = Y < Window.AbsoluteTop + WinTop + thumbPosition + imageLibraryImageIncrement.Height;
                             }
 
                             if (condition)
                             {
                                 LibraryImage imageLibraryImageDecrement = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
-                                TrackClickTarget = ((Y - Window.WinTop - WinTop - imageLibraryImageDecrement.Height) * PositionCount / TrackLength) + Min;
+                                TrackClickTarget = ((Y - Window.AbsoluteTop - WinTop - imageLibraryImageDecrement.Height) * PositionCount / TrackLength) + Min;
                                 HeldPart = 2;
                                 SetPositionUnclamped(Position - LargeChange);
                                 if (Min > Position)
@@ -312,17 +312,17 @@ public partial class VerticalScrollBar(Component owner) : ScrollBar(owner)
                             }
 
                             LibraryImage imageLibraryImageDecrement2 = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
-                            bool test = Y > Window.WinTop + WinTop + imageLibraryImageDecrement2.Height + thumbPosition + ThumbLength;
+                            bool test = Y > Window.AbsoluteTop + WinTop + imageLibraryImageDecrement2.Height + thumbPosition + ThumbLength;
                             if (test)
                             {
                                 LibraryImage imageLibraryImageIncrement = ImageLibraryImageIncrement[ImageLibraryIndexIncrementUp];
-                                test = Y < Window.WinTop + WinTop + WinHeight - imageLibraryImageIncrement.Height;
+                                test = Y < Window.AbsoluteTop + WinTop + WinHeight - imageLibraryImageIncrement.Height;
                             }
 
                             if (test)
                             {
                                 LibraryImage imageLibraryImageDecrement = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
-                                TrackClickTarget = ((Y - Window.WinTop - WinTop - imageLibraryImageDecrement.Height) * PositionCount / TrackLength) + Min;
+                                TrackClickTarget = ((Y - Window.AbsoluteTop - WinTop - imageLibraryImageDecrement.Height) * PositionCount / TrackLength) + Min;
                                 HeldPart = 3;
                                 SetPositionUnclamped(Position + LargeChange);
                                 if (Max + 1 - NumberVisible < Position)
@@ -341,9 +341,9 @@ public partial class VerticalScrollBar(Component owner) : ScrollBar(owner)
 
                             break;
                         case Style.Slider:
-                            if (Y > Window.WinTop + WinTop && Y < Window.WinTop + WinTop + thumbPosition)
+                            if (Y > Window.AbsoluteTop + WinTop && Y < Window.AbsoluteTop + WinTop + thumbPosition)
                             {
-                                TrackClickTarget = ((Y - Window.WinTop - WinTop) * PositionCount / TrackLength) + Min;
+                                TrackClickTarget = ((Y - Window.AbsoluteTop - WinTop) * PositionCount / TrackLength) + Min;
                                 HeldPart = 2;
                                 SetPositionUnclamped(Position - LargeChange);
                                 if (Min > Position)
@@ -355,9 +355,9 @@ public partial class VerticalScrollBar(Component owner) : ScrollBar(owner)
                                 RaiseChange(this);
                             }
 
-                            if (Y > Window.WinTop + WinTop + thumbPosition + ThumbLength && Y < Window.WinTop + WinTop + WinHeight)
+                            if (Y > Window.AbsoluteTop + WinTop + thumbPosition + ThumbLength && Y < Window.AbsoluteTop + WinTop + WinHeight)
                             {
-                                TrackClickTarget = ((Y - Window.WinTop - WinTop) * PositionCount / TrackLength) + Min;
+                                TrackClickTarget = ((Y - Window.AbsoluteTop - WinTop) * PositionCount / TrackLength) + Min;
                                 HeldPart = 3;
                                 SetPositionUnclamped(Position + LargeChange);
                                 if (Max + 1 - NumberVisible < Position)
@@ -397,7 +397,7 @@ public partial class VerticalScrollBar(Component owner) : ScrollBar(owner)
 
         HeldUpdateCount = 0;
         HeldPart = 0;
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
             RaiseMouseUp(this, button, shift, X, Y);
@@ -427,7 +427,7 @@ public partial class VerticalScrollBar(Component owner) : ScrollBar(owner)
             RaiseChange(this);
         }
 
-        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
+        if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
             RaiseMouseMove(this, shift, X, Y);

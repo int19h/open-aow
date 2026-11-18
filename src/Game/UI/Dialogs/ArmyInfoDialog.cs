@@ -120,9 +120,9 @@ public partial class ArmyInfoDialog(UIContext ui) : UIModule(ui)
     public void U1PreDraw(Frame sender, LockedSurface lockedSurface, int slot)
     {
         Rect r = default;
-        r.Left = sender.WinLeft + UnitPanel.WinLeft + 1;
+        r.Left = sender.WinLeft + UnitPanel.AbsoluteLeft + 1;
         r.Right = sender.WinWidth + r.Left;
-        r.Top = sender.WinTop + UnitPanel.WinTop;
+        r.Top = sender.WinTop + UnitPanel.AbsoluteTop;
         r.Bottom = sender.WinHeight + r.Top;
         DrawUnit(slot, r, ref lockedSurface);
     }

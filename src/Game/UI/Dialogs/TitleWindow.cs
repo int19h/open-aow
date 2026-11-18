@@ -73,11 +73,11 @@ public partial class TitleWindow(UIContext ui) : UIModule(ui)
             _ = surface.Lock(ref lockedSurface);
             if (UI.FactionSelectionWindow.FadeDirection == 0)
             {
-                UI.Graphics.FactionWindow[UI.FactionSelectionWindow.FadeImage].ShowBlended(UI.FactionSelectionWindow.FactionPanel.WinLeft, UI.FactionSelectionWindow.FactionPanel.WinTop, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[100 - UI.FactionSelectionWindow.Fade]);
+                UI.Graphics.FactionWindow[UI.FactionSelectionWindow.FadeImage].ShowBlended(UI.FactionSelectionWindow.FactionPanel.AbsoluteLeft, UI.FactionSelectionWindow.FactionPanel.AbsoluteTop, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[100 - UI.FactionSelectionWindow.Fade]);
             }
             else
             {
-                UI.Graphics.FactionWindow[UI.FactionSelectionWindow.FadeImage].ShowBlended(UI.FactionSelectionWindow.FactionPanel.WinLeft, UI.FactionSelectionWindow.FactionPanel.WinTop, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[UI.FactionSelectionWindow.Fade]);
+                UI.Graphics.FactionWindow[UI.FactionSelectionWindow.FadeImage].ShowBlended(UI.FactionSelectionWindow.FactionPanel.AbsoluteLeft, UI.FactionSelectionWindow.FactionPanel.AbsoluteTop, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[UI.FactionSelectionWindow.Fade]);
             }
 
             _ = surface.Unlock();
@@ -85,7 +85,7 @@ public partial class TitleWindow(UIContext ui) : UIModule(ui)
     }
 
     // AOWTitleWindow.pas:61
-    public void TitlePnlDrawBack(LockedSurface lockedSurface) => UI.Graphics.FactionWindow[0].Show(UI.FactionSelectionWindow.FactionPanel.WinLeft, UI.FactionSelectionWindow.FactionPanel.WinTop, lockedSurface);
+    public void TitlePnlDrawBack(LockedSurface lockedSurface) => UI.Graphics.FactionWindow[0].Show(UI.FactionSelectionWindow.FactionPanel.AbsoluteLeft, UI.FactionSelectionWindow.FactionPanel.AbsoluteTop, lockedSurface);
 
     // AOWTitleWindow.pas:115
     public void SplashPnlUpdate()

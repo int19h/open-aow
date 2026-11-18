@@ -48,19 +48,13 @@ public partial class BookWindow
         _ = _pageSurface.Unlock();
         _ = BackSurface.Unlock();
         _ = surface.Unlock();
-        Rect backRectangle = BackRectangle;
-        backRectangle.Top = area.Top;
-        BackRectangle = backRectangle;
+        int top = area.Top;
         // AOWTools keeps the area above the window intact
-        if (BackRectangle.Top >= WinTop && BackRectangle.Top <= WinTop + FrameTop)
+        if (top >= WinTop && top <= WinTop + FrameTop)
         {
-            Rect backRectangle2 = BackRectangle;
-            backRectangle2.Top = WinTop - 1;
-            BackRectangle = backRectangle2;
+            top = WinTop - 1;
         }
-        Rect backRectangle3 = BackRectangle;
-        backRectangle3.Bottom = WinTop - area.Top + WinHeight;
-        BackRectangle = backRectangle3;
+        BackRectangle = BackRectangle with { Top = top, Height = WinTop - area.Top + WinHeight };
         SurfaceValid = true;
         RaiseDrawSurface(this, surface, WinLeft, WinTop);
     }
