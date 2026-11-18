@@ -2,7 +2,7 @@ using System.Globalization;
 
 namespace Aow.Rtl;
 
-public static partial class RtlUnit
+public static class DelphiDateTime
 {
     private static readonly DateTime Epoch = new(1899, 12, 30);
 

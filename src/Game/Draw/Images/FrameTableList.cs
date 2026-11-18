@@ -3,7 +3,10 @@
 using System.Runtime.InteropServices;
 
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiFormat;
+using static Aow.Rtl.DelphiMemory;
+using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Draw.Images;
 
@@ -333,7 +336,7 @@ public partial class FrameTableList : Persistent
         {
             if (!Set<byte>.WithBounds(0, 255).With(44).WithRange(48, 57).Contains(Cp1252.Byte(value[i - 1])))
             {
-                value = RtlUnit.Delete(value, i, 1);
+                value = DelphiStrings.Delete(value, i, 1);
             }
         }
 
@@ -344,7 +347,7 @@ public partial class FrameTableList : Persistent
             if (i != 0)
             {
                 s = Copy(value, 1, i - 1);
-                value = RtlUnit.Delete(value, 1, i);
+                value = DelphiStrings.Delete(value, 1, i);
             }
             else
             {

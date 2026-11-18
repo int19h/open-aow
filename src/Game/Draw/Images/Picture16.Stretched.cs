@@ -78,8 +78,8 @@ public partial class Picture16
                 int[] tables = new int[w + h];
                 rowTable = tables.AsSpan(0, h);
                 columnTable = tables.AsSpan(h, w);
-                xStep = RtlUnit.Round((double)65535 / xScale);
-                xPosition = sx != 0 ? RtlUnit.Round((double)((double)sx / xScale) * 65535) : 0;
+                xStep = DelphiRounding.Round((double)65535 / xScale);
+                xPosition = sx != 0 ? DelphiRounding.Round((double)((double)sx / xScale) * 65535) : 0;
 
                 for (int i = 0; i <= w - 1; i++)
                 {
@@ -93,8 +93,8 @@ public partial class Picture16
                     xPosition += xStep;
                 }
 
-                yStep = RtlUnit.Round((double)65535 / yScale);
-                yPosition = sy != 0 ? RtlUnit.Round((double)((double)sy / yScale) * 65535) : 0;
+                yStep = DelphiRounding.Round((double)65535 / yScale);
+                yPosition = sy != 0 ? DelphiRounding.Round((double)((double)sy / yScale) * 65535) : 0;
 
                 if (!DataLoaded)
                 {
@@ -234,8 +234,8 @@ public partial class Picture16
                 int[] tables = new int[w + h];
                 rowTable = tables.AsSpan(0, h);
                 columnTable = tables.AsSpan(h, w);
-                xStep = RtlUnit.Round((double)65535 / xScale);
-                xPosition = sx != 0 ? RtlUnit.Round((double)((double)sx / xScale) * 65535) : 0;
+                xStep = DelphiRounding.Round((double)65535 / xScale);
+                xPosition = sx != 0 ? DelphiRounding.Round((double)((double)sx / xScale) * 65535) : 0;
 
                 for (int i = 0; i <= w - 1; i++)
                 {
@@ -249,8 +249,8 @@ public partial class Picture16
                     xPosition += xStep;
                 }
 
-                yStep = RtlUnit.Round((double)65535 / yScale);
-                yPosition = sy != 0 ? RtlUnit.Round((double)((double)sy / yScale) * 65535) : 0;
+                yStep = DelphiRounding.Round((double)65535 / yScale);
+                yPosition = sy != 0 ? DelphiRounding.Round((double)((double)sy / yScale) * 65535) : 0;
 
                 if (!DataLoaded)
                 {

@@ -13,7 +13,8 @@ using Aow.Game.World.Movement;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -108,7 +109,7 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     public override void SetAbilitySet(int index, byte value) => base.SetAbilitySet(index, value);
 
     // Ability.PAS:2004
-    public override void ListAbilities(StringCollection text, Set<AbilitySelectionType> types)
+    public override void ListAbilities(DelphiStringCollection text, Set<AbilitySelectionType> types)
     {
         Ability ability;
         text.Clear();
@@ -609,7 +610,7 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     }
 
     // Ability.PAS:2018
-    public void ListAbilities(StringCollection text)
+    public void ListAbilities(DelphiStringCollection text)
     {
         Ability ability;
         string name;

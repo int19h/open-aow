@@ -2,7 +2,7 @@
 
 using Aow.Graphics;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.RectRoutines;
 
 namespace Aow.Game.Draw;
 

@@ -1,7 +1,8 @@
 #nullable disable
 // Translated from GFXE.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.DelphiTextCompare;
 
 namespace Aow.Game.Draw;
 

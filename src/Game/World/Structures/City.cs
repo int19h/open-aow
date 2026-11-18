@@ -23,7 +23,12 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiFormat;
+using static Aow.Rtl.DelphiRandom;
+using static Aow.Rtl.DelphiRounding;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.DelphiTextCompare;
 
 namespace Aow.Game.World.Structures;
 
@@ -700,7 +705,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:876
-    public override bool ValidateMap(StringCollection messages)
+    public override bool ValidateMap(DelphiStringCollection messages)
     {
         bool result = base.ValidateMap(messages);
         if (CompareText(b: AbilityRules.TranslateResourceString(GetEngine(), s_noNameText), a: Name) == 0 || IsEmpty(Name))
@@ -1231,7 +1236,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:955
-    public void ListEnhancementsInfo(StringCollection list)
+    public void ListEnhancementsInfo(DelphiStringCollection list)
     {
         _ = list.Add(Format(AbilityRules.TranslateResourceString(GetEngine(), s_upgradeLevelFormat), [IntToStr(UpgradeLevel)]));
         if (WallType == 1)
@@ -1965,7 +1970,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:1755
-    public void ListIncomeInfo(StringCollection names, StringCollection values)
+    public void ListIncomeInfo(DelphiStringCollection names, DelphiStringCollection values)
     {
         int income;
         income = GetSize() * 5;
@@ -2000,7 +2005,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:1816
-    public void ListCivilStatusInfo(StringCollection list)
+    public void ListCivilStatusInfo(DelphiStringCollection list)
     {
         CombatPredictor predictor;
         ArmyHSList armies;

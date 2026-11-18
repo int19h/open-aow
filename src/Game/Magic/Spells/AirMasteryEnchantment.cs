@@ -49,7 +49,7 @@ public partial class AirMasteryEnchantment : GlobalEnchantment
             {
                 string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
                 string name = GetName();
-                reason = RtlUnit.Format(xIsAlreadyActive, [name]);
+                reason = DelphiFormat.Format(xIsAlreadyActive, [name]);
                 result = false;
             }
         }

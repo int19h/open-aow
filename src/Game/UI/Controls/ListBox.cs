@@ -4,7 +4,7 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.UI.Windows;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.UI.Controls;
 
@@ -18,7 +18,7 @@ namespace Aow.Game.UI.Controls;
 // none)
 public partial class ListBox : Control
 {
-    private readonly StringList _items;
+    private readonly DelphiStringList _items;
     private VerticalScrollBar _verticalScrollBar;
 
     public int VisibleRows { get; set; }
@@ -50,12 +50,12 @@ public partial class ListBox : Control
     public int HoverItem { get; set; }
 
     // AoWListBox.pas:107
-    public ListBox(Component owner) : this(owner, items: new StringList())
+    public ListBox(Component owner) : this(owner, items: new DelphiStringList())
     {
     }
 
     // A list box whose items carry typed objects passes its own string list.
-    protected ListBox(Component owner, StringList items) : base(owner)
+    protected ListBox(Component owner, DelphiStringList items) : base(owner)
     {
         _items = items;
         _items.OnChange = OnChangeText;
@@ -508,7 +508,7 @@ public partial class ListBox : Control
     }
 
     // AoWListBox.pas:202
-    public void SetFStrings(StringList value)
+    public void SetFStrings(DelphiStringList value)
     {
         _items.Clear();
         _items.AddStrings(value);
@@ -592,7 +592,7 @@ public partial class ListBox : Control
     public int ListOffset { get => FirstShownItem; set => SetListOff(value); }
 
     [Published]
-    public StringList Items { get => _items; set => SetFStrings(value); }
+    public DelphiStringList Items { get => _items; set => SetFStrings(value); }
 
     [Published]
     public VerticalScrollBar VerticalScrollBar { get => _verticalScrollBar; set => SetVScroll(value); }

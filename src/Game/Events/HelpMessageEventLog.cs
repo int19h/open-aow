@@ -14,12 +14,12 @@ public partial class HelpMessageEventLog : EventLog
     public HelpMessageEventLog(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        Message = new StringList();
+        Message = new DelphiStringList();
         HelpFileName = AbilityRules.TranslateResourceString(GetEngine(), s_helpText);
         Mode = 0;
     }
 
-    public StringList Message { get; }
+    public DelphiStringList Message { get; }
     public string HelpFileName { get; set; } = "";
     public byte Mode { get; }
 

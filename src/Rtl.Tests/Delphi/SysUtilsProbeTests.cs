@@ -1,6 +1,9 @@
 using System.Text;
 using Xunit.Abstractions;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiFormat;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.DelphiTextCompare;
 using Assert = Xunit.Assert;
 
 namespace Aow.Rtl.Tests;
@@ -41,7 +44,7 @@ public sealed class SysUtilsProbeTests
 
         foreach ((string? label, string? text) in new (string, string)[] { ("empty", ""), ("single", "a"), ("crlf", "a\r\nb\r\n"), ("lf", "a\nb\n"), ("cr", "a\rb\r"), ("blanks", "\r\n\r\n"), ("mixed", "a\r\n\nb"), ("zero", "a\0b") })
         {
-            StringList list = new() { Text = text };
+            DelphiStringList list = new() { Text = text };
             probe.Fact("text_" + label + "_count", list.Count);
             for (int i = 0; i < list.Count; i++)
             {

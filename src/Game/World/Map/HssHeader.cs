@@ -5,7 +5,7 @@ using Aow.Engine.Buffers;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.ShortStrings;
 
 namespace Aow.Game.World.Map;
 

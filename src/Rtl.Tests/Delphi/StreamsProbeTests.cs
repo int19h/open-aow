@@ -1,4 +1,6 @@
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiFiles;
+using static Aow.Rtl.DelphiOrdinals;
+using static Aow.Rtl.DelphiStreams;
 
 namespace Aow.Rtl.Tests;
 
@@ -63,7 +65,7 @@ public sealed class StreamsProbeTests
             if (tag == "memory")
             {
                 // Delphi left the unread gap as the bytes the earlier write had stored. MemoryStream zero-fills it.
-                Xunit.Assert.Equal("00101103000000001819", bytes);
+                Assert.Equal("00101103000000001819", bytes);
                 p.Fact(tag + "_bytes", "00101103040506071819");
             }
             else
@@ -77,9 +79,9 @@ public sealed class StreamsProbeTests
             State(tag + "_after_readbuffer", s);
             if (tag == "memory")
             {
-                _ = Xunit.Assert.Throws<IOException>(() => s.Seek(-1, SeekOrigin.Begin));
-                Xunit.Assert.Equal(10L, s.Position);
-                Xunit.Assert.Equal(10L, s.Length);
+                _ = Assert.Throws<IOException>(() => s.Seek(-1, SeekOrigin.Begin));
+                Assert.Equal(10L, s.Position);
+                Assert.Equal(10L, s.Length);
                 p.Fact(tag + "_seek_negative", -1);
                 p.Fact(tag + "_after_negative_position", -1);
                 p.Fact(tag + "_after_negative_size", 10);
@@ -142,7 +144,7 @@ public sealed class StreamsProbeTests
         {
             p.Fact("memory_capacity_initial", m.Capacity);
             Exercise("memory", m);
-            Xunit.Assert.True(m.Capacity >= m.Length && m.Capacity < 8192);
+            Assert.True(m.Capacity >= m.Length && m.Capacity < 8192);
             p.Fact("memory_capacity_after", 8192);
             m.Clear();
             State("memory_clear", m);

@@ -25,7 +25,7 @@ public partial class CampaignJoinDialog(UIContext ui) : UIModule(ui)
     private int _scrollDelay;
     private int _scrollPosition;
 
-    public StringList ScrollText { get; private set; }
+    public DelphiStringList ScrollText { get; private set; }
 
     // AoWCampaignJoin.pas:160
     public void CustomizeLeader()
@@ -116,7 +116,7 @@ public partial class CampaignJoinDialog(UIContext ui) : UIModule(ui)
     public void CampaignJoinDialogCreate()
     {
         Leader = new Leader(null) { Holder = UI.Engine };
-        ScrollText = new StringList();
+        ScrollText = new DelphiStringList();
     }
 
     // AoWCampaignJoin.pas:64

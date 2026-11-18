@@ -46,7 +46,7 @@ public partial class IsometricHex
         {
             Dynamic?.Dispose();
             Dynamic = null;
-            Sides = (byte)(RtlUnit.Random(4) << 6);
+            Sides = (byte)(DelphiRandom.Random(4) << 6);
             Resource.Engine.HexSpriteMap.InvalidateStaticScene(field.HexX, field.HexY, field.HexLevel);
         }
     }

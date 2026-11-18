@@ -14,7 +14,7 @@ using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -299,7 +299,7 @@ public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                     Set<MoveType> moveTypes = fTroop.GetMoveTypes();
                     int current = window.UI.General.MoveTypesToInt32(moveTypes);
                     window.UnitMovesIcon.SetCurrent(current);
-                    window.UI.General.CombatUnit.ListAbilities((StringCollection)(object)window.UnitAbilityList.Items, null, null);
+                    window.UI.General.CombatUnit.ListAbilities((DelphiStringCollection)(object)window.UnitAbilityList.Items, null, null);
                     window.UnitAbilityList.Selected = -1;
                     window.UnitAbilityList.HoverItem = -1;
                     window.UnitAbilityList.ListOffset = 0;

@@ -108,7 +108,7 @@ public partial class Teleport : Structure
     }
 
     // Teleport.pas:279
-    public override bool ValidateMap(StringCollection messages)
+    public override bool ValidateMap(DelphiStringCollection messages)
     {
         bool result;
         if (Destination.X == 0 || Destination.Y == 0)
@@ -240,7 +240,7 @@ public partial class Teleport : Structure
                     sbyte playerLocal = field.GetPlayer();
                     Player playerPlayerRace = StrategicMap.Current.Players.GetPlayers(playerLocal);
                     string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
-                    messageText = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.NoWarDeclaredFormat), [raceNamesPlural]);
+                    messageText = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.NoWarDeclaredFormat), [raceNamesPlural]);
                     StrategicMap.Current.ShowMessage(messageText);
                     result = false;
                 }

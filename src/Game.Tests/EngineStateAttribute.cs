@@ -17,9 +17,9 @@ public sealed class EngineStateAttribute : BeforeAfterTestAttribute
 
     public override void Before(MethodInfo methodUnderTest)
     {
-        _files = Runtime.Files; _settings = Runtime.Settings; _dialogs = Runtime.Dialogs; _shell = Runtime.Shell;
-        _clock = Runtime.Clock; _executable = Runtime.Application.ExeName;
-        _message = Runtime.MessageHandler;
+        _files = RtlHost.Files; _settings = RtlHost.Settings; _dialogs = RtlHost.Dialogs; _shell = RtlHost.Shell;
+        _clock = RtlHost.Clock; _executable = LegacyApplication.Application.ExeName;
+        _message = LegacyApplication.MessageHandler;
         EngineFixture.InstallServices();
         EngineFixture.RestoreEngine();
     }
@@ -27,8 +27,8 @@ public sealed class EngineStateAttribute : BeforeAfterTestAttribute
     public override void After(MethodInfo methodUnderTest)
     {
         EngineFixture.RestoreEngine();
-        Runtime.Files = _files; Runtime.Settings = _settings; Runtime.Dialogs = _dialogs; Runtime.Shell = _shell;
-        Runtime.Clock = _clock; Runtime.Application.ExeName = _executable;
-        Runtime.MessageHandler = _message;
+        RtlHost.Files = _files; RtlHost.Settings = _settings; RtlHost.Dialogs = _dialogs; RtlHost.Shell = _shell;
+        RtlHost.Clock = _clock; LegacyApplication.Application.ExeName = _executable;
+        LegacyApplication.MessageHandler = _message;
     }
 }

@@ -5,7 +5,7 @@ using Aow.Game.World.Structures;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.World.Map;
 

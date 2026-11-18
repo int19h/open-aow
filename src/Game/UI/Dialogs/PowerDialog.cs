@@ -9,7 +9,8 @@ using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.UI.Dialogs;
 

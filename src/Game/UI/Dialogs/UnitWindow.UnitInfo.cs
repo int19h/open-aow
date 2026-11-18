@@ -9,7 +9,7 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -126,7 +126,7 @@ public partial class UnitWindow
                 UI.UnitWindow.LevelLabel.Text = level + " " + IntToStr(unitLevel);
                 UI.UnitWindow.InfoLeaderPanel.Visible = false;
                 UI.UnitWindow.InfoTextPanel.Visible = true;
-                StringCollection description = u.GetDescription();
+                DelphiStringCollection description = u.GetDescription();
                 UI.UnitWindow.InfoMemo.Items.Assign(description);
                 UI.UnitWindow.InfoScrollBar.Position = 0;
                 string name = u.GetName();

@@ -17,14 +17,14 @@ public partial class ItemExplorationSiteEventLog : EventLog
     public ItemExplorationSiteEventLog(CustomNode owner) : base(owner)
     {
         ItemIds = new Int32List();
-        Messages = new StringList();
+        Messages = new DelphiStringList();
     }
 
     // ItemExpS.pas:201
     public new const int ClassId = 132085;
 
     public Int32List ItemIds { get; }
-    public StringList Messages { get; }
+    public DelphiStringList Messages { get; }
 
     public string Title { get; set; } = "";
 

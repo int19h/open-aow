@@ -13,13 +13,13 @@ public static class FileSearch
     public static IReadOnlyList<RtlFileEntry> FindEntries(this IFileSystem files, string path, int attributes)
     {
         path = path.Replace('/', '\\');
-        string directory = RtlUnit.ExtractFilePath(path);
+        string directory = DelphiPaths.ExtractFilePath(path);
         if (directory.Length == 0)
         {
             directory = files.CurrentDirectory;
         }
 
-        string pattern = RtlUnit.ExtractFileName(path);
+        string pattern = DelphiPaths.ExtractFileName(path);
         try
         {
             if (!files.DirectoryExists(directory))
@@ -28,8 +28,8 @@ public static class FileSearch
             }
 
             List<RtlFileEntry> all = [.. files.Enumerate(directory)];
-            all.Add(new(Name: ".", Size: 0, Attribute: RtlUnit.faDirectory, Modified: RtlUnit.Clock.Now));
-            all.Add(new(Name: "..", Size: 0, Attribute: RtlUnit.faDirectory, Modified: RtlUnit.Clock.Now));
+            all.Add(new(Name: ".", Size: 0, Attribute: DelphiFiles.faDirectory, Modified: RtlHost.Clock.Now));
+            all.Add(new(Name: "..", Size: 0, Attribute: DelphiFiles.faDirectory, Modified: RtlHost.Clock.Now));
             string expression = FileSystemName.TranslateWin32Expression(pattern);
             return [.. all
                 .Where(entry => FileSystemName.MatchesWin32Expression(expression, entry.Name, ignoreCase: true))

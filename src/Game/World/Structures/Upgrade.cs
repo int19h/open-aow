@@ -68,7 +68,7 @@ public sealed partial record Upgrade : ProductionOrder
         city.SetUpgradeLevel((byte)(city.UpgradeLevel + 1));
         ChangeRelation(control, city, 5);
         control.ProductionDone();
-        Log(control, city, RtlUnit.Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_upgradedFormat), [city.GetName()]));
+        Log(control, city, DelphiFormat.Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_upgradedFormat), [city.GetName()]));
         control.EndUpdate();
     }
 

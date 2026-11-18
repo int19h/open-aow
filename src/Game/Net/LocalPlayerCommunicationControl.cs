@@ -1,7 +1,7 @@
 // Translated from NetworkE.pas.
 using Aow.Engine.Nodes;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiMemory;
 
 namespace Aow.Game.Net;
 

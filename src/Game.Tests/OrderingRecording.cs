@@ -53,7 +53,7 @@ internal static class OrderingRecording
 
     internal sealed class Fixture : IDisposable
     {
-        private readonly int _seed = Runtime.RandSeed;
+        private readonly int _seed = DelphiRandom.RandSeed;
 
         internal IvBinaryDictionary Dictionary { get; } = EngineFixture.Engine.Dictionary;
 
@@ -65,7 +65,7 @@ internal static class OrderingRecording
 
         internal Fixture(Type? type = null)
         {
-            Runtime.RandSeed = 123456789;
+            DelphiRandom.RandSeed = 123456789;
             GamePack value = EngineFixture.CreateGameSet(Manager);
             if (type == typeof(ArmyHexSprite))
             {
@@ -79,7 +79,7 @@ internal static class OrderingRecording
                 GamePack.Current.UnitGraphicsResources = null;
             }
 
-            Runtime.RandSeed = 123456789;
+            DelphiRandom.RandSeed = 123456789;
             // A bare engine has no settings and no dictionary. The nodes it creates read the fixture's.
             Engine = new GameEngine(null) { Registry = EngineFixture.Engine.Registry, Dictionary = EngineFixture.Engine.Dictionary };
             Engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
@@ -98,7 +98,7 @@ internal static class OrderingRecording
             GamePack.Current?.UnitGraphicsResources?.Dispose();
             GamePack.Current = _set;
             StrategicMap.Current = _map;
-            Runtime.RandSeed = _seed;
+            DelphiRandom.RandSeed = _seed;
             Manager.Dispose();
         }
     }

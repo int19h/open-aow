@@ -13,18 +13,18 @@ public static class LocalizationRuntime
 
     public static MldDictionary Dictionary(string name, int? language = null)
     {
-        string path = Path.Combine(StartupDirectory.Length == 0 ? RtlUnit.Files.CurrentDirectory : StartupDirectory, path2: "Dict", path3: name + ".mld");
-        string key = RtlUnit.Files.ExpandPath(path);
+        string path = Path.Combine(StartupDirectory.Length == 0 ? RtlHost.Files.CurrentDirectory : StartupDirectory, path2: "Dict", path3: name + ".mld");
+        string key = RtlHost.Files.ExpandPath(path);
         if (!s_dictionaries.TryGetValue(key, out MldDictionary? dictionary))
         {
             dictionary = new();
-            dictionary.SetLanguage(language ?? ReadLanguage(RtlUnit.Settings));
+            dictionary.SetLanguage(language ?? ReadLanguage(RtlHost.Settings));
             dictionary.Open(path);
             s_dictionaries.Add(key, dictionary);
         }
-        else if (dictionary.Language != (language ?? ReadLanguage(RtlUnit.Settings)))
+        else if (dictionary.Language != (language ?? ReadLanguage(RtlHost.Settings)))
         {
-            dictionary.SetLanguage(language ?? ReadLanguage(RtlUnit.Settings));
+            dictionary.SetLanguage(language ?? ReadLanguage(RtlHost.Settings));
         }
 
         return dictionary;

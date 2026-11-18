@@ -2075,14 +2075,14 @@
               "MapCoordinate.Y": 0
             },
             "UpdateSignTokenEvent.Text": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             }
           }
         }
@@ -2107,14 +2107,14 @@
               "MapCoordinate.Y": 0
             },
             "UpdateSignTokenEvent.Text": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             }
           }
         }
@@ -5093,13 +5093,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -5117,13 +5117,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -5155,14 +5155,14 @@
             "Spell.SpellLevel": 2,
             "Spell.SpellName": "Holy Woods",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 2
           }
@@ -5224,13 +5224,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -5248,13 +5248,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -5286,14 +5286,14 @@
             "Spell.SpellLevel": 2,
             "Spell.SpellName": "Holy Woods",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 2
           }
@@ -5390,13 +5390,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -5414,13 +5414,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -5452,14 +5452,14 @@
             "Spell.SpellLevel": 2,
             "Spell.SpellName": "Poison Plants",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 2
           }
@@ -5521,13 +5521,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -5545,13 +5545,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -5583,14 +5583,14 @@
             "Spell.SpellLevel": 2,
             "Spell.SpellName": "Poison Plants",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 2
           }
@@ -5687,13 +5687,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -5711,13 +5711,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -5749,14 +5749,14 @@
             "Spell.SpellLevel": 4,
             "Spell.SpellName": "Raise Terrain",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 2
           }
@@ -5818,13 +5818,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -5842,13 +5842,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -5880,14 +5880,14 @@
             "Spell.SpellLevel": 4,
             "Spell.SpellName": "Raise Terrain",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 2
           }
@@ -5984,13 +5984,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -6008,13 +6008,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -6046,14 +6046,14 @@
             "Spell.SpellLevel": 2,
             "Spell.SpellName": "Evil Woods",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 2
           }
@@ -6115,13 +6115,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -6139,13 +6139,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -6177,14 +6177,14 @@
             "Spell.SpellLevel": 2,
             "Spell.SpellName": "Evil Woods",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 2
           }
@@ -7508,14 +7508,14 @@
             "FlagEvent._triggerPlayers": 0,
             "FlagMessageEvent._helpFileName": "",
             "FlagMessageEvent._message": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "MapObject.Status": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -7547,14 +7547,14 @@
             "FlagEvent._triggerPlayers": 0,
             "FlagMessageEvent._helpFileName": "",
             "FlagMessageEvent._message": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "MapObject.Status": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -15132,14 +15132,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 200,
@@ -15297,14 +15297,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 200,
@@ -15846,14 +15846,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 150,
@@ -16003,14 +16003,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 150,
@@ -16305,14 +16305,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 150,
@@ -16462,14 +16462,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 150,
@@ -16764,14 +16764,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 150,
@@ -16921,14 +16921,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 150,
@@ -17223,14 +17223,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 150,
@@ -17380,14 +17380,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 150,
@@ -17682,14 +17682,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 150,
@@ -17839,14 +17839,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 150,
@@ -18141,14 +18141,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 150,
@@ -18298,14 +18298,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 150,
@@ -18600,14 +18600,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 150,
@@ -18757,14 +18757,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 150,
@@ -18905,14 +18905,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -19054,14 +19054,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -19302,14 +19302,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -19451,14 +19451,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -19710,14 +19710,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 75,
@@ -19875,14 +19875,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 75,
@@ -20270,14 +20270,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -20419,14 +20419,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -21052,14 +21052,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -21213,14 +21213,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -21629,14 +21629,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 200,
@@ -21794,14 +21794,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 200,
@@ -22211,14 +22211,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -22384,14 +22384,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -22923,14 +22923,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 200,
@@ -23088,14 +23088,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 200,
@@ -23726,14 +23726,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -23887,14 +23887,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -24037,14 +24037,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -24196,14 +24196,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -24544,14 +24544,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 200,
@@ -24709,14 +24709,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 200,
@@ -25375,14 +25375,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -25536,14 +25536,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -25692,14 +25692,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 200,
@@ -25857,14 +25857,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 200,
@@ -26252,14 +26252,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -26401,14 +26401,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -26670,14 +26670,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 75,
@@ -26827,14 +26827,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 75,
@@ -27141,14 +27141,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -27302,14 +27302,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -27870,14 +27870,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -28029,14 +28029,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -28323,14 +28323,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -28480,14 +28480,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -28632,14 +28632,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 200,
@@ -28789,14 +28789,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 200,
@@ -29376,14 +29376,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -29541,14 +29541,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -29701,14 +29701,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -29862,14 +29862,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -30271,14 +30271,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -30428,14 +30428,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -30726,14 +30726,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -30887,14 +30887,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -31048,14 +31048,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -31209,14 +31209,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -31625,14 +31625,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 150,
@@ -31790,14 +31790,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 150,
@@ -32185,14 +32185,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -32334,14 +32334,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -32421,14 +32421,14 @@
             "MultiHexMapObject.StoredHexX": 0,
             "MultiHexMapObject.StoredHexY": 0,
             "Sign.Text": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Sign.TextSeen": {
               "$type": "Aow.Engine.Collections.BitList",
@@ -32479,14 +32479,14 @@
             "MultiHexMapObject.StoredHexX": 0,
             "MultiHexMapObject.StoredHexY": 0,
             "Sign.Text": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Sign.TextSeen": {
               "$type": "Aow.Engine.Collections.BitList",
@@ -32628,14 +32628,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -32777,14 +32777,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -33129,14 +33129,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -33278,14 +33278,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -33422,14 +33422,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 200,
@@ -33571,14 +33571,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 200,
@@ -33871,14 +33871,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -34028,14 +34028,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -34358,14 +34358,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 200,
@@ -34523,14 +34523,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 200,
@@ -34918,14 +34918,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -35067,14 +35067,14 @@
               "UnitIndexListCollection._collectionSize": 8
             },
             "StructureResource.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StructureResource.FlagType": 0,
             "StructureResource.RazeDefenderBudget": 50,
@@ -41002,14 +41002,14 @@
             "MapObject._resource": null,
             "MapObject._unlinkedResourceId": 0,
             "TutorialMessageEvent._message": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             }
           }
         }
@@ -41040,14 +41040,14 @@
             "MapObject._resource": null,
             "MapObject._unlinkedResourceId": 0,
             "TutorialMessageEvent._message": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             }
           }
         }

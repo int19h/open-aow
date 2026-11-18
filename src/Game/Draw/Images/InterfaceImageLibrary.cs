@@ -1,7 +1,8 @@
 #nullable disable
 // Translated from AOWInterfaceImgLib.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.Draw.Images;
 

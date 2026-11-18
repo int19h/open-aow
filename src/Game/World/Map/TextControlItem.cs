@@ -10,13 +10,13 @@ namespace Aow.Game.World.Map;
 // ID, Text, Name
 public partial class TextControlItem : EngineObject
 {
-    public TextControlItem(CustomNode owner) : base(owner) => Text = new StringList();
+    public TextControlItem(CustomNode owner) : base(owner) => Text = new DelphiStringList();
 
     public new const int ClassId = 131738;
 
     public int Id { get; set; }
 
-    public StringCollection Text { get; }
+    public DelphiStringCollection Text { get; }
 
     public string Name { get; set; } = "";
 

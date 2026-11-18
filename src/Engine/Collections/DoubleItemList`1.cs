@@ -1,5 +1,5 @@
 // Translated from Engine.pas.
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Engine.Collections;
 

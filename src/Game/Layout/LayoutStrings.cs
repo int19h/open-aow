@@ -15,7 +15,7 @@ public sealed class LayoutStrings : IEnumerable<string>
     public IEnumerator<string> GetEnumerator() => _values.GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    public void CopyTo(StringCollection target)
+    public void CopyTo(DelphiStringCollection target)
     {
         target.BeginUpdate();
         try

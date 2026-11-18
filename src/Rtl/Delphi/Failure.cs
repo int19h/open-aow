@@ -1,6 +1,6 @@
 namespace Aow.Rtl;
 
-public static partial class RtlUnit
+public static class DelphiFailure
 {
     public static void Halt(int exitCode = 0) => throw new HaltException(exitCode);
     public static void Abort() => throw AbortException.Create();

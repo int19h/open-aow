@@ -6,7 +6,7 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.Session;
 
@@ -36,7 +36,7 @@ public abstract partial record DiplomaticProposal
     public string MessageText => string.Concat(Message.Select(static line => line + "\r\n"));
 
     // The lines of Text.
-    public static IReadOnlyList<string> Lines(StringCollection text)
+    public static IReadOnlyList<string> Lines(DelphiStringCollection text)
     {
         string[] lines = new string[text.Count];
         for (int i = 0; i < lines.Length; i++)
@@ -50,7 +50,7 @@ public abstract partial record DiplomaticProposal
     // The lines TStrings.Text splits Text into.
     public static IReadOnlyList<string> Lines(string text)
     {
-        StringList list = new()
+        DelphiStringList list = new()
         {
             Text = text
         };

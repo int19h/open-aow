@@ -16,7 +16,7 @@ namespace Aow.Game.Tests;
 public sealed class PreviewCacheTests : IDisposable
 {
     private readonly string _directory = Path.Combine(Path.GetTempPath(), "open-aow-preview-" + Guid.NewGuid().ToString("N"));
-    private readonly IFileSystem _previous = Runtime.Files;
+    private readonly IFileSystem _previous = RtlHost.Files;
     private readonly Action<FileLogRecord>? _previousLog = FileBoundary.Log;
     private readonly List<FileLogRecord> _log = [];
 
@@ -30,7 +30,7 @@ public sealed class PreviewCacheTests : IDisposable
 
     public void Dispose()
     {
-        Runtime.Files = _previous;
+        RtlHost.Files = _previous;
         FileBoundary.Log = _previousLog;
         FileBoundary.Previews.Clear();
         Directory.Delete(_directory, true);
@@ -45,7 +45,7 @@ public sealed class PreviewCacheTests : IDisposable
 
     private string UserCopy(string name) => Path.Combine(_directory, "user", "User", name);
 
-    private void Install() => Runtime.Files = new LayeredFileSystem(Path.Combine(_directory, "root"), Path.Combine(_directory, "user"));
+    private void Install() => RtlHost.Files = new LayeredFileSystem(Path.Combine(_directory, "root"), Path.Combine(_directory, "user"));
 
     private static string Name(byte[] image) =>
         ((JsonString)((JsonObject)GameFiles.ImportImage(image, GameProfile.HeroList.Profile, "hero-list").Document["root"]!)["LibraryName"]!).Value;

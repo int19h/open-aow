@@ -4,7 +4,8 @@ using System.IO.Compression;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiRounding;
+using static Aow.Rtl.DelphiStreams;
 
 namespace Aow.Engine.Storage;
 

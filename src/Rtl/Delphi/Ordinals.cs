@@ -1,6 +1,6 @@
 namespace Aow.Rtl;
 
-public static partial class RtlUnit
+public static class DelphiOrdinals
 {
     public static byte Chr(int value) => unchecked((byte)value);
     public static int Ord(byte value) => value;

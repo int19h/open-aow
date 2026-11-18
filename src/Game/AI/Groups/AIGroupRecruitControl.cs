@@ -14,7 +14,7 @@ using Aow.Game.World.Movement;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.AI.Groups;
 

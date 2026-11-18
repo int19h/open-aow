@@ -1,12 +1,13 @@
 // Translated from AoWReg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game;
 
 // { ot=1 }
 // inherited TRegistry fields
-public partial class GameSettings : Registry
+public partial class GameSettings : DelphiRegistry
 {
     // AoWReg.pas:128
     public void AssociateMapFiles(string executable) =>

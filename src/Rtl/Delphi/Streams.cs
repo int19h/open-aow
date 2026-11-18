@@ -1,8 +1,9 @@
 using System.Runtime.InteropServices;
+using static Aow.Rtl.RtlHost;
 
 namespace Aow.Rtl;
 
-public static partial class RtlUnit
+public static class DelphiStreams
 {
     public const int fmCreate = 65535, fmOpenRead = 0, fmOpenWrite = 1, fmOpenReadWrite = 2;
     public const int fmShareCompat = 0, fmShareExclusive = 16, fmShareDenyWrite = 32, fmShareDenyRead = 48, fmShareDenyNone = 64;
@@ -138,13 +139,13 @@ public static class StreamExtensions
 
     public static void LoadFromFile(this MemoryStream stream, string name)
     {
-        using Stream file = RtlUnit.OpenFile(name, RtlUnit.fmOpenRead);
+        using Stream file = DelphiStreams.OpenFile(name, DelphiStreams.fmOpenRead);
         stream.LoadFromStream(file);
     }
 
     public static void SaveToFile(this MemoryStream stream, string name)
     {
-        using Stream file = RtlUnit.OpenFile(name, RtlUnit.fmCreate);
+        using Stream file = DelphiStreams.OpenFile(name, DelphiStreams.fmCreate);
         stream.WriteTo(file);
     }
 

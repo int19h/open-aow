@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Aow.Rtl;
 
-public static partial class RtlUnit
+public static class DelegateRoutines
 {
     public static T? RebindDelegate<T>(Delegate? value) where T : Delegate
     {

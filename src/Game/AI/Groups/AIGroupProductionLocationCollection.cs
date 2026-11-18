@@ -36,7 +36,7 @@ public readonly struct AIGroupProductionLocationCollection : IReadOnlyList<AIGro
     // AIGroup.pas:907
     public AIGroupProductionLocation GetProductionLocation(int index)
     {
-        Rtl.RtlUnit.Assert(index >= 0 && index < Count, message: "", file: "AIGroup.pas", line: 909);
+        Rtl.DelphiAssert.Assert(index >= 0 && index < Count, message: "", file: "AIGroup.pas", line: 909);
         return this[index];
     }
 

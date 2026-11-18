@@ -11,7 +11,10 @@ using Aow.Game.World.Map;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiFormat;
+using static Aow.Rtl.DelphiRandom;
+using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Engine.Collections;
 
@@ -112,7 +115,7 @@ public partial class Int32List : Persistent
             if (p != 0)
             {
                 item = Copy(S, 1, p - 1);
-                S = RtlUnit.Delete(S, 1, p);
+                S = DelphiStrings.Delete(S, 1, p);
             }
             else
             {

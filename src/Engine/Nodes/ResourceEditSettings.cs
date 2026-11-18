@@ -3,14 +3,16 @@ using Aow.Formats.Tree;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiRandom;
+using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Engine.Nodes;
 
 // _editors, editor names with ids
 public partial class ResourceEditSettings : ControlStyleObject
 {
-    public ResourceEditSettings(CustomNode owner) : base(owner) => Editors = new StringList();
+    public ResourceEditSettings(CustomNode owner) : base(owner) => Editors = new DelphiStringList();
 
     // Engine.pas:8662
     public new const int ClassId = 1026;
@@ -102,6 +104,6 @@ public partial class ResourceEditSettings : ControlStyleObject
         }
     }
 
-    public StringList Editors { get; }
+    public DelphiStringList Editors { get; }
 
 }

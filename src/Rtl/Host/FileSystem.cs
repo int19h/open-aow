@@ -3,7 +3,7 @@ namespace Aow.Rtl.Host;
 public readonly record struct RtlFileEntry(string Name, int Size, int Attribute, DateTime Modified)
 {
     // The DOS date and time of Modified, the time SYSUTILS.PAS FindFirst reports.
-    public int FileDate => RtlUnit.FileDate(Modified);
+    public int FileDate => DelphiDateTime.FileDate(Modified);
 }
 
 // The host brief replaces these defaults through Rtl.Files and Rtl.Clock.
@@ -82,9 +82,9 @@ public sealed class PhysicalFileSystem : IFileSystem
         return current;
     }
 
-    public Stream Open(string path, int mode) => new FileStream(Resolve(path), mode == RtlUnit.fmCreate ? FileMode.Create : FileMode.Open,
-        mode == RtlUnit.fmCreate ? FileAccess.ReadWrite : (mode & 3) switch { 0 => FileAccess.Read, 1 => FileAccess.Write, _ => FileAccess.ReadWrite },
-        (mode & 0xF0) == RtlUnit.fmShareDenyWrite ? FileShare.Read : FileShare.ReadWrite);
+    public Stream Open(string path, int mode) => new FileStream(Resolve(path), mode == DelphiStreams.fmCreate ? FileMode.Create : FileMode.Open,
+        mode == DelphiStreams.fmCreate ? FileAccess.ReadWrite : (mode & 3) switch { 0 => FileAccess.Read, 1 => FileAccess.Write, _ => FileAccess.ReadWrite },
+        (mode & 0xF0) == DelphiStreams.fmShareDenyWrite ? FileShare.Read : FileShare.ReadWrite);
 
     public bool FileExists(string path) => File.Exists(Resolve(path));
     public bool DirectoryExists(string path) => Directory.Exists(Resolve(path));

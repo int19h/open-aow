@@ -9,7 +9,7 @@ using Aow.Game.Session;
 using Aow.Game.UI.Dialogs;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.PointerMemory;
 
 namespace Aow.Game.UI.Grids;
 
@@ -173,7 +173,7 @@ public partial class CombatMapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnSelect event (TAoWCombatMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnSelect event (TAoWCombatMapControl)");
         }
     }
 
@@ -186,7 +186,7 @@ public partial class CombatMapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnDeselect event (TAoWCombatMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnDeselect event (TAoWCombatMapControl)");
         }
     }
 
@@ -199,7 +199,7 @@ public partial class CombatMapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnMouseOverTarget event (TAoWCombatMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnMouseOverTarget event (TAoWCombatMapControl)");
         }
     }
 
@@ -216,7 +216,7 @@ public partial class CombatMapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during UnitChanged event (TAoWCombatMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during UnitChanged event (TAoWCombatMapControl)");
         }
     }
 
@@ -229,7 +229,7 @@ public partial class CombatMapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during PlayerChanged event (TAoWCombatMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during PlayerChanged event (TAoWCombatMapControl)");
         }
     }
 
@@ -242,7 +242,7 @@ public partial class CombatMapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during PlayerChanged event (TAoWCombatMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during PlayerChanged event (TAoWCombatMapControl)");
         }
     }
 
@@ -255,7 +255,7 @@ public partial class CombatMapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during Gems Changed event (TAoWCombatMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during Gems Changed event (TAoWCombatMapControl)");
         }
     }
 
@@ -268,7 +268,7 @@ public partial class CombatMapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during Income Changed event (TAoWCombatMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during Income Changed event (TAoWCombatMapControl)");
         }
     }
 
@@ -281,7 +281,7 @@ public partial class CombatMapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during Upkeep Changed event (TAoWCombatMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during Upkeep Changed event (TAoWCombatMapControl)");
         }
     }
 
@@ -295,7 +295,7 @@ public partial class CombatMapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during ChangeTurn event (TAoWCombatMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during ChangeTurn event (TAoWCombatMapControl)");
         }
     }
 
@@ -308,7 +308,7 @@ public partial class CombatMapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during LogbookChanged event (TAoWCombatMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during LogbookChanged event (TAoWCombatMapControl)");
         }
     }
 
@@ -321,7 +321,7 @@ public partial class CombatMapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnActivateMap event (TAoWCombatMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnActivateMap event (TAoWCombatMapControl)");
         }
     }
 
@@ -334,7 +334,7 @@ public partial class CombatMapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnDeactivateMap event (TAoWCombatMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnDeactivateMap event (TAoWCombatMapControl)");
         }
     }
 
@@ -347,7 +347,7 @@ public partial class CombatMapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnCastSpell event (TAoWCombatMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnCastSpell event (TAoWCombatMapControl)");
         }
     }
 
@@ -360,7 +360,7 @@ public partial class CombatMapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnActivateAbility event (TAoWCombatMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnActivateAbility event (TAoWCombatMapControl)");
         }
     }
 
@@ -377,7 +377,7 @@ public partial class CombatMapControl : Component
                 ? notification.Info : ReadLegacyRecord<ExecuteEventLogInfo>(sender);
             OnExecuteEventLog(info.Log, info.Done);
         }
-        catch { RtlUnit.ShowMessage("Exception occurred during OnExecuteEventLog event (TAoWCombatMapControl)"); }
+        catch { LegacyApplication.ShowMessage("Exception occurred during OnExecuteEventLog event (TAoWCombatMapControl)"); }
     }
 
     // CMapCtrl.pas:198. The notification carries the changed map area.
@@ -392,14 +392,14 @@ public partial class CombatMapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during MapChanged event (TAoWCombatMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during MapChanged event (TAoWCombatMapControl)");
         }
     }
 
     public void ShowMessage(object sender)
     {
         try { OnShowMessage?.Invoke(((ShowMessageNotification)sender).Info); }
-        catch { RtlUnit.ShowMessage("Exception occurred during ShowMessage event(TAoWCombatMapControl)"); }
+        catch { LegacyApplication.ShowMessage("Exception occurred during ShowMessage event(TAoWCombatMapControl)"); }
     }
 
     public delegate void SelectHSEvent(HexSprite HS);

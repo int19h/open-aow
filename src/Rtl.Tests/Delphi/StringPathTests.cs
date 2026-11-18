@@ -14,14 +14,14 @@ public sealed class StringPathTests
             "C:\\a\\\u20ac.ext" })
         {
             string ansi = Cp1252.Decode(Cp1252.Encode(path));
-            Assert.Equal(RtlUnit.ExtractFileName(ansi), RtlUnit.ExtractFileName(path));
-            Assert.Equal(RtlUnit.ExtractFilePath(ansi), RtlUnit.ExtractFilePath(path));
-            Assert.Equal(RtlUnit.ExtractFileDir(ansi), RtlUnit.ExtractFileDir(path));
-            Assert.Equal(RtlUnit.ExtractFileExt(ansi), RtlUnit.ExtractFileExt(path));
-            Assert.Equal(RtlUnit.ExtractFileDrive(ansi), RtlUnit.ExtractFileDrive(path));
+            Assert.Equal(DelphiPaths.ExtractFileName(ansi), DelphiPaths.ExtractFileName(path));
+            Assert.Equal(DelphiPaths.ExtractFilePath(ansi), DelphiPaths.ExtractFilePath(path));
+            Assert.Equal(DelphiPaths.ExtractFileDir(ansi), DelphiPaths.ExtractFileDir(path));
+            Assert.Equal(DelphiPaths.ExtractFileExt(ansi), DelphiPaths.ExtractFileExt(path));
+            Assert.Equal(DelphiPaths.ExtractFileDrive(ansi), DelphiPaths.ExtractFileDrive(path));
             foreach (string extension in new[] { ".new", "", ".\u20ac" })
             {
-                Assert.Equal(RtlUnit.ChangeFileExt(ansi, extension), RtlUnit.ChangeFileExt(path, extension));
+                Assert.Equal(DelphiPaths.ChangeFileExt(ansi, extension), DelphiPaths.ChangeFileExt(path, extension));
             }
         }
     }
@@ -33,7 +33,7 @@ public sealed class StringPathTests
         foreach (string path in new[] { "", ".", "..", "probe-files\\alpha.TXT", ".\\probe-files\\d00\\..\\Beta.txt",
             "probe-files\\..", "probe-files\\missing\\..\\new.txt", "probe-files/alpha.TXT" })
         {
-            Assert.Equal(RtlUnit.ExpandFileName(path), RtlUnit.ExpandFileName(path));
+            Assert.Equal(DelphiPaths.ExpandFileName(path), DelphiPaths.ExpandFileName(path));
         }
     }
 
@@ -42,15 +42,15 @@ public sealed class StringPathTests
     {
         using StringMode mode = new(false);
         foreach (Func<string?, string> function in new Func<string?, string>[] {
-            RtlUnit.ExtractFileName, RtlUnit.ExtractFilePath, RtlUnit.ExtractFileDir, RtlUnit.ExtractFileExt,
-            RtlUnit.ExtractFileDrive, RtlUnit.ExpandFileName })
+            DelphiPaths.ExtractFileName, DelphiPaths.ExtractFilePath, DelphiPaths.ExtractFileDir, DelphiPaths.ExtractFileExt,
+            DelphiPaths.ExtractFileDrive, DelphiPaths.ExpandFileName })
         {
             Assert.Equal("", function(null));
         }
 
-        Assert.Equal("", RtlUnit.ChangeFileExt(null, null));
-        Assert.Equal("file", RtlUnit.ChangeFileExt("file.ext", null));
-        Assert.Equal("\u2603.ext", RtlUnit.ExtractFileName("C:\\folder\\\u2603.ext"));
-        Assert.Equal("C:\\folder\\\u2603.new", RtlUnit.ChangeFileExt("C:\\folder\\\u2603.ext", ".new"));
+        Assert.Equal("", DelphiPaths.ChangeFileExt(null, null));
+        Assert.Equal("file", DelphiPaths.ChangeFileExt("file.ext", null));
+        Assert.Equal("\u2603.ext", DelphiPaths.ExtractFileName("C:\\folder\\\u2603.ext"));
+        Assert.Equal("C:\\folder\\\u2603.new", DelphiPaths.ChangeFileExt("C:\\folder\\\u2603.ext", ".new"));
     }
 }

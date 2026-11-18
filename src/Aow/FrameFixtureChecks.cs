@@ -35,7 +35,7 @@ internal static class FrameFixtureChecks
             checks++;
         }
         // The fixture host replays native scripts, so the game writes original names under it.
-        Check(!RtlUnit.WritesOwnExtensions && FileBoundary.WriteName("roundtrip.asg") == "roundtrip.asg"
+        Check(!RtlHost.WritesOwnExtensions && FileBoundary.WriteName("roundtrip.asg") == "roundtrip.asg"
             && FileBoundary.WriteExtension(DocumentKind.Save) == ".asg", "fixture host writes original extensions");
         object instance = new();
         Check(FrameFixtureInputs.AnimationOffset(instance) == ((int)((uint)RuntimeHelpers.GetHashCode(instance) >> 2) & 65535), "ordinary animation phase");
@@ -47,7 +47,7 @@ internal static class FrameFixtureChecks
         FixtureClock clock = new(new(2000, 1, 1, 12, 0, 0));
         clock.WaitMilliseconds(90000);
         Check(clock.Now == new DateTime(2000, 1, 1, 12, 0, 0) && clock.ElapsedMilliseconds == 90000, "wall time stays fixed while pacing advances");
-        Check(RtlUnit.DateTimeToStr(RtlUnit.EncodeDate(2000, 1, 1) + RtlUnit.EncodeTime(12, 0, 0, 0)) == "1/1/2000 12:00:00 PM", "native English file date includes seconds and the day period");
+        Check(DelphiDateTime.DateTimeToStr(DelphiDateTime.EncodeDate(2000, 1, 1) + DelphiDateTime.EncodeTime(12, 0, 0, 0)) == "1/1/2000 12:00:00 PM", "native English file date includes seconds and the day period");
 
         DateTime displayedFileTime = new(2000, 1, 1, 13, 0, 0);
         Check(FrameFixture.FileStampUtc(displayedFileTime, TimeSpan.FromHours(-7)) ==
@@ -56,7 +56,7 @@ internal static class FrameFixtureChecks
             new DateTime(2000, 1, 1, 21, 0, 0, DateTimeKind.Utc), "standard file stamp preserves captured 1 PM text");
 
         StrategicMap oldMap = StrategicMap.Current;
-        ISettingsStore oldSettings = RtlUnit.Settings;
+        ISettingsStore oldSettings = RtlHost.Settings;
         try
         {
             Window mapWindow = new(null) { Modal = true };
@@ -103,7 +103,7 @@ internal static class FrameFixtureChecks
             Check(GameTables.PlayerBehaviorTexts[(int)PlayerBehavior.Normal] == "Normal" &&
                 GameTables.PlayerBehaviorTexts[(int)PlayerBehavior.Random] == "Random", "setup behavior names are initialized");
 
-            RtlUnit.Settings = new MemorySettingsStore();
+            RtlHost.Settings = new MemorySettingsStore();
             startup.Engine.Registry.SetMovementSpeed(GameSettings.MovementSpeed.Normal);
             FrameFixtureInputs.MeasuredFrameRate = 9;
             MapWindow world = new(ui) { MainWindow = mapWindow };
@@ -127,7 +127,7 @@ internal static class FrameFixtureChecks
         finally
         {
             StrategicMap.Current = oldMap;
-            RtlUnit.Settings = oldSettings;
+            RtlHost.Settings = oldSettings;
             FrameFixtureInputs.AddressAnimationPhase = null;
             FrameFixtureInputs.MeasuredFrameRate = null;
         }
@@ -137,18 +137,18 @@ internal static class FrameFixtureChecks
 
     private sealed class StartupScope : IDisposable
     {
-        private readonly IFileSystem _files = RtlUnit.Files;
-        private readonly ISettingsStore? _settings = RtlUnit.Settings;
-        private readonly IDialogService? _dialogs = RtlUnit.Dialogs;
-        private readonly IClock _clock = RtlUnit.Clock;
-        private readonly string _executable = RtlUnit.Application.ExeName;
-        private readonly bool _ownExtensions = RtlUnit.WritesOwnExtensions;
+        private readonly IFileSystem _files = RtlHost.Files;
+        private readonly ISettingsStore? _settings = RtlHost.Settings;
+        private readonly IDialogService? _dialogs = RtlHost.Dialogs;
+        private readonly IClock _clock = RtlHost.Clock;
+        private readonly string _executable = LegacyApplication.Application.ExeName;
+        private readonly bool _ownExtensions = RtlHost.WritesOwnExtensions;
         private readonly string _scratch = Path.Combine(Path.GetTempPath(), "aow-frame-inputs-" + Guid.NewGuid().ToString("N"));
 
         internal StartupScope(string root)
         {
             _ = Directory.CreateDirectory(_scratch);
-            RtlUnit.InstallHost(new FrameFixture.FixtureHost(root, _scratch, [], _clock, null));
+            RtlHost.InstallHost(new FrameFixture.FixtureHost(root, _scratch, [], _clock, null));
             Startup.InitializeAll();
             NullSoundSystem.Install();
             Engine = Startup.CreateEngine();
@@ -159,12 +159,12 @@ internal static class FrameFixtureChecks
         public void Dispose()
         {
             Engine.Dispose();
-            RtlUnit.Files = _files;
-            RtlUnit.Settings = _settings;
-            RtlUnit.Dialogs = _dialogs;
-            RtlUnit.Clock = _clock;
-            RtlUnit.Application.ExeName = _executable;
-            RtlUnit.WritesOwnExtensions = _ownExtensions;
+            RtlHost.Files = _files;
+            RtlHost.Settings = _settings;
+            RtlHost.Dialogs = _dialogs;
+            RtlHost.Clock = _clock;
+            LegacyApplication.Application.ExeName = _executable;
+            RtlHost.WritesOwnExtensions = _ownExtensions;
             Directory.Delete(_scratch, true);
         }
     }

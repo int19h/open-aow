@@ -1,5 +1,9 @@
 using System.Runtime.InteropServices;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiDateTime;
+using static Aow.Rtl.DelphiFiles;
+using static Aow.Rtl.DelphiPaths;
+using static Aow.Rtl.DelphiStreams;
+using static Aow.Rtl.RtlHost;
 using Assert = Xunit.Assert;
 
 namespace Aow.Rtl.Tests;

@@ -3,7 +3,7 @@
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Audio;
 

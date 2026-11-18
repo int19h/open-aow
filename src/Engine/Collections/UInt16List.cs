@@ -6,7 +6,8 @@ using Aow.Engine.Nodes;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiFormat;
+using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Engine.Collections;
 

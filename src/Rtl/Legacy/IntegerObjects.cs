@@ -1,6 +1,6 @@
 namespace Aow.Rtl;
 
-public static partial class RtlUnit
+public static class IntegerObjects
 {
     // Delphi code stored small integers in TObject slots (TStrings.Objects, a TNotifyEvent sender)
     // with TObject(I) and read them back with Integer(Obj). IntToObject gives one cached box per

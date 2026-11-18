@@ -2,7 +2,9 @@
 // Translated from ImageLib.pas.
 using Aow.Rtl;
 using Aow.Rtl.Host;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiFiles;
+using static Aow.Rtl.DelphiTextCompare;
+using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.Draw.Images;
 
@@ -55,13 +57,13 @@ public partial class ImageLibraryManager : Component
         string directory;
         void SearchDirectory(string subDirectory)
         {
-            StringList list;
+            DelphiStringList list;
             foreach (RtlFileEntry entry in Files.FindEntries(SearchPath + subDirectory + "*.ilb", attributes: 63 - 16))
             {
                 _ = DiskList.AddImageLibraryFile(subDirectory + UpperCase(entry.Name));
             }
 
-            list = new StringList();
+            list = new DelphiStringList();
             foreach (RtlFileEntry entry in Files.FindEntries(subDirectory + "*.*", attributes: 16))
             {
                 if ((entry.Attribute & 16) != 0 && entry.Name != "." && entry.Name != "..")

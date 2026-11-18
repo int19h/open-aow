@@ -77,7 +77,7 @@ public sealed partial record Fortify : ProductionOrder
                 break;
         }
 
-        Log(control, city, RtlUnit.Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_cityFortifiedFormat), [city.GetName()]));
+        Log(control, city, DelphiFormat.Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_cityFortifiedFormat), [city.GetName()]));
         city.UpdateImages();
         ChangeRelation(control, city, 5);
         control.ProductionDone();

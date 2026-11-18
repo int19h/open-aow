@@ -4,7 +4,7 @@ using System.Buffers.Binary;
 
 using Aow.Graphics;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiPaths;
 
 namespace Aow.Game.Draw.Images;
 

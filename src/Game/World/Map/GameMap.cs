@@ -13,7 +13,9 @@ using Aow.Game.Units;
 using Aow.Game.World.Movement;
 using Aow.Graphics;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiAssert;
+using static Aow.Rtl.DelphiPaths;
+using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.World.Map;
 

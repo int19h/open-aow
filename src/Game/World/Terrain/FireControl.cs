@@ -2,7 +2,7 @@
 // Translated from AoWE.pas.
 using Aow.Game.World.Map;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Terrain;
 

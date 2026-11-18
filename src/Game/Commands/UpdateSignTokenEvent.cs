@@ -12,12 +12,12 @@ namespace Aow.Game.Commands;
 // Text, HexX, HexY, HexLevel
 public partial class UpdateSignTokenEvent : TokenEvent
 {
-    public UpdateSignTokenEvent(CustomNode owner) : base(owner) => Text = new StringList();
+    public UpdateSignTokenEvent(CustomNode owner) : base(owner) => Text = new DelphiStringList();
 
     // Sign.pas:202
     public new const int ClassId = 131343;
 
-    public StringList Text { get; }
+    public DelphiStringList Text { get; }
 
     public MapCoordinate Location { get; set; }
 

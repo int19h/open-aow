@@ -7,7 +7,7 @@ using Aow.Game.Draw;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.LegacyApplication;
 
 namespace Aow.Game.AI.Groups;
 

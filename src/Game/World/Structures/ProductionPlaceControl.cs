@@ -52,7 +52,7 @@ public partial class ProductionPlaceControl(CustomNode owner) : ProductionContro
         };
         string name = Settings.Unit.GetName();
         string fProductionPlaceName = ProductionPlace.GetName();
-        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducedFormat), [name, fProductionPlaceName]);
+        log.Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducedFormat), [name, fProductionPlaceName]);
         log.SetLocation(y: productionPlace.HexY, x: productionPlace.HexX, level: productionPlace.HexLevel);
         StrategicMap.Current.Players.GetPlayers(log.Player).EventLogbook.AddEvent(log);
         _ = log.Release();
@@ -74,7 +74,7 @@ public partial class ProductionPlaceControl(CustomNode owner) : ProductionContro
         UnitProduction unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
         string unitName = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
         string name = ProductionPlace.GetName();
-        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.InstalledFormat), [unitName, name]);
+        log.Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.InstalledFormat), [unitName, name]);
         log.SetLocation(y: productionPlace.HexY, x: productionPlace.HexX, level: productionPlace.HexLevel);
         StrategicMap.Current.Players.GetPlayers(log.Player).EventLogbook.AddEvent(log);
         _ = log.Release();

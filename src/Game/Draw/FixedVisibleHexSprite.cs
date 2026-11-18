@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.World.Map;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Game.Draw;
 

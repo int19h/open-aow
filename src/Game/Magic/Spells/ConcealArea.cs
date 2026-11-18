@@ -76,7 +76,7 @@ public partial class ConcealArea : Spell
                                     Player = source.Player
                                 };
                                 string concealArea = AbilityRules.TranslateResourceString(GetEngine(), s_concealAreaText);
-                                log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [concealArea]);
+                                log.Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [concealArea]);
                                 StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(log);
                                 _ = log.Release();
                             }
@@ -97,7 +97,7 @@ public partial class ConcealArea : Spell
                         Player = source.Player
                     };
                     string concealArea = AbilityRules.TranslateResourceString(GetEngine(), s_concealAreaText);
-                    log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [concealArea]);
+                    log.Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [concealArea]);
                     StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(log);
                     _ = log.Release();
                 }
@@ -126,7 +126,7 @@ public partial class ConcealArea : Spell
             if (!war)
             {
                 string concealArea = AbilityRules.TranslateResourceString(GetEngine(), s_concealAreaText);
-                messageText = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_warRelationIsRequiredFormat), [concealArea]);
+                messageText = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), s_warRelationIsRequiredFormat), [concealArea]);
                 result = false;
             }
         }

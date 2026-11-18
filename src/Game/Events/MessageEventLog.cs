@@ -16,7 +16,7 @@ public partial class MessageEventLog : EventLog
     public MessageEventLog(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        Message = new StringList();
+        Message = new DelphiStringList();
         Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.MessageText);
         Buttons = MessageEventLogButtons.Ok;
         PressedButton = PressedEventLogButton.None;
@@ -26,7 +26,7 @@ public partial class MessageEventLog : EventLog
     public string Title { get; set; } = "";
 
     public string Header { get; } = "";
-    public StringCollection Message { get; }
+    public DelphiStringCollection Message { get; }
 
     public MessageEventLogLayout Layout { get; set; }
     public MessageEventLogButtons Buttons { get; set; }

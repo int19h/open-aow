@@ -182,8 +182,8 @@ public sealed class UncheckedOwnerCastTests
         token.UnitId = 99;
         _ = Assert.Throws<NullReferenceException>(() => token.Execute(null));
         string shown = "";
-        Action<string> saved = Runtime.MessageHandler;
-        Runtime.MessageHandler = message => shown = message;
+        Action<string> saved = LegacyApplication.MessageHandler;
+        LegacyApplication.MessageHandler = message => shown = message;
         try
         {
             TokenExecutor executor = new(null);
@@ -192,7 +192,7 @@ public sealed class UncheckedOwnerCastTests
         }
         finally
         {
-            Runtime.MessageHandler = saved;
+            LegacyApplication.MessageHandler = saved;
         }
     }
 

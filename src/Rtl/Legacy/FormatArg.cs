@@ -26,7 +26,7 @@ public readonly struct FormatArg : IUnion
 
     public FormatArg(double value) { bits = BitConverter.DoubleToInt64Bits(value); kind = Case.Extended; }
 
-    public FormatArg(string value) { reference = RtlUnit.RequireString(value); kind = Case.String; }
+    public FormatArg(string value) { reference = DelphiStrings.RequireString(value); kind = Case.String; }
 
     public FormatArg(object? value) { reference = value; kind = value is null ? Case.None : Case.Object; }
 

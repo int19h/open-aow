@@ -4,7 +4,13 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.UI.Controls;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiFiles;
+using static Aow.Rtl.DelphiPaths;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.DelphiTextCompare;
+using static Aow.Rtl.PCharStrings;
+using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.UI.Windows;
 
@@ -17,8 +23,8 @@ public partial class HtmlMemo : BaseWindow
 {
     public List<ChangeInfo> Changes { get; }
 
-    private readonly StringList _lines;
-    private readonly StringList _items;
+    private readonly DelphiStringList _lines;
+    private readonly DelphiStringList _items;
     private VerticalScrollBar _verticalScrollBar;
     private string _fileName = "";
     private int _scrollWidth;
@@ -33,8 +39,8 @@ public partial class HtmlMemo : BaseWindow
     // AoWHTMLMemo.pas:93
     public HtmlMemo(Component owner) : base(owner)
     {
-        _lines = new StringList();
-        _items = new StringList
+        _lines = new DelphiStringList();
+        _items = new DelphiStringList
         {
             OnChange = OnChangeText
         };
@@ -462,9 +468,9 @@ public partial class HtmlMemo : BaseWindow
                         case IntegerParseMode.Background:
                             if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(c))
                             {
-                                if (FileExists(ExtractFilePath(RtlUnit.Application.ExeName) + Copy(item, tagStart + 1, j - tagStart)))
+                                if (FileExists(ExtractFilePath(LegacyApplication.Application.ExeName) + Copy(item, tagStart + 1, j - tagStart)))
                                 {
-                                    string filePath = ExtractFilePath(RtlUnit.Application.ExeName);
+                                    string filePath = ExtractFilePath(LegacyApplication.Application.ExeName);
                                     _images.LoadFromFile(filePath + Copy(item, tagStart + 1, j - tagStart));
                                 }
 
@@ -884,7 +890,7 @@ public partial class HtmlMemo : BaseWindow
     public void SetWindow(BaseWindow value) => SetOwner(value);
 
     // AoWHTMLMemo.pas:139
-    public void SetFStrings(StringList value)
+    public void SetFStrings(DelphiStringList value)
     {
         _items.Clear();
         _items.AddStrings(value);
@@ -929,7 +935,7 @@ public partial class HtmlMemo : BaseWindow
     {
         ImageLibraryFont font;
         int i;
-        fileName = ExtractFilePath(RtlUnit.Application.ExeName) + fileName;
+        fileName = ExtractFilePath(LegacyApplication.Application.ExeName) + fileName;
         font = null;
         i = 0;
         while (i < _fonts.Count && font == null)
@@ -960,7 +966,7 @@ public partial class HtmlMemo : BaseWindow
         return font != null;
     }
 
-    public StringList Items { get => _items; set => SetFStrings(value); }
+    public DelphiStringList Items { get => _items; set => SetFStrings(value); }
     public int ListOffset { get => _topItem; set => SetListOff(value); }
 
     [Published]

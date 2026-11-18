@@ -7,7 +7,7 @@ namespace Aow.Game.Tests;
 public sealed class StartupOrderTests
 {
     // The live steps, in initialization order. Finalization runs the steps that have a finalize, reversed.
-    private const string Names = "GFXE ImageLib Sound AoWE AoWTitleScene";
+    private const string Names = "GFXE ImageLib Sound";
 
     private const string Initializations = Names;
 
@@ -18,8 +18,6 @@ public sealed class StartupOrderTests
         ("GFXE", "Aow.Game.Draw.GraphicsState", "Initialize", "Finalize"),
         ("ImageLib", "Aow.Game.Draw.Images.ImageLibraries", "Initialize", "Finalize"),
         ("Sound", "Aow.Game.Audio.AudioHost", "Initialize", "Finalize"),
-        ("AoWE", "Aow.Game.Magic.Abilities.GameTables", "Initialize", ""),
-        ("AoWTitleScene", "Aow.Game.UI.Dialogs.TitleCaptions", "Initialize", ""),
     ];
 
     private static string[] Split(string text) => text.Split([' ', '\n'], StringSplitOptions.RemoveEmptyEntries);
@@ -79,12 +77,11 @@ public sealed class StartupOrderTests
     {
         (StartupUnit[]? units, List<string>? calls) = Recording();
         bool[] state = new bool[units.Length];
-        Startup.InitializeUnits(units, state, ["AoWTitleScene", "ImageLib", "Sound"]);
-        Assert.Equal(["I ImageLib", "I Sound", "I AoWTitleScene"], calls);
+        Startup.InitializeUnits(units, state, ["ImageLib", "Sound"]);
+        Assert.Equal(["I ImageLib", "I Sound"], calls);
         calls.Clear();
-        // Units outside the finalization selection stay initialized. The title step has no finalize,
-        // and GFXE was not initialized.
-        Startup.FinalizeUnits(units, state, ["Sound", "AoWTitleScene", "GFXE"]);
+        // Units outside the finalization selection stay initialized, and GFXE was not initialized.
+        Startup.FinalizeUnits(units, state, ["Sound", "GFXE"]);
         Assert.Equal(["F Sound"], calls);
         calls.Clear();
         // Only initialized units are finalized: GFXE was never initialized.

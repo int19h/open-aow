@@ -112,7 +112,7 @@ public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder
 
     public override string RealmActivity(City city) => "5";
 
-    public override void ActivityLines(ProductionControl control, StringCollection lines)
+    public override void ActivityLines(ProductionControl control, DelphiStringCollection lines)
     {
         Unit unit = control.CreateUnitProduction(Index);
         lines.Clear();

@@ -2596,26 +2596,26 @@
             "$type": "Aow.Game.Audio.SongList",
             "EngineObject._owner": null,
             "SongList.SongNames": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "SongList._songs": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": [
                 "Aow.Game.Audio.SongList.SongsChanged"
               ],
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.SongList.SongNames.StringList.items"
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.SongList.SongNames.DelphiStringList.items"
             }
           }
         }
@@ -2641,26 +2641,26 @@
             "$type": "Aow.Game.Audio.SongList",
             "EngineObject._owner": "$owner",
             "SongList.SongNames": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "SongList._songs": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": [
                 "Aow.Game.Audio.SongList.SongsChanged"
               ],
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.SongList.SongNames.StringList.items"
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.SongList.SongNames.DelphiStringList.items"
             }
           }
         }
@@ -2698,26 +2698,26 @@
             "$type": "Aow.Game.Audio.StartupSongList",
             "EngineObject._owner": null,
             "SongList.SongNames": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "SongList._songs": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": [
                 "Aow.Game.Audio.StartupSongList.OriginalSongsChanged"
               ],
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.SongList.SongNames.StringList.items"
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.SongList.SongNames.DelphiStringList.items"
             }
           }
         }
@@ -2743,26 +2743,26 @@
             "$type": "Aow.Game.Audio.StartupSongList",
             "EngineObject._owner": "$owner",
             "SongList.SongNames": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "SongList._songs": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": [
                 "Aow.Game.Audio.StartupSongList.OriginalSongsChanged"
               ],
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.SongList.SongNames.StringList.items"
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.SongList.SongNames.DelphiStringList.items"
             }
           }
         }
@@ -9135,14 +9135,14 @@
             "Ability.AbilityId": 0,
             "Ability.AbilityName": "",
             "Ability.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Ability.ImageSequences": {
               "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -9184,13 +9184,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Ability.Description.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Ability.Description.DelphiStringList.items"
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -9208,13 +9208,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Ability.Description.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Ability.Description.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -9266,14 +9266,14 @@
             "Ability.AbilityId": 0,
             "Ability.AbilityName": "",
             "Ability.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Ability.ImageSequences": {
               "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -9315,13 +9315,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Ability.Description.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Ability.Description.DelphiStringList.items"
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -9339,13 +9339,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Ability.Description.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Ability.Description.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -9488,14 +9488,14 @@
             "Ability.AbilityId": 0,
             "Ability.AbilityName": "",
             "Ability.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Ability.ImageSequences": {
               "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -9537,13 +9537,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Ability.Description.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Ability.Description.DelphiStringList.items"
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -9561,13 +9561,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Ability.Description.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Ability.Description.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -9621,14 +9621,14 @@
             "Ability.AbilityId": 0,
             "Ability.AbilityName": "",
             "Ability.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Ability.ImageSequences": {
               "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -9670,13 +9670,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Ability.Description.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Ability.Description.DelphiStringList.items"
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -9694,13 +9694,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Ability.Description.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Ability.Description.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -9782,14 +9782,14 @@
             "Ability.AbilityId": 0,
             "Ability.AbilityName": "",
             "Ability.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Ability.ImageSequences": {
               "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -9831,13 +9831,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Ability.Description.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Ability.Description.DelphiStringList.items"
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -9855,13 +9855,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Ability.Description.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Ability.Description.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -9914,14 +9914,14 @@
             "Ability.AbilityId": 0,
             "Ability.AbilityName": "",
             "Ability.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Ability.ImageSequences": {
               "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -9963,13 +9963,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Ability.Description.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Ability.Description.DelphiStringList.items"
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -9987,13 +9987,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Ability.Description.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Ability.Description.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -10073,14 +10073,14 @@
             "Ability.AbilityId": 0,
             "Ability.AbilityName": "",
             "Ability.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Ability.ImageSequences": {
               "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -10122,13 +10122,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Ability.Description.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Ability.Description.DelphiStringList.items"
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -10146,13 +10146,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Ability.Description.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Ability.Description.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -10213,14 +10213,14 @@
             "Ability.AbilityId": 0,
             "Ability.AbilityName": "",
             "Ability.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Ability.ImageSequences": {
               "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -10262,13 +10262,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Ability.Description.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Ability.Description.DelphiStringList.items"
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -10286,13 +10286,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Ability.Description.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Ability.Description.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -10382,14 +10382,14 @@
             "Ability.AbilityId": 0,
             "Ability.AbilityName": "",
             "Ability.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Ability.ImageSequences": {
               "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -10431,13 +10431,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Ability.Description.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Ability.Description.DelphiStringList.items"
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -10455,13 +10455,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Ability.Description.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Ability.Description.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -10514,14 +10514,14 @@
             "Ability.AbilityId": 0,
             "Ability.AbilityName": "",
             "Ability.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Ability.ImageSequences": {
               "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -10563,13 +10563,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Ability.Description.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Ability.Description.DelphiStringList.items"
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -10587,13 +10587,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Ability.Description.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Ability.Description.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -10853,13 +10853,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -10877,13 +10877,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -10915,14 +10915,14 @@
             "Spell.SpellLevel": 0,
             "Spell.SpellName": "",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 2
           }
@@ -10993,13 +10993,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -11017,13 +11017,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -11055,14 +11055,14 @@
             "Spell.SpellLevel": 0,
             "Spell.SpellName": "",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 2
           }
@@ -11165,13 +11165,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -11189,13 +11189,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -11227,14 +11227,14 @@
             "Spell.SpellLevel": 0,
             "Spell.SpellName": "",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 0
           }
@@ -11302,13 +11302,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -11326,13 +11326,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -11364,14 +11364,14 @@
             "Spell.SpellLevel": 0,
             "Spell.SpellName": "",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 0
           }
@@ -11536,13 +11536,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -11560,13 +11560,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -11598,14 +11598,14 @@
             "Spell.SpellLevel": 0,
             "Spell.SpellName": "",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 1,
             "UnitSpell.AIValue": -1,
@@ -11677,13 +11677,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -11701,13 +11701,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -11739,14 +11739,14 @@
             "Spell.SpellLevel": 0,
             "Spell.SpellName": "",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 1,
             "UnitSpell.AIValue": -1,
@@ -13432,51 +13432,51 @@
             },
             "GamePack.CursorImages": null,
             "GamePack.DecorationTypes": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 5,
-              "StringList.items": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 5,
+              "DelphiStringList.items": [
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "None"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Rocks"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Bones"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Dead Tree"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Toadstools"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 }
@@ -13630,13 +13630,13 @@
                   "Dictionary\u00602._version": 0
                 },
                 "ImageLibraryManagerList._owner": "$owner",
-                "StringCollection.UpdateCount": 0,
-                "StringList.Duplicates": 0,
-                "StringList.OnChange": null,
-                "StringList.OnChanging": null,
-                "StringList.Sorted": false,
-                "StringList.count": 0,
-                "StringList.items": []
+                "DelphiStringCollection.UpdateCount": 0,
+                "DelphiStringList.Duplicates": 0,
+                "DelphiStringList.OnChange": null,
+                "DelphiStringList.OnChanging": null,
+                "DelphiStringList.Sorted": false,
+                "DelphiStringList.count": 0,
+                "DelphiStringList.items": []
               },
               "ImageLibraryManager.OwnedList": {
                 "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -13654,13 +13654,13 @@
                   "Dictionary\u00602._version": 0
                 },
                 "ImageLibraryManagerList._owner": "$owner",
-                "StringCollection.UpdateCount": 0,
-                "StringList.Duplicates": 0,
-                "StringList.OnChange": null,
-                "StringList.OnChanging": null,
-                "StringList.Sorted": false,
-                "StringList.count": 0,
-                "StringList.items": "$ref:$.GamePack.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                "DelphiStringCollection.UpdateCount": 0,
+                "DelphiStringList.Duplicates": 0,
+                "DelphiStringList.OnChange": null,
+                "DelphiStringList.OnChanging": null,
+                "DelphiStringList.Sorted": false,
+                "DelphiStringList.count": 0,
+                "DelphiStringList.items": "$ref:$.GamePack.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
               },
               "ImageLibraryManager.SearchPath": "$root\\IMAGES\\"
             },
@@ -13741,71 +13741,71 @@
             },
             "GamePack.Name": "",
             "GamePack.OverlayTypes": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 11,
-              "StringList.items": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 11,
+              "DelphiStringList.items": [
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Mountain"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Dense Vegetation"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Hill"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Vegetation"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Road"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Bridge"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Rubble"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Structure"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Obstacle"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Light Vegetation"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Solid"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 }
@@ -13848,16 +13848,16 @@
               "EngineObject._owner": null,
               "PluginControl.Engine": null,
               "PluginControl._usedPlugins": {
-                "$type": "Aow.Rtl.StringList",
-                "StringCollection.UpdateCount": 0,
-                "StringList.Duplicates": 0,
-                "StringList.OnChange": [
+                "$type": "Aow.Rtl.DelphiStringList",
+                "DelphiStringCollection.UpdateCount": 0,
+                "DelphiStringList.Duplicates": 0,
+                "DelphiStringList.OnChange": [
                   "Aow.Engine.PluginControl.OnChange"
                 ],
-                "StringList.OnChanging": null,
-                "StringList.Sorted": true,
-                "StringList.count": 0,
-                "StringList.items": "$ref:$.GamePack.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                "DelphiStringList.OnChanging": null,
+                "DelphiStringList.Sorted": true,
+                "DelphiStringList.count": 0,
+                "DelphiStringList.items": "$ref:$.GamePack.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
               }
             },
             "GamePack.RaceResources": "$ref:$.GamePack.FlagControl.FlagControl._raceResources",
@@ -13875,14 +13875,14 @@
               },
               "EngineObject._owner": "$owner",
               "ResourceEditSettings.Editors": {
-                "$type": "Aow.Rtl.StringList",
-                "StringCollection.UpdateCount": 0,
-                "StringList.Duplicates": 0,
-                "StringList.OnChange": null,
-                "StringList.OnChanging": null,
-                "StringList.Sorted": false,
-                "StringList.count": 0,
-                "StringList.items": "$ref:$.GamePack.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                "$type": "Aow.Rtl.DelphiStringList",
+                "DelphiStringCollection.UpdateCount": 0,
+                "DelphiStringList.Duplicates": 0,
+                "DelphiStringList.OnChange": null,
+                "DelphiStringList.OnChanging": null,
+                "DelphiStringList.Sorted": false,
+                "DelphiStringList.count": 0,
+                "DelphiStringList.items": "$ref:$.GamePack.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
               }
             },
             "GamePack.RoadControl": {
@@ -13913,13 +13913,13 @@
               "SfxManager.SearchPath": "SFX\\",
               "SfxManager.Sfx": {
                 "$type": "Aow.Game.Audio.SfxList",
-                "StringCollection.UpdateCount": 0,
-                "StringList.Duplicates": 0,
-                "StringList.OnChange": null,
-                "StringList.OnChanging": null,
-                "StringList.Sorted": false,
-                "StringList.count": 0,
-                "StringList.items": "$ref:$.GamePack.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                "DelphiStringCollection.UpdateCount": 0,
+                "DelphiStringList.Duplicates": 0,
+                "DelphiStringList.OnChange": null,
+                "DelphiStringList.OnChanging": null,
+                "DelphiStringList.Sorted": false,
+                "DelphiStringList.count": 0,
+                "DelphiStringList.items": "$ref:$.GamePack.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
               }
             },
             "GamePack.SpellControl": {
@@ -13938,151 +13938,151 @@
               "Set\u00601.low": 0
             },
             "GamePack.TerrainTypes": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 16,
-              "StringList.items": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 16,
+              "DelphiStringList.items": [
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Water"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Grass"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Desert"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Snow"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Steppe"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Wasteland"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Ice"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Earth"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Rock"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Lava"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Water"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Reserved"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Dirt"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Ice"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Coast"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Border"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 }
@@ -14277,51 +14277,51 @@
             },
             "GamePack.CursorImages": null,
             "GamePack.DecorationTypes": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 5,
-              "StringList.items": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 5,
+              "DelphiStringList.items": [
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "None"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Rocks"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Bones"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Dead Tree"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Toadstools"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 }
@@ -14475,13 +14475,13 @@
                   "Dictionary\u00602._version": 0
                 },
                 "ImageLibraryManagerList._owner": "$owner",
-                "StringCollection.UpdateCount": 0,
-                "StringList.Duplicates": 0,
-                "StringList.OnChange": null,
-                "StringList.OnChanging": null,
-                "StringList.Sorted": false,
-                "StringList.count": 0,
-                "StringList.items": []
+                "DelphiStringCollection.UpdateCount": 0,
+                "DelphiStringList.Duplicates": 0,
+                "DelphiStringList.OnChange": null,
+                "DelphiStringList.OnChanging": null,
+                "DelphiStringList.Sorted": false,
+                "DelphiStringList.count": 0,
+                "DelphiStringList.items": []
               },
               "ImageLibraryManager.OwnedList": {
                 "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -14499,13 +14499,13 @@
                   "Dictionary\u00602._version": 0
                 },
                 "ImageLibraryManagerList._owner": "$owner",
-                "StringCollection.UpdateCount": 0,
-                "StringList.Duplicates": 0,
-                "StringList.OnChange": null,
-                "StringList.OnChanging": null,
-                "StringList.Sorted": false,
-                "StringList.count": 0,
-                "StringList.items": "$ref:$.GamePack.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                "DelphiStringCollection.UpdateCount": 0,
+                "DelphiStringList.Duplicates": 0,
+                "DelphiStringList.OnChange": null,
+                "DelphiStringList.OnChanging": null,
+                "DelphiStringList.Sorted": false,
+                "DelphiStringList.count": 0,
+                "DelphiStringList.items": "$ref:$.GamePack.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
               },
               "ImageLibraryManager.SearchPath": "$root\\IMAGES\\"
             },
@@ -14586,71 +14586,71 @@
             },
             "GamePack.Name": "",
             "GamePack.OverlayTypes": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 11,
-              "StringList.items": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 11,
+              "DelphiStringList.items": [
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Mountain"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Dense Vegetation"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Hill"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Vegetation"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Road"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Bridge"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Rubble"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Structure"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Obstacle"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Light Vegetation"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Solid"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 }
@@ -14693,16 +14693,16 @@
               "EngineObject._owner": null,
               "PluginControl.Engine": null,
               "PluginControl._usedPlugins": {
-                "$type": "Aow.Rtl.StringList",
-                "StringCollection.UpdateCount": 0,
-                "StringList.Duplicates": 0,
-                "StringList.OnChange": [
+                "$type": "Aow.Rtl.DelphiStringList",
+                "DelphiStringCollection.UpdateCount": 0,
+                "DelphiStringList.Duplicates": 0,
+                "DelphiStringList.OnChange": [
                   "Aow.Engine.PluginControl.OnChange"
                 ],
-                "StringList.OnChanging": null,
-                "StringList.Sorted": true,
-                "StringList.count": 0,
-                "StringList.items": "$ref:$.GamePack.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                "DelphiStringList.OnChanging": null,
+                "DelphiStringList.Sorted": true,
+                "DelphiStringList.count": 0,
+                "DelphiStringList.items": "$ref:$.GamePack.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
               }
             },
             "GamePack.RaceResources": "$ref:$.GamePack.FlagControl.FlagControl._raceResources",
@@ -14720,14 +14720,14 @@
               },
               "EngineObject._owner": "$owner",
               "ResourceEditSettings.Editors": {
-                "$type": "Aow.Rtl.StringList",
-                "StringCollection.UpdateCount": 0,
-                "StringList.Duplicates": 0,
-                "StringList.OnChange": null,
-                "StringList.OnChanging": null,
-                "StringList.Sorted": false,
-                "StringList.count": 0,
-                "StringList.items": "$ref:$.GamePack.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                "$type": "Aow.Rtl.DelphiStringList",
+                "DelphiStringCollection.UpdateCount": 0,
+                "DelphiStringList.Duplicates": 0,
+                "DelphiStringList.OnChange": null,
+                "DelphiStringList.OnChanging": null,
+                "DelphiStringList.Sorted": false,
+                "DelphiStringList.count": 0,
+                "DelphiStringList.items": "$ref:$.GamePack.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
               }
             },
             "GamePack.RoadControl": {
@@ -14758,13 +14758,13 @@
               "SfxManager.SearchPath": "SFX\\",
               "SfxManager.Sfx": {
                 "$type": "Aow.Game.Audio.SfxList",
-                "StringCollection.UpdateCount": 0,
-                "StringList.Duplicates": 0,
-                "StringList.OnChange": null,
-                "StringList.OnChanging": null,
-                "StringList.Sorted": false,
-                "StringList.count": 0,
-                "StringList.items": "$ref:$.GamePack.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                "DelphiStringCollection.UpdateCount": 0,
+                "DelphiStringList.Duplicates": 0,
+                "DelphiStringList.OnChange": null,
+                "DelphiStringList.OnChanging": null,
+                "DelphiStringList.Sorted": false,
+                "DelphiStringList.count": 0,
+                "DelphiStringList.items": "$ref:$.GamePack.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
               }
             },
             "GamePack.SpellControl": {
@@ -14783,151 +14783,151 @@
               "Set\u00601.low": 0
             },
             "GamePack.TerrainTypes": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 16,
-              "StringList.items": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 16,
+              "DelphiStringList.items": [
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Water"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Grass"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Desert"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Snow"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Steppe"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Wasteland"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Ice"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Earth"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Rock"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Lava"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Water"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Reserved"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Dirt"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Ice"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Coast"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": "Border"
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 },
                 {
-                  "$type": "Aow.Rtl.StringList\u002BStringItem",
+                  "$type": "Aow.Rtl.DelphiStringList\u002BStringItem",
                   "StringItem.Object": null,
                   "StringItem.Text": null
                 }
@@ -16034,14 +16034,14 @@
             "StrategicMap.DebugSave": false,
             "StrategicMap.DefendersSeed": 0,
             "StrategicMap.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StrategicMap.DiplomaticRelationsChangedEventsStore": {
               "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -16057,26 +16057,26 @@
               "$type": "Aow.Game.Audio.SongList",
               "EngineObject._owner": null,
               "SongList.SongNames": {
-                "$type": "Aow.Rtl.StringList",
-                "StringCollection.UpdateCount": 0,
-                "StringList.Duplicates": 0,
-                "StringList.OnChange": null,
-                "StringList.OnChanging": null,
-                "StringList.Sorted": false,
-                "StringList.count": 0,
-                "StringList.items": "$ref:$.StrategicMap.Description.StringList.items"
+                "$type": "Aow.Rtl.DelphiStringList",
+                "DelphiStringCollection.UpdateCount": 0,
+                "DelphiStringList.Duplicates": 0,
+                "DelphiStringList.OnChange": null,
+                "DelphiStringList.OnChanging": null,
+                "DelphiStringList.Sorted": false,
+                "DelphiStringList.count": 0,
+                "DelphiStringList.items": "$ref:$.StrategicMap.Description.DelphiStringList.items"
               },
               "SongList._songs": {
-                "$type": "Aow.Rtl.StringList",
-                "StringCollection.UpdateCount": 0,
-                "StringList.Duplicates": 0,
-                "StringList.OnChange": [
+                "$type": "Aow.Rtl.DelphiStringList",
+                "DelphiStringCollection.UpdateCount": 0,
+                "DelphiStringList.Duplicates": 0,
+                "DelphiStringList.OnChange": [
                   "Aow.Game.Audio.SongList.SongsChanged"
                 ],
-                "StringList.OnChanging": null,
-                "StringList.Sorted": false,
-                "StringList.count": 0,
-                "StringList.items": "$ref:$.StrategicMap.Description.StringList.items"
+                "DelphiStringList.OnChanging": null,
+                "DelphiStringList.Sorted": false,
+                "DelphiStringList.count": 0,
+                "DelphiStringList.items": "$ref:$.StrategicMap.Description.DelphiStringList.items"
               }
             },
             "StrategicMap.GameStatus": 0,
@@ -17260,14 +17260,14 @@
                     },
                     "Player._magicUpkeep": 0,
                     "Player._messages": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.StrategicMap.Description.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.StrategicMap.Description.DelphiStringList.items"
                     },
                     "Player._password": "",
                     "Player._updateCount": 0,
@@ -17862,14 +17862,14 @@
                     },
                     "Player._magicUpkeep": 0,
                     "Player._messages": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.StrategicMap.Description.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.StrategicMap.Description.DelphiStringList.items"
                     },
                     "Player._password": "",
                     "Player._updateCount": 0,
@@ -18464,14 +18464,14 @@
                     },
                     "Player._magicUpkeep": 0,
                     "Player._messages": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.StrategicMap.Description.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.StrategicMap.Description.DelphiStringList.items"
                     },
                     "Player._password": "",
                     "Player._updateCount": 0,
@@ -18986,26 +18986,26 @@
               "$type": "Aow.Game.Audio.StartupSongList",
               "EngineObject._owner": null,
               "SongList.SongNames": {
-                "$type": "Aow.Rtl.StringList",
-                "StringCollection.UpdateCount": 0,
-                "StringList.Duplicates": 0,
-                "StringList.OnChange": null,
-                "StringList.OnChanging": null,
-                "StringList.Sorted": false,
-                "StringList.count": 0,
-                "StringList.items": "$ref:$.StrategicMap.Description.StringList.items"
+                "$type": "Aow.Rtl.DelphiStringList",
+                "DelphiStringCollection.UpdateCount": 0,
+                "DelphiStringList.Duplicates": 0,
+                "DelphiStringList.OnChange": null,
+                "DelphiStringList.OnChanging": null,
+                "DelphiStringList.Sorted": false,
+                "DelphiStringList.count": 0,
+                "DelphiStringList.items": "$ref:$.StrategicMap.Description.DelphiStringList.items"
               },
               "SongList._songs": {
-                "$type": "Aow.Rtl.StringList",
-                "StringCollection.UpdateCount": 0,
-                "StringList.Duplicates": 0,
-                "StringList.OnChange": [
+                "$type": "Aow.Rtl.DelphiStringList",
+                "DelphiStringCollection.UpdateCount": 0,
+                "DelphiStringList.Duplicates": 0,
+                "DelphiStringList.OnChange": [
                   "Aow.Game.Audio.StartupSongList.OriginalSongsChanged"
                 ],
-                "StringList.OnChanging": null,
-                "StringList.Sorted": false,
-                "StringList.count": 0,
-                "StringList.items": "$ref:$.StrategicMap.Description.StringList.items"
+                "DelphiStringList.OnChanging": null,
+                "DelphiStringList.Sorted": false,
+                "DelphiStringList.count": 0,
+                "DelphiStringList.items": "$ref:$.StrategicMap.Description.DelphiStringList.items"
               }
             },
             "StrategicMap.StructureControl": {
@@ -19080,14 +19080,14 @@
                 "Set\u00601.low": 0
               },
               "TargetSelectionControl.Text": {
-                "$type": "Aow.Rtl.StringList",
-                "StringCollection.UpdateCount": 0,
-                "StringList.Duplicates": 0,
-                "StringList.OnChange": null,
-                "StringList.OnChanging": null,
-                "StringList.Sorted": false,
-                "StringList.count": 0,
-                "StringList.items": "$ref:$.StrategicMap.Description.StringList.items"
+                "$type": "Aow.Rtl.DelphiStringList",
+                "DelphiStringCollection.UpdateCount": 0,
+                "DelphiStringList.Duplicates": 0,
+                "DelphiStringList.OnChange": null,
+                "DelphiStringList.OnChanging": null,
+                "DelphiStringList.Sorted": false,
+                "DelphiStringList.count": 0,
+                "DelphiStringList.items": "$ref:$.StrategicMap.Description.DelphiStringList.items"
               },
               "TargetSelectionControl.Title": "",
               "TargetSelectionControl.ValidTargetImage": null
@@ -19311,14 +19311,14 @@
             },
             "StrategicMap._independentAIMode": 2,
             "StrategicMap._objectives": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.StrategicMap.Description.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.StrategicMap.Description.DelphiStringList.items"
             },
             "StrategicMap._playerChangedEventsStore": {
               "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.StrategicMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -20073,14 +20073,14 @@
             "StrategicMap.DebugSave": false,
             "StrategicMap.DefendersSeed": 0,
             "StrategicMap.Description": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "StrategicMap.DiplomaticRelationsChangedEventsStore": {
               "$type": "Aow.Engine.EventStore\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -20096,26 +20096,26 @@
               "$type": "Aow.Game.Audio.SongList",
               "EngineObject._owner": null,
               "SongList.SongNames": {
-                "$type": "Aow.Rtl.StringList",
-                "StringCollection.UpdateCount": 0,
-                "StringList.Duplicates": 0,
-                "StringList.OnChange": null,
-                "StringList.OnChanging": null,
-                "StringList.Sorted": false,
-                "StringList.count": 0,
-                "StringList.items": "$ref:$.StrategicMap.Description.StringList.items"
+                "$type": "Aow.Rtl.DelphiStringList",
+                "DelphiStringCollection.UpdateCount": 0,
+                "DelphiStringList.Duplicates": 0,
+                "DelphiStringList.OnChange": null,
+                "DelphiStringList.OnChanging": null,
+                "DelphiStringList.Sorted": false,
+                "DelphiStringList.count": 0,
+                "DelphiStringList.items": "$ref:$.StrategicMap.Description.DelphiStringList.items"
               },
               "SongList._songs": {
-                "$type": "Aow.Rtl.StringList",
-                "StringCollection.UpdateCount": 0,
-                "StringList.Duplicates": 0,
-                "StringList.OnChange": [
+                "$type": "Aow.Rtl.DelphiStringList",
+                "DelphiStringCollection.UpdateCount": 0,
+                "DelphiStringList.Duplicates": 0,
+                "DelphiStringList.OnChange": [
                   "Aow.Game.Audio.SongList.SongsChanged"
                 ],
-                "StringList.OnChanging": null,
-                "StringList.Sorted": false,
-                "StringList.count": 0,
-                "StringList.items": "$ref:$.StrategicMap.Description.StringList.items"
+                "DelphiStringList.OnChanging": null,
+                "DelphiStringList.Sorted": false,
+                "DelphiStringList.count": 0,
+                "DelphiStringList.items": "$ref:$.StrategicMap.Description.DelphiStringList.items"
               }
             },
             "StrategicMap.GameStatus": 0,
@@ -21299,14 +21299,14 @@
                     },
                     "Player._magicUpkeep": 0,
                     "Player._messages": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.StrategicMap.Description.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.StrategicMap.Description.DelphiStringList.items"
                     },
                     "Player._password": "",
                     "Player._updateCount": 0,
@@ -21901,14 +21901,14 @@
                     },
                     "Player._magicUpkeep": 0,
                     "Player._messages": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.StrategicMap.Description.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.StrategicMap.Description.DelphiStringList.items"
                     },
                     "Player._password": "",
                     "Player._updateCount": 0,
@@ -22503,14 +22503,14 @@
                     },
                     "Player._magicUpkeep": 0,
                     "Player._messages": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.StrategicMap.Description.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.StrategicMap.Description.DelphiStringList.items"
                     },
                     "Player._password": "",
                     "Player._updateCount": 0,
@@ -23025,26 +23025,26 @@
               "$type": "Aow.Game.Audio.StartupSongList",
               "EngineObject._owner": null,
               "SongList.SongNames": {
-                "$type": "Aow.Rtl.StringList",
-                "StringCollection.UpdateCount": 0,
-                "StringList.Duplicates": 0,
-                "StringList.OnChange": null,
-                "StringList.OnChanging": null,
-                "StringList.Sorted": false,
-                "StringList.count": 0,
-                "StringList.items": "$ref:$.StrategicMap.Description.StringList.items"
+                "$type": "Aow.Rtl.DelphiStringList",
+                "DelphiStringCollection.UpdateCount": 0,
+                "DelphiStringList.Duplicates": 0,
+                "DelphiStringList.OnChange": null,
+                "DelphiStringList.OnChanging": null,
+                "DelphiStringList.Sorted": false,
+                "DelphiStringList.count": 0,
+                "DelphiStringList.items": "$ref:$.StrategicMap.Description.DelphiStringList.items"
               },
               "SongList._songs": {
-                "$type": "Aow.Rtl.StringList",
-                "StringCollection.UpdateCount": 0,
-                "StringList.Duplicates": 0,
-                "StringList.OnChange": [
+                "$type": "Aow.Rtl.DelphiStringList",
+                "DelphiStringCollection.UpdateCount": 0,
+                "DelphiStringList.Duplicates": 0,
+                "DelphiStringList.OnChange": [
                   "Aow.Game.Audio.StartupSongList.OriginalSongsChanged"
                 ],
-                "StringList.OnChanging": null,
-                "StringList.Sorted": false,
-                "StringList.count": 0,
-                "StringList.items": "$ref:$.StrategicMap.Description.StringList.items"
+                "DelphiStringList.OnChanging": null,
+                "DelphiStringList.Sorted": false,
+                "DelphiStringList.count": 0,
+                "DelphiStringList.items": "$ref:$.StrategicMap.Description.DelphiStringList.items"
               }
             },
             "StrategicMap.StructureControl": {
@@ -23119,14 +23119,14 @@
                 "Set\u00601.low": 0
               },
               "TargetSelectionControl.Text": {
-                "$type": "Aow.Rtl.StringList",
-                "StringCollection.UpdateCount": 0,
-                "StringList.Duplicates": 0,
-                "StringList.OnChange": null,
-                "StringList.OnChanging": null,
-                "StringList.Sorted": false,
-                "StringList.count": 0,
-                "StringList.items": "$ref:$.StrategicMap.Description.StringList.items"
+                "$type": "Aow.Rtl.DelphiStringList",
+                "DelphiStringCollection.UpdateCount": 0,
+                "DelphiStringList.Duplicates": 0,
+                "DelphiStringList.OnChange": null,
+                "DelphiStringList.OnChanging": null,
+                "DelphiStringList.Sorted": false,
+                "DelphiStringList.count": 0,
+                "DelphiStringList.items": "$ref:$.StrategicMap.Description.DelphiStringList.items"
               },
               "TargetSelectionControl.Title": "",
               "TargetSelectionControl.ValidTargetImage": null
@@ -23350,14 +23350,14 @@
             },
             "StrategicMap._independentAIMode": 2,
             "StrategicMap._objectives": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.StrategicMap.Description.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.StrategicMap.Description.DelphiStringList.items"
             },
             "StrategicMap._playerChangedEventsStore": {
               "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.StrategicMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",

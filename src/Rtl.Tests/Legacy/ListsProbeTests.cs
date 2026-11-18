@@ -1,4 +1,4 @@
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiOrdinals;
 
 namespace Aow.Rtl.Tests;
 
@@ -54,7 +54,7 @@ public sealed class ListsProbeTests
             }
         }
 
-        StringList sl = new();
+        DelphiStringList sl = new();
         void StringState(string tag)
         {
             p.Fact(tag + "_count", sl.Count);

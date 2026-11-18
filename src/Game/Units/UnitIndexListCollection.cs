@@ -1,5 +1,5 @@
 // Translated from AoWE.pas.
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Units;
 

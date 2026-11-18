@@ -15,7 +15,8 @@ using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Terrain;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiPaths;
+using static Aow.Rtl.DelphiStreams;
 
 namespace Aow.Game.World.Map;
 
@@ -47,9 +48,9 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
         Holder = holder;
         SetControlStyle(GetControlStyle() + Set<ControlStyleElement>.Of(EngineServices.Reserved2));
         PluginControl = new PluginControl(null) { Holder = CreationHolder() };
-        TerrainTypes = new StringList();
-        OverlayTypes = new StringList();
-        DecorationTypes = new StringList();
+        TerrainTypes = new DelphiStringList();
+        OverlayTypes = new DelphiStringList();
+        DecorationTypes = new DelphiStringList();
         HexControl = new HexControl(this)
         {
             MapObjectClass = typeof(AbstractHexagon)
@@ -365,9 +366,9 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
     public SfxManager SfxManager { get; private set; }
     public PluginControl PluginControl { get; }
     public string Name { get; set; } = "";
-    public StringList TerrainTypes { get; private set; }
-    public StringList OverlayTypes { get; private set; }
-    public StringList DecorationTypes { get; private set; }
+    public DelphiStringList TerrainTypes { get; private set; }
+    public DelphiStringList OverlayTypes { get; private set; }
+    public DelphiStringList DecorationTypes { get; private set; }
 
     public CustomImageLibrary GeneralImages { get; }
     public CustomImageLibrary CursorImages { get; }

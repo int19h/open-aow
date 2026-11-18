@@ -42,7 +42,7 @@ public partial class SpellList : IDisposable
 
     public static int CompareSpellNames(Spell item1, Spell item2)
     {
-        int number = RtlUnit.CompareText(item1.SpellName, item2.SpellName);
+        int number = DelphiTextCompare.CompareText(item1.SpellName, item2.SpellName);
         if (number == 0)
         {
             number = item1.SpellLevel - item2.SpellLevel;
@@ -55,7 +55,7 @@ public partial class SpellList : IDisposable
         int number = item1.SpellLevel - item2.SpellLevel;
         if (number == 0)
         {
-            number = RtlUnit.CompareText(item1.SpellName, item2.SpellName);
+            number = DelphiTextCompare.CompareText(item1.SpellName, item2.SpellName);
         }
         return number;
     }

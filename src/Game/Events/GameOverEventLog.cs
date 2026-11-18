@@ -13,12 +13,12 @@ namespace Aow.Game.Events;
 // message, inherited player
 public partial class GameOverEventLog : EventLog
 {
-    public GameOverEventLog(CustomNode owner) : base(owner) => Message = new StringList();
+    public GameOverEventLog(CustomNode owner) : base(owner) => Message = new DelphiStringList();
 
     // EventLog.pas:777
     public new const int ClassId = 131812;
 
-    public StringList Message { get; }
+    public DelphiStringList Message { get; }
     public sbyte TargetPlayer { get; set; }
 
     // EventLog.pas:774
@@ -43,11 +43,11 @@ public partial class GameOverEventLog : EventLog
         {
             case GameOverStatus.Lost:
                 string name = StrategicMap.Current.Players.GetPlayers(Player).GetName();
-                result = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_gameOverDefeatEventLogFormat), [name]);
+                result = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), s_gameOverDefeatEventLogFormat), [name]);
                 break;
             case GameOverStatus.Won:
                 string name2 = StrategicMap.Current.Players.GetPlayers(Player).GetName();
-                result = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_gameOverVictoryEventLogFormat), [name2]);
+                result = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), s_gameOverVictoryEventLogFormat), [name2]);
                 break;
             case GameOverStatus.None:
             default:

@@ -8,7 +8,10 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Terrain;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiRandom;
+using static Aow.Rtl.DelphiRounding;
+using static Aow.Rtl.PCharStrings;
+using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.Draw;
 

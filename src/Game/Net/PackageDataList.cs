@@ -1,5 +1,6 @@
 // Translated from NetworkE.pas.
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiMemory;
+using static Aow.Rtl.PointerMemory;
 
 namespace Aow.Game.Net;
 

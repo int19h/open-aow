@@ -5,16 +5,16 @@ namespace Aow.Rtl.Tests;
 
 internal sealed class StringMode : IDisposable
 {
-    private readonly bool _previous = RtlUnit.StrictStrings;
+    private readonly bool _previous = DelphiStrings.StrictStrings;
 
-    public StringMode(bool strict) => RtlUnit.StrictStrings = strict;
-    public void Dispose() => RtlUnit.StrictStrings = _previous;
+    public StringMode(bool strict) => DelphiStrings.StrictStrings = strict;
+    public void Dispose() => DelphiStrings.StrictStrings = _previous;
 
     [ModuleInitializer]
     internal static void Initialize()
     {
         ProcessSafety.Initialize();
-        RtlUnit.StrictStrings = true;
+        DelphiStrings.StrictStrings = true;
     }
 }
 
@@ -32,30 +32,30 @@ public sealed class StringNullTests
             () => Cp1252.Comparer.Compare(null, ""), () => Cp1252.Comparer.Compare("", null),
             () => { Assert.Equal(actual: Cp1252.Normalize(null), expected: ""); },
             () => { FormatArg value = (string?)null; Assert.True(value is string text && text.Length == 0); },
-            () => RtlUnit.Length(null), () => RtlUnit.IsEmpty(null),
-            () => RtlUnit.Copy(null, 1, 1), () => RtlUnit.Delete(null, 1, 1),
-            () => RtlUnit.Insert(null, "", 1), () => RtlUnit.Insert("", null, 1),
-            () => { string value = null!; RtlUnit.Delete(ref value, 1, 1); },
-            () => { string value = null!; RtlUnit.Insert("", ref value, 1); },
-            () => { string value = ""; RtlUnit.Insert(null, ref value, 1); },
-            () => { string value = null!; RtlUnit.SetLength(ref value, 1); },
-            () => RtlUnit.Pos(null, ""), () => RtlUnit.Pos("", null),
-            () => RtlUnit.AnsiPos(null, ""), () => RtlUnit.AnsiPos("", null),
-            () => RtlUnit.Resized(null, 1), () => RtlUnit.NullTerminatedText(null),
-            () => RtlUnit.UpperCase(null), () => RtlUnit.LowerCase(null),
-            () => RtlUnit.AnsiUpperCase(null), () => RtlUnit.AnsiLowerCase(null),
-            () => RtlUnit.CompareStr(null, ""), () => RtlUnit.CompareStr("", null),
-            () => RtlUnit.CompareText(null, ""), () => RtlUnit.CompareText("", null),
-            () => RtlUnit.AnsiCompareStr(null, ""), () => RtlUnit.AnsiCompareStr("", null),
-            () => RtlUnit.AnsiCompareText(null, ""), () => RtlUnit.AnsiCompareText("", null),
-            () => RtlUnit.Trim(null), () => RtlUnit.TrimLeft(null), () => RtlUnit.TrimRight(null),
-            () => RtlUnit.QuotedStr(null), () => RtlUnit.StrToIntDef(null, 1),
-            () => RtlUnit.Format(null), () => RtlUnit.Format("%s", (string?)null),
-            () => RtlUnit.Assert(true, null, "file.pas", 1),
-            () => RtlUnit.ExtractFileName(null), () => RtlUnit.ExtractFileDrive(null),
-            () => RtlUnit.ExtractFilePath(null), () => RtlUnit.ExtractFileDir(null),
-            () => RtlUnit.ExtractFileExt(null), () => RtlUnit.ExpandFileName(null),
-            () => RtlUnit.ChangeFileExt(null, ""), () => RtlUnit.ChangeFileExt("", null)
+            () => DelphiStrings.Length(null), () => DelphiStrings.IsEmpty(null),
+            () => DelphiStrings.Copy(null, 1, 1), () => DelphiStrings.Delete(null, 1, 1),
+            () => DelphiStrings.Insert(null, "", 1), () => DelphiStrings.Insert("", null, 1),
+            () => { string value = null!; DelphiStrings.Delete(ref value, 1, 1); },
+            () => { string value = null!; DelphiStrings.Insert("", ref value, 1); },
+            () => { string value = ""; DelphiStrings.Insert(null, ref value, 1); },
+            () => { string value = null!; DelphiStrings.SetLength(ref value, 1); },
+            () => DelphiStrings.Pos(null, ""), () => DelphiStrings.Pos("", null),
+            () => DelphiStrings.AnsiPos(null, ""), () => DelphiStrings.AnsiPos("", null),
+            () => DelphiStrings.Resized(null, 1), () => PCharStrings.NullTerminatedText(null),
+            () => DelphiTextCompare.UpperCase(null), () => DelphiTextCompare.LowerCase(null),
+            () => DelphiTextCompare.AnsiUpperCase(null), () => DelphiTextCompare.AnsiLowerCase(null),
+            () => DelphiTextCompare.CompareStr(null, ""), () => DelphiTextCompare.CompareStr("", null),
+            () => DelphiTextCompare.CompareText(null, ""), () => DelphiTextCompare.CompareText("", null),
+            () => DelphiTextCompare.AnsiCompareStr(null, ""), () => DelphiTextCompare.AnsiCompareStr("", null),
+            () => DelphiTextCompare.AnsiCompareText(null, ""), () => DelphiTextCompare.AnsiCompareText("", null),
+            () => DelphiStrings.Trim(null), () => DelphiStrings.TrimLeft(null), () => DelphiStrings.TrimRight(null),
+            () => DelphiStrings.QuotedStr(null), () => DelphiConversions.StrToIntDef(null, 1),
+            () => DelphiFormat.Format(null), () => DelphiFormat.Format("%s", (string?)null),
+            () => DelphiAssert.Assert(true, null, "file.pas", 1),
+            () => DelphiPaths.ExtractFileName(null), () => DelphiPaths.ExtractFileDrive(null),
+            () => DelphiPaths.ExtractFilePath(null), () => DelphiPaths.ExtractFileDir(null),
+            () => DelphiPaths.ExtractFileExt(null), () => DelphiPaths.ExpandFileName(null),
+            () => DelphiPaths.ChangeFileExt(null, ""), () => DelphiPaths.ChangeFileExt("", null)
         ];
         foreach (Action read in reads)
         {
@@ -70,22 +70,22 @@ public sealed class StringNullTests
         }
         if (strict)
         {
-            _ = Assert.Throws<NullStringException>(() => RtlUnit.WithChar(null, 1, 'x'));
-            _ = Assert.Throws<NullStringException>(() => RtlUnit.StrToInt(null));
-            _ = Assert.Throws<NullStringException>(() => RtlUnit.Assert(false, null, "file.pas", 1));
+            _ = Assert.Throws<NullStringException>(() => DelphiStrings.WithChar(null, 1, 'x'));
+            _ = Assert.Throws<NullStringException>(() => DelphiConversions.StrToInt(null));
+            _ = Assert.Throws<NullStringException>(() => DelphiAssert.Assert(false, null, "file.pas", 1));
         }
         else
         {
-            _ = Assert.Throws<IndexOutOfRangeException>(() => RtlUnit.WithChar(null, 1, 'x'));
-            _ = Assert.Throws<FormatException>(() => RtlUnit.StrToInt(null));
-            _ = Assert.Throws<AssertionFailedException>(() => RtlUnit.Assert(false, null, "file.pas", 1));
+            _ = Assert.Throws<IndexOutOfRangeException>(() => DelphiStrings.WithChar(null, 1, 'x'));
+            _ = Assert.Throws<FormatException>(() => DelphiConversions.StrToInt(null));
+            _ = Assert.Throws<AssertionFailedException>(() => DelphiAssert.Assert(false, null, "file.pas", 1));
             Assert.Empty(Cp1252.Encode(null));
             Assert.Equal("", Cp1252.Normalize(null));
-            Assert.True(RtlUnit.IsEmpty(null));
+            Assert.True(DelphiStrings.IsEmpty(null));
         }
-        Assert.True(RtlUnit.IsEmpty(""));
-        Assert.False(RtlUnit.IsEmpty("\0"));
-        Assert.False(RtlUnit.IsEmpty("x"));
+        Assert.True(DelphiStrings.IsEmpty(""));
+        Assert.False(DelphiStrings.IsEmpty("\0"));
+        Assert.False(DelphiStrings.IsEmpty("x"));
         Assert.Empty(Cp1252.Encode(""));
         Assert.Equal("", Cp1252.Normalize(""));
         Assert.Equal(0, Cp1252.Compare("", ""));

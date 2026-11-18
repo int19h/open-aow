@@ -24,7 +24,7 @@ internal static class DelphiListCore
     }
 
     // CLASSES.PAS TList.Error.
-    internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(message, data));
+    internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, DelphiFormat.Format(message, data));
 
     internal static int Growth(int capacity) => capacity > 64 ? capacity / 4 : capacity > 8 ? 16 : 4;
 

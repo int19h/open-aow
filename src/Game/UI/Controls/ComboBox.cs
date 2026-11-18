@@ -4,7 +4,7 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.UI.Controls;
 
@@ -23,7 +23,7 @@ public partial class ComboBox : Control
 {
 
     private bool _open;
-    private readonly StringList _items;
+    private readonly DelphiStringList _items;
     private VerticalScrollBar _verticalScrollBar;
     private int _openListRows;
     private int _firstShownItem;
@@ -51,7 +51,7 @@ public partial class ComboBox : Control
     // AoWComboBox.pas:114
     public ComboBox(Component owner) : base(owner)
     {
-        _items = new StringList
+        _items = new DelphiStringList
         {
             OnChange = OnChangeText
         };
@@ -623,7 +623,7 @@ public partial class ComboBox : Control
     }
 
     // AoWComboBox.pas:190
-    public void SetFStrings(StringList value)
+    public void SetFStrings(DelphiStringList value)
     {
         _items.Clear();
         _items.AddStrings(value);
@@ -639,7 +639,7 @@ public partial class ComboBox : Control
     }
 
     [Published]
-    public StringList Items { get => _items; set => SetFStrings(value); }
+    public DelphiStringList Items { get => _items; set => SetFStrings(value); }
 
     [Published]
     public int ListBorderWidth { get; set; }

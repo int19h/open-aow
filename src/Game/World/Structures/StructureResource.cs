@@ -26,7 +26,7 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
         SetLevel(26);
         ConnectRoads = true;
         TerrainBound = true;
-        Description = new StringList();
+        Description = new DelphiStringList();
         Defenders = new UnitIndexListCollection();
         RazeDefenderBudget = 50;
         Razeable = false;
@@ -42,7 +42,7 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
 
     private bool _selectSfxLooped;
 
-    public StringCollection Description { get; }
+    public DelphiStringCollection Description { get; }
 
     public int ScannerIcon { get; private set; }
 

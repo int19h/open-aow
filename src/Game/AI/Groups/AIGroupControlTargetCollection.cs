@@ -35,7 +35,7 @@ public readonly struct AIGroupControlTargetCollection : IReadOnlyList<AIGroupCon
     // AIGroup.pas:684
     public AIGroupControlTarget GetTargets(int index)
     {
-        Rtl.RtlUnit.Assert(index >= 0 && index < Count, message: "", file: "AIGroup.pas", line: 687);
+        Rtl.DelphiAssert.Assert(index >= 0 && index < Count, message: "", file: "AIGroup.pas", line: 687);
         return this[index];
     }
 

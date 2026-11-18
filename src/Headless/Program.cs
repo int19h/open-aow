@@ -15,7 +15,6 @@ using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 using Aow.Rtl.Host;
-using Shim = Aow.Rtl.RtlUnit;
 
 namespace Aow.Headless;
 
@@ -129,7 +128,7 @@ internal static class Program
                 if (exceptions.Add(detail)) { trace.WriteLine(detail); trace.Flush(); }
             };
             HeadlessHost host = new(root, output, settings, movementSpeed, input);
-            Shim.InstallHost(host);
+            RtlHost.InstallHost(host);
             if (fileLogPath is not null)
             {
                 // own-formats.md 4.2: every open and write at the file boundary, refusals included.
@@ -139,8 +138,8 @@ internal static class Program
             if (randomTracePath is not null)
             {
                 randomTrace = new(randomTracePath, () => frames);
-                Shim.RandomTrace = randomTrace.Record;
-                Shim.TraceRound = randomTrace.Rounding;
+                DelphiRandom.RandomTrace = randomTrace.Record;
+                DelphiRounding.TraceRound = randomTrace.Rounding;
                 HeadlessHooks.BeforeMove = randomTrace.Path;
                 DelphiList<EngineObject>.TraceSort = randomTrace.Sort;
                 HeadlessHooks.ProcessCost = randomTrace.Cost;
@@ -161,8 +160,8 @@ internal static class Program
             }
 
             _ = map.SetViewPort(map.ViewPixelX, map.ViewPixelY, map.ViewMapLevel, 0, 0);
-            Shim.RandSeed = seed;
-            Shim.SuppressRandomize = true;
+            DelphiRandom.RandSeed = seed;
+            DelphiRandom.SuppressRandomize = true;
             HeadlessHooks.Tactical = tactical;
             HeadlessHooks.TacticalBattles = tacticalBattles;
             directed = new(map, exerciseItems, globalSpell);
@@ -304,8 +303,8 @@ internal static class Program
             trace?.Flush();
             FileBoundary.Log = null;
             fileLog?.Dispose();
-            Shim.RandomTrace = null;
-            Shim.TraceRound = null;
+            DelphiRandom.RandomTrace = null;
+            DelphiRounding.TraceRound = null;
             HeadlessHooks.BeforeMove = null;
             HeadlessHooks.BeforeAIPlayerProcess = null;
             DelphiList<EngineObject>.TraceSort = null;

@@ -1,6 +1,9 @@
 using System.Globalization;
 using Xunit.Abstractions;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiOrdinals;
+using static Aow.Rtl.DelphiRandom;
+using static Aow.Rtl.DelphiRounding;
+using static Aow.Rtl.DelphiStrings;
 using Assert = Xunit.Assert;
 
 namespace Aow.Rtl.Tests;

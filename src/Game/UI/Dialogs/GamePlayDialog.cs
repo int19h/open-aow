@@ -10,7 +10,8 @@ using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.UI.Dialogs;
 

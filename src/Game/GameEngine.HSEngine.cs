@@ -14,7 +14,9 @@ using Aow.Game.World.Map;
 
 using Aow.Rtl;
 using Aow.Rtl.Host;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiPaths;
+using static Aow.Rtl.DelphiTextCompare;
+using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game;
 
@@ -193,12 +195,12 @@ public partial class GameEngine : OwningNode
     }
 
     // HSEngine.pas:4967
-    public StringList GetHexSpriteSetFiles(string mask)
+    public DelphiStringList GetHexSpriteSetFiles(string mask)
     {
-        StringList files;
+        DelphiStringList files;
         void Search(string directory)
         {
-            StringList directories;
+            DelphiStringList directories;
             HssHeader header = default;
             foreach (RtlFileEntry entry in Files.FindEntries(directory + mask, attributes: 63 & ~16))
             {
@@ -217,7 +219,7 @@ public partial class GameEngine : OwningNode
                 }
             }
 
-            directories = new StringList();
+            directories = new DelphiStringList();
             foreach (RtlFileEntry entry in Files.FindEntries(directory + "*.*", attributes: 16))
             {
                 if ((entry.Attribute & 16) != 0 && entry.Name != "." && entry.Name != "..")
@@ -234,7 +236,7 @@ public partial class GameEngine : OwningNode
             directories?.Dispose();
         }
 
-        files = new StringList();
+        files = new DelphiStringList();
         Search(StartupDirectory);
         return files;
     }
@@ -465,16 +467,9 @@ public partial class GameEngine : OwningNode
                 return;
             }
 
-            CompressStream cStream = new();
-            try
-            {
-                cStream.Write(image);
-                cStream.SaveToStream(stream);
-            }
-            finally
-            {
-                cStream.Dispose();
-            }
+            using CompressStream cStream = new();
+            cStream.Write(image);
+            cStream.SaveToStream(stream);
         }
         finally
         {

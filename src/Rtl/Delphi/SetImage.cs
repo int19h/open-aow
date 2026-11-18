@@ -2,7 +2,7 @@ namespace Aow.Rtl;
 
 public delegate void BytesTransfer(Span<byte> buffer, int size, int id);
 
-public static partial class RtlUnit
+public static class SetImage
 {
     public static void TransferSet<E>(ref Set<E> value, int size, int id, BytesTransfer transfer, int low = 0) where E : unmanaged
     {

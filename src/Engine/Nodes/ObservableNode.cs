@@ -5,7 +5,7 @@ using Aow.Game;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Engine.Nodes;
 

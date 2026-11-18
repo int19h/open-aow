@@ -139,7 +139,7 @@ public partial class ItemList(CustomNode owner) : ObservableNode(owner), IChildL
     public new void UnlockChanged() => base.UnlockChanged();
 
     public static int CompareItemNames(Item item1, Item item2) => item1 != null && item2 != null
-        ? RtlUnit.CompareText(item1.OwnerName, item2.OwnerName)
+        ? DelphiTextCompare.CompareText(item1.OwnerName, item2.OwnerName)
         : 0;
 
     // intf_P2_04.inc:118

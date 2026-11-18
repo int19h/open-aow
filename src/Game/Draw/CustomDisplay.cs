@@ -1,7 +1,8 @@
 #nullable disable
 // Translated from DisplayC.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiRounding;
+using static Aow.Rtl.LegacyApplication;
 
 namespace Aow.Game.Draw;
 

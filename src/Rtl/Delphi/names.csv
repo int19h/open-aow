@@ -215,7 +215,7 @@ type,IntegerBytes,Aow.Formats.Original.IntegerBytes
 type,IntegerCodec,Aow.Formats.Original.IntegerCodec
 type,IntegerMove`1,Aow.Formats.Tree.IntegerRecordField.IntegerMove`1
 type,IntegerNode,Aow.Formats.Tree.IntegerNode
-type,IntegerObject,Aow.Rtl.RtlUnit.IntegerObject
+type,IntegerObject,Aow.Rtl.IntegerObjects.IntegerObject
 type,IntegerRecordField,Aow.Formats.Tree.IntegerRecordField
 type,ItemSlot,Aow.Formats.Tree.ItemSlot
 type,ItemTransfer`1,Aow.Formats.Tree.ItemTransfer`1
@@ -372,7 +372,6 @@ type,RosterTables,Aow.Game.Magic.Abilities.RosterTables
 type,Rows,Aow.Game.Draw.BlendTable5Bit.Rows
 type,RtlFileEntry,Aow.Rtl.Host.RtlFileEntry
 type,RtlFileTime,Aow.Rtl.RtlFileTime
-type,RtlUnit,Aow.Rtl.RtlUnit
 type,RunFiles,Aow.Headless.RunFiles
 type,RunListCodec,Aow.Formats.Original.RunListCodec
 type,RwData,Aow.Rtl.BytesTransfer
@@ -418,7 +417,7 @@ type,StoredObjectProfile,Aow.Formats.Original.StoredObjectProfile
 type,StormDamageQuery,Aow.Game.Combat.StormDamageQuery
 type,StreamExtensions,Aow.Rtl.StreamExtensions
 type,StringCodec,Aow.Formats.Original.StringCodec
-type,StringItem,Aow.Rtl.StringList.StringItem
+type,StringItem,Aow.Rtl.DelphiStringList.StringItem
 type,StringNode,Aow.Formats.Tree.StringNode
 type,StringSorting,Aow.Engine.Nodes.StringSorting
 type,StringsCodec,Aow.Formats.Original.StringsCodec
@@ -647,7 +646,7 @@ type,TAoWTerrainType,Aow.Game.World.Map.TerrainType
 type,TAoWUserWindow,Aow.Game.UI.Windows.UserWindow
 type,TAoWWaterHexagon,Aow.Game.World.Hexes.WaterHex
 type,TAoWWaterHexagonResource,Aow.Game.World.Hexes.WaterHex.Resource
-type,TApplication,Aow.Rtl.Application
+type,TApplication,Aow.Rtl.DelphiApplication
 type,TArena,Aow.Game.World.Structures.Arena
 type,TArenaDlg,Aow.Game.UI.Dialogs.ArenaDialog
 type,TArenaResource,Aow.Game.World.Structures.Arena.Resource
@@ -1618,7 +1617,7 @@ type,TRegistrator,Aow.Game.AI.Groups.BehaviorRegistrar
 type,TRegistrator,Aow.Game.AI.Groups.IndependentRegistrar
 type,TRegistrator,Aow.Game.AI.Groups.MainRegistrar
 type,TRegistrator,Aow.Game.World.Structures.CityRegistrar
-type,TRegistry,Aow.Rtl.Registry
+type,TRegistry,Aow.Rtl.DelphiRegistry
 type,TRejuvenate,Aow.Game.Magic.Spells.Rejuvenate
 type,TRejuvenateTE,Aow.Game.Commands.RejuvenateTokenEvent
 type,TRelWindow,Aow.Game.UI.Dialogs.RelationWindow
@@ -1777,8 +1776,8 @@ type,TStrikeAbility,Aow.Game.Magic.Abilities.StrikeAbility
 type,TStrikeCA,Aow.Game.Combat.Actions.StrikeCombatAction
 type,TStrikeEnhancementAbility,Aow.Game.Magic.Abilities.StrikeEnhancementAbility
 type,TStrikeModeElement,Aow.Game.Combat.StrikeModeElement
-type,TStringList,Aow.Rtl.StringList
-type,TStrings,Aow.Rtl.StringCollection
+type,TStringList,Aow.Rtl.DelphiStringList
+type,TStrings,Aow.Rtl.DelphiStringCollection
 type,TStringsSortCompare,Aow.Engine.Collections.StringsSortCompare
 type,TStructure,Aow.Game.World.Structures.Structure
 type,TStructureAIPA,Aow.Game.AI.StructureAIPlayerAction

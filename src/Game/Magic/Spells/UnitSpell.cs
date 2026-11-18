@@ -126,9 +126,8 @@ public partial class UnitSpell : Spell
                 caster = new UnitSpellCaster(null) { Holder = CreationHolder() };
                 if (source.Owner is IHeroHolder)
                 {
-                    UnitUserList empty = new(null) { Holder = CreationHolder() };
+                    using UnitUserList empty = new(null) { Holder = CreationHolder() };
                     SetupUnitSelectionControl(caster, source, empty.Units);
-                    empty.Dispose();
                 }
                 else
                 {

@@ -1,5 +1,12 @@
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiDateTime;
+using static Aow.Rtl.DelphiFormat;
+using static Aow.Rtl.DelphiRandom;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.DelphiTextCompare;
+using static Aow.Rtl.PCharStrings;
+using static Aow.Rtl.RtlHost;
 using Assert = Xunit.Assert;
 
 namespace Aow.Rtl.Tests;

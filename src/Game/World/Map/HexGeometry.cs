@@ -1,6 +1,6 @@
 using System.Collections.Immutable;
 using Aow.Game.World.Movement;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Game.World.Map;
 

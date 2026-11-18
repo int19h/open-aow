@@ -2,7 +2,7 @@
 // Translated from Engine.pas.
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Engine;
 

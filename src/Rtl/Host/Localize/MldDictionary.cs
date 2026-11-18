@@ -36,12 +36,12 @@ public sealed class MldDictionary
     public void Open(string path)
     {
         Close();
-        if (!RtlUnit.Files.FileExists(path))
+        if (!RtlHost.Files.FileExists(path))
         {
             return;
         }
 
-        using Stream stream = RtlUnit.Files.Open(path, RtlUnit.fmOpenRead);
+        using Stream stream = RtlHost.Files.Open(path, DelphiStreams.fmOpenRead);
         Read(stream);
         _fileName = path;
     }

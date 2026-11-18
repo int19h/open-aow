@@ -17,7 +17,11 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiFormat;
+using static Aow.Rtl.DelphiRandom;
+using static Aow.Rtl.DelphiRounding;
+using static Aow.Rtl.DelphiTextCompare;
 
 namespace Aow.Game.World.Structures;
 
@@ -462,7 +466,7 @@ public partial class ProductionPlace : PlayerStructure
     public virtual MagicSphere GetMagicSphere() => MagicSphere.None;
 
     // PrdPlace.pas:403
-    public virtual void ListIncomeInfo(StringCollection names, StringCollection values)
+    public virtual void ListIncomeInfo(DelphiStringCollection names, DelphiStringCollection values)
     {
         int picks;
         if (GetMagicSphere() == MagicSphere.None)

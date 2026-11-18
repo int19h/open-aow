@@ -7,7 +7,10 @@ using Aow.Game.Host;
 
 using Aow.Game.World.Map;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiRandom;
+using static Aow.Rtl.DelphiRounding;
+using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.Draw;
 

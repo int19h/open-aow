@@ -6,7 +6,7 @@ using Aow.Engine.Nodes;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.Units;
 
@@ -31,11 +31,11 @@ public partial class HeroResourceList : ResourceCollection, IChildList<HeroResou
     }
 
     // Hero.PAS:2369
-    public StringList CreateHeroResourceStrings(Set<HeroType> heroTypes)
+    public DelphiStringList CreateHeroResourceStrings(Set<HeroType> heroTypes)
     {
         HeroResource resource;
-        StringList list;
-        list = new StringList();
+        DelphiStringList list;
+        list = new DelphiStringList();
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
             resource = this[i];

@@ -37673,13 +37673,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -37697,13 +37697,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -37735,14 +37735,14 @@
             "Spell.SpellLevel": 4,
             "Spell.SpellName": "Death Storm",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -37812,13 +37812,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -37836,13 +37836,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -37874,14 +37874,14 @@
             "Spell.SpellLevel": 4,
             "Spell.SpellName": "Death Storm",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -37985,13 +37985,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -38009,13 +38009,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -38047,14 +38047,14 @@
             "Spell.SpellLevel": 4,
             "Spell.SpellName": "Divine Storm",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -38124,13 +38124,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -38148,13 +38148,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -38186,14 +38186,14 @@
             "Spell.SpellLevel": 4,
             "Spell.SpellName": "Divine Storm",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -38297,13 +38297,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -38321,13 +38321,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -38359,14 +38359,14 @@
             "Spell.SpellLevel": 4,
             "Spell.SpellName": "Fire Storm",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -38436,13 +38436,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -38460,13 +38460,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -38498,14 +38498,14 @@
             "Spell.SpellLevel": 4,
             "Spell.SpellName": "Fire Storm",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -38609,13 +38609,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -38633,13 +38633,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -38671,14 +38671,14 @@
             "Spell.SpellLevel": 4,
             "Spell.SpellName": "Ice Storm",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -38748,13 +38748,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -38772,13 +38772,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -38810,14 +38810,14 @@
             "Spell.SpellLevel": 4,
             "Spell.SpellName": "Ice Storm",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -38921,13 +38921,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -38945,13 +38945,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -38983,14 +38983,14 @@
             "Spell.SpellLevel": 3,
             "Spell.SpellName": "Lightning Storm",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -39060,13 +39060,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -39084,13 +39084,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -39122,14 +39122,14 @@
             "Spell.SpellLevel": 3,
             "Spell.SpellName": "Lightning Storm",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -39233,13 +39233,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -39257,13 +39257,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -39295,14 +39295,14 @@
             "Spell.SpellLevel": 3,
             "Spell.SpellName": "Pestilence",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -39372,13 +39372,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -39396,13 +39396,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -39434,14 +39434,14 @@
             "Spell.SpellLevel": 3,
             "Spell.SpellName": "Pestilence",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -39685,13 +39685,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -39709,13 +39709,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -39747,14 +39747,14 @@
             "Spell.SpellLevel": 0,
             "Spell.SpellName": "",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -39824,13 +39824,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": []
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
                 },
                 "ImageLibraryManager.OwnedList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
@@ -39848,13 +39848,13 @@
                     "Dictionary\u00602._version": 0
                   },
                   "ImageLibraryManagerList._owner": "$owner",
-                  "StringCollection.UpdateCount": 0,
-                  "StringList.Duplicates": 0,
-                  "StringList.OnChange": null,
-                  "StringList.OnChanging": null,
-                  "StringList.Sorted": false,
-                  "StringList.count": 0,
-                  "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -39886,14 +39886,14 @@
             "Spell.SpellLevel": 0,
             "Spell.SpellName": "",
             "Spell.SpellText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
             },
             "Spell.SpellType": 2,
             "StormSpell._source": null,
@@ -41667,14 +41667,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": []
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": []
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41684,14 +41684,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41701,14 +41701,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41718,14 +41718,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41735,14 +41735,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41752,14 +41752,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41769,14 +41769,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41786,14 +41786,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41803,14 +41803,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41820,14 +41820,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41852,14 +41852,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41869,14 +41869,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41886,14 +41886,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41903,14 +41903,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41920,14 +41920,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41937,14 +41937,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41954,14 +41954,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41971,14 +41971,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -41988,14 +41988,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42005,14 +42005,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42071,14 +42071,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": []
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": []
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42088,14 +42088,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42105,14 +42105,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42122,14 +42122,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42139,14 +42139,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42156,14 +42156,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42173,14 +42173,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42190,14 +42190,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42207,14 +42207,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42224,14 +42224,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42256,14 +42256,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42273,14 +42273,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42290,14 +42290,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42307,14 +42307,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42324,14 +42324,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42341,14 +42341,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42358,14 +42358,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42375,14 +42375,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42392,14 +42392,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42409,14 +42409,14 @@
                     "CampaignScenarioPage.ImageIndex": 0,
                     "CampaignScenarioPage.ImageLibrary": "",
                     "CampaignScenarioPage.Text": {
-                      "$type": "Aow.Rtl.StringList",
-                      "StringCollection.UpdateCount": 0,
-                      "StringList.Duplicates": 0,
-                      "StringList.OnChange": null,
-                      "StringList.OnChanging": null,
-                      "StringList.Sorted": false,
-                      "StringList.count": 0,
-                      "StringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.StringList.items"
+                      "$type": "Aow.Rtl.DelphiStringList",
+                      "DelphiStringCollection.UpdateCount": 0,
+                      "DelphiStringList.Duplicates": 0,
+                      "DelphiStringList.OnChange": null,
+                      "DelphiStringList.OnChanging": null,
+                      "DelphiStringList.Sorted": false,
+                      "DelphiStringList.count": 0,
+                      "DelphiStringList.items": "$ref:$.WorldMapCampaignScenario.IntroPages.OwningNode._children.DelphiList\u00601.items[0].CampaignScenarioPage.Text.DelphiStringList.items"
                     },
                     "EngineObject._owner": "$owner"
                   },
@@ -42558,14 +42558,14 @@
             "CampaignScenarioPage.ImageIndex": 0,
             "CampaignScenarioPage.ImageLibrary": "",
             "CampaignScenarioPage.Text": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "EngineObject._owner": null
           }
@@ -42594,14 +42594,14 @@
             "CampaignScenarioPage.ImageIndex": 0,
             "CampaignScenarioPage.ImageLibrary": "",
             "CampaignScenarioPage.Text": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "EngineObject._owner": "$owner"
           }

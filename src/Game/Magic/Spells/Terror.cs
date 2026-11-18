@@ -8,7 +8,7 @@ using Aow.Game.Combat.Actions;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.Magic.Spells;
 

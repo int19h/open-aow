@@ -8,7 +8,7 @@ using Aow.Game.Combat;
 using Aow.Game.Saves;
 using Aow.Game.Session;
 using Aow.Game.UI.Dialogs;
-using Shim = Aow.Rtl.RtlUnit;
+using Aow.Rtl;
 
 namespace Aow.Headless;
 
@@ -26,7 +26,7 @@ internal static class PersistenceMeasurement
     {
         _ = Directory.CreateDirectory(output);
         HeadlessHost host = new(root, output, settings: null, input: Path.GetFullPath(file));
-        Shim.InstallHost(host);
+        RtlHost.InstallHost(host);
         Startup.InitializeAll();
         GameEngine engine = Startup.CreateEngine();
         NullSoundSystem.Install();
@@ -121,7 +121,7 @@ internal static class PersistenceMeasurement
 
     private static long ReadLength(HeadlessHost host, string path)
     {
-        using Stream stream = host.Files.Open(path, mode: Shim.fmOpenRead | Shim.fmShareDenyWrite);
+        using Stream stream = host.Files.Open(path, mode: DelphiStreams.fmOpenRead | DelphiStreams.fmShareDenyWrite);
         return stream.Length;
     }
 

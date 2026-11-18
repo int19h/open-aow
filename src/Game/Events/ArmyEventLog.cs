@@ -23,7 +23,7 @@ public partial class ArmyEventLog : EventLog
     // Army.PAS:141
     public ArmyEventLog(CustomNode owner) : base(owner)
     {
-        ArmyMessages = new StringList();
+        ArmyMessages = new DelphiStringList();
         ArmyView = new ArmyView(null) { Holder = CreationHolder() };
         DamageValues = new ByteList();
         DamageTypes = new ByteList();
@@ -35,7 +35,7 @@ public partial class ArmyEventLog : EventLog
 
     public string ArmyText { get; set; } = "";
 
-    public StringCollection ArmyMessages { get; }
+    public DelphiStringCollection ArmyMessages { get; }
 
     public int ArmyIcon { get; set; }
 

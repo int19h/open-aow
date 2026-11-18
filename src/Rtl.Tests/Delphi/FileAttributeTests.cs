@@ -7,17 +7,17 @@ public sealed class FileAttributeTests
     {
         using ProbeDirectory directory = new();
         File.WriteAllText("attribute-file", "bytes");
-        Assert.Equal(0, RtlUnit.FileSetAttr("attribute-file", RtlUnit.faReadOnly));
-        Assert.Equal(RtlUnit.faReadOnly, RtlUnit.FileGetAttr("attribute-file") & RtlUnit.faReadOnly);
-        Assert.Equal(0, RtlUnit.FileSetAttr("attribute-file", 0));
-        Assert.Equal(0, RtlUnit.FileGetAttr("attribute-file") & RtlUnit.faReadOnly);
-        Assert.Equal(-1, RtlUnit.FileGetAttr("missing"));
-        Assert.Equal(-1, RtlUnit.FileSetAttr("missing", 0));
+        Assert.Equal(0, DelphiFiles.FileSetAttr("attribute-file", DelphiFiles.faReadOnly));
+        Assert.Equal(DelphiFiles.faReadOnly, DelphiFiles.FileGetAttr("attribute-file") & DelphiFiles.faReadOnly);
+        Assert.Equal(0, DelphiFiles.FileSetAttr("attribute-file", 0));
+        Assert.Equal(0, DelphiFiles.FileGetAttr("attribute-file") & DelphiFiles.faReadOnly);
+        Assert.Equal(-1, DelphiFiles.FileGetAttr("missing"));
+        Assert.Equal(-1, DelphiFiles.FileSetAttr("missing", 0));
         _ = Directory.CreateDirectory("empty");
-        Assert.True(RtlUnit.RemoveDir("empty"));
-        Assert.False(RtlUnit.RemoveDir("missing"));
+        Assert.True(DelphiFiles.RemoveDir("empty"));
+        Assert.False(DelphiFiles.RemoveDir("missing"));
         _ = Directory.CreateDirectory("occupied");
         File.WriteAllText(Path.Combine("occupied", "file"), "bytes");
-        Assert.False(RtlUnit.RemoveDir("occupied"));
+        Assert.False(DelphiFiles.RemoveDir("occupied"));
     }
 }

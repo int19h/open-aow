@@ -4,7 +4,9 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiFiles;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.LegacyApplication;
 
 namespace Aow.Game.UI.Dialogs;
 

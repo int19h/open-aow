@@ -16,15 +16,15 @@ namespace Aow.Game.Tests;
 public sealed class OwnExtensionNameTests : IDisposable
 {
     private readonly string _directory = Path.Combine(Path.GetTempPath(), "open-aow-names-" + Guid.NewGuid().ToString("N"));
-    private readonly IFileSystem _previous = Runtime.Files;
+    private readonly IFileSystem _previous = RtlHost.Files;
     private readonly Action<FileLogRecord>? _previousLog = FileBoundary.Log;
-    private readonly bool _previousOwn = Runtime.WritesOwnExtensions;
+    private readonly bool _previousOwn = RtlHost.WritesOwnExtensions;
     private readonly List<FileLogRecord> _log = [];
 
     // The shipped hosts write own extensions.
     public OwnExtensionNameTests()
     {
-        Runtime.WritesOwnExtensions = true;
+        RtlHost.WritesOwnExtensions = true;
         foreach (string? name in new[] { "Save", "User", "EmailIn" })
         {
             _ = Directory.CreateDirectory(Path.Combine(_directory, "root", name));
@@ -38,8 +38,8 @@ public sealed class OwnExtensionNameTests : IDisposable
 
     public void Dispose()
     {
-        Runtime.Files = _previous;
-        Runtime.WritesOwnExtensions = _previousOwn;
+        RtlHost.Files = _previous;
+        RtlHost.WritesOwnExtensions = _previousOwn;
         FileBoundary.Log = _previousLog;
         FileBoundary.Previews.Clear();
         Directory.Delete(_directory, true);
@@ -47,7 +47,7 @@ public sealed class OwnExtensionNameTests : IDisposable
 
     // The layered file service caches its listings, so a case installs it again after it writes
     // files behind its back.
-    private void Install() => Runtime.Files = new LayeredFileSystem(Path.Combine(_directory, "root"), Path.Combine(_directory, "user"));
+    private void Install() => RtlHost.Files = new LayeredFileSystem(Path.Combine(_directory, "root"), Path.Combine(_directory, "user"));
 
     private string Root(string relative) => Path.Combine(_directory, "root", relative);
 

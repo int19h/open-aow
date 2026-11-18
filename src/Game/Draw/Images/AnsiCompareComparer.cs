@@ -12,7 +12,7 @@ internal sealed class AnsiCompareComparer : IEqualityComparer<string>
     {
     }
 
-    public bool Equals(string x, string y) => RtlUnit.AnsiCompareStr(x, y) == 0;
+    public bool Equals(string x, string y) => DelphiTextCompare.AnsiCompareStr(x, y) == 0;
 
     public int GetHashCode(string value)
     {

@@ -16,7 +16,7 @@ public partial class ShipyardConstructionControl(CustomNode owner) : StructureCo
     public override void GetInfo(Troop troop, out string text, out int gold, out int days)
     {
         string shipyard = AbilityRules.TranslateResourceString(GetEngine(), GameText.ShipyardText);
-        text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.BuildFormat), [shipyard]);
+        text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.BuildFormat), [shipyard]);
         gold = 50;
         days = 2;
     }

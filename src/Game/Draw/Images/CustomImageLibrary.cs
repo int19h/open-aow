@@ -1,7 +1,13 @@
 #nullable disable
 // Translated from ImageLib.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiFiles;
+using static Aow.Rtl.DelphiMemory;
+using static Aow.Rtl.DelphiPaths;
+using static Aow.Rtl.DelphiStreams;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.DelphiTextCompare;
+using static Aow.Rtl.LegacyApplication;
 
 namespace Aow.Game.Draw.Images;
 
@@ -318,7 +324,7 @@ public partial class CustomImageLibrary : Component
         int i;
         ImageLibraryHeader header = default;
         startPosition = (int)stream.Position;
-        swapName = ExtractFilePath(RtlUnit.Application.ExeName) + "\\SWAP.$$$";
+        swapName = ExtractFilePath(Application.ExeName) + "\\SWAP.$$$";
         swap = OpenFile(swapName, 65535);
         try
         {

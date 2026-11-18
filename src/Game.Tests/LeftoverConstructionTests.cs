@@ -35,7 +35,7 @@ public sealed class LeftoverConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly int _previousSeed = Runtime.RandSeed;
+        private readonly int _previousSeed = DelphiRandom.RandSeed;
         private readonly GamePack _previousSet = GamePack.Current;
         private readonly StrategicMap _previousMap = StrategicMap.Current;
         private readonly ImageLibraryManager _manager = new(null);
@@ -43,17 +43,17 @@ public sealed class LeftoverConstructionTests
 
         internal Fixture()
         {
-            Runtime.RandSeed = 123456789;
+            DelphiRandom.RandSeed = 123456789;
             GamePack set = EngineFixture.Configure(EngineFixture.CreateGameSet(_manager), value => { value.CombatResources = _combatResources; });
             GamePack.Current = set;
             StrategicMap.Current = null;
             GamePack.Current.UnitGraphicsResources = null;
-            Runtime.RandSeed = 123456789;
+            DelphiRandom.RandSeed = 123456789;
         }
 
         public void Dispose()
         {
-            Runtime.RandSeed = _previousSeed;
+            DelphiRandom.RandSeed = _previousSeed;
 
             GamePack.Current = _previousSet;
             StrategicMap.Current = _previousMap;

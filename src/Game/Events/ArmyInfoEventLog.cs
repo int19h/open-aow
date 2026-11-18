@@ -22,7 +22,7 @@ public partial class ArmyInfoEventLog : EventLog
     // Army.PAS:255
     public ArmyInfoEventLog(CustomNode owner) : base(owner)
     {
-        Messages = new StringList();
+        Messages = new DelphiStringList();
         ArmyView = new ArmyView(null) { Holder = CreationHolder() };
         Triggers = Set<ExecuteTrigger>.Of(ExecuteTrigger.Event, ExecuteTrigger.User, ExecuteTrigger.NewTurn);
     }
@@ -33,7 +33,7 @@ public partial class ArmyInfoEventLog : EventLog
 
     public byte Selection { get; set; }
 
-    public StringCollection Messages { get; }
+    public DelphiStringCollection Messages { get; }
 
     public string Title { get; set; } = "";
     public string Text { get; set; } = "";

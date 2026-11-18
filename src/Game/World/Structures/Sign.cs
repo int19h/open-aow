@@ -22,14 +22,14 @@ public partial class Sign : Structure
 {
     public Sign(CustomNode owner) : base(owner)
     {
-        Text = new StringList();
+        Text = new DelphiStringList();
         TextSeen = new BitList();
     }
 
     // Sign.pas:99
     public new const int ClassId = 131330;
 
-    public StringList Text { get; }
+    public DelphiStringList Text { get; }
     public BitList TextSeen { get; }
 
     // Sign.pas:92
@@ -75,7 +75,7 @@ public partial class Sign : Structure
     public bool GetTextSeen(sbyte player) => TextSeen[player];
 
     // Sign.pas:116
-    public void SetText(StringCollection text)
+    public void SetText(DelphiStringCollection text)
     {
         Text.Assign(text);
         Update();
@@ -90,7 +90,7 @@ public partial class Sign : Structure
     }
 
     // Sign.pas:134
-    public bool ChangeText(int player, StringCollection text)
+    public bool ChangeText(int player, DelphiStringCollection text)
     {
         bool result;
         UpdateSignTokenEvent eventValue;

@@ -1,6 +1,6 @@
 namespace Aow.Rtl;
 
-public static partial class RtlUnit
+public static class StreamText
 {
     public static int ReadString(Stream stream, ref string value, int start, int count, bool exact)
     {

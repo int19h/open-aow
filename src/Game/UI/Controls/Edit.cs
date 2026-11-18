@@ -4,7 +4,8 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.UI.Controls;
 

@@ -311,7 +311,7 @@ public sealed class MapNetSoundConstructionTests
                     Assert.NotNull(song.Songs.OnChange);
                     Assert.Equal(0, song.SongNames.Count);
                     break;
-                case StringList strings: Assert.Equal(0, strings.Count); break;
+                case DelphiStringList strings: Assert.Equal(0, strings.Count); break;
                 case SampleList samples: Assert.Equal(0, samples.Count); break;
                 case SampleDataList data: Assert.Equal(0, data.Count); break;
                 case SoundSystemList list: Assert.Equal(0, list.Count); break;

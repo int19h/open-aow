@@ -1,4 +1,7 @@
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiFormat;
+using static Aow.Rtl.DelphiStreams;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.DelphiTextCompare;
 
 namespace Aow.Rtl;
 
@@ -7,7 +10,7 @@ public sealed class IndexedProperty<TKey, TValue>(Func<TKey, TValue> get, Action
     public TValue this[TKey key] { get => get(key); set { if (set is null) { throw new InvalidOperationException("Read-only property"); } set(key, value); } }
 }
 
-public abstract class StringCollection : Persistent
+public abstract class DelphiStringCollection : Persistent
 {
     protected int UpdateCount { get; private set; }
 
@@ -186,14 +189,14 @@ public abstract class StringCollection : Persistent
     protected virtual void SetUpdateState(bool updating) { }
 
     // CLASSES.PAS TStrings.AddStrings and Assign.
-    public void AddStrings(StringCollection source)
+    public void AddStrings(DelphiStringCollection source)
     {
         BeginUpdate(); try { int count = source.Count; for (int i = 0; i < count; i++) { _ = AddObject(source[i], source.Objects[i]); } } finally { EndUpdate(); }
     }
 
     public override void Assign(Persistent? source)
     {
-        if (source is not StringCollection strings) { base.Assign(source); return; }
+        if (source is not DelphiStringCollection strings) { base.Assign(source); return; }
         BeginUpdate(); try { Clear(); AddStrings(strings); } finally { EndUpdate(); }
     }
 
@@ -261,7 +264,7 @@ public abstract class StringCollection : Persistent
 
 public enum Duplicates : byte { Ignore, Accept, Error }
 
-public class StringList : StringCollection
+public class DelphiStringList : DelphiStringCollection
 {
     private record struct StringItem(string Text, object? Object);
 
@@ -272,8 +275,8 @@ public class StringList : StringCollection
     // CLASSES.PAS TStringList.SetCapacity.
     public override int Capacity { get => items.Length; set { if (value < count) { Error("List capacity out of bounds (%d)", value); } Array.Resize(ref items, value); } }
     public Duplicates Duplicates { get; set; }
-    public NotifyEvent<StringList>? OnChange { get; set; }
-    public NotifyEvent<StringList>? OnChanging { get; set; }
+    public NotifyEvent<DelphiStringList>? OnChange { get; set; }
+    public NotifyEvent<DelphiStringList>? OnChanging { get; set; }
 
     // CLASSES.PAS TStringList.Changed, Changing and SetUpdateState.
     protected virtual void Changed()
@@ -440,7 +443,7 @@ public class StringList : StringCollection
 
 // A string list whose object slots hold a T each. A write of anything else, through the untyped
 // Objects or AddObject of the base, throws, so the typed reads below need no check.
-public class StringList<T> : StringList
+public class DelphiStringList<T> : DelphiStringList
     where T : class
 {
     public new IndexedProperty<int, T?> Objects => new(GetItem, (index, item) => PutObject(index, item));

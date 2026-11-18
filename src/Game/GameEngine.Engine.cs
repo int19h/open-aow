@@ -28,7 +28,10 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Game.World.Terrain;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiPaths;
+using static Aow.Rtl.DelphiStreams;
+using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game;
 
@@ -157,7 +160,7 @@ public partial class GameEngine : OwningNode
     {
         if (Registry is null)
         {
-            _startupDirectory = ExtractFilePath(RtlUnit.Application.ExeName);
+            _startupDirectory = ExtractFilePath(LegacyApplication.Application.ExeName);
             return;
         }
 
@@ -167,7 +170,7 @@ public partial class GameEngine : OwningNode
         }
         else
         {
-            SetStartupDirectory(ExtractFilePath(RtlUnit.Application.ExeName));
+            SetStartupDirectory(ExtractFilePath(LegacyApplication.Application.ExeName));
         }
 
         if (StartupDirectory[^1] != 92)

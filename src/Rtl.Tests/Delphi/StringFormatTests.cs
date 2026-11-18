@@ -10,15 +10,15 @@ public sealed class StringFormatTests
     private static void Same(string format, params FormatArg[] arguments)
     {
         string ansi = format;
-        Exception? error = Record.Exception(() => RtlUnit.Format(ansi, arguments));
+        Exception? error = Record.Exception(() => DelphiFormat.Format(ansi, arguments));
         if (error is null)
         {
-            Assert.Equal(RtlUnit.Format(ansi, arguments), RtlUnit.Format(format, arguments));
+            Assert.Equal(DelphiFormat.Format(ansi, arguments), DelphiFormat.Format(format, arguments));
         }
         else
         {
             Assert.Equal(Assert.IsType<FormatException>(error).Message,
-            Assert.Throws<FormatException>(() => RtlUnit.Format(format, arguments)).Message);
+            Assert.Throws<FormatException>(() => DelphiFormat.Format(format, arguments)).Message);
         }
     }
 
@@ -48,7 +48,7 @@ public sealed class StringFormatTests
         Same("%.16d", 7); Same("%.15d", 7); Same("%.0s", (byte)'A');
         Same("%u", -1); Same("%D", int.MinValue); Same("%X", int.MinValue);
         Same("%p", new PointerArg(uint.MaxValue)); Same("%10.2P", new PointerArg(1));
-        Same("%s", RtlUnit.StrPas(Ptr<byte>.Unbox("abc\0def"))); Same("%s", "a\0b");
+        Same("%s", PCharStrings.StrPas(Ptr<byte>.Unbox("abc\0def"))); Same("%s", "a\0b");
         Same("%*:*s", 1, 2, "bc"); Same("%*d", false, 1); Same("%*d", "x", 1);
         Same("%0:1:s", 7, "abcdef"); Same("%:s", "abc");
         foreach (string kind in new[] { "%e", "%f", "%g", "%n", "%m" })
@@ -62,9 +62,9 @@ public sealed class StringFormatTests
         }
 
         Same("%p", 1); Same("%d", (byte)'a'); Same("%0:1:d", 7, "abcdef");
-        Assert.Equal("A", RtlUnit.Format("%.0s", 'A'));
-        Assert.Equal("abc", RtlUnit.Format("%s", "abc\0def"[..3]));
-        Assert.Equal("€\0Ÿ", RtlUnit.Format("€\0%s", 'Ÿ'));
+        Assert.Equal("A", DelphiFormat.Format("%.0s", 'A'));
+        Assert.Equal("abc", DelphiFormat.Format("%s", "abc\0def"[..3]));
+        Assert.Equal("€\0Ÿ", DelphiFormat.Format("€\0%s", 'Ÿ'));
     }
 
     private sealed class SampleObject;
@@ -129,8 +129,8 @@ public sealed class StringFormatTests
         FormatArg[] list = [7, (byte)0x80, '\u0080', true, 1.25, "s", objectValue, (object?)null, new PointerArg(1)];
         Assert.Equal(new[] { "Integer 7", "Char U+20AC", "Char U+0080", "Boolean True", "Extended 1.25", "String s",
             "Object SampleObject", "null", "Pointer 00000001" }, list.Select(CaseOf));
-        Assert.Equal("7 € € \u0080 x", RtlUnit.Format("%d %s %s %s %s", 7, (byte)0x80, '€', '\u0080', "x"));
-        Assert.Equal("7 € x", RtlUnit.Format("%d %s %s", [7, (byte)0x80, "x"]));
+        Assert.Equal("7 € € \u0080 x", DelphiFormat.Format("%d %s %s %s %s", 7, (byte)0x80, '€', '\u0080', "x"));
+        Assert.Equal("7 € x", DelphiFormat.Format("%d %s %s", [7, (byte)0x80, "x"]));
     }
 
     [Fact]
@@ -233,7 +233,7 @@ public sealed class StringFormatTests
     {
         FormatArg value = Argument(argument);
         string actual;
-        try { actual = RtlUnit.Format(format, value); }
+        try { actual = DelphiFormat.Format(format, value); }
         catch (FormatException error) { actual = error.Message; }
         Assert.Equal(expected, actual);
     }
@@ -243,17 +243,17 @@ public sealed class StringFormatTests
     {
         foreach (string name in new[] { "byte", "char", "char80", "bool", "double", "string", "object", "nil", "default", "pointer" })
         {
-            Assert.Equal("1", RtlUnit.Format("%*d", Argument(name), 1));
+            Assert.Equal("1", DelphiFormat.Format("%*d", Argument(name), 1));
         }
 
-        Assert.Equal("    1", RtlUnit.Format("%*d", 5, 1));
-        Assert.Equal("1    ", RtlUnit.Format("%-*d", 5, 1));
-        Assert.Equal("ab", RtlUnit.Format("%.*s", 2, "abc"));
+        Assert.Equal("    1", DelphiFormat.Format("%*d", 5, 1));
+        Assert.Equal("1    ", DelphiFormat.Format("%-*d", 5, 1));
+        Assert.Equal("ab", DelphiFormat.Format("%.*s", 2, "abc"));
         // A Delphi Char byte is no count, so the precision is 0.
-        Assert.Equal("", RtlUnit.Format("%.*s", (byte)2, "abc"));
+        Assert.Equal("", DelphiFormat.Format("%.*s", (byte)2, "abc"));
         // Precision truncates a string and leaves a Char whole, from a byte or a char.
-        Assert.Equal("€", RtlUnit.Format("%.0s", (byte)0x80));
-        Assert.Equal("€", RtlUnit.Format("%.0s", '€'));
-        Assert.Equal("", RtlUnit.Format("%.0s", "€"));
+        Assert.Equal("€", DelphiFormat.Format("%.0s", (byte)0x80));
+        Assert.Equal("€", DelphiFormat.Format("%.0s", '€'));
+        Assert.Equal("", DelphiFormat.Format("%.0s", "€"));
     }
 }

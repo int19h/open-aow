@@ -4,7 +4,7 @@ using Aow.Game;
 
 using Aow.Rtl;
 using Aow.Rtl.Localize;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Engine.Storage;
 
@@ -13,7 +13,7 @@ public partial class TranslateTextStream(GameEngine engine) : TranslateVisit(eng
     public IvDictionary FDictionary { get; set; }
 
     // Army.PAS:5614
-    public override void TranslateStrings(StringCollection lines)
+    public override void TranslateStrings(DelphiStringCollection lines)
     {
         string text;
         int endOfLine;

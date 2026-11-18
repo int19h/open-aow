@@ -1,6 +1,6 @@
 // Translated from ImageLib.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.Heap;
 
 namespace Aow.Game.Draw.Images;
 

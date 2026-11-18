@@ -25,7 +25,11 @@ using Aow.Game.World.Movement;
 using Aow.Game.World.Terrain;
 using Aow.Rtl;
 using Aow.Rtl.Localize;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiFiles;
+using static Aow.Rtl.DelphiStreams;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.DelphiTextCompare;
 
 namespace Aow.Game;
 

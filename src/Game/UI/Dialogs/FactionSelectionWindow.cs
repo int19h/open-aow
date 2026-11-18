@@ -219,23 +219,23 @@ public partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
         dialog.ResetCampaignJoin();
         dialog.Faction = faction;
         dialog.Stage = 0;
-        StringList value = new();
+        DelphiStringList value = new();
         switch (dialog.Faction)
         {
             case 0:
                 LoadWorldCampaign(dialog.UI.WorldMap, "Keepers.cam");
                 dialog.CharacterGenerationPanel.ImageLibraryIndexTexture = 10;
-                GamePack.Current.TextControl.RetrieveText(10, (StringCollection)(object)value);
+                GamePack.Current.TextControl.RetrieveText(10, (DelphiStringCollection)(object)value);
                 break;
             case 1:
                 LoadWorldCampaign(dialog.UI.WorldMap, "Storm.cam");
                 dialog.CharacterGenerationPanel.ImageLibraryIndexTexture = 11;
-                GamePack.Current.TextControl.RetrieveText(11, (StringCollection)(object)value);
+                GamePack.Current.TextControl.RetrieveText(11, (DelphiStringCollection)(object)value);
                 break;
             default:
                 break;
         }
-        ParseFontText(value.Text, (StringCollection)(object)dialog.ScrollText, dialog.UI.Fonts.Age15WhiteOnGrey, 300);
+        ParseFontText(value.Text, (DelphiStringCollection)(object)dialog.ScrollText, dialog.UI.Fonts.Age15WhiteOnGrey, 300);
         WorldMapCampaign campaign = dialog.UI.WorldMap.GetCampaign();
         int id = WorldMapCampaign.GetCampaignScenario(campaign, 0).Paths[0];
         WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(index: campaign.Scenarios.IndexOfId(id), campaign: dialog.UI.WorldMap.GetCampaign());
@@ -252,7 +252,7 @@ public partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
 
     private static void LoadWorldCampaign(WorldMap dialog, string name) => dialog.UI.Engine.LoadCampaign(FileBoundary.ReadName(dialog.UI.Engine.StartupDirectory + "Scenario\\Campaign\\" + name));
 
-    private static void ParseFontText(string text, StringCollection strings, ImageLibraryFont font, int maxWidth)
+    private static void ParseFontText(string text, DelphiStringCollection strings, ImageLibraryFont font, int maxWidth)
     {
         int i = 1;
         int number = 0;
@@ -270,15 +270,15 @@ public partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
                 .Contains(Cp1252.Byte(text[i + j - 1])); j++)
             {
             }
-            string text2 = RtlUnit.Copy(text, i, j);
+            string text2 = DelphiStrings.Copy(text, i, j);
             int textWidth = font.GetTextWidth(text2);
-            if (number + textWidth > maxWidth && !RtlUnit.IsEmpty(textLocal))
+            if (number + textWidth > maxWidth && !DelphiStrings.IsEmpty(textLocal))
             {
                 _ = strings.Add(textLocal);
                 textLocal = "";
                 number = 0;
             }
-            if (!RtlUnit.IsEmpty(textLocal))
+            if (!DelphiStrings.IsEmpty(textLocal))
             {
                 textLocal = textLocal + " " + text2;
                 number = number + textWidth + font.GetTextWidth(" ");
@@ -296,7 +296,7 @@ public partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
                 i++;
             }
         }
-        if (!RtlUnit.IsEmpty(textLocal))
+        if (!DelphiStrings.IsEmpty(textLocal))
         {
             _ = strings.Add(textLocal);
         }

@@ -1,8 +1,9 @@
 using Aow.Rtl.Host;
+using static Aow.Rtl.LegacyApplication;
 
 namespace Aow.Rtl;
 
-public static partial class RtlUnit
+public static class RtlHost
 {
     public static IFileSystem Files { get; set; } = new PhysicalFileSystem();
     public static IClock Clock { get; set; } = new SystemClock();

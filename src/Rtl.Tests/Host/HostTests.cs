@@ -7,49 +7,49 @@ public sealed class HostTests
     [Fact]
     public void RandomTracingRecordsSeedWritesAndBothDrawsWithoutChangingTheStream()
     {
-        int seed = RtlUnit.RandSeed;
-        Action<RandomTraceEvent>? previous = RtlUnit.RandomTrace;
+        int seed = DelphiRandom.RandSeed;
+        Action<RandomTraceEvent>? previous = DelphiRandom.RandomTrace;
         List<RandomTraceEvent> events = [];
         try
         {
-            RtlUnit.RandomTrace = events.Add;
-            RtlUnit.RandSeed = 123456789;
-            int integer = RtlUnit.Random(20);
-            double fraction = RtlUnit.Random();
-            int after = RtlUnit.RandSeed;
-            RtlUnit.RandomTrace = null;
-            RtlUnit.RandSeed = 123456789;
-            Assert.Equal(integer, RtlUnit.Random(20));
-            Assert.Equal(fraction, RtlUnit.Random());
-            Assert.Equal(after, RtlUnit.RandSeed);
+            DelphiRandom.RandomTrace = events.Add;
+            DelphiRandom.RandSeed = 123456789;
+            int integer = DelphiRandom.Random(20);
+            double fraction = DelphiRandom.Random();
+            int after = DelphiRandom.RandSeed;
+            DelphiRandom.RandomTrace = null;
+            DelphiRandom.RandSeed = 123456789;
+            Assert.Equal(integer, DelphiRandom.Random(20));
+            Assert.Equal(fraction, DelphiRandom.Random());
+            Assert.Equal(after, DelphiRandom.RandSeed);
             Assert.Equal(3, events.Count);
             Assert.Equal("seed", events[0].Kind);
             Assert.Equal(123456789, events[0].After);
             Assert.Equal(new RandomTraceEvent("random", 20, integer, 123456789, events[1].After), events[1]);
             Assert.Equal(new RandomTraceEvent("random", null, fraction, events[1].After, after), events[2]);
         }
-        finally { RtlUnit.RandomTrace = previous; RtlUnit.RandSeed = seed; }
+        finally { DelphiRandom.RandomTrace = previous; DelphiRandom.RandSeed = seed; }
     }
 
     [Fact]
     public void SeededRandomizeLeavesTheCurrentStreamAlone()
     {
-        int seed = RtlUnit.RandSeed;
-        bool suppressed = RtlUnit.SuppressRandomize;
+        int seed = DelphiRandom.RandSeed;
+        bool suppressed = DelphiRandom.SuppressRandomize;
         try
         {
-            RtlUnit.RandSeed = 123456789;
-            RtlUnit.SuppressRandomize = true;
-            int first = RtlUnit.Random(1000);
-            int afterFirst = RtlUnit.RandSeed;
-            RtlUnit.Randomize();
-            Assert.Equal(afterFirst, RtlUnit.RandSeed);
-            int next = RtlUnit.Random(1000);
-            RtlUnit.RandSeed = 123456789;
-            Assert.Equal(first, RtlUnit.Random(1000));
-            Assert.Equal(next, RtlUnit.Random(1000));
+            DelphiRandom.RandSeed = 123456789;
+            DelphiRandom.SuppressRandomize = true;
+            int first = DelphiRandom.Random(1000);
+            int afterFirst = DelphiRandom.RandSeed;
+            DelphiRandom.Randomize();
+            Assert.Equal(afterFirst, DelphiRandom.RandSeed);
+            int next = DelphiRandom.Random(1000);
+            DelphiRandom.RandSeed = 123456789;
+            Assert.Equal(first, DelphiRandom.Random(1000));
+            Assert.Equal(next, DelphiRandom.Random(1000));
         }
-        finally { RtlUnit.RandSeed = seed; RtlUnit.SuppressRandomize = suppressed; }
+        finally { DelphiRandom.RandSeed = seed; DelphiRandom.SuppressRandomize = suppressed; }
     }
 
     [Theory]
@@ -59,13 +59,13 @@ public sealed class HostTests
     [InlineData(0x102, 4)]
     public void DialogDefaultButtonUsesWindowsResultCodes(int flags, int expected)
     {
-        IDialogService? previous = RtlUnit.Dialogs;
+        IDialogService? previous = RtlHost.Dialogs;
         try
         {
-            RtlUnit.Dialogs = new Defaults();
-            Assert.Equal(expected, RtlUnit.MessageBox(0, "message", "caption", flags));
+            RtlHost.Dialogs = new Defaults();
+            Assert.Equal(expected, RtlHost.MessageBox(0, "message", "caption", flags));
         }
-        finally { RtlUnit.Dialogs = previous; }
+        finally { RtlHost.Dialogs = previous; }
     }
 
     private sealed class Defaults : IDialogService

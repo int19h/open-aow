@@ -4,7 +4,8 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.UI.Controls;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.UI.Windows;
 
@@ -16,19 +17,19 @@ namespace Aow.Game.UI.Windows;
 // that fit)
 public partial class ToolTip : GenericWindow
 {
-    private readonly StringList _items;
+    private readonly DelphiStringList _items;
     [Published]
     public event NotifyEvent<ToolTip> OnDrawItem;
 
     public Rect ControlRectangle { get; set; }
 
-    private readonly StringList _lines;
+    private readonly DelphiStringList _lines;
 
     // AOWToolTip.pas:62
     public ToolTip(Component owner) : base(owner)
     {
-        _lines = new StringList();
-        _items = new StringList
+        _lines = new DelphiStringList();
+        _items = new DelphiStringList
         {
             OnChange = OnChangeText
         };
@@ -333,7 +334,7 @@ public partial class ToolTip : GenericWindow
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y) => SetVisible(false);
 
     // AOWToolTip.pas:172
-    public void SetFStrings(StringList value)
+    public void SetFStrings(DelphiStringList value)
     {
         _lines.Clear();
         _items.Clear();
@@ -349,7 +350,7 @@ public partial class ToolTip : GenericWindow
     }
 
     [Published]
-    public StringList Items { get => _items; set => SetFStrings(value); }
+    public DelphiStringList Items { get => _items; set => SetFStrings(value); }
 
     [Published]
     public bool ToolTipStatic { get; set; }

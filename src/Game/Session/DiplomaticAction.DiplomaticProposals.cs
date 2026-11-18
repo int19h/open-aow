@@ -10,7 +10,7 @@ public partial class DiplomaticAction
     // Diplomacy.pas:826, 950).
     public void RetrieveDefaultMessage(sbyte source, sbyte target, sbyte other, DiplomaticActionReaction reaction)
     {
-        using StringList text = new();
+        using DelphiStringList text = new();
         RetrieveDefaultDiplomaticActionMessage(source, target, other, Proposal, reaction, text, engine: GetEngine());
         Proposal = Proposal with { Message = DiplomaticProposal.Lines(text) };
     }

@@ -787,7 +787,7 @@ casing, aliases and future mod layers through the file service, not a second
 Formats lookup.
 
 Original saves copied to the user layer load normally. The choice of written extensions is a
-fact of the host, `IRtlHost.WritesOwnExtensions` (`RtlUnit.WritesOwnExtensions` once the host is
+fact of the host, `IRtlHost.WritesOwnExtensions` (`RtlHost.WritesOwnExtensions` once the host is
 installed), read by `FileBoundary.WriteName` and `FileBoundary.WriteExtension`. It defaults to
 own. The desktop SDL host and the headless host write own extensions. The frame-fixture host
 (`FrameFixture.FixtureHost`, also used by `FrameFixtureChecks`) writes original extensions,

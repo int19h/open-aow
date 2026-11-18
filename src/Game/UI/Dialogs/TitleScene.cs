@@ -19,7 +19,9 @@ using Aow.Game.World.Map;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiFiles;
+using static Aow.Rtl.DelphiPaths;
+using static Aow.Rtl.DelphiTextCompare;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -45,7 +47,7 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
     private Rect _sceneRectangle;
     private bool _redrawBackground;
     private bool _showCredits;
-    private List<StringList> _credits;
+    private List<DelphiStringList> _credits;
     private int _creditPage;
     private int _creditFrame;
     private bool _showIntro;
@@ -62,7 +64,7 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
         int duration;
         int alpha;
         ShowInfo info = default;
-        StringCollection lines;
+        DelphiStringCollection lines;
         _creditFrame += 1;
         info.ShowMode = ShowMode.Blended;
         info.BlendMode = BlendMode.Alpha;
@@ -429,7 +431,7 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
     // AoWTitleScene.pas:338
     public void TitleSceneCreate()
     {
-        StringList lines;
+        DelphiStringList lines;
         ResetScene();
         string registeredTo = UI.Engine.RegisteredTo();
         NameLabel.Text = registeredTo;
@@ -437,41 +439,41 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
         string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_versionFormat), [versionString]);
         VersionLabel.Text = format;
         _credits = [];
-        lines = new StringList();
+        lines = new DelphiStringList();
         _ = lines.Add(UI.Engine.TranslateResourceString(s_designerAndDirectorText));
         _ = lines.Add("Lennart Sas");
         _ = lines.Add("");
         _ = lines.Add(UI.Engine.TranslateResourceString(s_additionalDesignText));
         _ = lines.Add("Arno van Wingerden");
         _credits.Add(lines);
-        lines = new StringList();
+        lines = new DelphiStringList();
         _ = lines.Add(UI.Engine.TranslateResourceString(s_leadProgrammerText));
         _ = lines.Add("Arno van Wingerden");
         _ = lines.Add("");
         _ = lines.Add(UI.Engine.TranslateResourceString(s_programmerText));
         _ = lines.Add("Josh Farley");
         _credits.Add(lines);
-        lines = new StringList();
+        lines = new DelphiStringList();
         _ = lines.Add(UI.Engine.TranslateResourceString(s_artistsText));
         _ = lines.Add("Lennart Sas");
         _ = lines.Add("Thomas Cardin");
         _ = lines.Add("Roy Postma");
         _credits.Add(lines);
-        lines = new StringList();
+        lines = new DelphiStringList();
         _ = lines.Add(UI.Engine.TranslateResourceString(s_leadScenarioDesignerText));
         _ = lines.Add("Menno Sas");
         _credits.Add(lines);
-        lines = new StringList();
+        lines = new DelphiStringList();
         _ = lines.Add(UI.Engine.TranslateResourceString(s_scenarioDesignersText));
         _ = lines.Add("Doug Gibson");
         _ = lines.Add("Arnout Sas");
         _ = lines.Add("Hugo van Wingerden");
         _credits.Add(lines);
-        lines = new StringList();
+        lines = new DelphiStringList();
         _ = lines.Add(UI.Engine.TranslateResourceString(s_writerText));
         _ = lines.Add("Raymond Bingham");
         _credits.Add(lines);
-        lines = new StringList();
+        lines = new DelphiStringList();
         _ = lines.Add(UI.Engine.TranslateResourceString(s_musicText));
         _ = lines.Add("Michiel van den Bos");
         _ = lines.Add("");
@@ -482,22 +484,22 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
         _ = lines.Add(UI.Engine.TranslateResourceString(s_introVoiceText));
         _ = lines.Add("John McGinn (English)");
         _ = lines.Add("Norbert Gastell (German)");
-        lines = new StringList();
+        lines = new DelphiStringList();
         _ = lines.Add(UI.Engine.TranslateResourceString(s_galaxySoundSystemText));
         _ = lines.Add("Carlo Vogelsang");
         _credits.Add(lines);
-        lines = new StringList();
+        lines = new DelphiStringList();
         _ = lines.Add(UI.Engine.TranslateResourceString(s_internetMailSuiteText));
         _ = lines.Add("Argo Software Design");
         _credits.Add(lines);
-        lines = new StringList();
+        lines = new DelphiStringList();
         _ = lines.Add(UI.Engine.TranslateResourceString(s_qaCoreText));
         _ = lines.Add("Cliff Benjamin");
         _ = lines.Add("Ian Calderon");
         _ = lines.Add("Ted Stephenson");
         _ = lines.Add("Hugo van Wingerden");
         _credits.Add(lines);
-        lines = new StringList();
+        lines = new DelphiStringList();
         _ = lines.Add(UI.Engine.TranslateResourceString("Take 2 Europe"));
         _ = lines.Add("");
         _ = lines.Add("Producer");
@@ -506,7 +508,7 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
         _ = lines.Add("Manuals + Translations");
         _ = lines.Add("Frazer Nash");
         _credits.Add(lines);
-        lines = new StringList();
+        lines = new DelphiStringList();
         _ = lines.Add("Tarantula Studios testing suite");
         _ = lines.Add("");
         _ = lines.Add("Test Manager");
@@ -515,7 +517,7 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
         _ = lines.Add("Lead Tester");
         _ = lines.Add("Paul Byers");
         _credits.Add(lines);
-        lines = new StringList();
+        lines = new DelphiStringList();
         _ = lines.Add("Testers");
         _ = lines.Add("");
         _ = lines.Add("Jim Thompson");
@@ -524,12 +526,12 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
         _ = lines.Add("Jim Cree");
         _ = lines.Add("Lee Johnson");
         _credits.Add(lines);
-        lines = new StringList();
+        lines = new DelphiStringList();
         _ = lines.Add(UI.Engine.TranslateResourceString(s_bizzText));
         _ = lines.Add("Jay Wilbur");
         _ = lines.Add("Mark Rein");
         _credits.Add(lines);
-        lines = new StringList();
+        lines = new DelphiStringList();
         _ = lines.Add(UI.Engine.TranslateResourceString(s_specialThanksText));
         _ = lines.Add("Eelco van der Snoek");
         _ = lines.Add("Doug Gibson");

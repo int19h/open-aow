@@ -12,7 +12,9 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiRandom;
+using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -218,7 +220,7 @@ public static class AbilityRules
         string result;
         try
         {
-            result = RtlUnit.Format(S, arguments);
+            result = DelphiFormat.Format(S, arguments);
         }
         catch
         {

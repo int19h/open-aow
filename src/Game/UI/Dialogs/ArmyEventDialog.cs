@@ -13,7 +13,7 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Game.UI.Dialogs;
 

@@ -9,7 +9,7 @@ public struct Rect(int left, int top, int right, int bottom)
     public int Bottom { get; set; } = bottom;
 }
 
-public static partial class RtlUnit
+public static class RectRoutines
 {
 
     public static bool EqualRect(in Rect left, in Rect right) => left.Left == right.Left && left.Top == right.Top && left.Right == right.Right && left.Bottom == right.Bottom;

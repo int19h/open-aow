@@ -297,7 +297,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during MapChanged event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during MapChanged event (TAoWMapControl)");
         }
     }
 
@@ -315,7 +315,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during ScannerIconsChanged event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during ScannerIconsChanged event (TAoWMapControl)");
         }
     }
 
@@ -328,7 +328,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during MapSettingsChanged event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during MapSettingsChanged event (TAoWMapControl)");
         }
     }
 
@@ -356,7 +356,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during SelectHS event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during SelectHS event (TAoWMapControl)");
         }
     }
 
@@ -384,7 +384,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during DeselectHS event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during DeselectHS event (TAoWMapControl)");
         }
     }
 
@@ -397,7 +397,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during PlayerChanged event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during PlayerChanged event (TAoWMapControl)");
         }
     }
 
@@ -410,7 +410,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during ExitGame event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during ExitGame event (TAoWMapControl)");
         }
     }
 
@@ -423,7 +423,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during NewTurn event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during NewTurn event (TAoWMapControl)");
         }
     }
 
@@ -440,7 +440,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during EndTurn event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during EndTurn event (TAoWMapControl)");
         }
     }
 
@@ -453,7 +453,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during PlayerChanged event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during PlayerChanged event (TAoWMapControl)");
         }
     }
 
@@ -466,7 +466,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during Gems Changed event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during Gems Changed event (TAoWMapControl)");
         }
     }
 
@@ -479,7 +479,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during Income Changed event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during Income Changed event (TAoWMapControl)");
         }
     }
 
@@ -492,7 +492,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during Upkeep Changed event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during Upkeep Changed event (TAoWMapControl)");
         }
     }
 
@@ -505,7 +505,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during Player Magic Changed event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during Player Magic Changed event (TAoWMapControl)");
         }
     }
 
@@ -518,7 +518,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during Magic Changed event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during Magic Changed event (TAoWMapControl)");
         }
     }
 
@@ -536,7 +536,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during ShowMessage event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during ShowMessage event (TAoWMapControl)");
         }
     }
 
@@ -549,7 +549,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during ChangeDay event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during ChangeDay event (TAoWMapControl)");
         }
     }
 
@@ -562,7 +562,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during on combat event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during on combat event (TAoWMapControl)");
         }
     }
 
@@ -575,7 +575,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during LogbookChanged event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during LogbookChanged event (TAoWMapControl)");
         }
     }
 
@@ -588,7 +588,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnStructureChanged event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnStructureChanged event (TAoWMapControl)");
         }
     }
 
@@ -601,7 +601,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnStructureDestroyed event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnStructureDestroyed event (TAoWMapControl)");
         }
     }
 
@@ -614,7 +614,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnArmyChanged event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnArmyChanged event (TAoWMapControl)");
         }
     }
 
@@ -627,7 +627,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnArmyDestroyed event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnArmyDestroyed event (TAoWMapControl)");
         }
     }
 
@@ -640,7 +640,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnHSChanged event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnHSChanged event (TAoWMapControl)");
         }
     }
 
@@ -653,7 +653,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnUnitChanged event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnUnitChanged event (TAoWMapControl)");
         }
     }
 
@@ -666,7 +666,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnUnitDestroyed event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnUnitDestroyed event (TAoWMapControl)");
         }
     }
 
@@ -679,7 +679,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnGameOver event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnGameOver event (TAoWMapControl)");
         }
     }
 
@@ -692,7 +692,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnGameTerminated event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnGameTerminated event (TAoWMapControl)");
         }
     }
 
@@ -705,7 +705,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnPlayerTerminated event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnPlayerTerminated event (TAoWMapControl)");
         }
     }
 
@@ -718,7 +718,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnExecuteEventLog event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnExecuteEventLog event (TAoWMapControl)");
         }
     }
 
@@ -731,7 +731,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnActivateCombatMap event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnActivateCombatMap event (TAoWMapControl)");
         }
     }
 
@@ -744,7 +744,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnDeactivateCombatMap event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnDeactivateCombatMap event (TAoWMapControl)");
         }
     }
 
@@ -760,7 +760,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnTargetSelectionChange event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnTargetSelectionChange event (TAoWMapControl)");
         }
     }
 
@@ -773,7 +773,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnCastSpell event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnCastSpell event (TAoWMapControl)");
         }
     }
 
@@ -786,7 +786,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnViewPortChange event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnViewPortChange event (TAoWMapControl)");
         }
     }
 
@@ -799,7 +799,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnActivateAbility event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnActivateAbility event (TAoWMapControl)");
         }
     }
 
@@ -812,7 +812,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnDiplomaticChange event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnDiplomaticChange event (TAoWMapControl)");
         }
     }
 
@@ -825,7 +825,7 @@ public partial class MapControl : Component
         }
         catch
         {
-            RtlUnit.ShowMessage("Exception occurred during OnRelationsChanged event (TAoWMapControl)");
+            LegacyApplication.ShowMessage("Exception occurred during OnRelationsChanged event (TAoWMapControl)");
         }
     }
 

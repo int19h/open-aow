@@ -1,4 +1,7 @@
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiFiles;
+using static Aow.Rtl.DelphiStreams;
+using static Aow.Rtl.DelphiTextCompare;
+using static Aow.Rtl.RtlHost;
 using Assert = Xunit.Assert;
 
 namespace Aow.Rtl.Tests;
@@ -62,7 +65,7 @@ public sealed class HostPathTests
             }
         }
 
-        StringList list = new() { Sorted = true, Duplicates = Duplicates.Ignore };
+        DelphiStringList list = new() { Sorted = true, Duplicates = Duplicates.Ignore };
         foreach (string name in s_names.Concat(Enumerable.Reverse(s_names)))
         {
             _ = list.Add(name);

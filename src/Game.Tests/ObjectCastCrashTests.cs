@@ -195,7 +195,7 @@ public sealed class ObjectCastCrashTests
     [Fact]
     public void TerrainScanSkipsANonTerrainResource()
     {
-        int seed = Runtime.RandSeed;
+        int seed = DelphiRandom.RandSeed;
         try
         {
             MapObjectResourceList list = new(null) { Holder = EngineFixture.Engine };
@@ -230,7 +230,7 @@ public sealed class ObjectCastCrashTests
         }
         finally
         {
-            Runtime.RandSeed = seed;
+            DelphiRandom.RandSeed = seed;
         }
     }
 

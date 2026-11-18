@@ -390,7 +390,7 @@ public sealed class DiplomaticProposalTests
 
     // Diplomacy.pas:1420 RetrieveDefaultDiplomaticActionMessage, the switch after the races and the alignment.
     private static void OldDefaultMessage(TextControl textControl, int alignment, string sourceRace, string targetRace, string otherRace,
-        byte action, DiplomaticActionReaction reaction, DiplomaticRelation relation, StringCollection text)
+        byte action, DiplomaticActionReaction reaction, DiplomaticRelation relation, DelphiStringCollection text)
     {
         text.Clear();
         void Get(int number, string first, string second, string? third = null)
@@ -542,8 +542,8 @@ public sealed class DiplomaticProposalTests
                     {
                         foreach (int alignment in new[] { 0, 1, 2 })
                         {
-                            StringList expected = new();
-                            StringList actual = new();
+                            DelphiStringList expected = new();
+                            DelphiStringList actual = new();
                             OldDefaultMessage(control, alignment, "Elves", "Orcs", "Dwarves", kind, (DiplomaticActionReaction)reaction, relation, expected);
                             proposal.DefaultMessage(new DiplomaticMessageText(control, alignment, "Elves", "Orcs", "Dwarves", actual), (DiplomaticActionReaction)reaction, relation);
                             Assert.True(expected.Text == actual.Text, proposal + " reaction " + reaction + " relation " + relation + " alignment " + alignment);

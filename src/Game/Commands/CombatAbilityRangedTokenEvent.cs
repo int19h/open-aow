@@ -11,7 +11,10 @@ using Aow.Game.Magic.Spells;
 using Aow.Game.Net;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiRandom;
+using static Aow.Rtl.DelphiRounding;
+using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.Commands;
 

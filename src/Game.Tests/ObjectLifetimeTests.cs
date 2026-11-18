@@ -92,7 +92,7 @@ public sealed class ObjectLifetimeTests
     {
         WorldEffectHexSprite particle = new(null!) { Holder = EngineFixture.Engine, EffectType = WorldEffectType.EMParticle, Frame = 0 };
         particle.Path.Add(new Point3D { X = 1, Y = 2, Z = 3 });
-        Runtime.Dialogs = null;
+        RtlHost.Dialogs = null;
         particle.Show(0, 0, default);
         return new WeakReference(particle);
     }

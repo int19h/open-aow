@@ -510,14 +510,14 @@
         "Ability.AbilityId": 129,
         "Ability.AbilityName": "Animated",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -582,14 +582,14 @@
         "Ability.AbilityId": 158,
         "Ability.AbilityName": "Blessed",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -654,14 +654,14 @@
         "Ability.AbilityId": 168,
         "Ability.AbilityName": "Bloodlust",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -728,14 +728,14 @@
         "Ability.AbilityId": 127,
         "Ability.AbilityName": "Burning",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -802,14 +802,14 @@
         "Ability.AbilityId": 130,
         "Ability.AbilityName": "Resurrected",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -874,14 +874,14 @@
         "Ability.AbilityId": 162,
         "Ability.AbilityName": "Concealment",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -946,14 +946,14 @@
         "Ability.AbilityId": 101,
         "Ability.AbilityName": "Crusader",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -1020,14 +1020,14 @@
         "Ability.AbilityId": 93,
         "Ability.AbilityName": "Cursed",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -1094,14 +1094,14 @@
         "Ability.AbilityId": 169,
         "Ability.AbilityName": "Dark Gift",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -1166,14 +1166,14 @@
         "Ability.AbilityId": 131,
         "Ability.AbilityName": "Decay",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -1240,14 +1240,14 @@
         "Ability.AbilityId": 154,
         "Ability.AbilityName": "Enchanted Weapon",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -1312,14 +1312,14 @@
         "Ability.AbilityId": 94,
         "Ability.AbilityName": "Entangled",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -1384,14 +1384,14 @@
         "Ability.AbilityId": 163,
         "Ability.AbilityName": "Fire Halo",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -1456,14 +1456,14 @@
         "Ability.AbilityId": 167,
         "Ability.AbilityName": "Fire Protection",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -1528,14 +1528,14 @@
         "Ability.AbilityId": 157,
         "Ability.AbilityName": "Free Movement",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -1600,14 +1600,14 @@
         "Ability.AbilityId": 95,
         "Ability.AbilityName": "Frozen",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -1672,14 +1672,14 @@
         "Ability.AbilityId": 156,
         "Ability.AbilityName": "Fury",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -1744,14 +1744,14 @@
         "Ability.AbilityId": 152,
         "Ability.AbilityName": "Haste",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -1816,14 +1816,14 @@
         "Ability.AbilityId": 100,
         "Ability.AbilityName": "Blessed",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -1890,14 +1890,14 @@
         "Ability.AbilityId": 146,
         "Ability.AbilityName": "Holy Champion",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -1962,14 +1962,14 @@
         "Ability.AbilityId": 160,
         "Ability.AbilityName": "Holy Champion",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -2034,14 +2034,14 @@
         "Ability.AbilityId": 53,
         "Ability.AbilityName": "Holy Fear",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -2108,14 +2108,14 @@
         "Ability.AbilityId": 0,
         "Ability.AbilityName": "",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -2200,14 +2200,14 @@
         "Ability.AbilityId": 166,
         "Ability.AbilityName": "Liquid Form",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -2272,14 +2272,14 @@
         "Ability.AbilityId": 32,
         "Ability.AbilityName": "Marksmanship",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -2360,14 +2360,14 @@
         "Ability.AbilityId": 0,
         "Ability.AbilityName": "",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -2452,14 +2452,14 @@
         "Ability.AbilityId": 99,
         "Ability.AbilityName": "Nature\u0027s Blessing",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -2526,14 +2526,14 @@
         "Ability.AbilityId": 108,
         "Ability.AbilityName": "Panicked",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -2600,14 +2600,14 @@
         "Ability.AbilityId": 66,
         "Ability.AbilityName": "Pass Wall",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -2672,14 +2672,14 @@
         "Ability.AbilityId": 96,
         "Ability.AbilityName": "Poisoned",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -2746,14 +2746,14 @@
         "Ability.AbilityId": 0,
         "Ability.AbilityName": "",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -2838,14 +2838,14 @@
         "Ability.AbilityId": 128,
         "Ability.AbilityName": "Resurrected",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -2910,14 +2910,14 @@
         "Ability.AbilityId": 132,
         "Ability.AbilityName": "Slow",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -2982,14 +2982,14 @@
         "Ability.AbilityId": 153,
         "Ability.AbilityName": "Stone Skin",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -3054,14 +3054,14 @@
         "Ability.AbilityId": 92,
         "Ability.AbilityName": "Stunned",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -3128,14 +3128,14 @@
         "Ability.AbilityId": 155,
         "Ability.AbilityName": "Summoned",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -3200,14 +3200,14 @@
         "Ability.AbilityId": 34,
         "Ability.AbilityName": "Turned Undead",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -3272,14 +3272,14 @@
         "Ability.AbilityId": 147,
         "Ability.AbilityName": "Unholy Champion",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -3344,14 +3344,14 @@
         "Ability.AbilityId": 161,
         "Ability.AbilityName": "Unholy Champion",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -3416,14 +3416,14 @@
         "Ability.AbilityId": 98,
         "Ability.AbilityName": "Vertigo",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -3490,14 +3490,14 @@
         "Ability.AbilityId": 64,
         "Ability.AbilityName": "",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -3578,14 +3578,14 @@
         "Ability.AbilityId": 36,
         "Ability.AbilityName": "Wall Climbing",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -3650,14 +3650,14 @@
         "Ability.AbilityId": 164,
         "Ability.AbilityName": "Water Walking",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -3722,14 +3722,14 @@
         "Ability.AbilityId": 97,
         "Ability.AbilityName": "Webbed",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -3796,14 +3796,14 @@
         "Ability.AbilityId": 165,
         "Ability.AbilityName": "Wind Walking",
         "Ability.Description": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
@@ -3903,14 +3903,14 @@
         "Spell.SpellLevel": 3,
         "Spell.SpellName": "Air Mastery",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -4065,14 +4065,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Anarchy",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -4187,14 +4187,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Animate Dead",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -4298,14 +4298,14 @@
         "Spell.SpellLevel": 2,
         "Spell.SpellName": "Animate Hero",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -4391,14 +4391,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Animate Ruins",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -4509,14 +4509,14 @@
         "Spell.SpellLevel": 4,
         "Spell.SpellName": "Anti Magic Shell",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -4616,14 +4616,14 @@
         "Spell.SpellLevel": 1,
         "Spell.SpellName": "Bird\u0027s View",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -4698,14 +4698,14 @@
         "Spell.SpellLevel": 3,
         "Spell.SpellName": "Bless",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": 225,
@@ -4817,14 +4817,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Call Flames",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -4928,14 +4928,14 @@
         "Spell.SpellLevel": 2,
         "Spell.SpellName": "Call Hero",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -5039,14 +5039,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Chain Lighting",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -5175,14 +5175,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -5293,14 +5293,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -5415,14 +5415,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Cold Breath",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -5555,14 +5555,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -5666,14 +5666,14 @@
         "Spell.SpellLevel": 1,
         "Spell.SpellName": "Conceal Area",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -5748,14 +5748,14 @@
         "Spell.SpellLevel": 3,
         "Spell.SpellName": "Concealment",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": -1,
@@ -5838,14 +5838,14 @@
         "Spell.SpellLevel": 1,
         "Spell.SpellName": "Cosmagic Surgery",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": -1,
@@ -5952,14 +5952,14 @@
         "Spell.SpellLevel": 4,
         "Spell.SpellName": "Crusade",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -6034,14 +6034,14 @@
         "Spell.SpellLevel": 3,
         "Spell.SpellName": "Dark Gift",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": 225,
@@ -6125,14 +6125,14 @@
         "Spell.SpellLevel": 4,
         "Spell.SpellName": "Death Mastery",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -6305,14 +6305,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Death Ray",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -6445,14 +6445,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Disease Cloud",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -6556,14 +6556,14 @@
         "Spell.SpellLevel": 2,
         "Spell.SpellName": "Disjunction",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -6662,14 +6662,14 @@
         "Spell.SpellLevel": 1,
         "Spell.SpellName": "Dispel Magic",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": -1,
@@ -6753,14 +6753,14 @@
         "Spell.SpellLevel": 3,
         "Spell.SpellName": "Earth Mastery",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -6904,14 +6904,14 @@
         "Spell.SpellLevel": 1,
         "Spell.SpellName": "Enchant Weapon",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": 225,
@@ -6995,14 +6995,14 @@
         "Spell.SpellLevel": 3,
         "Spell.SpellName": "Enchanted Roads",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -7175,14 +7175,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Entangle",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -7286,14 +7286,14 @@
         "Spell.SpellLevel": 2,
         "Spell.SpellName": "Fire Halo",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": -1,
@@ -7405,14 +7405,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Fireball",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -7519,14 +7519,14 @@
         "Spell.SpellLevel": 3,
         "Spell.SpellName": "Fire Barrier",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -7633,14 +7633,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Fire Breath",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -7745,14 +7745,14 @@
         "Spell.SpellLevel": 4,
         "Spell.SpellName": "Fire Mastery",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -7925,14 +7925,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Flaming Arrow",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -8037,14 +8037,14 @@
         "Spell.SpellLevel": 4,
         "Spell.SpellName": "Flood",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -8249,14 +8249,14 @@
         "Spell.SpellLevel": 4,
         "Spell.SpellName": "Fountain Of Life",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -8356,14 +8356,14 @@
         "Spell.SpellLevel": 2,
         "Spell.SpellName": "Free Movement",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": -1,
@@ -8449,14 +8449,14 @@
         "Spell.SpellLevel": 3,
         "Spell.SpellName": "Freeze Water",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -8563,14 +8563,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Frost Beam",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -8674,14 +8674,14 @@
         "Spell.SpellLevel": 1,
         "Spell.SpellName": "Fury",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": 175,
@@ -8793,14 +8793,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Geyser",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -8905,14 +8905,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -8991,14 +8991,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -9101,14 +9101,14 @@
         "Spell.SpellLevel": 4,
         "Spell.SpellName": "Gold Rush",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -9237,14 +9237,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Great Hail",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -9349,14 +9349,14 @@
         "Spell.SpellLevel": 4,
         "Spell.SpellName": "Tranquility",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -9502,14 +9502,14 @@
         "Spell.SpellLevel": 1,
         "Spell.SpellName": "Haste",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": -1,
@@ -9593,14 +9593,14 @@
         "Spell.SpellLevel": 4,
         "Spell.SpellName": "Hatred",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -9749,14 +9749,14 @@
         "Spell.SpellLevel": 3,
         "Spell.SpellName": "Healing Showers",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -9834,14 +9834,14 @@
         "Spell.SpellLevel": 1,
         "Spell.SpellName": "Healing Water",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": -1,
@@ -9953,14 +9953,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "High Prayer",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -10064,14 +10064,14 @@
         "Spell.SpellLevel": 2,
         "Spell.SpellName": "Holy Champion",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": -1,
@@ -10183,14 +10183,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Ice Shards",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -10297,14 +10297,14 @@
         "Spell.SpellLevel": 3,
         "Spell.SpellName": "Level Terrain",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -10383,14 +10383,14 @@
         "Spell.SpellLevel": 4,
         "Spell.SpellName": "Life Mastery",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -10534,14 +10534,14 @@
         "Spell.SpellLevel": 3,
         "Spell.SpellName": "Liquid Form",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": 300,
@@ -10653,14 +10653,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Mind Decay",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -10793,14 +10793,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Ooze",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -10905,14 +10905,14 @@
         "Spell.SpellLevel": 4,
         "Spell.SpellName": "Power Leak",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -11085,14 +11085,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Recall Spirits",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -11199,14 +11199,14 @@
         "Spell.SpellLevel": 1,
         "Spell.SpellName": "Rejuvenate",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -11284,14 +11284,14 @@
         "Spell.SpellLevel": 1,
         "Spell.SpellName": "Remedy",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": -1,
@@ -11374,14 +11374,14 @@
         "Spell.SpellLevel": 2,
         "Spell.SpellName": "Resurrect Hero",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -11485,14 +11485,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Sacred Wrath",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -11625,14 +11625,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Sacrificial Flame",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -11765,14 +11765,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Shock Wave",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -11905,14 +11905,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Slow",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -12019,14 +12019,14 @@
         "Spell.SpellLevel": 3,
         "Spell.SpellName": "Cloud of Ashes",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -12133,14 +12133,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Solar Flare",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -12245,14 +12245,14 @@
         "Spell.SpellLevel": 3,
         "Spell.SpellName": "Spell Ward",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -12396,14 +12396,14 @@
         "Spell.SpellLevel": 1,
         "Spell.SpellName": "Stone Skin",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": 200,
@@ -12515,14 +12515,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Stoning",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -12626,14 +12626,14 @@
         "Spell.SpellLevel": 4,
         "Spell.SpellName": "Summon Air Elemental",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": 750,
@@ -12723,14 +12723,14 @@
         "Spell.SpellLevel": 4,
         "Spell.SpellName": "Summon Black Dragon",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": 750,
@@ -12820,14 +12820,14 @@
         "Spell.SpellLevel": 1,
         "Spell.SpellName": "Summon Black Spider",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": 200,
@@ -12917,14 +12917,14 @@
         "Spell.SpellLevel": 1,
         "Spell.SpellName": "Summon Boar",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": -1,
@@ -13014,14 +13014,14 @@
         "Spell.SpellLevel": 4,
         "Spell.SpellName": "Summon Earth Elemental",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": 750,
@@ -13111,14 +13111,14 @@
         "Spell.SpellLevel": 4,
         "Spell.SpellName": "Summon Fire Elemental",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": 500,
@@ -13208,14 +13208,14 @@
         "Spell.SpellLevel": 1,
         "Spell.SpellName": "Summon Fire Sprite",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": 200,
@@ -13305,14 +13305,14 @@
         "Spell.SpellLevel": 1,
         "Spell.SpellName": "Summon Frog",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": 200,
@@ -13402,14 +13402,14 @@
         "Spell.SpellLevel": 4,
         "Spell.SpellName": "Summon Gold Dragon",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": 750,
@@ -13499,14 +13499,14 @@
         "Spell.SpellLevel": 2,
         "Spell.SpellName": "Summon Great Eagle",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": 250,
@@ -13596,14 +13596,14 @@
         "Spell.SpellLevel": 1,
         "Spell.SpellName": "Summon Mermaid",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": -1,
@@ -13693,14 +13693,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": -1,
@@ -13785,14 +13785,14 @@
         "Spell.SpellLevel": 4,
         "Spell.SpellName": "Summon Syron",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": 500,
@@ -13882,14 +13882,14 @@
         "Spell.SpellLevel": 4,
         "Spell.SpellName": "Summon Water Elemental",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2,
         "SummonSpell.AIBasePriority": 500,
@@ -14008,14 +14008,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Swarm",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -14148,14 +14148,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Terror",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -14262,14 +14262,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Tornado",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -14358,14 +14358,14 @@
         "Spell.SpellLevel": 3,
         "Spell.SpellName": "Town Gate",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -14462,14 +14462,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Town Quake",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -14584,14 +14584,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Tremors",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -14724,14 +14724,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Turn Undead",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -14835,14 +14835,14 @@
         "Spell.SpellLevel": 2,
         "Spell.SpellName": "Unholy Champion",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": -1,
@@ -14954,14 +14954,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Vaporize",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }
@@ -15068,14 +15068,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Vortex",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -15178,14 +15178,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Warmonger",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -15285,14 +15285,14 @@
         "Spell.SpellLevel": 2,
         "Spell.SpellName": "Warp Party",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -15370,14 +15370,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Watcher",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -15526,14 +15526,14 @@
         "Spell.SpellLevel": 4,
         "Spell.SpellName": "Water Mastery",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 2
       }
@@ -15677,14 +15677,14 @@
         "Spell.SpellLevel": 2,
         "Spell.SpellName": "Water Walking",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": -1,
@@ -15767,14 +15767,14 @@
         "Spell.SpellLevel": 3,
         "Spell.SpellName": "Wind Walking",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 1,
         "UnitSpell.AIValue": -1,
@@ -15886,14 +15886,14 @@
         "Spell.SpellLevel": 0,
         "Spell.SpellName": "Winds Of Fury",
         "Spell.SpellText": {
-          "$type": "Aow.Rtl.StringList",
-          "StringCollection.UpdateCount": 0,
-          "StringList.Duplicates": 0,
-          "StringList.OnChange": null,
-          "StringList.OnChanging": null,
-          "StringList.Sorted": false,
-          "StringList.count": 0,
-          "StringList.items": []
+          "$type": "Aow.Rtl.DelphiStringList",
+          "DelphiStringCollection.UpdateCount": 0,
+          "DelphiStringList.Duplicates": 0,
+          "DelphiStringList.OnChange": null,
+          "DelphiStringList.OnChanging": null,
+          "DelphiStringList.Sorted": false,
+          "DelphiStringList.count": 0,
+          "DelphiStringList.items": []
         },
         "Spell.SpellType": 0
       }

@@ -5,7 +5,10 @@ using Aow.Formats.Tree;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiFormat;
+using static Aow.Rtl.DelphiMemory;
+using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Engine.Collections;
 
@@ -110,7 +113,7 @@ public partial class BitList : Persistent
             if (p != 0)
             {
                 item = Copy(S, 1, p - 1);
-                S = RtlUnit.Delete(S, 1, p);
+                S = DelphiStrings.Delete(S, 1, p);
             }
             else
             {
@@ -172,7 +175,7 @@ public partial class BitList : Persistent
         {
             _count = bitList._count;
             SetCapacity(bitList._count);
-            RtlUnit.Move(bitList.List.Span[..((int)(((uint)(_count + 31)) >> 5) * 4)], List.Span[..((int)(((uint)(_count + 31)) >> 5) * 4)], (int)(((uint)(_count + 31)) >> 5) * 4);
+            DelphiMemory.Move(bitList.List.Span[..((int)(((uint)(_count + 31)) >> 5) * 4)], List.Span[..((int)(((uint)(_count + 31)) >> 5) * 4)], (int)(((uint)(_count + 31)) >> 5) * 4);
             _default = bitList._default;
         }
         else

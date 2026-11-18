@@ -6,7 +6,8 @@ using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiFormat;
+using static Aow.Rtl.DelphiTextCompare;
 
 namespace Aow.Game.Magic.Spells;
 

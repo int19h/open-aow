@@ -11,7 +11,7 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Engine;
 
@@ -402,7 +402,7 @@ public static class PersistSupport
         }
     }
 
-    public static void Lines(IPersister persister, string name, StringCollection lines)
+    public static void Lines(IPersister persister, string name, DelphiStringCollection lines)
     {
         if (persister is TranslatePersister translate)
         {
@@ -437,7 +437,7 @@ public static class PersistSupport
         }
     }
 
-    public static void LinesWithValues(IPersister persister, string name, StringCollection lines)
+    public static void LinesWithValues(IPersister persister, string name, DelphiStringCollection lines)
     {
         if (persister is TranslatePersister translate)
         {

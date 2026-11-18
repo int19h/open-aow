@@ -13,7 +13,7 @@ using Aow.Game.World.Movement;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Units;
 
@@ -28,7 +28,7 @@ public partial class UnitResource : TroopResource
     {
         Unit.Rank rank;
 
-        Description = new StringList();
+        Description = new DelphiStringList();
         for (int rankOrdinal = (int)(Unit.Rank)0; rankOrdinal <= (int)(Unit.Rank)2; rankOrdinal++)
         {
             rank = (Unit.Rank)rankOrdinal;
@@ -71,7 +71,7 @@ public partial class UnitResource : TroopResource
 
     private byte _transportCapacity;
 
-    public StringList Description { get; }
+    public DelphiStringList Description { get; }
 
     public int ObtainValue { get; set; }
     public UnitSize UnitSize { get; private set; }
@@ -194,7 +194,7 @@ public partial class UnitResource : TroopResource
     public sbyte GetUpkeep() => (sbyte)(Level + 1);
 
     // UnitRes.PAS:126
-    public void SetDescription(StringCollection value) => Description.Assign(value);
+    public void SetDescription(DelphiStringCollection value) => Description.Assign(value);
 
     // UnitRes.PAS:141
     public int UnitResourceIndex() => Owner.FindChildIndex(this);

@@ -119,8 +119,8 @@ internal static class LegacyRoots
         typeof(Persistent),
         typeof(PopupMenu),
         typeof(PtrBox<>),
-        typeof(Registry),
-        typeof(Runtime.IntegerObject),
+        typeof(DelphiRegistry),
+        typeof(IntegerObjects.IntegerObject),
     ];
 
     internal static bool Contains(Type type)

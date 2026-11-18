@@ -21,12 +21,12 @@ public sealed partial class EngineFixture
         private readonly string _fault;
         private readonly PhysicalFileSystem _files = new();
         private readonly Dictionary<FieldInfo, object?> _globals = [];
-        private readonly IFileSystem _previousFiles = Runtime.Files;
-        private readonly ISettingsStore? _previousSettings = Runtime.Settings;
-        private readonly IDialogService? _previousDialogs = Runtime.Dialogs;
-        private readonly IShellService? _previousShell = Runtime.Shell;
-        private readonly string _previousExecutable = Runtime.Application.ExeName;
-        private readonly Action<string> _previousMessage = Runtime.MessageHandler;
+        private readonly IFileSystem _previousFiles = RtlHost.Files;
+        private readonly ISettingsStore? _previousSettings = RtlHost.Settings;
+        private readonly IDialogService? _previousDialogs = RtlHost.Dialogs;
+        private readonly IShellService? _previousShell = RtlHost.Shell;
+        private readonly string _previousExecutable = LegacyApplication.Application.ExeName;
+        private readonly Action<string> _previousMessage = LegacyApplication.MessageHandler;
         private readonly string _previousLocalization = LocalizationRuntime.StartupDirectory;
 
         internal List<Entry> Events { get; } = [];
@@ -88,7 +88,7 @@ public sealed partial class EngineFixture
         public IDialogService Dialogs => this;
         // Engine tests record startup calls and never open a browser.
         public IShellService Shell { get; } = new RecordingShell();
-        public IClock Clock { get; } = Runtime.Clock;
+        public IClock Clock { get; } = RtlHost.Clock;
         public string ExecutableName => Path.Combine(GameRoot, "AoW.exe");
         public string GameRoot { get; } = Path.Combine(Path.GetTempPath(), "open-aow-engine-" + Guid.NewGuid().ToString("N"));
         public string CurrentDirectory { get { Record("CurrentDirectory", ""); return _files.CurrentDirectory; } }
@@ -146,9 +146,9 @@ public sealed partial class EngineFixture
 
         internal void RestoreServices()
         {
-            Runtime.Files = _previousFiles; Runtime.Settings = _previousSettings; Runtime.Dialogs = _previousDialogs;
-            Runtime.Shell = _previousShell;
-            Runtime.Clock = Clock; Runtime.Application.ExeName = _previousExecutable; Runtime.MessageHandler = _previousMessage;
+            RtlHost.Files = _previousFiles; RtlHost.Settings = _previousSettings; RtlHost.Dialogs = _previousDialogs;
+            RtlHost.Shell = _previousShell;
+            RtlHost.Clock = Clock; LegacyApplication.Application.ExeName = _previousExecutable; LegacyApplication.MessageHandler = _previousMessage;
         }
 
         public void Dispose()

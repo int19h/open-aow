@@ -155,7 +155,7 @@ public sealed class MapNetSoundFailureTests
         SampleDataList oldData = AudioHost.SampleDataList;
         SoundSystemList oldSystems = AudioHost.SoundSystems;
         string oldPath = AudioHost.BaseSoundEnginePath;
-        IFileSystem oldFiles = Runtime.Files;
+        IFileSystem oldFiles = RtlHost.Files;
         AudioHost.SampleList = new SampleList();
         AudioHost.SampleDataList = new SampleDataList();
         AudioHost.SoundSystems = new SoundSystemList();
@@ -171,7 +171,7 @@ public sealed class MapNetSoundFailureTests
 
         AudioHost.BaseSoundEnginePath = "";
         ObservingFiles files = new(oldFiles, path);
-        Runtime.Files = files;
+        RtlHost.Files = files;
         try
         {
             SdlSoundSystem.Install(mute: true, audioOutput: false);
@@ -210,7 +210,7 @@ public sealed class MapNetSoundFailureTests
             AudioHost.SampleDataList = oldData;
             AudioHost.SoundSystems = oldSystems;
             AudioHost.BaseSoundEnginePath = oldPath;
-            Runtime.Files = oldFiles;
+            RtlHost.Files = oldFiles;
         }
     }
 }

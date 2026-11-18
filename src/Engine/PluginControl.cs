@@ -13,13 +13,13 @@ public partial class PluginControl : EngineObject
 {
     // The name of the abilities plug-in (AbilityP.dpl), the one plug-in the game provides.
     private const string AbilitiesPlugin = "Abilities";
-    private readonly StringList _usedPlugins;
+    private readonly DelphiStringList _usedPlugins;
 
     // Engine.pas:9279
-    internal void SetUsedPlugins(StringCollection value) => _usedPlugins.Assign(value);
+    internal void SetUsedPlugins(DelphiStringCollection value) => _usedPlugins.Assign(value);
 
     // Engine.pas:9284
-    internal StringCollection GetUsedPlugins() => _usedPlugins;
+    internal DelphiStringCollection GetUsedPlugins() => _usedPlugins;
 
     // Engine.pas:9289
     internal void OnChange(object sender) => InitializePlugins();
@@ -41,7 +41,7 @@ public partial class PluginControl : EngineObject
     // Engine.pas:9252
     public PluginControl(CustomNode owner) : base(owner)
     {
-        _usedPlugins = new StringList
+        _usedPlugins = new DelphiStringList
         {
             Sorted = true,
             OnChange = OnChange
@@ -76,6 +76,6 @@ public partial class PluginControl : EngineObject
     }
 
     public GameEngine Engine { get; set; }
-    public StringCollection UsedPlugins { get => GetUsedPlugins(); set => SetUsedPlugins(value); }
+    public DelphiStringCollection UsedPlugins { get => GetUsedPlugins(); set => SetUsedPlugins(value); }
 
 }

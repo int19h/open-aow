@@ -1,6 +1,9 @@
+using static Aow.Rtl.DelphiDateTime;
+using static Aow.Rtl.RtlHost;
+
 namespace Aow.Rtl;
 
-public static partial class RtlUnit
+public static class DelphiFiles
 {
     public const int faReadOnly = 1, faHidden = 2, faSysFile = 4, faVolumeID = 8, faDirectory = 16, faArchive = 32, faAnyFile = 63;
 

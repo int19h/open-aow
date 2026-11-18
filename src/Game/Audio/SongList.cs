@@ -5,7 +5,8 @@ using Aow.Formats.Tree;
 
 using Aow.Rtl;
 using Aow.Rtl.Host;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiTextCompare;
+using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.Audio;
 
@@ -17,17 +18,17 @@ public partial class SongList : EngineObject
 
     public SongList(CustomNode owner) : base(owner)
     {
-        _songs = new StringList
+        _songs = new DelphiStringList
         {
             OnChange = SongsChanged
         };
-        SongNames = new StringList();
+        SongNames = new DelphiStringList();
     }
 
-    private readonly StringList _songs;
+    private readonly DelphiStringList _songs;
 
     // Sound.pas:813
-    internal void SetSongs(StringList value) => _songs.Assign(value);
+    internal void SetSongs(DelphiStringList value) => _songs.Assign(value);
 
     // Sound.pas:819
     // { Reads the song titles; a file that cannot be read is dropped from the list. }
@@ -88,7 +89,7 @@ public partial class SongList : EngineObject
         _songs.EndUpdate();
     }
 
-    public StringList Songs { get => _songs; set => SetSongs(value); }
-    public StringList SongNames { get; }
+    public DelphiStringList Songs { get => _songs; set => SetSongs(value); }
+    public DelphiStringList SongNames { get; }
 
 }

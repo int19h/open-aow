@@ -63,7 +63,7 @@ public static class FileBoundary
             GameFileReport report = prepared.Report;
             report.Error = error.Diagnostic;
             report.Validation = "refused";
-            Record(RtlUnit.Files, fileName: fileName, report: report);
+            Record(RtlHost.Files, fileName: fileName, report: report);
             return null;
         }
     }
@@ -81,7 +81,7 @@ public static class FileBoundary
 
     private static Prepared? Prepare(string fileName, GameProfile profile, string operation)
     {
-        IFileSystem files = RtlUnit.Files;
+        IFileSystem files = RtlHost.Files;
         byte[] bytes;
         try
         {
@@ -153,7 +153,7 @@ public static class FileBoundary
     /// </summary>
     public static void Save(string fileName, GameProfile profile, EngineObject root, ProgressEvent? progress = null, string? headerName = null)
     {
-        IFileSystem files = RtlUnit.Files;
+        IFileSystem files = RtlHost.Files;
         GameFileResult result;
         try
         {
@@ -192,11 +192,11 @@ public static class FileBoundary
     /// </summary>
     public static byte[] ListingHeader(string fileName, GameProfile profile, int count)
     {
-        IFileSystem files = RtlUnit.Files;
+        IFileSystem files = RtlHost.Files;
         byte[] head;
         try
         {
-            using Stream stream = files.Open(fileName, RtlUnit.fmOpenRead | RtlUnit.fmShareDenyWrite);
+            using Stream stream = files.Open(fileName, DelphiStreams.fmOpenRead | DelphiStreams.fmShareDenyWrite);
             head = new byte[count];
             int total = 0, read;
             while (total < count && (read = stream.Read(head, total, count - total)) > 0)
@@ -387,20 +387,20 @@ public static class FileBoundary
     /// decision does not rest on the current directory. The result stays relative.</summary>
     public static string WriteName(string fileName, string directory)
     {
-        if (!RtlUnit.WritesOwnExtensions)
+        if (!RtlHost.WritesOwnExtensions)
         {
             return fileName;
         }
 
-        DocumentKind? kind = DocumentKind.ForOriginalExtension(RtlUnit.ExtractFileExt(fileName));
-        return kind is null || IsEmailExchange(directory + fileName) ? fileName : RtlUnit.ChangeFileExt(fileName, kind.OwnExtension);
+        DocumentKind? kind = DocumentKind.ForOriginalExtension(DelphiPaths.ExtractFileExt(fileName));
+        return kind is null || IsEmailExchange(directory + fileName) ? fileName : DelphiPaths.ChangeFileExt(fileName, kind.OwnExtension);
     }
 
     /// <summary>
     /// The extension a game write of a kind takes: the own one, or the original one where the host
     /// writes original extensions (IRtlHost.WritesOwnExtensions).
     /// </summary>
-    public static string WriteExtension(DocumentKind kind) => RtlUnit.WritesOwnExtensions ? kind.OwnExtension : kind.OriginalExtension;
+    public static string WriteExtension(DocumentKind kind) => RtlHost.WritesOwnExtensions ? kind.OwnExtension : kind.OriginalExtension;
 
     /// <summary>
     /// The file a read of a name the game derives opens (own-formats.md 2.9). A name with an
@@ -410,7 +410,7 @@ public static class FileBoundary
     /// </summary>
     public static string ReadName(string fileName)
     {
-        string extension = RtlUnit.ExtractFileExt(fileName);
+        string extension = DelphiPaths.ExtractFileExt(fileName);
         DocumentKind? kind = DocumentKind.ForExtension(extension);
         if (kind is null)
         {
@@ -419,20 +419,20 @@ public static class FileBoundary
 
         if (kind.IsOwnExtension(extension))
         {
-            if (RtlUnit.FileExists(fileName))
+            if (DelphiFiles.FileExists(fileName))
             {
                 return fileName;
             }
 
-            string original = RtlUnit.ChangeFileExt(fileName, kind.OriginalExtension);
-            return RtlUnit.FileExists(original) ? original : fileName;
+            string original = DelphiPaths.ChangeFileExt(fileName, kind.OriginalExtension);
+            return DelphiFiles.FileExists(original) ? original : fileName;
         }
-        string own = RtlUnit.ChangeFileExt(fileName, kind.OwnExtension);
-        return RtlUnit.FileExists(own) ? own : fileName;
+        string own = DelphiPaths.ChangeFileExt(fileName, kind.OwnExtension);
+        return DelphiFiles.FileExists(own) ? own : fileName;
     }
 
     /// <summary>Whether a file lies directly in an EmailIn directory.</summary>
-    public static bool IsEmailExchange(string fileName) => RtlUnit.CompareText(RtlUnit.ExtractFileName(RtlUnit.ExtractFileDir(RtlUnit.ExpandFileName(fileName))), "EmailIn") == 0;
+    public static bool IsEmailExchange(string fileName) => DelphiTextCompare.CompareText(DelphiPaths.ExtractFileName(DelphiPaths.ExtractFileDir(DelphiPaths.ExpandFileName(fileName))), "EmailIn") == 0;
 
     /// <summary>
     /// The names of the documents of a kind in a directory, for a listing that loads each one
@@ -447,8 +447,8 @@ public static class FileBoundary
         List<string> result = [];
         foreach (string name in originals)
         {
-            string own = RtlUnit.ChangeFileExt(name, kind.OwnExtension);
-            int index = owns.FindIndex(o => RtlUnit.CompareText(o, own) == 0);
+            string own = DelphiPaths.ChangeFileExt(name, kind.OwnExtension);
+            int index = owns.FindIndex(o => DelphiTextCompare.CompareText(o, own) == 0);
             if (index < 0)
             {
                 result.Add(name);
@@ -464,7 +464,7 @@ public static class FileBoundary
     private static List<string> FindNames(string mask)
     {
         List<string> names = [];
-        foreach (RtlFileEntry entry in RtlUnit.Files.FindEntries(mask, attributes: 63 & ~16))
+        foreach (RtlFileEntry entry in RtlHost.Files.FindEntries(mask, attributes: 63 & ~16))
         {
             names.Add(entry.Name);
         }
@@ -485,7 +485,7 @@ public static class FileBoundary
         bool replaced = false;
         try
         {
-            using (Stream stream = files.Open(temporary, RtlUnit.fmCreate))
+            using (Stream stream = files.Open(temporary, DelphiStreams.fmCreate))
             {
                 stream.Write(bytes);
                 // The temporary reaches the disk before it replaces the old file.
@@ -516,7 +516,7 @@ public static class FileBoundary
 
     private static byte[] ReadAll(IFileSystem files, string fileName)
     {
-        using Stream stream = files.Open(fileName, RtlUnit.fmOpenRead | RtlUnit.fmShareDenyWrite);
+        using Stream stream = files.Open(fileName, DelphiStreams.fmOpenRead | DelphiStreams.fmShareDenyWrite);
         using MemoryStream memory = new();
         stream.CopyTo(memory);
         return memory.ToArray();

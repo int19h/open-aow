@@ -133,8 +133,8 @@ value     := Integer                             -- decimal, optionally negative
 ```
 
 Strings are code page 1252 bytes, as everything in the game; `#nnn` is a byte value. A string
-value whose `Path` ends in `.Strings` is a list, and a string list value is read into the `StringCollection` (Delphi `TStrings`)
-object the property's getter returns, as `StringCollection.DefineProperties` does in the VCL; the
+value whose `Path` ends in `.Strings` is a list, and a string list value is read into the `DelphiStringCollection` (Delphi `TStrings`)
+object the property's getter returns, as `DelphiStringCollection.DefineProperties` does in the VCL; the
 property's setter is not called. `TargetsData` is a list property the translator component defines
 itself (section 6). Binary data belongs to the component's own `DefineProperties` (here only
 `CustomImageLibrary.Data` (Delphi `TCustomImageLibrary`), the inline library).
@@ -228,7 +228,7 @@ the entry's type: an integer property accepts an integer or a constant identifie
 `clBlack` and the other `cl*` and `cr*` names of `Graphics` and `Controls`, resolved from a
 constant table); an enumeration accepts its member names; a `Char` accepts a one-character string
 or `#nnn`; a `Boolean` or `LongBool` accepts `True` and `False`; a set accepts member names; a
-`StringCollection` property accepts a list through its getter; a class property accepts `nil` (not written
+`DelphiStringCollection` property accepts a list through its getter; a class property accepts `nil` (not written
 by the game) or a reference (fixup); a method property accepts a handler name (section 5.3).
 
 A property absent from the file keeps the value the constructor gave it. The `default` directive
@@ -264,7 +264,7 @@ dictionary from property name to an entry `{ Kind, Type, Getter, Setter }`, wher
 accessors are delegates onto the transpiled property. `SubObject` entries (`Alignment`, `Font`)
 return the sub-object whose own table takes the rest of a dotted path. A class inherits its
 ancestors' entries. aowInt's published properties by type: `Integer` 106, inherited republished 77,
-`InterfaceImageLibrary` 31, `NotifyEvent` (Delphi `TNotifyEvent`) 22, `Boolean` 16, `ImageLibraryFont` 10, `StringList` (Delphi `TStringList`) 9,
+`InterfaceImageLibrary` 31, `NotifyEvent` (Delphi `TNotifyEvent`) 22, `Boolean` 16, `ImageLibraryFont` 10, `DelphiStringList` (Delphi `TStringList`) 9,
 `string` 4, component references of six classes 15, `Char` 4, `Byte` 4, enumerations
 (`TextAlignment`, `AlignWidth` (Delphi `TAOWAlignWidth`), `AlignHeight` (Delphi `TAOWAlignHeight`), `FrameType` (Delphi `TFrameType`)) 5, `TCursor` 2, `TColor` 2,
 `LongBool` 2, and the draw and mouse event types.

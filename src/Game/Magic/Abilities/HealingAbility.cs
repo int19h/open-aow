@@ -13,7 +13,8 @@ using Aow.Game.World.Map;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiRandom;
+using static Aow.Rtl.DelphiTextCompare;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -136,9 +137,8 @@ public partial class HealingAbility : TouchAbility
             {
                 if (troop.Owner is IHeroHolder)
                 {
-                    UnitUserList empty = new(null) { Holder = CreationHolder() };
+                    using UnitUserList empty = new(null) { Holder = CreationHolder() };
                     selector.Setup(troop, empty.Units);
-                    empty.Dispose();
                 }
                 else
                 {

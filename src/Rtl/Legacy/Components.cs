@@ -87,7 +87,7 @@ public class Component : Persistent
 
     protected virtual void ValidateRename(Component component, string oldName, string newName)
     {
-        if (RtlUnit.CompareText(oldName, newName) != 0 && FindComponent(newName) is not null)
+        if (DelphiTextCompare.CompareText(oldName, newName) != 0 && FindComponent(newName) is not null)
         {
             throw new ArgumentException($"A component named {newName} already exists");
         }
@@ -124,7 +124,7 @@ public class Component : Persistent
     public void RemoveComponent(Component component) { Notification(component, Operation.Remove); component.Owner = null; _ = children.Remove(component); ValidateRename(component, component.Name, ""); }
 
     // CLASSES.PAS TComponent.FindComponent.
-    public Component? FindComponent(string value) => value.Length == 0 ? null : children.FirstOrDefault(c => RtlUnit.CompareText(c.Name, value) == 0);
+    public Component? FindComponent(string value) => value.Length == 0 ? null : children.FirstOrDefault(c => DelphiTextCompare.CompareText(c.Name, value) == 0);
 
     // CLASSES.PAS TComponent.FreeNotification establishes reciprocal notifications.
     public void FreeNotification(Component component)

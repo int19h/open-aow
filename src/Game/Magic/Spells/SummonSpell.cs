@@ -10,7 +10,7 @@ using Aow.Game.Magic.Abilities.Passive;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Magic.Spells;
 

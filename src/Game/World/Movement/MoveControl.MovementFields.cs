@@ -12,7 +12,7 @@ public partial class MoveControl
 {
     public void CalculatePath(MovePath path, sbyte x, sbyte y, sbyte level)
     {
-        RtlUnit.Assert(_status.Contains(StatusElement.Activated), "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7e4f);
+        DelphiAssert.Assert(_status.Contains(StatusElement.Activated), "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7e4f);
         path.Clear();
         if (level >= Map.MapContainer.LevelCount)
         {
