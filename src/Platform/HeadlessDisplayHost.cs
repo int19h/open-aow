@@ -40,7 +40,7 @@ public sealed class HeadlessDisplayHost(string directory, int width = 640, int h
 
     public void Present(in LockedSurface surface)
     {
-        if (surface.Width < 1 || surface.Height < 1 || surface.BitCount != 16 || surface.PixelFormatId != PixelFormats.pfRGB555 || Math.Abs((long)surface.Pitch) < surface.Width * 2L)
+        if (surface.Width < 1 || surface.Height < 1 || surface.BitCount != 16 || surface.PixelFormatId != PixelFormat.Rgb555 || Math.Abs((long)surface.Pitch) < surface.Width * 2L)
         {
             throw new ArgumentException("The presenter requires 555 rows with a valid pitch.", nameof(surface));
         }

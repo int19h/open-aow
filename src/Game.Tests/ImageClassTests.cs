@@ -138,16 +138,16 @@ public sealed class ImageClassTests
     public void GrabImagesUsesTheDescriptorCreationDelegate()
     {
         ImageLibrary library = new(null!);
-        DataSurface surface = new(2, 3, PixelFormats.pfRGB555, null!);
+        DataSurface surface = new(2, 3, PixelFormat.Rgb555, null!);
         List<LibraryImageClass> previousClasses = ImageLibraries.LibraryImageClasses;
         ImageLibraries.LibraryImageClasses = [];
         ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>()]);
         LockedSurface lockedSurface = default;
-        Assert.Equal(0, surface.Lock(ref lockedSurface));
+        Assert.Equal(GraphicsResult.Ok, surface.Lock(ref lockedSurface));
         GrabInfo grab = new() { FileName = "grab.bmp", FindRectangles = false };
         try
         {
-            Assert.Equal(0, LibraryImageClass.Of<Picture16>().GrabImages(lockedSurface, grab, library, null!));
+            Assert.Equal(GraphicsResult.Ok, LibraryImageClass.Of<Picture16>().GrabImages(lockedSurface, grab, library, null!));
             Picture16 image = Assert.IsType<Picture16>(library[0]);
             Assert.Equal(2, image.Width);
             Assert.Equal(3, image.Height);

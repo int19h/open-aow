@@ -129,8 +129,8 @@ internal static class LocalizationFrameChecks
 
         if (language == 1)
         {
-            Dib16Surface left = new(120, 40, PixelFormats.pfRGB555);
-            Dib16Surface right = new(120, 40, PixelFormats.pfRGB555);
+            Dib16Surface left = new(120, 40, PixelFormat.Rgb555);
+            Dib16Surface right = new(120, 40, PixelFormat.Rgb555);
             try
             {
                 _ = left.Clear(0);

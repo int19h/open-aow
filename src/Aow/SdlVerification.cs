@@ -34,7 +34,7 @@ internal static unsafe class SdlVerification
 
             SDL_WindowID id = SDL_GetWindowID(windows[0]);
             SDL_free(windows);
-            LockedSurface surface = new() { Width = 32, Height = 24, Pitch = 68, BitCount = 16, PixelFormatId = PixelFormats.pfRGB555, Data = new byte[68 * 24] };
+            LockedSurface surface = new() { Width = 32, Height = 24, Pitch = 68, BitCount = 16, PixelFormatId = PixelFormat.Rgb555, Data = new byte[68 * 24] };
             display.Present(surface);
             surface.Pitch = -68;
             surface.Data = new byte[68 * 24];

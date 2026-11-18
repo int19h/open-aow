@@ -69,7 +69,7 @@ public partial class Picture08(CustomImageLibrary owner) : Image08(owner), ILibr
     }
 
     // ImageLib.pas:7331
-    public override bool SupportShowMode(ShowMode showMode, int pixelFormatId) => (pixelFormatId == 0 || pixelFormatId == PixelFormats.pfPAL8 || pixelFormatId == PixelFormats.pfRGB555 || pixelFormatId == PixelFormats.pfRGB565) && showMode == ShowMode.Opaque;
+    public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId) => (pixelFormatId == PixelFormat.None || pixelFormatId == PixelFormat.Pal8 || pixelFormatId == PixelFormat.Rgb555 || pixelFormatId == PixelFormat.Rgb565) && showMode == ShowMode.Opaque;
 
     // ImageLib.pas:7337
     public void AllocateDiscardableImageData(int width, int height)
@@ -116,7 +116,7 @@ public partial class Picture08(CustomImageLibrary owner) : Image08(owner), ILibr
     }
 
     // ImageLib.pas:7384
-    public override bool SupportGrabPixelFormat(int pixelFormatId) => pixelFormatId == PixelFormats.pfPAL8;
+    public override bool SupportGrabPixelFormat(PixelFormat pixelFormatId) => pixelFormatId == PixelFormat.Pal8;
 
     // ImageLib.pas:7389
     public override bool GrabImage(in LockedSurface lockedSurface, in Rect R, GrabInfo grabInfo)
@@ -135,7 +135,7 @@ public partial class Picture08(CustomImageLibrary owner) : Image08(owner), ILibr
             FileIndex = grabInfo.FileIndex;
             DataSize = DataWidth * DataHeight;
             AllocateDiscardableImageData(Width, Height);
-            if (lockedSurface.PixelFormatId == PixelFormats.pfPAL8)
+            if (lockedSurface.PixelFormatId == PixelFormat.Pal8)
             {
                 for (int y = 0, last = Height - 1; y <= last; y++)
                 {
@@ -208,23 +208,23 @@ public partial class Picture08(CustomImageLibrary owner) : Image08(owner), ILibr
 
         SurfaceView source = View.At(sourceX + (sourceY * _pitch));
         SurfaceView destination = lockedSurface.View(destinationX + (destinationY * lockedSurface.Pitch));
-        if (lockedSurface.PixelFormatId == PixelFormats.pfPAL8)
+        if (lockedSurface.PixelFormatId == PixelFormat.Pal8)
         {
             BlitRects.BlitRectangle(source, destination, width, height);
         }
         else
         {
             if (lockedSurface.PixelFormatId != RemapPaletteValue.PixelFormatId &&
-                RemapToPixelFormat(lockedSurface.PixelFormatId) != PixelFormats.GFXE_OK)
+                RemapToPixelFormat(lockedSurface.PixelFormatId) != GraphicsResult.Ok)
             {
                 throw new NotSupportedException("Surface pixel format not supported!");
             }
 
-            if (lockedSurface.PixelFormatId == PixelFormats.pfRGB555)
+            if (lockedSurface.PixelFormatId == PixelFormat.Rgb555)
             {
                 PixelRemap.RemapSurface08To555(source, destination, width, height, RemapPaletteValue);
             }
-            else if (lockedSurface.PixelFormatId == PixelFormats.pfRGB565)
+            else if (lockedSurface.PixelFormatId == PixelFormat.Rgb565)
             {
                 PixelRemap.RemapSurface08To565(source, destination, width, height, RemapPaletteValue);
             }

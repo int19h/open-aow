@@ -35,9 +35,9 @@ public sealed class LibraryImageClass
 
     public static IReadOnlyList<LibraryImageClass> All => s_catalog.All;
 
-    public int GrabImages(in LockedSurface lockedSurface, GrabInfo grabInfo, CustomImageLibrary imageLibrary, GrabProgressEvent onProgress)
+    public GraphicsResult GrabImages(in LockedSurface lockedSurface, GrabInfo grabInfo, CustomImageLibrary imageLibrary, GrabProgressEvent onProgress)
     {
-        int result = default;
+        GraphicsResult result = default;
         LibraryImageClass imageClass;
         LibraryImage image = default;
         RectangleList rects = default;
@@ -81,11 +81,11 @@ public sealed class LibraryImageClass
                 }
             }
 
-            result = 0;
+            result = GraphicsResult.Ok;
         }
         else
         {
-            result = PixelFormats.GFXE_ERROR;
+            result = GraphicsResult.Error;
         }
 
         rects?.Dispose();

@@ -20,9 +20,9 @@ public partial class DisplayController : Component
     // { Blits the invalidated blocks of back surface Index to the primary surface: every block the
     //   matrix marks is merged with its marked neighbours (GetInverseBlockSize) into one rectangle, and
     //   the marks count down, so a block is blitted once per back surface. }
-    public virtual int BlitInvalidatedSurface(int index)
+    public virtual DisplayControllerError BlitInvalidatedSurface(int index)
     {
-        int result;
+        DisplayControllerError result;
         Matrix m;
         int bw = default;
         int bh = default;
@@ -32,7 +32,7 @@ public partial class DisplayController : Component
         Rect destinationR = default;
         if (GetInverseMatrix() != null)
         {
-            result = 0;
+            result = DisplayControllerError.Ok;
             Matrix inverseMatrix = GetInverseMatrix();
             m = new Matrix(GetInverseMatrix().Width, inverseMatrix.Height);
             for (int i = 0, last = GetInverseMatrix().Width - 1; i <= last; i++)
@@ -110,7 +110,7 @@ public partial class DisplayController : Component
                             }
 
                             Surface surface = GetSurface(0);
-                            result = GetSurface(index).BlitStretch(surface, sourceR, destinationR);
+                            result = (DisplayControllerError)GetSurface(index).BlitStretch(surface, sourceR, destinationR);
                             for (int x = 0, lastX = bw - 1; x <= lastX; x++)
                             {
                                 for (int y = 0, lastY = bh - 1; y <= lastY; y++)
@@ -127,7 +127,7 @@ public partial class DisplayController : Component
         }
         else
         {
-            result = DisplayCodes.DCERR_FAILED;
+            result = DisplayControllerError.Failed;
         }
 
         return result;
@@ -169,22 +169,22 @@ public partial class DisplayController : Component
     }
 
     // DisplayC.pas:647
-    public virtual int BlitSurface(int index)
+    public virtual DisplayControllerError BlitSurface(int index)
     {
         Rect? primarySurfaceRegion = GetPrimarySurfaceRegion();
         Surface surface = GetSurface(0);
-        return GetSurface(index).BlitStretch(surface, default, primarySurfaceRegion);
+        return (DisplayControllerError)GetSurface(index).BlitStretch(surface, default, primarySurfaceRegion);
     }
 
     // DisplayC.pas:652
-    public virtual int FlipSurface(int index)
+    public virtual DisplayControllerError FlipSurface(int index)
     {
         Rect? primarySurfaceRegion = GetPrimarySurfaceRegion();
         Surface surface = GetSurface(0);
-        int result = GetSurface(index).BlitStretch(surface, default, primarySurfaceRegion);
-        if (Succeeded(result))
+        DisplayControllerError result = (DisplayControllerError)GetSurface(index).BlitStretch(surface, default, primarySurfaceRegion);
+        if (result.IsSuccess())
         {
-            result = DisplayCodes.DCERR_NOFLIP;
+            result = DisplayControllerError.NoFlip;
         }
 
         return result;
@@ -192,7 +192,7 @@ public partial class DisplayController : Component
 
     // DisplayC.pas:660
     // { Bug kept from the original: the result of Resize is ignored, so Result stays 0. }
-    public virtual int ResizeBackSurfaces(int width, int height) =>
+    public virtual DisplayControllerError ResizeBackSurfaces(int width, int height) =>
         /* TODO: Implement Controls.Color in the platform or editor service. */
         throw new NotImplementedException();
 
@@ -218,50 +218,50 @@ public partial class DisplayController : Component
     }
 
     // DisplayC.pas:734
-    public virtual int Activate(CustomDisplay display)
+    public virtual DisplayControllerError Activate(CustomDisplay display)
     {
-        int result;
+        DisplayControllerError result;
         if (!Status.Contains(DisplayControllerStatusElement.Activated))
         {
             _display = display;
             Status += Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Activated);
             _display.CurrentFrameRate = _display.FrameRate;
             InvalidateAll();
-            result = 0;
+            result = DisplayControllerError.Ok;
         }
         else
         {
-            result = DCERR_ACTIVATED;
+            result = DisplayControllerError.Activated;
         }
 
         return result;
     }
 
     // DisplayC.pas:748
-    public virtual int Deactivate()
+    public virtual DisplayControllerError Deactivate()
     {
-        int result;
+        DisplayControllerError result;
         if (Status.Contains(DisplayControllerStatusElement.Activated))
         {
             Status -= Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Activated);
             _ = (_display?.DeactivateDisplayController());
 
-            result = 0;
+            result = DisplayControllerError.Ok;
             _display = null;
         }
         else
         {
-            result = DisplayCodes.DCERR_NOTACTIVATED;
+            result = DisplayControllerError.NotActivated;
         }
 
         return result;
     }
 
     // DisplayC.pas:762
-    public virtual int SupportDisplayMode(CustomDisplay display) => DisplayCodes.DCERR_NOTSUPPORTED;
+    public virtual DisplayControllerError SupportDisplayMode(CustomDisplay display) => DisplayControllerError.NotSupported;
 
     // DisplayC.pas:767
-    public virtual int SetPalette(Palette palette) => DisplayCodes.DCERR_NOTSUPPORTED;
+    public virtual DisplayControllerError SetPalette(Palette palette) => DisplayControllerError.NotSupported;
 
     // DisplayC.pas:772
     public void RealizePalette()
@@ -276,7 +276,7 @@ public partial class DisplayController : Component
     }
 
     // DisplayC.pas:780
-    public virtual int RealizePaletteNow() => DisplayCodes.DCERR_NOTSUPPORTED;
+    public virtual DisplayControllerError RealizePaletteNow() => DisplayControllerError.NotSupported;
 
     // DisplayC.pas:787
     // { The mouse position in the display, or -1, -1 when the mouse is outside or another window has
@@ -286,17 +286,17 @@ public partial class DisplayController : Component
         throw new NotImplementedException();
 
     // DisplayC.pas:830
-    public virtual int Hide()
+    public virtual DisplayControllerError Hide()
     {
         Status -= Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Visible);
-        return 0;
+        return DisplayControllerError.Ok;
     }
 
     // DisplayC.pas:836
-    public virtual int Show()
+    public virtual DisplayControllerError Show()
     {
         Status += Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Visible);
-        return 0;
+        return DisplayControllerError.Ok;
     }
 
     // DisplayC.pas:842
@@ -522,6 +522,4 @@ public partial class DisplayController : Component
     public virtual void ShowFrameRate()
     {
     }
-
-    private const int DCERR_ACTIVATED = -2147414011;
 }

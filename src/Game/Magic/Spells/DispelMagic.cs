@@ -121,5 +121,5 @@ public partial class DispelMagic : UnitSpell
     }
 
     // UnitSpells.pas:1013
-    public int GetDispelMana(Troop source) => (source.GetAbLevel(52) * 15) + 25;
+    public int GetDispelMana(Troop source) => (source.GetOwnAbilityLevel(52) * 15) + 25;
 }

@@ -330,13 +330,13 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
 
         SelectedAbilitiesList.Items.Clear();
         SelectedAbilitiesCostList.Items.Clear();
-        for (int i = 0, last = Leader.GetAbCount() - 1; i <= last; i++)
+        for (int i = 0, last = Leader.GetOwnAbilityCount() - 1; i <= last; i++)
         {
             ability = GamePack.Current.AbilityControl.GetAbility(i);
             if (Leader.GetAbilitySetAt(i) && (Leader.HeroResource.Abilities.GetAbilitySetAt(i) || (ability.SelectionTypes & Set<AbilitySelectionType>.Of(AbilitySelectionType.CustomizeLeader, AbilitySelectionType.HeroUpgrade)) != Set<AbilitySelectionType>.Of()))
             {
                 name = GamePack.Current.AbilityControl.GetAbility(i).GetName(Leader);
-                if (Leader.HeroResource.Abilities.GetAbilitySetAt(i) && Leader.HeroResource.Abilities.GetAbLevel(i) == Leader.GetAbilityLevel(i))
+                if (Leader.HeroResource.Abilities.GetAbilitySetAt(i) && Leader.HeroResource.Abilities.GetOwnAbilityLevel(i) == Leader.GetAbilityLevel(i))
                 {
                     name = name + " (" + UI.Engine.TranslateResourceString(GameText.FixedText) + ")";
                     cost = "-";
@@ -625,7 +625,7 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         if (SelectedAbilitiesList.Selected != -1)
         {
             abilityId = ObjectToInt(SelectedAbilitiesList.Items.Objects[SelectedAbilitiesList.Selected]);
-            if (Leader.HeroResource.Abilities.GetAbilitySetAt(abilityId) && Leader.HeroResource.Abilities.GetAbLevel(abilityId) == Leader.GetAbilityLevel(abilityId))
+            if (Leader.HeroResource.Abilities.GetAbilitySetAt(abilityId) && Leader.HeroResource.Abilities.GetOwnAbilityLevel(abilityId) == Leader.GetAbilityLevel(abilityId))
             {
                 return;
             }

@@ -13,13 +13,13 @@ public sealed class RleSprite08GrabTests
     private static (RleSprite08 Image, bool Grabbed) Grab(byte[,] pixels, Rect rectangle)
     {
         int w = pixels.GetLength(1), h = pixels.GetLength(0);
-        DataSurface surface = new(palette: new Palette { PixelFormatId = PixelFormats.pfBGR24 }, width: w, height: h, pixelFormatId: PixelFormats.pfPAL8);
+        DataSurface surface = new(palette: new Palette { PixelFormatId = PixelFormat.Bgr24 }, width: w, height: h, pixelFormatId: PixelFormat.Pal8);
         RleSprite08 image = new(null);
         GrabInfo grab = image.CreateGrabInfo();
         try
         {
             LockedSurface lockedSurface = default;
-            Assert.Equal(PixelFormats.GFXE_OK, surface.Lock(ref lockedSurface));
+            Assert.Equal(GraphicsResult.Ok, surface.Lock(ref lockedSurface));
             for (int y = 0; y < h; y++)
             {
                 for (int x = 0; x < w; x++)
@@ -115,7 +115,7 @@ public sealed class RleSprite08GrabTests
     [Fact]
     public void GrabOfAnotherFormatFails()
     {
-        DataSurface surface = new(2, 2, PixelFormats.pfRGB555, null);
+        DataSurface surface = new(2, 2, PixelFormat.Rgb555, null);
         RleSprite08 image = new(null);
         GrabInfo grab = image.CreateGrabInfo();
         try
@@ -135,9 +135,9 @@ public sealed class RleSprite08GrabTests
     // Draws the image at (0, 0) on an 8-bit surface filled with $55.
     private static byte[,] Draw(RleSprite08 image, int w, int h)
     {
-        using DataSurface surface = new(palette: new Palette { PixelFormatId = PixelFormats.pfBGR24 }, width: w, height: h, pixelFormatId: PixelFormats.pfPAL8);
+        using DataSurface surface = new(palette: new Palette { PixelFormatId = PixelFormat.Bgr24 }, width: w, height: h, pixelFormatId: PixelFormat.Pal8);
         LockedSurface lockedSurface = default;
-        Assert.Equal(PixelFormats.GFXE_OK, surface.Lock(ref lockedSurface));
+        Assert.Equal(GraphicsResult.Ok, surface.Lock(ref lockedSurface));
         for (int y = 0; y < h; y++)
         {
             lockedSurface.View().Bytes(y * lockedSurface.Pitch, w).Fill(0x55);

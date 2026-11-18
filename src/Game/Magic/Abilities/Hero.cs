@@ -655,7 +655,7 @@ public partial class Hero : Troop
     public override int GetAbilityCount()
     {
         int count;
-        int result = GetAbCount();
+        int result = GetOwnAbilityCount();
         count = HeroItems.GetAbilityCount();
         if (count > result)
         {
@@ -1056,7 +1056,7 @@ public partial class Hero : Troop
     public int UsedSkillPoints()
     {
         int result = (UnitAttack * 5) + (UnitDefense * 5) + (UnitDamage * 10) + (UnitResistance * 5) + (UnitHits * 5) + (UnitMoves * 2);
-        for (int i = GetAbCount() - 1; i >= 0; i--)
+        for (int i = GetOwnAbilityCount() - 1; i >= 0; i--)
         {
             if (GetAbilitySetAt(i))
             {
@@ -1621,11 +1621,11 @@ public partial class Hero : Troop
     public AbilityOwner GetSuperlativeEnabledAbilityOwner(int abilityId)
     {
         AbilityOwner candidate;
-        AbilityOwner best = GetAbEnabled(abilityId) ? this : (AbilityOwner)null;
+        AbilityOwner best = GetOwnAbilityEnabled(abilityId) ? this : (AbilityOwner)null;
         candidate = HeroItems.GetSuperlativeEnabledAbilityOwner(abilityId);
         if (candidate != null)
         {
-            if (best == null || candidate.GetAbLevel(abilityId) > best.GetAbLevel(abilityId))
+            if (best == null || candidate.GetOwnAbilityLevel(abilityId) > best.GetOwnAbilityLevel(abilityId))
             {
                 best = candidate;
             }
@@ -1634,7 +1634,7 @@ public partial class Hero : Troop
         candidate = Inventory.GetSuperlativeEnabledAbilityOwner(abilityId);
         if (candidate != null)
         {
-            if (best == null || candidate.GetAbLevel(abilityId) > best.GetAbLevel(abilityId))
+            if (best == null || candidate.GetOwnAbilityLevel(abilityId) > best.GetOwnAbilityLevel(abilityId))
             {
                 best = candidate;
             }
@@ -1651,7 +1651,7 @@ public partial class Hero : Troop
         candidate = HeroItems.GetSuperlativeAbilityOwner(abilityId);
         if (candidate != null)
         {
-            if (best == null || candidate.GetAbLevel(abilityId) > best.GetAbLevel(abilityId))
+            if (best == null || candidate.GetOwnAbilityLevel(abilityId) > best.GetOwnAbilityLevel(abilityId))
             {
                 best = candidate;
             }
@@ -1660,7 +1660,7 @@ public partial class Hero : Troop
         candidate = Inventory.GetSuperlativeAbilityOwner(abilityId);
         if (candidate != null)
         {
-            if (best == null || candidate.GetAbLevel(abilityId) > best.GetAbLevel(abilityId))
+            if (best == null || candidate.GetOwnAbilityLevel(abilityId) > best.GetOwnAbilityLevel(abilityId))
             {
                 best = candidate;
             }

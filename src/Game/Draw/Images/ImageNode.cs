@@ -257,12 +257,12 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1473
-    public override int RemapToPixelFormat(int pixelFormatId)
+    public override GraphicsResult RemapToPixelFormat(PixelFormat pixelFormatId)
     {
         int i;
-        int result = 0;
+        GraphicsResult result = GraphicsResult.Ok;
         i = Count;
-        while (i != 0 && result == 0)
+        while (i != 0 && result == GraphicsResult.Ok)
         {
             i -= 1;
             result = Images[i].RemapToPixelFormat(pixelFormatId);
@@ -322,7 +322,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1557
-    public override bool SupportShowMode(ShowMode showMode, int pixelFormatId)
+    public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId)
     {
         int i;
         i = Count;

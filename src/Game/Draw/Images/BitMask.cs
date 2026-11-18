@@ -136,7 +136,7 @@ public partial class BitMask(CustomImageLibrary owner) : LibraryImage(owner), IL
     }
 
     // ImageLib.pas:4740
-    public override bool SupportGrabPixelFormat(int pixelFormatId) => pixelFormatId is PixelFormats.pfRGB565 or PixelFormats.pfRGB555 or PixelFormats.pfRGB24 or PixelFormats.pfPAL8;
+    public override bool SupportGrabPixelFormat(PixelFormat pixelFormatId) => pixelFormatId is PixelFormat.Rgb565 or PixelFormat.Rgb555 or PixelFormat.Rgb24 or PixelFormat.Pal8;
 
     // ImageLib.pas:4746
     public override Images.GrabInfo CreateGrabInfo() => new GrabInfo();

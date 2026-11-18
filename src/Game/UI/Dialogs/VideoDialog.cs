@@ -163,9 +163,9 @@ public partial class VideoDialog(UIContext ui) : UIModule(ui)
         foreach ((int sizeWidth, int sizeHeight) in sizes)
         {
             if ((width == 0 || width == sizeWidth) && (height == 0 || height == sizeHeight) &&
-                (pixelFormatId == 0 || pixelFormatId == 16 || pixelFormatId == PixelFormats.pfRGB555))
+                (pixelFormatId == 0 || pixelFormatId == 16 || pixelFormatId == (int)PixelFormat.Rgb555))
             {
-                list.Add(sizeWidth, sizeHeight, PixelFormats.pfRGB555);
+                list.Add(sizeWidth, sizeHeight, PixelFormat.Rgb555);
             }
         }
     }

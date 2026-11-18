@@ -144,9 +144,9 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
             item = Items[i];
-            if (item != null && result < item.GetAbCount())
+            if (item != null && result < item.GetOwnAbilityCount())
             {
-                result = item.GetAbCount();
+                result = item.GetOwnAbilityCount();
             }
         }
 
@@ -161,9 +161,9 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
             item = Items[i];
-            if (item != null && item.GetAbEnabled(abilityId) && item.ItemType == ItemType.Use)
+            if (item != null && item.GetOwnAbilityEnabled(abilityId) && item.ItemType == ItemType.Use)
             {
-                if (result == null || item.GetAbLevel(abilityId) > result.GetAbLevel(abilityId))
+                if (result == null || item.GetOwnAbilityLevel(abilityId) > result.GetOwnAbilityLevel(abilityId))
                 {
                     result = item;
                 }
@@ -183,7 +183,7 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
         while (!result && i < Items.Count)
         {
             item = Items[i];
-            result = item != null && item.ItemType == ItemType.Use && item.GetAbEnabled(abilityId);
+            result = item != null && item.ItemType == ItemType.Use && item.GetOwnAbilityEnabled(abilityId);
             i += 1;
         }
 
@@ -217,7 +217,7 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
             item = Items[i];
             if (item != null && item.GetAbilitySetAt(abilityId) && item.ItemType == ItemType.Use)
             {
-                if (result == null || item.GetAbLevel(abilityId) > result.GetAbLevel(abilityId))
+                if (result == null || item.GetOwnAbilityLevel(abilityId) > result.GetOwnAbilityLevel(abilityId))
                 {
                     result = item;
                 }

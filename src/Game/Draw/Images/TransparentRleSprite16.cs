@@ -19,6 +19,6 @@ public partial class TransparentRleSprite16 : RleSprite16, ILibraryImageClass
     }
 
     // ImageLib.pas:3608
-    public override bool SupportGrabPixelFormat(int pixelFormatId) => false;
+    public override bool SupportGrabPixelFormat(PixelFormat pixelFormatId) => false;
 
 }

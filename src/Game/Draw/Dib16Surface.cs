@@ -9,7 +9,7 @@ public partial class Dib16Surface : Surface
     private int _height;
     private byte[] _bits;
     private int _pitch;
-    private int _pixelFormatId;
+    private PixelFormat _pixelFormatId;
 
     // GFXE.pas:6991
     public override int GetWidth() => _width;
@@ -18,8 +18,8 @@ public partial class Dib16Surface : Surface
     public override int GetHeight() => _height;
 
     // GFXE.pas:7001
-    public override int GetPixelFormatId() => _pixelFormatId;
+    public override PixelFormat GetPixelFormatId() => _pixelFormatId;
 
-    public new int PixelFormatId { get => _pixelFormatId; set => SetPixelFormatId(value); }
+    public new PixelFormat PixelFormatId { get => _pixelFormatId; set => SetPixelFormatId(value); }
 
 }

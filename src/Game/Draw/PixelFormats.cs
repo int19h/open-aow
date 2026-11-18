@@ -17,34 +17,6 @@ public static class PixelFormats
 
     internal static int GetElapsedMicroseconds() => (int)Clock.TickCount * 1000;
 
-    internal const byte GFXE_OK = 0;
-
-    internal const int GFXE_ERROR = -2147483647;
-
-    public const int GFXE_NOTSUPPORTED = -2147483646;
-
-    public const int GFXE_PIXELFORMATNOTSUPPORTED = -2147483645;
-
-    internal const int GFXE_BITMAPFORMATNOTSUPPORTED = -2147483644;
-
-    public const byte pfPAL8 = 8;
-
-    public const int pfRGB555 = 1431343888;
-
-    internal const int pfARGB1555 = 1431409424;
-
-    public const int pfRGB565 = 1448121104;
-
-    internal const int pfRGB24 = -2004839656;
-
-    public const int pfBGR24 = -2004870376;
-
-    internal const int pfRGB32 = -2004315360;
-
-    internal const int pfXRGB32 = -2004839648;
-
-    internal const byte DD_OK = 0;
-
     internal static bool ValidImageFile(string fileName)
     {
         string extractFileExt = ExtractFileExt(fileName);
@@ -62,7 +34,7 @@ public static class PixelFormats
         return result;
     }
 
-    internal static int MaskToPixelFormatId(int bitCount, int rMask, int gMask, int bMask, int mask)
+    internal static PixelFormat MaskToPixelFormatId(int bitCount, int rMask, int gMask, int bMask, int mask)
     {
         Span<byte> order = stackalloc byte[4];
         bool swapped;
@@ -114,32 +86,33 @@ public static class PixelFormats
             result += bits << ((i * 4) + 16);
         }
 
-        return result;
+        return (PixelFormat)result;
     }
 
     internal static Span<ushort> Words(Span<byte> row) => MemoryMarshal.Cast<byte, ushort>(row);
 
-    internal static int PixelInfo2Color(int pixelInfo, int pixelFormatId, Palette palette) => PixelRemap.RemapPixelInfo(pixelInfo, pixelFormatId, palette, pfBGR24, null);
+    internal static int PixelInfo2Color(int pixelInfo, PixelFormat pixelFormatId, Palette palette) => PixelRemap.RemapPixelInfo(pixelInfo, pixelFormatId, palette, PixelFormat.Bgr24, null);
 
-    internal static string GetErrorMessage(int errorCode)
+    internal static string GetErrorMessage(GraphicsResult errorCode)
     {
         string result = errorCode switch
         {
-            GFXE_OK => "No ERROR occurred!",
-            GFXE_ERROR => "Undefine ERROR occurred",
-            GFXE_NOTSUPPORTED => "Function is not supported",
-            GFXE_PIXELFORMATNOTSUPPORTED => "PixelFormat is not supported",
-            GFXE_BITMAPFORMATNOTSUPPORTED => "Bitmap format is not supported",
-            _ => "Undocumented Error (Error Code:" + IntToStr(errorCode) + ")",
+            GraphicsResult.Ok => "No ERROR occurred!",
+            GraphicsResult.Error => "Undefine ERROR occurred",
+            GraphicsResult.NotSupported => "Function is not supported",
+            GraphicsResult.PixelFormatNotSupported => "PixelFormat is not supported",
+            GraphicsResult.BitmapFormatNotSupported => "Bitmap format is not supported",
+            GraphicsResult.CannotLock => "Undocumented Error (Error Code:" + IntToStr((int)errorCode) + ")",
+            _ => "Undocumented Error (Error Code:" + IntToStr((int)errorCode) + ")",
         };
         return result;
     }
 
-    internal static void ForceOptimal16BitPixelFormatId(int pixelFormatId) => GraphicsState.ForcedPixelFormatId = pixelFormatId is pfRGB565 or pfRGB555
+    internal static void ForceOptimal16BitPixelFormatId(PixelFormat pixelFormatId) => GraphicsState.ForcedPixelFormatId = pixelFormatId is PixelFormat.Rgb565 or PixelFormat.Rgb555
         ? pixelFormatId
-        : 0;
+        : PixelFormat.None;
 
-    internal static int GetOptimalPixelFormatId(int bitCount) =>
+    internal static PixelFormat GetOptimalPixelFormatId(int bitCount) =>
         /* TODO: Implement Forms.Width in the platform or editor service. */
         throw new NotImplementedException();
 
@@ -167,32 +140,33 @@ public static class PixelFormats
 
     public static bool MmxSupport() => false;
 
-    internal static int Color2PixelInfo(int color, int pixelFormatId, Palette palette)
+    internal static int Color2PixelInfo(int color, PixelFormat pixelFormatId, Palette palette)
     {
         int r = color & 255, g = (color >> 8) & 255, b = (color >> 16) & 255;
         return pixelFormatId switch
         {
-            pfPAL8 => palette is null ? throw new InvalidOperationException("Palette required") : palette.GetNearestColor(color),
-            pfRGB555 or pfARGB1555 => ((r & 248) << 7) + ((g & 248) << 2) + (b >> 3),
-            pfRGB565 => ((r & 248) << 8) + ((g & 252) << 3) + (b >> 3),
-            pfRGB24 or pfRGB32 or pfXRGB32 => (r << 16) + (g << 8) + b,
-            pfBGR24 => color & 0xFFFFFF,
+            PixelFormat.Pal8 => palette is null ? throw new InvalidOperationException("Palette required") : palette.GetNearestColor(color),
+            PixelFormat.Rgb555 or PixelFormat.Argb1555 => ((r & 248) << 7) + ((g & 248) << 2) + (b >> 3),
+            PixelFormat.Rgb565 => ((r & 248) << 8) + ((g & 252) << 3) + (b >> 3),
+            PixelFormat.Rgb24 or PixelFormat.Rgb32 or PixelFormat.Xrgb32 => (r << 16) + (g << 8) + b,
+            PixelFormat.Bgr24 => color & 0xFFFFFF,
+            PixelFormat.None => throw new NotSupportedException("Pixel format"),
             _ => throw new NotSupportedException("Pixel format")
         };
     }
 
-    public static int ColorFillSurfaceDescription(Rect R, int color, in LockedSurface lockedSurface)
+    public static GraphicsResult ColorFillSurfaceDescription(Rect R, int color, in LockedSurface lockedSurface)
     {
-        if (lockedSurface.PixelFormatId is not pfRGB555 and not pfARGB1555 and not pfRGB565)
+        if (lockedSurface.PixelFormatId is not PixelFormat.Rgb555 and not PixelFormat.Argb1555 and not PixelFormat.Rgb565)
         {
-            return GFXE_NOTSUPPORTED;
+            return GraphicsResult.NotSupported;
         }
 
         int left = Math.Max(R.Left, lockedSurface.ClipRectangle.Left), right = Math.Min(R.Right, lockedSurface.ClipRectangle.Right);
         int top = Math.Max(R.Top, lockedSurface.ClipRectangle.Top), bottom = Math.Min(R.Bottom, lockedSurface.ClipRectangle.Bottom);
         if (left >= right || top >= bottom)
         {
-            return GFXE_OK;
+            return GraphicsResult.Ok;
         }
 
         int pixel = Color2PixelInfo(color, lockedSurface.PixelFormatId, null);
@@ -201,7 +175,7 @@ public static class PixelFormats
             Blit.FillWord(lockedSurface.Data.AsSpan(lockedSurface.DataIndex + (y * lockedSurface.Pitch) + (left * 2)), right - left, pixel);
         }
 
-        return GFXE_OK;
+        return GraphicsResult.Ok;
     }
 
 }

@@ -514,7 +514,7 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
         LockedSurface lockedSurface = default;
         Dib16Surface surface;
         int index;
-        surface = new Dib16Surface(R.Right - R.Left, R.Bottom - R.Top, PixelFormats.pfRGB565);
+        surface = new Dib16Surface(R.Right - R.Left, R.Bottom - R.Top, PixelFormat.Rgb565);
         _ = surface.Clear(bkColor);
         _ = surface.Lock(ref lockedSurface);
         while (sequence != null)

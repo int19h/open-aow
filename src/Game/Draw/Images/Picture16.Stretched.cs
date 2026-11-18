@@ -117,7 +117,7 @@ public partial class Picture16
                     }
                     else
                     {
-                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
+                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != GraphicsResult.Ok)
                         {
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
@@ -150,7 +150,7 @@ public partial class Picture16
                     }
                     else
                     {
-                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
+                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != GraphicsResult.Ok)
                         {
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
@@ -271,31 +271,45 @@ public partial class Picture16
                     {
                         switch (lockedSurface.PixelFormatId)
                         {
-                            case PixelFormats.pfRGB555:
+                            case PixelFormat.Rgb555:
                                 BlendStretched555(View, rowTable, columnTable, destination, w, h, table.Bytes);
                                 break;
-                            case PixelFormats.pfRGB565:
+                            case PixelFormat.Rgb565:
                                 BlendStretched565(View, rowTable, columnTable, destination, w, h, table.Bytes);
                                 break;
+                            case PixelFormat.None:
+                            case PixelFormat.Pal8:
+                            case PixelFormat.Argb1555:
+                            case PixelFormat.Rgb24:
+                            case PixelFormat.Bgr24:
+                            case PixelFormat.Rgb32:
+                            case PixelFormat.Xrgb32:
                             default:
                                 break;
                         }
                     }
                     else
                     {
-                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
+                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != GraphicsResult.Ok)
                         {
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
                         switch (lockedSurface.PixelFormatId)
                         {
-                            case PixelFormats.pfRGB555:
+                            case PixelFormat.Rgb555:
                                 BlendStretched555(View, rowTable, columnTable, destination, w, h, table.Bytes);
                                 break;
-                            case PixelFormats.pfRGB565:
+                            case PixelFormat.Rgb565:
                                 BlendStretched565(View, rowTable, columnTable, destination, w, h, table.Bytes);
                                 break;
+                            case PixelFormat.None:
+                            case PixelFormat.Pal8:
+                            case PixelFormat.Argb1555:
+                            case PixelFormat.Rgb24:
+                            case PixelFormat.Bgr24:
+                            case PixelFormat.Rgb32:
+                            case PixelFormat.Xrgb32:
                             default:
                                 break;
                         }
@@ -324,31 +338,45 @@ public partial class Picture16
                     {
                         switch (lockedSurface.PixelFormatId)
                         {
-                            case PixelFormats.pfRGB555:
+                            case PixelFormat.Rgb555:
                                 BlendStretched555(View, rowTable, columnTable, destination, w, h, table.Bytes);
                                 break;
-                            case PixelFormats.pfRGB565:
+                            case PixelFormat.Rgb565:
                                 BlendStretched565(View, rowTable, columnTable, destination, w, h, table.Bytes);
                                 break;
+                            case PixelFormat.None:
+                            case PixelFormat.Pal8:
+                            case PixelFormat.Argb1555:
+                            case PixelFormat.Rgb24:
+                            case PixelFormat.Bgr24:
+                            case PixelFormat.Rgb32:
+                            case PixelFormat.Xrgb32:
                             default:
                                 break;
                         }
                     }
                     else
                     {
-                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
+                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != GraphicsResult.Ok)
                         {
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
                         switch (lockedSurface.PixelFormatId)
                         {
-                            case PixelFormats.pfRGB555:
+                            case PixelFormat.Rgb555:
                                 BlendStretched555(View, rowTable, columnTable, destination, w, h, table.Bytes);
                                 break;
-                            case PixelFormats.pfRGB565:
+                            case PixelFormat.Rgb565:
                                 BlendStretched565(View, rowTable, columnTable, destination, w, h, table.Bytes);
                                 break;
+                            case PixelFormat.None:
+                            case PixelFormat.Pal8:
+                            case PixelFormat.Argb1555:
+                            case PixelFormat.Rgb24:
+                            case PixelFormat.Bgr24:
+                            case PixelFormat.Rgb32:
+                            case PixelFormat.Xrgb32:
                             default:
                                 break;
                         }

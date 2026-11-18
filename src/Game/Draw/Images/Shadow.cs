@@ -13,7 +13,7 @@ public partial class Shadow(CustomImageLibrary owner) : BitMask(owner), ILibrary
 
     // ImageLib.pas:5106
     // { SupportShowMode asks TLibraryImage, which supports nothing. }
-    public override bool SupportShowMode(ShowMode showMode, int pixelFormatId) => (pixelFormatId == PixelFormats.pfRGB565 || pixelFormatId == PixelFormats.pfRGB555) && base.SupportShowMode(showMode, pixelFormatId);
+    public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId) => (pixelFormatId == PixelFormat.Rgb565 || pixelFormatId == PixelFormat.Rgb555) && base.SupportShowMode(showMode, pixelFormatId);
 
     // ImageLib.pas:5122
     public override void ShowOpaque(int X, int Y, in LockedSurface lockedSurface)
@@ -23,12 +23,19 @@ public partial class Shadow(CustomImageLibrary owner) : BitMask(owner), ILibrary
             LoadDiscardableImageData();
             switch (lockedSurface.PixelFormatId)
             {
-                case PixelFormats.pfRGB565:
+                case PixelFormat.Rgb565:
                     ShowShadow565(X + Xshift + MaskLeft, Y + Yshift + MaskTop, lockedSurface, MaskData, MaskWidth, MaskHeight);
                     break;
-                case PixelFormats.pfRGB555:
+                case PixelFormat.Rgb555:
                     ShowShadow555(X + Xshift + MaskLeft, Y + Yshift + MaskTop, lockedSurface, MaskData, MaskWidth, MaskHeight);
                     break;
+                case PixelFormat.None:
+                case PixelFormat.Pal8:
+                case PixelFormat.Argb1555:
+                case PixelFormat.Rgb24:
+                case PixelFormat.Bgr24:
+                case PixelFormat.Rgb32:
+                case PixelFormat.Xrgb32:
                 default:
                     throw new NotSupportedException("Surface format not supported");
             }
@@ -42,12 +49,19 @@ public partial class Shadow(CustomImageLibrary owner) : BitMask(owner), ILibrary
         {
             switch (lockedSurface.PixelFormatId)
             {
-                case PixelFormats.pfRGB565:
+                case PixelFormat.Rgb565:
                     ShowShadow565(X + Xshift + MaskLeft, Y + Yshift + MaskTop, lockedSurface, MaskData, MaskWidth, MaskHeight);
                     break;
-                case PixelFormats.pfRGB555:
+                case PixelFormat.Rgb555:
                     ShowShadow555(X + Xshift + MaskLeft, Y + Yshift + MaskTop, lockedSurface, MaskData, MaskWidth, MaskHeight);
                     break;
+                case PixelFormat.None:
+                case PixelFormat.Pal8:
+                case PixelFormat.Argb1555:
+                case PixelFormat.Rgb24:
+                case PixelFormat.Bgr24:
+                case PixelFormat.Rgb32:
+                case PixelFormat.Xrgb32:
                 default:
                     throw new NotSupportedException("Surface format not supported");
             }

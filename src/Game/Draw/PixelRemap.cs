@@ -113,7 +113,7 @@ internal static class PixelRemap
         }
     }
 
-    internal static int RemapPixelInfo(int pixelInfo, int sourcePixelFormatId, Palette sourcePalette, int destinationPixelFormatId, Palette destinationPalette)
+    internal static int RemapPixelInfo(int pixelInfo, PixelFormat sourcePixelFormatId, Palette sourcePalette, PixelFormat destinationPixelFormatId, Palette destinationPalette)
     {
         byte r;
         byte g;
@@ -121,7 +121,7 @@ internal static class PixelRemap
         byte a;
         switch (sourcePixelFormatId)
         {
-            case PixelFormats.pfPAL8:
+            case PixelFormat.Pal8:
                 if (sourcePalette != null)
                 {
                     (r, g, b) = (sourcePalette[pixelInfo].Red, sourcePalette[pixelInfo].Green, sourcePalette[pixelInfo].Blue);
@@ -133,57 +133,61 @@ internal static class PixelRemap
                 }
 
                 break;
-            case PixelFormats.pfRGB565:
+            case PixelFormat.Rgb565:
                 r = (byte)(((int)(((uint)pixelInfo) >> 8)) & 248);
                 g = (byte)(((int)(((uint)pixelInfo) >> 3)) & 252);
                 b = (byte)((pixelInfo << 3) & 248);
                 a = 0;
                 break;
-            case PixelFormats.pfRGB555:
+            case PixelFormat.Rgb555:
                 r = (byte)(((int)(((uint)pixelInfo) >> 7)) & 248);
                 g = (byte)(((int)(((uint)pixelInfo) >> 2)) & 248);
                 b = (byte)((pixelInfo << 3) & 248);
                 a = 0;
                 break;
-            case PixelFormats.pfARGB1555:
+            case PixelFormat.Argb1555:
                 r = (byte)(((int)(((uint)pixelInfo) >> 7)) & 248);
                 g = (byte)(((int)(((uint)pixelInfo) >> 2)) & 248);
                 b = (byte)((pixelInfo << 3) & 248);
                 a = (byte)(((int)(((uint)pixelInfo) >> 8)) & 1);
                 break;
-            case PixelFormats.pfRGB24:
+            case PixelFormat.Rgb24:
                 r = (byte)(((int)(((uint)pixelInfo) >> 16)) & 255);
                 g = (byte)(((int)(((uint)pixelInfo) >> 8)) & 255);
                 b = (byte)(pixelInfo & 255);
                 a = 0;
                 break;
-            case PixelFormats.pfBGR24:
+            case PixelFormat.Bgr24:
                 r = (byte)(pixelInfo & 255);
                 g = (byte)(((int)(((uint)pixelInfo) >> 8)) & 255);
                 b = (byte)(((int)(((uint)pixelInfo) >> 16)) & 255);
                 a = 0;
                 break;
-            case PixelFormats.pfRGB32:
+            case PixelFormat.Rgb32:
                 a = (byte)(((int)(((uint)pixelInfo) >> 24)) & 255);
                 r = (byte)(((int)(((uint)pixelInfo) >> 16)) & 255);
                 g = (byte)(((int)(((uint)pixelInfo) >> 8)) & 255);
                 b = (byte)(pixelInfo & 255);
                 break;
+            case PixelFormat.None:
+            case PixelFormat.Xrgb32:
             default:
                 throw new NotSupportedException("Source PixelFormat not supported");
         }
 
         int result = destinationPixelFormatId switch
         {
-            PixelFormats.pfPAL8 => destinationPalette != null
+            PixelFormat.Pal8 => destinationPalette != null
                                 ? destinationPalette.GetNearestColor(r + (g << 8) + (b << 16))
                                 : throw new InvalidOperationException("Destination Palette needed"),
-            PixelFormats.pfRGB565 => ((r & 248) << 8) + ((g & 252) << 3) + (int)(((uint)(b & 248)) >> 3),
-            PixelFormats.pfRGB555 => ((r & 248) << 7) + ((g & 248) << 2) + (int)(((uint)(b & 248)) >> 3),
-            PixelFormats.pfARGB1555 => ((a & 128) << 8) + ((r & 248) << 7) + ((g & 248) << 2) + (int)(((uint)(b & 248)) >> 3),
-            PixelFormats.pfRGB24 => (r << 16) + (g << 8) + b,
-            PixelFormats.pfBGR24 => r + (g << 8) + (b << 16),
-            PixelFormats.pfRGB32 => (a << 24) + (r << 16) + (g << 8) + b,
+            PixelFormat.Rgb565 => ((r & 248) << 8) + ((g & 252) << 3) + (int)(((uint)(b & 248)) >> 3),
+            PixelFormat.Rgb555 => ((r & 248) << 7) + ((g & 248) << 2) + (int)(((uint)(b & 248)) >> 3),
+            PixelFormat.Argb1555 => ((a & 128) << 8) + ((r & 248) << 7) + ((g & 248) << 2) + (int)(((uint)(b & 248)) >> 3),
+            PixelFormat.Rgb24 => (r << 16) + (g << 8) + b,
+            PixelFormat.Bgr24 => r + (g << 8) + (b << 16),
+            PixelFormat.Rgb32 => (a << 24) + (r << 16) + (g << 8) + b,
+            PixelFormat.None => throw new NotSupportedException("Destination PixelFormat not supported"),
+            PixelFormat.Xrgb32 => throw new NotSupportedException("Destination PixelFormat not supported"),
             _ => throw new NotSupportedException("Destination PixelFormat not supported"),
         };
         return result;

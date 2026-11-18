@@ -103,7 +103,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
 
         internal BlendRecorder(CustomImageLibrary owner) : base(owner) { }
 
-        public override bool SupportShowMode(ShowMode showMode, int pixelFormatId) => true;
+        public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId) => true;
         public override void ShowBlended(int X, int Y, in LockedSurface lockedSurface, BlendTable table) => Drawn.Add(table);
         public override void ShowBlendedStretched(in Rect R, in LockedSurface lockedSurface, BlendTable table) => Drawn.Add(table);
     }

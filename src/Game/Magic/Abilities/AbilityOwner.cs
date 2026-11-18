@@ -132,7 +132,7 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     public virtual string GetOwnerName() => "";
 
     // Ability.PAS:1927
-    public virtual string GetAbName(int abilityId) => GamePack.Current.AbilityControl.GetAbility(abilityId).GetName(this);
+    public virtual string GetOwnAbilityName(int abilityId) => GamePack.Current.AbilityControl.GetAbility(abilityId).GetName(this);
 
     // Ability.PAS:1931
     public virtual sbyte GetAbilityAttack(int abilityId) => GamePack.Current.AbilityControl.GetAbility(abilityId).GetAttack(this);
@@ -156,10 +156,10 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     public virtual Set<DamageType> GetAbilityImmunityTypes(int abilityId) => GamePack.Current.AbilityControl.GetAbility(abilityId).GetImmunityTypes(this);
 
     // Ability.PAS:1959
-    public virtual int GetAbLevel(int abilityId) => GamePack.Current.AbilityControl.GetAbility(abilityId).GetLevel(this);
+    public virtual int GetOwnAbilityLevel(int abilityId) => GamePack.Current.AbilityControl.GetAbility(abilityId).GetLevel(this);
 
     // Ability.PAS:1963
-    public virtual bool GetAbEnabled(int abilityId) => GetAbilitySetAt(abilityId) && GamePack.Current.AbilityControl.GetAbility(abilityId).GetEnabled(this);
+    public virtual bool GetOwnAbilityEnabled(int abilityId) => GetAbilitySetAt(abilityId) && GamePack.Current.AbilityControl.GetAbility(abilityId).GetEnabled(this);
 
     // Ability.PAS:1672
     public virtual Set<AbilitySelectionType> GetAbilitySelectionTypes() => Set<AbilitySelectionType>.Of();
@@ -198,7 +198,7 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     {
         Set<AbilitySelectionType> types;
         types = GetAbilitySelectionTypes();
-        for (int i = GetAbCount() - 1; i >= 0; i--)
+        for (int i = GetOwnAbilityCount() - 1; i >= 0; i--)
         {
             if (GetAbilitySetAt(i) && (GamePack.Current.AbilityControl.GetAbility(i).SelectionTypes & types) == Set<AbilitySelectionType>.Of())
             {
@@ -233,8 +233,8 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
             RemoveAbilityData(AbilityData);
         }
 
-        SetAbilityCount(source.GetAbCount());
-        for (int i = source.GetAbCount() - 1; i >= 0; i--)
+        SetAbilityCount(source.GetOwnAbilityCount());
+        for (int i = source.GetOwnAbilityCount() - 1; i >= 0; i--)
         {
             if (source.GetAbilitySetAt(i) != GetAbilitySetAt(i))
             {
@@ -318,9 +318,9 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     public void UpdateDefaultAbilities(AbilityOwner source)
     {
         AbilityData data;
-        for (int i = source.GetAbCount() - 1; i >= 0; i--)
+        for (int i = source.GetOwnAbilityCount() - 1; i >= 0; i--)
         {
-            if (source.GetAbilitySetAt(i) && (!GetAbilitySetAt(i) || source.GetAbLevel(i) > GetAbLevel(i)))
+            if (source.GetAbilitySetAt(i) && (!GetAbilitySetAt(i) || source.GetOwnAbilityLevel(i) > GetOwnAbilityLevel(i)))
             {
                 data = source.GetAbilityData(i);
                 if (data != null)
@@ -339,9 +339,9 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     public sbyte GetAbilityAttackAll()
     {
         sbyte result = 0;
-        for (int i = 0, last = GetAbCount() - 1; i <= last; i++)
+        for (int i = 0, last = GetOwnAbilityCount() - 1; i <= last; i++)
         {
-            if (GetAbEnabled(i))
+            if (GetOwnAbilityEnabled(i))
             {
                 result = (sbyte)(result + GamePack.Current.AbilityControl.GetAbility(i).GetAttack(this));
             }
@@ -354,9 +354,9 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     public sbyte GetAbilityDefenseAll()
     {
         sbyte result = 0;
-        for (int i = 0, last = GetAbCount() - 1; i <= last; i++)
+        for (int i = 0, last = GetOwnAbilityCount() - 1; i <= last; i++)
         {
-            if (GetAbEnabled(i))
+            if (GetOwnAbilityEnabled(i))
             {
                 result = (sbyte)(result + GamePack.Current.AbilityControl.GetAbility(i).GetDefense(this));
             }
@@ -369,9 +369,9 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     public sbyte GetAbilityResistanceAll()
     {
         sbyte result = 0;
-        for (int i = 0, last = GetAbCount() - 1; i <= last; i++)
+        for (int i = 0, last = GetOwnAbilityCount() - 1; i <= last; i++)
         {
-            if (GetAbEnabled(i))
+            if (GetOwnAbilityEnabled(i))
             {
                 result = (sbyte)(result + GamePack.Current.AbilityControl.GetAbility(i).GetResistance(this));
             }
@@ -384,9 +384,9 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     public sbyte GetAbilityDamageAll()
     {
         sbyte result = 0;
-        for (int i = 0, last = GetAbCount() - 1; i <= last; i++)
+        for (int i = 0, last = GetOwnAbilityCount() - 1; i <= last; i++)
         {
-            if (GetAbEnabled(i))
+            if (GetOwnAbilityEnabled(i))
             {
                 result = (sbyte)(result + GamePack.Current.AbilityControl.GetAbility(i).GetDamage(this));
             }
@@ -399,43 +399,43 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     public Set<MoveType> GetAbilityMoveTypesAll()
     {
         Set<MoveType> result = Set<MoveType>.Of();
-        if (GetAbEnabled(0))
+        if (GetOwnAbilityEnabled(0))
         {
             result += Set<MoveType>.Of(MoveType.Walking);
         }
 
-        if (GetAbEnabled(1) || GetAbEnabled(165) || GetAbEnabled(59))
+        if (GetOwnAbilityEnabled(1) || GetOwnAbilityEnabled(165) || GetOwnAbilityEnabled(59))
         {
             result += Set<MoveType>.Of(MoveType.Flying);
         }
 
-        if (GetAbEnabled(2) || GetAbEnabled(23) || GetAbEnabled(164) || GetAbEnabled(166))
+        if (GetOwnAbilityEnabled(2) || GetOwnAbilityEnabled(23) || GetOwnAbilityEnabled(164) || GetOwnAbilityEnabled(166))
         {
             result += Set<MoveType>.Of(MoveType.Swimming);
         }
 
-        if (GetAbEnabled(3) || GetAbEnabled(157))
+        if (GetOwnAbilityEnabled(3) || GetOwnAbilityEnabled(157))
         {
             result += Set<MoveType>.Of(MoveType.Forestry);
         }
 
-        if (GetAbEnabled(4) || GetAbEnabled(157))
+        if (GetOwnAbilityEnabled(4) || GetOwnAbilityEnabled(157))
         {
             result += Set<MoveType>.Of(MoveType.CaveCrawling);
         }
 
-        if (GetAbEnabled(5) || GetAbEnabled(157))
+        if (GetOwnAbilityEnabled(5) || GetOwnAbilityEnabled(157))
         {
             result += Set<MoveType>.Of(MoveType.Mountaineering);
         }
 
-        if (GetAbEnabled(7) || GetAbEnabled(163))
+        if (GetOwnAbilityEnabled(7) || GetOwnAbilityEnabled(163))
         {
             // The original set constant is $40.
             result += Set<MoveType>.Of(MoveType.LavaCrossing);
         }
 
-        if (GetAbEnabled(42))
+        if (GetOwnAbilityEnabled(42))
         {
             // The original set constant is $80.
             result += Set<MoveType>.Of(MoveType.Tunneling);
@@ -449,9 +449,9 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     {
         Set<WallCombatFeaturesElement> result = Set<WallCombatFeaturesElement>.Of();
         // { Original intersects into an empty set, so the result is always empty. }
-        for (int i = GetAbCount() - 1; i >= 0; i--)
+        for (int i = GetOwnAbilityCount() - 1; i >= 0; i--)
         {
-            if (GetAbEnabled(i))
+            if (GetOwnAbilityEnabled(i))
             {
                 result &= GamePack.Current.AbilityControl.GetAbility(i).GetWallCombatFeatures(this);
             }
@@ -464,42 +464,42 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     public Set<DamageType> GetAbilityProtectionTypesAll()
     {
         Set<DamageType> result = Set<DamageType>.Of();
-        if (GetAbEnabled(77) || GetAbEnabled(166))
+        if (GetOwnAbilityEnabled(77) || GetOwnAbilityEnabled(166))
         {
             result += Set<DamageType>.Of(DamageType.Physical);
         }
 
-        if (GetAbEnabled(71) || GetAbEnabled(167))
+        if (GetOwnAbilityEnabled(71) || GetOwnAbilityEnabled(167))
         {
             result += Set<DamageType>.Of(DamageType.Fire);
         }
 
-        if (GetAbEnabled(75))
+        if (GetOwnAbilityEnabled(75))
         {
             result += Set<DamageType>.Of(DamageType.Magic);
         }
 
-        if (GetAbEnabled(76))
+        if (GetOwnAbilityEnabled(76))
         {
             result += Set<DamageType>.Of(DamageType.Cold);
         }
 
-        if (GetAbEnabled(74))
+        if (GetOwnAbilityEnabled(74))
         {
             result += Set<DamageType>.Of(DamageType.Lightning);
         }
 
-        if (GetAbEnabled(73))
+        if (GetOwnAbilityEnabled(73))
         {
             result += Set<DamageType>.Of(DamageType.Poison);
         }
 
-        if (GetAbEnabled(70) || GetAbEnabled(158))
+        if (GetOwnAbilityEnabled(70) || GetOwnAbilityEnabled(158))
         {
             result += Set<DamageType>.Of(DamageType.Death);
         }
 
-        if (GetAbEnabled(72))
+        if (GetOwnAbilityEnabled(72))
         {
             result += Set<DamageType>.Of(DamageType.Holy);
         }
@@ -511,42 +511,42 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     public Set<DamageType> GetAbilityImmunityTypesAll()
     {
         Set<DamageType> result = Set<DamageType>.Of();
-        if (GetAbEnabled(13))
+        if (GetOwnAbilityEnabled(13))
         {
             result += Set<DamageType>.Of(DamageType.Physical);
         }
 
-        if (GetAbEnabled(7) || GetAbEnabled(163))
+        if (GetOwnAbilityEnabled(7) || GetOwnAbilityEnabled(163))
         {
             result += Set<DamageType>.Of(DamageType.Fire);
         }
 
-        if (GetAbEnabled(6))
+        if (GetOwnAbilityEnabled(6))
         {
             result += Set<DamageType>.Of(DamageType.Magic);
         }
 
-        if (GetAbEnabled(8))
+        if (GetOwnAbilityEnabled(8))
         {
             result += Set<DamageType>.Of(DamageType.Cold);
         }
 
-        if (GetAbEnabled(9))
+        if (GetOwnAbilityEnabled(9))
         {
             result += Set<DamageType>.Of(DamageType.Lightning);
         }
 
-        if (GetAbEnabled(10))
+        if (GetOwnAbilityEnabled(10))
         {
             result += Set<DamageType>.Of(DamageType.Poison);
         }
 
-        if (GetAbEnabled(11))
+        if (GetOwnAbilityEnabled(11))
         {
             result += Set<DamageType>.Of(DamageType.Death);
         }
 
-        if (GetAbEnabled(12))
+        if (GetOwnAbilityEnabled(12))
         {
             result += Set<DamageType>.Of(DamageType.Holy);
         }
@@ -559,7 +559,7 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     {
         try
         {
-            for (int i = 0, last = GetAbCount() - 1; i <= last; i++)
+            for (int i = 0, last = GetOwnAbilityCount() - 1; i <= last; i++)
             {
                 if (GetAbilitySetAt(i))
                 {
@@ -575,7 +575,7 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     // Ability.PAS:1977
     public void TriggerNewTurn(sbyte player)
     {
-        for (int i = 0, last = GetAbCount() - 1; i <= last; i++)
+        for (int i = 0, last = GetOwnAbilityCount() - 1; i <= last; i++)
         {
             if (GetAbilitySetAt(i))
             {
@@ -587,7 +587,7 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     // Ability.PAS:1984
     public void TriggerNewCombatTurn(CombatObject combat, sbyte player)
     {
-        for (int i = 0, last = GetAbCount() - 1; i <= last; i++)
+        for (int i = 0, last = GetOwnAbilityCount() - 1; i <= last; i++)
         {
             if (GetAbilitySetAt(i))
             {
@@ -599,7 +599,7 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     // Ability.PAS:1991
     public void TriggerCombatDone(CombatObject combat)
     {
-        for (int i = 0, last = GetAbCount() - 1; i <= last; i++)
+        for (int i = 0, last = GetOwnAbilityCount() - 1; i <= last; i++)
         {
             if (GetAbilitySetAt(i))
             {

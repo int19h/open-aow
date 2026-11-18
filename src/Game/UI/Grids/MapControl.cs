@@ -169,7 +169,7 @@ public partial class MapControl : Component
         StrategicMap.Current.UnitDestroyed += UnitDestroyed;
         StrategicMap.Current.GameTerminated += GameOver;
         StrategicMap.Current.GameEnded += GameTerminated;
-        StrategicMap.Current._hexSpriteChangedEvents += HexSpriteChanged;
+        StrategicMap.Current.HexSpriteChanged += HexSpriteChanged;
         StrategicMap.Current.PlayerTerminated += PlayerTerminated;
         StrategicMap.Current.ExecutingEventLog += ExecuteEventLog;
         StrategicMap.Current.TargetSelection.Changed += TargetSelectionChange;
@@ -214,7 +214,7 @@ public partial class MapControl : Component
         StrategicMap.Current.UnitDestroyed -= UnitDestroyed;
         StrategicMap.Current.StructureChanged -= StructureChanged;
         StrategicMap.Current.StructureDestroyed -= StructureDestroyed;
-        StrategicMap.Current._hexSpriteChangedEvents -= HexSpriteChanged;
+        StrategicMap.Current.HexSpriteChanged -= HexSpriteChanged;
         StrategicMap.Current.GameTerminated -= GameOver;
         StrategicMap.Current.GameEnded -= GameTerminated;
         StrategicMap.Current.PlayerTerminated -= PlayerTerminated;

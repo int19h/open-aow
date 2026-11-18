@@ -154,11 +154,11 @@ public partial class CustomDisplay
         FramePresented?.Invoke(PresentedFrames);
     }
 
-    public int ActivateDisplayController(DisplayController displayController)
+    public DisplayControllerError ActivateDisplayController(DisplayController displayController)
     {
         if (displayController == ActiveDisplayController)
         {
-            return 0;
+            return DisplayControllerError.Ok;
         }
 
         DisplayController previous = ActiveDisplayController;
@@ -170,7 +170,7 @@ public partial class CustomDisplay
             {
                 for (int i = 1; i <= (int)_bufferingScheme; i++)
                 {
-                    saved[i] = new DataSurface(0, 0, 0, null);
+                    saved[i] = new DataSurface(0, 0, PixelFormat.None, null);
                     _ = saved[i].CaptureSurface(previous.GetSurface(i), default);
                 }
             }
@@ -178,18 +178,18 @@ public partial class CustomDisplay
             _ = DeactivateDisplayController();
             if (displayController is null)
             {
-                return 0;
+                return DisplayControllerError.Ok;
             }
 
-            int result = displayController.Activate(this);
-            if (result < 0)
+            DisplayControllerError result = displayController.Activate(this);
+            if (result != DisplayControllerError.Ok)
             {
-                if (previous is not null && previous.Activate(this) >= 0)
+                if (previous is not null && previous.Activate(this).IsSuccess())
                 {
                     ActiveDisplayController = previous;
                 }
 
-                result = DCERR_ACTIVATEFAILED;
+                result = DisplayControllerError.ActivateFailed;
             }
             else
             {
@@ -224,20 +224,20 @@ public partial class CustomDisplay
         }
     }
 
-    public int SwapDisplayController()
+    public DisplayControllerError SwapDisplayController()
     {
         PauseFrameUpdateLoop();
         try
         {
             if (Host is null)
             {
-                return DisplayCodes.DCERR_NOTACTIVATED;
+                return DisplayControllerError.NotActivated;
             }
 
             Host.Fullscreen = !Host.Fullscreen;
             OnSwapDisplayController?.Invoke(ActiveDisplayController);
             Resize();
-            return 0;
+            return DisplayControllerError.Ok;
         }
         finally { ResumeFrameUpdateLoop(); }
     }

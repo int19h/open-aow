@@ -5,31 +5,31 @@ namespace Aow.Game.World.Structures;
 // City and place production controls in the order structures register them.
 public partial class ProductionControlList : IDisposable
 {
-    private readonly List<ProductionControl> FItems = [];
+    private readonly List<ProductionControl> _items = [];
 
-    public int Count => FItems.Count;
+    public int Count => _items.Count;
 
     // Structur.PAS:929
-    public ProductionControl GetPC(int index) => FItems[index];
+    public ProductionControl GetPC(int index) => _items[index];
 
     public int Add(ProductionControl Item)
     {
-        FItems.Add(Item);
-        return FItems.Count - 1;
+        _items.Add(Item);
+        return _items.Count - 1;
     }
 
-    public int IndexOf(ProductionControl Item) => FItems.IndexOf(Item);
+    public int IndexOf(ProductionControl Item) => _items.IndexOf(Item);
 
     public int Remove(ProductionControl Item)
     {
         int index = IndexOf(Item);
         if (index >= 0)
         {
-            FItems.RemoveAt(index);
+            _items.RemoveAt(index);
         }
 
         return index;
     }
 
-    public void Dispose() => FItems.Clear();
+    public void Dispose() => _items.Clear();
 }

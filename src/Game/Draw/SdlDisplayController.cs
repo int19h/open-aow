@@ -14,10 +14,10 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
 
     public override Surface GetSurface(int index) => index >= 0 && index < _surfaces.Length ? _surfaces[index] : null;
 
-    public override int Activate(CustomDisplay display)
+    public override DisplayControllerError Activate(CustomDisplay display)
     {
-        int result = base.Activate(display);
-        if (result < 0)
+        DisplayControllerError result = base.Activate(display);
+        if (result != DisplayControllerError.Ok)
         {
             return result;
         }
@@ -28,47 +28,47 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
         {
             for (int i = 1; i <= (int)display.BufferingScheme; i++)
             {
-                _surfaces[i] = new Dib16Surface(display.BackSurfaceWidth, display.BackSurfaceHeight, PixelFormats.pfRGB555);
+                _surfaces[i] = new Dib16Surface(display.BackSurfaceWidth, display.BackSurfaceHeight, PixelFormat.Rgb555);
                 _ = _surfaces[i].Clear(display.Color);
             }
-            return 0;
+            return DisplayControllerError.Ok;
         }
         catch { _ = Deactivate(); throw; }
     }
 
-    public override int Deactivate()
+    public override DisplayControllerError Deactivate()
     {
         for (int i = 0; i < _surfaces.Length; i++) { _surfaces[i]?.Dispose(); _surfaces[i] = null; }
         return base.Deactivate();
     }
 
-    public override int BlitSurface(int index)
+    public override DisplayControllerError BlitSurface(int index)
     {
         Surface surface = GetSurface(index);
         if (surface is null)
         {
-            return DisplayCodes.DCERR_FAILED;
+            return DisplayControllerError.Failed;
         }
 
         LockedSurface descriptor = default;
-        int result = surface.Lock(ref descriptor);
-        if (result < 0)
+        GraphicsResult result = surface.Lock(ref descriptor);
+        if (result != GraphicsResult.Ok)
         {
-            return result;
+            return (DisplayControllerError)result;
         }
 
         try { host.Present(descriptor); }
         finally { _ = surface.Unlock(); }
-        return 0;
+        return DisplayControllerError.Ok;
     }
 
-    public override int FlipSurface(int index)
+    public override DisplayControllerError FlipSurface(int index)
     {
-        int result = BlitSurface(index);
-        return result < 0 ? result : DisplayCodes.DCERR_NOFLIP;
+        DisplayControllerError result = BlitSurface(index);
+        return result != DisplayControllerError.Ok ? result : DisplayControllerError.NoFlip;
     }
 
-    public override int ResizeBackSurfaces(int width, int height)
+    public override DisplayControllerError ResizeBackSurfaces(int width, int height)
     {
         foreach (Surface surface in _surfaces.Skip(1))
         {
@@ -77,7 +77,7 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
 
         host.ResizeImage(width, height);
         InvalidateAll();
-        return 0;
+        return DisplayControllerError.Ok;
     }
 
     public override void GetMousePosition(ref int x, ref int y)
@@ -87,11 +87,11 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
         host.ShowSystemCursor(x == -1);
     }
 
-    public override int Hide() { Status = Status.Without(Visible); return 0; }
+    public override DisplayControllerError Hide() { Status = Status.Without(Visible); return DisplayControllerError.Ok; }
 
-    public override int Show() { Status = Status.With(Visible); return 0; }
+    public override DisplayControllerError Show() { Status = Status.With(Visible); return DisplayControllerError.Ok; }
 
-    public override int SupportDisplayMode(CustomDisplay display) => 0;
+    public override DisplayControllerError SupportDisplayMode(CustomDisplay display) => DisplayControllerError.Ok;
 
     public override void WindowRecreated() { }
 
@@ -99,7 +99,7 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
     {
         public override int GetWidth() => host.ClientSize.Width;
         public override int GetHeight() => host.ClientSize.Height;
-        public override int GetPixelFormatId() => PixelFormats.pfRGB555;
-        public override int Lock(ref LockedSurface descriptor) => PixelFormats.GFXE_NOTSUPPORTED;
+        public override PixelFormat GetPixelFormatId() => PixelFormat.Rgb555;
+        public override GraphicsResult Lock(ref LockedSurface descriptor) => GraphicsResult.NotSupported;
     }
 }

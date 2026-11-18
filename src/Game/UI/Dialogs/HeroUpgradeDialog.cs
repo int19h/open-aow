@@ -196,13 +196,13 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
 
         SelectedAbilitiesList.Items.Clear();
         SelectedAbilitiesCostList.Items.Clear();
-        for (int i = 1, last = _editedHero.GetAbCount() - 1; i <= last; i++)
+        for (int i = 1, last = _editedHero.GetOwnAbilityCount() - 1; i <= last; i++)
         {
             if (_editedHero.GetInherentAbility(i))
             {
                 ability = GamePack.Current.AbilityControl.GetAbility(i);
                 name = ability.GetName(_editedHero);
-                if (_hero.GetAbEnabled(i) && _hero.GetInherentAbilityLevel(i) == _editedHero.GetInherentAbilityLevel(i))
+                if (_hero.GetOwnAbilityEnabled(i) && _hero.GetInherentAbilityLevel(i) == _editedHero.GetInherentAbilityLevel(i))
                 {
                     name = name + " (" + UI.Engine.TranslateResourceString(GameText.FixedText) + ")";
                     cost = "-";

@@ -6,11 +6,11 @@ public partial class Surface
 {
     public virtual int BlitDisplayController(int displayController, Rect? sourceRectangle, Rect? destinationRectangle) => throw new NotSupportedException("Native device context");
 
-    public virtual int Clear(int color)
+    public virtual GraphicsResult Clear(int color)
     {
         LockedSurface lockedSurface = default;
-        int result = Lock(ref lockedSurface);
-        if (result < 0)
+        GraphicsResult result = Lock(ref lockedSurface);
+        if (result != GraphicsResult.Ok)
         {
             return result;
         }
@@ -27,10 +27,10 @@ public partial class Surface
                     case 16: Graphics.Blit.FillWord(row, lockedSurface.Width, pixel); break;
                     case 24: if (lockedSurface.Width > 0) { Graphics.Blit.FillTripleByte(row, lockedSurface.Width, pixel); } break;
                     case 32: Graphics.Blit.FillInteger(row, lockedSurface.Width, pixel); break;
-                    default: return PixelFormats.GFXE_NOTSUPPORTED;
+                    default: return GraphicsResult.NotSupported;
                 }
             }
-            return PixelFormats.GFXE_OK;
+            return GraphicsResult.Ok;
         }
         finally { _ = Unlock(); }
     }

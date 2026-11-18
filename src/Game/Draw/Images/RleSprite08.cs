@@ -156,7 +156,7 @@ public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILi
     }
 
     // ImageLib.pas:7596
-    public override bool SupportShowMode(ShowMode showMode, int pixelFormatId) => (pixelFormatId == 0 || pixelFormatId == PixelFormats.pfRGB555 || pixelFormatId == PixelFormats.pfRGB565) && showMode == ShowMode.Opaque;
+    public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId) => (pixelFormatId == PixelFormat.None || pixelFormatId == PixelFormat.Rgb555 || pixelFormatId == PixelFormat.Rgb565) && showMode == ShowMode.Opaque;
 
     // ImageLib.pas:7602
     public override void ShowOpaque(int X, int Y, in LockedSurface lockedSurface)
@@ -164,23 +164,30 @@ public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILi
         if (!DataLoaded)
         {
             LoadDiscardableImageData();
-            if (lockedSurface.PixelFormatId == PixelFormats.pfPAL8)
+            if (lockedSurface.PixelFormatId == PixelFormat.Pal8)
             {
                 ShowRle08(X + Xshift + RleLeft, Y + Yshift + RleTop, lockedSurface, Data, RleWidth, RleHeight, (byte)_transparentColor);
             }
             else
             {
-                if (lockedSurface.PixelFormatId != RemapPaletteValue.PixelFormatId && RemapToPixelFormat(lockedSurface.PixelFormatId) != PixelFormats.GFXE_OK)
+                if (lockedSurface.PixelFormatId != RemapPaletteValue.PixelFormatId && RemapToPixelFormat(lockedSurface.PixelFormatId) != GraphicsResult.Ok)
                 {
                     throw new NotSupportedException("Surface pixel format not supported!");
                 }
 
                 switch (lockedSurface.PixelFormatId)
                 {
-                    case PixelFormats.pfRGB555:
-                    case PixelFormats.pfRGB565:
+                    case PixelFormat.Rgb555:
+                    case PixelFormat.Rgb565:
                         ShowRle08To16(X + Xshift + RleLeft, Y + Yshift + RleTop, lockedSurface, Data, RleWidth, RleHeight, (byte)_transparentColor, RemapPaletteValue.Pixels);
                         break;
+                    case PixelFormat.None:
+                    case PixelFormat.Pal8:
+                    case PixelFormat.Argb1555:
+                    case PixelFormat.Rgb24:
+                    case PixelFormat.Bgr24:
+                    case PixelFormat.Rgb32:
+                    case PixelFormat.Xrgb32:
                     default:
                         throw new NotSupportedException("PixelFormat not supported");
                 }
@@ -193,23 +200,30 @@ public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILi
         }
         else
         {
-            if (lockedSurface.PixelFormatId == PixelFormats.pfPAL8)
+            if (lockedSurface.PixelFormatId == PixelFormat.Pal8)
             {
                 ShowRle08(X + Xshift + RleLeft, Y + Yshift + RleTop, lockedSurface, Data, RleWidth, RleHeight, (byte)_transparentColor);
             }
             else
             {
-                if (lockedSurface.PixelFormatId != RemapPaletteValue.PixelFormatId && RemapToPixelFormat(lockedSurface.PixelFormatId) != PixelFormats.GFXE_OK)
+                if (lockedSurface.PixelFormatId != RemapPaletteValue.PixelFormatId && RemapToPixelFormat(lockedSurface.PixelFormatId) != GraphicsResult.Ok)
                 {
                     throw new NotSupportedException("Surface pixel format not supported!");
                 }
 
                 switch (lockedSurface.PixelFormatId)
                 {
-                    case PixelFormats.pfRGB555:
-                    case PixelFormats.pfRGB565:
+                    case PixelFormat.Rgb555:
+                    case PixelFormat.Rgb565:
                         ShowRle08To16(X + Xshift + RleLeft, Y + Yshift + RleTop, lockedSurface, Data, RleWidth, RleHeight, (byte)_transparentColor, RemapPaletteValue.Pixels);
                         break;
+                    case PixelFormat.None:
+                    case PixelFormat.Pal8:
+                    case PixelFormat.Argb1555:
+                    case PixelFormat.Rgb24:
+                    case PixelFormat.Bgr24:
+                    case PixelFormat.Rgb32:
+                    case PixelFormat.Xrgb32:
                     default:
                         throw new NotSupportedException("PixelFormat not supported");
                 }
@@ -218,7 +232,7 @@ public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILi
     }
 
     // ImageLib.pas:7643
-    public override bool SupportGrabPixelFormat(int pixelFormatId) => pixelFormatId == PixelFormats.pfPAL8;
+    public override bool SupportGrabPixelFormat(PixelFormat pixelFormatId) => pixelFormatId == PixelFormat.Pal8;
 
     // ImageLib.pas:7659
     // { GrabImage encodes the rows of the smallest rectangle holding the opaque pixels: per row a

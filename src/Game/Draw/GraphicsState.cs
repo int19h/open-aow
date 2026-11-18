@@ -25,7 +25,7 @@ public static class GraphicsState
         }
     }
 
-    internal static int ForcedPixelFormatId { get; set; }
+    internal static PixelFormat ForcedPixelFormatId { get; set; }
 
     internal static ImageFileClassList ImageFileClassList { get; private set; }
 
@@ -46,7 +46,7 @@ public static class GraphicsState
         ShadowBlendTable = new LookupBlendTableCollection100();
         LinearAlphaBlendTable = new LookupBlendTableCollection100();
         InitializeBlendTables(5, 31);
-        ForcedPixelFormatId = 0;
+        ForcedPixelFormatId = PixelFormat.None;
         ImageFileClassList = new ImageFileClassList();
         RegisterImageFileClasses([ImageFileClass.Of<BmpImageFile>()]);
     }

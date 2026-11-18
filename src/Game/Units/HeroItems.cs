@@ -250,9 +250,9 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
             item = Items[i];
-            if (item != null && result < item.GetAbCount())
+            if (item != null && result < item.GetOwnAbilityCount())
             {
-                result = item.GetAbCount();
+                result = item.GetOwnAbilityCount();
             }
         }
 
@@ -267,9 +267,9 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
             item = Items[i];
-            if (item != null && item.GetAbEnabled(abilityId))
+            if (item != null && item.GetOwnAbilityEnabled(abilityId))
             {
-                if (result == null || item.GetAbLevel(abilityId) > result.GetAbLevel(abilityId))
+                if (result == null || item.GetOwnAbilityLevel(abilityId) > result.GetOwnAbilityLevel(abilityId))
                 {
                     result = item;
                 }
@@ -289,7 +289,7 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
             item = Items[i];
             if (item != null && item.GetAbilitySetAt(abilityId))
             {
-                if (result == null || item.GetAbLevel(abilityId) > result.GetAbLevel(abilityId))
+                if (result == null || item.GetOwnAbilityLevel(abilityId) > result.GetOwnAbilityLevel(abilityId))
                 {
                     result = item;
                 }
@@ -309,7 +309,7 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
         while (!result && i < Items.Count)
         {
             item = Items[i];
-            result = item != null && item.GetAbEnabled(abilityId);
+            result = item != null && item.GetOwnAbilityEnabled(abilityId);
             i += 1;
         }
 

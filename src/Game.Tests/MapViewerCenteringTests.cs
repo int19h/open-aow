@@ -39,7 +39,7 @@ public sealed class MapViewerCenteringTests
         public PaintedMap Map { get; } = new();
         public HexSpriteMapViewer Viewer { get; } = new(null);
 
-        private readonly DataSurface _target = new(420, 320, PixelFormats.pfRGB555, null);
+        private readonly DataSurface _target = new(420, 320, PixelFormat.Rgb555, null);
 
         public Fixture(int sceneWidth, int sceneHeight)
         {
@@ -49,7 +49,7 @@ public sealed class MapViewerCenteringTests
             Viewer.SceneHeight = sceneHeight;
             Viewer.ChangeScene(100, 30, 0);
             LockedSurface lockedSurface = default;
-            Assert.Equal(PixelFormats.GFXE_OK, _target.Lock(ref lockedSurface));
+            Assert.Equal(GraphicsResult.Ok, _target.Lock(ref lockedSurface));
             _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, lockedSurface.Height), 0x00FF00, lockedSurface);
             _ = _target.Unlock();
             Viewer.ShowScene(SceneLeft, SceneTop, _target);
