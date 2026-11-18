@@ -61,7 +61,7 @@ public sealed class LibraryImageClass
             {
                 if (rects.Count > 1)
                 {
-                    Progress(RtlUnit.Round((double)(i * 90) / (rects.Count - 1)) + 10, "Grabbing Image " + RtlUnit.IntToStr(i + 1));
+                    Progress(DelphiRounding.Round((double)(i * 90) / (rects.Count - 1)) + 10, "Grabbing Image " + DelphiConversions.IntToStr(i + 1));
                 }
                 else
                 {
@@ -114,7 +114,7 @@ public sealed class LibraryImageClass
             }
             if (onProgress != null && (number2 % 20 == 0 || number2 == lockedSurface.Height - 1))
             {
-                onProgress(null, RtlUnit.Round(number2 * 100 / (double)(lockedSurface.Height - 1)), 0);
+                onProgress(null, DelphiRounding.Round(number2 * 100 / (double)(lockedSurface.Height - 1)), 0);
             }
         }
         if (rectangleList.Count == 0)

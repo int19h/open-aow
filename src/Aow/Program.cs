@@ -84,7 +84,7 @@ internal static class Program
             }
 
             using SdlHost host = new(root, single ?? Value(arguments, "--user-data"), scale, arguments.Contains("--fullscreen") ? true : null, vsync: arguments.Contains("--no-vsync") ? false : null);
-            Rtl.RtlUnit.InstallHost(host);
+            Rtl.RtlHost.InstallHost(host);
             using MainForm form = MainForm.Create(host.Display, arguments.FirstOrDefault(MainForm.IsSaveName) ?? "", arguments.Contains("--mute"), audioOutput: true);
             form.Run(frames);
             Console.WriteLine($"Title scene: presented {form.Display.PresentedFrames} frames, mute={arguments.Contains("--mute")}");

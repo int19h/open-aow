@@ -20,7 +20,7 @@ public sealed class FileDialogSortTests
         WithDialog((dialog, settingsDirectory) =>
         {
             Assert.False(EngineFixture.Engine.Registry.GetFileDialogSortByDate());
-            Assert.True(Runtime.SetCurrentDir("one"));
+            Assert.True(DelphiFiles.SetCurrentDir("one"));
             dialog.FindFiles();
             Assert.Equal(["alpha", "beta", "aaa.asg", "zzz.asg"], Names(dialog.FileList));
             Assert.Equal(Names(dialog.FileList), Names(dialog.SaveList));
@@ -36,14 +36,14 @@ public sealed class FileDialogSortTests
             Assert.NotEqual("", dialog.DateList.Items[2]);
             Assert.Equal(-1, dialog.FileList.Selected);
 
-            Assert.True(Runtime.SetCurrentDir("..\\two"));
+            Assert.True(DelphiFiles.SetCurrentDir("..\\two"));
             dialog.FindFiles();
             Assert.Equal(["gamma", "yyy.asg", "bbb.asg"], Names(dialog.FileList));
 
-            Runtime.Settings = new JsonSettingsStore(settingsDirectory);
+            RtlHost.Settings = new JsonSettingsStore(settingsDirectory);
             EngineFixture.Engine.Registry = new GameSettings();
             Assert.True(EngineFixture.Engine.Registry.GetFileDialogSortByDate());
-            Assert.True(Runtime.SetCurrentDir("..\\one"));
+            Assert.True(DelphiFiles.SetCurrentDir("..\\one"));
             dialog.FindFiles();
             Assert.Equal(["alpha", "beta", "zzz.asg", "aaa.asg"], Names(dialog.FileList));
         });
@@ -61,7 +61,7 @@ public sealed class FileDialogSortTests
 
         WithDialog((dialog, _) =>
         {
-            Assert.True(Runtime.SetCurrentDir("one"));
+            Assert.True(DelphiFiles.SetCurrentDir("one"));
             dialog.FindFiles();
             dialog.FileList.Selected = dialog.FileList.Items.IndexOf("aaa.asg");
             dialog.SortByDate();
@@ -93,7 +93,7 @@ public sealed class FileDialogSortTests
             dialog.Mode = 2;
             dialog.FileNameEdit.Text = "valley.map";
             dialog.SaveFileNameEdit.Text = "stale.asg";
-            Assert.True(Runtime.SetCurrentDir("one"));
+            Assert.True(DelphiFiles.SetCurrentDir("one"));
             dialog.FindFiles();
             Assert.Equal(["alpha", "beta", "aaa.asg", "zzz.asg"], Names(dialog.FileList));
             Assert.Equal("valley.map", dialog.FileNameEdit.Text);
@@ -117,21 +117,21 @@ public sealed class FileDialogSortTests
         string root = Path.Combine(directory, "root");
         string user = Path.Combine(directory, "user");
         string settingsDirectory = Path.Combine(directory, "settings");
-        StringList previousDirectories = FileDialogWindow.Directories;
-        StringList<FileTime> previousFiles = FileDialogWindow.Files;
-        StringList previousDrives = FileDialogWindow.Drives;
+        DelphiStringList previousDirectories = FileDialogWindow.Directories;
+        DelphiStringList<FileTime> previousFiles = FileDialogWindow.Files;
+        DelphiStringList previousDrives = FileDialogWindow.Drives;
         FileDialogWindow? dialog = null;
         try
         {
             _ = Directory.CreateDirectory(root);
             _ = Directory.CreateDirectory(settingsDirectory);
             WriteTree(user);
-            Runtime.Files = new LayeredFileSystem(root, user);
-            Runtime.Settings = new JsonSettingsStore(settingsDirectory);
+            RtlHost.Files = new LayeredFileSystem(root, user);
+            RtlHost.Settings = new JsonSettingsStore(settingsDirectory);
             EngineFixture.Engine.Registry = new GameSettings();
-            FileDialogWindow.Directories = new StringList();
-            FileDialogWindow.Files = new StringList<FileTime>();
-            FileDialogWindow.Drives = new StringList();
+            FileDialogWindow.Directories = new DelphiStringList();
+            FileDialogWindow.Files = new DelphiStringList<FileTime>();
+            FileDialogWindow.Drives = new DelphiStringList();
             dialog = Dialog();
             body(dialog, settingsDirectory);
         }

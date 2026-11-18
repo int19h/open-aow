@@ -27,7 +27,11 @@ using Aow.Game.World.Structures;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiAssert;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiRandom;
+using static Aow.Rtl.DelphiRounding;
+using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Session;
 
@@ -108,7 +112,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         };
         _victoryLocations = new PlayerStructureList(null) { Holder = CreationHolder() };
         KnownStructures = new PlayerStructureList(null) { Holder = CreationHolder() };
-        _messages = new StringList();
+        _messages = new DelphiStringList();
         DiplomaticActions = new DiplomaticActionList(null) { Holder = CreationHolder() };
         AIValidAttackPlayers = new BitList();
         PbemSettings = new PbemPlayerSettings(null) { Holder = CreationHolder() };
@@ -172,7 +176,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     public MapCoordinate View { get; set; }
 
     private string _password = "";
-    private StringList _messages;
+    private DelphiStringList _messages;
 
     public DiplomaticRelationList LegacyRelations { get; }
     public DiplomaticRelationList LegacyNewRelations { get; }
@@ -587,7 +591,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
 
         if (message.MessageId == 537002243)
         {
-            if (!Validate(message.Payload.As<StringCollection>()))
+            if (!Validate(message.Payload.As<DelphiStringCollection>()))
             {
                 Array4<int> data = message.Data;
                 data[0] = 1;
@@ -798,7 +802,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     }
 
     // Player.PAS:515
-    public bool Validate(StringCollection errors)
+    public bool Validate(DelphiStringCollection errors)
     {
         bool result;
         string s;

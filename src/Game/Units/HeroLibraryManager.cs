@@ -11,7 +11,10 @@ using Aow.Game.Saves;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiFiles;
+using static Aow.Rtl.DelphiPaths;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.DelphiTextCompare;
 
 namespace Aow.Game.Units;
 
@@ -143,7 +146,7 @@ public partial class HeroLibraryManager : EngineObject
         // { Original retains the period when stripping the extension. }
         if (Pos(".", libraryName) != 0)
         {
-            libraryName = RtlUnit.Copy(libraryName, 1, Pos(".", libraryName));
+            libraryName = DelphiStrings.Copy(libraryName, 1, Pos(".", libraryName));
         }
 
         if (!IsEmpty(libraryName) && IndexOfLibraryName(libraryName) == -1)

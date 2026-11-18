@@ -1,7 +1,8 @@
 // Translated from FMemStr.pas.
 using System.Runtime.InteropServices;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiMemory;
+using static Aow.Rtl.DelphiStreams;
 
 namespace Aow.Engine.Storage;
 

@@ -74,7 +74,7 @@ public partial class CustomDisplay
         OnResize?.Invoke(this);
     }
 
-    public virtual void ShowError(string message) => RtlUnit.ShowMessage(message);
+    public virtual void ShowError(string message) => LegacyApplication.ShowMessage(message);
     public virtual void StopUpdateFrameLoop() => Status = Status.Without(FrameLoopActive);
 
     public virtual void PauseFrameUpdateLoop() { _pauseCount++; Status = Status.With(FrameLoopPaused); }
@@ -115,7 +115,7 @@ public partial class CustomDisplay
                 }
                 else
                 {
-                    RtlUnit.Clock.WaitMilliseconds(1);
+                    RtlHost.Clock.WaitMilliseconds(1);
                 }
 
                 Host.PumpEvents(EventSink);

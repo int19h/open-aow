@@ -46,7 +46,7 @@ public sealed class RemainingConstructionTests
             GamePack.Current = set;
             StrategicMap.Current = null;
             GamePack.Current.UnitGraphicsResources = null;
-            Runtime.RandSeed = 123456789;
+            DelphiRandom.RandSeed = 123456789;
         }
 
         public void Dispose()

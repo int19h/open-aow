@@ -1,9 +1,11 @@
 using System.Globalization;
 using System.Text;
+using static Aow.Rtl.DelphiOrdinals;
+using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Rtl;
 
-public static partial class RtlUnit
+public static class DelphiFormat
 {
     // SYSUTILS.PAS FormatBuf also serves exception constructors.
     public static string Format(string? format, params ReadOnlySpan<FormatArg> args)

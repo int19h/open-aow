@@ -88,7 +88,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         _ = Display.ActivateDisplayController(WinDisplayController);
         Display.PresentInitialFrame();
         // The game reads its command line as a path on its own drive, so a host path becomes the file system's public path.
-        FormShow(argument.Length == 0 ? argument : RtlUnit.Files.ExpandPath(argument));
+        FormShow(argument.Length == 0 ? argument : RtlHost.Files.ExpandPath(argument));
     }
 
     private void FormCreate()
@@ -135,15 +135,15 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         UI.General.Manager.WinHeight = Display.BackSurfaceHeight;
         UI.General.Manager.Aligned = false;
         string name = UI.Engine.Registry.GetString(0);
-        if (!RtlUnit.IsEmpty(name)) { UI.MultiWindow.TcpNameEdit.Text = name; UI.MultiWindow.IpxNameEdit.Text = name; }
+        if (!DelphiStrings.IsEmpty(name)) { UI.MultiWindow.TcpNameEdit.Text = name; UI.MultiWindow.IpxNameEdit.Text = name; }
         string address = UI.Engine.Registry.GetString(1);
-        if (!RtlUnit.IsEmpty(address))
+        if (!DelphiStrings.IsEmpty(address))
         {
             UI.MultiWindow.IPAddressEdit.Text = address;
         }
 
         WindowActions.RestoreWindowLayout(UI.General);
-        _ = RtlUnit.SetCurrentDir(UI.Engine.StartupDirectory);
+        _ = DelphiFiles.SetCurrentDir(UI.Engine.StartupDirectory);
         UI.Engine.CombatFont = UI.Fonts.Age8;
     }
 
@@ -155,7 +155,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
     {
         AudioHost.SongPlayer.SetSongChangeHandler(_ => UI.SoundDialog.SongChange());
         UI.Engine.OutputDebugString("ParamStr: " + argument);
-        if (argument.Length != 0 && RtlUnit.FileExists(argument) && IsSaveName(argument))
+        if (argument.Length != 0 && DelphiFiles.FileExists(argument) && IsSaveName(argument))
         {
             WindowActions.ShowTitleScene(UI.TitleScene, false);
             GameHost.DeferredSetupAction = 2;
@@ -192,7 +192,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
     public void DisplayUpdateFrame(object sender, DisplayController displayController, int surfaceType)
     {
-        RtlUnit.Clock.WaitMilliseconds(UI.Engine.Registry.GetDebugMode() ? 1 : 0);
+        RtlHost.Clock.WaitMilliseconds(UI.Engine.Registry.GetDebugMode() ? 1 : 0);
         switch (GameHost.DeferredSetupAction)
         {
             case 1: GameHost.DeferredSetupAction = 0; _ = UI.ScenarioSetup.SetupControl.PlayerSetupDone(); break;
@@ -207,7 +207,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
         AudioPlayback.ProcessSound();
         try { StrategicMap.Current?.NewFrame(); }
-        catch (Exception error) { Console.Error.WriteLine(error); RtlUnit.ShowMessage("Exception during AoWHSMap.NewFrame"); }
+        catch (Exception error) { Console.Error.WriteLine(error); LegacyApplication.ShowMessage("Exception during AoWHSMap.NewFrame"); }
         if (displayController?.GetSurface(1) is Surface back)
         {
             int x = -1, y = -1;
@@ -222,7 +222,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             }
 
             try { UI.General.Manager.DrawSurface(back); }
-            catch (Exception error) { Console.Error.WriteLine(error); RtlUnit.ShowMessage("Exception during WinManager DrawSurface"); }
+            catch (Exception error) { Console.Error.WriteLine(error); LegacyApplication.ShowMessage("Exception during WinManager DrawSurface"); }
             LockedSurface descriptor = default;
             if (x != -1 && back.Lock(ref descriptor) >= 0)
             {
@@ -260,7 +260,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             image.GetVisualDimensions(out Rect bounds);
             bounds.Left += x + dx; bounds.Right += x + dx;
             bounds.Top += y + dy; bounds.Bottom += y + dy;
-            _ = RtlUnit.UnionRect(out _cursorBounds, _cursorBounds, bounds);
+            _ = RectRoutines.UnionRect(out _cursorBounds, _cursorBounds, bounds);
         }
         _cursorBounds = default;
         if (StrategicMap.Current is not null)

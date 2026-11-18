@@ -13,7 +13,7 @@ using Aow.Game.World.Map;
 
 using Aow.Game.World.Structures;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.AI;
 

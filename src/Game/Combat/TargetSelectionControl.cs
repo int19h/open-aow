@@ -30,7 +30,7 @@ public partial class TargetSelectionControl : IDisposable
     {
         OnChangeStore = new();
         HexNumbers = new SByteList();
-        Text = new StringList();
+        Text = new DelphiStringList();
     }
 
     public CustomImageLibrary ImageLibrary { get; private set; }
@@ -60,7 +60,7 @@ public partial class TargetSelectionControl : IDisposable
 
     public TargetSelectionChange Change { get; private set; }
     public MapCoordinate Target { get; private set; }
-    public StringCollection Text { get; }
+    public DelphiStringCollection Text { get; }
     public string Title { get; set; } = "";
     public string CancelText { get; set; } = "";
     public int SourceUnitId { get; set; }

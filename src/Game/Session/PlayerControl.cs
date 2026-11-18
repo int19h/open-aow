@@ -18,7 +18,10 @@ using Aow.Game.World.Map;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiPaths;
+using static Aow.Rtl.DelphiRandom;
+using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Session;
 
@@ -577,7 +580,7 @@ public partial class PlayerControl : EngineObject
     }
 
     // PlayerC.PAS:295
-    public void ListPlayerInfo(StringCollection strings)
+    public void ListPlayerInfo(DelphiStringCollection strings)
     {
         int race;
         string text;
@@ -639,7 +642,7 @@ public partial class PlayerControl : EngineObject
                     saveLog.DefaultName = ExtractFileName(StrategicMap.Current.FileName);
                     if (Pos(".", saveLog.DefaultName) != 0)
                     {
-                        saveLog.DefaultName = RtlUnit.Copy(saveLog.DefaultName, 1, Pos(".", saveLog.DefaultName) - 1);
+                        saveLog.DefaultName = DelphiStrings.Copy(saveLog.DefaultName, 1, Pos(".", saveLog.DefaultName) - 1);
                     }
                 }
                 else

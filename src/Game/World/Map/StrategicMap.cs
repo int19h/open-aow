@@ -34,7 +34,13 @@ using Aow.Game.World.Structures;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiAssert;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiFiles;
+using static Aow.Rtl.DelphiPaths;
+using static Aow.Rtl.DelphiRandom;
+using static Aow.Rtl.DelphiRounding;
+using static Aow.Rtl.DelphiTextCompare;
 
 namespace Aow.Game.World.Map;
 
@@ -56,14 +62,14 @@ public partial class StrategicMap : GameMap
 
     public int SphereCount { get; private set; }
 
-    public StringList Description { get; }
+    public DelphiStringList Description { get; }
     public ItemControl ItemControl { get; private set; }
     public HeroControl HeroControl { get; set; }
     public UnitControl UnitControl { get; set; }
     public StructureControl StructureControl { get; private set; }
 
     private StrategicMapIndependentAIMode _independentAIMode;
-    private readonly StringList _objectives;
+    private readonly DelphiStringList _objectives;
 
     public sbyte HeroCountMax { get; private set; }
 
@@ -674,8 +680,8 @@ public partial class StrategicMap : GameMap
         SphereCount = 5;
         VictoryGold = 5000;
         VictoryMana = 5000;
-        Description = new StringList();
-        _objectives = new StringList();
+        Description = new DelphiStringList();
+        _objectives = new DelphiStringList();
         _independentAIMode = StrategicMapIndependentAIMode.Normal;
         Players = new PlayerCollection(null) { Holder = CreationHolder() };
         Races = new RaceList(null) { Holder = CreationHolder() };
@@ -1785,7 +1791,7 @@ public partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:2088
-    public bool ValidateMap(StringCollection messages)
+    public bool ValidateMap(DelphiStringCollection messages)
     {
         EngineMessage.InitializeMessage(out EngineMessage message, 537002243, this);
         message.Payload = messages;
@@ -2219,18 +2225,18 @@ public partial class StrategicMap : GameMap
             if (GetSynchronized())
             {
                 RandSeed = DefendersSeed;
-                result = RtlUnit.Random(range);
+                result = DelphiRandom.Random(range);
                 DefendersSeed = RandSeed;
             }
             else
             {
-                RtlUnit.ShowMessage("Invalid AoWHSMap.Random use");
+                LegacyApplication.ShowMessage("Invalid AoWHSMap.Random use");
                 result = 0;
             }
         }
         else
         {
-            result = RtlUnit.Random(range);
+            result = DelphiRandom.Random(range);
         }
 
         return result;

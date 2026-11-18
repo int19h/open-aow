@@ -1,6 +1,6 @@
 namespace Aow.Rtl;
 
-public static partial class RtlUnit
+public static class DelphiStrings
 {
     public static bool StrictStrings { get; set; }
 

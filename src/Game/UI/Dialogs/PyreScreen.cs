@@ -13,7 +13,8 @@ using Aow.Game.World.Map;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiFiles;
+using static Aow.Rtl.DelphiPaths;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -93,7 +94,7 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
         VideoDialog.SetVideoMode(UI.VideoDialog, VideoDialog.ScreenMode.Title);
         UI.VideoDialog.ApplyMode();
         UI.TitleWindow.MainWindow.Visible = true;
-        _ = SetCurrentDir(ExtractFileDir(RtlUnit.Application.ExeName));
+        _ = SetCurrentDir(ExtractFileDir(LegacyApplication.Application.ExeName));
     }
 
     // AOWPyreScrn.pas:48

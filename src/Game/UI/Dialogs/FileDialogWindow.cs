@@ -21,7 +21,12 @@ using Aow.Game.World.Map;
 using Aow.Rtl;
 using Aow.Rtl.Host;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiDateTime;
+using static Aow.Rtl.DelphiFiles;
+using static Aow.Rtl.DelphiPaths;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.DelphiTextCompare;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -198,7 +203,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
             directory = Copy(directory, 1, directory.Length - 1);
         }
 
-        foreach (RtlFileEntry entry in RtlUnit.Files.FindEntries(directory + "\\**", attributes: 16))
+        foreach (RtlFileEntry entry in RtlHost.Files.FindEntries(directory + "\\**", attributes: 16))
         {
             if (entry.Name is not "." and not "..")
             {
@@ -255,9 +260,9 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
     // AoWFileDialog.pas:296
     public void FileDialogWindowCreate()
     {
-        Drives = new StringList();
-        Directories = new StringList();
-        Files = new StringList<FileTime>();
+        Drives = new DelphiStringList();
+        Directories = new DelphiStringList();
+        Files = new DelphiStringList<FileTime>();
         Directory = UI.Engine.StartupDirectory + "Save\\";
         LastFileName = "";
     }
@@ -729,7 +734,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
     public void FindDrives()
     {
         Drives.Clear();
-        string drive = RtlUnit.Files.VirtualDrive + "\\";
+        string drive = RtlHost.Files.VirtualDrive + "\\";
         string label = OperatingSystem.IsWindows() ? new DriveInfo(drive).VolumeLabel + " " : "";
         _ = Drives.Add($"{label}({drive})");
         DriveComboBox.Items.Clear();
@@ -750,11 +755,11 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
 
     private static readonly string s_selectText = "Select";
 
-    internal static StringList Drives { get; set; }
+    internal static DelphiStringList Drives { get; set; }
 
-    internal static StringList Directories { get; set; }
+    internal static DelphiStringList Directories { get; set; }
 
-    internal static StringList<FileTime> Files { get; set; }
+    internal static DelphiStringList<FileTime> Files { get; set; }
 
     internal static int CompareFileDates(string s1, string s2, object o1, object o2)
     {

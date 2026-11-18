@@ -4,7 +4,7 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.UI.Controls;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.UI.Windows;
 
@@ -31,8 +31,8 @@ public partial class Menu : GenericWindow
     public int SelectedItem { get; set; }
 
     private InterfaceImageLibrary _imageLibraryTextureSelected;
-    private readonly StringList _items;
-    private readonly StringList _itemTypes;
+    private readonly DelphiStringList _items;
+    private readonly DelphiStringList _itemTypes;
     [Published]
     public event NotifyEvent<Menu> OnDrawItem;
 
@@ -58,7 +58,7 @@ public partial class Menu : GenericWindow
     // AOWMenu.pas:102
     public Menu(Component owner) : base(owner)
     {
-        _items = new StringList
+        _items = new DelphiStringList
         {
             OnChange = OnChangeText
         };
@@ -894,7 +894,7 @@ public partial class Menu : GenericWindow
     }
 
     // AOWMenu.pas:440
-    public void SetFStrings(StringList value)
+    public void SetFStrings(DelphiStringList value)
     {
         _items.Clear();
         for (int i = 0, last = value.Count - 1; i <= last; i++)
@@ -905,7 +905,7 @@ public partial class Menu : GenericWindow
     }
 
     // AOWMenu.pas:449
-    public void SetITStrings(StringList value)
+    public void SetITStrings(DelphiStringList value)
     {
         _itemTypes.Clear();
         for (int i = 0, last = value.Count - 1; i <= last; i++)
@@ -933,10 +933,10 @@ public partial class Menu : GenericWindow
     public int ImageLibraryIndexTSelected { get => _imageLibraryIndexTSelected; set => SetImageLibraryTsIndex(value); }
 
     [Published]
-    public StringList Items { get => _items; set => SetFStrings(value); }
+    public DelphiStringList Items { get => _items; set => SetFStrings(value); }
 
     [Published]
-    public StringList ItemTypes { get => _itemTypes; set => SetITStrings(value); }
+    public DelphiStringList ItemTypes { get => _itemTypes; set => SetITStrings(value); }
 
     [Published]
     public int ItemHeight { get; set; }

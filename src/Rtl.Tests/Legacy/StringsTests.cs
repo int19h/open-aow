@@ -16,7 +16,7 @@ public sealed class StringsTests
     public void ObjectsNamesValuesAndAssignmentPreserveSourceRules()
     {
         // CLASSES.PAS:2125..2163 and :2263..2354.
-        StringList list = new(); TrackObject objectValue = new(); TrackObject other = new();
+        DelphiStringList list = new(); TrackObject objectValue = new(); TrackObject other = new();
         Assert.Equal(0, list.AddObject("First=one", objectValue)); list.InsertObject(1, "blank", other); _ = list.Add("FIRST=two"); _ = list.Add("=emptyname");
         Assert.Equal("First", list.Names[0]); Assert.Equal("", list.Names[1]); Assert.Equal(0, list.IndexOfName("first")); Assert.Equal(3, list.IndexOfName(""));
         Assert.Equal(1, list.IndexOfObject(other)); Assert.Equal(2, list.IndexOfObject(null)); Assert.Equal(-1, list.IndexOfObject(new object()));
@@ -25,7 +25,7 @@ public sealed class StringsTests
         list.Values["added"] = "new"; Assert.Equal("new", list.Values["added"]); list.Values["added"] = ""; Assert.Equal(-1, list.IndexOfName("added")); list.Values["absent"] = "";
         list.Strings[1] = "changed"; Assert.Equal("changed", list[1]);
         list.Objects[1] = objectValue; Assert.Same(objectValue, list.Objects[1]);
-        StringList copy = new(); copy.Assign(list); Assert.Equal(list.Text, copy.Text); Assert.Same(objectValue, copy.Objects[0]);
+        DelphiStringList copy = new(); copy.Assign(list); Assert.Equal(list.Text, copy.Text); Assert.Same(objectValue, copy.Objects[0]);
         copy.AddStrings(list); Assert.Equal(list.Count * 2, copy.Count);
         list.Move(0, 2); Assert.Equal("FIRST=updated", list[2]); Assert.Same(objectValue, list.Objects[2]);
         list.Exchange(0, 2); Assert.Equal("FIRST=updated", list[0]); Assert.Same(objectValue, list.Objects[0]);
@@ -39,7 +39,7 @@ public sealed class StringsTests
     public void StringListEventsBatchAndSortedMutationErrorsFollowSource()
     {
         // CLASSES.PAS:2575..2615, :2719..2733 and :2775..2788.
-        StringList list = new(); List<string> events = [];
+        DelphiStringList list = new(); List<string> events = [];
         list.OnChanging = s => { Assert.Same(list, s); events.Add("changing"); };
         list.OnChange = s => { Assert.Same(list, s); events.Add("changed"); };
         list.Clear(); Assert.Empty(events);
@@ -67,7 +67,7 @@ public sealed class StringsTests
     public void CommaTextPortsTheDelphiParserIncludingEmptyAndTrailingFields()
     {
         // CLASSES.PAS:2239..2261 and :2454..2484, also checked with DCC32.
-        StringList list = new();
+        DelphiStringList list = new();
         foreach ((string? input, string[]? expected, string? canonical) in new[]{
             ("",Array.Empty<string>(),""), ("a,,b,",["a","","b"],"a,,b"), (",,",["",""],","),
             ("\"a\"\"b\", \"\",c",["a\"b","","c"],"\"a\"\"b\",,c"),
@@ -82,7 +82,7 @@ public sealed class StringsTests
     }
 
     // A minimal TStrings descendant exercises the base implementations separately from TStringList.
-    private sealed class PlainStrings : StringCollection
+    private sealed class PlainStrings : DelphiStringCollection
     {
         private readonly List<string> _items = [];
 
@@ -110,7 +110,7 @@ public sealed class StringsTests
         copy.LoadFromStream(memory); Assert.Equal("a\r\nb\r\n", copy.Text);
         memory.Clear(); copy.SaveToStream(memory); Assert.Equal(new byte[] { 97, 13, 10, 98, 13, 10 }, memory.ToArray());
         copy.SaveToFile("strings.txt"); copy.Clear(); copy.LoadFromFile("strings.txt"); Assert.Equal(source.Text, copy.Text);
-        Assert.Equal("error 1", Assert.Throws<ArgumentException>(() => StringCollection.Error("error %d", 1)).Message);
+        Assert.Equal("error 1", Assert.Throws<ArgumentException>(() => DelphiStringCollection.Error("error %d", 1)).Message);
         copy.BeginUpdate(); copy.EndUpdate(); copy.Dispose();
         IndexedProperty<int, int> readOnly = new(i => i + 1); Assert.Equal(3, readOnly[2]); _ = Assert.Throws<InvalidOperationException>(() => readOnly[2] = 4);
     }

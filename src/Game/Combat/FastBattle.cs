@@ -6,7 +6,7 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.Combat;
 

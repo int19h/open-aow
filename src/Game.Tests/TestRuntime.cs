@@ -8,6 +8,6 @@ internal static class TestRuntime
     internal static void Initialize()
     {
         ProcessSafety.Initialize();
-        Runtime.StrictStrings = true;
+        DelphiStrings.StrictStrings = true;
     }
 }

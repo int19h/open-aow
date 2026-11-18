@@ -5,7 +5,8 @@ using Aow.Game.Host;
 
 using Aow.Game.World.Map;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiAssert;
+using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.Draw;
 

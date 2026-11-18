@@ -27,7 +27,7 @@ internal sealed class TranslatePersister(TranslateVisit stream, EngineObject nod
 
     // The string list of a member, translated in place as the stream's Lines and LinesWithObjects
     // translate it.
-    internal void Lines(StringCollection lines) => stream.TranslateStrings(lines);
+    internal void Lines(DelphiStringCollection lines) => stream.TranslateStrings(lines);
 
     public bool Has(string name) => false;
 

@@ -7,7 +7,7 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Events;
 

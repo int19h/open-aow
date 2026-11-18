@@ -4,7 +4,7 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.UI.Windows;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.UI.Controls;
 
@@ -15,7 +15,7 @@ namespace Aow.Game.UI.Controls;
 // tab), FILIndexUp, FILIndexDown, FPanels (the TAOWPanel objects of the tabs)
 public partial class TabPanel : Control
 {
-    private readonly StringList _items;
+    private readonly DelphiStringList _items;
     private int _selected;
     private InterfaceImageLibrary _imageLibraryButton;
     private int _imageLibraryIndexUp;
@@ -26,7 +26,7 @@ public partial class TabPanel : Control
     // AoWTabPanel.pas:62
     public TabPanel(Component owner) : base(owner)
     {
-        _items = new StringList
+        _items = new DelphiStringList
         {
             OnChange = OnChangeText
         };
@@ -225,7 +225,7 @@ public partial class TabPanel : Control
     }
 
     // AoWTabPanel.pas:133
-    public void SetFStrings(StringList value)
+    public void SetFStrings(DelphiStringList value)
     {
         _items.Clear();
         for (int i = 0, last = value.Count - 1; i <= last; i++)
@@ -262,7 +262,7 @@ public partial class TabPanel : Control
     }
 
     [Published]
-    public StringList Items { get => _items; set => SetFStrings(value); }
+    public DelphiStringList Items { get => _items; set => SetFStrings(value); }
 
     [Published]
     public int Selected { get => _selected; set => SetIndex(value); }

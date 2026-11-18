@@ -5,7 +5,7 @@ using Aow.Game.Draw.Images;
 using Aow.Game.UI.Controls;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.UI.Grids;
 

@@ -134,9 +134,9 @@ public static class GameTables
 
     private static readonly string s_waryText = "Wary";
 
-    internal static string[] AbilityTypeTexts { get; } = ["", "", "", "", ""];
+    internal static string[] AbilityTypeTexts { get; } = [s_enhancementText, s_handicapText, s_movementText, CombatText, EnchantmentText];
 
-    internal static string[] PlayerTypeTexts { get; } = ["", "", "", "", "", "", "", ""];
+    internal static string[] PlayerTypeTexts { get; } = [HumanText, s_cpuWarriorText, s_cpuKnightText, s_cpuLordText, s_independentText, s_freeText, s_cpuKingText, s_cpuEmperorText];
 
     internal static string[] PlayerBehaviorTexts { get; } = ["", "", "", "", "", ""];
 
@@ -144,15 +144,15 @@ public static class GameTables
 
     internal static string[] StatusTexts { get; } = ["", "", "", "", ""];
 
-    internal static string[] RaceNamesPluralTexts { get; } = ["", "", "", "", "", "", "", "", "", "", "", "", ""];
-
-    internal static string[] RaceNames { get; } = ["", "", "", "", "", "", "", "", "", "", "", "", ""];
-
     private static readonly string s_undeadText = "Undead";
 
     private static readonly string s_undeadPluralText = "Undead(plural)";
 
     internal static string IndependentsText { get; } = "Independents";
+
+    internal static string[] RaceNamesPluralTexts { get; } = [s_humanPluralText, s_azracPluralText, s_lizardPluralText, s_frostlingPluralText, s_elfPluralText, s_halflingPluralText, s_dwarfPluralText, s_highmanPluralText, s_darkElfPluralText, s_orcPluralText, s_goblinPluralText, s_undeadPluralText, IndependentsText];
+
+    internal static string[] RaceNames { get; } = [HumanText, s_azracText, s_lizardText, s_frostlingText, s_elfText, s_halflingText, s_dwarfText, s_highmanText, s_darkElfText, s_orcText, s_goblinText, s_undeadText, s_independentText];
 
     internal static string WaterText { get; } = "Water";
 
@@ -160,65 +160,9 @@ public static class GameTables
 
     internal static ImmutableArray<string> StormTypeTexts { get; } = [NoneText, FireStormText, DeathStormText, DivineStormText, IceStormText, LightningStormText, PestilenceStormText];
 
-    private static readonly float[] s_hitProbabilities = new float[20];
-
     internal static string WarText { get; } = "War";
 
     internal static string PeaceText { get; } = "Peace";
-
-    internal static void InitializeHitProbabilities()
-    {
-        for (int i = 0; i <= 19; i++)
-        {
-            s_hitProbabilities[i] = (float)((20 - i) * 0.05);
-        }
-    }
-
-    internal static void Initialize()
-    {
-        AbilityTypeTexts[(int)AbilityType.Enhancement] = s_enhancementText;
-        AbilityTypeTexts[(int)AbilityType.Handicap] = s_handicapText;
-        AbilityTypeTexts[(int)AbilityType.Movement] = s_movementText;
-        AbilityTypeTexts[(int)AbilityType.Combat] = CombatText;
-        AbilityTypeTexts[(int)AbilityType.Enchantment] = EnchantmentText;
-        PlayerTypeTexts[0] = HumanText;
-        PlayerTypeTexts[1] = s_cpuWarriorText;
-        PlayerTypeTexts[2] = s_cpuKnightText;
-        PlayerTypeTexts[3] = s_cpuLordText;
-        PlayerTypeTexts[4] = s_independentText;
-        PlayerTypeTexts[5] = s_freeText;
-        PlayerTypeTexts[6] = s_cpuKingText;
-        PlayerTypeTexts[7] = s_cpuEmperorText;
-        // Original InitResStrings table: race-name entries
-        RaceNames[0] = HumanText;
-        RaceNames[1] = s_azracText;
-        RaceNames[2] = s_lizardText;
-        RaceNames[3] = s_frostlingText;
-        RaceNames[4] = s_elfText;
-        RaceNames[5] = s_halflingText;
-        RaceNames[6] = s_dwarfText;
-        RaceNames[7] = s_highmanText;
-        RaceNames[8] = s_darkElfText;
-        RaceNames[9] = s_orcText;
-        RaceNames[10] = s_goblinText;
-        RaceNames[11] = s_undeadText;
-        RaceNames[12] = s_independentText;
-        RaceNamesPluralTexts[0] = s_humanPluralText;
-        RaceNamesPluralTexts[1] = s_azracPluralText;
-        RaceNamesPluralTexts[2] = s_lizardPluralText;
-        RaceNamesPluralTexts[3] = s_frostlingPluralText;
-        RaceNamesPluralTexts[4] = s_elfPluralText;
-        RaceNamesPluralTexts[5] = s_halflingPluralText;
-        RaceNamesPluralTexts[6] = s_dwarfPluralText;
-        RaceNamesPluralTexts[7] = s_highmanPluralText;
-        RaceNamesPluralTexts[8] = s_darkElfPluralText;
-        RaceNamesPluralTexts[9] = s_orcPluralText;
-        RaceNamesPluralTexts[10] = s_goblinPluralText;
-        RaceNamesPluralTexts[11] = s_undeadPluralText;
-        RaceNamesPluralTexts[12] = IndependentsText;
-        // Original AoWE initialization
-        InitializeHitProbabilities();
-    }
 
     internal static void InitializeMorePathsRelations()
     {

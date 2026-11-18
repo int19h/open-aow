@@ -58,10 +58,10 @@ public sealed class OwnExtensionWriteTests
     [Fact]
     public void AHostThatWritesOriginalExtensionsKeepsTheOriginalNames() => Run((_, _) =>
     {
-        Runtime.InstallHost(new OriginalNamesHost(EngineFixture.Services));
+        RtlHost.InstallHost(new OriginalNamesHost(EngineFixture.Services));
         try
         {
-            Assert.False(Runtime.WritesOwnExtensions);
+            Assert.False(RtlHost.WritesOwnExtensions);
             new PlayerControl(null) { Holder = EngineFixture.Engine }.AutoSave();
             Assert.Equal(Save("autosave.asg"), Assert.Single(_log).Path, ignoreCase: true);
             Assert.Equal(Save("Foo.asg"), FileBoundary.WriteName(Save("Foo.asg")));
@@ -71,7 +71,7 @@ public sealed class OwnExtensionWriteTests
         {
             EngineFixture.InstallServices();
         }
-        Assert.True(Runtime.WritesOwnExtensions);
+        Assert.True(RtlHost.WritesOwnExtensions);
     });
 
     private sealed class OriginalNamesHost(IRtlHost inner) : IRtlHost

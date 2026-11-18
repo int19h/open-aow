@@ -8,7 +8,7 @@ namespace Aow.Game.Session;
 
 // The default message being written (Diplomacy.pas:1420): the text control, the source's
 // alignment row and the plural race names of source, target and other player.
-public sealed class DiplomaticMessageText(TextControl textControl, int alignment, string sourceRace, string targetRace, string otherRace, StringCollection text)
+public sealed class DiplomaticMessageText(TextControl textControl, int alignment, string sourceRace, string targetRace, string otherRace, DelphiStringCollection text)
 {
     // Text Number of the alignment row, the source's races first.
     public void Proposing(int number, bool aboutOther = false)

@@ -15,15 +15,15 @@ public static class TranslatorProperties
         => s_bindings[(typeof(T), name)] = new(typeof(T), name, component => [read((T)component)],
             (component, values) => write((T)component, values[0]), false);
 
-    public static void RegisterStrings<T>(string name, Func<T, StringCollection?> read) where T : Component
+    public static void RegisterStrings<T>(string name, Func<T, DelphiStringCollection?> read) where T : Component
     {
         s_bindings[(typeof(T), name)] = new(typeof(T), name, component =>
         {
-            StringCollection? strings = read((T)component);
+            DelphiStringCollection? strings = read((T)component);
             return strings is null ? [] : [.. Enumerable.Range(0, strings.Count).Select(i => strings[i])];
         }, (component, values) =>
         {
-            StringCollection? strings = read((T)component);
+            DelphiStringCollection? strings = read((T)component);
             if (strings is null)
             {
                 return;
@@ -170,12 +170,12 @@ public class IvCustomTranslator(Component? owner = null) : Component(owner)
         List<string> result = [];
         do
         {
-            int marker = RtlUnit.Pos("<eol>", value), lineFeed = RtlUnit.Pos("\n", value);
+            int marker = DelphiStrings.Pos("<eol>", value), lineFeed = DelphiStrings.Pos("\n", value);
             int end = marker != 0 && (lineFeed == 0 || marker < lineFeed) ? marker : lineFeed;
             if (end == 0) { result.Add(value); break; }
-            result.Add(RtlUnit.Copy(value, 1, end - 1));
+            result.Add(DelphiStrings.Copy(value, 1, end - 1));
             int skip = end == marker ? 5 : 1;
-            value = RtlUnit.Copy(value, end + skip, value.Length - end - skip + 1);
+            value = DelphiStrings.Copy(value, end + skip, value.Length - end - skip + 1);
         } while (value.Length > 0);
         return [.. result];
     }

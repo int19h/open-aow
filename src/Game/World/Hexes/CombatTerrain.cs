@@ -12,7 +12,7 @@ using Aow.Game.Magic.Spells;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Hexes;
 

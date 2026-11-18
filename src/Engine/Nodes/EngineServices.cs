@@ -4,7 +4,7 @@ using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Engine.Nodes;
 
@@ -63,7 +63,7 @@ public static class EngineServices
         stream.Write(Cp1252.Encode(S).AsSpan()[..length]);
     }
 
-    internal static void ExchangeLinkedStrings(DelphiList<StringCollection> lists, int I, int J)
+    internal static void ExchangeLinkedStrings(DelphiList<DelphiStringCollection> lists, int I, int J)
     {
         for (int k = lists.Count - 1; k >= 0; k--)
         {

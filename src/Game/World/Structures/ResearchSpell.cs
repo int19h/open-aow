@@ -85,7 +85,7 @@ public sealed partial record ResearchSpell(int Index) : ProductionOrder
 
     public override string RealmActivity(City city) => "5";
 
-    public override void ActivityLines(ProductionControl control, StringCollection lines)
+    public override void ActivityLines(ProductionControl control, DelphiStringCollection lines)
     {
         Unit unit = control.CreateUnitProduction(Index);
         _ = lines.Add(AbilityRules.TranslateResourceString(control.GetEngine(), s_installingText));

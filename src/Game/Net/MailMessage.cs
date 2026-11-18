@@ -16,7 +16,7 @@ public partial class MailMessage(Component owner) : Component(owner)
     public MailAddressList Recipients { get; }
 
     // AoWSMTPDlg.pas:20
-    public void SetBody(StringCollection value) =>
+    public void SetBody(DelphiStringCollection value) =>
         /* TODO: Implement TmsMessage.SetBody. */
         throw new NotImplementedException();
 }

@@ -4,7 +4,7 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.UI.Windows;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.UI.Controls;
 
@@ -16,7 +16,7 @@ namespace Aow.Game.UI.Controls;
 // a click on the item last selected then does nothing)
 public partial class MenuBar : Control
 {
-    private readonly StringList _items;
+    private readonly DelphiStringList _items;
     private InterfaceImageLibrary _imageLibraryButton;
     private int _lastSelected;
     private int _imageLibraryIndexUp;
@@ -29,7 +29,7 @@ public partial class MenuBar : Control
     // AOWMenuBar.pas:65
     public MenuBar(Component owner) : base(owner)
     {
-        _items = new StringList
+        _items = new DelphiStringList
         {
             OnChange = OnChangeText
         };
@@ -278,7 +278,7 @@ public partial class MenuBar : Control
     }
 
     // AOWMenuBar.pas:149
-    public void SetFStrings(StringList value)
+    public void SetFStrings(DelphiStringList value)
     {
         _items.Clear();
         for (int i = 0, last = value.Count - 1; i <= last; i++)
@@ -289,7 +289,7 @@ public partial class MenuBar : Control
     }
 
     [Published]
-    public StringList Items { get => _items; set => SetFStrings(value); }
+    public DelphiStringList Items { get => _items; set => SetFStrings(value); }
 
     [Published]
     public int Selected { get; set; }

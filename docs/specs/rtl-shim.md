@@ -17,9 +17,8 @@ A symbol the demand list adds later gets its entry here before it is implemented
 ## Layout
 
 The library is three groups, each in its own folder. Groups 1 and 2 stay in the namespace
-`Aow.Rtl`. The group 3 services are in `Aow.Rtl.Host`. `RtlUnit` stays one partial static class in
-`Aow.Rtl`, and each partial file holds one topic, so `using static Aow.Rtl.RtlUnit` is unchanged.
-The `RtlUnit` members of group 3 (the console output, `Files`, `Clock`, `InstallHost`) are
+`Aow.Rtl`. The group 3 services are in `Aow.Rtl.Host`. The former `RtlUnit` partial static class is split into static classes in `Aow.Rtl`, one per file group (`DelphiStrings`, `DelphiFormat`, `RtlHost`, and the rest).
+The host and console classes of group 3 (`ConsoleOutput`, `RtlHost`) are
 therefore in `Aow.Rtl` too. The localization runtime is under `src/Rtl/Host/Localize/`. Its
 dictionary and runtime types are in `Aow.Rtl.Localize`, and the components that forms name
 (`IvTranslator` (Delphi `TIvTranslator`), `IvDictionary` (Delphi `TIvDictionary`), `IvBinaryDictionary` (Delphi `TIvBinaryDictionary`), `IvCustomTranslator` (Delphi `TIvCustomTranslator`),
@@ -36,8 +35,8 @@ the retirement backlog.
 The RT-2 inventory counts 88 types and 22 `RtlUnit` members in this group, after the four no-op
 registrations and their call sites went. 90 of those 110 symbols occur in product code outside
 `src/Rtl` and the test projects. The other 20 have no such occurrence and stay, because a test pins them, Rtl still calls them, or the product names them
-under another spelling. The per-symbol counts are the retirement backlog. `StringList` (Delphi `TStringList`)
-sorting is in this group with `StringCollection` (Delphi `TStrings`). The order it sorts in is Delphi behavior, and the
+under another spelling. The per-symbol counts are the retirement backlog. `DelphiStringList` (Delphi `TStringList`)
+sorting is in this group with `DelphiStringCollection` (Delphi `TStrings`). The order it sorts in is Delphi behavior, and the
 comparers that define it stay in group 1.
 
 `src/Rtl/Host/` (group 3) is host services that are not Delphi. It holds the file system, the
@@ -45,7 +44,7 @@ clock, the installed host, process safety, the gate switches, console output, th
 and the localization runtime. `Aow.Rtl.Host` is the namespace because these types are the host
 seam, and `Aow.Rtl.Localize` already names the localization subset.
 
-No implementation moved to `src/Platform`. `RtlUnit` constructs `PhysicalFileSystem` and
+No implementation moved to `src/Platform`. `RtlHost` constructs `PhysicalFileSystem` and
 `SystemClock` as its defaults, and tests construct them too. The interfaces the units call stay in
 this project, which sits below Units.
 
@@ -182,7 +181,7 @@ units hold no `Ptr<T>` since the graphics slices GP-1 to GP-4 (`graphics.md` 3.5
 records are arrays, pixels are a `byte[]` with a byte index, optional rectangles are `Rect?`.
 They do not convert a pointer to a span and they do not read a boxed pointer as bytes.
 `ReadLegacyRecord` recovers a record through `Unbox(object)`. Records grown and shifted as arrays
-use `RtlUnit.ReallocArray`, `MoveElements` and `ClearElements` (section 2.4).
+use `DelphiMemory.ReallocArray`, `MoveElements` and `ClearElements` (section 2.4).
 
 ### 1.5 IntOrRef and MsgArg
 

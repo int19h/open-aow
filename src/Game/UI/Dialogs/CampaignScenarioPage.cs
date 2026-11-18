@@ -10,7 +10,7 @@ namespace Aow.Game.UI.Dialogs;
 // image library, image index, heading, text
 public partial class CampaignScenarioPage : EngineObject
 {
-    public CampaignScenarioPage(CustomNode owner) : base(owner) => Text = new StringList();
+    public CampaignScenarioPage(CustomNode owner) : base(owner) => Text = new DelphiStringList();
 
     // AoWVideoDlg.pas:264
     public new const int ClassId = 2248706;
@@ -19,7 +19,7 @@ public partial class CampaignScenarioPage : EngineObject
     public int ImageIndex { get; private set; }
     public string Heading { get; private set; } = "";
 
-    public StringList Text { get; }
+    public DelphiStringList Text { get; }
 
     // AoWVideoDlg.pas:257
     public override void Dispose()

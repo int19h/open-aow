@@ -6,14 +6,14 @@
           "$type": "Aow.Game.Events.ArmyEventLog",
           "ArmyEventLog.ArmyIcon": 0,
           "ArmyEventLog.ArmyMessages": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "ArmyEventLog.ArmyText": "",
           "ArmyEventLog.ArmyView": {
@@ -143,14 +143,14 @@
           "$type": "Aow.Game.Events.ArmyEventLog",
           "ArmyEventLog.ArmyIcon": 0,
           "ArmyEventLog.ArmyMessages": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "ArmyEventLog.ArmyText": "",
           "ArmyEventLog.ArmyView": {
@@ -309,14 +309,14 @@
           "$type": "Aow.Game.Events.ArmyEventLog",
           "ArmyEventLog.ArmyIcon": 0,
           "ArmyEventLog.ArmyMessages": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "ArmyEventLog.ArmyText": "",
           "ArmyEventLog.ArmyView": {
@@ -446,14 +446,14 @@
           "$type": "Aow.Game.Events.ArmyEventLog",
           "ArmyEventLog.ArmyIcon": 0,
           "ArmyEventLog.ArmyMessages": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "ArmyEventLog.ArmyText": "",
           "ArmyEventLog.ArmyView": {
@@ -694,14 +694,14 @@
           },
           "ArmyInfoEventLog.Description": "",
           "ArmyInfoEventLog.Messages": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "ArmyInfoEventLog.Selection": 0,
           "ArmyInfoEventLog.Text": "",
@@ -828,14 +828,14 @@
           },
           "ArmyInfoEventLog.Description": "",
           "ArmyInfoEventLog.Messages": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "ArmyInfoEventLog.Selection": 0,
           "ArmyInfoEventLog.Text": "",
@@ -1000,14 +1000,14 @@
           },
           "ArmyInfoEventLog.Description": "",
           "ArmyInfoEventLog.Messages": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "ArmyInfoEventLog.Selection": 0,
           "ArmyInfoEventLog.Text": "",
@@ -1134,14 +1134,14 @@
           },
           "ArmyInfoEventLog.Description": "",
           "ArmyInfoEventLog.Messages": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "ArmyInfoEventLog.Selection": 0,
           "ArmyInfoEventLog.Text": "",
@@ -2540,14 +2540,14 @@
           "MessageEventLog.Header": "",
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message"
@@ -2584,14 +2584,14 @@
           "MessageEventLog.Header": "",
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message"
@@ -2657,14 +2657,14 @@
           "MessageEventLog.Header": "",
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message"
@@ -2701,14 +2701,14 @@
           "MessageEventLog.Header": "",
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message"
@@ -3089,14 +3089,14 @@
           "EventLog.RefCount": 1,
           "HelpMessageEventLog.HelpFileName": "Help",
           "HelpMessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "HelpMessageEventLog.Mode": 0
         }
@@ -3129,14 +3129,14 @@
           "EventLog.RefCount": 1,
           "HelpMessageEventLog.HelpFileName": "Help",
           "HelpMessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "HelpMessageEventLog.Mode": 0
         }
@@ -3194,14 +3194,14 @@
           "EventLog.RefCount": 1,
           "HelpMessageEventLog.HelpFileName": "Help",
           "HelpMessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "HelpMessageEventLog.Mode": 0
         }
@@ -3234,14 +3234,14 @@
           "EventLog.RefCount": 1,
           "HelpMessageEventLog.HelpFileName": "Help",
           "HelpMessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "HelpMessageEventLog.Mode": 0
         }
@@ -3298,14 +3298,14 @@
           "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "GameOverEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "GameOverEventLog.TargetPlayer": 0
         }
@@ -3337,14 +3337,14 @@
           "EventLog.Player": 0,
           "EventLog.RefCount": 1,
           "GameOverEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "GameOverEventLog.TargetPlayer": 0
         }
@@ -3400,14 +3400,14 @@
           "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "GameOverEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "GameOverEventLog.TargetPlayer": 0
         }
@@ -3439,14 +3439,14 @@
           "EventLog.Player": -56,
           "EventLog.RefCount": 1,
           "GameOverEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "GameOverEventLog.TargetPlayer": 0
         }
@@ -3707,14 +3707,14 @@
           "EventLog.RefCount": 1,
           "HelpMessageEventLog.HelpFileName": "Help",
           "HelpMessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "HelpMessageEventLog.Mode": 0
         }
@@ -3747,14 +3747,14 @@
           "EventLog.RefCount": 1,
           "HelpMessageEventLog.HelpFileName": "Help",
           "HelpMessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "HelpMessageEventLog.Mode": 0
         }
@@ -3812,14 +3812,14 @@
           "EventLog.RefCount": 1,
           "HelpMessageEventLog.HelpFileName": "Help",
           "HelpMessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "HelpMessageEventLog.Mode": 0
         }
@@ -3852,14 +3852,14 @@
           "EventLog.RefCount": 1,
           "HelpMessageEventLog.HelpFileName": "Help",
           "HelpMessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "HelpMessageEventLog.Mode": 0
         }
@@ -4105,14 +4105,14 @@
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -4163,14 +4163,14 @@
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -4258,14 +4258,14 @@
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -4316,14 +4316,14 @@
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -4601,14 +4601,14 @@
             "MapCoordinate.Y": 0
           },
           "ItemExplorationSiteEventLog.Messages": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "ItemExplorationSiteEventLog.Title": ""
         }
@@ -4653,14 +4653,14 @@
             "MapCoordinate.Y": 0
           },
           "ItemExplorationSiteEventLog.Messages": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "ItemExplorationSiteEventLog.Title": ""
         }
@@ -4736,14 +4736,14 @@
             "MapCoordinate.Y": 0
           },
           "ItemExplorationSiteEventLog.Messages": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "ItemExplorationSiteEventLog.Title": ""
         }
@@ -4788,14 +4788,14 @@
             "MapCoordinate.Y": 0
           },
           "ItemExplorationSiteEventLog.Messages": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "ItemExplorationSiteEventLog.Title": ""
         }
@@ -4861,14 +4861,14 @@
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -4919,14 +4919,14 @@
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -5014,14 +5014,14 @@
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -5072,14 +5072,14 @@
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -5365,14 +5365,14 @@
           "MessageEventLog.Header": "",
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message"
@@ -5408,14 +5408,14 @@
           "MessageEventLog.Header": "",
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message"
@@ -5479,14 +5479,14 @@
           "MessageEventLog.Header": "",
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message"
@@ -5522,14 +5522,14 @@
           "MessageEventLog.Header": "",
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message"
@@ -5593,14 +5593,14 @@
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -5662,14 +5662,14 @@
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -5779,14 +5779,14 @@
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -5848,14 +5848,14 @@
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -6541,14 +6541,14 @@
           "MessageEventLog.Header": "",
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message",
@@ -6586,14 +6586,14 @@
           "MessageEventLog.Header": "",
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message",
@@ -6661,14 +6661,14 @@
           "MessageEventLog.Header": "",
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message",
@@ -6706,14 +6706,14 @@
           "MessageEventLog.Header": "",
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message",
@@ -7003,14 +7003,14 @@
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -7067,14 +7067,14 @@
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -7174,14 +7174,14 @@
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -7238,14 +7238,14 @@
           "JoinEventLog.Gold": 0,
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "JoinEventLog.JoinMode": 0,
           "JoinEventLog.Selection": 0,
@@ -7741,14 +7741,14 @@
           "MessageEventLog.Header": "",
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message",
@@ -7785,14 +7785,14 @@
           "MessageEventLog.Header": "",
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message",
@@ -7858,14 +7858,14 @@
           "MessageEventLog.Header": "",
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message",
@@ -7902,14 +7902,14 @@
           "MessageEventLog.Header": "",
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message",
@@ -7975,14 +7975,14 @@
           "MessageEventLog.Header": "",
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message"
@@ -8018,14 +8018,14 @@
           "MessageEventLog.Header": "",
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message"
@@ -8089,14 +8089,14 @@
           "MessageEventLog.Header": "",
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message"
@@ -8132,14 +8132,14 @@
           "MessageEventLog.Header": "",
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message"
@@ -8767,14 +8767,14 @@
           "SmtpEventLog.FileName": "",
           "SmtpEventLog.FromAddress": "",
           "SmtpEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "SmtpEventLog.Subject": "",
           "SmtpEventLog.Success": false,
@@ -8811,14 +8811,14 @@
           "SmtpEventLog.FileName": "",
           "SmtpEventLog.FromAddress": "",
           "SmtpEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "SmtpEventLog.Subject": "",
           "SmtpEventLog.Success": false,
@@ -8884,14 +8884,14 @@
           "SmtpEventLog.FileName": "",
           "SmtpEventLog.FromAddress": "",
           "SmtpEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "SmtpEventLog.Subject": "",
           "SmtpEventLog.Success": false,
@@ -8928,14 +8928,14 @@
           "SmtpEventLog.FileName": "",
           "SmtpEventLog.FromAddress": "",
           "SmtpEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "SmtpEventLog.Subject": "",
           "SmtpEventLog.Success": false,
@@ -9329,14 +9329,14 @@
           "EventLog.RefCount": 1,
           "HelpMessageEventLog.HelpFileName": "Tutorial",
           "HelpMessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "HelpMessageEventLog.Mode": 0
         }
@@ -9369,14 +9369,14 @@
           "EventLog.RefCount": 1,
           "HelpMessageEventLog.HelpFileName": "Tutorial",
           "HelpMessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "HelpMessageEventLog.Mode": 0
         }
@@ -9434,14 +9434,14 @@
           "EventLog.RefCount": 1,
           "HelpMessageEventLog.HelpFileName": "Tutorial",
           "HelpMessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "HelpMessageEventLog.Mode": 0
         }
@@ -9474,14 +9474,14 @@
           "EventLog.RefCount": 1,
           "HelpMessageEventLog.HelpFileName": "Tutorial",
           "HelpMessageEventLog.Message": {
-            "$type": "Aow.Rtl.StringList",
-            "StringCollection.UpdateCount": 0,
-            "StringList.Duplicates": 0,
-            "StringList.OnChange": null,
-            "StringList.OnChanging": null,
-            "StringList.Sorted": false,
-            "StringList.count": 0,
-            "StringList.items": []
+            "$type": "Aow.Rtl.DelphiStringList",
+            "DelphiStringCollection.UpdateCount": 0,
+            "DelphiStringList.Duplicates": 0,
+            "DelphiStringList.OnChange": null,
+            "DelphiStringList.OnChanging": null,
+            "DelphiStringList.Sorted": false,
+            "DelphiStringList.count": 0,
+            "DelphiStringList.items": []
           },
           "HelpMessageEventLog.Mode": 0
         }

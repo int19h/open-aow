@@ -9,7 +9,8 @@ using Aow.Game.World.Map;
 
 using Aow.Game.World.Terrain;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiFormat;
+using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Magic.Spells;
 

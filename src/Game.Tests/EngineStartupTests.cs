@@ -107,7 +107,7 @@ public sealed class EngineStartupTests
         foreach (string route in new[] { "AoW", "HS", "Engine", "debug", "dictionary", "images" })
         {
             using EngineFixture.RecordingHost fixture = new(route);
-            Runtime.InstallHost(fixture);
+            RtlHost.InstallHost(fixture);
             List<EngineFixture.Entry> events = fixture.Events;
             GameEngine? value = null;
             Exception? caught = null;

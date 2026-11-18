@@ -7,7 +7,7 @@ using Aow.Game.Net;
 
 using Aow.Game.World.Map;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Commands;
 

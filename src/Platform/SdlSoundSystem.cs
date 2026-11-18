@@ -170,7 +170,7 @@ public class SdlSoundSystem : SoundSystem
             State = SongState.Idle;
             try
             {
-                using Stream stream = RtlUnit.Files.Open(AudioHost.BaseSoundEnginePath + name, 0);
+                using Stream stream = RtlHost.Files.Open(AudioHost.BaseSoundEnginePath + name, 0);
                 using MemoryStream data = new(); stream.CopyTo(data);
                 TrackerSong? song = TrackerSong.Load(data.GetBuffer().AsSpan(0, (int)data.Length), repeat);
                 if (song is null)
@@ -265,11 +265,11 @@ internal class SdlSampleData : SampleData
 
     private protected SdlSampleData(ConstructionContext context, string name) : base(context, name)
     {
-        using Stream stream = RtlUnit.Files.Open(AudioHost.BaseSoundEnginePath + name, 0);
+        using Stream stream = RtlHost.Files.Open(AudioHost.BaseSoundEnginePath + name, 0);
         Wave = WaveData.Read(stream);
     }
 
-    private protected SdlSampleData(ConstructionContext context, in WaveFormat format, object data, int size) : base(context, format, data, size) => Wave = WaveData.Decode(format, RtlUnit.BufferBytes(data)[..size]);
+    private protected SdlSampleData(ConstructionContext context, in WaveFormat format, object data, int size) : base(context, format, data, size) => Wave = WaveData.Decode(format, PointerMemory.BufferBytes(data)[..size]);
 }
 
 internal class SdlSample : Sample

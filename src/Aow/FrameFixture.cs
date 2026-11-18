@@ -101,11 +101,11 @@ internal sealed class FrameFixture
             }
         }
         FixtureHost host = new(gameRoot, Path.Combine(output, "user"), fixture._settings, new FixtureClock(now), saveDirectory);
-        RtlUnit.InstallHost(host);
-        RtlUnit.SuppressRandomize = true;
+        RtlHost.InstallHost(host);
+        DelphiRandom.SuppressRandomize = true;
         // Native startup resource sequences load with seed zero, before the fixed Randomize seed.
-        RtlUnit.RandSeed = 0;
-        RtlUnit.RandomizeSeed = int.Parse(fixture.Get("seed"), CultureInfo.InvariantCulture);
+        DelphiRandom.RandSeed = 0;
+        DelphiRandom.RandomizeSeed = int.Parse(fixture.Get("seed"), CultureInfo.InvariantCulture);
         FrameFixtureInputs.AddressAnimationPhase = int.Parse(fixture.Get("address_animation_phase"), CultureInfo.InvariantCulture);
         FrameFixtureInputs.WaterVariantPhase = fixture._values.TryGetValue("water_variant_phase", out string? waterPhase) ? int.Parse(waterPhase, CultureInfo.InvariantCulture) : null;
         FrameFixtureInputs.Tactical = tactical;
@@ -532,7 +532,7 @@ internal sealed class FrameFixture
             FrameFixtureInputs.Tactical = false;
             FrameFixtureInputs.MeasuredFrameRate = null;
             FrameFixtureInputs.TacticalInitialized = null;
-            RtlUnit.RandomizeSeed = null;
+            DelphiRandom.RandomizeSeed = null;
             AppDomain.CurrentDomain.FirstChanceException -= Record;
         }
         return 0;

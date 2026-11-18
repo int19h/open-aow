@@ -3,7 +3,7 @@
 // TriggerNotifyEvents (4873, 4881, 4887, 4994, 5046).
 using System.Reflection;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelegateRoutines;
 
 namespace Aow.Engine;
 

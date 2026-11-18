@@ -1,6 +1,9 @@
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.RtlHost;
+
 namespace Aow.Rtl;
 
-public static partial class RtlUnit
+public static class DelphiPaths
 {
     private static int Delimiter(string name, bool dot = false)
     {

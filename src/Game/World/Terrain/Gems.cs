@@ -9,7 +9,8 @@ using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiFormat;
 
 namespace Aow.Game.World.Terrain;
 

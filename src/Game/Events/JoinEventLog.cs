@@ -23,7 +23,7 @@ public partial class JoinEventLog : EventLog
     public JoinEventLog(CustomNode owner) : base(owner)
     {
         UnitIds = new Int32List();
-        JoinMessage = new StringList();
+        JoinMessage = new DelphiStringList();
         _location = new MapCoordinate(-1, -1, -1);
         JoinIndex = -1;
     }
@@ -41,7 +41,7 @@ public partial class JoinEventLog : EventLog
     public byte Selection { get; set; }
     public int JoinIndex { get; set; }
 
-    public StringList JoinMessage { get; }
+    public DelphiStringList JoinMessage { get; }
 
     public int Gold { get; set; }
     public JoinMode JoinMode { get; set; }

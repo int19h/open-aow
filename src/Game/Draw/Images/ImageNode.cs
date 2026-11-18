@@ -1,7 +1,7 @@
 #nullable disable
 // Translated from ImageLib.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiMemory;
 
 namespace Aow.Game.Draw.Images;
 

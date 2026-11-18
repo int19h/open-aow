@@ -135,7 +135,7 @@ public partial class StormSpell : Spell
             selection.SourceLocation = new MapCoordinate(x, y, l);
             StrategicMap.Current.MakeVisible(x, y, l, 5);
             string name = _targetStorm.Name();
-            string format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SelectTargetLocationForOnMapFormat), [name]);
+            string format = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SelectTargetLocationForOnMapFormat), [name]);
             selection.Text.Text = format;
             selection.Title = SpellName;
             selection.CancelText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CancelText);

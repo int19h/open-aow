@@ -61,16 +61,16 @@ public sealed class WallCrushingFastBattleTests
         WallCrushingAbility ability = new(null, holder: EngineFixture.Engine);
         FastBattleCommand command = new(117) { Target = wall };
         Assert.Equal(10, wall.GetHitPoints());
-        int seed = RtlUnit.RandSeed;
+        int seed = DelphiRandom.RandSeed;
         try
         {
             // Seed 16 rolls 10. Attack 6 against wall defense 0 deals (5 * (10 + 2) + 10) / 20 + 1 = 4.
-            RtlUnit.RandSeed = 16;
+            DelphiRandom.RandSeed = 16;
             Assert.True(ability.FastBattleExecuteCombatCommand(source, command));
         }
         finally
         {
-            RtlUnit.RandSeed = seed;
+            DelphiRandom.RandSeed = seed;
         }
 
         (int attack, int damage, Set<DamageType> types) = Assert.Single(wall.Rolls);

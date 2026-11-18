@@ -7,7 +7,10 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Rtl;
 using Aow.Rtl.Host;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiFiles;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.DelphiTextCompare;
+using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -181,7 +184,7 @@ public partial class SoundDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWSoundDlg.pas:218
-    public void SoundDialogCreate() => s_songFiles = new StringList();
+    public void SoundDialogCreate() => s_songFiles = new DelphiStringList();
 
     // AoWSoundDlg.pas:223
     public void SoundDialogDestroy() => s_songFiles?.Dispose();
@@ -413,7 +416,7 @@ public partial class SoundDialog(UIContext ui) : UIModule(ui)
         }
     }
 
-    private static StringList s_songFiles;
+    private static DelphiStringList s_songFiles;
 
     private static Set<SoundSystemStatusElement> SoundSystemStatus()
     {

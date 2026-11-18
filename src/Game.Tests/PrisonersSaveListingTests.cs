@@ -55,10 +55,10 @@ public sealed class PrisonersSaveListingTests
         }
         // The fixture host records calls and does not replace a finished save. The physical
         // service does, and it reads the same paths this case writes.
-        IFileSystem recordedFiles = Runtime.Files;
+        IFileSystem recordedFiles = RtlHost.Files;
         PhysicalFileSystem physical = new();
         _ = physical.SetCurrentDirectory(EngineFixture.Root);
-        Runtime.Files = physical;
+        RtlHost.Files = physical;
         try
         {
             _ = resources.AddChild(resource);
@@ -123,7 +123,7 @@ public sealed class PrisonersSaveListingTests
         }
         finally
         {
-            Runtime.Files = recordedFiles;
+            RtlHost.Files = recordedFiles;
             // Close the loaded map while it is still the current one. An activated army
             // leaves its player there, and a disposed current map has no player list.
             if (engine.HexSpriteMap is StrategicMap loaded && loaded != previous)
@@ -189,10 +189,10 @@ public sealed class PrisonersSaveListingTests
             engine.RegisterEngineClasses([campaignClass]);
         }
 
-        IFileSystem recordedFiles = Runtime.Files;
+        IFileSystem recordedFiles = RtlHost.Files;
         PhysicalFileSystem physical = new();
         _ = physical.SetCurrentDirectory(EngineFixture.Root);
-        Runtime.Files = physical;
+        RtlHost.Files = physical;
         try
         {
             _ = resources.AddChild(resource);
@@ -236,7 +236,7 @@ public sealed class PrisonersSaveListingTests
         }
         finally
         {
-            Runtime.Files = recordedFiles;
+            RtlHost.Files = recordedFiles;
             if (engine.HexSpriteMap is StrategicMap loaded && loaded != previous)
             {
                 StrategicMap.Current = loaded;

@@ -113,7 +113,7 @@ internal sealed class RunFiles(string gameRoot, string runDirectory, string? inp
             return path;
         }
 
-        string name = RtlUnit.ExtractFileName(path).ToString();
+        string name = DelphiPaths.ExtractFileName(path).ToString();
         // The autosave goes to the day file under either extension, the one this host writes and
         // the original one (own-formats.md 4.2).
         DocumentKind save = DocumentKind.Save;
@@ -135,7 +135,7 @@ internal sealed class RunFiles(string gameRoot, string runDirectory, string? inp
 
     public Stream Open(string path, int mode)
     {
-        bool writing = mode == RtlUnit.fmCreate || (mode & 3) != 0;
+        bool writing = mode == DelphiStreams.fmCreate || (mode & 3) != 0;
         // The command-line save is an explicit read-only input outside the virtual drive.
         return !writing && IsInput(path)
             ? File.Open(_input!, FileMode.Open, FileAccess.Read, FileShare.Read)

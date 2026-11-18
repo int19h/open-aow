@@ -1,7 +1,7 @@
 #nullable disable
 // Translated from Sound.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiTextCompare;
 
 namespace Aow.Game.Audio;
 

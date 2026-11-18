@@ -1,7 +1,9 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Collections;
 using Aow.Game.World.Map;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiAssert;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.LegacyApplication;
 
 namespace Aow.Game.Units;
 

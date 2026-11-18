@@ -18,7 +18,7 @@ using Aow.Game.World.Map;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -30,7 +30,7 @@ public partial class Spell : EngineObject
     // Spells.PAS:10
     public Spell(CustomNode owner) : base(owner)
     {
-        SpellText = new StringList();
+        SpellText = new DelphiStringList();
         CastSounds = new SfxLibrary(null) { Holder = CreationHolder() };
         CastImages = new ImageSequenceList(GamePack.Current.ImageLibraryManager, null);
         ResearchCost = 1;
@@ -49,7 +49,7 @@ public partial class Spell : EngineObject
 
     public SpellType SpellType { get; protected set; }
     // stGlobal guard
-    public StringList SpellText { get; }
+    public DelphiStringList SpellText { get; }
     public SfxLibrary CastSounds { get; }
     public ImageSequenceList CastImages { get; set; }
     public int CastDuration { get; protected set; }

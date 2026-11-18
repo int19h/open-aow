@@ -282,8 +282,8 @@ public sealed partial class PersistEquivalenceTests
         string root = Path.Combine(Path.GetTempPath(), "open-aow-pe3h-" + Guid.NewGuid().ToString("N"));
         _ = Directory.CreateDirectory(Path.Combine(root, "root"));
         _ = Directory.CreateDirectory(Path.Combine(root, "user"));
-        IFileSystem previous = Runtime.Files;
-        Runtime.Files = new LayeredFileSystem(Path.Combine(root, "root"), userDirectory: Path.Combine(root, "user"));
+        IFileSystem previous = RtlHost.Files;
+        RtlHost.Files = new LayeredFileSystem(Path.Combine(root, "root"), userDirectory: Path.Combine(root, "user"));
         HeroResourceList resources = new(null) { Holder = EngineFixture.Engine };
         HeroResourceList loaded = new(null) { Holder = EngineFixture.Engine };
         HeroResourceList refused = new(null) { Holder = EngineFixture.Engine };
@@ -293,7 +293,7 @@ public sealed partial class PersistEquivalenceTests
             _ = new HeroResource(resources) { Name = "Elf" };
             EngineFixture.Engine.WriteToFileCrc(file, objectValue: resources, progress: null);
             byte[] bytes;
-            using (Stream stream = Runtime.Files.Open(file, mode: Runtime.fmOpenRead))
+            using (Stream stream = RtlHost.Files.Open(file, mode: DelphiStreams.fmOpenRead))
             using (MemoryStream memory = new())
             {
                 stream.CopyTo(memory);
@@ -303,7 +303,7 @@ public sealed partial class PersistEquivalenceTests
             Assert.True(EngineFixture.Engine.ReadFromFileCrc(file, objectValue: loaded, progress: null));
             EqualBytes(Image(resources), actual: Image(loaded), label: "HERORES.PFS load");
             bytes[10] ^= 1;
-            using (Stream stream = Runtime.Files.Open(file, mode: Runtime.fmCreate))
+            using (Stream stream = RtlHost.Files.Open(file, mode: DelphiStreams.fmCreate))
             {
                 stream.Write(bytes);
             }
@@ -316,7 +316,7 @@ public sealed partial class PersistEquivalenceTests
             Discard(refused);
             Discard(loaded);
             Discard(resources);
-            Runtime.Files = previous;
+            RtlHost.Files = previous;
             Directory.Delete(root, recursive: true);
         }
     }
@@ -357,7 +357,7 @@ public sealed partial class PersistEquivalenceTests
                 {
                     byte[] bytes = File.ReadAllBytes(Path.Combine(InstalledSave.Root, relative));
                     byte[] image = crc ? bytes[4..^4] : bytes;
-                    int seed = Runtime.RandSeed;
+                    int seed = DelphiRandom.RandSeed;
                     EngineObject viaStream = Blank(rootClass);
                     EngineObject viaTree = Blank(rootClass);
                     try
@@ -370,22 +370,22 @@ public sealed partial class PersistEquivalenceTests
                             // list, which read each child through that table and skipped the
                             // unknown ones. It went with issue 185 PE-3-i part 4, so the tree's
                             // image of the loaded list loads back into the same image.
-                            Runtime.RandSeed = seed;
+                            DelphiRandom.RandSeed = seed;
                             EngineFixture.Engine.ReadObjectImage(image, objectValue: viaTree, progress: null, classTable: table);
                             byte[] treeImage = EngineFixture.Engine.WriteObjectImage(viaTree, progress: null, classTable: table);
-                            Runtime.RandSeed = seed;
+                            DelphiRandom.RandSeed = seed;
                             EngineFixture.Engine.ReadObjectImage(treeImage, objectValue: viaStream, progress: null, classTable: table);
                             EqualBytes(treeImage, actual: EngineFixture.Engine.WriteObjectImage(viaStream, progress: null, classTable: table), label: relative + " reload");
                             Assert.True(treeImage.Length > 64, relative + " loads " + treeImage.Length + " bytes");
                             continue;
                         }
 
-                        Runtime.RandSeed = seed;
+                        DelphiRandom.RandSeed = seed;
                         ReadWritten(viaStream, image);
-                        int streamSeed = Runtime.RandSeed;
-                        Runtime.RandSeed = seed;
+                        int streamSeed = DelphiRandom.RandSeed;
+                        DelphiRandom.RandSeed = seed;
                         EngineFixture.Engine.ReadObjectImage(image, objectValue: viaTree, progress: null, classTable: table);
-                        Assert.True(streamSeed == Runtime.RandSeed, relative + " ends on seed " + Runtime.RandSeed + ", the stream load on " + streamSeed);
+                        Assert.True(streamSeed == DelphiRandom.RandSeed, relative + " ends on seed " + DelphiRandom.RandSeed + ", the stream load on " + streamSeed);
                         byte[] written = WrittenImage(viaStream);
                         EqualBytes(written, actual: WrittenImage(viaTree), label: relative + " load");
                         EqualBytes(written, actual: EngineFixture.Engine.WriteObjectImage(viaTree, progress: null, classTable: table), label: relative + " write");
@@ -398,7 +398,7 @@ public sealed partial class PersistEquivalenceTests
                     }
                     finally
                     {
-                        Runtime.RandSeed = seed;
+                        DelphiRandom.RandSeed = seed;
                         Discard(viaTree);
                         Discard(viaStream);
                     }
@@ -457,7 +457,7 @@ public sealed partial class PersistEquivalenceTests
     private static void SameCopies(EngineObject source, EngineObject other)
     {
         string label = source.GetType().Name;
-        int seed = Runtime.RandSeed;
+        int seed = DelphiRandom.RandSeed;
         int streamSeed = 0;
         int treeSeed = 0;
         EngineObject? viaTree = null;
@@ -465,8 +465,8 @@ public sealed partial class PersistEquivalenceTests
         try
         {
             bool copied = AlikeOutcome(
-                () => { Runtime.RandSeed = seed; viaStream = StreamCopy(source); streamSeed = Runtime.RandSeed; },
-                viaPersist: () => { Runtime.RandSeed = seed; viaTree = source.Copy(EngineFixture.Engine); treeSeed = Runtime.RandSeed; },
+                () => { DelphiRandom.RandSeed = seed; viaStream = StreamCopy(source); streamSeed = DelphiRandom.RandSeed; },
+                viaPersist: () => { DelphiRandom.RandSeed = seed; viaTree = source.Copy(EngineFixture.Engine); treeSeed = DelphiRandom.RandSeed; },
                 label: label + " copy");
             if (!copied)
             {
@@ -490,8 +490,8 @@ public sealed partial class PersistEquivalenceTests
             EngineObject stream = viaStream = other.Copy(EngineFixture.Engine);
             EngineObject tree = viaTree = other.Copy(EngineFixture.Engine);
             bool assigned = AlikeOutcome(
-                () => { Runtime.RandSeed = seed; StreamAssign(stream, source); streamSeed = Runtime.RandSeed; },
-                viaPersist: () => { Runtime.RandSeed = seed; tree.Assign(source, engine: EngineFixture.Engine); treeSeed = Runtime.RandSeed; },
+                () => { DelphiRandom.RandSeed = seed; StreamAssign(stream, source); streamSeed = DelphiRandom.RandSeed; },
+                viaPersist: () => { DelphiRandom.RandSeed = seed; tree.Assign(source, engine: EngineFixture.Engine); treeSeed = DelphiRandom.RandSeed; },
                 label: label + " assign");
             if (!assigned)
             {
@@ -503,7 +503,7 @@ public sealed partial class PersistEquivalenceTests
         }
         finally
         {
-            Runtime.RandSeed = seed;
+            DelphiRandom.RandSeed = seed;
             Discard(viaTree);
             Discard(viaStream);
         }
@@ -533,22 +533,22 @@ public sealed partial class PersistEquivalenceTests
         }
 
         EqualBytes(expected, actual: actual, label: className + " object image");
-        int seed = Runtime.RandSeed;
+        int seed = DelphiRandom.RandSeed;
         EngineObject viaStream = Blank(className);
         EngineObject viaTree = Blank(className);
         try
         {
-            Runtime.RandSeed = seed;
+            DelphiRandom.RandSeed = seed;
             ReadWritten(viaStream, expected);
-            int streamSeed = Runtime.RandSeed;
-            Runtime.RandSeed = seed;
+            int streamSeed = DelphiRandom.RandSeed;
+            DelphiRandom.RandSeed = seed;
             EngineFixture.Engine.ReadObjectImage(expected, objectValue: viaTree, progress: null, classTable: classTable);
-            Assert.Equal(streamSeed, Runtime.RandSeed);
+            Assert.Equal(streamSeed, DelphiRandom.RandSeed);
             EqualBytes(Image(viaStream), actual: Image(viaTree), label: className + " object image load");
         }
         finally
         {
-            Runtime.RandSeed = seed;
+            DelphiRandom.RandSeed = seed;
             Discard(viaTree);
             Discard(viaStream);
         }

@@ -1,6 +1,6 @@
 namespace Aow.Rtl;
 
-public static partial class RtlUnit
+public static class PointerMemory
 {
     public static void GetMem<T>(out Ptr<T> pointer, int count) => pointer = Ptr<T>.Alloc(count);
     public static void ReallocMem<T>(ref Ptr<T> pointer, int count) => pointer = pointer.Realloc(count);

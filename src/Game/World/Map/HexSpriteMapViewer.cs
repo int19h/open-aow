@@ -3,7 +3,7 @@
 using Aow.Game.Draw;
 
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.LegacyApplication;
 
 namespace Aow.Game.World.Map;
 

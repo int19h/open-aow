@@ -61,7 +61,7 @@ public partial class TextControl(CustomNode owner) : OwningNode(owner), IChildLi
     public int IndexOf(TextControlItem item) => FindChildIndex(item);
 
     // Structur.PAS:4468
-    public void RetrieveText(int id, StringCollection text)
+    public void RetrieveText(int id, DelphiStringCollection text)
     {
         TextControlItem item;
         text.Clear();

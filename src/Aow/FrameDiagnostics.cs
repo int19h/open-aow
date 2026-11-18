@@ -23,9 +23,9 @@ internal sealed class FrameDiagnostics : IDisposable
     {
         _output = output;
         _writer = new(Path.Combine(output, "diagnostic-trace.jsonl")) { NewLine = "\n", AutoFlush = true };
-        _previousRandom = RtlUnit.RandomTrace;
+        _previousRandom = DelphiRandom.RandomTrace;
         _previousCost = HeadlessHooks.ProcessCost;
-        RtlUnit.RandomTrace = Random;
+        DelphiRandom.RandomTrace = Random;
         HeadlessHooks.ProcessCost = Cost;
     }
 
@@ -172,7 +172,7 @@ internal sealed class FrameDiagnostics : IDisposable
 
     public void Dispose()
     {
-        RtlUnit.RandomTrace = _previousRandom;
+        DelphiRandom.RandomTrace = _previousRandom;
         HeadlessHooks.ProcessCost = _previousCost;
         _writer.Dispose();
     }

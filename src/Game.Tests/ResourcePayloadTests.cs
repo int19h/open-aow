@@ -35,54 +35,54 @@ public sealed class ResourcePayloadTests
     public void ASequenceListLoadedThroughTheTreeDrawsWhereTheStreamLoadDraws()
     {
         byte[] payload = Sequences();
-        int seed = Runtime.RandSeed;
+        int seed = DelphiRandom.RandSeed;
         try
         {
             using ImageSequenceList viaStream = new(null, null);
-            Runtime.RandSeed = Seed;
+            DelphiRandom.RandSeed = Seed;
             StreamLoad(viaStream, payload: payload);
-            int streamSeed = Runtime.RandSeed;
+            int streamSeed = DelphiRandom.RandSeed;
             // Three frame-table layers draw three times.
             Assert.Equal(Advance(Seed, draws: 3), streamSeed);
             foreach (ObjectNode tree in Backends(tree: Stored("MapObjectResource", "ImageSequenceList", payload), className: "MapObjectResource"))
             {
                 Holder viaTree = new((persister, self) => PersistSupport.ImageSequences(persister, name: "ImageSequenceList", list: self.Sequences));
-                Runtime.RandSeed = Seed;
+                DelphiRandom.RandSeed = Seed;
                 TreeReader.Read(tree, objectValue: viaTree, factory: Factory);
-                Assert.Equal(streamSeed, Runtime.RandSeed);
+                Assert.Equal(streamSeed, DelphiRandom.RandSeed);
                 Assert.Equal(Indices(viaStream), Indices(viaTree.Sequences));
                 Assert.Equal(StreamSaved(viaStream), StreamSaved(viaTree.Sequences));
                 viaTree.Dispose();
             }
             // The save writes what SaveToStream writes and draws nothing.
-            Runtime.RandSeed = Seed;
+            DelphiRandom.RandSeed = Seed;
             ObjectNode written = TreeWriter.Write(new Holder((persister, _) => PersistSupport.ImageSequences(persister, name: "ImageSequenceList", list: viaStream)), factory: Factory);
-            Assert.Equal(Seed, Runtime.RandSeed);
+            Assert.Equal(Seed, DelphiRandom.RandSeed);
             Assert.Equal(StreamSaved(viaStream), Payload("MapObjectResource", "ImageSequenceList", written));
         }
         finally
         {
-            Runtime.RandSeed = seed;
+            DelphiRandom.RandSeed = seed;
         }
     }
 
     [Fact]
     public void AnAbsentSequenceListLeavesTheListAndDrawsNothing()
     {
-        int seed = Runtime.RandSeed;
+        int seed = DelphiRandom.RandSeed;
         try
         {
             Holder holder = new((persister, self) => PersistSupport.ImageSequences(persister, name: "ImageSequenceList", list: self.Sequences));
             StreamLoad(holder.Sequences, payload: Sequences());
-            Runtime.RandSeed = Seed;
+            DelphiRandom.RandSeed = Seed;
             TreeReader.Read(new ObjectNode(null, null), objectValue: holder, factory: Factory);
-            Assert.Equal(Seed, Runtime.RandSeed);
+            Assert.Equal(Seed, DelphiRandom.RandSeed);
             Assert.Equal(3, holder.Sequences.Count);
             holder.Dispose();
         }
         finally
         {
-            Runtime.RandSeed = seed;
+            DelphiRandom.RandSeed = seed;
         }
     }
 

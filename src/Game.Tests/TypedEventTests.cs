@@ -135,7 +135,7 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
         }
 
         FileDialogWindow dialog = null!;
-        StringList previousDirectories = FileDialogWindow.Directories;
+        DelphiStringList previousDirectories = FileDialogWindow.Directories;
         try
         {
             dialog = Load(new LayoutSession(), module: new FileDialogWindow(_host.UI), publish: static module => { _ = module; });
@@ -264,7 +264,7 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
     // the same way WheelLayoutTests loads.
     public sealed class Host : IDisposable
     {
-        private readonly Action<string> _previousMessage = Runtime.MessageHandler;
+        private readonly Action<string> _previousMessage = LegacyApplication.MessageHandler;
 
         internal UIContext UI { get; } = new(EngineFixture.Engine);
         internal EmailGameSettingsDialog Dialog { get; } = null!;
@@ -272,7 +272,7 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
         public Host()
         {
             string previousImagePath = ImageLibraries.BaseImageLibraryPath;
-            Runtime.MessageHandler = _ => { };
+            LegacyApplication.MessageHandler = _ => { };
             ImageLibraries.BaseImageLibraryPath = EngineFixture.Root + Path.DirectorySeparatorChar;
             try
             {
@@ -290,7 +290,7 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
             finally
             {
                 ImageLibraries.BaseImageLibraryPath = previousImagePath;
-                Runtime.MessageHandler = _previousMessage;
+                LegacyApplication.MessageHandler = _previousMessage;
             }
         }
 

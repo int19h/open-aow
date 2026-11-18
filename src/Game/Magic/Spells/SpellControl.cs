@@ -8,7 +8,9 @@ using Aow.Game.World.Map;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiAssert;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -148,7 +150,7 @@ public partial class SpellControl : EngineObject
     }
 
     // Spells.PAS:659
-    public void ListSpells(StringCollection spellStrings, Set<MagicSphere> spheres)
+    public void ListSpells(DelphiStringCollection spellStrings, Set<MagicSphere> spheres)
     {
         spellStrings.Clear();
         for (int i = 0, last = RegisteredSpells.Count - 1; i <= last; i++)

@@ -123,7 +123,7 @@ public partial class PopupWindows(UIContext ui) : UIModule(ui)
             case 2:
                 // The original switches to windowed mode first. The port runs borderless
                 // fullscreen, and the browser opens over it.
-                RtlUnit.OpenUrl(AgeOfWondersUrl);
+                RtlHost.OpenUrl(AgeOfWondersUrl);
                 break;
             default:
                 break;
@@ -190,12 +190,12 @@ public partial class PopupWindows(UIContext ui) : UIModule(ui)
 
     internal static void ShowInformationBook(WorldMap dialog, ShowBookEventLog eventValue, ExecuteDoneEvent done)
     {
-        dialog.SetBookClosedHandler(RtlUnit.RebindDelegate<NotifyEvent<object>>(done));
+        dialog.SetBookClosedHandler(DelegateRoutines.RebindDelegate<NotifyEvent<object>>(done));
         dialog.BookContext = eventValue;
         _ = (dialog.BookContext?.AddRef());
         dialog.LeftPageLabel.Text = StrategicMap.Current.MapName;
         dialog.LeftPageMemo.Items.Clear();
-        dialog.LeftPageMemo.Items.AddStrings((StringCollection)(object)StrategicMap.Current.Description);
+        dialog.LeftPageMemo.Items.AddStrings((DelphiStringCollection)(object)StrategicMap.Current.Description);
         string text = dialog.UI.Engine.TranslateResourceString(s_mapSettingsText);
         dialog.RightPageLabel.Text = text;
         dialog.RightPageMemo.Items.Clear();
@@ -218,7 +218,7 @@ public partial class PopupWindows(UIContext ui) : UIModule(ui)
         if (StrategicMap.Current.DayLimit > 0)
         {
             string s3 = dialog.UI.Engine.TranslateResourceString(s_dayLimitFormat);
-            FormatArg value3 = (FormatArg)RtlUnit.IntToStr(StrategicMap.Current.DayLimit);
+            FormatArg value3 = (FormatArg)DelphiConversions.IntToStr(StrategicMap.Current.DayLimit);
             string text6 = AbilityRules.Format(s3, new ReadOnlySpan<FormatArg>(ref value3));
             _ = dialog.RightPageMemo.Items.Add(text6);
         }
@@ -240,15 +240,15 @@ public partial class PopupWindows(UIContext ui) : UIModule(ui)
         }
         int count = StrategicMap.Current.Players.GetCount();
         string s6 = dialog.UI.Engine.TranslateResourceString(s_playersOnMapFormat);
-        FormatArg value6 = (FormatArg)RtlUnit.IntToStr(count - 1);
+        FormatArg value6 = (FormatArg)DelphiConversions.IntToStr(count - 1);
         string text11 = AbilityRules.Format(s6, new ReadOnlySpan<FormatArg>(ref value6));
         _ = dialog.RightPageMemo.Items.Add(text11);
         string s7 = dialog.UI.Engine.TranslateResourceString(s_maximumSphereLevelFormat);
-        FormatArg value7 = (FormatArg)RtlUnit.IntToStr(StrategicMap.Current.SphereCount);
+        FormatArg value7 = (FormatArg)DelphiConversions.IntToStr(StrategicMap.Current.SphereCount);
         string text12 = AbilityRules.Format(s7, new ReadOnlySpan<FormatArg>(ref value7));
         _ = dialog.RightPageMemo.Items.Add(text12);
         string s8 = dialog.UI.Engine.TranslateResourceString(s_maximumPlayerHeroesFormat);
-        FormatArg value8 = (FormatArg)RtlUnit.IntToStr(StrategicMap.Current.HeroCountMax);
+        FormatArg value8 = (FormatArg)DelphiConversions.IntToStr(StrategicMap.Current.HeroCountMax);
         string text13 = AbilityRules.Format(s8, new ReadOnlySpan<FormatArg>(ref value8));
         _ = dialog.RightPageMemo.Items.Add(text13);
         if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Local && StrategicMap.Current.RequestCombatType)

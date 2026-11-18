@@ -258,7 +258,7 @@ public sealed class ProductionOrderTests
             {
                 case CityAction.Trade: result = AbilityRules.TranslateResourceString(EngineFixture.Engine, GameText.ProduceMerchandiseText); break;
                 case CityAction.Upgrade: result = AbilityRules.TranslateResourceString(EngineFixture.Engine, GameText.UpgradeText); break;
-                case CityAction.Migrate: result = Runtime.Format(AbilityRules.TranslateResourceString(EngineFixture.Engine, Migrate.MigrateFormat), [AbilityRules.TranslateResourceString(EngineFixture.Engine, GameTables.RaceNamesPluralTexts[parameter])]); break;
+                case CityAction.Migrate: result = DelphiFormat.Format(AbilityRules.TranslateResourceString(EngineFixture.Engine, Migrate.MigrateFormat), [AbilityRules.TranslateResourceString(EngineFixture.Engine, GameTables.RaceNamesPluralTexts[parameter])]); break;
                 case CityAction.Loot: result = AbilityRules.TranslateResourceString(EngineFixture.Engine, GameText.LootText); break;
                 case CityAction.Fortify: result = AbilityRules.TranslateResourceString(EngineFixture.Engine, GameText.FortifyText); break;
                 case CityAction.None:

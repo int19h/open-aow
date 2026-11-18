@@ -1,6 +1,10 @@
 #nullable disable
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiPaths;
+using static Aow.Rtl.DelphiStreams;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.DelphiTextCompare;
+using static Aow.Rtl.PCharStrings;
 
 namespace Aow.Game.Audio;
 

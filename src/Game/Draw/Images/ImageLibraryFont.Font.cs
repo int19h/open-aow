@@ -11,7 +11,7 @@ public partial class ImageLibraryFont
     {
         int width = 0;
         // One table lookup per char, no allocation (strings.md 2.4). IsEmpty reads the null switch as Encode did.
-        if (RtlUnit.IsEmpty(text))
+        if (DelphiStrings.IsEmpty(text))
         {
             return width;
         }
@@ -26,7 +26,7 @@ public partial class ImageLibraryFont
 
     internal void ShowText(int x, int y, string text, in LockedSurface lockedSurface)
     {
-        if (RtlUnit.IsEmpty(text))
+        if (DelphiStrings.IsEmpty(text))
         {
             return;
         }

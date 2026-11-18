@@ -12,8 +12,8 @@ internal static class FrameVerification
     public static void Run(string directory)
     {
         FixtureClock clock = new(new(2000, 1, 1));
-        IClock savedClock = RtlUnit.Clock;
-        RtlUnit.Clock = clock;
+        IClock savedClock = RtlHost.Clock;
+        RtlHost.Clock = clock;
         TestHost host = new();
         TestDisplay display = new();
         SdlDisplayController controller = new(host);
@@ -79,7 +79,7 @@ internal static class FrameVerification
         {
             display?.Dispose();
             controller?.Dispose();
-            RtlUnit.Clock = savedClock;
+            RtlHost.Clock = savedClock;
         }
         Console.WriteLine($"Frame display PASS: {checks} checks, memory surfaces, focus, fullscreen, limiter, headless rows, no window");
     }

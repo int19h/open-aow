@@ -4,7 +4,12 @@ using Aow.Engine.Nodes;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiFormat;
+using static Aow.Rtl.DelphiMemory;
+using static Aow.Rtl.DelphiRandom;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.Heap;
 
 namespace Aow.Engine.Collections;
 
@@ -103,7 +108,7 @@ public partial class ByteList : Persistent
             if (p != 0)
             {
                 item = Copy(S, 1, p - 1);
-                S = RtlUnit.Delete(S, 1, p);
+                S = DelphiStrings.Delete(S, 1, p);
             }
             else
             {

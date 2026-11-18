@@ -1,6 +1,6 @@
 namespace Aow.Rtl;
 
-public static partial class RtlUnit
+public static class DelphiMemory
 {
     public static void Move<T>(Ptr<T> source, Ptr<T> destination, int count) => Ptr<T>.Copy(source, destination, count);
 

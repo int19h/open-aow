@@ -32,7 +32,7 @@ public sealed partial class EngineFixture : IDisposable
 
     public EngineFixture()
     {
-        Runtime.InstallHost(_host);
+        RtlHost.InstallHost(_host);
         s_services = _host;
         Engine = GameEngine.Create(null);
         GameSet = GamePack.Current;
@@ -50,7 +50,7 @@ public sealed partial class EngineFixture : IDisposable
         _host.RestoreServices();
     }
 
-    internal static void InstallServices() => Runtime.InstallHost(s_services);
+    internal static void InstallServices() => RtlHost.InstallHost(s_services);
 
     internal static IRtlHost Services => s_services;
 

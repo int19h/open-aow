@@ -58,7 +58,7 @@ public partial class EarthMasteryEnchantment : GlobalEnchantment
         {
             if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.EarthMastery))
             {
-                reason = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat), [Name]);
+                reason = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat), [Name]);
                 result = false;
             }
         }

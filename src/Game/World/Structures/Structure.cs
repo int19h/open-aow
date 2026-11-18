@@ -32,7 +32,9 @@ using Aow.Game.World.Terrain;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiRandom;
+using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.World.Structures;
 
@@ -115,7 +117,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
                 {
                     if (message.MessageId == 537002243)
                     {
-                        if (!MainValidateMap(message.Payload.As<StringCollection>()))
+                        if (!MainValidateMap(message.Payload.As<DelphiStringCollection>()))
                         {
                             Array4<int> data = message.Data;
                             data[0] = 1;
@@ -466,7 +468,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     }
 
     // Structur.PAS:1174
-    public virtual StringCollection GetDescription() => Resource.Description;
+    public virtual DelphiStringCollection GetDescription() => Resource.Description;
 
     // Structur.PAS:1164
     public virtual string GetName() => EditName();
@@ -850,13 +852,13 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     public virtual string GetCurrentActivityText() => "-";
 
     // Structur.PAS:1564
-    public virtual bool ValidateMap(StringCollection messages) => true;
+    public virtual bool ValidateMap(DelphiStringCollection messages) => true;
 
     // Structur.PAS:1569
-    public virtual bool MainValidateMap(StringCollection messages)
+    public virtual bool MainValidateMap(DelphiStringCollection messages)
     {
-        StringList errors;
-        errors = new StringList();
+        DelphiStringList errors;
+        errors = new DelphiStringList();
         bool result = ValidateMap(errors);
         if (errors.Count != 0)
         {

@@ -2,9 +2,9 @@ using Aow.Rtl.Host;
 
 namespace Aow.Rtl;
 
-public class Registry
+public class DelphiRegistry
 {
-    private readonly ISettingsStore values = RtlUnit.Settings ?? new MemorySettingsStore();
+    private readonly ISettingsStore values = RtlHost.Settings ?? new MemorySettingsStore();
     private string key = "";
 
     public bool OpenKey(string name, bool create) { key = name; return true; }

@@ -1,4 +1,5 @@
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiOrdinals;
+using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Rtl.Tests;
 

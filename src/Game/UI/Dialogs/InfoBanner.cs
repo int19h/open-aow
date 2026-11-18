@@ -12,7 +12,7 @@ public partial class InfoBanner(UIContext ui) : UIModule(ui)
     public Menu BannerMenu { get; private set; }
 
     // AoWInfoBanner.pas:35
-    public void ShowInfo(string header, StringCollection description)
+    public void ShowInfo(string header, DelphiStringCollection description)
     {
         HeaderLabel.Text = header;
         string text = description.Text;
@@ -28,7 +28,7 @@ public partial class InfoBanner(UIContext ui) : UIModule(ui)
         }
     }
 
-    internal static void SetInfoBanner(InfoBanner banner, string caption, StringCollection description)
+    internal static void SetInfoBanner(InfoBanner banner, string caption, DelphiStringCollection description)
     {
         banner.HeaderLabel.Text = caption;
         string text = description.Text;

@@ -14,7 +14,9 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiAssert;
+using static Aow.Rtl.DelphiRandom;
+using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.Draw;
 
@@ -771,7 +773,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
     }
 
     // AoWTC.pas:3910
-    public void ListAbilities(StringCollection names, StringCollection types, StringCollection sources)
+    public void ListAbilities(DelphiStringCollection names, DelphiStringCollection types, DelphiStringCollection sources)
     {
         names.Clear();
         types?.Clear();

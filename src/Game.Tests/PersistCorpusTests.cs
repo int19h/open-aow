@@ -104,7 +104,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
         s_levelBlocks.Clear();
         // A unit's load looks its resource up in the game set, so the walk reads the installed
         // unit resources into the fixture's game set and puts the empty list back after.
-        int previousSeed = Runtime.RandSeed;
+        int previousSeed = DelphiRandom.RandSeed;
         GamePack gameSet = GamePack.Current;
         UnitResourceList emptyResources = gameSet.UnitResources;
         UnitResourceList unitResources = UnitResources();
@@ -187,7 +187,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
         finally
         {
             EngineFixture.Engine.UnregisterEngineClasses(enlisted);
-            Runtime.RandSeed = previousSeed;
+            DelphiRandom.RandSeed = previousSeed;
             gameSet.UnitResources = emptyResources;
             unitResources.Dispose();
             s_reaper = null;
@@ -342,13 +342,13 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
             byte[] image = PilotImage.Encode(objectValue, classValue.Name, engine);
             // An image sequence draws Random once per frame-table layer when it loads, so every
             // load of the instance starts from the same seed and draws the same image indices.
-            int seed = Runtime.RandSeed;
+            int seed = DelphiRandom.RandSeed;
             EngineObject loaded = Blank(classValue.Name);
             try
             {
                 try
                 {
-                    Runtime.RandSeed = seed;
+                    DelphiRandom.RandSeed = seed;
                     Load(loaded, image, classValue: classValue, engine: engine, factory: factory);
                 }
                 catch (Exception error) when (PortedExceptions.Is(error))
@@ -384,7 +384,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
                 EngineObject again = Blank(classValue.Name);
                 try
                 {
-                    Runtime.RandSeed = seed;
+                    DelphiRandom.RandSeed = seed;
                     TreeReader.Read(DocumentBackend.Read(expected, classValue, schema, engine), again, factory, Stop);
                     EqualBytes(PilotImage.Encode(expected, classValue.Name, engine), Image(again, engine: engine), file + " " + classValue.Name + " read");
                 }
@@ -405,7 +405,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
                         Block(classValue.Name, error.Diagnostic.Message);
                         return false;
                     }
-                    Runtime.RandSeed = seed;
+                    DelphiRandom.RandSeed = seed;
                     TreeReader.Read(read, fromImage, factory, Stop);
                     EqualBytes(Image(loaded, engine: engine), actual: Image(fromImage, engine: engine), label: file + " " + classValue.Name + " read");
                 }
@@ -415,12 +415,12 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
                 }
                 // PE-3-h: a copy goes through the tree and loads what the stream copy of the
                 // instance loaded (WriteEObject, then ReadEObject into a new object).
-                Runtime.RandSeed = seed;
+                DelphiRandom.RandSeed = seed;
                 EngineObject copied = loaded.Copy(EngineFixture.Engine);
                 EngineObject streamCopied = Blank(classValue.Name);
                 try
                 {
-                    Runtime.RandSeed = seed;
+                    DelphiRandom.RandSeed = seed;
                     Load(streamCopied, Image(loaded, engine: engine), classValue: classValue, engine: engine, factory: factory);
                     EqualBytes(Image(streamCopied, engine: engine), actual: Image(copied, engine: engine), label: file + " " + classValue.Name + " copy");
                 }

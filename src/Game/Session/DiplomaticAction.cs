@@ -17,7 +17,7 @@ using Aow.Game.World.Map;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Game.Session;
 
@@ -58,7 +58,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     {
         base.PersistFields(persister);
         (byte kind, int gold, int mana) = Proposal.ToFields();
-        StringList message = new();
+        DelphiStringList message = new();
         foreach (string line in Proposal.Message)
         {
             _ = message.Add(line);
@@ -352,7 +352,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
 
     private static readonly string s_notEnoughManaText = "Not enough mana.";
 
-    private static void RetrieveDefaultDiplomaticActionMessage(sbyte source, sbyte target, sbyte other, DiplomaticProposal proposal, DiplomaticActionReaction reaction, StringCollection text, GameEngine engine)
+    private static void RetrieveDefaultDiplomaticActionMessage(sbyte source, sbyte target, sbyte other, DiplomaticProposal proposal, DiplomaticActionReaction reaction, DelphiStringCollection text, GameEngine engine)
     {
         text.Clear();
         TextControl fTextControl = GamePack.Current.TextControl;

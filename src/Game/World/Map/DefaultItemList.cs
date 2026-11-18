@@ -247,5 +247,5 @@ public class DefaultItemList<TItem> : Persistent where TItem : struct, IEquatabl
     public TItem[] List => _list;
 
     // HSEngine.pas:1640
-    protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(message, [data]));
+    protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, DelphiFormat.Format(message, [data]));
 }

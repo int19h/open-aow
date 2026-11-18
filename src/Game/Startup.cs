@@ -7,8 +7,6 @@ using Aow.Game.Audio;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 
-using Aow.Game.Magic.Abilities;
-using Aow.Game.UI.Dialogs;
 using Aow.Game.World.Structures;
 
 namespace Aow.Game;
@@ -21,8 +19,6 @@ public static class Startup
         new("GFXE", GraphicsState.Initialize, GraphicsState.Finalize),
         new("ImageLib", ImageLibraries.Initialize, ImageLibraries.Finalize),
         new("Sound", AudioHost.Initialize, AudioHost.Finalize),
-        new("AoWE", GameTables.Initialize, null),
-        new("AoWTitleScene", TitleCaptions.Initialize, null),
     ];
 
     private static readonly bool[] s_initialized = new bool[Units.Length];

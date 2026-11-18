@@ -10,11 +10,11 @@ public partial class DisplayController
 
     public virtual int WaitForVerticalBlank()
     {
-        IClock clock = RtlUnit.Clock;
+        IClock clock = RtlHost.Clock;
         clock.WaitUntil(_lastVerticalBlank + _display.FrameTime);
         _lastVerticalBlank = clock.ElapsedMilliseconds;
         return 0;
     }
 
-    public virtual void ShowError(string message) => RtlUnit.ShowMessage(message);
+    public virtual void ShowError(string message) => LegacyApplication.ShowMessage(message);
 }

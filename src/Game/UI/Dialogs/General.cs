@@ -17,7 +17,10 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiFiles;
+using static Aow.Rtl.DelphiPaths;
+using static Aow.Rtl.DelphiTextCompare;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -662,14 +665,14 @@ public partial class General(UIContext ui) : UIModule(ui)
             switch (key)
             {
                 case 122:
-                    s = ExtractFileDir(RtlUnit.Application.ExeName);
+                    s = ExtractFileDir(LegacyApplication.Application.ExeName);
                     s += "\\Scenario\\Custom";
                     _ = SetCurrentDir(s);
                     LoadGame(this, FileBoundary.ReadName("Crap.hsm"));
                     StartGame(this);
                     break;
                 case 123:
-                    s = ExtractFileDir(RtlUnit.Application.ExeName);
+                    s = ExtractFileDir(LegacyApplication.Application.ExeName);
                     s += "\\Scenario\\Custom";
                     _ = SetCurrentDir(s);
                     LoadGame(this, FileBoundary.ReadName("demomap.hsm"));
@@ -920,7 +923,7 @@ public partial class General(UIContext ui) : UIModule(ui)
 
         _ = AudioHost.SongPlayer.Play(0);
         AudioPlayback.SetMusicVolume(controller.UI.SoundDialog.MusicVolumeSlider.Position);
-        StringList menu = controller.UI.PopupWindows.OverviewsMenu.Items;
+        DelphiStringList menu = controller.UI.PopupWindows.OverviewsMenu.Items;
         menu.Clear();
         _ = menu.Add(controller.UI.Engine.TranslateResourceString(LayerText.BackgroundText));
         if (controller.UI.Engine.Campaign != null)

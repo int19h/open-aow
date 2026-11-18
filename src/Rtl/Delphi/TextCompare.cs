@@ -1,6 +1,9 @@
+using static Aow.Rtl.DelphiOrdinals;
+using static Aow.Rtl.DelphiStrings;
+
 namespace Aow.Rtl;
 
-public static partial class RtlUnit
+public static class DelphiTextCompare
 {
     private static string Map(string? value, Func<char, char> map)
     {

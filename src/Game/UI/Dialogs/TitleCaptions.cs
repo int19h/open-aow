@@ -12,15 +12,5 @@ internal static class TitleCaptions
 
     private static readonly string s_titleExitText = "Exit";
 
-    internal static string[] TitleButtons { get; } = ["", "", "", "", ""];
-
-    internal static void Initialize()
-    {
-        TitleButtons[0] = s_titleNewGameText;
-        TitleButtons[1] = s_titleCampaignText;
-        TitleButtons[2] = s_titleTutorialText;
-        TitleButtons[3] = s_titleLoadGameText;
-        TitleButtons[4] = s_titleExitText;
-    }
-
+    internal static string[] TitleButtons { get; } = [s_titleNewGameText, s_titleCampaignText, s_titleTutorialText, s_titleLoadGameText, s_titleExitText];
 }

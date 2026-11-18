@@ -3,7 +3,7 @@
 using Aow.Engine.Nodes;
 using Aow.Game;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Engine.Storage;
 
@@ -63,7 +63,7 @@ public partial class TranslateVisit(GameEngine engine) : IDisposable
     }
 
     // Engine.pas:10901
-    public virtual void TranslateStrings(StringCollection lines)
+    public virtual void TranslateStrings(DelphiStringCollection lines)
     {
     }
 

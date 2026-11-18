@@ -716,14 +716,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "UIComponent.Aligned": false,
@@ -879,14 +879,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "UIComponent.Aligned": false,
@@ -1092,14 +1092,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "UIComponent.Aligned": false,
@@ -1217,14 +1217,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "UIComponent.Aligned": false,
@@ -1436,14 +1436,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "UIComponent.Aligned": false,
@@ -1562,14 +1562,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "UIComponent.Aligned": false,
@@ -1782,14 +1782,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "UIComponent.Aligned": false,
@@ -1908,14 +1908,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "UIComponent.Aligned": false,
@@ -2119,16 +2119,16 @@
             "ComboBox._imageLibraryTnIndex": 0,
             "ComboBox._imageLibraryTsIndex": 0,
             "ComboBox._items": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": [
                 "Aow.Game.UI.Controls.UIComponent.OnChangeText"
               ],
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "ComboBox._open": false,
             "ComboBox._openListRows": 0,
@@ -2154,14 +2154,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.ComboBox._items.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.ComboBox._items.DelphiStringList.items"
             },
             "Control._window": null,
             "UIComponent.Aligned": false,
@@ -2271,16 +2271,16 @@
             "ComboBox._imageLibraryTnIndex": 0,
             "ComboBox._imageLibraryTsIndex": 0,
             "ComboBox._items": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": [
                 "Aow.Game.UI.Controls.UIComponent.OnChangeText"
               ],
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "ComboBox._open": false,
             "ComboBox._openListRows": 0,
@@ -2306,14 +2306,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.ComboBox._items.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.ComboBox._items.DelphiStringList.items"
             },
             "Control._window": null,
             "UIComponent.Aligned": false,
@@ -2531,14 +2531,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "UIComponent.Aligned": false,
@@ -2647,14 +2647,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "UIComponent.Aligned": false,
@@ -2847,14 +2847,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "Edit.BlinkDelay": 0,
@@ -2977,14 +2977,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "Edit.BlinkDelay": 0,
@@ -3205,14 +3205,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "Frame.FrameType": 0,
@@ -3329,14 +3329,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "Frame.FrameType": 0,
@@ -3545,14 +3545,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "Gauge.ImageLibraryIndexFrame": 0,
@@ -3671,14 +3671,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "Gauge.ImageLibraryIndexFrame": 0,
@@ -3891,14 +3891,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "ScrollBar.Delay": 20,
@@ -4035,14 +4035,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "ScrollBar.Delay": 20,
@@ -4291,14 +4291,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "Image.AnimationFrameDelay": 0,
@@ -4414,14 +4414,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "Image.AnimationFrameDelay": 0,
@@ -4628,14 +4628,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "UIComponent.Aligned": false,
@@ -4744,14 +4744,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "UIComponent.Aligned": false,
@@ -4944,14 +4944,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.ListBox._items.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.ListBox._items.DelphiStringList.items"
             },
             "Control._window": null,
             "ListBox.FirstShownItem": 0,
@@ -4978,16 +4978,16 @@
             "ListBox._imageLibraryTextureNormal": null,
             "ListBox._imageLibraryTextureSelected": null,
             "ListBox._items": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": [
                 "Aow.Game.UI.Controls.UIComponent.OnChangeText"
               ],
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "ListBox._scrollWidth": 0,
             "ListBox._selected": 0,
@@ -5099,14 +5099,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.ListBox._items.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.ListBox._items.DelphiStringList.items"
             },
             "Control._window": null,
             "ListBox.FirstShownItem": 0,
@@ -5133,16 +5133,16 @@
             "ListBox._imageLibraryTextureNormal": null,
             "ListBox._imageLibraryTextureSelected": null,
             "ListBox._items": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": [
                 "Aow.Game.UI.Controls.UIComponent.OnChangeText"
               ],
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "ListBox._scrollWidth": 0,
             "ListBox._selected": 0,
@@ -5366,14 +5366,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Memo.Lines.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Memo.Lines.DelphiStringList.items"
             },
             "Control._window": null,
             "Memo.BlinkDelay": 0,
@@ -5383,14 +5383,14 @@
             "Memo.Editable": true,
             "Memo.ItemHeight": 0,
             "Memo.Lines": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Memo.NoFrame": false,
             "Memo.OnDrawItem": null,
@@ -5411,16 +5411,16 @@
               "Rect.Top": 0
             },
             "Memo._items": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": [
                 "Aow.Game.UI.Controls.UIComponent.OnChangeText"
               ],
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Memo.Lines.StringList.items"
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Memo.Lines.DelphiStringList.items"
             },
             "Memo._numberVisible": 3,
             "Memo._realColumn": 0,
@@ -5535,14 +5535,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Memo.Lines.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Memo.Lines.DelphiStringList.items"
             },
             "Control._window": null,
             "Memo.BlinkDelay": 0,
@@ -5552,14 +5552,14 @@
             "Memo.Editable": true,
             "Memo.ItemHeight": 0,
             "Memo.Lines": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Memo.NoFrame": false,
             "Memo.OnDrawItem": null,
@@ -5580,16 +5580,16 @@
               "Rect.Top": 0
             },
             "Memo._items": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": [
                 "Aow.Game.UI.Controls.UIComponent.OnChangeText"
               ],
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.Memo.Lines.StringList.items"
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.Memo.Lines.DelphiStringList.items"
             },
             "Memo._numberVisible": 3,
             "Memo._realColumn": 0,
@@ -5821,14 +5821,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.MenuBar._items.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.MenuBar._items.DelphiStringList.items"
             },
             "Control._window": null,
             "MenuBar.Menus": [],
@@ -5838,16 +5838,16 @@
             "MenuBar._imageLibraryIndexDown": 0,
             "MenuBar._imageLibraryIndexUp": 0,
             "MenuBar._items": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": [
                 "Aow.Game.UI.Controls.UIComponent.OnChangeText"
               ],
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "MenuBar._lastSelected": 0,
             "UIComponent.Aligned": false,
@@ -5956,14 +5956,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.MenuBar._items.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.MenuBar._items.DelphiStringList.items"
             },
             "Control._window": null,
             "MenuBar.Menus": [],
@@ -5973,16 +5973,16 @@
             "MenuBar._imageLibraryIndexDown": 0,
             "MenuBar._imageLibraryIndexUp": 0,
             "MenuBar._items": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": [
                 "Aow.Game.UI.Controls.UIComponent.OnChangeText"
               ],
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "MenuBar._lastSelected": 0,
             "UIComponent.Aligned": false,
@@ -6183,14 +6183,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "ScrollBar.Delay": 20,
@@ -6327,14 +6327,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "ScrollBar.Delay": 20,
@@ -6583,14 +6583,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.TabPanel._items.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.TabPanel._items.DelphiStringList.items"
             },
             "Control._window": null,
             "TabPanel.BorderHeightSelected": 0,
@@ -6599,16 +6599,16 @@
             "TabPanel._imageLibraryIndexDown": 0,
             "TabPanel._imageLibraryIndexUp": 0,
             "TabPanel._items": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": [
                 "Aow.Game.UI.Controls.UIComponent.OnChangeText"
               ],
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "TabPanel._selected": 0,
             "UIComponent.Aligned": false,
@@ -6717,14 +6717,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.TabPanel._items.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.TabPanel._items.DelphiStringList.items"
             },
             "Control._window": null,
             "TabPanel.BorderHeightSelected": 0,
@@ -6733,16 +6733,16 @@
             "TabPanel._imageLibraryIndexDown": 0,
             "TabPanel._imageLibraryIndexUp": 0,
             "TabPanel._items": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": [
                 "Aow.Game.UI.Controls.UIComponent.OnChangeText"
               ],
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "TabPanel._selected": 0,
             "UIComponent.Aligned": false,
@@ -7228,14 +7228,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "UIComponent.Aligned": false,
@@ -7344,14 +7344,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "UIComponent.Aligned": false,
@@ -7544,14 +7544,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "ScrollBar.Delay": 20,
@@ -7688,14 +7688,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "ScrollBar.Delay": 20,
@@ -13980,14 +13980,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "Scanner.HighLights": false,
@@ -14125,14 +14125,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "Scanner.HighLights": false,
@@ -14383,14 +14383,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "TurnButton.Animating": false,
@@ -14509,14 +14509,14 @@
             "Control.ToolTip": null,
             "Control._toolTipShown": 0,
             "Control._toolTipText": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Control._window": null,
             "TurnButton.Animating": false,
@@ -17275,26 +17275,26 @@
               "CustomImageLibrary._loadOnDemand": true
             },
             "HtmlMemo._items": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": [
                 "Aow.Game.UI.Windows.HtmlMemo.OnChangeText"
               ],
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "HtmlMemo._lines": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.HtmlMemo._items.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.HtmlMemo._items.DelphiStringList.items"
             },
             "HtmlMemo._scrollWidth": 0,
             "HtmlMemo._textHeight": 0,
@@ -17506,26 +17506,26 @@
               "CustomImageLibrary._loadOnDemand": true
             },
             "HtmlMemo._items": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": [
                 "Aow.Game.UI.Windows.HtmlMemo.OnChangeText"
               ],
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "HtmlMemo._lines": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.HtmlMemo._items.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.HtmlMemo._items.DelphiStringList.items"
             },
             "HtmlMemo._scrollWidth": 0,
             "HtmlMemo._textHeight": 0,
@@ -17855,16 +17855,16 @@
             "Menu._imageLibraryTextureSelected": null,
             "Menu._itemTypes": null,
             "Menu._items": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": [
                 "Aow.Game.UI.Controls.UIComponent.OnChangeText"
               ],
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Menu._ownerMenu": null,
             "Menu._ownerMenuBar": null,
@@ -18047,16 +18047,16 @@
             "Menu._imageLibraryTextureSelected": null,
             "Menu._itemTypes": null,
             "Menu._items": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": [
                 "Aow.Game.UI.Controls.UIComponent.OnChangeText"
               ],
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Menu._ownerMenu": null,
             "Menu._ownerMenuBar": null,
@@ -18845,16 +18845,16 @@
             "Menu._imageLibraryTextureSelected": null,
             "Menu._itemTypes": null,
             "Menu._items": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": [
                 "Aow.Game.UI.Controls.UIComponent.OnChangeText"
               ],
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Menu._ownerMenu": null,
             "Menu._ownerMenuBar": null,
@@ -19038,16 +19038,16 @@
             "Menu._imageLibraryTextureSelected": null,
             "Menu._itemTypes": null,
             "Menu._items": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": [
                 "Aow.Game.UI.Controls.UIComponent.OnChangeText"
               ],
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "Menu._ownerMenu": null,
             "Menu._ownerMenuBar": null,
@@ -19381,26 +19381,26 @@
             "ToolTip.ToolTipDelay": 0,
             "ToolTip.ToolTipStatic": false,
             "ToolTip._items": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": [
                 "Aow.Game.UI.Controls.UIComponent.OnChangeText"
               ],
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "ToolTip._lines": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.ToolTip._items.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.ToolTip._items.DelphiStringList.items"
             },
             "UIComponent.Aligned": false,
             "UIComponent.BlitCount": 0,
@@ -19570,26 +19570,26 @@
             "ToolTip.ToolTipDelay": 0,
             "ToolTip.ToolTipStatic": false,
             "ToolTip._items": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": [
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": [
                 "Aow.Game.UI.Controls.UIComponent.OnChangeText"
               ],
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": []
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": []
             },
             "ToolTip._lines": {
-              "$type": "Aow.Rtl.StringList",
-              "StringCollection.UpdateCount": 0,
-              "StringList.Duplicates": 0,
-              "StringList.OnChange": null,
-              "StringList.OnChanging": null,
-              "StringList.Sorted": false,
-              "StringList.count": 0,
-              "StringList.items": "$ref:$.ToolTip._items.StringList.items"
+              "$type": "Aow.Rtl.DelphiStringList",
+              "DelphiStringCollection.UpdateCount": 0,
+              "DelphiStringList.Duplicates": 0,
+              "DelphiStringList.OnChange": null,
+              "DelphiStringList.OnChanging": null,
+              "DelphiStringList.Sorted": false,
+              "DelphiStringList.count": 0,
+              "DelphiStringList.items": "$ref:$.ToolTip._items.DelphiStringList.items"
             },
             "UIComponent.Aligned": false,
             "UIComponent.BlitCount": 0,

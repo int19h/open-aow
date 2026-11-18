@@ -11,7 +11,8 @@ using Aow.Game.Units;
 
 using Aow.Game.World.Map;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiRandom;
+using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.Draw;
 

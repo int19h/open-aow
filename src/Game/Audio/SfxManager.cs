@@ -1,7 +1,10 @@
 // Translated from Sound.pas.
 using Aow.Rtl;
 using Aow.Rtl.Host;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiFiles;
+using static Aow.Rtl.DelphiPaths;
+using static Aow.Rtl.DelphiTextCompare;
+using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.Audio;
 
@@ -29,13 +32,13 @@ public partial class SfxManager : Component
         string oldDirectory;
         void Search(string directory)
         {
-            StringList directories;
+            DelphiStringList directories;
             foreach (RtlFileEntry entry in Files.FindEntries(SearchPath + directory + "*." + s_sfxExtension, attributes: 63 & ~16))
             {
                 _ = Sfx.Add(UpperCase(directory + entry.Name));
             }
 
-            directories = new StringList();
+            directories = new DelphiStringList();
             foreach (RtlFileEntry entry in Files.FindEntries(directory + "*.*", attributes: 16))
             {
                 if ((entry.Attribute & 16) != 0 && entry.Name != "." && entry.Name != "..")

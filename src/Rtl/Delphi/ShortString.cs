@@ -1,6 +1,6 @@
 namespace Aow.Rtl;
 
-public static partial class RtlUnit
+public static class ShortStrings
 {
     public static string ReadShortString(ReadOnlySpan<byte> image) => Cp1252.Decode(image.Slice(1, image[0]).ToArray());
 

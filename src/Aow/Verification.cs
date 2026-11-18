@@ -173,22 +173,22 @@ internal static class Verification
     private static void SettingsTests()
     {
         string directory = Path.Combine(s_scratch, "settings");
-        ISettingsStore? oldSettings = RtlUnit.Settings;
+        ISettingsStore? oldSettings = RtlHost.Settings;
         try
         {
-            RtlUnit.Settings = new JsonSettingsStore(directory);
+            RtlHost.Settings = new JsonSettingsStore(directory);
             GameSettings registry = new();
             Equal(0xffUL, registry.GetClassicWindowPopupEvents().Mask, "classic popup default");
             Equal(0xefUL, registry.GetSimultaneousWindowPopupEvents().Mask, "simultaneous popup default");
             registry.SetClassicWindowPopupEvents(Set<WindowPopupEvent>.FromMask(0x81));
             registry.SetSimultaneousWindowPopupEvents(Set<WindowPopupEvent>.FromMask(0x42));
-            RtlUnit.Settings = new JsonSettingsStore(directory);
+            RtlHost.Settings = new JsonSettingsStore(directory);
             registry = new GameSettings();
             Equal(0x81UL, registry.GetClassicWindowPopupEvents().Mask, "classic popup persisted byte");
             Equal(0x42UL, registry.GetSimultaneousWindowPopupEvents().Mask, "simultaneous popup persisted byte");
             // Use a fresh store for the complete missing-value battery.
             directory = Path.Combine(s_scratch, "settings-defaults");
-            RtlUnit.Settings = new JsonSettingsStore(directory);
+            RtlHost.Settings = new JsonSettingsStore(directory);
             registry = new GameSettings();
             Equal(640, registry.GetDisplayWidth(), "missing width default");
             Equal(480, registry.GetDisplayHeight(), "missing height default");
@@ -248,7 +248,7 @@ internal static class Verification
                 }
             }
 
-            RtlUnit.Settings = new JsonSettingsStore(directory);
+            RtlHost.Settings = new JsonSettingsStore(directory);
             registry = new GameSettings();
             foreach ((string? section, string? kind, string[]? names) in schemas)
             {
@@ -275,7 +275,7 @@ internal static class Verification
             Equal(true, registry.GetMusicEnabled(), "transpiled boolean getter");
             Equal("é test €", registry.GetLocalEmailAddress(), "transpiled string getter");
             Equal((byte)0xA5, (byte)registry.GetMovementSpeed(), "transpiled binary getter");
-            JsonSettingsStore store = (JsonSettingsStore)RtlUnit.Settings;
+            JsonSettingsStore store = (JsonSettingsStore)RtlHost.Settings;
             store.Write("Software/Classes/AgeOfWondersMap", "ignored");
             Check(store.Read("Software/Classes/AgeOfWondersMap") is null, "association ignored");
             byte[] original = [1, 2]; store.Write("General/copy", original); original[0] = 9;
@@ -285,10 +285,10 @@ internal static class Verification
             Check(json.Contains("rectangle") && json.Contains("boolean") && json.Contains("bytes"), "typed JSON kinds");
             Console.WriteLine($"P3 PASS: {count} settings round-trip through TRegistry, typed JSON, defaults and representative transpiled getters");
         }
-        finally { RtlUnit.Settings = oldSettings; }
+        finally { RtlHost.Settings = oldSettings; }
     }
 
-    private static void Write(IFileSystem files, string name, string value, int mode = RtlUnit.fmCreate)
+    private static void Write(IFileSystem files, string name, string value, int mode = DelphiStreams.fmCreate)
     {
         using Stream stream = files.Open(name, mode);
         using StreamWriter writer = new(stream);
@@ -297,7 +297,7 @@ internal static class Verification
 
     private static string Read(IFileSystem files, string name)
     {
-        using Stream stream = files.Open(name, RtlUnit.fmOpenRead);
+        using Stream stream = files.Open(name, DelphiStreams.fmOpenRead);
         using StreamReader reader = new(stream);
         return reader.ReadToEnd();
     }
@@ -320,7 +320,7 @@ internal static class Verification
         Equal("overlay", Read(files, @"Images/Scenes/Intro.avi"), "overlay wins");
         Equal("root", File.ReadAllText(Path.Combine(root, "Images", "Scenes", "Intro.avi")), "root unchanged");
         Equal(1, files.Enumerate(@"Images\Scenes").Count(), "shadow merged once");
-        Write(files, @"IMAGES\copy.dat", "x", RtlUnit.fmOpenReadWrite);
+        Write(files, @"IMAGES\copy.dat", "x", DelphiStreams.fmOpenReadWrite);
         Equal("x2345", Read(files, "images/copy.dat"), "copy on write keeps tail");
         Equal("12345", File.ReadAllText(Path.Combine(root, "Images", "Copy.dat")), "copy on write protects install");
         Check(files.DeleteFile(@"Images\Scenes\Intro.avi"), "delete overlay");
@@ -341,7 +341,7 @@ internal static class Verification
         Equal(processDirectory, Directory.GetCurrentDirectory(), "process directory unchanged");
         Equal(root, files.CurrentDirectory, "browse returns to virtual root");
         Check(files.SetCurrentDirectory(files.VirtualDrive + @"\"), "virtual drive");
-        Equal(files.VirtualDrive, RtlUnit.ExtractFileDrive(files.CurrentDirectory).ToString(), "Delphi drive extraction");
+        Equal(files.VirtualDrive, DelphiPaths.ExtractFileDrive(files.CurrentDirectory).ToString(), "Delphi drive extraction");
         Check(files.SetCurrentDirectory(@"..\.."), "parent at drive root");
         Equal(root, files.CurrentDirectory, "drive root clamp");
         Equal(@"..\Campaign\x.hsm", files.ExtractRelativePath(Path.Combine(root, "Scenario", "Custom", "base.hsm"), Path.Combine(root, "Scenario", "Campaign", "x.hsm")), "relative path across siblings");
@@ -349,25 +349,25 @@ internal static class Verification
         Check(!files.RemoveDirectory(files.VirtualDrive + @"\"), "virtual drive deletion refused");
         Check(files.CreateDirectory("EmailIn"), "create user directory");
         Check(files.RemoveDirectory("EMAILIN"), "remove user directory");
-        Throws<UnauthorizedAccessException>(() => files.Open("Z:\\outside.dat", RtlUnit.fmCreate), "unknown drive refused");
+        Throws<UnauthorizedAccessException>(() => files.Open("Z:\\outside.dat", DelphiStreams.fmCreate), "unknown drive refused");
         Write(files, "../../escape.txt", "contained");
         Check(File.Exists(Path.Combine(user, "escape.txt")), "parent traversal contained");
-        IFileSystem old = RtlUnit.Files;
-        RtlUnit.Files = files;
+        IFileSystem old = RtlHost.Files;
+        RtlHost.Files = files;
         try
         {
-            Equal(files.VirtualDrive, RtlUnit.Files.VirtualDrive, "shared virtual drive");
-            Equal(@"Scenario\Campaign\x.hsm", RtlUnit.ExtractRelativePath(
+            Equal(files.VirtualDrive, RtlHost.Files.VirtualDrive, "shared virtual drive");
+            Equal(@"Scenario\Campaign\x.hsm", DelphiPaths.ExtractRelativePath(
                 root + "\\", @"Scenario\Campaign\x.hsm"), "startup directory relative file");
-            Equal(@"..\Campaign\", RtlUnit.ExtractRelativePath(
+            Equal(@"..\Campaign\", DelphiPaths.ExtractRelativePath(
                 @"Scenario\Custom\", @"scenario\Campaign\"), "relative directory keeps separator and ignores case");
-            Equal("", RtlUnit.ExtractRelativePath(
+            Equal("", DelphiPaths.ExtractRelativePath(
                 @"Scenario\Custom\", @"scenario\CUSTOM\"), "same directory is empty");
-            Equal(@"..\Campaign\x.hsm", RtlUnit.ExtractRelativePath(
+            Equal(@"..\Campaign\x.hsm", DelphiPaths.ExtractRelativePath(
                 @"Scenario\Custom\base.hsm", @"Scenario\Campaign\x.hsm"), "shim relative path");
-            Equal(Path.Combine(root, "Images", "x.ilb"), RtlUnit.ExtractRelativePath(
+            Equal(Path.Combine(root, "Images", "x.ilb"), DelphiPaths.ExtractRelativePath(
                 "", Path.Combine(root, "Images", "x.ilb")), "empty base keeps the destination");
-            IReadOnlyList<RtlFileEntry> libraries = RtlUnit.Files.FindEntries(@"Images\*.ilb", attributes: 0);
+            IReadOnlyList<RtlFileEntry> libraries = RtlHost.Files.FindEntries(@"Images\*.ilb", attributes: 0);
             Check(libraries.Count != 0, "file search finds the libraries");
             Equal("a.ilb", libraries[0].Name, "file search order");
             int missingDirectoryExceptions = 0;
@@ -382,15 +382,15 @@ internal static class Verification
             try
             {
                 Equal(0, files.Enumerate("PLUGINS").Count(), "missing directory enumerates no entries");
-                Equal(0, RtlUnit.Files.FindEntries(@"PLUGINS\*.dll", attributes: 0).Count, "missing plugin directory finds nothing");
-                Equal(0, RtlUnit.Files.FindEntries(@"PLUGINS\*", attributes: RtlUnit.faDirectory).Count, "missing directory has no synthetic dot entries");
+                Equal(0, RtlHost.Files.FindEntries(@"PLUGINS\*.dll", attributes: 0).Count, "missing plugin directory finds nothing");
+                Equal(0, RtlHost.Files.FindEntries(@"PLUGINS\*", attributes: DelphiFiles.faDirectory).Count, "missing directory has no synthetic dot entries");
                 Equal(0, missingDirectoryExceptions, "missing directory emits no first chance exception");
             }
             finally { AppDomain.CurrentDomain.FirstChanceException -= MissingDirectoryException; }
-            Check(RtlUnit.SetCurrentDir(@"Scenario\Custom"), "shim current directory");
-            Equal(Path.Combine(root, "Scenario", "Campaign", "x.hsm"), RtlUnit.ExpandFileName(@"..\Campaign\x.hsm").ToString(), "shim expansion");
+            Check(DelphiFiles.SetCurrentDir(@"Scenario\Custom"), "shim current directory");
+            Equal(Path.Combine(root, "Scenario", "Campaign", "x.hsm"), DelphiPaths.ExpandFileName(@"..\Campaign\x.hsm").ToString(), "shim expansion");
         }
-        finally { RtlUnit.Files = old; }
+        finally { RtlHost.Files = old; }
         LayeredFileSystem single = new(root, root);
         Write(single, "temp.txt", "same");
         Check(single.DeleteFile("TEMP.TXT"), "single directory delete");
@@ -427,7 +427,7 @@ internal static class Verification
             Check(Directory.Exists(path) ? files.DirectoryExists(alternate) : files.FileExists(alternate), "install lookup " + relative);
             if (!Directory.Exists(path))
             {
-                using Stream stream = files.Open(alternate, RtlUnit.fmOpenRead);
+                using Stream stream = files.Open(alternate, DelphiStreams.fmOpenRead);
                 Equal(new FileInfo(path).Length, stream.Length, "install open " + relative);
             }
         }

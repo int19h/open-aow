@@ -1,6 +1,6 @@
 namespace Aow.Rtl;
 
-public static partial class RtlUnit
+public static class DelphiRounding
 {
     public static Action<double, int, int>? TraceRound { get; set; }
 

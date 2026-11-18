@@ -120,22 +120,22 @@ public sealed class Cp1252Tests
     public void AnsiCaseTablesMatchEveryByte()
     {
         string all = Cp1252.Decode(Enumerable.Range(0, 256).Select(i => (byte)i).ToArray());
-        Assert.Equal(RtlUnit.UpperCase(all), RtlUnit.UpperCase(all));
-        Assert.Equal(RtlUnit.LowerCase(all), RtlUnit.LowerCase(all));
-        Assert.Equal(RtlUnit.AnsiUpperCase(all), RtlUnit.AnsiUpperCase(all));
-        Assert.Equal(RtlUnit.AnsiLowerCase(all), RtlUnit.AnsiLowerCase(all));
+        Assert.Equal(DelphiTextCompare.UpperCase(all), DelphiTextCompare.UpperCase(all));
+        Assert.Equal(DelphiTextCompare.LowerCase(all), DelphiTextCompare.LowerCase(all));
+        Assert.Equal(DelphiTextCompare.AnsiUpperCase(all), DelphiTextCompare.AnsiUpperCase(all));
+        Assert.Equal(DelphiTextCompare.AnsiLowerCase(all), DelphiTextCompare.AnsiLowerCase(all));
         for (int b = 0; b < 256; b++)
         {
             string ansi = Cp1252.Text((byte)b);
             string text = Cp1252.Text((byte)b);
-            Assert.Equal(RtlUnit.AnsiUpperCase(ansi), RtlUnit.AnsiUpperCase(text));
-            Assert.Equal(RtlUnit.AnsiLowerCase(ansi), RtlUnit.AnsiLowerCase(text));
-            Assert.Equal(RtlUnit.UpperCase(ansi), RtlUnit.UpperCase(text));
-            Assert.Equal(RtlUnit.LowerCase(ansi), RtlUnit.LowerCase(text));
-            Assert.Equal(Cp1252.Char(RtlUnit.UpCase((byte)b)), RtlUnit.UpCase(Cp1252.Char((byte)b)));
-            Assert.Equal(b, RtlUnit.Ord(Cp1252.Char((byte)b)));
+            Assert.Equal(DelphiTextCompare.AnsiUpperCase(ansi), DelphiTextCompare.AnsiUpperCase(text));
+            Assert.Equal(DelphiTextCompare.AnsiLowerCase(ansi), DelphiTextCompare.AnsiLowerCase(text));
+            Assert.Equal(DelphiTextCompare.UpperCase(ansi), DelphiTextCompare.UpperCase(text));
+            Assert.Equal(DelphiTextCompare.LowerCase(ansi), DelphiTextCompare.LowerCase(text));
+            Assert.Equal(Cp1252.Char(DelphiOrdinals.UpCase((byte)b)), DelphiOrdinals.UpCase(Cp1252.Char((byte)b)));
+            Assert.Equal(b, DelphiOrdinals.Ord(Cp1252.Char((byte)b)));
         }
-        Assert.Equal("\u00b5", RtlUnit.AnsiUpperCase("\u00b5"));
+        Assert.Equal("\u00b5", DelphiTextCompare.AnsiUpperCase("\u00b5"));
     }
 
     [Fact]
@@ -144,18 +144,18 @@ public sealed class Cp1252Tests
         for (int b = 128; b < 256; b++)
         {
             string text = Cp1252.Text((byte)b);
-            Assert.Equal(text, RtlUnit.Format("%s", text));
-            Assert.Equal(text, RtlUnit.Format("%s", text[0]));
-            Assert.Equal(text, RtlUnit.Format("%s", (byte)b));
-            Assert.Equal(text, RtlUnit.Format("%s", RtlUnit.StrPas(Ptr<byte>.Unbox(text))));
-            Assert.Equal("[" + text + "\0" + text + "]", RtlUnit.Format("[%s]", text + "\0" + text));
+            Assert.Equal(text, DelphiFormat.Format("%s", text));
+            Assert.Equal(text, DelphiFormat.Format("%s", text[0]));
+            Assert.Equal(text, DelphiFormat.Format("%s", (byte)b));
+            Assert.Equal(text, DelphiFormat.Format("%s", PCharStrings.StrPas(Ptr<byte>.Unbox(text))));
+            Assert.Equal("[" + text + "\0" + text + "]", DelphiFormat.Format("[%s]", text + "\0" + text));
         }
         // A char outside the table stays itself in a string or char argument. It meets the table
         // where it becomes a byte, as in a PChar, which reaches Format through StrPas.
-        Assert.Equal("\u2603", RtlUnit.Format("%s", '\u2603'));
-        Assert.Equal("\u0080", RtlUnit.Format("%s", "\u0080"));
-        Assert.Equal("?", RtlUnit.Format("%s", RtlUnit.StrPas(Ptr<byte>.Unbox("\u2603"))));
-        Assert.Equal("?", RtlUnit.Format("%s", RtlUnit.StrPas(Ptr<byte>.Unbox("\u0080"))));
+        Assert.Equal("\u2603", DelphiFormat.Format("%s", '\u2603'));
+        Assert.Equal("\u0080", DelphiFormat.Format("%s", "\u0080"));
+        Assert.Equal("?", DelphiFormat.Format("%s", PCharStrings.StrPas(Ptr<byte>.Unbox("\u2603"))));
+        Assert.Equal("?", DelphiFormat.Format("%s", PCharStrings.StrPas(Ptr<byte>.Unbox("\u0080"))));
     }
 
     [Fact]
@@ -171,7 +171,7 @@ public sealed class Cp1252Tests
         Assert.Equal(normalized, Cp1252.Normalize(text));
         Assert.Equal(normalized, Cp1252.Decode(Cp1252.Encode(text)));
         // A host string keeps its chars through Format and meets the table at Encode and Byte.
-        Assert.Equal(text, RtlUnit.Format("%s", text));
+        Assert.Equal(text, DelphiFormat.Format("%s", text));
         int changed = 0;
         for (int i = 0; i <= char.MaxValue; i++)
         {
@@ -182,7 +182,7 @@ public sealed class Cp1252Tests
             Assert.Equal(expected[i], Cp1252.Encode(single)[0]);
             Assert.Equal(expected[i], Cp1252.Byte(HeldChar(c)));
             Assert.Equal(expected[i], Cp1252.Byte(HeldText(single)[0]));
-            Assert.Equal(single, RtlUnit.Format("%s", c));
+            Assert.Equal(single, DelphiFormat.Format("%s", c));
             Assert.Equal(normalized[i].ToString(), Cp1252.Normalize(single));
 
             // The old shim accepted Latin-1 C1 escapes before consulting its CP1252 table.
@@ -203,9 +203,9 @@ public sealed class Cp1252Tests
     public void EveryBytePairKeepsTheExistingRoutineOrder()
     {
         foreach ((Func<string?, string?, int>? textCompare, Func<string, string, int>? byteCompare) in new[] {
-            ((Func<string?, string?, int>)RtlUnit.CompareStr, (Func<string, string, int>)RtlUnit.CompareStr),
-            (RtlUnit.CompareText, RtlUnit.CompareText), (RtlUnit.AnsiCompareStr, RtlUnit.AnsiCompareStr),
-            (RtlUnit.AnsiCompareText, RtlUnit.AnsiCompareText) })
+            ((Func<string?, string?, int>)DelphiTextCompare.CompareStr, (Func<string, string, int>)DelphiTextCompare.CompareStr),
+            (DelphiTextCompare.CompareText, DelphiTextCompare.CompareText), (DelphiTextCompare.AnsiCompareStr, DelphiTextCompare.AnsiCompareStr),
+            (DelphiTextCompare.AnsiCompareText, DelphiTextCompare.AnsiCompareText) })
         {
             for (int a = 0; a < 256; a++)
             {
@@ -231,12 +231,12 @@ public sealed class Cp1252Tests
             }
 
             string text = c.ToString();
-            Assert.Equal(text, RtlUnit.UpperCase(text));
-            Assert.Equal(text, RtlUnit.LowerCase(text));
-            Assert.Equal(text, RtlUnit.AnsiUpperCase(text));
-            Assert.Equal(text, RtlUnit.AnsiLowerCase(text));
+            Assert.Equal(text, DelphiTextCompare.UpperCase(text));
+            Assert.Equal(text, DelphiTextCompare.LowerCase(text));
+            Assert.Equal(text, DelphiTextCompare.AnsiUpperCase(text));
+            Assert.Equal(text, DelphiTextCompare.AnsiLowerCase(text));
             foreach (Func<string?, string?, int> compare in new Func<string?, string?, int>[] {
-                Cp1252.Compare, RtlUnit.CompareStr, RtlUnit.CompareText, RtlUnit.AnsiCompareStr, RtlUnit.AnsiCompareText })
+                Cp1252.Compare, DelphiTextCompare.CompareStr, DelphiTextCompare.CompareText, DelphiTextCompare.AnsiCompareStr, DelphiTextCompare.AnsiCompareText })
             {
                 Assert.Equal(256 + c - 255, compare(text, "\u00ff"));
                 Assert.Equal(255 - 256 - c, compare("\u00ff", text));
@@ -280,7 +280,7 @@ public sealed class Cp1252Tests
             int order = Cp1252.Compare(a, b);
             Assert.Equal(Expected(a, b), order);
             Assert.Equal(a == b, order == 0);
-            Assert.Equal(order, RtlUnit.CompareStr(a, b));
+            Assert.Equal(order, DelphiTextCompare.CompareStr(a, b));
             Assert.Equal(order, Cp1252.Comparer.Compare(a, b));
             Assert.Equal(-order, Cp1252.Compare(b, a));
             if (order <= 0 && Cp1252.Compare(b, c) <= 0)

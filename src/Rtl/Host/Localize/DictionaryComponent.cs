@@ -10,7 +10,7 @@ public partial class IvDictionary
     {
         if (language == 1 && DictionaryName == "ResourceStringDictionary")
         {
-            language = LocalizationRuntime.ReadLanguage(RtlUnit.Settings);
+            language = LocalizationRuntime.ReadLanguage(RtlHost.Settings);
         }
 
         Reader.SetLanguage(language);
@@ -26,7 +26,7 @@ public partial class IvDictionary
         Reader.Open(FileName);
         if (DictionaryName == "ResourceStringDictionary")
         {
-            LocalizationRuntime.StartupDirectory = Path.GetDirectoryName(Path.GetDirectoryName(RtlUnit.Files.ExpandPath(FileName))) ?? "";
+            LocalizationRuntime.StartupDirectory = Path.GetDirectoryName(Path.GetDirectoryName(RtlHost.Files.ExpandPath(FileName))) ?? "";
         }
     }
 

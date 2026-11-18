@@ -1,8 +1,10 @@
 using System.Globalization;
+using static Aow.Rtl.DelphiOrdinals;
+using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Rtl;
 
-public static partial class RtlUnit
+public static class DelphiConversions
 {
     public static string IntToStr(int value) => value.ToString(CultureInfo.InvariantCulture);
     // SYSUTILS.PAS IntToHex uses FormatBuf, which ignores precision outside 0..15.

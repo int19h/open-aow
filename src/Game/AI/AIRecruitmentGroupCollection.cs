@@ -35,7 +35,7 @@ public readonly struct AIRecruitmentGroupCollection : IReadOnlyList<AIRecruitmen
     // AIGroup.pas:800
     public AIRecruitmentGroup GetRecruitmentGroups(int index)
     {
-        Rtl.RtlUnit.Assert(index >= 0 && index < Count, message: "", file: "AIGroup.pas", line: 802);
+        Rtl.DelphiAssert.Assert(index >= 0 && index < Count, message: "", file: "AIGroup.pas", line: 802);
         return this[index];
     }
 

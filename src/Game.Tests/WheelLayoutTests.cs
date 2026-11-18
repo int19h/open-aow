@@ -21,10 +21,10 @@ public sealed class WheelLayoutTests(WheelLayoutTests.Host host) : IClassFixture
 
     public sealed class Host : IDisposable
     {
-        private readonly Action<string> _previousMessage = Runtime.MessageHandler;
-        private readonly StringList? _previousDirectories = FileDialogWindow.Directories;
-        private readonly StringList<FileTime>? _previousFileList = FileDialogWindow.Files;
-        private readonly StringList? _previousDrives = FileDialogWindow.Drives;
+        private readonly Action<string> _previousMessage = LegacyApplication.MessageHandler;
+        private readonly DelphiStringList? _previousDirectories = FileDialogWindow.Directories;
+        private readonly DelphiStringList<FileTime>? _previousFileList = FileDialogWindow.Files;
+        private readonly DelphiStringList? _previousDrives = FileDialogWindow.Drives;
 
         internal UIContext UI { get; } = new(EngineFixture.Engine);
         internal SpellBook Spell { get; } = null;
@@ -34,7 +34,7 @@ public sealed class WheelLayoutTests(WheelLayoutTests.Host host) : IClassFixture
 
         public Host()
         {
-            Runtime.MessageHandler = _ => { };
+            LegacyApplication.MessageHandler = _ => { };
             try
             {
                 LayoutSession session = new();
@@ -55,7 +55,7 @@ public sealed class WheelLayoutTests(WheelLayoutTests.Host host) : IClassFixture
             }
             finally
             {
-                Runtime.MessageHandler = _previousMessage;
+                LegacyApplication.MessageHandler = _previousMessage;
             }
         }
 
@@ -77,7 +77,7 @@ public sealed class WheelLayoutTests(WheelLayoutTests.Host host) : IClassFixture
                 FileDialogWindow.Directories = _previousDirectories;
                 FileDialogWindow.Files = _previousFileList;
                 FileDialogWindow.Drives = _previousDrives;
-                Runtime.MessageHandler = _previousMessage;
+                LegacyApplication.MessageHandler = _previousMessage;
             }
         }
     }
@@ -242,14 +242,14 @@ public sealed class WheelLayoutTests(WheelLayoutTests.Host host) : IClassFixture
             File.SetLastWriteTimeUtc(older, new DateTime(1999, 1, 1, 0, 0, 0, DateTimeKind.Utc));
             File.SetLastWriteTimeUtc(newer, new DateTime(2001, 6, 1, 0, 0, 0, DateTimeKind.Utc));
             _ = Directory.CreateDirectory(Path.Combine(user, "one", "alpha"));
-            Runtime.Files = new LayeredFileSystem(root, user);
-            Runtime.Settings = new JsonSettingsStore(settingsDirectory);
+            RtlHost.Files = new LayeredFileSystem(root, user);
+            RtlHost.Settings = new JsonSettingsStore(settingsDirectory);
             EngineFixture.Engine.Registry = new GameSettings();
             EngineFixture.Engine.Registry.SetFileDialogSortByDate(true);
             dialog.Mode = 2;
             dialog.FileNameEdit.Text = "valley.map";
             dialog.SaveFileNameEdit.Text = "stale.asg";
-            Assert.True(Runtime.SetCurrentDir("one"));
+            Assert.True(DelphiFiles.SetCurrentDir("one"));
             dialog.FindFiles();
             Assert.Equal(["alpha", "aaa.asg", "zzz.asg"], Names(dialog.FileList));
             Assert.Equal("valley.map", dialog.FileNameEdit.Text);

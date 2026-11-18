@@ -15,13 +15,13 @@ namespace Aow.Game.World;
 // HelpFileName, Message
 public partial class FlagMessageEvent : FlagEvent
 {
-    public FlagMessageEvent(CustomNode owner) : base(owner) => _message = new StringList();
+    public FlagMessageEvent(CustomNode owner) : base(owner) => _message = new DelphiStringList();
 
     // FlagEvents.pas:192
     public new const int ClassId = 132461;
 
     private string _helpFileName = "";
-    private readonly StringList _message;
+    private readonly DelphiStringList _message;
 
     // FlagEvents.pas:186
     public override void Dispose()

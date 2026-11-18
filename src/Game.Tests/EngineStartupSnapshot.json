@@ -52,7 +52,7 @@
         "Type": "Aow.Game.Magic.Abilities.PossessAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[106].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[106].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -67,7 +67,7 @@
         "Type": "Aow.Game.Magic.Abilities.PossessedAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[107].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[107].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -82,7 +82,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[111].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[111].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -97,7 +97,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[112].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[112].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -112,7 +112,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[113].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[113].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -127,7 +127,7 @@
         "Type": "Aow.Game.Magic.Abilities.RoundAttackAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[114].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[114].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -142,7 +142,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[115].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[115].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -157,7 +157,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[116].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[116].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -172,7 +172,7 @@
         "Type": "Aow.Game.Magic.Abilities.WallCrushingAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[117].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[117].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -187,7 +187,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[118].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[118].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -202,7 +202,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[119].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[119].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -217,7 +217,7 @@
         "Type": "Aow.Game.Magic.Abilities.BoltsAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[120].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[120].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -232,7 +232,7 @@
         "Type": "Aow.Game.Magic.Abilities.BoltsAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[121].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[121].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -247,7 +247,7 @@
         "Type": "Aow.Game.Magic.Abilities.BoltsAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[122].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[122].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -262,7 +262,7 @@
         "Type": "Aow.Game.Magic.Abilities.BoltsAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[123].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[123].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -277,7 +277,7 @@
         "Type": "Aow.Game.Magic.Abilities.BoltsAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[124].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[124].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -304,7 +304,7 @@
         "Type": "Aow.Game.World.BuildRoadsControl"
       },
       "Engine.GameSet.AbilityControl.Abilities[125].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[125].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -319,7 +319,7 @@
         "Type": "Aow.Game.Magic.Abilities.CharmAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[148].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[148].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -334,7 +334,7 @@
         "Type": "Aow.Game.Magic.Abilities.CharmedAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[149].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[149].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -349,7 +349,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[14].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[14].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -379,7 +379,7 @@
         "Type": "Aow.Game.Magic.Abilities.DominatedAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[150].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[150].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -394,7 +394,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[15].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[15].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -409,7 +409,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[16].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[16].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -424,7 +424,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[17].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[17].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -439,7 +439,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[18].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[18].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -454,7 +454,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[19].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[19].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -469,7 +469,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[20].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[20].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -484,7 +484,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[21].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[21].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -502,7 +502,7 @@
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[22].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[22].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -517,7 +517,7 @@
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[24].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[24].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -532,7 +532,7 @@
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[25].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[25].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -547,7 +547,7 @@
         "Type": "Aow.Game.Magic.Abilities.WebAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[27].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[27].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -562,7 +562,7 @@
         "Type": "Aow.Game.Magic.Abilities.DominateAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[28].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[28].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -577,7 +577,7 @@
         "Type": "Aow.Game.Magic.Abilities.SeduceAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[29].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[29].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -592,7 +592,7 @@
         "Type": "Aow.Game.Magic.Abilities.FlameThrowingAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[30].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[30].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -607,7 +607,7 @@
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[31].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[31].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -622,7 +622,7 @@
         "Type": "Aow.Game.Magic.Abilities.InvokeDeathAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[35].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[35].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -637,7 +637,7 @@
         "Type": "Aow.Game.Magic.Abilities.TurnUndeadAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[38].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[38].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -652,7 +652,7 @@
         "Type": "Aow.Game.Magic.Abilities.EntangleAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[40].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[40].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -667,7 +667,7 @@
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[44].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[44].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -682,7 +682,7 @@
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[45].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[45].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -697,7 +697,7 @@
         "Type": "Aow.Game.Magic.Abilities.LeadershipAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[46].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[46].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -715,7 +715,7 @@
         "Type": "Aow.Game.Magic.Abilities.HealingAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[47].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[47].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -730,7 +730,7 @@
         "Type": "Aow.Game.Magic.Abilities.SeducedAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[48].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[48].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -745,7 +745,7 @@
         "Type": "Aow.Game.Magic.Abilities.TransportAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[50].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[50].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -763,7 +763,7 @@
         "Type": "Aow.Game.Magic.Abilities.SpellCastingAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[52].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[52].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -781,7 +781,7 @@
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[55].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[55].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -796,7 +796,7 @@
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[57].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[57].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -811,7 +811,7 @@
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[58].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[58].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -826,7 +826,7 @@
         "Type": "Aow.Game.Magic.Abilities.DispelMagicAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[60].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[60].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -841,7 +841,7 @@
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[61].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[61].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -856,7 +856,7 @@
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[62].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[62].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -871,7 +871,7 @@
         "Type": "Aow.Game.Magic.Abilities.SelfDestructAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[65].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[65].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -886,7 +886,7 @@
         "Type": "Aow.Game.Magic.Abilities.BreathAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[86].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[86].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -901,7 +901,7 @@
         "Type": "Aow.Game.Magic.Abilities.BreathAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[87].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[87].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -916,7 +916,7 @@
         "Type": "Aow.Game.Magic.Abilities.BreathAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[88].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[88].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -931,7 +931,7 @@
         "Type": "Aow.Game.Magic.Abilities.BreathAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[89].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[89].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -946,7 +946,7 @@
         "Type": "Aow.Game.Magic.Abilities.BreathAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[90].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[90].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -976,7 +976,7 @@
         "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList`1[[Aow.Game.World.MapObjectResource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.GameSet.DecorationTypes": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.FaceResources": {
         "Type": "Aow.Game.Units.FaceResourceList"
@@ -1057,7 +1057,7 @@
         "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.GameSet.OverlayTypes": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.PadControl": {
         "Type": "Aow.Game.World.PadControl"
@@ -1072,13 +1072,13 @@
         "Type": "Aow.Engine.PluginControl"
       },
       "Engine.GameSet.PluginControl._usedPlugins": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.ResourceEditSettings": {
         "Type": "Aow.Engine.Nodes.ResourceEditSettings"
       },
       "Engine.GameSet.ResourceEditSettings.Editors": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.RoadControl": {
         "Type": "Aow.Game.World.Map.RoadControl"
@@ -1099,7 +1099,7 @@
         "Type": "System.Collections.Generic.List`1[[Aow.Game.Magic.Spells.Spell, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.GameSet.TerrainTypes": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.TextControl": {
         "Type": "Aow.Game.World.Map.TextControl"
@@ -75794,7 +75794,7 @@
         "Type": "Aow.Game.Magic.Abilities.PossessAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[106].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[106].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -75809,7 +75809,7 @@
         "Type": "Aow.Game.Magic.Abilities.PossessedAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[107].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[107].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -75824,7 +75824,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[111].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[111].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -75839,7 +75839,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[112].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[112].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -75854,7 +75854,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[113].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[113].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -75869,7 +75869,7 @@
         "Type": "Aow.Game.Magic.Abilities.RoundAttackAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[114].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[114].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -75884,7 +75884,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[115].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[115].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -75899,7 +75899,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[116].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[116].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -75914,7 +75914,7 @@
         "Type": "Aow.Game.Magic.Abilities.WallCrushingAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[117].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[117].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -75929,7 +75929,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[118].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[118].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -75944,7 +75944,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[119].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[119].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -75959,7 +75959,7 @@
         "Type": "Aow.Game.Magic.Abilities.BoltsAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[120].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[120].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -75974,7 +75974,7 @@
         "Type": "Aow.Game.Magic.Abilities.BoltsAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[121].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[121].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -75989,7 +75989,7 @@
         "Type": "Aow.Game.Magic.Abilities.BoltsAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[122].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[122].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76004,7 +76004,7 @@
         "Type": "Aow.Game.Magic.Abilities.BoltsAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[123].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[123].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76019,7 +76019,7 @@
         "Type": "Aow.Game.Magic.Abilities.BoltsAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[124].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[124].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76046,7 +76046,7 @@
         "Type": "Aow.Game.World.BuildRoadsControl"
       },
       "Engine.GameSet.AbilityControl.Abilities[125].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[125].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76061,7 +76061,7 @@
         "Type": "Aow.Game.Magic.Abilities.CharmAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[148].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[148].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76076,7 +76076,7 @@
         "Type": "Aow.Game.Magic.Abilities.CharmedAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[149].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[149].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76091,7 +76091,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[14].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[14].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76121,7 +76121,7 @@
         "Type": "Aow.Game.Magic.Abilities.DominatedAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[150].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[150].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76136,7 +76136,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[15].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[15].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76151,7 +76151,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[16].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[16].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76166,7 +76166,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[17].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[17].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76181,7 +76181,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[18].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[18].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76196,7 +76196,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[19].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[19].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76211,7 +76211,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeEnhancementAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[20].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[20].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76226,7 +76226,7 @@
         "Type": "Aow.Game.Magic.Abilities.StrikeAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[21].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[21].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76244,7 +76244,7 @@
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[22].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[22].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76259,7 +76259,7 @@
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[24].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[24].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76274,7 +76274,7 @@
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[25].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[25].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76289,7 +76289,7 @@
         "Type": "Aow.Game.Magic.Abilities.WebAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[27].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[27].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76304,7 +76304,7 @@
         "Type": "Aow.Game.Magic.Abilities.DominateAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[28].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[28].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76319,7 +76319,7 @@
         "Type": "Aow.Game.Magic.Abilities.SeduceAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[29].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[29].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76334,7 +76334,7 @@
         "Type": "Aow.Game.Magic.Abilities.FlameThrowingAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[30].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[30].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76349,7 +76349,7 @@
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[31].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[31].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76364,7 +76364,7 @@
         "Type": "Aow.Game.Magic.Abilities.InvokeDeathAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[35].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[35].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76379,7 +76379,7 @@
         "Type": "Aow.Game.Magic.Abilities.TurnUndeadAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[38].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[38].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76394,7 +76394,7 @@
         "Type": "Aow.Game.Magic.Abilities.EntangleAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[40].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[40].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76409,7 +76409,7 @@
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[44].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[44].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76424,7 +76424,7 @@
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[45].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[45].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76439,7 +76439,7 @@
         "Type": "Aow.Game.Magic.Abilities.LeadershipAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[46].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[46].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76457,7 +76457,7 @@
         "Type": "Aow.Game.Magic.Abilities.HealingAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[47].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[47].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76472,7 +76472,7 @@
         "Type": "Aow.Game.Magic.Abilities.SeducedAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[48].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[48].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76487,7 +76487,7 @@
         "Type": "Aow.Game.Magic.Abilities.TransportAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[50].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[50].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76505,7 +76505,7 @@
         "Type": "Aow.Game.Magic.Abilities.SpellCastingAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[52].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[52].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76523,7 +76523,7 @@
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[55].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[55].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76538,7 +76538,7 @@
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[57].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[57].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76553,7 +76553,7 @@
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[58].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[58].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76568,7 +76568,7 @@
         "Type": "Aow.Game.Magic.Abilities.DispelMagicAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[60].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[60].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76583,7 +76583,7 @@
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[61].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[61].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76598,7 +76598,7 @@
         "Type": "Aow.Game.Magic.Abilities.RangedAttackAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[62].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[62].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76613,7 +76613,7 @@
         "Type": "Aow.Game.Magic.Abilities.SelfDestructAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[65].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[65].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76628,7 +76628,7 @@
         "Type": "Aow.Game.Magic.Abilities.BreathAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[86].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[86].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76643,7 +76643,7 @@
         "Type": "Aow.Game.Magic.Abilities.BreathAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[87].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[87].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76658,7 +76658,7 @@
         "Type": "Aow.Game.Magic.Abilities.BreathAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[88].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[88].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76673,7 +76673,7 @@
         "Type": "Aow.Game.Magic.Abilities.BreathAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[89].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[89].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76688,7 +76688,7 @@
         "Type": "Aow.Game.Magic.Abilities.BreathAbility"
       },
       "Engine.GameSet.AbilityControl.Abilities[90].Description": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.AbilityControl.Abilities[90].ImageSequences": {
         "Type": "Aow.Game.Draw.Images.ImageSequenceList"
@@ -76718,7 +76718,7 @@
         "Type": "System.Collections.Generic.List`1[[Aow.Rtl.DelphiList`1[[Aow.Game.World.MapObjectResource, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.GameSet.DecorationTypes": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.FaceResources": {
         "Type": "Aow.Game.Units.FaceResourceList"
@@ -76799,7 +76799,7 @@
         "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.GameSet.OverlayTypes": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.PadControl": {
         "Type": "Aow.Game.World.PadControl"
@@ -76814,13 +76814,13 @@
         "Type": "Aow.Engine.PluginControl"
       },
       "Engine.GameSet.PluginControl._usedPlugins": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.ResourceEditSettings": {
         "Type": "Aow.Engine.Nodes.ResourceEditSettings"
       },
       "Engine.GameSet.ResourceEditSettings.Editors": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.RoadControl": {
         "Type": "Aow.Game.World.Map.RoadControl"
@@ -76841,7 +76841,7 @@
         "Type": "System.Collections.Generic.List`1[[Aow.Game.Magic.Spells.Spell, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
       },
       "Engine.GameSet.TerrainTypes": {
-        "Type": "Aow.Rtl.StringList"
+        "Type": "Aow.Rtl.DelphiStringList"
       },
       "Engine.GameSet.TextControl": {
         "Type": "Aow.Game.World.Map.TextControl"

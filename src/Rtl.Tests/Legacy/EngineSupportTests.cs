@@ -2,7 +2,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO.Compression;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using R = Aow.Rtl.RtlUnit;
 
 namespace Aow.Rtl.Tests;
 
@@ -31,14 +30,14 @@ public sealed class EngineSupportTests
         List<int> calls = [];
         EventDone first = value => { Assert.Same(context, value); calls.Add(1); };
         EventDone second = value => { Assert.Same(context, value); calls.Add(2); };
-        NotifyEvent<object> cast = R.RebindDelegate<NotifyEvent<object>>(first + second)!;
+        NotifyEvent<object> cast = DelegateRoutines.RebindDelegate<NotifyEvent<object>>(first + second)!;
         cast(context);
         Assert.Equal(new[] { 1, 2 }, calls);
         _ = Assert.Throws<InvalidCastException>(() => cast(new object()));
         EventDone nullable = Assert.Null;
-        R.RebindDelegate<NotifyEvent<object>>(nullable)!(null!);
-        Assert.Null(R.RebindDelegate<NotifyEvent<object>>(null));
-        Assert.Same(cast, R.RebindDelegate<NotifyEvent<object>>(cast));
+        DelegateRoutines.RebindDelegate<NotifyEvent<object>>(nullable)!(null!);
+        Assert.Null(DelegateRoutines.RebindDelegate<NotifyEvent<object>>(null));
+        Assert.Same(cast, DelegateRoutines.RebindDelegate<NotifyEvent<object>>(cast));
     }
 
     [Fact]
@@ -51,26 +50,26 @@ public sealed class EngineSupportTests
     [Fact]
     public void BufferHelpersPreservePhysicalAndStringBytes()
     {
-        Assert.Equal(new byte[] { 0x78, 0x56 }, R.ValueBytes(0x12345678, 2));
-        _ = Assert.Throws<ArgumentOutOfRangeException>(() => R.ValueBytes(1, 5));
+        Assert.Equal(new byte[] { 0x78, 0x56 }, Heap.ValueBytes(0x12345678, 2));
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => Heap.ValueBytes(1, 5));
         Assert.Equal(new byte[] { 0, 233, 255 }, Cp1252.Encode("\0\u00E9\u00FF").ToArray());
         byte[] bytes = new byte[3];
-        R.FillBytes(bytes, -1);
+        Heap.FillBytes(bytes, -1);
         Assert.Equal(new byte[] { 255, 255, 255 }, bytes);
     }
 
     [Fact]
     public void NumericObjectSlotsRecoverValuesAndObjectIds()
     {
-        Assert.Null(R.IntToObject(0));
+        Assert.Null(IntegerObjects.IntToObject(0));
         foreach (int value in new[] { 1, -1, 17, int.MinValue, int.MaxValue })
         {
-            Assert.Same(R.IntToObject(value), R.IntToObject(value));
-            Assert.Equal(value, R.ObjectToInt(R.IntToObject(value)));
+            Assert.Same(IntegerObjects.IntToObject(value), IntegerObjects.IntToObject(value));
+            Assert.Equal(value, IntegerObjects.ObjectToInt(IntegerObjects.IntToObject(value)));
         }
         object instance = new();
-        Assert.Equal(RuntimeHelpers.GetHashCode(instance) & int.MaxValue, R.ObjectToInt(instance));
-        Assert.Equal(0, R.ObjectToInt(null));
+        Assert.Equal(RuntimeHelpers.GetHashCode(instance) & int.MaxValue, IntegerObjects.ObjectToInt(instance));
+        Assert.Equal(0, IntegerObjects.ObjectToInt(null));
     }
 
     [Fact]
@@ -78,22 +77,22 @@ public sealed class EngineSupportTests
     {
         Receiver a = new(); Receiver b = new();
         NotifyEvent<object> first = a.Event, second = b.Event;
-        Assert.Equal(R.MethodCode(first), R.MethodCode(second));
-        Assert.NotSame(R.MethodTarget(first), R.MethodTarget(second));
-        Assert.Null(R.MethodCode(null)); Assert.Null(R.MethodTarget(null));
+        Assert.Equal(DelegateRoutines.MethodCode(first), DelegateRoutines.MethodCode(second));
+        Assert.NotSame(DelegateRoutines.MethodTarget(first), DelegateRoutines.MethodTarget(second));
+        Assert.Null(DelegateRoutines.MethodCode(null)); Assert.Null(DelegateRoutines.MethodTarget(null));
     }
 
     [Fact]
     public void SetTransferUsesTheDelphiImageAndItsLowByte()
     {
         Set<Flag> value = default;
-        R.TransferSet(ref value, 1, 17, (bytes, size, id) =>
+        SetImage.TransferSet(ref value, 1, 17, (bytes, size, id) =>
         {
             Assert.Equal(1, size); Assert.Equal(17, id); bytes[0] = 5;
         });
         Assert.True(value.Contains(Flag.First)); Assert.True(value.Contains(Flag.Third)); Assert.False(value.Contains(Flag.Second));
         Set<OffsetFlag> offset = default;
-        R.TransferSet(ref offset, 1, 0, (bytes, _, _) => bytes[0] = 5, 8);
+        SetImage.TransferSet(ref offset, 1, 0, (bytes, _, _) => bytes[0] = 5, 8);
         Assert.True(offset.Contains(OffsetFlag.First)); Assert.True(offset.Contains(OffsetFlag.Third));
     }
 
@@ -104,11 +103,11 @@ public sealed class EngineSupportTests
         stream.WriteBuffer([0, 233]);
         stream.Position = 0;
         string value = "abcd", shared = value;
-        Assert.Equal(2, R.ReadString(stream, ref value, 1, 2, false));
+        Assert.Equal(2, StreamText.ReadString(stream, ref value, 1, 2, false));
         Assert.Equal("abcd", shared);
         Assert.Equal("a\0\u00E9d", value);
         stream.Position = 0;
-        _ = Assert.Throws<EndOfStreamException>(() => R.ReadString(stream, ref value, 0, 4, true));
+        _ = Assert.Throws<EndOfStreamException>(() => StreamText.ReadString(stream, ref value, 0, 4, true));
         Assert.Equal((byte)0, Cp1252.Byte(value[0])); Assert.Equal((byte)233, Cp1252.Byte(value[1]));
     }
 
@@ -149,15 +148,15 @@ public sealed class EngineSupportTests
     [Fact]
     public void HostBoundaryHooksAreExplicitAndReplaceable()
     {
-        Action<string> saved = R.MessageHandler;
+        Action<string> saved = LegacyApplication.MessageHandler;
         try
         {
             string shown = "";
-            R.MessageHandler = message => shown = message;
-            R.ShowMessage("message");
+            LegacyApplication.MessageHandler = message => shown = message;
+            LegacyApplication.ShowMessage("message");
             Assert.Equal("message", shown);
         }
-        finally { R.MessageHandler = saved; }
-        Assert.True(R.GetHeapStatus().TotalAllocated >= 0);
+        finally { LegacyApplication.MessageHandler = saved; }
+        Assert.True(Heap.GetHeapStatus().TotalAllocated >= 0);
     }
 }

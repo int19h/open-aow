@@ -11,7 +11,8 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.UI.Dialogs;
 

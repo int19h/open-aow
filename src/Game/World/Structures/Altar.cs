@@ -253,7 +253,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
             _storm = CreateStorm();
             _storm.UpdateTargetSelection(StrategicMap.Current.TargetSelection);
             string name = _storm.Name();
-            string format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SelectTargetLocationForOnMapFormat), [name]);
+            string format = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SelectTargetLocationForOnMapFormat), [name]);
             selection.Text.Text = format;
             selection.Title = EditName();
             selection.CancelText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CancelText);

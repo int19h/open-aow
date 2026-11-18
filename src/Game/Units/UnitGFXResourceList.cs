@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.Units;
 
@@ -29,7 +29,7 @@ public partial class UnitGFXResourceList : ResourceCollection, IChildList<UnitGr
     }
 
     // UnitHS.PAS:144
-    public void CreateUnitGraphicsSelectionList(StringCollection list)
+    public void CreateUnitGraphicsSelectionList(DelphiStringCollection list)
     {
         list.Clear();
         for (int i = 0, last = Count - 1; i <= last; i++)

@@ -7,7 +7,7 @@ using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
 using Aow.Game.World.Map;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.Commands;
 

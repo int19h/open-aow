@@ -58,7 +58,7 @@ public partial class Image
         }
         catch
         {
-            _ = RtlUnit.MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+            _ = RtlHost.MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
         }
     }
 }

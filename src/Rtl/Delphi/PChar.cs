@@ -1,6 +1,8 @@
+using static Aow.Rtl.DelphiStrings;
+
 namespace Aow.Rtl;
 
-public static partial class RtlUnit
+public static class PCharStrings
 {
     public static string SetString(Ptr<byte> source, int length) =>
         length <= 0

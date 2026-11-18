@@ -19,7 +19,8 @@ using Aow.Game.World.Movement;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -31,14 +32,14 @@ public partial class Ability : EngineObject
     // Ability.PAS:1238
     public Ability(CustomNode owner) : base(owner)
     {
-        Description = new StringList();
+        Description = new DelphiStringList();
         SfxLibrary = new SfxLibrary(null) { Holder = CreationHolder() };
         ImageSequences = new ImageSequenceList(GamePack.Current.ImageLibraryManager, null);
     }
 
     public string AbilityName { get; set; } = "";
     public int AbilityId { get; set; }
-    public StringList Description { get; }
+    public DelphiStringList Description { get; }
 
     public int SkillPointCost { get; protected set; }
 
@@ -316,7 +317,7 @@ public partial class Ability : EngineObject
     }
 
     // Ability.PAS:1492
-    public virtual void ListInfo(StringCollection text, Set<AbilityInfoModeElement> mode)
+    public virtual void ListInfo(DelphiStringCollection text, Set<AbilityInfoModeElement> mode)
     {
         AbilityCombatInfo info = default;
         Set<DamageType> types = default;

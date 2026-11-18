@@ -14,8 +14,8 @@ internal static class PacingVerification
     {
         NullPresenter host = new();
         SdlClock clock = new();
-        IClock savedClock = RtlUnit.Clock;
-        RtlUnit.Clock = clock;
+        IClock savedClock = RtlHost.Clock;
+        RtlHost.Clock = clock;
         TimedDisplay display = new();
         SdlDisplayController controller = new(host);
         List<double> times = [with(306)];
@@ -72,7 +72,7 @@ internal static class PacingVerification
             process.PriorityClass = processPriority;
             display?.Dispose();
             controller?.Dispose();
-            RtlUnit.Clock = savedClock;
+            RtlHost.Clock = savedClock;
         }
         double[] regular = [.. times.Take(300)];
         double slow = times[300];

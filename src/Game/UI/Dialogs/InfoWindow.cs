@@ -11,7 +11,9 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiRounding;
+using static Aow.Rtl.DelphiTextCompare;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -244,7 +246,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.IncomePanel.Visible = true;
-        StringCollection description = structure.GetDescription();
+        DelphiStringCollection description = structure.GetDescription();
         dialog.IncomeMemo.Items.Assign(description);
         dialog.IncomeTypeImage.CurrentImage = 31;
         int income = structure.GetIncome();
@@ -257,7 +259,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.IncomePanel.Visible = true;
-        StringCollection description = structure.GetDescription();
+        DelphiStringCollection description = structure.GetDescription();
         dialog.IncomeMemo.Items.Assign(description);
         dialog.IncomeTypeImage.CurrentImage = 33;
         int power = structure.GetPower();
@@ -270,7 +272,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.IncomePanel.Visible = true;
-        StringCollection description = structure.GetDescription();
+        DelphiStringCollection description = structure.GetDescription();
         dialog.IncomeMemo.Items.Assign(description);
         dialog.IncomeTypeImage.CurrentImage = 33;
         int power = structure.GetPower();
@@ -283,7 +285,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.SingleButtonPanel.Visible = true;
-        StringCollection description = structure.GetDescription();
+        DelphiStringCollection description = structure.GetDescription();
         dialog.SingleButtonMemo.Items.Assign(description);
         _ = dialog.SingleButtonMemo.Items.Add("");
         string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.IncomeFormat), [IntToStr(structure.Income)]);
@@ -305,7 +307,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.SingleButtonPanel.Visible = true;
-        StringCollection description = dialog.UI.General.Structure.GetDescription();
+        DelphiStringCollection description = dialog.UI.General.Structure.GetDescription();
         dialog.SingleButtonMemo.Items.Assign(description);
         dialog.SingleButtonMemo.Sized = false;
         bool canTeleport = structure.CanTeleport(StrategicMap.Current.SeatedPlayer);
@@ -320,7 +322,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.SingleButtonPanel.Visible = true;
-        StringCollection description = structure.GetDescription();
+        DelphiStringCollection description = structure.GetDescription();
         dialog.SingleButtonMemo.Items.Assign(description);
         bool canEnter = structure.CanEnter(StrategicMap.Current.SeatedPlayer);
         dialog.MainButton.Visible = canEnter;
@@ -333,7 +335,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.SingleButtonPanel.Visible = true;
-        StringCollection description = structure.GetDescription();
+        DelphiStringCollection description = structure.GetDescription();
         dialog.SingleButtonMemo.Items.Assign(description);
         bool canEnter = structure.CanEnter(StrategicMap.Current.SeatedPlayer);
         dialog.MainButton.Visible = canEnter;
@@ -346,7 +348,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.SingleButtonPanel.Visible = true;
-        StringCollection description = structure.GetDescription();
+        DelphiStringCollection description = structure.GetDescription();
         dialog.SingleButtonMemo.Items.Assign(description);
         bool canEnter = structure.CanEnter(StrategicMap.Current.SeatedPlayer);
         dialog.MainButton.Visible = canEnter;
@@ -371,7 +373,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.SingleButtonPanel.Visible = true;
-        StringCollection description = structure.GetDescription();
+        DelphiStringCollection description = structure.GetDescription();
         dialog.SingleButtonMemo.Items.Assign(description);
         dialog.RazePanel.Visible = true;
     }
@@ -381,7 +383,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.ExplorationSitePanel.Visible = true;
-        StringCollection description = dialog.UI.General.Structure.GetDescription();
+        DelphiStringCollection description = dialog.UI.General.Structure.GetDescription();
         dialog.ExplorationSiteMemo.Items.Assign(description);
         string status = dialog.UI.Engine.TranslateResourceString(CityScreen.StatusText);
         dialog.ExplorationSiteLabel.Text = status + ":";
@@ -613,7 +615,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         dialog.ConstructionPanel.Visible = true;
         string formatDaysLeftString = DurationText.FormatDaysLeftString(dialog.UI.Engine, days: structure.BuildingDays);
         dialog.ConstructionDaysLeftLabel.Text = formatDaysLeftString;
-        StringCollection description = structure.GetDescription();
+        DelphiStringCollection description = structure.GetDescription();
         dialog.ConstructionMemo.Items.Assign(description);
     }
 
@@ -655,7 +657,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         }
         else
         {
-            StringCollection description = structure.GetDescription();
+            DelphiStringCollection description = structure.GetDescription();
             dialog.NotYoursMemo.Items.Assign(description);
         }
 
@@ -685,7 +687,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.SingleButtonPanel.Visible = true;
-        StringCollection description = structure.GetDescription();
+        DelphiStringCollection description = structure.GetDescription();
         dialog.SingleButtonMemo.Items.Assign(description);
     }
 

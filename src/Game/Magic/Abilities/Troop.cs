@@ -23,7 +23,11 @@ using Aow.Game.World.Structures;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiAssert;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiRounding;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -471,7 +475,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public virtual int GetNextLevelExperience() => 0;
 
     // Unit.PAS:739
-    public virtual StringCollection GetDescription() => null;
+    public virtual DelphiStringCollection GetDescription() => null;
 
     // Unit.PAS:494
     public virtual void SetPlayer(sbyte player)
@@ -810,7 +814,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:1872
-    public virtual void GetJoinMessage(sbyte player, int count, int amount, JoinMode mode, StringCollection messages)
+    public virtual void GetJoinMessage(sbyte player, int count, int amount, JoinMode mode, DelphiStringCollection messages)
     {
         AIGroup group;
         messages.Clear();
@@ -2204,7 +2208,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:713. TP2AbilityCalls is a layout view, not an instance type.
-    public void ListAbilityInfo(StringCollection names, StringCollection types, StringCollection sources)
+    public void ListAbilityInfo(DelphiStringCollection names, DelphiStringCollection types, DelphiStringCollection sources)
     {
         names.Clear();
         sources?.Clear();

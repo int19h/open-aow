@@ -27,7 +27,10 @@ using Aow.Game.World.Movement;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiAssert;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiRandom;
+using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -702,7 +705,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:729
-    public override StringCollection GetDescription() => null;
+    public override DelphiStringCollection GetDescription() => null;
 
     // Hero.PAS:933
     public override void SetPlayer(sbyte player)

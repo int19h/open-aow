@@ -5,7 +5,7 @@ using Aow.Game.Draw;
 using Aow.Game.World.Map;
 using Aow.Game.World.Terrain;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.Combat;
 

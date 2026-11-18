@@ -32,7 +32,7 @@ public partial class CityRebellionEventLog(CustomNode owner) : EventLog(owner)
     }
 
     // City.pas:2689
-    public override string GetText() => RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_cityRebellionFormat), [CityName]);
+    public override string GetText() => DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), s_cityRebellionFormat), [CityName]);
 
     // City.pas:2699
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)

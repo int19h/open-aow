@@ -6,7 +6,7 @@ using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Units;
 

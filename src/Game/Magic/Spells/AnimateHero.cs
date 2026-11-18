@@ -88,7 +88,7 @@ public partial class AnimateHero : Spell
                 {
                     Holder = CreationHolder(),
                     Player = source.Player,
-                    Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_animatedFormat), [hero.HeroName])
+                    Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), s_animatedFormat), [hero.HeroName])
                 };
                 log.SetLocation(level: army.GetHexLevel(), y: army.GetHexY(), x: army.GetHexX());
                 EventLog.DistributeLocationEventLog(y: army.GetHexY(), level: army.GetHexLevel(), x: army.GetHexX(), log: log, player: source.Player, execute: false);

@@ -7,7 +7,8 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Grids;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.UI.Dialogs;
 

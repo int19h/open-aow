@@ -71,7 +71,7 @@ public partial class MapLevel
 
     public Set<FogExplorationChangedElement> UnFogExploreArea(int x, int y, sbyte player, int radius)
     {
-        RtlUnit.Assert(player >= 0, "Invalid Player Index", "AoWHSMap.PAS", 276);
+        DelphiAssert.Assert(player >= 0, "Invalid Player Index", "AoWHSMap.PAS", 276);
         Set<FogExplorationChangedElement> result = default;
         foreach (MapField field in Area(x, y, radius))
         {

@@ -9,7 +9,8 @@ using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -34,12 +35,12 @@ public partial class EmailGameSettingsDialog(UIContext ui) : UIModule(ui)
     public Label PlayerLabel6 { get; private set; }
     public Edit EmailAddressEdit6 { get; private set; }
 
-    public StringList EmailAddresses { get; private set; }
+    public DelphiStringList EmailAddresses { get; private set; }
 
     private SetupControl _setupControl;
 
     // AoWEmailGameSettingsDlg.pas:85
-    public void EmailGameSettingsDialogCreate() => EmailAddresses = new StringList();
+    public void EmailGameSettingsDialogCreate() => EmailAddresses = new DelphiStringList();
 
     // AoWEmailGameSettingsDlg.pas:90
     public void EmailGameSettingsDialogDestroy() => EmailAddresses?.Dispose();

@@ -20,7 +20,9 @@ using Aow.Game.World.Movement;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiAssert;
+using static Aow.Rtl.DelphiRandom;
+using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Combat;
 

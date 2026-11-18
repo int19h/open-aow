@@ -10,7 +10,8 @@ using Aow.Game.Net;
 using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiFormat;
 
 namespace Aow.Game.World.Structures;
 

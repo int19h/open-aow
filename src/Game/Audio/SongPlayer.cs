@@ -8,7 +8,7 @@ namespace Aow.Game.Audio;
 // FPauseCount. Plays the songs in turn (Update starts the next one)
 public partial class SongPlayer : IDisposable
 {
-    private readonly StringList _songs;
+    private readonly DelphiStringList _songs;
 
     public event NotifyEvent<SongPlayer> OnSongChange;
 
@@ -18,7 +18,7 @@ public partial class SongPlayer : IDisposable
     private int _pauseCount;
 
     // Sound.pas:870
-    internal void SetSongs(StringList value) => _songs.Assign(value);
+    internal void SetSongs(DelphiStringList value) => _songs.Assign(value);
 
     // Sound.pas:875
     internal void SongsChanged(object sender)
@@ -72,11 +72,11 @@ public partial class SongPlayer : IDisposable
     // Sound.pas:854
     public SongPlayer()
     {
-        _songs = new StringList
+        _songs = new DelphiStringList
         {
             OnChange = SongsChanged
         };
-        SongNames = new StringList();
+        SongNames = new DelphiStringList();
         CurrentIndex = -1;
     }
 
@@ -230,8 +230,8 @@ public partial class SongPlayer : IDisposable
 
     public string CurrentSong { get; private set; } = "";
     public Set<StatusElement> Status { get; private set; }
-    public StringList Songs { get => _songs; set => SetSongs(value); }
-    public StringList SongNames { get; }
+    public DelphiStringList Songs { get => _songs; set => SetSongs(value); }
+    public DelphiStringList SongNames { get; }
     public int CurrentIndex { get; private set; }
 
     public enum StatusElement : byte

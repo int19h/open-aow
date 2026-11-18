@@ -8,7 +8,7 @@ public sealed class HeadlessServicesTests
     [InlineData("C:\\file", "C:")]
     [InlineData("\\\\server\\share\\file", "\\\\server\\share")]
     [InlineData("relative\\file", "")]
-    public void DriveExtractionUsesDelphiSeparators(string path, string drive) => Assert.Equal(drive, RtlUnit.ExtractFileDrive(path));
+    public void DriveExtractionUsesDelphiSeparators(string path, string drive) => Assert.Equal(drive, DelphiPaths.ExtractFileDrive(path));
 
     [Fact]
     public void DirectoryChangesStayInsideTheFileService()
@@ -30,7 +30,7 @@ public sealed class HeadlessServicesTests
     [Fact]
     public void RegistryDefaultsAreEmptyAndWritesRemainInMemory()
     {
-        Registry registry = new();
+        DelphiRegistry registry = new();
         Assert.True(registry.OpenKey("General", true));
         Assert.False(registry.ValueExists("Language"));
         registry.WriteInteger("Language", 1);
@@ -43,7 +43,7 @@ public sealed class HeadlessServicesTests
         Assert.Equal("English", registry.ReadString("name"));
         _ = registry.OpenKey("Other", false);
         Assert.False(registry.ValueExists("Language"));
-        Registry separate = new();
+        DelphiRegistry separate = new();
         _ = separate.OpenKey("General", false);
         Assert.False(separate.ValueExists("Language"));
     }
@@ -51,7 +51,7 @@ public sealed class HeadlessServicesTests
     [Fact]
     public void MissingStringValueReadsAsEmpty()
     {
-        Registry registry = new();
+        DelphiRegistry registry = new();
         _ = registry.OpenKey("General", false);
         Assert.False(registry.ValueExists("Absent Name"));
         Assert.Equal("", registry.ReadString("Absent Name"));
@@ -60,7 +60,7 @@ public sealed class HeadlessServicesTests
     [Fact]
     public void BinarySettingsRetainTheirStoredSizeAndLeaveTheUnreadTail()
     {
-        Registry registry = new();
+        DelphiRegistry registry = new();
         _ = registry.OpenKey("General", true);
         registry.WriteBinaryData("Movement Speed", [2, 7, 9], 2);
         byte[] result = [0xff, 0xff, 0xff, 0xff];

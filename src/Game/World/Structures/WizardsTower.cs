@@ -66,7 +66,7 @@ public partial class WizardsTower : Structure
             if (StrategicMap.Current.SeatedPlayer == tokenEvent.Param)
             {
                 Spell spell = GamePack.Current.SpellControl.GetSpell(SpellId);
-                string format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_theyTaughtYouSpellFormat), [spell.SpellName]);
+                string format = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), s_theyTaughtYouSpellFormat), [spell.SpellName]);
                 StrategicMap.Current.ShowMessage(format);
             }
         }

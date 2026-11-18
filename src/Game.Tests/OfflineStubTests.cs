@@ -185,7 +185,7 @@ public sealed class OfflineStubTests
         ScenarioSetup setup = ui.Add(Populate(new ScenarioSetup(ui)));
         setup.ScenarioSetupPanel.Visible = false;
         List<string> messages = [];
-        Runtime.MessageHandler = messages.Add;
+        LegacyApplication.MessageHandler = messages.Add;
         window.Execute("");
         window.TCPBtnClick();
         window.TcpNameEdit.Text = "Gorbag";
@@ -278,7 +278,7 @@ public sealed class OfflineStubTests
         Assert.Equal("Body 500", help.HelpMemo.Items[0]);
 
         RecordingShell shell = new();
-        Runtime.Shell = shell;
+        RtlHost.Shell = shell;
         menu.SelectedItem = 2;
         popups.HelpMenuSelect(menu);
         Assert.Equal(["http://www.ageofwonders.com"], shell.Urls);

@@ -17,7 +17,9 @@ using Aow.Game.Session;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiTextCompare;
+using static Aow.Rtl.Heap;
 
 namespace Aow.Game.World.Map;
 
@@ -210,7 +212,7 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
                 while (i != 0 && !complete)
                 {
                     i -= 1;
-                    prefix = prefix || CompareText(_cheatText, RtlUnit.Copy(s_cheatNames[i], 1, _cheatText.Length)) == 0;
+                    prefix = prefix || CompareText(_cheatText, DelphiStrings.Copy(s_cheatNames[i], 1, _cheatText.Length)) == 0;
                     complete = CompareText(_cheatText, s_cheatNames[i]) == 0;
                 }
 

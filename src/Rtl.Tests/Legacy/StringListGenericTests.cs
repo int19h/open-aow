@@ -9,7 +9,7 @@ public sealed class StringListGenericTests
     {
         Tagged first = new(1);
         Tagged second = new(2);
-        StringList<Tagged> list = new();
+        DelphiStringList<Tagged> list = new();
         Assert.Equal(0, list.AddObject("b", first));
         list.InsertObject(0, "a", second);
         _ = list.Add("c");
@@ -19,7 +19,7 @@ public sealed class StringListGenericTests
         Assert.Null(list.Objects[2]);
         Assert.Equal(1, list.IndexOfObject(first));
 
-        StringCollection untyped = list;
+        DelphiStringCollection untyped = list;
         _ = Assert.Throws<ArgumentException>(() => untyped.Objects[2] = new object());
         // The base adds the string before it stores the object, so the string stays with an empty slot.
         _ = Assert.Throws<ArgumentException>(() => untyped.AddObject("d", "text"));
@@ -33,10 +33,10 @@ public sealed class StringListGenericTests
         Assert.Equal(["c", "b", "a"], Enumerable.Range(0, list.Count).Select(i => list[i]));
         Assert.Equal([first, first, second], Enumerable.Range(0, list.Count).Select(i => list.Objects[i]));
 
-        StringList<Tagged> copy = new();
+        DelphiStringList<Tagged> copy = new();
         copy.AddStrings(list);
         Assert.Same(second, copy.Objects[2]);
-        StringList mixed = new();
+        DelphiStringList mixed = new();
         _ = mixed.AddObject("x", new object());
         _ = Assert.Throws<ArgumentException>(() => copy.AddStrings(mixed));
     }

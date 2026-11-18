@@ -3,7 +3,7 @@ using Aow.Game.Draw;
 
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Magic.Abilities;
 

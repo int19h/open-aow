@@ -18,7 +18,7 @@ using Aow.Game.World.Map;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -29,7 +29,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     public Item(CustomNode owner) : base(owner)
     {
         _itemGraphicsIndex = -1;
-        _description = new StringList();
+        _description = new DelphiStringList();
         LibraryId = -1;
         RefCount = 1;
     }
@@ -60,7 +60,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     public ItemType ItemType { get; set; }
 
     private int _spellId;
-    private readonly StringList _description;
+    private readonly DelphiStringList _description;
     private int _itemGraphicsIndex;
     private bool _hidden;
 

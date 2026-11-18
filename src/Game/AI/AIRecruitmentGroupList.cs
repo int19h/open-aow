@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.AI.Groups;
 using Aow.Game.Magic.Abilities;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.AI;
 

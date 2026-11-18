@@ -10,7 +10,9 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Terrain;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiRandom;
+using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.Commands;
 

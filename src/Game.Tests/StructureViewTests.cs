@@ -189,7 +189,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             }
 
             takesItems = items;
-            string name = prefix + Runtime.IntToStr(Runtime.Random(variants));
+            string name = prefix + DelphiConversions.IntToStr(DelphiRandom.Random(variants));
             for (int i = 1; i <= 6; i++)
             {
                 fixedTags |= 1 << i;
@@ -205,7 +205,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                 {
                     if (neighborHoldsCity(i))
                     {
-                        fileName += Runtime.IntToStr(i);
+                        fileName += DelphiConversions.IntToStr(i);
                         fixedTags |= 1 << i;
                     }
                 }
@@ -416,7 +416,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     {
         int[][] neighbors = [[], [2, 5], [1, 2, 3, 4, 5, 6], [6]];
         List<string> mismatches = [];
-        int previousSeed = Runtime.RandSeed;
+        int previousSeed = DelphiRandom.RandSeed;
         using Scene scene = new();
         try
         {
@@ -430,15 +430,15 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                     {
                         foreach (int[] pattern in neighbors)
                         {
-                            Runtime.RandSeed = 0x5EED + pattern.Length;
+                            DelphiRandom.RandSeed = 0x5EED + pattern.Length;
                             CombatMapSite site = new(siteCombat, randomTerrain, (direction, kind) =>
                             {
                                 Assert.Equal(typeof(City), kind);
                                 return pattern.Contains(direction);
                             });
                             string actual = structure.CombatMapName(site);
-                            int actualSeed = Runtime.RandSeed;
-                            Runtime.RandSeed = 0x5EED + pattern.Length;
+                            int actualSeed = DelphiRandom.RandSeed;
+                            DelphiRandom.RandSeed = 0x5EED + pattern.Length;
                             bool expectedTerrain = randomTerrain;
                             string expected = OldCombatMapName(EngineClass.Of(type).ClassId, siteCombat, ref expectedTerrain, randomTerrain,
                                 pattern.Contains, out bool expectedItems, out int expectedTags);
@@ -463,7 +463,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                                 mismatches.Add($"{state}: tags {site.FixedTags}, old switch {expectedTags}");
                             }
 
-                            if (actualSeed != Runtime.RandSeed)
+                            if (actualSeed != DelphiRandom.RandSeed)
                             {
                                 mismatches.Add($"{state}: random draws differ");
                             }
@@ -476,7 +476,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                 output.WriteLine($"{type.Name} ({EngineClass.Of(type).ClassId}): {string.Join(" ", names)}");
             }
         }
-        finally { Runtime.RandSeed = previousSeed; }
+        finally { DelphiRandom.RandSeed = previousSeed; }
         Assert.Empty(mismatches);
     }
 

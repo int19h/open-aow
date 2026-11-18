@@ -27,8 +27,8 @@ public partial class MoveControl
 
     public bool Activate(MoveControlSettings settings)
     {
-        RtlUnit.Assert(!_status.Contains(StatusElement.Activated), "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7ea8);
-        RtlUnit.Assert(settings.Source.X != -1 && settings.Source.Y != -1 && settings.Source.MapLevel != -1, "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7ea9);
+        DelphiAssert.Assert(!_status.Contains(StatusElement.Activated), "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7ea8);
+        DelphiAssert.Assert(settings.Source.X != -1 && settings.Source.Y != -1 && settings.Source.MapLevel != -1, "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7ea9);
         if (settings.Status == MoveControlSettingsStatus.Failed)
         {
             return false;

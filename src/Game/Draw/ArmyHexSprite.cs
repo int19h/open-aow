@@ -26,7 +26,7 @@ using Aow.Game.World.Structures;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Game.Draw;
 

@@ -1,6 +1,8 @@
+using static Aow.Rtl.DelphiStrings;
+
 namespace Aow.Rtl;
 
-public static partial class RtlUnit
+public static class DelphiAssert
 {
     public static void Assert(bool condition, string? message, string file, int line)
     {

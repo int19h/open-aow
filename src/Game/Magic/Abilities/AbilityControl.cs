@@ -5,7 +5,10 @@ using Aow.Formats.Tree;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiAssert;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiTextCompare;
+using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -132,7 +135,7 @@ public partial class AbilityControl : EngineObject
     }
 
     // Ability.PAS:2129
-    public void ListAbilities(StringCollection text, Set<AbilitySelectionType> types)
+    public void ListAbilities(DelphiStringCollection text, Set<AbilitySelectionType> types)
     {
         text.Clear();
         for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
@@ -148,7 +151,7 @@ public partial class AbilityControl : EngineObject
     }
 
     // Ability.PAS:2148
-    public void ListAbilityInfo(StringCollection text, bool sortByName, Set<AbilityInfoModeElement> mode)
+    public void ListAbilityInfo(DelphiStringCollection text, bool sortByName, Set<AbilityInfoModeElement> mode)
     {
         DelphiList<Ability> list = default;
         list = new DelphiList<Ability>();

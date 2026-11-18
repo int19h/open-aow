@@ -90,7 +90,7 @@ public sealed class EngineLeafConstructionTests
         {
             case PluginControl plugin:
                 Assert.Null(plugin.Engine);
-                StringList strings = Assert.IsType<StringList>(plugin.UsedPlugins);
+                DelphiStringList strings = Assert.IsType<DelphiStringList>(plugin.UsedPlugins);
                 Assert.Equal(0, strings.Count); Assert.True(strings.Sorted);
                 Assert.Equal(plugin, strings.OnChange!.Target);
                 Assert.Null(strings.OnChanging);

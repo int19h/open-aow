@@ -3,13 +3,13 @@
 using Aow.Engine.Collections;
 
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiTextCompare;
 
 namespace Aow.Game.Draw.Images;
 
 // library file names (upper case, relative to the search path) with their TILManagerObject.
 // FHashTable (the objects by name), FOwner
-public partial class ImageLibraryManagerList(ImageLibraryManager owner) : StringList<ImageLibraryManagerObject>
+public partial class ImageLibraryManagerList(ImageLibraryManager owner) : DelphiStringList<ImageLibraryManagerObject>
 {
     internal Dictionary<string, ImageLibraryManagerObject> HashTable { get; } = [with(AnsiCompareComparer.Instance)];
 

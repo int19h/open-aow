@@ -1,6 +1,8 @@
+using static Aow.Rtl.RtlHost;
+
 namespace Aow.Rtl;
 
-public static partial class RtlUnit
+public static class DelphiRandom
 {
     private static int randomSeed;
 

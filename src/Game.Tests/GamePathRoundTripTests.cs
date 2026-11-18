@@ -28,7 +28,7 @@ public sealed class GamePathRoundTripTests : IDisposable
     // The game's saves replace their files through the layered file service, as on a host: the
     // root holds what the test puts there and the user layer what the game writes.
     private readonly string _root = Path.Combine(Path.GetTempPath(), "open-aow-round-trip-" + Guid.NewGuid().ToString("N"));
-    private readonly IFileSystem _previous = Runtime.Files;
+    private readonly IFileSystem _previous = RtlHost.Files;
 
     public GamePathRoundTripTests()
     {
@@ -38,11 +38,11 @@ public sealed class GamePathRoundTripTests : IDisposable
 
     // The engine state of each case installs the fixture's services first, so a case installs the
     // layers when it starts.
-    private void UseLayers() => Runtime.Files = new LayeredFileSystem(Path.Combine(_root, "root"), userDirectory: Path.Combine(_root, "user"));
+    private void UseLayers() => RtlHost.Files = new LayeredFileSystem(Path.Combine(_root, "root"), userDirectory: Path.Combine(_root, "user"));
 
     public void Dispose()
     {
-        Runtime.Files = _previous;
+        RtlHost.Files = _previous;
         Directory.Delete(_root, recursive: true);
     }
 
@@ -50,7 +50,7 @@ public sealed class GamePathRoundTripTests : IDisposable
 
     private static byte[] ReadBack(string file)
     {
-        using Stream stream = Runtime.Files.Open(file, mode: Runtime.fmOpenRead | Runtime.fmShareDenyWrite);
+        using Stream stream = RtlHost.Files.Open(file, mode: DelphiStreams.fmOpenRead | DelphiStreams.fmShareDenyWrite);
         using MemoryStream memory = new();
         stream.CopyTo(memory);
         return memory.ToArray();
@@ -140,7 +140,7 @@ public sealed class GamePathRoundTripTests : IDisposable
             .Add("root", root));
         string source = Path.Combine(Folder, "constructed.ohsm");
         string file = Path.Combine(Folder, "saved.ohsm");
-        using (Stream stream = Runtime.Files.Open(source, mode: Runtime.fmCreate))
+        using (Stream stream = RtlHost.Files.Open(source, mode: DelphiStreams.fmCreate))
         {
             stream.Write(constructed);
         }

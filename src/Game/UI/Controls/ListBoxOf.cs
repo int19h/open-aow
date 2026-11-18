@@ -7,11 +7,11 @@ namespace Aow.Game.UI.Controls;
 public class ListBox<T> : ListBox
     where T : class
 {
-    public ListBox(Component owner) : this(owner, items: new StringList<T>())
+    public ListBox(Component owner) : this(owner, items: new DelphiStringList<T>())
     {
     }
 
-    private ListBox(Component owner, StringList<T> items) : base(owner, items) => Items = items;
+    private ListBox(Component owner, DelphiStringList<T> items) : base(owner, items) => Items = items;
 
-    public new StringList<T> Items { get; }
+    public new DelphiStringList<T> Items { get; }
 }

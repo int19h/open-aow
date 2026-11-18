@@ -1,6 +1,8 @@
 using System.Runtime.InteropServices;
 using Aow.Rtl.Tests.Generated;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiRandom;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.PCharStrings;
 using Assert = Xunit.Assert;
 
 namespace Aow.Rtl.Tests;

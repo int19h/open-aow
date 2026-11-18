@@ -53,7 +53,7 @@ public partial class HelpWindow(UIContext ui) : UIModule(ui)
             HelpMemo.Items.Delete(0);
         }
 
-        if (HelpMemo.Items.Count > 0 && RtlUnit.IsEmpty(HelpMemo.Items[0]))
+        if (HelpMemo.Items.Count > 0 && DelphiStrings.IsEmpty(HelpMemo.Items[0]))
         {
             HelpMemo.Items.Delete(0);
         }
@@ -87,13 +87,13 @@ public partial class HelpWindow(UIContext ui) : UIModule(ui)
 
     internal void ShowHelp(int helpId)
     {
-        StringList lines;
+        DelphiStringList lines;
         if (UI.HelpWindow.MainWindow.Visible)
         {
             UI.HelpWindow.FinishDialog();
         }
 
-        lines = new StringList();
+        lines = new DelphiStringList();
         GamePack.Current.TextControl.RetrieveText(helpId, lines);
         UI.HelpWindow.HelpScrollBar.Position = 0;
         UI.HelpWindow.HeaderMemo.Items.Clear();
@@ -110,7 +110,7 @@ public partial class HelpWindow(UIContext ui) : UIModule(ui)
             UI.HelpWindow.HelpMemo.Items.Delete(0);
         }
 
-        if (UI.HelpWindow.HelpMemo.Items.Count > 0 && RtlUnit.IsEmpty(UI.HelpWindow.HelpMemo.Items[0]))
+        if (UI.HelpWindow.HelpMemo.Items.Count > 0 && DelphiStrings.IsEmpty(UI.HelpWindow.HelpMemo.Items[0]))
         {
             UI.HelpWindow.HelpMemo.Items.Delete(0);
         }

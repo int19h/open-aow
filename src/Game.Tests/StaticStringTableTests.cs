@@ -32,7 +32,7 @@ public sealed class StaticStringTableTests
             return;
         }
         using EngineFixture.RecordingHost host = new("fixture");
-        Runtime.InstallHost(host);
+        RtlHost.InstallHost(host);
         NullSoundSystem.Install();
         Startup.InitializeAll();
         List<string> nulls = [];

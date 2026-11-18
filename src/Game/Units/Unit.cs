@@ -15,7 +15,7 @@ using Aow.Game.World.Map;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.Units;
 
@@ -346,7 +346,7 @@ public partial class Unit(CustomNode owner) : Troop(owner)
     }
 
     // Unit.PAS:2000
-    public override StringCollection GetDescription() => UnitResource.Description;
+    public override DelphiStringCollection GetDescription() => UnitResource.Description;
 
     // Unit.PAS:1928
     public override int GetObtainValue() => UnitResource.ObtainValue;

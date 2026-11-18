@@ -9,7 +9,10 @@ using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.DelphiTextCompare;
+using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.UI.Dialogs;
 

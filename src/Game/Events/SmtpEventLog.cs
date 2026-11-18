@@ -8,12 +8,12 @@ namespace Aow.Game.Events;
 // message
 public partial class SmtpEventLog : EventLog
 {
-    public SmtpEventLog(CustomNode owner) : base(owner) => Message = new StringList();
+    public SmtpEventLog(CustomNode owner) : base(owner) => Message = new DelphiStringList();
 
     public string ToAddress { get; } = "";
     public string FileName { get; } = "";
     public string Subject { get; } = "";
-    public StringList Message { get; }
+    public DelphiStringList Message { get; }
     public bool Success { get; set; }
     public string FromAddress { get; } = "";
     public string Error { get; set; } = "";

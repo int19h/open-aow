@@ -258,7 +258,7 @@ translator components did. The internet suite (ims) is used only by the play-by-
 (`SmtpSender` (Delphi `TmsSMTP`), `MailMessage` (Delphi `TmsMessage`), the POP3 and SMTP dialogs), see open question 7. Toolbar97 and SpinEdit
 are editor only.
 
-A Delphi RTL shim library in C# provides what the rules code expects: `DelphiList<T>` (Delphi `TList`), `StringList` (Delphi `TStringList`),
+A Delphi RTL shim library in C# provides what the rules code expects: `DelphiList<T>` (Delphi `TList`), `DelphiStringList` (Delphi `TStringList`),
 `TStream` and `TMemoryStream`, the string routines, `Random` and exceptions. It also provides the
 small set of VCL calls the rules make (`ShowMessage`, `MessageBox`). Those route to the game UI.
 
@@ -548,7 +548,7 @@ The second stage starts when milestone 2.4 passes and the C# tree becomes the so
   1), `Ptr<T>` to arrays and spans, the split constructors to constructors, metaclass objects to
   generics with static abstract interface members or to the engine's own class registry, `with`
   blocks to plain code, the shim's `TVarRec` and the message and blend slots of `IntOrRef` to
-  unions (milestone 9.6), the shim's `DelphiList` and `StringList` to `List<T>` and
+  unions (milestone 9.6), the shim's `DelphiList` and `DelphiStringList` to `List<T>` and
   `Dictionary<K, V>`, explicit-layout records to plain `record struct` types with explicit
   serialization.
 - Behavior that varies by kind goes in virtual methods on the kind, so that families stay open for

@@ -5,7 +5,8 @@ using Aow.Formats.Tree;
 
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiAssert;
+using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.Events;
 
@@ -58,7 +59,7 @@ public partial class EventLogbook : EngineObject
     }
 
     // EventLog.pas:550
-    public void ListEvents(StringCollection strings)
+    public void ListEvents(DelphiStringCollection strings)
     {
         for (int i = 0, last = _events.Count - 1; i <= last; i++)
         {

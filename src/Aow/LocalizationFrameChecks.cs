@@ -12,7 +12,7 @@ internal static class LocalizationFrameChecks
 {
     public static void Run(string root, string output, LayoutSession layouts, UIContext ui)
     {
-        int language = LocalizationRuntime.ReadLanguage(RtlUnit.Settings);
+        int language = LocalizationRuntime.ReadLanguage(RtlHost.Settings);
         SortedSet<byte> germanBytes = [];
         foreach (string file in new[] { "AoW", "ResStr", "CustMaps", "Release" })
         {
@@ -68,7 +68,7 @@ internal static class LocalizationFrameChecks
                 }
 
                 List<string> texts = [control.Text];
-                if (ItemsOf(control) is StringCollection items)
+                if (ItemsOf(control) is DelphiStringCollection items)
                 {
                     for (int item = 0; item < items.Count; item++)
                     {
@@ -80,8 +80,8 @@ internal static class LocalizationFrameChecks
                 {
                     string cased = font.CharCase switch
                     {
-                        EditCharCase.UpperCase => RtlUnit.UpperCase(text),
-                        EditCharCase.LowerCase => RtlUnit.LowerCase(text),
+                        EditCharCase.UpperCase => DelphiTextCompare.UpperCase(text),
+                        EditCharCase.LowerCase => DelphiTextCompare.LowerCase(text),
                         EditCharCase.Normal or _ => text
                     };
                     for (int character = 1; character <= cased.Length; character++)

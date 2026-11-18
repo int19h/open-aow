@@ -4,7 +4,10 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.PCharStrings;
+using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.UI.Controls;
 
@@ -21,7 +24,7 @@ namespace Aow.Game.UI.Controls;
 public partial class Memo : Control
 {
 
-    private readonly StringList _items;
+    private readonly DelphiStringList _items;
 
     public List<ColorChange> ColorList { get; }
 
@@ -48,13 +51,13 @@ public partial class Memo : Control
 
     private Rect _itemRectangle;
 
-    public StringList Lines { get; }
+    public DelphiStringList Lines { get; }
 
     // AoWMemo.pas:126
     public Memo(Component owner) : base(owner)
     {
-        Lines = new StringList();
-        _items = new StringList
+        Lines = new DelphiStringList();
+        _items = new DelphiStringList
         {
             OnChange = OnChangeText
         };
@@ -749,7 +752,7 @@ public partial class Memo : Control
     }
 
     // AoWMemo.pas:296
-    public void SetFStrings(StringList value)
+    public void SetFStrings(DelphiStringList value)
     {
         Lines.Clear();
         _items.Clear();
@@ -911,7 +914,7 @@ public partial class Memo : Control
     public int ListOffset { get => _topItem; set => SetListOff(value); }
 
     [Published]
-    public StringList Items { get => _items; set => SetFStrings(value); }
+    public DelphiStringList Items { get => _items; set => SetFStrings(value); }
 
     [Published]
     public VerticalScrollBar VerticalScrollBar { get => _verticalScrollBar; set => SetVScroll(value); }

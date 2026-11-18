@@ -1,4 +1,6 @@
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiFiles;
+using static Aow.Rtl.DelphiPaths;
+using static Aow.Rtl.RtlHost;
 
 namespace Aow.Rtl.Tests;
 

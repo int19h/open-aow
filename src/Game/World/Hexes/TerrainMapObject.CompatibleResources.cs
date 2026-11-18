@@ -27,7 +27,7 @@ public partial class TerrainMapObject
                 _ = candidates.Add(resource);
             }
         }
-        TerrainMapObjectResource result = candidates.Count == 0 ? null : candidates[RtlUnit.Random(candidates.Count)];
+        TerrainMapObjectResource result = candidates.Count == 0 ? null : candidates[DelphiRandom.Random(candidates.Count)];
         candidates?.Dispose();
         return result;
     }
@@ -68,7 +68,7 @@ public partial class TerrainMapObject
                 _ = candidates.Add(resource);
             }
         }
-        TerrainMapObjectResource result = candidates.Count == 0 ? null : candidates[RtlUnit.Random(candidates.Count)];
+        TerrainMapObjectResource result = candidates.Count == 0 ? null : candidates[DelphiRandom.Random(candidates.Count)];
         candidates?.Dispose();
         return result;
     }

@@ -14,7 +14,7 @@ using Aow.Game.World.Map;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Session;
 
@@ -27,7 +27,7 @@ public partial class RaceResource : EngineResource
     {
         UnitIndexes = new UnitIndexList();
         SpecialUnitIndexes = new UnitIndexList();
-        _heroNames = new StringList();
+        _heroNames = new DelphiStringList();
     }
 
     public new const int ClassId = 131585;
@@ -52,7 +52,7 @@ public partial class RaceResource : EngineResource
 
     public UnitIndexList SpecialUnitIndexes { get; }
 
-    private readonly StringList _heroNames;
+    private readonly DelphiStringList _heroNames;
 
     // PlayerC.PAS:1740
     public override void Dispose()

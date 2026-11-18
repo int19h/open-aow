@@ -2,7 +2,7 @@
 // Translated from GFXE.pas.
 using Aow.Graphics;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Game.Draw;
 

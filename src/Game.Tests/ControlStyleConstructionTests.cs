@@ -52,7 +52,7 @@ public sealed class ControlStyleConstructionTests
             }
             if (direct is ResourceEditSettings settings)
             {
-                _ = settings.Editors.AddObject("Editor", Runtime.IntToObject(17));
+                _ = settings.Editors.AddObject("Editor", IntegerObjects.IntToObject(17));
             }
 
             direct.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Stored, EngineServices.Shared));
@@ -64,7 +64,7 @@ public sealed class ControlStyleConstructionTests
             {
                 Assert.NotSame(((ResourceEditSettings)direct).Editors, copied.Editors);
                 Assert.Equal("Editor", copied.Editors[0]);
-                Assert.Equal(17, Runtime.ObjectToInt(copied.Editors.Objects[0]));
+                Assert.Equal(17, IntegerObjects.ObjectToInt(copied.Editors.Objects[0]));
             }
             if (direct is PadControl pad)
             {
@@ -129,11 +129,11 @@ public sealed class ControlStyleConstructionTests
         internal ImageLibraryManagerObject Entry { get; }
 
         private readonly GamePack _previous = GamePack.Current;
-        private readonly IFileSystem _previousFiles = Runtime.Files;
+        private readonly IFileSystem _previousFiles = RtlHost.Files;
         private readonly string _previousStartup = EngineFixture.Engine.StartupDirectory;
         private readonly string _previousSoundPath = AudioHost.BaseSoundEnginePath;
         private readonly string _previousImagePath = ImageLibraries.BaseImageLibraryPath;
-        private readonly string _previousExecutable = Runtime.Application.ExeName;
+        private readonly string _previousExecutable = LegacyApplication.Application.ExeName;
         private readonly string _root;
         private readonly bool _ownsRoot;
 
@@ -147,11 +147,11 @@ public sealed class ControlStyleConstructionTests
             _ = Directory.CreateDirectory(Path.Combine(_root, "IMAGES"));
             _ = Directory.CreateDirectory(Path.Combine(_root, "SFX"));
             Files = new FlagFiles(_root);
-            Runtime.Files = Files;
+            RtlHost.Files = Files;
             EngineFixture.Engine.SetStartupDirectory(_root + Path.DirectorySeparatorChar);
             AudioHost.BaseSoundEnginePath = _root + Path.DirectorySeparatorChar;
             ImageLibraries.BaseImageLibraryPath = _root + Path.DirectorySeparatorChar;
-            Runtime.Application.ExeName = Path.Combine(_root, "fixture.exe");
+            LegacyApplication.Application.ExeName = Path.Combine(_root, "fixture.exe");
             try
             {
                 Owner = new FlagOwner();
@@ -204,8 +204,8 @@ public sealed class ControlStyleConstructionTests
             EngineFixture.Engine.SetStartupDirectory(_previousStartup);
             AudioHost.BaseSoundEnginePath = _previousSoundPath;
             ImageLibraries.BaseImageLibraryPath = _previousImagePath;
-            Runtime.Application.ExeName = _previousExecutable;
-            Runtime.Files = _previousFiles;
+            LegacyApplication.Application.ExeName = _previousExecutable;
+            RtlHost.Files = _previousFiles;
             if (_ownsRoot)
             {
                 Directory.Delete(_root, recursive: true);

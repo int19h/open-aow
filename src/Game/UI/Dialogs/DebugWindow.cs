@@ -11,7 +11,7 @@ public sealed class DebugWindow(UIContext ui, Window window, Label frameRateLabe
 {
     public void Show() => window.Visible = true;
 
-    public void ShowFrameRate(int frameRate) => frameRateLabel.Text = RtlUnit.IntToStr(frameRate);
+    public void ShowFrameRate(int frameRate) => frameRateLabel.Text = DelphiConversions.IntToStr(frameRate);
 
     // AOWDialogWin.pas:113
     public void AddMessage(string text)

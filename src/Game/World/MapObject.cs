@@ -7,7 +7,8 @@ using Aow.Game.Draw;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiAssert;
+using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.World;
 

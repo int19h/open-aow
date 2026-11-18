@@ -1,6 +1,6 @@
 #nullable disable
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Draw;
 

@@ -8,7 +8,11 @@ using Aow.Game.World.Map;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiMemory;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.Heap;
+using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -64,7 +68,7 @@ public partial class CustomAbilityList(CustomNode owner) : EngineObject(owner)
     public virtual int GetOwnAbilityCount() => AbilityCount;
 
     // Ability.PAS:1216
-    public virtual void ListAbilities(StringCollection text, Set<AbilitySelectionType> types)
+    public virtual void ListAbilities(DelphiStringCollection text, Set<AbilitySelectionType> types)
     {
         Ability ability;
         text.Clear();
@@ -159,7 +163,7 @@ public partial class CustomAbilityList(CustomNode owner) : EngineObject(owner)
 
         if (!IsEmpty(result))
         {
-            result = RtlUnit.Copy(result, 1, result.Length - 1);
+            result = DelphiStrings.Copy(result, 1, result.Length - 1);
         }
 
         return result;
@@ -176,7 +180,7 @@ public partial class CustomAbilityList(CustomNode owner) : EngineObject(owner)
         {
             if (p != 0)
             {
-                part = RtlUnit.Copy(S, 1, p - 1);
+                part = DelphiStrings.Copy(S, 1, p - 1);
                 S = Delete(S, 1, p);
             }
             else

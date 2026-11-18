@@ -15,7 +15,14 @@ using Aow.Game.UI.Dialogs;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiAssert;
+using static Aow.Rtl.DelphiConversions;
+using static Aow.Rtl.DelphiFiles;
+using static Aow.Rtl.DelphiMemory;
+using static Aow.Rtl.DelphiRandom;
+using static Aow.Rtl.DelphiStrings;
+using static Aow.Rtl.DelphiTextCompare;
+using static Aow.Rtl.PointerMemory;
 
 namespace Aow.Game.Session;
 
@@ -1101,7 +1108,7 @@ public partial class SetupControl : Component
     }
 
     // AoWSetup.pas:944
-    public void ListAvailablePlayers(StringCollection list)
+    public void ListAvailablePlayers(DelphiStringCollection list)
     {
         if (GetRemote())
         {
@@ -1134,10 +1141,10 @@ public partial class SetupControl : Component
     public string ValidatePlayerName(string name)
     {
         bool done;
-        StringList list;
+        DelphiStringList list;
         int i;
         bool unique;
-        list = new StringList();
+        list = new DelphiStringList();
         ListAvailablePlayers(list);
         done = false;
         string result = name;

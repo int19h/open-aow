@@ -38,12 +38,12 @@ public partial class StrategicMap
 
         try
         {
-            try { _tokenLog = RtlUnit.Files.Open(GetEngine().StartupDirectory + "Debug\\SYNC_LOG" + RtlUnit.IntToStr(PixelFormats.GetElapsedMilliseconds()) + ".TXT", RtlUnit.fmCreate); }
+            try { _tokenLog = RtlHost.Files.Open(GetEngine().StartupDirectory + "Debug\\SYNC_LOG" + DelphiConversions.IntToStr(PixelFormats.GetElapsedMilliseconds()) + ".TXT", DelphiStreams.fmCreate); }
             catch (IOException) { }
             catch (UnauthorizedAccessException) { }
             WriteTokenLog("Map Session: " + MapName);
             int player = Current.Players.LocalHumanPlayers[0];
-            WriteTokenLog("Local Player: " + RtlUnit.IntToStr(player));
+            WriteTokenLog("Local Player: " + DelphiConversions.IntToStr(player));
             WriteTokenLog("Local Race: " + AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[Current.Players.GetPlayers((sbyte)player).PlayerRace]));
             TokenEventLogging = true;
         }
@@ -72,9 +72,9 @@ public partial class StrategicMap
 
         if (TokenEventLogging && TokenManager.TokenExecutor.ExecuteCount == 0)
         {
-            WriteTokenLog(token.GetType().Name + " (P:" + RtlUnit.IntToStr(TokenManager.TokenExecutor.ActiveTacticalBattleIndex) +
-                "/T:" + RtlUnit.IntToStr(token.TokenCounter) + "/S:" + RtlUnit.IntToStr(DefendersSeed) +
-                "/D:" + RtlUnit.IntToStr(Current.Day) + "/AIPC:" + RtlUnit.IntToStr(Current.AIExecutor.ProcessCycles), true);
+            WriteTokenLog(token.GetType().Name + " (P:" + DelphiConversions.IntToStr(TokenManager.TokenExecutor.ActiveTacticalBattleIndex) +
+                "/T:" + DelphiConversions.IntToStr(token.TokenCounter) + "/S:" + DelphiConversions.IntToStr(DefendersSeed) +
+                "/D:" + DelphiConversions.IntToStr(Current.Day) + "/AIPC:" + DelphiConversions.IntToStr(Current.AIExecutor.ProcessCycles), true);
         }
     }
 
@@ -95,7 +95,7 @@ public partial class StrategicMap
             return;
         }
 
-        int answer = (RtlUnit.Dialogs ?? throw new InvalidOperationException(message)).Show(new(message + " Ignore failure?", "Error", 0, 7));
+        int answer = (RtlHost.Dialogs ?? throw new InvalidOperationException(message)).Show(new(message + " Ignore failure?", "Error", 0, 7));
         handled = answer is 6 or 8;
         IgnoreStreamErrors = answer == 8;
     }

@@ -1,7 +1,7 @@
 #nullable disable
 
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiPaths;
+using static Aow.Rtl.LegacyApplication;
 
 namespace Aow.Game.Audio;
 
@@ -21,7 +21,7 @@ public static class AudioHost
 
     internal static void Initialize()
     {
-        BaseSoundEnginePath = ExtractFilePath(RtlUnit.Application.ExeName);
+        BaseSoundEnginePath = ExtractFilePath(Application.ExeName);
 
         SampleList = new SampleList();
         SampleDataList = new SampleDataList();

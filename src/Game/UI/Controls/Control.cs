@@ -11,14 +11,14 @@ namespace Aow.Game.UI.Controls;
 // _toolTip
 public partial class Control : UIComponent
 {
-    private readonly StringList _toolTipText;
+    private readonly DelphiStringList _toolTipText;
     private int _toolTipShown;
     private BaseWindow _window;
 
     // AoWControl.pas:46
     public Control(Component owner) : base(owner)
     {
-        _toolTipText = new StringList();
+        _toolTipText = new DelphiStringList();
         CaptureInput = true;
     }
 
@@ -191,7 +191,7 @@ public partial class Control : UIComponent
     public void SetWindow(BaseWindow value) => SetOwner(value);
 
     // AoWControl.pas:70
-    public void SetToolStrings(StringList value)
+    public void SetToolStrings(DelphiStringList value)
     {
         _toolTipText.Clear();
         for (int i = 0, last = value.Count - 1; i <= last; i++)
@@ -208,7 +208,7 @@ public partial class Control : UIComponent
     public ToolTip ToolTip { get; set; }
 
     [Published]
-    public StringList ToolTipText { get => _toolTipText; set => SetToolStrings(value); }
+    public DelphiStringList ToolTipText { get => _toolTipText; set => SetToolStrings(value); }
 
     public new event NotifyEvent<Control> OnChange
     {

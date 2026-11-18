@@ -7,7 +7,7 @@ using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using static Aow.Rtl.DelphiTextCompare;
 
 namespace Aow.Game.World.Structures;
 
@@ -93,7 +93,7 @@ public abstract partial record ProductionOrder
     public virtual string RealmActivity(City city) => "-";
 
     // The info window's lines for the order at the head of Control's queue (AoWInfoWin.pas:439, 496).
-    public virtual void ActivityLines(ProductionControl control, StringCollection lines) => lines.Text = NameProgressive(control);
+    public virtual void ActivityLines(ProductionControl control, DelphiStringCollection lines) => lines.Text = NameProgressive(control);
 
     // The base control's waiting note, which every arm of the base control sets first. The
     // original continues checking costs after assigning the waiting text.

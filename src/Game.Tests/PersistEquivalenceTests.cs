@@ -101,8 +101,8 @@ public sealed partial class PersistEquivalenceTests
         Check("ControlStyleObject", bits);
         Check("ResourceEditSettings", new ResourceEditSettings(null) { Holder = EngineFixture.Engine });
         ResourceEditSettings editors = new(null) { Holder = EngineFixture.Engine, ControlStyle = Set<ControlStyleElement>.FromMask(0) };
-        _ = editors.Editors.AddObject("", Runtime.IntToObject(0));
-        _ = editors.Editors.AddObject("Gate", Runtime.IntToObject(4));
+        _ = editors.Editors.AddObject("", IntegerObjects.IntToObject(0));
+        _ = editors.Editors.AddObject("Gate", IntegerObjects.IntToObject(4));
         Check("ResourceEditSettings", editors);
     }
 
