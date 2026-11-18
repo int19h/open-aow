@@ -295,10 +295,8 @@ dotnet_diagnostic.IDE0260.severity = warning
 dotnet_diagnostic.IDE0270.severity = warning
 # IDE0280 is clean on the code of 2026-11-15.
 dotnet_diagnostic.IDE0280.severity = warning
-# IDE0290 stays at suggestion. 126 constructors run stores after the base constructor, the order of
-# Delphi inherited Create, and a primary constructor would run them before it. Those keep explicit
-# constructors. The construction snapshots pin the order.
-dotnet_diagnostic.IDE0290.severity = suggestion
+# IDE0290 is a warning. MapOwner, Item, Troop and EventLog keep explicit constructors. MapOwner's AddChild reads Recorder, ItemLibrary reads LibraryId, Hero reads UnitId, and EventLogList calls AddRef so the count after construction stays 1.
+dotnet_diagnostic.IDE0290.severity = warning
 dotnet_diagnostic.IDE0300.severity = warning
 # IDE0301 is clean after the manual remainder (part 9).
 dotnet_diagnostic.IDE0301.severity = warning

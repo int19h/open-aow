@@ -11,14 +11,13 @@ using static Aow.Rtl.DelphiFormat;
 namespace Aow.Game.Events;
 
 // Arena, Selection, Trainable, UnitIds
-public partial class EnterArenaEventLog : EventLog
+public partial class EnterArenaEventLog(CustomNode owner) : EventLog(owner)
 {
-    public EnterArenaEventLog(CustomNode owner) : base(owner) => UnitIds = new Int32List();
 
     public Arena Arena { get; init; }
     public byte Selection { get; private set; }
     public byte Trainable { get; set; }
-    public Int32List UnitIds { get; }
+    public Int32List UnitIds { get; } = new Int32List();
 
     // Arena.pas:265
     public override void Dispose()

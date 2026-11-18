@@ -10,13 +10,12 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Draw;
 
 // Structure. FadeEndFrame
-public partial class MagicSanctuaryOverlayHexSprite : SingleHexSprite
+public partial class MagicSanctuaryOverlayHexSprite(CustomNode owner) : SingleHexSprite(owner)
 {
-    public MagicSanctuaryOverlayHexSprite(CustomNode owner) : base(owner) => _fadeEndFrame = -1;
 
     public MagicSanctuary Structure { get; init; }
 
-    private int _fadeEndFrame;
+    private int _fadeEndFrame = -1;
 
     // MagicSanctuary.pas:67
 

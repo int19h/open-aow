@@ -13,16 +13,8 @@ namespace Aow.Game.UI.Grids;
 // half-row inset, libraries, icons, viewport, change event, update steps, map, frame library,
 // frame index, map dimensions, level, icons drawn, previous size, drawable height, terrain/icon
 // surfaces, update step, incremental
-public partial class Scanner : Control
+public partial class Scanner(Component owner) : Control(owner)
 {
-    public Scanner(Component owner) : base(owner)
-    {
-        _steps = 1;
-        TLeft = -1;
-        TTop = -1;
-        _tWidth = -1;
-        _tHeight = -1;
-    }
 
     private int _halfRowInset;
     private ImageLibrary _tilesImageLibrary;
@@ -30,19 +22,19 @@ public partial class Scanner : Control
     private ImageLibrary _fogImageLibrary;
     private ImageLibrary _objectsImageLibrary;
 
-    public int TTop { get; private set; }
+    public int TTop { get; private set; } = -1;
 
-    private int _tHeight;
+    private int _tHeight = -1;
 
-    public int TLeft { get; private set; }
+    public int TLeft { get; private set; } = -1;
 
-    private int _tWidth;
+    private int _tWidth = -1;
     private bool _buildings;
     private bool _armies;
     private bool _naturals;
     [Published]
     public event NotifyEvent<Scanner> OnChangeTileBox;
-    private int _steps;
+    private int _steps = 1;
     private GameMap _map;
     private InterfaceImageLibrary _imageLibraryFrame;
     private int _imageLibraryIndexFrame;

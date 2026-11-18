@@ -7,14 +7,13 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Events;
 
 // location
-public partial class LocationTextEventLog : TextEventLog
+public partial class LocationTextEventLog(CustomNode owner) : TextEventLog(owner)
 {
-    public LocationTextEventLog(CustomNode owner) : base(owner) => Location = new MapCoordinate(-1, -1, -1);
 
     // EventLog.pas:728
     public new const int ClassId = 131816;
 
-    public MapCoordinate Location { get; set; }
+    public MapCoordinate Location { get; set; } = new MapCoordinate(-1, -1, -1);
 
     // EventLog.pas:731
     public override void PersistFields(IPersister persister)

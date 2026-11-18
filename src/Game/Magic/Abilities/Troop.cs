@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Diagnostics.CodeAnalysis;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -34,6 +35,13 @@ namespace Aow.Game.Magic.Abilities;
 // FRefCount. FUnitID. FGroupID. FGroup: TAIGroup. FUnitStatus
 public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopOwner>
 {
+    [SuppressMessage("Style", "IDE0290", Justification = "Hero.cs:746 and Hero.cs:759 read UnitId from CanActivate and Activate while an owner AddChild runs during the base constructor. Delphi sees 0, and FindId looks up that id. The constructor then stores -1.")]
+    public Troop(CustomNode owner) : base(owner)
+    {
+        GroupId = 0;
+        UnitId = -1;
+    }
+
     // A troop stands in an army or a unit list, or a hero stands in a hero list or a hero library
     // while no army holds it. TroopOwner reads that owner without a cast.
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is Army or UnitList or UnitUserList or IHeroHolder;
@@ -46,6 +54,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public int RefCount { get; private set; } = 1;
 
     public int UnitId { get; set; }
+
     public int GroupId { get; set; }
 
     public AIGroup Group { get; set; }
@@ -128,11 +137,6 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:95
-    public Troop(CustomNode owner) : base(owner)
-    {
-        GroupId = 0;
-        UnitId = -1;
-    }
 
     // Unit.PAS:127
     public override int AddRef()

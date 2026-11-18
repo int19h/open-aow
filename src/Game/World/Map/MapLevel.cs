@@ -8,9 +8,8 @@ namespace Aow.Game.World.Map;
 
 // A map level owns its fields in row order. The fields are its children.
 // Field size and neighbour offsets keep the recovered layout values.
-public partial class MapLevel : CustomNode, IOwned<MapContainer>, IOwnedSink<MapContainer>
+public partial class MapLevel(CustomNode owner) : CustomNode(owner), IOwned<MapContainer>, IOwnedSink<MapContainer>
 {
-    public MapLevel(CustomNode owner) : base(owner) => MapFieldClassId = 65793;
 
     // The container the level belongs to. AcceptsOwner admits only a container, so the cast never
     // fails.
@@ -90,7 +89,7 @@ public partial class MapLevel : CustomNode, IOwned<MapContainer>, IOwnedSink<Map
     public int Height { get; private set; }
     public MapContainer MapContainer { get; private set; }
     public GameMap Map { get; private set; }
-    public int MapFieldClassId { get; }
+    public int MapFieldClassId { get; } = 65793;
     public ReadOnlySpan<MapField> Fields => _fields;
 
     public sealed class FieldAccessor(MapLevel target)

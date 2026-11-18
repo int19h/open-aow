@@ -11,14 +11,13 @@ using Aow.Rtl;
 namespace Aow.Game.Events;
 
 // message, inherited player
-public partial class GameOverEventLog : EventLog
+public partial class GameOverEventLog(CustomNode owner) : EventLog(owner)
 {
-    public GameOverEventLog(CustomNode owner) : base(owner) => Message = new DelphiStringList();
 
     // EventLog.pas:777
     public new const int ClassId = 131812;
 
-    public DelphiStringList Message { get; }
+    public DelphiStringList Message { get; } = new DelphiStringList();
     public sbyte TargetPlayer { get; set; }
 
     // EventLog.pas:774

@@ -21,13 +21,8 @@ using Aow.Game.World.Movement;
 namespace Aow.Game.World.Structures;
 
 // player, turns owned (FProductionPriority), flag ID, victory-location bits, unfog range
-public partial class PlayerStructure : Structure
+public partial class PlayerStructure(CustomNode owner) : Structure(owner)
 {
-    public PlayerStructure(CustomNode owner) : base(owner)
-    {
-        _victoryLocations = new BitList();
-        UnfogRange = 0;
-    }
 
     public new const int ClassId = 131916;
 
@@ -37,7 +32,7 @@ public partial class PlayerStructure : Structure
     public byte ProductionPriority { get; private set; }
 
     private byte _flagId;
-    private readonly BitList _victoryLocations;
+    private readonly BitList _victoryLocations = new();
 
     public byte UnfogRange { get; protected set; }
 

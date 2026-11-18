@@ -11,11 +11,10 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Magic.Spells;
 
 // AIBasePriority
-public partial class GlobalEnchantmentSpell : Spell
+public partial class GlobalEnchantmentSpell(CustomNode owner) : Spell(owner)
 {
-    public GlobalEnchantmentSpell(CustomNode owner) : base(owner) => AIBasePriority = -1;
 
-    public int AIBasePriority { get; protected set; }
+    public int AIBasePriority { get; protected set; } = -1;
 
     // GlobalEnchantmentSpells.pas:429
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)

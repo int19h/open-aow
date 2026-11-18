@@ -16,27 +16,21 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.Draw;
 
 // Status. _showPriority. UnitGraphicsResource. Direction. MoveStep. FlagId. Shadow
-public partial class UnitHexSprite : HexSprite
+public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
 {
-    public UnitHexSprite(CustomNode owner) : base(owner)
-    {
-        MoveStep = -1;
-        Direction = 3;
-        _showPriority = 1744830464;
-    }
 
     public new const int ClassId = 131604;
 
     public byte Status { get; private set; }
 
     // visible, edit, selected, paused, instant move
-    private int _showPriority;
+    private int _showPriority = 1744830464;
 
     public UnitGraphicsResource UnitGraphicsResource { get; set; }
 
-    public byte Direction { get; set; }
+    public byte Direction { get; set; } = 3;
 
-    public sbyte MoveStep { get; set; }
+    public sbyte MoveStep { get; set; } = -1;
     // -1 when idle
     public byte FlagId { get; protected set; }
 

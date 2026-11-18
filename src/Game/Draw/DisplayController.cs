@@ -9,9 +9,8 @@ namespace Aow.Game.Draw;
 // BlitInvalidatedSurface, and TDisplayCtrl implemented the other 33 as the common part of the
 // display controllers. FLastFrameTime, FFrameCount (Word), FStatus, FDisplay, FPrimarySurfaceRgn
 // (the output rectangle), FInvMatrix, FRealizePalet, FLastVBTime
-public partial class DisplayController : Component
+public partial class DisplayController(Component owner) : Component(owner)
 {
-    public DisplayController(Component owner) : base(owner) => _inverseMatrix = new Matrix(4, 4);
 
     // DisplayC.pas:554
     public virtual Surface GetSurface(int index) => null;
@@ -142,7 +141,7 @@ public partial class DisplayController : Component
 
     internal Rect PrimarySurfaceRegion { get; private set; }
 
-    private Matrix _inverseMatrix;
+    private Matrix _inverseMatrix = new(4, 4);
 
     // DisplayC.pas:1031
     public override void Dispose()

@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from EventLog.pas.
+using System.Diagnostics.CodeAnalysis;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -15,6 +16,7 @@ namespace Aow.Game.Events;
 // day, unique ID, player, reference count
 public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<EventLogList>
 {
+    [SuppressMessage("Style", "IDE0290", Justification = "EventLogList.cs:87 calls AddRef during AddChild. Delphi sees a count of 0, SetOwner skips its own AddRef and Release, and the count after construction is 1.")]
     public EventLog(CustomNode owner) : base(owner) => RefCount = 1;
 
     // The list that holds the log. AcceptsOwner admits only that list, so the read never fails.

@@ -12,9 +12,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // army ID, packed destination
-public partial class WarpPartyTokenEvent : SpellTokenEvent
+public partial class WarpPartyTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
 {
-    public WarpPartyTokenEvent(CustomNode owner) : base(owner) => ArmyId = null;
 
     // GlobalSpells.pas:564
     public new const int ClassId = 135948;

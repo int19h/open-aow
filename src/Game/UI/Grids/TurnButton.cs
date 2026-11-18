@@ -11,13 +11,12 @@ namespace Aow.Game.UI.Grids;
 // { ot=1 }
 // library, current player, last player, animating, animation phase, frame offset, done event,
 // change event, checked, animation frame
-public partial class TurnButton : Control
+public partial class TurnButton(Component owner) : Control(owner)
 {
-    public TurnButton(Component owner) : base(owner) => _frameOffset = 11;
 
     private ImageLibrary _imageLibrary;
     private int _animationPhase;
-    private int _frameOffset;
+    private int _frameOffset = 11;
     [Published]
     public event NotifyEvent<TurnButton> OnAnimationDone;
     [Published]

@@ -8,19 +8,13 @@ namespace Aow.Game.World.Movement;
 
 // { Interface declaration run owned by P5. }
 // location, origin, move point lines
-public partial class PathFindingStep : EngineObject
+public partial class PathFindingStep(CustomNode owner) : EngineObject(owner)
 {
-    public PathFindingStep(CustomNode owner) : base(owner)
-    {
-        MovePointLines = new DoubleItemList();
-        Origin = MapCoordinate.None;
-        Location = MapCoordinate.None;
-    }
 
-    public MapCoordinate Location { get; internal set; }
-    public MapCoordinate Origin { get; internal set; }
+    public MapCoordinate Location { get; internal set; } = MapCoordinate.None;
+    public MapCoordinate Origin { get; internal set; } = MapCoordinate.None;
 
-    public DoubleItemList MovePointLines { get; }
+    public DoubleItemList MovePointLines { get; } = new DoubleItemList();
 
     // MoveT.PAS:28
     public override void Dispose()

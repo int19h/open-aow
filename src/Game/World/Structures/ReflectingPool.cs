@@ -11,14 +11,13 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Structures;
 
 // CenterFrame (-1 when inactive)
-public partial class ReflectingPool : PlayerStructure
+public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
 {
-    public ReflectingPool(CustomNode owner) : base(owner) => _centerFrame = -1;
 
     // ReflectingPool.pas:58
     public new const int ClassId = 132670;
 
-    private int _centerFrame;
+    private int _centerFrame = -1;
 
     // ReflectingPool.pas:80
     public override void PersistFields(IPersister persister) => base.PersistFields(persister);

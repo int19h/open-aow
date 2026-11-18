@@ -11,15 +11,14 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Events;
 
 // (mode, location, spell ID, value, enchantment name)
-public partial class PlayerMagicEventLog : EventLog
+public partial class PlayerMagicEventLog(CustomNode owner) : EventLog(owner)
 {
-    public PlayerMagicEventLog(CustomNode owner) : base(owner) => Location = MapCoordinate.None;
 
     public new const int ClassId = 131824;
 
     public EventMode Mode { get; set; }
 
-    public MapCoordinate Location { get; internal set; }
+    public MapCoordinate Location { get; internal set; } = MapCoordinate.None;
 
     // The fourth byte of the packed location stored at id 24, 0 from every writer and in every
     // corpus file, kept so that a loaded value saves back unchanged.

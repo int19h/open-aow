@@ -18,15 +18,14 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.AI;
 
 // production index, state, gold upkeep, mana upkeep, productions
-public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
+public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
 {
-    public AutoProduceAIPlayerAction(CustomNode owner) : base(owner) => _productions = new QuadItemList<ProductionControl>();
 
     private int _productionIndex;
     private int _state;
     private int _goldUpkeep;
     private int _manaUpkeep;
-    private readonly QuadItemList<ProductionControl> _productions;
+    private readonly QuadItemList<ProductionControl> _productions = new();
 
     // AI.pas:1208
     public override void Dispose()

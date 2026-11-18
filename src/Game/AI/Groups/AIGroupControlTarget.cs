@@ -10,14 +10,8 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.AI.Groups;
 
 // references. info. data. location. moves. transporter. status. path strength. data A. data B
-public partial class AIGroupControlTarget : EngineObject, IOwned<AIGroupControlTargetList>, IOwnedSink<AIGroupControlTargetList>
+public partial class AIGroupControlTarget(CustomNode owner) : EngineObject(owner), IOwned<AIGroupControlTargetList>, IOwnedSink<AIGroupControlTargetList>
 {
-    public AIGroupControlTarget(CustomNode owner) : base(owner)
-    {
-        _refCount = 1;
-        TransporterId = -1;
-    }
-
     // A reference list holds the target and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list.
     public new AIGroupControlTargetList Owner { get => GetOwner<AIGroupControlTargetList>(); set => SetOwner(value); }
@@ -26,7 +20,7 @@ public partial class AIGroupControlTarget : EngineObject, IOwned<AIGroupControlT
 
     void IOwnedSink<AIGroupControlTargetList>.SetOwner(AIGroupControlTargetList owner) => SetOwner(owner);
 
-    private int _refCount;
+    private int _refCount = 1;
 
     public AITargetInfo Info { get; init; }
 
@@ -34,7 +28,7 @@ public partial class AIGroupControlTarget : EngineObject, IOwned<AIGroupControlT
     public MapCoordinate Location { get; internal init; }
 
     public int MovePoints { get; init; }
-    public int TransporterId { get; set; }
+    public int TransporterId { get; set; } = -1;
     public Set<AIGroupTargetFlags> Status { get; set; }
     public int PathStrength { get; set; }
     public int DataA { get; set; }

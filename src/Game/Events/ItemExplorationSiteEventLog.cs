@@ -12,19 +12,14 @@ using Aow.Rtl;
 namespace Aow.Game.Events;
 
 // ItemIds, Messages, Title, Location
-public partial class ItemExplorationSiteEventLog : EventLog
+public partial class ItemExplorationSiteEventLog(CustomNode owner) : EventLog(owner)
 {
-    public ItemExplorationSiteEventLog(CustomNode owner) : base(owner)
-    {
-        ItemIds = new Int32List();
-        Messages = new DelphiStringList();
-    }
 
     // ItemExpS.pas:201
     public new const int ClassId = 132085;
 
-    public Int32List ItemIds { get; }
-    public DelphiStringList Messages { get; }
+    public Int32List ItemIds { get; } = new Int32List();
+    public DelphiStringList Messages { get; } = new DelphiStringList();
 
     public string Title { get; set; } = "";
 

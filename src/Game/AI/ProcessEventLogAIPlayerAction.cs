@@ -10,11 +10,10 @@ using Aow.Game.World.Map;
 namespace Aow.Game.AI;
 
 // log index
-public partial class ProcessEventLogAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
+public partial class ProcessEventLogAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
 {
-    public ProcessEventLogAIPlayerAction(CustomNode owner) : base(owner) => _logIndex = -1;
 
-    private int _logIndex;
+    private int _logIndex = -1;
 
     // AI.pas:1626
     public override bool Process()

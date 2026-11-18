@@ -6,10 +6,8 @@ using Aow.Rtl;
 namespace Aow.Game.Combat.Actions;
 
 // RefCount
-public partial class CombatAction : EngineObject, IOwned<CombatActionList>, IOwnedSink<CombatActionList>
+public partial class CombatAction(CustomNode owner) : EngineObject(owner), IOwned<CombatActionList>, IOwnedSink<CombatActionList>
 {
-    public CombatAction(CustomNode owner) : base(owner) => RefCount = 1;
-
     // A reference list holds the action and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
     public new CombatActionList Owner { get => GetOwner<CombatActionList>(); set => SetOwner(value); }
@@ -18,7 +16,7 @@ public partial class CombatAction : EngineObject, IOwned<CombatActionList>, IOwn
 
     void IOwnedSink<CombatActionList>.SetOwner(CombatActionList owner) => SetOwner(owner);
 
-    public int RefCount { get; private set; }
+    public int RefCount { get; private set; } = 1;
 
     // Combat2.pas:701
     public override int AddRef()

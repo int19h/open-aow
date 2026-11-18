@@ -13,9 +13,8 @@ namespace Aow.Game.Draw.Animations;
 
 // { ot=1 }
 // hex position, display level, state, frame, dimensions, callbacks, tag, map
-public partial class Animation : HexSprite
+public partial class Animation(CustomNode owner) : HexSprite(owner)
 {
-    public Animation(CustomNode owner) : base(owner) => AnimationLevel = 26;
 
     // Animation.pas:143
     public new const int ClassId = 131815;
@@ -23,7 +22,7 @@ public partial class Animation : HexSprite
     // The stored hex. GetHexX, GetHexY and GetHexLevel read it, and HexSprite.Location returns that.
     public override MapCoordinate Location { get; set; }
 
-    public byte AnimationLevel { get; set; }
+    public byte AnimationLevel { get; set; } = 26;
 
     private Set<StateElement> _state;
 

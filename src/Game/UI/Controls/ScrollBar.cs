@@ -18,16 +18,8 @@ namespace Aow.Game.UI.Controls;
 // pages to. the mouse offset into the tab while the tab is dragged), FNumberVisible, F15C
 // (unused), ScrollType, ThumbStyle, _imageLibraryIndexIncrementUp, _imageLibraryIndexIncrementDown, _imageLibraryIndexDecrementUp,
 // _imageLibraryIndexDecrementDown, _imageLibraryIndexBack, _thumbImageIndex
-public partial class ScrollBar : Control
+public partial class ScrollBar(Rtl.Component owner) : Control(owner)
 {
-    public ScrollBar(Rtl.Component owner) : base(owner)
-    {
-        _smallChange = 1;
-        _largeChange = 1;
-        _max = 1;
-        _numberVisible = 1;
-        Delay = 20;
-    }
 
     private InterfaceImageLibrary _imageLibraryImageIncrement;
     private InterfaceImageLibrary _imageLibraryIDecrement;
@@ -40,9 +32,9 @@ public partial class ScrollBar : Control
     public int ThumbLength { get; protected set; }
 
     private int _min;
-    private int _max;
-    private int _smallChange;
-    private int _largeChange;
+    private int _max = 1;
+    private int _smallChange = 1;
+    private int _largeChange = 1;
     private int _position;
 
     public int PositionCount { get; set; }
@@ -51,7 +43,7 @@ public partial class ScrollBar : Control
 
     public int TrackClickTarget { get; protected set; }
 
-    private int _numberVisible;
+    private int _numberVisible = 1;
 
     public Style ScrollType { get; private set; }
     public ScrollBarThumbStyle ThumbStyle { get; private set; }
@@ -394,7 +386,7 @@ public partial class ScrollBar : Control
 
     [Published]
     [DefaultValue(20)]
-    public byte Delay { get; set; }
+    public byte Delay { get; set; } = 20;
 
     [Published]
     public int Min { get => _min; set => SetFMin(value); }

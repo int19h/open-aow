@@ -25,26 +25,17 @@ namespace Aow.Game.World.Terrain;
 
 // { Interface declaration run owned by P1. }
 // Mode, TurnsLeft, Age, _showPriority, Player, ExplosionFrame
-public partial class Fire : ImageLibraryTerrainMapObject
+public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
-    public Fire(CustomNode owner) : base(owner)
-    {
-        TurnsLeft = 3;
-        Age = 0;
-        Player = 0;
-        _showPriority = 1744830464;
-        _mode = Set<ModeElement>.Of(ModeElement.Expandable);
-        _explosionFrame = 0;
-    }
 
     public new const int ClassId = 132990;
 
-    private Set<ModeElement> _mode;
+    private Set<ModeElement> _mode = Set<ModeElement>.Of(ModeElement.Expandable);
 
-    public sbyte TurnsLeft { get; set; }
+    public sbyte TurnsLeft { get; set; } = 3;
     public byte Age { get; set; }
 
-    private int _showPriority;
+    private int _showPriority = 1744830464;
 
     public sbyte Player { get; set; }
 

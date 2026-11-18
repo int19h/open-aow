@@ -16,19 +16,14 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities;
 
 // SpherePicksMax. Spheres
-public partial class Leader : Hero
+public partial class Leader(CustomNode owner) : Hero(owner)
 {
-    public Leader(CustomNode owner) : base(owner)
-    {
-        _spheres = new ByteList();
-        SpherePicksMax = 5;
-    }
 
     public new const int ClassId = 131634;
 
-    public byte SpherePicksMax { get; private set; }
+    public byte SpherePicksMax { get; private set; } = 5;
 
-    private readonly ByteList _spheres;
+    private readonly ByteList _spheres = new();
 
     // Hero.PAS:2766
     public override void Dispose()

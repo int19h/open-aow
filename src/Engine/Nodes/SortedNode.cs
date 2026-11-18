@@ -3,9 +3,8 @@ using Aow.Formats.Tree;
 
 namespace Aow.Engine.Nodes;
 
-public partial class SortedNode : CustomNode
+public partial class SortedNode(CustomNode owner) : CustomNode(owner)
 {
-    public SortedNode(CustomNode owner) : base(owner) => Items = [];
 
     // Engine.pas:1478
     public new const int ClassId = 260;

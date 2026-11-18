@@ -12,21 +12,15 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.AI.Groups;
 
 // references, cycles, control, status, state
-public partial class AIGroupTask : EngineObject
+public partial class AIGroupTask(CustomNode owner) : EngineObject(owner)
 {
-    public AIGroupTask(CustomNode owner) : base(owner)
-    {
-        _refCount = 1;
-        State = -1;
-    }
-
-    private int _refCount;
+    private int _refCount = 1;
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]
     private int _processCycles;
 
     public AIGroupControl GroupControl { get; protected set; }
     public Set<AIGroupTaskStatusElement> Status { get; private set; }
-    public int State { get; protected set; }
+    public int State { get; protected set; } = -1;
 
     // AIGroup.pas:1361
     public override int AddRef()

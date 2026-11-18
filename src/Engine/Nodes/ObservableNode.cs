@@ -10,20 +10,15 @@ using static Aow.Rtl.DelphiAssert;
 namespace Aow.Engine.Nodes;
 
 // Engine.TEChangeNotifyNode (16 bytes): +8 FChildren, FUpdateCount. Changed on child changes
-public partial class ObservableNode : CustomNode
+public partial class ObservableNode(CustomNode owner) : CustomNode(owner)
 {
-    public ObservableNode(CustomNode owner) : base(owner)
-    {
-        _children = new EngineObjectList();
-        UpdateCount = 0;
-    }
 
     // Engine.pas:7246
     public new const int ClassId = 265;
 
     // The child slots. Every write of a child goes through AddChild, SetChild or the members
     // below, so the child check in CheckChild sees each child that enters.
-    private EngineObjectList _children;
+    private EngineObjectList _children = new();
 
     // Engine.pas:7212
     public override void Dispose()

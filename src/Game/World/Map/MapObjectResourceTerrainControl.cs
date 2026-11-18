@@ -12,14 +12,8 @@ namespace Aow.Game.World.Map;
 // TList of resources per terrain type name of the set (THSSet.TerrainTypes), filled by
 // RegisterResource when a resource is activated. Place and PlaceClass put a random resource of
 // a terrain type on a map field
-public partial class MapObjectResourceTerrainControl : EngineObject
+public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineObject(owner)
 {
-    public MapObjectResourceTerrainControl(CustomNode owner) : base(owner)
-    {
-        Resources = [];
-        MapObjectClass = typeof(MapObject);
-        Tries = 5;
-    }
 
     // HSEngine.pas:4522
     internal void Initialize()
@@ -231,8 +225,8 @@ public partial class MapObjectResourceTerrainControl : EngineObject
     }
 
     public GameEngine HexSpriteEngine { get; private set; }
-    public int Tries { get; }
-    public List<DelphiList<MapObjectResource>> Resources { get; private set; }
-    public Type MapObjectClass { get; init; }
+    public int Tries { get; } = 5;
+    public List<DelphiList<MapObjectResource>> Resources { get; private set; } = [];
+    public Type MapObjectClass { get; init; } = typeof(MapObject);
 
 }

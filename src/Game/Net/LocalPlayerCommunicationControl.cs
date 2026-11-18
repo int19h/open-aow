@@ -6,11 +6,10 @@ using static Aow.Rtl.DelphiMemory;
 namespace Aow.Game.Net;
 
 // FPackageDataList. The control of a game on one system: what is sent is received again
-public partial class LocalPlayerCommunicationControl : PlayerCommunicationControl
+public partial class LocalPlayerCommunicationControl(EngineObject creator) : PlayerCommunicationControl(creator)
 {
-    public LocalPlayerCommunicationControl(EngineObject creator) : base(creator) => PackageDataList = new PackageDataList();
 
-    internal PackageDataList PackageDataList { get; }
+    internal PackageDataList PackageDataList { get; } = new PackageDataList();
 
     // NetworkE.pas:709
     public override int GetSystemCount() => 1;

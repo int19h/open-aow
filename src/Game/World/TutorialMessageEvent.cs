@@ -13,14 +13,13 @@ using Aow.Rtl;
 namespace Aow.Game.World;
 
 // Message
-public partial class TutorialMessageEvent : FlagEvent
+public partial class TutorialMessageEvent(CustomNode owner) : FlagEvent(owner)
 {
-    public TutorialMessageEvent(CustomNode owner) : base(owner) => _message = new DelphiStringList();
 
     // FlagEvents.pas:245
     public new const int ClassId = 132459;
 
-    private readonly DelphiStringList _message;
+    private readonly DelphiStringList _message = new();
 
     // FlagEvents.pas:239
     public override void Dispose()

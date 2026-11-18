@@ -13,9 +13,8 @@ namespace Aow.Game.World.Terrain;
 //   variant that keeps its terrain type and updates the map terrain instead
 //   (TFixedILTerrainMO, $20188; TFixedILTerrainMOR, $20189). }
 // _imageIndex, _terrainType
-public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
+public partial class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(owner)
 {
-    public ImageLibraryTerrainMapObject(CustomNode owner) : base(owner) => TerrainType = -1;
 
     // ILTer.pas:79
     public new const int ClassId = 131462;
@@ -240,7 +239,7 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
     }
 
     public int ImageIndex { get; set; }
-    public sbyte TerrainType { get; protected set; }
+    public sbyte TerrainType { get; protected set; } = -1;
 
     // ILTer.pas:20
 

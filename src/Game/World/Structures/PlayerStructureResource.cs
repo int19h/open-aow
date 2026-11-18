@@ -8,20 +8,14 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Structures;
 
-public partial class PlayerStructureResource : StructureResource
+public partial class PlayerStructureResource(CustomNode owner) : StructureResource(owner)
 {
-    public PlayerStructureResource(CustomNode owner) : base(owner)
-    {
-        Claimed = true;
-        FlagX = 20;
-        FlagY = -35;
-    }
 
     public new const int ClassId = 131917;
 
-    public bool Claimed { get; protected set; }
-    public int FlagX { get; private set; }
-    public int FlagY { get; private set; }
+    public bool Claimed { get; protected set; } = true;
+    public int FlagX { get; private set; } = 20;
+    public int FlagY { get; private set; } = -35;
     public FlagControl FlagControl { get; private set; }
 
     // Structur.PAS:2456

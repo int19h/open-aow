@@ -9,16 +9,15 @@ namespace Aow.Game.UI.Windows;
 
 // completion event, first frame, previous surface validity, page turn, animating, saved page
 // surface, page-turn mode
-public partial class BookWindow : Window
+public partial class BookWindow(Component owner) : Window(owner)
 {
-    public BookWindow(Component owner) : base(owner) => PageTurn = new PageTurnControl();
 
     [Published]
     public event NotifyEvent<BookWindow> OnAnimationDone;
     private bool _firstAnimationFrame;
     private bool _previousSurfaceValid;
 
-    public PageTurnControl PageTurn { get; }
+    public PageTurnControl PageTurn { get; } = new PageTurnControl();
     public bool Animating { get; set; }
 
     private Surface _pageSurface;

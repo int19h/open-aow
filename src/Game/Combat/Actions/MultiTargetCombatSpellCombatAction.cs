@@ -12,13 +12,12 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // source ID, target byte list, casting mana, success, spell ID
-public partial class MultiTargetCombatSpellCombatAction : CombatAction
+public partial class MultiTargetCombatSpellCombatAction(CustomNode owner) : CombatAction(owner)
 {
-    public MultiTargetCombatSpellCombatAction(CustomNode owner) : base(owner) => TargetIds = new ByteList();
 
     public byte SourceId { get; protected set; }
 
-    public ByteList TargetIds { get; }
+    public ByteList TargetIds { get; } = new ByteList();
 
     public int ManaCost { get; set; }
 

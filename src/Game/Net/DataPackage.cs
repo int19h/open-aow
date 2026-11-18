@@ -6,11 +6,9 @@ namespace Aow.Game.Net;
 
 // FSender, FReceiver (player indices, stored with ids 1 and 2), FRefCount. The base of the
 // packages that TPlayerCommunicator sends
-public partial class DataPackage : EngineObject
+public partial class DataPackage(CustomNode owner) : EngineObject(owner)
 {
-    public DataPackage(CustomNode owner) : base(owner) => RefCount = 1;
-
-    internal int RefCount { get; private set; }
+    internal int RefCount { get; private set; } = 1;
 
     // NetworkE.pas:592
     // { The original does not call the inherited ReadWrite. }

@@ -7,14 +7,13 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Commands;
 
 // UnitIds
-public partial class ArenaTokenEvent : StructureTokenEvent
+public partial class ArenaTokenEvent(CustomNode owner) : StructureTokenEvent(owner)
 {
-    public ArenaTokenEvent(CustomNode owner) : base(owner) => UnitIds = new Int32List();
 
     // Arena.pas:86
     public new const int ClassId = 133294;
 
-    public Int32List UnitIds { get; }
+    public Int32List UnitIds { get; } = new Int32List();
 
     // Arena.pas:80
     public override void Dispose()

@@ -21,14 +21,8 @@ namespace Aow.Game.Session;
 // { Interface declaration run owned by P1. }
 // face library, city library, library name, name, race name, description, alignments,
 // references, units, hero unit, special units, hero names
-public partial class RaceResource : EngineResource
+public partial class RaceResource(CustomNode owner) : EngineResource(owner)
 {
-    public RaceResource(CustomNode owner) : base(owner)
-    {
-        UnitIndexes = new UnitIndexList();
-        SpecialUnitIndexes = new UnitIndexList();
-        _heroNames = new DelphiStringList();
-    }
 
     public new const int ClassId = 131585;
     private CustomImageLibrary _faceLibrary;
@@ -46,13 +40,13 @@ public partial class RaceResource : EngineResource
 
     private int _references;
 
-    public UnitIndexList UnitIndexes { get; }
+    public UnitIndexList UnitIndexes { get; } = new UnitIndexList();
 
     private int _heroUnitIndex;
 
-    public UnitIndexList SpecialUnitIndexes { get; }
+    public UnitIndexList SpecialUnitIndexes { get; } = new UnitIndexList();
 
-    private readonly DelphiStringList _heroNames;
+    private readonly DelphiStringList _heroNames = new();
 
     // PlayerC.PAS:1740
     public override void Dispose()

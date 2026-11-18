@@ -13,19 +13,13 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // NextUnitId. UnitTable. Units
-public partial class UnitControl : EngineObject
+public partial class UnitControl(CustomNode owner) : EngineObject(owner)
 {
-    public UnitControl(CustomNode owner) : base(owner)
-    {
-        UnitTable = [];
-        Units = [];
-        _nextUnitId = 1;
-    }
 
-    private int _nextUnitId;
+    private int _nextUnitId = 1;
 
-    public Dictionary<int, Troop> UnitTable { get; set; }
-    public List<Troop> Units { get; }
+    public Dictionary<int, Troop> UnitTable { get; set; } = [];
+    public List<Troop> Units { get; } = [];
 
     // Unit.PAS:8
     public override void Dispose()

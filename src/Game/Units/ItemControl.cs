@@ -14,18 +14,12 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // items, change events, update lock, item change events, last ID, status
-public partial class ItemControl : EngineObject
+public partial class ItemControl(CustomNode owner) : EngineObject(owner)
 {
-    public ItemControl(CustomNode owner) : base(owner)
-    {
-        _items = [];
-        _onChangedStore = new();
-        _onItemChangedStore = new();
-    }
 
-    private readonly List<Item> _items;
+    private readonly List<Item> _items = [];
 
-    private readonly EventStore<ItemControl> _onChangedStore;
+    private readonly EventStore<ItemControl> _onChangedStore = new();
 
     public event NotifyEvent<ItemControl> Changed
     {
@@ -35,7 +29,7 @@ public partial class ItemControl : EngineObject
 
     private int _updateLock;
 
-    private readonly EventStore<Item> _onItemChangedStore;
+    private readonly EventStore<Item> _onItemChangedStore = new();
 
     public event NotifyEvent<Item> ItemChanged
     {

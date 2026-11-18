@@ -15,11 +15,10 @@ using Aow.Game.World.Map;
 namespace Aow.Game.UI.Controls;
 
 // list of shown message IDs
-public partial class TutorialControl : EngineObject
+public partial class TutorialControl(CustomNode owner) : EngineObject(owner)
 {
-    public TutorialControl(CustomNode owner) : base(owner) => _shownMessages = new Int32List();
 
-    private readonly Int32List _shownMessages;
+    private readonly Int32List _shownMessages = new();
 
     // AoWHSMap.PAS:6
     public override void Dispose()

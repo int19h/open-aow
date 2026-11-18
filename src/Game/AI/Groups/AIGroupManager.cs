@@ -7,13 +7,8 @@ namespace Aow.Game.AI.Groups;
 
 // The original's TAIGroupManager derives from TAIGroupList. The port's manager owns the groups
 // it creates and reads them through Groups. A player's AIGroups list is a separate index.
-public partial class AIGroupManager : OwningNode, IChildList<AIGroup>
+public partial class AIGroupManager(CustomNode owner) : OwningNode(owner), IChildList<AIGroup>
 {
-    public AIGroupManager(CustomNode owner) : base(owner)
-    {
-        _nextId = 1;
-        RegisteredClasses = [];
-    }
 
     /// <summary>The groups this manager owns, in their stored order.</summary>
     public AIGroupCollection Groups => new(this);
@@ -25,9 +20,9 @@ public partial class AIGroupManager : OwningNode, IChildList<AIGroup>
 
     int IChildSink<AIGroup>.AddChild(AIGroup child) => AddChild(child);
 
-    private int _nextId;
+    private int _nextId = 1;
 
-    public List<AIGroupClass> RegisteredClasses { get; }
+    public List<AIGroupClass> RegisteredClasses { get; } = [];
 
     // AIGroup.pas:571
     public override void Dispose()

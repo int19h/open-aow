@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Aow.Engine.Nodes;
 
@@ -278,6 +279,7 @@ public sealed partial class EngineFixture : IDisposable
     // children, and forwarding starts once the map is built.
     internal sealed class MapOwner : GameMap, IForwarder
     {
+        [SuppressMessage("Style", "IDE0290", Justification = "AddChild at EngineFixture.cs:287 reads Recorder. GameMap builds its selection and visibility lists during the base constructor, and those lists stay on the map while Recorder is null.")]
         public MapOwner(Owner recorder) : base(null) => Recorder = recorder;
 
         public Owner Recorder { get; }

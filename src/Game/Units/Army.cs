@@ -37,14 +37,8 @@ namespace Aow.Game.Units;
 // The original's TArmy derives from TUnitList. The port's army owns its troops as its node
 // children (it routes messages to them, notifies their changes, frees them and stores them) and
 // reads them through Units. The members below that carry a Unit.PAS line are TUnitList's part.
-public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
+public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, IUnitHolder
 {
-    public Army(CustomNode owner) : base(owner)
-    {
-        Location = new MapCoordinate(-1, -1, -1);
-        Destination = new MapCoordinate(-1, -1, -1);
-        IndependentRelation = -1;
-    }
 
     public new const int ClassId = 131606;
 
@@ -62,9 +56,9 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
 
     public Set<ArmyModeElement> Mode { get; set; }
     public sbyte Player { get; set; }
-    public MapCoordinate Location { get; set; }
+    public MapCoordinate Location { get; set; } = new MapCoordinate(-1, -1, -1);
 
-    public sbyte IndependentRelation { get; private set; }
+    public sbyte IndependentRelation { get; private set; } = -1;
 
     private byte _unfogRange;
     private byte _upkeep;
@@ -76,7 +70,7 @@ public partial class Army : ObservableNode, IChildList<Troop>, IUnitHolder
     internal void ClearUpdateHandler() => OnUpdate = null;
 
     public GroupBehavior OldAIBehavior { get; set; }
-    public MapCoordinate Destination { get; set; }
+    public MapCoordinate Destination { get; set; } = new MapCoordinate(-1, -1, -1);
     public Set<ArmyUserModeElement> UserMode { get; set; }
 
     private byte _visibilityRanges;

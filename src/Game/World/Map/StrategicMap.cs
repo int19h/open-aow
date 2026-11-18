@@ -2760,22 +2760,14 @@ public partial class StrategicMap : GameMap
 
     // { Interface declaration run owned by P5. }
     // allied victory. . points. gold. mana. next scenario
-    public partial class MapCampaignSettings : EngineObject
+    public partial class MapCampaignSettings(CustomNode owner) : EngineObject(owner)
     {
-        public MapCampaignSettings(CustomNode owner) : base(owner)
-        {
-            TransferPointsMax = 1000;
-            TransferGoldMax = 100;
-            TransferManaMax = 100;
-            HeroLevelMax = -1;
-            AlliedVictory = false;
-        }
 
         public bool AlliedVictory { get; private set; }
-        public int TransferPointsMax { get; private set; }
-        public int TransferGoldMax { get; private set; }
-        public int TransferManaMax { get; private set; }
-        public int HeroLevelMax { get; private set; }
+        public int TransferPointsMax { get; private set; } = 1000;
+        public int TransferGoldMax { get; private set; } = 100;
+        public int TransferManaMax { get; private set; } = 100;
+        public int HeroLevelMax { get; private set; } = -1;
 
         // Diplomacy.pas:1726
         public override void PersistFields(IPersister persister)

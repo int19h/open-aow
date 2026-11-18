@@ -15,11 +15,10 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Game.Magic.Spells;
 
 // (registered-spell list)
-public partial class SpellControl : EngineObject
+public partial class SpellControl(CustomNode owner) : EngineObject(owner)
 {
-    public SpellControl(CustomNode owner) : base(owner) => RegisteredSpells = [];
 
-    public List<Spell> RegisteredSpells { get; init; }
+    public List<Spell> RegisteredSpells { get; init; } = [];
 
     // Spells.PAS:582
     public override void Dispose()

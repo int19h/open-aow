@@ -18,17 +18,8 @@ namespace Aow.Game.UI.Controls;
 // _ownerComponent, Children (sorted by _priority), _alignment, _masked, BlitList, DrawList
 // (DirtyRectangle), BlitCount, DrawCount, ToolTipLeft, OldRectangle, Hidden, _doubleBuffered,
 // SurfaceValid
-public partial class UIComponent : Rtl.Component
+public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
 {
-    public UIComponent(Rtl.Component owner) : base(owner)
-    {
-        _visible = true;
-        FirstDraw = true;
-        _alignment = new Alignment();
-        Children = new DelphiList<UIComponent>();
-        BlitList = [];
-        DrawList = [];
-    }
 
     public int Color { get; private set; }
     public int SelectedColor { get; private set; }
@@ -86,7 +77,7 @@ public partial class UIComponent : Rtl.Component
 
     public bool MouseDown { get; protected set; }
 
-    private bool _visible;
+    private bool _visible = true;
 
     public bool Handled { get; set; }
 
@@ -112,7 +103,7 @@ public partial class UIComponent : Rtl.Component
     private int _priority;
 
     public bool Drawn { get; set; }
-    public bool FirstDraw { get; set; }
+    public bool FirstDraw { get; set; } = true;
     public bool MouseIn { get; protected set; }
     public int ToolTipCount { get; protected set; }
 
@@ -139,12 +130,12 @@ public partial class UIComponent : Rtl.Component
 
     private UIComponent _ownerComponent;
 
-    public DelphiList<UIComponent> Children { get; init; }
+    public DelphiList<UIComponent> Children { get; init; } = new DelphiList<UIComponent>();
 
-    private readonly Alignment _alignment;
+    private readonly Alignment _alignment = new();
 
-    public List<DirtyRectangle> BlitList { get; }
-    public List<DirtyRectangle> DrawList { get; }
+    public List<DirtyRectangle> BlitList { get; } = [];
+    public List<DirtyRectangle> DrawList { get; } = [];
     public int BlitCount { get; protected set; }
     public int DrawCount { get; protected set; }
     public int ToolTipLeft { get; protected set; }

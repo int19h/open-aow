@@ -12,16 +12,15 @@ namespace Aow.Game.World.Hexes;
 
 // FDynamic, FOpenSides (bit HN-1: the neighbour HN is no hexagon of this kind), FSides (bits
 // 0.5: the neighbour HN has another terrain, bits 6.7: the image variant)
-public partial class IsometricHex : AbstractHexagon
+public partial class IsometricHex(CustomNode owner) : AbstractHexagon(owner)
 {
-    public IsometricHex(CustomNode owner) : base(owner) => Sides = (byte)(Random(4) << 6);
 
     // IsoHex.pas:214
     public new const int ClassId = 131437;
 
     protected internal DynamicIsometricHex Dynamic { get; set; }
     protected internal byte OpenSides { get; private set; }
-    protected internal byte Sides { get; protected set; }
+    protected internal byte Sides { get; protected set; } = (byte)(Random(4) << 6);
 
     // IsoHex.pas:204
     public override void Dispose()

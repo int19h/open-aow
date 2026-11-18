@@ -17,33 +17,25 @@ namespace Aow.Game.AI;
 
 // cycles, players, current player, player cycles, status, token done, time mode, time, used
 // time, start, token cycles, token cycle, lock count
-public partial class AIExecutor : EngineObject
+public partial class AIExecutor(CustomNode owner) : EngineObject(owner)
 {
-    public AIExecutor(CustomNode owner) : base(owner)
-    {
-        _players = new ByteList();
-        Player = -1;
-        _processTimeMode = AIExecutorProcessTimeMode.Static;
-        _processTime = 5000;
-        _tokenCycles = 5;
-    }
 
     public int ProcessCycles { get; set; }
 
-    private readonly ByteList _players;
+    private readonly ByteList _players = new();
 
-    public sbyte Player { get; private set; }
+    public sbyte Player { get; private set; } = -1;
 
     private int _playerProcessCycles;
 
     public Set<AIExecutorStatusElement> Status { get; private set; }
 
     private bool _tokenControlDone;
-    private readonly AIExecutorProcessTimeMode _processTimeMode;
-    private readonly int _processTime;
+    private readonly AIExecutorProcessTimeMode _processTimeMode = AIExecutorProcessTimeMode.Static;
+    private readonly int _processTime = 5000;
     private int _processTimeUsed;
     private int _processStarted;
-    private int _tokenCycles;
+    private int _tokenCycles = 5;
     private int _tokenCycle;
 
     public int LockCount { get; private set; }

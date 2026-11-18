@@ -8,15 +8,14 @@ using Aow.Rtl;
 namespace Aow.Game.World.Map;
 
 // ID, Text, Name
-public partial class TextControlItem : EngineObject
+public partial class TextControlItem(CustomNode owner) : EngineObject(owner)
 {
-    public TextControlItem(CustomNode owner) : base(owner) => Text = new DelphiStringList();
 
     public new const int ClassId = 131738;
 
     public int Id { get; set; }
 
-    public DelphiStringCollection Text { get; }
+    public DelphiStringCollection Text { get; } = new DelphiStringList();
 
     public string Name { get; set; } = "";
 

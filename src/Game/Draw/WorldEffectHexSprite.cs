@@ -16,21 +16,16 @@ namespace Aow.Game.Draw;
 
 // { Interface declaration run owned by P2. }
 // FFinished, Frame, FX, FY, Layer, Path, EffectType
-public partial class WorldEffectHexSprite : FixedVisibleHexSprite
+public partial class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
 {
-    public WorldEffectHexSprite(CustomNode owner) : base(owner)
-    {
-        Path = new Point3DList();
-        Frame = -1;
-    }
 
     public bool Done { get; private set; }
-    public int Frame { get; set; }
+    public int Frame { get; set; } = -1;
     public int X { get; set; }
     public int Y { get; set; }
     public int Layer { get; set; }
 
-    public Point3DList Path { get; private set; }
+    public Point3DList Path { get; private set; } = new Point3DList();
 
     public WorldEffectType EffectType { get; set; }
 

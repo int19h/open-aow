@@ -11,19 +11,13 @@ using static Aow.Rtl.RectRoutines;
 namespace Aow.Game.Draw.Animations;
 
 // sequence, pixel offsets, last frame, loop flag
-public partial class ImageSequenceAnimation : Animation
+public partial class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
 {
-    public ImageSequenceAnimation(CustomNode owner) : base(owner)
-    {
-        FrameCount = -1;
-        PixelXOffset = 0;
-        PixelYOffset = 0;
-    }
 
     public ImageSequence ImageSequence { get; private set; }
     public int PixelXOffset { get; private set; }
     public int PixelYOffset { get; private set; }
-    public int FrameCount { get; set; }
+    public int FrameCount { get; set; } = -1;
     public bool Looped { get; set; }
 
     // Animation.pas:424

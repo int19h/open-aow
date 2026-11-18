@@ -14,13 +14,8 @@ namespace Aow.Game.UI.Controls;
 // FrameLeft, FrameTop, FrameRight, FrameBottom, _maskColor, _useVideoMemory, BackSurface,
 // (unused), BackRectangle, (unused), OnDrawBack, OnEnter, OnExit, MouseInside, _imageLibraryIndexFrame,
 // _imageLibraryIndexTexture, _dockable
-public partial class WindowControl : UIComponent
+public partial class WindowControl(Component owner) : UIComponent(owner)
 {
-    public WindowControl(Component owner) : base(owner)
-    {
-        OldCursor = -2;
-        WindowCursor = -2;
-    }
 
     [Published]
     public bool Modal { get; set; }
@@ -69,8 +64,8 @@ public partial class WindowControl : UIComponent
         }
     }
 
-    public int OldCursor { get; protected set; }
-    public int WindowCursor { get; protected set; }
+    public int OldCursor { get; protected set; } = -2;
+    public int WindowCursor { get; protected set; } = -2;
 
     public event NotifyEvent<WindowControl> OnChangeCursor;
 

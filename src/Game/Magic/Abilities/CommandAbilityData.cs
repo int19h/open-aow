@@ -10,15 +10,14 @@ using Aow.Game.Combat;
 namespace Aow.Game.Magic.Abilities;
 
 // (ability ID, commanded combat-unit IDs)
-public partial class CommandAbilityData : AbilityData
+public partial class CommandAbilityData(CustomNode owner) : AbilityData(owner)
 {
-    public CommandAbilityData(CustomNode owner) : base(owner) => CommandedUnits = new ByteList();
 
     public new const int ClassId = 131755;
 
     public int AbilityId { get; set; }
 
-    public ByteList CommandedUnits { get; }
+    public ByteList CommandedUnits { get; } = new ByteList();
 
     // AoWAb.PAS:4954
     public override void Dispose()

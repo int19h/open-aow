@@ -9,20 +9,15 @@ using Aow.Game.Units;
 namespace Aow.Game.Magic.Abilities;
 
 // (ability ID, duration, player, enchantment)
-public partial class UnitEnchantmentAbilityData : AbilityData
+public partial class UnitEnchantmentAbilityData(CustomNode owner) : AbilityData(owner)
 {
-    public UnitEnchantmentAbilityData(CustomNode owner) : base(owner)
-    {
-        EnchantmentPlayerIndex = -1;
-        EnchantmentDuration = -1;
-    }
 
     public new const int ClassId = 131756;
 
     public ushort EnchantmentAbilityId { get; set; }
-    public sbyte EnchantmentDuration { get; set; }
+    public sbyte EnchantmentDuration { get; set; } = -1;
     // -1 is permanent
-    public sbyte EnchantmentPlayerIndex { get; set; }
+    public sbyte EnchantmentPlayerIndex { get; set; } = -1;
     public UnitEnchantment Enchantment { get; set; }
 
     // AoWAb.PAS:567

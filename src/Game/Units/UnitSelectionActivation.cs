@@ -6,9 +6,8 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Units;
 
-public partial class UnitSelectionActivation : AbilityActivation
+public partial class UnitSelectionActivation(CustomNode owner) : AbilityActivation(owner)
 {
-    public UnitSelectionActivation(CustomNode owner) : base(owner) => UnitSelector = null;
 
     public UnitSelector UnitSelector { get; private set; }
 

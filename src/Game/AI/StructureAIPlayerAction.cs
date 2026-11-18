@@ -9,13 +9,12 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.AI;
 
 // { Interface declaration run owned by P1. }
-public partial class StructureAIPlayerAction : AIPlayerAction
+public partial class StructureAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
 {
-    public StructureAIPlayerAction(CustomNode owner) : base(owner) => _structureIds = new Int32List();
 
     public int Phase { get; protected set; }
 
-    private readonly Int32List _structureIds;
+    private readonly Int32List _structureIds = new();
 
     // Structur.PAS:3324
     public override void Dispose()
