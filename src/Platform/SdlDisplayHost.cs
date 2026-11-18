@@ -322,7 +322,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
     public void Present(in LockedSurface backSurface)
     {
         OnThread();
-        if (backSurface.Width <= 0 || backSurface.Height <= 0 || backSurface.BitCount != 16 || backSurface.PixelFormatId != PixelFormats.pfRGB555 || Math.Abs((long)backSurface.Pitch) < (long)backSurface.Width * 2)
+        if (backSurface.Width <= 0 || backSurface.Height <= 0 || backSurface.BitCount != 16 || backSurface.PixelFormatId != PixelFormat.Rgb555 || Math.Abs((long)backSurface.Pitch) < (long)backSurface.Width * 2)
         {
             throw new ArgumentException("The presenter requires 555 rows with a valid pitch.", nameof(backSurface));
         }

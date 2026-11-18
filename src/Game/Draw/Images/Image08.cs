@@ -116,26 +116,26 @@ public partial class Image08(CustomImageLibrary owner) : LibraryImage(owner), IL
     }
 
     // ImageLib.pas:7237
-    public override int RemapToPixelFormat(int pixelFormatId)
+    public override GraphicsResult RemapToPixelFormat(PixelFormat pixelFormatId)
     {
-        int result;
+        GraphicsResult result;
         Palette p;
         p = _imagePalette.RemapPalette(pixelFormatId);
         if (p != null)
         {
             RemapPaletteValue = p;
-            result = PixelFormats.GFXE_OK;
+            result = GraphicsResult.Ok;
         }
         else
         {
-            result = PixelFormats.GFXE_NOTSUPPORTED;
+            result = GraphicsResult.NotSupported;
         }
 
         return result;
     }
 
     // ImageLib.pas:7251
-    public override bool SupportGrabPixelFormat(int pixelFormatId) => pixelFormatId == PixelFormats.pfPAL8;
+    public override bool SupportGrabPixelFormat(PixelFormat pixelFormatId) => pixelFormatId == PixelFormat.Pal8;
 
     // ImageLib.pas:7258
     // { ShowDC remaps the palette to pfPAL8 (an original slip: the surface is pfRGB565; ShowOpaque

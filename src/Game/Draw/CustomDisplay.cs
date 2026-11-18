@@ -265,12 +265,12 @@ public partial class CustomDisplay : Component
     public virtual void GetMousePosition(ref int X, ref int Y) => ActiveDisplayController?.GetMousePosition(ref X, ref Y);
 
     // DisplayC.pas:1630
-    public virtual int ExecuteBlitSurfaceEvent()
+    public virtual DisplayControllerError ExecuteBlitSurfaceEvent()
     {
-        int result;
+        DisplayControllerError result;
         try
         {
-            result = 0;
+            result = DisplayControllerError.Ok;
             if (ActiveDisplayController != null && ActiveDisplayController.GetStatus().Contains(DisplayControllerStatusElement.Visible))
             {
                 OnBlitSurface?.Invoke(this);
@@ -332,14 +332,14 @@ public partial class CustomDisplay : Component
     }
 
     // DisplayC.pas:1669
-    public int SupportDisplayController(DisplayController displayController)
+    public DisplayControllerError SupportDisplayController(DisplayController displayController)
     {
-        int result = displayController != null ? displayController.SupportDisplayMode(this) : DisplayCodes.DCERR_NOTSUPPORTED;
+        DisplayControllerError result = displayController != null ? displayController.SupportDisplayMode(this) : DisplayControllerError.NotSupported;
         return result;
     }
 
     // DisplayC.pas:1755
-    public int DeactivateDisplayController()
+    public DisplayControllerError DeactivateDisplayController()
     {
         if (ActiveDisplayController != null && ActiveDisplayController.GetStatus().Contains(DisplayControllerStatusElement.Activated))
         {
@@ -349,7 +349,7 @@ public partial class CustomDisplay : Component
             ActiveDisplayController = null;
         }
 
-        return 0;
+        return DisplayControllerError.Ok;
     }
 
     public int Cursor { get => GetCursor(); set => SetCursor(value); }
@@ -364,15 +364,13 @@ public partial class CustomDisplay : Component
     protected internal DisplayController SecondaryDisplayController { get; set; }
     protected internal UpdateFrameMode UpdateFrameMode { get => _updateFrameMode; set => SetUpdateFrameMode(value); }
 
-    private const int DCERR_ACTIVATEFAILED = -2147414014;
-
-    private static int RemapSurface(Surface source, Surface destination)
+    private static GraphicsResult RemapSurface(Surface source, Surface destination)
     {
         LockedSurface lockedSurface = default;
         LockedSurface lockedSurface2 = default;
         _ = source.Lock(ref lockedSurface);
         _ = destination.Lock(ref lockedSurface2);
-        int result = LockedSurface.RemapSurfacePart(in lockedSurface, 0, 0, lockedSurface.Width, lockedSurface.Height, in lockedSurface2, 0, 0);
+        GraphicsResult result = LockedSurface.RemapSurfacePart(in lockedSurface, 0, 0, lockedSurface.Width, lockedSurface.Height, in lockedSurface2, 0, 0);
         _ = source.Unlock();
         _ = destination.Unlock();
         return result;

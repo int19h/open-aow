@@ -2,7 +2,6 @@
 // Translated from GFXE.pas.
 using Aow.Graphics;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw;
 
@@ -16,7 +15,7 @@ public partial class DataSurface : Surface
     private int _width;
     private int _height;
     private byte _bitCount;
-    private int _pixelFormatId;
+    private PixelFormat _pixelFormatId;
 
     internal int X { get; private set; }
     internal int Y { get; private set; }
@@ -24,9 +23,9 @@ public partial class DataSurface : Surface
     private Palette _palette;
 
     // GFXE.pas:12387
-    public DataSurface(int width, int height, int pixelFormatId, Palette palette)
+    public DataSurface(int width, int height, PixelFormat pixelFormatId, Palette palette)
     {
-        _bitCount = (byte)(pixelFormatId & 255);
+        _bitCount = (byte)pixelFormatId.BitCount();
         _pixelFormatId = pixelFormatId;
         SetPalette(palette);
         _ = Resize(width, height);
@@ -44,7 +43,7 @@ public partial class DataSurface : Surface
     }
 
     // GFXE.pas:12410
-    public override int GetPixelFormatId() => _pixelFormatId;
+    public override PixelFormat GetPixelFormatId() => _pixelFormatId;
 
     // GFXE.pas:12415
     public override int GetWidth() => _width;
@@ -53,17 +52,17 @@ public partial class DataSurface : Surface
     public override int GetHeight() => _height;
 
     // GFXE.pas:12441
-    public override int Unlock() => PixelFormats.GFXE_OK;
+    public override GraphicsResult Unlock() => GraphicsResult.Ok;
 
     // GFXE.pas:12446
-    public int CaptureSurface(Surface surface, Rect? R)
+    public GraphicsResult CaptureSurface(Surface surface, Rect? R)
     {
         LockedSurface lockedSurface = default;
         Rect rr = default;
         int w;
         int h;
-        int result = surface.Lock(ref lockedSurface);
-        if (Succeeded(result))
+        GraphicsResult result = surface.Lock(ref lockedSurface);
+        if (result.IsSuccess())
         {
             try
             {
@@ -95,7 +94,7 @@ public partial class DataSurface : Surface
             }
 
             _ = surface.Unlock();
-            result = PixelFormats.GFXE_OK;
+            result = GraphicsResult.Ok;
         }
 
         return result;
@@ -117,9 +116,9 @@ public partial class DataSurface : Surface
     }
 
     // GFXE.pas:12499
-    public override int Resize(int width, int height)
+    public override GraphicsResult Resize(int width, int height)
     {
-        int result;
+        GraphicsResult result;
         int size;
         if (width != _width || height != _height)
         {
@@ -132,11 +131,11 @@ public partial class DataSurface : Surface
             // pixel, which the original's slack absorbs.
             size = (Pitch * _height) + 7;
             Data = MemorySurfaces.Reallocate(Data, size);
-            result = PixelFormats.GFXE_OK;
+            result = GraphicsResult.Ok;
         }
         else
         {
-            result = PixelFormats.GFXE_OK;
+            result = GraphicsResult.Ok;
         }
 
         return result;

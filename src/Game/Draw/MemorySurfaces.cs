@@ -5,13 +5,13 @@ namespace Aow.Game.Draw;
 
 internal static class MemorySurfaces
 {
-    public static LockedSurface Describe(int w, int h, int pitch, int format, byte[] bits, Palette palette = null)
+    public static LockedSurface Describe(int w, int h, int pitch, PixelFormat format, byte[] bits, Palette palette = null)
     {
         LockedSurface lockedSurface = new()
         {
             Width = w,
             Height = h,
-            BitCount = format & 255,
+            BitCount = format.BitCount(),
             Pitch = pitch,
             PixelFormatId = format,
             Data = bits,
@@ -30,11 +30,11 @@ internal static class MemorySurfaces
         return lockedSurface;
     }
 
-    public static (int Pitch, byte[] Bits) Allocate(int w, int h, int format, int alignment)
+    public static (int Pitch, byte[] Bits) Allocate(int w, int h, PixelFormat format, int alignment)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(w);
         ArgumentOutOfRangeException.ThrowIfNegative(h);
-        int pitch = checked((checked(w * (((format & 255) + 7) / 8)) + alignment - 1) & -alignment);
+        int pitch = checked((checked(w * ((format.BitCount() + 7) / 8)) + alignment - 1) & -alignment);
         return (pitch, new byte[checked(pitch * h)]);
     }
 
@@ -53,19 +53,20 @@ internal static class MemorySurfaces
         return result;
     }
 
-    private static int PixelFormatIdToMask(int pixelFormatId, out int rMask, out int gMask, out int bMask, out int mask)
+    private static int PixelFormatIdToMask(PixelFormat pixelFormatId, out int rMask, out int gMask, out int bMask, out int mask)
     {
         Span<byte> order = stackalloc byte[4];
         Span<int> masks = stackalloc int[4];
-        int bitCount = pixelFormatId & 255;
+        int raw = (int)pixelFormatId;
+        int bitCount = pixelFormatId.BitCount();
         int position = 0;
-        order[(int)((uint)pixelFormatId >> 8) & 3] = 0;
-        order[(int)((uint)pixelFormatId >> 10) & 3] = 1;
-        order[(int)((uint)pixelFormatId >> 12) & 3] = 2;
-        order[(int)((uint)pixelFormatId >> 14) & 3] = 3;
+        order[(int)((uint)raw >> 8) & 3] = 0;
+        order[(int)((uint)raw >> 10) & 3] = 1;
+        order[(int)((uint)raw >> 12) & 3] = 2;
+        order[(int)((uint)raw >> 14) & 3] = 3;
         for (int i = 0; i <= 3; i++)
         {
-            int bits = (int)((uint)pixelFormatId >> ((order[i] * 4) + 16)) & 15;
+            int bits = (int)((uint)raw >> ((order[i] * 4) + 16)) & 15;
             int j = bits;
             int m = 0;
             while (j != 0)

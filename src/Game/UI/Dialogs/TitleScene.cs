@@ -404,7 +404,7 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
         LockedSurface lockedSurface = default;
         try
         {
-            if (Succeeded(surface.Lock(ref lockedSurface)))
+            if (surface.Lock(ref lockedSurface).IsSuccess())
             {
                 DrawScene(in lockedSurface);
                 if (UI.Engine.RegisteredVersion() && !_showCredits)

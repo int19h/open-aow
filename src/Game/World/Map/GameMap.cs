@@ -22,7 +22,7 @@ namespace Aow.Game.World.Map;
 // wherever the view is), FStaticSceneInvalid, FDynamicSceneInvalid, FVersion,
 // _hssFileName, _status, _frame, TerrainChanged, OnCenterView, OnChangeView,
 // OnViewLevel, OnProgress, _terrainChangedLockCounter, FrameStarted,
-// ViewPortChanged, MapDestroying, _hexSpriteChangedEvents, _fileName, _viewPixelX, _viewPixelY,
+// ViewPortChanged, MapDestroying, HexSpriteChanged, _fileName, _viewPixelX, _viewPixelY,
 // FViewL, FViewWidth, FViewHeight (the view port in pixels), FViewXhx, FViewYhx, FViewWidthHX,
 // FViewHeightHX (the hexagons it covers). Persisted (ReadWrite): 2 FHSSFileName (rwString, not
 // in text streams), 3 FVersion (rwByte of a Shortint copy), 4 FViewXhp, 5 FViewYhp, 6 FViewL
@@ -131,7 +131,7 @@ public partial class GameMap : OwningNode
 
     internal EventStore<HexSprite> HexSpriteChangedEventsStore { get; }
 
-    internal event NotifyEvent<HexSprite> _hexSpriteChangedEvents
+    internal event NotifyEvent<HexSprite> HexSpriteChanged
     {
         add => HexSpriteChangedEventsStore.Add(value);
         remove => HexSpriteChangedEventsStore.Remove(value);
@@ -1742,9 +1742,8 @@ public partial class GameMap : OwningNode
 
     private static void DrawLine(int x1, int y1, int x2, int y2, int color, in LockedSurface lockedSurface)
     {
-        int pixelFormatId = lockedSurface.PixelFormatId;
-        int number = pixelFormatId;
-        if (number is 1431343888 or 1431409424 or 1448121104)
+        PixelFormat pixelFormatId = lockedSurface.PixelFormatId;
+        if (pixelFormatId is PixelFormat.Rgb555 or PixelFormat.Argb1555 or PixelFormat.Rgb565)
         {
             int number2 = PixelFormats.Color2PixelInfo(color, lockedSurface.PixelFormatId, null);
             DrawLine16(x1, y1, x2, y2, 0, (ushort)number2, in lockedSurface);

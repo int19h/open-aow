@@ -122,7 +122,7 @@ public partial class ItemBanner(UIContext ui) : UIModule(ui)
             x = 1;
             for (; x <= 169; x += 1)
             {
-                if (item.GetAbEnabled(x))
+                if (item.GetOwnAbilityEnabled(x))
                 {
                     string name = GamePack.Current.AbilityControl.GetAbility(x).GetName(item);
                     _ = AbilityList.Items.AddObject(name, IntToObject(x));

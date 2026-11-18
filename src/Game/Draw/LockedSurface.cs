@@ -23,7 +23,7 @@ public struct LockedSurface
     public byte[] Data { get; set; }
     public int DataIndex { get; set; }
     public Palette Palette { get; init; }
-    public int PixelFormatId { get; init; }
+    public PixelFormat PixelFormatId { get; init; }
 
     public int RMask { get; internal set; }
     public int GMask { get; internal set; }
@@ -35,9 +35,9 @@ public struct LockedSurface
     // the descriptor's clip rectangle.
     public readonly SurfaceView View(int offset = 0) => new(Data, DataIndex + offset, Pitch, ClipRectangle);
 
-    internal static int BlitSprite16(in LockedSurface source, Rect sourceRectangle, in LockedSurface destination, int X, int Y, int colorKey)
+    internal static GraphicsResult BlitSprite16(in LockedSurface source, Rect sourceRectangle, in LockedSurface destination, int X, int Y, int colorKey)
     {
-        int result;
+        GraphicsResult result;
         int key;
         SurfaceView s;
         SurfaceView d;
@@ -47,19 +47,19 @@ public struct LockedSurface
             s = source.View((source.Pitch * sourceRectangle.Top) + (sourceRectangle.Left * 2));
             d = destination.View((destination.Pitch * Y) + (X * 2));
             BlitRects.BlitColorKey16(s, d, sourceRectangle.Right - sourceRectangle.Left, sourceRectangle.Bottom - sourceRectangle.Top, key);
-            result = PixelFormats.GFXE_OK;
+            result = GraphicsResult.Ok;
         }
         else
         {
-            result = PixelFormats.GFXE_PIXELFORMATNOTSUPPORTED;
+            result = GraphicsResult.PixelFormatNotSupported;
         }
 
         return result;
     }
 
-    internal static int BlitSurfaceDescriptionRectangleClipped(in LockedSurface source, Rect sourceRectangle, in LockedSurface destination, int X, int Y)
+    internal static GraphicsResult BlitSurfaceDescriptionRectangleClipped(in LockedSurface source, Rect sourceRectangle, in LockedSurface destination, int X, int Y)
     {
-        int result;
+        GraphicsResult result;
         int w;
         int h;
         SurfaceView s;
@@ -120,19 +120,19 @@ public struct LockedSurface
                 BlitRects.BlitRectangle(s, d, w, h);
             }
 
-            result = PixelFormats.GFXE_OK;
+            result = GraphicsResult.Ok;
         }
         else
         {
-            result = PixelFormats.GFXE_PIXELFORMATNOTSUPPORTED;
+            result = GraphicsResult.PixelFormatNotSupported;
         }
 
         return result;
     }
 
-    internal static int BlitSpriteClipped16(in LockedSurface source, Rect sourceRectangle, in LockedSurface destination, int X, int Y, int colorKey)
+    internal static GraphicsResult BlitSpriteClipped16(in LockedSurface source, Rect sourceRectangle, in LockedSurface destination, int X, int Y, int colorKey)
     {
-        int result;
+        GraphicsResult result;
         int w;
         int h;
         SurfaceView s;
@@ -196,11 +196,11 @@ public struct LockedSurface
                 BlitRects.BlitColorKey16(s, d, w, h, key);
             }
 
-            result = PixelFormats.GFXE_OK;
+            result = GraphicsResult.Ok;
         }
         else
         {
-            result = PixelFormats.GFXE_PIXELFORMATNOTSUPPORTED;
+            result = GraphicsResult.PixelFormatNotSupported;
         }
 
         return result;
@@ -315,11 +315,11 @@ public struct LockedSurface
         result = rectangle;
     }
 
-    internal static int RemapSurfacePart(in LockedSurface source, int sourceX, int sourceY, int width, int height, in LockedSurface destination, int destinationX, int destinationY)
+    internal static GraphicsResult RemapSurfacePart(in LockedSurface source, int sourceX, int sourceY, int width, int height, in LockedSurface destination, int destinationX, int destinationY)
     {
         SurfaceView s;
         SurfaceView d;
-        int result = PixelFormats.GFXE_OK;
+        GraphicsResult result = GraphicsResult.Ok;
         if (sourceX + width > source.Width)
         {
             width = source.Width - sourceX;
@@ -374,108 +374,138 @@ public struct LockedSurface
             d = destination.View((destination.Pitch * destinationY) + ((int)(((uint)(destination.BitCount + 7)) >> 3) * destinationX));
             switch (source.PixelFormatId)
             {
-                case PixelFormats.pfPAL8:
+                case PixelFormat.Pal8:
                     switch (destination.PixelFormatId)
                     {
-                        case PixelFormats.pfRGB565:
+                        case PixelFormat.Rgb565:
                             PixelRemap.RemapSurface08To565(s, d, width, height, source.Palette);
                             break;
-                        case PixelFormats.pfRGB555:
+                        case PixelFormat.Rgb555:
                             PixelRemap.RemapSurface08To555(s, d, width, height, source.Palette);
                             break;
-                        case PixelFormats.pfRGB24:
+                        case PixelFormat.Rgb24:
                             PixelRemap.RemapSurface08To24(s, d, width, height, source.Palette);
                             break;
-                        case PixelFormats.pfPAL8:
+                        case PixelFormat.Pal8:
                             BlitRects.BlitRectangle(s, d, width, height);
                             break;
+                        case PixelFormat.None:
+                        case PixelFormat.Argb1555:
+                        case PixelFormat.Bgr24:
+                        case PixelFormat.Rgb32:
+                        case PixelFormat.Xrgb32:
                         default:
-                            result = PixelFormats.GFXE_NOTSUPPORTED;
+                            result = GraphicsResult.NotSupported;
                             break;
                     }
 
                     break;
-                case PixelFormats.pfRGB555:
-                case PixelFormats.pfARGB1555:
+                case PixelFormat.Rgb555:
+                case PixelFormat.Argb1555:
                     switch (destination.PixelFormatId)
                     {
-                        case PixelFormats.pfRGB24:
+                        case PixelFormat.Rgb24:
                             PixelRemap.RemapSurface555To24(s, d, width, height);
                             break;
-                        case PixelFormats.pfRGB32:
+                        case PixelFormat.Rgb32:
                             PixelRemap.RemapSurface555To32(s, d, width, height);
                             break;
-                        case PixelFormats.pfRGB565:
+                        case PixelFormat.Rgb565:
                             PixelRemap.RemapSurface555To565(s, d, width, height);
                             break;
-                        case PixelFormats.pfRGB555:
+                        case PixelFormat.Rgb555:
                             BlitRects.BlitRectangle(s, d, width * 2, height);
                             break;
+                        case PixelFormat.None:
+                        case PixelFormat.Pal8:
+                        case PixelFormat.Argb1555:
+                        case PixelFormat.Bgr24:
+                        case PixelFormat.Xrgb32:
                         default:
-                            result = PixelFormats.GFXE_NOTSUPPORTED;
+                            result = GraphicsResult.NotSupported;
                             break;
                     }
 
                     break;
-                case PixelFormats.pfRGB565:
+                case PixelFormat.Rgb565:
                     switch (destination.PixelFormatId)
                     {
-                        case PixelFormats.pfRGB24:
+                        case PixelFormat.Rgb24:
                             PixelRemap.RemapSurface565To24(s, d, width, height);
                             break;
-                        case PixelFormats.pfRGB32:
+                        case PixelFormat.Rgb32:
                             PixelRemap.RemapSurface565To32(s, d, width, height);
                             break;
-                        case PixelFormats.pfRGB555:
+                        case PixelFormat.Rgb555:
                             PixelRemap.RemapSurface565To555(s, d, width, height);
                             break;
-                        case PixelFormats.pfRGB565:
+                        case PixelFormat.Rgb565:
                             BlitRects.BlitRectangle(s, d, width * 2, height);
                             break;
+                        case PixelFormat.None:
+                        case PixelFormat.Pal8:
+                        case PixelFormat.Argb1555:
+                        case PixelFormat.Bgr24:
+                        case PixelFormat.Xrgb32:
                         default:
-                            result = PixelFormats.GFXE_NOTSUPPORTED;
+                            result = GraphicsResult.NotSupported;
                             break;
                     }
 
                     break;
-                case PixelFormats.pfRGB24:
+                case PixelFormat.Rgb24:
                     switch (destination.PixelFormatId)
                     {
-                        case PixelFormats.pfRGB565:
+                        case PixelFormat.Rgb565:
                             PixelRemap.RemapSurface24To565(s, d, width, height);
                             break;
-                        case PixelFormats.pfRGB555:
+                        case PixelFormat.Rgb555:
                             PixelRemap.RemapSurface24To555(s, d, width, height);
                             break;
-                        case PixelFormats.pfRGB24:
+                        case PixelFormat.Rgb24:
                             BlitRects.BlitRectangle(s, d, width * 3, height);
                             break;
+                        case PixelFormat.None:
+                        case PixelFormat.Pal8:
+                        case PixelFormat.Argb1555:
+                        case PixelFormat.Bgr24:
+                        case PixelFormat.Rgb32:
+                        case PixelFormat.Xrgb32:
                         default:
-                            result = PixelFormats.GFXE_NOTSUPPORTED;
+                            result = GraphicsResult.NotSupported;
                             break;
                     }
 
                     break;
-                case PixelFormats.pfRGB32:
+                case PixelFormat.Rgb32:
                     switch (destination.PixelFormatId)
                     {
-                        case PixelFormats.pfRGB565:
+                        case PixelFormat.Rgb565:
                             PixelRemap.RemapSurface32To565(s, d, width, height);
                             break;
-                        case PixelFormats.pfRGB555:
+                        case PixelFormat.Rgb555:
                             PixelRemap.RemapSurface32To555(s, d, width, height);
                             break;
-                        case PixelFormats.pfRGB32:
+                        case PixelFormat.Rgb32:
                             BlitRects.BlitRectangle(s, d, width * 4, height);
                             break;
+                        case PixelFormat.None:
+                        case PixelFormat.Pal8:
+                        case PixelFormat.Argb1555:
+                        case PixelFormat.Rgb24:
+                        case PixelFormat.Bgr24:
+                        case PixelFormat.Xrgb32:
                         default:
-                            result = PixelFormats.GFXE_NOTSUPPORTED;
+                            result = GraphicsResult.NotSupported;
                             break;
                     }
 
                     break;
+                case PixelFormat.None:
+                case PixelFormat.Bgr24:
+                case PixelFormat.Xrgb32:
                 default:
-                    result = PixelFormats.GFXE_NOTSUPPORTED;
+                    result = GraphicsResult.NotSupported;
                     break;
             }
         }

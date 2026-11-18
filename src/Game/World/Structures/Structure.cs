@@ -1289,7 +1289,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         {
             width = R.Right - R.Left;
             height = R.Bottom - R.Top;
-            surface = new Dib16Surface(width, height, PixelFormats.pfRGB565);
+            surface = new Dib16Surface(width, height, PixelFormat.Rgb565);
             try
             {
                 borderRectangle = new Rect(0, 0, width, height);

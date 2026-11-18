@@ -37,9 +37,9 @@ internal static class FrameVerification
             Check(screen.Width == 640 && screen.Height == 480 && back.Width == 640 && back.Height == 480, "screen and back sizes");
             Check(controller.GetSurfaceCount() == 1 && controller.GetSurface(2) is null, "double buffering");
             LockedSurface lockedSurface = default;
-            Check(back.Lock(ref lockedSurface) == 0 && lockedSurface.PixelFormatId == PixelFormats.pfRGB555, "555 back surface");
+            Check(back.Lock(ref lockedSurface) == GraphicsResult.Ok && lockedSurface.PixelFormatId == PixelFormat.Rgb555, "555 back surface");
             _ = back.Unlock();
-            Check(controller.FlipSurface(1) == DisplayCodes.DCERR_NOFLIP && host.Presents == 1, "flip presents and reports fallback");
+            Check(controller.FlipSurface(1) == DisplayControllerError.NoFlip && host.Presents == 1, "flip presents and reports fallback");
             display.PresentInitialFrame();
             display.PresentInitialFrame();
             Check(display.PresentedFrames == 1 && host.Presents == 2, "initial paint counts once");
@@ -69,7 +69,7 @@ internal static class FrameVerification
 
             HeadlessDisplayHost recorder = new(directory);
             byte[] pixels = [1, 0, 2, 0, 99, 99, 3, 0, 4, 0, 99, 99];
-            lockedSurface = new() { Width = 2, Height = 2, Pitch = -6, BitCount = 16, PixelFormatId = PixelFormats.pfRGB555, Data = pixels, DataIndex = 6 };
+            lockedSurface = new() { Width = 2, Height = 2, Pitch = -6, BitCount = 16, PixelFormatId = PixelFormat.Rgb555, Data = pixels, DataIndex = 6 };
             recorder.Present(lockedSurface);
             Check(File.ReadAllBytes(Path.Combine(directory, "frame-1.raw")).SequenceEqual(new byte[] { 3, 0, 4, 0, 1, 0, 2, 0 }), "top-down recording excludes padding and handles negative pitch");
             using JsonDocument metadata = JsonDocument.Parse(File.ReadAllText(Path.Combine(directory, "frame-1.json")));

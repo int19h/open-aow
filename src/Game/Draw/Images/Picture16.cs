@@ -82,7 +82,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
     }
 
     // ImageLib.pas:2200
-    public override bool SupportShowMode(ShowMode showMode, int pixelFormatId) => (pixelFormatId == 0 || pixelFormatId == PixelFormats.pfRGB565 || pixelFormatId == PixelFormats.pfRGB555) && Set<ShowMode>.Of(ShowMode.Opaque, ShowMode.Transparent, ShowMode.Blended).Contains(showMode);
+    public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId) => (pixelFormatId == PixelFormat.None || pixelFormatId == PixelFormat.Rgb565 || pixelFormatId == PixelFormat.Rgb555) && Set<ShowMode>.Of(ShowMode.Opaque, ShowMode.Transparent, ShowMode.Blended).Contains(showMode);
 
     // ImageLib.pas:2219
     public override void ReleaseDiscardableImageData()
@@ -116,7 +116,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
     }
 
     // ImageLib.pas:2253
-    public override bool SupportGrabPixelFormat(int pixelFormatId) => pixelFormatId is PixelFormats.pfRGB565 or PixelFormats.pfRGB555 or PixelFormats.pfRGB24 or PixelFormats.pfPAL8;
+    public override bool SupportGrabPixelFormat(PixelFormat pixelFormatId) => pixelFormatId is PixelFormat.Rgb565 or PixelFormat.Rgb555 or PixelFormat.Rgb24 or PixelFormat.Pal8;
 
     // ImageLib.pas:2259
     public override bool GrabImage(in LockedSurface lockedSurface, in Rect R, GrabInfo grabInfo)
@@ -137,7 +137,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
             AllocateDiscardableImageData(Width, Height);
             switch (lockedSurface.PixelFormatId)
             {
-                case PixelFormats.pfPAL8:
+                case PixelFormat.Pal8:
                     {
                         for (int y = 0, last = Height - 1; y <= last; y++)
                         {
@@ -151,10 +151,10 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                         }
                     }
 
-                    StoredPixelFormatId = PixelFormats.pfRGB565;
+                    StoredPixelFormatId = PixelFormat.Rgb565;
                     break;
-                case PixelFormats.pfRGB565:
-                case PixelFormats.pfRGB555:
+                case PixelFormat.Rgb565:
+                case PixelFormat.Rgb555:
                     {
                         for (int i = 0, last = Height - 1; i <= last; i++)
                         {
@@ -164,7 +164,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
 
                     StoredPixelFormatId = lockedSurface.PixelFormatId;
                     break;
-                case PixelFormats.pfRGB24:
+                case PixelFormat.Rgb24:
                     {
                         for (int y = 0, last = Height - 1; y <= last; y++)
                         {
@@ -177,8 +177,13 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                         }
                     }
 
-                    StoredPixelFormatId = PixelFormats.pfRGB565;
+                    StoredPixelFormatId = PixelFormat.Rgb565;
                     break;
+                case PixelFormat.None:
+                case PixelFormat.Argb1555:
+                case PixelFormat.Bgr24:
+                case PixelFormat.Rgb32:
+                case PixelFormat.Xrgb32:
                 default:
                     result = false;
                     break;
@@ -196,23 +201,30 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
     }
 
     // ImageLib.pas:2329
-    public override int RemapToPixelFormat(int pixelFormatId)
+    public override GraphicsResult RemapToPixelFormat(PixelFormat pixelFormatId)
     {
-        int result = 0;
+        GraphicsResult result = GraphicsResult.Ok;
         if (pixelFormatId != PixelFormatId)
         {
             switch (pixelFormatId)
             {
-                case PixelFormats.pfRGB565:
+                case PixelFormat.Rgb565:
                     PixelRemap.RemapSurface555To565(View, View, DataWidth, DataHeight);
-                    PixelFormatId = PixelFormats.pfRGB565;
+                    PixelFormatId = PixelFormat.Rgb565;
                     break;
-                case PixelFormats.pfRGB555:
+                case PixelFormat.Rgb555:
                     PixelRemap.RemapSurface565To555(View, View, DataWidth, DataHeight);
-                    PixelFormatId = PixelFormats.pfRGB555;
+                    PixelFormatId = PixelFormat.Rgb555;
                     break;
+                case PixelFormat.None:
+                case PixelFormat.Pal8:
+                case PixelFormat.Argb1555:
+                case PixelFormat.Rgb24:
+                case PixelFormat.Bgr24:
+                case PixelFormat.Rgb32:
+                case PixelFormat.Xrgb32:
                 default:
-                    result = PixelFormats.GFXE_NOTSUPPORTED;
+                    result = GraphicsResult.NotSupported;
                     break;
             }
         }
@@ -286,7 +298,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                     }
                     else
                     {
-                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
+                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != GraphicsResult.Ok)
                         {
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
@@ -309,7 +321,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                     }
                     else
                     {
-                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
+                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != GraphicsResult.Ok)
                         {
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
@@ -387,12 +399,19 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                         {
                             switch (PixelFormatId)
                             {
-                                case PixelFormats.pfRGB565:
+                                case PixelFormat.Rgb565:
                                     BlendSurface565(source, destination, w, h, table.Bytes);
                                     break;
-                                case PixelFormats.pfRGB555:
+                                case PixelFormat.Rgb555:
                                     BlendSurface555(source, destination, w, h, table.Bytes);
                                     break;
+                                case PixelFormat.None:
+                                case PixelFormat.Pal8:
+                                case PixelFormat.Argb1555:
+                                case PixelFormat.Rgb24:
+                                case PixelFormat.Bgr24:
+                                case PixelFormat.Rgb32:
+                                case PixelFormat.Xrgb32:
                                 default:
                                     break;
                             }
@@ -404,7 +423,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                     }
                     else
                     {
-                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
+                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != GraphicsResult.Ok)
                         {
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
@@ -413,12 +432,19 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                         {
                             switch (PixelFormatId)
                             {
-                                case PixelFormats.pfRGB565:
+                                case PixelFormat.Rgb565:
                                     BlendSurface565(source, destination, w, h, table.Bytes);
                                     break;
-                                case PixelFormats.pfRGB555:
+                                case PixelFormat.Rgb555:
                                     BlendSurface555(source, destination, w, h, table.Bytes);
                                     break;
+                                case PixelFormat.None:
+                                case PixelFormat.Pal8:
+                                case PixelFormat.Argb1555:
+                                case PixelFormat.Rgb24:
+                                case PixelFormat.Bgr24:
+                                case PixelFormat.Rgb32:
+                                case PixelFormat.Xrgb32:
                                 default:
                                     break;
                             }
@@ -444,12 +470,19 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                         {
                             switch (PixelFormatId)
                             {
-                                case PixelFormats.pfRGB565:
+                                case PixelFormat.Rgb565:
                                     BlendSurface565(source, destination, w, h, table.Bytes);
                                     break;
-                                case PixelFormats.pfRGB555:
+                                case PixelFormat.Rgb555:
                                     BlendSurface555(source, destination, w, h, table.Bytes);
                                     break;
+                                case PixelFormat.None:
+                                case PixelFormat.Pal8:
+                                case PixelFormat.Argb1555:
+                                case PixelFormat.Rgb24:
+                                case PixelFormat.Bgr24:
+                                case PixelFormat.Rgb32:
+                                case PixelFormat.Xrgb32:
                                 default:
                                     break;
                             }
@@ -461,7 +494,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                     }
                     else
                     {
-                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
+                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != GraphicsResult.Ok)
                         {
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
@@ -470,12 +503,19 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                         {
                             switch (PixelFormatId)
                             {
-                                case PixelFormats.pfRGB565:
+                                case PixelFormat.Rgb565:
                                     BlendSurface565(source, destination, w, h, table.Bytes);
                                     break;
-                                case PixelFormats.pfRGB555:
+                                case PixelFormat.Rgb555:
                                     BlendSurface555(source, destination, w, h, table.Bytes);
                                     break;
+                                case PixelFormat.None:
+                                case PixelFormat.Pal8:
+                                case PixelFormat.Argb1555:
+                                case PixelFormat.Rgb24:
+                                case PixelFormat.Bgr24:
+                                case PixelFormat.Rgb32:
+                                case PixelFormat.Xrgb32:
                                 default:
                                     break;
                             }
@@ -552,7 +592,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                     destination = lockedSurface.View((destinationX << 1) + (lockedSurface.Pitch * destinationY));
                     if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
-                        if (PixelFormatId == PixelFormats.pfRGB565)
+                        if (PixelFormatId == PixelFormat.Rgb565)
                         {
                             BlitTransparent565(source, destination, w, h);
                         }
@@ -563,12 +603,12 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                     }
                     else
                     {
-                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
+                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != GraphicsResult.Ok)
                         {
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        if (PixelFormatId == PixelFormats.pfRGB565)
+                        if (PixelFormatId == PixelFormat.Rgb565)
                         {
                             BlitTransparent565(source, destination, w, h);
                         }
@@ -589,7 +629,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                     destination = lockedSurface.View((destinationX << 1) + (lockedSurface.Pitch * destinationY));
                     if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
-                        if (PixelFormatId == PixelFormats.pfRGB565)
+                        if (PixelFormatId == PixelFormat.Rgb565)
                         {
                             BlitTransparent565(source, destination, w, h);
                         }
@@ -600,12 +640,12 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                     }
                     else
                     {
-                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
+                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != GraphicsResult.Ok)
                         {
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        if (PixelFormatId == PixelFormats.pfRGB565)
+                        if (PixelFormatId == PixelFormat.Rgb565)
                         {
                             BlitTransparent565(source, destination, w, h);
                         }

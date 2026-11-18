@@ -40,7 +40,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                     count++;
                     Pin(image, hash);
                 });
-                Decode(file, onDemand: true, image => hash.Add(Draw(image, PixelFormats.pfRGB555, 3, 2, d => image.Show(3, 2, d))));
+                Decode(file, onDemand: true, image => hash.Add(Draw(image, PixelFormat.Rgb555, 3, 2, d => image.Show(3, 2, d))));
                 entries.Add(new Entry(Path.GetRelativePath(root, file).Replace('\\', '/'), count, hash.Value.ToString("X16")));
             }
         });
@@ -128,11 +128,11 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
             palette[i] = new TPaletteEntry { Red = (byte)(i * 5), Green = (byte)((i * 7) + 3), Blue = (byte)((i * 13) + 1) };
         }
 
-        palette.PixelFormatId = PixelFormats.pfBGR24;
-        DataSurface s555 = new(w, h, PixelFormats.pfRGB555, null!);
-        DataSurface s565 = new(w, h, PixelFormats.pfRGB565, null!);
-        DataSurface s8 = new(w, h, PixelFormats.pfPAL8, palette);
-        DataSurface s24 = new(w, h, PixelFormats.pfRGB24, null!);
+        palette.PixelFormatId = PixelFormat.Bgr24;
+        DataSurface s555 = new(w, h, PixelFormat.Rgb555, null!);
+        DataSurface s565 = new(w, h, PixelFormat.Rgb565, null!);
+        DataSurface s8 = new(w, h, PixelFormat.Pal8, palette);
+        DataSurface s24 = new(w, h, PixelFormat.Rgb24, null!);
         Fnv hash = new();
         int grabs = 0;
         try
@@ -262,14 +262,14 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
             palette[i] = new TPaletteEntry { Red = (byte)i, Green = (byte)(i * 3), Blue = (byte)(i * 11) };
         }
 
-        palette.PixelFormatId = PixelFormats.pfBGR24;
+        palette.PixelFormatId = PixelFormat.Bgr24;
         {
-            foreach (int format in new[] { PixelFormats.pfPAL8, PixelFormats.pfRGB555, PixelFormats.pfRGB565, PixelFormats.pfRGB24, PixelFormats.pfRGB32 })
+            foreach (PixelFormat format in new[] { PixelFormat.Pal8, PixelFormat.Rgb555, PixelFormat.Rgb565, PixelFormat.Rgb24, PixelFormat.Rgb32 })
             {
                 for (int w = 1; w <= 17; w++)
                 {
                     int h = 3 + (w % 3);
-                    DataSurface surface = new(w, h, format, format == PixelFormats.pfPAL8 ? palette : null);
+                    DataSurface surface = new(w, h, format, format == PixelFormat.Pal8 ? palette : null);
                     Fnv hash = new();
                     try
                     {
@@ -331,7 +331,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                         _ = surface.Unlock();
                     }
                     finally { surface.Dispose(); }
-                    entries.Add(new Entry($"{format:X8} {w}", h, hash.Value.ToString("X16")));
+                    entries.Add(new Entry($"{(int)format:X8} {w}", h, hash.Value.ToString("X16")));
                 }
             }
         }
@@ -468,11 +468,11 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         Rect shrunk = new(-w / 4, 2, (-w / 4) + Math.Max(1, w / 2), 2 + Math.Max(1, h * 5 / 4));
         if (image is Image08)
         {
-            hash.Add(Draw(image, PixelFormats.pfPAL8, 3, 2, d => image.ShowOpaque(3, 2, d)));
-            hash.Add(Draw(image, PixelFormats.pfPAL8, -w / 3, -h / 3, d => image.ShowOpaque(-w / 3, -h / 3, d)));
+            hash.Add(Draw(image, PixelFormat.Pal8, 3, 2, d => image.ShowOpaque(3, 2, d)));
+            hash.Add(Draw(image, PixelFormat.Pal8, -w / 3, -h / 3, d => image.ShowOpaque(-w / 3, -h / 3, d)));
         }
 
-        foreach (int format in new[] { PixelFormats.pfRGB555, PixelFormats.pfRGB565 })
+        foreach (PixelFormat format in new[] { PixelFormat.Rgb555, PixelFormat.Rgb565 })
         {
             hash.Add(Draw(image, format, 3, 2, d => image.ShowOpaque(3, 2, d)));
             hash.Add(Draw(image, format, -w / 3, -h / 3, d => image.ShowOpaque(-w / 3, -h / 3, d)));
@@ -511,7 +511,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     // A surface two pixels wider and taller on each side than the image, filled with a pattern,
     // clipped one pixel in from its edges, after the draw: the hash of its pixels, or the name of
     // the exception the draw raised.
-    private static ulong Draw(LibraryImage image, int format, int x, int y, Action<LockedSurface> draw)
+    private static ulong Draw(LibraryImage image, PixelFormat format, int x, int y, Action<LockedSurface> draw)
     {
         int w = Math.Max(1, image.Width + 6), h = Math.Max(1, image.Height + 4);
         DataSurface surface = new(palette: new Palette(), width: w, height: h, pixelFormatId: format);
@@ -519,7 +519,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         try
         {
             LockedSurface lockedSurface = default;
-            Assert.Equal(0, surface.Lock(ref lockedSurface));
+            Assert.Equal(GraphicsResult.Ok, surface.Lock(ref lockedSurface));
             Span<byte> pixels = lockedSurface.Data.AsSpan(lockedSurface.DataIndex, lockedSurface.Pitch * h);
             for (int i = 0; i < pixels.Length; i++)
             {

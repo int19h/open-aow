@@ -8,18 +8,18 @@ public partial class Dib16Surface { private bool _memoryLocked; }
 
 public partial class Dib16Surface
 {
-    public Dib16Surface(int width, int height, int pixelFormatId)
+    public Dib16Surface(int width, int height, PixelFormat pixelFormatId)
     { SetPixelFormatId(pixelFormatId); _ = Resize(width, height); }
 
-    internal void SetPixelFormatId(int value) { if (value is not PixelFormats.pfRGB555 and not PixelFormats.pfRGB565 and not PixelFormats.pfARGB1555) { throw new NotSupportedException("Pixel format"); } if (_memoryLocked && value != _pixelFormatId) { throw new InvalidOperationException("Pixel format after Lock"); } _pixelFormatId = value; }
+    internal void SetPixelFormatId(PixelFormat value) { if (value is not PixelFormat.Rgb555 and not PixelFormat.Rgb565 and not PixelFormat.Argb1555) { throw new NotSupportedException("Pixel format"); } if (_memoryLocked && value != _pixelFormatId) { throw new InvalidOperationException("Pixel format after Lock"); } _pixelFormatId = value; }
 
-    public override int Resize(int width, int height) { if (_width == width && _height == height && _bits != null) { return PixelFormats.GFXE_OK; } (_pitch, _bits) = MemorySurfaces.Allocate(width, height, _pixelFormatId, 4); _width = width; _height = height; return PixelFormats.GFXE_OK; }
+    public override GraphicsResult Resize(int width, int height) { if (_width == width && _height == height && _bits != null) { return GraphicsResult.Ok; } (_pitch, _bits) = MemorySurfaces.Allocate(width, height, _pixelFormatId, 4); _width = width; _height = height; return GraphicsResult.Ok; }
 
-    public override int Lock(ref LockedSurface lockedSurface) { _memoryLocked = true; lockedSurface = MemorySurfaces.Describe(_width, _height, _pitch, _pixelFormatId, _bits, null); return PixelFormats.GFXE_OK; }
+    public override GraphicsResult Lock(ref LockedSurface lockedSurface) { _memoryLocked = true; lockedSurface = MemorySurfaces.Describe(_width, _height, _pitch, _pixelFormatId, _bits, null); return GraphicsResult.Ok; }
 
-    public override int Unlock() => PixelFormats.GFXE_OK;
-    public override int Blit(Surface destination, Rect? sourceRectangle, int X, int Y) => base.Blit(destination, sourceRectangle, X, Y);
-    public override int Clear(int color) => base.Clear(color);
+    public override GraphicsResult Unlock() => GraphicsResult.Ok;
+    public override GraphicsResult Blit(Surface destination, Rect? sourceRectangle, int X, int Y) => base.Blit(destination, sourceRectangle, X, Y);
+    public override GraphicsResult Clear(int color) => base.Clear(color);
     public override int BlitDisplayController(int displayController, Rect? sourceRectangle, Rect? destinationRectangle) => throw new NotSupportedException("Native device context");
 
     public override void Dispose() { _bits = null; _width = _height = _pitch = 0; base.Dispose(); }

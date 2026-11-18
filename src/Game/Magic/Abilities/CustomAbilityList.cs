@@ -61,7 +61,7 @@ public partial class CustomAbilityList(CustomNode owner) : EngineObject(owner)
     }
 
     // Ability.PAS:1130
-    public virtual int GetAbCount() => AbilityCount;
+    public virtual int GetOwnAbilityCount() => AbilityCount;
 
     // Ability.PAS:1216
     public virtual void ListAbilities(StringCollection text, Set<AbilitySelectionType> types)
@@ -106,7 +106,7 @@ public partial class CustomAbilityList(CustomNode owner) : EngineObject(owner)
     // Ability.PAS:1134
     public void AssignAbility(CustomAbilityList source)
     {
-        int count = source.GetAbCount() > GetAbCount() ? source.GetAbCount() : GetAbCount();
+        int count = source.GetOwnAbilityCount() > GetOwnAbilityCount() ? source.GetOwnAbilityCount() : GetOwnAbilityCount();
         for (int i = 0; i <= count - 1; i++)
         {
             if (source.GetAbilitySetAt(i) != GetAbilitySetAt(i))
@@ -119,10 +119,10 @@ public partial class CustomAbilityList(CustomNode owner) : EngineObject(owner)
     // Ability.PAS:1144
     public bool CompareAbility(CustomAbilityList source)
     {
-        bool result = source.GetAbCount() == AbilityCount;
+        bool result = source.GetOwnAbilityCount() == AbilityCount;
         if (result)
         {
-            int abilityCount = GetAbCount();
+            int abilityCount = GetOwnAbilityCount();
             result = CompareMem(AbilityBits.AsSpan(0, (int)(((uint)(abilityCount + 7)) >> 3)), source.AbilityBits.AsSpan(0, (int)(((uint)(abilityCount + 7)) >> 3)), (int)(((uint)(abilityCount + 7)) >> 3));
         }
 
@@ -133,7 +133,7 @@ public partial class CustomAbilityList(CustomNode owner) : EngineObject(owner)
     public bool ComposeAbility(CustomAbilityList source)
     {
         bool result = false;
-        for (int i = 0, last = source.GetAbCount() - 1; i <= last; i++)
+        for (int i = 0, last = source.GetOwnAbilityCount() - 1; i <= last; i++)
         {
             if (source.GetAbilitySetAt(i) && !GetAbilitySetAt(i))
             {

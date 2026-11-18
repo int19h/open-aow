@@ -1,8 +1,6 @@
 // Translated from GFXE.pas.
 using System.Buffers.Binary;
 
-using static Aow.Rtl.RtlUnit;
-
 namespace Aow.Game.Draw;
 
 // A palette of 256 entries. Each entry is one 32-bit pixel value whose meaning follows
@@ -14,7 +12,7 @@ public partial class Palette
 
     private readonly uint[] _pixels = new uint[EntryCount];
 
-    public int PixelFormatId { get; set; }
+    public PixelFormat PixelFormatId { get; set; }
 
     // The pixel values of the entries, in entry order, for the blitters.
     public ReadOnlySpan<uint> Pixels => _pixels;
@@ -30,7 +28,7 @@ public partial class Palette
     {
         Span<byte> image = stackalloc byte[4 + (4 * EntryCount)];
         stream.ReadExactly(image);
-        PixelFormatId = BinaryPrimitives.ReadInt32LittleEndian(image);
+        PixelFormatId = (PixelFormat)BinaryPrimitives.ReadInt32LittleEndian(image);
         for (int i = 0; i < EntryCount; i++)
         {
             _pixels[i] = BinaryPrimitives.ReadUInt32LittleEndian(image.Slice(4 + (4 * i), 4));
@@ -41,7 +39,7 @@ public partial class Palette
     public void SaveToStream(Stream stream)
     {
         Span<byte> image = stackalloc byte[4 + (4 * EntryCount)];
-        BinaryPrimitives.WriteInt32LittleEndian(image, PixelFormatId);
+        BinaryPrimitives.WriteInt32LittleEndian(image, (int)PixelFormatId);
         for (int i = 0; i < EntryCount; i++)
         {
             BinaryPrimitives.WriteUInt32LittleEndian(image.Slice(4 + (4 * i), 4), _pixels[i]);
@@ -56,17 +54,17 @@ public partial class Palette
     public Entry GetEntry(int index) => this[index];
 
     // GFXE.pas:11073
-    public int Remap(int newPixelFormatId)
+    public GraphicsResult Remap(PixelFormat newPixelFormatId)
     {
-        int result = PixelFormats.GFXE_OK;
+        GraphicsResult result = GraphicsResult.Ok;
         if (newPixelFormatId != PixelFormatId)
         {
             switch (PixelFormatId)
             {
-                case PixelFormats.pfBGR24:
+                case PixelFormat.Bgr24:
                     switch (newPixelFormatId)
                     {
-                        case PixelFormats.pfRGB565:
+                        case PixelFormat.Rgb565:
                             {
                                 for (int i = 0; i <= 255; i++)
                                 {
@@ -76,7 +74,7 @@ public partial class Palette
                             }
 
                             break;
-                        case PixelFormats.pfRGB555:
+                        case PixelFormat.Rgb555:
                             {
                                 for (int i = 0; i <= 255; i++)
                                 {
@@ -86,19 +84,25 @@ public partial class Palette
                             }
 
                             break;
-                        case PixelFormats.pfXRGB32:
-                            result = PixelFormats.GFXE_OK;
+                        case PixelFormat.Xrgb32:
+                            result = GraphicsResult.Ok;
                             break;
+                        case PixelFormat.None:
+                        case PixelFormat.Pal8:
+                        case PixelFormat.Argb1555:
+                        case PixelFormat.Rgb24:
+                        case PixelFormat.Bgr24:
+                        case PixelFormat.Rgb32:
                         default:
-                            result = PixelFormats.GFXE_NOTSUPPORTED;
+                            result = GraphicsResult.NotSupported;
                             break;
                     }
 
                     break;
-                case PixelFormats.pfRGB24:
+                case PixelFormat.Rgb24:
                     switch (newPixelFormatId)
                     {
-                        case PixelFormats.pfRGB565:
+                        case PixelFormat.Rgb565:
                             {
                                 for (int i = 0; i <= 255; i++)
                                 {
@@ -108,7 +112,7 @@ public partial class Palette
                             }
 
                             break;
-                        case PixelFormats.pfRGB555:
+                        case PixelFormat.Rgb555:
                             {
                                 for (int i = 0; i <= 255; i++)
                                 {
@@ -118,28 +122,41 @@ public partial class Palette
                             }
 
                             break;
-                        case PixelFormats.pfXRGB32:
-                            result = PixelFormats.GFXE_OK;
+                        case PixelFormat.Xrgb32:
+                            result = GraphicsResult.Ok;
                             break;
+                        case PixelFormat.None:
+                        case PixelFormat.Pal8:
+                        case PixelFormat.Argb1555:
+                        case PixelFormat.Rgb24:
+                        case PixelFormat.Bgr24:
+                        case PixelFormat.Rgb32:
                         default:
-                            result = PixelFormats.GFXE_NOTSUPPORTED;
+                            result = GraphicsResult.NotSupported;
                             break;
                     }
 
                     break;
+                case PixelFormat.None:
+                case PixelFormat.Pal8:
+                case PixelFormat.Rgb555:
+                case PixelFormat.Argb1555:
+                case PixelFormat.Rgb565:
+                case PixelFormat.Rgb32:
+                case PixelFormat.Xrgb32:
                 default:
-                    result = PixelFormats.GFXE_NOTSUPPORTED;
+                    result = GraphicsResult.NotSupported;
                     break;
             }
 
-            if (Succeeded(result))
+            if (result.IsSuccess())
             {
                 PixelFormatId = newPixelFormatId;
             }
         }
         else
         {
-            result = PixelFormats.GFXE_OK;
+            result = GraphicsResult.Ok;
         }
 
         return result;
@@ -152,7 +169,7 @@ public partial class Palette
         int i;
         if (palette.PixelFormatId == PixelFormatId)
         {
-            switch (PixelFormatId & 31)
+            switch ((int)PixelFormatId & 31)
             {
                 case 8:
                     result = true;

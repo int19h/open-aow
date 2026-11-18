@@ -110,7 +110,7 @@ and `PFIDtoMASK` are transpiled). The constants:
 $F8) shl 2 + (B and $F8) shr 3`, and `pfPAL8` gives the palette's nearest entry by the sum of
 absolute channel differences, lowest index on a tie. `Surface.GetColor` reverses 555 as
 `(W and $7C00) shr 7 + (W and $03E0) shl 6 + (W and $1F) shl 19` (the low 3 bits of each channel
-are zero). The port's `SdlDisplayController` (Delphi `TSdlDC`) back surfaces are `pfRGB555` (decision 2).
+are zero). In the port these constants are the `PixelFormat` enum (`None`, `Pal8`, `Rgb555`, `Argb1555`, `Rgb565`, `Rgb24`, `Bgr24`, `Rgb32`, `Xrgb32`), and `LockedSurface.PixelFormatId` and `Palette.PixelFormatId` have type `PixelFormat`. The port's `SdlDisplayController` (Delphi `TSdlDC`) back surfaces are `PixelFormat.Rgb555` (decision 2).
 
 ### 3.3 Clipping and the simple blitters
 
@@ -120,11 +120,11 @@ because the frame oracle depends on them:
 - `BltSDRectClipped(Src, SrcRect, Dest, X, Y)`: clips `SrcRect` to `Src.ClipRect` (moving `X`,
   `Y` along when the left or top is cut), then to `Dest.ClipRect`, and copies `W` by `H` pixels
   with `BltRect` when both formats are equal and `W > 0`, `H > 0`. Different formats return
-  `GFXE_PIXELFORMATNOTSUPPORTED` and draw nothing.
+  `GraphicsResult.PixelFormatNotSupported` and draw nothing.
 - `BltSpriteClipped16`: the same clipping, then `BltColorKey16` with the key from
   `Color2PixelInfo(ColorKey, Src.PixelFormatID)`.
 - `ColorFillSD(R, Color, SD)`: clips `R` to `ClipRect` and fills rows with `FillWord` for the three
-  16-bit formats, `GFXE_NOTSUPPORTED` otherwise.
+  16-bit formats, `GraphicsResult.NotSupported` otherwise.
 - `DrawLine16(X1, Y1, X2, Y2, Skip, Color, SD)`: Bresenham from the leftmost endpoint, one pixel
   every `Skip + 1` steps, with a fast path when both endpoints are inside `ClipRect` and a
   per-pixel bounds test otherwise. The four octant variants and the final pixel rule (`if Count =
@@ -132,7 +132,7 @@ because the frame oracle depends on them:
   advances `P` without tracking `X` and the clipped path tracks both.
 - `Surface.Blit`, `BlitClipped`, `BlitColorKey`, `BlitColorKeyClipped`: lock both surfaces and call
   `BltRect` or `BltColorKey16`; `BlitStretch` supports only equal sizes and returns
-  `GFXE_NOTSUPPORTED` otherwise. `Surface.Clear` fills every row with the converted color. Their
+  `GraphicsResult.NotSupported` otherwise. `Surface.Clear` fills every row with the converted color. Their
   rectangle parameters are the original's `PRect`, where nil means the whole surface: the port's
   `Rect?`, null for nil, with the virtual methods and their overrides as in the original
   (`BlitDisplayController`, `DataSurface.Create` (Delphi `TDataSurface`) and `CaptureSurface`, `LibraryImage.ShowDisplayController` (Delphi `TLibraryImage`) take the same).
@@ -526,10 +526,10 @@ controller swaps and modal VCL dialogs.
 | method | behavior |
 |---|---|
 | `GetSurface(0)` | the screen stand-in: a `Surface` whose `Width` and `Height` are the window's client size in back-surface pixels (section 7.4), with no pixel storage. `ScrollMap` reads its size to find the screen edges, `CustomDisplay.Resize` reads it to size the back surfaces when `doAutoResizeBackSurface` is on |
-| `GetSurface(1)`, `GetSurface(2)` | the back surfaces, `Dib16Surface` stand-ins of `BackSurfaceWidth` by `BackSurfaceHeight` in `pfRGB555`, cleared to the display's color on creation, as `Windows16DC.Activate` does |
+| `GetSurface(1)`, `GetSurface(2)` | the back surfaces, `Dib16Surface` stand-ins of `BackSurfaceWidth` by `BackSurfaceHeight` in `PixelFormat.Rgb555`, cleared to the display's color on creation, as `Windows16DC.Activate` does |
 | `GetSurfaceCount` | `Ord(BufferingScheme)` |
 | `Activate(Display)`, `Deactivate` | create and free the back surfaces, set `dsActivated` and `dsWindowed` (the latter so that windowed-only branches of the game run), call `Display.ResizeBackSurfaces` with the client size when `doAutoResizeBackSurface` is on, as `WindowsDC.Activate` (Delphi `TWindowsDC`) does |
-| `BlitSurface(Index)`, `FlipSurface(Index)` | present `GetSurface(Index)` (section 7.4). `FlipSurface` returns `DCERR_NOFLIP` after presenting, as `WindowsDC` does, so that the display falls back to blitting |
+| `BlitSurface(Index)`, `FlipSurface(Index)` | present `GetSurface(Index)` (section 7.4). `FlipSurface` returns `DisplayControllerError.NoFlip` after presenting, as `WindowsDC` does, so that the display falls back to blitting |
 | `ResizeBackSurfaces(W, H)` | resize both back surfaces |
 | `GetMousePosition(X, Y)` | the pointer position in back-surface pixels, or `(-1, -1)` when the pointer is outside the client area, when another window has captured the mouse, or when the window is not focused. The original also reports `-1` when the cursor leaves the parent's client rectangle |
 | `NewFrame`, `WaitForVerticalBlank`, `GetCurrentFrameRate`, `ShowFrameRate` | transpiled from `DisplayController`, on `IClock` |

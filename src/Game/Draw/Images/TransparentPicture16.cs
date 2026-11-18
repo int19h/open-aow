@@ -19,6 +19,6 @@ public partial class TransparentPicture16 : Picture16, ILibraryImageClass
     }
 
     // ImageLib.pas:2861
-    public override bool SupportGrabPixelFormat(int pixelFormatId) => false;
+    public override bool SupportGrabPixelFormat(PixelFormat pixelFormatId) => false;
 
 }

@@ -17155,7 +17155,7 @@
                     "Player.PlayerType": 4,
                     "Player.ProductionControls": {
                       "$type": "Aow.Game.World.Structures.ProductionControlList",
-                      "ProductionControlList.FItems": []
+                      "ProductionControlList._items": []
                     },
                     "Player.Settings": "",
                     "Player.SingleProcessCycle": false,
@@ -17757,7 +17757,7 @@
                     "Player.PlayerType": 0,
                     "Player.ProductionControls": {
                       "$type": "Aow.Game.World.Structures.ProductionControlList",
-                      "ProductionControlList.FItems": []
+                      "ProductionControlList._items": []
                     },
                     "Player.Settings": "",
                     "Player.SingleProcessCycle": false,
@@ -18359,7 +18359,7 @@
                     "Player.PlayerType": 0,
                     "Player.ProductionControls": {
                       "$type": "Aow.Game.World.Structures.ProductionControlList",
-                      "ProductionControlList.FItems": []
+                      "ProductionControlList._items": []
                     },
                     "Player.Settings": "",
                     "Player.SingleProcessCycle": false,
@@ -21194,7 +21194,7 @@
                     "Player.PlayerType": 4,
                     "Player.ProductionControls": {
                       "$type": "Aow.Game.World.Structures.ProductionControlList",
-                      "ProductionControlList.FItems": []
+                      "ProductionControlList._items": []
                     },
                     "Player.Settings": "",
                     "Player.SingleProcessCycle": false,
@@ -21796,7 +21796,7 @@
                     "Player.PlayerType": 0,
                     "Player.ProductionControls": {
                       "$type": "Aow.Game.World.Structures.ProductionControlList",
-                      "ProductionControlList.FItems": []
+                      "ProductionControlList._items": []
                     },
                     "Player.Settings": "",
                     "Player.SingleProcessCycle": false,
@@ -22398,7 +22398,7 @@
                     "Player.PlayerType": 0,
                     "Player.ProductionControls": {
                       "$type": "Aow.Game.World.Structures.ProductionControlList",
-                      "ProductionControlList.FItems": []
+                      "ProductionControlList._items": []
                     },
                     "Player.Settings": "",
                     "Player.SingleProcessCycle": false,

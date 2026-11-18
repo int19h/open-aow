@@ -14,9 +14,9 @@ public sealed class SurfaceRectangleTests
 
     private static DataSurface MakeSource()
     {
-        DataSurface surface = new(SourceWidth, SourceHeight, PixelFormats.pfRGB555, null);
+        DataSurface surface = new(SourceWidth, SourceHeight, PixelFormat.Rgb555, null);
         LockedSurface lockedSurface = default;
-        Assert.Equal(PixelFormats.GFXE_OK, surface.Lock(ref lockedSurface));
+        Assert.Equal(GraphicsResult.Ok, surface.Lock(ref lockedSurface));
         for (int y = 0; y < SourceHeight; y++)
         {
             for (int x = 0; x < SourceWidth; x++)
@@ -59,10 +59,10 @@ public sealed class SurfaceRectangleTests
         }
     }
 
-    private static void Run(Func<Surface, Surface, int> copy, int[,] expected, int result = PixelFormats.GFXE_OK)
+    private static void Run(Func<Surface, Surface, GraphicsResult> copy, int[,] expected, GraphicsResult result = GraphicsResult.Ok)
     {
         DataSurface source = MakeSource();
-        DataSurface destination = new(DestinationWidth, DestinationHeight, PixelFormats.pfRGB555, null);
+        DataSurface destination = new(DestinationWidth, DestinationHeight, PixelFormat.Rgb555, null);
         try
         {
             Assert.Equal(result, copy(source, destination));
@@ -122,7 +122,7 @@ public sealed class SurfaceRectangleTests
     [Fact]
     public void BlitStretchOfUnequalSizesIsNotSupported()
         // Null rectangles are the whole source (4 by 3) and the whole destination (6 by 5).
-        => Run((s, d) => s.BlitStretch(d, null, null), new int[DestinationWidth, DestinationHeight], PixelFormats.GFXE_NOTSUPPORTED);
+        => Run((s, d) => s.BlitStretch(d, null, null), new int[DestinationWidth, DestinationHeight], GraphicsResult.NotSupported);
 
     [Fact]
     public void BlitStretchOfEqualSizesCopiesToTheDestinationRectangle()
@@ -183,10 +183,10 @@ public sealed class SurfaceRectangleTests
         try
         {
             LockedSurface full = default, part = default;
-            Assert.Equal(PixelFormats.GFXE_OK, source.Lock(ref full));
+            Assert.Equal(GraphicsResult.Ok, source.Lock(ref full));
             _ = source.Unlock();
             Assert.Equal(0, full.DataIndex);
-            Assert.Equal(PixelFormats.GFXE_OK, source.Lock(ref part, new Rect(1, 1, 4, 3)));
+            Assert.Equal(GraphicsResult.Ok, source.Lock(ref part, new Rect(1, 1, 4, 3)));
             _ = source.Unlock(part);
             Assert.Same(full.Data, part.Data);
             Assert.Equal(full.Pitch + 2, part.DataIndex);
@@ -198,7 +198,7 @@ public sealed class SurfaceRectangleTests
             Assert.Equal(full.Pitch + 4, sub.DataIndex);
             Assert.Equal(new Rect(0, 0, 2, 2), sub.ClipRectangle);
             Assert.Equal(Source(2, 1), sub.View().UInt16(0));
-            Assert.Equal(PixelFormats.GFXE_ERROR, source.Lock(ref part, new Rect(1, 1, 5, 3)));
+            Assert.Equal(GraphicsResult.Error, source.Lock(ref part, new Rect(1, 1, 5, 3)));
         }
         finally { source.Dispose(); }
     }

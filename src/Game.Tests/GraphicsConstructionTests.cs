@@ -169,19 +169,19 @@ public sealed class GraphicsConstructionTests
 
     public static IEnumerable<object[]> Surfaces()
     {
-        yield return new object[] { (Func<Palette, Surface>)(palette => new DataSurface(7, 4, PixelFormats.pfPAL8, palette)), PixelFormats.pfPAL8, 8 };
-        yield return new object[] { (Func<Palette, Surface>)(_ => new Dib16Surface(7, 4, PixelFormats.pfRGB555)), PixelFormats.pfRGB555, 16 };
+        yield return new object[] { (Func<Palette, Surface>)(palette => new DataSurface(7, 4, PixelFormat.Pal8, palette)), PixelFormat.Pal8, 8 };
+        yield return new object[] { (Func<Palette, Surface>)(_ => new Dib16Surface(7, 4, PixelFormat.Rgb555)), PixelFormat.Rgb555, 16 };
     }
 
     [Theory]
     [MemberData(nameof(Surfaces))]
-    public void SurfacesKeepDimensionsFormatAndPaletteIsolation(Func<Palette, Surface> create, int format, int pitch)
+    public void SurfacesKeepDimensionsFormatAndPaletteIsolation(Func<Palette, Surface> create, PixelFormat format, int pitch)
     {
         Palette palette = new();
         palette[0] = palette[0] with { Red = 29 };
         Surface surface = create(palette);
         LockedSurface lockedSurface = default;
-        Assert.Equal(PixelFormats.GFXE_OK, surface.Lock(ref lockedSurface));
+        Assert.Equal(GraphicsResult.Ok, surface.Lock(ref lockedSurface));
         Assert.Equal(7, lockedSurface.Width);
         Assert.Equal(4, lockedSurface.Height);
         Assert.Equal(format, lockedSurface.PixelFormatId);
@@ -203,13 +203,13 @@ public sealed class GraphicsConstructionTests
     {
         Palette palette = new();
         palette[0] = palette[0] with { Red = 29 };
-        DataSurface surface = new(7, 4, PixelFormats.pfPAL8, palette);
+        DataSurface surface = new(7, 4, PixelFormat.Pal8, palette);
         Assert.NotSame(palette, surface.Palette);
         Assert.Equal((byte)29, surface.Palette[0].Red);
         Assert.Equal(7, surface.Width);
         Assert.Equal(4, surface.Height);
         LockedSurface descriptor = default;
-        Assert.Equal(0, surface.Lock(ref descriptor));
+        Assert.Equal(GraphicsResult.Ok, surface.Lock(ref descriptor));
         Assert.NotNull(descriptor.Data);
         _ = surface.Unlock();
         surface.Dispose();
@@ -234,8 +234,8 @@ public sealed class GraphicsConstructionTests
     {
         Palette palette = new();
         palette[0] = palette[0] with { Red = 29 };
-        _ = Assert.Throws<ArgumentOutOfRangeException>(() => new Dib16Surface(-1, 4, PixelFormats.pfRGB555));
-        _ = Assert.Throws<NotSupportedException>(() => new Dib16Surface(7, 4, PixelFormats.pfPAL8));
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => new Dib16Surface(-1, 4, PixelFormat.Rgb555));
+        _ = Assert.Throws<NotSupportedException>(() => new Dib16Surface(7, 4, PixelFormat.Pal8));
         Assert.Equal((byte)29, palette[0].Red);
     }
 
@@ -279,14 +279,14 @@ public sealed class GraphicsConstructionTests
     [Fact]
     public void SurfaceCaptureKeepsCopiedPixelsAndPalette()
     {
-        using Dib16Surface source = new(7, 4, PixelFormats.pfRGB555);
+        using Dib16Surface source = new(7, 4, PixelFormat.Rgb555);
         _ = source.Clear(255);
         using DataSurface copy = new(source, default);
         LockedSurface lockedSurface = default;
         _ = copy.Lock(ref lockedSurface);
         Assert.Equal(7, lockedSurface.Width);
         Assert.Equal(4, lockedSurface.Height);
-        Assert.Equal(PixelFormats.pfRGB555, lockedSurface.PixelFormatId);
+        Assert.Equal(PixelFormat.Rgb555, lockedSurface.PixelFormatId);
         Assert.Equal((ushort)0x7C00, lockedSurface.View().UInt16(0));
         _ = copy.Unlock();
     }

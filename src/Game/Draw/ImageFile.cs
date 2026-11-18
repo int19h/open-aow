@@ -16,12 +16,12 @@ public partial class ImageFile : IImageFileClass
     public static string Description => throw AbstractErrorException.Create("Abstract Error");
 
     // GFXE.pas:696
-    public static int GetPixelFormatId(string fileName) => throw AbstractErrorException.Create("Abstract Error");
+    public static PixelFormat GetPixelFormatId(string fileName) => throw AbstractErrorException.Create("Abstract Error");
 
     // GFXE.pas:697
     public static Surface CreateSurface(string fileName) => throw AbstractErrorException.Create("Abstract Error");
 
     // GFXE.pas:698
-    public static int LoadToSurfaceDescription(string fileName, ref readonly LockedSurface lockedSurface, int X, int Y) => throw AbstractErrorException.Create("Abstract Error");
+    public static GraphicsResult LoadToSurfaceDescription(string fileName, ref readonly LockedSurface lockedSurface, int X, int Y) => throw AbstractErrorException.Create("Abstract Error");
 
 }

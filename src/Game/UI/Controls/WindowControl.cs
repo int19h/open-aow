@@ -293,7 +293,7 @@ public partial class WindowControl : UIComponent
 
             if (BackSurface == null)
             {
-                int pixelFormatId = surface.GetPixelFormatId();
+                PixelFormat pixelFormatId = surface.GetPixelFormatId();
                 BackSurface = new DataSurface(WinWidth, WinHeight, pixelFormatId, null);
                 if (Masked)
                 {

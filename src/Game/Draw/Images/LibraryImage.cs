@@ -249,7 +249,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1985
-    public virtual int RemapToPixelFormat(int pixelFormatId) => throw new NotSupportedException("Surface format not supported");
+    public virtual GraphicsResult RemapToPixelFormat(PixelFormat pixelFormatId) => throw new NotSupportedException("Surface format not supported");
 
     // ImageLib.pas:1685
     public virtual void Clear()
@@ -552,10 +552,10 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:2091
-    public virtual bool SupportShowMode(ShowMode showMode, int pixelFormatId) => false;
+    public virtual bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId) => false;
 
     // ImageLib.pas:1903
-    public virtual bool SupportGrabPixelFormat(int pixelFormatId) => false;
+    public virtual bool SupportGrabPixelFormat(PixelFormat pixelFormatId) => false;
 
     // ImageLib.pas:1914
     public virtual bool GrabImage(in LockedSurface lockedSurface, in Rect R, GrabInfo grabInfo) => false;

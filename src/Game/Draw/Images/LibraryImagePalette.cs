@@ -25,7 +25,7 @@ public partial class LibraryImagePalette : Persistent
     public void LoadFromStream(Stream stream) => Palette.LoadFromStream(stream);
 
     // ImageLib.pas:7107
-    public Palette RemapPalette(int pixelFormatId)
+    public Palette RemapPalette(PixelFormat pixelFormatId)
     {
         Palette result;
         if (pixelFormatId == Palette.PixelFormatId)
