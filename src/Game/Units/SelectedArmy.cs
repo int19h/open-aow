@@ -26,13 +26,12 @@ namespace Aow.Game.Units;
 
 // { Interface declaration run owned by P2. }
 // mode, road builder ID, selected graphics references, ignore next mouse-down
-public partial class SelectedArmy : MoveSelector
+public partial class SelectedArmy(EngineObject creator) : MoveSelector(creator)
 {
-    public SelectedArmy(EngineObject creator) : base(creator) => _selectedUnitGraphics = new Int32List();
 
     private SelectedArmyMode _mode;
     private int _roadBuilderId;
-    private readonly Int32List _selectedUnitGraphics;
+    private readonly Int32List _selectedUnitGraphics = new();
 
     public bool IgnoreMouseDown { get; set; }
 

@@ -26,21 +26,15 @@ namespace Aow.Game.Combat;
 // FCombat. FID. FTargets. FTargetedBy. outgoing CV/wall CV. incoming CV/wall CV. target counts.
 // attacker counts. target priority/cache flag. strength/cache flag. FCombatPlayer. FPosition.
 // Status. ControlMode
-public partial class CombatObject : EngineObject
+public partial class CombatObject(CustomNode owner) : EngineObject(owner)
 {
-    public CombatObject(CustomNode owner) : base(owner)
-    {
-        Targets = new QuadItemList<CombatObject>();
-        TargetedBy = new QuadItemList<CombatObject>();
-        CombatPlayer = -1;
-    }
 
     public Battle Combat { get; set; }
 
     public byte Id { get; set; }
 
-    public QuadItemList<CombatObject> Targets { get; }
-    public QuadItemList<CombatObject> TargetedBy { get; }
+    public QuadItemList<CombatObject> Targets { get; } = new QuadItemList<CombatObject>();
+    public QuadItemList<CombatObject> TargetedBy { get; } = new QuadItemList<CombatObject>();
     public int CombatValue { get; private set; }
 
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]
@@ -64,7 +58,7 @@ public partial class CombatObject : EngineObject
     public int TargetStrength { get; protected set; }
     public bool TargetStrengthInvalid { get; private set; }
 
-    public sbyte CombatPlayer { get; private set; }
+    public sbyte CombatPlayer { get; private set; } = -1;
     public byte Position { get; set; }
     public Set<CombatObjectStatusElement> Status { get; set; }
 

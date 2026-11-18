@@ -10,9 +10,8 @@ namespace Aow.Game.UI.Controls;
 
 // Fields: _min, _max, _position, _imageLibraryFrame, _imageLibraryTextureNormal, _imageLibraryTextureSelected, Style,
 // _imageLibraryIndexFrame, _imageLibraryIndexTNormal, _imageLibraryIndexTSelected
-public partial class Gauge : Control
+public partial class Gauge(Component owner) : Control(owner)
 {
-    public Gauge(Component owner) : base(owner) => Max = 1;
 
     private int _position;
     private InterfaceImageLibrary _imageLibraryFrame;
@@ -293,7 +292,7 @@ public partial class Gauge : Control
     public int Min { get; set; }
 
     [Published]
-    public int Max { get; set; }
+    public int Max { get; set; } = 1;
 
     [Published]
     public int Position { get => _position; set => SetPosition(value); }

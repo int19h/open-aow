@@ -14,13 +14,12 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // enchantment ID, enchantment setting, AI priority, AI budget, AI cast situations
-public partial class CityEnchantmentSpell : CityTargetSpell
+public partial class CityEnchantmentSpell(CustomNode owner) : CityTargetSpell(owner)
 {
-    public CityEnchantmentSpell(CustomNode owner) : base(owner) => AIPriority = -1;
 
     public CityEnchantmentId EnchantmentId { get; protected set; }
     public int EnchantmentSpellId { get; protected set; }
-    public int AIPriority { get; protected set; }
+    public int AIPriority { get; protected set; } = -1;
     public int AIBudget { get; protected set; }
     public Set<CityEnchantmentCastSpellSituationElement> AICastSituation { get; protected set; }
 

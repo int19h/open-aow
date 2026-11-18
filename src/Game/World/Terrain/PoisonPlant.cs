@@ -22,24 +22,17 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.World.Terrain;
 
 // summoning status. caster player. remaining turns. original overlay
-public partial class PoisonPlant : ImageLibraryTerrainMapObject
+public partial class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
-    public PoisonPlant(CustomNode owner) : base(owner)
-    {
-        CasterPlayer = -1;
-        OriginalOverlay = -1;
-        DaysRemaining = -1;
-        PlantStatus = Set<PoisonPlantStatusElement>.Of();
-    }
 
     // PoisonP.pas:87
     public new const int ClassId = 131998;
 
-    public Set<PoisonPlantStatusElement> PlantStatus { get; set; }
+    public Set<PoisonPlantStatusElement> PlantStatus { get; set; } = Set<PoisonPlantStatusElement>.Of();
 
-    public sbyte CasterPlayer { get; set; }
-    public sbyte DaysRemaining { get; set; }
-    public sbyte OriginalOverlay { get; set; }
+    public sbyte CasterPlayer { get; set; } = -1;
+    public sbyte DaysRemaining { get; set; } = -1;
+    public sbyte OriginalOverlay { get; set; } = -1;
 
     // PoisonP.pas:97
     public override void PersistFields(IPersister persister)

@@ -12,11 +12,10 @@ using static Aow.Rtl.LegacyApplication;
 namespace Aow.Game.AI.Groups;
 
 // units, path, points, moves, source, destination
-public partial class AIMoveExecutorMove : AIMoveExecutorUnitList
+public partial class AIMoveExecutorMove(CustomNode owner) : AIMoveExecutorUnitList(owner)
 {
-    public AIMoveExecutorMove(CustomNode owner) : base(owner) => Path = new MovePath();
 
-    public MovePath Path { get; private set; }
+    public MovePath Path { get; private set; } = new MovePath();
     public int MovePoints { get; set; }
     public int Moves { get; set; }
     public MapCoordinate Source { get; set; }

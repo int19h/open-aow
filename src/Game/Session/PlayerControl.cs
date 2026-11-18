@@ -26,14 +26,13 @@ using static Aow.Rtl.DelphiStrings;
 namespace Aow.Game.Session;
 
 // exit callback, exit mode, password, disconnected-player list, sync warning shown
-public partial class PlayerControl : EngineObject
+public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
 {
-    public PlayerControl(CustomNode owner) : base(owner) => _disconnectedPlayers = new DoubleItemList();
 
     private ExitGameCallBack _exitCallback;
     private ExitGameMode _exitMode;
     private string _password = "";
-    private readonly DoubleItemList _disconnectedPlayers;
+    private readonly DoubleItemList _disconnectedPlayers = new();
     private bool _outOfSyncShown;
 
     // PlayerC.PAS:7

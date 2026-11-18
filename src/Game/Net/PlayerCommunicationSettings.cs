@@ -5,9 +5,8 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Net;
 
 // _connectionMode (stored with id 5), _systemId (id 6). One per player
-public partial class PlayerCommunicationSettings : EngineObject
+public partial class PlayerCommunicationSettings(CustomNode owner) : EngineObject(owner)
 {
-    public PlayerCommunicationSettings(CustomNode owner) : base(owner) => ConnectionMode = ConnectionMode.Local;
 
     // NetworkE.pas:452
     public override void PersistFields(IPersister persister)

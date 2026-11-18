@@ -7,15 +7,14 @@ using Aow.Game.World.Movement;
 namespace Aow.Game.Units;
 
 // location, moves, current move points, path
-public partial class AdjacentArmy : EngineObject
+public partial class AdjacentArmy(CustomNode owner) : EngineObject(owner)
 {
-    public AdjacentArmy(CustomNode owner) : base(owner) => Path = new MovePath();
 
     public MapCoordinate Location { get; set; }
 
     public int Moves { get; set; }
     public int MovePoints { get; set; }
-    public MovePath Path { get; }
+    public MovePath Path { get; } = new MovePath();
 
     // AIGroup.pas:5051
     public override void Dispose()

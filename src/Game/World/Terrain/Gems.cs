@@ -16,19 +16,14 @@ namespace Aow.Game.World.Terrain;
 
 // { ot=1 }
 // Amount, GenerateMode
-public partial class Gems : ImageLibraryTerrainMapObject
+public partial class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
-    public Gems(CustomNode owner) : base(owner)
-    {
-        _generateMode = GemsGenerateMode.Normal;
-        _amount = 0;
-    }
 
     // Gems.pas:53
     public new const int ClassId = 132014;
 
     private int _amount;
-    private GemsGenerateMode _generateMode;
+    private GemsGenerateMode _generateMode = GemsGenerateMode.Normal;
 
     // Gems.pas:56
     public override void PersistFields(IPersister persister)

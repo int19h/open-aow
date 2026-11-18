@@ -120,7 +120,7 @@
               ],
               "MapLevel.Map": null,
               "MapLevel.MapContainer": null,
-              "MapLevel.MapFieldClassId": 0,
+              "MapLevel.MapFieldClassId": 65793,
               "MapLevel.Width": 0,
               "MapLevel._count": 0,
               "MapLevel._fields": []
@@ -673,8 +673,8 @@
               "AnimationTokenEvent._animation": null,
               "AnimationTokenEvent._state": 0,
               "EngineObject._owner": "$owner",
-              "TokenEvent.RefCount": 0,
-              "TokenEvent.TokenCounter": 0
+              "TokenEvent.RefCount": 1,
+              "TokenEvent.TokenCounter": -1
             }
           }
         ]
@@ -754,7 +754,13 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.Commands.ArenaTokenEvent",
-              "ArenaTokenEvent.UnitIds": null,
+              "ArenaTokenEvent.UnitIds": {
+                "$type": "Aow.Engine.Collections.Int32List",
+                "Int32List._capacity": 0,
+                "Int32List._count": 0,
+                "Int32List._default": 0,
+                "Int32List._list": []
+              },
               "EngineObject._owner": "$owner",
               "StructureTokenEvent.Action": 0,
               "StructureTokenEvent.Location": {
@@ -768,8 +774,8 @@
               "StructureTokenEvent._param2": 0,
               "StructureTokenEvent._razed": false,
               "StructureTokenEvent._structureClassId": 0,
-              "TokenEvent.RefCount": 0,
-              "TokenEvent.TokenCounter": 0
+              "TokenEvent.RefCount": 1,
+              "TokenEvent.TokenCounter": -1
             }
           }
         ]
@@ -851,8 +857,8 @@
               "CombatAbilityRangedTokenEvent._strikeIndex": 0,
               "CombatAbilityRangedTokenEvent._unit": null,
               "EngineObject._owner": "$owner",
-              "TokenEvent.RefCount": 0,
-              "TokenEvent.TokenCounter": 0
+              "TokenEvent.RefCount": 1,
+              "TokenEvent.TokenCounter": -1
             }
           }
         ]
@@ -971,10 +977,25 @@
               "CombatMoveTokenEvent._objects": null,
               "EngineObject._owner": "$owner",
               "MoveTokenEvent.MoveIndex": 0,
-              "MoveTokenEvent.Path": null,
+              "MoveTokenEvent.Path": {
+                "$type": "Aow.Game.World.Movement.MovePath",
+                "DefaultItemList\u00601.Default": {
+                  "$type": "Aow.Game.World.Movement.PathStep",
+                  "PathStep.Location": {
+                    "$type": "Aow.Game.World.Map.MapCoordinate",
+                    "MapCoordinate.MapLevel": -1,
+                    "MapCoordinate.X": -1,
+                    "MapCoordinate.Y": -1
+                  },
+                  "PathStep.MoveCost": 0
+                },
+                "DefaultItemList\u00601._capacity": 0,
+                "DefaultItemList\u00601._count": 0,
+                "DefaultItemList\u00601._list": []
+              },
               "MoveTokenEvent._status": 0,
-              "TokenEvent.RefCount": 0,
-              "TokenEvent.TokenCounter": 0
+              "TokenEvent.RefCount": 1,
+              "TokenEvent.TokenCounter": -1
             }
           }
         ]
@@ -1078,10 +1099,25 @@
               "CombatMoveTokenEvent._objects": null,
               "EngineObject._owner": "$owner",
               "MoveTokenEvent.MoveIndex": 0,
-              "MoveTokenEvent.Path": null,
+              "MoveTokenEvent.Path": {
+                "$type": "Aow.Game.World.Movement.MovePath",
+                "DefaultItemList\u00601.Default": {
+                  "$type": "Aow.Game.World.Movement.PathStep",
+                  "PathStep.Location": {
+                    "$type": "Aow.Game.World.Map.MapCoordinate",
+                    "MapCoordinate.MapLevel": -1,
+                    "MapCoordinate.X": -1,
+                    "MapCoordinate.Y": -1
+                  },
+                  "PathStep.MoveCost": 0
+                },
+                "DefaultItemList\u00601._capacity": 0,
+                "DefaultItemList\u00601._count": 0,
+                "DefaultItemList\u00601._list": []
+              },
               "MoveTokenEvent._status": 0,
-              "TokenEvent.RefCount": 0,
-              "TokenEvent.TokenCounter": 0
+              "TokenEvent.RefCount": 1,
+              "TokenEvent.TokenCounter": -1
             }
           }
         ]
@@ -1157,8 +1193,8 @@
               "SpellTokenEvent.EventPlayerIndex": 0,
               "SpellTokenEvent.EventSourceId": 0,
               "SpellTokenEvent.EventSpellId": 0,
-              "TokenEvent.RefCount": 0,
-              "TokenEvent.TokenCounter": 0
+              "TokenEvent.RefCount": 1,
+              "TokenEvent.TokenCounter": -1
             }
           }
         ]
@@ -1234,8 +1270,8 @@
               "SpellTokenEvent.EventPlayerIndex": 0,
               "SpellTokenEvent.EventSourceId": 0,
               "SpellTokenEvent.EventSpellId": 0,
-              "TokenEvent.RefCount": 0,
-              "TokenEvent.TokenCounter": 0
+              "TokenEvent.RefCount": 1,
+              "TokenEvent.TokenCounter": -1
             }
           }
         ]
@@ -1315,10 +1351,25 @@
               "$type": "Aow.Game.Commands.MoveTokenEvent",
               "EngineObject._owner": "$owner",
               "MoveTokenEvent.MoveIndex": 0,
-              "MoveTokenEvent.Path": null,
+              "MoveTokenEvent.Path": {
+                "$type": "Aow.Game.World.Movement.MovePath",
+                "DefaultItemList\u00601.Default": {
+                  "$type": "Aow.Game.World.Movement.PathStep",
+                  "PathStep.Location": {
+                    "$type": "Aow.Game.World.Map.MapCoordinate",
+                    "MapCoordinate.MapLevel": -1,
+                    "MapCoordinate.X": -1,
+                    "MapCoordinate.Y": -1
+                  },
+                  "PathStep.MoveCost": 0
+                },
+                "DefaultItemList\u00601._capacity": 0,
+                "DefaultItemList\u00601._count": 0,
+                "DefaultItemList\u00601._list": []
+              },
               "MoveTokenEvent._status": 0,
-              "TokenEvent.RefCount": 0,
-              "TokenEvent.TokenCounter": 0
+              "TokenEvent.RefCount": 1,
+              "TokenEvent.TokenCounter": -1
             }
           }
         ]
@@ -1394,8 +1445,8 @@
               "SpellTokenEvent.EventPlayerIndex": 0,
               "SpellTokenEvent.EventSourceId": 0,
               "SpellTokenEvent.EventSpellId": 0,
-              "TokenEvent.RefCount": 0,
-              "TokenEvent.TokenCounter": 0
+              "TokenEvent.RefCount": 1,
+              "TokenEvent.TokenCounter": -1
             }
           }
         ]
@@ -1471,8 +1522,8 @@
               "SpellTokenEvent.EventPlayerIndex": 0,
               "SpellTokenEvent.EventSourceId": 0,
               "SpellTokenEvent.EventSpellId": 0,
-              "TokenEvent.RefCount": 0,
-              "TokenEvent.TokenCounter": 0
+              "TokenEvent.RefCount": 1,
+              "TokenEvent.TokenCounter": -1
             }
           }
         ]
@@ -1527,8 +1578,8 @@
               "SpellTokenEvent.EventPlayerIndex": 0,
               "SpellTokenEvent.EventSourceId": 0,
               "SpellTokenEvent.EventSpellId": 0,
-              "TokenEvent.RefCount": 0,
-              "TokenEvent.TokenCounter": 0
+              "TokenEvent.RefCount": 1,
+              "TokenEvent.TokenCounter": -1
             }
           }
         ]
@@ -1604,8 +1655,8 @@
                 "MapCoordinate.Y": 0
               },
               "StormSpellTokenEvent._storm": null,
-              "TokenEvent.RefCount": 0,
-              "TokenEvent.TokenCounter": 0
+              "TokenEvent.RefCount": 1,
+              "TokenEvent.TokenCounter": -1
             }
           }
         ]
@@ -1684,8 +1735,8 @@
               "StructureTokenEvent._param2": 0,
               "StructureTokenEvent._razed": false,
               "StructureTokenEvent._structureClassId": 0,
-              "TokenEvent.RefCount": 0,
-              "TokenEvent.TokenCounter": 0
+              "TokenEvent.RefCount": 1,
+              "TokenEvent.TokenCounter": -1
             }
           }
         ]
@@ -1728,8 +1779,8 @@
             "$jsonText": {
               "$type": "Aow.Game.Commands.TacticalBattleEndCombatTokenEvent",
               "EngineObject._owner": "$owner",
-              "TokenEvent.RefCount": 0,
-              "TokenEvent.TokenCounter": 0
+              "TokenEvent.RefCount": 1,
+              "TokenEvent.TokenCounter": -1
             }
           }
         ]
@@ -1772,8 +1823,8 @@
             "$jsonText": {
               "$type": "Aow.Game.Commands.TacticalBattleEndTurnTokenEvent",
               "EngineObject._owner": "$owner",
-              "TokenEvent.RefCount": 0,
-              "TokenEvent.TokenCounter": 0
+              "TokenEvent.RefCount": 1,
+              "TokenEvent.TokenCounter": -1
             }
           }
         ]
@@ -1881,12 +1932,27 @@
               "CombatMoveTokenEvent._objects": null,
               "EngineObject._owner": "$owner",
               "MoveTokenEvent.MoveIndex": 0,
-              "MoveTokenEvent.Path": null,
+              "MoveTokenEvent.Path": {
+                "$type": "Aow.Game.World.Movement.MovePath",
+                "DefaultItemList\u00601.Default": {
+                  "$type": "Aow.Game.World.Movement.PathStep",
+                  "PathStep.Location": {
+                    "$type": "Aow.Game.World.Map.MapCoordinate",
+                    "MapCoordinate.MapLevel": -1,
+                    "MapCoordinate.X": -1,
+                    "MapCoordinate.Y": -1
+                  },
+                  "PathStep.MoveCost": 0
+                },
+                "DefaultItemList\u00601._capacity": 0,
+                "DefaultItemList\u00601._count": 0,
+                "DefaultItemList\u00601._list": []
+              },
               "MoveTokenEvent._status": 0,
               "TacticalBattleMeleeMoveTokenEvent._meleeRound": null,
               "TacticalBattleMeleeMoveTokenEvent._strikeIndex": 0,
-              "TokenEvent.RefCount": 0,
-              "TokenEvent.TokenCounter": 0
+              "TokenEvent.RefCount": 1,
+              "TokenEvent.TokenCounter": -1
             }
           }
         ]
@@ -1929,8 +1995,8 @@
             "$jsonText": {
               "$type": "Aow.Game.Commands.TerminateCombatTokenEvent",
               "EngineObject._owner": "$owner",
-              "TokenEvent.RefCount": 0,
-              "TokenEvent.TokenCounter": 0
+              "TokenEvent.RefCount": 1,
+              "TokenEvent.TokenCounter": -1
             }
           }
         ]
@@ -1973,8 +2039,8 @@
             "$jsonText": {
               "$type": "Aow.Game.Commands.TokenEvent",
               "EngineObject._owner": "$owner",
-              "TokenEvent.RefCount": 0,
-              "TokenEvent.TokenCounter": 0
+              "TokenEvent.RefCount": 1,
+              "TokenEvent.TokenCounter": -1
             }
           }
         ]
@@ -2050,8 +2116,8 @@
               "SpellTokenEvent.EventPlayerIndex": 0,
               "SpellTokenEvent.EventSourceId": 0,
               "SpellTokenEvent.EventSpellId": 0,
-              "TokenEvent.RefCount": 0,
-              "TokenEvent.TokenCounter": 0
+              "TokenEvent.RefCount": 1,
+              "TokenEvent.TokenCounter": -1
             }
           }
         ]
@@ -2126,15 +2192,24 @@
             "$jsonText": {
               "$type": "Aow.Game.Commands.UpdateSignTokenEvent",
               "EngineObject._owner": "$owner",
-              "TokenEvent.RefCount": 0,
-              "TokenEvent.TokenCounter": 0,
+              "TokenEvent.RefCount": 1,
+              "TokenEvent.TokenCounter": -1,
               "UpdateSignTokenEvent.Location": {
                 "$type": "Aow.Game.World.Map.MapCoordinate",
                 "MapCoordinate.MapLevel": 0,
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "UpdateSignTokenEvent.Text": null
+              "UpdateSignTokenEvent.Text": {
+                "$type": "Aow.Rtl.DelphiStringList",
+                "DelphiStringCollection.UpdateCount": 0,
+                "DelphiStringList.Duplicates": 0,
+                "DelphiStringList.OnChange": null,
+                "DelphiStringList.OnChanging": null,
+                "DelphiStringList.Sorted": false,
+                "DelphiStringList.count": 0,
+                "DelphiStringList.items": []
+              }
             }
           }
         ]
@@ -2230,7 +2305,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.Draw.Animations.Animation",
-              "Animation.AnimationLevel": 0,
+              "Animation.AnimationLevel": 26,
               "Animation.AnimationMap": null,
               "Animation.Dimensions": {
                 "$type": "Aow.Rtl.Rect",
@@ -2359,7 +2434,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.Draw.Animations.BlastStorm",
-              "Animation.AnimationLevel": 0,
+              "Animation.AnimationLevel": 26,
               "Animation.AnimationMap": null,
               "Animation.Dimensions": {
                 "$type": "Aow.Rtl.Rect",
@@ -2486,7 +2561,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.Draw.Animations.BloodShrineAnimation",
-              "Animation.AnimationLevel": 0,
+              "Animation.AnimationLevel": 26,
               "Animation.AnimationMap": null,
               "Animation.Dimensions": {
                 "$type": "Aow.Rtl.Rect",
@@ -2615,7 +2690,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.Draw.Animations.DeathStorm",
-              "Animation.AnimationLevel": 0,
+              "Animation.AnimationLevel": 26,
               "Animation.AnimationMap": null,
               "Animation.Dimensions": {
                 "$type": "Aow.Rtl.Rect",
@@ -2746,7 +2821,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.Draw.Animations.DivineStorm",
-              "Animation.AnimationLevel": 0,
+              "Animation.AnimationLevel": 26,
               "Animation.AnimationMap": null,
               "Animation.Dimensions": {
                 "$type": "Aow.Rtl.Rect",
@@ -2875,7 +2950,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.Draw.Animations.FireStorm",
-              "Animation.AnimationLevel": 0,
+              "Animation.AnimationLevel": 26,
               "Animation.AnimationMap": null,
               "Animation.Dimensions": {
                 "$type": "Aow.Rtl.Rect",
@@ -3005,7 +3080,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.Draw.Animations.IceStorm",
-              "Animation.AnimationLevel": 0,
+              "Animation.AnimationLevel": 26,
               "Animation.AnimationMap": null,
               "Animation.Dimensions": {
                 "$type": "Aow.Rtl.Rect",
@@ -3142,7 +3217,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.Draw.Animations.ImageSequenceAnimation",
-              "Animation.AnimationLevel": 0,
+              "Animation.AnimationLevel": 26,
               "Animation.AnimationMap": null,
               "Animation.Dimensions": {
                 "$type": "Aow.Rtl.Rect",
@@ -3172,7 +3247,7 @@
                 "Set\u00601.low": 0
               },
               "EngineObject._owner": "$owner",
-              "ImageSequenceAnimation.FrameCount": 0,
+              "ImageSequenceAnimation.FrameCount": -1,
               "ImageSequenceAnimation.ImageSequence": null,
               "ImageSequenceAnimation.Looped": false,
               "ImageSequenceAnimation.PixelXOffset": 0,
@@ -3276,7 +3351,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.Draw.Animations.LightningStorm",
-              "Animation.AnimationLevel": 0,
+              "Animation.AnimationLevel": 26,
               "Animation.AnimationMap": null,
               "Animation.Dimensions": {
                 "$type": "Aow.Rtl.Rect",
@@ -3407,7 +3482,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.Draw.Animations.PestilenceStorm",
-              "Animation.AnimationLevel": 0,
+              "Animation.AnimationLevel": 26,
               "Animation.AnimationMap": null,
               "Animation.Dimensions": {
                 "$type": "Aow.Rtl.Rect",
@@ -3534,7 +3609,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.Draw.Animations.SpringOfLifeAnimation",
-              "Animation.AnimationLevel": 0,
+              "Animation.AnimationLevel": 26,
               "Animation.AnimationMap": null,
               "Animation.Dimensions": {
                 "$type": "Aow.Rtl.Rect",
@@ -3661,7 +3736,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.Draw.Animations.Storm",
-              "Animation.AnimationLevel": 0,
+              "Animation.AnimationLevel": 26,
               "Animation.AnimationMap": null,
               "Animation.Dimensions": {
                 "$type": "Aow.Rtl.Rect",
@@ -3817,7 +3892,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.Draw.Animations.TwinkleAnimation",
-              "Animation.AnimationLevel": 0,
+              "Animation.AnimationLevel": 26,
               "Animation.AnimationMap": null,
               "Animation.Dimensions": {
                 "$type": "Aow.Rtl.Rect",
@@ -3938,8 +4013,11 @@
               "BattleEffectSprite.CombatAction": null,
               "BattleEffectSprite.Done": false,
               "BattleEffectSprite.EffectType": 0,
-              "BattleEffectSprite.Frame": 0,
-              "BattleEffectSprite.Path": null,
+              "BattleEffectSprite.Frame": -1,
+              "BattleEffectSprite.Path": {
+                "$type": "Aow.Game.Draw.Point3DList",
+                "Point3DList._list": []
+              },
               "BattleEffectSprite.SpellIndex": 0,
               "BattleEffectSprite.Target": null,
               "BattleEffectSprite.TargetX": 0,
@@ -4375,7 +4453,7 @@
               "$type": "Aow.Game.Draw.MagicSanctuaryOverlayHexSprite",
               "EngineObject._owner": "$owner",
               "MagicSanctuaryOverlayHexSprite.Structure": null,
-              "MagicSanctuaryOverlayHexSprite._fadeEndFrame": 0,
+              "MagicSanctuaryOverlayHexSprite._fadeEndFrame": -1,
               "SingleHexSprite._status": 0
             }
           }
@@ -4478,13 +4556,13 @@
               "$type": "Aow.Game.Draw.OverviewUnitHexSprite",
               "EngineObject._owner": "$owner",
               "OverviewUnitHexSprite._troop": null,
-              "UnitHexSprite.Direction": 0,
+              "UnitHexSprite.Direction": 3,
               "UnitHexSprite.FlagId": 0,
-              "UnitHexSprite.MoveStep": 0,
+              "UnitHexSprite.MoveStep": -1,
               "UnitHexSprite.Status": 0,
               "UnitHexSprite.UnitGraphicsResource": null,
               "UnitHexSprite._shadow": null,
-              "UnitHexSprite._showPriority": 0
+              "UnitHexSprite._showPriority": 1744830464
             }
           }
         ]
@@ -4910,13 +4988,13 @@
               "TacticalBattleUnitHexSprite.Unit": null,
               "TacticalBattleUnitHexSprite._indicatorStep": 0,
               "TacticalBattleUnitHexSprite._moveIndicator": 0,
-              "UnitHexSprite.Direction": 0,
+              "UnitHexSprite.Direction": 3,
               "UnitHexSprite.FlagId": 0,
-              "UnitHexSprite.MoveStep": 0,
+              "UnitHexSprite.MoveStep": -1,
               "UnitHexSprite.Status": 0,
               "UnitHexSprite.UnitGraphicsResource": null,
               "UnitHexSprite._shadow": null,
-              "UnitHexSprite._showPriority": 0
+              "UnitHexSprite._showPriority": 1744830464
             }
           }
         ]
@@ -4971,13 +5049,13 @@
             "$jsonText": {
               "$type": "Aow.Game.Draw.UnitHexSprite",
               "EngineObject._owner": "$owner",
-              "UnitHexSprite.Direction": 0,
+              "UnitHexSprite.Direction": 3,
               "UnitHexSprite.FlagId": 0,
-              "UnitHexSprite.MoveStep": 0,
+              "UnitHexSprite.MoveStep": -1,
               "UnitHexSprite.Status": 0,
               "UnitHexSprite.UnitGraphicsResource": null,
               "UnitHexSprite._shadow": null,
-              "UnitHexSprite._showPriority": 0
+              "UnitHexSprite._showPriority": 1744830464
             }
           }
         ]
@@ -5029,7 +5107,7 @@
               "$type": "Aow.Game.Draw.UnitPositionHexSprite",
               "EngineObject._owner": "$owner",
               "SingleHexSprite._status": 0,
-              "UnitPositionHexSprite._direction": 0,
+              "UnitPositionHexSprite._direction": 1,
               "UnitPositionHexSprite._imageIndex": 0,
               "UnitPositionHexSprite._images": null,
               "UnitPositionHexSprite._index": 0,
@@ -5077,6 +5155,13 @@
                 "Component.freeNotifies": null,
                 "ImageLibraryManager.DiskList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": [],
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
@@ -5092,17 +5177,17 @@
                     "Dictionary\u00602._values": null,
                     "Dictionary\u00602._version": 0
                   },
-                  "ImageLibraryManagerList._owner": "$owner",
+                  "ImageLibraryManagerList._owner": "$owner"
+                },
+                "ImageLibraryManager.OwnedList": {
+                  "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "DelphiStringCollection.UpdateCount": 0,
                   "DelphiStringList.Duplicates": 0,
                   "DelphiStringList.OnChange": null,
                   "DelphiStringList.OnChanging": null,
                   "DelphiStringList.Sorted": false,
                   "DelphiStringList.count": 0,
-                  "DelphiStringList.items": []
-                },
-                "ImageLibraryManager.OwnedList": {
-                  "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
@@ -5116,14 +5201,7 @@
                     "Dictionary\u00602._values": null,
                     "Dictionary\u00602._version": 0
                   },
-                  "ImageLibraryManagerList._owner": "$owner",
-                  "DelphiStringCollection.UpdateCount": 0,
-                  "DelphiStringList.Duplicates": 0,
-                  "DelphiStringList.OnChange": null,
-                  "DelphiStringList.OnChanging": null,
-                  "DelphiStringList.Sorted": false,
-                  "DelphiStringList.count": 0,
-                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
+                  "ImageLibraryManagerList._owner": "$owner"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -5208,6 +5286,13 @@
                 "Component.freeNotifies": null,
                 "ImageLibraryManager.DiskList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": [],
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
@@ -5223,17 +5308,17 @@
                     "Dictionary\u00602._values": null,
                     "Dictionary\u00602._version": 0
                   },
-                  "ImageLibraryManagerList._owner": "$owner",
+                  "ImageLibraryManagerList._owner": "$owner"
+                },
+                "ImageLibraryManager.OwnedList": {
+                  "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "DelphiStringCollection.UpdateCount": 0,
                   "DelphiStringList.Duplicates": 0,
                   "DelphiStringList.OnChange": null,
                   "DelphiStringList.OnChanging": null,
                   "DelphiStringList.Sorted": false,
                   "DelphiStringList.count": 0,
-                  "DelphiStringList.items": []
-                },
-                "ImageLibraryManager.OwnedList": {
-                  "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
@@ -5247,14 +5332,7 @@
                     "Dictionary\u00602._values": null,
                     "Dictionary\u00602._version": 0
                   },
-                  "ImageLibraryManagerList._owner": "$owner",
-                  "DelphiStringCollection.UpdateCount": 0,
-                  "DelphiStringList.Duplicates": 0,
-                  "DelphiStringList.OnChange": null,
-                  "DelphiStringList.OnChanging": null,
-                  "DelphiStringList.Sorted": false,
-                  "DelphiStringList.count": 0,
-                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
+                  "ImageLibraryManagerList._owner": "$owner"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -5374,6 +5452,13 @@
                 "Component.freeNotifies": null,
                 "ImageLibraryManager.DiskList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": [],
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
@@ -5389,17 +5474,17 @@
                     "Dictionary\u00602._values": null,
                     "Dictionary\u00602._version": 0
                   },
-                  "ImageLibraryManagerList._owner": "$owner",
+                  "ImageLibraryManagerList._owner": "$owner"
+                },
+                "ImageLibraryManager.OwnedList": {
+                  "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "DelphiStringCollection.UpdateCount": 0,
                   "DelphiStringList.Duplicates": 0,
                   "DelphiStringList.OnChange": null,
                   "DelphiStringList.OnChanging": null,
                   "DelphiStringList.Sorted": false,
                   "DelphiStringList.count": 0,
-                  "DelphiStringList.items": []
-                },
-                "ImageLibraryManager.OwnedList": {
-                  "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
@@ -5413,14 +5498,7 @@
                     "Dictionary\u00602._values": null,
                     "Dictionary\u00602._version": 0
                   },
-                  "ImageLibraryManagerList._owner": "$owner",
-                  "DelphiStringCollection.UpdateCount": 0,
-                  "DelphiStringList.Duplicates": 0,
-                  "DelphiStringList.OnChange": null,
-                  "DelphiStringList.OnChanging": null,
-                  "DelphiStringList.Sorted": false,
-                  "DelphiStringList.count": 0,
-                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
+                  "ImageLibraryManagerList._owner": "$owner"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -5505,6 +5583,13 @@
                 "Component.freeNotifies": null,
                 "ImageLibraryManager.DiskList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": [],
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
@@ -5520,17 +5605,17 @@
                     "Dictionary\u00602._values": null,
                     "Dictionary\u00602._version": 0
                   },
-                  "ImageLibraryManagerList._owner": "$owner",
+                  "ImageLibraryManagerList._owner": "$owner"
+                },
+                "ImageLibraryManager.OwnedList": {
+                  "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "DelphiStringCollection.UpdateCount": 0,
                   "DelphiStringList.Duplicates": 0,
                   "DelphiStringList.OnChange": null,
                   "DelphiStringList.OnChanging": null,
                   "DelphiStringList.Sorted": false,
                   "DelphiStringList.count": 0,
-                  "DelphiStringList.items": []
-                },
-                "ImageLibraryManager.OwnedList": {
-                  "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
@@ -5544,14 +5629,7 @@
                     "Dictionary\u00602._values": null,
                     "Dictionary\u00602._version": 0
                   },
-                  "ImageLibraryManagerList._owner": "$owner",
-                  "DelphiStringCollection.UpdateCount": 0,
-                  "DelphiStringList.Duplicates": 0,
-                  "DelphiStringList.OnChange": null,
-                  "DelphiStringList.OnChanging": null,
-                  "DelphiStringList.Sorted": false,
-                  "DelphiStringList.count": 0,
-                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
+                  "ImageLibraryManagerList._owner": "$owner"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -5671,6 +5749,13 @@
                 "Component.freeNotifies": null,
                 "ImageLibraryManager.DiskList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": [],
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
@@ -5686,17 +5771,17 @@
                     "Dictionary\u00602._values": null,
                     "Dictionary\u00602._version": 0
                   },
-                  "ImageLibraryManagerList._owner": "$owner",
+                  "ImageLibraryManagerList._owner": "$owner"
+                },
+                "ImageLibraryManager.OwnedList": {
+                  "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "DelphiStringCollection.UpdateCount": 0,
                   "DelphiStringList.Duplicates": 0,
                   "DelphiStringList.OnChange": null,
                   "DelphiStringList.OnChanging": null,
                   "DelphiStringList.Sorted": false,
                   "DelphiStringList.count": 0,
-                  "DelphiStringList.items": []
-                },
-                "ImageLibraryManager.OwnedList": {
-                  "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
@@ -5710,14 +5795,7 @@
                     "Dictionary\u00602._values": null,
                     "Dictionary\u00602._version": 0
                   },
-                  "ImageLibraryManagerList._owner": "$owner",
-                  "DelphiStringCollection.UpdateCount": 0,
-                  "DelphiStringList.Duplicates": 0,
-                  "DelphiStringList.OnChange": null,
-                  "DelphiStringList.OnChanging": null,
-                  "DelphiStringList.Sorted": false,
-                  "DelphiStringList.count": 0,
-                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
+                  "ImageLibraryManagerList._owner": "$owner"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -5802,6 +5880,13 @@
                 "Component.freeNotifies": null,
                 "ImageLibraryManager.DiskList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": [],
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
@@ -5817,17 +5902,17 @@
                     "Dictionary\u00602._values": null,
                     "Dictionary\u00602._version": 0
                   },
-                  "ImageLibraryManagerList._owner": "$owner",
+                  "ImageLibraryManagerList._owner": "$owner"
+                },
+                "ImageLibraryManager.OwnedList": {
+                  "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "DelphiStringCollection.UpdateCount": 0,
                   "DelphiStringList.Duplicates": 0,
                   "DelphiStringList.OnChange": null,
                   "DelphiStringList.OnChanging": null,
                   "DelphiStringList.Sorted": false,
                   "DelphiStringList.count": 0,
-                  "DelphiStringList.items": []
-                },
-                "ImageLibraryManager.OwnedList": {
-                  "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
@@ -5841,14 +5926,7 @@
                     "Dictionary\u00602._values": null,
                     "Dictionary\u00602._version": 0
                   },
-                  "ImageLibraryManagerList._owner": "$owner",
-                  "DelphiStringCollection.UpdateCount": 0,
-                  "DelphiStringList.Duplicates": 0,
-                  "DelphiStringList.OnChange": null,
-                  "DelphiStringList.OnChanging": null,
-                  "DelphiStringList.Sorted": false,
-                  "DelphiStringList.count": 0,
-                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
+                  "ImageLibraryManagerList._owner": "$owner"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -5968,6 +6046,13 @@
                 "Component.freeNotifies": null,
                 "ImageLibraryManager.DiskList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": [],
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
@@ -5983,17 +6068,17 @@
                     "Dictionary\u00602._values": null,
                     "Dictionary\u00602._version": 0
                   },
-                  "ImageLibraryManagerList._owner": "$owner",
+                  "ImageLibraryManagerList._owner": "$owner"
+                },
+                "ImageLibraryManager.OwnedList": {
+                  "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "DelphiStringCollection.UpdateCount": 0,
                   "DelphiStringList.Duplicates": 0,
                   "DelphiStringList.OnChange": null,
                   "DelphiStringList.OnChanging": null,
                   "DelphiStringList.Sorted": false,
                   "DelphiStringList.count": 0,
-                  "DelphiStringList.items": []
-                },
-                "ImageLibraryManager.OwnedList": {
-                  "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
@@ -6007,14 +6092,7 @@
                     "Dictionary\u00602._values": null,
                     "Dictionary\u00602._version": 0
                   },
-                  "ImageLibraryManagerList._owner": "$owner",
-                  "DelphiStringCollection.UpdateCount": 0,
-                  "DelphiStringList.Duplicates": 0,
-                  "DelphiStringList.OnChange": null,
-                  "DelphiStringList.OnChanging": null,
-                  "DelphiStringList.Sorted": false,
-                  "DelphiStringList.count": 0,
-                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
+                  "ImageLibraryManagerList._owner": "$owner"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -6099,6 +6177,13 @@
                 "Component.freeNotifies": null,
                 "ImageLibraryManager.DiskList": {
                   "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": [],
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
@@ -6114,17 +6199,17 @@
                     "Dictionary\u00602._values": null,
                     "Dictionary\u00602._version": 0
                   },
-                  "ImageLibraryManagerList._owner": "$owner",
+                  "ImageLibraryManagerList._owner": "$owner"
+                },
+                "ImageLibraryManager.OwnedList": {
+                  "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
                   "DelphiStringCollection.UpdateCount": 0,
                   "DelphiStringList.Duplicates": 0,
                   "DelphiStringList.OnChange": null,
                   "DelphiStringList.OnChanging": null,
                   "DelphiStringList.Sorted": false,
                   "DelphiStringList.count": 0,
-                  "DelphiStringList.items": []
-                },
-                "ImageLibraryManager.OwnedList": {
-                  "$type": "Aow.Game.Draw.Images.ImageLibraryManagerList",
+                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items",
                   "ImageLibraryManagerList.HashTable": {
                     "$type": "System.Collections.Generic.Dictionary\u00602[[System.String, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[Aow.Game.Draw.Images.ImageLibraryManagerObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                     "Dictionary\u00602._buckets": null,
@@ -6138,14 +6223,7 @@
                     "Dictionary\u00602._values": null,
                     "Dictionary\u00602._version": 0
                   },
-                  "ImageLibraryManagerList._owner": "$owner",
-                  "DelphiStringCollection.UpdateCount": 0,
-                  "DelphiStringList.Duplicates": 0,
-                  "DelphiStringList.OnChange": null,
-                  "DelphiStringList.OnChanging": null,
-                  "DelphiStringList.Sorted": false,
-                  "DelphiStringList.count": 0,
-                  "DelphiStringList.items": "$ref:$.Spell.CastImages.ImageSequenceList.ImageLibraryManager.ImageLibraryManager.DiskList.DelphiStringList.items"
+                  "ImageLibraryManagerList._owner": "$owner"
                 },
                 "ImageLibraryManager.SearchPath": ""
               },
@@ -7581,7 +7659,16 @@
               "FlagEvent.TriggerMode": 0,
               "FlagEvent._triggerPlayers": 0,
               "FlagMessageEvent._helpFileName": "",
-              "FlagMessageEvent._message": null,
+              "FlagMessageEvent._message": {
+                "$type": "Aow.Rtl.DelphiStringList",
+                "DelphiStringCollection.UpdateCount": 0,
+                "DelphiStringList.Duplicates": 0,
+                "DelphiStringList.OnChange": null,
+                "DelphiStringList.OnChanging": null,
+                "DelphiStringList.Sorted": false,
+                "DelphiStringList.count": 0,
+                "DelphiStringList.items": []
+              },
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -8824,7 +8911,7 @@
                     "Resource._burnValue": 0,
                     "Resource._hitPoints": 0,
                     "Resource._meleeTarget": false,
-                    "TerrainMapObjectResource.DecorationType": 0,
+                    "TerrainMapObjectResource.DecorationType": -1,
                     "TerrainMapObjectResource.TerrainType": 0
                   }
                 }
@@ -8921,7 +9008,7 @@
               "Resource._burnValue": 0,
               "Resource._hitPoints": 0,
               "Resource._meleeTarget": false,
-              "TerrainMapObjectResource.DecorationType": 0,
+              "TerrainMapObjectResource.DecorationType": -1,
               "TerrainMapObjectResource.TerrainType": 0
             }
           }
@@ -9576,9 +9663,21 @@
             "$jsonText": {
               "$type": "Aow.Game.World.Hexes.HexBridge",
               "EngineObject._owner": "$owner",
-              "HexBridge.Direction": 0,
-              "HexBridge._sideA": null,
-              "HexBridge._sideB": null,
+              "HexBridge.Direction": -1,
+              "HexBridge._sideA": {
+                "$type": "Aow.Engine.Collections.ByteList",
+                "ByteList.Default": 0,
+                "ByteList._capacity": 0,
+                "ByteList._count": 0,
+                "ByteList._list": []
+              },
+              "HexBridge._sideB": {
+                "$type": "Aow.Engine.Collections.ByteList",
+                "ByteList.Default": 0,
+                "ByteList._capacity": 0,
+                "ByteList._count": 0,
+                "ByteList._list": "$ref:$.HexBridge._sideA.ByteList._list"
+              },
               "HexBridge._terrain": 0,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -9887,7 +9986,7 @@
                     "EngineResource.EditIndex": 0,
                     "EngineResource.ResourceId": 0,
                     "EngineResource.ResourceList": null,
-                    "IsometricHexResource.DynamicLevel": 0,
+                    "IsometricHexResource.DynamicLevel": 26,
                     "MapObjectResource.Engine": null,
                     "MapObjectResource.ImageLibrary": null,
                     "MapObjectResource.ImageSequenceList": null,
@@ -9966,7 +10065,7 @@
               "EngineResource.EditIndex": 0,
               "EngineResource.ResourceId": 0,
               "EngineResource.ResourceList": null,
-              "IsometricHexResource.DynamicLevel": 0,
+              "IsometricHexResource.DynamicLevel": 26,
               "MapObjectResource.Engine": null,
               "MapObjectResource.ImageLibrary": null,
               "MapObjectResource.ImageSequenceList": null,
@@ -10044,7 +10143,7 @@
               "EngineObject._owner": "$owner",
               "IsometricHex.Dynamic": null,
               "IsometricHex.OpenSides": 0,
-              "IsometricHex.Sides": 0,
+              "IsometricHex.Sides": 128,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -10127,7 +10226,7 @@
               "EngineObject._owner": "$owner",
               "IsometricHex.Dynamic": null,
               "IsometricHex.OpenSides": 0,
-              "IsometricHex.Sides": 0,
+              "IsometricHex.Sides": 128,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -10244,7 +10343,7 @@
                     "EngineResource.EditIndex": 0,
                     "EngineResource.ResourceId": 0,
                     "EngineResource.ResourceList": null,
-                    "IsometricHexResource.DynamicLevel": 0,
+                    "IsometricHexResource.DynamicLevel": 26,
                     "MapObjectResource.Engine": null,
                     "MapObjectResource.ImageLibrary": null,
                     "MapObjectResource.ImageSequenceList": null,
@@ -10323,7 +10422,7 @@
               "EngineResource.EditIndex": 0,
               "EngineResource.ResourceId": 0,
               "EngineResource.ResourceList": null,
-              "IsometricHexResource.DynamicLevel": 0,
+              "IsometricHexResource.DynamicLevel": 26,
               "MapObjectResource.Engine": null,
               "MapObjectResource.ImageLibrary": null,
               "MapObjectResource.ImageSequenceList": null,
@@ -10435,7 +10534,7 @@
                     "EngineResource.EditIndex": 0,
                     "EngineResource.ResourceId": 0,
                     "EngineResource.ResourceList": null,
-                    "IsometricHexResource.DynamicLevel": 0,
+                    "IsometricHexResource.DynamicLevel": 26,
                     "MapObjectResource.Engine": null,
                     "MapObjectResource.ImageLibrary": null,
                     "MapObjectResource.ImageSequenceList": null,
@@ -10514,7 +10613,7 @@
               "EngineResource.EditIndex": 0,
               "EngineResource.ResourceId": 0,
               "EngineResource.ResourceList": null,
-              "IsometricHexResource.DynamicLevel": 0,
+              "IsometricHexResource.DynamicLevel": 26,
               "MapObjectResource.Engine": null,
               "MapObjectResource.ImageLibrary": null,
               "MapObjectResource.ImageSequenceList": null,
@@ -10592,7 +10691,7 @@
               "EngineObject._owner": "$owner",
               "IsometricHex.Dynamic": null,
               "IsometricHex.OpenSides": 0,
-              "IsometricHex.Sides": 0,
+              "IsometricHex.Sides": 128,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -11252,7 +11351,7 @@
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
                     "Resource.MapFieldResponse": 0,
-                    "TerrainMapObjectResource.DecorationType": 0,
+                    "TerrainMapObjectResource.DecorationType": -1,
                     "TerrainMapObjectResource.TerrainType": 0
                   }
                 }
@@ -11343,7 +11442,7 @@
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
               "Resource.MapFieldResponse": 0,
-              "TerrainMapObjectResource.DecorationType": 0,
+              "TerrainMapObjectResource.DecorationType": -1,
               "TerrainMapObjectResource.TerrainType": 0
             }
           }
@@ -11625,7 +11724,7 @@
                     "MultiHexMapObjectResource.ImageOffsetY": 0,
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
-                    "TerrainMapObjectResource.DecorationType": 0,
+                    "TerrainMapObjectResource.DecorationType": -1,
                     "TerrainMapObjectResource.TerrainType": 0
                   }
                 }
@@ -11714,7 +11813,7 @@
               "MultiHexMapObjectResource.ImageOffsetY": 0,
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
-              "TerrainMapObjectResource.DecorationType": 0,
+              "TerrainMapObjectResource.DecorationType": -1,
               "TerrainMapObjectResource.TerrainType": 0
             }
           }
@@ -11820,7 +11919,7 @@
                     "EngineResource.EditIndex": 0,
                     "EngineResource.ResourceId": 0,
                     "EngineResource.ResourceList": null,
-                    "IsometricHexResource.DynamicLevel": 0,
+                    "IsometricHexResource.DynamicLevel": 26,
                     "MapObjectResource.Engine": null,
                     "MapObjectResource.ImageLibrary": null,
                     "MapObjectResource.ImageSequenceList": null,
@@ -11899,7 +11998,7 @@
               "EngineResource.EditIndex": 0,
               "EngineResource.ResourceId": 0,
               "EngineResource.ResourceList": null,
-              "IsometricHexResource.DynamicLevel": 0,
+              "IsometricHexResource.DynamicLevel": 26,
               "MapObjectResource.Engine": null,
               "MapObjectResource.ImageLibrary": null,
               "MapObjectResource.ImageSequenceList": null,
@@ -11977,7 +12076,7 @@
               "EngineObject._owner": "$owner",
               "IsometricHex.Dynamic": null,
               "IsometricHex.OpenSides": 0,
-              "IsometricHex.Sides": 0,
+              "IsometricHex.Sides": 128,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -12094,7 +12193,7 @@
                     "EngineResource.EditIndex": 0,
                     "EngineResource.ResourceId": 0,
                     "EngineResource.ResourceList": null,
-                    "IsometricHexResource.DynamicLevel": 0,
+                    "IsometricHexResource.DynamicLevel": 26,
                     "MapObjectResource.Engine": null,
                     "MapObjectResource.ImageLibrary": null,
                     "MapObjectResource.ImageSequenceList": null,
@@ -12173,7 +12272,7 @@
               "EngineResource.EditIndex": 0,
               "EngineResource.ResourceId": 0,
               "EngineResource.ResourceList": null,
-              "IsometricHexResource.DynamicLevel": 0,
+              "IsometricHexResource.DynamicLevel": 26,
               "MapObjectResource.Engine": null,
               "MapObjectResource.ImageLibrary": null,
               "MapObjectResource.ImageSequenceList": null,
@@ -12271,7 +12370,7 @@
               "EngineObject._owner": "$owner",
               "IsometricHex.Dynamic": null,
               "IsometricHex.OpenSides": 0,
-              "IsometricHex.Sides": 0,
+              "IsometricHex.Sides": 128,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -12398,7 +12497,7 @@
                     "EngineResource.EditIndex": 0,
                     "EngineResource.ResourceId": 0,
                     "EngineResource.ResourceList": null,
-                    "IsometricHexResource.DynamicLevel": 0,
+                    "IsometricHexResource.DynamicLevel": 26,
                     "MapObjectResource.Engine": null,
                     "MapObjectResource.ImageLibrary": null,
                     "MapObjectResource.ImageSequenceList": null,
@@ -12477,7 +12576,7 @@
               "EngineResource.EditIndex": 0,
               "EngineResource.ResourceId": 0,
               "EngineResource.ResourceList": null,
-              "IsometricHexResource.DynamicLevel": 0,
+              "IsometricHexResource.DynamicLevel": 26,
               "MapObjectResource.Engine": null,
               "MapObjectResource.ImageLibrary": null,
               "MapObjectResource.ImageSequenceList": null,
@@ -12575,7 +12674,7 @@
               "EngineObject._owner": "$owner",
               "IsometricHex.Dynamic": null,
               "IsometricHex.OpenSides": 0,
-              "IsometricHex.Sides": 0,
+              "IsometricHex.Sides": 128,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -13526,7 +13625,7 @@
               ],
               "MapLevel.Map": null,
               "MapLevel.MapContainer": null,
-              "MapLevel.MapFieldClassId": 0,
+              "MapLevel.MapFieldClassId": 65793,
               "MapLevel.Width": 0,
               "MapLevel._count": 0,
               "MapLevel._fields": []
@@ -13993,7 +14092,7 @@
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
                     "Resource.MapFieldResponse": 0,
-                    "TerrainMapObjectResource.DecorationType": 0,
+                    "TerrainMapObjectResource.DecorationType": -1,
                     "TerrainMapObjectResource.TerrainType": 0
                   }
                 }
@@ -14084,7 +14183,7 @@
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
               "Resource.MapFieldResponse": 0,
-              "TerrainMapObjectResource.DecorationType": 0,
+              "TerrainMapObjectResource.DecorationType": -1,
               "TerrainMapObjectResource.TerrainType": 0
             }
           }
@@ -15194,10 +15293,10 @@
                     "MultiHexMapObjectResource.ImageOffsetY": 0,
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
-                    "PlayerStructureResource.Claimed": false,
+                    "PlayerStructureResource.Claimed": true,
                     "PlayerStructureResource.FlagControl": null,
-                    "PlayerStructureResource.FlagX": 0,
-                    "PlayerStructureResource.FlagY": 0,
+                    "PlayerStructureResource.FlagX": 20,
+                    "PlayerStructureResource.FlagY": -35,
                     "ProductionPlaceResource.Units": null,
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
@@ -15340,10 +15439,10 @@
               "MultiHexMapObjectResource.ImageOffsetY": 0,
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
-              "PlayerStructureResource.Claimed": false,
+              "PlayerStructureResource.Claimed": true,
               "PlayerStructureResource.FlagControl": null,
-              "PlayerStructureResource.FlagX": 0,
-              "PlayerStructureResource.FlagY": 0,
+              "PlayerStructureResource.FlagX": 20,
+              "PlayerStructureResource.FlagY": -35,
               "ProductionPlaceResource.Units": null,
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
@@ -15573,7 +15672,7 @@
               "$type": "Aow.Game.World.Structures.AirNode",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -15592,15 +15691,26 @@
               "PlayerStructure.ProductionPriority": 0,
               "PlayerStructure.UnfogRange": 0,
               "PlayerStructure._flagId": 0,
-              "PlayerStructure._victoryLocations": null,
+              "PlayerStructure._victoryLocations": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
               "ProductionPlace.ProductionControl": null,
               "ProductionPlace.RazedState": 0,
               "ProductionPlace._defenderLevel": 0,
               "ProductionPlace._incomeSource": null,
               "ProductionPlace._powerSource": null,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -15728,7 +15838,7 @@
               "Altar._storm": null,
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -15747,10 +15857,21 @@
               "PlayerStructure.ProductionPriority": 0,
               "PlayerStructure.UnfogRange": 0,
               "PlayerStructure._flagId": 0,
-              "PlayerStructure._victoryLocations": null,
+              "PlayerStructure._victoryLocations": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -15908,10 +16029,10 @@
                     "MultiHexMapObjectResource.ImageOffsetY": 0,
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
-                    "PlayerStructureResource.Claimed": false,
+                    "PlayerStructureResource.Claimed": true,
                     "PlayerStructureResource.FlagControl": null,
-                    "PlayerStructureResource.FlagX": 0,
-                    "PlayerStructureResource.FlagY": 0,
+                    "PlayerStructureResource.FlagX": 20,
+                    "PlayerStructureResource.FlagY": -35,
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
                     "StructureResource.Defenders": null,
@@ -16046,10 +16167,10 @@
               "MultiHexMapObjectResource.ImageOffsetY": 0,
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
-              "PlayerStructureResource.Claimed": false,
+              "PlayerStructureResource.Claimed": true,
               "PlayerStructureResource.FlagControl": null,
-              "PlayerStructureResource.FlagX": 0,
-              "PlayerStructureResource.FlagY": 0,
+              "PlayerStructureResource.FlagX": 20,
+              "PlayerStructureResource.FlagY": -35,
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
               "StructureResource.Defenders": null,
@@ -16187,7 +16308,7 @@
               "Altar._storm": null,
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -16206,10 +16327,21 @@
               "PlayerStructure.ProductionPriority": 0,
               "PlayerStructure.UnfogRange": 0,
               "PlayerStructure._flagId": 0,
-              "PlayerStructure._victoryLocations": null,
+              "PlayerStructure._victoryLocations": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -16367,10 +16499,10 @@
                     "MultiHexMapObjectResource.ImageOffsetY": 0,
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
-                    "PlayerStructureResource.Claimed": false,
+                    "PlayerStructureResource.Claimed": true,
                     "PlayerStructureResource.FlagControl": null,
-                    "PlayerStructureResource.FlagX": 0,
-                    "PlayerStructureResource.FlagY": 0,
+                    "PlayerStructureResource.FlagX": 20,
+                    "PlayerStructureResource.FlagY": -35,
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
                     "StructureResource.Defenders": null,
@@ -16505,10 +16637,10 @@
               "MultiHexMapObjectResource.ImageOffsetY": 0,
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
-              "PlayerStructureResource.Claimed": false,
+              "PlayerStructureResource.Claimed": true,
               "PlayerStructureResource.FlagControl": null,
-              "PlayerStructureResource.FlagX": 0,
-              "PlayerStructureResource.FlagY": 0,
+              "PlayerStructureResource.FlagX": 20,
+              "PlayerStructureResource.FlagY": -35,
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
               "StructureResource.Defenders": null,
@@ -16646,7 +16778,7 @@
               "Altar._storm": null,
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -16665,10 +16797,21 @@
               "PlayerStructure.ProductionPriority": 0,
               "PlayerStructure.UnfogRange": 0,
               "PlayerStructure._flagId": 0,
-              "PlayerStructure._victoryLocations": null,
+              "PlayerStructure._victoryLocations": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -16826,10 +16969,10 @@
                     "MultiHexMapObjectResource.ImageOffsetY": 0,
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
-                    "PlayerStructureResource.Claimed": false,
+                    "PlayerStructureResource.Claimed": true,
                     "PlayerStructureResource.FlagControl": null,
-                    "PlayerStructureResource.FlagX": 0,
-                    "PlayerStructureResource.FlagY": 0,
+                    "PlayerStructureResource.FlagX": 20,
+                    "PlayerStructureResource.FlagY": -35,
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
                     "StructureResource.Defenders": null,
@@ -16964,10 +17107,10 @@
               "MultiHexMapObjectResource.ImageOffsetY": 0,
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
-              "PlayerStructureResource.Claimed": false,
+              "PlayerStructureResource.Claimed": true,
               "PlayerStructureResource.FlagControl": null,
-              "PlayerStructureResource.FlagX": 0,
-              "PlayerStructureResource.FlagY": 0,
+              "PlayerStructureResource.FlagX": 20,
+              "PlayerStructureResource.FlagY": -35,
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
               "StructureResource.Defenders": null,
@@ -17105,7 +17248,7 @@
               "Altar._storm": null,
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -17124,10 +17267,21 @@
               "PlayerStructure.ProductionPriority": 0,
               "PlayerStructure.UnfogRange": 0,
               "PlayerStructure._flagId": 0,
-              "PlayerStructure._victoryLocations": null,
+              "PlayerStructure._victoryLocations": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -17285,10 +17439,10 @@
                     "MultiHexMapObjectResource.ImageOffsetY": 0,
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
-                    "PlayerStructureResource.Claimed": false,
+                    "PlayerStructureResource.Claimed": true,
                     "PlayerStructureResource.FlagControl": null,
-                    "PlayerStructureResource.FlagX": 0,
-                    "PlayerStructureResource.FlagY": 0,
+                    "PlayerStructureResource.FlagX": 20,
+                    "PlayerStructureResource.FlagY": -35,
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
                     "StructureResource.Defenders": null,
@@ -17423,10 +17577,10 @@
               "MultiHexMapObjectResource.ImageOffsetY": 0,
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
-              "PlayerStructureResource.Claimed": false,
+              "PlayerStructureResource.Claimed": true,
               "PlayerStructureResource.FlagControl": null,
-              "PlayerStructureResource.FlagX": 0,
-              "PlayerStructureResource.FlagY": 0,
+              "PlayerStructureResource.FlagX": 20,
+              "PlayerStructureResource.FlagY": -35,
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
               "StructureResource.Defenders": null,
@@ -17564,7 +17718,7 @@
               "Altar._storm": null,
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -17583,10 +17737,21 @@
               "PlayerStructure.ProductionPriority": 0,
               "PlayerStructure.UnfogRange": 0,
               "PlayerStructure._flagId": 0,
-              "PlayerStructure._victoryLocations": null,
+              "PlayerStructure._victoryLocations": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -17744,10 +17909,10 @@
                     "MultiHexMapObjectResource.ImageOffsetY": 0,
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
-                    "PlayerStructureResource.Claimed": false,
+                    "PlayerStructureResource.Claimed": true,
                     "PlayerStructureResource.FlagControl": null,
-                    "PlayerStructureResource.FlagX": 0,
-                    "PlayerStructureResource.FlagY": 0,
+                    "PlayerStructureResource.FlagX": 20,
+                    "PlayerStructureResource.FlagY": -35,
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
                     "StructureResource.Defenders": null,
@@ -17882,10 +18047,10 @@
               "MultiHexMapObjectResource.ImageOffsetY": 0,
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
-              "PlayerStructureResource.Claimed": false,
+              "PlayerStructureResource.Claimed": true,
               "PlayerStructureResource.FlagControl": null,
-              "PlayerStructureResource.FlagX": 0,
-              "PlayerStructureResource.FlagY": 0,
+              "PlayerStructureResource.FlagX": 20,
+              "PlayerStructureResource.FlagY": -35,
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
               "StructureResource.Defenders": null,
@@ -18023,7 +18188,7 @@
               "Altar._storm": null,
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -18042,10 +18207,21 @@
               "PlayerStructure.ProductionPriority": 0,
               "PlayerStructure.UnfogRange": 0,
               "PlayerStructure._flagId": 0,
-              "PlayerStructure._victoryLocations": null,
+              "PlayerStructure._victoryLocations": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -18203,10 +18379,10 @@
                     "MultiHexMapObjectResource.ImageOffsetY": 0,
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
-                    "PlayerStructureResource.Claimed": false,
+                    "PlayerStructureResource.Claimed": true,
                     "PlayerStructureResource.FlagControl": null,
-                    "PlayerStructureResource.FlagX": 0,
-                    "PlayerStructureResource.FlagY": 0,
+                    "PlayerStructureResource.FlagX": 20,
+                    "PlayerStructureResource.FlagY": -35,
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
                     "StructureResource.Defenders": null,
@@ -18341,10 +18517,10 @@
               "MultiHexMapObjectResource.ImageOffsetY": 0,
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
-              "PlayerStructureResource.Claimed": false,
+              "PlayerStructureResource.Claimed": true,
               "PlayerStructureResource.FlagControl": null,
-              "PlayerStructureResource.FlagX": 0,
-              "PlayerStructureResource.FlagY": 0,
+              "PlayerStructureResource.FlagX": 20,
+              "PlayerStructureResource.FlagY": -35,
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
               "StructureResource.Defenders": null,
@@ -18482,7 +18658,7 @@
               "Altar._storm": null,
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -18501,10 +18677,21 @@
               "PlayerStructure.ProductionPriority": 0,
               "PlayerStructure.UnfogRange": 0,
               "PlayerStructure._flagId": 0,
-              "PlayerStructure._victoryLocations": null,
+              "PlayerStructure._victoryLocations": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -18662,10 +18849,10 @@
                     "MultiHexMapObjectResource.ImageOffsetY": 0,
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
-                    "PlayerStructureResource.Claimed": false,
+                    "PlayerStructureResource.Claimed": true,
                     "PlayerStructureResource.FlagControl": null,
-                    "PlayerStructureResource.FlagX": 0,
-                    "PlayerStructureResource.FlagY": 0,
+                    "PlayerStructureResource.FlagX": 20,
+                    "PlayerStructureResource.FlagY": -35,
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
                     "StructureResource.Defenders": null,
@@ -18800,10 +18987,10 @@
               "MultiHexMapObjectResource.ImageOffsetY": 0,
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
-              "PlayerStructureResource.Claimed": false,
+              "PlayerStructureResource.Claimed": true,
               "PlayerStructureResource.FlagControl": null,
-              "PlayerStructureResource.FlagX": 0,
-              "PlayerStructureResource.FlagY": 0,
+              "PlayerStructureResource.FlagX": 20,
+              "PlayerStructureResource.FlagY": -35,
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
               "StructureResource.Defenders": null,
@@ -19193,7 +19380,7 @@
               "$type": "Aow.Game.World.Structures.Arena",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -19209,8 +19396,8 @@
               "MultiHexMapObject.StoredHexX": 0,
               "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -19590,7 +19777,7 @@
               "$type": "Aow.Game.World.Structures.BloodShrine",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -19606,8 +19793,8 @@
               "MultiHexMapObject.StoredHexX": 0,
               "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -19772,10 +19959,10 @@
                     "MultiHexMapObjectResource.ImageOffsetY": 0,
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
-                    "PlayerStructureResource.Claimed": false,
+                    "PlayerStructureResource.Claimed": true,
                     "PlayerStructureResource.FlagControl": null,
-                    "PlayerStructureResource.FlagX": 0,
-                    "PlayerStructureResource.FlagY": 0,
+                    "PlayerStructureResource.FlagX": 20,
+                    "PlayerStructureResource.FlagY": -35,
                     "ProductionPlaceResource.Units": null,
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
@@ -19918,10 +20105,10 @@
               "MultiHexMapObjectResource.ImageOffsetY": 0,
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
-              "PlayerStructureResource.Claimed": false,
+              "PlayerStructureResource.Claimed": true,
               "PlayerStructureResource.FlagControl": null,
-              "PlayerStructureResource.FlagX": 0,
-              "PlayerStructureResource.FlagY": 0,
+              "PlayerStructureResource.FlagX": 20,
+              "PlayerStructureResource.FlagY": -35,
               "ProductionPlaceResource.Units": null,
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
@@ -20151,7 +20338,7 @@
               "$type": "Aow.Game.World.Structures.BuildersGuild",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -20170,15 +20357,26 @@
               "PlayerStructure.ProductionPriority": 0,
               "PlayerStructure.UnfogRange": 0,
               "PlayerStructure._flagId": 0,
-              "PlayerStructure._victoryLocations": null,
+              "PlayerStructure._victoryLocations": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
               "ProductionPlace.ProductionControl": null,
               "ProductionPlace.RazedState": 0,
               "ProductionPlace._defenderLevel": 0,
               "ProductionPlace._incomeSource": null,
               "ProductionPlace._powerSource": null,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -20558,10 +20756,10 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.World.Structures.Cave",
-              "Cave.Entrance": 0,
+              "Cave.Entrance": 1,
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -20577,8 +20775,8 @@
               "MultiHexMapObject.StoredHexX": 0,
               "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -20924,7 +21122,7 @@
               "City._flagId": 0,
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -20946,10 +21144,21 @@
               "PlayerStructure.ProductionPriority": 0,
               "PlayerStructure.UnfogRange": 0,
               "PlayerStructure._flagId": 0,
-              "PlayerStructure._victoryLocations": null,
+              "PlayerStructure._victoryLocations": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -21507,7 +21716,7 @@
               "ExplorationSite._defenders": null,
               "ExplorationSite._defendersMode": 0,
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "ItemExplorationSite._itemCount": 0,
               "ItemExplorationSite._items": null,
               "MapObject.Status": {
@@ -21525,8 +21734,8 @@
               "MultiHexMapObject.StoredHexX": 0,
               "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -21691,10 +21900,10 @@
                     "MultiHexMapObjectResource.ImageOffsetY": 0,
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
-                    "PlayerStructureResource.Claimed": false,
+                    "PlayerStructureResource.Claimed": true,
                     "PlayerStructureResource.FlagControl": null,
-                    "PlayerStructureResource.FlagX": 0,
-                    "PlayerStructureResource.FlagY": 0,
+                    "PlayerStructureResource.FlagX": 20,
+                    "PlayerStructureResource.FlagY": -35,
                     "ProductionPlaceResource.Units": null,
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
@@ -21837,10 +22046,10 @@
               "MultiHexMapObjectResource.ImageOffsetY": 0,
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
-              "PlayerStructureResource.Claimed": false,
+              "PlayerStructureResource.Claimed": true,
               "PlayerStructureResource.FlagControl": null,
-              "PlayerStructureResource.FlagX": 0,
-              "PlayerStructureResource.FlagY": 0,
+              "PlayerStructureResource.FlagX": 20,
+              "PlayerStructureResource.FlagY": -35,
               "ProductionPlaceResource.Units": null,
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
@@ -22070,7 +22279,7 @@
               "$type": "Aow.Game.World.Structures.DeathNode",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -22089,15 +22298,26 @@
               "PlayerStructure.ProductionPriority": 0,
               "PlayerStructure.UnfogRange": 0,
               "PlayerStructure._flagId": 0,
-              "PlayerStructure._victoryLocations": null,
+              "PlayerStructure._victoryLocations": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
               "ProductionPlace.ProductionControl": null,
               "ProductionPlace.RazedState": 0,
               "ProductionPlace._defenderLevel": 0,
               "ProductionPlace._incomeSource": null,
               "ProductionPlace._powerSource": null,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -22274,7 +22494,17 @@
                     "MultiHexMapObjectResource.ImageOffsetY": 0,
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
-                    "Resource.PrisonerCollections": null,
+                    "Resource.PrisonerCollections": {
+                      "$type": "Aow.Game.Units.UnitIndexListCollection",
+                      "UnitIndexListCollection.Units": {
+                        "$type": "Aow.Game.Units.UnitIndexList",
+                        "Int32List._capacity": 0,
+                        "Int32List._count": 0,
+                        "Int32List._default": -1,
+                        "Int32List._list": []
+                      },
+                      "UnitIndexListCollection._collectionSize": 8
+                    },
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
                     "StructureResource.Defenders": null,
@@ -22428,7 +22658,17 @@
               "MultiHexMapObjectResource.ImageOffsetY": 0,
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
-              "Resource.PrisonerCollections": null,
+              "Resource.PrisonerCollections": {
+                "$type": "Aow.Game.Units.UnitIndexListCollection",
+                "UnitIndexListCollection.Units": {
+                  "$type": "Aow.Game.Units.UnitIndexList",
+                  "Int32List._capacity": 0,
+                  "Int32List._count": 0,
+                  "Int32List._default": -1,
+                  "Int32List._list": []
+                },
+                "UnitIndexListCollection._collectionSize": 8
+              },
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
               "StructureResource.Defenders": null,
@@ -22803,7 +23043,7 @@
               "ExplorationSite._defenders": null,
               "ExplorationSite._defendersMode": 0,
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -22819,8 +23059,8 @@
               "MultiHexMapObject.StoredHexX": 0,
               "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -22985,10 +23225,10 @@
                     "MultiHexMapObjectResource.ImageOffsetY": 0,
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
-                    "PlayerStructureResource.Claimed": false,
+                    "PlayerStructureResource.Claimed": true,
                     "PlayerStructureResource.FlagControl": null,
-                    "PlayerStructureResource.FlagX": 0,
-                    "PlayerStructureResource.FlagY": 0,
+                    "PlayerStructureResource.FlagX": 20,
+                    "PlayerStructureResource.FlagY": -35,
                     "ProductionPlaceResource.Units": null,
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
@@ -23131,10 +23371,10 @@
               "MultiHexMapObjectResource.ImageOffsetY": 0,
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
-              "PlayerStructureResource.Claimed": false,
+              "PlayerStructureResource.Claimed": true,
               "PlayerStructureResource.FlagControl": null,
-              "PlayerStructureResource.FlagX": 0,
-              "PlayerStructureResource.FlagY": 0,
+              "PlayerStructureResource.FlagX": 20,
+              "PlayerStructureResource.FlagY": -35,
               "ProductionPlaceResource.Units": null,
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
@@ -23364,7 +23604,7 @@
               "$type": "Aow.Game.World.Structures.EarthNode",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -23383,15 +23623,26 @@
               "PlayerStructure.ProductionPriority": 0,
               "PlayerStructure.UnfogRange": 0,
               "PlayerStructure._flagId": 0,
-              "PlayerStructure._victoryLocations": null,
+              "PlayerStructure._victoryLocations": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
               "ProductionPlace.ProductionControl": null,
               "ProductionPlace.RazedState": 0,
               "ProductionPlace._defenderLevel": 0,
               "ProductionPlace._incomeSource": null,
               "ProductionPlace._powerSource": null,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -23606,7 +23857,7 @@
               "ExplorationSite._defenders": null,
               "ExplorationSite._defendersMode": 0,
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -23622,8 +23873,8 @@
               "MultiHexMapObject.StoredHexX": 0,
               "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -24100,10 +24351,10 @@
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
                     "PlayerCropStructureResource.CropLocations": null,
-                    "PlayerStructureResource.Claimed": false,
+                    "PlayerStructureResource.Claimed": true,
                     "PlayerStructureResource.FlagControl": null,
-                    "PlayerStructureResource.FlagX": 0,
-                    "PlayerStructureResource.FlagY": 0,
+                    "PlayerStructureResource.FlagX": 20,
+                    "PlayerStructureResource.FlagY": -35,
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
                     "StructureResource.Defenders": null,
@@ -24240,10 +24491,10 @@
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
               "PlayerCropStructureResource.CropLocations": null,
-              "PlayerStructureResource.Claimed": false,
+              "PlayerStructureResource.Claimed": true,
               "PlayerStructureResource.FlagControl": null,
-              "PlayerStructureResource.FlagX": 0,
-              "PlayerStructureResource.FlagY": 0,
+              "PlayerStructureResource.FlagX": 20,
+              "PlayerStructureResource.FlagY": -35,
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
               "StructureResource.Defenders": null,
@@ -24416,7 +24667,7 @@
                 "Set\u00601.low": 0
               },
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -24438,10 +24689,21 @@
               "PlayerStructure.ProductionPriority": 0,
               "PlayerStructure.UnfogRange": 0,
               "PlayerStructure._flagId": 0,
-              "PlayerStructure._victoryLocations": null,
+              "PlayerStructure._victoryLocations": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -24606,10 +24868,10 @@
                     "MultiHexMapObjectResource.ImageOffsetY": 0,
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
-                    "PlayerStructureResource.Claimed": false,
+                    "PlayerStructureResource.Claimed": true,
                     "PlayerStructureResource.FlagControl": null,
-                    "PlayerStructureResource.FlagX": 0,
-                    "PlayerStructureResource.FlagY": 0,
+                    "PlayerStructureResource.FlagX": 20,
+                    "PlayerStructureResource.FlagY": -35,
                     "ProductionPlaceResource.Units": null,
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
@@ -24752,10 +25014,10 @@
               "MultiHexMapObjectResource.ImageOffsetY": 0,
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
-              "PlayerStructureResource.Claimed": false,
+              "PlayerStructureResource.Claimed": true,
               "PlayerStructureResource.FlagControl": null,
-              "PlayerStructureResource.FlagX": 0,
-              "PlayerStructureResource.FlagY": 0,
+              "PlayerStructureResource.FlagX": 20,
+              "PlayerStructureResource.FlagY": -35,
               "ProductionPlaceResource.Units": null,
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
@@ -24985,7 +25247,7 @@
               "$type": "Aow.Game.World.Structures.FireNode",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -25004,15 +25266,26 @@
               "PlayerStructure.ProductionPriority": 0,
               "PlayerStructure.UnfogRange": 0,
               "PlayerStructure._flagId": 0,
-              "PlayerStructure._victoryLocations": null,
+              "PlayerStructure._victoryLocations": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
               "ProductionPlace.ProductionControl": null,
               "ProductionPlace.RazedState": 0,
               "ProductionPlace._defenderLevel": 0,
               "ProductionPlace._incomeSource": null,
               "ProductionPlace._powerSource": null,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -25253,7 +25526,7 @@
               "ExplorationSite._defenders": null,
               "ExplorationSite._defendersMode": 0,
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "ItemExplorationSite._itemCount": 0,
               "ItemExplorationSite._items": null,
               "MapObject.Status": {
@@ -25271,8 +25544,8 @@
               "MultiHexMapObject.StoredHexX": 0,
               "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -25754,10 +26027,10 @@
                     "MultiHexMapObjectResource.ImageOffsetY": 0,
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
-                    "PlayerStructureResource.Claimed": false,
+                    "PlayerStructureResource.Claimed": true,
                     "PlayerStructureResource.FlagControl": null,
-                    "PlayerStructureResource.FlagX": 0,
-                    "PlayerStructureResource.FlagY": 0,
+                    "PlayerStructureResource.FlagX": 20,
+                    "PlayerStructureResource.FlagY": -35,
                     "ProductionPlaceResource.Units": null,
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
@@ -25900,10 +26173,10 @@
               "MultiHexMapObjectResource.ImageOffsetY": 0,
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
-              "PlayerStructureResource.Claimed": false,
+              "PlayerStructureResource.Claimed": true,
               "PlayerStructureResource.FlagControl": null,
-              "PlayerStructureResource.FlagX": 0,
-              "PlayerStructureResource.FlagY": 0,
+              "PlayerStructureResource.FlagX": 20,
+              "PlayerStructureResource.FlagY": -35,
               "ProductionPlaceResource.Units": null,
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
@@ -26133,7 +26406,7 @@
               "$type": "Aow.Game.World.Structures.LifeNode",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -26152,15 +26425,26 @@
               "PlayerStructure.ProductionPriority": 0,
               "PlayerStructure.UnfogRange": 0,
               "PlayerStructure._flagId": 0,
-              "PlayerStructure._victoryLocations": null,
+              "PlayerStructure._victoryLocations": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
               "ProductionPlace.ProductionControl": null,
               "ProductionPlace.RazedState": 0,
               "ProductionPlace._defenderLevel": 0,
               "ProductionPlace._incomeSource": null,
               "ProductionPlace._powerSource": null,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -26556,7 +26840,7 @@
               "$type": "Aow.Game.World.Structures.MagicSanctuary",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MagicSanctuary._overlayHexSprite": null,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -26573,8 +26857,8 @@
               "MultiHexMapObject.StoredHexX": 0,
               "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -26732,10 +27016,10 @@
                     "MultiHexMapObjectResource.ImageOffsetY": 0,
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
-                    "PlayerStructureResource.Claimed": false,
+                    "PlayerStructureResource.Claimed": true,
                     "PlayerStructureResource.FlagControl": null,
-                    "PlayerStructureResource.FlagX": 0,
-                    "PlayerStructureResource.FlagY": 0,
+                    "PlayerStructureResource.FlagX": 20,
+                    "PlayerStructureResource.FlagY": -35,
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
                     "StructureResource.Defenders": null,
@@ -26870,10 +27154,10 @@
               "MultiHexMapObjectResource.ImageOffsetY": 0,
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
-              "PlayerStructureResource.Claimed": false,
+              "PlayerStructureResource.Claimed": true,
               "PlayerStructureResource.FlagControl": null,
-              "PlayerStructureResource.FlagX": 0,
-              "PlayerStructureResource.FlagY": 0,
+              "PlayerStructureResource.FlagX": 20,
+              "PlayerStructureResource.FlagY": -35,
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
               "StructureResource.Defenders": null,
@@ -27014,7 +27298,7 @@
               "$type": "Aow.Game.World.Structures.Mine",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -27035,10 +27319,21 @@
               "PlayerStructure.ProductionPriority": 0,
               "PlayerStructure.UnfogRange": 0,
               "PlayerStructure._flagId": 0,
-              "PlayerStructure._victoryLocations": null,
+              "PlayerStructure._victoryLocations": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -27596,7 +27891,7 @@
               "ExplorationSite._defenders": null,
               "ExplorationSite._defendersMode": 0,
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "ItemExplorationSite._itemCount": 0,
               "ItemExplorationSite._items": null,
               "MapObject.Status": {
@@ -27614,8 +27909,8 @@
               "MultiHexMapObject.StoredHexX": 0,
               "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -27748,7 +28043,7 @@
               "$type": "Aow.Game.World.Structures.PlayerCropStructure",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -27770,10 +28065,21 @@
               "PlayerStructure.ProductionPriority": 0,
               "PlayerStructure.UnfogRange": 0,
               "PlayerStructure._flagId": 0,
-              "PlayerStructure._victoryLocations": null,
+              "PlayerStructure._victoryLocations": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -27933,10 +28239,10 @@
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
                     "PlayerCropStructureResource.CropLocations": null,
-                    "PlayerStructureResource.Claimed": false,
+                    "PlayerStructureResource.Claimed": true,
                     "PlayerStructureResource.FlagControl": null,
-                    "PlayerStructureResource.FlagX": 0,
-                    "PlayerStructureResource.FlagY": 0,
+                    "PlayerStructureResource.FlagX": 20,
+                    "PlayerStructureResource.FlagY": -35,
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
                     "StructureResource.Defenders": null,
@@ -28073,10 +28379,10 @@
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
               "PlayerCropStructureResource.CropLocations": null,
-              "PlayerStructureResource.Claimed": false,
+              "PlayerStructureResource.Claimed": true,
               "PlayerStructureResource.FlagControl": null,
-              "PlayerStructureResource.FlagX": 0,
-              "PlayerStructureResource.FlagY": 0,
+              "PlayerStructureResource.FlagX": 20,
+              "PlayerStructureResource.FlagY": -35,
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
               "StructureResource.Defenders": null,
@@ -28205,7 +28511,7 @@
               "$type": "Aow.Game.World.Structures.PlayerStructure",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -28224,10 +28530,21 @@
               "PlayerStructure.ProductionPriority": 0,
               "PlayerStructure.UnfogRange": 0,
               "PlayerStructure._flagId": 0,
-              "PlayerStructure._victoryLocations": null,
+              "PlayerStructure._victoryLocations": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -28385,10 +28702,10 @@
                     "MultiHexMapObjectResource.ImageOffsetY": 0,
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
-                    "PlayerStructureResource.Claimed": false,
+                    "PlayerStructureResource.Claimed": true,
                     "PlayerStructureResource.FlagControl": null,
-                    "PlayerStructureResource.FlagX": 0,
-                    "PlayerStructureResource.FlagY": 0,
+                    "PlayerStructureResource.FlagX": 20,
+                    "PlayerStructureResource.FlagY": -35,
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
                     "StructureResource.Defenders": null,
@@ -28523,10 +28840,10 @@
               "MultiHexMapObjectResource.ImageOffsetY": 0,
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
-              "PlayerStructureResource.Claimed": false,
+              "PlayerStructureResource.Claimed": true,
               "PlayerStructureResource.FlagControl": null,
-              "PlayerStructureResource.FlagX": 0,
-              "PlayerStructureResource.FlagY": 0,
+              "PlayerStructureResource.FlagX": 20,
+              "PlayerStructureResource.FlagY": -35,
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
               "StructureResource.Defenders": null,
@@ -28694,10 +29011,10 @@
                     "MultiHexMapObjectResource.ImageOffsetY": 0,
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
-                    "PlayerStructureResource.Claimed": false,
+                    "PlayerStructureResource.Claimed": true,
                     "PlayerStructureResource.FlagControl": null,
-                    "PlayerStructureResource.FlagX": 0,
-                    "PlayerStructureResource.FlagY": 0,
+                    "PlayerStructureResource.FlagX": 20,
+                    "PlayerStructureResource.FlagY": -35,
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
                     "StructureResource.Defenders": null,
@@ -28832,10 +29149,10 @@
               "MultiHexMapObjectResource.ImageOffsetY": 0,
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
-              "PlayerStructureResource.Claimed": false,
+              "PlayerStructureResource.Claimed": true,
               "PlayerStructureResource.FlagControl": null,
-              "PlayerStructureResource.FlagX": 0,
-              "PlayerStructureResource.FlagY": 0,
+              "PlayerStructureResource.FlagX": 20,
+              "PlayerStructureResource.FlagY": -35,
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
               "StructureResource.Defenders": null,
@@ -28994,7 +29311,7 @@
               "$type": "Aow.Game.World.Structures.PowerNode",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -29013,7 +29330,18 @@
               "PlayerStructure.ProductionPriority": 0,
               "PlayerStructure.UnfogRange": 0,
               "PlayerStructure._flagId": 0,
-              "PlayerStructure._victoryLocations": null,
+              "PlayerStructure._victoryLocations": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
               "PowerNode.State": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Structures.PowerNode\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -29026,8 +29354,8 @@
               },
               "PowerNode._powerSource": null,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -29246,7 +29574,7 @@
               "$type": "Aow.Game.World.Structures.ProductionPlace",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -29265,15 +29593,26 @@
               "PlayerStructure.ProductionPriority": 0,
               "PlayerStructure.UnfogRange": 0,
               "PlayerStructure._flagId": 0,
-              "PlayerStructure._victoryLocations": null,
+              "PlayerStructure._victoryLocations": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
               "ProductionPlace.ProductionControl": null,
               "ProductionPlace.RazedState": 0,
               "ProductionPlace._defenderLevel": 0,
               "ProductionPlace._incomeSource": null,
               "ProductionPlace._powerSource": null,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -29438,10 +29777,10 @@
                     "MultiHexMapObjectResource.ImageOffsetY": 0,
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
-                    "PlayerStructureResource.Claimed": false,
+                    "PlayerStructureResource.Claimed": true,
                     "PlayerStructureResource.FlagControl": null,
-                    "PlayerStructureResource.FlagX": 0,
-                    "PlayerStructureResource.FlagY": 0,
+                    "PlayerStructureResource.FlagX": 20,
+                    "PlayerStructureResource.FlagY": -35,
                     "ProductionPlaceResource.Units": null,
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
@@ -29584,10 +29923,10 @@
               "MultiHexMapObjectResource.ImageOffsetY": 0,
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
-              "PlayerStructureResource.Claimed": false,
+              "PlayerStructureResource.Claimed": true,
               "PlayerStructureResource.FlagControl": null,
-              "PlayerStructureResource.FlagX": 0,
-              "PlayerStructureResource.FlagY": 0,
+              "PlayerStructureResource.FlagX": 20,
+              "PlayerStructureResource.FlagY": -35,
               "ProductionPlaceResource.Units": null,
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
@@ -30156,7 +30495,7 @@
               "ExplorationSite._defenders": null,
               "ExplorationSite._defendersMode": 0,
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "ItemExplorationSite._itemCount": 0,
               "ItemExplorationSite._items": null,
               "MapObject.Status": {
@@ -30174,8 +30513,8 @@
               "MultiHexMapObject.StoredHexX": 0,
               "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -30333,10 +30672,10 @@
                     "MultiHexMapObjectResource.ImageOffsetY": 0,
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
-                    "PlayerStructureResource.Claimed": false,
+                    "PlayerStructureResource.Claimed": true,
                     "PlayerStructureResource.FlagControl": null,
-                    "PlayerStructureResource.FlagX": 0,
-                    "PlayerStructureResource.FlagY": 0,
+                    "PlayerStructureResource.FlagX": 20,
+                    "PlayerStructureResource.FlagY": -35,
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
                     "StructureResource.Defenders": null,
@@ -30471,10 +30810,10 @@
               "MultiHexMapObjectResource.ImageOffsetY": 0,
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
-              "PlayerStructureResource.Claimed": false,
+              "PlayerStructureResource.Claimed": true,
               "PlayerStructureResource.FlagControl": null,
-              "PlayerStructureResource.FlagX": 0,
-              "PlayerStructureResource.FlagY": 0,
+              "PlayerStructureResource.FlagX": 20,
+              "PlayerStructureResource.FlagY": -35,
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
               "StructureResource.Defenders": null,
@@ -30605,7 +30944,7 @@
               "$type": "Aow.Game.World.Structures.ReflectingPool",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -30624,11 +30963,22 @@
               "PlayerStructure.ProductionPriority": 0,
               "PlayerStructure.UnfogRange": 0,
               "PlayerStructure._flagId": 0,
-              "PlayerStructure._victoryLocations": null,
-              "ReflectingPool._centerFrame": 0,
+              "PlayerStructure._victoryLocations": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
+              "ReflectingPool._centerFrame": -1,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -30789,10 +31139,10 @@
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
                     "PlayerCropStructureResource.CropLocations": null,
-                    "PlayerStructureResource.Claimed": false,
+                    "PlayerStructureResource.Claimed": true,
                     "PlayerStructureResource.FlagControl": null,
-                    "PlayerStructureResource.FlagX": 0,
-                    "PlayerStructureResource.FlagY": 0,
+                    "PlayerStructureResource.FlagX": 20,
+                    "PlayerStructureResource.FlagY": -35,
                     "Resource.Size": 0,
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
@@ -30931,10 +31281,10 @@
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
               "PlayerCropStructureResource.CropLocations": null,
-              "PlayerStructureResource.Claimed": false,
+              "PlayerStructureResource.Claimed": true,
               "PlayerStructureResource.FlagControl": null,
-              "PlayerStructureResource.FlagX": 0,
-              "PlayerStructureResource.FlagY": 0,
+              "PlayerStructureResource.FlagX": 20,
+              "PlayerStructureResource.FlagY": -35,
               "Resource.Size": 0,
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
@@ -31503,7 +31853,7 @@
               "ExplorationSite._defenders": null,
               "ExplorationSite._defendersMode": 0,
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "ItemExplorationSite._itemCount": 0,
               "ItemExplorationSite._items": null,
               "MapObject.Status": {
@@ -31521,8 +31871,8 @@
               "MultiHexMapObject.StoredHexX": 0,
               "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -31687,10 +32037,10 @@
                     "MultiHexMapObjectResource.ImageOffsetY": 0,
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
-                    "PlayerStructureResource.Claimed": false,
+                    "PlayerStructureResource.Claimed": true,
                     "PlayerStructureResource.FlagControl": null,
-                    "PlayerStructureResource.FlagX": 0,
-                    "PlayerStructureResource.FlagY": 0,
+                    "PlayerStructureResource.FlagX": 20,
+                    "PlayerStructureResource.FlagY": -35,
                     "ProductionPlaceResource.Units": null,
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
@@ -31833,10 +32183,10 @@
               "MultiHexMapObjectResource.ImageOffsetY": 0,
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
-              "PlayerStructureResource.Claimed": false,
+              "PlayerStructureResource.Claimed": true,
               "PlayerStructureResource.FlagControl": null,
-              "PlayerStructureResource.FlagX": 0,
-              "PlayerStructureResource.FlagY": 0,
+              "PlayerStructureResource.FlagX": 20,
+              "PlayerStructureResource.FlagY": -35,
               "ProductionPlaceResource.Units": null,
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
@@ -32066,7 +32416,7 @@
               "$type": "Aow.Game.World.Structures.Shipyard",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -32085,15 +32435,26 @@
               "PlayerStructure.ProductionPriority": 0,
               "PlayerStructure.UnfogRange": 0,
               "PlayerStructure._flagId": 0,
-              "PlayerStructure._victoryLocations": null,
+              "PlayerStructure._victoryLocations": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
               "ProductionPlace.ProductionControl": null,
               "ProductionPlace.RazedState": 0,
               "ProductionPlace._defenderLevel": 0,
               "ProductionPlace._incomeSource": null,
               "ProductionPlace._powerSource": null,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -32517,7 +32878,7 @@
               "$type": "Aow.Game.World.Structures.Sign",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -32532,11 +32893,31 @@
               "MapObject._unlinkedResourceId": 0,
               "MultiHexMapObject.StoredHexX": 0,
               "MultiHexMapObject.StoredHexY": 0,
-              "Sign.Text": null,
-              "Sign.TextSeen": null,
+              "Sign.Text": {
+                "$type": "Aow.Rtl.DelphiStringList",
+                "DelphiStringCollection.UpdateCount": 0,
+                "DelphiStringList.Duplicates": 0,
+                "DelphiStringList.OnChange": null,
+                "DelphiStringList.OnChanging": null,
+                "DelphiStringList.Sorted": false,
+                "DelphiStringList.count": 0,
+                "DelphiStringList.items": []
+              },
+              "Sign.TextSeen": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -32916,7 +33297,7 @@
               "$type": "Aow.Game.World.Structures.SpringOfLife",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -32932,8 +33313,8 @@
               "MultiHexMapObject.StoredHexX": 0,
               "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -33020,7 +33401,7 @@
               "$type": "Aow.Game.World.Structures.Structure",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -33036,8 +33417,8 @@
               "MultiHexMapObject.StoredHexX": 0,
               "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -33742,7 +34123,7 @@
               "$type": "Aow.Game.World.Structures.Teleport",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -33758,8 +34139,8 @@
               "MultiHexMapObject.StoredHexX": 0,
               "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null,
@@ -33933,10 +34314,10 @@
                     "MultiHexMapObjectResource.ImageOffsetY": 0,
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
-                    "PlayerStructureResource.Claimed": false,
+                    "PlayerStructureResource.Claimed": true,
                     "PlayerStructureResource.FlagControl": null,
-                    "PlayerStructureResource.FlagX": 0,
-                    "PlayerStructureResource.FlagY": 0,
+                    "PlayerStructureResource.FlagX": 20,
+                    "PlayerStructureResource.FlagY": -35,
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
                     "StructureResource.Defenders": null,
@@ -34071,10 +34452,10 @@
               "MultiHexMapObjectResource.ImageOffsetY": 0,
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
-              "PlayerStructureResource.Claimed": false,
+              "PlayerStructureResource.Claimed": true,
               "PlayerStructureResource.FlagControl": null,
-              "PlayerStructureResource.FlagX": 0,
-              "PlayerStructureResource.FlagY": 0,
+              "PlayerStructureResource.FlagX": 20,
+              "PlayerStructureResource.FlagY": -35,
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
               "StructureResource.Defenders": null,
@@ -34223,7 +34604,7 @@
               "$type": "Aow.Game.World.Structures.Tower",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -34242,10 +34623,21 @@
               "PlayerStructure.ProductionPriority": 0,
               "PlayerStructure.UnfogRange": 0,
               "PlayerStructure._flagId": 0,
-              "PlayerStructure._victoryLocations": null,
+              "PlayerStructure._victoryLocations": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null,
@@ -34420,10 +34812,10 @@
                     "MultiHexMapObjectResource.ImageOffsetY": 0,
                     "MultiHexMapObjectResource._mainPointOffsetX": 0,
                     "MultiHexMapObjectResource._mainPointOffsetY": 0,
-                    "PlayerStructureResource.Claimed": false,
+                    "PlayerStructureResource.Claimed": true,
                     "PlayerStructureResource.FlagControl": null,
-                    "PlayerStructureResource.FlagX": 0,
-                    "PlayerStructureResource.FlagY": 0,
+                    "PlayerStructureResource.FlagX": 20,
+                    "PlayerStructureResource.FlagY": -35,
                     "ProductionPlaceResource.Units": null,
                     "StructureResource.CastsShadow": false,
                     "StructureResource.ConnectRoads": false,
@@ -34566,10 +34958,10 @@
               "MultiHexMapObjectResource.ImageOffsetY": 0,
               "MultiHexMapObjectResource._mainPointOffsetX": 0,
               "MultiHexMapObjectResource._mainPointOffsetY": 0,
-              "PlayerStructureResource.Claimed": false,
+              "PlayerStructureResource.Claimed": true,
               "PlayerStructureResource.FlagControl": null,
-              "PlayerStructureResource.FlagX": 0,
-              "PlayerStructureResource.FlagY": 0,
+              "PlayerStructureResource.FlagX": 20,
+              "PlayerStructureResource.FlagY": -35,
               "ProductionPlaceResource.Units": null,
               "StructureResource.CastsShadow": false,
               "StructureResource.ConnectRoads": false,
@@ -34799,7 +35191,7 @@
               "$type": "Aow.Game.World.Structures.WaterNode",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -34818,15 +35210,26 @@
               "PlayerStructure.ProductionPriority": 0,
               "PlayerStructure.UnfogRange": 0,
               "PlayerStructure._flagId": 0,
-              "PlayerStructure._victoryLocations": null,
+              "PlayerStructure._victoryLocations": {
+                "$type": "Aow.Engine.Collections.BitList",
+                "BitList.List": {
+                  "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Memory\u00601._index": 0,
+                  "Memory\u00601._length": 0,
+                  "Memory\u00601._object": null
+                },
+                "BitList._capacity": 0,
+                "BitList._count": 0,
+                "BitList._default": 0
+              },
               "ProductionPlace.ProductionControl": null,
               "ProductionPlace.RazedState": 0,
               "ProductionPlace._defenderLevel": 0,
               "ProductionPlace._incomeSource": null,
               "ProductionPlace._powerSource": null,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null
@@ -35232,7 +35635,7 @@
               "$type": "Aow.Game.World.Structures.WizardsTower",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -35248,24 +35651,24 @@
               "MultiHexMapObject.StoredHexX": 0,
               "MultiHexMapObject.StoredHexY": 0,
               "Structure.BuildingDays": 0,
-              "Structure.BuildingPlayer": 0,
-              "Structure.Fogged": false,
+              "Structure.BuildingPlayer": -1,
+              "Structure.Fogged": true,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
               "Structure._shadow": null,
               "WizardsTower.SpellId": 0,
-              "WizardsTower._generateSpell": false,
+              "WizardsTower._generateSpell": true,
               "WizardsTower._magicSpheres": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.MagicSphere, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
+                "Set\u00601.a": 255,
                 "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
+                "Set\u00601.bounded": true,
                 "Set\u00601.c": 0,
                 "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
+                "Set\u00601.high": 8,
                 "Set\u00601.low": 0
               },
-              "WizardsTower._spellLevel": 0
+              "WizardsTower._spellLevel": 2
             }
           }
         ]
@@ -35570,7 +35973,7 @@
               "CombatImageLibraryTerrain._shadow": null,
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -35889,7 +36292,7 @@
               "CombatImageLibraryTerrain._shadow": null,
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -36189,7 +36592,7 @@
               "CombatImageLibraryTerrain._shadow": null,
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -36278,7 +36681,7 @@
               "CombatImageLibraryTerrain._shadow": null,
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -36584,7 +36987,7 @@
               "CombatStructure._playSound": false,
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -37087,7 +37490,7 @@
               "Crop.CropOwner": null,
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -37173,7 +37576,7 @@
               "$type": "Aow.Game.World.Terrain.FixedImageLibraryTerrainMapObject",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -37669,9 +38072,9 @@
               "$type": "Aow.Game.World.Terrain.Gems",
               "EngineObject._owner": "$owner",
               "Gems._amount": 0,
-              "Gems._generateMode": 0,
+              "Gems._generateMode": 2,
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -37999,7 +38402,7 @@
               "HolyGround.OriginalOverlay": 0,
               "HolyGround.Player": 0,
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -38311,7 +38714,7 @@
               "House._flagId": 0,
               "House._race": 0,
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -38397,7 +38800,7 @@
               "$type": "Aow.Game.World.Terrain.ImageLibraryTerrainMapObject",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -38906,7 +39309,7 @@
               "CombatStructure._playSound": false,
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -39199,9 +39602,9 @@
               "$type": "Aow.Game.World.Terrain.ManaCrystals",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "ManaCrystals._amount": 0,
-              "ManaCrystals._size": 0,
+              "ManaCrystals._size": 2,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -39494,7 +39897,7 @@
               "$type": "Aow.Game.World.Terrain.OverlayObject",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -39787,7 +40190,7 @@
               "$type": "Aow.Game.World.Terrain.Pad",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -40102,7 +40505,7 @@
               "$type": "Aow.Game.World.Terrain.PoisonPlant",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -40117,9 +40520,9 @@
               "MapObject._unlinkedResourceId": 0,
               "MultiHexMapObject.StoredHexX": 0,
               "MultiHexMapObject.StoredHexY": 0,
-              "PoisonPlant.CasterPlayer": 0,
-              "PoisonPlant.DaysRemaining": 0,
-              "PoisonPlant.OriginalOverlay": 0,
+              "PoisonPlant.CasterPlayer": -1,
+              "PoisonPlant.DaysRemaining": -1,
+              "PoisonPlant.OriginalOverlay": -1,
               "PoisonPlant.PlantStatus": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.Spells.PoisonPlantStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -40430,7 +40833,7 @@
               "$type": "Aow.Game.World.Terrain.RaisedMountain",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -40758,7 +41161,7 @@
               "$type": "Aow.Game.World.Terrain.UnholyGround",
               "EngineObject._owner": "$owner",
               "ImageLibraryTerrainMapObject.ImageIndex": 0,
-              "ImageLibraryTerrainMapObject.TerrainType": 0,
+              "ImageLibraryTerrainMapObject.TerrainType": -1,
               "MapObject.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.MapObjectStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
@@ -41073,7 +41476,16 @@
               },
               "MapObject._resource": null,
               "MapObject._unlinkedResourceId": 0,
-              "TutorialMessageEvent._message": null
+              "TutorialMessageEvent._message": {
+                "$type": "Aow.Rtl.DelphiStringList",
+                "DelphiStringCollection.UpdateCount": 0,
+                "DelphiStringList.Duplicates": 0,
+                "DelphiStringList.OnChange": null,
+                "DelphiStringList.OnChanging": null,
+                "DelphiStringList.Sorted": false,
+                "DelphiStringList.count": 0,
+                "DelphiStringList.items": []
+              }
             }
           }
         ]

@@ -8,17 +8,11 @@ namespace Aow.Game.Draw.Images;
 // between two characters), FHeight (the largest image height, set by LoadFromStream),
 // FCharCase, FColor, FFontColorPaletteIndex (the entry of the first palette that SetColor sets
 // to Color, -1 for none). A character without an image is 5 pixels wide
-public partial class ImageLibraryFont : CustomImageLibrary
+public partial class ImageLibraryFont(Component owner) : CustomImageLibrary(owner)
 {
-    public ImageLibraryFont(Component owner) : base(owner)
-    {
-        CharacterDistance = 2;
-        _fontColorPaletteIndex = -1;
-        CharCase = EditCharCase.Normal;
-    }
 
     private int _color;
-    private int _fontColorPaletteIndex;
+    private int _fontColorPaletteIndex = -1;
 
     // ImageLib.pas:6266
     internal void SetFontColorPaletteIndex(int value)
@@ -171,10 +165,10 @@ public partial class ImageLibraryFont : CustomImageLibrary
     public int Height { get; private set; }
 
     [Published]
-    public int CharacterDistance { get; set; }
+    public int CharacterDistance { get; set; } = 2;
 
     [Published]
-    public EditCharCase CharCase { get; set; }
+    public EditCharCase CharCase { get; set; } = EditCharCase.Normal;
 
     [Published]
     public int Color { get => _color; set => SetColor(value); }

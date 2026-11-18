@@ -7,10 +7,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Movement;
 
 // references, target data, location, move points, transporter ID, path
-public partial class MoveTarget : EngineObject, IOwned<MoveTargetList>, IOwnedSink<MoveTargetList>
+public partial class MoveTarget(CustomNode owner) : EngineObject(owner), IOwned<MoveTargetList>, IOwnedSink<MoveTargetList>
 {
-    public MoveTarget(CustomNode owner) : base(owner) => _refCount = 1;
-
     // A reference list holds the target and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
     public new MoveTargetList Owner { get => GetOwner<MoveTargetList>(); set => SetOwner(value); }
@@ -19,7 +17,7 @@ public partial class MoveTarget : EngineObject, IOwned<MoveTargetList>, IOwnedSi
 
     void IOwnedSink<MoveTargetList>.SetOwner(MoveTargetList owner) => SetOwner(owner);
 
-    private int _refCount;
+    private int _refCount = 1;
 
     public AITargetData Data { get; set; }
 

@@ -10,9 +10,8 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Engine.Nodes;
 
 // _editors, editor names with ids
-public partial class ResourceEditSettings : ControlStyleObject
+public partial class ResourceEditSettings(CustomNode owner) : ControlStyleObject(owner)
 {
-    public ResourceEditSettings(CustomNode owner) : base(owner) => Editors = new DelphiStringList();
 
     // Engine.pas:8662
     public new const int ClassId = 1026;
@@ -104,6 +103,6 @@ public partial class ResourceEditSettings : ControlStyleObject
         }
     }
 
-    public DelphiStringList Editors { get; }
+    public DelphiStringList Editors { get; } = new DelphiStringList();
 
 }

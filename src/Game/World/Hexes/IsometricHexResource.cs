@@ -7,14 +7,13 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Hexes;
 
 // DynamicLevel (26)
-public partial class IsometricHexResource : AbstractHexagonResource
+public partial class IsometricHexResource(CustomNode owner) : AbstractHexagonResource(owner)
 {
-    public IsometricHexResource(CustomNode owner) : base(owner) => DynamicLevel = 26;
 
     // IsoHex.pas:268
     public new const int ClassId = 131438;
 
-    protected internal byte DynamicLevel { get; protected set; }
+    protected internal byte DynamicLevel { get; protected set; } = 26;
 
     // IsoHex.pas:262
 

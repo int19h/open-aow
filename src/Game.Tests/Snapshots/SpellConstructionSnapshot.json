@@ -15,7 +15,7 @@
     "Observation": {
       "$jsonText": {
         "$type": "Aow.Game.Combat.Actions.AnimateDeadCombatAction",
-        "CombatAction.RefCount": 0,
+        "CombatAction.RefCount": 1,
         "EngineObject._owner": "$owner",
         "ExclusiveCombatSpellCombatAction.ManaCost": 0,
         "ExclusiveCombatSpellCombatAction.SourceId": 0,
@@ -72,7 +72,7 @@
     "Observation": {
       "$jsonText": {
         "$type": "Aow.Game.Combat.Actions.CombatSpellCombatAction",
-        "CombatAction.RefCount": 0,
+        "CombatAction.RefCount": 1,
         "CombatSpellCombatAction.ManaCost": 0,
         "CombatSpellCombatAction.SpellId": 0,
         "DamageCombatAction.Damage": 0,
@@ -145,8 +145,14 @@
     "Observation": {
       "$jsonText": {
         "$type": "Aow.Game.Combat.Actions.DispelMagicSpellCombatAction",
-        "CombatAction.RefCount": 0,
-        "DispelMagicCombatAction.EnchantmentIds": null,
+        "CombatAction.RefCount": 1,
+        "DispelMagicCombatAction.EnchantmentIds": {
+          "$type": "Aow.Engine.Collections.Int32List",
+          "Int32List._capacity": 0,
+          "Int32List._count": 0,
+          "Int32List._default": 0,
+          "Int32List._list": []
+        },
         "DispelMagicSpellCombatAction.ManaCost": 0,
         "DispelMagicSpellCombatAction.SpellId": 0,
         "EngineObject._owner": "$owner",
@@ -181,7 +187,7 @@
     "Observation": {
       "$jsonText": {
         "$type": "Aow.Game.Combat.Actions.EntangleSpellCombatAction",
-        "CombatAction.RefCount": 0,
+        "CombatAction.RefCount": 1,
         "EngineObject._owner": "$owner",
         "ExclusiveCombatSpellCombatAction.ManaCost": 0,
         "ExclusiveCombatSpellCombatAction.SourceId": 0,
@@ -213,12 +219,18 @@
     "Observation": {
       "$jsonText": {
         "$type": "Aow.Game.Combat.Actions.FastBattleHighPrayerCombatAction",
-        "CombatAction.RefCount": 0,
+        "CombatAction.RefCount": 1,
         "EngineObject._owner": "$owner",
         "MultiTargetCombatSpellCombatAction.ManaCost": 0,
         "MultiTargetCombatSpellCombatAction.SourceId": 0,
         "MultiTargetCombatSpellCombatAction.SpellId": 0,
-        "MultiTargetCombatSpellCombatAction.TargetIds": null,
+        "MultiTargetCombatSpellCombatAction.TargetIds": {
+          "$type": "Aow.Engine.Collections.ByteList",
+          "ByteList.Default": 0,
+          "ByteList._capacity": 0,
+          "ByteList._count": 0,
+          "ByteList._list": []
+        },
         "MultiTargetCombatSpellCombatAction._succeeded": false
       }
     }
@@ -245,12 +257,18 @@
     "Observation": {
       "$jsonText": {
         "$type": "Aow.Game.Combat.Actions.FastBattleTerrorCombatAction",
-        "CombatAction.RefCount": 0,
+        "CombatAction.RefCount": 1,
         "EngineObject._owner": "$owner",
         "MultiTargetCombatSpellCombatAction.ManaCost": 0,
         "MultiTargetCombatSpellCombatAction.SourceId": 0,
         "MultiTargetCombatSpellCombatAction.SpellId": 0,
-        "MultiTargetCombatSpellCombatAction.TargetIds": null,
+        "MultiTargetCombatSpellCombatAction.TargetIds": {
+          "$type": "Aow.Engine.Collections.ByteList",
+          "ByteList.Default": 0,
+          "ByteList._capacity": 0,
+          "ByteList._count": 0,
+          "ByteList._list": []
+        },
         "MultiTargetCombatSpellCombatAction._succeeded": false
       }
     }
@@ -271,7 +289,7 @@
     "Observation": {
       "$jsonText": {
         "$type": "Aow.Game.Combat.Actions.MindDecayCombatAction",
-        "CombatAction.RefCount": 0,
+        "CombatAction.RefCount": 1,
         "EngineObject._owner": "$owner",
         "ExclusiveCombatSpellCombatAction.ManaCost": 0,
         "ExclusiveCombatSpellCombatAction.SourceId": 0,
@@ -303,12 +321,18 @@
     "Observation": {
       "$jsonText": {
         "$type": "Aow.Game.Combat.Actions.MultiTargetCombatSpellCombatAction",
-        "CombatAction.RefCount": 0,
+        "CombatAction.RefCount": 1,
         "EngineObject._owner": "$owner",
         "MultiTargetCombatSpellCombatAction.ManaCost": 0,
         "MultiTargetCombatSpellCombatAction.SourceId": 0,
         "MultiTargetCombatSpellCombatAction.SpellId": 0,
-        "MultiTargetCombatSpellCombatAction.TargetIds": null,
+        "MultiTargetCombatSpellCombatAction.TargetIds": {
+          "$type": "Aow.Engine.Collections.ByteList",
+          "ByteList.Default": 0,
+          "ByteList._capacity": 0,
+          "ByteList._count": 0,
+          "ByteList._list": []
+        },
         "MultiTargetCombatSpellCombatAction._succeeded": false
       }
     }
@@ -329,7 +353,7 @@
     "Observation": {
       "$jsonText": {
         "$type": "Aow.Game.Combat.Actions.RecallSpiritCombatAction",
-        "CombatAction.RefCount": 0,
+        "CombatAction.RefCount": 1,
         "EngineObject._owner": "$owner",
         "ExclusiveCombatSpellCombatAction.ManaCost": 0,
         "ExclusiveCombatSpellCombatAction.SourceId": 0,
@@ -355,7 +379,7 @@
     "Observation": {
       "$jsonText": {
         "$type": "Aow.Game.Combat.Actions.SlowCombatAction",
-        "CombatAction.RefCount": 0,
+        "CombatAction.RefCount": 1,
         "EngineObject._owner": "$owner",
         "ExclusiveCombatSpellCombatAction.ManaCost": 0,
         "ExclusiveCombatSpellCombatAction.SourceId": 0,
@@ -381,7 +405,7 @@
     "Observation": {
       "$jsonText": {
         "$type": "Aow.Game.Combat.Actions.TacticalBattleHighPrayerCombatAction",
-        "CombatAction.RefCount": 0,
+        "CombatAction.RefCount": 1,
         "EngineObject._owner": "$owner",
         "ExclusiveCombatSpellCombatAction.ManaCost": 0,
         "ExclusiveCombatSpellCombatAction.SourceId": 0,
@@ -406,7 +430,7 @@
     "Observation": {
       "$jsonText": {
         "$type": "Aow.Game.Combat.Actions.TacticalBattleTerrorCombatAction",
-        "CombatAction.RefCount": 0,
+        "CombatAction.RefCount": 1,
         "EngineObject._owner": "$owner",
         "TacticalBattleTerrorCombatAction.ManaCost": 0,
         "TacticalBattleTerrorCombatAction._sourceId": 0,
@@ -462,7 +486,7 @@
     "Observation": {
       "$jsonText": {
         "$type": "Aow.Game.Combat.Actions.TurnUndeadSpellCombatAction",
-        "CombatAction.RefCount": 0,
+        "CombatAction.RefCount": 1,
         "CombatSpellCombatAction.ManaCost": 0,
         "CombatSpellCombatAction.SpellId": 0,
         "DamageCombatAction.Damage": 0,
@@ -2348,8 +2372,14 @@
         "Ability.SkillPointCost": 0,
         "AdjustableAbility.AbilityType": 0,
         "EngineObject._owner": "$owner",
-        "MultiLevelAbility.LevelCosts": null,
-        "MultiLevelAbility.MaxLevel": 0
+        "MultiLevelAbility.LevelCosts": {
+          "$type": "Aow.Engine.Collections.Int32List",
+          "Int32List._capacity": 0,
+          "Int32List._count": 0,
+          "Int32List._default": 0,
+          "Int32List._list": []
+        },
+        "MultiLevelAbility.MaxLevel": 4
       }
     }
   },
@@ -3566,8 +3596,14 @@
         "Ability.SkillPointCost": 0,
         "AdjustableAbility.AbilityType": 0,
         "EngineObject._owner": "$owner",
-        "MultiLevelAbility.LevelCosts": null,
-        "MultiLevelAbility.MaxLevel": 0
+        "MultiLevelAbility.LevelCosts": {
+          "$type": "Aow.Engine.Collections.Int32List",
+          "Int32List._capacity": 0,
+          "Int32List._count": 0,
+          "Int32List._default": 0,
+          "Int32List._list": []
+        },
+        "MultiLevelAbility.MaxLevel": 4
       }
     }
   },
@@ -3919,7 +3955,7 @@
       "$jsonText": {
         "$type": "Aow.Game.Magic.Spells.AirMastery",
         "EngineObject._owner": "$owner",
-        "GlobalEnchantmentSpell.AIBasePriority": 0,
+        "GlobalEnchantmentSpell.AIBasePriority": -1,
         "Spell.BaseManaCost": 0,
         "Spell.CastDuration": 0,
         "Spell.CastImages": null,
@@ -3988,12 +4024,12 @@
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
+          "Set\u00601.a": 3,
           "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
+          "Set\u00601.bounded": true,
           "Set\u00601.c": 0,
           "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
+          "Set\u00601.high": 1,
           "Set\u00601.low": 0
         },
         "GlobalEnchantment.EnchantmentStatus": {
@@ -4009,7 +4045,7 @@
         "GlobalEnchantment.EnchantmentType": 0,
         "GlobalEnchantment.Name": "",
         "GlobalEnchantment.PlayerIndex": 0,
-        "GlobalEnchantment._refCount": 0
+        "GlobalEnchantment._refCount": 1
       }
     }
   },
@@ -4535,7 +4571,7 @@
           "Set\u00601.high": 0,
           "Set\u00601.low": 0
         },
-        "CityEnchantmentSpell.AIPriority": 0,
+        "CityEnchantmentSpell.AIPriority": -1,
         "CityEnchantmentSpell.EnchantmentId": 0,
         "CityEnchantmentSpell.EnchantmentSpellId": 0,
         "CityTargetSpell.CityTargetMode": {
@@ -5201,7 +5237,7 @@
           "Set\u00601.high": 0,
           "Set\u00601.low": 0
         },
-        "CityEnchantmentSpell.AIPriority": 0,
+        "CityEnchantmentSpell.AIPriority": -1,
         "CityEnchantmentSpell.EnchantmentId": 0,
         "CityEnchantmentSpell.EnchantmentSpellId": 0,
         "CityTargetSpell.CityTargetMode": {
@@ -5907,7 +5943,7 @@
         "EngineObject._owner": "$owner",
         "SpellCaster.CasterSourceId": 0,
         "SpellCaster.CasterSpellId": 0,
-        "SpellCaster._casterRefCount": 0
+        "SpellCaster._casterRefCount": 1
       }
     }
   },
@@ -6141,7 +6177,7 @@
       "$jsonText": {
         "$type": "Aow.Game.Magic.Spells.DeathMastery",
         "EngineObject._owner": "$owner",
-        "GlobalEnchantmentSpell.AIBasePriority": 0,
+        "GlobalEnchantmentSpell.AIBasePriority": -1,
         "Spell.BaseManaCost": 0,
         "Spell.CastDuration": 0,
         "Spell.CastImages": null,
@@ -6210,12 +6246,12 @@
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
+          "Set\u00601.a": 3,
           "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
+          "Set\u00601.bounded": true,
           "Set\u00601.c": 0,
           "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
+          "Set\u00601.high": 1,
           "Set\u00601.low": 0
         },
         "GlobalEnchantment.EnchantmentStatus": {
@@ -6231,7 +6267,7 @@
         "GlobalEnchantment.EnchantmentType": 0,
         "GlobalEnchantment.Name": "",
         "GlobalEnchantment.PlayerIndex": 0,
-        "GlobalEnchantment._refCount": 0
+        "GlobalEnchantment._refCount": 1
       }
     }
   },
@@ -6612,12 +6648,12 @@
     "Observation": {
       "$jsonText": {
         "$type": "Aow.Game.Magic.Spells.DisjunctionSpellCaster",
-        "DisjunctionSpellCaster.DispelChance": 0,
+        "DisjunctionSpellCaster.DispelChance": 50,
         "DisjunctionSpellCaster.EnchantmentId": 0,
         "EngineObject._owner": "$owner",
         "SpellCaster.CasterSourceId": 0,
         "SpellCaster.CasterSpellId": 0,
-        "SpellCaster._casterRefCount": 0
+        "SpellCaster._casterRefCount": 1
       }
     }
   },
@@ -6769,7 +6805,7 @@
       "$jsonText": {
         "$type": "Aow.Game.Magic.Spells.EarthMastery",
         "EngineObject._owner": "$owner",
-        "GlobalEnchantmentSpell.AIBasePriority": 0,
+        "GlobalEnchantmentSpell.AIBasePriority": -1,
         "Spell.BaseManaCost": 0,
         "Spell.CastDuration": 0,
         "Spell.CastImages": null,
@@ -6838,12 +6874,12 @@
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
+          "Set\u00601.a": 3,
           "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
+          "Set\u00601.bounded": true,
           "Set\u00601.c": 0,
           "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
+          "Set\u00601.high": 1,
           "Set\u00601.low": 0
         },
         "GlobalEnchantment.EnchantmentStatus": {
@@ -6859,7 +6895,7 @@
         "GlobalEnchantment.EnchantmentType": 0,
         "GlobalEnchantment.Name": "",
         "GlobalEnchantment.PlayerIndex": 0,
-        "GlobalEnchantment._refCount": 0
+        "GlobalEnchantment._refCount": 1
       }
     }
   },
@@ -7011,7 +7047,7 @@
       "$jsonText": {
         "$type": "Aow.Game.Magic.Spells.EnchantedRoads",
         "EngineObject._owner": "$owner",
-        "GlobalEnchantmentSpell.AIBasePriority": 0,
+        "GlobalEnchantmentSpell.AIBasePriority": -1,
         "Spell.BaseManaCost": 0,
         "Spell.CastDuration": 0,
         "Spell.CastImages": null,
@@ -7080,12 +7116,12 @@
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
+          "Set\u00601.a": 3,
           "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
+          "Set\u00601.bounded": true,
           "Set\u00601.c": 0,
           "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
+          "Set\u00601.high": 1,
           "Set\u00601.low": 0
         },
         "GlobalEnchantment.EnchantmentStatus": {
@@ -7101,7 +7137,7 @@
         "GlobalEnchantment.EnchantmentType": 0,
         "GlobalEnchantment.Name": "",
         "GlobalEnchantment.PlayerIndex": 0,
-        "GlobalEnchantment._refCount": 0
+        "GlobalEnchantment._refCount": 1
       }
     }
   },
@@ -7761,7 +7797,7 @@
       "$jsonText": {
         "$type": "Aow.Game.Magic.Spells.FireMastery",
         "EngineObject._owner": "$owner",
-        "GlobalEnchantmentSpell.AIBasePriority": 0,
+        "GlobalEnchantmentSpell.AIBasePriority": -1,
         "Spell.BaseManaCost": 0,
         "Spell.CastDuration": 0,
         "Spell.CastImages": null,
@@ -7830,12 +7866,12 @@
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
+          "Set\u00601.a": 3,
           "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
+          "Set\u00601.bounded": true,
           "Set\u00601.c": 0,
           "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
+          "Set\u00601.high": 1,
           "Set\u00601.low": 0
         },
         "GlobalEnchantment.EnchantmentStatus": {
@@ -7851,7 +7887,7 @@
         "GlobalEnchantment.EnchantmentType": 0,
         "GlobalEnchantment.Name": "",
         "GlobalEnchantment.PlayerIndex": 0,
-        "GlobalEnchantment._refCount": 0
+        "GlobalEnchantment._refCount": 1
       }
     }
   },
@@ -8053,7 +8089,7 @@
       "$jsonText": {
         "$type": "Aow.Game.Magic.Spells.Flood",
         "EngineObject._owner": "$owner",
-        "GlobalEnchantmentSpell.AIBasePriority": 0,
+        "GlobalEnchantmentSpell.AIBasePriority": -1,
         "Spell.BaseManaCost": 0,
         "Spell.CastDuration": 0,
         "Spell.CastImages": null,
@@ -8158,12 +8194,12 @@
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
+          "Set\u00601.a": 3,
           "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
+          "Set\u00601.bounded": true,
           "Set\u00601.c": 0,
           "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
+          "Set\u00601.high": 1,
           "Set\u00601.low": 0
         },
         "GlobalEnchantment.EnchantmentStatus": {
@@ -8179,7 +8215,7 @@
         "GlobalEnchantment.EnchantmentType": 0,
         "GlobalEnchantment.Name": "",
         "GlobalEnchantment.PlayerIndex": 0,
-        "GlobalEnchantment._refCount": 0
+        "GlobalEnchantment._refCount": 1
       }
     }
   },
@@ -8275,7 +8311,7 @@
           "Set\u00601.high": 0,
           "Set\u00601.low": 0
         },
-        "CityEnchantmentSpell.AIPriority": 0,
+        "CityEnchantmentSpell.AIPriority": -1,
         "CityEnchantmentSpell.EnchantmentId": 0,
         "CityEnchantmentSpell.EnchantmentSpellId": 0,
         "CityTargetSpell.CityTargetMode": {
@@ -8921,7 +8957,7 @@
       "$jsonText": {
         "$type": "Aow.Game.Magic.Spells.GlobalEnchantmentSpell",
         "EngineObject._owner": "$owner",
-        "GlobalEnchantmentSpell.AIBasePriority": 0,
+        "GlobalEnchantmentSpell.AIBasePriority": -1,
         "Spell.BaseManaCost": 0,
         "Spell.CastDuration": 0,
         "Spell.CastImages": null,
@@ -9127,7 +9163,7 @@
           "Set\u00601.high": 0,
           "Set\u00601.low": 0
         },
-        "CityEnchantmentSpell.AIPriority": 0,
+        "CityEnchantmentSpell.AIPriority": -1,
         "CityEnchantmentSpell.EnchantmentId": 0,
         "CityEnchantmentSpell.EnchantmentSpellId": 0,
         "CityTargetSpell.CityTargetMode": {
@@ -9365,7 +9401,7 @@
       "$jsonText": {
         "$type": "Aow.Game.Magic.Spells.Harmony",
         "EngineObject._owner": "$owner",
-        "GlobalEnchantmentSpell.AIBasePriority": 0,
+        "GlobalEnchantmentSpell.AIBasePriority": -1,
         "Spell.BaseManaCost": 0,
         "Spell.CastDuration": 0,
         "Spell.CastImages": null,
@@ -9435,12 +9471,12 @@
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
+          "Set\u00601.a": 3,
           "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
+          "Set\u00601.bounded": true,
           "Set\u00601.c": 0,
           "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
+          "Set\u00601.high": 1,
           "Set\u00601.low": 0
         },
         "GlobalEnchantment.EnchantmentStatus": {
@@ -9456,7 +9492,7 @@
         "GlobalEnchantment.EnchantmentType": 0,
         "GlobalEnchantment.Name": "",
         "GlobalEnchantment.PlayerIndex": 0,
-        "GlobalEnchantment._refCount": 0,
+        "GlobalEnchantment._refCount": 1,
         "HarmonyEnchantment.DaysActive": 0
       }
     }
@@ -9609,7 +9645,7 @@
       "$jsonText": {
         "$type": "Aow.Game.Magic.Spells.Hatred",
         "EngineObject._owner": "$owner",
-        "GlobalEnchantmentSpell.AIBasePriority": 0,
+        "GlobalEnchantmentSpell.AIBasePriority": -1,
         "Spell.BaseManaCost": 0,
         "Spell.CastDuration": 0,
         "Spell.CastImages": null,
@@ -9679,12 +9715,12 @@
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
+          "Set\u00601.a": 3,
           "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
+          "Set\u00601.bounded": true,
           "Set\u00601.c": 0,
           "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
+          "Set\u00601.high": 1,
           "Set\u00601.low": 0
         },
         "GlobalEnchantment.EnchantmentStatus": {
@@ -9700,7 +9736,7 @@
         "GlobalEnchantment.EnchantmentType": 0,
         "GlobalEnchantment.Name": "",
         "GlobalEnchantment.PlayerIndex": 0,
-        "GlobalEnchantment._refCount": 0,
+        "GlobalEnchantment._refCount": 1,
         "HatredEnchantment.DaysActive": 0
       }
     }
@@ -10399,7 +10435,7 @@
       "$jsonText": {
         "$type": "Aow.Game.Magic.Spells.LifeMastery",
         "EngineObject._owner": "$owner",
-        "GlobalEnchantmentSpell.AIBasePriority": 0,
+        "GlobalEnchantmentSpell.AIBasePriority": -1,
         "Spell.BaseManaCost": 0,
         "Spell.CastDuration": 0,
         "Spell.CastImages": null,
@@ -10468,12 +10504,12 @@
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
+          "Set\u00601.a": 3,
           "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
+          "Set\u00601.bounded": true,
           "Set\u00601.c": 0,
           "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
+          "Set\u00601.high": 1,
           "Set\u00601.low": 0
         },
         "GlobalEnchantment.EnchantmentStatus": {
@@ -10489,7 +10525,7 @@
         "GlobalEnchantment.EnchantmentType": 0,
         "GlobalEnchantment.Name": "",
         "GlobalEnchantment.PlayerIndex": 0,
-        "GlobalEnchantment._refCount": 0
+        "GlobalEnchantment._refCount": 1
       }
     }
   },
@@ -10921,7 +10957,7 @@
       "$jsonText": {
         "$type": "Aow.Game.Magic.Spells.PowerLeak",
         "EngineObject._owner": "$owner",
-        "GlobalEnchantmentSpell.AIBasePriority": 0,
+        "GlobalEnchantmentSpell.AIBasePriority": -1,
         "Spell.BaseManaCost": 0,
         "Spell.CastDuration": 0,
         "Spell.CastImages": null,
@@ -10990,12 +11026,12 @@
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
+          "Set\u00601.a": 3,
           "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
+          "Set\u00601.bounded": true,
           "Set\u00601.c": 0,
           "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
+          "Set\u00601.high": 1,
           "Set\u00601.low": 0
         },
         "GlobalEnchantment.EnchantmentStatus": {
@@ -11011,7 +11047,7 @@
         "GlobalEnchantment.EnchantmentType": 0,
         "GlobalEnchantment.Name": "",
         "GlobalEnchantment.PlayerIndex": 0,
-        "GlobalEnchantment._refCount": 0
+        "GlobalEnchantment._refCount": 1
       }
     }
   },
@@ -12261,7 +12297,7 @@
       "$jsonText": {
         "$type": "Aow.Game.Magic.Spells.SpellWard",
         "EngineObject._owner": "$owner",
-        "GlobalEnchantmentSpell.AIBasePriority": 0,
+        "GlobalEnchantmentSpell.AIBasePriority": -1,
         "Spell.BaseManaCost": 0,
         "Spell.CastDuration": 0,
         "Spell.CastImages": null,
@@ -12330,12 +12366,12 @@
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
+          "Set\u00601.a": 3,
           "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
+          "Set\u00601.bounded": true,
           "Set\u00601.c": 0,
           "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
+          "Set\u00601.high": 1,
           "Set\u00601.low": 0
         },
         "GlobalEnchantment.EnchantmentStatus": {
@@ -12351,7 +12387,7 @@
         "GlobalEnchantment.EnchantmentType": 0,
         "GlobalEnchantment.Name": "",
         "GlobalEnchantment.PlayerIndex": 0,
-        "GlobalEnchantment._refCount": 0
+        "GlobalEnchantment._refCount": 1
       }
     }
   },
@@ -15204,7 +15240,7 @@
           "Set\u00601.high": 0,
           "Set\u00601.low": 0
         },
-        "CityEnchantmentSpell.AIPriority": 0,
+        "CityEnchantmentSpell.AIPriority": -1,
         "CityEnchantmentSpell.EnchantmentId": 0,
         "CityEnchantmentSpell.EnchantmentSpellId": 0,
         "CityTargetSpell.CityTargetMode": {
@@ -15458,12 +15494,12 @@
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
+          "Set\u00601.a": 3,
           "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
+          "Set\u00601.bounded": true,
           "Set\u00601.c": 0,
           "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
+          "Set\u00601.high": 1,
           "Set\u00601.low": 0
         },
         "GlobalEnchantment.EnchantmentStatus": {
@@ -15479,7 +15515,7 @@
         "GlobalEnchantment.EnchantmentType": 0,
         "GlobalEnchantment.Name": "",
         "GlobalEnchantment.PlayerIndex": 0,
-        "GlobalEnchantment._refCount": 0,
+        "GlobalEnchantment._refCount": 1,
         "WatcherEnchantment.Watcher": null
       }
     }
@@ -15542,7 +15578,7 @@
       "$jsonText": {
         "$type": "Aow.Game.Magic.Spells.WaterMastery",
         "EngineObject._owner": "$owner",
-        "GlobalEnchantmentSpell.AIBasePriority": 0,
+        "GlobalEnchantmentSpell.AIBasePriority": -1,
         "Spell.BaseManaCost": 0,
         "Spell.CastDuration": 0,
         "Spell.CastImages": null,
@@ -15611,12 +15647,12 @@
         "GlobalEnchantment.EnchantmentManaUpkeep": 0,
         "GlobalEnchantment.EnchantmentMode": {
           "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Magic.GlobalEnchantmentModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
+          "Set\u00601.a": 3,
           "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
+          "Set\u00601.bounded": true,
           "Set\u00601.c": 0,
           "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
+          "Set\u00601.high": 1,
           "Set\u00601.low": 0
         },
         "GlobalEnchantment.EnchantmentStatus": {
@@ -15632,7 +15668,7 @@
         "GlobalEnchantment.EnchantmentType": 0,
         "GlobalEnchantment.Name": "",
         "GlobalEnchantment.PlayerIndex": 0,
-        "GlobalEnchantment._refCount": 0
+        "GlobalEnchantment._refCount": 1
       }
     }
   },

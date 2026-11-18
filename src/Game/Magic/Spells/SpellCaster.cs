@@ -8,14 +8,12 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Magic.Spells;
 
 // (spell ID, source ID, refcount)
-public partial class SpellCaster : EngineObject
+public partial class SpellCaster(CustomNode owner) : EngineObject(owner)
 {
-    public SpellCaster(CustomNode owner) : base(owner) => _casterRefCount = 1;
-
     public int CasterSpellId { get; set; }
     public int CasterSourceId { get; set; }
 
-    private int _casterRefCount;
+    private int _casterRefCount = 1;
 
     // Spells.PAS:753
     public override int AddRef()

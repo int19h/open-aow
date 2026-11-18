@@ -8,9 +8,8 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // image library, image index, heading, text
-public partial class CampaignScenarioPage : EngineObject
+public partial class CampaignScenarioPage(CustomNode owner) : EngineObject(owner)
 {
-    public CampaignScenarioPage(CustomNode owner) : base(owner) => Text = new DelphiStringList();
 
     // AoWVideoDlg.pas:264
     public new const int ClassId = 2248706;
@@ -19,7 +18,7 @@ public partial class CampaignScenarioPage : EngineObject
     public int ImageIndex { get; private set; }
     public string Heading { get; private set; } = "";
 
-    public DelphiStringList Text { get; }
+    public DelphiStringList Text { get; } = new DelphiStringList();
 
     // AoWVideoDlg.pas:257
     public override void Dispose()

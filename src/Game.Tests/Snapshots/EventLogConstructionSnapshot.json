@@ -1291,9 +1291,9 @@
                 "EventLog.RefCount": 1,
                 "LocationTextEventLog.Location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Y": 0
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
                 },
                 "TextEventLog.Text": ""
               }
@@ -1390,9 +1390,9 @@
                 "EventLog.RefCount": 1,
                 "LocationTextEventLog.Location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Y": 0
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
                 },
                 "TextEventLog.Text": ""
               }
@@ -2390,7 +2390,7 @@
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
-            "DescendantReferencesNil": true,
+            "DescendantReferencesNil": false,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.EnterArenaEventLog",
@@ -2398,7 +2398,13 @@
                 "EnterArenaEventLog.Arena": null,
                 "EnterArenaEventLog.Selection": 0,
                 "EnterArenaEventLog.Trainable": 0,
-                "EnterArenaEventLog.UnitIds": null,
+                "EnterArenaEventLog.UnitIds": {
+                  "$type": "Aow.Engine.Collections.Int32List",
+                  "Int32List._capacity": 0,
+                  "Int32List._count": 0,
+                  "Int32List._default": 0,
+                  "Int32List._list": []
+                },
                 "EventLog.Day": 0,
                 "EventLog.Id": 0,
                 "EventLog.Player": 0,
@@ -2492,7 +2498,7 @@
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
-            "DescendantReferencesNil": true,
+            "DescendantReferencesNil": false,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.EnterArenaEventLog",
@@ -2500,7 +2506,13 @@
                 "EnterArenaEventLog.Arena": null,
                 "EnterArenaEventLog.Selection": 0,
                 "EnterArenaEventLog.Trainable": 0,
-                "EnterArenaEventLog.UnitIds": null,
+                "EnterArenaEventLog.UnitIds": {
+                  "$type": "Aow.Engine.Collections.Int32List",
+                  "Int32List._capacity": 0,
+                  "Int32List._count": 0,
+                  "Int32List._default": 0,
+                  "Int32List._list": []
+                },
                 "EventLog.Day": 7,
                 "EventLog.Id": 0,
                 "EventLog.Player": -56,
@@ -3358,7 +3370,7 @@
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
-            "DescendantReferencesNil": true,
+            "DescendantReferencesNil": false,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.GameOverEventLog",
@@ -3367,7 +3379,16 @@
                 "EventLog.Id": 0,
                 "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
-                "GameOverEventLog.Message": null,
+                "GameOverEventLog.Message": {
+                  "$type": "Aow.Rtl.DelphiStringList",
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
+                },
                 "GameOverEventLog.TargetPlayer": 0
               }
             }
@@ -3460,7 +3481,7 @@
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
-            "DescendantReferencesNil": true,
+            "DescendantReferencesNil": false,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.GameOverEventLog",
@@ -3469,7 +3490,16 @@
                 "EventLog.Id": 0,
                 "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
-                "GameOverEventLog.Message": null,
+                "GameOverEventLog.Message": {
+                  "$type": "Aow.Rtl.DelphiStringList",
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
+                },
                 "GameOverEventLog.TargetPlayer": 0
               }
             }
@@ -3568,9 +3598,9 @@
                 "GlobalEnchantmentEventLog.EnchantmentPlayer": 0,
                 "LocationTextEventLog.Location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Y": 0
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
                 },
                 "TextEventLog.Text": ""
               }
@@ -3670,9 +3700,9 @@
                 "GlobalEnchantmentEventLog.EnchantmentPlayer": 0,
                 "LocationTextEventLog.Location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Y": 0
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
                 },
                 "TextEventLog.Text": ""
               }
@@ -4200,7 +4230,7 @@
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
-            "DescendantReferencesNil": true,
+            "DescendantReferencesNil": false,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.HeroJoinEventLog",
@@ -4211,18 +4241,33 @@
                 "EventLog.RefCount": 1,
                 "JoinEventLog.FirstUnitId": 0,
                 "JoinEventLog.Gold": 0,
-                "JoinEventLog.JoinIndex": 0,
-                "JoinEventLog.JoinMessage": null,
+                "JoinEventLog.JoinIndex": -1,
+                "JoinEventLog.JoinMessage": {
+                  "$type": "Aow.Rtl.DelphiStringList",
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
+                },
                 "JoinEventLog.JoinMode": 0,
                 "JoinEventLog.Selection": 0,
                 "JoinEventLog.Text": "",
-                "JoinEventLog.UnitIds": null,
+                "JoinEventLog.UnitIds": {
+                  "$type": "Aow.Engine.Collections.Int32List",
+                  "Int32List._capacity": 0,
+                  "Int32List._count": 0,
+                  "Int32List._default": 0,
+                  "Int32List._list": []
+                },
                 "JoinEventLog.UnknownBytes": 0,
                 "JoinEventLog._location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Y": 0
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
                 }
               }
             }
@@ -4353,7 +4398,7 @@
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
-            "DescendantReferencesNil": true,
+            "DescendantReferencesNil": false,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.HeroJoinEventLog",
@@ -4364,18 +4409,33 @@
                 "EventLog.RefCount": 1,
                 "JoinEventLog.FirstUnitId": 0,
                 "JoinEventLog.Gold": 0,
-                "JoinEventLog.JoinIndex": 0,
-                "JoinEventLog.JoinMessage": null,
+                "JoinEventLog.JoinIndex": -1,
+                "JoinEventLog.JoinMessage": {
+                  "$type": "Aow.Rtl.DelphiStringList",
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
+                },
                 "JoinEventLog.JoinMode": 0,
                 "JoinEventLog.Selection": 0,
                 "JoinEventLog.Text": "",
-                "JoinEventLog.UnitIds": null,
+                "JoinEventLog.UnitIds": {
+                  "$type": "Aow.Engine.Collections.Int32List",
+                  "Int32List._capacity": 0,
+                  "Int32List._count": 0,
+                  "Int32List._default": 0,
+                  "Int32List._list": []
+                },
                 "JoinEventLog.UnknownBytes": 0,
                 "JoinEventLog._location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Y": 0
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
                 }
               }
             }
@@ -4674,7 +4734,7 @@
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
-            "DescendantReferencesNil": true,
+            "DescendantReferencesNil": false,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.ItemExplorationSiteEventLog",
@@ -4683,14 +4743,29 @@
                 "EventLog.Id": 0,
                 "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
-                "ItemExplorationSiteEventLog.ItemIds": null,
+                "ItemExplorationSiteEventLog.ItemIds": {
+                  "$type": "Aow.Engine.Collections.Int32List",
+                  "Int32List._capacity": 0,
+                  "Int32List._count": 0,
+                  "Int32List._default": 0,
+                  "Int32List._list": []
+                },
                 "ItemExplorationSiteEventLog.Location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
                   "MapCoordinate.MapLevel": 0,
                   "MapCoordinate.X": 0,
                   "MapCoordinate.Y": 0
                 },
-                "ItemExplorationSiteEventLog.Messages": null,
+                "ItemExplorationSiteEventLog.Messages": {
+                  "$type": "Aow.Rtl.DelphiStringList",
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
+                },
                 "ItemExplorationSiteEventLog.Title": ""
               }
             }
@@ -4809,7 +4884,7 @@
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
-            "DescendantReferencesNil": true,
+            "DescendantReferencesNil": false,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.ItemExplorationSiteEventLog",
@@ -4818,14 +4893,29 @@
                 "EventLog.Id": 0,
                 "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
-                "ItemExplorationSiteEventLog.ItemIds": null,
+                "ItemExplorationSiteEventLog.ItemIds": {
+                  "$type": "Aow.Engine.Collections.Int32List",
+                  "Int32List._capacity": 0,
+                  "Int32List._count": 0,
+                  "Int32List._default": 0,
+                  "Int32List._list": []
+                },
                 "ItemExplorationSiteEventLog.Location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
                   "MapCoordinate.MapLevel": 0,
                   "MapCoordinate.X": 0,
                   "MapCoordinate.Y": 0
                 },
-                "ItemExplorationSiteEventLog.Messages": null,
+                "ItemExplorationSiteEventLog.Messages": {
+                  "$type": "Aow.Rtl.DelphiStringList",
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
+                },
                 "ItemExplorationSiteEventLog.Title": ""
               }
             }
@@ -4956,7 +5046,7 @@
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
-            "DescendantReferencesNil": true,
+            "DescendantReferencesNil": false,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.JoinEventLog",
@@ -4967,18 +5057,33 @@
                 "EventLog.RefCount": 1,
                 "JoinEventLog.FirstUnitId": 0,
                 "JoinEventLog.Gold": 0,
-                "JoinEventLog.JoinIndex": 0,
-                "JoinEventLog.JoinMessage": null,
+                "JoinEventLog.JoinIndex": -1,
+                "JoinEventLog.JoinMessage": {
+                  "$type": "Aow.Rtl.DelphiStringList",
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
+                },
                 "JoinEventLog.JoinMode": 0,
                 "JoinEventLog.Selection": 0,
                 "JoinEventLog.Text": "",
-                "JoinEventLog.UnitIds": null,
+                "JoinEventLog.UnitIds": {
+                  "$type": "Aow.Engine.Collections.Int32List",
+                  "Int32List._capacity": 0,
+                  "Int32List._count": 0,
+                  "Int32List._default": 0,
+                  "Int32List._list": []
+                },
                 "JoinEventLog.UnknownBytes": 0,
                 "JoinEventLog._location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Y": 0
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
                 }
               }
             }
@@ -5109,7 +5214,7 @@
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
-            "DescendantReferencesNil": true,
+            "DescendantReferencesNil": false,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.JoinEventLog",
@@ -5120,18 +5225,33 @@
                 "EventLog.RefCount": 1,
                 "JoinEventLog.FirstUnitId": 0,
                 "JoinEventLog.Gold": 0,
-                "JoinEventLog.JoinIndex": 0,
-                "JoinEventLog.JoinMessage": null,
+                "JoinEventLog.JoinIndex": -1,
+                "JoinEventLog.JoinMessage": {
+                  "$type": "Aow.Rtl.DelphiStringList",
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
+                },
                 "JoinEventLog.JoinMode": 0,
                 "JoinEventLog.Selection": 0,
                 "JoinEventLog.Text": "",
-                "JoinEventLog.UnitIds": null,
+                "JoinEventLog.UnitIds": {
+                  "$type": "Aow.Engine.Collections.Int32List",
+                  "Int32List._capacity": 0,
+                  "Int32List._count": 0,
+                  "Int32List._default": 0,
+                  "Int32List._list": []
+                },
                 "JoinEventLog.UnknownBytes": 0,
                 "JoinEventLog._location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Y": 0
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
                 }
               }
             }
@@ -5227,9 +5347,9 @@
                 "EventLog.RefCount": 1,
                 "LocationTextEventLog.Location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Y": 0
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
                 },
                 "TextEventLog.Text": ""
               }
@@ -5326,9 +5446,9 @@
                 "EventLog.RefCount": 1,
                 "LocationTextEventLog.Location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Y": 0
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
                 },
                 "TextEventLog.Text": ""
               }
@@ -5710,7 +5830,7 @@
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
-            "DescendantReferencesNil": true,
+            "DescendantReferencesNil": false,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.NegotiateRequestEventLog",
@@ -5721,18 +5841,33 @@
                 "EventLog.RefCount": 1,
                 "JoinEventLog.FirstUnitId": 0,
                 "JoinEventLog.Gold": 0,
-                "JoinEventLog.JoinIndex": 0,
-                "JoinEventLog.JoinMessage": null,
+                "JoinEventLog.JoinIndex": -1,
+                "JoinEventLog.JoinMessage": {
+                  "$type": "Aow.Rtl.DelphiStringList",
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
+                },
                 "JoinEventLog.JoinMode": 0,
                 "JoinEventLog.Selection": 0,
                 "JoinEventLog.Text": "",
-                "JoinEventLog.UnitIds": null,
+                "JoinEventLog.UnitIds": {
+                  "$type": "Aow.Engine.Collections.Int32List",
+                  "Int32List._capacity": 0,
+                  "Int32List._count": 0,
+                  "Int32List._default": 0,
+                  "Int32List._list": []
+                },
                 "JoinEventLog.UnknownBytes": 0,
                 "JoinEventLog._location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Y": 0
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
                 },
                 "NegotiateRequestEventLog.ArmyId": null,
                 "NegotiateRequestEventLog.Hex": {
@@ -5896,7 +6031,7 @@
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
-            "DescendantReferencesNil": true,
+            "DescendantReferencesNil": false,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.NegotiateRequestEventLog",
@@ -5907,18 +6042,33 @@
                 "EventLog.RefCount": 1,
                 "JoinEventLog.FirstUnitId": 0,
                 "JoinEventLog.Gold": 0,
-                "JoinEventLog.JoinIndex": 0,
-                "JoinEventLog.JoinMessage": null,
+                "JoinEventLog.JoinIndex": -1,
+                "JoinEventLog.JoinMessage": {
+                  "$type": "Aow.Rtl.DelphiStringList",
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
+                },
                 "JoinEventLog.JoinMode": 0,
                 "JoinEventLog.Selection": 0,
                 "JoinEventLog.Text": "",
-                "JoinEventLog.UnitIds": null,
+                "JoinEventLog.UnitIds": {
+                  "$type": "Aow.Engine.Collections.Int32List",
+                  "Int32List._capacity": 0,
+                  "Int32List._count": 0,
+                  "Int32List._default": 0,
+                  "Int32List._list": []
+                },
                 "JoinEventLog.UnknownBytes": 0,
                 "JoinEventLog._location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Y": 0
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
                 },
                 "NegotiateRequestEventLog.ArmyId": null,
                 "NegotiateRequestEventLog.Hex": {
@@ -6850,9 +7000,9 @@
                 "PlayerMagicEventLog.EnchantmentName": "",
                 "PlayerMagicEventLog.Location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Y": 0
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
                 },
                 "PlayerMagicEventLog.Mode": 0,
                 "PlayerMagicEventLog.SpellId": 0,
@@ -6961,9 +7111,9 @@
                 "PlayerMagicEventLog.EnchantmentName": "",
                 "PlayerMagicEventLog.Location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Y": 0
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
                 },
                 "PlayerMagicEventLog.Mode": 0,
                 "PlayerMagicEventLog.SpellId": 0,
@@ -7110,7 +7260,7 @@
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
-            "DescendantReferencesNil": true,
+            "DescendantReferencesNil": false,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.PrisonersJoinEventLog",
@@ -7121,18 +7271,33 @@
                 "EventLog.RefCount": 1,
                 "JoinEventLog.FirstUnitId": 0,
                 "JoinEventLog.Gold": 0,
-                "JoinEventLog.JoinIndex": 0,
-                "JoinEventLog.JoinMessage": null,
+                "JoinEventLog.JoinIndex": -1,
+                "JoinEventLog.JoinMessage": {
+                  "$type": "Aow.Rtl.DelphiStringList",
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
+                },
                 "JoinEventLog.JoinMode": 0,
                 "JoinEventLog.Selection": 0,
                 "JoinEventLog.Text": "",
-                "JoinEventLog.UnitIds": null,
+                "JoinEventLog.UnitIds": {
+                  "$type": "Aow.Engine.Collections.Int32List",
+                  "Int32List._capacity": 0,
+                  "Int32List._count": 0,
+                  "Int32List._default": 0,
+                  "Int32List._list": []
+                },
                 "JoinEventLog.UnknownBytes": 0,
                 "JoinEventLog._location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Y": 0
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
                 },
                 "PrisonersJoinEventLog.Location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
@@ -7281,7 +7446,7 @@
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
-            "DescendantReferencesNil": true,
+            "DescendantReferencesNil": false,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.PrisonersJoinEventLog",
@@ -7292,18 +7457,33 @@
                 "EventLog.RefCount": 1,
                 "JoinEventLog.FirstUnitId": 0,
                 "JoinEventLog.Gold": 0,
-                "JoinEventLog.JoinIndex": 0,
-                "JoinEventLog.JoinMessage": null,
+                "JoinEventLog.JoinIndex": -1,
+                "JoinEventLog.JoinMessage": {
+                  "$type": "Aow.Rtl.DelphiStringList",
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
+                },
                 "JoinEventLog.JoinMode": 0,
                 "JoinEventLog.Selection": 0,
                 "JoinEventLog.Text": "",
-                "JoinEventLog.UnitIds": null,
+                "JoinEventLog.UnitIds": {
+                  "$type": "Aow.Engine.Collections.Int32List",
+                  "Int32List._capacity": 0,
+                  "Int32List._count": 0,
+                  "Int32List._default": 0,
+                  "Int32List._list": []
+                },
                 "JoinEventLog.UnknownBytes": 0,
                 "JoinEventLog._location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Y": 0
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
                 },
                 "PrisonersJoinEventLog.Location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
@@ -7405,9 +7585,9 @@
                 "EventLog.RefCount": 1,
                 "LocationTextEventLog.Location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Y": 0
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
                 },
                 "TextEventLog.Text": ""
               }
@@ -7504,9 +7684,9 @@
                 "EventLog.RefCount": 1,
                 "LocationTextEventLog.Location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Y": 0
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
                 },
                 "TextEventLog.Text": ""
               }
@@ -7603,9 +7783,9 @@
                 "EventLog.RefCount": 1,
                 "LocationTextEventLog.Location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Y": 0
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
                 },
                 "TextEventLog.Text": ""
               }
@@ -7702,9 +7882,9 @@
                 "EventLog.RefCount": 1,
                 "LocationTextEventLog.Location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Y": 0
+                  "MapCoordinate.MapLevel": -1,
+                  "MapCoordinate.X": -1,
+                  "MapCoordinate.Y": -1
                 },
                 "TextEventLog.Text": ""
               }
@@ -8834,7 +9014,7 @@
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
-            "DescendantReferencesNil": true,
+            "DescendantReferencesNil": false,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.SmtpEventLog",
@@ -8846,7 +9026,16 @@
                 "SmtpEventLog.Error": "",
                 "SmtpEventLog.FileName": "",
                 "SmtpEventLog.FromAddress": "",
-                "SmtpEventLog.Message": null,
+                "SmtpEventLog.Message": {
+                  "$type": "Aow.Rtl.DelphiStringList",
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
+                },
                 "SmtpEventLog.Subject": "",
                 "SmtpEventLog.Success": false,
                 "SmtpEventLog.ToAddress": ""
@@ -8951,7 +9140,7 @@
             "Id": 0,
             "RefCount": 1,
             "AddRefReturn": 1,
-            "DescendantReferencesNil": true,
+            "DescendantReferencesNil": false,
             "State": {
               "$jsonText": {
                 "$type": "Aow.Game.Events.SmtpEventLog",
@@ -8963,7 +9152,16 @@
                 "SmtpEventLog.Error": "",
                 "SmtpEventLog.FileName": "",
                 "SmtpEventLog.FromAddress": "",
-                "SmtpEventLog.Message": null,
+                "SmtpEventLog.Message": {
+                  "$type": "Aow.Rtl.DelphiStringList",
+                  "DelphiStringCollection.UpdateCount": 0,
+                  "DelphiStringList.Duplicates": 0,
+                  "DelphiStringList.OnChange": null,
+                  "DelphiStringList.OnChanging": null,
+                  "DelphiStringList.Sorted": false,
+                  "DelphiStringList.count": 0,
+                  "DelphiStringList.items": []
+                },
                 "SmtpEventLog.Subject": "",
                 "SmtpEventLog.Success": false,
                 "SmtpEventLog.ToAddress": ""

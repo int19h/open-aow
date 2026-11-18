@@ -15,9 +15,8 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Events;
 
 // Hex, MovePoints, ArmyId, Object, Data1/Data2. inherited join fields
-public partial class NegotiateRequestEventLog : JoinEventLog
+public partial class NegotiateRequestEventLog(CustomNode owner) : JoinEventLog(owner)
 {
-    public NegotiateRequestEventLog(CustomNode owner) : base(owner) => ArmyId = null;
 
     // Diplomacy.pas:279
     public new const int ClassId = 131814;

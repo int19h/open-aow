@@ -17,20 +17,14 @@ using Aow.Rtl;
 namespace Aow.Game.Magic;
 
 // (ID, references, status, mode, dispel mana, type, player, name, upkeep)
-public partial class GlobalEnchantment : EngineObject
+public partial class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
 {
-    public GlobalEnchantment(CustomNode owner) : base(owner)
-    {
-        _refCount = 1;
-        EnchantmentMode = Set<GlobalEnchantmentModeElement>.Of(GlobalEnchantmentModeElement.TrueGlobal, GlobalEnchantmentModeElement.Owned);
-    }
-
     public int EnchantmentId { get; set; }
 
-    private int _refCount;
+    private int _refCount = 1;
 
     public Set<GlobalEnchantmentStatusElement> EnchantmentStatus { get; private set; }
-    public Set<GlobalEnchantmentModeElement> EnchantmentMode { get; protected set; }
+    public Set<GlobalEnchantmentModeElement> EnchantmentMode { get; protected set; } = Set<GlobalEnchantmentModeElement>.Of(GlobalEnchantmentModeElement.TrueGlobal, GlobalEnchantmentModeElement.Owned);
 
     public int DispelMana { get; set; }
     public GlobalEnchantmentType EnchantmentType { get; set; }

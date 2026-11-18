@@ -334,7 +334,7 @@ public sealed class MapNetSoundConstructionTests
     }
 
     [Fact]
-    public void SfxComponentInsertionPrecedesPrivateListAllocation()
+    public void OwnerNotificationSeesTheEmptySfxList()
     {
         ObservingComponent owner = new();
         UnitSfxManager value = new(owner);
@@ -353,7 +353,8 @@ public sealed class MapNetSoundConstructionTests
         {
             if (operation == Operation.Insert && child is UnitSfxManager manager)
             {
-                Assert.Null(manager.Sfx);
+                // No game Notification reads Sfx. The list is created with the object, and it is empty here.
+                Assert.Equal(0, manager.Sfx.Count);
                 Observed = true;
             }
             base.Notification(child, operation);

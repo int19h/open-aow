@@ -20,14 +20,13 @@ namespace Aow.Game.World.Structures;
 
 // { ot=1 }
 // Entrance
-public partial class Cave : Structure
+public partial class Cave(CustomNode owner) : Structure(owner)
 {
-    public Cave(CustomNode owner) : base(owner) => Entrance = CaveEntrance.Down;
 
     // Cave.pas:160
     public new const int ClassId = 131966;
 
-    public CaveEntrance Entrance { get; private set; }
+    public CaveEntrance Entrance { get; private set; } = CaveEntrance.Down;
 
     // Cave.pas:134
     public override void Dispose()

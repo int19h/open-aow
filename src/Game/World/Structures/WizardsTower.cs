@@ -21,21 +21,15 @@ using Aow.Rtl;
 namespace Aow.Game.World.Structures;
 
 // generate, spheres, level, spell ID
-public partial class WizardsTower : Structure
+public partial class WizardsTower(CustomNode owner) : Structure(owner)
 {
-    public WizardsTower(CustomNode owner) : base(owner)
-    {
-        _generateSpell = true;
-        _magicSpheres = s_allMagicSpheres;
-        _spellLevel = 2;
-    }
 
     // WizardsTower.pas:84
     public new const int ClassId = 133278;
 
-    private bool _generateSpell;
-    private Set<MagicSphere> _magicSpheres;
-    private byte _spellLevel;
+    private bool _generateSpell = true;
+    private Set<MagicSphere> _magicSpheres = s_allMagicSpheres;
+    private byte _spellLevel = 2;
 
     public int SpellId { get; private set; }
 

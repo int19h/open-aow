@@ -12,14 +12,13 @@ using Aow.Game.World.Map;
 namespace Aow.Game.AI.Groups;
 
 // hunted unit IDs
-public partial class HuntAIGroup : AIGroup, IAIGroupClass
+public partial class HuntAIGroup(CustomNode owner) : AIGroup(owner), IAIGroupClass
 {
-    public HuntAIGroup(CustomNode owner) : base(owner) => TargetUnitIds = new Int32List();
 
     // AIGroup.pas:1442
     public new const int ClassId = 136288;
 
-    public Int32List TargetUnitIds { get; }
+    public Int32List TargetUnitIds { get; } = new Int32List();
 
     // AIGroup.pas:1436
     public override void Dispose()

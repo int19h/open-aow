@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Diagnostics.CodeAnalysis;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 
@@ -26,6 +27,7 @@ namespace Aow.Game.Magic.Abilities;
 // description, graphics index, hidden, availability, attack, defense, damage, resistance
 public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
 {
+    [SuppressMessage("Style", "IDE0290", Justification = "Item.SetOwner calls AddRef and Release around AddChild. The count starts at 0, so Release reaches 0 and Dispose runs, and the constructor then stores 1. ItemLibrary.cs:51 reads LibraryId during that AddChild and stamps an id when the id is not positive, and the constructor then stores -1.")]
     public Item(CustomNode owner) : base(owner)
     {
         _itemGraphicsIndex = -1;

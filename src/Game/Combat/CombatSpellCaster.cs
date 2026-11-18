@@ -4,14 +4,12 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.Combat;
 
 // (spell ID, source ID, refcount)
-public partial class CombatSpellCaster : EngineObject
+public partial class CombatSpellCaster(CustomNode owner) : EngineObject(owner)
 {
-    public CombatSpellCaster(CustomNode owner) : base(owner) => _combatCasterRefCount = 1;
-
     public int CombatCasterSpellId { get; init; }
     public int CombatCasterSourceId { get; init; }
 
-    private int _combatCasterRefCount;
+    private int _combatCasterRefCount = 1;
 
     // Spells.PAS:798
     public override int AddRef()

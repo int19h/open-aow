@@ -12,20 +12,13 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Magic;
 
 // (ID, source, upkeep, signed dispel resistance)
-public partial class Enchantment : EngineObject
+public partial class Enchantment(CustomNode owner) : EngineObject(owner)
 {
-    public Enchantment(CustomNode owner) : base(owner)
-    {
-        DispelResistance = 10;
-        Upkeep = 1;
-        Source = -1;
-        EnchantmentId = 0;
-    }
 
     public int EnchantmentId { get; set; }
-    public sbyte Source { get; set; }
-    public int Upkeep { get; set; }
-    public sbyte DispelResistance { get; set; }
+    public sbyte Source { get; set; } = -1;
+    public int Upkeep { get; set; } = 1;
+    public sbyte DispelResistance { get; set; } = 10;
 
     // Spells.PAS:1726
     public override void PersistFields(IPersister persister)

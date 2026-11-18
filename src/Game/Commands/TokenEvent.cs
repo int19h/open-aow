@@ -7,14 +7,8 @@ namespace Aow.Game.Commands;
 
 // FRefCount, FTokenCounter (stored with id 10. -1 until the executer numbers the event). The
 // base of the game's token events
-public partial class TokenEvent : EngineObject, IOwned<TokenEventReferenceList>, IOwnedSink<TokenEventReferenceList>
+public partial class TokenEvent(CustomNode owner) : EngineObject(owner), IOwned<TokenEventReferenceList>, IOwnedSink<TokenEventReferenceList>
 {
-    public TokenEvent(CustomNode owner) : base(owner)
-    {
-        RefCount = 1;
-        TokenCounter = -1;
-    }
-
     // A reference list holds the token event and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list, so the read never fails.
     public new TokenEventReferenceList Owner { get => GetOwner<TokenEventReferenceList>(); set => SetOwner(value); }
@@ -26,7 +20,7 @@ public partial class TokenEvent : EngineObject, IOwned<TokenEventReferenceList>,
     // NetworkE.pas:950
     public new const int ClassId = ClassIdTokenEvent;
 
-    internal int RefCount { get; private set; }
+    internal int RefCount { get; private set; } = 1;
 
     // NetworkE.pas:969
     public override void PersistFields(IPersister persister)
@@ -62,7 +56,7 @@ public partial class TokenEvent : EngineObject, IOwned<TokenEventReferenceList>,
 
     public virtual bool Validate() => true;
 
-    public int TokenCounter { get; set; }
+    public int TokenCounter { get; set; } = -1;
 
     private const short ClassIdTokenEvent = 1361;
 

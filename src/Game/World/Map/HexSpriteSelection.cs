@@ -14,14 +14,8 @@ namespace Aow.Game.World.Map;
 // FLocationHS the sprites selected by location (clicking on a hexagon), Selected, Deselected
 // (triggered with the map as the sender), FEventHS the sprite of the last event. The owner is
 // the map
-public partial class HexSpriteSelection : ControlStyleNode, IChildList<HexSprite>, IOwned<GameMap>, IOwnedSink<GameMap>
+public partial class HexSpriteSelection(CustomNode owner) : ControlStyleNode(owner), IChildList<HexSprite>, IOwned<GameMap>, IOwnedSink<GameMap>
 {
-    public HexSpriteSelection(CustomNode owner) : base(owner)
-    {
-        LocationHexSprite = [];
-        OnSelectStore = new();
-        OnDeselectStore = new();
-    }
 
     // The sprite in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a sprite, so the cast never fails.
@@ -38,7 +32,7 @@ public partial class HexSpriteSelection : ControlStyleNode, IChildList<HexSprite
 
     void IOwnedSink<GameMap>.SetOwner(GameMap owner) => SetOwner(owner);
 
-    internal EventStore<CustomNode> OnSelectStore { get; }
+    internal EventStore<CustomNode> OnSelectStore { get; } = new();
 
     internal event NotifyEvent<CustomNode> Selected
     {
@@ -46,7 +40,7 @@ public partial class HexSpriteSelection : ControlStyleNode, IChildList<HexSprite
         remove => OnSelectStore.Remove(value);
     }
 
-    internal EventStore<CustomNode> OnDeselectStore { get; }
+    internal EventStore<CustomNode> OnDeselectStore { get; } = new();
 
     internal event NotifyEvent<CustomNode> Deselected
     {
@@ -169,7 +163,7 @@ public partial class HexSpriteSelection : ControlStyleNode, IChildList<HexSprite
         }
     }
 
-    public List<HexSprite> LocationHexSprite { get; }
+    public List<HexSprite> LocationHexSprite { get; } = [];
 
     public event NotifyEvent<CustomNode> OnSelect
     {

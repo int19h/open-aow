@@ -22,15 +22,14 @@ using Aow.Rtl;
 namespace Aow.Game.Commands;
 
 // mode, unit IDs, selection, army sprite, moving/target player, target, destination, animate
-public partial class MoveArmyTokenEvent : MoveTokenEvent
+public partial class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
 {
-    public MoveArmyTokenEvent(CustomNode owner) : base(owner) => _unitIds = new Int32List();
 
     public new const int ClassId = 135424;
 
     public Set<ArmyMoveModeElement> Mode { get; protected set; }
 
-    private readonly Int32List _unitIds;
+    private readonly Int32List _unitIds = new();
 
     public byte Selection { get; protected set; }
     public ArmyHexSprite ArmyHexSprite { get; protected set; }

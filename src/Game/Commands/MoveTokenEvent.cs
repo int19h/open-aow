@@ -8,18 +8,12 @@ using Aow.Game.World.Movement;
 namespace Aow.Game.Commands;
 
 // status, path, move index
-public partial class MoveTokenEvent : TokenEvent
+public partial class MoveTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public MoveTokenEvent(CustomNode owner) : base(owner)
-    {
-        Path = new MovePath();
-        MoveIndex = 0;
-        _status = MoveStatus.Idle;
-    }
 
-    private MoveStatus _status;
+    private MoveStatus _status = MoveStatus.Idle;
 
-    public MovePath Path { get; }
+    public MovePath Path { get; } = new MovePath();
     public int MoveIndex { get; protected set; }
 
     // MoveT.PAS:1958

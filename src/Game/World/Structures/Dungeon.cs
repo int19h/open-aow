@@ -259,14 +259,13 @@ public partial class Dungeon : ExplorationSite
     private static readonly string s_prisonersLiberatedFormat = "%s prisoners liberated";
 
     // PrisonerCollections
-    public new partial class Resource : ExplorationSiteResource
+    public new partial class Resource(CustomNode owner) : ExplorationSiteResource(owner)
     {
-        public Resource(CustomNode owner) : base(owner) => PrisonerCollections = new UnitIndexListCollection();
 
         // Dungeon.pas:280
         public new const int ClassId = 131883;
 
-        public UnitIndexListCollection PrisonerCollections { get; }
+        public UnitIndexListCollection PrisonerCollections { get; } = new UnitIndexListCollection();
 
         // Dungeon.pas:271
         public override void Dispose()

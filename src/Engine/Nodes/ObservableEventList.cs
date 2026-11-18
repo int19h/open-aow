@@ -4,11 +4,10 @@ using Aow.Rtl;
 namespace Aow.Engine.Nodes;
 
 // Events, notified by Changed
-public partial class ObservableEventList : ObservableNode
+public partial class ObservableEventList(CustomNode owner) : ObservableNode(owner)
 {
-    public ObservableEventList(CustomNode owner) : base(owner) => _eventsStore = new();
 
-    private readonly EventStore<ObservableEventList> _eventsStore;
+    private readonly EventStore<ObservableEventList> _eventsStore = new();
 
     // Engine.pas:8131
     public override void Dispose()

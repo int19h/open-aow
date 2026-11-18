@@ -14,11 +14,10 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // (dispelled enchantment IDs)
-public partial class DispelMagicCombatAction : SingleTargetCombatAction
+public partial class DispelMagicCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
-    public DispelMagicCombatAction(CustomNode owner) : base(owner) => EnchantmentIds = new Int32List();
 
-    public Int32List EnchantmentIds { get; }
+    public Int32List EnchantmentIds { get; } = new Int32List();
 
     // AoWAb.PAS:3941
     public override void Dispose()

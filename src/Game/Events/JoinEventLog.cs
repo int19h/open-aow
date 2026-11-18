@@ -18,30 +18,23 @@ namespace Aow.Game.Events;
 
 // { Interface declaration run owned by P5. }
 // FirstUnitID, UnitIDs, Location, Selection, JoinIndex, JoinMessage, Gold, JoinMode, Text
-public partial class JoinEventLog : EventLog
+public partial class JoinEventLog(CustomNode owner) : EventLog(owner)
 {
-    public JoinEventLog(CustomNode owner) : base(owner)
-    {
-        UnitIds = new Int32List();
-        JoinMessage = new DelphiStringList();
-        _location = new MapCoordinate(-1, -1, -1);
-        JoinIndex = -1;
-    }
 
     public int FirstUnitId { get; set; }
 
-    public Int32List UnitIds { get; }
+    public Int32List UnitIds { get; } = new Int32List();
 
-    private MapCoordinate _location;
+    private MapCoordinate _location = new(-1, -1, -1);
 
     // The fourth byte of the packed location stored at id 26, 0 from every writer and in every
     // corpus file, kept so that a loaded value saves back unchanged.
     public byte UnknownBytes { get; set; }
 
     public byte Selection { get; set; }
-    public int JoinIndex { get; set; }
+    public int JoinIndex { get; set; } = -1;
 
-    public DelphiStringList JoinMessage { get; }
+    public DelphiStringList JoinMessage { get; } = new DelphiStringList();
 
     public int Gold { get; set; }
     public JoinMode JoinMode { get; set; }

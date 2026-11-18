@@ -16,15 +16,8 @@ namespace Aow.Game.Commands;
 
 // Gold, Offer, X/Y/L, ArmyId, Player, OwnerPlayer, ArmyHexSprite, Object, MovePoints, Selection, Mode,
 // Result, EventLogID, Data1/Data2
-public partial class NegotiateTokenEvent : TokenEvent
+public partial class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public NegotiateTokenEvent(CustomNode owner) : base(owner)
-    {
-        ArmyId = null;
-        Mode = Set<NegotiateModeElement>.Of(NegotiateModeElement.AttackOnReject, NegotiateModeElement.MoveOnAccept);
-        EventLogId = -1;
-        _ownerPlayer = 0;
-    }
 
     // Diplomacy.pas:133
     public new const int ClassId = 135431;
@@ -44,9 +37,9 @@ public partial class NegotiateTokenEvent : TokenEvent
 
     private byte _selection;
 
-    public Set<NegotiateModeElement> Mode { get; set; }
+    public Set<NegotiateModeElement> Mode { get; set; } = Set<NegotiateModeElement>.Of(NegotiateModeElement.AttackOnReject, NegotiateModeElement.MoveOnAccept);
     public NegotiateResult Result { get; set; }
-    public int EventLogId { get; set; }
+    public int EventLogId { get; set; } = -1;
     public int Data1 { get; set; }
     public int Data2 { get; set; }
 

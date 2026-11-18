@@ -19,9 +19,8 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.Commands;
 
 // angle, animation, selected army identity
-public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
+public partial class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
-    public TornadoTokenEvent(CustomNode owner) : base(owner) => ArmyId = null;
 
     // GlobalTargetSpells.pas:1559
     public new const int ClassId = 135972;

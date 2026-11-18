@@ -10,13 +10,12 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Units;
 
 // UnitIds. Player. FX, FY, FL
-public partial class ArmyId : EngineObject
+public partial class ArmyId(CustomNode owner) : EngineObject(owner)
 {
-    public ArmyId(CustomNode owner) : base(owner) => UnitIds = new Int32List();
 
     public new const int ClassId = 131616;
 
-    public Int32List UnitIds { get; }
+    public Int32List UnitIds { get; } = new Int32List();
 
     public sbyte Player { get; set; }
 

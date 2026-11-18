@@ -15,14 +15,8 @@ using Aow.Rtl;
 namespace Aow.Game.Draw;
 
 // Position. Index. ImageIndex. Images. Direction
-public partial class UnitPositionHexSprite : SingleHexSprite
+public partial class UnitPositionHexSprite(CustomNode owner) : SingleHexSprite(owner)
 {
-    public UnitPositionHexSprite(CustomNode owner) : base(owner)
-    {
-        _position = 0;
-        _index = 0;
-        _direction = 1;
-    }
 
     // AoWTC.pas:5016
     public new const int ClassId = 2228483;
@@ -31,7 +25,7 @@ public partial class UnitPositionHexSprite : SingleHexSprite
     private sbyte _index;
     private int _imageIndex;
     private CustomImageLibrary _images;
-    private byte _direction;
+    private byte _direction = 1;
 
     // AoWTC.pas:5060
     public override void PersistFields(IPersister persister)

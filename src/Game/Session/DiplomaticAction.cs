@@ -23,10 +23,8 @@ namespace Aow.Game.Session;
 
 // RefCount, Day, Source, Target, OtherPlayer, Reaction, EscrowGold, EscrowMana, EventLogID and the
 // proposal (AoWE.DiplomaticProposals.cs), stored as Kind, Gold, Mana and Message
-public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionList>, IOwnedSink<DiplomaticActionList>
+public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), IOwned<DiplomaticActionList>, IOwnedSink<DiplomaticActionList>
 {
-    public DiplomaticAction(CustomNode owner) : base(owner) => _refCount = 1;
-
     // A reference list holds the action and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
     public new DiplomaticActionList Owner { get => GetOwner<DiplomaticActionList>(); set => SetOwner(value); }
@@ -37,7 +35,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
 
     // Diplomacy.pas:495
     public new const int ClassId = 131666;
-    private int _refCount;
+    private int _refCount = 1;
 
     public int Day { get; set; }
     public sbyte Source { get; set; }

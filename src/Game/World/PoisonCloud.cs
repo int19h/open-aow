@@ -17,9 +17,8 @@ using Aow.Game.World.Movement;
 namespace Aow.Game.World;
 
 // Player, TurnsRemaining, Drifting, Direction, Updated
-public partial class PoisonCloud : MultiHexMapObject
+public partial class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
 {
-    public PoisonCloud(CustomNode owner) : base(owner) => _drifting = false;
 
     // PoisonC.pas:64
     public new const int ClassId = 135743;

@@ -19,16 +19,10 @@ namespace Aow.Game.UI.Controls;
 // FShownChars (the characters from FFirstChar to the end), FFirstChar (the first character
 // shown), FEditable, FILEdit, FOnExit, FOnReturn, FILIndex, FCursorPos (the cursor position
 // counted from FFirstChar). FRedraw is the input focus
-public partial class Edit : Control
+public partial class Edit(Component owner) : Control(owner)
 {
-    public Edit(Component owner) : base(owner)
-    {
-        CursorChar = 124;
-        _cursorShown = true;
-        Editable = true;
-    }
 
-    private bool _cursorShown;
+    private bool _cursorShown = true;
     private int _blinkCount;
     private int _shownChars;
 
@@ -361,13 +355,13 @@ public partial class Edit : Control
     public int MaxChars { get; set; }
 
     [Published]
-    public byte CursorChar { get; set; }
+    public byte CursorChar { get; set; } = 124;
 
     [Published]
     public int BlinkDelay { get; set; }
 
     [Published]
-    public bool Editable { get; set; }
+    public bool Editable { get; set; } = true;
 
     [Published]
     public InterfaceImageLibrary ImageLibraryEdit { get => _imageLibraryEdit; set => SetImageLibraryEdit(value); }

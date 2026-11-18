@@ -10,14 +10,13 @@ using Aow.Rtl;
 namespace Aow.Game.Commands;
 
 // Text, HexX, HexY, HexLevel
-public partial class UpdateSignTokenEvent : TokenEvent
+public partial class UpdateSignTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public UpdateSignTokenEvent(CustomNode owner) : base(owner) => Text = new DelphiStringList();
 
     // Sign.pas:202
     public new const int ClassId = 131343;
 
-    public DelphiStringList Text { get; }
+    public DelphiStringList Text { get; } = new DelphiStringList();
 
     public MapCoordinate Location { get; set; }
 

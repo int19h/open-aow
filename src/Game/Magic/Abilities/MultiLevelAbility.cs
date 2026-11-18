@@ -8,16 +8,11 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.Magic.Abilities;
 
 // (max level, level costs)
-public partial class MultiLevelAbility : AdjustableAbility
+public partial class MultiLevelAbility(CustomNode owner) : AdjustableAbility(owner)
 {
-    public MultiLevelAbility(CustomNode owner) : base(owner)
-    {
-        LevelCosts = new Int32List();
-        MaxLevel = 4;
-    }
 
-    public int MaxLevel { get; protected set; }
-    public Int32List LevelCosts { get; }
+    public int MaxLevel { get; protected set; } = 4;
+    public Int32List LevelCosts { get; } = new Int32List();
 
     // AoWAb.PAS:255
     public override void Dispose()

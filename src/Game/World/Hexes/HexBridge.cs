@@ -11,24 +11,18 @@ using Aow.Rtl;
 namespace Aow.Game.World.Hexes;
 
 // _terrain, Direction (-1 invalid), SideA, SideB
-public partial class HexBridge : AbstractRoad
+public partial class HexBridge(CustomNode owner) : AbstractRoad(owner)
 {
-    public HexBridge(CustomNode owner) : base(owner)
-    {
-        Direction = -1;
-        _sideA = new ByteList();
-        _sideB = new ByteList();
-    }
 
     // HxBridge.pas:84
     public new const int ClassId = 133242;
 
     private sbyte _terrain;
 
-    public sbyte Direction { get; private set; }
+    public sbyte Direction { get; private set; } = -1;
 
-    private readonly ByteList _sideA;
-    private readonly ByteList _sideB;
+    private readonly ByteList _sideA = new();
+    private readonly ByteList _sideB = new();
 
     // HxBridge.pas:77
     public override void Dispose()

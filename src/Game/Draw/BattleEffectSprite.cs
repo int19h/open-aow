@@ -20,24 +20,19 @@ namespace Aow.Game.Draw;
 
 // Done. Cancelled. Frame. AbilityIndex. SpellIndex. Path. Variant. TargetX. TargetY.
 // Target. EffectType
-public partial class BattleEffectSprite : FixedVisibleHexSprite
+public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
 {
-    public BattleEffectSprite(CustomNode owner) : base(owner)
-    {
-        Path = new Point3DList();
-        Frame = -1;
-    }
 
     // AoWTC.pas:5227
     public new const int ClassId = 2228486;
 
     public bool Done { get; set; }
     public bool Cancelled { get; set; }
-    public int Frame { get; private set; }
+    public int Frame { get; private set; } = -1;
     public int AbilityIndex { get; set; }
     public int SpellIndex { get; set; }
 
-    public Point3DList Path { get; internal set; }
+    public Point3DList Path { get; internal set; } = new Point3DList();
 
     public int Variant { get; set; }
 

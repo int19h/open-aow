@@ -39,13 +39,8 @@ using static Aow.Rtl.DelphiStrings;
 namespace Aow.Game.World.Structures;
 
 // ID, update count, building player, days left, shadow, fogged
-public partial class Structure : FixedImageLibraryTerrainMapObject
+public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapObject(owner)
 {
-    public Structure(CustomNode owner) : base(owner)
-    {
-        BuildingPlayer = -1;
-        Fogged = true;
-    }
 
     public new const int ClassId = 131914;
 
@@ -55,12 +50,12 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
 
     public int UpdateCount { get; private set; }
 
-    public sbyte BuildingPlayer { get; set; }
+    public sbyte BuildingPlayer { get; set; } = -1;
     public byte BuildingDays { get; private set; }
 
     private StructureShadow _shadow;
 
-    public bool Fogged { get; private set; }
+    public bool Fogged { get; private set; } = true;
 
     // Structur.PAS:1017
     public override void Dispose()

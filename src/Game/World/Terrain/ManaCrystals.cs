@@ -15,19 +15,14 @@ using static Aow.Rtl.DelphiFormat;
 namespace Aow.Game.World.Terrain;
 
 // Amount, Size
-public partial class ManaCrystals : ImageLibraryTerrainMapObject
+public partial class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
-    public ManaCrystals(CustomNode owner) : base(owner)
-    {
-        _size = 2;
-        _amount = 0;
-    }
 
     // ManaCrystals.pas:80
     public new const int ClassId = 132030;
 
     private int _amount;
-    private byte _size;
+    private byte _size = 2;
 
     // ManaCrystals.pas:83
     public override void PersistFields(IPersister persister)

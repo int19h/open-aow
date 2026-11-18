@@ -12,14 +12,13 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Draw;
 
 // X/Y/layer explored hexagons, animation frame
-public partial class ConcealAreaHexSprite : FixedVisibleHexSprite
+public partial class ConcealAreaHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
 {
-    public ConcealAreaHexSprite(CustomNode owner) : base(owner) => _hexes = new Int32List();
 
     private sbyte _x;
     private sbyte _y;
     private sbyte _layer;
-    private readonly Int32List _hexes;
+    private readonly Int32List _hexes = new();
     private int _frame;
 
     // GlobalSpells.pas:205

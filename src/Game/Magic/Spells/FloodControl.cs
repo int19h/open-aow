@@ -14,9 +14,8 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // Width, Height, OriginalTerrain
-public partial class FloodControl : EngineObject
+public partial class FloodControl(CustomNode owner) : EngineObject(owner)
 {
-    public FloodControl(CustomNode owner) : base(owner) => OriginalTerrain = [];
 
     public int Width { get; set; }
     public int Height { get; set; }

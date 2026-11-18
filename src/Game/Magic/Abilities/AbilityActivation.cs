@@ -3,11 +3,9 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class AbilityActivation : EngineObject
+public partial class AbilityActivation(CustomNode owner) : EngineObject(owner)
 {
-    public AbilityActivation(CustomNode owner) : base(owner) => _references = 1;
-
-    private int _references;
+    private int _references = 1;
 
     public int UnitId { get; init; }
     public int AbilityId { get; init; }

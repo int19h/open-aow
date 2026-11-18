@@ -180,13 +180,13 @@
             "ArmyHexSprite._unitIndex": 0,
             "ArmyHexSprite._unitYOffset": 0,
             "EngineObject._owner": "$owner",
-            "UnitHexSprite.Direction": 0,
+            "UnitHexSprite.Direction": 3,
             "UnitHexSprite.FlagId": 0,
-            "UnitHexSprite.MoveStep": 0,
+            "UnitHexSprite.MoveStep": -1,
             "UnitHexSprite.Status": 0,
             "UnitHexSprite.UnitGraphicsResource": null,
             "UnitHexSprite._shadow": null,
-            "UnitHexSprite._showPriority": 0
+            "UnitHexSprite._showPriority": 1744830464
           }
         }
       ],

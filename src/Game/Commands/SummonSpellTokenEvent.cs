@@ -15,14 +15,13 @@ using Aow.Rtl;
 namespace Aow.Game.Commands;
 
 // UnitIndices
-public partial class SummonSpellTokenEvent : SpellTokenEvent
+public partial class SummonSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
 {
-    public SummonSpellTokenEvent(CustomNode owner) : base(owner) => UnitIndices = new UnitIndexList();
 
     // SummonSpells.pas:171
     public new const int ClassId = 135947;
 
-    public UnitIndexList UnitIndices { get; }
+    public UnitIndexList UnitIndices { get; } = new UnitIndexList();
 
     // SummonSpells.pas:165
     public override void Dispose()

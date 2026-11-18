@@ -7,11 +7,10 @@ using Aow.Rtl;
 namespace Aow.Game.AI;
 
 // registered classes
-public partial class AIPlayerActionManager : EngineObject
+public partial class AIPlayerActionManager(CustomNode owner) : EngineObject(owner)
 {
-    public AIPlayerActionManager(CustomNode owner) : base(owner) => _registeredClasses = new DelphiList<AIPlayerActionClass>();
 
-    private readonly DelphiList<AIPlayerActionClass> _registeredClasses;
+    private readonly DelphiList<AIPlayerActionClass> _registeredClasses = new();
 
     // AI.pas:42
     public override void Dispose()
