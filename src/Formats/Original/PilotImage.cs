@@ -13,7 +13,7 @@ internal static class PilotImage
     {
         FormatSchema schema = FormatSchema.Current;
         SchemaClass classValue = schema.Get(className);
-        DecodeContext context = new(image, schema, engine, engine, null, FormatLimits.Default, new LayoutCounts());
+        DecodeContext context = new(image, schema, engine, engine, null, FormatLimits.Default);
         JsonObject objectValue = new();
         ObjectImage.Decode(context, 0, image.Length, classValue, DocumentNodePath.Root, objectValue);
         return objectValue;
@@ -23,7 +23,7 @@ internal static class PilotImage
     {
         FormatSchema schema = FormatSchema.Current;
         SchemaClass classValue = schema.Get(className);
-        EncodeContext context = new(schema, engine, engine, null, FormatLimits.Default, ExportOptions.Default);
+        EncodeContext context = new(schema, engine, engine, null, FormatLimits.Default);
         ByteBuffer output = new();
         ObjectImage.Encode(context, objectValue, classValue, output, DocumentNodePath.Root, "$class", "$slot");
         return output.ToArray();

@@ -1,7 +1,6 @@
 using System.Buffers.Binary;
 using System.Globalization;
 using Aow.Formats.Json;
-using Aow.Formats.Schema;
 using Aow.Formats.Tree;
 using Aow.Rtl;
 
@@ -60,7 +59,7 @@ internal sealed class SingleCodec : PropertyCodec
         {
             Span<byte> bytes = stackalloc byte[4];
             BinaryPrimitives.WriteInt32LittleEndian(bytes, bits);
-            return new JsonObject().Add("$bits", new JsonString(LayoutResidue.Hex(bytes)));
+            return new JsonObject().Add("$bits", new JsonString(HexText.Encode(bytes)));
         }
         string text = number.ToString(CultureInfo.InvariantCulture);
         int exponent = text.IndexOf('E');
@@ -412,11 +411,13 @@ internal sealed class TerrainGridCodec(string widthName, string heightName) : Pr
 
 /// <summary>
 /// A whole ILB library (ImageLib.pas 9960 load and 10038 save). The 24-byte header holds the
-/// short string <c>ILB</c> and a zero, three bytes the writer leaves as they were in memory, the
+/// short string <c>ILB</c> and a zero, three bytes the original writer leaves uninitialized, the
 /// single 4 for the version, the header size 24, the end of the index and the size of the whole
 /// library. From version 5 the document is <c>{ "$ilb": "&lt;base64&gt;" }</c> with the standard
-/// alphabet and padding. Every path checks the header. The bytes after it stay opaque. The tree
-/// holds a <see cref="BytesNode"/>.
+/// alphabet and padding. Every path checks the header and clears the two uninitialized regions of
+/// the original writer: header bytes 5 to 7 and the unused last dword of each 16-bit RLE sprite
+/// entry (classes 17 and 18, ImageLib.pas 2945 to 2971). The rest of the library stays opaque.
+/// The tree holds a <see cref="BytesNode"/>.
 /// </summary>
 internal sealed class ImageLibraryCodec : PropertyCodec
 {
@@ -427,7 +428,7 @@ internal sealed class ImageLibraryCodec : PropertyCodec
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
         Span<byte> bytes = context.Data.AsSpan(start, end - start);
-        return Problem(bytes) is string problem ? throw context.Fail(Codes.Corrupt, problem, start, site.Path) : (JsonValue)Document(bytes);
+        return Problem(bytes) is string problem ? throw context.Fail(Codes.Corrupt, problem, start, site.Path) : (JsonValue)Document(Normalize(bytes));
     }
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site) =>
@@ -445,7 +446,7 @@ internal sealed class ImageLibraryCodec : PropertyCodec
             throw context.Fail(Codes.Corrupt, problem, at: null, path: frame.Path);
         }
 
-        data.Bytes(node.Data);
+        data.Bytes(Normalize(node.Data));
     }
 
     internal override TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame)
@@ -453,7 +454,7 @@ internal sealed class ImageLibraryCodec : PropertyCodec
         Span<byte> bytes = context.Data.AsSpan(start, end - start);
         return Problem(bytes) is string problem
             ? throw context.Fail(Codes.Corrupt, problem, start, frame.Path)
-            : (TreeValue)new BytesNode(bytes.ToArray());
+            : (TreeValue)new BytesNode(Normalize(bytes));
     }
 
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
@@ -464,7 +465,7 @@ internal sealed class ImageLibraryCodec : PropertyCodec
             ? throw site.Fail(Codes.Corrupt, problem)
             : node.Data.Length > site.Context.Limits.DecompressedBytes
             ? throw site.Fail(Codes.Limit, "A payload is too large.")
-            : (JsonValue)Document(node.Data);
+            : (JsonValue)Document(Normalize(node.Data));
     }
 
     internal override TreeValue? ReadTree(JsonValue value, DocumentSite site) => new BytesNode(Bytes(site.Context, value, site.Path));
@@ -505,8 +506,243 @@ internal sealed class ImageLibraryCodec : PropertyCodec
             throw context.Fail(Codes.Type, "$ilb is base64 with the standard alphabet and padding.", text, path.Member("$ilb"));
         }
 
-        byte[] bytes = buffer.AsSpan(0, length).ToArray();
-        return Problem(bytes) is string problem ? throw context.Fail(Codes.Corrupt, problem, text, path.Member("$ilb")) : bytes;
+        ReadOnlySpan<byte> bytes = buffer.AsSpan(0, length);
+        return Problem(bytes) is string problem ? throw context.Fail(Codes.Corrupt, problem, text, path.Member("$ilb")) : Normalize(bytes);
+    }
+
+    /// <summary>
+    /// Clears header bytes 5 to 7 and the unused last dword of each class 17 and 18 sprite entry.
+    /// </summary>
+    internal static byte[] Normalize(ReadOnlySpan<byte> bytes)
+    {
+        byte[] copy = bytes.ToArray();
+        if (copy.Length >= 8)
+        {
+            copy[5] = 0;
+            copy[6] = 0;
+            copy[7] = 0;
+        }
+
+        List<int> spriteDwords = [];
+        if (TryFindSpriteReservedOffsets(copy, spriteDwords))
+        {
+            foreach (int offset in spriteDwords)
+            {
+                copy[offset] = 0;
+                copy[offset + 1] = 0;
+                copy[offset + 2] = 0;
+                copy[offset + 3] = 0;
+            }
+        }
+
+        return copy;
+    }
+
+    /// <summary>
+    /// Walks an ILB version 4 index and collects the byte offset of each class 17 or 18 sprite's
+    /// unused last image-data dword (ImageLib.pas 2945 to 2971).
+    /// </summary>
+    internal static bool TryFindSpriteReservedOffsets(ReadOnlySpan<byte> bytes, List<int> offsets)
+    {
+        if (Problem(bytes) is not null)
+        {
+            return false;
+        }
+
+        int indexEnd = BinaryPrimitives.ReadInt32LittleEndian(bytes[16..]);
+        int pos = HeaderSize;
+        if (!TryReadInt32(bytes, ref pos, limit: indexEnd, out int paletteCount) || paletteCount < 0)
+        {
+            return false;
+        }
+
+        long paletteBytes = paletteCount * 1028L;
+        if (pos + paletteBytes > indexEnd)
+        {
+            return false;
+        }
+
+        pos += (int)paletteBytes;
+        while (true)
+        {
+            if (!TryReadInt32(bytes, ref pos, limit: indexEnd, out int index))
+            {
+                return false;
+            }
+
+            if (index == -1)
+            {
+                break;
+            }
+
+            if (!WalkImage(bytes, ref pos, limit: indexEnd, offsets: offsets, depth: 0, out _))
+            {
+                return false;
+            }
+
+            if (!TrySkip(ref pos, count: 4, limit: indexEnd))
+            {
+                return false;
+            }
+        }
+
+        return pos == indexEnd;
+    }
+
+    private static bool WalkImage(ReadOnlySpan<byte> bytes, ref int pos, int limit, List<int> offsets, int depth, out bool hasImage)
+    {
+        hasImage = false;
+        if (depth > 32 || !TryReadInt32(bytes, ref pos, limit: limit, out int classId))
+        {
+            return false;
+        }
+
+        if (classId == 0)
+        {
+            return true;
+        }
+
+        if (classId == 256)
+        {
+            while (true)
+            {
+                if (!WalkImage(bytes, ref pos, limit: limit, offsets: offsets, depth: depth + 1, out bool subImage))
+                {
+                    return false;
+                }
+
+                if (!subImage)
+                {
+                    hasImage = true;
+                    return true;
+                }
+            }
+        }
+
+        if (classId is not (1 or 2 or 16 or 17 or 18 or 19 or 20 or 21 or 22))
+        {
+            return false;
+        }
+
+        if (pos >= limit)
+        {
+            return false;
+        }
+
+        byte version = bytes[pos++];
+        if (!TryReadInt32(bytes, ref pos, limit: limit, out int nameLength) || nameLength < 0 || !TrySkip(ref pos, count: nameLength, limit: limit))
+        {
+            return false;
+        }
+
+        // Five 32-bit common metrics and LoadMode byte.
+        if (!TrySkip(ref pos, count: 21, limit: limit))
+        {
+            return false;
+        }
+
+        if (!TryReadInt32(bytes, ref pos, limit: limit, out int dataSize) || dataSize < 0)
+        {
+            return false;
+        }
+
+        int dataPosition = -1;
+        if (version >= 2 && !TryReadInt32(bytes, ref pos, limit: limit, out dataPosition))
+        {
+            return false;
+        }
+
+        if (version > 0 && !TrySkip(ref pos, count: 8, limit: limit))
+        {
+            return false;
+        }
+
+        if (version >= 3 && !TrySkip(ref pos, count: 8, limit: limit))
+        {
+            return false;
+        }
+
+        if (classId is 16 or 17 or 18 or 21 or 22)
+        {
+            if (!TrySkip(ref pos, count: 4, limit: limit))
+            {
+                return false;
+            }
+        }
+        else if (classId is 1 or 2)
+        {
+            if (pos >= limit)
+            {
+                return false;
+            }
+
+            byte hasPalette = bytes[pos++];
+            if (!TrySkip(ref pos, count: hasPalette != 0 ? 1028 : 4, limit: limit))
+            {
+                return false;
+            }
+        }
+
+        if (classId is 2 or 17 or 18)
+        {
+            if (pos + 24L > limit)
+            {
+                return false;
+            }
+
+            if (classId is 17 or 18)
+            {
+                offsets.Add(pos + 20);
+            }
+
+            pos += 24;
+        }
+        else if (classId == 22)
+        {
+            if (!TrySkip(ref pos, count: 20, limit: limit))
+            {
+                return false;
+            }
+        }
+        else if (classId is 19 or 20)
+        {
+            if (!TrySkip(ref pos, count: 16, limit: limit))
+            {
+                return false;
+            }
+        }
+
+        if (dataPosition == -1 && !TrySkip(ref pos, count: dataSize, limit: limit))
+        {
+            return false;
+        }
+
+        hasImage = true;
+        return true;
+    }
+
+    private static bool TryReadInt32(ReadOnlySpan<byte> bytes, ref int pos, int limit, out int value)
+    {
+        if (pos + 4L > limit)
+        {
+            value = 0;
+            return false;
+        }
+
+        value = BinaryPrimitives.ReadInt32LittleEndian(bytes[pos..]);
+        pos += 4;
+        return true;
+    }
+
+    private static bool TrySkip(ref int pos, int count, int limit)
+    {
+        if (count < 0 || pos + (long)count > limit)
+        {
+            return false;
+        }
+
+        pos += count;
+        return true;
     }
 
     /// <summary>The header check, or null when the header holds.</summary>
@@ -553,8 +789,8 @@ internal sealed class ImageLibraryCodec : PropertyCodec
 /// <c>{"Library", "Layer", "Speed", "Mode", "ImageIndex", "OffsetX", "OffsetY", "Frames"}</c>
 /// with zero members omitted, <c>Mode</c> a SequenceMode name and <c>Frames</c>
 /// <c>{"default", "items"}</c> on a frame-table layer only. A nil or has-next byte other than 0
-/// and 1 reads as true and is kept as a value-encoding part. The tree holds an
-/// <see cref="ImageSequenceListNode"/> and the direct path writes 0 and 1.
+/// reads as true on import and writes back as 1. The tree holds an
+/// <see cref="ImageSequenceListNode"/>.
 /// </summary>
 internal sealed class ImageSequencesCodec : PropertyCodec
 {
@@ -564,33 +800,11 @@ internal sealed class ImageSequencesCodec : PropertyCodec
 
     internal override bool AcceptsDocumentArray(int version) => true;
 
-    internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
-    {
-        List<IReadOnlyList<SequenceLayer>?> entries = Parse(context, start, end, site.Path);
-        Span<byte> stored = context.Data.AsSpan(start, end - start);
-        if (!Canonical(entries).AsSpan().SequenceEqual(stored))
-        {
-            site.Builder?.ValueEncoding(site.Id, stored);
-        }
+    internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site) =>
+        Document(Parse(context, start, end, site.Path), context.File, site.Path);
 
-        return Document(entries, context.File, site.Path);
-    }
-
-    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
-    {
-        byte[] bytes = Canonical(Entries(context, value, site.Path, site.Property?.Name ?? "The value"));
-        if (site.Reader?.Encodings.TryGetValue(site.Id, out (byte[] Bytes, JsonValue At) retained) == true)
-        {
-            // The retained encoding is used only if it decodes to the visible list.
-            if (!SameList(retained.Bytes, bytes))
-            {
-                throw context.Fail(Codes.Layout, "A retained image sequence encoding does not decode to the visible list.", retained.At, site.Path);
-            }
-
-            bytes = retained.Bytes;
-        }
-        data.Bytes(bytes);
-    }
+    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site) =>
+        data.Bytes(Canonical(Entries(context, value, site.Path, site.Property?.Name ?? "The value")));
 
     internal override void WriteImage(TreeValue value, EncodeContext context, ByteBuffer data, ImageFrame frame)
     {
@@ -784,18 +998,6 @@ internal sealed class ImageSequencesCodec : PropertyCodec
             }
         }
         return data.ToArray();
-    }
-
-    private static bool SameList(byte[] retained, byte[] canonical)
-    {
-        try
-        {
-            return Canonical(Parse(new DecodeContext(retained, FormatSchema.Current, "game", "", null, FormatLimits.Default, new LayoutCounts()), start: 0, end: retained.Length, path: DocumentNodePath.Root)).AsSpan().SequenceEqual(canonical);
-        }
-        catch (ConversionException)
-        {
-            return false;
-        }
     }
 
     private JsonArray Document(IReadOnlyList<IReadOnlyList<SequenceLayer>?> entries, string? file, DocumentNodePath path)

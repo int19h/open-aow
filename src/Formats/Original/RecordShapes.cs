@@ -126,7 +126,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
         JsonObject json = new();
         foreach (RecordFieldInfo field in info.Fields)
         {
-            ValueSite fieldSite = new() { Property = site.Property, Id = site.Id, Path = site.Path.Member(field.Name), Owner = site.Owner, Builder = site.Builder };
+            ValueSite fieldSite = new() { Property = site.Property, Id = site.Id, Path = site.Path.Member(field.Name), Owner = site.Owner };
             JsonValue? value = FieldValue(field, bytes.Slice(field.Offset, field.Size), context, fieldSite);
             if (value is not null)
             {
@@ -141,7 +141,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
     {
         PropertyCodec codec = FieldCodec(field);
         byte[] copy = bytes.ToArray();
-        JsonValue value = codec.Decode(new DecodeContext(copy, context.Schema, context.Engine, context.Profile, context.File, context.Limits, context.Counts) { Nested = site.Path.ToString() }, start: 0, end: copy.Length, site: site);
+        JsonValue value = codec.Decode(new DecodeContext(copy, context.Schema, context.Engine, context.Profile, context.File, context.Limits, context.LegacyRules) { Nested = site.Path.ToString() }, start: 0, end: copy.Length, site: site);
         return field.OmitsDocument(value) ? null : value;
     }
 

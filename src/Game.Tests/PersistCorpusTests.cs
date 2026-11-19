@@ -453,8 +453,8 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
     // direct path proves every level of the corpus: the converter's image of the level, read into
     // a tree by the original backend, writes back the canonical image, the document backend writes
     // the converter's document of that image, and that document read back writes the same image.
-    // The read keeps every value: the converter's document of the stored image less its $layout
-    // parts equals the document of the canonical image.
+    // The read keeps every value: the converter's document of the stored image equals the
+    // document of the canonical image.
     private static readonly Dictionary<string, (int Levels, long Fields, long Sprites)> s_levels = [with(StringComparer.Ordinal)];
     private static readonly Dictionary<string, int> s_levelBlocks = [with(StringComparer.Ordinal)];
 
@@ -478,7 +478,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
             return;
         }
         JsonObject expected = PilotImage.Decode(direct, classValue.Name, engine);
-        EqualJson(WithoutLayout(PilotImage.Decode(image, classValue.Name, engine)), expected, label + " direct read");
+        EqualJson(PilotImage.Decode(image, classValue.Name, engine), expected, label + " direct read");
         EqualBytes(direct, PilotImage.Encode(expected, classValue.Name, engine), label + " direct canonical");
         EqualJson(expected, DocumentBackend.Write(tree, classValue, schema, engine), label + " direct document");
         EqualBytes(direct, OriginalBackend.Write(DocumentBackend.Read(expected, classValue, schema, engine), classValue, schema, engine), label + " direct document read");
@@ -494,32 +494,6 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
 
         _ = s_levels.TryGetValue(classValue.Name, out (int Levels, long Fields, long Sprites) total);
         s_levels[classValue.Name] = (total.Levels + 1, total.Fields + grid.Fields.Count, total.Sprites + sprites);
-    }
-
-    private static JsonObject WithoutLayout(JsonObject objectValue)
-    {
-        _ = objectValue.Members.RemoveAll(member => member.Name == "$layout");
-        foreach (JsonMember member in objectValue.Members)
-        {
-            WithoutLayout(member.Value);
-        }
-
-        return objectValue;
-    }
-
-    private static void WithoutLayout(JsonValue value)
-    {
-        if (value is JsonObject nested)
-        {
-            _ = WithoutLayout(nested);
-        }
-        else if (value is JsonArray array)
-        {
-            foreach (JsonValue item in array.Items)
-            {
-                WithoutLayout(item);
-            }
-        }
     }
 
     private void PrintLevels()

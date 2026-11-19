@@ -43,7 +43,7 @@ internal static class CaseCodec
         {
             byte[] bytes = new byte[8];
             BinaryPrimitives.WriteInt64LittleEndian(bytes, key);
-            return new JsonString(LayoutResidue.Hex(bytes.AsSpan(0, size)));
+            return new JsonString(HexText.Encode(bytes.AsSpan(0, size)));
         }
         return new JsonInteger(key);
     }

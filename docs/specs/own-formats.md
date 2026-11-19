@@ -186,11 +186,13 @@ use CFS level 2. Unwrapped profiles use `none`.
 
 Profiles specify further named header fields under `header`, with identical
 presence rules in both writers. Fields read by previews or logic remain visible.
-Noncanonical encodings and header extensions use validated layout residue.
+Header extensions, HSM reserved bytes and HSS header tail bytes are ignored on
+import and written as 0 on export (2.5).
 Derived checksums are recomputed, not independently editable. Import verifies them.
 An HSM header has no `header` member in the document: its 4 reserved bytes at offset 8 are
 constant 0 (ignored on import, written as 0 on export). A scenario set has `header.Name`, the
-set name of up to 40 bytes. The HSS CRC-32 is recomputed on export.
+set name of up to 40 bytes. Its name tail and padding bytes (10 plus name length through 51)
+are ignored on import and written as 0 on export, and the HSS CRC-32 is recomputed on export.
 
 `src/Formats/schema.json` is embedded source. The census proposal is reviewed
 against call sites before acceptance, then hand-owned. Classes record stable
@@ -211,21 +213,23 @@ apply, its size, its object class or family, its callback payload, its dynamic i
 slot base. Since version 6 (issue 230) a property's name is the name of the C# member its storage
 call reads and writes, following the .NET identifier guide (`Id`, whole words). A member that no
 single C# member binds, such as an array element (`UnitResource.SilverRankAbilities` is
-`Abilities[Unit.Rank.Silver]`), a local the storage method copies, a second copy of one member
-(`StrategicMap.HeroControlCopy`) or a stored value nothing reads (`StrategicMap.UnknownProperty57`),
+`Abilities[Unit.Rank.Silver]`), a local the storage method copies, or a second copy of one member
+(`StrategicMap.HeroControlCopy`),
 says what it holds. `StoredNameBindingTests` pins the rule. No property keeps an earlier name. Absence needs no schema default: an absent member is an absent property in the engine
 image, and the engine's reader applies its own default, constructor-backed `rwData` defaults
-included. Version 1 annotates no reference domain in the schema. The unit validators of 2.7 name
+included. A class can also list legacy ids under `skippedIds` (`StrategicMap` lists `[57]`):
+binary readers ignore those ids and never write them, while every other undeclared id is refused.
+Version 1 annotates no reference domain in the schema. The unit validators of 2.7 name
 the one domain the game checks (`player-slot`), and the census marks the other reference
 candidates for review. Two classes carry case tables (2.3). `legacyShapes` holds the one named
 legacy rule, `LEGACY_VALLEY01_SPRITE` (section 9).
 
-`src/Formats/versions.json` pins the current version (7) with the schema's SHA-256
-`defb33249e2231669eefd25a4d5398f599afae4cdfb3b2bb11631a709585fc7e`, the codec contracts of that
-version (`property-table-1`, `cfs-1`, `hsm-header-2`, `hss-header-1`, `stored-object-1`,
+`src/Formats/versions.json` pins the current version (8) with the schema's SHA-256
+`b78cc3528613bae3dfbc0ce737be1b58d77e450395aa29f34f2a8bdca0454d9e`, the codec contracts of that
+version (`property-table-2`, `cfs-1`, `hsm-header-2`, `hss-header-2`, `stored-object-1`,
 `written-object-1`, `cp1252-frozen-1`, `enum-1`, `set-1`, `int-array-1`, `record-2`,
 `bit-array-2`, `raw-1`, `list-element-1`, `grouped-list-1`, `bit-list-2`, `single-1`,
-`terrain-list-1`, `terrain-grid-1`, `ilb-1`, `image-sequences-1`, `fixed-slot-1`,
+`terrain-list-1`, `terrain-grid-1`, `ilb-2`, `image-sequences-1`, `fixed-slot-1`,
 `coordinate-1`) and the mapping
 contracts `DiplomaticProposal-2` and `ProductionOrder-2`. `unitMappings` names the persisted
 classes whose game load needs a unit mapping (`DiplomaticAction`, `MapContainer`,
@@ -255,7 +259,11 @@ and `$residue`, drops `$container.header` on HSM files, adds declared record pad
 `SetupPlayerBehavior`, keeps ability bits past `AbilityCount` as ordinary bit-array indices,
 checks `TBitList` tail bits against the list's default bit, and replaces mapped-case `$residue`
 with constant-0 rules (`refuse` on `schema.json` cases where the original reader acts on the
-unused member, ignore elsewhere). Own formats are not stable yet, so the schema hash moves with
+unused member, ignore elsewhere). Version 8 (issue 192 follow-up) removes `$layout`, normalizes
+ILB header bytes 5 to 7 and 16-bit RLE sprite reserved dwords to 0 inside `$ilb`, drops HSS
+header tail bytes and header extensions on export, removes `StrategicMap.UnknownProperty57` in
+favor of `skippedIds: [57]` on `StrategicMap`, and moves G1 to canonical export compared against
+originals outside declared per-format don't-care rules. Own formats are not stable yet, so the schema hash moves with
 the file and no older document shape loads. Export an older own document with the previous aowconv
 (`aowconv to-original <own> <original>`) and import that image with this aowconv
 (`aowconv to-own <original> <own>`). The original bytes do not change.
@@ -291,14 +299,14 @@ storage streams name the same operations by CLR type (`persistence-tree.md` 1): 
 | `rwData` | Named fields with explicit layout, otherwise a classified exact lowercase hex payload. Version 1 stores every value as exact hex. Version 2 stores an enum as the C# member name, or as its integer when the enum declares no such member, a set as member names in ascending ordinal order with unnamed bits as integers, and a fixed integer array as a JSON array of the original length. Version 3 stores a catalog record as a JSON object of its C# field names (a one-field set wrapper as that set's name array) and a primitive `rwData` integer or bool as that integer or boolean, zero and false included. From version 7 a record's declared padding bytes (`[StoredPadding]`) are ignored on read, written as 0 and omitted from the document, and the ability bit array (`CustomAbilityList.AbilityBits`) stores every set bit index of its stored bytes in ascending order, including bits past `AbilityCount` which remain game state. `DiplomaticAction.ActionType` stays exact hex. `FloodControl.OriginalTerrain` (Delphi `TFloodControl`) is exact hex up to version 4. From version 5 it is the array of the hexagons the flood changed, in row order, each `{"X", "Y", "Terrain", "Overlay"}` with all four members, read from the `Width` by `Height` grid of terrain and overlay pairs where 0 0 marks a hexagon the flood left alone. A hexagon listed twice, out of row order, outside the grid or holding 0 0 is refused. Envelope `$padding` does not occur. A longer list is kept and refused on export with the path. A shorter list fills the rest with zero on export |
 | Floating-point field | `{ "$bits": "..." }` with exact original little-endian bytes at declared width, retaining negative zero, infinities and NaN payloads. Version 1 has one, `AIPlayerControl.DefenseStrengthMultiplier` (Delphi `TAIPlayerControl`). From version 5 that single is a JSON number in the shortest text that reads back to the same bits: an integral value as an integer, any other value as a decimal with a lowercase `e` and no `+` where it needs an exponent. Negative zero, the infinities and NaN keep `$bits`. Any number text reads as the nearest single, `$bits` reads as its exact bits, and a number outside the single range is refused |
 | Overlapping record | One authoritative schema field set. Other views derive from it. Uninterpreted bits stay exact, never independently editable aliases |
-| `rwStreamProc` | Typed arrays or codec-specific objects. A `TIntegerList` or `TByteList` is `{"default": n, "items": [...]}`: the default is state, because a read past the end returns it, and an empty list is stored. Since PE-2c-2 the tree and the direct original path store it too, writing the canonical runs. From version 4 an enum list stores the default and each item as the C# member name, or as the integer when the enum declares no such member, and a move path stores each `MapCoordinate` as a record of `X`, `Y`, `MapLevel` and `Tag` with zero fields omitted (a `PathStep` in the game, `Tag` its move cost). A `TUnitIndexList` is an integer list. A `TUnitIndexListCollection` is `{"default": d, "groups": [[...], ...], "count": n}`, its list cut into groups of 8, each group without its trailing -1 entries. `count` is present only when the stored length is not 8 times the groups, and `default` only when it is not -1. A group of more than 8 values, or of more than the count leaves for the last group, is refused. Up to version 3 a bit list keeps `default`, stored `count` and exact hex `bits`, and the list payloads above are exact hex. From version 4 a bit list is `{"default": false, "count": n, "bits": [...]}`: the default by the raw boolean rule and the set bit indices in ascending order, each below the count. From version 7 bits past the count in the last byte equal the list's default bit (0 when default is false, 1 when default is nonzero): a mismatch is refused on load, and save writes the default. Up to version 4 the resource payloads are exact hex. From version 5 an image sequence list (`TImageSequenceList`) is an array with `null` for a nil entry and otherwise the layers of its chain in stored order, each `{"Library", "Layer", "Speed", "Mode", "ImageIndex", "OffsetX", "OffsetY", "Frames"}` with zero members omitted, `Mode` a `SequenceMode` name or the integer of an undeclared mode, and `Frames` `{"default", "items"}` exactly on a `FrameTable` or `RandomFrameTable` layer. A frame table stores every item, with no runs. The load of a frame-table layer draws its image index from `Random` and never reads the stored one, which the document keeps for G1. A nil or has-next byte other than 0 or 1 reads as true and stays exact as a `value-encoding` part. An empty chain, `Frames` on another layer and a frame-table layer without `Frames` are refused. A terrain list (`TTerrainList`) is the array of `[terrain, overlay]` pairs of signed bytes, -2 for none. An ILB library (`TImageLibrary`) is `{"$ilb": "<base64>"}` in the standard alphabet with padding, and only that text decodes. Every path checks its 24-byte header: the short string `ILB` and a zero, the single 4 for the version, the header size 24, an index end inside the library and a size equal to the payload. The three bytes after the identifier are whatever the writer had in memory and stay in the payload, which is otherwise opaque. Since PE-2c-5 the tree holds a collection as its flat list, and the tree and the direct original path store the collections and the resource payloads |
+| `rwStreamProc` | Typed arrays or codec-specific objects. A `TIntegerList` or `TByteList` is `{"default": n, "items": [...]}`: the default is state, because a read past the end returns it, and an empty list is stored. Since PE-2c-2 the tree and the direct original path store it too, writing the canonical runs. From version 4 an enum list stores the default and each item as the C# member name, or as the integer when the enum declares no such member, and a move path stores each `MapCoordinate` as a record of `X`, `Y`, `MapLevel` and `Tag` with zero fields omitted (a `PathStep` in the game, `Tag` its move cost). A `TUnitIndexList` is an integer list. A `TUnitIndexListCollection` is `{"default": d, "groups": [[...], ...], "count": n}`, its list cut into groups of 8, each group without its trailing -1 entries. `count` is present only when the stored length is not 8 times the groups, and `default` only when it is not -1. A group of more than 8 values, or of more than the count leaves for the last group, is refused. Up to version 3 a bit list keeps `default`, stored `count` and exact hex `bits`, and the list payloads above are exact hex. From version 4 a bit list is `{"default": false, "count": n, "bits": [...]}`: the default by the raw boolean rule and the set bit indices in ascending order, each below the count. From version 7 bits past the count in the last byte equal the list's default bit (0 when default is false, 1 when default is nonzero): a mismatch is refused on load, and save writes the default. Up to version 4 the resource payloads are exact hex. From version 5 an image sequence list (`TImageSequenceList`) is an array with `null` for a nil entry and otherwise the layers of its chain in stored order, each `{"Library", "Layer", "Speed", "Mode", "ImageIndex", "OffsetX", "OffsetY", "Frames"}` with zero members omitted, `Mode` a `SequenceMode` name or the integer of an undeclared mode, and `Frames` `{"default", "items"}` exactly on a `FrameTable` or `RandomFrameTable` layer. A frame table stores every item, with no runs. The load of a frame-table layer draws its image index from `Random` and never reads the stored one, which the document keeps for G1. A nil or has-next byte other than 0 or 1 reads as true on import and writes back as 1. An empty chain, `Frames` on another layer and a frame-table layer without `Frames` are refused. A terrain list (`TTerrainList`) is the array of `[terrain, overlay]` pairs of signed bytes, -2 for none. An ILB library (`TImageLibrary`) is `{"$ilb": "<base64>"}` in the standard alphabet with padding, and only that text decodes. Every path checks its 24-byte header: the short string `ILB` and a zero, the single 4 for the version, the header size 24, an index end inside the library and a size equal to the payload. Every path zeroes header bytes 5 to 7 (`TCustomImageLibrary.SaveToStream`, `ImageLib.pas:10044-10070`) and the unused last dword of each 16-bit RLE sprite entry (classes 17 and 18, `TRLESprite16.WriteImageData`, `ImageLib.pas:2945-2971`), so documents carry no uninitialized memory. The rest of the library stays opaque because the ILB pixel, palette and layout asset format is outside this specification. Since PE-2c-5 the tree holds a collection as its flat list, and the tree and the direct original path store the collections and the resource payloads |
 | `rwEObject` | Object with fixed class from schema context, no editable `$class` |
 | `rwCreateEObject` | Object with `$class`, `null` for stored class id 0, absent for absent property |
 | `rwChildren` | `Children` in semantic traversal order. Every identity-bearing child slot has explicit `$slot` |
 | Map property 6 | `Fields[y][x]`, fixed field class from the level profile. Since PE-2c-4 the tree and the direct original path store it too, as a grid of the level's width and height |
 | Dynamic sprites | `HexSpriteList` in original table order with `$class` and explicit identity metadata where a dynamic id carries identity. The sprite ids carry none, so a sprite has no `$slot`. Since PE-2c-4 the tree and the direct original path store them too, at ids 50 and on |
 | Keyed dynamic members | `AbilityOwner.AbilityData` and `ItemControl.Items`: an array of created objects in stored order, each with `$class` and `$slot`, the stored id less the slot base (50 and 10). A stored null is `{"$class": null, "$slot": n}`. Since PE-2c-2 the tree and the direct original path store them too. The fixed objects of `AbilityControl.Abilities` and `SpellControl.RegisteredSpells` are an array in stored order, each with `$slot`, the stored id less 10, and no `$class`. Version 4 imports them without `$slot` and cannot export them. From version 5 they keep `$slot`, and since PE-2c-5 the tree and the direct original path store them |
-| Campaign map stream | `Map`, a nested document with `$container` and compressed-stream residue when nonempty. Empty and absent states remain distinct under the profile. `Campaign` ids 5 (size) and 6 (bytes) form the one member. Since PE-2c-4 the tree holds the file's bytes and the direct original path stores them. The direct document path imports and exports the nested document through its profile and keeps no compressed-stream residue |
+| Campaign map stream | `Map`, a nested document with `$container`. Empty and absent states remain distinct under the profile. `Campaign` ids 5 (size) and 6 (bytes) form the one member. Export compresses the payload again at the level the container names. Since PE-2c-4 the tree holds the file's bytes and the direct original path stores them. The direct document path imports and exports the nested document through its profile |
 | Production item and diplomatic action | `$case`, the case name of the registered kind, then that case's fields. Stored members the case does not use are constant 0 (refused on load where the original reader acts on them, ignored elsewhere, written as 0 on export). An unregistered key reads as the case `Unknown`, which keeps the discriminator as `Kind` and every value |
 | Absent property | Absent member, with documented reader default at game load. A present default value stays present through conversion |
 
@@ -312,7 +320,9 @@ retains all values and rejects inconsistent lengths. Fixtures distinguish absent
 properties, empty blocks, empty lines and present defaults.
 
 Unknown property ids, classes and ordinary members fail with class, path and
-location. Duplicate JSON members and unknown reserved members fail too. Opaque
+location, except legacy ids explicitly listed under `skippedIds` on their schema
+class (`StrategicMap` id 57), which binary readers ignore and writers never emit.
+Duplicate JSON members and unknown reserved members fail too. Opaque
 payloads are classifications, not an escape for unknown ids. Unknown production
 and diplomatic cases have an explicit form retaining discriminator, values and
 property presence. They never become known cases by dropping data.
@@ -355,74 +365,87 @@ runtime iteration order.
 
 Reserved members have this total order wherever permitted by schema: `$format`,
 `$version`, `$kind`, `$container`, `$mods`, `$class`, `$case`, `$slot`, `$ext`,
-`$padding`, `$bits`, `$ilb`, `$text`, `$layout`. `$mods` and `$ext` are reserved
-for later versions, not accepted version 7 members. `$reserved` and `$residue` are
-refused as unknown reserved members. Envelope `root` follows
+`$padding`, `$bits`, `$ilb`, `$text`. `$mods` and `$ext` are reserved
+for later versions, not accepted version 8 members. `$reserved`, `$residue` and
+`$layout` are refused as unknown reserved members. Envelope `root` follows
 reserved members. Ordinary properties follow frozen schema ordinals, initially
 inherited `ReadWrite` order with base fields first. Mapped record fields have their
 own ordinals. Future extension maps sort keys by ordinal Unicode scalar value.
 This is format ordering, not game-text collation.
 
-Refactoring does not change JSON order. An order change requires a version and
-migration. No timestamp, host path, tool version or process identity enters a
-document. The same persisted state, including semantic order and retained residue,
+Refactorings do not change JSON order. An order change requires a version bump.
+No timestamp, host path, tool version or process identity enters a
+document. The same persisted state, including semantic order,
 writes the same bytes.
 
-### 2.5 Encoding residue and edits
+### 2.5 Canonical original encoding, don't-care regions and skipped ids
 
-The default original encoding uses short entries then long entries, each in
-declared legacy write order, data without gaps and short string prefixes below
-255. `$layout` records differences needed for G1. Its versioned structure has
-`codec`, `fingerprint` and `parts`. Parts have categories, bounded locations and
-exact bytes or encoding parameters. Categories cover table form/order, value
-prefixes, gaps, overlaps, header extensions and nested compression. Declared
-padding bytes of a catalog record (`[StoredPadding]`) are ignored on read,
-written as 0 and never enter the document. Envelope `$padding` does not occur. The codec is
-`property-table-1`, and the code names six categories (`src/Formats/Original/Layout.cs`):
-`table-form-order` (a stored table that the writer does not make from the data order, which
-also places overlapping values at their stored offsets), `gaps`, `value-prefixes`,
-`value-encoding`, `header-extensions` and `nested-compression`.
+The port writes one canonical original encoding matching 1.36 itself: short property
+table entries followed by long entries in declared schema write order, data without
+gaps, short string prefixes below 255, canonical run-length lists, 0 and 1 sequence
+booleans, standard header sizes (16 bytes for HSM, 52 bytes for HSS) with zeroed
+reserved and tail bytes, normalized ILB libraries with zeroed header bytes 5 to 7
+and zeroed 16-bit RLE sprite reserved dwords, and fresh CFS compression for nested
+campaign maps.
 
-The fingerprint is SHA-256 over the versioned decoded subtree and relevant profile
-metadata, excluding encoding residue. Parts are untrusted. Validate bounds,
-ownership and agreement with visible content before use. A fingerprint match
-alone never authorizes arbitrary bytes. Reconstruct and verify that the image
-decodes to the visible tree. No full-image shortcut overrides edited values.
+The own document keeps no encoding residue. `$layout` does not exist and is refused
+as an unknown reserved member (`Codes.ReservedMember`) on any object, `$container` or
+nested campaign map. `--exact-layout` does not exist. Declared padding bytes of a
+catalog record (`[StoredPadding]`) are ignored on read, written as 0 and omitted from
+the document. Envelope `$padding` does not occur.
 
-Every nested compressed map retains its compressed bytes as a validated part,
-even when otherwise canonical. This preserves exact bytes inside an uncompressed
-campaign. Game-produced nested streams follow the same rule. Top-level CFS
-compressed bytes are outside G1 and are not retained for it.
+A class in `src/Formats/schema.json` lists legacy property ids that 1.36 never reads
+or writes under `skippedIds`. Both the converter (`ObjectImage.Decode`) and the tree
+reader (`ImageTree.ReadBody`) ignore listed ids on binary read and omit them on write,
+while continuing to refuse every other undeclared id (`Codes.UnknownProperty`). In
+version 8, `StrategicMap` lists `"skippedIds": [57]`, because `TAoWHSMap.ReadWrite`
+(`AoWEPACK/inc/AoWHSMap.PAS:2228-2230`) jumps from `$38` to `$3A` and never reads or
+writes id 57 (`$39`), which appears only in `Scenario/Custom/Tutorial.hsm` as a
+zero-length entry written by an earlier tool.
 
-Content edits invalidate affected parts. Rebuild tables, lengths, checksums and
-ancestor offsets from the edited tree. Preserve unaffected parts only after
-validation. Normalization reports discarded encoding. Stale residue never restores
-an old value. Invalid or out-of-bounds residue is an error, not silent cleanup.
+Check G1 (`OriginalComparison` in `src/Formats/Original/OriginalComparison.cs`)
+compares an original file with its exported round trip structurally, per format,
+outside declared don't-care rules backed by 1.36 Delphi evidence:
 
-`normalize` preserves valid archival residue and reports invalidated encoding.
-`to-original --exact-layout` refuses stale or missing parts needed for a claimed
-exact reconstruction. Normal edited export rebuilds encoding and reports loss
-of old encoding identity, not loss of game data.
+| rule | region | Delphi 1.36 evidence |
+| --- | --- | --- |
+| `hsm-header-reserved` | `THSMHeader` bytes 8 to 11 | `HSEPack/HSEngine.pas:5298-5327` writes 0, readers at `:5100-5289` never read it |
+| `hsm-header-extension` | `THSMHeader` bytes 16 to `Size` | `HSEPack/HSEngine.pas:5100-5289` skips to `Size`, 1.36 always writes `Size = 16` |
+| `hss-header-tail` | `THSSHeader` bytes `10 + nameLength` to 51 | `HSEPack/HSEngine.pas:5060-5076` writes an unzeroed local record, `GetHSSetFiles` (`:4984-4995`) and `LoadHSS` (`:5043-5046`) read only `Size`, `ID` and `Name` up to its length |
+| `hss-header-extension` | `THSSHeader` bytes 52 to `Size` | `HSEPack/HSEngine.pas:5043-5046` skips to `Size`, 1.36 always writes `Size = 52` |
+| `file-crc` | Trailing 4-byte CRC-32 of `.hss` | `HSEPack/HSEngine.pas:5076-5094`. Masked only when another declared rule fired on bytes 0 to `Length - 4` and both original and exported CRCs match their respective bodies. Re-exported `.hss` files carry a different CRC from shipped files (original multiplayer peers compare it and the port does not speak the original network protocol) |
+| `ilb-header-padding` | `TILBHeader` bytes 5 to 7 inside `$ilb` | `Ilpack/ImageLib.pas:10044-10070` writes an unzeroed local header, `LoadFromStream` (`:9964-10030`) never reads bytes 5 to 7. Normalized to 0 in documents |
+| `ilb-sprite-dword` | Unused last dword of `TRLESprite16` (class 17) and `TTransparentRLESprite16` (class 18) image data inside `$ilb` | `Ilpack/ImageLib.pas:2945-2971` writes an uninitialized local `Reserved` dword and discards it on read. Normalized to 0 in documents |
+| `skipped-property` | Table entry and bytes of an id listed in `skippedIds` (`StrategicMap` id 57) | `AoWEPACK/inc/AoWHSMap.PAS:2228-2230` never reads or writes id 57, `TEReadStorageStream` (`Engine.pas:10145-10189`) skips unrequested ids |
+| `table-entries` | Property table holding the same values in the same data order without gaps, differing only in entry order, short/long entry form, empty long marker or sequential dynamic sprite ids | `TPropertyTable.FindOffset` (`Engine.pas:2291-2313`) looks properties up by id, and `TMapField.ReadWrite` (`HSEPack/HSEngine.pas:2051-2055`) iterates dynamic sprite entries using each id only to fetch its value |
 
-Fixtures cover long prefixes for short strings, zero-size aliases such as
-Tutorial's property 57, nonzero padding, header extensions, gaps, changed lengths,
-removed properties, class/case changes and nested compression. The census records
-categories and counts. Game-written documents are not promised to lack `$layout`.
+When an original file differs from its canonical export due to a non-canonical layout
+encoding that in-place marks cannot express (out-of-order property data such as
+`Valley01.CSM` storing `StrategicMap` id 31 after id 30, gap bytes such as the seven
+oracle inputs written by `tools/oracle/playtest.py seed_map`, a long string prefix for
+a string below 255 bytes, a non-canonical run-list or image-sequence boolean byte, or
+nested compressed bytes of a campaign map), G1 verifies the CFS prefix where present,
+decodes both files and compares their canonical documents byte-for-byte. Any difference
+outside declared rules or non-canonical encodings fails G1 with the first differing
+byte offset.
 
-The `aowconv check` fixtures cover the long prefix of a short string, Tutorial's property 57,
-long table entries with a gap after a Boolean, a noncanonical table order, the HSM and HSS
-header extensions, an edit that invalidates the layout and an export that rebuilds it,
-`--exact-layout` refusing a stale layout, a part that does not fit, and a campaign save whose
-nested map keeps its compressed bytes until an edit recompresses it and rebuilds its size.
-Nonzero padding has no corpus fixture. `RecordShapeTests` proves declared padding on
-`SetupPlayerBehavior` (Delphi `TSetupPlayerBehavior`, bytes 1 to 3 ignored on read and written
-as 0) and refuses `$reserved`. A class change is
-`GameSwitchTests.AllowedClassChangeValidatesTheNewClassFields`. Over the pinned corpus the
-residue is 3142 parts in 61 files: `table-form-order` 3136, `gaps` 5, `header-extensions` 1.
-`tactical-hsm` holds 2999 parts in 52 files, because 52 of the 59 tactical maps store field
-sprites with nonsequential dynamic ids that 1.36 ignores on read. `world-hsm` holds 142 parts in
-8 files (the 7 prepared oracle inputs and one install map that writes `StrategicMap` id 31 after
-id 30), and `scenario-set` 1 part in its one file. The check expectation file pins these counts.
+Over the 556-file pinned corpus, G1 passes on all 556 files: 494 are byte-exact with no
+mark, 54 are exact outside declared marks (52 `TCMaps/*.hsm` under `table-entries`,
+`Release/Release.hss` under `hss-header-tail`, `ilb-header-padding`, `ilb-sprite-dword`
+and `file-crc`, and `Scenario/Custom/Tutorial.hsm` under `skipped-property`), and 8 are
+compared as documents (`Scenario/Campaign/Valley01.CSM` and the 7 prepared oracle
+inputs). The check expectation file pins all three file counts, the masked bytes per
+rule, the per-profile counts and the legacy rules.
+
+Fixtures cover the long prefix of a short string, `Tutorial.hsm` property 57 skipped on
+read, long table entries with a gap after a Boolean, a noncanonical table order, the
+HSM and HSS header extensions, refusal of `$layout` as an unknown reserved member, and
+a campaign save whose nested map round-trips canonically. `OriginalComparisonTests`
+verifies every don't-care rule, ILB normalization of header padding and sprite dwords,
+skipped id 57 on both converter and tree reader, and failure on any byte difference
+outside declared regions. `RecordShapeTests` proves declared padding on
+`SetupPlayerBehavior` (bytes 1 to 3 ignored on read and written as 0) and refuses
+`$reserved`. A class change is `GameSwitchTests.AllowedClassChangeValidatesTheNewClassFields`.
 
 ### 2.6 Versioning and code page
 
@@ -439,7 +462,7 @@ identifiers of the current version. A test checks them. Golden binary/document p
 too, since unchanged mapping names do not prove unchanged code. Mapping implementation changes
 receive format-change review.
 
-Version 7 is the current version. Issue 230 deleted the migration chain of versions 1 to 5
+Version 8 is the current version. Issue 230 deleted the migration chain of versions 1 to 5
 (`1-symbolic-enum-set-array`, `2-record-bit-primitive`, `3-lists`, `4-resources` and the member
 name step), the pinned schemas `schema-v1.json` to `schema-v4.json`, the schema's `oldNames`, the
 enum member aliases of `names.csv`, the golden historical hero lists, and the per-version history
@@ -640,7 +663,7 @@ case mappings landed in version 1 with 9.7-3 (2.6).
 
 ```text
 aowconv to-own <in> <out> [--kind <kind>] [--profile <profile>] [--overwrite]
-aowconv to-original <in> <out> [--exact-layout] [--allow-lossy] [--overwrite]
+aowconv to-original <in> <out> [--allow-lossy] [--overwrite]
 aowconv to-own --dir <in> --out <dir> [--profiles <manifest>] [--overwrite]
 aowconv to-original --dir <in> --out <dir> [--allow-lossy] [--overwrite]
 aowconv normalize <in> <out> [--overwrite]
@@ -653,22 +676,20 @@ before writing. It never drops port properties, mod references or unmapped text
 and reports success. `--allow-lossy` permits only schema-defined projections,
 reports every dropped or replaced value and returns code 3 when loss occurs.
 Essential state without a coherent defined projection still fails. The oracle
-never uses this option. `--exact-layout` conflicts with lossy conversion and
-requires the retained exact-layout claim to remain valid. It does not promise
-outer zlib bytes excluded by G1.
+never uses this option.
 
-`normalize` parses, validates structure and writes canonical JSON. It
-reports encoding invalidation and retains semantic residue. It does not assert
+`normalize` parses, validates structure and writes canonical JSON. It does not assert
 playability without game-content context. `info` reports profile, kind, version,
-representability, residue and validation coverage. `check` separates G1, eligible
+representability, legacy rules and validation coverage. `check` separates G1, eligible
 G2, G-own and supported G3. Unavailable checks are reported with reasons, not passes.
 
 Version 1 defines no schema projection, so `--allow-lossy` is accepted and never loses, and
 exit code 3 does not occur. `check` prints the summary lines of 5.2, a `Validation:` line for
-the unit validators, the pinned census files, per-profile counts, layout parts by category, the
+the unit validators, the pinned census files, per-profile counts, masked bytes by rule, the
 legacy rules that fired, a `G3:` line that names the independent reader and the profiles
 without one, and timed `Measure:` lines. With `--expect` and the check expectation file it
-fails on any drift of the pinned layout counts. Section 9 quotes its output at the gate.
+fails on any drift of the pinned G1 counts, masked bytes by rule, per-profile counts or legacy
+rules. Section 9 quotes its output at the gate.
 
 The directory forms derive each output name from the input name and the document kind:
 `to-own --dir` gives the output the kind's own extension (`Foo.asg` becomes `Foo.oasg`,
@@ -690,19 +711,20 @@ report completed and failed files without claiming a directory-wide transaction.
 ### 3.3 Guarantees
 
 Let I(F, P) import original file F under profile context P, E(D, P) strictly export
-document D, and N(D) parse and write canonical JSON preserving valid
-residue. P includes kind and root context absent from headerless original files.
+document D in canonical original encoding, and N(D) parse and write canonical JSON.
+P includes kind and root context absent from headerless original files.
 
-- G1: for every supported, structurally valid original F under P,
-  `B(E(I(F, P), P)) = B(F)`. For CFS, B is the exact five-byte prefix plus inflated
-  payload. For non-CFS, B is the entire file. There are no timer masks. Raw HSM
-  and CFS level 0 differ. Unknown or malformed inputs are errors, not counted passes.
-- Embedded compression is not recursively normalized by B. Validated nested
-  compressed bytes reproduce the exact outer campaign. Editing a nested map
-  invalidates that residue and recomputes sizes and outer checksums.
+- G1: for every supported, structurally valid original F under P, `B(E(I(F, P), P))`
+  equals `B(F)` outside the declared per-format don't-care rules of section 2.5, or
+  satisfies canonical document equality when F carries a declared non-canonical layout
+  encoding (out-of-order property data, gaps, long string prefix below 255, non-canonical
+  run-list or sequence boolean encoding, or nested compressed stream bytes). For CFS, B
+  is the exact five-byte prefix plus inflated payload. For non-CFS, B is the entire file.
+  There are no timer masks. Raw HSM and CFS level 0 differ. Any difference outside a
+  declared rule fails G1. Unknown or malformed inputs are errors, not counted passes.
 - G2: for every current-version canonical original-representable D,
   `I(E(D, P), P)` has exactly D's bytes under the same context. Both writers share
-  metadata and residue rules. G2 excludes lossy export, obsolete versions and hand
+  canonical encoding rules. G2 excludes lossy export, obsolete versions and hand
   edits before normalization.
 - G-own: `N(N(D)) = N(D)` for every valid supported own document, including future
   port-only state. It never passes through original export. Game load/save is a
@@ -727,7 +749,7 @@ as representable satisfy G2, including defaults, empty containers and nested ima
 
 For in-scope profiles, `GameFiles` is the only file boundary. Original loads read
 through `IRtlHost.Files`, import to a document, validate for game context, export
-for unmasked G1 comparison, then read the tree of that image through the original
+for rule-based G1 comparison (section 2.5), then read the tree of that image through the original
 backend. Own loads classify, parse, validate and read the tree through the document
 backend. No conversion step creates game objects. The engine loads the tree only after
 the preflight succeeds (`persistence-tree.md` 12).
@@ -844,7 +866,8 @@ never documents. Failed preflight operations are logged too.
 `OpenAoW` (`src/Aow`) and the Headless host take `--file-log <path>` and write one JSON line per
 open, preview, listing, CRC read and write (`FileLogRecord.ToJson`): `operation`, `path` (as the
 engine names the file), `layer` (`root`, `user`, `single` or `none` in the layered file service, `input` in the Headless host), `profile`, `use` (the caller
-profile), `kind`, `format`, `version`, `g1` (`equal`, `different at 0x...` or `not applicable:`
+profile), `kind`, `format`, `version`, `g1` (`equal`, `equal outside marks`,
+`equal as document`, `different at 0x...` or `not applicable:`
 and the reason), `validation` (`passed`, `refused`, `not reached` or not applicable), `error`,
 `diagnostic` and `cached`. A header listing of an original logs its open with G1 and validation
 not applicable.
@@ -901,10 +924,13 @@ Edits to seeds, cases, strings, defaults, slots and map coordinates reach the
 independently specified fields. Never generate expected values from the mapping
 being tested. Check game behavior where relevant.
 
-G1 uses unmasked B equality. Behavior byte comparison retains today's timer
-normalization for root ids 0x37 and 0x3A and existing listed normalizations, all
-reported. These are separate measures. No new mask hides port state or conversion
-loss. Pixel comparisons stay independent of save conversion.
+G1 uses rule-based B equality outside the declared don't-care rules of section 2.5.
+Behavior byte comparison in the oracle and scenarios layers retains today's strict
+unmasked comparison (apart from the existing timer normalization for root ids 0x37 and
+0x3A and existing listed normalizations, all reported), because every game-written 1.36
+and port save uses the canonical encoding and carries no don't-care residue. These are
+separate measures. No new mask hides port state or conversion loss. Pixel comparisons
+stay independent of save conversion.
 
 Before export, require every expected port file to exist as current own JSON,
 with no port-only state in the unmodded oracle. Errors, unknown fields, loss,
@@ -934,8 +960,10 @@ counts. Codec G2 is not game resumption evidence.
 
 `tools/oracle/own_resumption.py` (9.7-3) takes the native evidence the oracle already has: every
 native run loaded its prepared input, an original save, and played on. Each of the seven cases
-converts that input with `aowconv to-own`, checks that the strict export reproduces it under
-unmasked G1, loads the own document through the Headless host, plays three turns and compares
+converts that input with `aowconv to-own`, checks that the strict export preserves the five-byte
+CFS prefix and satisfies G2 (the seven prepared inputs come from `tools/oracle/playtest.py
+seed_map`, not 1.36, and compare as documents under G1), loads the own document
+through the Headless host, plays three turns and compares
 the four day saves with the native run's in byte and model modes. A port-written own save loaded
 in the middle of a run had no native evidence, because the native runs never reload. The native
 reload fixture (`tools/oracle/README.md` in the private repository) was recorded on 2026-11-06:
@@ -948,16 +976,18 @@ pins it for every native reference (issue #112, closed).
 
 ### 5.2 Summaries and assertions
 
-The accepted census fixes N original physical files, S synthetic cases, R layout
-parts and F files with residue, per-profile counts and supported G3 counts. The
+The accepted census fixes N original physical files, S synthetic cases, the three G1
+file counts (E byte-exact, M exact outside declared marks with masked bytes per rule,
+D compared as documents), per-profile counts and supported G3 counts. The
 old 556 is a baseline, not the final count. Explain additions individually and
 check pinned hashes as well as counts.
 
 ```text
-Corpus: N original files, N G1 equal, N imported documents G2 equal, 0 unknown properties
+Corpus: N original files, N G1 passed (E exact, M masked, D document), N imported documents G2 equal, 0 unknown properties
 Fixtures: S cases, all expected results matched
 Own: all eligible documents G-own equal, 0 strict export losses
-Layout: R parts in F original files, 0 unexpected case residues
+G1: E byte-exact, M exact outside marks, D compared as documents
+Masked bytes by rule: <rule> <bytes>, ...
 Schema: 0 unclassified sites, 0 registration ambiguities
 ```
 
@@ -966,8 +996,8 @@ and unavailable families. Counts reduced by skipped inputs fail.
 
 | layer | assertion after 9.7 |
 | --- | --- |
-| Product | Zero warnings. Formats tests cover codec pairs, canonical bytes, edits, diagnostics, limits, the version check and schema hashes. Units tests cover profiles, mappings and game validation |
-| Persistence | Existing three summary lines retained, plus census-based summaries above. Unmasked G1 for every in-scope original, G2 for eligible documents, G-own for all own fixtures, explicit G3 coverage |
+| Product | Zero warnings. Formats tests cover codec pairs, canonical bytes, edits, diagnostics, limits, the version check, rule-based G1 and schema hashes. Units tests cover profiles, mappings and game validation |
+| Persistence | Existing three summary lines retained, plus census-based summaries above. Rule-based G1 for every in-scope original (pinned exact, masked and document counts and masked bytes per rule), G2 for eligible documents, G-own for all own fixtures, explicit G3 coverage |
 | Oracle | Seven scenarios, 177 of 177 saves are current own documents. Strict exports lose nothing and equal native saves in byte and model modes. All 177 satisfy G2 and G-own |
 | Frames and language-frames | Existing frame counts and masks unchanged. Every in-scope actual state is own JSON, compared through strict export. Pixels remain independently compared |
 | Scenarios | `Scenarios: PASS`, 23 shipped scenarios, 92 complete states equal in byte/model modes and 92 frames equal. Native source-map identity retained and every original open passes G1 |

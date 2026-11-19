@@ -150,7 +150,7 @@ internal sealed class CoordinateCodec : PropertyCodec
                 CheckRange(number.Value, value => context.Fail(Codes.Range, name + " is outside -128 to 127.", member.Value, part, Text(number.Value), "-128 to 127"));
             }
 
-            ValueSite partSite = new() { Property = site.Property, Id = id, Path = part, Owner = site.Owner, Reader = site.Reader };
+            ValueSite partSite = new() { Property = site.Property, Id = id, Path = part, Owner = site.Owner };
             writer.Begin(id, site.Property);
             _integers.Encode(context, member.Value, writer.Data, partSite);
             writer.End();
@@ -170,7 +170,7 @@ internal sealed class CoordinateCodec : PropertyCodec
             }
 
             string name = _parts[index].Name;
-            ValueSite partSite = new() { Property = site.Property, Id = entry.Id, Path = site.Path.Member(name), Owner = site.Owner, Builder = site.Builder };
+            ValueSite partSite = new() { Property = site.Property, Id = entry.Id, Path = site.Path.Member(name), Owner = site.Owner };
             numbers[index] = ReadInteger(context, entry.Start, entry.End, name, partSite);
         }
         for (int i = 0; i < 3; i++)

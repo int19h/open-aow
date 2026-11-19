@@ -70,7 +70,7 @@ public sealed class GameFileReport
     public string? Format { get; set; }
     public int? Version { get; set; }
 
-    /// <summary>"equal", "different at 0x...", or "not applicable: " and the reason.</summary>
+    /// <summary>"equal", "equal outside marks", "equal as document", "different at 0x...", or "not applicable: " and the reason.</summary>
     public string OriginalRoundTrip { get; set; } = "not applicable: not reached";
 
     /// <summary>"passed", "refused" or "not reached".</summary>
@@ -204,13 +204,23 @@ public static class GameBoundary
             throw;
         }
         JsonObject container = (JsonObject)imported.Document["$container"]!;
-        if (GameFiles.FirstG1Difference(bytes, use.Profile, container, image) is long offset)
+        OriginalComparisonResult comparison = GameFiles.CompareG1Image(bytes, profile: use.Profile, container: container, image: image, document: imported.Document, kind: kind);
+        if (comparison.Kind == OriginalMatchKind.Mismatch)
         {
+            long offset = comparison.FirstDifferenceOffset ?? 0;
             report.OriginalRoundTrip = "different at 0x" + offset.ToString("x", CultureInfo.InvariantCulture);
             throw new ConversionException(new FormatDiagnostic(Codes.OriginalRoundTripDiffers, "The reconstructed original differs from the file.")
             { File = fileName, Offset = offset, Profile = use.Profile.Name, Decompressed = container["compression"] is JsonString { Value: "cfs" } });
         }
-        report.OriginalRoundTrip = "equal";
+
+        report.OriginalRoundTrip = comparison.Kind switch
+        {
+            OriginalMatchKind.Exact => "equal",
+            OriginalMatchKind.Masked => "equal outside marks",
+            OriginalMatchKind.Document => "equal as document",
+            OriginalMatchKind.Mismatch => "different",
+            _ => "equal",
+        };
         return new GameFileResult { Bytes = image, Document = imported.Document, Report = report, HasImage = true };
     }
 
@@ -295,7 +305,7 @@ public static class GameBoundary
     {
         FormatSchema schema = FormatSchema.Current;
         FileProfile profile = use.Profile;
-        DecodeContext context = new(image, schema: schema, engine: profile.Engine, profile: profile.Name, file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
+        DecodeContext context = new(image, schema: schema, engine: profile.Engine, profile: profile.Name, file: null, limits: FormatLimits.Default);
         (SchemaClass? classValue, int start, int end) = profile.RootImage(context);
         return new GameFileTree(Root: ImageTree.Read(context, start: start, end: end, classValue: classValue), ClassName: classValue.Name, ClassId: classValue.Id ?? 0);
     }
@@ -309,7 +319,7 @@ public static class GameBoundary
         FormatSchema schema = FormatSchema.Current;
         FileProfile profile = use.Profile;
         SchemaClass classValue = profile.RootHasClass ? schema.Get(className) : schema.Get(profile.RootFamily);
-        return profile.WrapRootImage(context: new EncodeContext(schema, engine: profile.Engine, profile: profile.Name, file: null, limits: FormatLimits.Default, options: ExportOptions.Default), rootImage: OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: profile.Engine), classValue: classValue);
+        return profile.WrapRootImage(context: new EncodeContext(schema, engine: profile.Engine, profile: profile.Name, file: null, limits: FormatLimits.Default), rootImage: OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: profile.Engine), classValue: classValue);
     }
 
     /// <summary>
@@ -324,7 +334,7 @@ public static class GameBoundary
     {
         FormatSchema schema = FormatSchema.Current;
         WrittenObjectProfile profile = WrittenObject(className, classTable: classTable);
-        DecodeContext context = new(image, schema: schema, engine: classTable, profile: profile.Name, file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
+        DecodeContext context = new(image, schema: schema, engine: classTable, profile: profile.Name, file: null, limits: FormatLimits.Default);
         (SchemaClass? classValue, int start, int end) = profile.RootImage(context);
         return ImageTree.Read(context, start: start, end: end, classValue: classValue);
     }
@@ -338,7 +348,7 @@ public static class GameBoundary
         FormatSchema schema = FormatSchema.Current;
         WrittenObjectProfile profile = WrittenObject(className, classTable: classTable);
         SchemaClass classValue = schema.Get(className);
-        return profile.WrapRootImage(context: new EncodeContext(schema, engine: classTable, profile: profile.Name, file: null, limits: FormatLimits.Default, options: ExportOptions.Default), rootImage: OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: classTable), classValue: classValue);
+        return profile.WrapRootImage(context: new EncodeContext(schema, engine: classTable, profile: profile.Name, file: null, limits: FormatLimits.Default), rootImage: OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: classTable), classValue: classValue);
     }
 
     private static WrittenObjectProfile WrittenObject(string className, string classTable) =>
@@ -375,9 +385,9 @@ public static class GameBoundary
             classTable = PacketClassTable(classValue);
             body.Bytes(OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: classTable, profile: TransportProfile.Name));
         }
-        EncodeContext context = new(schema, engine: classTable, profile: TransportProfile.Name, file: null, limits: FormatLimits.Default, options: ExportOptions.Default);
+        EncodeContext context = new(schema, engine: classTable, profile: TransportProfile.Name, file: null, limits: FormatLimits.Default);
         ByteBuffer output = new(body.Length + 16);
-        FileProfile.WriteTop(context, root: body.ToArray(), layout: null, at: new JsonObject(), output: output);
+        FileProfile.WriteTop(context, root: body.ToArray(), output: output);
         return output.ToArray();
     }
 
@@ -387,14 +397,14 @@ public static class GameBoundary
     /// </summary>
     public static int ReadPacketClassId(byte[] image)
     {
-        DecodeContext context = new(schema: FormatSchema.Current, data: image, engine: "game", profile: TransportProfile.Name, file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
+        DecodeContext context = new(schema: FormatSchema.Current, data: image, engine: "game", profile: TransportProfile.Name, file: null, limits: FormatLimits.Default);
         PropertyTable table = PropertyTable.Read(context, start: 0, end: image.Length, path: DocumentNodePath.Envelope);
         if (table.Entries.Count == 0)
         {
             return 0;
         }
 
-        int start = FileProfile.ReadTop(context, start: 0, end: image.Length, layout: new LayoutBuilder());
+        int start = FileProfile.ReadTop(context, start: 0, end: image.Length);
         context.Need(start, count: 4, end: image.Length, path: DocumentNodePath.Root, what: "class id");
         return context.Int32(start);
     }
@@ -407,8 +417,8 @@ public static class GameBoundary
     {
         FormatSchema schema = FormatSchema.Current;
         SchemaClass classValue = schema.Get(className);
-        DecodeContext context = new(engine: PacketClassTable(classValue), data: image, schema: schema, profile: TransportProfile.Name, file: null, limits: FormatLimits.Default, counts: new LayoutCounts());
-        int start = FileProfile.ReadTop(context, start: 0, end: image.Length, layout: new LayoutBuilder());
+        DecodeContext context = new(engine: PacketClassTable(classValue), data: image, schema: schema, profile: TransportProfile.Name, file: null, limits: FormatLimits.Default);
+        int start = FileProfile.ReadTop(context, start: 0, end: image.Length);
         context.Need(start, count: 4, end: image.Length, path: DocumentNodePath.Root, what: "class id");
         return context.Int32(start) == 0
             ? throw new InvalidOperationException("A nil packet has no object.")

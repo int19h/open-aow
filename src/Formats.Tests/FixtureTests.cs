@@ -43,6 +43,6 @@ public sealed class FixtureTests : FormatsTest
     {
         List<string> names = [.. Fixtures.All().Select(c => c.Group + "/" + c.Name)];
         Assert.Equal(names.Count, names.Distinct(StringComparer.Ordinal).Count());
-        Assert.Equal(18, Fixtures.All().Count(c => !c.UsesGame));
+        Assert.Equal(16, Fixtures.All().Count(c => !c.UsesGame));
     }
 }

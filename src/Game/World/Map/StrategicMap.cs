@@ -496,8 +496,8 @@ public partial class StrategicMap : GameMap
     // AoWHSMap.PAS:2160. A load shows its progress to the load's handler where the original calls
     // Stream.ShowProgress. The editor's error handler of a load is the one its caller passes to the
     // tree load (persistence-tree.md 7). A preview leaves the hero control and the startup songs
-    // unread, a network map leaves the game songs unread, and the original never reads
-    // UnknownProperty57, so a load skips those members as the original does.
+    // unread, and a network map leaves the game songs unread, so a load skips those members as the
+    // original does.
     public override void PersistFields(IPersister persister)
     {
         if (persister.Loading)
@@ -621,7 +621,6 @@ public partial class StrategicMap : GameMap
         StartingGame = persister.Boolean("StartingGame", value: StartingGame);
         ShowAllPlayers = persister.Boolean("ShowAllPlayers", value: ShowAllPlayers);
         VictoryMode = persister.RawByte("VictoryMode", value: VictoryMode);
-        persister.Skip("UnknownProperty57");
         RandSeed = DefendersSeed;
     }
 

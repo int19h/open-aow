@@ -1,4 +1,5 @@
 using Aow.Convert;
+using Aow.Formats.Original;
 
 namespace Aow.Formats.Tests;
 
@@ -48,10 +49,10 @@ public sealed class CorpusTests : FormatsTest
         Assert.Equal(DetectedFormat.Original, c.Format);
         ImportResult imported = GameFiles.Import(bytes, c.Profile!, c.Kind!, relative);
         byte[] text = GameFiles.Write(imported.Document);
-        ExportResult exported = GameFiles.Export(GameFiles.Read(text, relative).Document, null, relative);
-        Assert.True(c.Profile!.Comparable(bytes, FormatLimits.Default).AsSpan().SequenceEqual(c.Profile.Comparable(exported.Bytes, FormatLimits.Default)), "G1");
-        byte[] again = GameFiles.Write(GameFiles.Import(exported.Bytes, c.Profile, c.Kind!, relative).Document);
+        ExportResult exported = GameFiles.Export(GameFiles.Read(text, relative).Document, relative);
+        OriginalComparisonResult comparison = GameFiles.CompareG1(bytes, exported: exported.Bytes, profile: c.Profile!, document: imported.Document, kind: c.Kind!);
+        Assert.NotEqual(OriginalMatchKind.Mismatch, comparison.Kind);
+        byte[] again = GameFiles.Write(GameFiles.Import(exported.Bytes, c.Profile!, c.Kind!, relative).Document);
         Assert.True(again.AsSpan().SequenceEqual(text), "G2");
-        Assert.Empty(exported.Invalidated);
     }
 }

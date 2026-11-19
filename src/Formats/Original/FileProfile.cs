@@ -78,7 +78,7 @@ public abstract class FileProfile
     internal virtual JsonObject SaveContainer(string? headerName) => NewContainer("none", level: null);
 
     internal DecodeContext Context(byte[] data, ImportSession session, bool inflated) =>
-        new(data, session.Schema, Engine, Name, session.File, session.Limits, session.Counts) { Nested = session.Nested, Inflated = inflated };
+        new(data, session.Schema, Engine, Name, session.File, session.Limits, session.LegacyRules) { Nested = session.Nested, Inflated = inflated };
 
     internal JsonObject NewContainer(string compression, int? level)
     {
@@ -92,33 +92,21 @@ public abstract class FileProfile
     }
 
     /// <summary>Reads the outer table of a stored image: one entry, id 0, the root.</summary>
-    internal static int ReadTop(DecodeContext context, int start, int end, LayoutBuilder layout)
+    internal static int ReadTop(DecodeContext context, int start, int end)
     {
         PropertyTable table = PropertyTable.Read(context, start, end, DocumentNodePath.Envelope);
-        if (table.Entries.Count != 1 || table.Entries[0].Id != 0)
-        {
-            throw context.Fail(Codes.Corrupt, "The stored image holds other properties than the root, id 0.", start, DocumentNodePath.Envelope);
-        }
-
-        TableEntry e = table.Entries[0];
-        if (e.Long || e.Offset != 0 || table.EmptyLongMarker)
-        {
-            layout.Table(table.Entries, table.EmptyLongMarker, null);
-            if (e.Offset > 0)
-            {
-                layout.Gap(0, context.Data.AsSpan(table.DataBase, e.Offset), null);
-            }
-        }
-        return table.DataBase + e.Offset;
+        return table.Entries.Count != 1 || table.Entries[0].Id != 0
+            ? throw context.Fail(Codes.Corrupt, "The stored image holds other properties than the root, id 0.", start, DocumentNodePath.Envelope)
+            : table.DataBase + table.Entries[0].Offset;
     }
 
-    internal static void WriteTop(EncodeContext context, byte[] root, LayoutReader? layout, JsonValue at, ByteBuffer output)
+    internal static void WriteTop(EncodeContext context, byte[] root, ByteBuffer output)
     {
         ObjectWriter writer = new();
         writer.Begin(0, null);
         writer.Data.Bytes(root);
         writer.End();
-        ObjectImage.Place(context, writer, layout, null, null, at, DocumentNodePath.Envelope, output);
+        ObjectImage.Place(context, writer: writer, path: DocumentNodePath.Envelope, output: output);
     }
 
     /// <summary>Decodes the root object, with $class when the image stores it.</summary>
@@ -159,7 +147,7 @@ public abstract class FileProfile
     {
         foreach (JsonMember m in container.Members)
         {
-            if (m.Name != "$layout" && Array.IndexOf(allowed, m.Name) < 0)
+            if (Array.IndexOf(allowed, m.Name) < 0)
             {
                 throw new ConversionException(new FormatDiagnostic(m.Name.StartsWith('$') ? Codes.ReservedMember : Codes.UnknownMember,
                     $"$container has no member \"{m.Name}\".")
@@ -206,7 +194,7 @@ internal sealed class ImportSession
 {
     public required FormatSchema Schema { get; init; }
     public required FormatLimits Limits { get; init; }
-    public required LayoutCounts Counts { get; init; }
+    public required Dictionary<string, int> LegacyRules { get; init; }
     public string? File { get; init; }
     public string? Nested { get; init; }
 }
@@ -307,6 +295,9 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
     internal override (JsonObject Container, JsonObject Root) ImportImage(byte[] image, ImportSession session) =>
         ImportPayload(image, NewContainer("cfs", GameLevel), true, session);
 
+    internal (JsonObject Container, JsonObject Root) ImportEnginePayload(byte[] payload, JsonObject container, bool inflated, ImportSession session) =>
+        ImportPayload(payload, container, inflated, session);
+
     internal override byte[] ComparableImage(JsonObject container, byte[] image)
     {
         if (container["compression"] is not JsonString { Value: "cfs" } || container["level"] is not JsonInteger level)
@@ -345,7 +336,7 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
         int classId = context.Int32(12);
         SchemaClass classValue = context.Schema.Resolve(Engine, classId)
             ?? throw context.Fail(Codes.UnknownClass, message: $"Root class id {classId} is not in the {Engine} engine table.", offset: 12, path: DocumentNodePath.Root, value: classId.ToString(CultureInfo.InvariantCulture));
-        return (classValue, ReadTop(context, start: size, end: payload.Length, layout: new LayoutBuilder()), payload.Length);
+        return (classValue, ReadTop(context, start: size, end: payload.Length), payload.Length);
     }
 
     internal override JsonObject SaveContainer(string? headerName) => NewContainer("cfs", level: GameLevel);
@@ -358,7 +349,7 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
         output.Bytes(Magic);
         output.Int32(0);
         output.Int32(classValue.Id!.Value);
-        WriteTop(context, root: rootImage, layout: null, at: new JsonObject(), output: output);
+        WriteTop(context, root: rootImage, output: output);
         return output.ToArray();
     }
 
@@ -382,6 +373,7 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
         }
 
         // Bytes 8..11 of THSMHeader are always 0 in 1.36 and never read (HSEngine.pas:5298-5327).
+        // Any bytes from offset 16 to Size are skipped by the original readers (HSEngine.pas:5100-5289).
         int classId = context.Int32(12);
 
         SchemaClass classValue = session.Schema.Resolve(Engine, classId)
@@ -391,14 +383,7 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
             throw context.Fail(Codes.ClassFamily, $"Root class {classValue.Name} is not a {RootFamily}.", 12, DocumentNodePath.Root, classValue.Name, RootFamily);
         }
 
-        LayoutBuilder layout = new();
-        if (size > 16)
-        {
-            layout.Header(16, payload.AsSpan(16, size - 16));
-        }
-
-        JsonObject root = DecodeRoot(start: ReadTop(context, size, payload.Length, layout), context: context, end: payload.Length, classValue: classValue);
-        layout.Attach(container, Name, session.Counts);
+        JsonObject root = DecodeRoot(start: ReadTop(context, size, payload.Length), context: context, end: payload.Length, classValue: classValue);
         return (container, root);
     }
 
@@ -412,29 +397,15 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
         }
 
         SchemaClass classValue = RootClass(context, rootObject);
-        LayoutReader? layout = LayoutReader.Read(context, container, DocumentNodePath.Named("$container"));
         ByteBuffer output = new(1 << 16);
         output.Int32(16);
         output.Bytes(Magic);
         output.Int32(0);
         output.Int32(classValue.Id!.Value);
-        if (layout is not null)
-        {
-            foreach ((int offset, byte[]? bytes, JsonValue? at) in layout.Headers)
-            {
-                if (offset != 16)
-                {
-                    throw context.Fail(Codes.Layout, "An HSM header extension starts at offset 16.", at, DocumentNodePath.Named("$container.$layout"));
-                }
-
-                output.Bytes(bytes);
-                output.PatchInt32(0, 16 + bytes.Length);
-            }
-        }
 
         ByteBuffer body = new(1 << 16);
         ObjectImage.Encode(context, rootObject, classValue, body, DocumentNodePath.Root, "$class");
-        WriteTop(context, body.ToArray(), layout, container, output);
+        WriteTop(context, root: body.ToArray(), output: output);
         return output.ToArray();
     }
 
@@ -490,22 +461,11 @@ public sealed class ScenarioSetProfile : FileProfile
             throw context.Fail(Codes.Corrupt, "The scenario set name is longer than 40 bytes.", 9);
         }
 
+        // Bytes 10+nameLength..51 are uninitialized stack tail and alignment padding from SaveHSS
+        // (HSEngine.pas:5060-5076), and any bytes from 52 to Size are skipped by LoadHSS (:5043).
         JsonObject container = NewContainer("none", null);
         _ = container.Add("header", new JsonObject().Add("Name", new JsonString(TextCodec.Decode(file.AsSpan(10, nameLength)))));
-        LayoutBuilder layout = new();
-        int tail = 10 + nameLength;
-        if (file.AsSpan(tail, HeaderSize - tail).ContainsAnyExcept((byte)0))
-        {
-            layout.Header(tail, file.AsSpan(tail, HeaderSize - tail));
-        }
-
-        if (size > HeaderSize)
-        {
-            layout.Header(HeaderSize, file.AsSpan(HeaderSize, size - HeaderSize));
-        }
-
-        JsonObject root = DecodeRoot(start: ReadTop(context, size, file.Length - 4, layout), context: context, end: file.Length - 4, classValue: session.Schema.Get(RootFamily));
-        layout.Attach(container, Name, session.Counts);
+        JsonObject root = DecodeRoot(start: ReadTop(context, size, file.Length - 4), context: context, end: file.Length - 4, classValue: session.Schema.Get(RootFamily));
         return (container, root);
     }
 
@@ -522,7 +482,7 @@ public sealed class ScenarioSetProfile : FileProfile
         int size = context.Int32(0);
         return size < HeaderSize || size > context.Data.Length - 4
             ? throw context.Fail(Codes.Corrupt, message: "The scenario set header size is outside the file.", offset: 0)
-            : ((SchemaClass Class, int Start, int End))(context.Schema.Get(RootFamily), ReadTop(context, start: size, end: context.Data.Length - 4, layout: new LayoutBuilder()), context.Data.Length - 4);
+            : ((SchemaClass Class, int Start, int End))(context.Schema.Get(RootFamily), ReadTop(context, start: size, end: context.Data.Length - 4), context.Data.Length - 4);
     }
 
     internal override byte[] Export(JsonObject container, JsonValue root, EncodeContext context)
@@ -559,39 +519,17 @@ public sealed class ScenarioSetProfile : FileProfile
         }
 
         SchemaClass classValue = RootClass(context, rootObject);
-        LayoutReader? layout = LayoutReader.Read(context, container, DocumentNodePath.Named("$container"));
         byte[] head = new byte[HeaderSize];
         BinaryPrimitives.WriteInt32LittleEndian(head, HeaderSize);
         Id.CopyTo(head.AsSpan(4));
         head[9] = (byte)nameBytes.Length;
         nameBytes.CopyTo(head, 10);
-        byte[] extension = [];
-        if (layout is not null)
-        {
-            foreach ((int offset, byte[]? bytes, JsonValue? at) in layout.Headers)
-            {
-                if (offset == HeaderSize)
-                {
-                    extension = bytes;
-                }
-                else if (offset == 10 + nameBytes.Length && offset + bytes.Length == HeaderSize)
-                {
-                    bytes.CopyTo(head, offset);
-                }
-                else
-                {
-                    throw context.Fail(Codes.Layout, "A scenario set header part does not fit the header.", at, DocumentNodePath.Named("$container.$layout"));
-                }
-            }
-        }
 
-        BinaryPrimitives.WriteInt32LittleEndian(head, HeaderSize + extension.Length);
         ByteBuffer output = new(1 << 20);
         output.Bytes(head);
-        output.Bytes(extension);
         ByteBuffer body = new(1 << 20);
         ObjectImage.Encode(context, rootObject, classValue, body, DocumentNodePath.Root);
-        WriteTop(context, body.ToArray(), layout, container, output);
+        WriteTop(context, root: body.ToArray(), output: output);
         output.Int32((int)Crc32.Compute(output.Span));
         return output.ToArray();
     }
@@ -610,8 +548,7 @@ public sealed class StoredObjectProfile : FileProfile
     {
         DecodeContext context = Context(file, session, false);
         JsonObject container = NewContainer("none", null);
-        LayoutBuilder layout = new();
-        int start = ReadTop(context, 0, file.Length, layout);
+        int start = ReadTop(context, 0, file.Length);
         context.Need(start, 4, file.Length, DocumentNodePath.Root, "root class id");
         int classId = context.Int32(start);
         SchemaClass classValue = session.Schema.Resolve(Engine, classId)
@@ -622,13 +559,12 @@ public sealed class StoredObjectProfile : FileProfile
         }
 
         JsonObject root = DecodeRoot(context, start + 4, file.Length, classValue);
-        layout.Attach(container, Name, session.Counts);
         return (container, root);
     }
 
     internal override (SchemaClass Class, int Start, int End) RootImage(DecodeContext context)
     {
-        int start = ReadTop(context, start: 0, end: context.Data.Length, layout: new LayoutBuilder());
+        int start = ReadTop(context, start: 0, end: context.Data.Length);
         context.Need(start, count: 4, end: context.Data.Length, path: DocumentNodePath.Root, what: "root class id");
         int classId = context.Int32(start);
         SchemaClass classValue = context.Schema.Resolve(Engine, classId)
@@ -650,12 +586,11 @@ public sealed class StoredObjectProfile : FileProfile
         }
 
         SchemaClass classValue = RootClass(context, rootObject);
-        LayoutReader? layout = LayoutReader.Read(context, container, DocumentNodePath.Named("$container"));
         ByteBuffer body = new(1 << 16);
         body.Int32(classValue.Id!.Value);
         ObjectImage.Encode(context, rootObject, classValue, body, DocumentNodePath.Root, "$class");
         ByteBuffer output = new(1 << 16);
-        WriteTop(context, body.ToArray(), layout, container, output);
+        WriteTop(context, root: body.ToArray(), output: output);
         return output.ToArray();
     }
 }
@@ -676,20 +611,18 @@ public sealed class WrittenObjectProfile(string name, string[] kinds, string roo
     {
         DecodeContext context = Context(file, session, false);
         JsonObject container = NewContainer("none", null);
-        LayoutBuilder layout = new();
-        JsonObject root = DecodeRoot(start: ReadTop(context, 0, file.Length, layout), context: context, end: file.Length, classValue: session.Schema.Get(RootFamily));
-        layout.Attach(container, Name, session.Counts);
+        JsonObject root = DecodeRoot(start: ReadTop(context, 0, file.Length), context: context, end: file.Length, classValue: session.Schema.Get(RootFamily));
         return (container, root);
     }
 
     internal override (SchemaClass Class, int Start, int End) RootImage(DecodeContext context) =>
-        (context.Schema.Get(RootFamily), ReadTop(context, start: 0, end: context.Data.Length, layout: new LayoutBuilder()), context.Data.Length);
+        (context.Schema.Get(RootFamily), ReadTop(context, start: 0, end: context.Data.Length), context.Data.Length);
 
     /// <summary>The image TEngine.WriteEObject writes: the outer table with the root at id 0, then the root.</summary>
     internal override byte[] WrapRootImage(byte[] rootImage, SchemaClass classValue, EncodeContext context)
     {
         ByteBuffer output = new(rootImage.Length + 16);
-        WriteTop(context, root: rootImage, layout: null, at: new JsonObject(), output: output);
+        WriteTop(context, root: rootImage, output: output);
         return output.ToArray();
     }
 
@@ -707,11 +640,10 @@ public sealed class WrittenObjectProfile(string name, string[] kinds, string roo
         }
 
         SchemaClass classValue = RootClass(context, rootObject);
-        LayoutReader? layout = LayoutReader.Read(context, container, DocumentNodePath.Named("$container"));
         ByteBuffer body = new(1 << 12);
         ObjectImage.Encode(context, rootObject, classValue, body, DocumentNodePath.Root);
         ByteBuffer output = new(1 << 12);
-        WriteTop(context, body.ToArray(), layout, container, output);
+        WriteTop(context, root: body.ToArray(), output: output);
         return output.ToArray();
     }
 }

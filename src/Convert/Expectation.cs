@@ -8,6 +8,9 @@ public sealed class ExpectationException(string message) : Exception(message);
 /// <summary>One in-scope row of the accepted census manifest.</summary>
 public sealed record CensusRow(string Identity, string SourceRoot, string RelativePath, string Profile, string Kind, string Sha256);
 
+/// <summary>G1 outcome counts for one profile.</summary>
+public readonly record struct ProfileG1Counts(int Exact, int Masked, int Document);
+
 /// <summary>The census facts check uses: its rows, its unexplained site count and its own hash.</summary>
 public sealed class CensusFacts
 {
@@ -40,22 +43,23 @@ public sealed class CensusFacts
 }
 
 /// <summary>
-/// The pinned layout expectation of a census run: layout parts, files with residue, parts per
-/// category and per profile, legacy rules with their files, and semantic case residues. It names
-/// the census it belongs to by path and SHA-256. Any difference is drift and fails the check.
+/// The pinned G1 expectation of a census run: files byte-exact, files exact outside declared
+/// marks (with the bytes masked per rule), files compared as documents, per-profile counts and
+/// legacy rules with their files. It names the census it belongs to by path and SHA-256. Any
+/// difference is drift and fails the check.
 /// </summary>
 public sealed class Expectation
 {
     public required string Sha256 { get; init; }
-    public required int Parts { get; init; }
-    public required int Files { get; init; }
-    public required SortedDictionary<string, int> Categories { get; init; }
-    public required SortedDictionary<string, (int Parts, int Files)> Profiles { get; init; }
+    public required int Exact { get; init; }
+    public required int Masked { get; init; }
+    public required int Document { get; init; }
+    public required SortedDictionary<string, long> Rules { get; init; }
+    public required SortedDictionary<string, ProfileG1Counts> Profiles { get; init; }
     public required SortedDictionary<string, (int Occurrences, List<string> Files)> LegacyRules { get; init; }
-    public required int CaseResidues { get; init; }
 
     /// <summary>
-    /// Loads --expect: a census manifest alone (its rows, no layout pin), or an expectation file
+    /// Loads --expect: a census manifest alone (its rows, no G1 pin), or an expectation file
     /// that names its census by a path relative to itself and its pinned SHA-256.
     /// </summary>
     public static (CensusFacts Census, Expectation? Expectation) Load(string path)
@@ -86,42 +90,49 @@ public sealed class Expectation
             throw new ExpectationException($"The census {censusPath} differs from its pinned SHA-256.");
         }
 
-        JsonElement layout = root.GetProperty("layout");
-        SortedDictionary<string, int> categories = [with(StringComparer.Ordinal)];
-        foreach (JsonProperty c in layout.GetProperty("categories").EnumerateObject())
+        JsonElement g1 = root.GetProperty("g1");
+        SortedDictionary<string, long> maskedRules = [with(StringComparer.Ordinal)];
+        foreach (JsonProperty r in g1.GetProperty("rules").EnumerateObject())
         {
-            categories[c.Name] = c.Value.GetInt32();
+            maskedRules[r.Name] = r.Value.GetInt64();
         }
 
-        SortedDictionary<string, (int, int)> profiles = [with(StringComparer.Ordinal)];
-        foreach (JsonProperty p in layout.GetProperty("profiles").EnumerateObject())
+        SortedDictionary<string, ProfileG1Counts> profiles = [with(StringComparer.Ordinal)];
+        foreach (JsonProperty p in g1.GetProperty("profiles").EnumerateObject())
         {
-            profiles[p.Name] = (p.Value.GetProperty("parts").GetInt32(), p.Value.GetProperty("files").GetInt32());
+            profiles[p.Name] = new ProfileG1Counts(
+                Exact: p.Value.GetProperty("exact").GetInt32(),
+                Masked: p.Value.GetProperty("masked").GetInt32(),
+                Document: p.Value.GetProperty("document").GetInt32());
         }
 
-        SortedDictionary<string, (int, List<string>)> rules = [with(StringComparer.Ordinal)];
+        SortedDictionary<string, (int, List<string>)> legacy = [with(StringComparer.Ordinal)];
         foreach (JsonProperty r in root.GetProperty("legacyRules").EnumerateObject())
         {
-            rules[r.Name] = (r.Value.GetProperty("occurrences").GetInt32(),
+            legacy[r.Name] = (r.Value.GetProperty("occurrences").GetInt32(),
                 [.. r.Value.GetProperty("files").EnumerateArray().Select(f => f.GetString()!)]);
         }
 
         return (census, new Expectation
         {
             Sha256 = System.Convert.ToHexStringLower(SHA256.HashData(bytes)),
-            Parts = layout.GetProperty("parts").GetInt32(),
-            Files = layout.GetProperty("files").GetInt32(),
-            Categories = categories,
+            Exact = g1.GetProperty("exact").GetInt32(),
+            Masked = g1.GetProperty("masked").GetInt32(),
+            Document = g1.GetProperty("document").GetInt32(),
+            Rules = maskedRules,
             Profiles = profiles,
-            LegacyRules = rules,
-            CaseResidues = root.GetProperty("caseResidues").GetInt32(),
+            LegacyRules = legacy,
         });
     }
 
     /// <summary>Every difference between the pinned and the measured census counts.</summary>
-    public List<string> Compare(int parts, int files, SortedDictionary<string, int> categories,
-        SortedDictionary<string, (int Parts, int Files)> profiles,
-        SortedDictionary<string, (int Occurrences, List<string> Files)> rules, int caseResidues)
+    public List<string> Compare(
+        int exact,
+        int masked,
+        int document,
+        SortedDictionary<string, long> maskedRules,
+        SortedDictionary<string, ProfileG1Counts> profiles,
+        SortedDictionary<string, (int Occurrences, List<string> Files)> legacyRules)
     {
         List<string> problems = [];
         void Check(string what, object pinned, object measured)
@@ -131,26 +142,28 @@ public sealed class Expectation
                 problems.Add($"{what}: pinned {pinned}, measured {measured}");
             }
         }
-        Check("layout parts", Parts, parts);
-        Check("files with residue", Files, files);
-        Check("case residues", CaseResidues, caseResidues);
-        foreach (string? key in Categories.Keys.Union(categories.Keys).Order(StringComparer.Ordinal))
+
+        Check("G1 exact files", Exact, exact);
+        Check("G1 masked files", Masked, masked);
+        Check("G1 document files", Document, document);
+        foreach (string key in Rules.Keys.Union(maskedRules.Keys).Order(StringComparer.Ordinal))
         {
-            Check("category " + key, Categories.GetValueOrDefault(key), categories.GetValueOrDefault(key));
+            Check("masked rule " + key, Rules.GetValueOrDefault(key), maskedRules.GetValueOrDefault(key));
         }
 
-        foreach (string? key in Profiles.Keys.Union(profiles.Keys).Order(StringComparer.Ordinal))
+        foreach (string key in Profiles.Keys.Union(profiles.Keys).Order(StringComparer.Ordinal))
         {
             Check("profile " + key, Profiles.GetValueOrDefault(key), profiles.GetValueOrDefault(key));
         }
 
-        foreach (string? key in LegacyRules.Keys.Union(rules.Keys).Order(StringComparer.Ordinal))
+        foreach (string key in LegacyRules.Keys.Union(legacyRules.Keys).Order(StringComparer.Ordinal))
         {
-            (int Occurrences, List<string> Files) pinned = LegacyRules.GetValueOrDefault(key, (0, []));
-            (int Occurrences, List<string> Files) measured = rules.GetValueOrDefault(key, (0, []));
-            Check($"legacy rule {key} occurrences", pinned.Occurrences, measured.Occurrences);
-            Check($"legacy rule {key} files", string.Join(", ", pinned.Files.Order(StringComparer.Ordinal)), string.Join(", ", measured.Files.Order(StringComparer.Ordinal)));
+            (int pinnedOccurrences, List<string> pinnedFiles) = LegacyRules.GetValueOrDefault(key, (0, []));
+            (int measuredOccurrences, List<string> measuredFiles) = legacyRules.GetValueOrDefault(key, (0, []));
+            Check($"legacy rule {key} occurrences", pinnedOccurrences, measuredOccurrences);
+            Check($"legacy rule {key} files", string.Join(", ", pinnedFiles.Order(StringComparer.Ordinal)), string.Join(", ", measuredFiles.Order(StringComparer.Ordinal)));
         }
+
         return problems;
     }
 }

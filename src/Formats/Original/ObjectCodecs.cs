@@ -117,7 +117,7 @@ internal sealed partial class CreatedObjectCodec(string? family) : PropertyCodec
 
         if (shape is { } legacy)
         {
-            context.Counts.LegacyRules[legacy.Rule] = context.Counts.LegacyRules.GetValueOrDefault(legacy.Rule) + 1;
+            context.LegacyRules[legacy.Rule] = context.LegacyRules.GetValueOrDefault(legacy.Rule) + 1;
             ObjectImage.Decode(context, start + 4, end, legacy.Shape, site.Path, objectValue);
         }
         else
@@ -244,8 +244,7 @@ internal sealed partial class ChildrenCodec : PropertyCodec
         List<TableEntry> order = [.. table.Entries.OrderBy(e => e.Offset).ThenBy(e => e.Index)];
         HashSet<int> slots = [];
         JsonArray array = new();
-        int cursor = 0, k = 0;
-        List<(int, int)> gaps = [];
+        int k = 0;
         for (int i = 0; i < order.Count; i++)
         {
             TableEntry e = order[i];
@@ -259,29 +258,11 @@ internal sealed partial class ChildrenCodec : PropertyCodec
                 throw context.Fail(Codes.Duplicate, $"Child slot {e.Id} is stored twice.", db + e.Offset, site.Path);
             }
 
-            if (e.Offset > cursor)
-            {
-                gaps.Add((cursor, e.Offset - cursor));
-            }
-
             int next = boundaries[Array.BinarySearch(boundaries, e.Offset) + 1];
-            _ = array.Add(CreatedObjectCodec.DecodeCreated(site: new ValueSite { Property = site.Property, Id = e.Id, Path = site.Path.Item(k++), Owner = site.Owner, Builder = site.Builder }, context: context, start: db + e.Offset, end: db + next, family: null, slot: e.Id, isNull: out _));
-            cursor = next;
-        }
-        if (cursor < length)
-        {
-            gaps.Add((cursor, length - cursor));
+            _ = array.Add(CreatedObjectCodec.DecodeCreated(site: new ValueSite { Property = site.Property, Id = e.Id, Path = site.Path.Item(k++), Owner = site.Owner }, context: context, start: db + e.Offset, end: db + next, family: null, slot: e.Id, isNull: out _));
         }
 
         context.CheckItems(array.Items.Count, start, site.Path);
-        if (gaps.Count != 0 || table.EmptyLongMarker || !ObjectImage.MatchesWriterTable(table.Entries, order))
-        {
-            site.Builder?.Table(table.Entries, table.EmptyLongMarker, site.Id);
-            foreach ((int offset, int count) in gaps)
-            {
-                site.Builder?.Gap(offset, context.Data.AsSpan(db + offset, count), site.Id);
-            }
-        }
         return array;
     }
 
@@ -322,12 +303,12 @@ internal sealed partial class ChildrenCodec : PropertyCodec
                 throw context.Fail(Codes.Type, "A stored child is never nil.", child, itemPath);
             }
 
-            ValueSite childSite = new() { Property = site.Property, Id = (int)slot.Value, Path = itemPath, Owner = site.Owner, Reader = site.Reader };
+            ValueSite childSite = new() { Property = site.Property, Id = (int)slot.Value, Path = itemPath, Owner = site.Owner };
             writer.Begin((int)slot.Value, site.Property, k);
             CreatedObjectCodec.EncodeCreated(context, child, writer.Data, childSite, null, true);
             writer.End();
         }
-        ObjectImage.Place(context, writer, site.Reader, site.Id, null, value, site.Path, data);
+        ObjectImage.Place(context, writer: writer, path: site.Path, output: data);
     }
 }
 
@@ -434,8 +415,7 @@ internal sealed partial class MapFieldsCodec : PropertyCodec
 /// <summary>
 /// TAoWCampaign ids 5 and 6: the size and the bytes of a campaign map, an HSM file image as
 /// SaveHSMtoStream writes it. The document holds Map, a nested document with its own
-/// $container. The exact compressed bytes stay as a nested-compression part, validated against
-/// the visible map before export uses them.
+/// $container. Export compresses the payload again at the container's level.
 /// </summary>
 internal sealed partial class CampaignMapCodec : PropertyCodec
 {
@@ -470,20 +450,12 @@ internal sealed partial class CampaignMapCodec : PropertyCodec
         {
             Schema = context.Schema,
             Limits = context.Limits,
-            Counts = context.Counts,
+            LegacyRules = context.LegacyRules,
             File = context.File,
             Nested = site.Path.ToString(),
         };
         (JsonObject? container, JsonObject? root) = Nested.Import(image, session);
-        JsonObject map = new JsonObject().Add("$container", container).Add("root", root);
-        LayoutBuilder builder = new();
-        if (Cfs.HasMagic(image) && image[4] != 0)
-        {
-            builder.Nested(image);
-        }
-
-        builder.Attach(map, Nested.Name, context.Counts);
-        return map;
+        return new JsonObject().Add("$container", container).Add("root", root);
     }
 
     internal override void EncodeMember(EncodeContext context, JsonValue value, ObjectWriter writer, ValueSite site)
@@ -495,7 +467,7 @@ internal sealed partial class CampaignMapCodec : PropertyCodec
 
         foreach (JsonMember m in map.Members)
         {
-            if (m.Name is not ("$container" or "root" or "$layout"))
+            if (m.Name is not ("$container" or "root"))
             {
                 throw context.Fail(m.Name.StartsWith('$') ? Codes.ReservedMember : Codes.UnknownMember, $"Map has no member \"{m.Name}\".", m.Value, site.Path.Member(m.Name));
             }
@@ -508,39 +480,9 @@ internal sealed partial class CampaignMapCodec : PropertyCodec
             throw context.Fail(Codes.Profile, "A campaign map has profile world-hsm.", container["profile"] ?? container, site.Path.Member("$container").Member("profile"));
         }
 
-        EncodeContext nested = new(context.Schema, Nested.Engine, Nested.Name, context.File, context.Limits, context.Options);
-        LayoutReader? layout = LayoutReader.Read(nested, map, site.Path);
+        EncodeContext nested = new(context.Schema, Nested.Engine, Nested.Name, context.File, context.Limits);
         byte[] payload = Nested.ExportPayload(container, root, nested, out string compression, out int level);
-        context.Invalidated.AddRange(nested.Invalidated);
         byte[] image = compression == "cfs" ? Cfs.Wrap(payload, level) : payload;
-        if (layout?.Nested is { } retained)
-        {
-            // The retained bytes are used only when they inflate to the visible map.
-            bool ok = Cfs.HasMagic(retained.Bytes) && compression == "cfs" && retained.Bytes[4] == level;
-            if (ok)
-            {
-                try
-                {
-                    byte[] inflated = Cfs.Inflate(retained.Bytes.AsSpan(5), context.Limits.DecompressedBytes, m => new InvalidDataException(m));
-                    ok = inflated.AsSpan().SequenceEqual(payload);
-                }
-                catch (InvalidDataException)
-                {
-                    ok = false;
-                }
-            }
-            if (!ok)
-            {
-                throw context.Fail(Codes.Layout, "The retained compressed map does not inflate to the visible map.", retained.At, site.Path.Member("$layout"));
-            }
-
-            image = retained.Bytes;
-        }
-        else if (compression == "cfs" && level != 0 && layout is null && map.Find("$layout") is null && context.Options.ExactLayout)
-        {
-            throw context.Fail(Codes.Layout, "--exact-layout needs the retained compressed bytes of a campaign map.", map, site.Path);
-        }
-
         writer.Begin(site.Id, site.Property);
         writer.Data.Int32(image.Length);
         writer.End();

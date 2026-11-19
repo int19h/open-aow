@@ -131,18 +131,15 @@ public sealed class ListShapeTests : FormatsTest
     private static JsonValue Decode(string className, string property, byte[] bytes)
     {
         SchemaProperty prop = Property(className, property);
-        DecodeContext context = new(bytes, FormatSchema.Current, "game", "world-hsm", "lists.json", FormatLimits.Default, new LayoutCounts());
-        LayoutBuilder builder = new();
-        ValueSite site = new() { Property = prop, Id = prop.Id ?? 0, Path = DocumentNodePath.Root.Member(property), Owner = new JsonObject(), Builder = builder };
-        JsonValue value = prop.Codec.Decode(context, 0, bytes.Length, site);
-        Assert.Empty(builder.Parts);
-        return value;
+        DecodeContext context = new(bytes, FormatSchema.Current, "game", "world-hsm", "lists.json", FormatLimits.Default);
+        ValueSite site = new() { Property = prop, Id = prop.Id ?? 0, Path = DocumentNodePath.Root.Member(property), Owner = new JsonObject() };
+        return prop.Codec.Decode(context, 0, bytes.Length, site);
     }
 
     private static byte[] Encode(string className, string property, JsonValue value)
     {
         SchemaProperty prop = Property(className, property);
-        EncodeContext context = new(FormatSchema.Current, "game", "world-hsm", "lists.json", FormatLimits.Default, ExportOptions.Default);
+        EncodeContext context = new(FormatSchema.Current, "game", "world-hsm", "lists.json", FormatLimits.Default);
         ByteBuffer data = new();
         prop.Codec.Encode(context, value, data, new ValueSite { Property = prop, Id = prop.Id ?? 0, Path = DocumentNodePath.Root.Member(property), Owner = new JsonObject() });
         return data.ToArray();

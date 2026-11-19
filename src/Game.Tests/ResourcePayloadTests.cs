@@ -270,7 +270,7 @@ public sealed class ResourcePayloadTests
     private static ObjectNode Stored(string className, string property, byte[] payload)
     {
         SchemaProperty prop = s_schema.Get(className).PropertyByName(property);
-        DecodeContext context = new(payload, s_schema, "game", "game", null, FormatLimits.Default, new LayoutCounts());
+        DecodeContext context = new(payload, s_schema, "game", "game", null, FormatLimits.Default);
         ObjectNode node = new(null, null);
         node.Add(property, prop.Codec.ReadImage(context, 0, payload.Length, new ImageFrame { Property = prop, Id = prop.Id.Value, Path = DocumentNodePath.Root.Member(property) }));
         return node;
@@ -280,7 +280,7 @@ public sealed class ResourcePayloadTests
     private static byte[] Payload(string className, string property, ObjectNode tree)
     {
         SchemaProperty prop = s_schema.Get(className).PropertyByName(property);
-        EncodeContext context = new(s_schema, "game", "game", null, FormatLimits.Default, ExportOptions.Default);
+        EncodeContext context = new(s_schema, "game", "game", null, FormatLimits.Default);
         ByteBuffer data = new();
         prop.Codec.WriteImage(tree.Find(property), context, data, new ImageFrame { Property = prop, Id = prop.Id.Value, Path = DocumentNodePath.Root.Member(property) });
         return data.ToArray();

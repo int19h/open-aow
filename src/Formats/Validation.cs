@@ -73,7 +73,7 @@ public static class DocumentValidation
             }
 
             FormatSchema schema = GameFiles.Schema;
-            SchemaClass classValue = profile.RootClass(new EncodeContext(schema, profile.Engine, profile.Name, file, FormatLimits.Default, ExportOptions.Default), root: root);
+            SchemaClass classValue = profile.RootClass(new EncodeContext(schema, profile.Engine, profile.Name, file, FormatLimits.Default), root: root);
             JsonObject body = root;
             if (profile.RootHasClass)
             {

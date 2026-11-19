@@ -27,6 +27,8 @@ internal static class HexText
     }
 
     public static byte[] Decode(string text) => Convert.FromHexString(text);
+
+    public static string Encode(ReadOnlySpan<byte> bytes) => Convert.ToHexStringLower(bytes);
 }
 
 internal sealed partial class IntegerCodec
@@ -220,7 +222,7 @@ internal sealed partial class DataCodec
             ? throw site.Fail(Codes.Range, $"{site.Property?.Name ?? "The value"} holds exactly {n} bytes.", value: Text(node.Data.Length), constraint: $"{n} bytes")
             : node.Data.Length > site.Context.Limits.DecompressedBytes
             ? throw site.Fail(Codes.Limit, "A payload is too large.")
-            : (JsonValue)new JsonString(LayoutResidue.Hex(node.Data));
+            : (JsonValue)new JsonString(HexText.Encode(node.Data));
     }
 
     internal override TreeValue? ReadTree(JsonValue value, DocumentSite site)
@@ -786,7 +788,7 @@ internal sealed partial class CreatedObjectCodec
 
         if (shape is { } legacy)
         {
-            context.Counts.LegacyRules[legacy.Rule] = context.Counts.LegacyRules.GetValueOrDefault(legacy.Rule) + 1;
+            context.LegacyRules[legacy.Rule] = context.LegacyRules.GetValueOrDefault(legacy.Rule) + 1;
         }
 
         return ImageTree.ReadBody(context, start + 4, end, shape?.Shape ?? classValue, frame.Path, classValue.Name, slot);
@@ -872,7 +874,7 @@ internal sealed partial class ChildrenCodec
             ImageTree.WriteBody(child, shape?.Shape ?? classValue, context, writer.Data, itemPath, true);
             writer.End();
         }
-        ObjectImage.Place(context, writer, null, frame.Id, null, new JsonObject(), frame.Path, data);
+        ObjectImage.Place(context, writer, frame.Path, data);
     }
 
     internal override TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame)
@@ -911,7 +913,7 @@ internal sealed partial class ChildrenCodec
             (string Rule, SchemaClass Shape)? shape = context.Schema.LegacyShape(frame.Property.Owner.Name + "." + frame.Property.Name, classValue.Name);
             if (shape is { } legacy)
             {
-                context.Counts.LegacyRules[legacy.Rule] = context.Counts.LegacyRules.GetValueOrDefault(legacy.Rule) + 1;
+                context.LegacyRules[legacy.Rule] = context.LegacyRules.GetValueOrDefault(legacy.Rule) + 1;
             }
 
             children.Add(ImageTree.ReadBody(path: frame.Path.Item(children.Count), context: context, start: childStart + 4, end: childEnd, classValue: shape?.Shape ?? classValue, className: classValue.Name, slot: entry.Id));

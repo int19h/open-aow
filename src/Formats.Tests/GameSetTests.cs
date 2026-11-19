@@ -43,7 +43,9 @@ public sealed class GameSetTests : FormatsTest
         Assert.Equal(OwnFormat.CurrentVersion, ((JsonInteger)imported.Document["$version"]!).Value);
         JsonObject container = (JsonObject)imported.Document["$container"]!;
         JsonObject root = (JsonObject)imported.Document["root"]!;
-        Assert.Equal(body, profile.Export(context: new EncodeContext(FormatSchema.Current, engine, profile.Name, relative, FormatLimits.Default, ExportOptions.Default), container: container, root: root));
+        byte[] exported = profile.Export(context: new EncodeContext(FormatSchema.Current, engine, profile.Name, relative, FormatLimits.Default), container: container, root: root);
+        OriginalComparisonResult comparison = GameFiles.CompareG1(body, exported: exported, profile: profile, document: imported.Document, kind: "pfs");
+        Assert.NotEqual(OriginalMatchKind.Mismatch, comparison.Kind);
         Prove(root, FormatSchema.Current.Get(rootClass), engine, relative);
     }
 
@@ -54,8 +56,9 @@ public sealed class GameSetTests : FormatsTest
         byte[] bytes = File.ReadAllBytes(Path.Combine(Checker.GameRoot, relative));
         FileProfile profile = FileProfile.Find("scenario-set")!;
         ImportResult imported = GameFiles.Import(bytes, profile, "scenario-set", relative);
-        ExportResult exported = GameFiles.Export(GameFiles.Read(GameFiles.Write(imported.Document), relative).Document, null, relative);
-        Assert.Equal(bytes, exported.Bytes);
+        ExportResult exported = GameFiles.Export(GameFiles.Read(GameFiles.Write(imported.Document), relative).Document, relative);
+        OriginalComparisonResult comparison = GameFiles.CompareG1(bytes, exported: exported.Bytes, profile: profile, document: imported.Document, kind: "scenario-set");
+        Assert.Equal(OriginalMatchKind.Masked, comparison.Kind);
         Prove((JsonObject)imported.Document["root"]!, FormatSchema.Current.Get(profile.RootFamily), profile.Engine, relative);
     }
 
@@ -66,37 +69,11 @@ public sealed class GameSetTests : FormatsTest
         ObjectNode tree = OriginalBackend.Read(image, classValue, schema, engine);
         byte[] direct = OriginalBackend.Write(tree, classValue, schema, engine);
         JsonObject expected = PilotImage.Decode(direct, classValue.Name, engine);
-        Assert.True(Same(WithoutLayout(PilotImage.Decode(image, classValue.Name, engine)), expected), label + " direct read");
+        Assert.True(Same(PilotImage.Decode(image, classValue.Name, engine), expected), label + " direct read");
         Assert.True(direct.AsSpan().SequenceEqual(PilotImage.Encode(expected, classValue.Name, engine)), label + " direct canonical");
         Assert.True(Same(expected, DocumentBackend.Write(tree, classValue, schema, engine)), label + " direct document");
         Assert.True(direct.AsSpan().SequenceEqual(OriginalBackend.Write(DocumentBackend.Read(expected, classValue, schema, engine), classValue, schema, engine)), label + " direct document read");
     }
 
     private static bool Same(JsonObject left, JsonObject right) => JsonWriter.ToUtf8(left).AsSpan().SequenceEqual(JsonWriter.ToUtf8(right));
-
-    private static JsonObject WithoutLayout(JsonObject objectValue)
-    {
-        _ = objectValue.Members.RemoveAll(member => member.Name == "$layout");
-        foreach (JsonMember member in objectValue.Members)
-        {
-            WithoutLayout(member.Value);
-        }
-
-        return objectValue;
-    }
-
-    private static void WithoutLayout(JsonValue value)
-    {
-        if (value is JsonObject nested)
-        {
-            _ = WithoutLayout(nested);
-        }
-        else if (value is JsonArray array)
-        {
-            foreach (JsonValue item in array.Items)
-            {
-                WithoutLayout(item);
-            }
-        }
-    }
 }

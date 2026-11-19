@@ -9,7 +9,7 @@ namespace Aow.Formats;
 public static class OwnFormat
 {
     public const string FormatName = "OpenAoW";
-    public const int CurrentVersion = 7;
+    public const int CurrentVersion = 8;
 }
 
 /// <summary>What content detection found (own-formats.md 2.9).</summary>
@@ -29,14 +29,13 @@ public sealed record Classification(DetectedFormat Format, FileProfile? Profile,
 public sealed class ImportResult
 {
     public required JsonObject Document { get; init; }
-    public required LayoutCounts Counts { get; init; }
+    public required IReadOnlyDictionary<string, int> LegacyRules { get; init; }
 }
 
 public sealed class ExportResult
 {
     public required byte[] Bytes { get; init; }
     public required FileProfile Profile { get; init; }
-    public required IReadOnlyList<FormatDiagnostic> Invalidated { get; init; }
 }
 
 public sealed class ReadResult
@@ -91,24 +90,24 @@ public static class GameFiles
             throw new ConversionException(new FormatDiagnostic(Codes.Kind, $"Profile {profile.Name} does not hold kind {kind}.") { File = fileName, Profile = profile.Name });
         }
 
-        LayoutCounts counts = new();
-        ImportSession session = new() { Schema = Schema, Limits = limits ?? FormatLimits.Default, Counts = counts, File = fileName };
+        Dictionary<string, int> legacyRules = [with(StringComparer.Ordinal)];
+        ImportSession session = new() { Schema = Schema, Limits = limits ?? FormatLimits.Default, LegacyRules = legacyRules, File = fileName };
         if (file.LongLength > session.Limits.DecompressedBytes)
         {
             throw new ConversionException(new FormatDiagnostic(Codes.Limit, "The file is too large.") { File = fileName, Offset = 0, Profile = profile.Name });
         }
 
         (JsonObject? container, JsonObject? root) = profile.Import(file, session);
-        return new ImportResult { Document = NewDocument(kind, container, root), Counts = counts };
+        return new ImportResult { Document = NewDocument(kind, container, root), LegacyRules = legacyRules };
     }
 
     /// <summary>Strict export: refuses unrepresentable state, writes nothing partial.</summary>
-    public static ExportResult Export(JsonObject document, ExportOptions? options = null, string? fileName = null, FormatLimits? limits = null)
+    public static ExportResult Export(JsonObject document, string? fileName = null, FormatLimits? limits = null)
     {
         (FileProfile? profile, string _, JsonObject? container, JsonValue? root) = Envelope(document, fileName);
-        EncodeContext context = new(Schema, profile.Engine, profile.Name, fileName, limits ?? FormatLimits.Default, options ?? ExportOptions.Default);
+        EncodeContext context = new(Schema, profile.Engine, profile.Name, fileName, limits ?? FormatLimits.Default);
         byte[] bytes = profile.Export(container, root, context);
-        return new ExportResult { Bytes = bytes, Profile = profile, Invalidated = context.Invalidated };
+        return new ExportResult { Bytes = bytes, Profile = profile };
     }
 
     /// <summary>
@@ -119,7 +118,7 @@ public static class GameFiles
     public static byte[] ExportImage(JsonObject document, string? fileName = null, FormatLimits? limits = null)
     {
         (FileProfile? profile, string _, JsonObject? container, JsonValue? root) = Envelope(document, fileName);
-        return profile.ExportImage(context: new EncodeContext(Schema, profile.Engine, profile.Name, fileName, limits ?? FormatLimits.Default, ExportOptions.Default), container: container, root: root);
+        return profile.ExportImage(context: new EncodeContext(Schema, profile.Engine, profile.Name, fileName, limits ?? FormatLimits.Default), container: container, root: root);
     }
 
     /// <summary>Imports an image the engine wrote, in the profile's game container.</summary>
@@ -130,28 +129,39 @@ public static class GameFiles
             throw new ConversionException(new FormatDiagnostic(Codes.Kind, $"Profile {profile.Name} does not hold kind {kind}.") { File = fileName, Profile = profile.Name });
         }
 
-        LayoutCounts counts = new();
-        ImportSession session = new() { Schema = Schema, Limits = limits ?? FormatLimits.Default, Counts = counts, File = fileName };
+        Dictionary<string, int> legacyRules = [with(StringComparer.Ordinal)];
+        ImportSession session = new() { Schema = Schema, Limits = limits ?? FormatLimits.Default, LegacyRules = legacyRules, File = fileName };
         if (image.LongLength > session.Limits.DecompressedBytes)
         {
             throw new ConversionException(new FormatDiagnostic(Codes.Limit, "The image is too large.") { File = fileName, Offset = 0, Profile = profile.Name });
         }
 
         (JsonObject? container, JsonObject? root) = profile.ImportImage(image, session);
-        return new ImportResult { Document = NewDocument(kind, container, root), Counts = counts };
+        return new ImportResult { Document = NewDocument(kind, container, root), LegacyRules = legacyRules };
     }
 
     /// <summary>
-    /// Unmasked G1 for one original file (own-formats.md 3.3): B of the file against B of the
-    /// export, built from the export's engine image without recompressing. It returns the first
-    /// differing offset in B, or null when the two are equal.
+    /// Rule-based G1 comparison of an original file against its exported round trip
+    /// (own-formats.md 2.5 and 3.3).
+    /// </summary>
+    public static OriginalComparisonResult CompareG1(byte[] file, byte[] exported, FileProfile profile, JsonObject document, string kind, FormatLimits? limits = null) =>
+        OriginalComparison.CompareFile(file, exportedFile: exported, profile: profile, originalDocument: document, kind: kind, schema: Schema, limits: limits ?? FormatLimits.Default);
+
+    /// <summary>
+    /// Rule-based G1 comparison of an original file against its exported engine image without
+    /// recompressing.
+    /// </summary>
+    public static OriginalComparisonResult CompareG1Image(byte[] file, FileProfile profile, JsonObject container, byte[] image, JsonObject? document = null, string? kind = null, FormatLimits? limits = null) =>
+        OriginalComparison.CompareImage(file, exportedImage: image, profile: profile, container: container, originalDocument: document, kind: kind, schema: Schema, limits: limits ?? FormatLimits.Default);
+
+    /// <summary>
+    /// G1 check for one original file (own-formats.md 3.3): returns the first differing offset
+    /// outside declared don't-care rules, or null when the comparison passes.
     /// </summary>
     public static long? FirstG1Difference(byte[] file, FileProfile profile, JsonObject container, byte[] image, FormatLimits? limits = null)
     {
-        byte[] expected = profile.Comparable(file, limits ?? FormatLimits.Default);
-        byte[] actual = profile.ComparableImage(container, image);
-        int common = expected.AsSpan().CommonPrefixLength(actual);
-        return common == expected.Length && common == actual.Length ? null : common;
+        OriginalComparisonResult result = CompareG1Image(file, profile: profile, container: container, image: image, document: null, kind: null, limits: limits);
+        return result.Kind == OriginalMatchKind.Mismatch ? result.FirstDifferenceOffset : null;
     }
 
     internal static JsonObject NewDocument(string kind, JsonObject container, JsonObject root) => new JsonObject()
@@ -288,18 +298,16 @@ public static class GameFiles
     }
 
     /// <summary>
-    /// N(D): parse, validate and write canonical JSON. For the version 1 schema every
-    /// valid document is original-representable, so validation is the strict export and the
-    /// canonical form is the import of its result. Valid residue survives and encoding
-    /// invalidated by edits is reported.
+    /// N(D): parse, validate and write canonical JSON. Strict export validates the document and
+    /// importing its canonical binary produces the canonical JSON output.
     /// </summary>
-    public static (byte[] Bytes, IReadOnlyList<FormatDiagnostic> Invalidated) Normalize(byte[] own, string? fileName = null, FormatLimits? limits = null)
+    public static byte[] Normalize(byte[] own, string? fileName = null, FormatLimits? limits = null)
     {
         ReadResult read = Read(own, fileName, limits);
         (FileProfile? profile, string? kind, JsonObject _, JsonValue _) = Envelope(read.Document, fileName);
-        ExportResult exported = Export(read.Document, null, fileName, limits);
+        ExportResult exported = Export(read.Document, fileName, limits);
         ImportResult imported = Import(exported.Bytes, profile, kind, fileName, limits);
-        return (Write(imported.Document), exported.Invalidated);
+        return Write(imported.Document);
     }
 
     /// <summary>Content detection (own-formats.md 2.9). It never retries binary after a JSON error.</summary>

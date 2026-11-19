@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Security.Cryptography;
 
 using Aow.Formats;
-using Aow.Formats.Json;
 using Aow.Formats.Original;
 using Aow.Formats.Schema;
 using Aow.Game.Saves;
@@ -21,21 +20,22 @@ public sealed class Checker(TextWriter output, TextWriter errors)
     {
         public int Files { get; set; }
         public int OriginalRoundTrips { get; set; }
+        public int Exact { get; set; }
+        public int Masked { get; set; }
+        public int Document { get; set; }
         public int DocumentRoundTrips { get; set; }
         public int StableNormalizations { get; set; }
-        public int Residue { get; set; }
-        public int Parts { get; set; }
     }
 
     private readonly SortedDictionary<string, ProfileTally> _tallies = [with(StringComparer.Ordinal)];
-    private int _originals, _originalRoundTrips, _documentRoundTrips, _stableNormalizations, _ownDocuments, _unknownProperties, _failures, _differences, _layoutParts, _residueFiles;
-    private int _caseResidues, _validated, _refused;
+    private int _originals, _originalRoundTrips, _exactRoundTrips, _maskedRoundTrips, _documentG1RoundTrips, _documentRoundTrips, _stableNormalizations, _ownDocuments, _unknownProperties, _failures, _differences;
+    private int _validated, _refused;
+    private readonly SortedDictionary<string, long> _maskedBytesByRule = [with(StringComparer.Ordinal)];
     private readonly SortedDictionary<string, (int Occurrences, List<string> Files)> _legacy = [with(StringComparer.Ordinal)];
-    private readonly SortedDictionary<string, int> _categories = [with(StringComparer.Ordinal)];
     // The census corpus alone, compared with the pinned expectation.
-    private int _corpusParts, _corpusResidueFiles, _corpusCaseResidues;
-    private readonly SortedDictionary<string, int> _corpusCategories = [with(StringComparer.Ordinal)];
-    private readonly SortedDictionary<string, (int Parts, int Files)> _corpusProfiles = [with(StringComparer.Ordinal)];
+    private int _corpusExact, _corpusMasked, _corpusDocument;
+    private readonly SortedDictionary<string, long> _corpusMaskedRules = [with(StringComparer.Ordinal)];
+    private readonly SortedDictionary<string, ProfileG1Counts> _corpusProfiles = [with(StringComparer.Ordinal)];
     private readonly SortedDictionary<string, (int Occurrences, List<string> Files)> _corpusLegacy = [with(StringComparer.Ordinal)];
     private readonly List<(string Name, string Profile, long Size, long Inflated, double ImportMs, double ExportMs, long Json)> _timings = [];
 
@@ -75,7 +75,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
                     continue;
                 }
                 pinned++;
-                CheckOriginal(row.Identity, bytes, FileProfile.Find(row.Profile), row.Kind, true);
+                CheckOriginal(row.Identity, bytes, FileProfile.Find(row.Profile), row.Kind, inCensus: true);
             }
         }
         foreach (string target in o.Positional)
@@ -89,7 +89,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
         Fixtures.Summary fixtures = Fixtures.Run(errors);
 
         FormatSchema schema = GameFiles.Schema;
-        output.WriteLine($"Corpus: {_originals} original files, {_originalRoundTrips} G1 equal, {_documentRoundTrips} imported documents G2 equal, {_unknownProperties} unknown properties");
+        output.WriteLine($"Corpus: {_originals} original files, {_originalRoundTrips} G1 passed ({_exactRoundTrips} exact, {_maskedRoundTrips} masked, {_documentG1RoundTrips} document), {_documentRoundTrips} imported documents G2 equal, {_unknownProperties} unknown properties");
         output.WriteLine(fixtures.Failed == 0
             ? $"Fixtures: {fixtures.Cases} cases, all expected results matched"
             : $"Fixtures: {fixtures.Cases} cases, {fixtures.Failed} did not match");
@@ -97,7 +97,11 @@ public sealed class Checker(TextWriter output, TextWriter errors)
         output.WriteLine(ownEqual == ownTotal
             ? $"Own: all eligible documents G-own equal ({ownTotal} documents), 0 strict export losses"
             : $"Own: {ownEqual} of {ownTotal} documents G-own equal, 0 strict export losses");
-        output.WriteLine($"Layout: {_layoutParts} parts in {_residueFiles} original files, {_caseResidues} unexpected case residues");
+        output.WriteLine($"G1: {_exactRoundTrips} byte-exact, {_maskedRoundTrips} exact outside marks, {_documentG1RoundTrips} compared as documents");
+        if (_maskedBytesByRule.Count > 0)
+        {
+            output.WriteLine("Masked bytes by rule: " + string.Join(", ", _maskedBytesByRule.Select(r => $"{r.Key} {r.Value}")));
+        }
         output.WriteLine($"Validation: {_validated} imported documents pass the unit validators ({string.Join(", ", FormatMapping.Validators.Select(v => v.Name))}, {FormatMapping.All.Count} mapped classes), {_refused} refused");
         output.WriteLine((census is null
             ? "Schema: unclassified sites not checked without a census, "
@@ -113,14 +117,9 @@ public sealed class Checker(TextWriter output, TextWriter errors)
             output.WriteLine($"Pinned: {pinned} of {expected} census files present with their pinned SHA-256");
         }
 
-        foreach ((string? profile, ProfileTally? t) in _tallies)
+        foreach ((string profile, ProfileTally t) in _tallies)
         {
-            output.WriteLine($"Profile {profile}: {t.Files} files, {t.OriginalRoundTrips} G1, {t.DocumentRoundTrips} G2, {t.StableNormalizations} G-own, {t.Parts} layout parts in {t.Residue} files");
-        }
-
-        if (_categories.Count > 0)
-        {
-            output.WriteLine("Layout parts by category: " + string.Join(", ", _categories.Select(c => $"{c.Key} {c.Value}")));
+            output.WriteLine($"Profile {profile}: {t.Files} files, {t.OriginalRoundTrips} G1 ({t.Exact} exact, {t.Masked} masked, {t.Document} document), {t.DocumentRoundTrips} G2, {t.StableNormalizations} G-own");
         }
 
         output.WriteLine(_legacy.Count == 0 ? "Legacy rules: none fired" :
@@ -135,7 +134,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
         bool drift = false;
         if (expectation is not null)
         {
-            List<string> problems = expectation.Compare(_corpusParts, _corpusResidueFiles, _corpusCategories, _corpusProfiles, _corpusLegacy, _corpusCaseResidues);
+            List<string> problems = expectation.Compare(_corpusExact, _corpusMasked, _corpusDocument, _corpusMaskedRules, _corpusProfiles, _corpusLegacy);
             foreach (string p in problems)
             {
                 errors.WriteLine("expectation drift: " + p);
@@ -143,12 +142,12 @@ public sealed class Checker(TextWriter output, TextWriter errors)
 
             drift = problems.Count > 0;
             output.WriteLine(drift
-                ? $"Expect: {problems.Count} pinned layout counts differ from {o.Expect}"
-                : $"Expect: layout parts, residue files, categories, per-profile residue, legacy rules and case residues match {Path.GetFileName(o.Expect)} ({expectation.Sha256[..12]})");
+                ? $"Expect: {problems.Count} pinned G1 counts differ from {o.Expect}"
+                : $"Expect: G1 counts, masked bytes by rule, per-profile counts and legacy rules match {Path.GetFileName(o.Expect)} ({expectation.Sha256[..12]})");
         }
         else if (census is not null)
         {
-            output.WriteLine("Expect: census only, layout counts are not pinned. Pass the 9.7-1 check expectation file to pin them.");
+            output.WriteLine("Expect: census only, G1 counts are not pinned. Pass the check expectation file to pin them.");
         }
 
         return _failures > 0 || fixtures.Failed > 0 || drift || schema.RegistrationAmbiguities.Count > 0 || (census is not null && pinned != expected)
@@ -179,7 +178,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
         switch (c.Format)
         {
             case DetectedFormat.Original:
-                CheckOriginal(path, bytes, c.Profile, c.Kind!, false);
+                CheckOriginal(path, bytes, c.Profile, c.Kind!, inCensus: false);
                 break;
             case DetectedFormat.OwnJson or DetectedFormat.GzipOwnJson:
                 CheckOwn(path, bytes);
@@ -200,8 +199,8 @@ public sealed class Checker(TextWriter output, TextWriter errors)
         _ownDocuments++;
         try
         {
-            byte[] n1 = GameFiles.Normalize(bytes, name).Bytes;
-            byte[] n2 = GameFiles.Normalize(n1, name).Bytes;
+            byte[] n1 = GameFiles.Normalize(bytes, name);
+            byte[] n2 = GameFiles.Normalize(n1, name);
             if (n1.AsSpan().SequenceEqual(n2))
             {
                 _stableNormalizations++;
@@ -219,10 +218,9 @@ public sealed class Checker(TextWriter output, TextWriter errors)
     }
 
     /// <summary>
-    /// G1: the exported original equals the file under B. G2: importing the export gives the
-    /// same document bytes. G-own: normalizing the document twice equals normalizing it once.
-    /// N(D) is the import of the export of D, which G2 already computes, so when G2 holds N(D) = D
-    /// and N(N(D)) = N(D) follows from N being a function of its input bytes.
+    /// G1: the exported original matches the file under rule-based comparison. G2: importing the
+    /// export gives the same document bytes. G-own: normalizing the document twice equals
+    /// normalizing it once.
     /// </summary>
     private void CheckOriginal(string name, byte[] bytes, FileProfile? profile, string kind, bool inCensus)
     {
@@ -242,12 +240,10 @@ public sealed class Checker(TextWriter output, TextWriter errors)
             byte[] text = GameFiles.Write(imported.Document);
             ReadResult read = GameFiles.Read(text, name);
             watch.Restart();
-            ExportResult exported = GameFiles.Export(read.Document, null, name);
+            ExportResult exported = GameFiles.Export(read.Document, name);
             double exportMilliseconds = watch.Elapsed.TotalMilliseconds;
             byte[] original = profile.Comparable(bytes, FormatLimits.Default);
-            byte[] roundTrip = profile.Comparable(exported.Bytes, FormatLimits.Default);
             _timings.Add((name, profile.Name, bytes.Length, original.Length, importMilliseconds, exportMilliseconds, text.Length));
-            int residues = CountCaseResidues(imported.Document);
             // The unit validators the game runs before it loads (own-formats.md 2.7). A refusal of
             // an original the game loads is a failure of the validators.
             ValidationContext context = new(imported.Document, profile, kind, name);
@@ -264,53 +260,79 @@ public sealed class Checker(TextWriter output, TextWriter errors)
                     Failure(name, "unit validation: " + finding);
                 }
             }
-            _caseResidues += residues;
-            if (imported.Counts.Parts > 0)
-            {
-                _residueFiles++;
-                _layoutParts += imported.Counts.Parts;
-                tally.Residue++;
-                tally.Parts += imported.Counts.Parts;
-            }
-            foreach ((string? category, int count) in imported.Counts.Categories)
-            {
-                _categories[category] = _categories.GetValueOrDefault(category) + count;
-            }
 
-            foreach ((string? rule, int count) in imported.Counts.LegacyRules)
+            foreach ((string rule, int count) in imported.LegacyRules)
             {
                 Add(_legacy, rule, count, name);
             }
 
+            OriginalComparisonResult comparison = GameFiles.CompareG1(bytes, exported: exported.Bytes, profile: profile, document: imported.Document, kind: kind);
+            if (comparison.Kind == OriginalMatchKind.Mismatch)
+            {
+                _differences++;
+                errors.WriteLine($"{name}: G1 differs at byte {comparison.FirstDifferenceOffset ?? 0} of B ({comparison.Detail ?? "outside declared rules"})");
+                return;
+            }
+
+            _originalRoundTrips++;
+            tally.OriginalRoundTrips++;
+            switch (comparison.Kind)
+            {
+                case OriginalMatchKind.Exact:
+                    _exactRoundTrips++;
+                    tally.Exact++;
+                    break;
+                case OriginalMatchKind.Masked:
+                    _maskedRoundTrips++;
+                    tally.Masked++;
+                    foreach ((string rule, long maskedBytes) in comparison.MaskedBytesByRule)
+                    {
+                        _maskedBytesByRule[rule] = _maskedBytesByRule.GetValueOrDefault(rule) + maskedBytes;
+                    }
+
+                    break;
+                case OriginalMatchKind.Document:
+                    _documentG1RoundTrips++;
+                    tally.Document++;
+                    break;
+                case OriginalMatchKind.Mismatch:
+                default:
+                    break;
+            }
+
             if (inCensus)
             {
-                _corpusCaseResidues += residues;
-                if (imported.Counts.Parts > 0)
-                {
-                    _corpusResidueFiles++;
-                    _corpusParts += imported.Counts.Parts;
-                    (int parts, int files) = _corpusProfiles.GetValueOrDefault(profile.Name);
-                    _corpusProfiles[profile.Name] = (parts + imported.Counts.Parts, files + 1);
-                }
-                foreach ((string? category, int count) in imported.Counts.Categories)
-                {
-                    _corpusCategories[category] = _corpusCategories.GetValueOrDefault(category) + count;
-                }
-
-                foreach ((string? rule, int count) in imported.Counts.LegacyRules)
+                foreach ((string rule, int count) in imported.LegacyRules)
                 {
                     Add(_corpusLegacy, rule, count, name);
                 }
+
+                ProfileG1Counts profileCounts = _corpusProfiles.GetValueOrDefault(profile.Name);
+                switch (comparison.Kind)
+                {
+                    case OriginalMatchKind.Exact:
+                        _corpusExact++;
+                        _corpusProfiles[profile.Name] = profileCounts with { Exact = profileCounts.Exact + 1 };
+                        break;
+                    case OriginalMatchKind.Masked:
+                        _corpusMasked++;
+                        _corpusProfiles[profile.Name] = profileCounts with { Masked = profileCounts.Masked + 1 };
+                        foreach ((string rule, long maskedBytes) in comparison.MaskedBytesByRule)
+                        {
+                            _corpusMaskedRules[rule] = _corpusMaskedRules.GetValueOrDefault(rule) + maskedBytes;
+                        }
+
+                        break;
+                    case OriginalMatchKind.Document:
+                        _corpusDocument++;
+                        _corpusProfiles[profile.Name] = profileCounts with { Document = profileCounts.Document + 1 };
+                        break;
+                    case OriginalMatchKind.Mismatch:
+                    default:
+                        break;
+                }
             }
-            if (!original.AsSpan().SequenceEqual(roundTrip))
-            {
-                _differences++;
-                int at = original.AsSpan().CommonPrefixLength(roundTrip);
-                errors.WriteLine($"{name}: G1 differs at byte {at} of B ({original.Length} and {roundTrip.Length} bytes)");
-                return;
-            }
-            _originalRoundTrips++;
-            tally.OriginalRoundTrips++;
+
             ImportResult again = GameFiles.Import(exported.Bytes, profile, kind, name);
             byte[] text2 = GameFiles.Write(again.Document);
             if (!text.AsSpan().SequenceEqual(text2))
@@ -346,42 +368,5 @@ public sealed class Checker(TextWriter output, TextWriter errors)
 
         entry.Files.Add(file);
         map[rule] = (entry.Occurrences + count, entry.Files);
-    }
-
-    /// <summary>Semantic $residue members in a document: meaningful values outside a mapped case.</summary>
-    internal static int CountCaseResidues(JsonValue value)
-    {
-        int count = 0;
-        Stack<JsonValue> pending = new();
-        pending.Push(value);
-        while (pending.Count > 0)
-        {
-            switch (pending.Pop())
-            {
-                case JsonObject objectValue:
-                    foreach (JsonMember m in objectValue.Members)
-                    {
-                        if (m.Name == "$residue")
-                        {
-                            count++;
-                        }
-                        else
-                        {
-                            pending.Push(m.Value);
-                        }
-                    }
-                    break;
-                case JsonArray array:
-                    foreach (JsonValue item in array.Items)
-                    {
-                        pending.Push(item);
-                    }
-
-                    break;
-                default:
-                    break;
-            }
-        }
-        return count;
     }
 }

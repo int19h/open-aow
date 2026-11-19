@@ -125,7 +125,6 @@ type,ExceptionCensus,Aow.Rtl.Host.ExceptionCensus
 type,ExecuteEventLogNotification,Aow.Game.Events.ExecuteEventLogNotification
 type,Expectation,Aow.Convert.Expectation
 type,ExpectationException,Aow.Convert.ExpectationException
-type,ExportOptions,Aow.Formats.Original.ExportOptions
 type,ExportResult,Aow.Formats.ExportResult
 type,FakeClock,Aow.Verification.FakeClock
 type,FieldAccessor,Aow.Game.World.Map.MapLevel.FieldAccessor
@@ -236,10 +235,6 @@ type,KeyView`2,Aow.Game.UI.Controls.EventSlot.KeyView`2
 type,KindCases,Aow.Game.Saves.KindCases
 type,LayerText,Aow.Game.UI.Dialogs.LayerText
 type,LayeredFileSystem,Aow.Platform.LayeredFileSystem
-type,LayoutBuilder,Aow.Formats.Original.LayoutBuilder
-type,LayoutCounts,Aow.Formats.Original.LayoutCounts
-type,LayoutReader,Aow.Formats.Original.LayoutReader
-type,LayoutResidue,Aow.Formats.Original.LayoutResidue
 type,LayoutSession,Aow.Game.Layout.LayoutSession
 type,LayoutStrings,Aow.Game.Layout.LayoutStrings
 type,LayoutTGDPlay,Aow.Game.Layout.LayoutDirectPlay

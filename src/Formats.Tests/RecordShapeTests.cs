@@ -104,11 +104,11 @@ public sealed class RecordShapeTests : FormatsTest
         SchemaClass classValue = schema.Get("THolder");
         SchemaProperty property = classValue.PropertyByName("Behavior")!;
         byte[] raw = [2, 0x11, 0x22, 0x33, 9, 0, 0, 0];
-        DecodeContext decode = new(raw, schema, "game", "game", null, FormatLimits.Default, new LayoutCounts());
+        DecodeContext decode = new(raw, schema, "game", "game", null, FormatLimits.Default);
         ValueSite site = new() { Property = property, Id = property.Id ?? 0, Path = DocumentNodePath.Root.Member("Behavior"), Owner = new JsonObject() };
         JsonObject decoded = (JsonObject)property.Codec.Decode(decode, 0, raw.Length, site);
         Assert.Equal(["PlayerType", "Flags"], decoded.Members.Select(m => m.Name).ToList());
-        EncodeContext encode = new(schema, "game", "game", null, FormatLimits.Default, ExportOptions.Default);
+        EncodeContext encode = new(schema, "game", "game", null, FormatLimits.Default);
         ByteBuffer written = new();
         property.Codec.Encode(encode, decoded, written, site);
         Assert.Equal([2, 0, 0, 0, 9, 0, 0, 0], written.ToArray());
@@ -271,13 +271,13 @@ public sealed class RecordShapeTests : FormatsTest
         FormatSchema schema = Sample;
         SchemaClass classValue = schema.Get("THolder");
         SchemaProperty behavior = classValue.PropertyByName("Behavior")!;
-        DecodeContext shortRecord = new(new byte[7], schema, "game", "game", null, FormatLimits.Default, new LayoutCounts());
+        DecodeContext shortRecord = new(new byte[7], schema, "game", "game", null, FormatLimits.Default);
         ValueSite recordSite = new() { Property = behavior, Id = behavior.Id ?? 0, Path = DocumentNodePath.Root.Member("Behavior"), Owner = new JsonObject() };
         ConversionException size = Assert.Throws<ConversionException>(() => behavior.Codec.Decode(shortRecord, 0, 7, recordSite));
         Assert.Equal(Codes.Corrupt, size.Diagnostic.Code);
         SchemaProperty bits = classValue.PropertyByName("Bits")!;
         JsonObject owner = new JsonObject().Add("AbCount", new JsonInteger(8));
-        DecodeContext shortBits = new(new byte[2], schema, "game", "game", null, FormatLimits.Default, new LayoutCounts());
+        DecodeContext shortBits = new(new byte[2], schema, "game", "game", null, FormatLimits.Default);
         ValueSite bitSite = new() { Property = bits, Id = bits.Id ?? 0, Path = DocumentNodePath.Root.Member("Bits"), Owner = owner };
         ConversionException length = Assert.Throws<ConversionException>(() => bits.Codec.Decode(shortBits, 0, 2, bitSite));
         Assert.Equal(Codes.Range, length.Diagnostic.Code);
@@ -326,14 +326,14 @@ public sealed class RecordShapeTests : FormatsTest
             byte[] bytes = new byte[4];
             BinaryPrimitives.WriteUInt32LittleEndian(bytes, number);
             ValueSite site = new() { Property = property, Id = property.Id ?? 0, Path = DocumentNodePath.Root.Member("Value").Member("U32"), Owner = new JsonObject() };
-            JsonValue decoded = codec.Decode(new DecodeContext(bytes, schema, "game", "game", null, FormatLimits.Default, new LayoutCounts()), 0, 4, site);
+            JsonValue decoded = codec.Decode(new DecodeContext(bytes, schema, "game", "game", null, FormatLimits.Default), 0, 4, site);
             Assert.Equal(number, ((JsonInteger)decoded).Value);
-            EncodeContext encode = new(schema, "game", "game", null, FormatLimits.Default, ExportOptions.Default);
+            EncodeContext encode = new(schema, "game", "game", null, FormatLimits.Default);
             ByteBuffer buffer = new();
             codec.Encode(encode, decoded, buffer, site);
             Assert.Equal(bytes, buffer.ToArray());
             ImageFrame frame = new() { Property = property, Id = property.Id ?? 0, Path = site.Path };
-            IntegerNode read = (IntegerNode)codec.ReadImage(new DecodeContext(bytes, schema, "game", "game", null, FormatLimits.Default, new LayoutCounts()), 0, 4, frame);
+            IntegerNode read = (IntegerNode)codec.ReadImage(new DecodeContext(bytes, schema, "game", "game", null, FormatLimits.Default), 0, 4, frame);
             Assert.Equal(4, read.Width);
             Assert.False(read.Signed);
             Assert.Equal(number, read.Value);
@@ -445,7 +445,7 @@ public sealed class RecordShapeTests : FormatsTest
     private static ConversionException Converter(JsonObject document)
     {
         FormatSchema schema = Sample;
-        EncodeContext context = new(schema, "game", "game", null, FormatLimits.Default, ExportOptions.Default);
+        EncodeContext context = new(schema, "game", "game", null, FormatLimits.Default);
         return Assert.Throws<ConversionException>(() => ObjectImage.Encode(context, document, schema.Get("THolder"), new ByteBuffer(), DocumentNodePath.Root));
     }
 

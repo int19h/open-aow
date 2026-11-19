@@ -79,14 +79,6 @@ public sealed class CliTests : FormatsTest, IDisposable
         Assert.Equal(Program.Error, Run("normalize", In("a.ahl"), In("a.ahl"), "--overwrite").Code);
     }
 
-    [Fact]
-    public void ExactLayoutConflictsWithLossyExport()
-    {
-        (int code, _, string errors) = Run("to-original", "a", "b", "--exact-layout", "--allow-lossy");
-        Assert.Equal(Program.Error, code);
-        Assert.Contains("conflicts", errors);
-    }
-
     [GameFact]
     public void DirectoryTreesMayNotOverlap()
     {
@@ -151,12 +143,12 @@ public sealed class CliTests : FormatsTest, IDisposable
     }
 
     [GameFact]
-    public void InfoReportsProfileKindAndResidue()
+    public void InfoReportsProfileKindAndLegacyRules()
     {
         (int code, string output, _) = Run("info", HeroList);
         Assert.Equal(Program.Success, code);
         Assert.Contains("Profile: hero-list, kind hero-list, version " + OwnFormat.CurrentVersion, output);
-        Assert.Contains("Residue: 0 layout parts", output);
+        Assert.Contains("Legacy rules: none", output);
     }
 
     [Fact]

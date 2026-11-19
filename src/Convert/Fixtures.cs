@@ -26,10 +26,10 @@ public static partial class Fixtures
     [
         with(StringComparer.Ordinal),
         "lists/empty hero list", "lists/empty item list", "unknown/unknown stored class id", "unknown/unknown property id",
+        "unknown/$layout is refused as an unknown reserved member",
         "strings/long prefix for a short string", "strings/all 256 code page bytes",
         "layout/long table entries and a gap after a Boolean", "layout/a noncanonical table order",
-        "layout/an edit invalidates the layout and export rebuilds it", "layout/--exact-layout refuses a stale layout",
-        "layout/a part that does not fit is an error, not a cleanup", "gzip/bounded gzip",
+        "gzip/bounded gzip",
         "gzip/a damaged own document never falls back to binary", "diagnostics/duplicate JSON member with both locations",
         "diagnostics/a binary error gives the offset and the profile", "diagnostics/trailing commas and comments fail",
         "diagnostics/a newer version fails with both numbers", "diagnostics/an older version fails and asks for a new conversion",
@@ -135,15 +135,21 @@ public static partial class Fixtures
     // ---- Checks ------------------------------------------------------------------------------
 
     /// <summary>G1 and G2 over one original file, and G-own over its document.</summary>
-    private static Outcome RoundTrip(byte[] file, string profile, string kind, Func<JsonObject, string?>? inspect = null)
+    private static Outcome RoundTrip(byte[] file, string profile, string kind, Func<JsonObject, string?>? inspect = null, OriginalMatchKind? expectedKind = null)
     {
         FileProfile p = FindProfile(profile);
         ImportResult imported = GameFiles.Import(file, p, kind);
         byte[] text = GameFiles.Write(imported.Document);
         ExportResult exported = GameFiles.Export(GameFiles.Read(text).Document);
-        if (!p.Comparable(file, FormatLimits.Default).AsSpan().SequenceEqual(p.Comparable(exported.Bytes, FormatLimits.Default)))
+        OriginalComparisonResult comparison = GameFiles.CompareG1(file, exported: exported.Bytes, profile: p, document: imported.Document, kind: kind);
+        if (comparison.Kind == OriginalMatchKind.Mismatch)
         {
-            return Fail("G1 differs");
+            return Fail($"G1 differs at {comparison.FirstDifferenceOffset}: {comparison.Detail}");
+        }
+
+        if (expectedKind is { } required && comparison.Kind != required)
+        {
+            return Fail($"G1 expected {required}, got {comparison.Kind}");
         }
 
         byte[] again = GameFiles.Write(GameFiles.Import(exported.Bytes, p, kind).Document);
@@ -152,12 +158,12 @@ public static partial class Fixtures
             return Fail("G2 differs");
         }
 
-        byte[] n1 = GameFiles.Normalize(text).Bytes;
-        return !GameFiles.Normalize(n1).Bytes.AsSpan().SequenceEqual(n1)
+        byte[] n1 = GameFiles.Normalize(text);
+        return !GameFiles.Normalize(n1).AsSpan().SequenceEqual(n1)
             ? Fail("G-own differs")
             : inspect?.Invoke(imported.Document) is string problem
             ? Fail(problem)
-            : Pass($"G1, G2 and G-own hold, {imported.Counts.Parts} layout parts", 1);
+            : Pass($"G1 ({comparison.Kind}), G2 and G-own hold", 1);
     }
 
     /// <summary>G2 and G-own for an own document: the import of its export is its normal form.</summary>
@@ -178,10 +184,10 @@ public static partial class Fixtures
             return Fail("G2 differs");
         }
 
-        byte[] n1 = GameFiles.Normalize(GameFiles.Write(document)).Bytes;
+        byte[] n1 = GameFiles.Normalize(GameFiles.Write(document));
         return !n1.AsSpan().SequenceEqual(text)
             ? Fail("N(D) differs from the import of the export")
-            : !GameFiles.Normalize(n1).Bytes.AsSpan().SequenceEqual(n1)
+            : !GameFiles.Normalize(n1).AsSpan().SequenceEqual(n1)
             ? Fail("G-own differs")
             : inspect?.Invoke(normal, exported.Bytes) is string problem ? Fail(problem) : Pass("G2 and G-own hold", 1);
     }

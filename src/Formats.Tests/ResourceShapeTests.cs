@@ -106,12 +106,16 @@ public sealed class ResourceShapeTests : FormatsTest
     }
 
     [Fact]
-    public void AnImageLibraryIsBase64()
+    public void AnImageLibraryIsBase64WithNormalizedHeaderPadding()
     {
         byte[] bytes = Library();
+        byte[] normalized = (byte[])bytes.Clone();
+        normalized[5] = 0;
+        normalized[6] = 0;
+        normalized[7] = 0;
         JsonValue value = Decode("MapObjectResource", "ImageLibrary", bytes);
-        Assert.Equal("""{"$ilb":"BElMQgAWUFUAAIBAGAAAACAAAAAgAAAAAAAAAP////8="}""", Compact(value));
-        Assert.Equal(bytes, Encode("MapObjectResource", "ImageLibrary", value));
+        Assert.Equal($$"""{"$ilb":"{{System.Convert.ToBase64String(normalized)}}"}""", Compact(value));
+        Assert.Equal(normalized, Encode("MapObjectResource", "ImageLibrary", value));
     }
 
     [Theory]
@@ -160,22 +164,11 @@ public sealed class ResourceShapeTests : FormatsTest
     }
 
     [Fact]
-    public void ABooleanByteTheWriterDoesNotMakeBecomesALayoutPart()
+    public void ABooleanByteOtherThanZeroOrOneReadsAsTrueAndWritesOne()
     {
         byte[] bytes = Sequences(nil: 2, next: 5);
-        SchemaProperty prop = Property("MapObjectResource", "ImageSequenceList");
-        DecodeContext context = new(bytes, s_schema, "game", "world-hsm", "resources.json", FormatLimits.Default, new LayoutCounts());
-        LayoutBuilder builder = new();
-        JsonObject owner = new();
-        JsonValue value = prop.Codec.Decode(context, 0, bytes.Length, new ValueSite { Property = prop, Id = 10, Path = DocumentNodePath.Root.Member("ImageSequenceList"), Owner = owner, Builder = builder });
+        JsonValue value = Decode("MapObjectResource", "ImageSequenceList", bytes);
         Assert.Equal(SequencesText, Compact(value));
-        _ = owner.Add("ImageSequenceList", value);
-        builder.Attach(owner, "world-hsm", new LayoutCounts());
-        EncodeContext encode = new(s_schema, "game", "world-hsm", "resources.json", FormatLimits.Default, ExportOptions.Default);
-        LayoutReader reader = LayoutReader.Read(encode, owner, DocumentNodePath.Root)!;
-        ByteBuffer data = new();
-        prop.Codec.Encode(encode, value, data, new ValueSite { Property = prop, Id = 10, Path = DocumentNodePath.Root.Member("ImageSequenceList"), Owner = owner, Reader = reader });
-        Assert.Equal(bytes, data.ToArray());
         Assert.Equal(Sequences(nil: 1, next: 1), Encode("MapObjectResource", "ImageSequenceList", value));
     }
 
@@ -350,7 +343,7 @@ public sealed class ResourceShapeTests : FormatsTest
     private static TreeValue Node(string className, string property, byte[] value)
     {
         SchemaProperty prop = Property(className, property);
-        DecodeContext context = new(value, s_schema, "game", "game", null, FormatLimits.Default, new LayoutCounts());
+        DecodeContext context = new(value, s_schema, "game", "game", null, FormatLimits.Default);
         return prop.Codec.ReadImage(context, 0, value.Length, new ImageFrame { Property = prop, Id = prop.Id ?? 0, Path = DocumentNodePath.Root.Member(property) });
     }
 
@@ -377,18 +370,15 @@ public sealed class ResourceShapeTests : FormatsTest
     private static JsonValue Decode(string className, string property, byte[] bytes, JsonObject? owner = null)
     {
         SchemaProperty prop = Property(className, property);
-        DecodeContext context = new(bytes, s_schema, "game", "world-hsm", "resources.json", FormatLimits.Default, new LayoutCounts());
-        LayoutBuilder builder = new();
-        ValueSite site = new() { Property = prop, Id = prop.Id ?? 0, Path = DocumentNodePath.Root.Member(property), Owner = owner ?? new JsonObject(), Builder = builder };
-        JsonValue value = prop.Codec.Decode(context, 0, bytes.Length, site);
-        Assert.Empty(builder.Parts);
-        return value;
+        DecodeContext context = new(bytes, s_schema, "game", "world-hsm", "resources.json", FormatLimits.Default);
+        ValueSite site = new() { Property = prop, Id = prop.Id ?? 0, Path = DocumentNodePath.Root.Member(property), Owner = owner ?? new JsonObject() };
+        return prop.Codec.Decode(context, 0, bytes.Length, site);
     }
 
     private static byte[] Encode(string className, string property, JsonValue value, JsonObject? owner = null)
     {
         SchemaProperty prop = Property(className, property);
-        EncodeContext context = new(s_schema, "game", "world-hsm", "resources.json", FormatLimits.Default, ExportOptions.Default);
+        EncodeContext context = new(s_schema, "game", "world-hsm", "resources.json", FormatLimits.Default);
         ByteBuffer data = new();
         prop.Codec.Encode(context, value, data, new ValueSite { Property = prop, Id = prop.Id ?? 0, Path = DocumentNodePath.Root.Member(property), Owner = owner ?? new JsonObject() });
         return data.ToArray();

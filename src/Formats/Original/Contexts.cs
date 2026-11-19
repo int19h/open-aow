@@ -4,43 +4,13 @@ using Aow.Formats.Schema;
 
 namespace Aow.Formats.Original;
 
-/// <summary>Counts of layout residue kept while importing, for the check summary.</summary>
-public sealed class LayoutCounts
-{
-    public int Parts { get; set; }
-    public int Objects { get; set; }
-    public Dictionary<string, int> Categories { get; } = [with(StringComparer.Ordinal)];
-    public Dictionary<string, int> LegacyRules { get; } = [with(StringComparer.Ordinal)];
-
-    public void Add(string category)
-    {
-        Parts++;
-        Categories[category] = Categories.GetValueOrDefault(category) + 1;
-    }
-
-    public void Merge(LayoutCounts other)
-    {
-        Parts += other.Parts;
-        Objects += other.Objects;
-        foreach ((string? k, int v) in other.Categories)
-        {
-            Categories[k] = Categories.GetValueOrDefault(k) + v;
-        }
-
-        foreach ((string? k, int v) in other.LegacyRules)
-        {
-            LegacyRules[k] = LegacyRules.GetValueOrDefault(k) + v;
-        }
-    }
-}
-
 /// <summary>The state of one original import: the bytes, the engine table and the limits.</summary>
 public sealed class DecodeContext
 {
     private long _nodes;
     private int _depth;
 
-    internal DecodeContext(byte[] data, FormatSchema schema, string engine, string profile, string? file, FormatLimits limits, LayoutCounts counts)
+    internal DecodeContext(byte[] data, FormatSchema schema, string engine, string profile, string? file, FormatLimits limits, Dictionary<string, int>? legacyRules = null)
     {
         Data = data;
         Schema = schema;
@@ -48,7 +18,7 @@ public sealed class DecodeContext
         Profile = profile;
         File = file;
         Limits = limits;
-        Counts = counts;
+        LegacyRules = legacyRules ?? [with(StringComparer.Ordinal)];
     }
 
     public byte[] Data { get; }
@@ -57,7 +27,7 @@ public sealed class DecodeContext
     public string Profile { get; }
     public string? File { get; }
     public FormatLimits Limits { get; }
-    public LayoutCounts Counts { get; }
+    public Dictionary<string, int> LegacyRules { get; }
 
     /// <summary>Set for a nested image: diagnostics name the enclosing property.</summary>
     public string? Nested { get; init; }
@@ -116,14 +86,13 @@ public sealed class EncodeContext
 {
     private int _depth;
 
-    internal EncodeContext(FormatSchema schema, string engine, string profile, string? file, FormatLimits limits, ExportOptions options)
+    internal EncodeContext(FormatSchema schema, string engine, string profile, string? file, FormatLimits limits)
     {
         Schema = schema;
         Engine = engine;
         Profile = profile;
         File = file;
         Limits = limits;
-        Options = options;
     }
 
     public FormatSchema Schema { get; }
@@ -131,10 +100,6 @@ public sealed class EncodeContext
     public string Profile { get; }
     public string? File { get; }
     public FormatLimits Limits { get; }
-    public ExportOptions Options { get; }
-
-    /// <summary>Encoding identity that a stale fingerprint or an edit discarded.</summary>
-    public List<FormatDiagnostic> Invalidated { get; } = [];
 
     public ConversionException Fail(string code, string message, JsonValue? at, DocumentNodePath path, string? value = null, string? constraint = null) =>
         new(new FormatDiagnostic(code, message)
@@ -155,14 +120,6 @@ public sealed class EncodeContext
     }
 
     public void Leave() => _depth--;
-}
-
-public sealed record ExportOptions
-{
-    /// <summary>Refuse to rebuild any part whose retained exact layout is stale or missing.</summary>
-    public bool ExactLayout { get; init; }
-
-    public static ExportOptions Default { get; } = new();
 }
 
 /// <summary>One entry of a stored property table.</summary>

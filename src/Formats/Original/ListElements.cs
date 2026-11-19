@@ -18,7 +18,7 @@ internal abstract class ListElement
 
     /// <summary>A context for <see cref="Write"/> where only an encode context exists.</summary>
     internal static DecodeContext Decoding(EncodeContext context) =>
-        new([], context.Schema, context.Engine, context.Profile, context.File, context.Limits, new LayoutCounts());
+        new([], context.Schema, context.Engine, context.Profile, context.File, context.Limits);
 }
 
 /// <summary>An enum byte: the C# member name, or the integer when the enum declares no such member.</summary>
@@ -53,7 +53,7 @@ internal sealed class RecordListElement : ListElement
     internal override JsonValue Write(long value, DecodeContext context, DocumentNodePath path)
     {
         byte[] bytes = IntegerBytes.Bytes(value, 4);
-        DecodeContext nested = new(bytes, context.Schema, context.Engine, context.Profile, context.File, context.Limits, new LayoutCounts());
+        DecodeContext nested = new(bytes, context.Schema, context.Engine, context.Profile, context.File, context.Limits);
         return _codec.Decode(nested, 0, bytes.Length, Site(path));
     }
 

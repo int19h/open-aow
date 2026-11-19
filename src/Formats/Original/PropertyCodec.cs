@@ -356,22 +356,11 @@ internal sealed partial class StringCodec : PropertyCodec
             length = context.Int32(at);
             at += 4;
         }
-        if (length < 0 || at + (long)length != end)
-        {
-            throw Mismatch(context, start, site, $"A string of {length} bytes does not fill its {end - start} stored bytes.");
-        }
-
-        if (length > context.Limits.StringBytes)
-        {
-            throw context.Fail(Codes.Limit, "A string is too long.", start, site.Path, Text(length), $"at most {context.Limits.StringBytes} bytes");
-        }
-
-        if (longPrefix && length < 255)
-        {
-            site.Builder?.ValuePrefix(site.Id);
-        }
-
-        return new JsonString(TextCodec.Decode(context.Data.AsSpan(at, length)));
+        return length < 0 || at + (long)length != end
+            ? throw Mismatch(context, start, site, $"A string of {length} bytes does not fill its {end - start} stored bytes.")
+            : length > context.Limits.StringBytes
+            ? throw context.Fail(Codes.Limit, "A string is too long.", start, site.Path, Text(length), $"at most {context.Limits.StringBytes} bytes")
+            : new JsonString(TextCodec.Decode(context.Data.AsSpan(at, length)));
     }
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
@@ -382,7 +371,7 @@ internal sealed partial class StringCodec : PropertyCodec
         }
 
         byte[] bytes = TextCodec.Encode(context, s.Value, value, site.Path);
-        if (bytes.Length >= 255 || site.Reader?.Prefixes.Contains(site.Id) == true)
+        if (bytes.Length >= 255)
         {
             data.Byte(255);
             data.Int32(bytes.Length);
@@ -632,7 +621,7 @@ internal sealed partial class DataCodec(int? size) : PropertyCodec
     {
         return size is int n && end - start != n
             ? throw Mismatch(context, start, site, $"A record of {n} bytes is stored in {end - start} bytes.")
-            : (JsonValue)new JsonString(LayoutResidue.Hex(context.Data.AsSpan(start, end - start)));
+            : (JsonValue)new JsonString(HexText.Encode(context.Data.AsSpan(start, end - start)));
     }
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
@@ -669,7 +658,7 @@ internal sealed class FloatCodec(int width) : PropertyCodec
     {
         return end - start != width
             ? throw Mismatch(context, start, site, $"A {width * 8}-bit float is stored in {end - start} bytes.")
-            : (JsonValue)new JsonObject().Add("$bits", new JsonString(LayoutResidue.Hex(context.Data.AsSpan(start, width))));
+            : (JsonValue)new JsonObject().Add("$bits", new JsonString(HexText.Encode(context.Data.AsSpan(start, width))));
     }
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)

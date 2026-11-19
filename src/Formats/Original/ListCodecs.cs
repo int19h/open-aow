@@ -1,13 +1,12 @@
 using System.Buffers.Binary;
 using Aow.Formats.Json;
-using Aow.Formats.Schema;
 
 namespace Aow.Formats.Original;
 
 /// <summary>
 /// TIntegerList and TByteList streams: the default value, the 32-bit count, then the values
 /// where a default value is followed by a run length. The document holds the default and the
-/// decoded items. A run split the writer does not make is kept as a value-encoding part.
+/// decoded items. Export writes the canonical runs (Engine.pas 3499).
 /// The tree holds a <see cref="Tree.DefaultListNode"/>. The direct path writes the canonical runs,
 /// splitting a byte run longer than 255, and reads any run split the stream decodes.
 /// From version 4 an element names the enum or the record each value is, and the schema
@@ -151,20 +150,11 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
         return new JsonObject().Add("default", Value(defense, context, site.Path.Member("default"))).Add("items", array);
     }
 
-    /// <summary>The default and the items of a stored list. A run split the writer does not make becomes a value-encoding part.</summary>
-    internal List<long> DecodeRuns(DecodeContext context, int start, int end, ValueSite site, out long defense)
-    {
-        List<long> items = Parse(context, start, end, site, out defense);
-        byte[] bytes = Canonical(defense, items);
-        if (!bytes.AsSpan().SequenceEqual(context.Data.AsSpan(start, end - start)))
-        {
-            site.Builder?.ValueEncoding(site.Id, context.Data.AsSpan(start, end - start));
-        }
+    /// <summary>The default and the items of a stored list.</summary>
+    internal List<long> DecodeRuns(DecodeContext context, int start, int end, ValueSite site, out long defense) =>
+        Parse(context, start, end, site, out defense);
 
-        return items;
-    }
-
-    private List<long> Parse(DecodeContext context, int start, int end, ValueSite site, out long defense)
+    internal List<long> Parse(DecodeContext context, int start, int end, ValueSite site, out long defense)
     {
         context.Need(start, width + 4, end, site.Path, "list header");
         defense = Read(context.Data, start);
@@ -288,40 +278,12 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
             items.Add(Item(array.Items[i], site.Path.Member("items").Item(i)));
         }
 
-        EncodeRuns(context, defense, items, data, site);
+        EncodeRuns(defense, items, data);
     }
 
-    /// <summary>Writes the canonical runs, or the retained encoding when it decodes to the same list.</summary>
-    internal void EncodeRuns(EncodeContext context, long defense, List<long> items, ByteBuffer data, ValueSite site)
-    {
-        byte[] bytes = Canonical(defense, items);
-        if (site.Reader?.Encodings.TryGetValue(site.Id, out (byte[] Bytes, JsonValue At) retained) == true)
-        {
-            // The retained encoding is used only if it decodes to the visible list.
-            if (!SameList(retained.Bytes, defense, items))
-            {
-                throw context.Fail(Codes.Layout, "A retained list encoding does not decode to the visible list.", retained.At, site.Path);
-            }
-
-            bytes = retained.Bytes;
-        }
-        data.Bytes(bytes);
-    }
-
-    private bool SameList(byte[] bytes, long defense, List<long> items)
-    {
-        try
-        {
-            DecodeContext probe = new(bytes, FormatSchema.Current, "game", "", null, FormatLimits.Default, new LayoutCounts());
-            ValueSite site = new() { Property = null!, Id = 0, Path = DocumentNodePath.Root, Owner = new JsonObject() };
-            List<long> parsed = Parse(probe, 0, bytes.Length, site, out long d);
-            return d == defense && parsed.SequenceEqual(items);
-        }
-        catch (ConversionException)
-        {
-            return false;
-        }
-    }
+    /// <summary>Writes the canonical runs.</summary>
+    internal void EncodeRuns(long defense, List<long> items, ByteBuffer data) =>
+        data.Bytes(Canonical(defense, items));
 }
 
 /// <summary>
@@ -394,7 +356,7 @@ internal sealed class GroupedListCodec(int size, string? domain = null) : Proper
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
     {
         (long defense, List<long>? items) = Flat(context, value, site.Path, site.Property?.Name ?? "The value");
-        _flat.EncodeRuns(context, defense, items, data, site);
+        _flat.EncodeRuns(defense, items, data);
     }
 
     private JsonObject Document(long defense, IReadOnlyList<long> items)
@@ -560,7 +522,7 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
         if (!Indices)
         {
             return new JsonObject().Add("default", new JsonInteger(node.Default)).Add("count", new JsonInteger(node.Count))
-                .Add("bits", new JsonString(LayoutResidue.Hex(Bits(node))));
+                .Add("bits", new JsonString(HexText.Encode(Bits(node))));
         }
 
         JsonArray bits = new();
@@ -616,7 +578,7 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
             byte expected = ExpectedTail(defaultValue, count);
             if (tail != expected)
             {
-                throw context.Fail(Codes.Range, "Bits past the bit list count do not match the default bit.", tailOffset, path, LayoutResidue.Hex([tail]), LayoutResidue.Hex([expected]));
+                throw context.Fail(Codes.Range, "Bits past the bit list count do not match the default bit.", tailOffset, path, HexText.Encode([tail]), HexText.Encode([expected]));
             }
         }
 
@@ -647,7 +609,7 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
         if (!Indices)
         {
             return new JsonObject().Add("default", new JsonInteger(defaultValue)).Add("count", new JsonInteger(count))
-                .Add("bits", new JsonString(LayoutResidue.Hex(bitBytes)));
+                .Add("bits", new JsonString(HexText.Encode(bitBytes)));
         }
 
         JsonArray bits = new();
@@ -717,7 +679,7 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
                 byte expected = ExpectedTail(defense, (int)count.Value);
                 if (tail != expected)
                 {
-                    throw context.Fail(Codes.Range, "Bits past the bit list count do not match the default bit.", objectValue["bits"], site.Path.Member("bits"), LayoutResidue.Hex([tail]), LayoutResidue.Hex([expected]));
+                    throw context.Fail(Codes.Range, "Bits past the bit list count do not match the default bit.", objectValue["bits"], site.Path.Member("bits"), HexText.Encode([tail]), HexText.Encode([expected]));
                 }
             }
         }
