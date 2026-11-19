@@ -81,7 +81,7 @@ public sealed class PanelCoordinatesTests
         Place(list, panel, 60, 10, 80, 40);
         for (int i = 0; i < 6; i++)
         {
-            _ = list.Items.Add("item" + i);
+            _ = list.Items.Add($"item{i}");
         }
 
         Set<ShiftState> shift = default;

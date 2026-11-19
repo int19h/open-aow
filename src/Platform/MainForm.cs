@@ -94,7 +94,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
     private void FormCreate()
     {
         CombatClasses.Register(UI.Engine);
-        UI.Engine.InitializeHexSpriteSet(UI.Engine.StartupDirectory + "RELEASE\\RELEASE.HSS", null);
+        UI.Engine.InitializeHexSpriteSet($"{UI.Engine.StartupDirectory}RELEASE\\RELEASE.HSS", null);
         _windowState = UI.Engine.Registry.GetMainWindowState();
         UI.SoundDialog.MusicVolumeSlider.Position = UI.Engine.Registry.GetMusicVolume();
         UI.SoundDialog.EffectsVolumeSlider.Position = UI.Engine.Registry.GetSfxVolume();
@@ -154,7 +154,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
     private void FormShow(string argument)
     {
         AudioHost.SongPlayer.SetSongChangeHandler(_ => UI.SoundDialog.SongChange());
-        UI.Engine.OutputDebugString("ParamStr: " + argument);
+        UI.Engine.OutputDebugString($"ParamStr: {argument}");
         if (argument.Length != 0 && DelphiFiles.FileExists(argument) && IsSaveName(argument))
         {
             WindowActions.ShowTitleScene(UI.TitleScene, false);

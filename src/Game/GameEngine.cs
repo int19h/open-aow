@@ -294,9 +294,9 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     public string GetVersionString()
     {
         int version;
-        string result = IntToStr(GetMajorVersion()) + ".";
+        string result = $"{IntToStr(GetMajorVersion())}.";
         version = GetMinorVersion();
-        result = version < 10 ? result + "0" + IntToStr(version) + "." : result + IntToStr(version) + ".";
+        result = version < 10 ? $"{result}0{IntToStr(version)}." : $"{result}{IntToStr(version)}.";
 
         version = GetBuildNumber();
         if (version < 1000)
@@ -329,7 +329,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         {
             memory = new MemoryStream();
             // { Original leaks Mem if opening or loading the file raises. }
-            fileStream = OpenFile(StartupDirectory + "RELEASE\\GENERAL.PFS", 0 | 32);
+            fileStream = OpenFile($"{StartupDirectory}RELEASE\\GENERAL.PFS", 0 | 32);
             try
             {
                 memory.LoadFromStream(fileStream);
@@ -371,7 +371,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
             memory = new MemoryStream();
             try
             {
-                memory.LoadFromFile(StartupDirectory + "RELEASE\\GENERAL.PFS");
+                memory.LoadFromFile($"{StartupDirectory}RELEASE\\GENERAL.PFS");
                 _ = memory.Read(Bytes.Of(ref registered, 1));
                 StringFromStream(ref name, memory);
                 result = AbilityRules.Encode(name);
@@ -449,7 +449,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         CloseCampaign();
         // The file stores a world map campaign, and the reader returns that class.
         Campaign = RetrieveFromTree<WorldMapCampaign>(tree, progress: null);
-        TranslateEngineObjectFromFile(Campaign, StartupDirectory + "Dict\\" + "Campaign" + ".mld");
+        TranslateEngineObjectFromFile(Campaign, $"{StartupDirectory}Dict\\Campaign.mld");
         Campaign.FileName = fileName;
     }
 

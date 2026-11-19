@@ -212,7 +212,7 @@ public sealed class ObservableNodeTests
         protected override void OnChange() => Trace.Add("changed");
 
         private static string Format(ObservableChange change) =>
-            change.Kind + ":" + change.Index + ":" + change.NewIndex + ":" + Label(change.Item) + ":" + Label(change.Previous);
+            $"{change.Kind}:{change.Index}:{change.NewIndex}:{Label(change.Item)}:{Label(change.Previous)}";
 
         private static string Label(EngineObject item) => item is Leaf leaf ? leaf.Tag.ToString() : "-";
     }

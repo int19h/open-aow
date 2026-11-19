@@ -73,7 +73,7 @@ public partial class TitleScene
 
                     break;
                 case 2:
-                    LoadGame(UI.General, FileBoundary.ReadName(UI.Engine.StartupDirectory + "Scenario\\Custom\\TUTORIAL.HSM"));
+                    LoadGame(UI.General, FileBoundary.ReadName($"{UI.Engine.StartupDirectory}Scenario\\Custom\\TUTORIAL.HSM"));
                     if (StrategicMap.Current is { } map)
                     {
                         map.FixedLeaders = true;

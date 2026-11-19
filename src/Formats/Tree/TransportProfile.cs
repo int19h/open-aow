@@ -41,11 +41,11 @@ public static class TransportProfile
         int id = ReservedId(property) ?? PortMinimum;
         return context.Fail(
             Codes.Unrepresentable,
-            message: "The original image cannot carry " + classValue.Name + "." + property.Name + ".",
+            message: $"The original image cannot carry {classValue.Name}.{property.Name}.",
             at: null,
             path: path,
             value: id.ToString(CultureInfo.InvariantCulture),
-            constraint: "a stored id below 0x" + PortMinimum.ToString("X8", provider: CultureInfo.InvariantCulture));
+            constraint: string.Create(CultureInfo.InvariantCulture, $"a stored id below 0x{PortMinimum:X8}"));
     }
 
     /// <summary>

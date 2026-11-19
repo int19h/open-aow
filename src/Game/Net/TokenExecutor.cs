@@ -72,7 +72,7 @@ public partial class TokenExecutor : IDisposable
         }
         catch
         {
-            ShowMessage("Exception occured during " + tokenEvent.GetType().Name);
+            ShowMessage($"Exception occured during {tokenEvent.GetType().Name}");
             result = ExecuteResult.Done;
         }
 

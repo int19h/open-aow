@@ -138,7 +138,7 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
                     }
                     catch
                     {
-                        _ = MessageBox(0, "Error during Token Start", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
+                        _ = MessageBox(0, "Error during Token Start", $"Error - TCTouchToken {IntToStr(AbilityId)}", 0);
                     }
 
                     break;
@@ -153,7 +153,7 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
                     }
                     catch
                     {
-                        _ = MessageBox(0, "Error during Token StepUp", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
+                        _ = MessageBox(0, "Error during Token StepUp", $"Error - TCTouchToken {IntToStr(AbilityId)}", 0);
                     }
 
                     break;
@@ -214,7 +214,7 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
                     }
                     catch
                     {
-                        _ = MessageBox(0, "Error during Token InitStrike", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
+                        _ = MessageBox(0, "Error during Token InitStrike", $"Error - TCTouchToken {IntToStr(AbilityId)}", 0);
                     }
 
                     break;
@@ -385,7 +385,7 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
                     }
                     catch
                     {
-                        _ = MessageBox(0, "Error during Token ExeStrike", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
+                        _ = MessageBox(0, "Error during Token ExeStrike", $"Error - TCTouchToken {IntToStr(AbilityId)}", 0);
                     }
 
                     break;
@@ -417,7 +417,7 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
                     }
                     catch
                     {
-                        _ = MessageBox(0, "Error during Token StrikeBack", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
+                        _ = MessageBox(0, "Error during Token StrikeBack", $"Error - TCTouchToken {IntToStr(AbilityId)}", 0);
                     }
 
                     break;
@@ -444,7 +444,7 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
                     }
                     catch
                     {
-                        _ = MessageBox(0, "Error during Token ExeStrikeBack", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
+                        _ = MessageBox(0, "Error during Token ExeStrikeBack", $"Error - TCTouchToken {IntToStr(AbilityId)}", 0);
                     }
 
                     break;
@@ -481,7 +481,7 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
         }
         catch
         {
-            _ = MessageBox(0, "Error during Token", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
+            _ = MessageBox(0, "Error during Token", $"Error - TCTouchToken {IntToStr(AbilityId)}", 0);
         }
 
         return result;

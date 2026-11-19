@@ -101,7 +101,7 @@ public abstract partial record ProductionOrder
     {
         if (control.Status == ProductionControlStatus.Waiting)
         {
-            reason = "(" + LowerCase(AbilityRules.TranslateResourceString(control.GetEngine(), s_waitingText)) + ")";
+            reason = $"({LowerCase(AbilityRules.TranslateResourceString(control.GetEngine(), s_waitingText))})";
         }
     }
 

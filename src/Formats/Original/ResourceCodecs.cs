@@ -19,7 +19,7 @@ internal sealed class SingleCodec : PropertyCodec
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
         return end - start != 4
-            ? throw Mismatch(context, start, site, "A single is stored in " + (end - start) + " bytes.")
+            ? throw Mismatch(context, start, site, $"A single is stored in {end - start} bytes.")
             : Value(context.Int32(start));
     }
 
@@ -30,7 +30,7 @@ internal sealed class SingleCodec : PropertyCodec
     {
         if (value is not SingleNode node)
         {
-            throw context.Fail(Codes.Type, (frame.Property?.Name ?? "The value") + " is a single.", at: null, path: frame.Path);
+            throw context.Fail(Codes.Type, $"{frame.Property?.Name ?? "The value"} is a single.", at: null, path: frame.Path);
         }
 
         data.Int32(node.Bits);
@@ -39,13 +39,13 @@ internal sealed class SingleCodec : PropertyCodec
     internal override TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame)
     {
         return end - start != 4
-            ? throw context.Fail(Codes.Corrupt, "A single is stored in " + (end - start) + " bytes.", start, frame.Path)
+            ? throw context.Fail(Codes.Corrupt, $"A single is stored in {end - start} bytes.", start, frame.Path)
             : (TreeValue)new SingleNode(context.Int32(start));
     }
 
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site) =>
         value is not SingleNode node
-            ? throw site.Mismatch((site.Property?.Name ?? "The value") + " is a single.")
+            ? throw site.Mismatch($"{site.Property?.Name ?? "The value"} is a single.")
             : Value(node.Bits);
 
     internal override TreeValue? ReadTree(JsonValue value, DocumentSite site) =>
@@ -69,7 +69,7 @@ internal sealed class SingleCodec : PropertyCodec
         }
 
         int power = int.Parse(text.AsSpan(exponent + 1), NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture);
-        return new JsonNumber(text[..exponent] + "e" + power.ToString(CultureInfo.InvariantCulture));
+        return new JsonNumber(string.Create(CultureInfo.InvariantCulture, $"{text[..exponent]}e{power}"));
     }
 
     /// <summary>The bits of a document value: a number, an integer or <c>$bits</c>.</summary>
@@ -83,7 +83,7 @@ internal sealed class SingleCodec : PropertyCodec
                 float parsed = float.Parse(number.Text, NumberStyles.Float, CultureInfo.InvariantCulture);
                 if (!float.IsFinite(parsed))
                 {
-                    throw context.Fail(Codes.Range, name + " is outside the single range.", value, path, number.Text, "a finite single");
+                    throw context.Fail(Codes.Range, $"{name} is outside the single range.", value, path, number.Text, "a finite single");
                 }
 
                 return BitConverter.SingleToInt32Bits(parsed);
@@ -93,7 +93,7 @@ internal sealed class SingleCodec : PropertyCodec
                     if (member.Name != "$bits")
                     {
                         throw context.Fail(member.Name.StartsWith('$') ? Codes.ReservedMember : Codes.UnknownMember,
-                            "Member \"" + member.Name + "\" is not allowed in a single.", member.Value, path.Member(member.Name), member.Name);
+                            $"Member \"{member.Name}\" is not allowed in a single.", member.Value, path.Member(member.Name), member.Name);
                     }
                 }
 
@@ -104,7 +104,7 @@ internal sealed class SingleCodec : PropertyCodec
 
                 return BinaryPrimitives.ReadInt32LittleEndian(HexText.Decode(hex.Value));
             default:
-                throw context.Fail(Codes.Type, name + " is a number or { \"$bits\": ... }.", value, path, value.KindName);
+                throw context.Fail(Codes.Type, $"{name} is a number or {{ \"$bits\": ... }}.", value, path, value.KindName);
         }
     }
 }
@@ -128,12 +128,12 @@ internal sealed class TerrainListCodec : PropertyCodec
     {
         if (value is not PairListNode node)
         {
-            throw context.Fail(Codes.Type, (frame.Property?.Name ?? "The value") + " is pairs of signed bytes.", at: null, path: frame.Path);
+            throw context.Fail(Codes.Type, $"{frame.Property?.Name ?? "The value"} is pairs of signed bytes.", at: null, path: frame.Path);
         }
 
         if (node.Pairs.Count > context.Limits.CollectionItems)
         {
-            throw context.Fail(Codes.Limit, "A collection has too many items.", at: null, path: frame.Path, value: null, constraint: "at most " + context.Limits.CollectionItems + " items");
+            throw context.Fail(Codes.Limit, "A collection has too many items.", at: null, path: frame.Path, value: null, constraint: $"at most {context.Limits.CollectionItems} items");
         }
 
         Write(node.Pairs, data);
@@ -145,9 +145,9 @@ internal sealed class TerrainListCodec : PropertyCodec
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
     {
         return value is not PairListNode node
-            ? throw site.Mismatch((site.Property?.Name ?? "The value") + " is pairs of signed bytes.")
+            ? throw site.Mismatch($"{site.Property?.Name ?? "The value"} is pairs of signed bytes.")
             : node.Pairs.Count > site.Context.Limits.CollectionItems
-            ? throw site.Fail(Codes.Limit, "A collection has too many items.", constraint: "at most " + site.Context.Limits.CollectionItems + " items")
+            ? throw site.Fail(Codes.Limit, "A collection has too many items.", constraint: $"at most {site.Context.Limits.CollectionItems} items")
             : (JsonValue)Document(node.Pairs);
     }
 
@@ -166,7 +166,7 @@ internal sealed class TerrainListCodec : PropertyCodec
         context.CheckItems(count, start, path);
         if (start + 4L + (2L * count) != end)
         {
-            throw context.Fail(Codes.Corrupt, "A terrain list of " + count + " pairs does not fill its " + (end - start) + " stored bytes.", start, path);
+            throw context.Fail(Codes.Corrupt, $"A terrain list of {count} pairs does not fill its {end - start} stored bytes.", start, path);
         }
 
         List<(sbyte First, sbyte Second)> pairs = [with(count)];
@@ -203,12 +203,12 @@ internal sealed class TerrainListCodec : PropertyCodec
     {
         if (value is not JsonArray array)
         {
-            throw context.Fail(Codes.Type, name + " is an array of [terrain, overlay] pairs.", value, path, value.KindName);
+            throw context.Fail(Codes.Type, $"{name} is an array of [terrain, overlay] pairs.", value, path, value.KindName);
         }
 
         if (array.Items.Count > context.Limits.CollectionItems)
         {
-            throw context.Fail(Codes.Limit, "A collection has too many items.", array, path, value: null, constraint: "at most " + context.Limits.CollectionItems + " items");
+            throw context.Fail(Codes.Limit, "A collection has too many items.", array, path, value: null, constraint: $"at most {context.Limits.CollectionItems} items");
         }
 
         List<(sbyte First, sbyte Second)> pairs = [with(array.Items.Count)];
@@ -266,7 +266,7 @@ internal sealed class TerrainGridCodec(string widthName, string heightName) : Pr
     {
         if (value is not BytesNode node)
         {
-            throw context.Fail(Codes.Type, (frame.Property?.Name ?? "The value") + " is a terrain grid.", at: null, path: frame.Path);
+            throw context.Fail(Codes.Type, $"{frame.Property?.Name ?? "The value"} is a terrain grid.", at: null, path: frame.Path);
         }
 
         (int width, int height) = Dimensions(owner: null, frame.Parent, (code, message) => context.Fail(code, message, at: null, path: frame.Path));
@@ -285,7 +285,7 @@ internal sealed class TerrainGridCodec(string widthName, string heightName) : Pr
     {
         if (value is not BytesNode node)
         {
-            throw site.Mismatch((site.Property?.Name ?? "The value") + " is a terrain grid.");
+            throw site.Mismatch($"{site.Property?.Name ?? "The value"} is a terrain grid.");
         }
 
         (int width, int height) = Dimensions(owner: null, site.Parent, (code, message) => site.Fail(code, message));
@@ -304,7 +304,7 @@ internal sealed class TerrainGridCodec(string widthName, string heightName) : Pr
         long Dimension(string name) => owner?[name] is JsonInteger json ? json.Value : parent?.Find(name) is IntegerNode node ? node.Value : 0;
         long width = Dimension(WidthName), height = Dimension(HeightName);
         return width < 0 || height < 0 || width > int.MaxValue || height > int.MaxValue
-            ? throw fail(Codes.Range, WidthName + " and " + HeightName + " are not negative.")
+            ? throw fail(Codes.Range, $"{WidthName} and {HeightName} are not negative.")
             : ((int Width, int Height))((int)width, (int)height);
     }
 
@@ -312,7 +312,7 @@ internal sealed class TerrainGridCodec(string widthName, string heightName) : Pr
     {
         if ((long)width * height * 2 != length)
         {
-            throw fail(Codes.Dimensions, "A terrain grid of " + width + " by " + height + " hexagons is stored in " + length + " bytes.");
+            throw fail(Codes.Dimensions, $"A terrain grid of {width} by {height} hexagons is stored in {length} bytes.");
         }
     }
 
@@ -341,7 +341,7 @@ internal sealed class TerrainGridCodec(string widthName, string heightName) : Pr
         long cells = (long)width * height;
         if (cells > context.Limits.CollectionItems)
         {
-            throw context.Fail(Codes.Limit, "The terrain grid has too many hexagons.", value, path, Text(cells), "at most " + context.Limits.CollectionItems + " hexagons");
+            throw context.Fail(Codes.Limit, "The terrain grid has too many hexagons.", value, path, Text(cells), $"at most {context.Limits.CollectionItems} hexagons");
         }
 
         if (value is not JsonArray array)
@@ -364,7 +364,7 @@ internal sealed class TerrainGridCodec(string widthName, string heightName) : Pr
                 if (member.Name is not ("X" or "Y" or "Terrain" or "Overlay"))
                 {
                     throw context.Fail(member.Name.StartsWith('$') ? Codes.ReservedMember : Codes.UnknownMember,
-                        "Member \"" + member.Name + "\" is not allowed in a changed hexagon.", member.Value, at.Member(member.Name), member.Name);
+                        $"Member \"{member.Name}\" is not allowed in a changed hexagon.", member.Value, at.Member(member.Name), member.Name);
                 }
             }
 
@@ -380,7 +380,7 @@ internal sealed class TerrainGridCodec(string widthName, string heightName) : Pr
             long index = (y * width) + x;
             if (index == previous)
             {
-                throw context.Fail(Codes.Duplicate, "Hexagon " + x + ", " + y + " is listed twice.", hexagon, at);
+                throw context.Fail(Codes.Duplicate, $"Hexagon {x}, {y} is listed twice.", hexagon, at);
             }
 
             if (index < previous)
@@ -399,14 +399,14 @@ internal sealed class TerrainGridCodec(string widthName, string heightName) : Pr
     {
         JsonValue value = hexagon[name] ?? throw Missing(context, hexagon, at, name);
         return value is not JsonInteger number
-            ? throw context.Fail(Codes.Type, name + " is an integer.", value, at.Member(name), value.KindName)
+            ? throw context.Fail(Codes.Type, $"{name} is an integer.", value, at.Member(name), value.KindName)
             : number.Value < 0 || number.Value >= size
-            ? throw context.Fail(Codes.Range, name + " is outside the grid.", value, at.Member(name), Text(number.Value), "0 to " + (size - 1))
+            ? throw context.Fail(Codes.Range, $"{name} is outside the grid.", value, at.Member(name), Text(number.Value), $"0 to {size - 1}")
             : number.Value;
     }
 
     private static ConversionException Missing(EncodeContext context, JsonObject hexagon, DocumentNodePath at, string name) =>
-        context.Fail(Codes.MissingMember, "A changed hexagon needs " + name + ".", hexagon, at);
+        context.Fail(Codes.MissingMember, $"A changed hexagon needs {name}.", hexagon, at);
 }
 
 /// <summary>
@@ -438,7 +438,7 @@ internal sealed class ImageLibraryCodec : PropertyCodec
     {
         if (value is not BytesNode node)
         {
-            throw context.Fail(Codes.Type, (frame.Property?.Name ?? "The value") + " is an ILB library.", at: null, path: frame.Path);
+            throw context.Fail(Codes.Type, $"{frame.Property?.Name ?? "The value"} is an ILB library.", at: null, path: frame.Path);
         }
 
         if (Problem(node.Data) is string problem)
@@ -460,7 +460,7 @@ internal sealed class ImageLibraryCodec : PropertyCodec
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
     {
         return value is not BytesNode node
-            ? throw site.Mismatch((site.Property?.Name ?? "The value") + " is an ILB library.")
+            ? throw site.Mismatch($"{site.Property?.Name ?? "The value"} is an ILB library.")
             : Problem(node.Data) is string problem
             ? throw site.Fail(Codes.Corrupt, problem)
             : node.Data.Length > site.Context.Limits.DecompressedBytes
@@ -484,7 +484,7 @@ internal sealed class ImageLibraryCodec : PropertyCodec
             if (member.Name != "$ilb")
             {
                 throw context.Fail(member.Name.StartsWith('$') ? Codes.ReservedMember : Codes.UnknownMember,
-                    "Member \"" + member.Name + "\" is not allowed in an ILB library.", member.Value, path.Member(member.Name), member.Name);
+                    $"Member \"{member.Name}\" is not allowed in an ILB library.", member.Value, path.Member(member.Name), member.Name);
             }
         }
 
@@ -750,7 +750,7 @@ internal sealed class ImageLibraryCodec : PropertyCodec
     {
         if (bytes.Length < HeaderSize)
         {
-            return "An ILB library of " + bytes.Length + " bytes is shorter than its 24-byte header.";
+            return $"An ILB library of {bytes.Length} bytes is shorter than its 24-byte header.";
         }
 
         if (!bytes[..5].SequenceEqual(Identifier))
@@ -771,7 +771,7 @@ internal sealed class ImageLibraryCodec : PropertyCodec
         int size = BinaryPrimitives.ReadInt32LittleEndian(bytes[20..]);
         if (size != bytes.Length)
         {
-            return "An ILB library states " + size + " bytes and holds " + bytes.Length + ".";
+            return $"An ILB library states {size} bytes and holds {bytes.Length}.";
         }
 
         int index = BinaryPrimitives.ReadInt32LittleEndian(bytes[16..]);
@@ -810,7 +810,7 @@ internal sealed class ImageSequencesCodec : PropertyCodec
     {
         if (value is not ImageSequenceListNode node)
         {
-            throw context.Fail(Codes.Type, (frame.Property?.Name ?? "The value") + " is an image sequence list.", at: null, path: frame.Path);
+            throw context.Fail(Codes.Type, $"{frame.Property?.Name ?? "The value"} is an image sequence list.", at: null, path: frame.Path);
         }
 
         Check(node, (code, message, path) => context.Fail(code, message, at: null, path: path), context, frame.Path);
@@ -824,7 +824,7 @@ internal sealed class ImageSequencesCodec : PropertyCodec
     {
         if (value is not ImageSequenceListNode node)
         {
-            throw site.Mismatch((site.Property?.Name ?? "The value") + " is an image sequence list.");
+            throw site.Mismatch($"{site.Property?.Name ?? "The value"} is an image sequence list.");
         }
 
         Check(node, (code, message, path) => site.At(path, element: false).Fail(code, message), site.Context, site.Path);
@@ -910,7 +910,7 @@ internal sealed class ImageSequencesCodec : PropertyCodec
 
                 if (length > context.Limits.StringBytes)
                 {
-                    throw context.Fail(Codes.Limit, "A string is too long.", at - 4, layerPath, Text(length), "at most " + context.Limits.StringBytes + " bytes");
+                    throw context.Fail(Codes.Limit, "A string is too long.", at - 4, layerPath, Text(length), $"at most {context.Limits.StringBytes} bytes");
                 }
 
                 context.Need(at, length, end, layerPath, "library name");
@@ -1071,12 +1071,12 @@ internal sealed class ImageSequencesCodec : PropertyCodec
     {
         if (value is not JsonArray array)
         {
-            throw context.Fail(Codes.Type, name + " is an array of sequences.", value, path, value.KindName);
+            throw context.Fail(Codes.Type, $"{name} is an array of sequences.", value, path, value.KindName);
         }
 
         if (array.Items.Count > context.Limits.CollectionItems)
         {
-            throw context.Fail(Codes.Limit, "A collection has too many items.", array, path, value: null, constraint: "at most " + context.Limits.CollectionItems + " items");
+            throw context.Fail(Codes.Limit, "A collection has too many items.", array, path, value: null, constraint: $"at most {context.Limits.CollectionItems} items");
         }
 
         List<IReadOnlyList<SequenceLayer>?> entries = [with(array.Items.Count)];
@@ -1091,7 +1091,7 @@ internal sealed class ImageSequencesCodec : PropertyCodec
                 case JsonArray { Items.Count: > 0 } chain:
                     if (chain.Items.Count > context.Limits.CollectionItems)
                     {
-                        throw context.Fail(Codes.Limit, "A collection has too many items.", chain, at, value: null, constraint: "at most " + context.Limits.CollectionItems + " items");
+                        throw context.Fail(Codes.Limit, "A collection has too many items.", chain, at, value: null, constraint: $"at most {context.Limits.CollectionItems} items");
                     }
 
                     List<SequenceLayer> layers = [with(chain.Items.Count)];
@@ -1123,7 +1123,7 @@ internal sealed class ImageSequencesCodec : PropertyCodec
             if (Array.IndexOf(s_members, member.Name) < 0)
             {
                 throw context.Fail(member.Name.StartsWith('$') ? Codes.ReservedMember : Codes.UnknownMember,
-                    "Member \"" + member.Name + "\" is not allowed in a layer.", member.Value, path.Member(member.Name), member.Name);
+                    $"Member \"{member.Name}\" is not allowed in a layer.", member.Value, path.Member(member.Name), member.Name);
             }
         }
 
@@ -1179,7 +1179,7 @@ internal sealed class ImageSequencesCodec : PropertyCodec
             if (member.Name is not ("default" or "items"))
             {
                 throw context.Fail(member.Name.StartsWith('$') ? Codes.ReservedMember : Codes.UnknownMember,
-                    "Member \"" + member.Name + "\" is not allowed in a frame table.", member.Value, path.Member(member.Name), member.Name);
+                    $"Member \"{member.Name}\" is not allowed in a frame table.", member.Value, path.Member(member.Name), member.Name);
             }
         }
 
@@ -1188,7 +1188,7 @@ internal sealed class ImageSequencesCodec : PropertyCodec
         JsonArray items = table["items"] as JsonArray ?? throw context.Fail(Codes.MissingMember, "items is an array.", table, path);
         if (items.Items.Count > context.Limits.CollectionItems)
         {
-            throw context.Fail(Codes.Limit, "A collection has too many items.", items, path.Member("items"), value: null, constraint: "at most " + context.Limits.CollectionItems + " items");
+            throw context.Fail(Codes.Limit, "A collection has too many items.", items, path.Member("items"), value: null, constraint: $"at most {context.Limits.CollectionItems} items");
         }
 
         int[] frames = new int[items.Items.Count];
@@ -1207,7 +1207,7 @@ internal sealed class ImageSequencesCodec : PropertyCodec
             : value is not JsonInteger number
             ? throw context.Fail(Codes.Type, "The value is an integer.", value, path, value.KindName)
             : number.Value < min || number.Value > max
-            ? throw context.Fail(Codes.Range, "The value is outside its storage range.", value, path, Text(number.Value), min + " to " + max)
+            ? throw context.Fail(Codes.Range, "The value is outside its storage range.", value, path, Text(number.Value), $"{min} to {max}")
             : number.Value;
     }
 }

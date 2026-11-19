@@ -63,7 +63,7 @@ public sealed class EngineStartupTests
     }
 
     private static bool ConvertedListField(FieldInfo field) =>
-        ConvertedListFields.Contains((field.DeclaringType?.FullName ?? "") + "." + MemberNames.Of(field));
+        ConvertedListFields.Contains($"{field.DeclaringType?.FullName ?? ""}.{MemberNames.Of(field)}");
 
     // These fields were hash tables. The walk records the dictionary type and does not enter its entries.
     private static readonly HashSet<string> ConvertedDictionaryFields =
@@ -81,7 +81,7 @@ public sealed class EngineStartupTests
     }
 
     private static bool ConvertedDictionaryField(FieldInfo field) =>
-        ConvertedDictionaryFields.Contains((field.DeclaringType?.FullName ?? "") + "." + MemberNames.Of(field));
+        ConvertedDictionaryFields.Contains($"{field.DeclaringType?.FullName ?? ""}.{MemberNames.Of(field)}");
 
     [Fact]
     public async Task RealStartupSideEffectsStateAndThreeFailuresMatchBaseCommit()
@@ -121,7 +121,7 @@ public sealed class EngineStartupTests
                 string[] destroy = [.. new StackTrace(arguments.Exception).GetFrames()
                     .Where(x => x.GetMethod()?.Name == "Dispose")
                     .Select(x => x.GetMethod()!.DeclaringType!.Name)];
-                events.Add(fixture.Event("throw", arguments.Exception.GetType().FullName + ": " + fixture.Relative(arguments.Exception.Message), destroy));
+                events.Add(fixture.Event("throw", $"{arguments.Exception.GetType().FullName}: {fixture.Relative(arguments.Exception.Message)}", destroy));
             }
             AppDomain.CurrentDomain.FirstChanceException += Thrown;
             try
@@ -187,7 +187,7 @@ public sealed class EngineStartupTests
         JsonObject expected = JsonNode.Parse(baseline)!.AsObject();
         foreach (KeyValuePair<string, JsonNode?> pair in actual)
         {
-            Assert.True(JsonNode.DeepEquals(expected[pair.Key], pair.Value), pair.Key + " startup recording differs from the base commit.");
+            Assert.True(JsonNode.DeepEquals(expected[pair.Key], pair.Value), $"{pair.Key} startup recording differs from the base commit.");
         }
 
         Assert.Equal(expected.Count, actual.Count);
@@ -211,7 +211,7 @@ public sealed class EngineStartupTests
                 {
                     if (list[index] is object element && LegacyRoots.Contains(element.GetType()))
                     {
-                        Visit(element, path + $"[{index}]");
+                        Visit(element, $"{path}[{index}]");
                     }
                 }
             }
@@ -221,7 +221,7 @@ public sealed class EngineStartupTests
                 {
                     if (items[index] is object element && LegacyRoots.Contains(element.GetType()))
                     {
-                        Visit(element, path + $"[{index}]");
+                        Visit(element, $"{path}[{index}]");
                     }
                 }
             }
@@ -238,7 +238,7 @@ public sealed class EngineStartupTests
                         || (IsGenericList(child) && ConvertedListField(field))
                         || (IsDictionary(child) && ConvertedDictionaryField(field)))
                     {
-                        Visit(child, path + "." + MemberNames.Of(field));
+                        Visit(child, $"{path}.{MemberNames.Of(field)}");
                     }
                 }
             }

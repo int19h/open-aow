@@ -215,16 +215,16 @@ public partial class GameEngine : OwningNode
 
                 if (header.Id == "HSS\0")
                 {
-                    _ = files.Add(header.Name + "|" + directory + entry.Name);
+                    _ = files.Add($"{header.Name}|{directory}{entry.Name}");
                 }
             }
 
             directories = new DelphiStringList();
-            foreach (RtlFileEntry entry in Files.FindEntries(directory + "*.*", attributes: 16))
+            foreach (RtlFileEntry entry in Files.FindEntries($"{directory}*.*", attributes: 16))
             {
                 if ((entry.Attribute & 16) != 0 && entry.Name != "." && entry.Name != "..")
                 {
-                    _ = directories.Add(directory + entry.Name + "\\");
+                    _ = directories.Add($"{directory}{entry.Name}\\");
                 }
             }
 

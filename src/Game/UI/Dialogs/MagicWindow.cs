@@ -549,7 +549,7 @@ public partial class MagicWindow(UIContext ui) : UIModule(ui)
             int manaUpkeep = control.GetManaUpkeep();
             int controlManaIncome = control.GetManaIncome();
             int controlManaUpkeep = control.GetManaUpkeep();
-            window.NetManaLabel.Text = IntToStr(manaIncome) + "-" + IntToStr(manaUpkeep) + "=" + IntToStr(controlManaIncome - controlManaUpkeep);
+            window.NetManaLabel.Text = $"{IntToStr(manaIncome)}-{IntToStr(manaUpkeep)}={IntToStr(controlManaIncome - controlManaUpkeep)}";
             int netPowerToResearch = control.GetNetPowerToResearch();
             window.ResearchPointsLabel.Text = IntToStr(netPowerToResearch);
             if (control.ResearchSpellId != 0)
@@ -558,10 +558,10 @@ public partial class MagicWindow(UIContext ui) : UIModule(ui)
                 window.SpellNameLabel.Text = spell.SpellName;
                 string magicSphere = window.UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
                 string level = window.UI.Engine.TranslateResourceString(GameText.LevelText);
-                window.SpellClassLabel.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
+                window.SpellClassLabel.Text = $"{magicSphere}, {level} {IntToStr(spell.SpellLevel)}";
                 string castingCost = window.UI.Engine.TranslateResourceString(GameText.CastingCostText);
                 string mana = window.UI.Engine.TranslateResourceString(GameText.ManaText);
-                window.SpellCostLabel.Text = castingCost + ": " + IntToStr(spell.BaseManaCost) + " " + mana;
+                window.SpellCostLabel.Text = $"{castingCost}: {IntToStr(spell.BaseManaCost)} {mana}";
                 turns = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.GetResearchTurnsLeft();
                 if (turns < 999)
                 {

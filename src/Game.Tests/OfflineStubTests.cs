@@ -258,7 +258,7 @@ public sealed class OfflineStubTests
         {
             TextControlItem item = text.New();
             item.Id = id;
-            item.Text.Text = header + "\r\nBody " + id;
+            item.Text.Text = $"{header}\r\nBody {id}";
         }
         GamePack.Current.TextControl = text;
         HelpWindow help = ui.Add(Populate(new HelpWindow(ui)));

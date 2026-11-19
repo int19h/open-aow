@@ -42,7 +42,7 @@ public partial class EndTurnTokenEvent(CustomNode owner) : TokenEvent(owner)
                     Player players = StrategicMap.Current.Players.GetPlayers(Player);
                     string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[players.PlayerRace]);
                     string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_finishedTheirTurnText);
-                    StrategicMap.Current.ShowMessage(raceNamesPlural + " " + translatedText);
+                    StrategicMap.Current.ShowMessage($"{raceNamesPlural} {translatedText}");
                 }
             }
 

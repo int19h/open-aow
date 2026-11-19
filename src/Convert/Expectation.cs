@@ -148,12 +148,12 @@ public sealed class Expectation
         Check("G1 document files", Document, document);
         foreach (string key in Rules.Keys.Union(maskedRules.Keys).Order(StringComparer.Ordinal))
         {
-            Check("masked rule " + key, Rules.GetValueOrDefault(key), maskedRules.GetValueOrDefault(key));
+            Check($"masked rule {key}", Rules.GetValueOrDefault(key), maskedRules.GetValueOrDefault(key));
         }
 
         foreach (string key in Profiles.Keys.Union(profiles.Keys).Order(StringComparer.Ordinal))
         {
-            Check("profile " + key, Profiles.GetValueOrDefault(key), profiles.GetValueOrDefault(key));
+            Check($"profile {key}", Profiles.GetValueOrDefault(key), profiles.GetValueOrDefault(key));
         }
 
         foreach (string key in LegacyRules.Keys.Union(legacyRules.Keys).Order(StringComparer.Ordinal))

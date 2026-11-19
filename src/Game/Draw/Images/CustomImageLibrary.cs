@@ -103,7 +103,7 @@ public partial class CustomImageLibrary : Component
                 }
                 catch
                 {
-                    ShowMessage("Error loading: " + GetFullFileName());
+                    ShowMessage($"Error loading: {GetFullFileName()}");
                     _fileName = "";
                 }
             }
@@ -324,7 +324,7 @@ public partial class CustomImageLibrary : Component
         int i;
         ImageLibraryHeader header = default;
         startPosition = (int)stream.Position;
-        swapName = ExtractFilePath(Application.ExeName) + "\\SWAP.$$$";
+        swapName = $"{ExtractFilePath(Application.ExeName)}\\SWAP.$$$";
         swap = OpenFile(swapName, 65535);
         try
         {

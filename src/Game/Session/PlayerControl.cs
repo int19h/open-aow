@@ -75,7 +75,7 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
             if (StrategicMap.Current.DayLimit != 0 && StrategicMap.Current.DayLimit - StrategicMap.Current.Day <= 10)
             {
                 string formatDaysLeftString = DurationText.FormatDaysLeftString(GetEngine(), days: StrategicMap.Current.DayLimit - StrategicMap.Current.Day);
-                log.Text = log.Text + " (" + formatDaysLeftString + ")";
+                log.Text = $"{log.Text} ({formatDaysLeftString})";
             }
 
             log.Player = (sbyte)i;
@@ -187,12 +187,12 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
                 {
                     if (player == 0)
                     {
-                        GetEngine().SaveHsm(GetEngine().StartupDirectory + "DEBUG\\" + StrategicMap.Current.MapName + IntToStr(StrategicMap.Current.Day) + "_p" + IntToStr(StrategicMap.Current.SeatedPlayer) + FileBoundary.WriteExtension(DocumentKind.Save), null, GameProfile.WorldMap);
+                        GetEngine().SaveHsm($"{GetEngine().StartupDirectory}DEBUG\\{StrategicMap.Current.MapName}{IntToStr(StrategicMap.Current.Day)}_p{IntToStr(StrategicMap.Current.SeatedPlayer)}{FileBoundary.WriteExtension(DocumentKind.Save)}", null, GameProfile.WorldMap);
                     }
                 }
                 else
                 {
-                    GetEngine().SaveHsm(GetEngine().StartupDirectory + "DEBUG\\" + StrategicMap.Current.MapName + IntToStr(StrategicMap.Current.Day) + "-" + IntToStr(player) + "_p" + IntToStr(StrategicMap.Current.SeatedPlayer) + FileBoundary.WriteExtension(DocumentKind.Save), null, GameProfile.WorldMap);
+                    GetEngine().SaveHsm($"{GetEngine().StartupDirectory}DEBUG\\{StrategicMap.Current.MapName}{IntToStr(StrategicMap.Current.Day)}-{IntToStr(player)}_p{IntToStr(StrategicMap.Current.SeatedPlayer)}{FileBoundary.WriteExtension(DocumentKind.Save)}", null, GameProfile.WorldMap);
                 }
             }
             catch
@@ -210,8 +210,8 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
             try
             {
                 // The autosave takes the extension the host writes (own-formats.md 4.2).
-                fileName = "autosave" + FileBoundary.WriteExtension(DocumentKind.CampaignSave);
-                GetEngine().SaveCampaign(GetEngine().StartupDirectory + "Save\\" + fileName);
+                fileName = $"autosave{FileBoundary.WriteExtension(DocumentKind.CampaignSave)}";
+                GetEngine().SaveCampaign($"{GetEngine().StartupDirectory}Save\\{fileName}");
             }
             catch
             {
@@ -223,8 +223,8 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
         {
             try
             {
-                fileName = "autosave" + FileBoundary.WriteExtension(DocumentKind.Save);
-                GetEngine().SaveHsm(GetEngine().StartupDirectory + "Save\\" + fileName, null, GameProfile.WorldMap);
+                fileName = $"autosave{FileBoundary.WriteExtension(DocumentKind.Save)}";
+                GetEngine().SaveHsm($"{GetEngine().StartupDirectory}Save\\{fileName}", null, GameProfile.WorldMap);
             }
             catch
             {
@@ -587,15 +587,15 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
         playerCommunicationControl = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl;
         for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            text = "Player " + IntToStr(i);
+            text = $"Player {IntToStr(i)}";
             race = StrategicMap.Current.Players.GetPlayers(i).PlayerRace;
             if (race != -1)
             {
                 string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[race]);
-                text = text + "(" + raceNamesPlural + ")";
+                text = $"{text}({raceNamesPlural})";
             }
 
-            text = text + " at system " + IntToStr(playerCommunicationControl.Players[i].SystemId);
+            text = $"{text} at system {IntToStr(playerCommunicationControl.Players[i].SystemId)}";
             _ = (strings?.Add(text));
 
             GetEngine().OutputDebugString(text);
@@ -649,7 +649,7 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
                     saveLog.DefaultName = StrategicMap.Current.MapName;
                 }
 
-                saveLog.Directory = GetEngine().StartupDirectory + "Save\\";
+                saveLog.Directory = $"{GetEngine().StartupDirectory}Save\\";
                 StrategicMap.Current.TriggerTypedExecuteEventLog(saveLog, false, ExitSaveGameCallback);
                 _ = saveLog.Release();
             }

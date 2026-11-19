@@ -103,7 +103,7 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
 
                     if (condition)
                     {
-                        _ = SetCurrentDir(UI.Engine.StartupDirectory + "\\Int\\Scenes");
+                        _ = SetCurrentDir($"{UI.Engine.StartupDirectory}\\Int\\Scenes");
                         WorldMapCampaign campaign2 = GetCampaign();
                         WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign2.CurrentScenarioId);
                         WorldMapCampaign campaign3 = GetCampaign();
@@ -388,7 +388,7 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
                 case 4:
                     WorldMapCampaign campaign27 = GetCampaign();
                     WorldMapCampaignScenario campaignScenario11 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign27.NextScenarioId);
-                    preview = UI.Engine.CreatePreviewHsm<StrategicMap>(FileBoundary.ReadName(UI.Engine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario11.FileName), profile: GameProfile.WorldMap);
+                    preview = UI.Engine.CreatePreviewHsm<StrategicMap>(FileBoundary.ReadName($"{UI.Engine.StartupDirectory}Scenario\\Campaign\\{campaignScenario11.FileName}"), profile: GameProfile.WorldMap);
                     if (preview != null)
                     {
                         index = preview.Players.IndexOfPlayerType(PlayerType.Human);
@@ -421,7 +421,7 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
                         campaign2.State += 1;
                         WorldMapCampaign campaign3 = GetCampaign();
                         GetCampaign().StartScenario(campaign3.NextScenarioId, null);
-                        _ = SetCurrentDir(UI.Engine.StartupDirectory + "Scenario\\Campaign\\");
+                        _ = SetCurrentDir($"{UI.Engine.StartupDirectory}Scenario\\Campaign\\");
                         WorldMapCampaign campaign4 = GetCampaign();
                         WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign4.CurrentScenarioId);
                         General.LoadGame(UI.General, FileBoundary.ReadName(campaignScenario.FileName));
@@ -451,7 +451,7 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
     // AoWWorldMap.pas:347
     public void ShowIntroPages(int index)
     {
-        _ = SetCurrentDir(UI.Engine.StartupDirectory + "Int\\Scenes");
+        _ = SetCurrentDir($"{UI.Engine.StartupDirectory}Int\\Scenes");
         WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
         WorldMapCampaign campaign = GetCampaign();
         CampaignScenarioPage campaignPage = GetCampaignPage(campaignScenario.IntroPages, campaign.Page);
@@ -1249,7 +1249,7 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
         else
         {
             WorldMapCampaign dialogCampaign = dialog.GetCampaign();
-            song = "Songs\\" + WorldMapCampaign.GetCampaignScenario(dialog.GetCampaign(), dialogCampaign.CurrentScenarioId).ImageLibrary;
+            song = $"Songs\\{WorldMapCampaign.GetCampaignScenario(dialog.GetCampaign(), dialogCampaign.CurrentScenarioId).ImageLibrary}";
         }
 
         _ = AudioPlayback.PlaySong(song, 1, 0, true);

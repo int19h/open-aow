@@ -220,7 +220,7 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         int skillPoints = Leader.GetSkillPoints();
         string skillPointsText = UI.Engine.TranslateResourceString(s_skillPointsText);
         int skillPointsMax = Leader.GetSkillPointsMax();
-        SkillPointsLabel.Text = skillPointsText + " " + IntToStr(skillPoints) + "/" + IntToStr(skillPointsMax);
+        SkillPointsLabel.Text = $"{skillPointsText} {IntToStr(skillPoints)}/{IntToStr(skillPointsMax)}";
     }
 
     // AoWLeaderSetup.pas:781
@@ -339,7 +339,7 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
                 name = GamePack.Current.AbilityControl.GetAbility(i).GetName(Leader);
                 if (Leader.HeroResource.Abilities.GetAbilitySetAt(i) && Leader.HeroResource.Abilities.GetOwnAbilityLevel(i) == Leader.GetAbilityLevel(i))
                 {
-                    name = name + " (" + UI.Engine.TranslateResourceString(GameText.FixedText) + ")";
+                    name = $"{name} ({UI.Engine.TranslateResourceString(GameText.FixedText)})";
                     cost = "-";
                 }
                 else
@@ -520,7 +520,7 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
 
         int sphereCount = Leader.GetSphereCount();
         string selectedSpheres = UI.Engine.TranslateResourceString(s_selectedSpheresText);
-        SelectedSpheresLabel.Text = selectedSpheres + " (" + IntToStr(sphereCount) + "/" + IntToStr(Leader.SpherePicksMax) + ")";
+        SelectedSpheresLabel.Text = $"{selectedSpheres} ({IntToStr(sphereCount)}/{IntToStr(Leader.SpherePicksMax)})";
         if (Leader.CanAddSphere(MagicSphere.Life))
         {
             SelectLifeButton.ImageLibraryIndexUp = 27;

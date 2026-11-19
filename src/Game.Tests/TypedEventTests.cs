@@ -184,9 +184,9 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
         using Component owner = new(null);
         Button button = new(owner);
         List<string> runs = [];
-        button.OnMouseDown += (sender, mouseButton, shift, x, y) => runs.Add("button " + (sender == button));
+        button.OnMouseDown += (sender, mouseButton, shift, x, y) => runs.Add($"button {sender == button}");
         UIComponent component = button;
-        component.OnMouseDown += (sender, mouseButton, shift, x, y) => runs.Add("component " + (sender == button));
+        component.OnMouseDown += (sender, mouseButton, shift, x, y) => runs.Add($"component {sender == button}");
 
         MouseDown(button, sender: button);
 

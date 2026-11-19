@@ -197,7 +197,7 @@ public sealed class MldDictionary
         IsOpen = true;
     }
 
-    private static string Key(MldEntry entry) => entry.Native + "\u007F" + entry.Form + entry.Component;
+    private static string Key(MldEntry entry) => $"{entry.Native}\u007F{entry.Form}{entry.Component}";
 
     /// <summary>The key the lookup array is sorted by: the source text, with its context when the file has one.</summary>
     public string SortKey(MldEntry entry) => ContextCode == 0 ? entry.Native : Key(entry);
@@ -231,7 +231,7 @@ public sealed class MldDictionary
         Version = ByteOrder = CharacterSet = ContextCode = FileSize = ConsumedBytes = 0;
     }
 
-    private MldEntry? Find(string source) => Search(key: ContextCode == 0 ? source : source + "\u007F", entries: _sorted, selector: entry => ContextCode == 0 ? entry.Native : entry.Native + "\u007F");
+    private MldEntry? Find(string source) => Search(key: ContextCode == 0 ? source : $"{source}\u007F", entries: _sorted, selector: entry => ContextCode == 0 ? entry.Native : $"{entry.Native}\u007F");
 
     private static MldEntry? Search(MldEntry[] entries, string key, Func<MldEntry, string> selector)
     {
@@ -274,8 +274,7 @@ public sealed class MldDictionary
     {
         return source.Length == 0 || ContextCode == 0
             ? Translate(source)
-            : Translation(source, Search(key: source + "\u007F" + (ContextCode is 1 or 3 ? form : "")
-            + (ContextCode is 1 or 2 ? component : ""), entries: _contextual, selector: Key) ?? Find(source));
+            : Translation(source, Search(key: $"{source}\u007F{(ContextCode is 1 or 3 ? form : "")}{(ContextCode is 1 or 2 ? component : "")}", entries: _contextual, selector: Key) ?? Find(source));
     }
 
     private sealed class Reader(byte[] data)

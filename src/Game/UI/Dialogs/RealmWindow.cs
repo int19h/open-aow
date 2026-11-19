@@ -224,7 +224,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
                     _ = HeroNameList.Items.AddObject(name, army);
                     sbyte hitPoints = u.GetHitPoints();
                     sbyte hits = u.GetHits();
-                    _ = HeroHealthList.Items.AddObject(IntToStr(hitPoints) + "/" + IntToStr(hits), hero);
+                    _ = HeroHealthList.Items.AddObject($"{IntToStr(hitPoints)}/{IntToStr(hits)}", hero);
                     sbyte level = hero.GetLevel();
                     _ = HeroLevelList.Items.Add(IntToStr(level));
                 }

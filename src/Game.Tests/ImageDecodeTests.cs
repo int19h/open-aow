@@ -64,8 +64,8 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         if (Environment.GetEnvironmentVariable("AOW_RECORD_IMAGE_DECODE") is { Length: > 0 } record)
         {
             _ = Directory.CreateDirectory(record);
-            File.WriteAllText(Path.Combine(record, section + ".json"),
-                JsonSerializer.Serialize(entries, new JsonSerializerOptions { WriteIndented = true }).Replace("\r\n", "\n") + "\n");
+            File.WriteAllText(Path.Combine(record, $"{section}.json"),
+                $"{JsonSerializer.Serialize(entries, new JsonSerializerOptions { WriteIndented = true }).Replace("\r\n", "\n")}\n");
             return;
         }
 

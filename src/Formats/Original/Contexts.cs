@@ -36,7 +36,7 @@ public sealed class DecodeContext
     public bool Inflated { get; init; }
 
     public ConversionException Fail(string code, string message, long offset, DocumentNodePath? path = null, string? value = null, string? constraint = null) =>
-        new(new FormatDiagnostic(code, Nested is null ? message : message + " In the nested image of " + Nested + ".")
+        new(new FormatDiagnostic(code, Nested is null ? message : $"{message} In the nested image of {Nested}.")
         {
             File = File,
             Offset = offset,

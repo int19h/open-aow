@@ -21,7 +21,7 @@ internal static class Verification
         s_assertions++;
         if (!condition)
         {
-            throw new InvalidOperationException("FAIL: " + label);
+            throw new InvalidOperationException($"FAIL: {label}");
         }
     }
 
@@ -31,7 +31,7 @@ internal static class Verification
     {
         try { action(); }
         catch (T) { s_assertions++; return; }
-        throw new InvalidOperationException("FAIL: " + label);
+        throw new InvalidOperationException($"FAIL: {label}");
     }
 
     public static int Run(string gameRoot, string? sourceRoot)
@@ -82,7 +82,7 @@ internal static class Verification
             (280,170),(281,172),(282,166),(283,167),(284,169),(285,168),(286,171)];
         foreach ((int scan, ushort key) in keys)
         {
-            Equal(key, InputMapper.VirtualKey(0, scan), "scancode " + scan);
+            Equal(key, InputMapper.VirtualKey(0, scan), $"scancode {scan}");
         }
 
         for (int n = 0; n < 12; n++)
@@ -232,7 +232,7 @@ internal static class Verification
             {
                 foreach (string name in names)
                 {
-                    _ = registry.OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + section.Replace('/', '\\'), true);
+                    _ = registry.OpenKey($"\\Software\\Triumph Studios\\Age of Wonders\\{section.Replace('/', '\\')}", true);
                     switch (kind)
                     {
                         case "integer": registry.WriteInteger(name, -123); break;
@@ -254,7 +254,7 @@ internal static class Verification
             {
                 foreach (string name in names)
                 {
-                    _ = registry.OpenKey("\\software\\triumph studios\\age of wonders\\" + section.Replace('/', '\\').ToLowerInvariant(), false);
+                    _ = registry.OpenKey($"\\software\\triumph studios\\age of wonders\\{section.Replace('/', '\\').ToLowerInvariant()}", false);
                     Check(registry.ValueExists(name.ToUpperInvariant()), "case insensitive registry value");
                     switch (kind)
                     {
@@ -335,18 +335,18 @@ internal static class Verification
         string processDirectory = Directory.GetCurrentDirectory();
         foreach (string directory in new[] { @"Scenario\Custom", "..", "Campaign", "..", "..", @"Int\Scenes", "..", "..", "Songs", ".." })
         {
-            Check(files.SetCurrentDirectory(directory), "browse " + directory);
+            Check(files.SetCurrentDirectory(directory), $"browse {directory}");
         }
 
         Equal(processDirectory, Directory.GetCurrentDirectory(), "process directory unchanged");
         Equal(root, files.CurrentDirectory, "browse returns to virtual root");
-        Check(files.SetCurrentDirectory(files.VirtualDrive + @"\"), "virtual drive");
+        Check(files.SetCurrentDirectory($@"{files.VirtualDrive}\"), "virtual drive");
         Equal(files.VirtualDrive, DelphiPaths.ExtractFileDrive(files.CurrentDirectory).ToString(), "Delphi drive extraction");
         Check(files.SetCurrentDirectory(@"..\.."), "parent at drive root");
         Equal(root, files.CurrentDirectory, "drive root clamp");
         Equal(@"..\Campaign\x.hsm", files.ExtractRelativePath(Path.Combine(root, "Scenario", "Custom", "base.hsm"), Path.Combine(root, "Scenario", "Campaign", "x.hsm")), "relative path across siblings");
         Check(!files.SetCurrentDirectory("missing"), "missing directory rejected");
-        Check(!files.RemoveDirectory(files.VirtualDrive + @"\"), "virtual drive deletion refused");
+        Check(!files.RemoveDirectory($@"{files.VirtualDrive}\"), "virtual drive deletion refused");
         Check(files.CreateDirectory("EmailIn"), "create user directory");
         Check(files.RemoveDirectory("EMAILIN"), "remove user directory");
         Throws<UnauthorizedAccessException>(() => files.Open("Z:\\outside.dat", DelphiStreams.fmCreate), "unknown drive refused");
@@ -358,7 +358,7 @@ internal static class Verification
         {
             Equal(files.VirtualDrive, RtlHost.Files.VirtualDrive, "shared virtual drive");
             Equal(@"Scenario\Campaign\x.hsm", DelphiPaths.ExtractRelativePath(
-                root + "\\", @"Scenario\Campaign\x.hsm"), "startup directory relative file");
+                $"{root}\\", @"Scenario\Campaign\x.hsm"), "startup directory relative file");
             Equal(@"..\Campaign\", DelphiPaths.ExtractRelativePath(
                 @"Scenario\Custom\", @"scenario\Campaign\"), "relative directory keeps separator and ignores case");
             Equal("", DelphiPaths.ExtractRelativePath(
@@ -424,11 +424,11 @@ internal static class Verification
         {
             string relative = Path.GetRelativePath(gameRoot, path);
             string alternate = FlipCase(relative).Replace(Path.DirectorySeparatorChar, '/');
-            Check(Directory.Exists(path) ? files.DirectoryExists(alternate) : files.FileExists(alternate), "install lookup " + relative);
+            Check(Directory.Exists(path) ? files.DirectoryExists(alternate) : files.FileExists(alternate), $"install lookup {relative}");
             if (!Directory.Exists(path))
             {
                 using Stream stream = files.Open(alternate, DelphiStreams.fmOpenRead);
-                Equal(new FileInfo(path).Length, stream.Length, "install open " + relative);
+                Equal(new FileInfo(path).Length, stream.Length, $"install open {relative}");
             }
         }
         int literals = 0;
@@ -458,13 +458,13 @@ internal static class Verification
                 string[] matches = [.. all.Where(p => Path.GetRelativePath(gameRoot, p).Equals(part, StringComparison.OrdinalIgnoreCase) || p.EndsWith(Path.DirectorySeparatorChar + part, StringComparison.OrdinalIgnoreCase))];
                 if (matches.Length == 0)
                 {
-                    Console.WriteLine("P4 absent or contextual literal: " + literal);
+                    Console.WriteLine($"P4 absent or contextual literal: {literal}");
                     continue;
                 }
                 foreach (string match in matches)
                 {
                     string relative = Path.GetRelativePath(gameRoot, match);
-                    Check(Directory.Exists(match) ? files.DirectoryExists(FlipCase(relative)) : files.FileExists(FlipCase(relative)), "literal " + literal);
+                    Check(Directory.Exists(match) ? files.DirectoryExists(FlipCase(relative)) : files.FileExists(FlipCase(relative)), $"literal {literal}");
                 }
                 literals++;
             }

@@ -112,7 +112,7 @@ public sealed class CoreTests
         Assert.Equal(0, Cp1252.Compare("a", "a"));
         Assert.True(Cp1252.Compare("a", "b") < 0);
         Assert.True(Cp1252.Compare("\u20ac", "\u00c4") < 0);
-        Assert.Equal("abcd", original + "d");
+        Assert.Equal("abcd", $"{original}d");
     }
 
     [Fact]

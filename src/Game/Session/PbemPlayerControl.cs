@@ -149,10 +149,10 @@ public partial class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(own
                 };
                 if (!IsEmpty(StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.EmailGame.Name))
                 {
-                    log.DefaultName = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.EmailGame.Name + ".asg";
+                    log.DefaultName = $"{StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.EmailGame.Name}.asg";
                 }
 
-                log.Directory = GetEngine().StartupDirectory + "EmailIn\\";
+                log.Directory = $"{GetEngine().StartupDirectory}EmailIn\\";
                 StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ExitGameSaveAsCallback);
                 _ = log.Release();
             }
@@ -186,10 +186,10 @@ public partial class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(own
                 };
                 if (!IsEmpty(StrategicMap.Current.Players.GetPlayers(player).PbemSettings.EmailGame.Name))
                 {
-                    saveLog.DefaultName = StrategicMap.Current.Players.GetPlayers(player).PbemSettings.EmailGame.Name + ".asg";
+                    saveLog.DefaultName = $"{StrategicMap.Current.Players.GetPlayers(player).PbemSettings.EmailGame.Name}.asg";
                 }
 
-                saveLog.Directory = GetEngine().StartupDirectory + "EmailIn\\";
+                saveLog.Directory = $"{GetEngine().StartupDirectory}EmailIn\\";
                 StrategicMap.Current.TriggerTypedExecuteEventLog(saveLog, false, EndTurnGameSavedCallback);
                 _ = saveLog.Release();
             }

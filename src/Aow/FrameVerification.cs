@@ -23,7 +23,7 @@ internal static class FrameVerification
             checks++;
             if (!success)
             {
-                throw new InvalidOperationException("Display check: " + label);
+                throw new InvalidOperationException($"Display check: {label}");
             }
         }
         try

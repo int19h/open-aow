@@ -68,7 +68,7 @@ public sealed class SchemaTests : FormatsTest
             Assert.Equal(names.Count, names.Distinct(StringComparer.Ordinal).Count());
             foreach (SchemaProperty p in classValue.Properties)
             {
-                Assert.False(p.Name.StartsWith('$'), classValue.Name + "." + p.Name);
+                Assert.False(p.Name.StartsWith('$'), $"{classValue.Name}.{p.Name}");
                 if (p.Id is int id)
                 {
                     Assert.Same(p, classValue.PropertyById(id));

@@ -13,8 +13,8 @@ public sealed class StreamsProbeTests
         ProbeLines p = new("streams");
         void State(string tag, Stream s)
         {
-            p.Fact(tag + "_position", s.Position);
-            p.Fact(tag + "_size", s.Length);
+            p.Fact($"{tag}_position", s.Position);
+            p.Fact($"{tag}_size", s.Length);
         }
 
         long Written(Stream s, ReadOnlySpan<byte> data)
@@ -35,62 +35,62 @@ public sealed class StreamsProbeTests
         void Exercise(string tag, Stream s)
         {
             byte[] data = [.. Enumerable.Range(0, 32).Select(i => (byte)i)], read = new byte[32];
-            State(tag + "_created", s);
+            State($"{tag}_created", s);
             s.WriteBuffer(data);
-            State(tag + "_initialize32", s);
+            State($"{tag}_initialize32", s);
             s.SetLength(4);
-            State(tag + "_shrink4", s);
-            p.Fact(tag + "_seek_begin", s.Seek(1, SeekOrigin.Begin));
-            State(tag + "_after_begin", s);
-            p.Fact(tag + "_write2", Written(s, data.AsSpan(16, 2)));
-            State(tag + "_after_write2", s);
-            p.Fact(tag + "_seek_current", s.Seek(-1, SeekOrigin.Current));
-            State(tag + "_after_current", s);
-            p.Fact(tag + "_seek_end", s.Seek(-1, SeekOrigin.End));
-            State(tag + "_after_end", s);
-            p.Fact(tag + "_read4", s.Read(read.AsSpan(0, 4)));
-            State(tag + "_after_short_read", s);
-            p.Fact(tag + "_read_eof", s.Read(read.AsSpan(0, 1)));
-            State(tag + "_after_eof", s);
-            p.Fact(tag + "_seek_beyond", s.Seek(4, SeekOrigin.End));
-            State(tag + "_after_beyond", s);
-            p.Fact(tag + "_write_beyond", Written(s, data.AsSpan(24, 2)));
-            State(tag + "_after_write_beyond", s);
+            State($"{tag}_shrink4", s);
+            p.Fact($"{tag}_seek_begin", s.Seek(1, SeekOrigin.Begin));
+            State($"{tag}_after_begin", s);
+            p.Fact($"{tag}_write2", Written(s, data.AsSpan(16, 2)));
+            State($"{tag}_after_write2", s);
+            p.Fact($"{tag}_seek_current", s.Seek(-1, SeekOrigin.Current));
+            State($"{tag}_after_current", s);
+            p.Fact($"{tag}_seek_end", s.Seek(-1, SeekOrigin.End));
+            State($"{tag}_after_end", s);
+            p.Fact($"{tag}_read4", s.Read(read.AsSpan(0, 4)));
+            State($"{tag}_after_short_read", s);
+            p.Fact($"{tag}_read_eof", s.Read(read.AsSpan(0, 1)));
+            State($"{tag}_after_eof", s);
+            p.Fact($"{tag}_seek_beyond", s.Seek(4, SeekOrigin.End));
+            State($"{tag}_after_beyond", s);
+            p.Fact($"{tag}_write_beyond", Written(s, data.AsSpan(24, 2)));
+            State($"{tag}_after_write_beyond", s);
             s.Position = 0;
-            State(tag + "_rewind", s);
+            State($"{tag}_rewind", s);
             Array.Clear(read);
-            p.Fact(tag + "_read10", s.Read(read.AsSpan(0, 10)));
-            State(tag + "_after_read10", s);
+            p.Fact($"{tag}_read10", s.Read(read.AsSpan(0, 10)));
+            State($"{tag}_after_read10", s);
             string bytes = Convert.ToHexString(read.AsSpan(0, 10));
             if (tag == "memory")
             {
                 // Delphi left the unread gap as the bytes the earlier write had stored. MemoryStream zero-fills it.
                 Assert.Equal("00101103000000001819", bytes);
-                p.Fact(tag + "_bytes", "00101103040506071819");
+                p.Fact($"{tag}_bytes", "00101103040506071819");
             }
             else
             {
-                p.Fact(tag + "_bytes", bytes);
+                p.Fact($"{tag}_bytes", bytes);
             }
 
             s.Position = s.Length - 1;
-            State(tag + "_before_readbuffer", s);
-            p.Fact(tag + "_readbuffer_past", p.Thrown(() => s.ReadBuffer(read.AsSpan(0, 2))));
-            State(tag + "_after_readbuffer", s);
+            State($"{tag}_before_readbuffer", s);
+            p.Fact($"{tag}_readbuffer_past", p.Thrown(() => s.ReadBuffer(read.AsSpan(0, 2))));
+            State($"{tag}_after_readbuffer", s);
             if (tag == "memory")
             {
                 _ = Assert.Throws<IOException>(() => s.Seek(-1, SeekOrigin.Begin));
                 Assert.Equal(10L, s.Position);
                 Assert.Equal(10L, s.Length);
-                p.Fact(tag + "_seek_negative", -1);
-                p.Fact(tag + "_after_negative_position", -1);
-                p.Fact(tag + "_after_negative_size", 10);
-                p.Fact(tag + "_negative_read", 0);
-                p.Fact(tag + "_after_negative_read_position", -1);
-                p.Fact(tag + "_after_negative_read_size", 10);
-                p.Fact(tag + "_negative_write", 0);
-                p.Fact(tag + "_after_negative_write_position", -1);
-                p.Fact(tag + "_after_negative_write_size", 10);
+                p.Fact($"{tag}_seek_negative", -1);
+                p.Fact($"{tag}_after_negative_position", -1);
+                p.Fact($"{tag}_after_negative_size", 10);
+                p.Fact($"{tag}_negative_read", 0);
+                p.Fact($"{tag}_after_negative_read_position", -1);
+                p.Fact($"{tag}_after_negative_read_size", 10);
+                p.Fact($"{tag}_negative_write", 0);
+                p.Fact($"{tag}_after_negative_write_position", -1);
+                p.Fact($"{tag}_after_negative_write_size", 10);
             }
             else
             {
@@ -104,16 +104,16 @@ public sealed class StreamsProbeTests
                     seekNegative = -1;
                 }
 
-                p.Fact(tag + "_seek_negative", seekNegative);
-                State(tag + "_after_negative", s);
-                p.Fact(tag + "_negative_read", s.Read(read.AsSpan(0, 1)));
-                State(tag + "_after_negative_read", s);
-                p.Fact(tag + "_negative_write", Written(s, data.AsSpan(0, 1)));
-                State(tag + "_after_negative_write", s);
+                p.Fact($"{tag}_seek_negative", seekNegative);
+                State($"{tag}_after_negative", s);
+                p.Fact($"{tag}_negative_read", s.Read(read.AsSpan(0, 1)));
+                State($"{tag}_after_negative_read", s);
+                p.Fact($"{tag}_negative_write", Written(s, data.AsSpan(0, 1)));
+                State($"{tag}_after_negative_write", s);
             }
 
-            p.Fact(tag + "_seek_zero", s.Seek(0, SeekOrigin.Begin));
-            State(tag + "_after_zero", s);
+            p.Fact($"{tag}_seek_zero", s.Seek(0, SeekOrigin.Begin));
+            State($"{tag}_after_zero", s);
             long invalid;
             try
             {
@@ -124,20 +124,20 @@ public sealed class StreamsProbeTests
                 invalid = tag == "memory" ? 0 : -1;
             }
 
-            p.Fact(tag + "_seek_invalid_origin", invalid);
-            State(tag + "_after_invalid_origin", s);
+            p.Fact($"{tag}_seek_invalid_origin", invalid);
+            State($"{tag}_after_invalid_origin", s);
             s.Position = 0;
-            State(tag + "_before_zero_write", s);
-            p.Fact(tag + "_write_zero", Written(s, []));
-            State(tag + "_after_zero_write", s);
-            p.Fact(tag + "_read_zero", s.Read([]));
-            State(tag + "_after_zero_read", s);
+            State($"{tag}_before_zero_write", s);
+            p.Fact($"{tag}_write_zero", Written(s, []));
+            State($"{tag}_after_zero_write", s);
+            p.Fact($"{tag}_read_zero", s.Read([]));
+            State($"{tag}_after_zero_read", s);
             s.Position = 20;
-            State(tag + "_seek20", s);
-            p.Fact(tag + "_zero_write_past", Written(s, []));
-            State(tag + "_after_zero_past", s);
+            State($"{tag}_seek20", s);
+            p.Fact($"{tag}_zero_write_past", Written(s, []));
+            State($"{tag}_after_zero_past", s);
             s.SetLength(2);
-            State(tag + "_shrink2", s);
+            State($"{tag}_shrink2", s);
         }
 
         using (MemoryStream m = new())
@@ -177,8 +177,8 @@ public sealed class StreamsProbeTests
         using MemoryStream destination = new();
         void Both(string tag)
         {
-            State(tag + "_source", source);
-            State(tag + "_destination", destination);
+            State($"{tag}_source", source);
+            State($"{tag}_destination", destination);
         }
 
         for (int i = 0; i < buffer.Length; i++)

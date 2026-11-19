@@ -20,7 +20,7 @@ internal static class Program
             {
                 // own-formats.md 4.2: every open and write at the file boundary, refusals included.
                 StreamWriter log = fileLog = new StreamWriter(Path.GetFullPath(fileLogPath), false, new System.Text.UTF8Encoding(false));
-                Game.Saves.FileBoundary.Log = record => { log.Write(record.ToJson() + "\n"); log.Flush(); };
+                Game.Saves.FileBoundary.Log = record => { log.Write($"{record.ToJson()}\n"); log.Flush(); };
             }
             string root = Value(arguments, "--game-root") ?? @"D:\Games\GOG\Age of Wonders";
             if (arguments.Contains("--verify"))
@@ -101,6 +101,6 @@ internal static class Program
     private static string? Value(string[] arguments, string name)
     {
         int index = Array.IndexOf(arguments, name);
-        return index < 0 ? null : index + 1 < arguments.Length ? arguments[index + 1] : throw new ArgumentException("Missing value for " + name);
+        return index < 0 ? null : index + 1 < arguments.Length ? arguments[index + 1] : throw new ArgumentException($"Missing value for {name}");
     }
 }

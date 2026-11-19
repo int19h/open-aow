@@ -30,14 +30,14 @@ public static class ConsoleOutput
                 text = text[..(exponent + 2)] + text[(exponent + 2)..].PadLeft(4, '0');
             }
 
-            return real >= 0 ? " " + text : text;
+            return real >= 0 ? $" {text}" : text;
         }
         string result = value switch
         {
             string bytes => bytes,
             bool flag => flag ? "TRUE" : "FALSE",
-            double real => precision is int digits ? real.ToString("F" + Math.Clamp(digits, 0, 18), CultureInfo.InvariantCulture) : Scientific(real),
-            float real => precision is int digits ? real.ToString("F" + Math.Clamp(digits, 0, 18), CultureInfo.InvariantCulture) : Scientific(real),
+            double real => precision is int digits ? real.ToString($"F{Math.Clamp(digits, 0, 18)}", CultureInfo.InvariantCulture) : Scientific(real),
+            float real => precision is int digits ? real.ToString($"F{Math.Clamp(digits, 0, 18)}", CultureInfo.InvariantCulture) : Scientific(real),
             IFormattable number => number.ToString(null, CultureInfo.InvariantCulture),
             _ => value.ToString() ?? ""
         };

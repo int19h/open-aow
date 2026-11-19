@@ -17,7 +17,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:141
     public void Int32(string key, string name, ref int value, ReadWriteMode mode)
     {
-        if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + key, true))
+        if (OpenKey($"\\Software\\Triumph Studios\\Age of Wonders\\{key}", true))
         {
             switch (mode)
             {
@@ -42,7 +42,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:153
     public void Boolean(string key, string name, ref bool value, ReadWriteMode mode)
     {
-        if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + key, true))
+        if (OpenKey($"\\Software\\Triumph Studios\\Age of Wonders\\{key}", true))
         {
             switch (mode)
             {
@@ -67,7 +67,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:165
     public void String(string key, string name, ref string value, ReadWriteMode mode)
     {
-        if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + key, true))
+        if (OpenKey($"\\Software\\Triumph Studios\\Age of Wonders\\{key}", true))
         {
             switch (mode)
             {
@@ -92,7 +92,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:177
     public void Bytes(string key, string name, Span<byte> value, int size, ReadWriteMode mode)
     {
-        if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + key, true))
+        if (OpenKey($"\\Software\\Triumph Studios\\Age of Wonders\\{key}", true))
         {
             switch (mode)
             {
@@ -118,7 +118,7 @@ public partial class GameSettings : DelphiRegistry
     public void Rectangle(string key, string name, ref Rect value, ReadWriteMode mode)
     {
         string text;
-        if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + key, true))
+        if (OpenKey($"\\Software\\Triumph Studios\\Age of Wonders\\{key}", true))
         {
             switch (mode)
             {
@@ -717,7 +717,7 @@ public partial class GameSettings : DelphiRegistry
     public void SetEmailGamesCrc(int value)
     {
         string s;
-        s = "4G5F6JHH-" + IntToHex(value, 8) + "-6AG66554-98LK0FG3";
+        s = $"4G5F6JHH-{IntToHex(value, 8)}-6AG66554-98LK0FG3";
         String("General", "Serial number", ref s, ReadWriteMode.Write);
     }
 

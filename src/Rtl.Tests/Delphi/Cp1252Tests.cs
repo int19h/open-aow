@@ -148,7 +148,7 @@ public sealed class Cp1252Tests
             Assert.Equal(text, DelphiFormat.Format("%s", text[0]));
             Assert.Equal(text, DelphiFormat.Format("%s", (byte)b));
             Assert.Equal(text, DelphiFormat.Format("%s", PCharStrings.StrPas(Ptr<byte>.Unbox(text))));
-            Assert.Equal("[" + text + "\0" + text + "]", DelphiFormat.Format("[%s]", text + "\0" + text));
+            Assert.Equal($"[{text}\0{text}]", DelphiFormat.Format("[%s]", text + "\0" + text));
         }
         // A char outside the table stays itself in a string or char argument. It meets the table
         // where it becomes a byte, as in a PChar, which reaches Format through StrPas.

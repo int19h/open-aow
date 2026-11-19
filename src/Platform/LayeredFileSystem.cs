@@ -36,7 +36,7 @@ public sealed class LayeredFileSystem : IFileSystem
     public string VirtualDrive => OperatingSystem.IsWindows() ? Path.GetPathRoot(GameRoot)![..2] : "C:";
     public string CurrentDirectory => PublicPath(_current);
 
-    private string PublicPath(string relative) => OperatingSystem.IsWindows() ? Path.Combine(GameRoot, relative) : VirtualDrive + "\\" + relative.Replace(Path.DirectorySeparatorChar, '\\');
+    private string PublicPath(string relative) => OperatingSystem.IsWindows() ? Path.Combine(GameRoot, relative) : $"{VirtualDrive}\\{relative.Replace(Path.DirectorySeparatorChar, '\\')}";
     private static bool Same(string a, string b) => string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
     private static bool Within(string parent, string child) => child.StartsWith(Path.TrimEndingDirectorySeparator(parent) + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase);
 
@@ -44,7 +44,7 @@ public sealed class LayeredFileSystem : IFileSystem
     {
         if ((File.GetAttributes(path) & FileAttributes.ReparsePoint) != 0)
         {
-            throw new UnauthorizedAccessException("Links are outside the virtual drive: " + path);
+            throw new UnauthorizedAccessException($"Links are outside the virtual drive: {path}");
         }
     }
 
@@ -78,7 +78,7 @@ public sealed class LayeredFileSystem : IFileSystem
 
             if (!_rootTree.TryAdd(key, entry))
             {
-                throw new IOException("Ambiguous install name: " + key);
+                throw new IOException($"Ambiguous install name: {key}");
             }
 
             if (Directory.Exists(entry))
@@ -169,7 +169,7 @@ public sealed class LayeredFileSystem : IFileSystem
         }
 
         string result = string.Join("\\", parts);
-        return DirectoryPath(destination) && result.Length > 0 ? result + "\\" : result;
+        return DirectoryPath(destination) && result.Length > 0 ? $"{result}\\" : result;
     }
 
     public bool SetCurrentDirectory(string path)

@@ -193,7 +193,7 @@ public partial class ExplorationSite : Structure
                     combat.Deactivate();
                     combat.Finalize();
                     string name = GetName();
-                    combat.Logbook.FinalData.Header = name + " " + combat.Logbook.FinalData.Header;
+                    combat.Logbook.FinalData.Header = $"{name} {combat.Logbook.FinalData.Header}";
                     eventValue = new CombatEventLog(null) { Holder = CreationHolder() };
                     eventValue.SetCombatLogbook(combat.Logbook);
                     StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(eventValue);
@@ -218,7 +218,7 @@ public partial class ExplorationSite : Structure
                         combat.Deactivate();
                         combat.Finalize();
                         string name = GetName();
-                        combat.Logbook.FinalData.Header = name + " " + combat.Logbook.FinalData.Header;
+                        combat.Logbook.FinalData.Header = $"{name} {combat.Logbook.FinalData.Header}";
                         eventValue = new CombatEventLog(null) { Holder = CreationHolder() };
                         eventValue.SetCombatLogbook(combat.Logbook);
                         StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(eventValue);

@@ -13,7 +13,7 @@ public sealed class RequiredChild(string family) : ContentRule
     {
         if (ContentChildren.Count(value, family) == 0)
         {
-            yield return scope.Context.At(Codes.Required, $"The game requires a {family} child here.", value, path, null, "one " + family + " child");
+            yield return scope.Context.At(Codes.Required, $"The game requires a {family} child here.", value, path, null, $"one {family} child");
         }
     }
 }

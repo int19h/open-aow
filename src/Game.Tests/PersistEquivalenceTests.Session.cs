@@ -250,20 +250,20 @@ public sealed partial class PersistEquivalenceTests
             {
                 byte[]? image = null;
                 ObjectNode? tree = null;
-                _ = AlikeOutcome(() => image = Image(source), viaPersist: () => tree = TreeWriter.Write(source, factory: Factory), label: className + " write");
+                _ = AlikeOutcome(() => image = Image(source), viaPersist: () => tree = TreeWriter.Write(source, factory: Factory), label: $"{className} write");
                 if (image is null || tree is null)
                 {
                     return;
                 }
 
-                EqualJson(PilotImage.Decode(image, className: className, engine: engine), actual: DocumentBackend.Write(tree, classValue: classValue, schema: s_schema, engine: engine), label: className + " write");
-                EqualBytes(image, actual: OriginalBackend.Write(tree, classValue: classValue, schema: s_schema, engine: engine), label: className + " original");
+                EqualJson(PilotImage.Decode(image, className: className, engine: engine), actual: DocumentBackend.Write(tree, classValue: classValue, schema: s_schema, engine: engine), label: $"{className} write");
+                EqualBytes(image, actual: OriginalBackend.Write(tree, classValue: classValue, schema: s_schema, engine: engine), label: $"{className} original");
                 EngineObject stream = viaReadWrite = Blank(className);
                 EngineObject persisted = viaPersist = Blank(className);
-                bool loaded = AlikeOutcome(() => Load(stream, image: image), viaPersist: () => TreeReader.Read(OriginalBackend.Read(image, classValue: classValue, schema: s_schema, engine: engine), objectValue: persisted, factory: Factory), label: className + " load");
+                bool loaded = AlikeOutcome(() => Load(stream, image: image), viaPersist: () => TreeReader.Read(OriginalBackend.Read(image, classValue: classValue, schema: s_schema, engine: engine), objectValue: persisted, factory: Factory), label: $"{className} load");
                 if (loaded)
                 {
-                    EqualBytes(Image(stream), actual: Image(persisted), label: className + " read");
+                    EqualBytes(Image(stream), actual: Image(persisted), label: $"{className} read");
                 }
             }
             finally
@@ -294,7 +294,7 @@ public sealed partial class PersistEquivalenceTests
                 continue;
             }
 
-            if (type != typeof(EmailGame) && !s_sessionNamespaces.Any(prefix => space == prefix || space.StartsWith(prefix + ".", comparisonType: StringComparison.Ordinal)))
+            if (type != typeof(EmailGame) && !s_sessionNamespaces.Any(prefix => space == prefix || space.StartsWith($"{prefix}.", comparisonType: StringComparison.Ordinal)))
             {
                 continue;
             }
@@ -335,7 +335,7 @@ public sealed partial class PersistEquivalenceTests
                 continue;
             }
 
-            if (!s_sessionNamespaces.Any(prefix => space == prefix || space.StartsWith(prefix + ".", comparisonType: StringComparison.Ordinal)))
+            if (!s_sessionNamespaces.Any(prefix => space == prefix || space.StartsWith($"{prefix}.", comparisonType: StringComparison.Ordinal)))
             {
                 continue;
             }

@@ -632,8 +632,8 @@ public partial class StrategicMap : GameMap
         if (persister.Loading && !persister.Preview && Day == 0)
         {
             fileName = GameType == GameType.Campaign
-                ? GetEngine().StartupDirectory + "Dict\\" + "CampMaps" + ".mld"
-                : GetEngine().StartupDirectory + "Dict\\" + "CustMaps" + ".mld";
+                ? $"{GetEngine().StartupDirectory}Dict\\CampMaps.mld"
+                : $"{GetEngine().StartupDirectory}Dict\\CustMaps.mld";
 
             if (FileExists(fileName))
             {

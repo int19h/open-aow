@@ -90,7 +90,7 @@ public sealed partial class EngineFixture
         public IShellService Shell { get; } = new RecordingShell();
         public IClock Clock { get; } = RtlHost.Clock;
         public string ExecutableName => Path.Combine(GameRoot, "AoW.exe");
-        public string GameRoot { get; } = Path.Combine(Path.GetTempPath(), "open-aow-engine-" + Guid.NewGuid().ToString("N"));
+        public string GameRoot { get; } = Path.Combine(Path.GetTempPath(), $"open-aow-engine-{Guid.NewGuid():N}");
         public string CurrentDirectory { get { Record("CurrentDirectory", ""); return _files.CurrentDirectory; } }
 
         public string ExpandPath(string path) { Record("ExpandPath", path); return Checked(path); }
@@ -98,13 +98,13 @@ public sealed partial class EngineFixture
         private string Checked(string path)
         {
             string full = _files.ExpandPath(path);
-            Assert.True(full.Equals(GameRoot, StringComparison.OrdinalIgnoreCase) || full.StartsWith(GameRoot + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase), "Startup escaped temporary root: " + full);
+            Assert.True(full.Equals(GameRoot, StringComparison.OrdinalIgnoreCase) || full.StartsWith(GameRoot + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase), $"Startup escaped temporary root: {full}");
             return full;
         }
 
         public bool SetCurrentDirectory(string path) { Record("SetCurrentDirectory", path); return _files.SetCurrentDirectory(Checked(path)); }
 
-        public Stream Open(string path, int mode) { Record("Open:" + mode, path); return _files.Open(Checked(path), mode); }
+        public Stream Open(string path, int mode) { Record($"Open:{mode}", path); return _files.Open(Checked(path), mode); }
 
         public bool FileExists(string path) { Record("FileExists", path); return _files.FileExists(Checked(path)); }
 
@@ -112,7 +112,7 @@ public sealed partial class EngineFixture
 
         public bool DeleteFile(string path) { Record("DeleteFile", path); return _files.DeleteFile(Checked(path)); }
 
-        public bool RenameFile(string source, string target) { Record("RenameFile", source + " -> " + target); return _files.RenameFile(Checked(source), Checked(target)); }
+        public bool RenameFile(string source, string target) { Record("RenameFile", $"{source} -> {target}"); return _files.RenameFile(Checked(source), Checked(target)); }
 
         public bool CreateDirectory(string path) { Record("CreateDirectory", path); return _files.CreateDirectory(Checked(path)); }
 
@@ -120,7 +120,7 @@ public sealed partial class EngineFixture
 
         public int GetAttributes(string path) { Record("GetAttributes", path); return _files.GetAttributes(Checked(path)); }
 
-        public int SetAttributes(string path, int attributes) { Record("SetAttributes:" + attributes, path); return _files.SetAttributes(Checked(path), attributes); }
+        public int SetAttributes(string path, int attributes) { Record($"SetAttributes:{attributes}", path); return _files.SetAttributes(Checked(path), attributes); }
 
         public DateTime? LastWriteTime(string path) { Record("LastWriteTime", path); return _files.LastWriteTime(Checked(path)); }
 
@@ -140,7 +140,7 @@ public sealed partial class EngineFixture
                 : null;
         }
 
-        public void Write(string key, object value) => Record("Settings.Write", key + "=" + value);
+        public void Write(string key, object value) => Record("Settings.Write", $"{key}={value}");
 
         public int Show(DialogRequest request) { Record("Dialog", request.Text); return request.DefaultResult; }
 

@@ -168,13 +168,13 @@ public sealed class FormatSchema
         string? delphi = NameTable.DelphiName(head);
         if (delphi is not null && delphi != head)
         {
-            yield return delphi + "." + tail;
+            yield return $"{delphi}.{tail}";
         }
 
         string? stored = NameTable.ResolveStored(head);
         if (stored is not null && stored != head)
         {
-            yield return stored + "." + tail;
+            yield return $"{stored}.{tail}";
         }
     }
 
@@ -547,7 +547,7 @@ public sealed class SchemaProperty
         DynamicMinimum = source["dynamic"] is JsonInteger d ? (int)d.Value : null;
         SlotBase = source["slotBase"] is JsonInteger s ? (int)s.Value : null;
         IsChildrenPhase = source["phase"] is JsonString { Value: "children" };
-        Codec = PropertyCodec.Create(source, schema, owner.Name + "." + Name);
+        Codec = PropertyCodec.Create(source, schema, $"{owner.Name}.{Name}");
         ImageIds = ImageIdList(Id, DataId, Codec);
     }
 
@@ -596,7 +596,7 @@ public sealed class SchemaProperty
     public PropertyCodec Codec { get; }
     public bool IsDynamic => DynamicMinimum is not null;
 
-    public override string ToString() => Owner.Name + "." + Name;
+    public override string ToString() => $"{Owner.Name}.{Name}";
 }
 
 /// <summary>

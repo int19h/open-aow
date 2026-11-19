@@ -223,14 +223,14 @@ public sealed partial class PersistEquivalenceTests
             Assert.Same(EngineFixture.Engine, fromImage.GetEngine());
             int streamSaved = streamMap.Reports.Count;
             byte[] rewritten = Image(viaReadWrite);
-            EqualBytes(rewritten, Image(fromImage), className + " original read");
-            EqualBytes(rewritten, Image(fromDocument), className + " document read");
+            EqualBytes(rewritten, Image(fromImage), $"{className} original read");
+            EqualBytes(rewritten, Image(fromDocument), $"{className} document read");
             int treeSaved = imageMap.Reports.Count;
             ObjectNode tree = TreeWriter.Write(fromImage, Factory);
             Assert.Equal(streamMap.Reports[streamSaved..], imageMap.Reports[treeSaved..]);
             Assert.Equal((MapProgressType.Saving, 0), imageMap.Reports[treeSaved]);
-            EqualJson(PilotImage.Decode(rewritten, className, engine), DocumentBackend.Write(tree, classValue, s_schema, engine), className + " write");
-            EqualBytes(rewritten, OriginalBackend.Write(tree, classValue, s_schema, engine), className + " original");
+            EqualJson(PilotImage.Decode(rewritten, className, engine), DocumentBackend.Write(tree, classValue, s_schema, engine), $"{className} write");
+            EqualBytes(rewritten, OriginalBackend.Write(tree, classValue, s_schema, engine), $"{className} original");
         }
         finally
         {
@@ -771,8 +771,8 @@ public sealed partial class PersistEquivalenceTests
             TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), viaImage, Factory);
             TreeReader.Read(DocumentBackend.Read(document, classValue, s_schema, "game"), viaDocument, Factory);
             byte[] expected = Image(viaReadWrite);
-            EqualBytes(expected, Image(viaImage), className + " original load");
-            EqualBytes(expected, Image(viaDocument), className + " document load");
+            EqualBytes(expected, Image(viaImage), $"{className} original load");
+            EqualBytes(expected, Image(viaDocument), $"{className} document load");
         }
         finally
         {
@@ -1596,8 +1596,8 @@ public sealed partial class PersistEquivalenceTests
             byte[] image = Image(objectValue);
             JsonObject expected = PilotImage.Decode(image, className);
             ObjectNode tree = TreeWriter.Write(objectValue, Factory);
-            EqualJson(actual: DocumentBackend.Write(tree, classValue, s_schema, "game"), expected: expected, label: className + " write");
-            EqualBytes(image, OriginalBackend.Write(tree, classValue, s_schema, "game"), className + " original");
+            EqualJson(actual: DocumentBackend.Write(tree, classValue, s_schema, "game"), expected: expected, label: $"{className} write");
+            EqualBytes(image, OriginalBackend.Write(tree, classValue, s_schema, "game"), $"{className} original");
             viaReadWrite = Blank(className);
             Load(viaReadWrite, image);
             byte[] read = Image(viaReadWrite);
@@ -1605,13 +1605,13 @@ public sealed partial class PersistEquivalenceTests
             TreeReader.Read(DocumentBackend.Read(expected, classValue, s_schema, "game"), loaded, Factory);
             if (converterRead)
             {
-                EqualBytes(PilotImage.Encode(expected, className), Image(loaded), className + " converter read");
+                EqualBytes(PilotImage.Encode(expected, className), Image(loaded), $"{className} converter read");
             }
 
-            EqualBytes(read, Image(loaded), className + " read");
+            EqualBytes(read, Image(loaded), $"{className} read");
             fromImage = Blank(className);
             TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), fromImage, Factory);
-            EqualBytes(read, Image(fromImage), className + " original read");
+            EqualBytes(read, Image(fromImage), $"{className} original read");
         }
         finally
         {
@@ -1632,7 +1632,7 @@ public sealed partial class PersistEquivalenceTests
             }
         }
 
-        throw new InvalidOperationException("The engine has no class " + className + ".");
+        throw new InvalidOperationException($"The engine has no class {className}.");
     }
 
     private static void Load(EngineObject objectValue, byte[] image, LoadErrorHandler? onError = null)
@@ -1711,7 +1711,7 @@ public sealed partial class PersistEquivalenceTests
             return;
         }
 
-        Assert.Fail(label + "\n" + Encoding.UTF8.GetString(right));
+        Assert.Fail($"{label}\n{Encoding.UTF8.GetString(right)}");
     }
 
     private static void EqualBytes(byte[] expected, byte[] actual, string label)
@@ -1721,6 +1721,6 @@ public sealed partial class PersistEquivalenceTests
             return;
         }
 
-        Assert.Fail(label + " at " + expected.AsSpan().CommonPrefixLength(actual));
+        Assert.Fail($"{label} at {expected.AsSpan().CommonPrefixLength(actual)}");
     }
 }

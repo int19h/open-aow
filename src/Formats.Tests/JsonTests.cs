@@ -58,9 +58,9 @@ public sealed class JsonTests : FormatsTest
     [InlineData("2.5E-7")]
     public void KeepsTheTextOfANumberWithAFraction(string text)
     {
-        JsonObject value = (JsonObject)JsonReader.Parse("{\"a\": " + text + "}");
+        JsonObject value = (JsonObject)JsonReader.Parse($"{{\"a\": {text}}}");
         Assert.Equal(text, Assert.IsType<JsonNumber>(value["a"]).Text);
-        Assert.Equal("{\n  \"a\": " + text + "\n}\n", JsonWriter.ToText(value));
+        Assert.Equal($"{{\n  \"a\": {text}\n}}\n", JsonWriter.ToText(value));
     }
 
     [Fact]

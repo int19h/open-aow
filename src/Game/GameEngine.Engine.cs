@@ -175,12 +175,12 @@ public partial class GameEngine : OwningNode
 
         if (StartupDirectory[^1] != 92)
         {
-            SetStartupDirectory(StartupDirectory + "\\");
+            SetStartupDirectory($"{StartupDirectory}\\");
         }
 
         ImageLibraries.BaseImageLibraryPath = StartupDirectory;
         AudioHost.BaseSoundEnginePath = StartupDirectory;
-        Dictionary.FileName = StartupDirectory + "Dict\\" + "ResStr" + ".mld";
+        Dictionary.FileName = $"{StartupDirectory}Dict\\ResStr.mld";
         Dictionary.Open();
     }
 
@@ -199,7 +199,7 @@ public partial class GameEngine : OwningNode
     public virtual EngineClass GetEngineClass(int classId)
     {
         return !ClassTable.TryGetValue(classId, out EngineClass result) || result == null
-            ? throw new KeyNotFoundException("Unregistered E-ClassID found (" + IntToStr(classId) + ")")
+            ? throw new KeyNotFoundException($"Unregistered E-ClassID found ({IntToStr(classId)})")
             : result;
     }
 

@@ -292,7 +292,7 @@ public partial class TacticalBattleUnitHexSprite
         }
         catch
         {
-            _ = MessageBox(0, "Error during ShowUnit", NullTerminatedText("Error - " + Unit.Troop.GetName()), 0);
+            _ = MessageBox(0, "Error during ShowUnit", NullTerminatedText($"Error - {Unit.Troop.GetName()}"), 0);
         }
     }
 

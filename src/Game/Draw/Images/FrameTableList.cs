@@ -312,7 +312,7 @@ public partial class FrameTableList : Persistent
         string result = "";
         for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            result = result + IntToStr(List[i]) + ",";
+            result = $"{result}{IntToStr(List[i])},";
         }
 
         if (!IsEmpty(result))

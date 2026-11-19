@@ -113,15 +113,15 @@ public partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
         {
             int buyCost = dialog._event.Tower.BuyCost();
             string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.ForGoldFormat), [IntToStr(buyCost)]);
-            dialog.PriceLabel.Text = format + ".";
+            dialog.PriceLabel.Text = $"{format}.";
             spell = GamePack.Current.SpellControl.GetSpell(tower.SpellId);
             dialog.SpellNameLabel.Text = spell.SpellName;
             string magicSphere = dialog.UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
             string level = dialog.UI.Engine.TranslateResourceString(GameText.LevelText);
-            dialog.SpellClassLabel.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
+            dialog.SpellClassLabel.Text = $"{magicSphere}, {level} {IntToStr(spell.SpellLevel)}";
             string castingCost = dialog.UI.Engine.TranslateResourceString(GameText.CastingCostText);
             string mana = dialog.UI.Engine.TranslateResourceString(GameText.ManaText);
-            dialog.SpellCostLabel.Text = castingCost + ": " + IntToStr(spell.BaseManaCost) + " " + mana;
+            dialog.SpellCostLabel.Text = $"{castingCost}: {IntToStr(spell.BaseManaCost)} {mana}";
             string text = spell.SpellText.Text;
             dialog.ResearchMemo.Items.Text = text;
         }

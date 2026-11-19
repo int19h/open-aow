@@ -86,7 +86,7 @@ public static class NameTable
             }
             else if (stored != current)
             {
-                throw new InvalidOperationException("The stored name " + name + " maps to more than one current name.");
+                throw new InvalidOperationException($"The stored name {name} maps to more than one current name.");
             }
         }
         return stored;
@@ -192,10 +192,10 @@ public static class NameTable
 
         if (matches.Count == 0)
         {
-            throw new InvalidOperationException("The stored name " + name + " matches no type.");
+            throw new InvalidOperationException($"The stored name {name} matches no type.");
         }
 
-        throw new InvalidOperationException("The stored name " + name + " matches more than one type.");
+        throw new InvalidOperationException($"The stored name {name} matches more than one type.");
     }
 
     internal static string QualifiedName(Type type)
@@ -210,7 +210,7 @@ public static class NameTable
 
         parts.Reverse();
         string nested = string.Join('.', parts);
-        return type.Namespace is { Length: > 0 } ns ? ns + "." + nested : nested;
+        return type.Namespace is { Length: > 0 } ns ? $"{ns}.{nested}" : nested;
     }
 
     internal static IReadOnlyList<NameRow> Rows => Current().Rows;
@@ -483,7 +483,7 @@ public static class NameTable
                         Add(typeByDelphi, row.Delphi, row);
                         continue;
                     }
-                    throw new InvalidOperationException("The name table repeats " + row.Current + ".");
+                    throw new InvalidOperationException($"The name table repeats {row.Current}.");
                 }
                 if (row.Kind == "type")
                 {
@@ -508,12 +508,12 @@ public static class NameTable
                 string delphiMember = row.Delphi[(delphiDot + 1)..];
                 if (!memberCurrent.TryAdd((enumName, delphiMember), currentMember))
                 {
-                    throw new InvalidOperationException("The name table repeats member " + row.Delphi + ".");
+                    throw new InvalidOperationException($"The name table repeats member {row.Delphi}.");
                 }
 
                 if (!memberDelphi.TryAdd((enumName, currentMember), delphiMember))
                 {
-                    throw new InvalidOperationException("The name table repeats member " + row.Current + ".");
+                    throw new InvalidOperationException($"The name table repeats member {row.Current}.");
                 }
             }
             Dictionary<string, string> storedByCurrent = AssignStored(rows);
@@ -674,7 +674,7 @@ public static class NameTable
                 }
                 if (first != delphiOf[pair.Key])
                 {
-                    throw new InvalidOperationException("The stored name " + pair.Value + " is shared by " + first + " and " + delphiOf[pair.Key] + ".");
+                    throw new InvalidOperationException($"The stored name {pair.Value} is shared by {first} and {delphiOf[pair.Key]}.");
                 }
             }
             return stored;
@@ -701,13 +701,13 @@ public static class NameTable
             string candidate = baseStored;
             for (int i = parts.Length - 1; i >= 0; i--)
             {
-                candidate = parts[i] + "." + candidate;
+                candidate = $"{parts[i]}.{candidate}";
                 if (!used.Contains(candidate))
                 {
                     return candidate;
                 }
             }
-            throw new InvalidOperationException("The stored name " + baseStored + " has no free qualification for " + qualified + ".");
+            throw new InvalidOperationException($"The stored name {baseStored} has no free qualification for {qualified}.");
         }
 
         private static string NamespaceOf(string qualified, HashSet<string> names)

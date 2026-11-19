@@ -80,7 +80,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
             Type? type = TypeOf(classValue.Name);
             if (type is null)
             {
-                failures.Add(classValue.Name + " names no C# type");
+                failures.Add($"{classValue.Name} names no C# type");
                 continue;
             }
             foreach (SchemaProperty property in classValue.Own)
@@ -95,12 +95,12 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
 
                 if (bound && listed)
                 {
-                    failures.Add(classValue.Name + "." + property.Name + " is listed as unbound and binds " + type.Name + "." + property.Name);
+                    failures.Add($"{classValue.Name}.{property.Name} is listed as unbound and binds {type.Name}.{property.Name}");
                 }
 
                 if (!bound && !listed)
                 {
-                    failures.Add(classValue.Name + "." + property.Name + " names no member of " + type.FullName);
+                    failures.Add($"{classValue.Name}.{property.Name} names no member of {type.FullName}");
                 }
             }
         }
@@ -108,11 +108,11 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
         {
             if (!used.Contains(key))
             {
-                failures.Add(key.Class + "." + key.Name + " is listed as unbound and is no schema member");
+                failures.Add($"{key.Class}.{key.Name} is listed as unbound and is no schema member");
             }
         }
 
-        output.WriteLine(checkedNames + " schema members checked, " + s_unboundNames.Count + " bind no member of their name");
+        output.WriteLine($"{checkedNames} schema members checked, {s_unboundNames.Count} bind no member of their name");
         Assert.True(failures.Count == 0, string.Join("\n", failures));
     }
 
@@ -157,13 +157,13 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
                     values++;
                     if (stored.Value != expected)
                     {
-                        failures.Add(classValue.Name + "." + name + " stores " + stored.Value + ", the member holds " + expected);
+                        failures.Add($"{classValue.Name}.{name} stores {stored.Value}, the member holds {expected}");
                     }
                 }
             }
             catch (Exception error) when (error is not Xunit.Sdk.XunitException)
             {
-                skipped.Add(classValue.Name + ": " + error.GetType().Name + " " + error.Message);
+                skipped.Add($"{classValue.Name}: {error.GetType().Name} {error.Message}");
             }
             finally
             {
@@ -171,14 +171,14 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
                 CombatMap.Current = combatMap;
             }
         }
-        output.WriteLine(objects + " objects, " + values + " stored integers checked, " + skipped.Count + " classes skipped");
+        output.WriteLine($"{objects} objects, {values} stored integers checked, {skipped.Count} classes skipped");
         foreach (string line in skipped)
         {
-            output.WriteLine("skipped " + line);
+            output.WriteLine($"skipped {line}");
         }
 
         Assert.True(failures.Count == 0, string.Join("\n", failures));
-        Assert.True(objects >= 300, "only " + objects + " objects were checked");
+        Assert.True(objects >= 300, $"only {objects} objects were checked");
     }
 
     [Fact]
@@ -193,18 +193,18 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
         foreach (string name in records)
         {
             // A record is the image its [StoredRecord] binding names.
-            RecordTypeInfo info = RecordCatalog.Find(name) ?? throw new InvalidOperationException("The record " + name + " is not in the catalog.");
+            RecordTypeInfo info = RecordCatalog.Find(name) ?? throw new InvalidOperationException($"The record {name} is not in the catalog.");
             Type type = info.Image;
             if (RecordTypeInfo.StoredName(type) != name)
             {
-                failures.Add("record " + name + " is bound to " + type.FullName + ", which stores " + RecordTypeInfo.StoredName(type));
+                failures.Add($"record {name} is bound to {type.FullName}, which stores {RecordTypeInfo.StoredName(type)}");
             }
 
             foreach (RecordFieldInfo field in info.Fields)
             {
                 if (Member(type, field.Name) is null)
                 {
-                    failures.Add("record " + name + " stores " + field.Name + ", which is no member of " + type.FullName);
+                    failures.Add($"record {name} stores {field.Name}, which is no member of {type.FullName}");
                 }
             }
         }
@@ -213,7 +213,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
             Type type = NameTable.Find(name);
             Assert.Equal(actual: EnumTypeInfo.Describe(type).ByName.Keys.Order(StringComparer.Ordinal).ToArray(), expected: [.. Enum.GetNames(type).Order(StringComparer.Ordinal)]);
         }
-        output.WriteLine(records.Count + " records and " + enums.Count + " enums checked");
+        output.WriteLine($"{records.Count} records and {enums.Count} enums checked");
         Assert.True(failures.Count == 0, string.Join("\n", failures));
     }
 
@@ -270,7 +270,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
             return field;
         }
 
-        if (MemberNames.Field(type, "_" + char.ToLowerInvariant(name[0]) + name[1..]) is { } privateField)
+        if (MemberNames.Field(type, $"_{char.ToLowerInvariant(name[0])}{name[1..]}") is { } privateField)
         {
             return privateField;
         }

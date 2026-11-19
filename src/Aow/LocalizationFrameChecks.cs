@@ -17,7 +17,7 @@ internal static class LocalizationFrameChecks
         foreach (string file in new[] { "AoW", "ResStr", "CustMaps", "Release" })
         {
             MldDictionary dictionary = new();
-            dictionary.Open(Path.Combine(root, "Dict", file + ".mld"));
+            dictionary.Open(Path.Combine(root, "Dict", $"{file}.mld"));
             foreach (MldEntry entry in dictionary.Entries)
             {
                 for (int index = 1; index <= entry.Translations[1].Length; index++)

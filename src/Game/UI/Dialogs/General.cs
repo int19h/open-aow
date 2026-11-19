@@ -656,7 +656,7 @@ public partial class General(UIContext ui) : UIModule(ui)
                 player.PlayerType = player.PlayerType == PlayerType.Cpu5 ? PlayerType.Human : (PlayerType)((int)player.PlayerType + 1);
 
                 string playerType = UI.Engine.TranslateResourceString(GameTables.PlayerTypeTexts[(int)player.PlayerType]);
-                s = "Player " + IntToStr(key - 48) + " set to: " + playerType;
+                s = $"Player {IntToStr(key - 48)} set to: {playerType}";
                 StrategicMap.Current.ShowMessage(s);
                 StrategicMap.Current.Players.Update();
                 StrategicMap.Current.RequestCombatType = StrategicMap.Current.Players.LocalHumanPlayers.Count > 1;
@@ -875,7 +875,7 @@ public partial class General(UIContext ui) : UIModule(ui)
 
         string loading = controller.UI.Engine.TranslateResourceString(LayerText.LoadingText);
         string fileName = ExtractFileName(name);
-        controller.UI.ProgressDialog.TitleLabel.Text = loading + " " + fileName + "...";
+        controller.UI.ProgressDialog.TitleLabel.Text = $"{loading} {fileName}...";
         controller.UI.ProgressDialog.StatusLabel.Text = "";
         controller.UI.ProgressDialog.ProgressBar.Position = 0;
         controller.UI.ProgressDialog.ProgressBar.Max = 100;

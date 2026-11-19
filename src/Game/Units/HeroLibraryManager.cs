@@ -57,11 +57,11 @@ public partial class HeroLibraryManager : EngineObject
         if (persister.Loading)
         {
             ReadUserLibraries();
-            GetEngine().ReadFromFile(directory + "Heroes.PFS", SystemLibrary, null);
+            GetEngine().ReadFromFile($"{directory}Heroes.PFS", SystemLibrary, null);
         }
         else
         {
-            GetEngine().WriteToFile(directory + "Heroes.PFS", SystemLibrary, null);
+            GetEngine().WriteToFile($"{directory}Heroes.PFS", SystemLibrary, null);
             WriteUserLibraries();
         }
     }
@@ -80,12 +80,12 @@ public partial class HeroLibraryManager : EngineObject
         _ = _libraries.AddChild(SystemLibrary);
         // Both extensions list, and a list present in both forms loads its own document once
         // (own-formats.md 4.2).
-        foreach (string listed in FileBoundary.FindDocuments(GetEngine().StartupDirectory + "User\\", DocumentKind.HeroList))
+        foreach (string listed in FileBoundary.FindDocuments($"{GetEngine().StartupDirectory}User\\", DocumentKind.HeroList))
         {
             library = new HeroLibrary(null) { Holder = CreationHolder() };
             try
             {
-                library.LoadFromFile(GetEngine().StartupDirectory + "User\\" + listed);
+                library.LoadFromFile($"{GetEngine().StartupDirectory}User\\{listed}");
                 library.SetOwner(_libraries);
             }
             catch
@@ -103,7 +103,7 @@ public partial class HeroLibraryManager : EngineObject
         {
             library = GetLibrary(i);
             string name = library.GetName();
-            library.SaveToFile(GetEngine().StartupDirectory + "User\\" + name + FileBoundary.WriteExtension(DocumentKind.HeroList));
+            library.SaveToFile($"{GetEngine().StartupDirectory}User\\{name}{FileBoundary.WriteExtension(DocumentKind.HeroList)}");
         }
     }
 
@@ -155,7 +155,7 @@ public partial class HeroLibraryManager : EngineObject
             {
                 LibraryName = libraryName
             };
-            result.SaveToFile(GetEngine().StartupDirectory + "Release\\" + libraryName + FileBoundary.WriteExtension(DocumentKind.HeroList));
+            result.SaveToFile($"{GetEngine().StartupDirectory}Release\\{libraryName}{FileBoundary.WriteExtension(DocumentKind.HeroList)}");
         }
         else
         {
@@ -172,8 +172,8 @@ public partial class HeroLibraryManager : EngineObject
         {
             string name = GetLibrary(index).GetName();
             // The list goes in both forms, so an original of the same name does not return.
-            _ = DeleteFile(GetEngine().StartupDirectory + "User\\" + name + DocumentKind.HeroList.OriginalExtension);
-            _ = DeleteFile(GetEngine().StartupDirectory + "User\\" + name + DocumentKind.HeroList.OwnExtension);
+            _ = DeleteFile($"{GetEngine().StartupDirectory}User\\{name}{DocumentKind.HeroList.OriginalExtension}");
+            _ = DeleteFile($"{GetEngine().StartupDirectory}User\\{name}{DocumentKind.HeroList.OwnExtension}");
             GetLibrary(index)?.Dispose();
         }
     }

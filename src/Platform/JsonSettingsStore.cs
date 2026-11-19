@@ -58,10 +58,10 @@ public sealed class JsonSettingsStore : ISettingsStore
         _ = Encode(key, stored);
         Dictionary<string, object> next = new(_values, StringComparer.OrdinalIgnoreCase) { [key] = stored };
         _ = Directory.CreateDirectory(Path.GetDirectoryName(_path)!);
-        string temporary = _path + "." + Guid.NewGuid().ToString("N") + ".tmp";
+        string temporary = $"{_path}.{Guid.NewGuid():N}.tmp";
         try
         {
-            File.WriteAllText(temporary, JsonSerializer.Serialize(next.OrderBy(p => p.Key, StringComparer.Ordinal).ToDictionary(p => p.Key, p => Encode(p.Key, p.Value)), new JsonSerializerOptions { WriteIndented = true }) + "\n");
+            File.WriteAllText(temporary, $"{JsonSerializer.Serialize(next.OrderBy(p => p.Key, StringComparer.Ordinal).ToDictionary(p => p.Key, p => Encode(p.Key, p.Value)), new JsonSerializerOptions { WriteIndented = true })}\n");
             File.Move(temporary, _path, true);
             _values[key] = stored;
         }

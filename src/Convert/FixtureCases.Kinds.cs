@@ -18,10 +18,10 @@ public static partial class Fixtures
     {
         yield return new("cases", "production orders 1, 2, 11, 12, 13 and an unknown kind keep their cases", () =>
             OwnRoundTrip(WithKinds(ProductionItems, DiplomaticActions), (normal, _) => CasesOf(normal, "ProductionItem") is var cases && cases == ProductionCases
-                ? null : "production cases read back as " + cases));
+                ? null : $"production cases read back as {cases}"));
         yield return new("cases", "diplomatic proposals 0, 1 and an unknown kind keep their cases", () =>
             OwnRoundTrip(WithKinds(ProductionItems, DiplomaticActions), (normal, _) => CasesOf(normal, "DiplomaticAction") is var cases && cases == DiplomacyCases
-                ? null : "diplomatic cases read back as " + cases));
+                ? null : $"diplomatic cases read back as {cases}"));
         yield return new("cases", "an unknown case name is refused", () => Expect(Codes.Case,
             () => GameFiles.Export(Copy(WithKinds([Item(0, "Build", [])], []))), Located));
         yield return new("cases", "a field the case does not keep is refused", () => Expect(Codes.UnknownMember,
@@ -39,7 +39,7 @@ public static partial class Fixtures
             byte[] image = ExportWithRawProductionKind(Item(0, "Unknown", [("Kind", new JsonInteger(0x12345678)), ("Parameter", new JsonInteger(7))]), newKind: 11);
             JsonObject imported = Import(image, "world-hsm", "save");
             string cases = CasesOf(imported, "ProductionItem");
-            return cases == "Upgrade{}" ? Pass("ignored and omitted") : Fail("read back as " + cases);
+            return cases == "Upgrade{}" ? Pass("ignored and omitted") : Fail($"read back as {cases}");
         });
     }
 
@@ -187,8 +187,8 @@ public static partial class Fixtures
                     if (objectValue["$class"] is JsonString { } name && name.Value == classValue && objectValue["$case"] is JsonString kind)
                     {
                         IEnumerable<string> fields = objectValue.Members.Where(m => !m.Name.StartsWith('$') && m.Name is not ("Source" or "Target" or "OtherPlayer"))
-                            .Select(m => m.Name + "=" + (m.Value is JsonInteger i ? i.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : "\"" + ((JsonString)m.Value).Value + "\""));
-                        found.Add(kind.Value + "{" + (objectValue["$residue"] is null ? string.Join(",", fields) : "$residue") + "}");
+                            .Select(m => $"{m.Name}={(m.Value is JsonInteger i ? i.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : $"\"{((JsonString)m.Value).Value}\"")}");
+                        found.Add($"{kind.Value}{{{(objectValue["$residue"] is null ? string.Join(",", fields) : "$residue")}}}");
                     }
                     foreach (JsonMember m in objectValue.Members)
                     {

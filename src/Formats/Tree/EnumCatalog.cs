@@ -22,7 +22,7 @@ internal sealed class DictionaryEnumCatalog : IEnumCatalog
             EnumTypeInfo info = EnumTypeInfo.Describe(type);
             if (!_types.TryAdd(info.Name, info))
             {
-                throw new InvalidOperationException("The enum " + info.Name + " is registered twice.");
+                throw new InvalidOperationException($"The enum {info.Name} is registered twice.");
             }
         }
     }
@@ -91,7 +91,7 @@ public static class EnumCatalog
 
             if (found is not null)
             {
-                throw new InvalidOperationException("The enum " + typeName + " is registered twice.");
+                throw new InvalidOperationException($"The enum {typeName} is registered twice.");
             }
 
             found = type;
@@ -100,7 +100,7 @@ public static class EnumCatalog
     }
 
     public static EnumTypeInfo Require(string typeName, string? file, string path) =>
-        Find(typeName) ?? throw new ConversionException(new FormatDiagnostic(Codes.Type, "The enum " + typeName + " is not in the catalog.")
+        Find(typeName) ?? throw new ConversionException(new FormatDiagnostic(Codes.Type, $"The enum {typeName} is not in the catalog.")
         { File = file, Path = path });
 }
 
@@ -145,7 +145,7 @@ internal sealed class ReflectionEnumCatalog : IEnumCatalog
         }
         if (list.Count != 1)
         {
-            throw new InvalidOperationException("The enum " + typeName + " is declared " + list.Count + " times.");
+            throw new InvalidOperationException($"The enum {typeName} is declared {list.Count} times.");
         }
 
         type = list[0];

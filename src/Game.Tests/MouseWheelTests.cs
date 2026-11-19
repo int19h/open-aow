@@ -35,7 +35,7 @@ public sealed class MouseWheelTests
         list.VisibleRows = shown;
         for (int i = 0; i < count; i++)
         {
-            _ = list.Items.Add("item" + i);
+            _ = list.Items.Add($"item{i}");
         }
     }
 

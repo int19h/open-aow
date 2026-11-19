@@ -239,7 +239,7 @@ public partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
         WorldMapCampaign campaign = dialog.UI.WorldMap.GetCampaign();
         int id = WorldMapCampaign.GetCampaignScenario(campaign, 0).Paths[0];
         WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(index: campaign.Scenarios.IndexOfId(id), campaign: dialog.UI.WorldMap.GetCampaign());
-        StrategicMap hexSpriteMap = dialog.UI.Engine.CreatePreviewHsm<StrategicMap>(FileBoundary.ReadName(dialog.UI.Engine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario.FileName), profile: GameProfile.WorldMap);
+        StrategicMap hexSpriteMap = dialog.UI.Engine.CreatePreviewHsm<StrategicMap>(FileBoundary.ReadName($"{dialog.UI.Engine.StartupDirectory}Scenario\\Campaign\\{campaignScenario.FileName}"), profile: GameProfile.WorldMap);
         int i;
         for (i = 0; i < hexSpriteMap.Count && hexSpriteMap.Players.GetPlayers(i).PlayerType != PlayerType.Human; i++)
         {
@@ -250,7 +250,7 @@ public partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
         value?.Dispose();
     }
 
-    private static void LoadWorldCampaign(WorldMap dialog, string name) => dialog.UI.Engine.LoadCampaign(FileBoundary.ReadName(dialog.UI.Engine.StartupDirectory + "Scenario\\Campaign\\" + name));
+    private static void LoadWorldCampaign(WorldMap dialog, string name) => dialog.UI.Engine.LoadCampaign(FileBoundary.ReadName($"{dialog.UI.Engine.StartupDirectory}Scenario\\Campaign\\{name}"));
 
     private static void ParseFontText(string text, DelphiStringCollection strings, ImageLibraryFont font, int maxWidth)
     {
@@ -280,7 +280,7 @@ public partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
             }
             if (!DelphiStrings.IsEmpty(textLocal))
             {
-                textLocal = textLocal + " " + text2;
+                textLocal = $"{textLocal} {text2}";
                 number = number + textWidth + font.GetTextWidth(" ");
             }
             else

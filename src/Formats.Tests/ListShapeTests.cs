@@ -126,7 +126,7 @@ public sealed class ListShapeTests : FormatsTest
     }
 
     private static SchemaProperty Property(string className, string property) =>
-        FormatSchema.Current.Get(className).PropertyByName(property) ?? throw new InvalidOperationException(className + " has no " + property + ".");
+        FormatSchema.Current.Get(className).PropertyByName(property) ?? throw new InvalidOperationException($"{className} has no {property}.");
 
     private static JsonValue Decode(string className, string property, byte[] bytes)
     {

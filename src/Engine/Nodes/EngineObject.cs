@@ -237,7 +237,7 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     {
         if (owner != null && !AcceptsOwner(owner))
         {
-            throw new ArgumentException(GetType().Name + " does not take an owner of type " + owner.GetType().Name + ".", nameof(owner));
+            throw new ArgumentException($"{GetType().Name} does not take an owner of type {owner.GetType().Name}.", nameof(owner));
         }
     }
 

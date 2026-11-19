@@ -162,12 +162,12 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
                 }
 
                 UI.Graphics.PyreFrames[frame].Show(DeadPanel.AbsoluteLeft + PyreAnimationView.WinLeft, DeadPanel.AbsoluteTop + PyreAnimationView.WinTop, lockedSurface);
-                text = StrategicMap.Current.Players.GetPlayers(GameOverEvent.Player).GetNameWithRace() + ", " + UI.Engine.TranslateResourceString(s_yourReignHasEndedText);
+                text = $"{StrategicMap.Current.Players.GetPlayers(GameOverEvent.Player).GetNameWithRace()}, {UI.Engine.TranslateResourceString(s_yourReignHasEndedText)}";
                 UI.Fonts.Age15BlackOnBrown.SetTextCentered(x, y, text, lockedSurface);
                 break;
             case GameOverStatus.Won:
                 UI.Graphics.VictoryFrames[0].Show(DeadPanel.AbsoluteLeft + PyreAnimationView.WinLeft, DeadPanel.AbsoluteTop, lockedSurface);
-                text = StrategicMap.Current.Players.GetPlayers(GameOverEvent.Player).GetNameWithRace() + ", " + UI.Engine.TranslateResourceString(s_youWereVictoriousText);
+                text = $"{StrategicMap.Current.Players.GetPlayers(GameOverEvent.Player).GetNameWithRace()}, {UI.Engine.TranslateResourceString(s_youWereVictoriousText)}";
                 UI.Fonts.Age15WhiteOnGrey.SetTextCentered(x, y, text, lockedSurface);
                 break;
             case GameOverStatus.None:

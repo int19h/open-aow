@@ -41,7 +41,7 @@ internal sealed class DictionaryRecordCatalog : IRecordCatalog
             RecordTypeInfo info = RecordTypeInfo.Describe(type);
             if (!_types.TryAdd(info.Name, info))
             {
-                throw new InvalidOperationException("The record " + info.Name + " is registered twice.");
+                throw new InvalidOperationException($"The record {info.Name} is registered twice.");
             }
         }
     }
@@ -112,7 +112,7 @@ public static class RecordCatalog
 
             if (found is not null)
             {
-                throw new InvalidOperationException("The record " + typeName + " is registered twice.");
+                throw new InvalidOperationException($"The record {typeName} is registered twice.");
             }
 
             found = type;
@@ -121,7 +121,7 @@ public static class RecordCatalog
     }
 
     internal static RecordTypeInfo Require(string typeName, string? file, string path) =>
-        Find(typeName) ?? throw new ConversionException(new FormatDiagnostic(Codes.Type, "The record " + typeName + " is not in the catalog.")
+        Find(typeName) ?? throw new ConversionException(new FormatDiagnostic(Codes.Type, $"The record {typeName} is not in the catalog.")
         { File = file, Path = path });
 }
 
@@ -177,7 +177,7 @@ internal sealed class ReflectionRecordCatalog : IRecordCatalog
         }
         if (list.Count != 1)
         {
-            throw new InvalidOperationException("The record " + typeName + " is declared " + list.Count + " times.");
+            throw new InvalidOperationException($"The record {typeName} is declared {list.Count} times.");
         }
 
         type = RecordTypeInfo.Describe(list[0]);
@@ -196,7 +196,7 @@ internal sealed partial class RecordTypeInfo
         StructLayoutAttribute? layout = type.StructLayoutAttribute;
         if (type is not { IsValueType: true, IsEnum: false } || layout is null || layout.Value != LayoutKind.Explicit || layout.Size <= 0)
         {
-            throw new InvalidOperationException(type.Name + " is not an explicit record.");
+            throw new InvalidOperationException($"{type.Name} is not an explicit record.");
         }
 
         int size = layout.Size;
@@ -213,15 +213,15 @@ internal sealed partial class RecordTypeInfo
                 continue;
             }
 
-            FieldInfo image = raw.FirstOrDefault(field => field.Field.Name == property.Name + "Image").Field
-                ?? throw new InvalidOperationException(type.Name + "." + property.Name + " has no image field.");
+            FieldInfo image = raw.FirstOrDefault(field => field.Field.Name == $"{property.Name}Image").Field
+                ?? throw new InvalidOperationException($"{type.Name}.{property.Name} has no image field.");
             _ = consumed.Add(image);
             int offset = image.GetCustomAttribute<FieldOffsetAttribute>()!.Value;
             int fieldSize = FieldSize(image);
             int storage = SetStorage(property.PropertyType);
             if (storage != fieldSize)
             {
-                throw new InvalidOperationException(type.Name + "." + property.Name + " stores " + storage + " bytes in a " + fieldSize + " byte field.");
+                throw new InvalidOperationException($"{type.Name}.{property.Name} stores {storage} bytes in a {fieldSize} byte field.");
             }
 
             Type element = property.PropertyType.GetGenericArguments()[0];
@@ -250,7 +250,7 @@ internal sealed partial class RecordTypeInfo
         {
             if (declared.Length <= 0)
             {
-                throw new InvalidOperationException(type.Name + " declares padding with non-positive length " + declared.Length + ".");
+                throw new InvalidOperationException($"{type.Name} declares padding with non-positive length {declared.Length}.");
             }
 
             padding.Add((declared.Offset, declared.Length));
@@ -260,14 +260,14 @@ internal sealed partial class RecordTypeInfo
         {
             if (offset < 0 || length < 0 || offset + length > size)
             {
-                throw new InvalidOperationException(type.Name + "." + name + " does not fit the record.");
+                throw new InvalidOperationException($"{type.Name}.{name} does not fit the record.");
             }
 
             for (int i = 0; i < length; i++)
             {
                 if (cover[offset + i])
                 {
-                    throw new InvalidOperationException(type.Name + " covers byte " + (offset + i) + " twice.");
+                    throw new InvalidOperationException($"{type.Name} covers byte {offset + i} twice.");
                 }
 
                 cover[offset + i] = true;
@@ -289,7 +289,7 @@ internal sealed partial class RecordTypeInfo
         {
             if (!cover[i])
             {
-                throw new InvalidOperationException(type.Name + " leaves byte " + i + " uncovered. Declare a field or [StoredPadding].");
+                throw new InvalidOperationException($"{type.Name} leaves byte {i} uncovered. Declare a field or [StoredPadding].");
             }
         }
         padding.Sort(static (a, b) => a.Offset.CompareTo(b.Offset));
@@ -303,8 +303,8 @@ internal sealed partial class RecordTypeInfo
         if (inline is not null)
         {
             FieldInfo element = field.FieldType.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault()
-                ?? throw new InvalidOperationException(owner.Name + "." + field.Name + " has no element.");
-            (int width, bool signed) = IntegerLayout(element.FieldType, owner.Name + "." + field.Name);
+                ?? throw new InvalidOperationException($"{owner.Name}.{field.Name} has no element.");
+            (int width, bool signed) = IntegerLayout(element.FieldType, $"{owner.Name}.{field.Name}");
             return new ArrayRecordField
             {
                 Name = field.Name,
@@ -348,7 +348,7 @@ internal sealed partial class RecordTypeInfo
             };
         }
 
-        (int integerWidth, bool integerSigned) = IntegerLayout(field.FieldType, owner.Name + "." + field.Name);
+        (int integerWidth, bool integerSigned) = IntegerLayout(field.FieldType, $"{owner.Name}.{field.Name}");
         return new IntegerRecordField
         {
             Name = field.Name,
@@ -386,7 +386,7 @@ internal sealed partial class RecordTypeInfo
             return (4, false);
         }
 
-        return type == typeof(int) ? ((int Width, bool Signed))(4, true) : throw new InvalidOperationException(name + " is not an integer field.");
+        return type == typeof(int) ? ((int Width, bool Signed))(4, true) : throw new InvalidOperationException($"{name} is not an integer field.");
     }
 
     private static int FieldSize(FieldInfo field)
@@ -395,11 +395,11 @@ internal sealed partial class RecordTypeInfo
         if (inline is not null)
         {
             FieldInfo element = field.FieldType.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault()
-                ?? throw new InvalidOperationException(field.Name + " has no element.");
+                ?? throw new InvalidOperationException($"{field.Name} has no element.");
             int width = element.FieldType == typeof(byte) || element.FieldType == typeof(sbyte) || element.FieldType == typeof(bool) ? 1
                 : element.FieldType == typeof(short) || element.FieldType == typeof(ushort) ? 2
                 : element.FieldType == typeof(int) || element.FieldType == typeof(uint) ? 4
-                : throw new InvalidOperationException(field.Name + " is not an integer array.");
+                : throw new InvalidOperationException($"{field.Name} is not an integer array.");
             return inline.Length * width;
         }
         return field.FieldType.IsEnum

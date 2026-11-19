@@ -91,31 +91,31 @@ public sealed class UIConstructionTests
 
             if (item is Delegate handler)
             {
-                return handler.GetInvocationList().Select(x => x.Method.DeclaringType!.FullName + "." + x.Method.Name).ToArray();
+                return handler.GetInvocationList().Select(x => $"{x.Method.DeclaringType!.FullName}.{x.Method.Name}").ToArray();
             }
 
             if (!type.IsValueType)
             {
                 if (visited.TryGetValue(item, out string? found))
                 {
-                    return "$ref:" + found;
+                    return $"$ref:{found}";
                 }
 
                 visited.Add(item, path);
             }
             if (item is Array array)
             {
-                return array.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+                return array.Cast<object?>().Select((x, i) => State(x, $"{path}[{i}]")).ToArray();
             }
 
             if (InlineArrays.Elements(item) is { } elements)
             {
-                return elements.Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+                return elements.Select((x, i) => State(x, $"{path}[{i}]")).ToArray();
             }
 
             if (item is IList list)
             {
-                return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+                return list.Cast<object?>().Select((x, i) => State(x, $"{path}[{i}]")).ToArray();
             }
 
             SortedDictionary<string, object?> fields = new(StringComparer.Ordinal) { ["$type"] = type.FullName };
@@ -128,11 +128,11 @@ public sealed class UIConstructionTests
                         continue; // the descriptor cache and the link to the engine are not constructor state
                     }
 
-                    string key = current.Name + "." + MemberNames.Of(field);
+                    string key = $"{current.Name}.{MemberNames.Of(field)}";
                     object? child = field.GetValue(item);
                     if (MemberNames.Of(field) is "_owner" or "Owner") { fields[key] = child is null ? null : "$owner"; continue; }
                     if (child is UIContext) { fields[key] = child.GetType().FullName; continue; }
-                    fields[key] = MemberNames.Of(field) is "_engine" or "Engine" or "_hexSpriteEngine" or "HexSpriteEngine" or "FGameEngine" ? child?.GetType().FullName : State(child, path + "." + key);
+                    fields[key] = MemberNames.Of(field) is "_engine" or "Engine" or "_hexSpriteEngine" or "HexSpriteEngine" or "FGameEngine" ? child?.GetType().FullName : State(child, $"{path}.{key}");
                 }
             }
 
@@ -275,7 +275,7 @@ public sealed class UIConstructionTests
             {
                 if (owner is not null)
                 {
-                    throw new InvalidOperationException(type.FullName + " takes no owner.");
+                    throw new InvalidOperationException($"{type.FullName} takes no owner.");
                 }
 
                 if (type.GetConstructor([typeof(UIContext)]) is { } module)
@@ -297,7 +297,7 @@ public sealed class UIConstructionTests
             MethodInfo? factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(Component)]);
             return factory is not null
                 ? (Component)factory.Invoke(null, [owner])!
-                : throw new InvalidOperationException(type.FullName + " has no completed owner entry.");
+                : throw new InvalidOperationException($"{type.FullName} has no completed owner entry.");
         }
         catch (TargetInvocationException error) when (error.InnerException is not null)
         {
@@ -322,22 +322,22 @@ public sealed class UIConstructionTests
                 value = Direct(type, owner);
                 Assert.IsType(type, value);
                 Assert.Same(owner, value.Owner);
-                states.Add("success:" + Snapshot(value));
+                states.Add($"success:{Snapshot(value)}");
             }
-            catch (Exception error) { states.Add("failure:" + error.GetType().FullName + ":" + error.Message); }
+            catch (Exception error) { states.Add($"failure:{error.GetType().FullName}:{error.Message}"); }
             finally
             {
                 try { value?.Dispose(); }
-                catch (Exception error) { states.Add("destroy:" + error.GetType().FullName + ":" + error.Message); }
+                catch (Exception error) { states.Add($"destroy:{error.GetType().FullName}:{error.Message}"); }
             }
-            states.Add("owner:" + (owner?.ComponentCount ?? 0));
+            states.Add($"owner:{owner?.ComponentCount ?? 0}");
             if (owner is not null)
             {
                 states.Add(JsonSerializer.Serialize(owner.Observations));
             }
 
-            states.Add("subscriptions:" + EngineFixture.Engine.OnHsmLoadedStore.Count + ":" + EngineFixture.Engine.OnHsmCloseStore.Count);
-            ConstructionSnapshot.Check(actual: string.Join("\n", states), key: name + ".owner" + owned, name: "UiConstruction");
+            states.Add($"subscriptions:{EngineFixture.Engine.OnHsmLoadedStore.Count}:{EngineFixture.Engine.OnHsmCloseStore.Count}");
+            ConstructionSnapshot.Check(actual: string.Join("\n", states), key: $"{name}.owner{owned}", name: "UiConstruction");
         }
     }
 }

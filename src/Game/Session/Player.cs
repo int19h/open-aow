@@ -814,7 +814,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             {
                 string raceNames = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNames[PlayerRace]);
                 leaderName = AbilityRules.Format(s_leaderFormat, [raceNames]);
-                s = leaderName + ": " + AbilityRules.TranslateResourceString(GetEngine(), s_notAllSpheresAssignedText);
+                s = $"{leaderName}: {AbilityRules.TranslateResourceString(GetEngine(), s_notAllSpheresAssignedText)}";
                 _ = errors.Add(s);
                 result = false;
             }
@@ -823,7 +823,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             {
                 string raceNamesText = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNames[PlayerRace]);
                 leaderName = AbilityRules.Format(s_leaderFormat, [raceNamesText]);
-                s = leaderName + ": " + AbilityRules.TranslateResourceString(GetEngine(), s_notPlacedOnMapText);
+                s = $"{leaderName}: {AbilityRules.TranslateResourceString(GetEngine(), s_notPlacedOnMapText)}";
                 _ = errors.Add(s);
                 result = false;
             }
@@ -832,7 +832,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             {
                 string translatedText = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNames[PlayerRace]);
                 leaderName = AbilityRules.Format(s_leaderFormat, [translatedText]);
-                s = leaderName + ": " + AbilityRules.TranslateResourceString(GetEngine(), s_notAllSkillPointsAssignedText);
+                s = $"{leaderName}: {AbilityRules.TranslateResourceString(GetEngine(), s_notAllSkillPointsAssignedText)}";
                 _ = errors.Add(s);
             }
         }
@@ -1013,7 +1013,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                 if (!IsEmpty(Leader.GetNickname()))
                 {
                     string nickname = Leader.GetNickname();
-                    result = result + " " + nickname;
+                    result = $"{result} {nickname}";
                 }
             }
             else
@@ -1023,7 +1023,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
 
             if (IsEmpty(result))
             {
-                result = AbilityRules.TranslateResourceString(GetEngine(), s_playerText) + " " + IntToStr(PlayerIndex);
+                result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_playerText)} {IntToStr(PlayerIndex)}";
             }
         }
         else

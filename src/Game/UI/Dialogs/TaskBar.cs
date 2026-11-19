@@ -311,10 +311,10 @@ public partial class TaskBar(UIContext ui) : UIModule(ui)
                     second = (ushort)(StrategicMap.Current.GetTurnTimeLeft() % 60000 / 1000);
                     WorldTimeLabel.TextColor = minute == 0 && second > 0 && second <= 10 ? 255 : 0;
 
-                    WorldTimeLabel.Text = IntToStr(minute) + ":";
+                    WorldTimeLabel.Text = $"{IntToStr(minute)}:";
                     if (second < 10)
                     {
-                        WorldTimeLabel.Text = WorldTimeLabel.Text + "0";
+                        WorldTimeLabel.Text = $"{WorldTimeLabel.Text}0";
                     }
 
                     WorldTimeLabel.Text = WorldTimeLabel.Text + IntToStr(second);
@@ -335,10 +335,10 @@ public partial class TaskBar(UIContext ui) : UIModule(ui)
                         hour = 12;
                     }
 
-                    WorldTimeLabel.Text = IntToStr(hour) + ":";
+                    WorldTimeLabel.Text = $"{IntToStr(hour)}:";
                     if (minute < 10)
                     {
-                        WorldTimeLabel.Text = WorldTimeLabel.Text + "0";
+                        WorldTimeLabel.Text = $"{WorldTimeLabel.Text}0";
                     }
 
                     WorldTimeLabel.Text = WorldTimeLabel.Text + IntToStr(minute);
@@ -369,10 +369,10 @@ public partial class TaskBar(UIContext ui) : UIModule(ui)
                     hour = 12;
                 }
 
-                CombatTimeLabel.Text = IntToStr(hour) + ":";
+                CombatTimeLabel.Text = $"{IntToStr(hour)}:";
                 if (minute < 10)
                 {
-                    CombatTimeLabel.Text = CombatTimeLabel.Text + "0";
+                    CombatTimeLabel.Text = $"{CombatTimeLabel.Text}0";
                 }
 
                 CombatTimeLabel.Text = CombatTimeLabel.Text + IntToStr(minute);

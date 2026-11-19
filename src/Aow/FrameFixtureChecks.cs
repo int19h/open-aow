@@ -117,7 +117,7 @@ internal static class FrameFixtureChecks
                 StrategicMap.Current.UpdateFPS(fps);
                 army.MoveStep = -1;
                 _ = army.MoveFirst(1, false);
-                Check(army.MoveSteps == 4, "positive FPS below 15 preserves the captured movement tier: " + fps);
+                Check(army.MoveSteps == 4, $"positive FPS below 15 preserves the captured movement tier: {fps}");
             }
             StrategicMap.Current.UpdateFPS(30);
             army.MoveStep = -1;
@@ -143,7 +143,7 @@ internal static class FrameFixtureChecks
         private readonly IClock _clock = RtlHost.Clock;
         private readonly string _executable = LegacyApplication.Application.ExeName;
         private readonly bool _ownExtensions = RtlHost.WritesOwnExtensions;
-        private readonly string _scratch = Path.Combine(Path.GetTempPath(), "aow-frame-inputs-" + Guid.NewGuid().ToString("N"));
+        private readonly string _scratch = Path.Combine(Path.GetTempPath(), $"aow-frame-inputs-{Guid.NewGuid():N}");
 
         internal StartupScope(string root)
         {

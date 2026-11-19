@@ -85,7 +85,7 @@ public partial class SpellControl(CustomNode owner) : EngineObject(owner)
         {
             if (id < RegisteredSpells.Count && RegisteredSpells[id] != null)
             {
-                throw new InvalidOperationException("Spell already registered (" + IntToStr(id) + ")");
+                throw new InvalidOperationException($"Spell already registered ({IntToStr(id)})");
             }
 
             while (RegisteredSpells.Count <= id)
@@ -98,7 +98,7 @@ public partial class SpellControl(CustomNode owner) : EngineObject(owner)
         }
         else
         {
-            throw new ArgumentException("Invalid SpellID (" + spell.GetType().Name + ")");
+            throw new ArgumentException($"Invalid SpellID ({spell.GetType().Name})");
         }
     }
 
@@ -111,7 +111,7 @@ public partial class SpellControl(CustomNode owner) : EngineObject(owner)
         {
             if (id < 0 || id >= RegisteredSpells.Count || RegisteredSpells[id] != spell)
             {
-                throw new InvalidOperationException("Cannot Unregister Spell (" + IntToStr(id) + ")");
+                throw new InvalidOperationException($"Cannot Unregister Spell ({IntToStr(id)})");
             }
 
             if (RegisteredSpells[id] != null)
@@ -123,7 +123,7 @@ public partial class SpellControl(CustomNode owner) : EngineObject(owner)
         }
         else
         {
-            throw new ArgumentException("Invalid SpellID (" + spell.GetType().Name + ")");
+            throw new ArgumentException($"Invalid SpellID ({spell.GetType().Name})");
         }
     }
 

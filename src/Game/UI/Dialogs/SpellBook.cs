@@ -405,15 +405,15 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
             NameLabel.Text = _hero.HeroName;
             Player player = StrategicMap.Current.Players.GetPlayers(player2);
             string manaPool = UI.Engine.TranslateResourceString(s_manaPoolText);
-            ManaPoolLabel.Text = manaPool + ": " + IntToStr(player.MagicControl.Mana);
+            ManaPoolLabel.Text = $"{manaPool}: {IntToStr(player.MagicControl.Mana)}";
             sbyte castingPoints = _hero.GetCastingPoints();
             string castingPointsText = UI.Engine.TranslateResourceString(GameText.CastingPointsText);
             sbyte castingPointsMax = _hero.GetCastingPointsMax();
-            CastingPointsLabel.Text = castingPointsText + ": " + IntToStr(castingPoints) + "/" + IntToStr(castingPointsMax);
+            CastingPointsLabel.Text = $"{castingPointsText}: {IntToStr(castingPoints)}/{IntToStr(castingPointsMax)}";
             ResearchManaPoolLabel.Text = ManaPoolLabel.Text;
             int netPowerToResearch = StrategicMap.Current.Players.GetPlayers(player2).MagicControl.GetNetPowerToResearch();
             string researchPoints = UI.Engine.TranslateResourceString(s_researchPointsText);
-            ResearchPointsLabel.Text = researchPoints + ": " + IntToStr(netPowerToResearch);
+            ResearchPointsLabel.Text = $"{researchPoints}: {IntToStr(netPowerToResearch)}";
             if (Set<byte>.WithBounds(0, 255).With(2).With(3).Contains(Mode))
             {
                 CurrentPointsLabel.Text = "";
@@ -428,16 +428,16 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                     ResearchNoneLabel.Visible = false;
                     spell = GamePack.Current.SpellControl.GetSpell(control.ResearchSpellId);
                     string currentlyResearching = UI.Engine.TranslateResourceString(s_currentlyResearchingText);
-                    ResearchLabel.Text = currentlyResearching + ":";
+                    ResearchLabel.Text = $"{currentlyResearching}:";
                     ResearchMemo.Items = spell.SpellText;
                     ResearchNameLabel.Text = spell.SpellName;
                     string magicSphere = UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
                     string level = UI.Engine.TranslateResourceString(GameText.LevelText);
-                    ResearchClassLabel.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
+                    ResearchClassLabel.Text = $"{magicSphere}, {level} {IntToStr(spell.SpellLevel)}";
                     int castingMana = _hero.CastingMana(spell);
                     string castingCost = UI.Engine.TranslateResourceString(GameText.CastingCostText);
                     string mana = UI.Engine.TranslateResourceString(GameText.ManaText);
-                    ResearchCostLabel.Text = castingCost + ": " + IntToStr(castingMana) + " " + mana;
+                    ResearchCostLabel.Text = $"{castingCost}: {IntToStr(castingMana)} {mana}";
                     if (control.GetResearchTurnsLeft() < 999)
                     {
                         string formatTurnsLeftString = DurationText.FormatTurnsLeftString(UI.Engine, turns: control.GetResearchTurnsLeft());
@@ -461,15 +461,15 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                         ResearchNoneLabel.Visible = false;
                         spell = GamePack.Current.SpellControl.GetSpell(_researchedSpell);
                         string researched = UI.Engine.TranslateResourceString(s_researchedText);
-                        ResearchLabel.Text = researched + ":";
+                        ResearchLabel.Text = $"{researched}:";
                         ResearchMemo.Items = spell.SpellText;
                         ResearchNameLabel.Text = spell.SpellName;
                         string magicSphere = UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
                         string level = UI.Engine.TranslateResourceString(GameText.LevelText);
-                        ResearchClassLabel.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
+                        ResearchClassLabel.Text = $"{magicSphere}, {level} {IntToStr(spell.SpellLevel)}";
                         string castingCost = UI.Engine.TranslateResourceString(GameText.CastingCostText);
                         string mana = UI.Engine.TranslateResourceString(GameText.ManaText);
-                        ResearchCostLabel.Text = castingCost + ": " + IntToStr(spell.BaseManaCost) + " " + mana;
+                        ResearchCostLabel.Text = $"{castingCost}: {IntToStr(spell.BaseManaCost)} {mana}";
                         ResearchStatusLabel.Visible = false;
                         string research = UI.Engine.TranslateResourceString(s_researchText);
                         CancelResearchButton.Text = research;
@@ -505,13 +505,13 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                         CastingSpellLabel.Text = spell.SpellName;
                         string magicSphere = UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
                         string level = UI.Engine.TranslateResourceString(GameText.LevelText);
-                        CastingClassLabel.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
+                        CastingClassLabel.Text = $"{magicSphere}, {level} {IntToStr(spell.SpellLevel)}";
                         string castingCost = UI.Engine.TranslateResourceString(GameText.CastingCostText);
                         string mana = UI.Engine.TranslateResourceString(GameText.ManaText);
-                        CastingCostLabel.Text = castingCost + ": " + IntToStr(_hero.CastingProgress) + " " + mana;
+                        CastingCostLabel.Text = $"{castingCost}: {IntToStr(_hero.CastingProgress)} {mana}";
                         CastingMemo.Items = spell.SpellText;
                         string formatTurnsLeftString = DurationText.FormatTurnsLeftString(UI.Engine, turns: _hero.CastingTurnsLeft());
-                        CastingStatusLabel.Text = "(" + formatTurnsLeftString + ")";
+                        CastingStatusLabel.Text = $"({formatTurnsLeftString})";
                         CastingPanel.Visible = true;
                         if (_hero.CastingReady())
                         {
@@ -523,7 +523,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                         {
                             CastingButton.Visible = false;
                             string formatTurnsLeftString2 = DurationText.FormatTurnsLeftString(UI.Engine, turns: _hero.CastingTurnsLeft());
-                            CastingStatusLabel.Text = "(" + formatTurnsLeftString2 + ")";
+                            CastingStatusLabel.Text = $"({formatTurnsLeftString2})";
                         }
                     }
                     else
@@ -551,20 +551,20 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
         {
             panel.Visible = true;
             name.Text = spell.SpellName;
-            spellClass.Text = UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]) + ", " + UI.Engine.TranslateResourceString(GameText.LevelText) + " " + IntToStr(spell.SpellLevel);
+            spellClass.Text = $"{UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere])}, {UI.Engine.TranslateResourceString(GameText.LevelText)} {IntToStr(spell.SpellLevel)}";
             if (Mode == 2)
             {
                 if (spell.SpellControlTypes == Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global))
                 {
                     string global = UI.Engine.TranslateResourceString(GameTables.GlobalText);
-                    spellClass.Text = spellClass.Text + ", " + global;
+                    spellClass.Text = $"{spellClass.Text}, {global}";
                 }
                 else
                 {
                     if (spell.SpellControlTypes == Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Combat))
                     {
                         string combat = UI.Engine.TranslateResourceString(GameTables.CombatText);
-                        spellClass.Text = spellClass.Text + ", " + combat;
+                        spellClass.Text = $"{spellClass.Text}, {combat}";
                     }
                     else
                     {
@@ -572,7 +572,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                         {
                             string global = UI.Engine.TranslateResourceString(GameTables.GlobalText);
                             string combat = UI.Engine.TranslateResourceString(GameTables.CombatText);
-                            spellClass.Text = spellClass.Text + ", " + global + "/" + combat;
+                            spellClass.Text = $"{spellClass.Text}, {global}/{combat}";
                         }
                     }
                 }
@@ -611,7 +611,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
             if (spell.ManaUpkeep > 0)
             {
                 string format = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.UpkeepFormat), [spell.ManaUpkeep]);
-                cost.Text = cost.Text + " " + format;
+                cost.Text = $"{cost.Text} {format}";
             }
 
             if (Set<byte>.WithBounds(0, 255).With(0).With(1).Contains(Mode))
@@ -621,7 +621,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                     ? UI.Engine.TranslateResourceString(s_instantText)
                     : AbilityRules.Format(UI.Engine.TranslateResourceString(s_turnsFormat), [IntToStr(turns)]);
 
-                cost.Text = cost.Text + " " + reason;
+                cost.Text = $"{cost.Text} {reason}";
             }
             else
             {
@@ -632,12 +632,12 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                     if (turns < 999)
                     {
                         string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_turnsFormat), [IntToStr(turns)]);
-                        cost.Text = cost.Text + " " + format;
+                        cost.Text = $"{cost.Text} {format}";
                     }
                     else
                     {
                         string format = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.TurnsFormat), [(byte)63]);
-                        cost.Text = cost.Text + " " + format;
+                        cost.Text = $"{cost.Text} {format}";
                     }
                 }
             }

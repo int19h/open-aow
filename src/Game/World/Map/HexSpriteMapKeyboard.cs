@@ -168,7 +168,7 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
                         case 82:
                             if (GetEngine().Debug)
                             {
-                                GetEngine().OutputDebugString("Random Seed: " + IntToStr(StrategicMap.Current.DefendersSeed));
+                                GetEngine().OutputDebugString($"Random Seed: {IntToStr(StrategicMap.Current.DefendersSeed)}");
                             }
 
                             break;
@@ -190,7 +190,7 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
                             if (GetEngine().Debug)
                             {
                                 HeapStatus heapStatus = GetHeapStatus();
-                                StrategicMap.Current.ShowMessage("Allocated Memory: " + IntToStr(heapStatus.TotalAllocated));
+                                StrategicMap.Current.ShowMessage($"Allocated Memory: {IntToStr(heapStatus.TotalAllocated)}");
                             }
 
                             break;
@@ -262,9 +262,9 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
     public void RunDefaultTest()
     {
         string fileName;
-        fileName = "autosave" + FileBoundary.WriteExtension(DocumentKind.Save);
+        fileName = $"autosave{FileBoundary.WriteExtension(DocumentKind.Save)}";
         // { Original saves the autosave file. }
-        GetEngine().SaveHsm(GetEngine().StartupDirectory + "Save\\" + fileName, null, GameProfile.WorldMap);
+        GetEngine().SaveHsm($"{GetEngine().StartupDirectory}Save\\{fileName}", null, GameProfile.WorldMap);
     }
 
     private static readonly string s_observeEnabledText = "Observe enabled";

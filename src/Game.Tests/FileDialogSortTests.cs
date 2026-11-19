@@ -113,7 +113,7 @@ public sealed class FileDialogSortTests
 
     private static void WithDialog(Action<FileDialogWindow, string> body)
     {
-        string directory = Path.Combine(Path.GetTempPath(), "open-aow-sort-" + Guid.NewGuid().ToString("N"));
+        string directory = Path.Combine(Path.GetTempPath(), $"open-aow-sort-{Guid.NewGuid():N}");
         string root = Path.Combine(directory, "root");
         string user = Path.Combine(directory, "user");
         string settingsDirectory = Path.Combine(directory, "settings");

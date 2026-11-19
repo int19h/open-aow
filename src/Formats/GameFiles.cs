@@ -293,7 +293,7 @@ public static class GameFiles
         }
         catch (InvalidDataException error)
         {
-            throw new ConversionException(new FormatDiagnostic(Codes.Compression, "The gzip document is corrupt: " + error.Message) { File = fileName, Offset = 0 });
+            throw new ConversionException(new FormatDiagnostic(Codes.Compression, $"The gzip document is corrupt: {error.Message}") { File = fileName, Offset = 0 });
         }
     }
 

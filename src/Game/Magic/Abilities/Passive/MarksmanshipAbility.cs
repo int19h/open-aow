@@ -33,16 +33,16 @@ public partial class MarksmanshipAbility : MultiLevelAbility
                 result = AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText);
                 break;
             case 1:
-                result = AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText) + " I";
+                result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText)} I";
                 break;
             case 2:
-                result = AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText) + " II";
+                result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText)} II";
                 break;
             case 3:
-                result = AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText) + " III";
+                result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText)} III";
                 break;
             case 4:
-                result = AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText) + " IV";
+                result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText)} IV";
                 break;
             default:
                 break;

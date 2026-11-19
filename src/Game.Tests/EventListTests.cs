@@ -16,9 +16,9 @@ public sealed class EventListTests
     {
         EventStore<string> store = new();
         List<string> log = [];
-        void HandlerA(string sender) => log.Add("A" + sender);
-        void HandlerB(string sender) => log.Add("B" + sender);
-        void HandlerC(string sender) => log.Add("C" + sender);
+        void HandlerA(string sender) => log.Add($"A{sender}");
+        void HandlerB(string sender) => log.Add($"B{sender}");
+        void HandlerC(string sender) => log.Add($"C{sender}");
         store.Add(HandlerA);
         store.Add(HandlerB);
         store.Add(HandlerC);

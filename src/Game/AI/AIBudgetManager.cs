@@ -350,7 +350,7 @@ public partial class AIBudgetManager : EngineObject
 
         if (gold > 0 || mana > 0)
         {
-            GetEngine().OutputDebugMessage(DebugChannel.Temporary, "RETURNING FROM BUDGETS (GOLD:" + IntToStr(gold) + "/MANA:" + IntToStr(mana) + ")");
+            GetEngine().OutputDebugMessage(DebugChannel.Temporary, $"RETURNING FROM BUDGETS (GOLD:{IntToStr(gold)}/MANA:{IntToStr(mana)})");
             ReturnFromBudgets(gold, mana);
         }
     }
@@ -365,9 +365,9 @@ public partial class AIBudgetManager : EngineObject
 
         int groupsGoldBudget = GetGroupsGoldBudget();
         int groupsManaBudget = GetGroupsManaBudget();
-        GetEngine().OutputDebugMessage(DebugChannel.Temporary, "GROUPS BUDGET (GOLD:" + IntToStr(groupsGoldBudget) + "/MANA:" + IntToStr(groupsManaBudget) + ")");
-        GetEngine().OutputDebugMessage(DebugChannel.Temporary, "POOL (GOLD:" + IntToStr(Gold) + "/MANA:" + IntToStr(Mana) + ")");
-        GetEngine().OutputDebugMessage(DebugChannel.Temporary, "REAL (GOLD:" + IntToStr(Player.Gems) + "/MANA:" + IntToStr(Player.MagicControl.Mana) + ")");
+        GetEngine().OutputDebugMessage(DebugChannel.Temporary, $"GROUPS BUDGET (GOLD:{IntToStr(groupsGoldBudget)}/MANA:{IntToStr(groupsManaBudget)})");
+        GetEngine().OutputDebugMessage(DebugChannel.Temporary, $"POOL (GOLD:{IntToStr(Gold)}/MANA:{IntToStr(Mana)})");
+        GetEngine().OutputDebugMessage(DebugChannel.Temporary, $"REAL (GOLD:{IntToStr(Player.Gems)}/MANA:{IntToStr(Player.MagicControl.Mana)})");
     }
 
     // AI.pas:1954

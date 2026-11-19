@@ -142,7 +142,7 @@ public sealed class ControlStyleConstructionTests
         internal FlagFixture(bool loaded, string? directory = null)
         {
             _ownsRoot = directory is null;
-            _root = directory ?? Path.Combine(Path.GetTempPath(), "aow-cf4-flags-" + Guid.NewGuid().ToString("N"));
+            _root = directory ?? Path.Combine(Path.GetTempPath(), $"aow-cf4-flags-{Guid.NewGuid():N}");
             _ = Directory.CreateDirectory(_root);
             _ = Directory.CreateDirectory(Path.Combine(_root, "IMAGES"));
             _ = Directory.CreateDirectory(Path.Combine(_root, "SFX"));
@@ -230,7 +230,7 @@ public sealed class ControlStyleConstructionTests
         private string Checked(string path)
         {
             string full = _files.ExpandPath(path);
-            Assert.True(full.Equals(_root, StringComparison.OrdinalIgnoreCase) || full.StartsWith(_root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase), "Flag fixture escaped temporary root: " + full);
+            Assert.True(full.Equals(_root, StringComparison.OrdinalIgnoreCase) || full.StartsWith(_root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase), $"Flag fixture escaped temporary root: {full}");
             return full;
         }
 
@@ -306,7 +306,7 @@ public sealed class ControlStyleConstructionTests
     [InlineData(true)]
     public void CorruptFlagFileDiscoveredByImageSearchRestoresPublication(bool imageClassesInitialized)
     {
-        string directory = Path.Combine(Path.GetTempPath(), "aow-cf4-flags-" + Guid.NewGuid().ToString("N"));
+        string directory = Path.Combine(Path.GetTempPath(), $"aow-cf4-flags-{Guid.NewGuid():N}");
         List<LibraryImageClass> previousClasses = ImageLibraries.LibraryImageClasses;
         List<LibraryImageClass>? classes = imageClassesInitialized ? [] : null;
         _ = Directory.CreateDirectory(directory);

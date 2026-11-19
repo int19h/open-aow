@@ -101,7 +101,7 @@ public static class DelphiFormat
             : unchecked((uint)value).ToString(conversion == 'X' ? "X" : "D", CultureInfo.InvariantCulture);
         if (precision is > 0 and < 16)
         {
-            output = output.StartsWith('-') ? "-" + output[1..].PadLeft(precision, '0') : output.PadLeft(precision, '0');
+            output = output.StartsWith('-') ? $"-{output[1..].PadLeft(precision, '0')}" : output.PadLeft(precision, '0');
         }
 
         return output;

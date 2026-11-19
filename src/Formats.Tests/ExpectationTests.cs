@@ -7,7 +7,7 @@ namespace Aow.Formats.Tests;
 /// <summary>The pinned G1 expectation of aowconv check: drift and a changed census fail.</summary>
 public sealed class ExpectationTests : FormatsTest, IDisposable
 {
-    private readonly string _directory = Path.Combine(Path.GetTempPath(), "aowconv-expect-" + Guid.NewGuid().ToString("N"));
+    private readonly string _directory = Path.Combine(Path.GetTempPath(), $"aowconv-expect-{Guid.NewGuid():N}");
 
     public ExpectationTests() => Directory.CreateDirectory(_directory);
 

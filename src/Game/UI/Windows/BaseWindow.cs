@@ -162,7 +162,7 @@ public partial class BaseWindow(Component owner) : WindowControl(owner)
                 catch
                 {
                     locked = false;
-                    _ = MessageBox(0, "Verify Surface Error", "Error - " + Name, 0);
+                    _ = MessageBox(0, "Verify Surface Error", $"Error - {Name}", 0);
                 }
 
                 if (locked)
@@ -208,7 +208,7 @@ public partial class BaseWindow(Component owner) : WindowControl(owner)
                     }
                     catch
                     {
-                        _ = MessageBox(0, "Draw Error", "Error - " + Name, 0);
+                        _ = MessageBox(0, "Draw Error", $"Error - {Name}", 0);
                     }
 
                     UIComponent c;
@@ -300,7 +300,7 @@ public partial class BaseWindow(Component owner) : WindowControl(owner)
                         }
                         catch
                         {
-                            _ = MessageBox(0, "Blt Error", "Error - " + Name, 0);
+                            _ = MessageBox(0, "Blt Error", $"Error - {Name}", 0);
                         }
                     }
                     else
@@ -330,7 +330,7 @@ public partial class BaseWindow(Component owner) : WindowControl(owner)
                         }
                         catch
                         {
-                            _ = MessageBox(0, "SB Draw Events Error", "Error - " + Name, 0);
+                            _ = MessageBox(0, "SB Draw Events Error", $"Error - {Name}", 0);
                         }
                     }
 
@@ -340,7 +340,7 @@ public partial class BaseWindow(Component owner) : WindowControl(owner)
         }
         catch
         {
-            _ = MessageBox(0, "Exception during DrawSurface", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during DrawSurface", $"Error - {Name}", 0);
         }
     }
 
@@ -437,7 +437,7 @@ public partial class BaseWindow(Component owner) : WindowControl(owner)
         }
         catch
         {
-            _ = MessageBox(0, "Exception during DrawSurfaceDesc", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during DrawSurfaceDesc", $"Error - {Name}", 0);
         }
     }
 

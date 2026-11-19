@@ -56,14 +56,14 @@ public sealed class EnumTypeInfo
 
         return under == typeof(long)
             ? ((int Width, bool Signed))(8, true)
-            : throw new InvalidOperationException("Enum " + type.Name + " has an unsupported underlying type.");
+            : throw new InvalidOperationException($"Enum {type.Name} has an unsupported underlying type.");
     }
 
     internal static EnumTypeInfo Describe(Type type)
     {
         if (!type.IsEnum)
         {
-            throw new InvalidOperationException(type.Name + " is not an enum.");
+            throw new InvalidOperationException($"{type.Name} is not an enum.");
         }
 
         (int width, bool signed) = Layout(type);

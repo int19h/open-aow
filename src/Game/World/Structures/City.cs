@@ -710,7 +710,7 @@ public partial class City : PlayerCropStructure
         bool result = base.ValidateMap(messages);
         if (CompareText(b: AbilityRules.TranslateResourceString(GetEngine(), s_noNameText), a: Name) == 0 || IsEmpty(Name))
         {
-            _ = messages.Add(AbilityRules.TranslateResourceString(GetEngine(), s_cityWarningText) + ": " + AbilityRules.TranslateResourceString(GetEngine(), s_noNameSpecifiedText));
+            _ = messages.Add($"{AbilityRules.TranslateResourceString(GetEngine(), s_cityWarningText)}: {AbilityRules.TranslateResourceString(GetEngine(), s_noNameSpecifiedText)}");
             result = false;
         }
 
@@ -1251,22 +1251,22 @@ public partial class City : PlayerCropStructure
 
         if (Enchantments.Contains(CityEnchantmentId.FountainOfLife))
         {
-            _ = list.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.FountainOfLifeText) + ": " + AbilityRules.TranslateResourceString(GetEngine(), GameTables.EnchantmentText));
+            _ = list.Add($"{AbilityRules.TranslateResourceString(GetEngine(), GameText.FountainOfLifeText)}: {AbilityRules.TranslateResourceString(GetEngine(), GameTables.EnchantmentText)}");
         }
 
         if (Enchantments.Contains(CityEnchantmentId.GoldRush))
         {
-            _ = list.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.GoldRushText) + ": " + AbilityRules.TranslateResourceString(GetEngine(), GameTables.EnchantmentText));
+            _ = list.Add($"{AbilityRules.TranslateResourceString(GetEngine(), GameText.GoldRushText)}: {AbilityRules.TranslateResourceString(GetEngine(), GameTables.EnchantmentText)}");
         }
 
         if (Enchantments.Contains(CityEnchantmentId.AntiMagicShell))
         {
-            _ = list.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.AntiMagicShellText) + ": " + AbilityRules.TranslateResourceString(GetEngine(), GameTables.EnchantmentText));
+            _ = list.Add($"{AbilityRules.TranslateResourceString(GetEngine(), GameText.AntiMagicShellText)}: {AbilityRules.TranslateResourceString(GetEngine(), GameTables.EnchantmentText)}");
         }
 
         if (Enchantments.Contains(CityEnchantmentId.Warmonger))
         {
-            _ = list.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.WarmongerText) + ": " + AbilityRules.TranslateResourceString(GetEngine(), GameTables.EnchantmentText));
+            _ = list.Add($"{AbilityRules.TranslateResourceString(GetEngine(), GameText.WarmongerText)}: {AbilityRules.TranslateResourceString(GetEngine(), GameTables.EnchantmentText)}");
         }
     }
 

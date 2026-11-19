@@ -76,6 +76,6 @@ public sealed class NullSoundSystem : SoundSystem
             _ = AudioHost.SoundSystems.Add(classValue);
             return;
         }
-        throw new InvalidOperationException("Sound System with name: " + classValue.Name + " already registered");
+        throw new InvalidOperationException($"Sound System with name: {classValue.Name} already registered");
     }
 }

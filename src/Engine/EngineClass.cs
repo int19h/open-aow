@@ -35,7 +35,7 @@ public sealed class EngineClass
     {
         Func<CustomNode, EngineObject, EngineObject> held => held(owner, holder),
         Func<CustomNode, EngineObject> plain => Held(plain(owner), holder),
-        _ => throw new InvalidOperationException("Unknown creation delegate of " + Type.Name),
+        _ => throw new InvalidOperationException($"Unknown creation delegate of {Type.Name}"),
     };
 
     // The caller supplies the class's base type, so the cast preserves the single runtime check.

@@ -79,7 +79,7 @@ public sealed class LayoutSession
     {
         if (!_modules.TryAdd(root.Name, root))
         {
-            throw new InvalidOperationException("Duplicate module " + root.Name);
+            throw new InvalidOperationException($"Duplicate module {root.Name}");
         }
 
         for (int i = 0; i < _pending.Count;)

@@ -38,7 +38,7 @@ public sealed class PersistenceInventoryTests
             Assert.False(string.IsNullOrWhiteSpace(site.TypeName));
             Assert.False(string.IsNullOrWhiteSpace(site.MethodName));
             Assert.False(string.IsNullOrWhiteSpace(site.Reason));
-            Assert.True(names.Add(site.TypeName + "." + site.MethodName));
+            Assert.True(names.Add($"{site.TypeName}.{site.MethodName}"));
         }
     }
 
@@ -50,8 +50,8 @@ public sealed class PersistenceInventoryTests
         Assert.Contains(Product, static assembly => assembly == typeof(GameEngine).Assembly);
         IReadOnlyList<BackendReach> reaches = PersistenceInventory.BackendReaches(Product);
         IReadOnlyList<ExposedMember> exposed = PersistenceInventory.ExposedMembers(Product);
-        Assert.True(reaches.Count == 0, "Own-path reaches:\n" + string.Join("\n", reaches));
-        Assert.True(exposed.Count == 0, "Exposed members:\n" + string.Join("\n", exposed));
+        Assert.True(reaches.Count == 0, $"Own-path reaches:\n{string.Join("\n", reaches)}");
+        Assert.True(exposed.Count == 0, $"Exposed members:\n{string.Join("\n", exposed)}");
     }
 
     [Fact]

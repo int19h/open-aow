@@ -53,7 +53,7 @@ public static class SafeOutput
         string full = Path.GetFullPath(output);
         string directory = Path.GetDirectoryName(full) ?? ".";
         _ = Directory.CreateDirectory(directory);
-        string temporary = Path.Combine(directory, "." + Path.GetFileName(full) + "." + Guid.NewGuid().ToString("N") + ".tmp");
+        string temporary = Path.Combine(directory, $".{Path.GetFileName(full)}.{Guid.NewGuid():N}.tmp");
         try
         {
             using (FileStream stream = new(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None))

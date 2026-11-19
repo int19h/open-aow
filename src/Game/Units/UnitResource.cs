@@ -205,7 +205,7 @@ public partial class UnitResource : TroopResource
         string result = _name;
         if (!IsEmpty(_nickname))
         {
-            result = result + " " + _nickname;
+            result = $"{result} {_nickname}";
         }
 
         return result;

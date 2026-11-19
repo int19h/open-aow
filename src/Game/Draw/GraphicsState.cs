@@ -21,7 +21,7 @@ public static class GraphicsState
             string extension = classes[i].Extension;
             _ = ImageFileClassList.FindClass(extension) == null
                 ? ImageFileClassList.Add(classes[i])
-                : throw new InvalidOperationException("ImageFile class with " + classes[i].Extension + " extension is already registered");
+                : throw new InvalidOperationException($"ImageFile class with {classes[i].Extension} extension is already registered");
         }
     }
 

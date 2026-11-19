@@ -53,7 +53,7 @@ public partial class EmailGameControl : EngineObject
     {
         string fileName;
         _games.Clear();
-        fileName = GetEngine().StartupDirectory + "EmailIn\\" + "egames.pfs";
+        fileName = $"{GetEngine().StartupDirectory}EmailIn\\egames.pfs";
         if (FileExists(fileName))
         {
             if (GetFileCrc32(fileName) == GetEngine().Registry.GetEmailGamesCrc())
@@ -69,8 +69,8 @@ public partial class EmailGameControl : EngineObject
         string fileName;
         try
         {
-            fileName = GetEngine().StartupDirectory + "EmailIn\\" + "egames.pfs";
-            GetEngine().WriteToFile(GetEngine().StartupDirectory + "EmailIn\\" + "egames.pfs", _games, null);
+            fileName = $"{GetEngine().StartupDirectory}EmailIn\\egames.pfs";
+            GetEngine().WriteToFile($"{GetEngine().StartupDirectory}EmailIn\\egames.pfs", _games, null);
             int fileCrc = GetFileCrc32(fileName);
             GetEngine().Registry.SetEmailGamesCrc(fileCrc);
         }
@@ -184,9 +184,9 @@ public partial class EmailGameControl : EngineObject
                         if (map.Day > localGame.LastDay)
                         {
                             name = map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.EmailGame.Name;
-                            if (FileExists(GetEngine().StartupDirectory + "EmailIn\\" + name + ".asg"))
+                            if (FileExists($"{GetEngine().StartupDirectory}EmailIn\\{name}.asg"))
                             {
-                                previousMap = GetEngine().CreatePreviewHsm<StrategicMap>(GetEngine().StartupDirectory + "EmailIn\\" + name + ".asg", profile: GameProfile.WorldMap);
+                                previousMap = GetEngine().CreatePreviewHsm<StrategicMap>($"{GetEngine().StartupDirectory}EmailIn\\{name}.asg", profile: GameProfile.WorldMap);
                                 if (previousMap != null)
                                 {
                                     // { Original bug: the previous map's player is checked against the new map's count. }
@@ -228,11 +228,11 @@ public partial class EmailGameControl : EngineObject
                     if (!IsEmpty(name))
                     {
                         i = 0;
-                        destination = GetEngine().StartupDirectory + "EmailIn\\" + name + ".asg";
+                        destination = $"{GetEngine().StartupDirectory}EmailIn\\{name}.asg";
                         while (!overwrite && FileExists(destination))
                         {
                             i += 1;
-                            destination = GetEngine().StartupDirectory + "EmailIn\\" + name + IntToStr(i) + ".asg";
+                            destination = $"{GetEngine().StartupDirectory}EmailIn\\{name}{IntToStr(i)}.asg";
                         }
                     }
                 }

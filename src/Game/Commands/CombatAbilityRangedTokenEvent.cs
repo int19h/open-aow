@@ -272,7 +272,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                     }
                     catch
                     {
-                        _ = MessageBox(0, "Error during Token Start", "Error - TCRangedToken " + IntToStr(AbilityId) + "/" + IntToStr(SpellId), 0);
+                        _ = MessageBox(0, "Error during Token Start", $"Error - TCRangedToken {IntToStr(AbilityId)}/{IntToStr(SpellId)}", 0);
                     }
 
                     break;
@@ -932,7 +932,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                     }
                     catch
                     {
-                        _ = MessageBox(0, "Error during Token Execute", "Error - TCRangedToken " + IntToStr(AbilityId) + "/" + IntToStr(SpellId), 0);
+                        _ = MessageBox(0, "Error during Token Execute", $"Error - TCRangedToken {IntToStr(AbilityId)}/{IntToStr(SpellId)}", 0);
                     }
 
                     break;
@@ -964,7 +964,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
         }
         catch
         {
-            _ = MessageBox(0, "Error during Token", "Error - TCRangedToken " + IntToStr(AbilityId) + "/" + IntToStr(SpellId), 0);
+            _ = MessageBox(0, "Error during Token", $"Error - TCRangedToken {IntToStr(AbilityId)}/{IntToStr(SpellId)}", 0);
         }
 
         return result;

@@ -630,11 +630,11 @@ public partial class CombatUnit : CombatObject
         if (Troop != null)
         {
             string name = Troop.GetName();
-            result = result + "(" + IntToStr(Position) + ")=" + name;
+            result = $"{result}({IntToStr(Position)})={name}";
         }
         else
         {
-            result = result + "(" + IntToStr(Position) + ")";
+            result = $"{result}({IntToStr(Position)})";
         }
 
         return result;

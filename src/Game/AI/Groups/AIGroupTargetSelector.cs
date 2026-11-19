@@ -1130,15 +1130,15 @@ public partial class AIGroupTargetSelector : AIGroupTask
     public void ShowTargetInfo()
     {
         AIGroupControlTarget target;
-        GetEngine().OutputDebugMessage(DebugChannel.AI, "Targets for Group (ID:" + IntToStr(GroupControl.Group.GroupId) + ")");
+        GetEngine().OutputDebugMessage(DebugChannel.AI, $"Targets for Group (ID:{IntToStr(GroupControl.Group.GroupId)})");
         for (int i = 0, last = GroupControl.Targets.Count - 1; i <= last; i++)
         {
             target = GroupControl.Targets.GetTargets(i);
             target.GetDebugInfo(out string text);
-            text = text + "/TS_Prio:" + IntToStr(target.DataA);
-            text = text + "/MPBFS:" + IntToStr(target.PathStrength);
-            text = text + "/TG:" + IntToStr(target.GetTargetGold());
-            text = text + "/MP:" + IntToStr(target.MovePoints);
+            text = $"{text}/TS_Prio:{IntToStr(target.DataA)}";
+            text = $"{text}/MPBFS:{IntToStr(target.PathStrength)}";
+            text = $"{text}/TG:{IntToStr(target.GetTargetGold())}";
+            text = $"{text}/MP:{IntToStr(target.MovePoints)}";
             text += "/Status:";
             if (target.Status.Contains(AIGroupTargetFlags.Cooperate))
             {

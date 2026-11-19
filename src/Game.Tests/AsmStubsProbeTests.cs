@@ -54,7 +54,7 @@ public sealed class AsmStubsProbeTests
     private static string DelphiName(Exception error) =>
         s_delphiNames.TryGetValue(error.GetType(), out string? name)
             ? name
-            : throw new XunitException("asm-stubs has no Delphi name for " + error.GetType().Name);
+            : throw new XunitException($"asm-stubs has no Delphi name for {error.GetType().Name}");
 
     [Fact]
     public void EngineFills() => Check(0, EngineFillLines());
@@ -91,12 +91,12 @@ public sealed class AsmStubsProbeTests
         {
             if (i == s_lines.Length - 1)
             {
-                Assert.True(s_lines[i] == "end 28222", "asm-stubs.txt line " + (i + 1) + " expected <end 28222> actual <" + s_lines[i] + ">");
+                Assert.True(s_lines[i] == "end 28222", $"asm-stubs.txt line {i + 1} expected <end 28222> actual <{s_lines[i]}>");
                 continue;
             }
 
             int family = FamilyOf(s_lines[i]);
-            Assert.True(family >= 0, "asm-stubs.txt line " + (i + 1) + " has no routine family <" + s_lines[i] + ">");
+            Assert.True(family >= 0, $"asm-stubs.txt line {i + 1} has no routine family <{s_lines[i]}>");
             facts++;
         }
 
@@ -116,12 +116,12 @@ public sealed class AsmStubsProbeTests
 
             if (index >= actual.Count)
             {
-                Assert.Fail(name + " asm-stubs.txt line " + (line + 1) + " produced no line for <" + s_lines[line] + ">");
+                Assert.Fail($"{name} asm-stubs.txt line {line + 1} produced no line for <{s_lines[line]}>");
             }
 
             if (actual[index] != s_lines[line])
             {
-                Assert.Fail(name + " asm-stubs.txt line " + (line + 1) + " expected <" + s_lines[line] + "> actual <" + actual[index] + ">");
+                Assert.Fail($"{name} asm-stubs.txt line {line + 1} expected <{s_lines[line]}> actual <{actual[index]}>");
             }
 
             index++;
@@ -129,7 +129,7 @@ public sealed class AsmStubsProbeTests
 
         if (index != actual.Count)
         {
-            Assert.Fail(name + " extra line <" + actual[index] + ">");
+            Assert.Fail($"{name} extra line <{actual[index]}>");
         }
     }
 
@@ -168,7 +168,7 @@ public sealed class AsmStubsProbeTests
             for (int j = 0; j < s_values.Length; j++)
             {
                 int value = s_values[j];
-                string tag = "_count" + Decrement(count) + "_value" + Decrement(j);
+                string tag = $"_count{Decrement(count)}_value{Decrement(j)}";
                 FillA5(ints);
                 Int32List.FillInteger(ints.AsSpan(1), count, value);
                 FillA5(words);
@@ -181,14 +181,14 @@ public sealed class AsmStubsProbeTests
                 QuadItemList.FillQuadInteger(quads.AsSpan(1), count, quadValue);
                 for (int k = 0; k < 12; k++)
                 {
-                    AddHex(lines, "Engine.FillInteger" + tag + "_slot" + Decrement(k), ints[k]);
-                    AddHex(lines, "Engine.FillWord" + tag + "_slot" + Decrement(k), words[k]);
-                    AddHex(lines, "Engine.FillLargeInteger" + tag + "_slot" + Decrement(k) + "_A", doubles[k].First);
-                    AddHex(lines, "Engine.FillLargeInteger" + tag + "_slot" + Decrement(k) + "_B", doubles[k].Second);
-                    AddHex(lines, "Engine.FillQuadInteger" + tag + "_slot" + Decrement(k) + "_A", quads[k].First);
-                    AddHex(lines, "Engine.FillQuadInteger" + tag + "_slot" + Decrement(k) + "_B", quads[k].Second);
-                    AddHex(lines, "Engine.FillQuadInteger" + tag + "_slot" + Decrement(k) + "_C", quads[k].Third);
-                    AddHex(lines, "Engine.FillQuadInteger" + tag + "_slot" + Decrement(k) + "_D", quads[k].Fourth);
+                    AddHex(lines, $"Engine.FillInteger{tag}_slot{Decrement(k)}", ints[k]);
+                    AddHex(lines, $"Engine.FillWord{tag}_slot{Decrement(k)}", words[k]);
+                    AddHex(lines, $"Engine.FillLargeInteger{tag}_slot{Decrement(k)}_A", doubles[k].First);
+                    AddHex(lines, $"Engine.FillLargeInteger{tag}_slot{Decrement(k)}_B", doubles[k].Second);
+                    AddHex(lines, $"Engine.FillQuadInteger{tag}_slot{Decrement(k)}_A", quads[k].First);
+                    AddHex(lines, $"Engine.FillQuadInteger{tag}_slot{Decrement(k)}_B", quads[k].Second);
+                    AddHex(lines, $"Engine.FillQuadInteger{tag}_slot{Decrement(k)}_C", quads[k].Third);
+                    AddHex(lines, $"Engine.FillQuadInteger{tag}_slot{Decrement(k)}_D", quads[k].Fourth);
                 }
             }
         }
@@ -199,10 +199,10 @@ public sealed class AsmStubsProbeTests
         QuadItemList.FillQuadInteger(quads, 4, quads[1]);
         for (int k = 0; k < 4; k++)
         {
-            AddHex(lines, "Engine.FillLargeInteger_overlap_A_" + Decrement(k), doubles[k].First);
-            AddHex(lines, "Engine.FillLargeInteger_overlap_B_" + Decrement(k), doubles[k].Second);
-            AddHex(lines, "Engine.FillQuadInteger_overlap_A_" + Decrement(k), quads[k].First);
-            AddHex(lines, "Engine.FillQuadInteger_overlap_D_" + Decrement(k), quads[k].Fourth);
+            AddHex(lines, $"Engine.FillLargeInteger_overlap_A_{Decrement(k)}", doubles[k].First);
+            AddHex(lines, $"Engine.FillLargeInteger_overlap_B_{Decrement(k)}", doubles[k].Second);
+            AddHex(lines, $"Engine.FillQuadInteger_overlap_A_{Decrement(k)}", quads[k].First);
+            AddHex(lines, $"Engine.FillQuadInteger_overlap_D_{Decrement(k)}", quads[k].Fourth);
         }
 
         return lines;
@@ -218,16 +218,16 @@ public sealed class AsmStubsProbeTests
             bits.Default = j != 0;
             for (int i = 0; i < s_indices.Length; i++)
             {
-                AddNumber(lines, "Engine.TBitList.Get_default" + Decrement(j) + "_index" + Decrement(s_indices[i]), bits[s_indices[i]] ? 1 : 0);
+                AddNumber(lines, $"Engine.TBitList.Get_default{Decrement(j)}_index{Decrement(s_indices[i])}", bits[s_indices[i]] ? 1 : 0);
             }
 
             for (int i = 1; i < s_indices.Length; i++)
             {
                 bits[s_indices[i]] = (i & 1) != 0;
-                AddNumber(lines, "Engine.TBitList.Put_count_" + Decrement(j) + "_" + Decrement(i), bits.Count);
+                AddNumber(lines, $"Engine.TBitList.Put_count_{Decrement(j)}_{Decrement(i)}", bits.Count);
                 for (int k = 0; k <= bits.Count; k++)
                 {
-                    AddNumber(lines, "Engine.TBitList.Get_after_" + Decrement(j) + "_" + Decrement(i) + "_" + Decrement(k), bits[k] ? 1 : 0);
+                    AddNumber(lines, $"Engine.TBitList.Get_after_{Decrement(j)}_{Decrement(i)}_{Decrement(k)}", bits[k] ? 1 : 0);
                 }
             }
         }
@@ -285,12 +285,12 @@ public sealed class AsmStubsProbeTests
             data.AsSpan().Fill(0xA5);
             list.LoadImage(new BitListImage(Default: 0, Count: count, Bits: data));
             string tag = Decrement(count);
-            AddNumber(lines, "Engine.TBitList.Load_count_" + tag, list.Count);
-            AddNumber(lines, "Engine.TBitList.Load_capacity_" + tag, list.Capacity);
-            AddNumber(lines, "Engine.TBitList.Load_position_" + tag, 5 + ((list.Count + 7) >> 3));
+            AddNumber(lines, $"Engine.TBitList.Load_count_{tag}", list.Count);
+            AddNumber(lines, $"Engine.TBitList.Load_capacity_{tag}", list.Capacity);
+            AddNumber(lines, $"Engine.TBitList.Load_position_{tag}", 5 + ((list.Count + 7) >> 3));
             BitListImage saved = list.SaveImage();
-            AddNumber(lines, "Engine.TBitList.Save_size_" + tag, 5 + saved.Bits.Length);
-            AddNumber(lines, "Engine.TBitList.Save_count_" + tag, saved.Count);
+            AddNumber(lines, $"Engine.TBitList.Save_size_{tag}", 5 + saved.Bits.Length);
+            AddNumber(lines, $"Engine.TBitList.Save_count_{tag}", saved.Count);
         }
 
         return lines;
@@ -305,12 +305,12 @@ public sealed class AsmStubsProbeTests
             field.FieldFlags = s_values[j];
             for (int i = -2; i <= 34; i++)
             {
-                string label = Decrement(j) + "_" + Decrement(i);
-                AddNumber(lines, "AoWE.TAoWMapField.GetExplored_" + label, field.GetExplored(i) ? 1 : 0);
+                string label = $"{Decrement(j)}_{Decrement(i)}";
+                AddNumber(lines, $"AoWE.TAoWMapField.GetExplored_{label}", field.GetExplored(i) ? 1 : 0);
                 field.SetExplored(i, false);
-                AddHex(lines, "AoWE.TAoWMapField.SetExplored_clear_" + label, field.FieldFlags);
+                AddHex(lines, $"AoWE.TAoWMapField.SetExplored_clear_{label}", field.FieldFlags);
                 field.SetExplored(i, true);
-                AddHex(lines, "AoWE.TAoWMapField.SetExplored_set_" + label, field.FieldFlags);
+                AddHex(lines, $"AoWE.TAoWMapField.SetExplored_set_{label}", field.FieldFlags);
             }
         }
 
@@ -320,9 +320,9 @@ public sealed class AsmStubsProbeTests
             {
                 field.FieldFlags = 0;
                 field.SetExploredRaw(s_values[i], s_values[j]);
-                string tag = Decrement(i) + "_" + Decrement(j);
-                AddHex(lines, "AoWE.TAoWMapField.SetExplored_raw_" + tag, field.FieldFlags);
-                AddNumber(lines, "AoWE.TAoWMapField.GetExplored_extreme_" + tag, field.GetExplored(s_values[i]) ? 1 : 0);
+                string tag = $"{Decrement(i)}_{Decrement(j)}";
+                AddHex(lines, $"AoWE.TAoWMapField.SetExplored_raw_{tag}", field.FieldFlags);
+                AddNumber(lines, $"AoWE.TAoWMapField.GetExplored_extreme_{tag}", field.GetExplored(s_values[i]) ? 1 : 0);
             }
         }
 
@@ -338,8 +338,8 @@ public sealed class AsmStubsProbeTests
         {
             mine.State = (byte)i;
             teleport.State = Set<Teleport.StateElement>.FromMask((ulong)i);
-            AddNumber(lines, "Mine.TMine.GetRazed_" + Decrement(i), mine.GetRazed() ? 1 : 0);
-            AddNumber(lines, "Teleport.TTeleport.GetRazed_" + Decrement(i), teleport.GetRazed() ? 1 : 0);
+            AddNumber(lines, $"Mine.TMine.GetRazed_{Decrement(i)}", mine.GetRazed() ? 1 : 0);
+            AddNumber(lines, $"Teleport.TTeleport.GetRazed_{Decrement(i)}", teleport.GetRazed() ? 1 : 0);
         }
 
         return lines;
@@ -354,14 +354,14 @@ public sealed class AsmStubsProbeTests
         for (int i = 1; i < s_indices.Length; i++)
         {
             abilities.SetAbilitySet(s_indices[i], (byte)i);
-            AddNumber(lines, "AoWE.TCustomAbilityList.SetAbSet_count_" + Decrement(i), abilities.AbilityCount);
+            AddNumber(lines, $"AoWE.TCustomAbilityList.SetAbSet_count_{Decrement(i)}", abilities.AbilityCount);
             for (int k = -1; k <= abilities.AbilityCount; k++)
             {
-                AddNumber(lines, "AoWE.TCustomAbilityList.GetAbSet_" + Decrement(i) + "_" + Decrement(k), abilities.GetAbilitySetAt(k) ? 1 : 0);
+                AddNumber(lines, $"AoWE.TCustomAbilityList.GetAbSet_{Decrement(i)}_{Decrement(k)}", abilities.GetAbilitySetAt(k) ? 1 : 0);
             }
 
             abilities.SetAbilitySet(s_indices[i], 0);
-            AddNumber(lines, "AoWE.TCustomAbilityList.SetAbSet_clear_" + Decrement(i), abilities.GetAbilitySetAt(s_indices[i]) ? 1 : 0);
+            AddNumber(lines, $"AoWE.TCustomAbilityList.SetAbSet_clear_{Decrement(i)}", abilities.GetAbilitySetAt(s_indices[i]) ? 1 : 0);
         }
 
         for (int j = 0; j <= 1; j++)
@@ -375,7 +375,7 @@ public sealed class AsmStubsProbeTests
             troop.AbilityBits = abilities.AbilityBits;
             for (int i = -1; i <= troop.AbilityCount + 1; i++)
             {
-                AddNumber(lines, "AoWE.TAbstractUnit.GetAbilitySet_" + Decrement(j) + "_" + Decrement(i), troop.GetAbilitySet(i) ? 1 : 0);
+                AddNumber(lines, $"AoWE.TAbstractUnit.GetAbilitySet_{Decrement(j)}_{Decrement(i)}", troop.GetAbilitySet(i) ? 1 : 0);
             }
         }
 
@@ -392,15 +392,15 @@ public sealed class AsmStubsProbeTests
         {
             for (int j = 0; j < s_values.Length; j++)
             {
-                string tag = Decrement(i) + "_" + Decrement(j);
+                string tag = $"{Decrement(i)}_{Decrement(j)}";
                 FillA5(ints);
                 Blit.FillInteger(MemoryMarshal.AsBytes(ints.AsSpan())[4..], s_counts[i], s_values[j]);
                 FillA5(words);
                 PixelFormats.FillWord(MemoryMarshal.AsBytes(words.AsSpan())[2..], s_counts[i], s_values[j]);
                 for (int k = 0; k < 12; k++)
                 {
-                    AddHex(lines, "GFXE.FillInt_" + tag + "_" + Decrement(k), ints[k]);
-                    AddHex(lines, "GFXE.FillWord_" + tag + "_" + Decrement(k), words[k]);
+                    AddHex(lines, $"GFXE.FillInt_{tag}_{Decrement(k)}", ints[k]);
+                    AddHex(lines, $"GFXE.FillWord_{tag}_{Decrement(k)}", words[k]);
                 }
 
                 if (s_counts[i] > 0)
@@ -409,10 +409,10 @@ public sealed class AsmStubsProbeTests
                     PixelFormats.FillTripleByte(MemoryMarshal.AsBytes(quads.AsSpan()), s_counts[i], s_values[j]);
                     for (int k = 0; k < 3; k++)
                     {
-                        AddHex(lines, "GFXE.FillTrippleByte_" + tag + "_" + Decrement(k) + "_A", quads[k].First);
-                        AddHex(lines, "GFXE.FillTrippleByte_" + tag + "_" + Decrement(k) + "_B", quads[k].Second);
-                        AddHex(lines, "GFXE.FillTrippleByte_" + tag + "_" + Decrement(k) + "_C", quads[k].Third);
-                        AddHex(lines, "GFXE.FillTrippleByte_" + tag + "_" + Decrement(k) + "_D", quads[k].Fourth);
+                        AddHex(lines, $"GFXE.FillTrippleByte_{tag}_{Decrement(k)}_A", quads[k].First);
+                        AddHex(lines, $"GFXE.FillTrippleByte_{tag}_{Decrement(k)}_B", quads[k].Second);
+                        AddHex(lines, $"GFXE.FillTrippleByte_{tag}_{Decrement(k)}_C", quads[k].Third);
+                        AddHex(lines, $"GFXE.FillTrippleByte_{tag}_{Decrement(k)}_D", quads[k].Fourth);
                     }
                 }
             }
@@ -438,15 +438,15 @@ public sealed class AsmStubsProbeTests
         {
             for (int j = -3; j <= 3; j++)
             {
-                string tag = Decrement(i) + "_" + Decrement(j);
-                AddNumber(lines, "HSEngine.HXtoV_" + tag, HexGeometry.HexToV(i, j));
-                AddNumber(lines, "HSEngine.HXtoH_" + tag, HexGeometry.HexToH(i, j));
+                string tag = $"{Decrement(i)}_{Decrement(j)}";
+                AddNumber(lines, $"HSEngine.HXtoV_{tag}", HexGeometry.HexToV(i, j));
+                AddNumber(lines, $"HSEngine.HXtoH_{tag}", HexGeometry.HexToH(i, j));
                 HexGeometry.HVtoHex(i, j, out int x, out int y);
-                AddNumber(lines, "HSEngine.HVtoHX_X_" + tag, x);
-                AddNumber(lines, "HSEngine.HVtoHX_Y_" + tag, y);
+                AddNumber(lines, $"HSEngine.HVtoHX_X_{tag}", x);
+                AddNumber(lines, $"HSEngine.HVtoHX_Y_{tag}", y);
                 HexGeometry.PixelToHex(i, j, out x, out y);
-                AddNumber(lines, "HSEngine.HPtoHX_X_" + tag, x);
-                AddNumber(lines, "HSEngine.HPtoHX_Y_" + tag, y);
+                AddNumber(lines, $"HSEngine.HPtoHX_X_{tag}", x);
+                AddNumber(lines, $"HSEngine.HPtoHX_Y_{tag}", y);
                 small.AsSpan().Fill(0xA5);
                 // HPtoHXs stores each result as a 32-bit integer through a Shortint var parameter,
                 // so the three bytes after each target change too. The port has no such routine
@@ -455,18 +455,18 @@ public sealed class AsmStubsProbeTests
                 BinaryPrimitives.WriteInt32LittleEndian(small.AsSpan(7), y);
                 for (int k = 0; k < 12; k++)
                 {
-                    AddHex(lines, "HSEngine.HPtoHXs_" + tag + "_" + Decrement(k), small[k]);
+                    AddHex(lines, $"HSEngine.HPtoHXs_{tag}_{Decrement(k)}", small[k]);
                 }
             }
         }
 
         for (int i = 0; i < s_values.Length; i++)
         {
-            AddNumber(lines, "HSEngine.HXtoV_extreme_" + Decrement(i), HexGeometry.HexToV(s_values[i], -1));
-            AddNumber(lines, "HSEngine.HXtoH_extreme_" + Decrement(i), HexGeometry.HexToH(s_values[i], 0));
+            AddNumber(lines, $"HSEngine.HXtoV_extreme_{Decrement(i)}", HexGeometry.HexToV(s_values[i], -1));
+            AddNumber(lines, $"HSEngine.HXtoH_extreme_{Decrement(i)}", HexGeometry.HexToH(s_values[i], 0));
             HexGeometry.PixelToHex(s_values[i], s_values[i], out int x, out int y);
-            AddNumber(lines, "HSEngine.HPtoHX_extreme_X_" + Decrement(i), x);
-            AddNumber(lines, "HSEngine.HPtoHX_extreme_Y_" + Decrement(i), y);
+            AddNumber(lines, $"HSEngine.HPtoHX_extreme_X_{Decrement(i)}", x);
+            AddNumber(lines, $"HSEngine.HPtoHX_extreme_Y_{Decrement(i)}", y);
         }
 
         return lines;
@@ -487,13 +487,13 @@ public sealed class AsmStubsProbeTests
                 for (int i = 0; i < 80; i++)
                 {
                     HexNumberWalkData.WalkToNextHexNumber(ref walk);
-                    string tag = Decrement(a) + "_" + Decrement(b) + "_" + Decrement(i);
-                    AddNumber(lines, "HSEngine.WalkToNextHN_X_" + tag, walk.X);
-                    AddNumber(lines, "HSEngine.WalkToNextHN_Y_" + tag, walk.Y);
-                    AddNumber(lines, "HSEngine.WalkToNextHN_side_" + tag, walk.Side);
-                    AddNumber(lines, "HSEngine.WalkToNextHN_step_" + tag, walk.Step);
-                    AddNumber(lines, "HSEngine.WalkToNextHN_radius_" + tag, walk.Radius);
-                    AddNumber(lines, "HSEngine.WalkToNextHN_HN_" + tag, walk.HexNumber);
+                    string tag = $"{Decrement(a)}_{Decrement(b)}_{Decrement(i)}";
+                    AddNumber(lines, $"HSEngine.WalkToNextHN_X_{tag}", walk.X);
+                    AddNumber(lines, $"HSEngine.WalkToNextHN_Y_{tag}", walk.Y);
+                    AddNumber(lines, $"HSEngine.WalkToNextHN_side_{tag}", walk.Side);
+                    AddNumber(lines, $"HSEngine.WalkToNextHN_step_{tag}", walk.Step);
+                    AddNumber(lines, $"HSEngine.WalkToNextHN_radius_{tag}", walk.Radius);
+                    AddNumber(lines, $"HSEngine.WalkToNextHN_HN_{tag}", walk.HexNumber);
                 }
             }
         }
@@ -506,11 +506,11 @@ public sealed class AsmStubsProbeTests
 
     private static void FillA5<T>(Span<T> items) where T : unmanaged => MemoryMarshal.AsBytes(items).Fill(0xA5);
 
-    private static void AddNumber(List<string> lines, string label, int value) => lines.Add(label + " " + Decrement(value));
+    private static void AddNumber(List<string> lines, string label, int value) => lines.Add($"{label} {Decrement(value)}");
 
-    private static void AddHex(List<string> lines, string label, int value) => lines.Add(label + " " + unchecked((uint)value).ToString("X8"));
+    private static void AddHex(List<string> lines, string label, int value) => lines.Add($"{label} {unchecked((uint)value):X8}");
 
-    private static void AddText(List<string> lines, string label, string value) => lines.Add(label + " " + value);
+    private static void AddText(List<string> lines, string label, string value) => lines.Add($"{label} {value}");
 
     private static string Decrement(int value) => value.ToString(CultureInfo.InvariantCulture);
 }

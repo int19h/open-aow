@@ -342,7 +342,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
     {
         if (child != null && !AcceptsChild(child))
         {
-            throw new ArgumentException(GetType().Name + " does not take a child of type " + child.GetType().Name + ".", nameof(child));
+            throw new ArgumentException($"{GetType().Name} does not take a child of type {child.GetType().Name}.", nameof(child));
         }
     }
 }

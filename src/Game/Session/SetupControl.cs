@@ -111,7 +111,7 @@ public partial class SetupControl : Component
             _engine.StoreEngineObject(stream, package, null);
             SendData(size: (int)stream.Length, data: stream.GetBuffer(), recipient: recipient);
             int streamSize = (int)stream.Length;
-            _engine.OutputDebugMessage(DebugChannel.NetworkEngine, "SetupPackage Send (ID:" + IntToStr(package.MessageId) + "/Size:" + IntToStr(streamSize) + ") to " + IntToStr(recipient));
+            _engine.OutputDebugMessage(DebugChannel.NetworkEngine, $"SetupPackage Send (ID:{IntToStr(package.MessageId)}/Size:{IntToStr(streamSize)}) to {IntToStr(recipient)}");
         }
         finally
         {
@@ -188,7 +188,7 @@ public partial class SetupControl : Component
             if (objectValue is SetupPackage package)
             {
                 int sizeLocal = (int)stream.Length;
-                _engine.OutputDebugMessage(DebugChannel.NetworkEngine, "SetupPackage Received (ID:" + IntToStr(package.MessageId) + "/Size:" + IntToStr(sizeLocal) + ") from " + IntToStr(senderId));
+                _engine.OutputDebugMessage(DebugChannel.NetworkEngine, $"SetupPackage Received (ID:{IntToStr(package.MessageId)}/Size:{IntToStr(sizeLocal)}) from {IntToStr(senderId)}");
                 PackageReceived(package, senderId);
             }
 
@@ -724,7 +724,7 @@ public partial class SetupControl : Component
         for (int i = 0, last = playerCommunicationControl.Count - 1; i <= last; i++)
         {
             PlayerCommunicationSettings player = playerCommunicationControl.Players[i];
-            s = "Player (" + IntToStr(i) + ") at system:" + IntToStr(player.SystemId) + " CM:";
+            s = $"Player ({IntToStr(i)}) at system:{IntToStr(player.SystemId)} CM:";
             switch (playerCommunicationControl.Players[i].ConnectionMode)
             {
                 case ConnectionMode.Global:
@@ -1163,7 +1163,7 @@ public partial class SetupControl : Component
                 // { Original reads the last character without guarding an empty name. }
                 result = Set<byte>.WithBounds(0, 255).WithRange(49, 56).Contains(Cp1252.Byte(result[^1]))
                     ? Copy(result, 1, result.Length - 1) + IntToStr(Cp1252.Byte(result[^1]) + 1 - 48)
-                    : result + "1";
+                    : $"{result}1";
             }
             else
             {

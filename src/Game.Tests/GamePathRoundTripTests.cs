@@ -27,7 +27,7 @@ public sealed class GamePathRoundTripTests : IDisposable
 {
     // The game's saves replace their files through the layered file service, as on a host: the
     // root holds what the test puts there and the user layer what the game writes.
-    private readonly string _root = Path.Combine(Path.GetTempPath(), "open-aow-round-trip-" + Guid.NewGuid().ToString("N"));
+    private readonly string _root = Path.Combine(Path.GetTempPath(), $"open-aow-round-trip-{Guid.NewGuid():N}");
     private readonly IFileSystem _previous = RtlHost.Files;
 
     public GamePathRoundTripTests()

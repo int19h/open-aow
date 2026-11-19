@@ -176,7 +176,7 @@ public static class DocumentBackend
     }
 
     private static string ListOnly(int version) =>
-        "Version " + version.ToString(System.Globalization.CultureInfo.InvariantCulture) + " stores a list only for a fixed integer array.";
+        string.Create(System.Globalization.CultureInfo.InvariantCulture, $"Version {version} stores a list only for a fixed integer array.");
 
     internal static SchemaClass RequireClass(DocumentSite site, string name, string? family, JsonValue? at)
     {

@@ -14,8 +14,8 @@ public sealed class MsgArgTests
     // An exhaustive switch over the cases. A case added to MsgArg fails this with CS8509.
     private static string CaseOf(MsgArg argument) => argument switch
     {
-        int value => "Integer " + value,
-        object value => "Object " + value.GetType().Name,
+        int value => $"Integer {value}",
+        object value => $"Object {value.GetType().Name}",
         null => "null",
     };
 

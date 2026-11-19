@@ -410,7 +410,7 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
             _ = StrategicMap.Current.AIExecutor.ActivatePlayer(StrategicMap.Current.CurrentPlayer);
         }
 
-        GetEngine().OutputDebugString("Random Seed: " + IntToStr(StrategicMap.Current.DefendersSeed));
+        GetEngine().OutputDebugString($"Random Seed: {IntToStr(StrategicMap.Current.DefendersSeed)}");
     }
 
     // PlayerC.PAS:683

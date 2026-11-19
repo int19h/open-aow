@@ -141,12 +141,12 @@ public sealed class ProductionOrderTests
     {
         foreach (int id in new[] { 1, 2, 10, 11, 12, 13, 14 })
         {
-            Assert.True(ProductionOrder.IsRegistered(id), "production id " + id);
+            Assert.True(ProductionOrder.IsRegistered(id), $"production id {id}");
             _ = Assert.Throws<InvalidOperationException>(() => ProductionOrder.Register(id, static (id, parameter, groupId) => new UnknownOrder(id, parameter, groupId)));
         }
         foreach (int id in new[] { 0, 3, 9, 15 })
         {
-            Assert.False(ProductionOrder.IsRegistered(id), "production id " + id);
+            Assert.False(ProductionOrder.IsRegistered(id), $"production id {id}");
         }
     }
 
@@ -308,7 +308,7 @@ public sealed class ProductionOrderTests
                 {
                     bool inCity = control is CityProductionControl;
                     MagicSphere sphere = control is ProductionPlaceControl place ? place.ProductionPlace.GetMagicSphere() : MagicSphere.None;
-                    string where = order + " in " + control.GetType().Name;
+                    string where = $"{order} in {control.GetType().Name}";
                     Assert.True(OldLoopable(id, inCity) == order.Loopable(control), where);
                     Assert.True(OldLocksQueue(id, inCity) == order.LocksQueue(control), where);
                     if (id is not (1 or 2))

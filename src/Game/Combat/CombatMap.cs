@@ -300,7 +300,7 @@ public partial class CombatMap : GameMap
                 switch (AI.Status)
                 {
                     case BattleAI.AIStatus.Idle:
-                        GetEngine().OutputDebugString("AI for Player " + IntToStr(CurrentPlayer) + " turn begins.");
+                        GetEngine().OutputDebugString($"AI for Player {IntToStr(CurrentPlayer)} turn begins.");
                         AI.BeginTurn();
                         break;
                     case BattleAI.AIStatus.Busy:
@@ -310,7 +310,7 @@ public partial class CombatMap : GameMap
                         if (EndTurn(true))
                         {
                             AI.Status = BattleAI.AIStatus.Idle;
-                            GetEngine().OutputDebugString("AI for Player " + IntToStr(CurrentPlayer) + " turn ends.");
+                            GetEngine().OutputDebugString($"AI for Player {IntToStr(CurrentPlayer)} turn ends.");
                         }
 
                         break;
@@ -444,7 +444,7 @@ public partial class CombatMap : GameMap
         {
             string ind = AbilityRules.TranslateResourceString(GetEngine(), s_independentsText);
             string beginRound = AbilityRules.TranslateResourceString(GetEngine(), s_beginRoundText);
-            ShowMessage(ind + " " + beginRound);
+            ShowMessage($"{ind} {beginRound}");
         }
         else
         {
@@ -452,7 +452,7 @@ public partial class CombatMap : GameMap
             Player playerPlayerRace = StrategicMap.Current.Players.GetPlayers(playerLocal.Player);
             string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
             string beginRound = AbilityRules.TranslateResourceString(GetEngine(), s_beginRoundText);
-            ShowMessage(raceNamesPlural + " " + beginRound);
+            ShowMessage($"{raceNamesPlural} {beginRound}");
         }
 
         TacticalBattlePlayer playerPlayer = Players.GetPlayers(CurrentCombatPlayer);

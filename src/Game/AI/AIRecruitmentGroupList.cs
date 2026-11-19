@@ -36,10 +36,10 @@ public partial class AIRecruitmentGroupList(CustomNode owner) : ReferenceNode(ow
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
             group = GetRecruitmentGroups(i);
-            text = group.Group.GetType().Name + "(ID:" + IntToStr(group.Group.GroupId) + ")";
-            text = text + "/Loc:(" + IntToStr(group.Location.X) + "," + IntToStr(group.Location.Y) + "," + IntToStr(group.Location.MapLevel) + ")";
-            text = text + "/MP:" + IntToStr(group.MovePoints);
-            text = text + "/MPBFS:" + IntToStr(group.PathStrength);
+            text = $"{group.Group.GetType().Name}(ID:{IntToStr(group.Group.GroupId)})";
+            text = $"{text}/Loc:({IntToStr(group.Location.X)},{IntToStr(group.Location.Y)},{IntToStr(group.Location.MapLevel)})";
+            text = $"{text}/MP:{IntToStr(group.MovePoints)}";
+            text = $"{text}/MPBFS:{IntToStr(group.PathStrength)}";
             GetEngine().OutputDebugMessage(DebugChannel.AI, text);
         }
     }

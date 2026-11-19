@@ -74,10 +74,10 @@ public partial class AIGroupControlTarget(CustomNode owner) : EngineObject(owner
     // AIGroup.pas:676
     public void GetDebugInfo(out string text)
     {
-        text = "Target(" + IntToStr(Location.X) + "," + IntToStr(Location.Y) + "," + IntToStr(Location.MapLevel) + "): Prio:" + IntToStr(Data.Priority);
+        text = $"Target({IntToStr(Location.X)},{IntToStr(Location.Y)},{IntToStr(Location.MapLevel)}): Prio:{IntToStr(Data.Priority)}";
         if (TransporterId != -1)
         {
-            text = text + "/Transporter(" + IntToStr(TransporterId) + ")";
+            text = $"{text}/Transporter({IntToStr(TransporterId)})";
         }
     }
 

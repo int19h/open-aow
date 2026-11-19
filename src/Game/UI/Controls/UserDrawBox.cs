@@ -33,7 +33,7 @@ public partial class UserDrawBox(Component owner) : Control(owner)
         }
         catch
         {
-            _ = MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Draw", $"Error - {Name}", 0);
         }
     }
 

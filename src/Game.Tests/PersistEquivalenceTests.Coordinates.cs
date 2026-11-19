@@ -38,7 +38,7 @@ public sealed partial class PersistEquivalenceTests
     [InlineData("ArmyId", 11)]
     public void APackedLocationIgnoresItsFourthByteAndSavesZero(string className, int id)
     {
-        SchemaProperty property = s_schema.Get(className).PropertyById(id) ?? throw new InvalidOperationException(className + " has no id " + id.ToString(CultureInfo.InvariantCulture) + ".");
+        SchemaProperty property = s_schema.Get(className).PropertyById(id) ?? throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, $"{className} has no id {id}."));
         EngineObject? blank = null;
         EngineObject? loaded = null;
         try
@@ -56,7 +56,7 @@ public sealed partial class PersistEquivalenceTests
 
             loaded = Blank(className);
             Load(loaded, inputImage);
-            EqualBytes(expectedImage, Image(loaded), className + " id " + id.ToString(CultureInfo.InvariantCulture));
+            EqualBytes(expectedImage, Image(loaded), string.Create(CultureInfo.InvariantCulture, $"{className} id {id}"));
             switch (loaded)
             {
                 case PatrolAIGroup patrol:
@@ -153,7 +153,7 @@ public sealed partial class PersistEquivalenceTests
     public void ConstantStoredPropertiesIgnoreLoadedValuesAndOmitOnSave(string className, int id, bool isBoolean)
     {
         SchemaClass classValue = s_schema.Get(className);
-        SchemaProperty property = classValue.PropertyById(id) ?? throw new InvalidOperationException(className + " has no id " + id.ToString(CultureInfo.InvariantCulture) + ".");
+        SchemaProperty property = classValue.PropertyById(id) ?? throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, $"{className} has no id {id}."));
         string engine = classValue.Engines.Count == 0 || classValue.Engines.Contains("game") ? "game" : classValue.Engines[0];
         EngineClass[] enlisted = EnlistSessionClasses();
         EngineObject? blank = null;
@@ -170,7 +170,7 @@ public sealed partial class PersistEquivalenceTests
             loaded = Blank(className);
             Load(loaded, inputImage);
             byte[] savedImage = Image(loaded);
-            EqualBytes(blankImage, savedImage, className + " id " + id.ToString(CultureInfo.InvariantCulture));
+            EqualBytes(blankImage, savedImage, string.Create(CultureInfo.InvariantCulture, $"{className} id {id}"));
             Assert.Null(PilotImage.Decode(savedImage, className: className, engine: engine).Find(property.Name));
         }
         finally

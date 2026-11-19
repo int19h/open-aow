@@ -81,7 +81,7 @@ public partial class SongList : EngineObject
 
         fullPath = AudioHost.BaseSoundEnginePath + path;
         _songs.BeginUpdate();
-        foreach (RtlFileEntry entry in Files.FindEntries(fullPath + "*." + ext, attributes: 63 & ~16))
+        foreach (RtlFileEntry entry in Files.FindEntries($"{fullPath}*.{ext}", attributes: 63 & ~16))
         {
             _ = _songs.Add(UpperCase(path + entry.Name));
         }

@@ -109,7 +109,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             case Teleport teleport: teleport.State += Set<Teleport.StateElement>.Of(Teleport.StateElement.Razed); break;
             case Tower tower: tower.State += Set<Tower.StateElement>.Of(Tower.StateElement.Razed); break;
             case Altar altar: altar.Mode = AltarMode.Razed; break;
-            default: throw new InvalidOperationException("no razed state for " + structure.GetType().Name);
+            default: throw new InvalidOperationException($"no razed state for {structure.GetType().Name}");
         }
     }
 
@@ -468,7 +468,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                                 mismatches.Add($"{state}: random draws differ");
                             }
 
-                            _ = names.Add(actual.Length == 8 && actual[0] == 'e' ? actual[..7] + "?" : actual);
+                            _ = names.Add(actual.Length == 8 && actual[0] == 'e' ? $"{actual[..7]}?" : actual);
                         }
                     }
                 }

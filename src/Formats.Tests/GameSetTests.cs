@@ -69,10 +69,10 @@ public sealed class GameSetTests : FormatsTest
         ObjectNode tree = OriginalBackend.Read(image, classValue, schema, engine);
         byte[] direct = OriginalBackend.Write(tree, classValue, schema, engine);
         JsonObject expected = PilotImage.Decode(direct, classValue.Name, engine);
-        Assert.True(Same(PilotImage.Decode(image, classValue.Name, engine), expected), label + " direct read");
-        Assert.True(direct.AsSpan().SequenceEqual(PilotImage.Encode(expected, classValue.Name, engine)), label + " direct canonical");
-        Assert.True(Same(expected, DocumentBackend.Write(tree, classValue, schema, engine)), label + " direct document");
-        Assert.True(direct.AsSpan().SequenceEqual(OriginalBackend.Write(DocumentBackend.Read(expected, classValue, schema, engine), classValue, schema, engine)), label + " direct document read");
+        Assert.True(Same(PilotImage.Decode(image, classValue.Name, engine), expected), $"{label} direct read");
+        Assert.True(direct.AsSpan().SequenceEqual(PilotImage.Encode(expected, classValue.Name, engine)), $"{label} direct canonical");
+        Assert.True(Same(expected, DocumentBackend.Write(tree, classValue, schema, engine)), $"{label} direct document");
+        Assert.True(direct.AsSpan().SequenceEqual(OriginalBackend.Write(DocumentBackend.Read(expected, classValue, schema, engine), classValue, schema, engine)), $"{label} direct document read");
     }
 
     private static bool Same(JsonObject left, JsonObject right) => JsonWriter.ToUtf8(left).AsSpan().SequenceEqual(JsonWriter.ToUtf8(right));

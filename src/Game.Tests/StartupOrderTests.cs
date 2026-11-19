@@ -38,8 +38,8 @@ public sealed class StartupOrderTests
     {
         List<string> calls = [];
         StartupUnit[] units = [.. Startup.Units.Select(u => new StartupUnit(u.Name,
-            u.Initialize is null ? null! : () => calls.Add("I " + u.Name),
-            u.Finalize is null ? null! : () => calls.Add("F " + u.Name)))];
+            u.Initialize is null ? null! : () => calls.Add($"I {u.Name}"),
+            u.Finalize is null ? null! : () => calls.Add($"F {u.Name}")))];
         return (units, calls);
     }
 
@@ -62,13 +62,13 @@ public sealed class StartupOrderTests
         (StartupUnit[]? units, List<string>? calls) = Recording();
         bool[] state = new bool[units.Length];
         Startup.InitializeUnits(units, state, null);
-        Assert.Equal(Split(Initializations).Select(n => "I " + n), calls);
+        Assert.Equal(Split(Initializations).Select(n => $"I {n}"), calls);
         Assert.All(state, Assert.True);
         calls.Clear();
         Startup.InitializeUnits(units, state, null);
         Assert.Empty(calls);
         Startup.FinalizeUnits(units, state, null);
-        Assert.Equal(Split(Finalizations).Select(n => "F " + n), calls);
+        Assert.Equal(Split(Finalizations).Select(n => $"F {n}"), calls);
         Assert.All(state, Assert.False);
     }
 

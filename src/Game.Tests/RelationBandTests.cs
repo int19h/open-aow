@@ -154,7 +154,7 @@ public sealed class RelationBandTests
         {
             Player player = scope.Map.Players.GetPlayers(i);
             player.Status = PlayerStatus.Playing;
-            player.Name = "P" + i;
+            player.Name = $"P{i}";
             if (i != 1)
             {
                 seated.FirstDaySeen[i] = 0;
@@ -210,7 +210,7 @@ public sealed class RelationBandTests
         {
             Player player = scope.Map.Players.GetPlayers(i);
             player.Status = PlayerStatus.Playing;
-            player.Name = "S" + i;
+            player.Name = $"S{i}";
             if (i != 12)
             {
                 seated.FirstDaySeen[i] = 0;

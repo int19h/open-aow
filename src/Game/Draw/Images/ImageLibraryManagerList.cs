@@ -114,7 +114,7 @@ public partial class ImageLibraryManagerList(ImageLibraryManager owner) : Delphi
                 }
                 catch
                 {
-                    throw new IOException("Error loading: " + _owner.SearchPath + fileName);
+                    throw new IOException($"Error loading: {_owner.SearchPath}{fileName}");
                 }
             }
 

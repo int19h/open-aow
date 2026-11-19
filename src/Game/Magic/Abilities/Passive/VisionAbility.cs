@@ -30,16 +30,16 @@ public partial class VisionAbility : MultiLevelAbility
                 result = AbilityRules.TranslateResourceString(GetEngine(), s_visionText);
                 break;
             case 1:
-                result = AbilityRules.TranslateResourceString(GetEngine(), s_visionText) + " I";
+                result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_visionText)} I";
                 break;
             case 2:
-                result = AbilityRules.TranslateResourceString(GetEngine(), s_visionText) + " II";
+                result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_visionText)} II";
                 break;
             case 3:
-                result = AbilityRules.TranslateResourceString(GetEngine(), s_visionText) + " III";
+                result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_visionText)} III";
                 break;
             case 4:
-                result = AbilityRules.TranslateResourceString(GetEngine(), s_visionText) + " IV";
+                result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_visionText)} IV";
                 break;
             default:
                 break;

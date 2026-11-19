@@ -18,7 +18,7 @@ public static class RecordValues
     {
         if (!typeof(T).IsDefined(typeof(StoredLayoutAttribute), inherit: false))
         {
-            throw new InvalidOperationException(typeof(T).Name + " is not a stored image. A record moves through its [StoredLayout] image.");
+            throw new InvalidOperationException($"{typeof(T).Name} is not a stored image. A record moves through its [StoredLayout] image.");
         }
 
         RecordTypeInfo info = RecordCatalog.Require(RecordTypeInfo.StoredName(typeof(T)), null, name);
@@ -26,7 +26,7 @@ public static class RecordValues
         MemoryMarshal.Write(image, in value);
         if (image.Length < info.Size)
         {
-            throw new InvalidOperationException("Record " + info.Name + " is larger than its C# value.");
+            throw new InvalidOperationException($"Record {info.Name} is larger than its C# value.");
         }
 
         if (info.BareSet)

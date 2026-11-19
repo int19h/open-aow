@@ -104,8 +104,8 @@ public static class PixelFormats
             GraphicsResult.NotSupported => "Function is not supported",
             GraphicsResult.PixelFormatNotSupported => "PixelFormat is not supported",
             GraphicsResult.BitmapFormatNotSupported => "Bitmap format is not supported",
-            GraphicsResult.CannotLock => "Undocumented Error (Error Code:" + IntToStr((int)errorCode) + ")",
-            _ => "Undocumented Error (Error Code:" + IntToStr((int)errorCode) + ")",
+            GraphicsResult.CannotLock => $"Undocumented Error (Error Code:{IntToStr((int)errorCode)})",
+            _ => $"Undocumented Error (Error Code:{IntToStr((int)errorCode)})",
         };
         return result;
     }

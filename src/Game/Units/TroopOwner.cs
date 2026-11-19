@@ -23,7 +23,7 @@ public readonly union TroopOwner(Army, UnitList, HeroLibrary, HeroList, UnitUser
         UnitUserList users => users,
         HeroLibrary library => library,
         HeroList heroes => heroes,
-        _ => throw new InvalidCastException("A troop does not take an owner of type " + owner.GetType().Name + "."),
+        _ => throw new InvalidCastException($"A troop does not take an owner of type {owner.GetType().Name}."),
     };
 
     /// <summary>The owner as the node the untyped owner stores.</summary>

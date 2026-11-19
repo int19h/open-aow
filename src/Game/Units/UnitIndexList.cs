@@ -31,7 +31,7 @@ public partial class UnitIndexList : Int32List
             {
                 if (showErrors)
                 {
-                    ShowMessage("Used unit missing (unit index:" + IntToStr(u) + ")");
+                    ShowMessage($"Used unit missing (unit index:{IntToStr(u)})");
                 }
 
                 List[i] = Default;

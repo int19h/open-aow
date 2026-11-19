@@ -287,7 +287,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:1979
     public virtual string Info()
     {
-        string result = Name() + " " + IntToStr(_width) + "x" + IntToStr(_height);
+        string result = $"{Name()} {IntToStr(_width)}x{IntToStr(_height)}";
         if (GetTransparent())
         {
             result += " Transparent";

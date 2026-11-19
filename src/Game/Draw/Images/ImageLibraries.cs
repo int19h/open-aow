@@ -17,7 +17,7 @@ public static class ImageLibraries
             }
             else
             {
-                throw new InvalidOperationException("Image ClassID is already used (" + classes[i].StorageKey + ")");
+                throw new InvalidOperationException($"Image ClassID is already used ({classes[i].StorageKey})");
             }
         }
     }

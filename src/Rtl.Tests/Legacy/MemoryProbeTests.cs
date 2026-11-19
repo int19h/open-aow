@@ -68,18 +68,18 @@ public sealed class MemoryProbeTests
         Ptr<Item>.Copy(items + 1, items, count);
         for (int i = 0; i < 5; i++)
         {
-            probe.Fact("left", i + " " + items[i].First + " " + items[i].Second);
+            probe.Fact("left", $"{i} {items[i].First} {items[i].Second}");
         }
 
         Ptr<Item>.Copy(items, items + 1, count);
         for (int i = 0; i < 5; i++)
         {
-            probe.Fact("right", i + " " + items[i].First + " " + items[i].Second);
+            probe.Fact("right", $"{i} {items[i].First} {items[i].Second}");
         }
 
         count = 0;
         Ptr<Item>.Copy(items + 4, items, count);
-        probe.Fact("zero", items.Value.First + " " + items.Value.Second);
+        probe.Fact("zero", $"{items.Value.First} {items.Value.Second}");
         probe.End();
     }
 

@@ -374,7 +374,7 @@ public partial class BattleAI(EngineObject creator) : IDisposable
         }
         catch
         {
-            _ = MessageBox(0, "Error during Eval Movepath", NullTerminatedText("Error - TCAI " + unit.Troop.GetName()), 0);
+            _ = MessageBox(0, "Error during Eval Movepath", NullTerminatedText($"Error - TCAI {unit.Troop.GetName()}"), 0);
         }
 
         return result;
@@ -1507,7 +1507,7 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                         }
                         catch
                         {
-                            _ = MessageBox(0, "Error during Spell Check", NullTerminatedText("Error - TCAI " + IntToStr(ability) + " " + IntToStr(spell)), 0);
+                            _ = MessageBox(0, "Error during Spell Check", NullTerminatedText($"Error - TCAI {IntToStr(ability)} {IntToStr(spell)}"), 0);
                         }
 
                         break;
@@ -1638,7 +1638,7 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                     }
                                     catch
                                     {
-                                        _ = MessageBox(0, "Error during Touch Check", NullTerminatedText("Error - TCAI " + IntToStr(ability) + " " + IntToStr(spell)), 0);
+                                        _ = MessageBox(0, "Error during Touch Check", NullTerminatedText($"Error - TCAI {IntToStr(ability)} {IntToStr(spell)}"), 0);
                                     }
                                 }
 
@@ -1911,7 +1911,7 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                 }
                                 catch
                                 {
-                                    _ = MessageBox(0, "Error during Ranged Check", NullTerminatedText("Error - TCAI " + IntToStr(ability) + " " + IntToStr(spell)), 0);
+                                    _ = MessageBox(0, "Error during Ranged Check", NullTerminatedText($"Error - TCAI {IntToStr(ability)} {IntToStr(spell)}"), 0);
                                 }
 
                                 break;
@@ -2063,9 +2063,9 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                             }
                         }
 
-                        Creator.GetEngine().OutputDebugString("AI found " + IntToStr(_units.Count) + " Own units.");
-                        Creator.GetEngine().OutputDebugString("AI found " + IntToStr(_allies.Count) + " Ally units.");
-                        Creator.GetEngine().OutputDebugString("AI found " + IntToStr(_enemies.Count) + " Enemy units.");
+                        Creator.GetEngine().OutputDebugString($"AI found {IntToStr(_units.Count)} Own units.");
+                        Creator.GetEngine().OutputDebugString($"AI found {IntToStr(_allies.Count)} Ally units.");
+                        Creator.GetEngine().OutputDebugString($"AI found {IntToStr(_enemies.Count)} Enemy units.");
                         _ignoreWalls = _side == CombatSideIndex.Attacker;
                         _flee = _side == CombatSideIndex.Attacker && CombatMap.Current.Combat.CombatData.WallType != 0 && !CombatMap.Current.Combat.CombatData.WallBreached;
                         _minMoves = 100;
@@ -2261,7 +2261,7 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                 }
                                 catch
                                 {
-                                    _ = MessageBox(0, "Error during Eval Enemies", NullTerminatedText("Error - TCAI " + u.Troop.GetName()), 0);
+                                    _ = MessageBox(0, "Error during Eval Enemies", NullTerminatedText($"Error - TCAI {u.Troop.GetName()}"), 0);
                                 }
 
                                 settings = new CombatMoveControlSettings(null) { Holder = Creator.CreationHolder() };
@@ -2352,7 +2352,7 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                 }
                                 catch
                                 {
-                                    _ = MessageBox(0, "Error during Eval Friends", NullTerminatedText("Error - TCAI " + u.Troop.GetName()), 0);
+                                    _ = MessageBox(0, "Error during Eval Friends", NullTerminatedText($"Error - TCAI {u.Troop.GetName()}"), 0);
                                 }
 
                                 if (abilities.Count > 0)
@@ -2437,8 +2437,8 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                 }
 
                                 _unitIndex = 0;
-                                Creator.GetEngine().OutputDebugString("AI calculated " + IntToStr(_units.Count * _enemies.Count) + " Attack paths.");
-                                Creator.GetEngine().OutputDebugString("AI calculated " + IntToStr(_moves.Count) + " Moves.");
+                                Creator.GetEngine().OutputDebugString($"AI calculated {IntToStr(_units.Count * _enemies.Count)} Attack paths.");
+                                Creator.GetEngine().OutputDebugString($"AI calculated {IntToStr(_moves.Count)} Moves.");
                             }
                             catch
                             {
@@ -2604,8 +2604,8 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                             _currentMove += 1;
                             _walls.Clear();
                             _unitIndex = 0;
-                            Creator.GetEngine().OutputDebugString("AI calculated " + IntToStr(_units.Count * _enemies.Count) + " Attack paths.");
-                            Creator.GetEngine().OutputDebugString("AI calculated " + IntToStr(_moves.Count) + " Moves.");
+                            Creator.GetEngine().OutputDebugString($"AI calculated {IntToStr(_units.Count * _enemies.Count)} Attack paths.");
+                            Creator.GetEngine().OutputDebugString($"AI calculated {IntToStr(_moves.Count)} Moves.");
                         }
 
                         _unitLimit = 0;
@@ -2930,7 +2930,7 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                                         }
 
                                                         // { Original repeats X. }
-                                                        Creator.GetEngine().OutputDebugString("AI moves to X: " + IntToStr(move.X) + " Y: " + IntToStr(move.X));
+                                                        Creator.GetEngine().OutputDebugString($"AI moves to X: {IntToStr(move.X)} Y: {IntToStr(move.X)}");
                                                         moved = TacticalBattleUnit.MoveCombatUnit(move.UnitHexSprite.Unit, pathStepList);
                                                         if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
                                                         {
@@ -2972,7 +2972,7 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                             if (pathStepList[^2].MoveCost <= move.UnitHexSprite.Unit.MovePoints)
                                             {
                                                 // { Original repeats X in the debug text. }
-                                                Creator.GetEngine().OutputDebugString("AI touches at X: " + IntToStr(move.X) + " Y: " + IntToStr(move.X));
+                                                Creator.GetEngine().OutputDebugString($"AI touches at X: {IntToStr(move.X)} Y: {IntToStr(move.X)}");
                                                 moved = move.UnitHexSprite.MeleeMoveTacticalBattle(pathStepList);
                                                 if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
                                                 {
@@ -3015,7 +3015,7 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                             {
                                                 move.UnitHexSprite.SelectedAbility = move.Ability;
                                                 // { Original repeats X in the debug text. }
-                                                Creator.GetEngine().OutputDebugString("AI melees at X: " + IntToStr(move.X) + " Y: " + IntToStr(move.X));
+                                                Creator.GetEngine().OutputDebugString($"AI melees at X: {IntToStr(move.X)} Y: {IntToStr(move.X)}");
                                                 moved = move.UnitHexSprite.AbilityTouchMoveTacticalBattle(pathStepList);
                                                 if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
                                                 {
@@ -3033,7 +3033,7 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                                     move.UnitHexSprite.SelectedAbility = move.Ability;
                                     move.UnitHexSprite.SelectedSpell = move.Spell;
                                     // { Original repeats X in the debug text. }
-                                    Creator.GetEngine().OutputDebugString("AI ranged at X: " + IntToStr(move.X) + " Y: " + IntToStr(move.X));
+                                    Creator.GetEngine().OutputDebugString($"AI ranged at X: {IntToStr(move.X)} Y: {IntToStr(move.X)}");
                                     moved = move.UnitHexSprite.AbilityRangedTacticalBattle(move.X, move.Y);
                                     if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
                                     {
