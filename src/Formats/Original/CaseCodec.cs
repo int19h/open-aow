@@ -2,15 +2,16 @@ using System.Buffers.Binary;
 using System.Globalization;
 using Aow.Formats.Json;
 using Aow.Formats.Schema;
+using Aow.Formats.Tree;
 
 namespace Aow.Formats.Original;
 
 /// <summary>
 /// The document form of a mapped class (own-formats.md 2.3): `$case` names the case by its
-/// registration key, the case fields hold the stored members the case keeps with their stored
-/// presence, and `$residue` holds any other stored member of the mapping exactly. An unknown
-/// key keeps the discriminator and every value in the unknown case. The stored image is the
-/// flat object the schema encodes, so G1 and G2 hold through the mapping.
+/// registration key and the case fields hold the stored members the case keeps with their stored
+/// presence. Unused stored members are constant 0 in 1.36: members an original reader acts on are
+/// refused when nonzero on load, and the rest are ignored on load and omitted (0) on save. An
+/// unknown key keeps the discriminator and every value in the unknown case.
 /// </summary>
 internal static class CaseCodec
 {
@@ -24,6 +25,14 @@ internal static class CaseCodec
         JsonInteger i => i.Value,
         JsonString { Value.Length: > 0 and <= 16 } s when s.Value.Length % 2 == 0 =>
             (long)BinaryPrimitives.ReadUInt64LittleEndian(Convert.FromHexString(s.Value).Concat(new byte[8]).Take(8).ToArray()),
+        _ => 0,
+    };
+
+    private static long TreeNumber(TreeValue value) => value switch
+    {
+        IntegerNode i => i.Value,
+        BytesNode { Data.Length: > 0 and <= 8 } b =>
+            (long)BinaryPrimitives.ReadUInt64LittleEndian([.. b.Data, .. new byte[8 - b.Data.Length]]),
         _ => 0,
     };
 
@@ -59,21 +68,47 @@ internal static class CaseCodec
             throw Missing(classValue, mapping, context.File, offset, path);
         }
 
-        Choose(mapping, target);
+        Choose(mapping, target, (chosen, member, value) => context.Fail(Codes.Range,
+            $"Case {chosen.Name} does not accept a nonzero {member}.", offset, path.Member(member), Number(value).ToString(CultureInfo.InvariantCulture), "0"));
     }
 
     /// <summary>The same case for a tree's stored members, which the direct document backend writes.</summary>
-    public static void ToDocument(SchemaClass classValue, SchemaMapping mapping, JsonObject target, DocumentNodePath path)
+    public static void ToDocument(SchemaClass classValue, SchemaMapping mapping, JsonObject target, DocumentSite site)
     {
         if (CaseMappings.Find(classValue.Name) is null)
         {
-            throw Missing(classValue, mapping, file: null, offset: 0, path);
+            throw Missing(classValue, mapping, file: site.Context.File, offset: 0, site.Path);
         }
 
-        Choose(mapping, target);
+        Choose(mapping, target, (chosen, member, value) => site.At(site.Path.Member(member), element: false).Fail(Codes.Range,
+            $"Case {chosen.Name} does not accept a nonzero {member}.", value: Number(value).ToString(CultureInfo.InvariantCulture), constraint: "0"));
     }
 
-    private static void Choose(SchemaMapping mapping, JsonObject target)
+    /// <summary>Checks an original image read directly into a tree against the case's refused unused members.</summary>
+    public static void CheckTree(DecodeContext context, SchemaMapping mapping, ObjectNode node, DocumentNodePath path, int offset)
+    {
+        if (node.Find(mapping.Discriminator) is not { } discriminator)
+        {
+            return;
+        }
+
+        long key = TreeNumber(discriminator);
+        SchemaCase? chosen = mapping.Cases.FirstOrDefault(c => c.Key == key);
+        if (chosen is null || chosen.Refused.Count == 0)
+        {
+            return;
+        }
+
+        foreach (string member in chosen.Refused)
+        {
+            if (node.Find(member) is { } value && TreeNumber(value) != 0)
+            {
+                throw context.Fail(Codes.Range, $"Case {chosen.Name} does not accept a nonzero {member}.", offset, path.Member(member), TreeNumber(value).ToString(CultureInfo.InvariantCulture), "0");
+            }
+        }
+    }
+
+    private static void Choose(SchemaMapping mapping, JsonObject target, Func<SchemaCase, string, JsonValue, ConversionException> refuse)
     {
         Dictionary<string, JsonValue> stored = [with(StringComparer.Ordinal)];
         int first = -1;
@@ -121,21 +156,16 @@ internal static class CaseCodec
                 fields.Add(new JsonMember(field, value));
             }
         }
-        JsonObject residue = new();
         foreach (string member in mapping.StoredMembers)
         {
-            if (!used.Contains(member) && stored.TryGetValue(member, out JsonValue? value))
+            if (!used.Contains(member) && stored.TryGetValue(member, out JsonValue? value) && chosen.Refused.Contains(member) && Number(value) != 0)
             {
-                _ = residue.Add(member, value);
+                throw refuse(chosen, member, value);
             }
         }
 
         int before = target.Members.Count;
         InsertReserved(target, new JsonMember("$case", new JsonString(chosen.Name)));
-        if (residue.Members.Count > 0)
-        {
-            InsertReserved(target, new JsonMember("$residue", residue));
-        }
 
         first += target.Members.Count - before;
         target.Members.InsertRange(Math.Min(first, target.Members.Count), fields);
@@ -143,9 +173,8 @@ internal static class CaseCodec
 
     /// <summary>
     /// The flat object the schema encodes for a mapped object. The case fields go back to their
-    /// stored members with their presence, the discriminator gets the case's key, and the
-    /// residue goes back exactly. The kind must keep every case field: the unit side's
-    /// ToFields writes it back unchanged.
+    /// stored members with their presence and the discriminator gets the case's key. The kind must
+    /// keep every case field: the unit side's ToFields writes it back unchanged.
     /// </summary>
     public static JsonObject FromDocument(EncodeContext context, SchemaClass classValue, SchemaMapping mapping, JsonObject objectValue, DocumentNodePath path)
     {
@@ -177,25 +206,6 @@ internal static class CaseCodec
                 continue;
             }
 
-            if (m.Name == "$residue")
-            {
-                if (m.Value is not JsonObject residue)
-                {
-                    throw context.Fail(Codes.Type, "$residue is an object.", m.Value, path.Member("$residue"));
-                }
-
-                foreach (JsonMember r in residue.Members)
-                {
-                    if (!mapping.StoredMembers.Contains(r.Name) || (r.Name == mapping.Discriminator && chosen.Key is not null) || chosen.Fields.Any(f => f.Member == r.Name))
-                    {
-                        throw context.Fail(Codes.UnknownMember, $"$residue of case {chosen.Name} has no member \"{r.Name}\".", r.Value, path.Member("$residue").Member(r.Name), r.Name);
-                    }
-
-                    flat.Members.Add(new JsonMember(r.Name, r.Value) { NameSpan = r.NameSpan });
-                    numbers[r.Name] = Number(r.Value);
-                }
-                continue;
-            }
             if (fieldMembers.TryGetValue(m.Name, out string? member))
             {
                 flat.Members.Add(new JsonMember(member, m.Value) { NameSpan = m.NameSpan });
@@ -204,7 +214,7 @@ internal static class CaseCodec
             }
             if (mapping.StoredMembers.Contains(m.Name))
             {
-                throw context.Fail(Codes.UnknownMember, $"Case {chosen.Name} has no field \"{m.Name}\". A value the case does not keep goes in $residue.", m.Value, path.Member(m.Name), m.Name);
+                throw context.Fail(Codes.UnknownMember, $"Case {chosen.Name} has no field \"{m.Name}\".", m.Value, path.Member(m.Name), m.Name);
             }
 
             flat.Members.Add(m);

@@ -6,8 +6,9 @@ namespace Aow.Convert;
 /// <summary>
 /// The case mappings of TProductionItem and TDiplomaticAction (own-formats.md 2.3, 9.7-3): the
 /// production kinds the census finds (1, 2, 11, 12, 13), the diplomatic kinds it finds (0, 1),
-/// an unknown kind of each, a residue, and the refusals of a wrong case, a field the case does
-/// not keep and a known key under the unknown case.
+/// an unknown kind of each, the refusals of a wrong case, a field the case does not keep,
+/// $residue and a known key under the unknown case, plus the constant-0 load rules for unused
+/// stored members.
 /// </summary>
 public static partial class Fixtures
 {
@@ -18,19 +19,32 @@ public static partial class Fixtures
         yield return new("cases", "production orders 1, 2, 11, 12, 13 and an unknown kind keep their cases", () =>
             OwnRoundTrip(WithKinds(ProductionItems, DiplomaticActions), (normal, _) => CasesOf(normal, "ProductionItem") is var cases && cases == ProductionCases
                 ? null : "production cases read back as " + cases));
-        yield return new("cases", "diplomatic proposals 0, 1, a residue and an unknown kind keep their cases", () =>
+        yield return new("cases", "diplomatic proposals 0, 1 and an unknown kind keep their cases", () =>
             OwnRoundTrip(WithKinds(ProductionItems, DiplomaticActions), (normal, _) => CasesOf(normal, "DiplomaticAction") is var cases && cases == DiplomacyCases
                 ? null : "diplomatic cases read back as " + cases));
         yield return new("cases", "an unknown case name is refused", () => Expect(Codes.Case,
             () => GameFiles.Export(Copy(WithKinds([Item(0, "Build", [])], []))), Located));
         yield return new("cases", "a field the case does not keep is refused", () => Expect(Codes.UnknownMember,
             () => GameFiles.Export(Copy(WithKinds([], [Action(0, "DeclareWar", [("Gold", new JsonInteger(5))])]))), Located));
+        yield return new("cases", "a $residue member on a mapped case is refused", () => Expect(Codes.ReservedMember,
+            () => GameFiles.Export(Copy(WithKinds([], [Action(0, "DeclareWar", [], new JsonObject().Add("Gold", new JsonInteger(5)))]))), Located));
         yield return new("cases", "a registered key under the unknown case is refused", () => Expect(Codes.Case,
             () => GameFiles.Export(Copy(WithKinds([Item(0, "Unknown", [("Kind", new JsonInteger(12))])], []))), Located));
+        yield return new("cases", "nonzero unused Gold on DeclareWar is refused on import", () => Expect(Codes.Range,
+            () => Import(ExportWithRawMember(Action(0, "Unknown", [("Kind", new JsonString("0c")), ("Gold", new JsonInteger(0x12345678))]), fromByte: 0x0C, toByte: 0x00), "world-hsm", "save"), Located));
+        yield return new("cases", "nonzero unused GroupId on ResearchSpell is refused on import", () => Expect(Codes.Range,
+            () => Import(ExportWithRawProductionKind(Item(0, "Unknown", [("Kind", new JsonInteger(0x12345678)), ("Parameter", new JsonInteger(2)), ("GroupId", new JsonInteger(5))]), newKind: 2), "world-hsm", "save"), Located));
+        yield return new("cases", "nonzero unused Parameter on Upgrade is ignored on import", () =>
+        {
+            byte[] image = ExportWithRawProductionKind(Item(0, "Unknown", [("Kind", new JsonInteger(0x12345678)), ("Parameter", new JsonInteger(7))]), newKind: 11);
+            JsonObject imported = Import(image, "world-hsm", "save");
+            string cases = CasesOf(imported, "ProductionItem");
+            return cases == "Upgrade{}" ? Pass("ignored and omitted") : Fail("read back as " + cases);
+        });
     }
 
     private const string ProductionCases = "ProduceUnit{Index=3,GroupId=5} ResearchSpell{Index=2} Upgrade{} Fortify{} Migrate{Race=4} Unknown{Kind=99,Parameter=7,GroupId=1}";
-    private const string DiplomacyCases = "DeclareWar{} OfferPeace{Gold=100,Mana=20} DeclareWar{$residue} Unknown{Kind=\"0c\",Gold=5}";
+    private const string DiplomacyCases = "DeclareWar{} OfferPeace{Gold=100,Mana=20} Unknown{Kind=\"0c\",Gold=5}";
 
     private static JsonObject[] ProductionItems =>
     [
@@ -46,9 +60,37 @@ public static partial class Fixtures
     [
         Action(0, "DeclareWar", []),
         Action(1, "OfferPeace", [("Gold", new JsonInteger(100)), ("Mana", new JsonInteger(20))]),
-        Action(2, "DeclareWar", [], new JsonObject().Add("Gold", new JsonInteger(5))),
-        Action(3, "Unknown", [("Kind", new JsonString("0c")), ("Gold", new JsonInteger(5))]),
+        Action(2, "Unknown", [("Kind", new JsonString("0c")), ("Gold", new JsonInteger(5))]),
     ];
+
+    private static byte[] ExportWithRawMember(JsonObject action, byte fromByte, byte toByte)
+    {
+        byte[] raw = Payload(GameFiles.Export(WithKinds([], [action])).Bytes);
+        // Locate the DiplomaticAction entry: property 25 (Kind) with byte fromByte after Gold = 0x12345678.
+        byte[] pattern = [0x78, 0x56, 0x34, 0x12, fromByte];
+        int at = raw.AsSpan().IndexOf(pattern);
+        if (at < 0 || raw.AsSpan().LastIndexOf(pattern) != at)
+        {
+            throw new InvalidOperationException("The raw diplomatic action bytes were not uniquely found.");
+        }
+
+        raw[at + 4] = toByte;
+        return raw;
+    }
+
+    private static byte[] ExportWithRawProductionKind(JsonObject item, int newKind)
+    {
+        byte[] raw = Payload(GameFiles.Export(WithKinds([item], [])).Bytes);
+        byte[] pattern = [0x78, 0x56, 0x34, 0x12];
+        int at = raw.AsSpan().IndexOf(pattern);
+        if (at < 0 || raw.AsSpan().LastIndexOf(pattern) != at)
+        {
+            throw new InvalidOperationException("The raw production item bytes were not uniquely found.");
+        }
+
+        System.Buffers.Binary.BinaryPrimitives.WriteInt32LittleEndian(raw.AsSpan(at, 4), newKind);
+        return raw;
+    }
 
     private static JsonObject Item(int slot, string kind, (string, JsonValue)[] fields) => Mapped("ProductionItem", slot, kind, fields, null);
 

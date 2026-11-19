@@ -186,11 +186,11 @@ use CFS level 2. Unwrapped profiles use `none`.
 
 Profiles specify further named header fields under `header`, with identical
 presence rules in both writers. Fields read by previews or logic remain visible.
-Reserved header bytes and noncanonical encodings use validated layout residue.
+Noncanonical encodings and header extensions use validated layout residue.
 Derived checksums are recomputed, not independently editable. Import verifies them.
-In version 1 an HSM header has `header.Reserved` only when its reserved integer is not 0,
-and a scenario set has `header.Name`, the set name of up to 40 bytes. The HSS CRC-32 is
-recomputed on export.
+An HSM header has no `header` member in the document: its 4 reserved bytes at offset 8 are
+constant 0 (ignored on import, written as 0 on export). A scenario set has `header.Name`, the
+set name of up to 40 bytes. The HSS CRC-32 is recomputed on export.
 
 `src/Formats/schema.json` is embedded source. The census proposal is reviewed
 against call sites before acceptance, then hand-owned. Classes record stable
@@ -220,14 +220,14 @@ the one domain the game checks (`player-slot`), and the census marks the other r
 candidates for review. Two classes carry case tables (2.3). `legacyShapes` holds the one named
 legacy rule, `LEGACY_VALLEY01_SPRITE` (section 9).
 
-`src/Formats/versions.json` pins the current version (6) with the schema's SHA-256
-`8a2221841d7c18a57a2d21db08044e55b397a6f3af21202f1de4df040ed15d56`, the codec contracts of that
-version (`property-table-1`, `cfs-1`, `hsm-header-1`, `hss-header-1`, `stored-object-1`,
-`written-object-1`, `cp1252-frozen-1`, `enum-1`, `set-1`, `int-array-1`, `record-1`,
-`bit-array-1`, `raw-1`, `list-element-1`, `grouped-list-1`, `bit-list-1`, `single-1`,
+`src/Formats/versions.json` pins the current version (7) with the schema's SHA-256
+`defb33249e2231669eefd25a4d5398f599afae4cdfb3b2bb11631a709585fc7e`, the codec contracts of that
+version (`property-table-1`, `cfs-1`, `hsm-header-2`, `hss-header-1`, `stored-object-1`,
+`written-object-1`, `cp1252-frozen-1`, `enum-1`, `set-1`, `int-array-1`, `record-2`,
+`bit-array-2`, `raw-1`, `list-element-1`, `grouped-list-1`, `bit-list-2`, `single-1`,
 `terrain-list-1`, `terrain-grid-1`, `ilb-1`, `image-sequences-1`, `fixed-slot-1`,
 `coordinate-1`) and the mapping
-contracts `DiplomaticProposal-1` and `ProductionOrder-1`. `unitMappings` names the persisted
+contracts `DiplomaticProposal-2` and `ProductionOrder-2`. `unitMappings` names the persisted
 classes whose game load needs a unit mapping (`DiplomaticAction`, `MapContainer`,
 `ProductionItem`, `StrategicMap`). `flatMappings`, the kind classes that keep a flat mapping, is
 empty. `SchemaTests` fails when the current schema's hash differs from the pinned one. The file
@@ -250,9 +250,13 @@ is a signed 32-bit integer, and a value outside -128 to 127 is refused on read a
 a packed `Location` integer. Packed location words stay one `i32`: `ArmyId`, `JoinEventLog`,
 `GlobalTargetSpellTokenEvent`, `PlayerMagicEventLog` and `AIGroup.TargetLocation`. A cleared
 `TargetLocation` is the integer -1, and a location keeps a zero fourth byte. The change adds the `coordinate` codec
-and leaves every original image id in place. Own formats are not stable yet, so the schema hash
-moves with the file and no older document shape loads. A document written before this change
-still says version 6 and names the separate members. Export it with the previous aowconv
+and leaves every original image id in place. Version 7 (issue 192 follow-up) removes `$reserved`
+and `$residue`, drops `$container.header` on HSM files, adds declared record padding on
+`SetupPlayerBehavior`, keeps ability bits past `AbilityCount` as ordinary bit-array indices,
+checks `TBitList` tail bits against the list's default bit, and replaces mapped-case `$residue`
+with constant-0 rules (`refuse` on `schema.json` cases where the original reader acts on the
+unused member, ignore elsewhere). Own formats are not stable yet, so the schema hash moves with
+the file and no older document shape loads. Export an older own document with the previous aowconv
 (`aowconv to-original <own> <original>`) and import that image with this aowconv
 (`aowconv to-own <original> <own>`). The original bytes do not change.
 
@@ -284,10 +288,10 @@ storage streams name the same operations by CLR type (`persistence-tree.md` 1): 
 | `rwString` | String through frozen `Cp1252`. `IsMapped` checks every character. Strict input refuses unmapped characters with locations |
 | `rwStrings` | Array of lines only when the block rule below reproduces exact bytes, otherwise `{ "$text": "..." }` |
 | `rwStringsEx` | `lines` and signed 32-bit `objects` arrays of equal length. Noncanonical text uses `$text` plus `objects`, with decoded line count checked |
-| `rwData` | Named fields with explicit layout, otherwise a classified exact lowercase hex payload. Version 1 stores every value as exact hex. Version 2 stores an enum as the C# member name, or as its integer when the enum declares no such member, a set as member names in ascending ordinal order with unnamed bits as integers, and a fixed integer array as a JSON array of the original length. Version 3 stores a padded record as a JSON object of its C# field names (a one-field set wrapper as that set's name array), nonzero record residue as `$reserved` on the record, the ability bit array as ascending indices (residue bits as `$reserved` on the value), and a primitive `rwData` integer or bool as that integer or boolean, zero and false included. `DiplomaticAction.ActionType` stays exact hex. `FloodControl.OriginalTerrain` (Delphi `TFloodControl`) is exact hex up to version 4. From version 5 it is the array of the hexagons the flood changed, in row order, each `{"X", "Y", "Terrain", "Overlay"}` with all four members, read from the `Width` by `Height` grid of terrain and overlay pairs where 0 0 marks a hexagon the flood left alone. A hexagon listed twice, out of row order, outside the grid or holding 0 0 is refused. Envelope `$padding` does not occur. A longer list is kept and refused on export with the path. A shorter list fills the rest with zero on export |
+| `rwData` | Named fields with explicit layout, otherwise a classified exact lowercase hex payload. Version 1 stores every value as exact hex. Version 2 stores an enum as the C# member name, or as its integer when the enum declares no such member, a set as member names in ascending ordinal order with unnamed bits as integers, and a fixed integer array as a JSON array of the original length. Version 3 stores a catalog record as a JSON object of its C# field names (a one-field set wrapper as that set's name array) and a primitive `rwData` integer or bool as that integer or boolean, zero and false included. From version 7 a record's declared padding bytes (`[StoredPadding]`) are ignored on read, written as 0 and omitted from the document, and the ability bit array (`CustomAbilityList.AbilityBits`) stores every set bit index of its stored bytes in ascending order, including bits past `AbilityCount` which remain game state. `DiplomaticAction.ActionType` stays exact hex. `FloodControl.OriginalTerrain` (Delphi `TFloodControl`) is exact hex up to version 4. From version 5 it is the array of the hexagons the flood changed, in row order, each `{"X", "Y", "Terrain", "Overlay"}` with all four members, read from the `Width` by `Height` grid of terrain and overlay pairs where 0 0 marks a hexagon the flood left alone. A hexagon listed twice, out of row order, outside the grid or holding 0 0 is refused. Envelope `$padding` does not occur. A longer list is kept and refused on export with the path. A shorter list fills the rest with zero on export |
 | Floating-point field | `{ "$bits": "..." }` with exact original little-endian bytes at declared width, retaining negative zero, infinities and NaN payloads. Version 1 has one, `AIPlayerControl.DefenseStrengthMultiplier` (Delphi `TAIPlayerControl`). From version 5 that single is a JSON number in the shortest text that reads back to the same bits: an integral value as an integer, any other value as a decimal with a lowercase `e` and no `+` where it needs an exponent. Negative zero, the infinities and NaN keep `$bits`. Any number text reads as the nearest single, `$bits` reads as its exact bits, and a number outside the single range is refused |
 | Overlapping record | One authoritative schema field set. Other views derive from it. Uninterpreted bits stay exact, never independently editable aliases |
-| `rwStreamProc` | Typed arrays or codec-specific objects. A `TIntegerList` or `TByteList` is `{"default": n, "items": [...]}`: the default is state, because a read past the end returns it, and an empty list is stored. Since PE-2c-2 the tree and the direct original path store it too, writing the canonical runs. From version 4 an enum list stores the default and each item as the C# member name, or as the integer when the enum declares no such member, and a move path stores each `MapCoordinate` as a record of `X`, `Y`, `MapLevel` and `Tag` with zero fields omitted (a `PathStep` in the game, `Tag` its move cost). A `TUnitIndexList` is an integer list. A `TUnitIndexListCollection` is `{"default": d, "groups": [[...], ...], "count": n}`, its list cut into groups of 8, each group without its trailing -1 entries. `count` is present only when the stored length is not 8 times the groups, and `default` only when it is not -1. A group of more than 8 values, or of more than the count leaves for the last group, is refused. Up to version 3 a bit list keeps `default`, stored `count` and exact hex `bits`, and the list payloads above are exact hex. From version 4 a bit list is `{"default": false, "count": n, "bits": [...]}`: the default by the raw boolean rule, the set bit indices in ascending order, each below the count, and set bits past the count in the last byte as `$reserved` on the value. Up to version 4 the resource payloads are exact hex. From version 5 an image sequence list (`TImageSequenceList`) is an array with `null` for a nil entry and otherwise the layers of its chain in stored order, each `{"Library", "Layer", "Speed", "Mode", "ImageIndex", "OffsetX", "OffsetY", "Frames"}` with zero members omitted, `Mode` a `SequenceMode` name or the integer of an undeclared mode, and `Frames` `{"default", "items"}` exactly on a `FrameTable` or `RandomFrameTable` layer. A frame table stores every item, with no runs. The load of a frame-table layer draws its image index from `Random` and never reads the stored one, which the document keeps for G1. A nil or has-next byte other than 0 or 1 reads as true and stays exact as a `value-encoding` part. An empty chain, `Frames` on another layer and a frame-table layer without `Frames` are refused. A terrain list (`TTerrainList`) is the array of `[terrain, overlay]` pairs of signed bytes, -2 for none. An ILB library (`TImageLibrary`) is `{"$ilb": "<base64>"}` in the standard alphabet with padding, and only that text decodes. Every path checks its 24-byte header: the short string `ILB` and a zero, the single 4 for the version, the header size 24, an index end inside the library and a size equal to the payload. The three bytes after the identifier are whatever the writer had in memory and stay in the payload, which is otherwise opaque. Since PE-2c-5 the tree holds a collection as its flat list, and the tree and the direct original path store the collections and the resource payloads |
+| `rwStreamProc` | Typed arrays or codec-specific objects. A `TIntegerList` or `TByteList` is `{"default": n, "items": [...]}`: the default is state, because a read past the end returns it, and an empty list is stored. Since PE-2c-2 the tree and the direct original path store it too, writing the canonical runs. From version 4 an enum list stores the default and each item as the C# member name, or as the integer when the enum declares no such member, and a move path stores each `MapCoordinate` as a record of `X`, `Y`, `MapLevel` and `Tag` with zero fields omitted (a `PathStep` in the game, `Tag` its move cost). A `TUnitIndexList` is an integer list. A `TUnitIndexListCollection` is `{"default": d, "groups": [[...], ...], "count": n}`, its list cut into groups of 8, each group without its trailing -1 entries. `count` is present only when the stored length is not 8 times the groups, and `default` only when it is not -1. A group of more than 8 values, or of more than the count leaves for the last group, is refused. Up to version 3 a bit list keeps `default`, stored `count` and exact hex `bits`, and the list payloads above are exact hex. From version 4 a bit list is `{"default": false, "count": n, "bits": [...]}`: the default by the raw boolean rule and the set bit indices in ascending order, each below the count. From version 7 bits past the count in the last byte equal the list's default bit (0 when default is false, 1 when default is nonzero): a mismatch is refused on load, and save writes the default. Up to version 4 the resource payloads are exact hex. From version 5 an image sequence list (`TImageSequenceList`) is an array with `null` for a nil entry and otherwise the layers of its chain in stored order, each `{"Library", "Layer", "Speed", "Mode", "ImageIndex", "OffsetX", "OffsetY", "Frames"}` with zero members omitted, `Mode` a `SequenceMode` name or the integer of an undeclared mode, and `Frames` `{"default", "items"}` exactly on a `FrameTable` or `RandomFrameTable` layer. A frame table stores every item, with no runs. The load of a frame-table layer draws its image index from `Random` and never reads the stored one, which the document keeps for G1. A nil or has-next byte other than 0 or 1 reads as true and stays exact as a `value-encoding` part. An empty chain, `Frames` on another layer and a frame-table layer without `Frames` are refused. A terrain list (`TTerrainList`) is the array of `[terrain, overlay]` pairs of signed bytes, -2 for none. An ILB library (`TImageLibrary`) is `{"$ilb": "<base64>"}` in the standard alphabet with padding, and only that text decodes. Every path checks its 24-byte header: the short string `ILB` and a zero, the single 4 for the version, the header size 24, an index end inside the library and a size equal to the payload. The three bytes after the identifier are whatever the writer had in memory and stay in the payload, which is otherwise opaque. Since PE-2c-5 the tree holds a collection as its flat list, and the tree and the direct original path store the collections and the resource payloads |
 | `rwEObject` | Object with fixed class from schema context, no editable `$class` |
 | `rwCreateEObject` | Object with `$class`, `null` for stored class id 0, absent for absent property |
 | `rwChildren` | `Children` in semantic traversal order. Every identity-bearing child slot has explicit `$slot` |
@@ -295,7 +299,7 @@ storage streams name the same operations by CLR type (`persistence-tree.md` 1): 
 | Dynamic sprites | `HexSpriteList` in original table order with `$class` and explicit identity metadata where a dynamic id carries identity. The sprite ids carry none, so a sprite has no `$slot`. Since PE-2c-4 the tree and the direct original path store them too, at ids 50 and on |
 | Keyed dynamic members | `AbilityOwner.AbilityData` and `ItemControl.Items`: an array of created objects in stored order, each with `$class` and `$slot`, the stored id less the slot base (50 and 10). A stored null is `{"$class": null, "$slot": n}`. Since PE-2c-2 the tree and the direct original path store them too. The fixed objects of `AbilityControl.Abilities` and `SpellControl.RegisteredSpells` are an array in stored order, each with `$slot`, the stored id less 10, and no `$class`. Version 4 imports them without `$slot` and cannot export them. From version 5 they keep `$slot`, and since PE-2c-5 the tree and the direct original path store them |
 | Campaign map stream | `Map`, a nested document with `$container` and compressed-stream residue when nonempty. Empty and absent states remain distinct under the profile. `Campaign` ids 5 (size) and 6 (bytes) form the one member. Since PE-2c-4 the tree holds the file's bytes and the direct original path stores them. The direct document path imports and exports the nested document through its profile and keeps no compressed-stream residue |
-| Production item and diplomatic action | `$case`, the case name of the registered kind, then that case's fields. Values the case does not keep go to `$residue`. An unregistered key reads as the case `Unknown`, which keeps the discriminator as `Kind` and every value |
+| Production item and diplomatic action | `$case`, the case name of the registered kind, then that case's fields. Stored members the case does not use are constant 0 (refused on load where the original reader acts on them, ignored elsewhere, written as 0 on export). An unregistered key reads as the case `Unknown`, which keeps the discriminator as `Kind` and every value |
 | Absent property | Absent member, with documented reader default at game load. A present default value stays present through conversion |
 
 For `rwStrings`, an empty array encodes a zero-length block. A nonempty array
@@ -313,25 +317,27 @@ payloads are classifications, not an escape for unknown ids. Unknown production
 and diplomatic cases have an explicit form retaining discriminator, values and
 property presence. They never become known cases by dropping data.
 
-`$residue` holds typed meaningful fields outside a mapped case, distinct from
-encoding residue. Census-discovered values also remain in the 9.6 model, even
-when a case does not use them. The pinned corpus expects zero unexpected
-production or diplomatic case residues. New residue fails that expectation and
-requires mapping review. Converter residue cannot preserve a value through game
-load if the model discards it.
+In version 7 every unused stored member of a registered `ProductionItem` or `DiplomaticAction`
+case is constant 0. Delphi never writes `GroupId` for `ResearchSpell` and reads it in
+`TProductionQueue.IndexOf`, and never writes `Gold` or `Mana` for the five non-bribe diplomatic
+actions (`DeclareWar`, `SendMessage`, `ThreatenToAttack`, `BreakAlliance`, `SendMessageAsY`)
+while reading them in `CanSend` and `ExecuteSend`. Those members are listed under `refuse` on
+their case in `schema.json` and a nonzero stored value is refused on load with `Codes.Range`.
+Every other unused member (`GroupId` on `Trade` and `Migrate`, `Parameter` and `GroupId` on
+`Upgrade`, `Fortify` and `Loot`) is never written and never read in Delphi, so load ignores a
+nonzero value and export writes 0 (omitted). Neither `$reserved` nor `$residue` exists.
 
-The 9.6 census found such a value only in the other player of a diplomatic action, which the
-model keeps in the common part of `DiplomaticAction` (`unions-and-kinds.md` 3.7), so no case
-field carries it. A registered kind drops any other stray value on read (roadmap X20), so a
-document whose `$residue` reaches the game loses it at the next save. The case tables live in
-`schema.json` (`ProductionOrder`: keys 1, 2 and 10 to 14, `DiplomaticProposal`: kinds 0 to 9).
-`CaseCodec` (`src/Formats/Original/CaseCodec.cs`) turns the stored members into the case and
-back, and asks the unit side, `ProductionOrderCases` and `DiplomaticProposalCases` in
-`src/Game/Saves/ProductionOrderCases.cs` and `src/Game/Saves/DiplomaticProposalCases.cs`, what the kind writes back through `FromFields` and `ToFields`. A
-document never keeps a case field the kind drops. An unknown case name, a field the case does
-not keep and a registered key under `Unknown` are refused, and a mapped class whose unit side
-is not registered fails with `E_MAPPING`. `aowconv check` counts the `$residue` members of every
-imported document and finds 0.
+The 9.6 census found a shared extra value only in the other player of a diplomatic action, which
+the model keeps in the common part of `DiplomaticAction` (`unions-and-kinds.md` 3.7), so no case
+field carries it. The case tables live in `schema.json` (`ProductionOrder`: keys 1, 2 and 10 to
+14, `DiplomaticProposal`: kinds 0 to 9). `CaseCodec` (`src/Formats/Original/CaseCodec.cs`) turns
+the stored members into the case and back, and asks the unit side, `ProductionOrderCases` and
+`DiplomaticProposalCases` in `src/Game/Saves/ProductionOrderCases.cs` and
+`src/Game/Saves/DiplomaticProposalCases.cs`, what the kind writes back through `FromFields` and
+`ToFields`. A document never keeps a case field the kind drops. An unknown case name, a field the
+case does not keep, `$residue`, and a registered key under `Unknown` are refused, and a mapped
+class whose unit side is not registered fails with `E_MAPPING`. `aowconv check` finds 0 case
+residues.
 
 ### 2.4 Graph identity and canonical order
 
@@ -349,8 +355,9 @@ runtime iteration order.
 
 Reserved members have this total order wherever permitted by schema: `$format`,
 `$version`, `$kind`, `$container`, `$mods`, `$class`, `$case`, `$slot`, `$ext`,
-`$residue`, `$padding`, `$bits`, `$text`, `$layout`. `$mods` and `$ext` are reserved
-for later versions, not accepted version 1 members. Envelope `root` follows
+`$padding`, `$bits`, `$ilb`, `$text`, `$layout`. `$mods` and `$ext` are reserved
+for later versions, not accepted version 7 members. `$reserved` and `$residue` are
+refused as unknown reserved members. Envelope `root` follows
 reserved members. Ordinary properties follow frozen schema ordinals, initially
 inherited `ReadWrite` order with base fields first. Mapped record fields have their
 own ordinals. Future extension maps sort keys by ordinal Unicode scalar value.
@@ -368,9 +375,9 @@ declared legacy write order, data without gaps and short string prefixes below
 255. `$layout` records differences needed for G1. Its versioned structure has
 `codec`, `fingerprint` and `parts`. Parts have categories, bounded locations and
 exact bytes or encoding parameters. Categories cover table form/order, value
-prefixes, gaps, overlaps, header extensions and nested compression. Nonzero padding of a
-version 3 record is `$reserved` on that record, one hex string of every residue byte. It is
-not a second copy of a named field. Envelope `$padding` does not occur. The codec is
+prefixes, gaps, overlaps, header extensions and nested compression. Declared
+padding bytes of a catalog record (`[StoredPadding]`) are ignored on read,
+written as 0 and never enter the document. Envelope `$padding` does not occur. The codec is
 `property-table-1`, and the code names six categories (`src/Formats/Original/Layout.cs`):
 `table-form-order` (a stored table that the writer does not make from the data order, which
 also places overlapping values at their stored offsets), `gaps`, `value-prefixes`,
@@ -389,10 +396,8 @@ compressed bytes are outside G1 and are not retained for it.
 
 Content edits invalidate affected parts. Rebuild tables, lengths, checksums and
 ancestor offsets from the edited tree. Preserve unaffected parts only after
-validation. Normalization reports discarded encoding and retains semantic
-`$residue`. Incompatible semantic residue after a class or case change fails
-unless a named mapping resolves it. Stale residue never restores an old value.
-Invalid or out-of-bounds residue is an error, not silent cleanup.
+validation. Normalization reports discarded encoding. Stale residue never restores
+an old value. Invalid or out-of-bounds residue is an error, not silent cleanup.
 
 `normalize` preserves valid archival residue and reports invalidated encoding.
 `to-original --exact-layout` refuses stale or missing parts needed for a claimed
@@ -409,8 +414,9 @@ long table entries with a gap after a Boolean, a noncanonical table order, the H
 header extensions, an edit that invalidates the layout and an export that rebuilds it,
 `--exact-layout` refusing a stale layout, a part that does not fit, and a campaign save whose
 nested map keeps its compressed bytes until an edit recompresses it and rebuilds its size.
-Nonzero padding has no corpus fixture, since version 1 maps no record (2.3). Version 3 proves a
-nonzero `$reserved` on `SetupPlayerBehavior` (Delphi `TSetupPlayerBehavior`) in `RecordShapeTests`. A class change is
+Nonzero padding has no corpus fixture. `RecordShapeTests` proves declared padding on
+`SetupPlayerBehavior` (Delphi `TSetupPlayerBehavior`, bytes 1 to 3 ignored on read and written
+as 0) and refuses `$reserved`. A class change is
 `GameSwitchTests.AllowedClassChangeValidatesTheNewClassFields`. Over the pinned corpus the
 residue is 3142 parts in 61 files: `table-form-order` 3136, `gaps` 5, `header-extensions` 1.
 `tactical-hsm` holds 2999 parts in 52 files, because 52 of the 59 tactical maps store field
@@ -433,7 +439,7 @@ identifiers of the current version. A test checks them. Golden binary/document p
 too, since unchanged mapping names do not prove unchanged code. Mapping implementation changes
 receive format-change review.
 
-Version 6 is the current version. Issue 230 deleted the migration chain of versions 1 to 5
+Version 7 is the current version. Issue 230 deleted the migration chain of versions 1 to 5
 (`1-symbolic-enum-set-array`, `2-record-bit-primitive`, `3-lists`, `4-resources` and the member
 name step), the pinned schemas `schema-v1.json` to `schema-v4.json`, the schema's `oldNames`, the
 enum member aliases of `names.csv`, the golden historical hero lists, and the per-version history

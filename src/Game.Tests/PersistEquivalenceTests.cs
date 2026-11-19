@@ -1294,36 +1294,91 @@ public sealed partial class PersistEquivalenceTests
         return control;
     }
 
-    // The three stored bytes after PlayerType are the game value's UnknownBytes and the image's
-    // Reserved. The tree, the original backend and ReadWrite give the same document and bytes.
+    // The three stored bytes after PlayerType are declared padding on SetupPlayerBehaviorImage.
+    // The tree, the original backend and the converter ignore them on read and write 0.
     [Fact]
-    public void SetupPlayerBehaviorTransfersTheUnknownBytes()
+    public void SetupPlayerBehaviorIgnoresPaddingBytes()
     {
-        SetupPlayerBehavior behavior = new(PlayerType: 2, Flags: 9) { UnknownBytes = 0x020001 };
+        SetupPlayerBehavior behavior = new(PlayerType: 2, Flags: 9);
         BehaviorProbe probe = new() { Behavior = behavior };
         SchemaClass classValue = s_schema.Get("PlayerSetupSettings");
         ObjectNode tree = TreeWriter.Write(probe, Factory);
         JsonObject stored = (JsonObject)DocumentBackend.Write(tree, classValue, s_schema, "game")["Behavior"];
-        Assert.Equal(["PlayerType", "$reserved", "Flags"], stored.Members.Select(member => member.Name).ToList());
+        Assert.Equal(["PlayerType", "Flags"], stored.Members.Select(member => member.Name).ToList());
         Assert.Equal(2, ((JsonInteger)stored["PlayerType"]).Value);
-        Assert.Equal("010002", ((JsonString)stored["$reserved"]).Value);
         Assert.Equal(9, ((JsonInteger)stored["Flags"]).Value);
-        ObjectNode back = OriginalBackend.Read(OriginalBackend.Write(tree, classValue, s_schema, "game"), classValue, s_schema, "game");
+        byte[] imageBytes = OriginalBackend.Write(tree, classValue, s_schema, "game");
+        // Put nonzero padding bytes into the stored 8-byte behavior record and verify load ignores them.
+        byte[] withPadding = [.. imageBytes];
+        withPadding[3 + 1] = 0x01;
+        withPadding[3 + 2] = 0x00;
+        withPadding[3 + 3] = 0x02;
+        ObjectNode back = OriginalBackend.Read(withPadding, classValue, s_schema, "game");
         BehaviorProbe loaded = new();
         TreeReader.Read(back, loaded, Factory);
         Assert.Equal(behavior, loaded.Behavior);
+        Assert.Equal(imageBytes, OriginalBackend.Write(back, classValue, s_schema, "game"));
+        Assert.Equal(["PlayerType", "Flags"], ((JsonObject)PilotImage.Decode(withPadding, "PlayerSetupSettings")["Behavior"]).Members.Select(member => member.Name).ToList());
 
         using PlayerSetupSettings settings = new(null) { Holder = EngineFixture.Engine };
         settings.Behavior = behavior;
-        settings.OriginalBehavior = behavior with { PlayerType = 5, UnknownBytes = 0xFFFFFF };
+        settings.OriginalBehavior = behavior with { PlayerType = 5 };
         byte[] image = Image(settings);
         JsonObject document = PilotImage.Decode(image, "PlayerSetupSettings");
         EqualJson(new JsonObject().Add("Behavior", stored), new JsonObject().Add("Behavior", document["Behavior"]), "PlayerSetupSettings behavior");
-        Assert.Equal("ffffff", ((JsonString)((JsonObject)document["OriginalBehavior"])["$reserved"]).Value);
+        Assert.Equal(["PlayerType", "Flags"], ((JsonObject)document["OriginalBehavior"]).Members.Select(member => member.Name).ToList());
         using PlayerSetupSettings read = new(null) { Holder = EngineFixture.Engine };
         Load(read, image);
         Assert.Equal(settings.Behavior, read.Behavior);
         Assert.Equal(settings.OriginalBehavior, read.OriginalBehavior);
+    }
+
+    // Bits past AbilityCount inside the last stored byte are game state in 1.36: AssignAbility
+    // leaves them on shrink (Ability.PAS:1702), CompareAbility compares whole bytes (:1147), and
+    // growing the count revives them (:954-977, :1122-1126). Own JSON keeps them in AbilityBits.
+    [Fact]
+    public void AbilityBitsPastTheCountArePreservedAsState()
+    {
+        Ability? placed = null;
+        try
+        {
+            placed = PlaceAbility(0);
+            using AbilityOwner target = new(null) { Holder = EngineFixture.Engine };
+            using AbilityOwner source = new(null) { Holder = EngineFixture.Engine };
+            target.SetAbilitySet(0, 1);
+            target.SetAbilitySet(7, 1);
+            Assert.Equal(8, target.AbilityCount);
+            source.SetAbilityCount(1);
+            source.SetAbilitySet(0, 1);
+            target.AssignAbility(source);
+            Assert.Equal(1, target.AbilityCount);
+            Assert.False(target.GetAbilitySetAt(7));
+            Assert.Equal(0x81, target.AbilityBits[0]);
+            Assert.False(target.CompareAbility(source));
+
+            SchemaClass classValue = s_schema.Get("CustomAbilityList");
+            JsonObject document = DocumentBackend.Write(TreeWriter.Write(target, Factory), classValue, s_schema, "game");
+            JsonArray storedBits = (JsonArray)document["AbilityBits"];
+            Assert.Equal([0L, 7L], storedBits.Items.Select(item => ((JsonInteger)item).Value).ToList());
+
+            using AbilityOwner reloaded = new(null) { Holder = EngineFixture.Engine };
+            TreeReader.Read(DocumentBackend.Read(document, classValue, s_schema, "game"), reloaded, Factory);
+            Assert.Equal(1, reloaded.AbilityCount);
+            Assert.Equal(0x81, reloaded.AbilityBits[0]);
+            Assert.True(reloaded.CompareAbility(target));
+            Assert.False(reloaded.CompareAbility(source));
+            // Growing the count inside the same byte revives bit 7 (Ability.PAS:954-977, :1122-1126).
+            reloaded.SetAbilityCount(8);
+            Assert.Equal(8, reloaded.AbilityCount);
+            Assert.True(reloaded.GetAbilitySetAt(7));
+        }
+        finally
+        {
+            if (placed is not null)
+            {
+                ReleaseAbility(placed);
+            }
+        }
     }
 
     [Fact]

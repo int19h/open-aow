@@ -160,8 +160,8 @@ public interface IPersister
 
     /// <summary>
     /// A counted bit array stored by rwData. The length is <c>(count + 7) &gt;&gt; 3</c>.
-    /// Length zero is omitted. Bits past the count in the last byte are residue.
-    /// An absent member on load leaves the caller's bytes.
+    /// Length zero is omitted. Every bit of the stored bytes is game state, including bits past
+    /// the count in the last byte. An absent member on load leaves the caller's bytes.
     /// </summary>
     void BitArray(string name, int count, Span<byte> bits);
 

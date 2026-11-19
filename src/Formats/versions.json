@@ -1,8 +1,8 @@
 {
-  "version": 6,
-  "schemaSha256": "8a2221841d7c18a57a2d21db08044e55b397a6f3af21202f1de4df040ed15d56",
-  "codecs": ["property-table-1", "cfs-1", "hsm-header-1", "hss-header-1", "stored-object-1", "written-object-1", "cp1252-frozen-1", "enum-1", "set-1", "int-array-1", "record-1", "bit-array-1", "raw-1", "list-element-1", "grouped-list-1", "bit-list-1", "single-1", "terrain-list-1", "terrain-grid-1", "ilb-1", "image-sequences-1", "fixed-slot-1", "coordinate-1"],
-  "mappings": ["DiplomaticProposal-1", "ProductionOrder-1"],
+  "version": 7,
+  "schemaSha256": "defb33249e2231669eefd25a4d5398f599afae4cdfb3b2bb11631a709585fc7e",
+  "codecs": ["property-table-1", "cfs-1", "hsm-header-2", "hss-header-1", "stored-object-1", "written-object-1", "cp1252-frozen-1", "enum-1", "set-1", "int-array-1", "record-2", "bit-array-2", "raw-1", "list-element-1", "grouped-list-1", "bit-list-2", "single-1", "terrain-list-1", "terrain-grid-1", "ilb-1", "image-sequences-1", "fixed-slot-1", "coordinate-1"],
+  "mappings": ["DiplomaticProposal-2", "ProductionOrder-2"],
   "unitMappings": ["DiplomaticAction", "MapContainer", "ProductionItem", "StrategicMap"],
   "flatMappings": []
 }

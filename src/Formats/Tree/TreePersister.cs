@@ -483,18 +483,15 @@ internal sealed class MemberPersister : IPersister
             }
 
             bits.Clear();
+            int storedBits = length * 8;
             foreach (int index in node.Indices)
             {
-                if ((uint)index >= (uint)count)
+                if ((uint)index >= (uint)storedBits)
                 {
                     throw TreeErrors.Fail(Codes.Range, name + " is outside its storage range.", _path.Member(name), value: index.ToString(System.Globalization.CultureInfo.InvariantCulture));
                 }
 
                 bits[index >> 3] |= (byte)(1 << (index & 7));
-            }
-            if ((count & 7) != 0)
-            {
-                bits[length - 1] |= node.Residue;
             }
 
             return;
@@ -504,8 +501,9 @@ internal sealed class MemberPersister : IPersister
             return;
         }
 
+        int totalBits = length * 8;
         List<int> indices = [];
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < totalBits; i++)
         {
             if ((bits[i >> 3] & (1 << (i & 7))) != 0)
             {
@@ -513,13 +511,7 @@ internal sealed class MemberPersister : IPersister
             }
         }
 
-        byte residue = 0;
-        if ((count & 7) != 0)
-        {
-            residue = (byte)(bits[length - 1] & (byte)(0xFF << (count & 7)));
-        }
-
-        Store(name, new BitArrayNode(count, [.. indices], residue));
+        Store(name, new BitArrayNode(count, [.. indices]));
     }
 
     public BitListImage? BitList(string name, BitListImage value)
@@ -545,7 +537,7 @@ internal sealed class MemberPersister : IPersister
 
             if ((node.Count & 7) != 0 && bits.Length != 0)
             {
-                bits[^1] |= node.Residue;
+                bits[^1] |= Original.BitListCodec.ExpectedTail(node.Default, node.Count);
             }
 
             return new BitListImage(node.Default, node.Count, bits);
@@ -564,7 +556,7 @@ internal sealed class MemberPersister : IPersister
             }
         }
 
-        Store(name, new BitListNode(residue: (value.Count & 7) != 0 ? (byte)(value.Bits[^1] & (byte)(0xFF << (value.Count & 7))) : (byte)0, defaultValue: value.Default, count: value.Count, indices: [.. indices]));
+        Store(name, new BitListNode(defaultValue: value.Default, count: value.Count, indices: [.. indices]));
         return value;
     }
 

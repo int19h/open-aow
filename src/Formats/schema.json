@@ -1,6 +1,6 @@
 {
   "format": "OpenAoW-schema",
-  "version": 6,
+  "version": 7,
   "note": "Hand-owned from 9.7-1. Generated once from the 9.7-0 census, the class baseline, registration reachability and corpus order evidence.",
   "legacyShapes": [
     {
@@ -2238,14 +2238,14 @@
         "name": "DiplomaticProposal",
         "discriminator": "Kind",
         "cases": [
-          {"key": 0, "case": "DeclareWar", "fields": []},
+          {"key": 0, "case": "DeclareWar", "fields": [], "refuse": ["Gold", "Mana"]},
           {"key": 1, "case": "OfferPeace", "fields": [["Gold", "Gold"], ["Mana", "Mana"]]},
           {"key": 2, "case": "ProposeAlliance", "fields": [["Gold", "Gold"], ["Mana", "Mana"]]},
-          {"key": 3, "case": "SendMessage", "fields": []},
-          {"key": 4, "case": "ThreatenToAttack", "fields": []},
+          {"key": 3, "case": "SendMessage", "fields": [], "refuse": ["Gold", "Mana"]},
+          {"key": 4, "case": "ThreatenToAttack", "fields": [], "refuse": ["Gold", "Mana"]},
           {"key": 5, "case": "MakeTribute", "fields": [["Gold", "Gold"], ["Mana", "Mana"]]},
-          {"key": 6, "case": "BreakAlliance", "fields": []},
-          {"key": 7, "case": "SendMessageAsY", "fields": []},
+          {"key": 6, "case": "BreakAlliance", "fields": [], "refuse": ["Gold", "Mana"]},
+          {"key": 7, "case": "SendMessageAsY", "fields": [], "refuse": ["Gold", "Mana"]},
           {"key": 8, "case": "BreakAllianceWithY", "fields": [["Gold", "Gold"], ["Mana", "Mana"]]},
           {"key": 9, "case": "DeclareWarToY", "fields": [["Gold", "Gold"], ["Mana", "Mana"]]}
         ],
@@ -5076,7 +5076,7 @@
         "discriminator": "Kind",
         "cases": [
           {"key": 1, "case": "ProduceUnit", "fields": [["Index", "Parameter"], ["GroupId", "GroupId"]]},
-          {"key": 2, "case": "ResearchSpell", "fields": [["Index", "Parameter"]]},
+          {"key": 2, "case": "ResearchSpell", "fields": [["Index", "Parameter"]], "refuse": ["GroupId"]},
           {"key": 10, "case": "Trade", "fields": [["TurnsTotal", "Parameter"]]},
           {"key": 11, "case": "Upgrade", "fields": []},
           {"key": 12, "case": "Fortify", "fields": []},

@@ -508,15 +508,22 @@ internal sealed class GroupedListCodec(int size, string? domain = null) : Proper
 /// TBitList streams: a default byte, the stored count and the bit bytes, bit i in byte i >> 3 at
 /// mask 1 &lt;&lt; (i and 7). Versions 1 to 3 store the exact bit bytes as hex. From version 4 the
 /// document is <c>{"default": false, "count": n, "bits": [set indices]}</c>, the default by the
-/// raw boolean rule, and bits past the count in the last byte as <c>$reserved</c>, the rule of the
-/// ability bit array.
+/// raw boolean rule. Bits past the count in the last byte equal the default bit: load refuses any
+/// other tail bit and save writes the default bit.
 /// </summary>
 internal sealed class BitListCodec(bool indices = false) : PropertyCodec
 {
     /// <summary>True from version 4: the set bits are indices, not hex.</summary>
     public bool Indices { get; } = indices;
 
-    // The tree and the direct path store the default byte, the count, the set bits and the residue (PE-2c-4).
+    /// <summary>The tail bits past <paramref name="count"/> in the last byte, filled with the default bit.</summary>
+    internal static byte ExpectedTail(byte defaultValue, int count)
+    {
+        int used = count & 7;
+        return used == 0 || defaultValue == 0 ? (byte)0 : (byte)(0xFF << used);
+    }
+
+    // The tree and the direct path store the default byte, the count and the set bits (PE-2c-4).
     internal override void WriteImage(Tree.TreeValue value, EncodeContext context, ByteBuffer data, ImageFrame frame)
     {
         if (value is not Tree.BitListNode node)
@@ -538,8 +545,9 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
             throw context.Fail(Codes.Corrupt, $"A bit list of {count} bits does not fill its {end - start} stored bytes.", start, frame.Path);
         }
 
-        (int[]? set, byte residue) = BitArrayCodec.Unpack(count, context.Data.AsSpan(start + 5, end - start - 5), context, frame.Path.Member("bits"));
-        return new Tree.BitListNode(context.Data[start], count, set, residue);
+        byte defaultValue = context.Data[start];
+        int[] set = Unpack(defaultValue, count, context.Data.AsSpan(start + 5, end - start - 5), context, end - 1, frame.Path.Member("bits"));
+        return new Tree.BitListNode(defaultValue, count, set);
     }
 
     internal override JsonValue? WriteTree(Tree.TreeValue value, Tree.DocumentSite site)
@@ -561,13 +569,7 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
             _ = bits.Add(new JsonInteger(index));
         }
 
-        JsonObject document = new JsonObject().Add("default", RawBooleanCodec.Value(node.Default)).Add("count", new JsonInteger(node.Count)).Add("bits", bits);
-        if (node.Residue != 0)
-        {
-            _ = document.Add("$reserved", new JsonString(LayoutResidue.Hex([node.Residue])));
-        }
-
-        return document;
+        return new JsonObject().Add("default", RawBooleanCodec.Value(node.Default)).Add("count", new JsonInteger(node.Count)).Add("bits", bits);
     }
 
     internal override Tree.TreeValue? ReadTree(JsonValue value, Tree.DocumentSite site)
@@ -577,7 +579,6 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
         Encode(site.Context, value, data, new ValueSite { Property = site.Property!, Id = site.Property!.Id ?? 0, Path = site.Path, Owner = site.Owner ?? new JsonObject() });
         byte[] bytes = data.ToArray();
         int count = BinaryPrimitives.ReadInt32LittleEndian(bytes.AsSpan(1));
-        int used = count & 7;
         List<int> set = [];
         for (int i = 0; i < count; i++)
         {
@@ -587,7 +588,7 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
             }
         }
 
-        return new Tree.BitListNode(residue: used != 0 ? (byte)(bytes[^1] & (byte)(0xFF << used)) : (byte)0, defaultValue: bytes[0], count: count, indices: [.. set]);
+        return new Tree.BitListNode(defaultValue: bytes[0], count: count, indices: [.. set]);
     }
 
     private static byte[] Bits(Tree.BitListNode node)
@@ -600,10 +601,35 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
 
         if ((node.Count & 7) != 0 && bits.Length != 0)
         {
-            bits[^1] |= node.Residue;
+            bits[^1] |= ExpectedTail(node.Default, node.Count);
         }
 
         return bits;
+    }
+
+    private static int[] Unpack(byte defaultValue, int count, ReadOnlySpan<byte> bytes, DecodeContext context, int tailOffset, DocumentNodePath path)
+    {
+        int used = count & 7;
+        if (used != 0 && bytes.Length != 0)
+        {
+            byte tail = (byte)(bytes[^1] & (byte)(0xFF << used));
+            byte expected = ExpectedTail(defaultValue, count);
+            if (tail != expected)
+            {
+                throw context.Fail(Codes.Range, "Bits past the bit list count do not match the default bit.", tailOffset, path, LayoutResidue.Hex([tail]), LayoutResidue.Hex([expected]));
+            }
+        }
+
+        List<int> indices = [];
+        for (int i = 0; i < count; i++)
+        {
+            if ((bytes[i >> 3] & (1 << (i & 7))) != 0)
+            {
+                indices.Add(i);
+            }
+        }
+
+        return [.. indices];
     }
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
@@ -615,26 +641,22 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
             throw Mismatch(context, start, site, $"A bit list of {count} bits does not fill its {end - start} stored bytes.");
         }
 
+        byte defaultValue = context.Data[start];
+        ReadOnlySpan<byte> bitBytes = context.Data.AsSpan(start + 5, end - start - 5);
+        int[] set = Unpack(defaultValue, count, bitBytes, context, end - 1, site.Path.Member("bits"));
         if (!Indices)
         {
-            return new JsonObject().Add("default", new JsonInteger(context.Data[start])).Add("count", new JsonInteger(count))
-                .Add("bits", new JsonString(LayoutResidue.Hex(context.Data.AsSpan(start + 5, end - start - 5))));
+            return new JsonObject().Add("default", new JsonInteger(defaultValue)).Add("count", new JsonInteger(count))
+                .Add("bits", new JsonString(LayoutResidue.Hex(bitBytes)));
         }
 
-        (int[]? set, byte residue) = BitArrayCodec.Unpack(count, context.Data.AsSpan(start + 5, end - start - 5), context, site.Path.Member("bits"));
         JsonArray bits = new();
         foreach (int index in set)
         {
             _ = bits.Add(new JsonInteger(index));
         }
 
-        JsonObject document = new JsonObject().Add("default", RawBooleanCodec.Value(context.Data[start])).Add("count", new JsonInteger(count)).Add("bits", bits);
-        if (residue != 0)
-        {
-            _ = document.Add("$reserved", new JsonString(LayoutResidue.Hex([residue])));
-        }
-
-        return document;
+        return new JsonObject().Add("default", RawBooleanCodec.Value(defaultValue)).Add("count", new JsonInteger(count)).Add("bits", bits);
     }
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
@@ -646,7 +668,7 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
 
         foreach (JsonMember m in objectValue.Members)
         {
-            if (m.Name is not ("default" or "count" or "bits") && !(Indices && m.Name == "$reserved"))
+            if (m.Name is not ("default" or "count" or "bits"))
             {
                 throw new ConversionException(new FormatDiagnostic(m.Name.StartsWith('$') ? Codes.ReservedMember : Codes.UnknownMember, $"Member \"{m.Name}\" is not allowed in a bit list.")
                 { File = context.File, Span = m.NameSpan, Path = site.Path.Member(m.Name).ToString() });
@@ -675,9 +697,9 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
                 bits[index >> 3] |= (byte)(1 << (index & 7));
             }
 
-            if (objectValue["$reserved"] is { } reserved)
+            if ((count.Value & 7) != 0 && bits.Length != 0)
             {
-                bits[length - 1] |= BitArrayCodec.ReadResidue(reserved, (int)count.Value, context, site.Path.Member("$reserved"));
+                bits[^1] |= ExpectedTail(defense, (int)count.Value);
             }
         }
         else
@@ -686,6 +708,17 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
             if (bits.Length != (count.Value + 7) >> 3)
             {
                 throw context.Fail(Codes.Range, $"A bit list of {count.Value} bits holds {(count.Value + 7) >> 3} bytes.", objectValue["bits"], site.Path.Member("bits"));
+            }
+
+            int used = (int)(count.Value & 7);
+            if (used != 0 && bits.Length != 0)
+            {
+                byte tail = (byte)(bits[^1] & (byte)(0xFF << used));
+                byte expected = ExpectedTail(defense, (int)count.Value);
+                if (tail != expected)
+                {
+                    throw context.Fail(Codes.Range, "Bits past the bit list count do not match the default bit.", objectValue["bits"], site.Path.Member("bits"), LayoutResidue.Hex([tail]), LayoutResidue.Hex([expected]));
+                }
             }
         }
         data.Byte(defense);

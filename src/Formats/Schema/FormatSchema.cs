@@ -566,14 +566,19 @@ public sealed class SchemaMapping
         Name = ((JsonString)source["name"]!).Value;
         Discriminator = ((JsonString)source["discriminator"]!).Value;
         Cases = ((JsonArray)source["cases"]!).Items.Cast<JsonObject>()
-            .Select(c => new SchemaCase(((JsonInteger)c["key"]!).Value, ((JsonString)c["case"]!).Value, Fields(c))).ToArray();
+            .Select(c => new SchemaCase(((JsonInteger)c["key"]!).Value, ((JsonString)c["case"]!).Value, Fields(c), Refused(c))).ToArray();
         JsonObject unknown = (JsonObject)source["unknown"]!;
-        Unknown = new SchemaCase(null, ((JsonString)unknown["case"]!).Value, Fields(unknown));
+        Unknown = new SchemaCase(null, ((JsonString)unknown["case"]!).Value, Fields(unknown), Refused(unknown));
         StoredMembers = [.. Cases.Append(Unknown).SelectMany(c => c.Fields.Select(f => f.Member)).Append(Discriminator).Distinct()];
     }
 
     private static (string Field, string Member)[] Fields(JsonObject c) =>
         [.. ((JsonArray)c["fields"]!).Items.Cast<JsonArray>().Select(f => (((JsonString)f.Items[0]).Value, ((JsonString)f.Items[1]).Value))];
+
+    private static HashSet<string> Refused(JsonObject c) =>
+        c["refuse"] is JsonArray list
+            ? [with(StringComparer.Ordinal), .. list.Items.Cast<JsonString>().Select(s => s.Value)]
+            : [with(StringComparer.Ordinal)];
 
     /// <summary>The name of the unit mapping, such as ProductionOrder.</summary>
     public string Name { get; }
@@ -588,5 +593,5 @@ public sealed class SchemaMapping
     public IReadOnlyList<string> StoredMembers { get; }
 }
 
-/// <summary>One case: its key (null for the unknown case), its name and its fields.</summary>
-public sealed record SchemaCase(long? Key, string Name, IReadOnlyList<(string Field, string Member)> Fields);
+/// <summary>One case: its key (null for the unknown case), its name, its fields and the unused stored members refused when nonzero.</summary>
+public sealed record SchemaCase(long? Key, string Name, IReadOnlyList<(string Field, string Member)> Fields, IReadOnlySet<string> Refused);

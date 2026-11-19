@@ -6,33 +6,53 @@ using Aow.Formats.Schema;
 namespace Aow.Formats.Tests;
 
 /// <summary>
-/// Version 4 lists on the real schema: a bit list as set indices with residue, enum names in a
+/// Lists on the real schema: a bit list as set indices with default-filled tail bits, enum names in a
 /// byte list, the groups of a unit index list collection and the map coordinates of a move path.
 /// Each shape refuses a malformed value with its path.
 /// </summary>
 public sealed class ListShapeTests : FormatsTest
 {
-    // Count 13: bits 0, 2 and 12 set, bit 15 is residue past the count.
-    private static readonly byte[] s_bits = [0, 13, 0, 0, 0, 0x05, 0x90];
+    // Count 13, default false: bits 0, 2 and 12 set, tail bits 13..15 equal 0.
+    private static readonly byte[] s_bits = [0, 13, 0, 0, 0, 0x05, 0x10];
+
+    // Count 13, default true: bits 0, 2 and 12 set, tail bits 13..15 equal 1 (0xE0 | 0x10).
+    private static readonly byte[] s_trueBits = [1, 13, 0, 0, 0, 0x05, 0xF0];
 
     [Fact]
-    public void ABitListStoresItsSetIndicesAndResidue()
+    public void ABitListStoresItsSetIndicesAndDefaultTail()
     {
         JsonValue value = Decode("Player", "AIValidAttackPlayers", s_bits);
-        Assert.Equal("""{"default":false,"count":13,"bits":[0,2,12],"$reserved":"80"}""", Compact(value));
+        Assert.Equal("""{"default":false,"count":13,"bits":[0,2,12]}""", Compact(value));
         Assert.Equal(s_bits, Encode("Player", "AIValidAttackPlayers", value));
+        JsonValue trueValue = Decode("Player", "AIValidAttackPlayers", s_trueBits);
+        Assert.Equal("""{"default":true,"count":13,"bits":[0,2,12]}""", Compact(trueValue));
+        Assert.Equal(s_trueBits, Encode("Player", "AIValidAttackPlayers", trueValue));
         byte[] odd = [2, 0, 0, 0, 0];
         JsonValue other = Decode("Sign", "TextSeen", odd);
         Assert.Equal("""{"default":2,"count":0,"bits":[]}""", Compact(other));
         Assert.Equal(odd, Encode("Sign", "TextSeen", other));
     }
 
+    [Fact]
+    public void ABitListWithWrongTailBitsIsRefused()
+    {
+        byte[] falseBadTail = [0, 13, 0, 0, 0, 0x05, 0x90];
+        ConversionException falseError = Assert.Throws<ConversionException>(() => Decode("Player", "AIValidAttackPlayers", falseBadTail));
+        Assert.Equal(Codes.Range, falseError.Diagnostic.Code);
+        Assert.Equal("root.AIValidAttackPlayers.bits", falseError.Diagnostic.Path);
+
+        byte[] trueBadTail = [1, 13, 0, 0, 0, 0x05, 0x10];
+        ConversionException trueError = Assert.Throws<ConversionException>(() => Decode("Player", "AIValidAttackPlayers", trueBadTail));
+        Assert.Equal(Codes.Range, trueError.Diagnostic.Code);
+        Assert.Equal("root.AIValidAttackPlayers.bits", trueError.Diagnostic.Path);
+    }
+
     [Theory]
     [InlineData("""{"default":false,"count":13,"bits":[0,13]}""", Codes.Range, "root.VictoryLocations.bits[1]")]
     [InlineData("""{"default":false,"count":13,"bits":[2,0]}""", Codes.Range, "root.VictoryLocations.bits[1]")]
     [InlineData("""{"default":false,"count":13,"bits":[2,2]}""", Codes.Duplicate, "root.VictoryLocations.bits[1]")]
-    [InlineData("""{"default":false,"count":16,"bits":[],"$reserved":"80"}""", Codes.Range, "root.VictoryLocations.$reserved")]
-    [InlineData("""{"default":false,"count":13,"bits":[],"$reserved":"01"}""", Codes.Range, "root.VictoryLocations.$reserved")]
+    [InlineData("""{"default":false,"count":16,"bits":[],"$reserved":"80"}""", Codes.ReservedMember, "root.VictoryLocations.$reserved")]
+    [InlineData("""{"default":false,"count":13,"bits":[],"$reserved":"01"}""", Codes.ReservedMember, "root.VictoryLocations.$reserved")]
     [InlineData("""{"default":false,"count":13,"bits":"0590"}""", Codes.Type, "root.VictoryLocations.bits")]
     [InlineData("""{"default":false,"count":13,"bits":[],"extra":1}""", Codes.UnknownMember, "root.VictoryLocations.extra")]
     public void AMalformedBitListIsRefused(string json, string code, string path) =>

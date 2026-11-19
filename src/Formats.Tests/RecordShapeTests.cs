@@ -13,7 +13,8 @@ namespace Aow.Formats.Tests;
 
 /// <summary>
 /// Version 3 stores a record as named fields, a bit array as set-bit indices and a raw primitive
-/// as an integer or a boolean. Residue is lowercase hex. The direct image path round-trips each shape.
+/// as an integer or a boolean. Declared record padding is ignored on read and written as 0.
+/// The direct image path round-trips each shape.
 /// </summary>
 public sealed class RecordShapeTests : FormatsTest
 {
@@ -66,15 +67,12 @@ public sealed class RecordShapeTests : FormatsTest
         ObjectNode node = TreeWriter.Write(source, s_factory);
         JsonObject document = DocumentBackend.Write(node, classValue, schema, "game");
         JsonObject behavior = (JsonObject)document["Behavior"]!;
-        Assert.Equal(["PlayerType", "$reserved", "Flags"], behavior.Members.Select(m => m.Name).ToList());
+        Assert.Equal(["PlayerType", "Flags"], behavior.Members.Select(m => m.Name).ToList());
         Assert.Equal(2, ((JsonInteger)behavior["PlayerType"]!).Value);
-        Assert.Equal("010002", ((JsonString)behavior["$reserved"]!).Value);
         Assert.Equal(9, ((JsonInteger)behavior["Flags"]!).Value);
         Assert.Equal(["None", 7L], Items(document["Marks"]!));
         Assert.Equal(4, ((JsonInteger)document["AbCount"]!).Value);
-        JsonObject bits = (JsonObject)document["Bits"]!;
-        Assert.Equal([0L], Items(bits["values"]!));
-        Assert.Equal("80", ((JsonString)bits["$reserved"]!).Value);
+        Assert.Equal([0L, 7L], Items(document["Bits"]!));
         Assert.Equal(0, ((JsonInteger)document["Raw"]!).Value);
         Assert.Equal(-1, ((JsonInteger)document["Signed"]!).Value);
         Assert.Equal(0, ((JsonInteger)document["Wide"]!).Value);
@@ -87,9 +85,9 @@ public sealed class RecordShapeTests : FormatsTest
         TreeReader.Read(OriginalBackend.Read(image, classValue, schema, "game"), loaded, s_factory);
         Assert.Equal(2, loaded.Behavior.PlayerType);
         Assert.Equal(9, loaded.Behavior.Flags);
-        Assert.Equal(1, At(loaded.Behavior, 1));
+        Assert.Equal(0, At(loaded.Behavior, 1));
         Assert.Equal(0, At(loaded.Behavior, 2));
-        Assert.Equal(2, At(loaded.Behavior, 3));
+        Assert.Equal(0, At(loaded.Behavior, 3));
         Assert.Equal(0x81, loaded.Marks.ValueImage);
         Assert.Equal(4, loaded.AbilityCount);
         Assert.Equal(0x81, loaded.Bits[0]);
@@ -100,7 +98,36 @@ public sealed class RecordShapeTests : FormatsTest
     }
 
     [Fact]
-    public void ZeroResidueAndAZeroBitArrayStayExact()
+    public void PaddingBytesAreIgnoredOnReadAndWrittenAsZero()
+    {
+        FormatSchema schema = Sample;
+        SchemaClass classValue = schema.Get("THolder");
+        SchemaProperty property = classValue.PropertyByName("Behavior")!;
+        byte[] raw = [2, 0x11, 0x22, 0x33, 9, 0, 0, 0];
+        DecodeContext decode = new(raw, schema, "game", "game", null, FormatLimits.Default, new LayoutCounts());
+        ValueSite site = new() { Property = property, Id = property.Id ?? 0, Path = DocumentNodePath.Root.Member("Behavior"), Owner = new JsonObject() };
+        JsonObject decoded = (JsonObject)property.Codec.Decode(decode, 0, raw.Length, site);
+        Assert.Equal(["PlayerType", "Flags"], decoded.Members.Select(m => m.Name).ToList());
+        EncodeContext encode = new(schema, "game", "game", null, FormatLimits.Default, ExportOptions.Default);
+        ByteBuffer written = new();
+        property.Codec.Encode(encode, decoded, written, site);
+        Assert.Equal([2, 0, 0, 0, 9, 0, 0, 0], written.ToArray());
+
+        ImageFrame frame = new() { Property = property, Id = property.Id ?? 0, Path = site.Path };
+        RecordNode tree = (RecordNode)property.Codec.ReadImage(decode, 0, raw.Length, frame);
+        Assert.Equal(["PlayerType", "Flags"], tree.Members.Select(m => m.Name).ToList());
+        ByteBuffer treeBytes = new();
+        property.Codec.WriteImage(tree, encode, treeBytes, frame);
+        Assert.Equal([2, 0, 0, 0, 9, 0, 0, 0], treeBytes.ToArray());
+
+        _ = Assert.Throws<InvalidOperationException>(() => RecordTypeInfo.Describe(typeof(UndeclaredGapRecord)));
+        _ = Assert.Throws<InvalidOperationException>(() => RecordTypeInfo.Describe(typeof(OverlappingPaddingRecord)));
+        _ = Assert.Throws<InvalidOperationException>(() => RecordTypeInfo.Describe(typeof(OutOfBoundsPaddingRecord)));
+        _ = Assert.Throws<InvalidOperationException>(() => RecordTypeInfo.Describe(typeof(ZeroLengthPaddingRecord)));
+    }
+
+    [Fact]
+    public void ZeroPaddingAndAZeroBitArrayStayExact()
     {
         FormatSchema schema = Sample;
         SchemaClass classValue = schema.Get("THolder");
@@ -154,15 +181,38 @@ public sealed class RecordShapeTests : FormatsTest
     }
 
     [Fact]
-    public void AShortResidueIsRefused()
+    public void ReservedMemberOnARecordOrBitArrayIsRefused()
     {
-        ConversionException error = Refuse(new JsonObject().Add("Behavior", new JsonObject().Add("$reserved", new JsonString("01"))));
-        Assert.Equal(Codes.Range, error.Diagnostic.Code);
-        Assert.Equal("root.Behavior.$reserved", error.Diagnostic.Path);
+        ConversionException doc = Refuse(new JsonObject().Add("Behavior", new JsonObject().Add("$reserved", new JsonString("010002"))));
+        Assert.Equal(Codes.ReservedMember, doc.Diagnostic.Code);
+        Assert.Equal("root.Behavior.$reserved", doc.Diagnostic.Path);
+        ConversionException conv = Converter(new JsonObject().Add("Behavior", new JsonObject().Add("$reserved", new JsonString("010002"))));
+        Assert.Equal(Codes.ReservedMember, conv.Diagnostic.Code);
+        Assert.Equal("root.Behavior.$reserved", conv.Diagnostic.Path);
+
+        JsonObject bitObject = new JsonObject().Add("AbCount", new JsonInteger(4)).Add("Bits", new JsonObject().Add("values", new JsonArray()).Add("$reserved", new JsonString("80")));
+        ConversionException bitDoc = Refuse(bitObject);
+        Assert.Equal(Codes.Type, bitDoc.Diagnostic.Code);
+        Assert.Equal("root.Bits", bitDoc.Diagnostic.Path);
+        ConversionException bitConv = Converter(bitObject);
+        Assert.Equal(Codes.Type, bitConv.Diagnostic.Code);
+        Assert.Equal("root.Bits", bitConv.Diagnostic.Path);
+
+        FormatSchema schema = Sample;
+        ObjectNode node = new(null, null);
+        RecordNode behavior = new();
+        behavior.Add("$reserved", new BytesNode([1, 0, 2]));
+        node.Add("Behavior", behavior);
+        ConversionException image = Assert.Throws<ConversionException>(() => OriginalBackend.Write(node, schema.Get("THolder"), schema, "game"));
+        Assert.Equal(Codes.UnknownMember, image.Diagnostic.Code);
+        Assert.Equal("root.Behavior.$reserved", image.Diagnostic.Path);
+        ConversionException document = Assert.Throws<ConversionException>(() => DocumentBackend.Write(node, schema.Get("THolder"), schema, "game"));
+        Assert.Equal(Codes.UnknownMember, document.Diagnostic.Code);
+        Assert.Equal("root.Behavior.$reserved", document.Diagnostic.Path);
     }
 
     [Fact]
-    public void BitIndicesOutOfOrderPastTheCountOrRepeatedAreRefused()
+    public void BitIndicesOutOfOrderPastTheStoredBytesOrRepeatedAreRefused()
     {
         ConversionException duplicate = Refuse(Bits(4, 1, 1));
         Assert.Equal(Codes.Duplicate, duplicate.Diagnostic.Code);
@@ -170,10 +220,10 @@ public sealed class RecordShapeTests : FormatsTest
         ConversionException unsorted = Refuse(Bits(4, 1, 0));
         Assert.Equal(Codes.Range, unsorted.Diagnostic.Code);
         Assert.Equal("root.Bits[1]", unsorted.Diagnostic.Path);
-        ConversionException atCount = Refuse(Bits(4, 4));
-        Assert.Equal(Codes.Range, atCount.Diagnostic.Code);
-        Assert.Equal("root.Bits[0]", atCount.Diagnostic.Path);
-        ConversionException beyond = Refuse(Bits(4, 5));
+        ConversionException atByteEnd = Refuse(Bits(4, 8));
+        Assert.Equal(Codes.Range, atByteEnd.Diagnostic.Code);
+        Assert.Equal("root.Bits[0]", atByteEnd.Diagnostic.Path);
+        ConversionException beyond = Refuse(Bits(4, 9));
         Assert.Equal(Codes.Range, beyond.Diagnostic.Code);
         Assert.Equal("root.Bits[0]", beyond.Diagnostic.Path);
     }
@@ -210,9 +260,9 @@ public sealed class RecordShapeTests : FormatsTest
         ConversionException duplicate = Converter(Bits(4, 1, 1));
         Assert.Equal(Codes.Duplicate, duplicate.Diagnostic.Code);
         Assert.Equal("root.Bits[1]", duplicate.Diagnostic.Path);
-        ConversionException atCount = Converter(Bits(4, 4));
-        Assert.Equal(Codes.Range, atCount.Diagnostic.Code);
-        ConversionException beyond = Converter(Bits(4, 5));
+        ConversionException atByteEnd = Converter(Bits(4, 8));
+        Assert.Equal(Codes.Range, atByteEnd.Diagnostic.Code);
+        ConversionException beyond = Converter(Bits(4, 9));
         Assert.Equal(Codes.Range, beyond.Diagnostic.Code);
         ConversionException raw = Converter(new JsonObject().Add("Raw", new JsonInteger(256)));
         Assert.Equal(Codes.Range, raw.Diagnostic.Code);
@@ -231,44 +281,6 @@ public sealed class RecordShapeTests : FormatsTest
         ValueSite bitSite = new() { Property = bits, Id = bits.Id ?? 0, Path = DocumentNodePath.Root.Member("Bits"), Owner = owner };
         ConversionException length = Assert.Throws<ConversionException>(() => bits.Codec.Decode(shortBits, 0, 2, bitSite));
         Assert.Equal(Codes.Range, length.Diagnostic.Code);
-    }
-
-    [Fact]
-    public void AMalformedReservedIsRefused()
-    {
-        ConversionException number = Refuse(new JsonObject().Add("Behavior", new JsonObject().Add("$reserved", new JsonInteger(1))));
-        Assert.Equal(Codes.Type, number.Diagnostic.Code);
-        Assert.Equal("root.Behavior.$reserved", number.Diagnostic.Path);
-        ConversionException upper = Refuse(new JsonObject().Add("Behavior", new JsonObject().Add("$reserved", new JsonString("01000A"))));
-        Assert.Equal(Codes.Type, upper.Diagnostic.Code);
-        Assert.Equal("root.Behavior.$reserved", upper.Diagnostic.Path);
-        ConversionException packed = Converter(new JsonObject().Add("Behavior", new JsonObject().Add("$reserved", new JsonInteger(1))));
-        Assert.Equal(Codes.Type, packed.Diagnostic.Code);
-        Assert.Equal("root.Behavior.$reserved", packed.Diagnostic.Path);
-
-        FormatSchema schema = Sample;
-        ObjectNode node = new(null, null);
-        RecordNode behavior = new();
-        behavior.Add("$reserved", new IntegerNode(1, false, 1));
-        node.Add("Behavior", behavior);
-        ConversionException image = Assert.Throws<ConversionException>(() => OriginalBackend.Write(node, schema.Get("THolder"), schema, "game"));
-        Assert.Equal(Codes.Type, image.Diagnostic.Code);
-        Assert.Equal("root.Behavior.$reserved", image.Diagnostic.Path);
-        ConversionException document = Assert.Throws<ConversionException>(() => DocumentBackend.Write(node, schema.Get("THolder"), schema, "game"));
-        Assert.Equal(Codes.Type, document.Diagnostic.Code);
-        Assert.Equal("root.Behavior.$reserved", document.Diagnostic.Path);
-
-        ObjectNode shortNode = new(null, null);
-        RecordNode shortRecord = new();
-        shortRecord.Add("PlayerType", new IntegerNode(1, false, 2));
-        shortRecord.Add("$reserved", new BytesNode([1]));
-        shortNode.Add("Behavior", shortRecord);
-        ConversionException shortImage = Assert.Throws<ConversionException>(() => OriginalBackend.Write(shortNode, schema.Get("THolder"), schema, "game"));
-        Assert.Equal(Codes.Range, shortImage.Diagnostic.Code);
-        Assert.Equal("root.Behavior.$reserved", shortImage.Diagnostic.Path);
-        ConversionException shortDocument = Assert.Throws<ConversionException>(() => DocumentBackend.Write(shortNode, schema.Get("THolder"), schema, "game"));
-        Assert.Equal(Codes.Range, shortDocument.Diagnostic.Code);
-        Assert.Equal("root.Behavior.$reserved", shortDocument.Diagnostic.Path);
     }
 
     [Fact]
@@ -403,22 +415,18 @@ public sealed class RecordShapeTests : FormatsTest
 
         RecordNode behavior = new();
         behavior.Add("PlayerType", new IntegerNode(1, false, 2));
-        behavior.Add("$reserved", new BytesNode([1, 0, 2]));
         behavior.Add("Flags", new IntegerNode(4, true, 9));
         ObjectNode player = new(null, null);
         player.Add("Behavior", behavior);
         JsonObject playerDocument = RoundTrip(schema.Get("TPlayerSetupSettings"), schema, player);
         JsonObject stored = (JsonObject)playerDocument["Behavior"]!;
-        Assert.Equal(["PlayerType", "$reserved", "Flags"], stored.Members.Select(m => m.Name).ToList());
-        Assert.Equal("010002", ((JsonString)stored["$reserved"]!).Value);
+        Assert.Equal(["PlayerType", "Flags"], stored.Members.Select(m => m.Name).ToList());
 
         ObjectNode list = new(null, null);
         list.Add("AbilityCount", new IntegerNode(4, true, 1));
-        list.Add("AbilityBits", new BitArrayNode(1, [], 0x80));
+        list.Add("AbilityBits", new BitArrayNode(1, [7]));
         JsonObject listDocument = RoundTrip(schema.Get("TCustomAbilityList"), schema, list);
-        JsonObject ability = (JsonObject)listDocument["AbilityBits"]!;
-        Assert.Empty(((JsonArray)ability["values"]!).Items);
-        Assert.Equal("80", ((JsonString)ability["$reserved"]!).Value);
+        Assert.Equal([7L], Items(listDocument["AbilityBits"]!));
 
         ObjectNode champion = new(null, null);
         champion.Add("Champion", new IntegerNode(1, false, 2));
@@ -533,5 +541,36 @@ public sealed class RecordShapeTests : FormatsTest
         public EveryWidth Value { get; set; }
 
         public void Persist(IPersister persister) => Value = RecordValues.Transfer(persister, "Value", Value);
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8)]
+    private struct UndeclaredGapRecord
+    {
+        [FieldOffset(0)] public byte PlayerType;
+        [FieldOffset(4)] public int Flags;
+    }
+
+    [StoredPadding(offset: 0, length: 2)]
+    [StructLayout(LayoutKind.Explicit, Size = 8)]
+    private struct OverlappingPaddingRecord
+    {
+        [FieldOffset(0)] public byte PlayerType;
+        [FieldOffset(4)] public int Flags;
+    }
+
+    [StoredPadding(offset: 1, length: 3), StoredPadding(offset: 8, length: 1)]
+    [StructLayout(LayoutKind.Explicit, Size = 8)]
+    private struct OutOfBoundsPaddingRecord
+    {
+        [FieldOffset(0)] public byte PlayerType;
+        [FieldOffset(4)] public int Flags;
+    }
+
+    [StoredPadding(offset: 1, length: 0)]
+    [StructLayout(LayoutKind.Explicit, Size = 8)]
+    private struct ZeroLengthPaddingRecord
+    {
+        [FieldOffset(0)] public byte PlayerType;
+        [FieldOffset(4)] public int Flags;
     }
 }
