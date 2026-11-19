@@ -101,7 +101,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
             while (!found && i != army.Units.Count)
             {
                 group = army.Units.GetUnit(i).Group;
-                found = group != null && group.TargetMapCoordinate == AITargetLocation.At(location) && group.GoldBudget == cost;
+                found = group != null && group.TargetLocation == location && group.GoldBudget == cost;
                 i += 1;
             }
 

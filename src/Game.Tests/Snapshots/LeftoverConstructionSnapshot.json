@@ -1070,15 +1070,11 @@
               "Set\u00601.high": 0,
               "Set\u00601.low": 0
             },
-            "AIGroup.TargetMapCoordinate": {
-              "$type": "Aow.Game.AI.AITargetLocation",
-              "AITargetLocation.Location": {
-                "$type": "Aow.Game.World.Map.MapCoordinate",
-                "MapCoordinate.MapLevel": 0,
-                "MapCoordinate.X": 0,
-                "MapCoordinate.Y": 0
-              },
-              "AITargetLocation.Marker": 0
+            "AIGroup.TargetLocation": {
+              "$type": "Aow.Game.World.Map.MapCoordinate",
+              "MapCoordinate.MapLevel": 0,
+              "MapCoordinate.X": 0,
+              "MapCoordinate.Y": 0
             },
             "AIGroup.TargetMode": 0,
             "AIGroup.TargetMovePoints": 0,
@@ -1145,15 +1141,11 @@
               "Set\u00601.high": 0,
               "Set\u00601.low": 0
             },
-            "AIGroup.TargetMapCoordinate": {
-              "$type": "Aow.Game.AI.AITargetLocation",
-              "AITargetLocation.Location": {
-                "$type": "Aow.Game.World.Map.MapCoordinate",
-                "MapCoordinate.MapLevel": 0,
-                "MapCoordinate.X": 0,
-                "MapCoordinate.Y": 0
-              },
-              "AITargetLocation.Marker": 0
+            "AIGroup.TargetLocation": {
+              "$type": "Aow.Game.World.Map.MapCoordinate",
+              "MapCoordinate.MapLevel": 0,
+              "MapCoordinate.X": 0,
+              "MapCoordinate.Y": 0
             },
             "AIGroup.TargetMode": 0,
             "AIGroup.TargetMovePoints": 0,
@@ -1199,15 +1191,11 @@
                 "Set\u00601.high": 0,
                 "Set\u00601.low": 0
               },
-              "AIGroup.TargetMapCoordinate": {
-                "$type": "Aow.Game.AI.AITargetLocation",
-                "AITargetLocation.Location": {
-                  "$type": "Aow.Game.World.Map.MapCoordinate",
-                  "MapCoordinate.MapLevel": 0,
-                  "MapCoordinate.X": 0,
-                  "MapCoordinate.Y": 0
-                },
-                "AITargetLocation.Marker": 0
+              "AIGroup.TargetLocation": {
+                "$type": "Aow.Game.World.Map.MapCoordinate",
+                "MapCoordinate.MapLevel": 0,
+                "MapCoordinate.X": 0,
+                "MapCoordinate.Y": 0
               },
               "AIGroup.TargetMode": 0,
               "AIGroup.TargetMovePoints": 0,

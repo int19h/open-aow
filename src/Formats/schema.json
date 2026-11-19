@@ -105,7 +105,7 @@
         {"name": "GroupId", "id": 20, "codec": "i32"},
         {"name": "TransporterId", "id": 21, "codec": "i32"},
         {"name": "LeaderId", "id": 22, "codec": "i32"},
-        {"name": "TargetMapCoordinate", "id": 23, "codec": "i32"},
+        {"name": "TargetLocation", "id": 23, "codec": "i32"},
         {"name": "TargetType", "id": 24, "codec": "enum", "enum": "AIGroupTargetStatus", "width": 1, "signed": false},
         {"name": "Player", "id": 25, "codec": "u8"},
         {"name": "IndependentRelation", "id": 26, "codec": "i8", "raw": true},

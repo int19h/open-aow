@@ -221,7 +221,7 @@ candidates for review. Two classes carry case tables (2.3). `legacyShapes` holds
 legacy rule, `LEGACY_VALLEY01_SPRITE` (section 9).
 
 `src/Formats/versions.json` pins the current version (6) with the schema's SHA-256
-`66ee8c3ae93053736a3e9446b8b3c995f703a568e5121a6fa71af73ebc713d02`, the codec contracts of that
+`8a2221841d7c18a57a2d21db08044e55b397a6f3af21202f1de4df040ed15d56`, the codec contracts of that
 version (`property-table-1`, `cfs-1`, `hsm-header-1`, `hss-header-1`, `stored-object-1`,
 `written-object-1`, `cp1252-frozen-1`, `enum-1`, `set-1`, `int-array-1`, `record-1`,
 `bit-array-1`, `raw-1`, `list-element-1`, `grouped-list-1`, `bit-list-1`, `single-1`,
@@ -247,8 +247,9 @@ empty coordinate. The document stores one object `{X, Y, MapLevel}`, omits a zer
 omits an empty member. Width 1 is an unsigned byte, the two's complement of an `sbyte`. Width 4
 is a signed 32-bit integer, and a value outside -128 to 127 is refused on read and on write.
 `NegotiateRequestEventLog.Hex` is that member, because its parent `JoinEventLog` already stores
-a packed `Location` integer. Packed `Location` words stay one `i32`: `ArmyId`, `JoinEventLog`,
-`GlobalTargetSpellTokenEvent` and `PlayerMagicEventLog`. The change adds the `coordinate` codec
+a packed `Location` integer. Packed location words stay one `i32`: `ArmyId`, `JoinEventLog`,
+`GlobalTargetSpellTokenEvent`, `PlayerMagicEventLog` and `AIGroup.TargetLocation`. A cleared
+`TargetLocation` is the integer -1, and a location keeps a zero fourth byte. The change adds the `coordinate` codec
 and leaves every original image id in place. Own formats are not stable yet, so the schema hash
 moves with the file and no older document shape loads. A document written before this change
 still says version 6 and names the separate members. Export it with the previous aowconv

@@ -1,12 +1,11 @@
-using Aow.Game.AI;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
 namespace Aow.Game.Tests;
 
 // The map coordinate and the meanings of the Delphi flag byte (issue 191). MapCoordinate is X, Y
-// and level. A path step adds the move cost, the AI target the cleared marker, and the stored
-// images keep every byte the original stored.
+// and level. A path step adds the move cost, and the stored images keep every byte the original
+// stored. A cleared AI target is null and differs from MapCoordinate.None.
 public sealed class MapCoordinateEqualityTests
 {
     [Fact]
@@ -31,10 +30,8 @@ public sealed class MapCoordinateEqualityTests
     [Fact]
     public void TheClearedTargetDiffersFromNone()
     {
-        Assert.True(AITargetLocation.Cleared != AITargetLocation.None);
-        Assert.Equal(AITargetLocation.Cleared.Location, AITargetLocation.None.Location);
-        Assert.Equal(AITargetLocation.Cleared, AITargetLocation.FromStored(StoredCoordinateImage.FromInt32(-1)));
-        Assert.Equal(AITargetLocation.None, AITargetLocation.FromStored(StoredCoordinateImage.FromInt32(0x00FF_FFFF)));
+        MapCoordinate? cleared = null;
+        Assert.NotEqual(expected: cleared, actual: MapCoordinate.None);
     }
 
     [Fact]

@@ -72,7 +72,8 @@ public partial class AIGroupWanderControl : AIGroupTask
                 {
                     AIGroup group = control.Group;
                     // { Original reloads the current control. }
-                    State = group.TargetMode == 1 && _control.Group.TargetMapCoordinate.Location.X > 0 && _moveSettings.GetMovePoints(group.TargetMapCoordinate.Location.X, group.TargetMapCoordinate.Location.Y, group.TargetMapCoordinate.Location.MapLevel) != 16777215 && _control.Group.TargetMapCoordinate != AITargetLocation.At(control.Location)
+                    MapCoordinate aimed = _control.Group.TargetLocation ?? MapCoordinate.None;
+                    State = group.TargetMode == 1 && aimed.X > 0 && _moveSettings.GetMovePoints(aimed.X, aimed.Y, aimed.MapLevel) != 16777215 && _control.Group.TargetLocation != control.Location
                         ? 2
                         : 1;
                 }
@@ -153,7 +154,8 @@ public partial class AIGroupWanderControl : AIGroupTask
                 {
                     AIGroupControl aiGroupControl = _control;
                     aiGroupControl.SetupME();
-                    aiGroupControl.ExecuteME(aiGroupControl.Group.TargetMapCoordinate.Location.X, aiGroupControl.Group.TargetMapCoordinate.Location.Y, aiGroupControl.Group.TargetMapCoordinate.Location.MapLevel);
+                    MapCoordinate aimed = aiGroupControl.Group.TargetLocation ?? MapCoordinate.None;
+                    aiGroupControl.ExecuteME(aimed.X, aimed.Y, aimed.MapLevel);
                 }
 
                 State += 1;
