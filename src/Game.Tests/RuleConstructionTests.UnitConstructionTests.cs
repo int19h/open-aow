@@ -87,7 +87,7 @@ public sealed partial class RuleConstructionTests
                     Assert.Equal(-1, value.UnitId);
                     Assert.Equal(0, value.GroupId);
                     Assert.Same(ownerMode == 1 ? owner : null, value.Owner);
-                    string state = Snapshot(value) + "\n" + string.Join("\n", owner.Events);
+                    string state = $"{Snapshot(value)}\n{string.Join("\n", owner.Events)}";
                     expected ??= state;
                     Assert.Equal(expected, state);
                     if (route == 0)
@@ -169,16 +169,16 @@ public sealed partial class RuleConstructionTests
 
     private sealed class ObservedUnit(CustomNode owner) : Troop(owner)
     {
-        public override int AddRef() { int result = base.AddRef(); s_refcountOwner.Events.Add("add:" + result); return result; }
+        public override int AddRef() { int result = base.AddRef(); s_refcountOwner.Events.Add($"add:{result}"); return result; }
 
-        public override int Release() { int result = base.Release(); s_refcountOwner.Events.Add("release:" + result); return result; }
+        public override int Release() { int result = base.Release(); s_refcountOwner.Events.Add($"release:{result}"); return result; }
     }
 
     private sealed class ObservedHero(CustomNode owner) : Hero(owner)
     {
-        public override int AddRef() { int result = base.AddRef(); s_refcountOwner.Events.Add("add:" + result); return result; }
+        public override int AddRef() { int result = base.AddRef(); s_refcountOwner.Events.Add($"add:{result}"); return result; }
 
-        public override int Release() { int result = base.Release(); s_refcountOwner.Events.Add("release:" + result); return result; }
+        public override int Release() { int result = base.Release(); s_refcountOwner.Events.Add($"release:{result}"); return result; }
     }
 
     [Theory]

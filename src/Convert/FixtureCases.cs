@@ -174,7 +174,7 @@ public static partial class Fixtures
             ("no final line end", () => new JsonObject().Add("$text", new JsonString("a\r\nb"))),
         })
         {
-            yield return new("strings", "rwStrings " + name, () =>
+            yield return new("strings", $"rwStrings {name}", () =>
             {
                 JsonObject d = MapDocument();
                 Set(Root(d), "Objectives", value());
@@ -203,7 +203,7 @@ public static partial class Fixtures
         // and only negative zero, the infinities and NaN keep $bits.
         foreach ((string? bits, string? number) in new[] { ("00000080", null), ("0000807f", null), ("000080ff", null), ("0100c07f", null), ("ffffffff", null), ("0000803f", "1"), ("cdcccc3d", "0.1"), ("acc52737", "1e-5") })
         {
-            yield return new("floats", "$bits " + bits, () =>
+            yield return new("floats", $"$bits {bits}", () =>
             {
                 JsonObject d = MapDocument();
                 JsonObject player = Object(Arr(Object(Root(d)["Players"])["Children"]).Items[1]);
@@ -219,7 +219,7 @@ public static partial class Fixtures
                     };
                     return number is null
                         ? stored is JsonObject objectValue && objectValue["$bits"] is JsonString { } s && s.Value == bits ? null : "the bits changed"
-                        : text == number ? null : "the number is " + (text ?? stored?.KindName) + ", not " + number;
+                        : text == number ? null : $"the number is {text ?? stored?.KindName}, not {number}";
                 });
             });
         }
@@ -234,7 +234,7 @@ public static partial class Fixtures
             return OwnRoundTrip(d, (n, _) =>
             {
                 List<long> slots = [.. Arr(Object(Root(n)["Players"])["Children"]).Items.Select(c => ((JsonInteger)Object(c)["$slot"]!).Value)];
-                return count >= 3 && !slots.Contains(1) && slots.Contains(count - 1) ? null : "slots were renumbered: " + string.Join(",", slots);
+                return count >= 3 && !slots.Contains(1) && slots.Contains(count - 1) ? null : $"slots were renumbered: {string.Join(",", slots)}";
             });
         });
         yield return new("identity", "duplicate child slot", () =>
@@ -344,14 +344,14 @@ public static partial class Fixtures
         yield return new("diagnostics", "a newer version fails with both numbers", () => Expect(Codes.Version,
             () => GameFiles.Read(System.Text.Encoding.UTF8.GetBytes($"{{\"$format\": \"OpenAoW\", \"$version\": {newer}}}")),
             d => d.Message.Contains($"version {newer}", StringComparison.Ordinal)
-                && d.Message.Contains("supported version " + OwnFormat.CurrentVersion, StringComparison.Ordinal)
+                && d.Message.Contains($"supported version {OwnFormat.CurrentVersion}", StringComparison.Ordinal)
                 ? null : "the numbers are missing"));
 
         int older = OwnFormat.CurrentVersion - 1;
         yield return new("diagnostics", "an older version fails and asks for a new conversion", () => Expect(Codes.Version,
             () => GameFiles.Read(System.Text.Encoding.UTF8.GetBytes($"{{\"$format\": \"OpenAoW\", \"$version\": {older}}}")),
             d => d.Message.Contains($"version {older}", StringComparison.Ordinal)
-                && d.Message.Contains("supported version " + OwnFormat.CurrentVersion, StringComparison.Ordinal)
+                && d.Message.Contains($"supported version {OwnFormat.CurrentVersion}", StringComparison.Ordinal)
                 && d.Message.Contains("Convert the original file again", StringComparison.Ordinal)
                 ? null : "the numbers or the advice are missing"));
 
@@ -448,7 +448,7 @@ public static partial class Fixtures
         ExportResult exported = GameFiles.Export(Parse(GameFiles.Write(campaign)));
         Outcome result = RoundTrip(exported.Bytes, "campaign", "campaign-save",
             d => GameFiles.Write(d).AsSpan().IndexOf("$layout"u8) < 0 ? null : "$layout survived");
-        return result.Matched ? Pass("canonical nested CFS bytes, " + result.Detail, result.OwnDocuments) : result;
+        return result.Matched ? Pass($"canonical nested CFS bytes, {result.Detail}", result.OwnDocuments) : result;
     }
 
     private static Outcome CampaignSaveEdit()

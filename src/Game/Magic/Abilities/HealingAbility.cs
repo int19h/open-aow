@@ -41,7 +41,7 @@ public partial class HealingAbility : TouchAbility
         else
         {
             string used = AbilityRules.TranslateResourceString(GetEngine(), GameText.UsedText);
-            result = AbilityName + " (" + LowerCase(used) + ")";
+            result = $"{AbilityName} ({LowerCase(used)})";
         }
 
         return result;

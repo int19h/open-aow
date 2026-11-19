@@ -57,10 +57,10 @@ internal sealed class TranslatePersister(TranslateVisit stream, EngineObject nod
 
     // PersistSupport.Lines and LinesWithValues hand the stream the string collection itself.
     public void Lines(string name, IList<string> lines) =>
-        throw new InvalidOperationException("The translate stream takes the string collection of " + name + " through PersistSupport.Lines.");
+        throw new InvalidOperationException($"The translate stream takes the string collection of {name} through PersistSupport.Lines.");
 
     public void LinesWithObjects(string name, IList<string> lines, IList<int> objects) =>
-        throw new InvalidOperationException("The translate stream takes the string collection of " + name + " through PersistSupport.LinesWithValues.");
+        throw new InvalidOperationException($"The translate stream takes the string collection of {name} through PersistSupport.LinesWithValues.");
 
     public void Bytes(string name, Span<byte> data)
     {

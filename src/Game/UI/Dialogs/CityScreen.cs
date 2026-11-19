@@ -376,7 +376,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
             string raceNames = UI.Engine.TranslateResourceString(GameTables.RaceNames[_city.Race]);
             string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_relationMinusFormat), [raceNames, -15]);
             MigrateInfoLabel.Text = format;
-            MigrateInfoLabel.Text = MigrateInfoLabel.Text + "   ";
+            MigrateInfoLabel.Text = $"{MigrateInfoLabel.Text}   ";
             string raceNamesText = UI.Engine.TranslateResourceString(GameTables.RaceNames[item.Race]);
             string formattedText = AbilityRules.Format(UI.Engine.TranslateResourceString(s_relationPlusFormat), [raceNamesText, 10]);
             MigrateInfoLabel.Text = MigrateInfoLabel.Text + formattedText;
@@ -507,7 +507,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
             case CityAction.Raze:
                 CityButton1.Visible = true;
                 string raze = UI.Engine.TranslateResourceString(GameText.RazeText);
-                CityButton1.Text = raze + "...";
+                CityButton1.Text = $"{raze}...";
                 string cityRaze = UI.Engine.TranslateResourceString(s_cityRazeText);
                 UpgradeMemo.Items.Text = cityRaze;
                 UpgradePanel.Visible = true;
@@ -545,11 +545,11 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                 string format5 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.LevelFormat), [IntToStr(unitLevel)]);
                 byte upkeep = u.GetUpkeep();
                 string format6 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.UpkeepFormat), [(int)upkeep]);
-                UnitLevelLabel.Text = format5 + " / " + format6;
+                UnitLevelLabel.Text = $"{format5} / {format6}";
                 if (UI.Engine.Debug)
                 {
                     int unitIndexAIPriority = RosterTables.GetUnitIndexAIPriority(u.UnitResource.UnitResourceIndex(), _city.Player, 0, engine: UI.Engine);
-                    StrategicMap.Current.ShowMessage("AI Prio:" + IntToStr(unitIndexAIPriority));
+                    StrategicMap.Current.ShowMessage($"AI Prio:{IntToStr(unitIndexAIPriority)}");
                 }
 
                 UnitAbilitiesList.Items.Clear();
@@ -608,14 +608,14 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
         StructureNameLabel.Text = name;
         PopulationHeader.Items.Clear();
         string population = UI.Engine.TranslateResourceString(s_populationText);
-        _ = PopulationHeader.Items.Add(population + ":");
+        _ = PopulationHeader.Items.Add($"{population}:");
         string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[_city.Race]);
-        _ = PopulationHeader.Items.Add(" " + raceNamesPlural);
+        _ = PopulationHeader.Items.Add($" {raceNamesPlural}");
         string status = UI.Engine.TranslateResourceString(StatusText);
-        _ = PopulationHeader.Items.Add(status + ":");
+        _ = PopulationHeader.Items.Add($"{status}:");
         City.CivilStatus civilStatus = _city.GetCivilStatus();
         string civilStatusText = UI.Engine.TranslateResourceString(CivilStatusTexts[(int)civilStatus]);
-        _ = PopulationHeader.Items.Add(" " + civilStatusText);
+        _ = PopulationHeader.Items.Add($" {civilStatusText}");
         PopulationMemo.Items.Clear();
         _city.ListCivilStatusInfo(PopulationMemo.Items);
         IncomeHeader.Items.Clear();
@@ -668,13 +668,13 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
         for (int i = 0, last = _city.Production.Queue.GetCount() - 1; i <= last; i++)
         {
             string name2 = _city.Production.Queue.GetItem(i).GetName();
-            _ = QueueList.Items.Add(IntToStr(i + 1) + ". " + name2);
+            _ = QueueList.Items.Add($"{IntToStr(i + 1)}. {name2}");
         }
 
         for (int i = _city.Production.Queue.GetCount(); i <= 4; i++)
         {
             string emptyQueue = UI.Engine.TranslateResourceString(GameText.EmptyQueueText);
-            _ = QueueList.Items.Add(IntToStr(i + 1) + ". " + emptyQueue);
+            _ = QueueList.Items.Add($"{IntToStr(i + 1)}. {emptyQueue}");
         }
 
         int count = _city.Production.Queue.GetCount();
@@ -718,7 +718,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                 string producingMerchandise = UI.Engine.TranslateResourceString(GameText.ProducingMerchandiseText);
                 ActiveActionLabel.Text = producingMerchandise;
                 string defaultText = UI.Engine.TranslateResourceString(GameText.DefaultText);
-                ActiveActionTurnsLabel.Text = "(" + LowerCase(defaultText) + ")";
+                ActiveActionTurnsLabel.Text = $"({LowerCase(defaultText)})";
                 ActiveActionTurnsLabel.TextColor = 6783862;
                 ActiveActionTurnsBar.Visible = false;
                 int activityImage = ActivityImage(CityAction.None);

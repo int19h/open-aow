@@ -254,20 +254,20 @@ public sealed partial class PersistEquivalenceTests
 
                 byte[]? image = null;
                 ObjectNode? tree = null;
-                _ = AlikeOutcome(() => image = Image(source), () => tree = TreeWriter.Write(source, Factory), className + " write");
+                _ = AlikeOutcome(() => image = Image(source), () => tree = TreeWriter.Write(source, Factory), $"{className} write");
                 if (image is null || tree is null)
                 {
                     return;
                 }
 
-                EqualJson(PilotImage.Decode(image, className), DocumentBackend.Write(tree, classValue, s_schema, "game"), className + " write");
-                EqualBytes(image, OriginalBackend.Write(tree, classValue, s_schema, "game"), className + " original");
+                EqualJson(PilotImage.Decode(image, className), DocumentBackend.Write(tree, classValue, s_schema, "game"), $"{className} write");
+                EqualBytes(image, OriginalBackend.Write(tree, classValue, s_schema, "game"), $"{className} original");
                 EngineObject stream = viaReadWrite = Blank(className);
                 EngineObject persisted = viaPersist = Blank(className);
-                bool loaded = AlikeOutcome(() => Load(stream, image), () => TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), persisted, Factory), className + " load");
+                bool loaded = AlikeOutcome(() => Load(stream, image), () => TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), persisted, Factory), $"{className} load");
                 if (loaded)
                 {
-                    EqualBytes(Image(stream), Image(persisted), className + " read");
+                    EqualBytes(Image(stream), Image(persisted), $"{className} read");
                 }
             }
             finally
@@ -339,7 +339,7 @@ public sealed partial class PersistEquivalenceTests
         Exception? streamError = Record.Exception(viaReadWrite);
         Exception? treeError = Record.Exception(viaPersist);
         Assert.True(streamError?.GetType() == treeError?.GetType(),
-            label + ": ReadWrite " + (streamError?.GetType().Name ?? "finished") + ", the tree " + (treeError?.GetType().Name ?? "finished") + ". " + (treeError ?? streamError));
+            $"{label}: ReadWrite {streamError?.GetType().Name ?? "finished"}, the tree {treeError?.GetType().Name ?? "finished"}. {treeError ?? streamError}");
         Assert.Equal(streamError?.Message, treeError?.Message);
         return streamError is null;
     }

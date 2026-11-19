@@ -21,7 +21,7 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellSer
         {
             foreach (JsonProperty property in JsonDocument.Parse(File.ReadAllText(settings)).RootElement.EnumerateObject())
             {
-                Settings.Write(property.Name.StartsWith('\\') ? property.Name : "\\Software\\Triumph Studios\\Age of Wonders\\" + property.Name.Replace('/', '\\'), ReadSetting(property.Name, property.Value));
+                Settings.Write(property.Name.StartsWith('\\') ? property.Name : $"\\Software\\Triumph Studios\\Age of Wonders\\{property.Name.Replace('/', '\\')}", ReadSetting(property.Name, property.Value));
             }
         }
 
@@ -76,14 +76,14 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellSer
     // A headless run records the address and opens nothing.
     public void OpenUrl(string url)
     {
-        File.AppendAllText(Path.Combine(Path.GetDirectoryName(_dialogFile)!, "urls.jsonl"), JsonSerializer.Serialize(new { url }) + "\n");
-        Console.WriteLine("open url: " + url);
+        File.AppendAllText(Path.Combine(Path.GetDirectoryName(_dialogFile)!, "urls.jsonl"), $"{JsonSerializer.Serialize(new { url })}\n");
+        Console.WriteLine($"open url: {url}");
     }
 
     public int Show(DialogRequest request)
     {
         DialogCount++;
-        File.AppendAllText(_dialogFile, JsonSerializer.Serialize(new { index = DialogCount, request.Text, request.Caption, request.Flags, result = request.DefaultResult }) + "\n");
+        File.AppendAllText(_dialogFile, $"{JsonSerializer.Serialize(new { index = DialogCount, request.Text, request.Caption, request.Flags, result = request.DefaultResult })}\n");
         Console.WriteLine($"dialog {DialogCount}: {request.Text} -> {request.DefaultResult}");
         return request.DefaultResult;
     }
@@ -119,7 +119,7 @@ internal sealed class RunFiles(string gameRoot, string runDirectory, string? inp
         DocumentKind save = DocumentKind.Save;
         foreach (string? extension in new[] { save.OwnExtension, save.OriginalExtension })
         {
-            string autosave = "autosave" + extension;
+            string autosave = $"autosave{extension}";
             if (name.Equals(autosave, StringComparison.OrdinalIgnoreCase))
             {
                 return AutoSaveTarget;

@@ -285,8 +285,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
             ImageLibraries.LibraryImageClasses = previousClasses;
         }
 
-        output.WriteLine($"{tally.Libraries} libraries, {tally.Images} images, {tally.WithoutShowInfo} without a show info record, " +
-                         $"{tally.User} bmUser images, {tally.Blended} blended images");
+        output.WriteLine($"{tally.Libraries} libraries, {tally.Images} images, {tally.WithoutShowInfo} without a show info record, {tally.User} bmUser images, {tally.Blended} blended images");
         foreach ((string? key, int count) in tally.Modes)
         {
             output.WriteLine($"  {key}: {count}");

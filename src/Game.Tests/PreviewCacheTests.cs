@@ -15,7 +15,7 @@ namespace Aow.Game.Tests;
 [Collection("Engine")]
 public sealed class PreviewCacheTests : IDisposable
 {
-    private readonly string _directory = Path.Combine(Path.GetTempPath(), "open-aow-preview-" + Guid.NewGuid().ToString("N"));
+    private readonly string _directory = Path.Combine(Path.GetTempPath(), $"open-aow-preview-{Guid.NewGuid():N}");
     private readonly IFileSystem _previous = RtlHost.Files;
     private readonly Action<FileLogRecord>? _previousLog = FileBoundary.Log;
     private readonly List<FileLogRecord> _log = [];
@@ -38,8 +38,7 @@ public sealed class PreviewCacheTests : IDisposable
 
     // An own hero list whose name has a fixed length, so an edit keeps the file length.
     private static byte[] HeroList(string name) => Encoding.UTF8.GetBytes(
-        "{\"$format\": \"OpenAoW\", \"$version\": " + OwnFormat.CurrentVersion + ", \"$kind\": \"hero-list\", \"$container\": {\"profile\": \"hero-list\", \"compression\": \"none\"}, \"root\": {\"LibraryName\": \""
-        + name + "\"}}");
+        $"{{\"$format\": \"OpenAoW\", \"$version\": {OwnFormat.CurrentVersion}, \"$kind\": \"hero-list\", \"$container\": {{\"profile\": \"hero-list\", \"compression\": \"none\"}}, \"root\": {{\"LibraryName\": \"{name}\"}}}}");
 
     private string Shipped(string name) => Path.Combine(_directory, "root", "User", name);
 
@@ -105,7 +104,7 @@ public sealed class PreviewCacheTests : IDisposable
         string[] names = [.. Enumerable.Range(0, 40).Select(i => $"h{i:D2}.ahl")];
         foreach (string? name in names)
         {
-            File.WriteAllBytes(Shipped(name), HeroList("N" + name[1..3] + "xx"));
+            File.WriteAllBytes(Shipped(name), HeroList($"N{name[1..3]}xx"));
         }
 
         Install();

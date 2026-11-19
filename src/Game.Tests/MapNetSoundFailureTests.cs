@@ -62,7 +62,7 @@ public sealed class MapNetSoundFailureTests
 
         public override void Clear()
         {
-            _events.Add("clear:" + Count);
+            _events.Add($"clear:{Count}");
             base.Clear();
         }
     }

@@ -100,7 +100,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
         output.WriteLine($"G1: {_exactRoundTrips} byte-exact, {_maskedRoundTrips} exact outside marks, {_documentG1RoundTrips} compared as documents");
         if (_maskedBytesByRule.Count > 0)
         {
-            output.WriteLine("Masked bytes by rule: " + string.Join(", ", _maskedBytesByRule.Select(r => $"{r.Key} {r.Value}")));
+            output.WriteLine($"Masked bytes by rule: {string.Join(", ", _maskedBytesByRule.Select(r => $"{r.Key} {r.Value}"))}");
         }
         output.WriteLine($"Validation: {_validated} imported documents pass the unit validators ({string.Join(", ", FormatMapping.Validators.Select(v => v.Name))}, {FormatMapping.All.Count} mapped classes), {_refused} refused");
         output.WriteLine((census is null
@@ -109,7 +109,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
             $"{schema.RegistrationAmbiguities.Count} registration ambiguities in {schema.Engines.Count} engine tables (measured at schema load, {schema.Classes.Count} classes, schema {schema.Hash[..12]})");
         foreach (string a in schema.RegistrationAmbiguities)
         {
-            errors.WriteLine("registration ambiguity: " + a);
+            errors.WriteLine($"registration ambiguity: {a}");
         }
 
         if (census is not null)
@@ -123,7 +123,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
         }
 
         output.WriteLine(_legacy.Count == 0 ? "Legacy rules: none fired" :
-            "Legacy rules: " + string.Join(", ", _legacy.Select(l => $"{l.Key} {l.Value.Occurrences} in {l.Value.Files.Count} file(s) ({string.Join(", ", l.Value.Files)})")));
+            $"Legacy rules: {string.Join(", ", _legacy.Select(l => $"{l.Key} {l.Value.Occurrences} in {l.Value.Files.Count} file(s) ({string.Join(", ", l.Value.Files)})"))}");
         output.WriteLine("G3: unavailable in aowconv. The independent reader is tools/oracle/asg.py ModelReader (world-hsm and tactical-hsm payloads), run by the 9.7-2 gate. Other profiles have no independent reader yet.");
         foreach ((string name, string profile, long size, long inflated, double importMs, double exportMs, long json) in _timings.OrderByDescending(t => t.Inflated).Take(3))
         {
@@ -137,7 +137,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
             List<string> problems = expectation.Compare(_corpusExact, _corpusMasked, _corpusDocument, _corpusMaskedRules, _corpusProfiles, _corpusLegacy);
             foreach (string p in problems)
             {
-                errors.WriteLine("expectation drift: " + p);
+                errors.WriteLine($"expectation drift: {p}");
             }
 
             drift = problems.Count > 0;
@@ -257,7 +257,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
                 _refused++;
                 foreach (FormatDiagnostic finding in findings)
                 {
-                    Failure(name, "unit validation: " + finding);
+                    Failure(name, $"unit validation: {finding}");
                 }
             }
 

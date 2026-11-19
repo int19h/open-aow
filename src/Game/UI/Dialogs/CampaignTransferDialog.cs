@@ -84,7 +84,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
     {
         CampaignTransferSettings s;
         s = UI.Engine.Campaign.TransferSettings;
-        TransferPointsLabel.Text = IntToStr(s.TransferPointsLeft) + "/" + IntToStr(s.TransferPointsMax);
+        TransferPointsLabel.Text = $"{IntToStr(s.TransferPointsLeft)}/{IntToStr(s.TransferPointsMax)}";
         TransferManaLabel.Text = IntToStr(s.SelectedTransferMana);
         TransferGoldLabel.Text = IntToStr(s.SelectedTransferGold);
         AvailableManaLabel.Text = IntToStr(s.TransferManaMax - s.SelectedTransferMana);
@@ -775,8 +775,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
     {
         Campaign campaign = UI.Engine.Campaign;
         ResetSelection();
-        campaign.TransferSettings.SetupSelection(FileBoundary.ReadName(UI.Engine.StartupDirectory + "Scenario\\Campaign\\" +
-            campaign.Scenarios.GetScenario(campaign.NextScenarioId).FileName));
+        campaign.TransferSettings.SetupSelection(FileBoundary.ReadName($"{UI.Engine.StartupDirectory}Scenario\\Campaign\\{campaign.Scenarios.GetScenario(campaign.NextScenarioId).FileName}"));
         if (campaign.TransferSettings.TransferPointsMax > 0)
         {
             GoldSlider.Max = campaign.TransferSettings.TransferGoldMax;

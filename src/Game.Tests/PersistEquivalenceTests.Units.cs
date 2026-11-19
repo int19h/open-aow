@@ -287,7 +287,7 @@ public sealed partial class PersistEquivalenceTests
 
         public override void TranslateStrings(DelphiStringCollection lines)
         {
-            Visited.Add("lines " + lines.Count);
+            Visited.Add($"lines {lines.Count}");
             for (int index = 0; index < lines.Count; index++)
             {
                 lines[index] = dictionary.GetValueOrDefault(lines[index], lines[index]);

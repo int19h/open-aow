@@ -89,7 +89,7 @@ public partial class BitList : Persistent
         {
             if (DefaultByte(Get(i)) != _default)
             {
-                result = result + IntToStr(i) + ",";
+                result = $"{result}{IntToStr(i)},";
             }
         }
 

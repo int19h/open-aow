@@ -145,7 +145,7 @@ public partial class TabPanel : Control
         }
         catch
         {
-            _ = MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Draw", $"Error - {Name}", 0);
         }
     }
 

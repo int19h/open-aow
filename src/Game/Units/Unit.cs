@@ -50,7 +50,7 @@ public partial class Unit(CustomNode owner) : Troop(owner)
             UnitResource = resource;
             if (resource == null)
             {
-                throw new KeyNotFoundException("unit resource missing (" + IntToStr(resourceIndex) + ")");
+                throw new KeyNotFoundException($"unit resource missing ({IntToStr(resourceIndex)})");
             }
         }
         else

@@ -14,9 +14,8 @@ public sealed class NameTableTests
     [Fact]
     public void OriginalFilesKeepTheDelphiName()
     {
-        string table = "kind,delphi,current\n"
-            + "type,TDelphiForm," + NameTable.QualifiedName(typeof(RenamedForm)) + "\n";
-        string path = Path.Combine(Path.GetTempPath(), "aow-names-" + Guid.NewGuid().ToString("N"));
+        string table = $"kind,delphi,current\ntype,TDelphiForm,{NameTable.QualifiedName(typeof(RenamedForm))}\n";
+        string path = Path.Combine(Path.GetTempPath(), $"aow-names-{Guid.NewGuid():N}");
         try
         {
             using (FileStream stream = File.Create(path))
@@ -73,8 +72,7 @@ public sealed class NameTableTests
     public void AStoredNameStaysWhenTheCSharpNameChanges()
     {
         string qualified = NameTable.QualifiedName(typeof(RenamedForm));
-        string table = "kind,delphi,current,stored\n"
-            + "type,TOld," + qualified + ",EOld\n";
+        string table = $"kind,delphi,current,stored\ntype,TOld,{qualified},EOld\n";
         using (NameTable.Install(table))
         {
             Assert.Equal("EOld", NameTable.Stored(typeof(RenamedForm)));

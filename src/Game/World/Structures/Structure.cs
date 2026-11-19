@@ -864,7 +864,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
             _ = messages.Add(AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_atLocationFormat), [editName, "(" + IntToStr(hexX) + ", " + IntToStr(hexY) + ", " + IntToStr(hexLevel) + ")"]));
             for (int i = 0, last = errors.Count - 1; i <= last; i++)
             {
-                _ = messages.Add("  " + errors[i]);
+                _ = messages.Add($"  {errors[i]}");
             }
         }
 

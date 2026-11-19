@@ -30,11 +30,11 @@ public sealed partial class PersistEquivalenceTests
 
             if (EngineObject.TreePersistenceRefusal(type) is string reason)
             {
-                missing.Add(type.Name + " (" + reason + ")");
+                missing.Add($"{type.Name} ({reason})");
             }
             else if (s_schema.Find(engineClass.StorageKey) is null)
             {
-                missing.Add(type.Name + " (no schema)");
+                missing.Add($"{type.Name} (no schema)");
             }
         }
         Assert.True(missing.Count == 0, string.Join(", ", missing));
@@ -155,17 +155,17 @@ public sealed partial class PersistEquivalenceTests
             string engine = GameBoundary.PacketClassTable(classValue);
             byte[] image = Image(objectValue);
             ObjectNode tree = TreeWriter.Write(objectValue, factory: Factory);
-            EqualBytes(image, actual: OriginalBackend.Write(tree, classValue: classValue, schema: s_schema, engine: engine), label: className + " original");
-            EqualJson(PilotImage.Decode(image, className: className, engine: engine), actual: DocumentBackend.Write(tree, classValue: classValue, schema: s_schema, engine: engine), label: className + " write");
+            EqualBytes(image, actual: OriginalBackend.Write(tree, classValue: classValue, schema: s_schema, engine: engine), label: $"{className} original");
+            EqualJson(PilotImage.Decode(image, className: className, engine: engine), actual: DocumentBackend.Write(tree, classValue: classValue, schema: s_schema, engine: engine), label: $"{className} write");
             byte[] packet = GameBoundary.WritePacket(tree, classId: objectValue.EngineClass.ClassId, className: Factory.ClassName(objectValue));
             using (MemoryStream stored = new())
             {
                 EngineFixture.Engine.StoreEngineObject(stored, objectValue: objectValue, progress: null);
-                EqualBytes(packet, actual: stored.ToArray(), label: className + " store");
+                EqualBytes(packet, actual: stored.ToArray(), label: $"{className} store");
             }
             viaPersist = Blank(className);
             Load(viaPersist, image: image);
-            EqualBytes(image, actual: Image(viaPersist), label: className + " read");
+            EqualBytes(image, actual: Image(viaPersist), label: $"{className} read");
             bool registered = EngineFixture.Engine.ClassTable.TryGetValue(objectValue.EngineClass.ClassId, out EngineClass registeredClass)
                 && registeredClass is not null
                 && registeredClass.Type == objectValue.GetType();
@@ -181,7 +181,7 @@ public sealed partial class PersistEquivalenceTests
                 return;
             }
 
-            EqualBytes(image, actual: Image(loaded), label: className + " packet read");
+            EqualBytes(image, actual: Image(loaded), label: $"{className} packet read");
         }
         finally
         {

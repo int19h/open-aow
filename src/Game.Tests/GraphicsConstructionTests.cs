@@ -273,7 +273,7 @@ public sealed class GraphicsConstructionTests
         Assert.Equal("# Rule", System.Text.Encoding.UTF8.GetString(bytes));
         Assert.Equal(0L, stream.Seek(0, SeekOrigin.Begin));
         stream.Dispose();
-        _ = Assert.Throws<FileNotFoundException>(() => new FastLoadFileStream(path + ".absent"));
+        _ = Assert.Throws<FileNotFoundException>(() => new FastLoadFileStream($"{path}.absent"));
     }
 
     [Fact]

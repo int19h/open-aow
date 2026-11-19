@@ -891,7 +891,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
         });
         Player players = StrategicMap.Current.Players.GetPlayers(hero.Player);
         string text6 = dialog.UI.Engine.TranslateResourceString(GameText.ManaText);
-        dialog.CastingManaLabel.Text = text6 + ": " + IntToStr(players.MagicControl.Mana);
+        dialog.CastingManaLabel.Text = $"{text6}: {IntToStr(players.MagicControl.Mana)}";
         dialog.Unit1CheckBox.Checked = false;
         dialog.Unit2CheckBox.Checked = false;
         dialog.Unit3CheckBox.Checked = false;

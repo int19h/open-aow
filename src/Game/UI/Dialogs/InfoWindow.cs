@@ -386,7 +386,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         DelphiStringCollection description = dialog.UI.General.Structure.GetDescription();
         dialog.ExplorationSiteMemo.Items.Assign(description);
         string status = dialog.UI.Engine.TranslateResourceString(CityScreen.StatusText);
-        dialog.ExplorationSiteLabel.Text = status + ":";
+        dialog.ExplorationSiteLabel.Text = $"{status}:";
         if (structure.GetExplored())
         {
             string explored = dialog.UI.Engine.TranslateResourceString(GameText.ExploredText);
@@ -425,7 +425,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         dialog.AltarChargeBar.Max = rechargeDays;
         dialog.AltarChargeBar.Position = structure.RechargeDays;
         byte structureRechargeDays = structure.GetRechargeDays();
-        dialog.ChargePercentLabel.Text = IntToStr(Round((double)(structure.RechargeDays * 100) / structureRechargeDays)) + "%";
+        dialog.ChargePercentLabel.Text = $"{IntToStr(Round((double)(structure.RechargeDays * 100) / structureRechargeDays))}%";
         byte rechargeDays2 = structure.GetRechargeDays();
         dialog.DayLabel.Text = IntToStr(rechargeDays2 - structure.RechargeDays);
         int targetMana = structure.TargetMana();

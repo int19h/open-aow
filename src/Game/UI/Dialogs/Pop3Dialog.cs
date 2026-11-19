@@ -54,7 +54,7 @@ public partial class Pop3Dialog(UIContext ui) : UIModule(ui)
         LocalEmailAddressEdit.Text = localEmailAddress;
         string attachmentDirectory = UI.Engine.Registry.GetAttachmentDirectory();
         string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_attachmentDirectoryFormat), [attachmentDirectory]);
-        AttachmentDirectoryLabel.Text = "(" + format + ")";
+        AttachmentDirectoryLabel.Text = $"({format})";
         Window.Visible = true;
     }
 
@@ -99,7 +99,7 @@ public partial class Pop3Dialog(UIContext ui) : UIModule(ui)
         if (FoundEmailGamesList.Selected != -1)
         {
             string item = FoundEmailGamesList.Items[FoundEmailGamesList.Selected];
-            General.LoadGame(UI.General, UI.Engine.StartupDirectory + "EmailIn\\" + item);
+            General.LoadGame(UI.General, $"{UI.Engine.StartupDirectory}EmailIn\\{item}");
             General.StartGame(UI.General);
         }
     }

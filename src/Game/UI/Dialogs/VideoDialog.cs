@@ -60,7 +60,7 @@ public partial class VideoDialog(UIContext ui) : UIModule(ui)
             if (mode.Width >= 640 && mode.Height >= 480)
             {
                 string fullScreen = UI.Engine.TranslateResourceString(s_fullScreenText);
-                _ = DisplayModesList.Items.AddObject(fullScreen + ":" + IntToStr(mode.Width) + "x" + IntToStr(mode.Height), IntToObject(i));
+                _ = DisplayModesList.Items.AddObject($"{fullScreen}:{IntToStr(mode.Width)}x{IntToStr(mode.Height)}", IntToObject(i));
             }
         }
 
@@ -69,7 +69,7 @@ public partial class VideoDialog(UIContext ui) : UIModule(ui)
         if (DisplayModesList.Selected != -1)
         {
             s = DisplayModesList.Items[DisplayModesList.Selected];
-            s = s + " (" + LowerCase(UI.Engine.TranslateResourceString(s_currentText)) + ")";
+            s = $"{s} ({LowerCase(UI.Engine.TranslateResourceString(s_currentText))})";
             DisplayModesList.Items[DisplayModesList.Selected] = s;
         }
     }

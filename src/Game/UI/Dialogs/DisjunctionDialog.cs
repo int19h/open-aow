@@ -103,8 +103,8 @@ public partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
         int mana = _caster.GetMana();
         Spell fSpellControlSpell = GamePack.Current.SpellControl.GetSpell(51);
         int fCasterMana = _caster.GetMana();
-        DisjunctionManaLabel.Text = IntToStr(spell.BaseManaCost) + "+" + IntToStr(mana) + "=" + IntToStr(fSpellControlSpell.BaseManaCost + fCasterMana);
-        DisjunctionChanceLabel.Text = IntToStr(_caster.DispelChance) + "%";
+        DisjunctionManaLabel.Text = $"{IntToStr(spell.BaseManaCost)}+{IntToStr(mana)}={IntToStr(fSpellControlSpell.BaseManaCost + fCasterMana)}";
+        DisjunctionChanceLabel.Text = $"{IntToStr(_caster.DispelChance)}%";
         int dispelChanceMax = _caster.GetDispelChanceMax();
         ChanceSlider.Max = dispelChanceMax;
         ChanceSlider.Position = _caster.DispelChance;

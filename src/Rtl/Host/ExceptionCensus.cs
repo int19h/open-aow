@@ -118,7 +118,7 @@ public static class ExceptionCensus
     public static void Append(string file, string line)
     {
         _ = Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(file))!);
-        byte[] bytes = Encoding.UTF8.GetBytes(line + "\n");
+        byte[] bytes = Encoding.UTF8.GetBytes($"{line}\n");
         for (int attempt = 0; ; attempt++)
         {
             try

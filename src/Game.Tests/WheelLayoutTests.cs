@@ -136,7 +136,7 @@ public sealed class WheelLayoutTests(WheelLayoutTests.Host host) : IClassFixture
         map.BookAction = 0;
         map.BackButton.CaptureInput = true;
         map.NextButton.CaptureInput = true;
-        map.LeftPageMemo.Items.Text = new string('a', 40) + " " + new string('b', 40);
+        map.LeftPageMemo.Items.Text = $"{new string('a', 40)} {new string('b', 40)}";
         map.LeftPageScrollBar.SetMaxUnclamped(40);
         map.LeftPageScrollBar.SetNumberVisibleUnclamped(5);
         map.LeftPageScrollBar.SetPositionUnclamped(0);
@@ -178,8 +178,8 @@ public sealed class WheelLayoutTests(WheelLayoutTests.Host host) : IClassFixture
         dialog.DateList.Items.Clear();
         for (int i = 0; i < 8; i++)
         {
-            _ = dialog.SaveList.Items.Add("save" + i);
-            _ = dialog.DateList.Items.Add("date" + i);
+            _ = dialog.SaveList.Items.Add($"save{i}");
+            _ = dialog.DateList.Items.Add($"date{i}");
         }
 
         dialog.SaveScrollBar.SetPositionUnclamped(0);
@@ -210,7 +210,7 @@ public sealed class WheelLayoutTests(WheelLayoutTests.Host host) : IClassFixture
         realm.CityNameList.Items.Clear();
         for (int i = 0; i < 12; i++)
         {
-            _ = realm.CityNameList.Items.Add("city" + i);
+            _ = realm.CityNameList.Items.Add($"city{i}");
         }
 
         realm.CityScrollBar.SetPositionUnclamped(0);
@@ -226,7 +226,7 @@ public sealed class WheelLayoutTests(WheelLayoutTests.Host host) : IClassFixture
     {
         Show(_host.Files.Window);
         FileDialogWindow dialog = _host.Files;
-        string directory = Path.Combine(Path.GetTempPath(), "open-aow-map-" + Guid.NewGuid().ToString("N"));
+        string directory = Path.Combine(Path.GetTempPath(), $"open-aow-map-{Guid.NewGuid():N}");
         string root = Path.Combine(directory, "root");
         string user = Path.Combine(directory, "user");
         string settingsDirectory = Path.Combine(directory, "settings");

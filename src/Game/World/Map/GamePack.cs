@@ -77,8 +77,8 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
         {
             MapObjectClass = typeof(AbstractRoad)
         };
-        ImageLibraryManager.ExecutePathSearch(GetEngine().StartupDirectory + "IMAGES");
-        SfxManager.ExecutePathSearch(GetEngine().StartupDirectory + "SFX");
+        ImageLibraryManager.ExecutePathSearch($"{GetEngine().StartupDirectory}IMAGES");
+        SfxManager.ExecutePathSearch($"{GetEngine().StartupDirectory}SFX");
         ImageSequences = new ImageSequenceList(ImageLibraryManager, null);
         string water = AbilityRules.TranslateResourceString(GetEngine(), GameTables.WaterText);
         _ = TerrainTypes.Add(water);
@@ -251,18 +251,18 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
         }
         else if (persister.Loading)
         {
-            bool loaded = GetEngine().ReadFromFileCrc(path + "ABILITY.PFS", objectValue: AbilityControl, progress: null);
+            bool loaded = GetEngine().ReadFromFileCrc($"{path}ABILITY.PFS", objectValue: AbilityControl, progress: null);
             PersistSupport.ShowProgress(persister, sender: this, message: AbilityRules.TranslateResourceString(GetEngine(), s_loadingUnitsText), percent: 70);
-            loaded = loaded && GetEngine().ReadFromFileCrc(path + "UNITRES.PFS", objectValue: UnitResources, progress: null);
-            loaded = loaded && GetEngine().ReadFromFileCrc(path + "UNITGFX.PFS", objectValue: UnitGraphicsResources, progress: null);
+            loaded = loaded && GetEngine().ReadFromFileCrc($"{path}UNITRES.PFS", objectValue: UnitResources, progress: null);
+            loaded = loaded && GetEngine().ReadFromFileCrc($"{path}UNITGFX.PFS", objectValue: UnitGraphicsResources, progress: null);
             PersistSupport.ShowProgress(persister, sender: this, message: AbilityRules.TranslateResourceString(GetEngine(), s_loadingHeroesText), percent: 80);
-            loaded = loaded && GetEngine().ReadFromFileCrc(path + "HERORES.PFS", objectValue: HeroResources, progress: null);
+            loaded = loaded && GetEngine().ReadFromFileCrc($"{path}HERORES.PFS", objectValue: HeroResources, progress: null);
             PersistSupport.ShowProgress(persister, sender: this, message: AbilityRules.TranslateResourceString(GetEngine(), s_loadingItemsText), percent: 90);
-            loaded = loaded && GetEngine().ReadFromFileCrc(path + "ITEMGFX.PFS", objectValue: ItemGraphicsResources, progress: null);
-            loaded = loaded && GetEngine().ReadFromFileCrc(path + "FACERES.PFS", objectValue: FaceResources, progress: null);
-            loaded = loaded && GetEngine().ReadFromFileCrc(path + "COMB_RES.PFS", objectValue: CombatResources, progress: null, classTable: "tactical");
-            loaded = loaded && GetEngine().ReadFromFileCrc(path + "SPELLS.PFS", objectValue: SpellControl, progress: null);
-            loaded = loaded && GetEngine().ReadFromFileCrc(path + "TEXT.PFS", objectValue: TextControl, progress: null);
+            loaded = loaded && GetEngine().ReadFromFileCrc($"{path}ITEMGFX.PFS", objectValue: ItemGraphicsResources, progress: null);
+            loaded = loaded && GetEngine().ReadFromFileCrc($"{path}FACERES.PFS", objectValue: FaceResources, progress: null);
+            loaded = loaded && GetEngine().ReadFromFileCrc($"{path}COMB_RES.PFS", objectValue: CombatResources, progress: null, classTable: "tactical");
+            loaded = loaded && GetEngine().ReadFromFileCrc($"{path}SPELLS.PFS", objectValue: SpellControl, progress: null);
+            loaded = loaded && GetEngine().ReadFromFileCrc($"{path}TEXT.PFS", objectValue: TextControl, progress: null);
             if (!loaded)
             {
                 throw new InvalidOperationException("CRC-CHECK FAILED");
@@ -272,15 +272,15 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
         }
         else
         {
-            GetEngine().WriteToFileCrc(path + "ABILITY.PFS", objectValue: AbilityControl, progress: null);
-            GetEngine().WriteToFileCrc(path + "UNITRES.PFS", objectValue: UnitResources, progress: null);
-            GetEngine().WriteToFileCrc(path + "UNITGFX.PFS", objectValue: UnitGraphicsResources, progress: null);
-            GetEngine().WriteToFileCrc(path + "HERORES.PFS", objectValue: HeroResources, progress: null);
-            GetEngine().WriteToFileCrc(path + "ITEMGFX.PFS", objectValue: ItemGraphicsResources, progress: null);
-            GetEngine().WriteToFileCrc(path + "FACERES.PFS", objectValue: FaceResources, progress: null);
-            GetEngine().WriteToFileCrc(path + "COMB_RES.PFS", objectValue: CombatResources, progress: null, classTable: "tactical");
-            GetEngine().WriteToFileCrc(path + "SPELLS.PFS", objectValue: SpellControl, progress: null);
-            GetEngine().WriteToFileCrc(path + "TEXT.PFS", objectValue: TextControl, progress: null);
+            GetEngine().WriteToFileCrc($"{path}ABILITY.PFS", objectValue: AbilityControl, progress: null);
+            GetEngine().WriteToFileCrc($"{path}UNITRES.PFS", objectValue: UnitResources, progress: null);
+            GetEngine().WriteToFileCrc($"{path}UNITGFX.PFS", objectValue: UnitGraphicsResources, progress: null);
+            GetEngine().WriteToFileCrc($"{path}HERORES.PFS", objectValue: HeroResources, progress: null);
+            GetEngine().WriteToFileCrc($"{path}ITEMGFX.PFS", objectValue: ItemGraphicsResources, progress: null);
+            GetEngine().WriteToFileCrc($"{path}FACERES.PFS", objectValue: FaceResources, progress: null);
+            GetEngine().WriteToFileCrc($"{path}COMB_RES.PFS", objectValue: CombatResources, progress: null, classTable: "tactical");
+            GetEngine().WriteToFileCrc($"{path}SPELLS.PFS", objectValue: SpellControl, progress: null);
+            GetEngine().WriteToFileCrc($"{path}TEXT.PFS", objectValue: TextControl, progress: null);
         }
 
         persister.Object("HeroLibraries", objectValue: HeroLibraries);
@@ -400,7 +400,7 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
         base.MainPersist(persister);
         if (persister.Loading)
         {
-            dictionaryFile = GetEngine().StartupDirectory + "Dict\\" + "Release" + ".mld";
+            dictionaryFile = $"{GetEngine().StartupDirectory}Dict\\Release.mld";
             GetEngine().TranslateEngineObjectFromFile(this, dictionaryFile);
         }
     }
@@ -440,19 +440,19 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
         crCs = new Int32List();
         path = ExtractFilePath(GetEngine().HssFileName);
         // { Original includes ABILITY.PFS twice and does not free CRCs on a read error. }
-        _ = crCs.Add(GetFileCrc(path + "ABILITY.PFS", false));
-        _ = crCs.Add(GetFileCrc(path + "ABILITY.PFS", false));
-        _ = crCs.Add(GetFileCrc(path + "UNITRES.PFS", false));
-        _ = crCs.Add(GetFileCrc(path + "UNITGFX.PFS", false));
-        _ = crCs.Add(GetFileCrc(path + "HERORES.PFS", false));
-        _ = crCs.Add(GetFileCrc(path + "ITEMGFX.PFS", false));
-        _ = crCs.Add(GetFileCrc(path + "FACERES.PFS", false));
-        _ = crCs.Add(GetFileCrc(path + "COMB_RES.PFS", false));
-        _ = crCs.Add(GetFileCrc(path + "SPELLS.PFS", false));
+        _ = crCs.Add(GetFileCrc($"{path}ABILITY.PFS", false));
+        _ = crCs.Add(GetFileCrc($"{path}ABILITY.PFS", false));
+        _ = crCs.Add(GetFileCrc($"{path}UNITRES.PFS", false));
+        _ = crCs.Add(GetFileCrc($"{path}UNITGFX.PFS", false));
+        _ = crCs.Add(GetFileCrc($"{path}HERORES.PFS", false));
+        _ = crCs.Add(GetFileCrc($"{path}ITEMGFX.PFS", false));
+        _ = crCs.Add(GetFileCrc($"{path}FACERES.PFS", false));
+        _ = crCs.Add(GetFileCrc($"{path}COMB_RES.PFS", false));
+        _ = crCs.Add(GetFileCrc($"{path}SPELLS.PFS", false));
         // The scenario set's stored CRC is the tail of its engine image, so an own document agrees
         // with its original (own-formats.md 4.1). A document with no image has no stored CRC and
         // the call refuses through the packet profile. The PFS files keep their original bytes.
-        _ = crCs.Add(FileBoundary.ImageTailInt32(FileBoundary.ReadName(path + "RELEASE.HSS"), GameProfile.ScenarioSet));
+        _ = crCs.Add(FileBoundary.ImageTailInt32(FileBoundary.ReadName($"{path}RELEASE.HSS"), GameProfile.ScenarioSet));
         int result = EngineServices.GetCrc32(MemoryMarshal.AsBytes(crCs.List.AsSpan()), crCs.Count * 4);
         crCs?.Dispose();
         return result;

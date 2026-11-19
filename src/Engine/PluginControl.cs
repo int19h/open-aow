@@ -33,7 +33,7 @@ public partial class PluginControl : EngineObject
         {
             if (_usedPlugins[i] != AbilitiesPlugin)
             {
-                throw new PluginMissingException("PlugIn Missing (" + _usedPlugins[i] + ")");
+                throw new PluginMissingException($"PlugIn Missing ({_usedPlugins[i]})");
             }
         }
     }

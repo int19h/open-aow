@@ -151,7 +151,7 @@ public abstract class FileProfile
             {
                 throw new ConversionException(new FormatDiagnostic(m.Name.StartsWith('$') ? Codes.ReservedMember : Codes.UnknownMember,
                     $"$container has no member \"{m.Name}\".")
-                { File = context.File, Span = m.NameSpan, Path = "$container." + m.Name });
+                { File = context.File, Span = m.NameSpan, Path = $"$container.{m.Name}" });
             }
         }
     }
@@ -498,7 +498,7 @@ public sealed class ScenarioSetProfile : FileProfile
         {
             if (m.Name != "Name")
             {
-                throw context.Fail(Codes.UnknownMember, $"The scenario set header has no member \"{m.Name}\".", m.Value, DocumentNodePath.Named("$container.header." + m.Name));
+                throw context.Fail(Codes.UnknownMember, $"The scenario set header has no member \"{m.Name}\".", m.Value, DocumentNodePath.Named($"$container.header.{m.Name}"));
             }
         }
 

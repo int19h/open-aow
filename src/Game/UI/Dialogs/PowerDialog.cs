@@ -68,7 +68,7 @@ public partial class PowerDialog(UIContext ui) : UIModule(ui)
             ResearchLeftLabel.Text = "-";
         }
 
-        NetManaLabel.Text = IntToStr(manaPower) + "-" + IntToStr(upkeep) + "=" + IntToStr(manaPower - upkeep);
+        NetManaLabel.Text = $"{IntToStr(manaPower)}-{IntToStr(upkeep)}={IntToStr(manaPower - upkeep)}";
         ManaLabel.Text = IntToStr(manaPower);
         ResearchLabel.Text = IntToStr(researchPower);
         Window.Drawn = false;

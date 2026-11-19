@@ -81,7 +81,7 @@ internal sealed class FrameFixture
         _ = Directory.CreateDirectory(output);
         using FrameDiagnostics? diagnostics = FrameDiagnostics.Start(output);
         using StreamWriter trace = new(Path.Combine(output, "exceptions.log")) { NewLine = "\n", AutoFlush = true };
-        void Record(object? sender, FirstChanceExceptionEventArgs error) => trace.WriteLine(error.Exception + "\n" + new StackTrace(1, true));
+        void Record(object? sender, FirstChanceExceptionEventArgs error) => trace.WriteLine($"{error.Exception}\n{new StackTrace(1, true)}");
         AppDomain.CurrentDomain.FirstChanceException += Record;
         string? saveDirectory = fixture._values.GetValueOrDefault("save_directory");
         if (saveDirectory is not null)
@@ -93,7 +93,7 @@ internal sealed class FrameFixture
                 {
                     if (Path.GetFileName(saved) != "roundtrip.asg")
                     {
-                        throw new InvalidDataException("Unexpected fixture save product " + saved);
+                        throw new InvalidDataException($"Unexpected fixture save product {saved}");
                     }
 
                     File.Delete(saved);
@@ -116,14 +116,14 @@ internal sealed class FrameFixture
         string? input = null;
         if (scene != "title")
         {
-            input = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(path))!, "..", "..", "tools", "oracle", "obj", "frames", "inputs", scene + ".asg");
+            input = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(path))!, "..", "..", "tools", "oracle", "obj", "frames", "inputs", $"{scene}.asg");
             if (!File.Exists(input))
             {
                 throw new FileNotFoundException("Prepared fixture input missing", input);
             }
 
-            File.Copy(input, Path.Combine(output, "user", scene + ".asg"), true);
-            argument = Path.Combine(gameRoot, scene + ".asg");
+            File.Copy(input, Path.Combine(output, "user", $"{scene}.asg"), true);
+            argument = Path.Combine(gameRoot, $"{scene}.asg");
         }
         int applied = 0;
         bool complete = false;
@@ -172,7 +172,7 @@ internal sealed class FrameFixture
             using MainForm form = MainForm.Create(display, argument);
             if (saveDirectory is not null)
             {
-                form.UI.FileDialogWindow.Directory = Path.Combine(gameRoot, saveDirectory).Replace('/', '\\') + "\\";
+                form.UI.FileDialogWindow.Directory = $"{Path.Combine(gameRoot, saveDirectory).Replace('/', '\\')}\\";
             }
 
             FrameFixtureInputs.TacticalInitialized = () =>
@@ -202,7 +202,7 @@ internal sealed class FrameFixture
             {
                 ObserveDay();
                 pendingSnapshot = snapshots.FirstOrDefault(s => StrategicMap.Current?.Day == s.Day && DayFrame() == s.Frame && !capturedSnapshots.Contains(s.Name));
-                display.CaptureName = pendingSnapshot is null ? null : "snapshot-" + pendingSnapshot.Name;
+                display.CaptureName = pendingSnapshot is null ? null : $"snapshot-{pendingSnapshot.Name}";
                 if (pendingSnapshot is not null)
                 {
                     display.FixtureFrame = pendingSnapshot.Frame;
@@ -228,7 +228,7 @@ internal sealed class FrameFixture
                 {
                     diagnostics?.Snapshot(snapshot.Name, ui: form.UI);
                     StrategicMap.Current.PlayerControl.AutoSave();
-                    File.Copy(Path.Combine(output, "user", "Save", "autosave.asg"), Path.Combine(output, "snapshot-" + snapshot.Name + ".asg"), true);
+                    File.Copy(Path.Combine(output, "user", "Save", "autosave.asg"), Path.Combine(output, $"snapshot-{snapshot.Name}.asg"), true);
                     _ = capturedSnapshots.Add(snapshot.Name);
                     pendingSnapshot = null;
                 }
@@ -252,7 +252,7 @@ internal sealed class FrameFixture
                     long scriptFrame = ScriptFrame(click);
                     if (scriptFrame > click.At)
                     {
-                        throw new InvalidOperationException("Missed scripted frame " + click.At);
+                        throw new InvalidOperationException($"Missed scripted frame {click.At}");
                     }
 
                     if (scriptFrame == click.At)
@@ -360,7 +360,7 @@ internal sealed class FrameFixture
 
             TaskBar taskbar = form.UI.TaskBar;
             ControlWindow controls = form.UI.ControlWindow;
-            File.WriteAllText(Path.Combine(output, "controls.json"), JsonSerializer.Serialize(new[] { controls.Unit1CheckBox.Text, controls.Unit2CheckBox.Text, controls.MovesLabel.Text }) + "\n");
+            File.WriteAllText(Path.Combine(output, "controls.json"), $"{JsonSerializer.Serialize(new[] { controls.Unit1CheckBox.Text, controls.Unit2CheckBox.Text, controls.MovesLabel.Text })}\n");
             ArmyHexSprite? selected = StrategicMap.Current?.SelectedArmy?.GetArmyHexSprite();
             if (StrategicMap.Current is { } world)
             {
@@ -468,7 +468,7 @@ internal sealed class FrameFixture
                 if (fixture._values.GetValueOrDefault("save_world") == "true")
                 {
                     saveName = "paths-world.asg";
-                    form.UI.Engine.SaveHsm(form.UI.Engine.StartupDirectory + "Save\\" + saveName, null!, GameProfile.WorldMap);
+                    form.UI.Engine.SaveHsm($"{form.UI.Engine.StartupDirectory}Save\\{saveName}", null!, GameProfile.WorldMap);
                 }
                 else
                 {
@@ -481,7 +481,7 @@ internal sealed class FrameFixture
             {
                 foreach (string saved in JsonSerializer.Deserialize<string[]>(savedFiles)!)
                 {
-                    File.Copy(Path.Combine(output, "user", saved), Path.Combine(output, "saved-" + Path.GetFileName(saved)), true);
+                    File.Copy(Path.Combine(output, "user", saved), Path.Combine(output, $"saved-{Path.GetFileName(saved)}"), true);
                 }
             }
 
@@ -538,7 +538,7 @@ internal sealed class FrameFixture
         return 0;
     }
 
-    private string Get(string key) => _values.TryGetValue(key, out string? value) ? value : _defaults.TryGetValue(key, out value) ? value : throw new InvalidDataException("Missing fixture field " + key);
+    private string Get(string key) => _values.TryGetValue(key, out string? value) ? value : _defaults.TryGetValue(key, out value) ? value : throw new InvalidDataException($"Missing fixture field {key}");
 
     private sealed record Snapshot(string Name, int Day, int Frame);
 
@@ -567,7 +567,7 @@ internal sealed class FrameFixture
             int equals = line.IndexOf('=');
             if (equals < 0)
             {
-                throw new InvalidDataException("Invalid fixture line: " + line);
+                throw new InvalidDataException($"Invalid fixture line: {line}");
             }
 
             string key = line[..equals].Trim().Trim('"');
@@ -580,7 +580,7 @@ internal sealed class FrameFixture
             {
                 if (key != "local_time")
                 {
-                    throw new InvalidDataException("Unknown file clock field " + key);
+                    throw new InvalidDataException($"Unknown file clock field {key}");
                 }
 
                 result._fileLocalTime = JsonSerializer.Deserialize<string>(value)!;
@@ -588,7 +588,7 @@ internal sealed class FrameFixture
             else if (section.StartsWith("registry.", StringComparison.Ordinal))
             {
                 int integer = int.Parse(value, CultureInfo.InvariantCulture);
-                result._settings.Add(@"\Software\Triumph Studios\Age of Wonders\" + section[9..] + "\\" + key, s_booleans.Contains(key) ? integer != 0 : integer);
+                result._settings.Add($@"\Software\Triumph Studios\Age of Wonders\{section[9..]}\{key}", s_booleans.Contains(key) ? integer != 0 : integer);
             }
             else if (section == "fixture")
             {
@@ -596,10 +596,10 @@ internal sealed class FrameFixture
             }
             else
             {
-                throw new InvalidDataException("Unknown fixture section " + section);
+                throw new InvalidDataException($"Unknown fixture section {section}");
             }
         }
-        Dictionary<string, string> match = fixtures.SingleOrDefault(f => f.GetValueOrDefault("name") == name) ?? throw new InvalidDataException("Unknown fixture " + name);
+        Dictionary<string, string> match = fixtures.SingleOrDefault(f => f.GetValueOrDefault("name") == name) ?? throw new InvalidDataException($"Unknown fixture {name}");
         foreach (KeyValuePair<string, string> item in match)
         {
             result._values.Add(item.Key, item.Value);
@@ -664,6 +664,6 @@ internal sealed class FrameFixture
         // the game writes the original extensions here (own-formats.md 4.2).
         public bool WritesOwnExtensions => false;
 
-        public int Show(DialogRequest request) => throw new InvalidOperationException("Fixture dialog: " + request.Text);
+        public int Show(DialogRequest request) => throw new InvalidOperationException($"Fixture dialog: {request.Text}");
     }
 }

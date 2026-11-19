@@ -15,14 +15,14 @@ public sealed class ProbeFactAttribute(string name) : FactAttribute
 
 internal sealed class ProbeLines(string name)
 {
-    private readonly string[] _lines = File.ReadAllLines(Path.Combine(AppContext.BaseDirectory, "Probes", name + ".txt"));
+    private readonly string[] _lines = File.ReadAllLines(Path.Combine(AppContext.BaseDirectory, "Probes", $"{name}.txt"));
     private int _position;
 
     internal string Current => _lines[_position];
 
     internal void Fact(string label, object value)
     {
-        string actual = label + " " + Convert.ToString(value, CultureInfo.InvariantCulture);
+        string actual = $"{label} {Convert.ToString(value, CultureInfo.InvariantCulture)}";
         Assert.True(_position < _lines.Length, $"{name}: extra line {actual}");
         Assert.True(_lines[_position] == actual,
             $"{name}.txt:{_position + 1} [{label}] expected <{_lines[_position]}> actual <{actual}>");
@@ -65,7 +65,7 @@ internal sealed class ProbeLines(string name)
         s_delphiNames.TryGetValue(name, out Dictionary<Type, string>? table)
         && table.TryGetValue(error.GetType(), out string? delphi)
             ? delphi
-            : throw new Xunit.Sdk.XunitException(name + " has no Delphi name for " + error.GetType().Name);
+            : throw new Xunit.Sdk.XunitException($"{name} has no Delphi name for {error.GetType().Name}");
 
     internal string Thrown(Action action)
     {
@@ -78,7 +78,7 @@ internal sealed class ProbeLines(string name)
             return DelphiName(error);
         }
 
-        throw new Xunit.Sdk.XunitException(name + " returned where the recording names an exception");
+        throw new Xunit.Sdk.XunitException($"{name} returned where the recording names an exception");
     }
 }
 
@@ -159,7 +159,7 @@ public sealed class ProbeTests(ITestOutputHelper output)
             ("start",1,2), ("tail",3,99), ("zero_index",0,2), ("negative_index",-2,2),
             ("past_end",5,1), ("zero_count",1,0), ("negative_count",1,-1) })
         {
-            Bytes("copy_" + label, Copy(s, index, count));
+            Bytes($"copy_{label}", Copy(s, index, count));
         }
 
         Bytes("copy_empty", Copy("", 1, 4));
@@ -169,14 +169,14 @@ public sealed class ProbeTests(ITestOutputHelper output)
         {
             string t = s;
             Delete(ref t, index, count);
-            Bytes("delete_" + label, t);
+            Bytes($"delete_{label}", t);
         }
         foreach ((string? label, int index) in new[] {
             ("start",1), ("middle",3), ("end",5), ("past_end",99), ("zero_index",0), ("negative_index",-1) })
         {
             string t = s;
             Insert("XY", ref t, index);
-            Bytes("insert_" + label, t);
+            Bytes($"insert_{label}", t);
         }
         Bytes("insert_empty_source", Insert("", s, 2));
         Bytes("insert_empty_target", Insert("XY", "", 1));

@@ -53,7 +53,7 @@ public sealed class ArmySpriteConstructionTests
                 }
                 catch (Exception error) when (error is not XunitException)
                 {
-                    state = error.GetType().FullName + ":" + error.Message;
+                    state = $"{error.GetType().FullName}:{error.Message}";
                     destroyEntries = new StackTrace(error).GetFrames().Count(x => x.GetMethod()?.DeclaringType == typeof(ArmyHexSprite) && x.GetMethod()?.Name == "Dispose");
                 }
                 Assert.NotNull(value);

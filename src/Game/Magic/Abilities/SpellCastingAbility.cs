@@ -199,19 +199,19 @@ public partial class SpellCastingAbility : MultiLevelAbility
                 result = AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText);
                 break;
             case 1:
-                result = AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText) + " I";
+                result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText)} I";
                 break;
             case 2:
-                result = AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText) + " II";
+                result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText)} II";
                 break;
             case 3:
-                result = AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText) + " III";
+                result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText)} III";
                 break;
             case 4:
-                result = AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText) + " IV";
+                result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText)} IV";
                 break;
             case 5:
-                result = AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText) + " V";
+                result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText)} V";
                 break;
             default:
                 break;

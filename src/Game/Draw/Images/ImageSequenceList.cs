@@ -32,7 +32,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
         {
             if (List[i] != null)
             {
-                result = result + IntToStr(i) + ",";
+                result = $"{result}{IntToStr(i)},";
             }
         }
 

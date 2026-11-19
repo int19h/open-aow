@@ -16,7 +16,7 @@ public sealed class GameProfile
     private GameProfile(string name, string profile, string[] kinds)
     {
         Name = name;
-        Profile = FileProfile.Find(profile) ?? throw new InvalidOperationException("Unknown file profile " + profile + ".");
+        Profile = FileProfile.Find(profile) ?? throw new InvalidOperationException($"Unknown file profile {profile}.");
         Kinds = kinds;
         foreach (string kind in kinds)
         {
@@ -208,7 +208,7 @@ public static class GameBoundary
         if (comparison.Kind == OriginalMatchKind.Mismatch)
         {
             long offset = comparison.FirstDifferenceOffset ?? 0;
-            report.OriginalRoundTrip = "different at 0x" + offset.ToString("x", CultureInfo.InvariantCulture);
+            report.OriginalRoundTrip = string.Create(CultureInfo.InvariantCulture, $"different at 0x{offset:x}");
             throw new ConversionException(new FormatDiagnostic(Codes.OriginalRoundTripDiffers, "The reconstructed original differs from the file.")
             { File = fileName, Offset = offset, Profile = use.Profile.Name, Decompressed = container["compression"] is JsonString { Value: "cfs" } });
         }

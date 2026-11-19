@@ -33,7 +33,7 @@ public abstract class DelphiStringCollection : Persistent
     }, (name, value) =>
     {
         int i = IndexOfName(name);
-        if (value.Length > 0) { if (i < 0) { i = Add(""); } this[i] = name + "=" + value; }
+        if (value.Length > 0) { if (i < 0) { i = Add(""); } this[i] = $"{name}={value}"; }
         else if (i >= 0)
         {
             Delete(i);
@@ -71,7 +71,7 @@ public abstract class DelphiStringCollection : Persistent
     // CLASSES.PAS TStrings.GetTextStr and SetTextStr. The reader stops at NUL.
     public string Text
     {
-        get { string text = ""; for (int i = 0; i < Count; i++) { text += this[i] + "\r\n"; } return text; }
+        get { string text = ""; for (int i = 0; i < Count; i++) { text += $"{this[i]}\r\n"; } return text; }
         set
         {
             BeginUpdate();
@@ -124,7 +124,7 @@ public abstract class DelphiStringCollection : Persistent
 
                 if (quote)
                 {
-                    s = "\"" + s.Replace("\"", "\"\"") + "\"";
+                    s = $"\"{s.Replace("\"", "\"\"")}\"";
                 }
 
                 if (i > 0)

@@ -111,7 +111,7 @@ public sealed class CombatMapConstructionTests
             if (target is not null)
             {
                 Assert.False(plain, "Regenerate on the base commit before constructor edits.");
-                File.WriteAllText(target, actual.ToJsonString(new JsonSerializerOptions { WriteIndented = true }).Replace("\r\n", "\n", StringComparison.Ordinal) + "\n", new UTF8Encoding(false));
+                File.WriteAllText(target, $"{actual.ToJsonString(new JsonSerializerOptions { WriteIndented = true }).Replace("\r\n", "\n", StringComparison.Ordinal)}\n", new UTF8Encoding(false));
                 return;
             }
             using Stream stream = typeof(CombatMapConstructionTests).Assembly.GetManifestResourceStream("Aow.Game.Tests.CombatMapConstructionSnapshot.json")!;
@@ -130,7 +130,7 @@ public sealed class CombatMapConstructionTests
                         baseline["ExceptionMessage"] = "owner rejects after insertion";
                     }
                 }
-                Assert.True(JsonNode.DeepEquals(baseline, pair.Value), pair.Key + "\n" + pair.Value);
+                Assert.True(JsonNode.DeepEquals(baseline, pair.Value), $"{pair.Key}\n{pair.Value}");
             }
         }
         finally { CombatMap.Current = previous; }

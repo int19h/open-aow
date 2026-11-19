@@ -19,7 +19,7 @@ public readonly union GamePackChild(ResourceCollection, MapObjectResourceTerrain
         ResourceCollection list => list,
         MapObjectResourceTerrainControl control => control,
         ControlStyleObject controlObject => controlObject,
-        _ => throw new InvalidCastException("A sprite set does not hold a child of type " + child.GetType().Name + "."),
+        _ => throw new InvalidCastException($"A sprite set does not hold a child of type {child.GetType().Name}."),
     };
 
     /// <summary>The child as the engine object the untyped child list stores.</summary>

@@ -72,7 +72,7 @@ public sealed class LayoutRuleTests
         const BindingFlags all = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
         HashSet<string> held = [.. ProductTypes()
             .Where(type => !(type.IsValueType && IsStored(type)))
-            .SelectMany(type => type.GetFields(all).Where(field => IsStored(ElementType(field.FieldType))).Select(field => Name(type) + "." + field.Name))];
+            .SelectMany(type => type.GetFields(all).Where(field => IsStored(ElementType(field.FieldType))).Select(field => $"{Name(type)}.{field.Name}"))];
         Assert.Empty(held.Except(s_heldStoredLayouts).Order(StringComparer.Ordinal));
         Assert.Empty(s_heldStoredLayouts.Except(held).Order(StringComparer.Ordinal));
     }

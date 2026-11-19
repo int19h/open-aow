@@ -111,7 +111,7 @@ internal sealed class IntegerRecordField : RecordFieldInfo
         }
         else
         {
-            throw new InvalidOperationException(Name + " is not a transferred integer.");
+            throw new InvalidOperationException($"{Name} is not a transferred integer.");
         }
     }
 
@@ -311,7 +311,7 @@ internal sealed class ArrayRecordField : RecordFieldInfo
         }
         else
         {
-            throw new InvalidOperationException(Name + " is not a transferred array.");
+            throw new InvalidOperationException($"{Name} is not a transferred array.");
         }
     }
 
@@ -331,7 +331,7 @@ internal sealed class ArrayRecordField : RecordFieldInfo
 
         if (items.Count > ElementCount)
         {
-            throw new InvalidOperationException(Name + " holds at most " + ElementCount + " values.");
+            throw new InvalidOperationException($"{Name} holds at most {ElementCount} values.");
         }
 
         for (int i = 0; i < ElementCount; i++)

@@ -24,7 +24,7 @@ public partial record class FastBattleSpellCommand : FastBattleCommand
         string result = AbilityRules.Format(AbilityRules.TranslateResourceString(Creator.GetEngine(), s_castFormat), [spell.SpellName]);
         if (Target != null)
         {
-            result = result + " on " + Target.IdString();
+            result = $"{result} on {Target.IdString()}";
         }
 
         return result;

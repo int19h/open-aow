@@ -228,7 +228,7 @@ internal sealed class MemberPersister : IPersister
             return found is null
                 ? fallback
                 : found is not EnumNode node || !NameTable.Names(typeof(TEnum), node.TypeName) || node.Width != width || node.Signed != signed
-                ? throw Type(name, "a " + typeName)
+                ? throw Type(name, $"a {typeName}")
                 : (TEnum)System.Enum.ToObject(typeof(TEnum), node.Value);
         }
         Store(name, new EnumNode(typeName, width, signed, Convert.ToInt64(value)));
@@ -250,7 +250,7 @@ internal sealed class MemberPersister : IPersister
             return found is null
                 ? value
                 : found is not SetNode node || !NameTable.Names(typeof(E), node.TypeName) || node.Width != width
-                ? throw Type(name, "a set of " + typeName)
+                ? throw Type(name, $"a set of {typeName}")
                 : Rtl.Set<E>.FromMask(node.Mask);
         }
         Span<byte> image = stackalloc byte[width];
@@ -452,12 +452,12 @@ internal sealed class MemberPersister : IPersister
         int length = count < 0 ? -1 : (count + 7) >> 3;
         if (length < 0)
         {
-            throw TreeErrors.Fail(Codes.Range, name + " has a negative count.", _path.Member(name), value: count.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            throw TreeErrors.Fail(Codes.Range, $"{name} has a negative count.", _path.Member(name), value: count.ToString(System.Globalization.CultureInfo.InvariantCulture));
         }
 
         if (bits.Length != length)
         {
-            throw TreeErrors.Fail(Codes.Range, name + " holds exactly " + length.ToString(System.Globalization.CultureInfo.InvariantCulture) + " bytes.", _path.Member(name), value: bits.Length.ToString(System.Globalization.CultureInfo.InvariantCulture), constraint: length.ToString(System.Globalization.CultureInfo.InvariantCulture) + " bytes");
+            throw TreeErrors.Fail(Codes.Range, string.Create(System.Globalization.CultureInfo.InvariantCulture, $"{name} holds exactly {length} bytes."), _path.Member(name), value: bits.Length.ToString(System.Globalization.CultureInfo.InvariantCulture), constraint: string.Create(System.Globalization.CultureInfo.InvariantCulture, $"{length} bytes"));
         }
 
         if (Loading)
@@ -488,7 +488,7 @@ internal sealed class MemberPersister : IPersister
             {
                 if ((uint)index >= (uint)storedBits)
                 {
-                    throw TreeErrors.Fail(Codes.Range, name + " is outside its storage range.", _path.Member(name), value: index.ToString(System.Globalization.CultureInfo.InvariantCulture));
+                    throw TreeErrors.Fail(Codes.Range, $"{name} is outside its storage range.", _path.Member(name), value: index.ToString(System.Globalization.CultureInfo.InvariantCulture));
                 }
 
                 bits[index >> 3] |= (byte)(1 << (index & 7));
@@ -544,7 +544,7 @@ internal sealed class MemberPersister : IPersister
         }
         if (value.Count < 0 || value.Bits.Length != (value.Count + 7L) >> 3)
         {
-            throw TreeErrors.Fail(Codes.Range, name + " of " + value.Count.ToString(System.Globalization.CultureInfo.InvariantCulture) + " bits holds " + ((value.Count + 7L) >> 3).ToString(System.Globalization.CultureInfo.InvariantCulture) + " bytes.", _path.Member(name));
+            throw TreeErrors.Fail(Codes.Range, string.Create(System.Globalization.CultureInfo.InvariantCulture, $"{name} of {value.Count} bits holds {(value.Count + 7L) >> 3} bytes."), _path.Member(name));
         }
 
         List<int> indices = [];
@@ -641,7 +641,7 @@ internal sealed class MemberPersister : IPersister
 
             if (layers.Count == 0)
             {
-                throw TreeErrors.Fail(Codes.Type, "A sequence of " + name + " has at least one layer.", at.Item(i));
+                throw TreeErrors.Fail(Codes.Type, $"A sequence of {name} has at least one layer.", at.Item(i));
             }
 
             for (int k = 0; k < layers.Count; k++)
@@ -717,7 +717,7 @@ internal sealed class MemberPersister : IPersister
         DocumentNodePath at = _path.Member(name).Item(slot);
         if (slot < 0)
         {
-            throw TreeErrors.Fail(Codes.Range, "A slot of " + name + " is negative.", at, value: slot.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            throw TreeErrors.Fail(Codes.Range, $"A slot of {name} is negative.", at, value: slot.ToString(System.Globalization.CultureInfo.InvariantCulture));
         }
 
         _slotMembers ??= [with(StringComparer.Ordinal)];
@@ -738,7 +738,7 @@ internal sealed class MemberPersister : IPersister
             return value is null or NullNode
                 ? null
                 : value is not ObjectNode node || node.ClassName is not string className
-                ? throw TreeErrors.Fail(Codes.Type, "A slot of " + name + " is a created object.", at)
+                ? throw TreeErrors.Fail(Codes.Type, $"A slot of {name} is a created object.", at)
                 : Create(node, className, at);
         }
         if (!_slotMembers.TryGetValue(name, out SlotListNode? list) || list is null)
@@ -749,7 +749,7 @@ internal sealed class MemberPersister : IPersister
         }
         if (list.Find(slot) is not null)
         {
-            throw TreeErrors.Fail(Codes.Slot, "Slot " + slot.ToString(System.Globalization.CultureInfo.InvariantCulture) + " of " + name + " is stored twice.", at);
+            throw TreeErrors.Fail(Codes.Slot, string.Create(System.Globalization.CultureInfo.InvariantCulture, $"Slot {slot} of {name} is stored twice."), at);
         }
 
         if (objectValue is null)
@@ -776,7 +776,7 @@ internal sealed class MemberPersister : IPersister
         DocumentNodePath at = _path.Member(name).Item(slot);
         if (slot < 0)
         {
-            throw TreeErrors.Fail(Codes.Range, "A slot of " + name + " is negative.", at, value: slot.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            throw TreeErrors.Fail(Codes.Range, $"A slot of {name} is negative.", at, value: slot.ToString(System.Globalization.CultureInfo.InvariantCulture));
         }
 
         _slotMembers ??= [with(StringComparer.Ordinal)];
@@ -801,7 +801,7 @@ internal sealed class MemberPersister : IPersister
 
             if (value is not ObjectNode { ClassName: null } node)
             {
-                throw TreeErrors.Fail(Codes.Type, "A slot of " + name + " is a fixed object.", at);
+                throw TreeErrors.Fail(Codes.Type, $"A slot of {name} is a fixed object.", at);
             }
 
             MemberPersister reader = new(node, loading: true, factory: Factory, path: at, errors: _errors, preview: Preview);
@@ -828,7 +828,7 @@ internal sealed class MemberPersister : IPersister
         }
         if (list.Find(slot) is not null)
         {
-            throw TreeErrors.Fail(Codes.Slot, "Slot " + slot.ToString(System.Globalization.CultureInfo.InvariantCulture) + " of " + name + " is stored twice.", at);
+            throw TreeErrors.Fail(Codes.Slot, string.Create(System.Globalization.CultureInfo.InvariantCulture, $"Slot {slot} of {name} is stored twice."), at);
         }
 
         ObjectNode written = new(null, slot);
@@ -1056,7 +1056,7 @@ internal sealed class MemberPersister : IPersister
 
                 if (node.Items[k] is not ObjectNode { ClassName: string className } item)
                 {
-                    throw TreeErrors.Fail(Codes.Type, "An item of " + name + " is a created object.", at.Item(k));
+                    throw TreeErrors.Fail(Codes.Type, $"An item of {name} is a created object.", at.Item(k));
                 }
 
                 IPersistable? created = null;
@@ -1112,7 +1112,7 @@ internal sealed class MemberPersister : IPersister
             return found is null
                 ? []
                 : found is not NestedDocumentNode node || node.Profile != profile
-                ? throw Type(name, "a nested " + profile + " document")
+                ? throw Type(name, $"a nested {profile} document")
                 : node.Image;
         }
         if (image.Length != 0)

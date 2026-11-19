@@ -42,7 +42,7 @@ public partial class AowHexSpriteMapMouse : GameMapMouse
         {
             int hexX = HexX;
             int hexY = HexY;
-            HexSpriteMap.GetEngine().OutputDebugString("Location (" + IntToStr(hexX) + "," + IntToStr(hexY) + ") selected");
+            HexSpriteMap.GetEngine().OutputDebugString($"Location ({IntToStr(hexX)},{IntToStr(hexY)}) selected");
         }
     }
 

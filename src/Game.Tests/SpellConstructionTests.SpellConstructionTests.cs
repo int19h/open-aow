@@ -100,7 +100,7 @@ public sealed partial class SpellConstructionTests
 
         if (depth > 8)
         {
-            throw new InvalidOperationException("Unexpected constructor-state cycle: " + type);
+            throw new InvalidOperationException($"Unexpected constructor-state cycle: {type}");
         }
 
         SortedDictionary<string, object?> fields = new(StringComparer.Ordinal) { ["$type"] = type.FullName };
@@ -114,7 +114,7 @@ public sealed partial class SpellConstructionTests
                 }
 
                 object? fieldValue = field.GetValue(value);
-                fields[current.Name + "." + MemberNames.Of(field)] = MemberNames.Of(field) is "_owner" or "Owner"
+                fields[$"{current.Name}.{MemberNames.Of(field)}"] = MemberNames.Of(field) is "_owner" or "Owner"
                     ? fieldValue is null ? null : "$owner"
                     : State(fieldValue, depth + 1);
             }

@@ -32,7 +32,7 @@ public static class Cfs
         }
         catch (InvalidDataException error)
         {
-            throw fail("The compressed stream is corrupt: " + error.Message);
+            throw fail($"The compressed stream is corrupt: {error.Message}");
         }
         return output.ToArray();
     }

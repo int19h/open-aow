@@ -1078,7 +1078,7 @@ public partial class GameMap : OwningNode
             }
             catch
             {
-                throw new InvalidOperationException("Exception during ResetVisibleDynamicHS (" + DynamicVisibleHexSprite.Items[i].Child.GetType().Name + ")");
+                throw new InvalidOperationException($"Exception during ResetVisibleDynamicHS ({DynamicVisibleHexSprite.Items[i].Child.GetType().Name})");
             }
         }
 

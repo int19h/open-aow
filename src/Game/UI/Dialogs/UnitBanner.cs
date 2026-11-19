@@ -35,10 +35,10 @@ public partial class UnitBanner(UIContext ui) : UIModule(ui)
             BannerMenu.Aligned = false;
             sbyte hitPoints = UI.General.SelectedUnit.GetHitPoints();
             sbyte hits = UI.General.SelectedUnit.GetHits();
-            HitsLabel.Text = IntToStr(hitPoints) + "/" + IntToStr(hits);
+            HitsLabel.Text = $"{IntToStr(hitPoints)}/{IntToStr(hits)}";
             sbyte movePoints = UI.General.SelectedUnit.GetMovePoints();
             sbyte moves = UI.General.SelectedUnit.GetMoves();
-            MovesLabel.Text = IntToStr(movePoints) + "/" + IntToStr(moves);
+            MovesLabel.Text = $"{IntToStr(movePoints)}/{IntToStr(moves)}";
             sbyte attack = UI.General.SelectedUnit.GetAttack();
             AttackLabel.Text = IntToStr(attack);
             sbyte damage = UI.General.SelectedUnit.GetDamage();

@@ -36,7 +36,7 @@ public partial class DispelMagicAbility : TouchAbility
         string result = GetLevelName(GetLevel(owner));
         if (owner != null && !GetEnabled(owner))
         {
-            result = result + " (" + LowerCase(AbilityRules.TranslateResourceString(GetEngine(), GameText.UsedText)) + ")";
+            result = $"{result} ({LowerCase(AbilityRules.TranslateResourceString(GetEngine(), GameText.UsedText))})";
         }
 
         return result;
@@ -382,13 +382,13 @@ public partial class DispelMagicAbility : TouchAbility
                 result = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText);
                 break;
             case 1:
-                result = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText) + " I";
+                result = $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText)} I";
                 break;
             case 2:
-                result = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText) + " II";
+                result = $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText)} II";
                 break;
             case 3:
-                result = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText) + " III";
+                result = $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText)} III";
                 break;
             default:
                 break;

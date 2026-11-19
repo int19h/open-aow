@@ -161,7 +161,7 @@ public static class JsonWriter
                 _ = builder.Append("null");
                 break;
             default:
-                throw new InvalidOperationException("Unknown JSON value " + value.GetType().Name);
+                throw new InvalidOperationException($"Unknown JSON value {value.GetType().Name}");
         }
     }
 

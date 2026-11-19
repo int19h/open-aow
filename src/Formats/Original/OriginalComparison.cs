@@ -964,7 +964,7 @@ internal static class OriginalComparison
             return;
         }
 
-        (string Rule, SchemaClass Shape)? legacy = state.Schema.LegacyShape(property.Owner.Name + "." + property.Name, classValue.Name);
+        (string Rule, SchemaClass Shape)? legacy = state.Schema.LegacyShape($"{property.Owner.Name}.{property.Name}", classValue.Name);
         CompareObject(state, engine: engine, classValue: legacy?.Shape ?? classValue, originalStart: originalStart + 4, originalEnd: originalEnd, exportedStart: exportedStart + 4, exportedEnd: exportedEnd);
     }
 

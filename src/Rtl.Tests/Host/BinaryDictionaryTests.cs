@@ -8,7 +8,7 @@ public sealed class BinaryDictionaryTests
     [Fact]
     public void ReadsColumnsContextsEmptyFallbackAndAnsiBytes()
     {
-        string path = Path.Combine(Path.GetTempPath(), "aow-dictionary-" + Guid.NewGuid().ToString("N"));
+        string path = Path.Combine(Path.GetTempPath(), $"aow-dictionary-{Guid.NewGuid():N}");
         try
         {
             using (FileStream stream = File.Create(path))
@@ -47,7 +47,7 @@ public sealed class BinaryDictionaryTests
     [Fact]
     public void RejectsATruncatedStringTable()
     {
-        string path = Path.Combine(Path.GetTempPath(), "aow-dictionary-" + Guid.NewGuid().ToString("N"));
+        string path = Path.Combine(Path.GetTempPath(), $"aow-dictionary-{Guid.NewGuid():N}");
         try
         {
             using (FileStream stream = File.Create(path))

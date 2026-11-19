@@ -426,7 +426,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
                             string status = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation]);
                             int race2 = Races[i];
                             int playerRelationValue = StrategicMap.Current.Races.GetRace(race2).GetPlayerRelationValue(SelectedPlayer);
-                            _ = image.ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
+                            _ = image.ToolTipText.Add($"{status} ({IntToStr(playerRelationValue)})");
                         }
                     }
 
@@ -511,7 +511,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
                         string status = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation]);
                         int player3 = Players[i];
                         int playerRelationValue = StrategicMap.Current.Races.GetRace(SelectedRace).GetPlayerRelationValue((sbyte)player3);
-                        _ = image.ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
+                        _ = image.ToolTipText.Add($"{status} ({IntToStr(playerRelationValue)})");
                     }
 
                     break;

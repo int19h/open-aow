@@ -54,7 +54,7 @@ public partial class EngineObjectClassList : DelphiList<EngineClass>
     public EngineClass GetClass(int classId)
     {
         EngineClass result = FindClass(classId);
-        return result ?? throw new KeyNotFoundException("Unregistered E-ClassID found (" + IntToStr(classId) + ")");
+        return result ?? throw new KeyNotFoundException($"Unregistered E-ClassID found ({IntToStr(classId)})");
     }
 
     // Engine.pas:8338

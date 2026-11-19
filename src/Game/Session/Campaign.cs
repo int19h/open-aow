@@ -308,7 +308,7 @@ public partial class Campaign : EngineObject
         }
 
         fileName = GetAutoSaveFileName(CampaignAutoSaveType.ScenarioFinished);
-        GetEngine().SaveCampaign(GetEngine().StartupDirectory + "Save\\" + fileName);
+        GetEngine().SaveCampaign($"{GetEngine().StartupDirectory}Save\\{fileName}");
     }
 
     // Diplomacy.pas:2432

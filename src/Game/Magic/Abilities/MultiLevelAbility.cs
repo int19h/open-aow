@@ -22,7 +22,7 @@ public partial class MultiLevelAbility(CustomNode owner) : AdjustableAbility(own
     }
 
     // AoWAb.PAS:322
-    public virtual string GetLevelName(int level) => "Unknown " + IntToStr(level);
+    public virtual string GetLevelName(int level) => $"Unknown {IntToStr(level)}";
 
     // AoWAb.PAS:317
     // { branch past the missing-data exit and nil-owner zero result }

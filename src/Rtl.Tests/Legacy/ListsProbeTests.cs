@@ -20,7 +20,7 @@ public sealed class ListsProbeTests
         Item[] items = [.. Enumerable.Range(0, 257).Select(i => new Item(i, i % 3))];
         void State(string tag)
         {
-            p.Fact(tag + "_count", l.Count); p.Fact(tag + "_capacity", l.Capacity);
+            p.Fact($"{tag}_count", l.Count); p.Fact($"{tag}_capacity", l.Capacity);
             for (int i = 0; i < l.Count; i++)
             {
                 p.Fact($"{tag}_item_{i}", l[i] is Item item ? item.Id : "nil");
@@ -57,17 +57,17 @@ public sealed class ListsProbeTests
         DelphiStringList sl = new();
         void StringState(string tag)
         {
-            p.Fact(tag + "_count", sl.Count);
-            for (int i = 0; i < sl.Count; i++) { p.Fact($"{tag}_text_{i}", "[" + sl[i] + "]"); p.Fact($"{tag}_object_{i}", (sl.Objects[i] as ObjectId)?.Id ?? 0); }
+            p.Fact($"{tag}_count", sl.Count);
+            for (int i = 0; i < sl.Count; i++) { p.Fact($"{tag}_text_{i}", $"[{sl[i]}]"); p.Fact($"{tag}_object_{i}", (sl.Objects[i] as ObjectId)?.Id ?? 0); }
         }
         void Add(string tag, string s, int id)
         {
-            try { p.Fact(tag + "_index", sl.AddObject(s, new ObjectId(id))); } catch (Exception e) { p.Fact(tag + "_error", p.DelphiName(e)); }
+            try { p.Fact($"{tag}_index", sl.AddObject(s, new ObjectId(id))); } catch (Exception e) { p.Fact($"{tag}_error", p.DelphiName(e)); }
             StringState(tag);
         }
         void Lookup(string tag, string s)
         {
-            int at = -99; p.Fact(tag + "_found", Ord(sl.Find(s, out at))); p.Fact(tag + "_insertion_index", at); p.Fact(tag + "_indexof", sl.IndexOf(s));
+            int at = -99; p.Fact($"{tag}_found", Ord(sl.Find(s, out at))); p.Fact($"{tag}_insertion_index", at); p.Fact($"{tag}_indexof", sl.IndexOf(s));
         }
         p.Fact("default_sorted", Ord(sl.Sorted)); p.Fact("default_duplicates", (int)sl.Duplicates);
         for (int d = 0; d < 3; d++)

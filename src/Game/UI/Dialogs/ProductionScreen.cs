@@ -301,7 +301,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                     string formattedText = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.LevelFormat), [IntToStr(unitLevel)]);
                     byte upkeep = u.GetUpkeep();
                     string format2 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.UpkeepFormat), [(int)upkeep]);
-                    UnitLevelLabel.Text = formattedText + " / " + format2;
+                    UnitLevelLabel.Text = $"{formattedText} / {format2}";
                     UnitAbilitiesList.Items.Clear();
                     u.ListAbilities(UnitAbilitiesList.Items);
                     if (_place.ProductionControl.UnitProductions.GetItem(_productionIndex).Researched)
@@ -378,7 +378,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
             case 5:
                 MainButton1.Visible = true;
                 string raze = UI.Engine.TranslateResourceString(GameText.RazeText);
-                MainButton1.Text = raze + "...";
+                MainButton1.Text = $"{raze}...";
                 PreviousButton.Visible = false;
                 NextButton.Visible = false;
                 string fPlaceName = _place.GetName();
@@ -452,13 +452,13 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
         for (int i = 0, last = _place.ProductionControl.Queue.GetCount() - 1; i <= last; i++)
         {
             string name2 = _place.ProductionControl.Queue.GetItem(i).GetName();
-            _ = QueueList.Items.Add(IntToStr(i + 1) + ". " + name2);
+            _ = QueueList.Items.Add($"{IntToStr(i + 1)}. {name2}");
         }
 
         for (int i = _place.ProductionControl.Queue.GetCount(); i <= 4; i++)
         {
             string emptyQueue = UI.Engine.TranslateResourceString(GameText.EmptyQueueText);
-            _ = QueueList.Items.Add(IntToStr(i + 1) + ". " + emptyQueue);
+            _ = QueueList.Items.Add($"{IntToStr(i + 1)}. {emptyQueue}");
         }
 
         int count = _place.ProductionControl.Queue.GetCount();
@@ -502,7 +502,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                 string currentActivityText = _place.GetCurrentActivityText();
                 ActiveActionLabel.Text = currentActivityText;
                 string defaultText = UI.Engine.TranslateResourceString(GameText.DefaultText);
-                ActiveActionTurnsLabel.Text = "(" + LowerCase(defaultText) + ")";
+                ActiveActionTurnsLabel.Text = $"({LowerCase(defaultText)})";
                 ActiveActionTurnsLabel.TextColor = 6783862;
                 if (CompareText(b: UI.Engine.TranslateResourceString(GameTables.NoneText), a: ActiveActionLabel.Text) != 0)
                 {

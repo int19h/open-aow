@@ -34,17 +34,17 @@ internal sealed partial class FixedObjectCodec(string className) : PropertyCodec
     {
         if (context.Schema.Version < SlotVersion || property.SlotBase is not int slotBase)
         {
-            throw context.Fail(Codes.Type, "Version " + context.Schema.Version + " stores no slot of " + property.Name + ".", value, path);
+            throw context.Fail(Codes.Type, $"Version {context.Schema.Version} stores no slot of {property.Name}.", value, path);
         }
 
         if (value is not JsonObject objectValue)
         {
-            throw context.Fail(Codes.Type, "An item of " + property.Name + " is an object.", value, path, value.KindName);
+            throw context.Fail(Codes.Type, $"An item of {property.Name} is an object.", value, path, value.KindName);
         }
 
         if (objectValue["$slot"] is not JsonInteger slot)
         {
-            throw context.Fail(Codes.MissingMember, "An item of " + property.Name + " needs an integer $slot.", objectValue, path);
+            throw context.Fail(Codes.MissingMember, $"An item of {property.Name} needs an integer $slot.", objectValue, path);
         }
 
         long id = slot.Value + slotBase;
@@ -103,7 +103,7 @@ internal sealed partial class CreatedObjectCodec(string? family) : PropertyCodec
         isNull = false;
         SchemaClass classValue = context.Schema.Resolve(context.Engine, classId)
             ?? throw context.Fail(Codes.UnknownClass, $"Class id {classId} is not in the {context.Engine} engine table.", start, site.Path, classId.ToString(System.Globalization.CultureInfo.InvariantCulture));
-        (string Rule, SchemaClass Shape)? shape = site.Property is null ? null : context.Schema.LegacyShape(site.Property.Owner.Name + "." + site.Property.Name, classValue.Name);
+        (string Rule, SchemaClass Shape)? shape = site.Property is null ? null : context.Schema.LegacyShape($"{site.Property.Owner.Name}.{site.Property.Name}", classValue.Name);
         if (shape is null && family is not null && !classValue.InheritsFrom(family))
         {
             throw context.Fail(Codes.ClassFamily, $"Class {classValue.Name} is not a {family}.", start, site.Path, classValue.Name, family);
@@ -157,7 +157,7 @@ internal sealed partial class CreatedObjectCodec(string? family) : PropertyCodec
             throw context.Fail(Codes.UnknownClass, $"Class {classValue.Name} is not in the {context.Engine} engine table.", name, site.Path.Member("$class"), classValue.Name);
         }
 
-        (string Rule, SchemaClass Shape)? shape = site.Property is null ? null : context.Schema.LegacyShape(site.Property.Owner.Name + "." + site.Property.Name, classValue.Name);
+        (string Rule, SchemaClass Shape)? shape = site.Property is null ? null : context.Schema.LegacyShape($"{site.Property.Owner.Name}.{site.Property.Name}", classValue.Name);
         if (shape is null && family is not null && !classValue.InheritsFrom(family))
         {
             throw context.Fail(Codes.ClassFamily, $"Class {classValue.Name} is not a {family}.", name, site.Path.Member("$class"), classValue.Name, family);

@@ -85,7 +85,7 @@ public class SdlSoundSystem : SoundSystem
         {
             try { _output = new(Mixer, value, s_muted); }
             catch (Exception ex) when (ex is InvalidOperationException or DllNotFoundException or EntryPointNotFoundException)
-            { Console.Error.WriteLine("Audio output is silent: " + ex.Message); }
+            { Console.Error.WriteLine($"Audio output is silent: {ex.Message}"); }
         }
         return true;
     }
@@ -189,7 +189,7 @@ public class SdlSoundSystem : SoundSystem
                 Mixer.MusicGain.Set(_volume, newFadeIn);
                 return true;
             }
-            catch (IOException ex) { Console.Error.WriteLine("Music is silent: " + ex.Message); return false; }
+            catch (IOException ex) { Console.Error.WriteLine($"Music is silent: {ex.Message}"); return false; }
         }
     }
 

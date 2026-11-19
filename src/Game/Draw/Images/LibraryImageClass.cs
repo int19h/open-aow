@@ -61,7 +61,7 @@ public sealed class LibraryImageClass
             {
                 if (rects.Count > 1)
                 {
-                    Progress(DelphiRounding.Round((double)(i * 90) / (rects.Count - 1)) + 10, "Grabbing Image " + DelphiConversions.IntToStr(i + 1));
+                    Progress(DelphiRounding.Round((double)(i * 90) / (rects.Count - 1)) + 10, $"Grabbing Image {DelphiConversions.IntToStr(i + 1)}");
                 }
                 else
                 {

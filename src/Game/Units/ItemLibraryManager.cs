@@ -56,11 +56,11 @@ public partial class ItemLibraryManager : EngineObject
         if (persister.Loading)
         {
             ReadUserLibraries();
-            GetEngine().ReadFromFile(directory + "ITEMS.PFS", SystemLibrary, null);
+            GetEngine().ReadFromFile($"{directory}ITEMS.PFS", SystemLibrary, null);
         }
         else
         {
-            GetEngine().WriteToFile(directory + "ITEMS.PFS", SystemLibrary, null);
+            GetEngine().WriteToFile($"{directory}ITEMS.PFS", SystemLibrary, null);
             WriteUserLibraries();
         }
     }
@@ -79,12 +79,12 @@ public partial class ItemLibraryManager : EngineObject
         _ = Libraries.AddChild(SystemLibrary);
         // Both extensions list, and a list present in both forms loads its own document once
         // (own-formats.md 4.2).
-        foreach (string listed in FileBoundary.FindDocuments(GetEngine().StartupDirectory + "User\\", DocumentKind.ItemList))
+        foreach (string listed in FileBoundary.FindDocuments($"{GetEngine().StartupDirectory}User\\", DocumentKind.ItemList))
         {
             itemLibrary = new ItemLibrary(null) { Holder = CreationHolder() };
             try
             {
-                itemLibrary.LoadFromFile(GetEngine().StartupDirectory + "User\\" + listed);
+                itemLibrary.LoadFromFile($"{GetEngine().StartupDirectory}User\\{listed}");
                 itemLibrary.SetOwner(Libraries);
             }
             catch
@@ -102,7 +102,7 @@ public partial class ItemLibraryManager : EngineObject
         {
             itemLibrary = GetLibrary(i);
             string name = itemLibrary.GetName();
-            itemLibrary.SaveToFile(GetEngine().StartupDirectory + "User\\" + name + FileBoundary.WriteExtension(DocumentKind.ItemList));
+            itemLibrary.SaveToFile($"{GetEngine().StartupDirectory}User\\{name}{FileBoundary.WriteExtension(DocumentKind.ItemList)}");
         }
     }
 
@@ -155,7 +155,7 @@ public partial class ItemLibraryManager : EngineObject
                 Name = libraryName
             };
             // { Original creates in Release while reading and deleting from User. }
-            result.SaveToFile(GetEngine().StartupDirectory + "Release\\" + libraryName + FileBoundary.WriteExtension(DocumentKind.ItemList));
+            result.SaveToFile($"{GetEngine().StartupDirectory}Release\\{libraryName}{FileBoundary.WriteExtension(DocumentKind.ItemList)}");
         }
         else
         {
@@ -172,8 +172,8 @@ public partial class ItemLibraryManager : EngineObject
         {
             string name = GetLibrary(index).GetName();
             // The list goes in both forms, so an original of the same name does not return.
-            _ = DeleteFile(GetEngine().StartupDirectory + "User\\" + name + DocumentKind.ItemList.OriginalExtension);
-            _ = DeleteFile(GetEngine().StartupDirectory + "User\\" + name + DocumentKind.ItemList.OwnExtension);
+            _ = DeleteFile($"{GetEngine().StartupDirectory}User\\{name}{DocumentKind.ItemList.OriginalExtension}");
+            _ = DeleteFile($"{GetEngine().StartupDirectory}User\\{name}{DocumentKind.ItemList.OwnExtension}");
             GetLibrary(index)?.Dispose();
         }
     }

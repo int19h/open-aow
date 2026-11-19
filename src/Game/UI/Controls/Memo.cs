@@ -182,7 +182,7 @@ public partial class Memo : Control
                 cc.HasColor = true;
                 try
                 {
-                    cc.Color = StrToInt("$" + Copy(_items[i], index: 2, count: 6));
+                    cc.Color = StrToInt($"${Copy(_items[i], index: 2, count: 6)}");
                 }
                 catch
                 {
@@ -451,7 +451,7 @@ public partial class Memo : Control
         }
         catch
         {
-            _ = MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Draw", $"Error - {Name}", 0);
         }
     }
 

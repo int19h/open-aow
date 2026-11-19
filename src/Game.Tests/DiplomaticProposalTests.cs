@@ -286,12 +286,12 @@ public sealed class DiplomaticProposalTests
     {
         for (int kind = 0; kind <= 9; kind++)
         {
-            Assert.True(DiplomaticProposal.IsRegistered((byte)kind), "kind " + kind);
+            Assert.True(DiplomaticProposal.IsRegistered((byte)kind), $"kind {kind}");
             _ = Assert.Throws<InvalidOperationException>(() => DiplomaticProposal.Register((byte)kind, static (gold, mana) => new UnknownProposal(0, gold, mana)));
         }
         foreach (byte kind in new byte[] { 10, 11, 200, 255 })
         {
-            Assert.False(DiplomaticProposal.IsRegistered(kind), "kind " + kind);
+            Assert.False(DiplomaticProposal.IsRegistered(kind), $"kind {kind}");
         }
     }
 
@@ -494,7 +494,7 @@ public sealed class DiplomaticProposalTests
             TextControlItem item = control.New();
             item.Id = id;
             bool three = withOther.Any(first => id >= first && id <= first + 2);
-            item.Text.Text = "Text " + id + ": %s and %s" + (three ? " about %s" : "") + "\r\nSecond line " + id;
+            item.Text.Text = $"Text {id}: %s and %s{(three ? " about %s" : "")}\r\nSecond line {id}";
         }
         return control;
     }
@@ -533,7 +533,7 @@ public sealed class DiplomaticProposalTests
                     foreach (sbyte source in new sbyte[] { 0, 1 })
                     {
                         DiplomaticAction action = new(null) { Holder = EngineFixture.Engine, Source = source, Target = 2, Reaction = (DiplomaticActionReaction)reaction, Proposal = proposal };
-                        string where = proposal + " reaction " + reaction + " source " + source;
+                        string where = $"{proposal} reaction {reaction} source {source}";
                         Assert.True(OldText(kind, (DiplomaticActionReaction)reaction, source == StrategicMap.Current.SeatedPlayer) == proposal.LogText(action), where);
                         Assert.True(OldMiddleIcon(kind, reaction) == proposal.MiddleIcon(action), where);
                         checks += 2;
@@ -546,7 +546,7 @@ public sealed class DiplomaticProposalTests
                             DelphiStringList actual = new();
                             OldDefaultMessage(control, alignment, "Elves", "Orcs", "Dwarves", kind, (DiplomaticActionReaction)reaction, relation, expected);
                             proposal.DefaultMessage(new DiplomaticMessageText(control, alignment, "Elves", "Orcs", "Dwarves", actual), (DiplomaticActionReaction)reaction, relation);
-                            Assert.True(expected.Text == actual.Text, proposal + " reaction " + reaction + " relation " + relation + " alignment " + alignment);
+                            Assert.True(expected.Text == actual.Text, $"{proposal} reaction {reaction} relation {relation} alignment {alignment}");
                             checks++;
                         }
                     }

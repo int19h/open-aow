@@ -33,7 +33,7 @@ public abstract partial record DiplomaticProposal
     internal static bool IsRegistered(byte kind) => s_kinds.TryGet(kind, out _);
 
     // The message as TStrings.Text joins it.
-    public string MessageText => string.Concat(Message.Select(static line => line + "\r\n"));
+    public string MessageText => string.Concat(Message.Select(static line => $"{line}\r\n"));
 
     // The lines of Text.
     public static IReadOnlyList<string> Lines(DelphiStringCollection text)

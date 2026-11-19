@@ -42,7 +42,7 @@ public partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
             }
 
             string day = UI.Engine.TranslateResourceString(GameText.DayText);
-            UI.PlayerInfoWindow.TurnLabel.Text = day + " " + IntToStr(StrategicMap.Current.Day);
+            UI.PlayerInfoWindow.TurnLabel.Text = $"{day} {IntToStr(StrategicMap.Current.Day)}";
             raceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).PlayerRace;
             if (raceIndex == -1)
             {

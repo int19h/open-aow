@@ -255,8 +255,8 @@ public partial class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(
         Player players = StrategicMap.Current.Players.GetPlayers(player);
         s = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[players.PlayerRace]);
         string name = StrategicMap.Current.Players.GetPlayers(player).GetName();
-        s = s + "/" + name;
-        GetEngine().OutputDebugMessage(DebugChannel.AI, "DIPLOMACY (" + s + ")");
+        s = $"{s}/{name}";
+        GetEngine().OutputDebugMessage(DebugChannel.AI, $"DIPLOMACY ({s})");
         GetEngine().OutputDebugMessage(DebugChannel.AI, "IDEAL PEACE PLAYERS");
         for (int i = 0, last = idealPeace.Count - 1; i <= last; i++)
         {
@@ -265,7 +265,7 @@ public partial class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(
             s = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[fPlayersPlayers.PlayerRace]);
             byte idealPeaceItem = idealPeace[i];
             string name2 = StrategicMap.Current.Players.GetPlayers(idealPeaceItem).GetName();
-            s = s + "/" + name2;
+            s = $"{s}/{name2}";
             GetEngine().OutputDebugMessage(DebugChannel.AI, s);
         }
 

@@ -65,7 +65,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         catch { Dispose(); throw; }
     }
 
-    private static InvalidOperationException Error() => new("SDL: " + SDL_GetError());
+    private static InvalidOperationException Error() => new($"SDL: {SDL_GetError()}");
 
     private static void Check(SDLBool result)
     {
@@ -219,7 +219,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
             OnThread();
             if (!SDL_SetRenderVSync(_renderer, value ? 1 : 0))
             {
-                Console.Error.WriteLine("SDL: vsync unavailable: " + SDL_GetError());
+                Console.Error.WriteLine($"SDL: vsync unavailable: {SDL_GetError()}");
             }
         }
     }

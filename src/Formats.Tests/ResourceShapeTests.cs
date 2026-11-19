@@ -365,7 +365,7 @@ public sealed class ResourceShapeTests : FormatsTest
         new JsonObject().Add("Width", new JsonInteger(width)).Add("Height", new JsonInteger(height));
 
     private static SchemaProperty Property(string className, string property) =>
-        s_schema.Get(className).PropertyByName(property) ?? throw new InvalidOperationException(className + " has no " + property + ".");
+        s_schema.Get(className).PropertyByName(property) ?? throw new InvalidOperationException($"{className} has no {property}.");
 
     private static JsonValue Decode(string className, string property, byte[] bytes, JsonObject? owner = null)
     {

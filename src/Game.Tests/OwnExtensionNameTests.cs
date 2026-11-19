@@ -15,7 +15,7 @@ namespace Aow.Game.Tests;
 [Collection("Engine")]
 public sealed class OwnExtensionNameTests : IDisposable
 {
-    private readonly string _directory = Path.Combine(Path.GetTempPath(), "open-aow-names-" + Guid.NewGuid().ToString("N"));
+    private readonly string _directory = Path.Combine(Path.GetTempPath(), $"open-aow-names-{Guid.NewGuid():N}");
     private readonly IFileSystem _previous = RtlHost.Files;
     private readonly Action<FileLogRecord>? _previousLog = FileBoundary.Log;
     private readonly bool _previousOwn = RtlHost.WritesOwnExtensions;
@@ -52,8 +52,7 @@ public sealed class OwnExtensionNameTests : IDisposable
     private string Root(string relative) => Path.Combine(_directory, "root", relative);
 
     private static byte[] HeroList(string name) => Encoding.UTF8.GetBytes(
-        "{\"$format\": \"OpenAoW\", \"$version\": " + OwnFormat.CurrentVersion + ", \"$kind\": \"hero-list\", \"$container\": {\"profile\": \"hero-list\", \"compression\": \"none\"}, \"root\": {\"LibraryName\": \""
-        + name + "\"}}");
+        $"{{\"$format\": \"OpenAoW\", \"$version\": {OwnFormat.CurrentVersion}, \"$kind\": \"hero-list\", \"$container\": {{\"profile\": \"hero-list\", \"compression\": \"none\"}}, \"root\": {{\"LibraryName\": \"{name}\"}}}}");
 
     [Fact]
     public void AWriteTakesTheOwnExtension()

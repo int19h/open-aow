@@ -217,7 +217,7 @@ public partial class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
         public override int ResourceUserClassId() => 2229546;
 
         // CombatObstacle.pas:242
-        public override string ResourceEditName() => "Combat " + AbilityRules.TranslateResourceString(GetEngine(), GameText.ObstacleText);
+        public override string ResourceEditName() => $"Combat {AbilityRules.TranslateResourceString(GetEngine(), GameText.ObstacleText)}";
 
     }
 

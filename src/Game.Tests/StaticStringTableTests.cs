@@ -46,7 +46,7 @@ public sealed class StaticStringTableTests
                     continue;
                 }
 
-                string name = type.FullName + "." + field.Name;
+                string name = $"{type.FullName}.{field.Name}";
                 if (field.FieldType == typeof(string))
                 {
                     if (field.GetValue(null) is null)

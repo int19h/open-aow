@@ -112,7 +112,7 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
         bool result;
         if (Destination.X == 0 || Destination.Y == 0)
         {
-            _ = messages.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.WarningText) + ": " + AbilityRules.TranslateResourceString(GetEngine(), s_invalidLocationSpecifiedText));
+            _ = messages.Add($"{AbilityRules.TranslateResourceString(GetEngine(), GameText.WarningText)}: {AbilityRules.TranslateResourceString(GetEngine(), s_invalidLocationSpecifiedText)}");
             result = false;
         }
         else

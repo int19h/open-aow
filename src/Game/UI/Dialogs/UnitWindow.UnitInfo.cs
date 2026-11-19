@@ -86,12 +86,12 @@ public partial class UnitWindow
             {
                 case UnitType.Creature:
                     string creature = UI.Engine.TranslateResourceString(s_creatureText);
-                    UI.UnitWindow.TypeValueLabel.Text = UI.UnitWindow.TypeValueLabel.Text + " " + creature;
+                    UI.UnitWindow.TypeValueLabel.Text = $"{UI.UnitWindow.TypeValueLabel.Text} {creature}";
                     UI.UnitWindow.TypeIcon.CurrentImage = 21;
                     break;
                 case UnitType.Machine:
                     string machine = UI.Engine.TranslateResourceString(s_machineText);
-                    UI.UnitWindow.TypeValueLabel.Text = UI.UnitWindow.TypeValueLabel.Text + " " + machine;
+                    UI.UnitWindow.TypeValueLabel.Text = $"{UI.UnitWindow.TypeValueLabel.Text} {machine}";
                     UI.UnitWindow.TypeIcon.CurrentImage = 22;
                     break;
                 case UnitType.Humanoid:
@@ -99,19 +99,19 @@ public partial class UnitWindow
                     if (h == null)
                     {
                         string unit = UI.Engine.TranslateResourceString(s_unitText);
-                        UI.UnitWindow.TypeValueLabel.Text = UI.UnitWindow.TypeValueLabel.Text + " " + unit;
+                        UI.UnitWindow.TypeValueLabel.Text = $"{UI.UnitWindow.TypeValueLabel.Text} {unit}";
                     }
                     else
                     {
                         if (h is Leader)
                         {
                             string leader = UI.Engine.TranslateResourceString(s_leaderText);
-                            UI.UnitWindow.TypeValueLabel.Text = UI.UnitWindow.TypeValueLabel.Text + " " + leader;
+                            UI.UnitWindow.TypeValueLabel.Text = $"{UI.UnitWindow.TypeValueLabel.Text} {leader}";
                         }
                         else
                         {
                             string hero = UI.Engine.TranslateResourceString(s_heroText);
-                            UI.UnitWindow.TypeValueLabel.Text = UI.UnitWindow.TypeValueLabel.Text + " " + hero;
+                            UI.UnitWindow.TypeValueLabel.Text = $"{UI.UnitWindow.TypeValueLabel.Text} {hero}";
                         }
                     }
 
@@ -123,7 +123,7 @@ public partial class UnitWindow
             {
                 string level = UI.Engine.TranslateResourceString(s_levelText);
                 sbyte unitLevel = u.GetUnitLevel();
-                UI.UnitWindow.LevelLabel.Text = level + " " + IntToStr(unitLevel);
+                UI.UnitWindow.LevelLabel.Text = $"{level} {IntToStr(unitLevel)}";
                 UI.UnitWindow.InfoLeaderPanel.Visible = false;
                 UI.UnitWindow.InfoTextPanel.Visible = true;
                 DelphiStringCollection description = u.GetDescription();
@@ -242,7 +242,7 @@ public partial class UnitWindow
                     UI.UnitWindow.ManaLabel.Visible = true;
                     sbyte castingPoints = h.GetCastingPoints();
                     sbyte castingPointsMax = h.GetCastingPointsMax();
-                    UI.UnitWindow.ManaLabel.Text = IntToStr(castingPoints) + "/" + IntToStr(castingPointsMax);
+                    UI.UnitWindow.ManaLabel.Text = $"{IntToStr(castingPoints)}/{IntToStr(castingPointsMax)}";
                     UI.UnitWindow.ManaIcon.Visible = true;
                 }
 
@@ -250,17 +250,17 @@ public partial class UnitWindow
                 UI.UnitWindow._groundOffset = 0;
                 string level = UI.Engine.TranslateResourceString(s_levelText);
                 sbyte hLevel = h.GetLevel();
-                UI.UnitWindow.LevelLabel.Text = level + " " + IntToStr(hLevel);
+                UI.UnitWindow.LevelLabel.Text = $"{level} {IntToStr(hLevel)}";
                 UI.UnitWindow.InfoLeaderPanel.Visible = true;
                 UI.UnitWindow.InfoTextPanel.Visible = false;
                 string nickname = h.GetNickname();
-                UI.UnitWindow.UnitNameLabel.Text = h.HeroName + " " + nickname;
+                UI.UnitWindow.UnitNameLabel.Text = $"{h.HeroName} {nickname}";
             }
 
             string exp = UI.Engine.TranslateResourceString(s_experienceText);
             int experience = u.GetExperience();
             int nextLevelExperience = u.GetNextLevelExperience();
-            UI.UnitWindow.ExperienceLabel.Text = exp + " (" + IntToStr(experience) + "/" + IntToStr(nextLevelExperience) + ")";
+            UI.UnitWindow.ExperienceLabel.Text = $"{exp} ({IntToStr(experience)}/{IntToStr(nextLevelExperience)})";
             UI.UnitWindow.MainWindow.Cursor = 0;
             if (UI.UnitWindow.UnitTabs.Items.Count <= UI.UnitWindow.UnitTabs.Selected || UI.UnitWindow.UnitTabs.Selected < 0)
             {
@@ -433,19 +433,19 @@ public partial class UnitWindow
             {
                 sbyte hitPoints = u.GetHitPoints();
                 sbyte hits = u.GetHits();
-                UI.UnitWindow.UnitHitsLabel.Text = IntToStr(hitPoints) + "/" + IntToStr(hits);
+                UI.UnitWindow.UnitHitsLabel.Text = $"{IntToStr(hitPoints)}/{IntToStr(hits)}";
                 if (StrategicMap.Current.CombatMap == null)
                 {
                     sbyte movePoints = u.GetMovePoints();
                     sbyte moves = u.GetMoves();
-                    UI.UnitWindow.UnitMovesLabel.Text = IntToStr(movePoints) + "/" + IntToStr(moves);
+                    UI.UnitWindow.UnitMovesLabel.Text = $"{IntToStr(movePoints)}/{IntToStr(moves)}";
                 }
                 else
                 {
                     if (UI.General.CombatUnit != null)
                     {
                         int moves = UI.General.CombatUnit.Unit.GetMoves();
-                        UI.UnitWindow.UnitMovesLabel.Text = IntToStr(UI.General.CombatUnit.Unit.MovePoints) + "/" + IntToStr(moves);
+                        UI.UnitWindow.UnitMovesLabel.Text = $"{IntToStr(UI.General.CombatUnit.Unit.MovePoints)}/{IntToStr(moves)}";
                     }
                 }
 

@@ -21,7 +21,7 @@ public readonly union ItemOwner(ItemList, HeroInventory, HeroItems, ItemLibrary)
         HeroItems worn => worn,
         ItemLibrary library => library,
         ItemList items => items,
-        _ => throw new InvalidCastException("An item does not take an owner of type " + owner.GetType().Name + "."),
+        _ => throw new InvalidCastException($"An item does not take an owner of type {owner.GetType().Name}."),
     };
 
     /// <summary>The owner as the node the untyped owner stores.</summary>

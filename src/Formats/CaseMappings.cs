@@ -24,7 +24,7 @@ public static class CaseMappings
         {
             if (!s_units.TryAdd(persistedClass, unit))
             {
-                throw new InvalidOperationException("The persisted class " + persistedClass + " has two case mappings.");
+                throw new InvalidOperationException($"The persisted class {persistedClass} has two case mappings.");
             }
         }
     }

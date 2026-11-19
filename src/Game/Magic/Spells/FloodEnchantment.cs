@@ -83,7 +83,7 @@ public partial class FloodEnchantment : GlobalEnchantment
         string result = base.GetName();
         if (Removed)
         {
-            result = result + " (" + LowerCase(DurationText.FormatDaysLeftString(GetEngine(), days: RestoreDays)) + ")";
+            result = $"{result} ({LowerCase(DurationText.FormatDaysLeftString(GetEngine(), days: RestoreDays))})";
         }
         else
         {

@@ -129,7 +129,7 @@ internal static class Commands
     {
         (FileProfile? profile, string? kind, Formats.Json.JsonObject? container, Formats.Json.JsonValue _) = GameFiles.Envelope(document, null);
         string compression = ((Formats.Json.JsonString)container["compression"]!).Value;
-        string level = container["level"] is Formats.Json.JsonInteger l ? " level " + l.Value : "";
+        string level = container["level"] is Formats.Json.JsonInteger l ? $" level {l.Value}" : "";
         return $"profile {profile.Name}, kind {kind}, {compression}{level}";
     }
 
@@ -301,7 +301,7 @@ internal static class Commands
                 ReadResult read = GameFiles.Read(bytes, input);
                 parseMilliseconds = watch.Elapsed.TotalMilliseconds;
                 document = read.Document;
-                format = (read.Gzip ? "gzip own JSON" : "own JSON") + $", declared version {read.DeclaredVersion}";
+                format = $"{(read.Gzip ? "gzip own JSON" : "own JSON")}, declared version {read.DeclaredVersion}";
                 legacyRules = new Dictionary<string, int>(StringComparer.Ordinal);
                 importMilliseconds = 0;
                 watch.Restart();
@@ -332,7 +332,7 @@ internal static class Commands
             output.WriteLine("Representable: yes, strict export lost nothing");
             output.WriteLine(legacyRules.Count == 0
                 ? "Legacy rules: none"
-                : "Legacy rules: " + string.Join(", ", legacyRules.OrderBy(c => c.Key, StringComparer.Ordinal).Select(c => $"{c.Key} {c.Value}")));
+                : $"Legacy rules: {string.Join(", ", legacyRules.OrderBy(c => c.Key, StringComparer.Ordinal).Select(c => $"{c.Key} {c.Value}"))}");
             output.WriteLine("Validation: structural (schema, codecs, limits). Game content validation arrives with 9.7-3.");
             output.WriteLine(string.Create(CultureInfo.InvariantCulture,
                 $"Size: original {bytes.Length} bytes, exported {exported.Bytes.Length} bytes, own JSON {text.Length} bytes"));

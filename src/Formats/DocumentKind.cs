@@ -13,7 +13,7 @@ public sealed class DocumentKind
     {
         Name = name;
         OriginalExtension = originalExtension;
-        OwnExtension = ".o" + originalExtension[1..];
+        OwnExtension = $".o{originalExtension[1..]}";
     }
 
     /// <summary>The $kind name.</summary>

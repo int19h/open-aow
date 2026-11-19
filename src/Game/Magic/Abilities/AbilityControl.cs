@@ -76,7 +76,7 @@ public partial class AbilityControl : EngineObject
         {
             if (id < Abilities.Count && Abilities[id] != null)
             {
-                throw new InvalidOperationException("Ability already registered (" + IntToStr(id) + ")");
+                throw new InvalidOperationException($"Ability already registered ({IntToStr(id)})");
             }
 
             while (id >= Abilities.Count)
@@ -91,7 +91,7 @@ public partial class AbilityControl : EngineObject
         }
         else
         {
-            throw new ArgumentException("Invalid AbilityID (" + ability.GetType().Name + ")");
+            throw new ArgumentException($"Invalid AbilityID ({ability.GetType().Name})");
         }
     }
 
@@ -104,7 +104,7 @@ public partial class AbilityControl : EngineObject
         {
             if (id < 0 || id >= Abilities.Count || Abilities[id] != ability)
             {
-                throw new InvalidOperationException("Cannot Unregister Ability (" + IntToStr(id) + ")");
+                throw new InvalidOperationException($"Cannot Unregister Ability ({IntToStr(id)})");
             }
 
             if (Abilities[id] != null)
@@ -118,7 +118,7 @@ public partial class AbilityControl : EngineObject
         }
         else
         {
-            throw new ArgumentException("Invalid AbilityID (" + ability.GetType().Name + ")");
+            throw new ArgumentException($"Invalid AbilityID ({ability.GetType().Name})");
         }
     }
 

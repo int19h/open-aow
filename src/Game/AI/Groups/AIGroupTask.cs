@@ -92,7 +92,7 @@ public partial class AIGroupTask(CustomNode owner) : EngineObject(owner)
         }
         catch
         {
-            throw new InvalidOperationException(GetType().Name + " exception during state (" + IntToStr(State) + ")");
+            throw new InvalidOperationException($"{GetType().Name} exception during state ({IntToStr(State)})");
         }
 
         return State != -1;

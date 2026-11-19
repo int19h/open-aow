@@ -13,14 +13,14 @@ internal readonly record struct AllowedSite(string TypeName, string MethodName, 
 /// <summary>A call to the original image from a method that is not an allowed site.</summary>
 internal readonly record struct BackendReach(string Caller, string Target)
 {
-    public override string ToString() => Caller + " calls " + Target;
+    public override string ToString() => $"{Caller} calls {Target}";
 }
 
 /// <summary>A public member that exposes a stored id, a storage width, a raw image or residue.</summary>
 internal readonly record struct ExposedMember(string Owner, string Member, string Kind, string? UsedBy)
 {
     public override string ToString() =>
-        UsedBy is null ? Kind + ": " + Owner + "." + Member : Kind + ": " + Owner + "." + Member + " used by " + UsedBy;
+        UsedBy is null ? $"{Kind}: {Owner}.{Member}" : $"{Kind}: {Owner}.{Member} used by {UsedBy}";
 }
 
 /// <summary>
@@ -135,12 +135,12 @@ internal static class PersistenceInventory
                     }
 
                     (string? callerType, string? callerMethod) = Logical(method);
-                    string caller = callerType + "." + callerMethod;
+                    string caller = $"{callerType}.{callerMethod}";
                     Walk(method, (target, token) =>
                     {
                         if (target is null)
                         {
-                            reaches.Add(new BackendReach(caller, "unresolved method token 0x" + token.ToString("X8")));
+                            reaches.Add(new BackendReach(caller, $"unresolved method token 0x{token:X8}"));
                             return;
                         }
                         Type? declaring = Definition(target.DeclaringType);
@@ -154,7 +154,7 @@ internal static class PersistenceInventory
                         {
                             if (callerType != OriginalBackendName && !Allowed(callerType, callerMethod))
                             {
-                                reaches.Add(new BackendReach(caller, declaringName + "." + target.Name));
+                                reaches.Add(new BackendReach(caller, $"{declaringName}.{target.Name}"));
                             }
 
                             return;
@@ -163,7 +163,7 @@ internal static class PersistenceInventory
                         {
                             if (!IsImageImplementation(callerType) && !Allowed(callerType, callerMethod))
                             {
-                                reaches.Add(new BackendReach(caller, declaringName + "." + target.Name));
+                                reaches.Add(new BackendReach(caller, $"{declaringName}.{target.Name}"));
                             }
 
                             return;
@@ -387,7 +387,7 @@ internal static class PersistenceInventory
         catch (ReflectionTypeLoadException error)
         {
             string reason = string.Join("\n", error.LoaderExceptions.Select(item => item?.Message));
-            throw new InvalidOperationException("Loading types from " + assembly.GetName().Name + " failed.\n" + reason, error);
+            throw new InvalidOperationException($"Loading types from {assembly.GetName().Name} failed.\n{reason}", error);
         }
     }
 
@@ -472,7 +472,7 @@ internal static class PersistenceInventory
             or OperandType.ShortInlineR => 4,
         OperandType.InlineI8 or OperandType.InlineR => 8,
         OperandType.InlineSwitch => SwitchBytes(il, at, method),
-        _ => throw new InvalidOperationException(Label(method) + " has operand " + operand + "."),
+        _ => throw new InvalidOperationException($"{Label(method)} has operand {operand}."),
     };
 
     private static int SwitchBytes(byte[] il, int at, MethodBase method)
@@ -581,8 +581,8 @@ internal static class PersistenceInventory
     }
 
     private static void Fail(MethodBase method, int offset) =>
-        throw new InvalidOperationException(Label(method) + " has an instruction the inventory cannot read at offset " + offset.ToString() + ".");
+        throw new InvalidOperationException($"{Label(method)} has an instruction the inventory cannot read at offset {offset}.");
 
     private static string Label(MethodBase method) =>
-        (method.DeclaringType?.FullName ?? method.Module.Name) + "." + method.Name;
+        $"{method.DeclaringType?.FullName ?? method.Module.Name}.{method.Name}";
 }

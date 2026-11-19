@@ -24,7 +24,7 @@ public class Persistent : IDisposable
     {
         string name = GetType().Name;
         string owner = GetOwner()?.GetNamePath() ?? "";
-        return owner.Length == 0 ? name : owner + "." + name;
+        return owner.Length == 0 ? name : $"{owner}.{name}";
     }
 
     // CLASSES.PAS TPersistent.DefineProperties.

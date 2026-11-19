@@ -102,7 +102,7 @@ public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
         name = hero.HeroName;
         if (!IsEmpty(hero.GetNickname()))
         {
-            _ = name + " " + hero.GetNickname();
+            _ = $"{name} {hero.GetNickname()}";
         }
 
         // { Original builds Name but formats the message from FHeroName instead. }

@@ -37,6 +37,6 @@ public partial class City
             stem += "x";
         }
 
-        return stem + "C000";
+        return $"{stem}C000";
     }
 }

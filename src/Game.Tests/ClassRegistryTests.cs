@@ -56,7 +56,7 @@ public sealed class ClassRegistryTests
         foreach ((string? name, ContentRule[]? rules) in FormatMapping.All)
         {
             SchemaClass? classValue = schema.Find(name);
-            Assert.True(classValue is not null, "The format mapping names no schema class: " + name);
+            Assert.True(classValue is not null, $"The format mapping names no schema class: {name}");
             Assert.NotEmpty(rules);
             foreach (string? member in rules.SelectMany(r => r.Members))
             {
@@ -66,7 +66,7 @@ public sealed class ClassRegistryTests
         foreach (string name in FormatVersions.FlatMappings)
         {
             Assert.NotNull(schema.Find(name));
-            Assert.False(FormatMapping.All.ContainsKey(name), name + " keeps its flat mapping in version 1.");
+            Assert.False(FormatMapping.All.ContainsKey(name), $"{name} keeps its flat mapping in version 1.");
         }
         // A schema class with a case table has its line, and its line gives the converter the
         // kind family's FromFields and ToFields.

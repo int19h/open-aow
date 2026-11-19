@@ -58,17 +58,17 @@ public partial class ImageLibraryManager : Component
         void SearchDirectory(string subDirectory)
         {
             DelphiStringList list;
-            foreach (RtlFileEntry entry in Files.FindEntries(SearchPath + subDirectory + "*.ilb", attributes: 63 - 16))
+            foreach (RtlFileEntry entry in Files.FindEntries($"{SearchPath}{subDirectory}*.ilb", attributes: 63 - 16))
             {
                 _ = DiskList.AddImageLibraryFile(subDirectory + UpperCase(entry.Name));
             }
 
             list = new DelphiStringList();
-            foreach (RtlFileEntry entry in Files.FindEntries(subDirectory + "*.*", attributes: 16))
+            foreach (RtlFileEntry entry in Files.FindEntries($"{subDirectory}*.*", attributes: 16))
             {
                 if ((entry.Attribute & 16) != 0 && entry.Name != "." && entry.Name != "..")
                 {
-                    _ = list.Add(subDirectory + UpperCase(entry.Name) + "\\");
+                    _ = list.Add($"{subDirectory}{UpperCase(entry.Name)}\\");
                 }
             }
 
@@ -118,7 +118,7 @@ public partial class ImageLibraryManager : Component
         {
             try
             {
-                throw new FileNotFoundException("Missing IL Resource: " + fileName);
+                throw new FileNotFoundException($"Missing IL Resource: {fileName}");
             }
             catch
             {

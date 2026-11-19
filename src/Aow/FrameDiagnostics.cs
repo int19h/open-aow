@@ -159,7 +159,7 @@ internal sealed class FrameDiagnostics : IDisposable
             }
         }
 
-        File.WriteAllText(Path.Combine(_output, "diagnostic-" + name + ".json"), JsonSerializer.Serialize(new
+        File.WriteAllText(Path.Combine(_output, $"diagnostic-{name}.json"), JsonSerializer.Serialize(new
         {
             FDay = map.Day,
             map.Frame,

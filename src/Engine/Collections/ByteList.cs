@@ -84,7 +84,7 @@ public partial class ByteList : Persistent
         string result = "";
         for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            result = result + IntToStr(_list[i]) + ",";
+            result = $"{result}{IntToStr(_list[i])},";
         }
 
         if (!IsEmpty(result))

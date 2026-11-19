@@ -250,7 +250,7 @@ internal sealed partial class FixedObjectCodec
     {
         if (value is not ObjectNode node)
         {
-            throw context.Fail(Codes.Type, frame.Property.Name + " is an object.", null, frame.Path);
+            throw context.Fail(Codes.Type, $"{frame.Property.Name} is an object.", null, frame.Path);
         }
 
         ImageTree.WriteBody(node, context.Schema.Get(ClassName), context, data, frame.Path, false);
@@ -280,17 +280,17 @@ internal sealed partial class FixedObjectCodec
         string name = frame.Property.Name;
         if (frame.Property.SlotBase is not int slotBase)
         {
-            throw context.Fail(Codes.Type, name + " has no slot base.", at: null, path: frame.Path);
+            throw context.Fail(Codes.Type, $"{name} has no slot base.", at: null, path: frame.Path);
         }
 
         if (value is not SlotListNode node)
         {
-            throw context.Fail(Codes.Type, name + " is fixed objects at slots.", at: null, path: frame.Path);
+            throw context.Fail(Codes.Type, $"{name} is fixed objects at slots.", at: null, path: frame.Path);
         }
 
         if (node.Entries.Count > context.Limits.CollectionItems)
         {
-            throw context.Fail(Codes.Limit, "A collection has too many items.", at: null, path: frame.Path, value: null, constraint: "at most " + context.Limits.CollectionItems + " items");
+            throw context.Fail(Codes.Limit, "A collection has too many items.", at: null, path: frame.Path, value: null, constraint: $"at most {context.Limits.CollectionItems} items");
         }
 
         SchemaClass classValue = context.Schema.Get(ClassName);
@@ -307,12 +307,12 @@ internal sealed partial class FixedObjectCodec
 
             if (!used.Add(slot))
             {
-                throw context.Fail(Codes.Slot, "Slot " + Text(slot) + " of " + name + " is declared twice.", at: null, path: itemPath);
+                throw context.Fail(Codes.Slot, $"Slot {Text(slot)} of {name} is declared twice.", at: null, path: itemPath);
             }
 
             if (item is not ObjectNode { ClassName: null } objectNode || (objectNode.Slot is int stated && stated != slot))
             {
-                throw context.Fail(Codes.Type, "An item of " + name + " is a fixed object at its slot.", at: null, path: itemPath);
+                throw context.Fail(Codes.Type, $"An item of {name} is a fixed object at its slot.", at: null, path: itemPath);
             }
 
             writer.Begin((int)id, frame.Property, i);
@@ -325,7 +325,7 @@ internal sealed partial class FixedObjectCodec
     {
         if (frame.Property.SlotBase is not int slotBase)
         {
-            throw context.Fail(Codes.Type, frame.Property.Name + " has no slot base.", entries[0].Start, frame.Path);
+            throw context.Fail(Codes.Type, $"{frame.Property.Name} has no slot base.", entries[0].Start, frame.Path);
         }
 
         context.CheckItems(entries.Count, entries[0].Start, frame.Path);
@@ -344,17 +344,17 @@ internal sealed partial class FixedObjectCodec
         string name = site.Property!.Name;
         if (site.Schema.Version < SlotVersion || site.Property.SlotBase is not int slotBase)
         {
-            throw site.Fail(Codes.Type, "Version " + site.Schema.Version + " stores no slot of " + name + ".");
+            throw site.Fail(Codes.Type, $"Version {site.Schema.Version} stores no slot of {name}.");
         }
 
         if (value is not SlotListNode node)
         {
-            throw site.Mismatch(name + " is fixed objects at slots.");
+            throw site.Mismatch($"{name} is fixed objects at slots.");
         }
 
         if (node.Entries.Count > site.Context.Limits.CollectionItems)
         {
-            throw site.Fail(Codes.Limit, "A collection has too many items.", constraint: "at most " + site.Context.Limits.CollectionItems + " items");
+            throw site.Fail(Codes.Limit, "A collection has too many items.", constraint: $"at most {site.Context.Limits.CollectionItems} items");
         }
 
         SchemaClass classValue = site.Schema.Get(ClassName);
@@ -372,12 +372,12 @@ internal sealed partial class FixedObjectCodec
 
             if (!used.Add(slot))
             {
-                throw at.Fail(Codes.Slot, "Slot " + Text(slot) + " of " + name + " is declared twice.");
+                throw at.Fail(Codes.Slot, $"Slot {Text(slot)} of {name} is declared twice.");
             }
 
             if (item is not ObjectNode { ClassName: null } objectNode || objectNode.Slot != slot)
             {
-                throw at.Mismatch("An item of " + name + " is a fixed object at its slot.");
+                throw at.Mismatch($"An item of {name} is a fixed object at its slot.");
             }
 
             _ = array.Add(DocumentBackend.WriteObject(objectNode, classValue, at, created: false, slotted: true));
@@ -390,17 +390,17 @@ internal sealed partial class FixedObjectCodec
         string name = site.Property!.Name;
         if (site.Schema.Version < SlotVersion || site.Property.SlotBase is not int slotBase)
         {
-            throw site.Fail(Codes.Type, "Version " + site.Schema.Version + " stores no slot of " + name + ".", value);
+            throw site.Fail(Codes.Type, $"Version {site.Schema.Version} stores no slot of {name}.", value);
         }
 
         if (value is not JsonArray array)
         {
-            throw site.Mismatch(name + " is an array.", value);
+            throw site.Mismatch($"{name} is an array.", value);
         }
 
         if (array.Items.Count > site.Context.Limits.CollectionItems)
         {
-            throw site.Fail(Codes.Limit, "A collection has too many items.", array, value: null, constraint: "at most " + site.Context.Limits.CollectionItems + " items");
+            throw site.Fail(Codes.Limit, "A collection has too many items.", array, value: null, constraint: $"at most {site.Context.Limits.CollectionItems} items");
         }
 
         SchemaClass classValue = site.Schema.Get(ClassName);
@@ -411,12 +411,12 @@ internal sealed partial class FixedObjectCodec
             DocumentSite at = site.At(site.Path.Item(i), element: false);
             if (array.Items[i] is not JsonObject item)
             {
-                throw at.Mismatch("An item of " + name + " is an object.", array.Items[i]);
+                throw at.Mismatch($"An item of {name} is an object.", array.Items[i]);
             }
 
             if (item["$slot"] is not JsonInteger slot)
             {
-                throw at.Fail(Codes.MissingMember, "An item of " + name + " needs an integer $slot.", item);
+                throw at.Fail(Codes.MissingMember, $"An item of {name} needs an integer $slot.", item);
             }
 
             long id = slot.Value + slotBase;
@@ -427,7 +427,7 @@ internal sealed partial class FixedObjectCodec
 
             if (!used.Add(slot.Value))
             {
-                throw at.Fail(Codes.Slot, "Slot " + Text(slot.Value) + " of " + name + " is declared twice.", item);
+                throw at.Fail(Codes.Slot, $"Slot {Text(slot.Value)} of {name} is declared twice.", item);
             }
 
             node.Add((int)slot.Value, DocumentBackend.ReadObject(item, classValue, at, created: false, slotted: true));
@@ -447,11 +447,11 @@ internal sealed partial class CreatedObjectCodec
         }
         if (value is not ObjectNode node || node.ClassName is not string name)
         {
-            throw context.Fail(Codes.Type, frame.Property.Name + " is an object or null.", null, frame.Path);
+            throw context.Fail(Codes.Type, $"{frame.Property.Name} is an object or null.", null, frame.Path);
         }
 
         SchemaClass classValue = Resolve(context, name, frame);
-        (string Rule, SchemaClass Shape)? shape = context.Schema.LegacyShape(frame.Property.Owner.Name + "." + frame.Property.Name, classValue.Name);
+        (string Rule, SchemaClass Shape)? shape = context.Schema.LegacyShape($"{frame.Property.Owner.Name}.{frame.Property.Name}", classValue.Name);
         data.Int32(classValue.Id!.Value);
         ImageTree.WriteBody(node, shape?.Shape ?? classValue, context, data, frame.Path, true);
     }
@@ -470,12 +470,12 @@ internal sealed partial class CreatedObjectCodec
         string name = frame.Property.Name;
         if (value is not SlotListNode node)
         {
-            throw context.Fail(Codes.Type, name + " is created objects at slots.", null, frame.Path);
+            throw context.Fail(Codes.Type, $"{name} is created objects at slots.", null, frame.Path);
         }
 
         if (node.Entries.Count > context.Limits.CollectionItems)
         {
-            throw context.Fail(Codes.Limit, "A collection has too many items.", null, frame.Path, null, "at most " + context.Limits.CollectionItems + " items");
+            throw context.Fail(Codes.Limit, "A collection has too many items.", null, frame.Path, null, $"at most {context.Limits.CollectionItems} items");
         }
 
         HashSet<int> used = [];
@@ -491,12 +491,12 @@ internal sealed partial class CreatedObjectCodec
 
             if (!used.Add(slot))
             {
-                throw context.Fail(Codes.Slot, "Slot " + Text(slot) + " of " + name + " is declared twice.", null, itemPath);
+                throw context.Fail(Codes.Slot, $"Slot {Text(slot)} of {name} is declared twice.", null, itemPath);
             }
 
             if (item is ObjectNode { Slot: int stated } && stated != slot)
             {
-                throw context.Fail(Codes.Slot, "An item of " + name + " states slot " + Text(stated) + " at slot " + Text(slot) + ".", null, itemPath);
+                throw context.Fail(Codes.Slot, $"An item of {name} states slot {Text(stated)} at slot {Text(slot)}.", null, itemPath);
             }
 
             writer.Begin((int)id, frame.Property, i);
@@ -532,7 +532,7 @@ internal sealed partial class CreatedObjectCodec
         string name = site.Property.Name;
         if (value is not SlotListNode node)
         {
-            throw site.Mismatch(name + " is created objects at slots.");
+            throw site.Mismatch($"{name} is created objects at slots.");
         }
 
         if (node.Entries.Count > site.Context.Limits.CollectionItems)
@@ -641,18 +641,18 @@ internal sealed partial class CreatedObjectCodec
         string name = frame.Property.Name;
         if (value is not SequenceNode node)
         {
-            throw context.Fail(Codes.Type, name + " is a sequence of created objects.", null, frame.Path);
+            throw context.Fail(Codes.Type, $"{name} is a sequence of created objects.", null, frame.Path);
         }
 
         if (node.Items.Count > context.Limits.CollectionItems)
         {
-            throw context.Fail(Codes.Limit, "A collection has too many items.", null, frame.Path, null, "at most " + context.Limits.CollectionItems + " items");
+            throw context.Fail(Codes.Limit, "A collection has too many items.", null, frame.Path, null, $"at most {context.Limits.CollectionItems} items");
         }
 
         int first = frame.Property.DynamicMinimum!.Value;
         if ((long)first + node.Items.Count - 1 > int.MaxValue)
         {
-            throw context.Fail(Codes.Range, name + " has more items than its ids hold.", null, frame.Path);
+            throw context.Fail(Codes.Range, $"{name} has more items than its ids hold.", null, frame.Path);
         }
 
         for (int i = 0; i < node.Items.Count; i++)
@@ -660,7 +660,7 @@ internal sealed partial class CreatedObjectCodec
             TreeValue item = node.Items[i];
             if (item is ObjectNode { Slot: not null })
             {
-                throw context.Fail(Codes.ReservedMember, "Items of " + name + " have no $slot.", null, frame.Path.Item(i).Member("$slot"), "$slot");
+                throw context.Fail(Codes.ReservedMember, $"Items of {name} have no $slot.", null, frame.Path.Item(i).Member("$slot"), "$slot");
             }
 
             writer.Begin(first + i, frame.Property, i);
@@ -688,7 +688,7 @@ internal sealed partial class CreatedObjectCodec
         string name = site.Property!.Name;
         if (value is not SequenceNode node)
         {
-            throw site.Mismatch(name + " is a sequence of created objects.");
+            throw site.Mismatch($"{name} is a sequence of created objects.");
         }
 
         if (node.Items.Count > site.Context.Limits.CollectionItems)
@@ -762,11 +762,11 @@ internal sealed partial class CreatedObjectCodec
     // A legacy shape (schema legacyShapes) stores a class under another property set where its
     // context names it, as the image side reads it. The document keeps the class name.
     private static SchemaClass Shape(DocumentSite site, SchemaClass classValue) =>
-        site.Property is { } property ? site.Schema.LegacyShape(property.Owner.Name + "." + property.Name, classValue.Name)?.Shape ?? classValue : classValue;
+        site.Property is { } property ? site.Schema.LegacyShape($"{property.Owner.Name}.{property.Name}", classValue.Name)?.Shape ?? classValue : classValue;
 
     // The family check does not apply to a class the legacy shape names, as on the image side.
     private string? LegacyFamily(DocumentSite site, string className) =>
-        site.Property is { } property && site.Schema.LegacyShape(property.Owner.Name + "." + property.Name, className) is not null ? null : Family;
+        site.Property is { } property && site.Schema.LegacyShape($"{property.Owner.Name}.{property.Name}", className) is not null ? null : Family;
 
     private TreeValue ReadCreated(DecodeContext context, int start, int end, ImageFrame frame, int? slot)
     {
@@ -779,11 +779,11 @@ internal sealed partial class CreatedObjectCodec
                 : (TreeValue)NullNode.Instance;
         }
         SchemaClass classValue = context.Schema.Resolve(context.Engine, classId)
-            ?? throw context.Fail(Codes.UnknownClass, "Class id " + classId.ToString(System.Globalization.CultureInfo.InvariantCulture) + " is not in the " + context.Engine + " engine table.", start, frame.Path, classId.ToString(System.Globalization.CultureInfo.InvariantCulture));
-        (string Rule, SchemaClass Shape)? shape = context.Schema.LegacyShape(frame.Property.Owner.Name + "." + frame.Property.Name, classValue.Name);
+            ?? throw context.Fail(Codes.UnknownClass, string.Create(System.Globalization.CultureInfo.InvariantCulture, $"Class id {classId} is not in the {context.Engine} engine table."), start, frame.Path, classId.ToString(System.Globalization.CultureInfo.InvariantCulture));
+        (string Rule, SchemaClass Shape)? shape = context.Schema.LegacyShape($"{frame.Property.Owner.Name}.{frame.Property.Name}", classValue.Name);
         if (shape is null && Family is not null && !classValue.InheritsFrom(Family))
         {
-            throw context.Fail(Codes.ClassFamily, "Class " + classValue.Name + " is not a " + Family + ".", start, frame.Path, classValue.Name, Family);
+            throw context.Fail(Codes.ClassFamily, $"Class {classValue.Name} is not a {Family}.", start, frame.Path, classValue.Name, Family);
         }
 
         if (shape is { } legacy)
@@ -797,11 +797,11 @@ internal sealed partial class CreatedObjectCodec
     private SchemaClass Resolve(EncodeContext context, string name, ImageFrame frame)
     {
         SchemaClass classValue = context.Schema.Find(name)
-            ?? throw context.Fail(Codes.UnknownClass, "Unknown class " + name + ".", null, frame.Path, name);
+            ?? throw context.Fail(Codes.UnknownClass, $"Unknown class {name}.", null, frame.Path, name);
         return classValue.Id is not int id || context.Schema.Resolve(context.Engine, id) != classValue
-            ? throw context.Fail(Codes.UnknownClass, "Class " + classValue.Name + " is not in the " + context.Engine + " engine table.", null, frame.Path, classValue.Name)
-            : Family is not null && context.Schema.LegacyShape(frame.Property.Owner.Name + "." + frame.Property.Name, classValue.Name) is null && !classValue.InheritsFrom(Family)
-            ? throw context.Fail(Codes.ClassFamily, "Class " + classValue.Name + " is not a " + Family + ".", null, frame.Path, classValue.Name, Family)
+            ? throw context.Fail(Codes.UnknownClass, $"Class {classValue.Name} is not in the {context.Engine} engine table.", null, frame.Path, classValue.Name)
+            : Family is not null && context.Schema.LegacyShape($"{frame.Property.Owner.Name}.{frame.Property.Name}", classValue.Name) is null && !classValue.InheritsFrom(Family)
+            ? throw context.Fail(Codes.ClassFamily, $"Class {classValue.Name} is not a {Family}.", null, frame.Path, classValue.Name, Family)
             : classValue;
     }
 
@@ -832,12 +832,12 @@ internal sealed partial class ChildrenCodec
     {
         if (value is not ChildListNode node)
         {
-            throw context.Fail(Codes.Type, frame.Property.Name + " is an array.", null, frame.Path);
+            throw context.Fail(Codes.Type, $"{frame.Property.Name} is an array.", null, frame.Path);
         }
 
         if (node.Children.Count > context.Limits.CollectionItems)
         {
-            throw context.Fail(Codes.Limit, "A collection has too many items.", null, frame.Path, null, "at most " + context.Limits.CollectionItems + " items");
+            throw context.Fail(Codes.Limit, "A collection has too many items.", null, frame.Path, null, $"at most {context.Limits.CollectionItems} items");
         }
 
         ObjectWriter writer = new();
@@ -853,7 +853,7 @@ internal sealed partial class ChildrenCodec
 
             if (!slots.Add(slot))
             {
-                throw context.Fail(Codes.Slot, "Child slot " + slot + " is declared twice.", null, itemPath.Member("$slot"));
+                throw context.Fail(Codes.Slot, $"Child slot {slot} is declared twice.", null, itemPath.Member("$slot"));
             }
 
             if (child.ClassName is not string name)
@@ -862,13 +862,13 @@ internal sealed partial class ChildrenCodec
             }
 
             SchemaClass classValue = context.Schema.Find(name)
-                ?? throw context.Fail(Codes.UnknownClass, "Unknown class " + name + ".", null, itemPath, name);
+                ?? throw context.Fail(Codes.UnknownClass, $"Unknown class {name}.", null, itemPath, name);
             if (classValue.Id is not int id || context.Schema.Resolve(context.Engine, id) != classValue)
             {
-                throw context.Fail(Codes.UnknownClass, "Class " + classValue.Name + " is not in the " + context.Engine + " engine table.", null, itemPath, classValue.Name);
+                throw context.Fail(Codes.UnknownClass, $"Class {classValue.Name} is not in the {context.Engine} engine table.", null, itemPath, classValue.Name);
             }
 
-            (string Rule, SchemaClass Shape)? shape = context.Schema.LegacyShape(frame.Property.Owner.Name + "." + frame.Property.Name, classValue.Name);
+            (string Rule, SchemaClass Shape)? shape = context.Schema.LegacyShape($"{frame.Property.Owner.Name}.{frame.Property.Name}", classValue.Name);
             writer.Begin(slot, frame.Property, i);
             writer.Data.Int32(id);
             ImageTree.WriteBody(child, shape?.Shape ?? classValue, context, writer.Data, itemPath, true);
@@ -895,7 +895,7 @@ internal sealed partial class ChildrenCodec
 
             if (!slots.Add(entry.Id))
             {
-                throw context.Fail(Codes.Duplicate, "Child slot " + entry.Id + " is stored twice.", db + entry.Offset, frame.Path);
+                throw context.Fail(Codes.Duplicate, $"Child slot {entry.Id} is stored twice.", db + entry.Offset, frame.Path);
             }
 
             int next = boundaries[Array.BinarySearch(boundaries, entry.Offset) + 1];
@@ -909,8 +909,8 @@ internal sealed partial class ChildrenCodec
             }
 
             SchemaClass classValue = context.Schema.Resolve(context.Engine, classId)
-                ?? throw context.Fail(Codes.UnknownClass, "Class id " + classId.ToString(System.Globalization.CultureInfo.InvariantCulture) + " is not in the " + context.Engine + " engine table.", childStart, frame.Path.Item(children.Count), classId.ToString(System.Globalization.CultureInfo.InvariantCulture));
-            (string Rule, SchemaClass Shape)? shape = context.Schema.LegacyShape(frame.Property.Owner.Name + "." + frame.Property.Name, classValue.Name);
+                ?? throw context.Fail(Codes.UnknownClass, string.Create(System.Globalization.CultureInfo.InvariantCulture, $"Class id {classId} is not in the {context.Engine} engine table."), childStart, frame.Path.Item(children.Count), classId.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            (string Rule, SchemaClass Shape)? shape = context.Schema.LegacyShape($"{frame.Property.Owner.Name}.{frame.Property.Name}", classValue.Name);
             if (shape is { } legacy)
             {
                 context.LegacyRules[legacy.Rule] = context.LegacyRules.GetValueOrDefault(legacy.Rule) + 1;
@@ -919,7 +919,7 @@ internal sealed partial class ChildrenCodec
             children.Add(ImageTree.ReadBody(path: frame.Path.Item(children.Count), context: context, start: childStart + 4, end: childEnd, classValue: shape?.Shape ?? classValue, className: classValue.Name, slot: entry.Id));
         }
         return children.Count > context.Limits.CollectionItems
-            ? throw context.Fail(Codes.Limit, "A collection has too many items.", start, frame.Path, null, "at most " + context.Limits.CollectionItems + " items")
+            ? throw context.Fail(Codes.Limit, "A collection has too many items.", start, frame.Path, null, $"at most {context.Limits.CollectionItems} items")
             : (TreeValue)new ChildListNode(children);
     }
 
@@ -1078,7 +1078,7 @@ internal sealed class RecordCodec(JsonObject source, FormatSchema schema, string
     private readonly (string Name, PropertyCodec Codec)[] _fields = [.. ((JsonArray)source["fields"]!).Items.Cast<JsonObject>().Select(f =>
         {
             string name = ((JsonString)f["name"]!).Value;
-            return (name, Create(f, schema, path + "." + name));
+            return (name, Create(f, schema, $"{path}.{name}"));
         })];
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site) =>

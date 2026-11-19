@@ -33,7 +33,7 @@ public sealed class GateSwitchesTests
     [Fact]
     public void CensusAppendsOneJsonLinePerRun()
     {
-        string directory = Path.Combine(Path.GetTempPath(), "aow-census-" + Guid.NewGuid().ToString("N"));
+        string directory = Path.Combine(Path.GetTempPath(), $"aow-census-{Guid.NewGuid():N}");
         string file = Path.Combine(directory, "nested", "census.jsonl");
         try
         {

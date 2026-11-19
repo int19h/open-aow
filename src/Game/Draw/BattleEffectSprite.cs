@@ -1755,7 +1755,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
         catch
         {
             // { Original puts the diagnostic in the message-box caption. }
-            _ = MessageBox(0, "Error during NewFrame", NullTerminatedText("Error - fxHS " + IntToStr(AbilityIndex) + " " + IntToStr(SpellIndex)), 0);
+            _ = MessageBox(0, "Error during NewFrame", NullTerminatedText($"Error - fxHS {IntToStr(AbilityIndex)} {IntToStr(SpellIndex)}"), 0);
         }
     }
 

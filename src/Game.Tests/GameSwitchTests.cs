@@ -100,7 +100,7 @@ public sealed class GameSwitchTests
         Edit(document, edit);
         string directory = Path.Combine(EngineFixture.Root, "Save");
         _ = Directory.CreateDirectory(directory);
-        string file = Path.Combine(directory, edit + ".asg");
+        string file = Path.Combine(directory, $"{edit}.asg");
         byte[] bytes = GameFiles.Write(document);
         File.WriteAllBytes(file, bytes);
         GameEngine engine = EngineFixture.Engine;
@@ -269,8 +269,8 @@ public sealed class GameSwitchTests
             foreach ((string? source, GameProfile? profile) in new[] { (InstalledSave.Save, GameProfile.WorldMap), (Path.Combine(InstalledSave.Root, "Release", "Release.hss"), GameProfile.ScenarioSet) })
             {
                 byte[] original = File.ReadAllBytes(source);
-                string originalPath = Path.Combine(directory, "original" + Path.GetExtension(source));
-                string ownPath = Path.Combine(directory, "own" + Path.GetExtension(source));
+                string originalPath = Path.Combine(directory, $"original{Path.GetExtension(source)}");
+                string ownPath = Path.Combine(directory, $"own{Path.GetExtension(source)}");
                 File.WriteAllBytes(originalPath, original);
                 ImportResult imported = GameFiles.Import(original, profile.Profile, profile.Kinds.First(k => GameFiles.KindForExtension(Path.GetExtension(source)) == k), source);
                 File.WriteAllBytes(ownPath, GameFiles.Write(imported.Document));

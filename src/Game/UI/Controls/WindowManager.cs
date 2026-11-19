@@ -87,7 +87,7 @@ public partial class WindowManager : UIComponent
         }
         catch
         {
-            _ = MessageBox(0, "Exception during Update", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Update", $"Error - {Name}", 0);
         }
     }
 
@@ -423,7 +423,7 @@ public partial class WindowManager : UIComponent
         }
         catch
         {
-            _ = MessageBox(0, "Exception during DrawSurface", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during DrawSurface", $"Error - {Name}", 0);
         }
     }
 

@@ -45,12 +45,12 @@ public partial class WorldMapCampaign(CustomNode owner) : Campaign(owner)
             result = StrategicMap.Current.MapName;
             if (Faction == 0)
             {
-                result = result + "_" + AbilityRules.TranslateResourceString(GetEngine(), s_wonText);
+                result = $"{result}_{AbilityRules.TranslateResourceString(GetEngine(), s_wonText)}";
             }
             else
             {
                 // { Original uses Won for both factions. }
-                result = result + "-" + AbilityRules.TranslateResourceString(GetEngine(), s_wonText);
+                result = $"{result}-{AbilityRules.TranslateResourceString(GetEngine(), s_wonText)}";
             }
 
             // The campaign autosave takes the extension the host writes (own-formats.md 4.2).

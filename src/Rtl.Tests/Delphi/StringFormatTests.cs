@@ -72,13 +72,13 @@ public sealed class StringFormatTests
     // An exhaustive switch over the cases. A case added to FormatArg fails this with CS8509.
     private static string CaseOf(FormatArg argument) => argument switch
     {
-        int value => "Integer " + value.ToString(CultureInfo.InvariantCulture),
-        bool value => "Boolean " + value,
+        int value => string.Create(CultureInfo.InvariantCulture, $"Integer {value}"),
+        bool value => $"Boolean {value}",
         char value => $"Char U+{(int)value:X4}",
-        double value => "Extended " + value.ToString(CultureInfo.InvariantCulture),
-        string value => "String " + value,
+        double value => string.Create(CultureInfo.InvariantCulture, $"Extended {value}"),
+        string value => $"String {value}",
         PointerArg value => $"Pointer {value.Value:X8}",
-        object value => "Object " + value.GetType().Name,
+        object value => $"Object {value.GetType().Name}",
         null => "null",
     };
 
@@ -199,8 +199,8 @@ public sealed class StringFormatTests
         {
             for (int i = 0; i < letters.Length; i++)
             {
-                data.Add(row[0], "%" + letters[i], row[i + 1]);
-                data.Add(row[0], "%" + letters[i].ToUpperInvariant(), row[i + 1]);
+                data.Add(row[0], $"%{letters[i]}", row[i + 1]);
+                data.Add(row[0], $"%{letters[i].ToUpperInvariant()}", row[i + 1]);
             }
             foreach (string other in new[] { "%e", "%f", "%g", "%n", "%m", "%q" })
             {

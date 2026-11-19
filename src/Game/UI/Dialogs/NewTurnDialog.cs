@@ -83,7 +83,7 @@ public partial class NewTurnDialog(UIContext ui) : UIModule(ui)
                 day2 = StrategicMap.Current.Day > 0 ? StrategicMap.Current.Day : 1;
 
                 string day = UI.Engine.TranslateResourceString(GameText.DayText);
-                TurnLabel.Text = day + " " + IntToStr(day2);
+                TurnLabel.Text = $"{day} {IntToStr(day2)}";
                 race = StrategicMap.Current.Players.GetPlayers(eventValue.TurnPlayer).PlayerRace;
                 if (race == -1)
                 {

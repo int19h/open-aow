@@ -77,10 +77,7 @@ public sealed class NameTableTests : FormatsTest
     [Fact]
     public void AnOldDocumentNameLoads()
     {
-        string table = "kind,delphi,current\n"
-            + "type,OldBox," + NameTable.QualifiedName(typeof(OldNameBox)) + "\n"
-            + "type,TSampleRank," + NameTable.QualifiedName(typeof(SampleRank)) + "\n"
-            + "member,TSampleRank.oldGold," + NameTable.QualifiedName(typeof(SampleRank)) + ".Gold\n";
+        string table = $"kind,delphi,current\ntype,OldBox,{NameTable.QualifiedName(typeof(OldNameBox))}\ntype,TSampleRank,{NameTable.QualifiedName(typeof(SampleRank))}\nmember,TSampleRank.oldGold,{NameTable.QualifiedName(typeof(SampleRank))}.Gold\n";
         FormatSchema schema = FormatSchema.Load(Encoding.UTF8.GetBytes(RenamedSchema), "renamed.json");
         SchemaClass holder = schema.Get("Holder");
         using (NameTable.Install(table))

@@ -110,31 +110,31 @@ public sealed partial class RuleConstructionTests
 
             if (item is Delegate handler)
             {
-                return handler.GetInvocationList().Select(x => x.Method.DeclaringType!.FullName + "." + x.Method.Name).ToArray();
+                return handler.GetInvocationList().Select(x => $"{x.Method.DeclaringType!.FullName}.{x.Method.Name}").ToArray();
             }
 
             if (!type.IsValueType)
             {
                 if (visited.TryGetValue(item, out string? found))
                 {
-                    return "$ref:" + found;
+                    return $"$ref:{found}";
                 }
 
                 visited.Add(item, path);
             }
             if (item is Array array)
             {
-                return array.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+                return array.Cast<object?>().Select((x, i) => State(x, $"{path}[{i}]")).ToArray();
             }
 
             if (InlineArrays.Elements(item) is { } elements)
             {
-                return elements.Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+                return elements.Select((x, i) => State(x, $"{path}[{i}]")).ToArray();
             }
 
             if (item is IList list)
             {
-                return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+                return list.Cast<object?>().Select((x, i) => State(x, $"{path}[{i}]")).ToArray();
             }
 
             SortedDictionary<string, object?> fields = new(StringComparer.Ordinal) { ["$type"] = type.FullName };
@@ -149,13 +149,13 @@ public sealed partial class RuleConstructionTests
                     // CF-2 stores priority as a delegate. Keep its value in the base recording's key.
                     if (item is AIPlayerActionClass actionClass && field.Name == "_priority")
                     {
-                        fields[current.Name + ".<Priority>k__BackingField"] = actionClass.Priority;
+                        fields[$"{current.Name}.<Priority>k__BackingField"] = actionClass.Priority;
                         continue;
                     }
-                    string key = current.Name + "." + MemberNames.Of(field);
+                    string key = $"{current.Name}.{MemberNames.Of(field)}";
                     object? child = field.GetValue(item);
                     if (MemberNames.Of(field) is "_owner" or "Owner") { fields[key] = child is null ? null : "$owner"; continue; }
-                    fields[key] = State(child, path + "." + key);
+                    fields[key] = State(child, $"{path}.{key}");
                 }
             }
 
@@ -238,7 +238,7 @@ public sealed partial class RuleConstructionTests
         }
         MethodInfo? factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
         ConstructorInfo? constructor = typeof(EngineObject).IsAssignableFrom(type) ? EngineClassCreation.OwnerConstructor(type) : type.GetConstructors().OrderByDescending(x => x.GetParameters().Length).FirstOrDefault();
-        Assert.True(factory is not null || constructor is not null, type.Name + " needs its own completed creation signature.");
+        Assert.True(factory is not null || constructor is not null, $"{type.Name} needs its own completed creation signature.");
         ParameterInfo[] parameters = factory?.GetParameters() ?? constructor!.GetParameters();
         object?[] arguments = [.. parameters.Select(p => p.ParameterType == typeof(CustomNode) ? owner
             : p.ParameterType == typeof(int) ? (object)37
@@ -286,7 +286,7 @@ public sealed partial class RuleConstructionTests
         Type[] top = [.. matches.Where(type => type.DeclaringType is null)];
         return top.Length == 1
             ? top[0]
-            : throw new InvalidOperationException(name + " matches " + matches.Length.ToString(CultureInfo.InvariantCulture) + " types.");
+            : throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, $"{name} matches {matches.Length} types."));
     }
 
     public static IEnumerable<object[]> FormerlyGuardedClasses => new[] { "Ability", "AdjustableAbility", "ArmyHexSprite", "BoltsAbility", "BreathAbility", "CharmAbility", "CharmedAbility", "CommandAbility", "CommandedAbility", "ConstructAbility", "CosmeticSurgeryAbility", "DispelMagicAbility", "DominateAbility", "DominatedAbility", "DurationAbility", "EnhancementAbility", "EntangleAbility", "FlameThrowingAbility", "HealingAbility", "InvokeDeathAbility", "LeadershipAbility", "MultiLevelAbility", "PossessAbility", "PossessedAbility", "RangedAttackAbility", "RoundAttackAbility", "SeduceAbility", "SeducedAbility", "SelfDestructAbility", "Spell", "SpellCastingAbility", "StrikeAbility", "StrikeEnhancementAbility", "TouchAbility", "TransportAbility", "TurnUndeadAbility", "UnitEnchantmentAbility", "UnitSpell", "WallCrushingAbility", "WebAbility" }.Select(name => new object[] { name });
@@ -309,13 +309,13 @@ public sealed partial class RuleConstructionTests
                 value = Create(type, EngineFixture.OwnerFor(type, owner), route, fixture);
                 Assert.IsType(type, value);
                 AssertPrivateArrayChildren(value);
-                state = "success:" + Snapshot(value);
+                state = $"success:{Snapshot(value)}";
             }
-            catch (Exception error) { state = "failure:" + error.GetType().FullName + ":" + error.Message; }
+            catch (Exception error) { state = $"failure:{error.GetType().FullName}:{error.Message}"; }
             finally
             {
                 try { (value as IDisposable)?.Dispose(); }
-                catch (Exception error) { states.Add("destroy:" + error.GetType().FullName + ":" + error.Message); }
+                catch (Exception error) { states.Add($"destroy:{error.GetType().FullName}:{error.Message}"); }
             }
             states.Add(state);
             ConstructionSnapshot.Check("AoWERuleConstruction", name, string.Join("\n", states));
@@ -338,7 +338,7 @@ public sealed partial class RuleConstructionTests
             Assert.Same(EngineClass.Of(type), value.EngineClass);
             string state = Snapshot(value);
             try { value.Dispose(); }
-            catch (Exception error) { state += "\n" + error.GetType().FullName + ":" + error.Message; }
+            catch (Exception error) { state += $"\n{error.GetType().FullName}:{error.Message}"; }
             expected ??= state;
             Assert.Equal(expected, state);
         }

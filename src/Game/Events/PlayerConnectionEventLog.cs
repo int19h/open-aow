@@ -26,7 +26,7 @@ public partial class PlayerConnectionEventLog(CustomNode owner, EngineObject hol
         log = new SaveGameEventLog(null, holder: CreationHolder())
         {
             DefaultName = "",
-            Directory = GetEngine().StartupDirectory + "Save\\"
+            Directory = $"{GetEngine().StartupDirectory}Save\\"
         };
         StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ExitSaveGameCallback);
         _ = log.Release();

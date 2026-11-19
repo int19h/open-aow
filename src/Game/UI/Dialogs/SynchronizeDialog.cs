@@ -81,7 +81,7 @@ public partial class SynchronizeDialog(UIContext ui) : UIModule(ui)
             }
 
             string day = UI.Engine.TranslateResourceString(GameText.DayText);
-            TurnLabel.Text = day + " " + IntToStr(day2);
+            TurnLabel.Text = $"{day} {IntToStr(day2)}";
             LeftShield.CurrentImage = settings.Race + 26;
             RightShield.CurrentImage = settings.Race + 26;
         }

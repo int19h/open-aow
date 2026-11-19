@@ -295,7 +295,7 @@ public sealed class TreeTests : FormatsTest
         ConversionException recordError = Assert.Throws<ConversionException>(() => DocumentBackend.Write(record, enchantment, current, "game"));
         Assert.Equal("root.Extra", recordError.Diagnostic.Path);
         Assert.Equal(Codes.UnknownMember, recordError.Diagnostic.Code);
-        Assert.Equal("Class " + enchantment.Name + " has no member \"Extra\".", recordError.Diagnostic.Message);
+        Assert.Equal($"Class {enchantment.Name} has no member \"Extra\".", recordError.Diagnostic.Message);
         ConversionException upkeepDocument = Assert.Throws<ConversionException>(() => DocumentBackend.Read(
             (JsonObject)JsonReader.Parse("""{"Upkeep":[1,2]}""", "upkeep.json"), enchantment, current, "game"));
         Assert.Equal("root.Upkeep", upkeepDocument.Diagnostic.Path);
@@ -545,7 +545,7 @@ public sealed class TreeTests : FormatsTest
                 ? new Inner()
                 : NameTable.Names(typeof(Sample), className)
                 ? (IPersistable)new Sample()
-                : throw new InvalidOperationException("The test factory has no class " + className + ".");
+                : throw new InvalidOperationException($"The test factory has no class {className}.");
         }
     }
 }

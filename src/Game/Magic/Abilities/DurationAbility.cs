@@ -32,7 +32,7 @@ public partial class DurationAbility(CustomNode owner) : AdjustableAbility(owner
                         byte duration = GetDuration(owner);
                         int totalDuration = GetTotalDuration();
                         string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationDaysFormat), [IntToStr(duration), IntToStr(totalDuration)]);
-                        result = result + " " + format;
+                        result = $"{result} {format}";
                     }
 
                     break;
@@ -40,12 +40,12 @@ public partial class DurationAbility(CustomNode owner) : AdjustableAbility(owner
                     byte duration2 = GetDuration(owner);
                     int totalDuration2 = GetTotalDuration();
                     string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationCombatTurnFormat), [IntToStr(duration2), IntToStr(totalDuration2)]);
-                    result = base.GetName(owner) + " " + formattedText;
+                    result = $"{base.GetName(owner)} {formattedText}";
                     break;
                 case DurationMode.EntireCombat:
                     string name = base.GetName(owner);
                     string durationEntireCombat = AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationEntireCombatText);
-                    result = name + " " + durationEntireCombat;
+                    result = $"{name} {durationEntireCombat}";
                     break;
                 case DurationMode.None:
                 default:

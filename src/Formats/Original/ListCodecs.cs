@@ -30,17 +30,17 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
         string name = frame.Property?.Name ?? "The value";
         if (value is not Tree.DefaultListNode node || node.Width != width)
         {
-            throw context.Fail(Codes.Type, name + " is a list with a default.", null, frame.Path);
+            throw context.Fail(Codes.Type, $"{name} is a list with a default.", null, frame.Path);
         }
 
         if (node.Items.Count > context.Limits.CollectionItems)
         {
-            throw context.Fail(Codes.Limit, "A collection has too many items.", null, frame.Path, null, "at most " + context.Limits.CollectionItems + " items");
+            throw context.Fail(Codes.Limit, "A collection has too many items.", null, frame.Path, null, $"at most {context.Limits.CollectionItems} items");
         }
 
         if (node.Default < Min || node.Default > Max)
         {
-            throw context.Fail(Codes.Range, "A list value is outside its storage range.", null, frame.Path.Member("default"), Text(node.Default), Min + " to " + Max);
+            throw context.Fail(Codes.Range, "A list value is outside its storage range.", null, frame.Path.Member("default"), Text(node.Default), $"{Min} to {Max}");
         }
 
         List<long> items = [with(node.Items.Count)];
@@ -49,7 +49,7 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
             long item = node.Items[i];
             if (item < Min || item > Max)
             {
-                throw context.Fail(Codes.Range, "A list value is outside its storage range.", null, frame.Path.Member("items").Item(i), Text(item), Min + " to " + Max);
+                throw context.Fail(Codes.Range, "A list value is outside its storage range.", null, frame.Path.Member("items").Item(i), Text(item), $"{Min} to {Max}");
             }
 
             items.Add(item);
@@ -317,12 +317,12 @@ internal sealed class GroupedListCodec(int size, string? domain = null) : Proper
         string name = site.Property?.Name ?? "The value";
         if (value is not Tree.DefaultListNode { Width: 4 } node)
         {
-            throw site.Mismatch(name + " is a list with a default.");
+            throw site.Mismatch($"{name} is a list with a default.");
         }
 
         if (node.Items.Count > site.Context.Limits.CollectionItems)
         {
-            throw site.Fail(Codes.Limit, "A collection has too many items.", constraint: "at most " + site.Context.Limits.CollectionItems + " items");
+            throw site.Fail(Codes.Limit, "A collection has too many items.", constraint: $"at most {site.Context.Limits.CollectionItems} items");
         }
 
         if (node.Default is < int.MinValue or > int.MaxValue)
@@ -399,7 +399,7 @@ internal sealed class GroupedListCodec(int size, string? domain = null) : Proper
     {
         if (value is not JsonObject objectValue)
         {
-            throw context.Fail(Codes.Type, name + " is { \"groups\": [[...]] }.", value, path, value.KindName);
+            throw context.Fail(Codes.Type, $"{name} is {{ \"groups\": [[...]] }}.", value, path, value.KindName);
         }
 
         foreach (JsonMember m in objectValue.Members)
@@ -490,7 +490,7 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
     {
         if (value is not Tree.BitListNode node)
         {
-            throw context.Fail(Codes.Type, frame.Property.Name + " is a bit list.", null, frame.Path);
+            throw context.Fail(Codes.Type, $"{frame.Property.Name} is a bit list.", null, frame.Path);
         }
 
         data.Byte(node.Default);

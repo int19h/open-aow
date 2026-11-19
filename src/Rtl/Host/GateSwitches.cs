@@ -16,9 +16,7 @@ public static class GateSwitches
 
     /// <summary>The message a game host prints before it stops, or null when the switch is on.</summary>
     public static string? CultureError(string host) => InvariantGlobalization ? null :
-        $"{host} stops: {InvariantSwitch} is off. The port runs with invariant globalization only. " +
-        "Build it with <InvariantGlobalization>true</InvariantGlobalization> (Directory.Build.props) " +
-        "or set \"System.Globalization.Invariant\": true in its runtimeconfig.json.";
+        $"{host} stops: {InvariantSwitch} is off. The port runs with invariant globalization only. Build it with <InvariantGlobalization>true</InvariantGlobalization> (Directory.Build.props) or set \"System.Globalization.Invariant\": true in its runtimeconfig.json.";
 
     /// <summary>Starts the census and reads the strict switch. Call it first thing in a host.</summary>
     public static void Enter(string host, string[] arguments)

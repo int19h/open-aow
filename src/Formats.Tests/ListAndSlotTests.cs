@@ -308,7 +308,7 @@ public sealed class ListAndSlotTests : FormatsTest
         {
             "TPart" => new Part(),
             "TSlotted" => new Slotted(),
-            _ => throw new InvalidOperationException("The test factory has no class " + className + "."),
+            _ => throw new InvalidOperationException($"The test factory has no class {className}."),
         };
     }
 }

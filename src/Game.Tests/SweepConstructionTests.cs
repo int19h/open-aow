@@ -100,31 +100,31 @@ public sealed class SweepConstructionTests
 
             if (item is Delegate handler)
             {
-                return handler.GetInvocationList().Select(x => x.Method.DeclaringType!.FullName + "." + x.Method.Name).ToArray();
+                return handler.GetInvocationList().Select(x => $"{x.Method.DeclaringType!.FullName}.{x.Method.Name}").ToArray();
             }
 
             if (!type.IsValueType)
             {
                 if (visited.TryGetValue(item, out string? found))
                 {
-                    return "$ref:" + found;
+                    return $"$ref:{found}";
                 }
 
                 visited.Add(item, path);
             }
             if (item is Array array)
             {
-                return array.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+                return array.Cast<object?>().Select((x, i) => State(x, $"{path}[{i}]")).ToArray();
             }
 
             if (InlineArrays.Elements(item) is { } elements)
             {
-                return elements.Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+                return elements.Select((x, i) => State(x, $"{path}[{i}]")).ToArray();
             }
 
             if (item is IList list)
             {
-                return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
+                return list.Cast<object?>().Select((x, i) => State(x, $"{path}[{i}]")).ToArray();
             }
 
             SortedDictionary<string, object?> fields = new(StringComparer.Ordinal) { ["$type"] = type.FullName };
@@ -137,10 +137,10 @@ public sealed class SweepConstructionTests
                         continue; // the descriptor cache and the link to the engine are not constructor state
                     }
 
-                    string key = current.Name + "." + MemberNames.Of(field);
+                    string key = $"{current.Name}.{MemberNames.Of(field)}";
                     object? child = field.GetValue(item);
                     if (MemberNames.Of(field) is "_owner" or "Owner") { fields[key] = child is null ? null : "$owner"; continue; }
-                    fields[key] = State(child, path + "." + key);
+                    fields[key] = State(child, $"{path}.{key}");
                 }
             }
 
@@ -440,21 +440,21 @@ public sealed class SweepConstructionTests
                         : Saved(type, given);
                     Assert.IsType(type, value);
                     Assert.Same(given, value.Owner);
-                    states.Add("success:" + Snapshot(value));
+                    states.Add($"success:{Snapshot(value)}");
                 }
-                catch (Exception error) { states.Add("failure:" + error.GetType().FullName + ":" + error.Message); }
+                catch (Exception error) { states.Add($"failure:{error.GetType().FullName}:{error.Message}"); }
                 finally
                 {
                     try { value?.Dispose(); }
-                    catch (Exception error) { states.Add("destroy:" + error.GetType().FullName + ":" + error.Message); }
+                    catch (Exception error) { states.Add($"destroy:{error.GetType().FullName}:{error.Message}"); }
                 }
-                states.Add("owner:" + (owner?.Members.Count ?? 0));
+                states.Add($"owner:{owner?.Members.Count ?? 0}");
                 if (owner is not null)
                 {
                     states.Add(JsonSerializer.Serialize(owner.Observations));
                 }
 
-                ConstructionSnapshot.Check(actual: string.Join("\n", states), key: name + ".owner" + owned, name: "SweepConstruction");
+                ConstructionSnapshot.Check(actual: string.Join("\n", states), key: $"{name}.owner{owned}", name: "SweepConstruction");
             }
         }
     }

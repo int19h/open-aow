@@ -16,7 +16,7 @@ public static class ImageLibraryMethods
         if (index + count > library.Count)
         {
             result = null;
-            _ = MessageBox(0, library.Name + " must have " + IntToStr(index + count) + " Images", "Error - " + sender.Name, 0);
+            _ = MessageBox(0, $"{library.Name} must have {IntToStr(index + count)} Images", $"Error - {sender.Name}", 0);
         }
         else
         {
@@ -24,7 +24,7 @@ public static class ImageLibraryMethods
             {
                 if (!library.ImageExist(i))
                 {
-                    _ = MessageBox(0, library.Name + " Image # " + IntToStr(i) + " is invalid", "Error - " + sender.Name, 0);
+                    _ = MessageBox(0, $"{library.Name} Image # {IntToStr(i)} is invalid", $"Error - {sender.Name}", 0);
                     result = null;
                 }
             }

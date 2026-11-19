@@ -212,7 +212,7 @@ public partial class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSpr
         }
         catch
         {
-            _ = MessageBox(0, "Error during Show", "Error - WorldfxHS " + IntToStr((int)EffectType), 0);
+            _ = MessageBox(0, "Error during Show", $"Error - WorldfxHS {IntToStr((int)EffectType)}", 0);
         }
     }
 
@@ -528,7 +528,7 @@ public partial class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSpr
         }
         catch
         {
-            _ = MessageBox(0, "Error - WorldfxHS " + IntToStr((int)EffectType), "Error during NewFrame", 0);
+            _ = MessageBox(0, $"Error - WorldfxHS {IntToStr((int)EffectType)}", "Error during NewFrame", 0);
         }
     }
 

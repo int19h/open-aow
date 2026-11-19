@@ -33,7 +33,7 @@ public abstract partial class PropertyCodec
             throw new InvalidOperationException(reason);
         }
 
-        throw new InvalidOperationException(GetType().Name + " has no image writer.");
+        throw new InvalidOperationException($"{GetType().Name} has no image writer.");
     }
 
     /// <summary>Reads original image bytes into a tree value. A leaf overrides this. The base refuses.</summary>
@@ -44,7 +44,7 @@ public abstract partial class PropertyCodec
             throw new InvalidOperationException(reason);
         }
 
-        throw new InvalidOperationException(GetType().Name + " has no image reader.");
+        throw new InvalidOperationException($"{GetType().Name} has no image reader.");
     }
 
     /// <summary>
@@ -60,18 +60,18 @@ public abstract partial class PropertyCodec
 
     /// <summary>Reads a member stored as two entries, the member's id and its data id. Either can be absent.</summary>
     internal virtual Tree.TreeValue ReadPairImage(DecodeContext context, (int Start, int End)? first, (int Start, int End)? second, ImageFrame frame) =>
-        throw new InvalidOperationException(GetType().Name + " stores one entry.");
+        throw new InvalidOperationException($"{GetType().Name} stores one entry.");
 
     /// <summary>True when one member is several original entries, as a coordinate is.</summary>
     internal virtual bool GroupsEntries => false;
 
     /// <summary>Reads the entries of a grouped member. The base stores one entry.</summary>
     internal virtual Tree.TreeValue ReadGroupImage(DecodeContext context, IReadOnlyList<SlotImage> entries, ImageFrame frame) =>
-        throw new InvalidOperationException(GetType().Name + " stores one entry.");
+        throw new InvalidOperationException($"{GetType().Name} stores one entry.");
 
     /// <summary>Reads the entries of a grouped member into a document value. The base stores one entry.</summary>
     internal virtual JsonValue DecodeGroup(DecodeContext context, IReadOnlyList<SlotImage> entries, ValueSite site) =>
-        throw new InvalidOperationException(GetType().Name + " stores one entry.");
+        throw new InvalidOperationException($"{GetType().Name} stores one entry.");
 
     /// <summary>
     /// Writes the entries of a dynamic member into the object's table. The base refuses the
@@ -113,7 +113,7 @@ public abstract partial class PropertyCodec
             "strings" => new StringsCodec(),
             "strings-ex" => new StringsWithValuesCodec(),
             "data" => new DataCodec(size),
-            "list" => new ListCodec(Create((JsonObject)source["element"]!, schema, path + ".element"), schema.StoresLists),
+            "list" => new ListCodec(Create((JsonObject)source["element"]!, schema, $"{path}.element"), schema.StoresLists),
             "record" => source["record"] is JsonString named
                 ? new CatalogRecordCodec(named.Value, CheckedSize(source, path))
                 : new RecordCodec(source, schema, path),
@@ -145,7 +145,7 @@ public abstract partial class PropertyCodec
     }
 
     private static string TypeName(JsonObject source, string key) =>
-        (source[key] as JsonString)?.Value ?? throw new InvalidOperationException("A " + key + " codec names its C# type.");
+        (source[key] as JsonString)?.Value ?? throw new InvalidOperationException($"A {key} codec names its C# type.");
 
     private static int Width(JsonObject source) =>
         source["width"] is JsonInteger width ? (int)width.Value : throw new InvalidOperationException("The codec needs a width.");
@@ -155,7 +155,7 @@ public abstract partial class PropertyCodec
         int width = Width(source);
         return width is 1 or 2 or 4
             ? width
-            : throw new InvalidOperationException(path + " has width " + width + ". An " + kind + " width is 1, 2 or 4.");
+            : throw new InvalidOperationException($"{path} has width {width}. An {kind} width is 1, 2 or 4.");
     }
 
     private static bool Signed(JsonObject source) => source["signed"] is JsonBoolean { Value: true };
@@ -164,13 +164,13 @@ public abstract partial class PropertyCodec
         source["count"] is JsonInteger count ? (int)count.Value : throw new InvalidOperationException("An integer array needs a count.");
 
     private static string CountName(JsonObject source, string path) =>
-        (source["count"] as JsonString)?.Value ?? throw new InvalidOperationException(path + " bit array names its count property.");
+        (source["count"] as JsonString)?.Value ?? throw new InvalidOperationException($"{path} bit array names its count property.");
 
     private static string MemberName(JsonObject source, string key, string path) =>
-        (source[key] as JsonString)?.Value ?? throw new InvalidOperationException(path + " terrain grid names its " + key + " property.");
+        (source[key] as JsonString)?.Value ?? throw new InvalidOperationException($"{path} terrain grid names its {key} property.");
 
     private static int CheckedSize(JsonObject source, string path) =>
-        source["size"] is JsonInteger size && size.Value > 0 ? (int)size.Value : throw new InvalidOperationException(path + " record needs a size.");
+        source["size"] is JsonInteger size && size.Value > 0 ? (int)size.Value : throw new InvalidOperationException($"{path} record needs a size.");
 
     private static bool Raw(JsonObject source) => source["raw"] is JsonBoolean { Value: true };
 
@@ -184,7 +184,7 @@ public abstract partial class PropertyCodec
             : source["record"] is not JsonString recordName
             ? null
             : width != 4
-            ? throw new InvalidOperationException(path + " names a record for a list of " + width + "-byte values.")
+            ? throw new InvalidOperationException($"{path} names a record for a list of {width}-byte values.")
             : (ListElement)new RecordListElement(recordName.Value);
     }
 

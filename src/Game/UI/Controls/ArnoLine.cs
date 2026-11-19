@@ -77,7 +77,7 @@ public partial class ArnoLine : Control
         }
         catch
         {
-            _ = MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Draw", $"Error - {Name}", 0);
         }
     }
 

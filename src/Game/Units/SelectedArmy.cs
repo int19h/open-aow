@@ -697,13 +697,13 @@ public partial class SelectedArmy(EngineObject creator) : MoveSelector(creator)
         AIGroup group;
         for (int i = 0, last = GetArmyHexSprite().Army.Units.Count - 1; i <= last; i++)
         {
-            text = GetArmyHexSprite().Army.Units.GetUnit(i).GetName() + "(ID:" + IntToStr(GetArmyHexSprite().Army.Units.GetUnit(i).UnitId) + ")";
+            text = $"{GetArmyHexSprite().Army.Units.GetUnit(i).GetName()}(ID:{IntToStr(GetArmyHexSprite().Army.Units.GetUnit(i).UnitId)})";
             group = GetArmyHexSprite().Army.Units.GetUnit(i).Group;
             if (group != null)
             {
                 GroupBehavior behavior = group.GroupClass.Behavior;
                 MapCoordinate target = group.TargetLocation ?? MapCoordinate.None;
-                text = text + s_groupBehaviorTexts[(int)behavior] + "(GID:" + IntToStr(group.GroupId) + "/Target:" + IntToStr(target.X) + "," + IntToStr(target.Y) + "," + IntToStr(target.MapLevel) + "/Budget:" + IntToStr(group.GoldBudget) + "/MP:" + IntToStr(group.TargetMovePoints) + ")";
+                text = $"{text}{s_groupBehaviorTexts[(int)behavior]}(GID:{IntToStr(group.GroupId)}/Target:{IntToStr(target.X)},{IntToStr(target.Y)},{IntToStr(target.MapLevel)}/Budget:{IntToStr(group.GoldBudget)}/MP:{IntToStr(group.TargetMovePoints)})";
                 if (group.TargetType == AIGroupTargetStatus.Setup)
                 {
                     text += "-setup";
@@ -727,7 +727,7 @@ public partial class SelectedArmy(EngineObject creator) : MoveSelector(creator)
         }
 
         int strengthMax = GetArmyHexSprite().Army.Units.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.None));
-        Creator.GetEngine().OutputDebugString("Army strength: " + IntToStr(strengthMax));
+        Creator.GetEngine().OutputDebugString($"Army strength: {IntToStr(strengthMax)}");
     }
 
     // Army.PAS:4090

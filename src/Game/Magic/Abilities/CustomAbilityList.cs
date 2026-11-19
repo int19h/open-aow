@@ -157,7 +157,7 @@ public partial class CustomAbilityList(CustomNode owner) : EngineObject(owner)
         {
             if (GetAbilitySetAt(i))
             {
-                result = result + IntToStr(i) + ",";
+                result = $"{result}{IntToStr(i)},";
             }
         }
 

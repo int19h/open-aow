@@ -17,12 +17,12 @@ public sealed class SysUtilsProbeTests
         Bytes("uppercase_all_bytes", UpperCase(all)); Bytes("lowercase_all_bytes", LowerCase(all));
         foreach ((string? label, string? a, string? b) in new (string, string, string)[] { ("case", "abc", "ABC"), ("prefix", "ab", "ABC"), ("high", "\xe0", "\xc0"), ("empty", "", "a"), ("zero", "a\0b", "A\0c") })
         {
-            probe.Fact("comparetext_" + label, Math.Sign(CompareText(a, b)));
+            probe.Fact($"comparetext_{label}", Math.Sign(CompareText(a, b)));
         }
 
         foreach ((string? label, string? text) in new (string, string)[] { ("space", "  abc  "), ("controls", "\0\t\n\rabc\x1f "), ("all", "\0\t "), ("empty", ""), ("high", "\xa0" + "abc\xa0"), ("inner", " a b ") })
         {
-            Bytes("trim_" + label, Trim(text));
+            Bytes($"trim_{label}", Trim(text));
         }
 
         foreach ((string? label, string? text) in new (string, string)[] {
@@ -30,29 +30,29 @@ public sealed class SysUtilsProbeTests
         {
             object result;
             try { result = StrToInt(text); } catch (Exception e) { result = probe.DelphiName(e); }
-            probe.Fact("strtoint_" + label, result);
+            probe.Fact($"strtoint_{label}", result);
         }
         foreach ((string? label, int value) in new[] { ("zero", 0), ("min", int.MinValue), ("max", int.MaxValue), ("negative", -42) })
         {
-            Bytes("inttostr_" + label, IntToStr(value));
+            Bytes($"inttostr_{label}", IntToStr(value));
         }
 
         foreach ((string? label, int value, int digits) in new[] { ("byte", 255, 2), ("pad", 255, 6), ("narrow", 256, 1), ("negative", -1, 2), ("zero_width", 0, 0) })
         {
-            Bytes("inttohex_" + label, IntToHex(value, digits));
+            Bytes($"inttohex_{label}", IntToHex(value, digits));
         }
 
         foreach ((string? label, string? text) in new (string, string)[] { ("empty", ""), ("single", "a"), ("crlf", "a\r\nb\r\n"), ("lf", "a\nb\n"), ("cr", "a\rb\r"), ("blanks", "\r\n\r\n"), ("mixed", "a\r\n\nb"), ("zero", "a\0b") })
         {
             DelphiStringList list = new() { Text = text };
-            probe.Fact("text_" + label + "_count", list.Count);
+            probe.Fact($"text_{label}_count", list.Count);
             for (int i = 0; i < list.Count; i++)
             {
                 Bytes($"text_{label}_item_{i}", list[i]);
             }
 
-            string roundtrip = list.Text; Bytes("text_" + label + "_text", roundtrip);
-            list.Text = roundtrip; Bytes("text_" + label + "_text_again", list.Text);
+            string roundtrip = list.Text; Bytes($"text_{label}_text", roundtrip);
+            list.Text = roundtrip; Bytes($"text_{label}_text_again", list.Text);
         }
         StringBuilder differences = new();
         Dictionary<string, int> kinds = [];
@@ -84,7 +84,7 @@ public sealed class SysUtilsProbeTests
     {
         ProbeLines p = new("format");
         void RecordFormat(string label, string format, params ReadOnlySpan<FormatArg> arguments) => p.Fact(label, Format(format, arguments));
-        void RecordBracketedFormat(string label, string format, params ReadOnlySpan<FormatArg> arguments) => p.Fact(label, "[" + Format(format, arguments) + "]");
+        void RecordBracketedFormat(string label, string format, params ReadOnlySpan<FormatArg> arguments) => p.Fact(label, $"[{Format(format, arguments)}]");
         void Error(string label, string format, params ReadOnlySpan<FormatArg> arguments)
         {
             object result; try { result = Format(format, arguments); } catch (Exception e) { result = p.DelphiName(e); }

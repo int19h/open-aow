@@ -15,7 +15,7 @@ namespace Aow.Game.Tests;
 [Collection("Engine")]
 public sealed class AtomicReplacementTests : IDisposable
 {
-    private readonly string _directory = Path.Combine(Path.GetTempPath(), "open-aow-replace-" + Guid.NewGuid().ToString("N"));
+    private readonly string _directory = Path.Combine(Path.GetTempPath(), $"open-aow-replace-{Guid.NewGuid():N}");
     private readonly IFileSystem _previous = RtlHost.Files;
     private readonly Action<FileLogRecord>? _previousLog = FileBoundary.Log;
     private readonly List<FileLogRecord> _log = [];
@@ -36,8 +36,7 @@ public sealed class AtomicReplacementTests : IDisposable
 
     /// <summary>The engine image of an empty hero list: the stored image of one root property.</summary>
     private static byte[] HeroListImage(string name = "") => GameFiles.ExportImage((JsonObject)JsonReader.Parse(
-        "{\"$format\": \"OpenAoW\", \"$version\": " + OwnFormat.CurrentVersion + ", \"$kind\": \"hero-list\", \"$container\": {\"profile\": \"hero-list\", \"compression\": \"none\"}, \"root\": {"
-        + (name.Length == 0 ? "" : "\"LibraryName\": \"" + name + "\"") + "}}"));
+        $"{{\"$format\": \"OpenAoW\", \"$version\": {OwnFormat.CurrentVersion}, \"$kind\": \"hero-list\", \"$container\": {{\"profile\": \"hero-list\", \"compression\": \"none\"}}, \"root\": {{{(name.Length == 0 ? "" : $"\"LibraryName\": \"{name}\"")}}}}}"));
 
     /// <summary>A hero list the game saves through the tree.</summary>
     private static HeroLibrary HeroList(string name = "") => new(null) { Holder = EngineFixture.Engine, LibraryName = name };

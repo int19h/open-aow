@@ -96,7 +96,7 @@ internal static class Program
                         viewportWidth = int.Parse(dimensions[0]);
                         viewportHeight = int.Parse(dimensions[1]);
                         break;
-                    default: throw new ArgumentException("unknown option: " + arguments[i]);
+                    default: throw new ArgumentException($"unknown option: {arguments[i]}");
                 }
             }
             if (input is null || output is null || turns < 0)
@@ -114,7 +114,7 @@ internal static class Program
             trace = new StreamWriter(Path.Combine(output, "exceptions.log")) { NewLine = "\n" };
             AppDomain.CurrentDomain.FirstChanceException += (sender, e) =>
             {
-                string detail = (e.Exception.ToString() + (gameplay ? "\n" + new StackTrace(1, true) : "")).Replace("\r\n", "\n");
+                string detail = (e.Exception.ToString() + (gameplay ? $"\n{new StackTrace(1, true)}" : "")).Replace("\r\n", "\n");
                 if (e.Exception is NotImplementedException)
                 {
                     _ = todos.Add(detail);
@@ -156,7 +156,7 @@ internal static class Program
             engine.LoadHsm(input, false, null, GameProfile.WorldMap);
             if (engine.HexSpriteMap is not StrategicMap map)
             {
-                throw new InvalidDataException("engine load failed" + (FileBoundary.LastFailure is { } refused ? ": " + refused : ""));
+                throw new InvalidDataException($"engine load failed{(FileBoundary.LastFailure is { } refused ? $": {refused}" : "")}");
             }
 
             _ = map.SetViewPort(map.ViewPixelX, map.ViewPixelY, map.ViewMapLevel, 0, 0);
@@ -186,12 +186,12 @@ internal static class Program
             {
                 if (todos.Count != 0)
                 {
-                    throw new InvalidOperationException("reached TODO: " + string.Join("\n", todos));
+                    throw new InvalidOperationException($"reached TODO: {string.Join("\n", todos)}");
                 }
 
                 if (runtimeErrors.Count != 0)
                 {
-                    throw new InvalidOperationException("gameplay exception: " + string.Join("\n", runtimeErrors));
+                    throw new InvalidOperationException($"gameplay exception: {string.Join("\n", runtimeErrors)}");
                 }
             }
             void Save(PlayerControl control)
@@ -209,7 +209,7 @@ internal static class Program
                 string file = Path.Combine(output, name);
                 if (!File.Exists(file))
                 {
-                    throw new IOException("AutoSave did not write " + name);
+                    throw new IOException($"AutoSave did not write {name}");
                 }
 
                 saves.Add(new { day, file = name, sha256 = Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(file))) });

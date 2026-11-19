@@ -331,7 +331,7 @@ public sealed class BlitterTests
         List<string> results = [];
         foreach ((string name, Rectangle call) in s_copies)
         {
-            Recorder recorder = new(name + "-overlap");
+            Recorder recorder = new($"{name}-overlap");
             int seed = 5000;
             foreach (int w in (int[])[4, 9, 31, 33, 64, 70])
             {

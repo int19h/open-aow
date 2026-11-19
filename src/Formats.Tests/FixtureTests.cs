@@ -13,7 +13,7 @@ public sealed class FixtureTests : FormatsTest
         TheoryData<string> data = [];
         foreach (Fixtures.Case? c in Fixtures.All().Where(c => c.UsesGame == usesGame))
         {
-            data.Add(c.Group + "/" + c.Name);
+            data.Add($"{c.Group}/{c.Name}");
         }
 
         return data;
@@ -25,7 +25,7 @@ public sealed class FixtureTests : FormatsTest
 
     private static void Run(string name)
     {
-        Fixtures.Case c = Fixtures.All().Single(f => f.Group + "/" + f.Name == name);
+        Fixtures.Case c = Fixtures.All().Single(f => $"{f.Group}/{f.Name}" == name);
         Fixtures.Outcome outcome = c.Run();
         Assert.True(outcome.Matched, outcome.Detail);
     }
@@ -41,7 +41,7 @@ public sealed class FixtureTests : FormatsTest
     [Fact]
     public void CaseNamesAreUniqueAndBothKindsExist()
     {
-        List<string> names = [.. Fixtures.All().Select(c => c.Group + "/" + c.Name)];
+        List<string> names = [.. Fixtures.All().Select(c => $"{c.Group}/{c.Name}")];
         Assert.Equal(names.Count, names.Distinct(StringComparer.Ordinal).Count());
         Assert.Equal(16, Fixtures.All().Count(c => !c.UsesGame));
     }

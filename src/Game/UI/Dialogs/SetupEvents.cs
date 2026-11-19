@@ -84,7 +84,7 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
     // aowSetupEvents.pas:111
     public void DPlayFileStartMessage(int id, string name, int size, in byte response)
     {
-        UI.ProgressDialog.StatusLabel.Text = "0k of " + IntToStr(size / 1000) + "k";
+        UI.ProgressDialog.StatusLabel.Text = $"0k of {IntToStr(size / 1000)}k";
         UI.ProgressDialog.TitleLabel.Text = "Receiving File";
         UI.ProgressDialog.ProgressBar.Max = size;
         UI.ProgressDialog.ProgressBar.Position = 0;
@@ -100,7 +100,7 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
     {
         if (position > UI.ProgressDialog.ProgressBar.Position)
         {
-            UI.ProgressDialog.StatusLabel.Text = IntToStr(position / 1000) + "k of " + IntToStr(size / 1000) + "k";
+            UI.ProgressDialog.StatusLabel.Text = $"{IntToStr(position / 1000)}k of {IntToStr(size / 1000)}k";
             UI.ProgressDialog.ProgressBar.Position = position;
         }
     }
@@ -182,7 +182,7 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
         {
             UI.Engine.LoadHsmFromStream(control.Stream, false, (_, message, progression) => UI.General.MapProgress(message, progression));
             string fileName2 = ExtractFileName(fileName);
-            StrategicMap.Current.FileName = UI.Engine.StartupDirectory + "Scenario\\" + fileName2;
+            StrategicMap.Current.FileName = $"{UI.Engine.StartupDirectory}Scenario\\{fileName2}";
         }
         else
         {

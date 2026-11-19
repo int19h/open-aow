@@ -220,7 +220,7 @@ public partial class Scanner(Component owner) : Control(owner)
         }
         catch
         {
-            _ = MessageBox(0, "Exception during Draw", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during Draw", $"Error - {Name}", 0);
         }
     }
 
@@ -691,7 +691,7 @@ public partial class Scanner(Component owner) : Control(owner)
         }
         catch
         {
-            _ = MessageBox(0, "Exception during DrawMap", "Error - " + Name, 0);
+            _ = MessageBox(0, "Exception during DrawMap", $"Error - {Name}", 0);
         }
     }
 

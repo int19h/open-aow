@@ -19,7 +19,7 @@ public static class FormatMapping
     {
         if (!s_mappings.TryAdd(persistedName, rules))
         {
-            throw new InvalidOperationException("The persisted class " + persistedName + " has two format mappings.");
+            throw new InvalidOperationException($"The persisted class {persistedName} has two format mappings.");
         }
 
         foreach (ContentRule rule in rules)

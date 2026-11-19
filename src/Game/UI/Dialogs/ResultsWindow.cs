@@ -122,7 +122,7 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
         }
 
         string turn = UI.Engine.TranslateResourceString(s_turnText);
-        TurnLabel.Text = turn + " " + IntToStr(_maxTurns);
+        TurnLabel.Text = $"{turn} {IntToStr(_maxTurns)}";
     }
 
     // AoWResultsWin.pas:250

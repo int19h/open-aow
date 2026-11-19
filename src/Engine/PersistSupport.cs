@@ -86,7 +86,7 @@ public static class PersistSupport
     private static sbyte InRange(string name, string component, int stored)
     {
         return stored is < -128 or > 127
-            ? throw new InvalidOperationException(name + "." + component + " is " + stored.ToString(System.Globalization.CultureInfo.InvariantCulture) + ", outside -128 to 127.")
+            ? throw new InvalidOperationException(string.Create(System.Globalization.CultureInfo.InvariantCulture, $"{name}.{component} is {stored}, outside -128 to 127."))
             : (sbyte)stored;
     }
 
@@ -106,7 +106,7 @@ public static class PersistSupport
 
         if (list.Count > values.Length)
         {
-            throw new InvalidOperationException(name + " holds at most " + values.Length + " values.");
+            throw new InvalidOperationException($"{name} holds at most {values.Length} values.");
         }
 
         for (int i = 0; i < values.Length; i++)
@@ -131,7 +131,7 @@ public static class PersistSupport
 
         if (list.Count > values.Length)
         {
-            throw new InvalidOperationException(name + " holds at most " + values.Length + " values.");
+            throw new InvalidOperationException($"{name} holds at most {values.Length} values.");
         }
 
         for (int i = 0; i < values.Length; i++)

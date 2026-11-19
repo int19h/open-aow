@@ -89,7 +89,7 @@ public static class FileBoundary
         }
         catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException)
         {
-            Record(report: new GameFileReport { Operation = operation, Profile = profile, Error = new FormatDiagnostic(Codes.Output, "The file cannot be read: " + e.Message) { File = fileName } }, files: files, fileName: fileName);
+            Record(report: new GameFileReport { Operation = operation, Profile = profile, Error = new FormatDiagnostic(Codes.Output, $"The file cannot be read: {e.Message}") { File = fileName } }, files: files, fileName: fileName);
             return null;
         }
         string layer = LayerOf(files, fileName);
@@ -177,7 +177,7 @@ public static class FileBoundary
         }
         catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException)
         {
-            result.Report.Error = new FormatDiagnostic(Codes.Output, "The file cannot be written: " + e.Message) { File = fileName };
+            result.Report.Error = new FormatDiagnostic(Codes.Output, $"The file cannot be written: {e.Message}") { File = fileName };
             Record(files, fileName, result.Report);
             throw new GameFileErrorException(LastFailure!);
         }
@@ -435,8 +435,8 @@ public static class FileBoundary
     /// </summary>
     public static List<string> FindDocuments(string directory, DocumentKind kind)
     {
-        List<string> originals = FindNames(directory + "*" + kind.OriginalExtension);
-        List<string> owns = FindNames(directory + "*" + kind.OwnExtension);
+        List<string> originals = FindNames($"{directory}*{kind.OriginalExtension}");
+        List<string> owns = FindNames($"{directory}*{kind.OwnExtension}");
         List<string> result = [];
         foreach (string name in originals)
         {
@@ -466,7 +466,7 @@ public static class FileBoundary
     }
 
     /// <summary>The temporary of a replacement: a sibling the game never opens.</summary>
-    public static string TemporaryFor(string fileName) => fileName + ".openaow-tmp";
+    public static string TemporaryFor(string fileName) => $"{fileName}.openaow-tmp";
 
     /// <summary>
     /// Writes a sibling temporary, closes it and replaces the target atomically. The target is
@@ -493,7 +493,7 @@ public static class FileBoundary
             }
             if (!files.ReplaceFile(temporary, fileName))
             {
-                throw new IOException("The file service did not replace " + fileName + ".");
+                throw new IOException($"The file service did not replace {fileName}.");
             }
 
             replaced = true;

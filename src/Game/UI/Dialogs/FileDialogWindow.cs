@@ -203,7 +203,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
             directory = Copy(directory, 1, directory.Length - 1);
         }
 
-        foreach (RtlFileEntry entry in RtlHost.Files.FindEntries(directory + "\\**", attributes: 16))
+        foreach (RtlFileEntry entry in RtlHost.Files.FindEntries($"{directory}\\**", attributes: 16))
         {
             if (entry.Name is not "." and not "..")
             {
@@ -241,7 +241,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
         FileList.Items.AddStrings(Directories);
         FileList.Items.AddStrings(Files);
         SaveList.Items.AddStrings(FileList.Items);
-        PathEdit.Text = directory + "\\";
+        PathEdit.Text = $"{directory}\\";
         for (int i = 0, last = Directories.Count - 1; i <= last; i++)
         {
             _ = DateList.Items.Add("");
@@ -263,7 +263,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
         Drives = new DelphiStringList();
         Directories = new DelphiStringList();
         Files = new DelphiStringList<FileTime>();
-        Directory = UI.Engine.StartupDirectory + "Save\\";
+        Directory = $"{UI.Engine.StartupDirectory}Save\\";
         LastFileName = "";
     }
 
@@ -299,7 +299,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
             }
 
             string item = FileList.Items[FileList.Selected];
-            if (SetCurrentDir(directory + "\\" + item))
+            if (SetCurrentDir($"{directory}\\{item}"))
             {
                 FindFiles();
             }
@@ -581,7 +581,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                     FileNameEdit.Text = "";
                 }
 
-                _ = SetCurrentDir(UI.Engine.StartupDirectory + "Scenario\\Custom\\");
+                _ = SetCurrentDir($"{UI.Engine.StartupDirectory}Scenario\\Custom\\");
                 string selectAMap = UI.Engine.TranslateResourceString(s_selectMapText);
                 UI.FileDialogWindow.TitleLabel.Text = selectAMap;
                 string select = UI.Engine.TranslateResourceString(s_selectText);
@@ -734,8 +734,8 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
     public void FindDrives()
     {
         Drives.Clear();
-        string drive = RtlHost.Files.VirtualDrive + "\\";
-        string label = OperatingSystem.IsWindows() ? new DriveInfo(drive).VolumeLabel + " " : "";
+        string drive = $"{RtlHost.Files.VirtualDrive}\\";
+        string label = OperatingSystem.IsWindows() ? $"{new DriveInfo(drive).VolumeLabel} " : "";
         _ = Drives.Add($"{label}({drive})");
         DriveComboBox.Items.Clear();
         DriveComboBox.Items.AddStrings(Drives);
@@ -793,7 +793,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
             {
                 string loading = controller.UI.Engine.TranslateResourceString(LayerText.LoadingText);
                 string fileName = ExtractFileName(name);
-                controller.UI.ProgressDialog.TitleLabel.Text = loading + " " + fileName + "...";
+                controller.UI.ProgressDialog.TitleLabel.Text = $"{loading} {fileName}...";
                 controller.UI.ProgressDialog.StatusLabel.Text = "";
                 controller.UI.ProgressDialog.ProgressBar.Position = 0;
                 controller.UI.ProgressDialog.ProgressBar.Max = 100;
@@ -827,7 +827,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
     private static void PickScenarioMap(ScenarioSetup dialog, string name)
     {
         string currentDirectory = GetCurrentDir();
-        name = ExtractRelativePath(dialog.UI.Engine.StartupDirectory, currentDirectory + "\\" + name);
+        name = ExtractRelativePath(dialog.UI.Engine.StartupDirectory, $"{currentDirectory}\\{name}");
         dialog.UI.FileDialogWindow.Window.Visible = false;
         _ = dialog.SetupControl.PickMap(name);
     }

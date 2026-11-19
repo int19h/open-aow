@@ -682,7 +682,7 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
 
         string loading = controller.UI.Engine.TranslateResourceString(s_loadingText);
         string fileNameLocal = ExtractFileName(fileName);
-        controller.UI.ProgressDialog.TitleLabel.Text = loading + ": " + fileNameLocal + "...";
+        controller.UI.ProgressDialog.TitleLabel.Text = $"{loading}: {fileNameLocal}...";
         controller.UI.ProgressDialog.StatusLabel.Text = "";
         controller.UI.ProgressDialog.ProgressBar.Position = 0;
         controller.UI.ProgressDialog.ProgressBar.Max = 100;

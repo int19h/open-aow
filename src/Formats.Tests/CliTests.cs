@@ -5,7 +5,7 @@ namespace Aow.Formats.Tests;
 /// <summary>aowconv output rules and exit codes (own-formats.md 3.2).</summary>
 public sealed class CliTests : FormatsTest, IDisposable
 {
-    private readonly string _directory = Path.Combine(Path.GetTempPath(), "aowconv-tests-" + Guid.NewGuid().ToString("N"));
+    private readonly string _directory = Path.Combine(Path.GetTempPath(), $"aowconv-tests-{Guid.NewGuid():N}");
 
     public CliTests() => Directory.CreateDirectory(_directory);
 
@@ -147,7 +147,7 @@ public sealed class CliTests : FormatsTest, IDisposable
     {
         (int code, string output, _) = Run("info", HeroList);
         Assert.Equal(Program.Success, code);
-        Assert.Contains("Profile: hero-list, kind hero-list, version " + OwnFormat.CurrentVersion, output);
+        Assert.Contains($"Profile: hero-list, kind hero-list, version {OwnFormat.CurrentVersion}", output);
         Assert.Contains("Legacy rules: none", output);
     }
 

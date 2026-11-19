@@ -47,8 +47,8 @@ internal static class PersistenceMeasurement
         // A scenario set stores the game set files beside it, and its load reads the CRC of the
         // RELEASE.HSS beside it, so its own document is that name in the run's Release folder.
         string saved = kind == "set"
-            ? Path.Combine(host.GameRoot, "Release", "Release" + extension)
-            : Path.Combine(host.GameRoot, "Save", "measure" + extension);
+            ? Path.Combine(host.GameRoot, "Release", $"Release{extension}")
+            : Path.Combine(host.GameRoot, "Save", $"measure{extension}");
         Stopwatch watch = Stopwatch.StartNew();
         switch (kind)
         {
@@ -129,7 +129,7 @@ internal static class PersistenceMeasurement
     {
         if (!condition)
         {
-            throw new InvalidDataException(step + " failed" + (FileBoundary.LastFailure is { } refused ? ": " + refused : ""));
+            throw new InvalidDataException($"{step} failed{(FileBoundary.LastFailure is { } refused ? $": {refused}" : "")}");
         }
     }
 }

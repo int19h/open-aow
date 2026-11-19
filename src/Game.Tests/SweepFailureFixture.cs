@@ -26,14 +26,14 @@ internal static class SweepFailureFixture
         public override int AddChild(EngineObject child)
         {
             _last = child;
-            Events.Add("insert:" + EngineFixture.Forwards(child.Owner, this));
+            Events.Add($"insert:{EngineFixture.Forwards(child.Owner, this)}");
             _ = base.AddChild(child);
             return reject ? throw new InvalidDataException("owner rejects after insertion") : Members.Count - 1;
         }
 
         public override int RemoveChild(EngineObject child)
         {
-            Events.Add("remove:" + ReferenceEquals(_last, child));
+            Events.Add($"remove:{ReferenceEquals(_last, child)}");
             int index = Members.IndexOf(child);
             _ = base.RemoveChild(child);
             return index;

@@ -99,7 +99,7 @@ public partial class CombatSide(CustomNode owner) : OwningNode(owner), IChildLis
             string idString = GetObjects(i).IdString();
             int targetPriority = GetObjects(i).GetTargetPriority();
             int targetStrength = GetObjects(i).GetTargetStrength();
-            s = "(" + IntToStr(i) + "):" + idString + " (Priority:" + IntToStr(targetPriority) + "/Strength:" + IntToStr(targetStrength) + ")";
+            s = $"({IntToStr(i)}):{idString} (Priority:{IntToStr(targetPriority)}/Strength:{IntToStr(targetStrength)})";
             GetEngine().OutputDebugMessage(DebugChannel.Combat, s);
         }
     }

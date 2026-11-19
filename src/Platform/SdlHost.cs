@@ -56,7 +56,7 @@ public sealed class SdlHost : IRtlHost, IDisposable
         {
             if (!SDL.SDL3.SDL_OpenURL(url))
             {
-                Console.Error.WriteLine("Open URL failed: " + url + ": " + SDL.SDL3.SDL_GetError());
+                Console.Error.WriteLine($"Open URL failed: {url}: {SDL.SDL3.SDL_GetError()}");
             }
         }
     }
@@ -78,7 +78,7 @@ public sealed class SdlHost : IRtlHost, IDisposable
 
         public int Show(DialogRequest request)
         {
-            Console.Error.WriteLine("Message: " + request.Text);
+            Console.Error.WriteLine($"Message: {request.Text}");
             if (request.Text.StartsWith("Exception", StringComparison.Ordinal) && t_last is { } error)
             {
                 Console.Error.WriteLine(error);

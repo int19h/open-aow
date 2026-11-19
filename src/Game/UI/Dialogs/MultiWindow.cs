@@ -257,7 +257,7 @@ public partial class MultiWindow(UIContext ui) : UIModule(ui)
     {
         UI.FileDialogWindow.Mode = 0;
         UI.FileDialogWindow.Window.Visible = true;
-        _ = SetCurrentDir(UI.Engine.StartupDirectory + "EmailIn\\");
+        _ = SetCurrentDir($"{UI.Engine.StartupDirectory}EmailIn\\");
         UI.FileDialogWindow.FindFiles();
     }
 

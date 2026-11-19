@@ -191,7 +191,7 @@ public sealed class SymbolicTests : FormatsTest
 
     private static void AssertWidth(string kind, string property, string path)
     {
-        string json = "{\"version\":2,\"classes\":[{\"name\":\"TSampleHolder\",\"properties\":[" + property + "]}]}";
+        string json = $"{{\"version\":2,\"classes\":[{{\"name\":\"TSampleHolder\",\"properties\":[{property}]}}]}}";
         InvalidOperationException error = Assert.Throws<InvalidOperationException>(() => FormatSchema.Load(Encoding.UTF8.GetBytes(json), "wide.json"));
         Assert.Contains(path, error.Message);
         Assert.Contains(kind, error.Message);

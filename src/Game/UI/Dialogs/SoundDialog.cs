@@ -139,21 +139,21 @@ public partial class SoundDialog(UIContext ui) : UIModule(ui)
         string directory;
         SongList.Items.Clear();
         s_songFiles.Clear();
-        _ = SetCurrentDir(UI.Engine.StartupDirectory + "\\Songs");
+        _ = SetCurrentDir($"{UI.Engine.StartupDirectory}\\Songs");
         directory = GetCurrentDir();
         if (Copy(directory, directory.Length, 1) == "\\")
         {
             directory = Copy(directory, 1, directory.Length - 1);
         }
 
-        foreach (RtlFileEntry entry in Files.FindEntries(directory + "\\*.*", attributes: 16))
+        foreach (RtlFileEntry entry in Files.FindEntries($"{directory}\\*.*", attributes: 16))
         {
             if (entry.Name is not "." and not "..")
             {
                 if (UpperCase(Copy(entry.Name, entry.Name.Length - 3, 4)) == ".S3M" || UpperCase(Copy(entry.Name, entry.Name.Length - 2, 3)) == ".IT")
                 {
-                    _ = s_songFiles.Add("Songs\\" + entry.Name);
-                    string songName = AudioPlayback.GetSongName("Songs\\" + entry.Name);
+                    _ = s_songFiles.Add($"Songs\\{entry.Name}");
+                    string songName = AudioPlayback.GetSongName($"Songs\\{entry.Name}");
                     _ = SongList.Items.Add(songName);
                 }
             }

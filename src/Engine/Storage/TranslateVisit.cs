@@ -39,7 +39,7 @@ public partial class TranslateVisit(GameEngine engine) : IDisposable
             if (_onError is not null)
             {
                 int classId = objectValue.EngineClass.ClassId;
-                _onError("Error reading object (cid:" + IntToStr(classId) + ")", ref canContinue);
+                _onError($"Error reading object (cid:{IntToStr(classId)})", ref canContinue);
             }
 
             if (!canContinue)

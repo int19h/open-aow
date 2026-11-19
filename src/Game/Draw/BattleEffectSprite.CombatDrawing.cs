@@ -642,7 +642,7 @@ public partial class BattleEffectSprite
         catch
         {
             // { Original puts the diagnostic in the message-box caption. }
-            _ = MessageBox(0, "Error during Show", NullTerminatedText("Error - fxHS " + IntToStr(AbilityIndex) + " " + IntToStr(SpellIndex)), 0);
+            _ = MessageBox(0, "Error during Show", NullTerminatedText($"Error - fxHS {IntToStr(AbilityIndex)} {IntToStr(SpellIndex)}"), 0);
         }
     }
 }

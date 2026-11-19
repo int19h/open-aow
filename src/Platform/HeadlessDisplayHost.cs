@@ -57,8 +57,8 @@ public sealed class HeadlessDisplayHost(string directory, int width = 640, int h
 
         _ = Directory.CreateDirectory(directory);
         string name = Path.Combine(directory, CaptureName ?? $"frame-{FixtureFrame ?? Frame}");
-        File.WriteAllBytes(name + ".raw", bytes);
-        File.WriteAllText(name + ".json", JsonSerializer.Serialize(new
+        File.WriteAllBytes($"{name}.raw", bytes);
+        File.WriteAllText($"{name}.json", JsonSerializer.Serialize(new
         {
             width = surface.Width,
             height = surface.Height,

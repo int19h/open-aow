@@ -314,16 +314,16 @@ public partial class TurnUndeadAbility : TouchAbility
                 result = AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText);
                 break;
             case 1:
-                result = AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText) + " I";
+                result = $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText)} I";
                 break;
             case 2:
-                result = AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText) + " II";
+                result = $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText)} II";
                 break;
             case 3:
-                result = AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText) + " III";
+                result = $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText)} III";
                 break;
             case 4:
-                result = AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText) + " IV";
+                result = $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText)} IV";
                 break;
             default:
                 break;

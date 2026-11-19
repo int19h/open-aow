@@ -166,7 +166,7 @@ public sealed class PrisonersSaveListingTests
         string directory = Path.Combine(EngineFixture.Root, "Save");
         _ = Directory.CreateDirectory(directory);
         string source = Path.Combine(directory, "prisoners-campaign-source.oasg");
-        string saved = Path.Combine(directory, "prisoners" + FileBoundary.WriteExtension(DocumentKind.CampaignSave));
+        string saved = Path.Combine(directory, $"prisoners{FileBoundary.WriteExtension(DocumentKind.CampaignSave)}");
         MapObjectResourceList resources = engine.HexSpriteSet.MapObjectResourceList;
         StructureResource resource = new(null)
         {

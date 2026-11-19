@@ -332,7 +332,7 @@ public sealed class ObjectNode(string? className, int? slot) : TreeValue
     {
         foreach ((string? name, TreeValue? value) in _members)
         {
-            foreach ((string Path, int Key) hit in value.ReferencesIn(domain, path + "." + name))
+            foreach ((string Path, int Key) hit in value.ReferencesIn(domain, $"{path}.{name}"))
             {
                 yield return hit;
             }
@@ -369,7 +369,7 @@ public sealed class RecordNode : TreeValue
     {
         if (version < 3)
         {
-            throw TreeErrors.Fail(Codes.Type, "Version " + version.ToString(CultureInfo.InvariantCulture) + " does not store a record.", path);
+            throw TreeErrors.Fail(Codes.Type, string.Create(CultureInfo.InvariantCulture, $"Version {version} does not store a record."), path);
         }
 
         foreach ((string? name, TreeValue? value) in _members)
@@ -382,7 +382,7 @@ public sealed class RecordNode : TreeValue
     {
         foreach ((string? name, TreeValue? value) in _members)
         {
-            foreach ((string Path, int Key) hit in value.ReferencesIn(domain, path + "." + name))
+            foreach ((string Path, int Key) hit in value.ReferencesIn(domain, $"{path}.{name}"))
             {
                 yield return hit;
             }
@@ -406,7 +406,7 @@ public sealed class BitArrayNode(int count, int[] indices) : TreeValue
     {
         if (version < 3)
         {
-            throw TreeErrors.Fail(Codes.Type, "Version " + version.ToString(CultureInfo.InvariantCulture) + " does not store a bit array.", path);
+            throw TreeErrors.Fail(Codes.Type, string.Create(CultureInfo.InvariantCulture, $"Version {version} does not store a bit array."), path);
         }
     }
 }
@@ -495,7 +495,7 @@ public sealed class SlotListNode : TreeValue
     {
         for (int i = 0; i < _entries.Count; i++)
         {
-            foreach ((string Path, int Key) hit in _entries[i].Value.ReferencesIn(domain, path + "[" + i.ToString(CultureInfo.InvariantCulture) + "]"))
+            foreach ((string Path, int Key) hit in _entries[i].Value.ReferencesIn(domain, string.Create(CultureInfo.InvariantCulture, $"{path}[{i}]")))
             {
                 yield return hit;
             }
@@ -533,7 +533,7 @@ public sealed class GridNode(int width, int height, IReadOnlyList<ObjectNode> fi
         for (int i = 0; i < Fields.Count; i++)
         {
             int y = Math.DivRem(i, Width, out int x);
-            foreach ((string Path, int Key) hit in Fields[i].ReferencesIn(domain, path + "[" + y.ToString(CultureInfo.InvariantCulture) + "][" + x.ToString(CultureInfo.InvariantCulture) + "]"))
+            foreach ((string Path, int Key) hit in Fields[i].ReferencesIn(domain, string.Create(CultureInfo.InvariantCulture, $"{path}[{y}][{x}]")))
             {
                 yield return hit;
             }
@@ -565,7 +565,7 @@ public sealed class SequenceNode(IReadOnlyList<TreeValue> items) : TreeValue
     {
         for (int i = 0; i < Items.Count; i++)
         {
-            foreach ((string Path, int Key) hit in Items[i].ReferencesIn(domain, path + "[" + i.ToString(CultureInfo.InvariantCulture) + "]"))
+            foreach ((string Path, int Key) hit in Items[i].ReferencesIn(domain, string.Create(CultureInfo.InvariantCulture, $"{path}[{i}]")))
             {
                 yield return hit;
             }
@@ -612,7 +612,7 @@ public sealed class ListNode : TreeValue
     {
         for (int i = 0; i < Items.Count; i++)
         {
-            foreach ((string Path, int Key) hit in Items[i].ReferencesIn(domain, path + "[" + i.ToString(CultureInfo.InvariantCulture) + "]"))
+            foreach ((string Path, int Key) hit in Items[i].ReferencesIn(domain, string.Create(CultureInfo.InvariantCulture, $"{path}[{i}]")))
             {
                 yield return hit;
             }
@@ -640,7 +640,7 @@ public sealed class ChildListNode(IReadOnlyList<ObjectNode> children) : TreeValu
     {
         for (int i = 0; i < Children.Count; i++)
         {
-            foreach ((string Path, int Key) hit in Children[i].ReferencesIn(domain, path + "[" + i.ToString(CultureInfo.InvariantCulture) + "]"))
+            foreach ((string Path, int Key) hit in Children[i].ReferencesIn(domain, string.Create(CultureInfo.InvariantCulture, $"{path}[{i}]")))
             {
                 yield return hit;
             }

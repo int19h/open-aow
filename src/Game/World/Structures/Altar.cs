@@ -114,7 +114,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
         if (GetRechargeDays() != RechargeDays)
         {
             string formatDaysLeftString = DurationText.FormatDaysLeftString(GetEngine(), days: GetRechargeDays() - RechargeDays);
-            result = AbilityRules.TranslateResourceString(GetEngine(), s_chargingText) + " (" + formatDaysLeftString + ")";
+            result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_chargingText)} ({formatDaysLeftString})";
         }
         else
         {

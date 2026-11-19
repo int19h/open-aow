@@ -99,7 +99,7 @@ internal static class ImageTree
 
             if (prop.Id is not int id)
             {
-                throw new InvalidOperationException(prop + " has no stored id.");
+                throw new InvalidOperationException($"{prop} has no stored id.");
             }
 
             ImageFrame frame = new() { Property = prop, Id = id, Path = memberPath, Parent = node, OwnerClass = classValue };
@@ -112,7 +112,7 @@ internal static class ImageTree
             {
                 if (classValue.PropertyByName(name) is null)
                 {
-                    throw context.Fail(Codes.UnknownMember, "Class " + classValue.Name + " has no member \"" + name + "\".", null, path.Member(name), name);
+                    throw context.Fail(Codes.UnknownMember, $"Class {classValue.Name} has no member \"{name}\".", null, path.Member(name), name);
                 }
             }
         }
@@ -140,7 +140,7 @@ internal static class ImageTree
                 {
                     if (entries[k].Id == entry.Id)
                     {
-                        throw context.Fail(Codes.Duplicate, "Property " + entry.Id + " of class " + classValue.Name + " is stored twice.", start, path);
+                        throw context.Fail(Codes.Duplicate, $"Property {entry.Id} of class {classValue.Name} is stored twice.", start, path);
                     }
                 }
 
@@ -149,12 +149,12 @@ internal static class ImageTree
             }
 
             SchemaProperty prop = classValue.PropertyById(entry.Id)
-                ?? throw context.Fail(Codes.UnknownProperty, "Class " + classValue.Name + " has no property " + entry.Id + ".", db + entry.Offset, path, entry.Id.ToString(CultureInfo.InvariantCulture));
+                ?? throw context.Fail(Codes.UnknownProperty, $"Class {classValue.Name} has no property {entry.Id}.", db + entry.Offset, path, entry.Id.ToString(CultureInfo.InvariantCulture));
             for (int k = 0; k < i; k++)
             {
                 if (entries[k].Id == entry.Id)
                 {
-                    throw context.Fail(Codes.Duplicate, (prop.IsDynamic ? "Dynamic id " : "Property ") + entry.Id + " of class " + classValue.Name + " is stored twice.", start, path);
+                    throw context.Fail(Codes.Duplicate, $"{(prop.IsDynamic ? "Dynamic id " : "Property ")}{entry.Id} of class {classValue.Name} is stored twice.", start, path);
                 }
             }
 
@@ -174,7 +174,7 @@ internal static class ImageTree
             int offset = located[i].Entry.Offset;
             if (offset == valuedAt)
             {
-                throw context.Fail(Codes.Layout, "Two valued properties of class " + classValue.Name + " share offset " + offset + ".", db + offset, path);
+                throw context.Fail(Codes.Layout, $"Two valued properties of class {classValue.Name} share offset {offset}.", db + offset, path);
             }
 
             valuedAt = offset;
