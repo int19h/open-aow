@@ -51,6 +51,20 @@ tool that generates C# emits code that follows them.
   abbreviations except widely known ones, judged in this project's context (`Aow`, `Hex`,
   `Info`, `Id`, `IO`, `UI`, `AI`, `Tcp`, `Cpu` and the file format names). Two-letter acronyms
   are uppercase, longer ones Pascal-cased.
+- Parameters and locals are named for what they hold:
+  - `i`, `j`, `k` are fine in a `for` loop when the variable is only an index into a collection.
+    `x` and `y` are fine as coordinates. Every other single-letter name needs a clear
+    justification.
+  - A variable of a primitive type, strings included, says what it does: `distance`,
+    `playerName`, `heroesCount`. A quantity is a `count`, not a `number` or a `size`, as in .NET.
+    The same word choice applies to members.
+  - A variable of a struct or class type takes its type's name, shortened to the suffix that is
+    just long enough to tell it from the others in scope: `GameEngine engine`,
+    `ArmyHexSprite sprite`. With a `FastBattle` and a `TacticalBattle` in one method they are
+    `fastBattle` and `tacticalBattle`. Where the shortest suffix is a C# keyword, take the next
+    longer one (`ArenaTokenEvent tokenEvent`).
+  - Several variables of the same type take a prefix that says what each is for:
+    `attackingUnit` and `defendingUnit`.
 - Nullable reference types are on in every project. A new file is nullable-checked. An
   existing file that is not nullable-clean carries a file-level `#nullable disable` as its
   first directive until conversion removes it.
