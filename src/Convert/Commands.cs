@@ -58,7 +58,7 @@ internal static class Commands
         {
             ImportResult result = ImportOriginal(File.ReadAllBytes(input), input, o.Kind, o.Profile);
             SafeOutput.Replace(target, GameFiles.Write(result.Document));
-            output.WriteLine($"{input}: {Describe(result.Document)}, {result.Counts.Parts} layout parts -> {target}");
+            output.WriteLine($"{input}: {Describe(result.Document)} -> {target}");
             return Program.Success;
         }
         catch (ConversionException error)
@@ -88,14 +88,9 @@ internal static class Commands
         try
         {
             ReadResult read = GameFiles.Read(File.ReadAllBytes(input), input);
-            ExportResult exported = GameFiles.Export(read.Document, new ExportOptions { ExactLayout = o.ExactLayout }, input);
-            foreach (FormatDiagnostic d in exported.Invalidated)
-            {
-                errors.WriteLine(d.ToString());
-            }
-
+            ExportResult exported = GameFiles.Export(read.Document, input);
             SafeOutput.Replace(target, exported.Bytes);
-            output.WriteLine($"{input}: {Describe(read.Document)} -> {target}, 0 losses, {exported.Invalidated.Count} invalidated layouts");
+            output.WriteLine($"{input}: {Describe(read.Document)} -> {target}, 0 losses");
             return Program.Success;
         }
         catch (ConversionException error)
@@ -119,14 +114,9 @@ internal static class Commands
 
         try
         {
-            (byte[]? bytes, IReadOnlyList<FormatDiagnostic>? invalidated) = GameFiles.Normalize(File.ReadAllBytes(input), input);
-            foreach (FormatDiagnostic d in invalidated)
-            {
-                errors.WriteLine(d.ToString());
-            }
-
+            byte[] bytes = GameFiles.Normalize(File.ReadAllBytes(input), input);
             SafeOutput.Replace(target, bytes);
-            output.WriteLine($"{input}: normalized -> {target}, {invalidated.Count} invalidated layouts");
+            output.WriteLine($"{input}: normalized -> {target}");
             return Program.Success;
         }
         catch (ConversionException error)
@@ -245,7 +235,7 @@ internal static class Commands
             try
             {
                 ReadResult read = GameFiles.Read(bytes, input);
-                ExportResult exported = GameFiles.Export(read.Document, null, input);
+                ExportResult exported = GameFiles.Export(read.Document, input);
                 // A derived output name takes the kind's original extension (own-formats.md 3.2).
                 string target = Path.Combine(o.Out, DerivedName(relative, read.Document, own: false));
                 // Foo.asg and Foo.oasg both export to Foo.asg: the second is refused by name.
@@ -261,10 +251,6 @@ internal static class Commands
                     errors.WriteLine($"{relative}: {refusal}");
                     failed++;
                     continue;
-                }
-                foreach (FormatDiagnostic d in exported.Invalidated)
-                {
-                    errors.WriteLine(d.ToString());
                 }
 
                 SafeOutput.Replace(target, exported.Bytes);
@@ -307,7 +293,7 @@ internal static class Commands
             Stopwatch watch = Stopwatch.StartNew();
             Formats.Json.JsonObject document;
             string format;
-            LayoutCounts counts;
+            IReadOnlyDictionary<string, int> legacyRules;
             double importMilliseconds, writeMilliseconds, parseMilliseconds = 0;
             byte[] text;
             if (GameFiles.IsGzip(bytes) || GameFiles.IsJsonCandidate(bytes))
@@ -316,7 +302,7 @@ internal static class Commands
                 parseMilliseconds = watch.Elapsed.TotalMilliseconds;
                 document = read.Document;
                 format = (read.Gzip ? "gzip own JSON" : "own JSON") + $", declared version {read.DeclaredVersion}";
-                counts = new LayoutCounts();
+                legacyRules = new Dictionary<string, int>(StringComparer.Ordinal);
                 importMilliseconds = 0;
                 watch.Restart();
                 text = GameFiles.Write(document);
@@ -327,7 +313,7 @@ internal static class Commands
                 ImportResult result = ImportOriginal(bytes, input, o.Kind, o.Profile);
                 importMilliseconds = watch.Elapsed.TotalMilliseconds;
                 document = result.Document;
-                counts = result.Counts;
+                legacyRules = result.LegacyRules;
                 format = "original";
                 watch.Restart();
                 text = GameFiles.Write(document);
@@ -337,16 +323,16 @@ internal static class Commands
                 parseMilliseconds = watch.Elapsed.TotalMilliseconds;
             }
             watch.Restart();
-            ExportResult exported = GameFiles.Export(document, null, input);
+            ExportResult exported = GameFiles.Export(document, input);
             double exportMilliseconds = watch.Elapsed.TotalMilliseconds;
             (FileProfile? profile, string? kind, _, _) = GameFiles.Envelope(document, input);
             output.WriteLine($"File: {input}");
             output.WriteLine($"Format: {format}");
             output.WriteLine($"Profile: {profile.Name}, kind {kind}, version {OwnFormat.CurrentVersion}");
             output.WriteLine("Representable: yes, strict export lost nothing");
-            output.WriteLine($"Residue: {counts.Parts} layout parts in {counts.Objects} objects" +
-                (counts.Categories.Count > 0 ? " (" + string.Join(", ", counts.Categories.OrderBy(c => c.Key, StringComparer.Ordinal).Select(c => $"{c.Key} {c.Value}")) + ")" : "") +
-                (counts.LegacyRules.Count > 0 ? ", legacy rules " + string.Join(", ", counts.LegacyRules.Select(c => $"{c.Key} {c.Value}")) : ""));
+            output.WriteLine(legacyRules.Count == 0
+                ? "Legacy rules: none"
+                : "Legacy rules: " + string.Join(", ", legacyRules.OrderBy(c => c.Key, StringComparer.Ordinal).Select(c => $"{c.Key} {c.Value}")));
             output.WriteLine("Validation: structural (schema, codecs, limits). Game content validation arrives with 9.7-3.");
             output.WriteLine(string.Create(CultureInfo.InvariantCulture,
                 $"Size: original {bytes.Length} bytes, exported {exported.Bytes.Length} bytes, own JSON {text.Length} bytes"));

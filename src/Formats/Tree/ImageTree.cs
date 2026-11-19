@@ -18,13 +18,13 @@ internal static class ImageTree
 
     internal static byte[] Write(ObjectNode node, SchemaClass classValue, FormatSchema schema, string engine, string? profile = null)
     {
-        EncodeContext context = new(schema, engine: engine, profile: profile ?? engine, file: null, limits: FormatLimits.Default, options: ExportOptions.Default);
+        EncodeContext context = new(schema, engine: engine, profile: profile ?? engine, file: null, limits: FormatLimits.Default);
         ByteBuffer output = new();
         WriteBody(node, classValue, context, output, DocumentNodePath.Root, false);
         return output.ToArray();
     }
 
-    internal static ObjectNode Read(byte[] image, SchemaClass classValue, FormatSchema schema, string engine) => ReadBody(new DecodeContext(image, schema, engine, engine, null, FormatLimits.Default, new LayoutCounts()), start: 0, end: image.Length, classValue: classValue, path: DocumentNodePath.Root, className: null, slot: null);
+    internal static ObjectNode Read(byte[] image, SchemaClass classValue, FormatSchema schema, string engine) => ReadBody(new DecodeContext(image, schema, engine, engine, null, FormatLimits.Default), start: 0, end: image.Length, classValue: classValue, path: DocumentNodePath.Root, className: null, slot: null);
 
     /// <summary>Reads the object image between two offsets of a decode context, such as the root of an engine image.</summary>
     internal static ObjectNode Read(DecodeContext context, int start, int end, SchemaClass classValue) =>
@@ -32,14 +32,14 @@ internal static class ImageTree
 
     internal static void WriteBody(ObjectNode node, SchemaClass classValue, EncodeContext context, ByteBuffer data, DocumentNodePath path, bool allowIdentity)
     {
-        ObjectImage.Place(writer: WriteMembers(node, classValue: classValue, context: context, path: path, allowIdentity: allowIdentity), context: context, layout: null, property: null, resolve: null, at: s_marker, path: path, output: data);
+        ObjectImage.Place(context, writer: WriteMembers(node, classValue: classValue, context: context, path: path, allowIdentity: allowIdentity), path: path, output: data);
         context.Leave();
     }
 
     /// <summary>The data of an object image without its property table, the values in table order.</summary>
     internal static byte[] WriteData(ObjectNode node, SchemaClass classValue, FormatSchema schema, string engine)
     {
-        EncodeContext context = new(schema, engine: engine, profile: engine, file: null, limits: FormatLimits.Default, options: ExportOptions.Default);
+        EncodeContext context = new(schema, engine: engine, profile: engine, file: null, limits: FormatLimits.Default);
         ObjectWriter writer = WriteMembers(node, classValue: classValue, context: context, path: DocumentNodePath.Root, allowIdentity: false);
         context.Leave();
         return writer.Data.Span.ToArray();
@@ -134,6 +134,20 @@ internal static class ImageTree
         for (int i = 0; i < count; i++)
         {
             TableEntry entry = entries[i];
+            if (classValue.IsSkippedId(entry.Id))
+            {
+                for (int k = 0; k < i; k++)
+                {
+                    if (entries[k].Id == entry.Id)
+                    {
+                        throw context.Fail(Codes.Duplicate, "Property " + entry.Id + " of class " + classValue.Name + " is stored twice.", start, path);
+                    }
+                }
+
+                located[i] = new Located(entry, Property: null, Ordinal: int.MaxValue, Start: db + entry.Offset, End: db + entry.Offset);
+                continue;
+            }
+
             SchemaProperty prop = classValue.PropertyById(entry.Id)
                 ?? throw context.Fail(Codes.UnknownProperty, "Class " + classValue.Name + " has no property " + entry.Id + ".", db + entry.Offset, path, entry.Id.ToString(CultureInfo.InvariantCulture));
             for (int k = 0; k < i; k++)
@@ -152,7 +166,7 @@ internal static class ImageTree
         int valuedAt = -1;
         for (int i = 0; i < count; i++)
         {
-            if (located[i].Property.Codec.ZeroSize)
+            if (located[i].Property is not { } prop || prop.Codec.ZeroSize)
             {
                 continue;
             }
@@ -181,7 +195,10 @@ internal static class ImageTree
         ObjectNode node = new(className, slot);
         for (int first = 0; first < count;)
         {
-            SchemaProperty prop = located[first].Property;
+            if (located[first].Property is not { } prop)
+            {
+                break;
+            }
             int last = first + 1;
             while (last < count && located[last].Ordinal == located[first].Ordinal)
             {
@@ -251,5 +268,5 @@ internal static class ImageTree
         return node;
     }
 
-    private readonly record struct Located(TableEntry Entry, SchemaProperty Property, int Ordinal, int Start, int End);
+    private readonly record struct Located(TableEntry Entry, SchemaProperty? Property, int Ordinal, int Start, int End);
 }

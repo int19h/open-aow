@@ -50,6 +50,6 @@ internal sealed class ImageFrame
         Path = Path,
         Schema = context.Schema,
         Engine = context.Engine,
-        Context = new EncodeContext(context.Schema, context.Engine, context.Profile, context.File, context.Limits, ExportOptions.Default),
+        Context = new EncodeContext(context.Schema, context.Engine, context.Profile, context.File, context.Limits),
     };
 }

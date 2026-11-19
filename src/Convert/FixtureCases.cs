@@ -17,8 +17,8 @@ public static partial class Fixtures
         yield return new("lists", "empty item list", () => RoundTrip([1, 0, 0, 0], "item-list", "item-list"));
         yield return new("lists", "nonempty item list", NonemptyItemList);
 
-        // Campaign saves with an exact nested CFS map.
-        yield return new("campaign", "nonempty campaign save keeps the nested compressed bytes", CampaignSave);
+        // Campaign saves with a nested CFS map.
+        yield return new("campaign", "nonempty campaign save round-trips its nested map", CampaignSave);
         yield return new("campaign", "editing the nested map recompresses it and rebuilds its size", CampaignSaveEdit);
         yield return new("campaign", "absent map stays absent", () => RoundTrip(Game(Campaign), "campaign", "campaign",
             d => Root(d).Find("Map") is null ? null : "an absent map gained a member"));
@@ -42,13 +42,13 @@ public static partial class Fixtures
         {
             byte[] payload = Payload(Game(Map));
             byte[] extended = Concat(I32(20), payload[4..16], [1, 2, 3, 4], payload[16..]);
-            return RoundTrip(Cfs.Wrap(extended, 2), "world-hsm", "map");
+            return RoundTrip(Cfs.Wrap(extended, 2), "world-hsm", "map", expectedKind: OriginalMatchKind.Masked);
         });
         yield return new("containers", "HSS header extension", () =>
         {
             byte[] file = Game(ScenarioSet);
             byte[] body = Concat(I32(56), file[4..52], [9, 8, 7, 6], file[52..^4]);
-            return RoundTrip(Concat(body, I32((int)Crc32.Compute(body))), "scenario-set", "scenario-set");
+            return RoundTrip(Concat(body, I32((int)Crc32.Compute(body))), "scenario-set", "scenario-set", expectedKind: OriginalMatchKind.Masked);
         });
         yield return new("containers", "HSS checksum failure", () =>
         {
@@ -116,6 +116,11 @@ public static partial class Fixtures
             Root(d).Members.Insert(0, new JsonMember("$colour", new JsonInteger(1)));
             return Expect(Codes.ReservedMember, () => GameFiles.Export(Parse(GameFiles.Write(d))), Located);
         });
+        yield return new("unknown", "$layout is refused as an unknown reserved member", () =>
+        {
+            JsonObject d = Envelope("hero-list", "hero-list", new JsonObject().Add("$layout", new JsonObject()));
+            return Expect(Codes.ReservedMember, () => GameFiles.Export(Parse(GameFiles.Write(d))), Located);
+        });
 
         // Presence: present defaults, absent values, stored nulls.
         yield return new("presence", "a present default stays present", () =>
@@ -143,7 +148,9 @@ public static partial class Fixtures
         // Strings.
         yield return new("strings", "long prefix for a short string", () =>
         {
-            return RoundTrip(HeroListImage([1, 20, 0], Concat([255], I32(3), "abc"u8.ToArray())), profile: "hero-list", kind: "hero-list", inspect: d => d.ToString() is not null && GameFiles.Write(d).AsSpan().IndexOf("value-prefixes"u8) >= 0 ? null : "no value-prefixes part");
+            return RoundTrip(HeroListImage([1, 20, 0], Concat([255], I32(3), "abc"u8.ToArray())), profile: "hero-list", kind: "hero-list",
+                inspect: d => GameFiles.Write(d).AsSpan().IndexOf("$layout"u8) < 0 ? null : "$layout survived",
+                expectedKind: OriginalMatchKind.Document);
         });
         yield return new("strings", "all 256 code page bytes", () =>
         {
@@ -268,41 +275,22 @@ public static partial class Fixtures
             return changed == 1 ? Pass("one line changed") : Fail($"{changed} lines changed");
         });
 
-        // Layout residue: order, gaps, invalidation.
+        // Canonical encoding of non-canonical inputs and skipped property 57.
         yield return new("layout", "long table entries and a gap after a Boolean", () =>
         {
-            return RoundTrip(HeroListImage(Concat([0x80], I32(1), I32(20), I32(2)), Concat([0xAA, 0xBB], [3], "abc"u8.ToArray())), profile: "hero-list", kind: "hero-list", inspect: d => GameFiles.Write(d).AsSpan().IndexOf("\"gaps\""u8) >= 0 ? null : "no gap part");
+            return RoundTrip(HeroListImage(Concat([0x80], I32(1), I32(20), I32(2)), Concat([0xAA, 0xBB], [3], "abc"u8.ToArray())), profile: "hero-list", kind: "hero-list",
+                inspect: d => GameFiles.Write(d).AsSpan().IndexOf("$layout"u8) < 0 ? null : "$layout survived",
+                expectedKind: OriginalMatchKind.Document);
         });
         yield return new("layout", "a noncanonical table order", () =>
         {
-            return RoundTrip(HeroListImage([2, 21, 0, 20, 4], Concat(I32(7), [3], "abc"u8.ToArray())), profile: "hero-list", kind: "hero-list", inspect: d => GameFiles.Write(d).AsSpan().IndexOf("table-form-order"u8) >= 0 ? null : "no table part");
+            return RoundTrip(HeroListImage([2, 21, 0, 20, 4], Concat(I32(7), [3], "abc"u8.ToArray())), profile: "hero-list", kind: "hero-list",
+                inspect: d => GameFiles.Write(d).AsSpan().IndexOf("$layout"u8) < 0 ? null : "$layout survived",
+                expectedKind: OriginalMatchKind.Document);
         });
-        yield return new("layout", "an edit invalidates the layout and export rebuilds it", () =>
-        {
-            JsonObject d = Import(HeroListImage([2, 21, 0, 20, 4], Concat(I32(7), [3], "abc"u8.ToArray())), profile: "hero-list", kind: "hero-list");
-            Set(Root(d), "LibraryName", new JsonString("longer name"));
-            ExportResult exported = GameFiles.Export(Parse(GameFiles.Write(d)));
-            JsonObject n = Import(exported.Bytes, "hero-list", "hero-list");
-            return exported.Invalidated.Count == 1 && GameFiles.Write(n).AsSpan().IndexOf("$layout"u8) < 0
-                ? Pass("invalidated and rebuilt canonically") : Fail($"{exported.Invalidated.Count} invalidations");
-        });
-        yield return new("layout", "--exact-layout refuses a stale layout", () =>
-        {
-            JsonObject d = Import(HeroListImage([2, 21, 0, 20, 4], Concat(I32(7), [3], "abc"u8.ToArray())), profile: "hero-list", kind: "hero-list");
-            _ = Root(d).Remove("NextLibraryId");
-            return Expect(Codes.Layout, () => GameFiles.Export(Parse(GameFiles.Write(d)), new ExportOptions { ExactLayout = true }), Located);
-        });
-        yield return new("layout", "a part that does not fit is an error, not a cleanup", () =>
-        {
-            JsonObject d = Import(HeroListImage([2, 21, 0, 20, 4], Concat(I32(7), [3], "abc"u8.ToArray())), profile: "hero-list", kind: "hero-list");
-            JsonObject root = Root(d);
-            JsonObject layout = Object(root["$layout"]);
-            JsonArray entries = Arr(Object(Arr(layout["parts"]).Items[0])["entries"]);
-            Arr(entries.Items[1]).Items[1] = new JsonInteger(2);
-            return Expect(Codes.Layout, () => GameFiles.Export(Parse(GameFiles.Write(d))), Located);
-        });
-        yield return new("layout", "Tutorial property 57, a zero-size alias", () => RoundTrip(Game(Tutorial), "world-hsm", "map",
-            d => Root(d)["UnknownProperty57"] is JsonBoolean { Value: true } ? null : "property 57 is missing"));
+        yield return new("layout", "Tutorial property 57 is skipped on read", () => RoundTrip(Game(Tutorial), "world-hsm", "map",
+            d => Root(d).Find("UnknownProperty57") is null ? null : "property 57 survived",
+            expectedKind: OriginalMatchKind.Masked));
 
         // Limits and gzip.
         yield return new("limits", "depth limit", () => Expect(Codes.Limit,
@@ -444,19 +432,11 @@ public static partial class Fixtures
         return OwnRoundTrip(Envelope(root: new JsonObject().Add("Name", new JsonString("Fixture items")).Add("LastId", new JsonInteger(items.Items.Count)).Add("Children", children), kind: "item-list", profile: "item-list"));
     }
 
-    private static JsonObject CampaignWithMap(out byte[] mapFile)
+    private static JsonObject CampaignWithMap()
     {
-        mapFile = Game(Map);
         JsonObject campaign = Import(Game(Campaign), "campaign", "campaign");
-        JsonObject map = Import(mapFile, "world-hsm", "map");
+        JsonObject map = Import(Game(Map), "world-hsm", "map");
         JsonObject nested = new JsonObject().Add("$container", map["$container"]!).Add("root", map["root"]!);
-        JsonObject layout = new JsonObject()
-            .Add("codec", new JsonString(LayoutResidue.Codec))
-            .Add("fingerprint", new JsonString(LayoutResidue.Fingerprint(nested, "world-hsm")))
-            .Add("parts", new JsonArray().Add(new JsonObject()
-                .Add("category", new JsonString(LayoutResidue.NestedCompression))
-                .Add("bytes", new JsonString(System.Convert.ToHexStringLower(mapFile)))));
-        nested.Members.Insert(1, new JsonMember("$layout", layout));
         Root(campaign).Members.Insert(1, new JsonMember("Map", nested));
         Set(campaign, "$kind", new JsonString("campaign-save"));
         return campaign;
@@ -464,34 +444,19 @@ public static partial class Fixtures
 
     private static Outcome CampaignSave()
     {
-        JsonObject campaign = CampaignWithMap(out byte[]? mapFile);
+        JsonObject campaign = CampaignWithMap();
         ExportResult exported = GameFiles.Export(Parse(GameFiles.Write(campaign)));
-        if (exported.Bytes.AsSpan().IndexOf(mapFile) < 0)
-        {
-            return Fail("the exact compressed map bytes are not in the export");
-        }
-
         Outcome result = RoundTrip(exported.Bytes, "campaign", "campaign-save",
-            d => GameFiles.Write(d).AsSpan().IndexOf("nested-compression"u8) >= 0 ? null : "no nested compression part");
-        return result.Matched ? Pass("exact nested CFS bytes, " + result.Detail, result.OwnDocuments) : result;
+            d => GameFiles.Write(d).AsSpan().IndexOf("$layout"u8) < 0 ? null : "$layout survived");
+        return result.Matched ? Pass("canonical nested CFS bytes, " + result.Detail, result.OwnDocuments) : result;
     }
 
     private static Outcome CampaignSaveEdit()
     {
-        JsonObject campaign = CampaignWithMap(out byte[]? mapFile);
+        JsonObject campaign = CampaignWithMap();
         JsonObject map = Object(Root(campaign)["Map"]);
         Set(Object(map["root"]), "Day", new JsonInteger(42));
         ExportResult exported = GameFiles.Export(Parse(GameFiles.Write(campaign)));
-        if (exported.Invalidated.Count == 0)
-        {
-            return Fail("the stale nested bytes were not reported");
-        }
-
-        if (exported.Bytes.AsSpan().IndexOf(mapFile) >= 0)
-        {
-            return Fail("the stale nested bytes were reused");
-        }
-
         JsonValue? day = Object(Object(Root(Import(exported.Bytes, "campaign", "campaign-save"))["Map"])["root"])["Day"];
         return day is not JsonInteger { Value: 42 } ? Fail("the edit was lost") : RoundTrip(exported.Bytes, "campaign", "campaign-save");
     }

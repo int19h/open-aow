@@ -58,7 +58,7 @@ public static class Program
         errors.WriteLine("""
             Usage:
               aowconv to-own <in> <out> [--kind <kind>] [--profile <profile>] [--overwrite]
-              aowconv to-original <in> <out> [--exact-layout] [--allow-lossy] [--overwrite]
+              aowconv to-original <in> <out> [--allow-lossy] [--overwrite]
               aowconv to-own --dir <in> --out <dir> [--profiles <manifest>] [--overwrite]
               aowconv to-original --dir <in> --out <dir> [--allow-lossy] [--overwrite]
               aowconv normalize <in> <out> [--overwrite]
@@ -79,7 +79,6 @@ public sealed class Options
     public string? Kind { get; private set; }
     public string? Profile { get; private set; }
     public bool Overwrite { get; private set; }
-    public bool ExactLayout { get; private set; }
     public bool AllowLossy { get; private set; }
     public string? Directory { get; private set; }
     public string? Out { get; private set; }
@@ -103,7 +102,6 @@ public sealed class Options
                 case "--kind": o.Kind = Value(); break;
                 case "--profile": o.Profile = Value(); break;
                 case "--overwrite": o.Overwrite = true; break;
-                case "--exact-layout": o.ExactLayout = true; break;
                 case "--allow-lossy": o.AllowLossy = true; break;
                 case "--dir": o.Directory = Value(); break;
                 case "--out": o.Out = Value(); break;
@@ -119,6 +117,6 @@ public sealed class Options
                     break;
             }
         }
-        return o.ExactLayout && o.AllowLossy ? throw new UsageException("--exact-layout conflicts with --allow-lossy.") : o;
+        return o;
     }
 }

@@ -49,7 +49,6 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
         [("ProductionItem", "GroupId")] = "Order.ToFields().GroupId",
         [("ProductionTokenEvent", "UnknownValue")] = "Delphi TProductionTE.FReserved (id 27), always 0 (omitted) and never read",
         [("StrategicMap", "HeroControlCopy")] = "HeroControl again, the original stores it twice",
-        [("StrategicMap", "UnknownProperty57")] = "a Boolean that Tutorial stores and no 1.36 code reads",
         [("StructureTokenEvent", "Param2")] = "Delphi TStructureTE.FParam2 (id 23), always 0 (omitted) and never read",
         [("Troop", "LegacyGroup")] = "a local, the legacy group control whose behavior becomes LegacyGroupBehavior",
         [("Unit", "UnitResourceIndex")] = "a local, the index of UnitResource",

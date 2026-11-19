@@ -236,8 +236,10 @@ public sealed class SchemaClass
 {
     private readonly JsonObject _source;
     private readonly List<SchemaProperty> _own = [];
+    private readonly List<int> _ownSkippedIds = [];
     private List<SchemaProperty> _effective = [];
     private readonly Dictionary<int, SchemaProperty> _byId = [];
+    private readonly HashSet<int> _skippedIds = [];
     private readonly Dictionary<string, SchemaProperty> _byName = [with(StringComparer.Ordinal)];
     private readonly List<SchemaProperty> _dynamic = [];
     private readonly string? _parentName;
@@ -257,6 +259,11 @@ public sealed class SchemaClass
                 _own.Add(new SchemaProperty((JsonObject)p, this, schema));
             }
 
+            if (source["skippedIds"] is JsonArray shapeSkipped)
+            {
+                ReadSkippedIds(shapeSkipped);
+            }
+
             return;
         }
         _parentName = (source["parent"] as JsonString)?.Value;
@@ -272,6 +279,23 @@ public sealed class SchemaClass
             {
                 _own.Add(new SchemaProperty((JsonObject)p, this, schema));
             }
+        }
+        if (source["skippedIds"] is JsonArray skipped)
+        {
+            ReadSkippedIds(skipped);
+        }
+    }
+
+    private void ReadSkippedIds(JsonArray skipped)
+    {
+        foreach (JsonValue item in skipped.Items)
+        {
+            if (item is not JsonInteger number || number.Value < int.MinValue || number.Value > int.MaxValue)
+            {
+                throw new InvalidOperationException($"Class {Name} has a non-integer skipped id.");
+            }
+
+            _ownSkippedIds.Add((int)number.Value);
         }
     }
 
@@ -293,6 +317,9 @@ public sealed class SchemaClass
 
     /// <summary>The members in canonical order.</summary>
     public IReadOnlyList<SchemaProperty> Properties => _effective;
+
+    /// <summary>Property ids ignored on original read, not kept in documents and not written.</summary>
+    public IReadOnlySet<int> SkippedIds => _skippedIds;
 
     internal void Link(FormatSchema schema)
     {
@@ -449,6 +476,21 @@ public sealed class SchemaClass
             }
         }
         _dynamic.Sort((a, b) => b.DynamicMinimum!.Value.CompareTo(a.DynamicMinimum!.Value));
+        foreach (SchemaClass c in chain)
+        {
+            foreach (int skippedId in c._ownSkippedIds)
+            {
+                if (c == this && _own.Any(p => p.ImageIds.Contains(skippedId)))
+                {
+                    throw new InvalidOperationException($"Class {Name} both declares and skips property id {skippedId}.");
+                }
+
+                if (!_byId.ContainsKey(skippedId))
+                {
+                    _ = _skippedIds.Add(skippedId);
+                }
+            }
+        }
     }
 
     // True when the two properties share an original id. A coordinate counts each part id.
@@ -482,6 +524,9 @@ public sealed class SchemaClass
 
         return null;
     }
+
+    /// <summary>Whether this class ignores stored entries of <paramref name="id"/> on original read.</summary>
+    public bool IsSkippedId(int id) => _skippedIds.Contains(id);
 
     /// <summary>The property of that stored name.</summary>
     public SchemaProperty? PropertyByName(string name) => _byName.GetValueOrDefault(name);

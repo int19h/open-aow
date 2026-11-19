@@ -158,7 +158,7 @@ public sealed class MapShapeTests : FormatsTest
         byte[] file = CampaignSave(nested);
         JsonObject imported = (JsonObject)GameFiles.Import(file, FileProfile.Find("campaign")!, "campaign-save").Document["root"]!;
         JsonObject map = (JsonObject)imported["Map"]!;
-        Assert.Equal(compression == "cfs" && level != 0, map.Find("$layout") is not null);
+        Assert.Null(map.Find("$layout"));
         _ = imported.Members.RemoveAll(member => member.Name == "$class");
         byte[] image = PilotImage.Encode(imported, "Campaign", "campaign");
         ObjectNode read = OriginalBackend.Read(image, classValue, Schema, "campaign");
@@ -168,8 +168,6 @@ public sealed class MapShapeTests : FormatsTest
         Assert.Equal("Fixture campaign", loaded.Name);
         ObjectNode tree = TreeWriter.Write(loaded, s_factory);
         Assert.Equal(image, OriginalBackend.Write(tree, classValue, Schema, "campaign"));
-        // The direct document holds the nested document without the converter's retained bytes.
-        _ = map.Members.RemoveAll(member => member.Name == "$layout");
         JsonObject document = DocumentBackend.Write(tree, classValue, Schema, "campaign");
         Assert.Equal(Compact(imported), Compact(document));
         CampaignProbe again = new();
@@ -179,7 +177,7 @@ public sealed class MapShapeTests : FormatsTest
     }
 
     [Fact]
-    public void TheRetainedCompressedBytesStayTheConvertersAlone()
+    public void ACampaignSaveRecompressesCanonically()
     {
         SchemaClass classValue = Schema.Get("Campaign");
         // A level 2 map compressed by another deflater: the bytes differ from a fresh compression.
@@ -192,9 +190,20 @@ public sealed class MapShapeTests : FormatsTest
 
         byte[] nested = [.. Cfs.Magic, 2, .. buffer.ToArray()];
         Assert.NotEqual(nested, Cfs.Wrap(payload, 2));
-        byte[] file = CampaignSave(nested);
-        JsonObject document = GameFiles.Import(file, FileProfile.Find("campaign")!, "campaign-save").Document;
-        Assert.Equal(file, GameFiles.Export(document).Bytes);
+        // Build a campaign save image carrying the non-canonical compressed bytes directly.
+        ObjectNode probeTree = TreeWriter.Write(new CampaignProbe { Name = "Fixture campaign", Map = nested }, s_factory);
+        ByteBuffer body = new();
+        body.Int32(classValue.Id!.Value);
+        body.Bytes(OriginalBackend.Write(probeTree, classValue, Schema, "campaign"));
+        ByteBuffer fileBuffer = new();
+        FileProfile.WriteTop(new EncodeContext(Schema, "campaign", "campaign", null, FormatLimits.Default), root: body.ToArray(), output: fileBuffer);
+        byte[] file = fileBuffer.ToArray();
+
+        FileProfile profile = FileProfile.Find("campaign")!;
+        JsonObject document = GameFiles.Import(file, profile, "campaign-save").Document;
+        byte[] exported = GameFiles.Export(document).Bytes;
+        Assert.NotEqual(file, exported);
+        Assert.Equal(OriginalMatchKind.Document, GameFiles.CompareG1(file, exported: exported, profile: profile, document: document, kind: "campaign-save").Kind);
         JsonObject root = (JsonObject)document["root"]!;
         _ = root.Members.RemoveAll(member => member.Name == "$class");
         byte[] image = PilotImage.Encode(root, "Campaign", "campaign");
@@ -328,16 +337,6 @@ public sealed class MapShapeTests : FormatsTest
             .Add("$class", new JsonString("Campaign"))
             .Add("Map", nestedMap)
             .Add("Name", new JsonString("Fixture campaign"));
-        if (Cfs.HasMagic(nested) && nested[4] != 0)
-        {
-            JsonObject layout = new JsonObject()
-                .Add("codec", new JsonString(LayoutResidue.Codec))
-                .Add("fingerprint", new JsonString(LayoutResidue.Fingerprint(nestedMap, "world-hsm")))
-                .Add("parts", new JsonArray().Add(new JsonObject()
-                    .Add("category", new JsonString(LayoutResidue.NestedCompression))
-                    .Add("bytes", new JsonString(System.Convert.ToHexStringLower(nested)))));
-            nestedMap.Members.Insert(1, new JsonMember("$layout", layout));
-        }
         return GameFiles.Export(Envelope("campaign-save", container, root)).Bytes;
     }
 

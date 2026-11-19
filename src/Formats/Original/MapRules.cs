@@ -168,10 +168,8 @@ internal sealed partial class MapFieldsCodec
 /// engine keeps it, or the map's own document when the original image cannot carry the map. The
 /// image stores its size (id 5) and its bytes (id 6). The document holds the file as a nested
 /// document of profile world-hsm. A representable map is imported and exported through that
-/// profile. The retained compressed bytes (the nested-compression part) belong to the converter
-/// alone, so the direct path compresses the exported payload again at the level the container
-/// names. A map the image cannot carry stays that nested document. Strict export refuses it and
-/// names the member path.
+/// profile and compressed again at the level the container names. A map the image cannot carry
+/// stays that nested document. Strict export refuses it and names the member path.
 /// </summary>
 internal sealed partial class CampaignMapCodec
 {
@@ -223,7 +221,7 @@ internal sealed partial class CampaignMapCodec
         {
             Schema = site.Schema,
             Limits = site.Context.Limits,
-            Counts = new LayoutCounts(),
+            LegacyRules = [with(StringComparer.Ordinal)],
             File = site.Context.File,
             Nested = site.Path.ToString(),
         };
@@ -240,7 +238,7 @@ internal sealed partial class CampaignMapCodec
 
         foreach (JsonMember m in map.Members)
         {
-            if (m.Name is not ("$container" or "root" or "$layout"))
+            if (m.Name is not ("$container" or "root"))
             {
                 throw site.At(site.Path.Member(m.Name), element: false).Fail(m.Name.StartsWith('$') ? Codes.ReservedMember : Codes.UnknownMember, $"Map has no member \"{m.Name}\".", m.Value, m.Name);
             }
@@ -253,7 +251,7 @@ internal sealed partial class CampaignMapCodec
             throw site.At(site.Path.Member("$container").Member("profile"), element: false).Fail(Codes.Profile, "A campaign map has profile world-hsm.", container["profile"] ?? container);
         }
 
-        EncodeContext nested = new(site.Schema, Nested.Engine, Nested.Name, site.Context.File, site.Context.Limits, site.Context.Options);
+        EncodeContext nested = new(site.Schema, Nested.Engine, Nested.Name, site.Context.File, site.Context.Limits);
         try
         {
             byte[] payload = Nested.ExportPayload(container, root, nested, out string compression, out int level);
@@ -291,28 +289,16 @@ internal sealed partial class CampaignMapCodec
     {
         ReadResult read = GameFiles.Read(image, fileName: site.Context.File);
         (FileProfile? profile, _, JsonObject? container, JsonValue? root) = GameFiles.Envelope(read.Document, fileName: site.Context.File);
-        if (profile.Name != Nested.Name)
-        {
-            throw site.At(site.Path.Member("$container").Member("profile"), element: false).Fail(Codes.Profile, "A campaign map has profile world-hsm.", container["profile"] ?? container);
-        }
-
-        if (root is not JsonObject rootObject)
-        {
-            throw site.At(site.Path.Member("root"), element: false).Fail(Codes.Type, "Map root is an object.", root);
-        }
-
-        JsonObject map = new JsonObject().Add("$container", container).Add("root", rootObject);
-        if (read.Document.Find("$layout") is { } layout)
-        {
-            _ = map.Add("$layout", layout.Value);
-        }
-
-        return map;
+        return profile.Name != Nested.Name
+            ? throw site.At(site.Path.Member("$container").Member("profile"), element: false).Fail(Codes.Profile, "A campaign map has profile world-hsm.", container["profile"] ?? container)
+            : root is not JsonObject rootObject
+            ? throw site.At(site.Path.Member("root"), element: false).Fail(Codes.Type, "Map root is an object.", root)
+            : new JsonObject().Add("$container", container).Add("root", rootObject);
     }
 
     private static void AcceptNestedMap(JsonObject root, DocumentSite site)
     {
-        EncodeContext nested = new(site.Schema, Nested.Engine, Nested.Name, site.Context.File, site.Context.Limits, site.Context.Options);
+        EncodeContext nested = new(site.Schema, Nested.Engine, Nested.Name, site.Context.File, site.Context.Limits);
         SchemaClass classValue = Nested.RootClass(nested, root);
         JsonObject body = new() { Span = root.Span };
         foreach (JsonMember member in root.Members)
@@ -343,9 +329,8 @@ internal sealed partial class CampaignMapCodec
             throw context.Fail(Codes.Type, "root is an object.", root, path);
         }
 
-        EncodeContext nested = new(context.Schema, Nested.Engine, Nested.Name, context.File, context.Limits, context.Options);
+        EncodeContext nested = new(context.Schema, Nested.Engine, Nested.Name, context.File, context.Limits);
         byte[] payload = Nested.ExportPayload(container, rootObject, nested, out string compression, out int level);
-        context.Invalidated.AddRange(nested.Invalidated);
         return compression == "cfs" ? Cfs.Wrap(payload, level) : payload;
     }
 }

@@ -202,7 +202,7 @@ public static class DocumentBackend
         Path = path,
         Schema = schema,
         Engine = engine,
-        Context = new EncodeContext(schema, engine, "tree", file, FormatLimits.Default, ExportOptions.Default),
+        Context = new EncodeContext(schema, engine, "tree", file, FormatLimits.Default),
     };
 }
 

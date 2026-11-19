@@ -278,8 +278,13 @@ public sealed class GameSwitchTests
                 Assert.Equal(FileBoundary.ImageCrc32(originalPath, profile), FileBoundary.ImageCrc32(ownPath, profile));
                 if (profile == GameProfile.ScenarioSet)
                 {
-                    Assert.Equal(BitConverter.ToInt32(original, original.Length - 4), FileBoundary.ImageTailInt32(ownPath, profile));
-                    Assert.Equal(BitConverter.ToInt32(original, original.Length - 4), FileBoundary.ImageTailInt32(originalPath, profile));
+                    int originalTail = FileBoundary.ImageTailInt32(originalPath, profile);
+                    int ownTail = FileBoundary.ImageTailInt32(ownPath, profile);
+                    Assert.NotEqual(0, ownTail);
+                    Assert.Equal(originalTail, ownTail);
+                    // The canonical export zeroes the uninitialized HSS header tail and ILB padding
+                    // bytes of the shipped Release.hss, so its file CRC differs from the shipped file.
+                    Assert.NotEqual(BitConverter.ToInt32(original, original.Length - 4), ownTail);
                 }
             }
         }
@@ -324,27 +329,27 @@ public sealed class GameSwitchTests
 
     // One shipped file per caller profile. `aowconv check` runs the unit validators over the
     // whole corpus and reports its Validation line.
-    public static TheoryData<string, string> InstalledFiles => new()
+    public static TheoryData<string, string, string> InstalledFiles => new()
     {
-        { "Scenario/Campaign/Valley01.CSM", "world-map" },
-        { "Save/After the Fall.asg", "world-map" },
-        { "TCMaps/0126c000.HSM", "tactical-map" },
-        { "Scenario/Campaign/Keepers.CAM", "campaign" },
-        { "Release/Release.hss", "scenario-set" },
-        { "Release/High Level.ahl", "hero-list" },
+        { "Scenario/Campaign/Valley01.CSM", "world-map", "equal as document" },
+        { "Save/After the Fall.asg", "world-map", "equal" },
+        { "TCMaps/0126c000.HSM", "tactical-map", "equal outside marks" },
+        { "Scenario/Campaign/Keepers.CAM", "campaign", "equal" },
+        { "Release/Release.hss", "scenario-set", "equal outside marks" },
+        { "Release/High Level.ahl", "hero-list", "equal" },
     };
 
     // A shipped file of each profile passes the whole game preflight, the unit validators
     // included: no validator refuses a file the original game loads.
     [InstalledTheory]
     [MemberData(nameof(InstalledFiles))]
-    public void ShippedFilePassesThePreflight(string relative, string use)
+    public void ShippedFilePassesThePreflight(string relative, string use, string expectedRoundTrip)
     {
         GameProfile profile = new[] { GameProfile.WorldMap, GameProfile.TacticalMap, GameProfile.Campaign, GameProfile.ScenarioSet, GameProfile.HeroList, GameProfile.ItemList }.Single(p => p.Name == use);
         string file = Path.Combine(InstalledSave.Root, relative.Replace('/', Path.DirectorySeparatorChar));
         GameFileResult result = GameBoundary.PrepareLoad(File.ReadAllBytes(file), file, profile, FormatMapping.Validators);
         Assert.True(result.Succeeded, result.Report.Error?.ToString());
-        Assert.Equal("equal", result.Report.OriginalRoundTrip);
+        Assert.Equal(expectedRoundTrip, result.Report.OriginalRoundTrip);
     }
 
     [Fact]

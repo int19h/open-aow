@@ -4,7 +4,7 @@ using Aow.Convert;
 
 namespace Aow.Formats.Tests;
 
-/// <summary>The pinned layout expectation of aowconv check: drift and a changed census fail.</summary>
+/// <summary>The pinned G1 expectation of aowconv check: drift and a changed census fail.</summary>
 public sealed class ExpectationTests : FormatsTest, IDisposable
 {
     private readonly string _directory = Path.Combine(Path.GetTempPath(), "aowconv-expect-" + Guid.NewGuid().ToString("N"));
@@ -22,11 +22,19 @@ public sealed class ExpectationTests : FormatsTest, IDisposable
         File.WriteAllText(path, """
             {
               "format": "aowconv-check-expectation",
-              "version": 1,
+              "version": 2,
               "census": {"path": "census.json", "sha256": "SHA"},
-              "layout": {"parts": 3, "files": 2, "categories": {"gaps": 1, "table-form-order": 2}, "profiles": {"world-hsm": {"parts": 3, "files": 2}}},
-              "legacyRules": {"LEGACY_VALLEY01_SPRITE": {"occurrences": 1, "files": ["install:Scenario/Campaign/Valley01.CSM"]}},
-              "caseResidues": 0
+              "g1": {
+                "exact": 10,
+                "masked": 2,
+                "document": 1,
+                "rules": {"file-crc": 4, "hss-header-tail": 35},
+                "profiles": {
+                  "scenario-set": {"exact": 0, "masked": 1, "document": 0},
+                  "world-hsm": {"exact": 10, "masked": 1, "document": 1}
+                }
+              },
+              "legacyRules": {"LEGACY_VALLEY01_SPRITE": {"occurrences": 1, "files": ["install:Scenario/Campaign/Valley01.CSM"]}}
             }
             """.Replace("SHA", sha, StringComparison.Ordinal));
         return path;
@@ -39,10 +47,17 @@ public sealed class ExpectationTests : FormatsTest, IDisposable
     public void MatchingCountsHaveNoDrift()
     {
         (CensusFacts _, Expectation? expectation) = Expectation.Load(Write("actual"));
-        List<string> problems = expectation!.Compare(3, 2,
-            new(StringComparer.Ordinal) { ["gaps"] = 1, ["table-form-order"] = 2 },
-            new(StringComparer.Ordinal) { ["world-hsm"] = (3, 2) },
-            Rules("install:Scenario/Campaign/Valley01.CSM"), 0);
+        List<string> problems = expectation!.Compare(
+            exact: 10,
+            masked: 2,
+            document: 1,
+            maskedRules: new(StringComparer.Ordinal) { ["file-crc"] = 4, ["hss-header-tail"] = 35 },
+            profiles: new(StringComparer.Ordinal)
+            {
+                ["scenario-set"] = new(0, 1, 0),
+                ["world-hsm"] = new(10, 1, 1),
+            },
+            legacyRules: Rules("install:Scenario/Campaign/Valley01.CSM"));
         Assert.Empty(problems);
     }
 
@@ -50,14 +65,21 @@ public sealed class ExpectationTests : FormatsTest, IDisposable
     public void EveryDifferenceIsDrift()
     {
         (CensusFacts _, Expectation? expectation) = Expectation.Load(Write("actual"));
-        List<string> problems = expectation!.Compare(4, 2,
-            new(StringComparer.Ordinal) { ["gaps"] = 2, ["table-form-order"] = 2 },
-            new(StringComparer.Ordinal) { ["world-hsm"] = (4, 2), ["tactical-hsm"] = (0, 0) },
-            Rules("install:Scenario/Campaign/Valley01.CSM", "install:Scenario/Campaign/Other.csm"), 1);
-        Assert.Contains(problems, p => p.StartsWith("layout parts", StringComparison.Ordinal));
-        Assert.Contains(problems, p => p.StartsWith("category gaps", StringComparison.Ordinal));
+        List<string> problems = expectation!.Compare(
+            exact: 9,
+            masked: 3,
+            document: 1,
+            maskedRules: new(StringComparer.Ordinal) { ["file-crc"] = 4, ["hss-header-tail"] = 36 },
+            profiles: new(StringComparer.Ordinal)
+            {
+                ["scenario-set"] = new(0, 1, 0),
+                ["world-hsm"] = new(9, 2, 1),
+            },
+            legacyRules: Rules("install:Scenario/Campaign/Valley01.CSM", "install:Scenario/Campaign/Other.csm"));
+        Assert.Contains(problems, p => p.StartsWith("G1 exact files", StringComparison.Ordinal));
+        Assert.Contains(problems, p => p.StartsWith("G1 masked files", StringComparison.Ordinal));
+        Assert.Contains(problems, p => p.StartsWith("masked rule hss-header-tail", StringComparison.Ordinal));
         Assert.Contains(problems, p => p.StartsWith("profile world-hsm", StringComparison.Ordinal));
-        Assert.Contains(problems, p => p.StartsWith("case residues", StringComparison.Ordinal));
         Assert.Contains(problems, p => p.StartsWith("legacy rule LEGACY_VALLEY01_SPRITE occurrences", StringComparison.Ordinal));
         Assert.Contains(problems, p => p.StartsWith("legacy rule LEGACY_VALLEY01_SPRITE files", StringComparison.Ordinal));
     }
@@ -70,7 +92,7 @@ public sealed class ExpectationTests : FormatsTest, IDisposable
     }
 
     [Fact]
-    public void ACensusAloneHasNoLayoutPin()
+    public void ACensusAloneHasNoG1Pin()
     {
         _ = Write("actual");
         (CensusFacts? census, Expectation? expectation) = Expectation.Load(Path.Combine(_directory, "census.json"));

@@ -1,6 +1,6 @@
 {
   "format": "OpenAoW-schema",
-  "version": 7,
+  "version": 8,
   "note": "Hand-owned from 9.7-1. Generated once from the 9.7-0 census, the class baseline, registration reachability and corpus order evidence.",
   "legacyShapes": [
     {
@@ -861,10 +861,10 @@
         {"name": "GameSongs", "id": 60, "codec": "object", "class": "SongList"},
         {"name": "StartingGame", "id": 61, "codec": "bool"},
         {"name": "ShowAllPlayers", "id": 62, "codec": "bool"},
-        {"name": "VictoryMode", "id": 63, "codec": "u8", "raw": true},
-        {"name": "UnknownProperty57", "id": 57, "codec": "bool", "legacy": true}
+        {"name": "VictoryMode", "id": 63, "codec": "u8", "raw": true}
       ],
-      "order": ["ConnectionType", "HssFileName", "Version", "ViewPixelX", "ViewPixelY", "ViewMapLevel", "Author", "Description", "Objectives", "IndependentAIMode", "CurrentPlayer", "TurnOrderMode", "TurnOrder", "Day", "SessionName", "Players", "Races", "ExplorationEnabled", "HeroControl", "MapName", "FogEnabled", "HeroCountMax", "DefendersSeed", "StartupSongs", "ItemControl", "GameStatus", "GameResult", "InitialRandomSeed", "GameType", "UnitControl", "PlayMode", "GlobalMagicControl", "SphereCount", "TextControl", "CampaignSettings", "HeroControlCopy", "VictoryCondition", "VictoryMana", "VictoryGold", "FixedLeaders", "AlliedVictory", "AIGroupManager", "DayLimit", "TurnTime", "UnlimitedMoves", "StructureControl", "TurnTimeElapsed", "TutorialControl", "TurnTimeBeep", "LeadersFixed", "UnknownProperty57", "GameSongs", "StartingGame", "ShowAllPlayers", "VictoryMode", "Children"]
+      "skippedIds": [57],
+      "order": ["ConnectionType", "HssFileName", "Version", "ViewPixelX", "ViewPixelY", "ViewMapLevel", "Author", "Description", "Objectives", "IndependentAIMode", "CurrentPlayer", "TurnOrderMode", "TurnOrder", "Day", "SessionName", "Players", "Races", "ExplorationEnabled", "HeroControl", "MapName", "FogEnabled", "HeroCountMax", "DefendersSeed", "StartupSongs", "ItemControl", "GameStatus", "GameResult", "InitialRandomSeed", "GameType", "UnitControl", "PlayMode", "GlobalMagicControl", "SphereCount", "TextControl", "CampaignSettings", "HeroControlCopy", "VictoryCondition", "VictoryMana", "VictoryGold", "FixedLeaders", "AlliedVictory", "AIGroupManager", "DayLimit", "TurnTime", "UnlimitedMoves", "StructureControl", "TurnTimeElapsed", "TutorialControl", "TurnTimeBeep", "LeadersFixed", "GameSongs", "StartingGame", "ShowAllPlayers", "VictoryMode", "Children"]
     },
     {
       "name": "HexSpriteMapKeyboard",
