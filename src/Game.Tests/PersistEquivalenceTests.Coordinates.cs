@@ -3,7 +3,6 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Json;
 using Aow.Formats.Original;
 using Aow.Formats.Schema;
-using Aow.Game.AI;
 using Aow.Game.AI.Groups;
 using Aow.Game.Commands;
 using Aow.Game.Magic;
@@ -15,8 +14,8 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Tests;
 
 // The packed coordinate slots of issue 191: each owner keeps the fourth byte of its stored integer as
-// UnknownBytes, the AI target keeps it as the marker, and the move path keeps the move costs. Every
-// stored byte round-trips.
+// UnknownBytes, and the move path keeps the move costs. Every stored byte of those slots round-trips.
+// The AI target stores a location with fourth byte 0, or null as -1, and refuses any other fourth byte.
 public sealed partial class PersistEquivalenceTests
 {
     // X 5, Y -2, level 1 and a fourth byte $A5.
@@ -35,7 +34,6 @@ public sealed partial class PersistEquivalenceTests
     [InlineData("JoinEventLog", 26)]
     [InlineData("CityEnchantment", 21)]
     [InlineData("ArmyId", 11)]
-    [InlineData("AIGroup", 23)]
     public void APackedLocationKeepsItsFourthByte(string className, int id)
     {
         SchemaProperty property = s_schema.Get(className).PropertyById(id) ?? throw new InvalidOperationException(className + " has no id " + id.ToString(CultureInfo.InvariantCulture) + ".");
@@ -60,9 +58,6 @@ public sealed partial class PersistEquivalenceTests
                 case TownGateTokenEvent gate when id == 30:
                     Assert.Equal((byte)0xA5, gate.TeleportUnknownBytes);
                     Assert.Equal(new MapCoordinate(5, -2, 1), gate.TeleportLocation);
-                    break;
-                case AIGroup group when id == 23:
-                    Assert.Equal(new AITargetLocation(Location: new MapCoordinate(5, -2, 1), Marker: 0xA5), group.TargetMapCoordinate);
                     break;
                 default:
                     Assert.Equal((byte)0xA5, loaded.GetType().GetProperty("UnknownBytes")!.GetValue(loaded));
@@ -94,25 +89,39 @@ public sealed partial class PersistEquivalenceTests
     }
 
     [Fact]
-    public void TheAITargetKeepsTheNoneValueTheClearedMarkerAndEveryFourthByte()
+    public void TheAITargetRoundTripsNullNoneAndALocationAndRefusesAnotherFourthByte()
     {
-        foreach (AITargetLocation target in new[]
+        foreach (MapCoordinate? target in new MapCoordinate?[] { null, MapCoordinate.None, new MapCoordinate(0, 0, 0), new MapCoordinate(40, 21, 1) })
         {
-            AITargetLocation.None,
-            AITargetLocation.Cleared,
-            AITargetLocation.FromStored(StoredCoordinateImage.FromInt32(int.MinValue)),
-            AITargetLocation.At(new MapCoordinate(40, 21, 1)),
-        })
-        {
-            AIGroup group = new(null) { Holder = EngineFixture.Engine, TargetMapCoordinate = target };
+            AIGroup group = new(null) { Holder = EngineFixture.Engine, TargetLocation = target };
             Check("AIGroup", group);
         }
-        Assert.Equal(0x00FF_FFFF, AITargetLocation.None.ToStored().ToInt32());
-        Assert.Equal(-1, AITargetLocation.Cleared.ToStored().ToInt32());
-        Assert.NotEqual(AITargetLocation.None, AITargetLocation.Cleared);
-        AITargetLocation minimum = AITargetLocation.FromStored(StoredCoordinateImage.FromInt32(int.MinValue));
-        Assert.Equal(new AITargetLocation(Location: new MapCoordinate(0, 0, 0), Marker: 0x80), minimum);
-        Assert.Equal(int.MinValue, minimum.ToStored().ToInt32());
+
+        Assert.NotEqual(expected: (MapCoordinate?)null, actual: MapCoordinate.None);
+        RefuseStoredTarget(unchecked((int)0xA501_FE05));
+        RefuseStoredTarget(int.MinValue);
+    }
+
+    private static void RefuseStoredTarget(int stored)
+    {
+        EngineObject? blank = null;
+        EngineObject? loaded = null;
+        try
+        {
+            blank = Blank("AIGroup");
+            JsonObject document = PilotImage.Decode(Image(blank), "AIGroup");
+            _ = document.Remove("TargetLocation");
+            _ = document.Add("TargetLocation", new JsonInteger(stored));
+            byte[] image = PilotImage.Encode(document, "AIGroup");
+            loaded = Blank("AIGroup");
+            InvalidOperationException error = Assert.Throws<InvalidOperationException>(() => Load(loaded, image));
+            Assert.Contains("outside its storage range", error.Message, StringComparison.Ordinal);
+        }
+        finally
+        {
+            loaded?.Dispose();
+            blank?.Dispose();
+        }
     }
 
     [Fact]

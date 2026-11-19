@@ -702,7 +702,8 @@ public partial class SelectedArmy(EngineObject creator) : MoveSelector(creator)
             if (group != null)
             {
                 GroupBehavior behavior = group.GroupClass.Behavior;
-                text = text + s_groupBehaviorTexts[(int)behavior] + "(GID:" + IntToStr(group.GroupId) + "/Target:" + IntToStr(group.TargetMapCoordinate.Location.X) + "," + IntToStr(group.TargetMapCoordinate.Location.Y) + "," + IntToStr(group.TargetMapCoordinate.Location.MapLevel) + "/Budget:" + IntToStr(group.GoldBudget) + "/MP:" + IntToStr(group.TargetMovePoints) + ")";
+                MapCoordinate target = group.TargetLocation ?? MapCoordinate.None;
+                text = text + s_groupBehaviorTexts[(int)behavior] + "(GID:" + IntToStr(group.GroupId) + "/Target:" + IntToStr(target.X) + "," + IntToStr(target.Y) + "," + IntToStr(target.MapLevel) + "/Budget:" + IntToStr(group.GoldBudget) + "/MP:" + IntToStr(group.TargetMovePoints) + ")";
                 if (group.TargetType == AIGroupTargetStatus.Setup)
                 {
                     text += "-setup";

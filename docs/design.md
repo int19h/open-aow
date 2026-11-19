@@ -125,9 +125,9 @@ Two Delphi features need a design, not a mapping:
    value, `IntOrRef`. Milestone 9.6 (`specs/unions-and-kinds.md`) settled all eight. `MapCoordinate` (Delphi `TXYL`)
    is a natural `readonly record struct` of `X`, `Y` and `MapLevel` with the none value `MapCoordinate.None`.
    Issue 191 gave each use of the Delphi flag byte its own type: a path step is a `PathStep` with its
-   `MoveCost`, a unit position a `UnitPosition` with its `Facing`, the AI target an `AITargetLocation` whose
-   `Marker` keeps the cleared value apart from the none value, and a stored packed location keeps its fourth
-   byte as the owner's `UnknownBytes`. Equality of each type covers the bytes the Delphi integer comparison
+   `MoveCost`, a unit position a `UnitPosition` with its `Facing`, and a stored packed location keeps its fourth
+   byte as the owner's `UnknownBytes`, while the AI group target is a `MapCoordinate?` where null is the cleared
+   value and `MapCoordinate.None` is the none value. Equality of each type covers the bytes the Delphi integer comparison
    covered. Only load, save and the headless trace see the four bytes, through `PathStepImage` and
    `StoredCoordinateImage`. Issue 192 made `DefenseRequirements` (Delphi `TDefenseRequirements`) a natural struct whose `Strength` is
    element 7 of `DamageStrengths`, and `Palette.Entry` (Delphi `TPaletteEntry`) one 32-bit pixel value whose `Red`,

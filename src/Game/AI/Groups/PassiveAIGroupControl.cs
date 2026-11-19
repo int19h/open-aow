@@ -45,7 +45,7 @@ public partial class PassiveAIGroupControl(CustomNode owner) : AIGroupControl(ow
 
                 if (selector.DefenseLocation != MapCoordinate.None)
                 {
-                    Group.TargetMapCoordinate = AITargetLocation.At(selector.DefenseLocation);
+                    Group.TargetLocation = selector.DefenseLocation;
                     Group.TargetMode = (byte)AIGroupDefenseControl.GroupDefendMode.Custom;
                     SetupME();
                     MoveExecutor.Mode = MoveExecutor.Mode - Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent);

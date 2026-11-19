@@ -71,7 +71,9 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     public int TransporterId { get; set; }
     public sbyte IndependentRelation { get; set; }
 
-    public AITargetLocation TargetMapCoordinate { get; set; }
+    // A fresh group is the Delphi zero value, location (0, 0, 0). The initializer runs before the
+    // base constructor, so a construction observer sees that location. Null is only the cleared target.
+    public MapCoordinate? TargetLocation { get; set; } = new MapCoordinate(0, 0, 0);
 
     public AIGroupTargetStatus TargetType { get; set; }
     public int GoldBudget { get; set; }
@@ -113,9 +115,16 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         GroupId = persister.Int32("GroupId", value: GroupId);
         TransporterId = persister.Int32("TransporterId", value: TransporterId, fallback: -1);
         LeaderId = persister.Int32("LeaderId", value: LeaderId, fallback: -1);
-        int target = TargetMapCoordinate.ToStored().ToInt32();
-        target = persister.Int32("TargetMapCoordinate", value: target);
-        TargetMapCoordinate = AITargetLocation.FromStored(StoredCoordinateImage.FromInt32(target));
+        // Property id 23. A location stores through StoredCoordinateImage with fourth byte 0, and the
+        // cleared target stores as -1. A loaded value with any other fourth byte is refused.
+        int target = TargetLocation is MapCoordinate location
+            ? StoredCoordinateImage.From(location, unknownBytes: 0).ToInt32()
+            : -1;
+        target = persister.Int32("TargetLocation", value: target);
+        if (persister.Loading)
+        {
+            TargetLocation = ReadTargetLocation(target);
+        }
         TargetType = persister.Enum("TargetType", value: TargetType);
         Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
         IndependentRelation = persister.RawSByte("IndependentRelation", value: IndependentRelation);
@@ -126,6 +135,12 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         TargetMovePoints = persister.Int32("TargetMovePoints", value: TargetMovePoints);
         TargetMode = persister.RawByte("TargetMode", value: TargetMode);
     }
+
+    private static MapCoordinate? ReadTargetLocation(int stored) => stored == -1
+        ? null
+        : (byte)((uint)stored >> 24) != 0
+            ? throw new InvalidOperationException("TargetLocation is " + stored.ToString(System.Globalization.CultureInfo.InvariantCulture) + ", outside its storage range.")
+            : StoredCoordinateImage.FromInt32(stored).Location;
 
     // Unit.PAS:2294. The load releases the reference each loaded child took when it was created.
     public override void MainPersist(IPersister persister)
@@ -525,7 +540,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         Troop transporter;
         if (location != MapCoordinate.None)
         {
-            TargetMapCoordinate = AITargetLocation.At(location);
+            TargetLocation = location;
             TargetType = targetType;
             TargetMovePoints = movePoints;
             TargetMode = (byte)(mode << 0);
@@ -539,7 +554,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         }
         else
         {
-            TargetMapCoordinate = AITargetLocation.None;
+            TargetLocation = MapCoordinate.None;
             TargetType = targetType;
             TargetMode = (byte)(mode << 0);
             TargetMovePoints = 0;
@@ -570,7 +585,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         Troop transporter;
         if (target != null)
         {
-            TargetMapCoordinate = AITargetLocation.At(target.Location);
+            TargetLocation = target.Location;
             TargetType = targetType;
             TargetMovePoints = target.MovePoints;
             TargetMode = mode;
@@ -583,7 +598,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         }
         else
         {
-            TargetMapCoordinate = AITargetLocation.None;
+            TargetLocation = MapCoordinate.None;
             TargetType = targetType;
             TargetMode = mode;
             TargetMovePoints = 0;

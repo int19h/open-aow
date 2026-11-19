@@ -1014,7 +1014,7 @@ public sealed partial class PersistEquivalenceTests
                 TargetMovePoints = int.MaxValue,
                 TargetMode = 255,
                 TargetType = value,
-                TargetMapCoordinate = AITargetLocation.FromStored(StoredCoordinateImage.FromInt32(int.MinValue))
+                TargetLocation = new MapCoordinate(40, 21, 1)
             };
             Check("AIGroup", group);
         });
