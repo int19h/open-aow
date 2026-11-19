@@ -255,7 +255,8 @@ public sealed class MapShapeTests : FormatsTest
 
     // A sign is a sprite of a field. Its bit list of the text seen by each player is on the direct path too.
     [Theory]
-    [InlineData("""{"TextSeen":{"default":false,"count":10,"bits":[1,9],"$reserved":"fc"}}""")]
+    [InlineData("""{"TextSeen":{"default":false,"count":10,"bits":[1,9]}}""")]
+    [InlineData("""{"TextSeen":{"default":true,"count":10,"bits":[1,9]}}""")]
     [InlineData("""{"TextSeen":{"default":2,"count":0,"bits":[]}}""")]
     [InlineData("""{"TextSeen":{"default":true,"count":16,"bits":[0,15]}}""")]
     public void ABitListRoundTripsThroughBothBackends(string text)
@@ -271,7 +272,7 @@ public sealed class MapShapeTests : FormatsTest
 
     [Theory]
     [InlineData("""{"TextSeen":{"default":false,"count":10,"bits":[10]}}""", Codes.Range, "root.TextSeen.bits[0]")]
-    [InlineData("""{"TextSeen":{"default":false,"count":10,"bits":[],"$reserved":"01"}}""", Codes.Range, "root.TextSeen.$reserved")]
+    [InlineData("""{"TextSeen":{"default":false,"count":10,"bits":[],"$reserved":"01"}}""", Codes.ReservedMember, "root.TextSeen.$reserved")]
     [InlineData("""{"TextSeen":{"default":false,"bits":[]}}""", Codes.Range, "root.TextSeen.count")]
     [InlineData("""{"TextSeen":{"default":false,"count":1,"bits":[],"extra":1}}""", Codes.UnknownMember, "root.TextSeen.extra")]
     public void AMalformedBitListIsRefusedWithItsPath(string text, string code, string path)
@@ -280,6 +281,25 @@ public sealed class MapShapeTests : FormatsTest
         ConversionException error = Assert.Throws<ConversionException>(() => DocumentBackend.Read(document, Schema.Get("Sign"), Schema, "game"));
         Assert.Equal(code, error.Diagnostic.Code);
         Assert.Equal(path, error.Diagnostic.Path);
+    }
+
+    [Fact]
+    public void HsmHeaderReservedBytesAreIgnoredOnImportAndWrittenAsZero()
+    {
+        byte[] map = NestedMap("none", 0);
+        byte[] withReserved = [.. map];
+        BinaryPrimitives.WriteInt32LittleEndian(withReserved.AsSpan(8, 4), 0x12345678);
+        JsonObject imported = GameFiles.Import(withReserved, FileProfile.Find("world-hsm")!, "map").Document;
+        JsonObject container = (JsonObject)imported["$container"]!;
+        Assert.Null(container.Find("header"));
+        byte[] exported = GameFiles.Export(imported).Bytes;
+        Assert.Equal(0, BinaryPrimitives.ReadInt32LittleEndian(exported.AsSpan(8, 4)));
+        Assert.Equal(map, exported);
+
+        _ = container.Add("header", new JsonObject().Add("Reserved", new JsonInteger(1)));
+        ConversionException refused = Assert.Throws<ConversionException>(() => GameFiles.Export(imported));
+        Assert.Equal(Codes.UnknownMember, refused.Diagnostic.Code);
+        Assert.Equal("$container.header", refused.Diagnostic.Path);
     }
 
     // A small world map: an author and a description, in the container the test names.

@@ -490,15 +490,8 @@ internal sealed partial class CatalogRecordCodec
 
         HashSet<string> seen = [with(StringComparer.Ordinal)];
         byte[] bytes = new byte[info.Size];
-        int residueAt = info.Residue.Count == 0 ? -1 : info.Residue[0].Offset;
-        bool residue = false;
         foreach (RecordFieldInfo field in info.Fields)
         {
-            if (!residue && residueAt >= 0 && residueAt < field.Offset)
-            {
-                WriteResidue(node, bytes, info, context, frame);
-                residue = true;
-            }
             _ = seen.Add(field.Name);
             TreeValue? found = node.Find(field.Name);
             if (found is null || field.OmitsImage(found))
@@ -516,12 +509,7 @@ internal sealed partial class CatalogRecordCodec
 
             buffer.Span.CopyTo(bytes.AsSpan(field.Offset, field.Size));
         }
-        if (!residue)
-        {
-            WriteResidue(node, bytes, info, context, frame);
-        }
 
-        _ = seen.Add("$reserved");
         foreach ((string? memberName, _) in node.Members)
         {
             if (!seen.Contains(memberName))
@@ -552,65 +540,16 @@ internal sealed partial class CatalogRecordCodec
         }
 
         RecordNode node = new();
-        int residueAt = info.Residue.Count == 0 ? -1 : info.Residue[0].Offset;
-        bool residue = false;
-        Span<byte> image = context.Data.AsSpan(start, info.Size);
         foreach (RecordFieldInfo field in info.Fields)
         {
-            if (!residue && residueAt >= 0 && residueAt < field.Offset)
-            {
-                AddImageResidue(image, info, node);
-                residue = true;
-            }
             TreeValue read = FieldCodec(field).ReadImage(context, start + field.Offset, start + field.Offset + field.Size, FieldFrame(frame, field.Name));
             if (!field.OmitsImage(read))
             {
                 node.Add(field.Name, read);
             }
         }
-        if (!residue)
-        {
-            AddImageResidue(image, info, node);
-        }
 
         return node;
-    }
-
-    private static void WriteResidue(RecordNode node, byte[] image, RecordTypeInfo info, EncodeContext context, ImageFrame frame)
-    {
-        TreeValue? found = node.Find("$reserved");
-        if (found is null)
-        {
-            return;
-        }
-
-        if (found is not BytesNode bytes)
-        {
-            throw context.Fail(Codes.Type, "$reserved is lowercase hexadecimal.", null, frame.Path.Member("$reserved"));
-        }
-
-        if (bytes.Data.Length != info.ResidueLength)
-        {
-            throw context.Fail(Codes.Range, "$reserved holds the record residue.", null, frame.Path.Member("$reserved"), Text(bytes.Data.Length), info.ResidueLength + " bytes");
-        }
-
-        Scatter(image, bytes.Data, info);
-    }
-
-    private static void AddImageResidue(ReadOnlySpan<byte> image, RecordTypeInfo info, RecordNode node)
-    {
-        if (info.ResidueLength == 0)
-        {
-            return;
-        }
-
-        byte[] residue = Gather(image, info);
-        if (AllZero(residue))
-        {
-            return;
-        }
-
-        node.Add("$reserved", new BytesNode(residue));
     }
 
     private static ImageFrame FieldFrame(ImageFrame frame, string fieldName) => new()

@@ -7,8 +7,9 @@ namespace Aow.Formats.Tree;
 
 /// <summary>
 /// One explicit-layout struct the schema names. Fields follow <c>FieldOffset</c> order.
-/// A field named Reserved is residue. Bytes no field covers are residue too.
-/// A one-field wrapper of a set, with no residue, is stored as that set.
+/// Every byte is covered by a field or by a <see cref="StoredPaddingAttribute"/> span.
+/// Padding bytes are ignored on read, written as 0 and never stored in a document.
+/// A one-field wrapper of a set, with no padding, is stored as that set.
 /// </summary>
 internal sealed partial class RecordTypeInfo
 {
@@ -18,22 +19,8 @@ internal sealed partial class RecordTypeInfo
     public required Type Image { get; init; }
     public required int Size { get; init; }
     public required IReadOnlyList<RecordFieldInfo> Fields { get; init; }
-    public required IReadOnlyList<(int Offset, int Length)> Residue { get; init; }
+    public required IReadOnlyList<(int Offset, int Length)> Padding { get; init; }
     public bool BareSet { get; init; }
-
-    public int ResidueLength
-    {
-        get
-        {
-            int n = 0;
-            foreach ((int _, int length) in Residue)
-            {
-                n += length;
-            }
-
-            return n;
-        }
-    }
 }
 
 /// <summary>Resolves a schema record name where no game object exists.</summary>
@@ -218,7 +205,7 @@ internal sealed partial class RecordTypeInfo
             .Where(field => field.Offset is not null)];
         HashSet<FieldInfo> consumed = [];
         List<RecordFieldInfo> named = [];
-        List<(int Offset, int Length)> residue = [];
+        List<(int Offset, int Length)> padding = [];
         foreach (PropertyInfo property in type.GetProperties(BindingFlags.Instance | BindingFlags.Public))
         {
             if (!property.PropertyType.IsGenericType || property.PropertyType.GetGenericTypeDefinition() != typeof(Set<>))
@@ -257,12 +244,16 @@ internal sealed partial class RecordTypeInfo
 
             int at = offset!.Value;
             int fieldSize = FieldSize(field);
-            if (field.Name == "Reserved")
-            {
-                residue.Add((at, fieldSize));
-                continue;
-            }
             named.Add(DescribeField(type, field, at, fieldSize));
+        }
+        foreach (StoredPaddingAttribute declared in type.GetCustomAttributes<StoredPaddingAttribute>(inherit: false))
+        {
+            if (declared.Length <= 0)
+            {
+                throw new InvalidOperationException(type.Name + " declares padding with non-positive length " + declared.Length + ".");
+            }
+
+            padding.Add((declared.Offset, declared.Length));
         }
         bool[] cover = new bool[size];
         void Cover(int offset, int length, string name)
@@ -289,29 +280,21 @@ internal sealed partial class RecordTypeInfo
             Cover(field.Offset, field.Size, field.Name);
         }
 
-        foreach ((int offset, int length) in residue)
+        foreach ((int offset, int length) in padding)
         {
-            Cover(offset, length, "Reserved");
+            Cover(offset, length, "padding");
         }
 
-        int gap = -1;
-        for (int i = 0; i <= size; i++)
+        for (int i = 0; i < size; i++)
         {
-            bool open = i < size && !cover[i];
-            if (open && gap < 0)
+            if (!cover[i])
             {
-                gap = i;
-            }
-
-            if (!open && gap >= 0)
-            {
-                residue.Add((gap, i - gap));
-                gap = -1;
+                throw new InvalidOperationException(type.Name + " leaves byte " + i + " uncovered. Declare a field or [StoredPadding].");
             }
         }
-        residue.Sort(static (a, b) => a.Offset.CompareTo(b.Offset));
-        bool bare = named.Count == 1 && named[0].Kind == RecordFieldKind.Set && residue.Count == 0;
-        return new RecordTypeInfo { Name = StoredName(type), Image = type, Size = size, Fields = named, Residue = residue, BareSet = bare };
+        padding.Sort(static (a, b) => a.Offset.CompareTo(b.Offset));
+        bool bare = named.Count == 1 && named[0].Kind == RecordFieldKind.Set && padding.Count == 0;
+        return new RecordTypeInfo { Name = StoredName(type), Image = type, Size = size, Fields = named, Padding = padding, BareSet = bare };
     }
 
     private static RecordFieldInfo DescribeField(Type owner, FieldInfo field, int offset, int size)

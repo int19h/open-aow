@@ -1171,7 +1171,6 @@ type,TGuardAreaAGC,Aow.Game.AI.Groups.GuardAreaAIGroupControl
 type,THNWalkData,Aow.Game.World.Movement.HexNumberWalkData
 type,THSEngine,Aow.Game.GameEngine
 type,THSEngineStatusElement,Aow.Game.World.Map.HexSpriteEngineStatusElement
-type,THSMHeader,Aow.Game.World.Map.HsmHeader
 type,THSMap,Aow.Game.World.Map.GameMap
 type,THSMapFieldInfo,Aow.Game.World.Map.HexSpriteMapFieldInfo
 type,THSMapMouse,Aow.Game.World.Map.HexSpriteMapMouse
@@ -2351,7 +2350,6 @@ type,GuardAreaAG,Aow.Game.AI.Groups.GuardAreaAIGroup
 type,GuardAreaAGC,Aow.Game.AI.Groups.GuardAreaAIGroupControl
 type,HNWalkData,Aow.Game.World.Movement.HexNumberWalkData
 type,HSEngineStatusElement,Aow.Game.World.Map.HexSpriteEngineStatusElement
-type,HSMHeader,Aow.Game.World.Map.HsmHeader
 type,HSMapFieldInfo,Aow.Game.World.Map.HexSpriteMapFieldInfo
 type,HSMapMouse,Aow.Game.World.Map.HexSpriteMapMouse
 type,HSMapMouse.MouseStatusElement,Aow.Game.World.Map.HexSpriteMapMouse.StatusElement

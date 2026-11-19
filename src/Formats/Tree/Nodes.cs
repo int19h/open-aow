@@ -391,17 +391,16 @@ public sealed class RecordNode : TreeValue
 }
 
 /// <summary>
-/// Set bits of a counted bit array, in ascending index order. Bits past the count in the last byte
-/// are <see cref="Residue"/>. Version 1 and version 2 refuse the shape.
+/// Set bits of a counted bit array, in ascending index order, covering every bit of the stored
+/// bytes (bits 0 to <c>((count + 7) &amp; ~7) - 1</c>). Version 1 and version 2 refuse the shape.
 /// </summary>
-public sealed class BitArrayNode(int count, int[] indices, byte residue) : TreeValue
+public sealed class BitArrayNode(int count, int[] indices) : TreeValue
 {
     public int Count { get; } = count;
     public IReadOnlyList<int> Indices { get; } = indices;
-    internal byte Residue { get; } = residue;
 
     public override bool ValueEquals(TreeValue other) =>
-        other is BitArrayNode node && node.Count == Count && node.Residue == Residue && PlainEqual(Indices, node.Indices);
+        other is BitArrayNode node && node.Count == Count && PlainEqual(Indices, node.Indices);
 
     internal override void RejectVersion(int version, DocumentNodePath path)
     {
@@ -413,25 +412,24 @@ public sealed class BitArrayNode(int count, int[] indices, byte residue) : TreeV
 }
 
 /// <summary>
-/// A bit list (Delphi <c>TBitList</c>): the stored default byte, the count, the set bits in
-/// ascending order and the residue byte of the bits past the count. Since PE-2c-4 the backends
-/// store it, and since PE-2c-5 <see cref="IPersister.BitList"/> moves it.
+/// A bit list (Delphi <c>TBitList</c>): the stored default byte, the count and the set bits below
+/// the count in ascending order. Bits past the count in the last byte equal the default bit.
+/// Since PE-2c-4 the backends store it, and since PE-2c-5 <see cref="IPersister.BitList"/> moves it.
 /// </summary>
-public sealed class BitListNode(byte defaultValue, int count, int[] indices, byte residue) : TreeValue
+public sealed class BitListNode(byte defaultValue, int count, int[] indices) : TreeValue
 {
     public byte Default { get; } = defaultValue;
     public int Count { get; } = count;
     public IReadOnlyList<int> Indices { get; } = indices;
-    internal byte Residue { get; } = residue;
 
     public override bool ValueEquals(TreeValue other) =>
-        other is BitListNode node && node.Default == Default && node.Count == Count && node.Residue == Residue && PlainEqual(Indices, node.Indices);
+        other is BitListNode node && node.Default == Default && node.Count == Count && PlainEqual(Indices, node.Indices);
 }
 
 /// <summary>
 /// The image of a bit list (Delphi <c>TBitList</c>) as <c>SaveToStream</c> writes it: the default
 /// byte, the count, and the <c>(count + 7) &gt;&gt; 3</c> bit bytes, bit i in byte <c>i &gt;&gt; 3</c>
-/// at mask <c>1 &lt;&lt; (i and 7)</c>. Bits past the count in the last byte are kept.
+/// at mask <c>1 &lt;&lt; (i and 7)</c>. Bits past the count in the last byte equal the default bit.
 /// </summary>
 public sealed record BitListImage(byte Default, int Count, byte[] Bits);
 

@@ -28,7 +28,7 @@ internal readonly record struct ExposedMember(string Owner, string Member, strin
 /// <c>ImageTree</c> from outside the original codecs, unless the caller is an allowed site. The public
 /// surface of <c>Aow.Formats.Tree</c> fails when it exposes a stored id, a storage width, raw image
 /// bytes or residue. A grid width stays, because the type also has a height. The bit-list image keeps
-/// its bit bytes, because the engine reads them. Residue in a document is the member $reserved.
+/// its bit bytes, because the engine reads them.
 /// </summary>
 internal static class PersistenceInventory
 {

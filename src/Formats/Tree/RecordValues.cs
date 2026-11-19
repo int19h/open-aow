@@ -9,8 +9,8 @@ namespace Aow.Formats.Tree;
 /// <see cref="StoredLayoutAttribute"/> struct that the record catalog describes under its bound
 /// record name. Game code maps its own value to the image (<c>PersistSupport.Record</c>). Field
 /// names and types come from the record catalog. Integer zeros are omitted. Enumerations and sets
-/// are stored, including zero. Reserved bytes and padding are <c>$reserved</c> when any byte is
-/// nonzero. A one-field set wrapper is that set, under the schema name.
+/// are stored, including zero. Declared padding bytes are ignored on read, written as 0 and never
+/// enter the tree. A one-field set wrapper is that set, under the schema name.
 /// </summary>
 public static class RecordValues
 {
@@ -48,61 +48,9 @@ public static class RecordValues
 
     internal static void Apply(IPersister persister, RecordTypeInfo info, Span<byte> image)
     {
-        int residueAt = info.Residue.Count == 0 ? -1 : info.Residue[0].Offset;
-        bool residue = false;
         foreach (RecordFieldInfo field in info.Fields)
         {
-            if (!residue && residueAt >= 0 && residueAt < field.Offset)
-            {
-                ApplyResidue(persister, info, image);
-                residue = true;
-            }
             field.Transfer(persister, image.Slice(field.Offset, field.Size));
-        }
-        if (!residue)
-        {
-            ApplyResidue(persister, info, image);
-        }
-    }
-
-    private static void ApplyResidue(IPersister persister, RecordTypeInfo info, Span<byte> image)
-    {
-        if (info.ResidueLength == 0)
-        {
-            return;
-        }
-
-        byte[] residue = new byte[info.ResidueLength];
-        int at = 0;
-        foreach ((int offset, int length) in info.Residue)
-        {
-            image.Slice(offset, length).CopyTo(residue.AsSpan(at));
-            at += length;
-        }
-        bool any = false;
-        foreach (byte b in residue)
-        {
-            if (b != 0)
-            {
-                any = true;
-            }
-        }
-
-        if (persister.Loading || any)
-        {
-            persister.Bytes("$reserved", residue);
-        }
-
-        if (!persister.Loading)
-        {
-            return;
-        }
-
-        at = 0;
-        foreach ((int offset, int length) in info.Residue)
-        {
-            residue.AsSpan(at, length).CopyTo(image[offset..]);
-            at += length;
         }
     }
 }

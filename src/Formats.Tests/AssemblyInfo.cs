@@ -21,7 +21,7 @@ internal static class UnitMappings
     }
 }
 
-[StoredLayout]
+[StoredLayout, StoredPadding(offset: 1, length: 3)]
 [StructLayout(LayoutKind.Explicit, Size = 8)]
 internal struct SampleBehavior
 {

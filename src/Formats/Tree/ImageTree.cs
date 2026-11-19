@@ -242,6 +242,11 @@ internal static class ImageTree
             }
             first = last;
         }
+        if (classValue.Mapping is { } mapping)
+        {
+            CaseCodec.CheckTree(context, mapping, node, path, start);
+        }
+
         context.Leave();
         return node;
     }

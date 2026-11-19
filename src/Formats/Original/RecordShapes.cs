@@ -6,7 +6,8 @@ namespace Aow.Formats.Original;
 
 /// <summary>
 /// A record named by the C# struct in the record catalog. A one-field set wrapper is that set.
-/// Other records are objects of named fields. Reserved bytes and padding are <c>$reserved</c> when any byte is nonzero.
+/// Other records are objects of named fields. Declared padding bytes are ignored on read,
+/// written as 0 and never stored in a document.
 /// </summary>
 internal sealed partial class CatalogRecordCodec(string typeName, int size) : PropertyCodec
 {
@@ -57,15 +58,8 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
 
         JsonObject json = new();
         HashSet<string> seen = [];
-        int residueAt = info.Residue.Count == 0 ? -1 : info.Residue[0].Offset;
-        bool residue = false;
         foreach (RecordFieldInfo field in info.Fields)
         {
-            if (!residue && residueAt >= 0 && residueAt < field.Offset)
-            {
-                AddResidue(node, json, site);
-                residue = true;
-            }
             TreeValue? found = node.Find(field.Name);
             if (found is null)
             {
@@ -81,12 +75,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
 
             _ = seen.Add(field.Name);
         }
-        if (!residue && node.Find("$reserved") is not null)
-        {
-            AddResidue(node, json, site);
-        }
 
-        _ = seen.Add("$reserved");
         foreach ((string? name, _) in node.Members)
         {
             if (!seen.Contains(name))
@@ -129,41 +118,20 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
                 node.Add(field.Name, read);
             }
         }
-        if (objectValue.Find("$reserved") is { } reserved)
-        {
-            DocumentSite at = site.At(site.Path.Member("$reserved"), false);
-            if (reserved.Value is not JsonString hex)
-            {
-                throw at.Fail(Codes.Type, "$reserved is lowercase hexadecimal.", reserved.Value);
-            }
-
-            node.Add("$reserved", new BytesNode(ResidueBytes(hex.Value, info, at)));
-        }
         return node;
     }
 
     private JsonObject Document(RecordTypeInfo info, ReadOnlySpan<byte> bytes, DecodeContext context, ValueSite site)
     {
         JsonObject json = new();
-        int residueAt = info.Residue.Count == 0 ? -1 : info.Residue[0].Offset;
-        bool residue = false;
         foreach (RecordFieldInfo field in info.Fields)
         {
-            if (!residue && residueAt >= 0 && residueAt < field.Offset)
-            {
-                AddResidue(bytes, info, json);
-                residue = true;
-            }
             ValueSite fieldSite = new() { Property = site.Property, Id = site.Id, Path = site.Path.Member(field.Name), Owner = site.Owner, Builder = site.Builder };
             JsonValue? value = FieldValue(field, bytes.Slice(field.Offset, field.Size), context, fieldSite);
             if (value is not null)
             {
                 _ = json.Add(field.Name, value);
             }
-        }
-        if (!residue)
-        {
-            AddResidue(bytes, info, json);
         }
 
         return json;
@@ -199,15 +167,6 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
             ValueSite site = new() { Property = parent.Property!, Id = 0, Path = fieldPath, Owner = objectValue };
             WriteField(field, member.Value, context, site, bytes.AsSpan(field.Offset, field.Size));
         }
-        if (objectValue.Find("$reserved") is { } reserved)
-        {
-            if (reserved.Value is not JsonString hex)
-            {
-                throw context.Fail(Codes.Type, "$reserved is lowercase hexadecimal.", reserved.Value, parent.Path.Member("$reserved"), reserved.Value.KindName);
-            }
-
-            Scatter(bytes, ResidueBytes(hex.Value, info, context, parent.Path), info);
-        }
         return bytes;
     }
 
@@ -221,48 +180,6 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
         }
 
         buffer.Span.CopyTo(target);
-    }
-
-    private void AddResidue(RecordNode node, JsonObject json, DocumentSite site)
-    {
-        TreeValue? found = node.Find("$reserved");
-        if (found is null)
-        {
-            return;
-        }
-
-        if (found is not BytesNode bytes)
-        {
-            throw site.At(site.Path.Member("$reserved"), false).Fail(Codes.Type, "$reserved is lowercase hexadecimal.");
-        }
-
-        if (bytes.Data.Length != Info(site.Context.File, site.Path.ToString()).ResidueLength)
-        {
-            throw site.At(site.Path.Member("$reserved"), false).Fail(Codes.Range, "$reserved holds the record residue.", value: Text(bytes.Data.Length), constraint: Info(site.Context.File, site.Path.ToString()).ResidueLength + " bytes");
-        }
-
-        if (AllZero(bytes.Data))
-        {
-            return;
-        }
-
-        _ = json.Add("$reserved", new JsonString(LayoutResidue.Hex(bytes.Data)));
-    }
-
-    private static void AddResidue(ReadOnlySpan<byte> image, RecordTypeInfo info, JsonObject json)
-    {
-        if (info.ResidueLength == 0)
-        {
-            return;
-        }
-
-        byte[] residue = Gather(image, info);
-        if (AllZero(residue))
-        {
-            return;
-        }
-
-        _ = json.Add("$reserved", new JsonString(LayoutResidue.Hex(residue)));
     }
 
     private PropertyCodec FieldCodec(RecordFieldInfo field)
@@ -309,11 +226,6 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
         HashSet<string> known = [.. info.Fields.Select(field => field.Name)];
         foreach (JsonMember member in objectValue.Members)
         {
-            if (member.Name == "$reserved")
-            {
-                continue;
-            }
-
             if (member.Name.StartsWith('$'))
             {
                 throw site.At(site.Path.Member(member.Name), false).Fail(Codes.ReservedMember,
@@ -333,14 +245,9 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
         HashSet<string> known = [.. info.Fields.Select(field => field.Name)];
         foreach (JsonMember member in objectValue.Members)
         {
-            if (member.Name == "$reserved")
-            {
-                continue;
-            }
-
             if (member.Name.StartsWith('$'))
             {
-                throw context.Fail(Reserved.IsKnown(member.Name) ? Codes.ReservedMember : Codes.ReservedMember,
+                throw context.Fail(Codes.ReservedMember,
                     Reserved.IsKnown(member.Name) ? "Reserved member \"" + member.Name + "\" is not allowed here." : "Unknown reserved member \"" + member.Name + "\".",
                     member.Value, path.Member(member.Name), member.Name);
             }
@@ -351,73 +258,13 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
             }
         }
     }
-
-    private static byte[] ResidueBytes(string hex, RecordTypeInfo info, DocumentSite site)
-    {
-        if (!HexText.IsLowerHex(hex))
-        {
-            throw site.Fail(Codes.Type, "$reserved is lowercase hexadecimal.", value: hex);
-        }
-
-        byte[] bytes = HexText.Decode(hex);
-        return bytes.Length != info.ResidueLength
-            ? throw site.Fail(Codes.Range, "$reserved holds the record residue.", value: Text(bytes.Length), constraint: info.ResidueLength + " bytes")
-            : bytes;
-    }
-
-    private static byte[] ResidueBytes(string hex, RecordTypeInfo info, EncodeContext context, DocumentNodePath path)
-    {
-        if (!HexText.IsLowerHex(hex))
-        {
-            throw context.Fail(Codes.Type, "$reserved is lowercase hexadecimal.", null, path.Member("$reserved"), hex);
-        }
-
-        byte[] bytes = HexText.Decode(hex);
-        return bytes.Length != info.ResidueLength
-            ? throw context.Fail(Codes.Range, "$reserved holds the record residue.", null, path.Member("$reserved"), Text(bytes.Length), info.ResidueLength + " bytes")
-            : bytes;
-    }
-
-    internal static byte[] Gather(ReadOnlySpan<byte> image, RecordTypeInfo info)
-    {
-        byte[] residue = new byte[info.ResidueLength];
-        int at = 0;
-        foreach ((int offset, int length) in info.Residue)
-        {
-            image.Slice(offset, length).CopyTo(residue.AsSpan(at));
-            at += length;
-        }
-        return residue;
-    }
-
-    private static void Scatter(byte[] image, ReadOnlySpan<byte> residue, RecordTypeInfo info)
-    {
-        int at = 0;
-        foreach ((int offset, int length) in info.Residue)
-        {
-            residue.Slice(at, length).CopyTo(image.AsSpan(offset));
-            at += length;
-        }
-    }
-
-    private static bool AllZero(ReadOnlySpan<byte> bytes)
-    {
-        foreach (byte b in bytes)
-        {
-            if (b != 0)
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
 }
 
 /// <summary>
-/// A counted bit array stored by rwData. The document is the ascending indices of the set bits.
-/// Bits past the count in the last byte are <c>$reserved</c> on the value when any of them is set.
-/// The count is the sibling integer named by the schema.
+/// A counted bit array stored by rwData. The document is the ascending indices of every set bit
+/// in the stored bytes (bits 0 to ((count + 7) &amp; ~7) - 1, including bits past the count that
+/// 1.36 keeps across shrinks, compares and revives on growth). The count is the sibling integer
+/// named by the schema.
 /// </summary>
 internal sealed class BitArrayCodec(string countName) : PropertyCodec
 {
@@ -429,8 +276,8 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
-        (int[]? indices, byte residue) = Unpack(CountOf(site.Owner, null, CountName, context, site.Path), bytes: context.Data.AsSpan(start, end - start), context: context, path: site.Path);
-        return Document(indices, residue);
+        int[] indices = Unpack(CountOf(site.Owner, null, CountName, context, site.Path), bytes: context.Data.AsSpan(start, end - start), context: context, path: site.Path);
+        return Document(indices);
     }
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site) => data.Bytes(Pack(CountOf(site.Owner, null, CountName, context, site.Path), value: value, context: context, path: site.Path, name: site.Property?.Name ?? "The value"));
@@ -442,14 +289,14 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
             throw FrameFail(context, frame, Codes.Type, (frame.Property?.Name ?? "The value") + " is a bit array.");
         }
 
-        data.Bytes(Pack(node.Count, Document(node.Indices, node.Residue), context, frame.Path, frame.Property?.Name ?? "The value"));
+        data.Bytes(Pack(node.Count, Document(node.Indices), context, frame.Path, frame.Property?.Name ?? "The value"));
     }
 
     internal override TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame)
     {
         int count = CountOf(frame.Owner, frame.Parent, CountName, context, frame.Path);
-        (int[]? indices, byte residue) = Unpack(count, context.Data.AsSpan(start, end - start), context, frame.Path);
-        return new BitArrayNode(count, indices, residue);
+        int[] indices = Unpack(count, context.Data.AsSpan(start, end - start), context, frame.Path);
+        return new BitArrayNode(count, indices);
     }
 
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
@@ -464,7 +311,7 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
             throw site.Mismatch((site.Property?.Name ?? "The value") + " is a bit array.");
         }
 
-        JsonValue json = Document(node.Indices, node.Residue);
+        JsonValue json = Document(node.Indices);
         _ = Pack(node.Count, json, site.Context, site.Path, site.Property?.Name ?? "The value");
         return json;
     }
@@ -478,11 +325,11 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
 
         int count = CountOf(site.Owner, null, CountName, site.Context, site.Path);
         byte[] bytes = Pack(count, value, site.Context, site.Path, site.Property?.Name ?? "The value");
-        (int[]? indices, byte residue) = Unpack(count, bytes, site);
-        return new BitArrayNode(count, indices, residue);
+        int[] indices = Unpack(count, bytes, site);
+        return new BitArrayNode(count, indices);
     }
 
-    internal static JsonValue Document(IReadOnlyList<int> indices, byte residue)
+    internal static JsonArray Document(IReadOnlyList<int> indices)
     {
         JsonArray array = new();
         foreach (int index in indices)
@@ -490,7 +337,7 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
             _ = array.Add(new JsonInteger(index));
         }
 
-        return residue == 0 ? array : new JsonObject().Add("values", array).Add("$reserved", new JsonString(LayoutResidue.Hex([residue])));
+        return array;
     }
 
     internal static byte[] Pack(int count, JsonValue value, EncodeContext context, DocumentNodePath path, string name)
@@ -506,48 +353,42 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
             throw context.Fail(Codes.Range, name + " of 0 bits is omitted.", value, path);
         }
 
-        (int[]? indices, byte residue) = Read(value, count, context, path, name);
+        if (value is not JsonArray array)
+        {
+            throw context.Fail(Codes.Type, name + " is an array of bit indices.", value, path, value.KindName);
+        }
+
+        int[] indices = ReadIndices(array, length * 8, context, path, name);
         byte[] bytes = new byte[length];
         foreach (int index in indices)
         {
             bytes[index >> 3] |= (byte)(1 << (index & 7));
         }
 
-        if ((count & 7) != 0)
-        {
-            bytes[length - 1] |= residue;
-        }
-
         return bytes;
     }
 
-    internal static (int[] Indices, byte Residue) Unpack(int count, ReadOnlySpan<byte> bytes, DecodeContext context, DocumentNodePath path)
+    internal static int[] Unpack(int count, ReadOnlySpan<byte> bytes, DecodeContext context, DocumentNodePath path)
     {
         int length = count < 0 ? -1 : (count + 7) >> 3;
         return count < 0 || bytes.Length != length
             ? throw context.Fail(Codes.Range, "A bit array of " + count + " bits is stored in " + bytes.Length + " bytes.", 0, path, Text(bytes.Length), length + " bytes")
-            : Split(count, bytes);
+            : Split(bytes);
     }
 
-    private static (int[] Indices, byte Residue) Unpack(int count, ReadOnlySpan<byte> bytes, DocumentSite site)
+    private static int[] Unpack(int count, ReadOnlySpan<byte> bytes, DocumentSite site)
     {
         int length = count < 0 ? -1 : (count + 7) >> 3;
         return count < 0 || bytes.Length != length
             ? throw site.Fail(Codes.Range, "A bit array of " + count + " bits is stored in " + bytes.Length + " bytes.", value: Text(bytes.Length), constraint: length + " bytes")
-            : Split(count, bytes);
+            : Split(bytes);
     }
 
-    private static (int[] Indices, byte Residue) Split(int count, ReadOnlySpan<byte> bytes)
+    private static int[] Split(ReadOnlySpan<byte> bytes)
     {
-        int used = count & 7;
-        byte residue = 0;
-        if (used != 0 && bytes.Length != 0)
-        {
-            residue = (byte)(bytes[^1] & (byte)(0xFF << used));
-        }
-
+        int storedBits = bytes.Length * 8;
         List<int> indices = [];
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < storedBits; i++)
         {
             if ((bytes[i >> 3] & (1 << (i & 7))) != 0)
             {
@@ -555,64 +396,11 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
             }
         }
 
-        return (indices.ToArray(), residue);
+        return [.. indices];
     }
 
-    private static (int[] Indices, byte Residue) Read(JsonValue value, int count, EncodeContext context, DocumentNodePath path, string name)
-    {
-        JsonArray array;
-        byte residue = 0;
-        if (value is JsonArray plain)
-        {
-            array = plain;
-        }
-        else if (value is JsonObject objectValue)
-        {
-            foreach (JsonMember member in objectValue.Members)
-            {
-                if (member.Name is not ("values" or "$reserved"))
-                {
-                    throw context.Fail(member.Name.StartsWith('$') ? Codes.ReservedMember : Codes.UnknownMember,
-                        "The bit array has no member \"" + member.Name + "\".", member.Value, path.Member(member.Name), member.Name);
-                }
-            }
-
-            if (objectValue["values"] is not JsonArray values)
-            {
-                throw context.Fail(Codes.MissingMember, name + " needs values.", objectValue, path);
-            }
-
-            array = values;
-            if (objectValue["$reserved"] is JsonValue reserved)
-            {
-                residue = ReadResidue(reserved, count, context, path.Member("$reserved"));
-            }
-        }
-        else
-        {
-            throw context.Fail(Codes.Type, name + " is an array of bit indices.", value, path, value.KindName);
-        }
-
-        return (ReadIndices(array, count, context, path, name), residue);
-    }
-
-    /// <summary>The residue byte of <c>$reserved</c>: one lowercase hex byte that sets only bits past the count.</summary>
-    internal static byte ReadResidue(JsonValue reserved, int count, EncodeContext context, DocumentNodePath path)
-    {
-        if (reserved is not JsonString hex || !HexText.IsLowerHex(hex.Value) || hex.Value.Length != 2)
-        {
-            throw context.Fail(Codes.Type, "$reserved is one lowercase hexadecimal byte.", reserved, path);
-        }
-
-        byte residue = HexText.Decode(hex.Value)[0];
-        int used = count & 7;
-        return used == 0 || (residue & (byte)~(0xFF << used)) != 0
-            ? throw context.Fail(Codes.Range, "$reserved keeps only the bits past the count.", reserved, path)
-            : residue;
-    }
-
-    /// <summary>Set bit indices: ascending, each once, each below the count.</summary>
-    internal static int[] ReadIndices(JsonArray array, int count, EncodeContext context, DocumentNodePath path, string name)
+    /// <summary>Set bit indices: ascending, each once, each below <paramref name="limit"/>.</summary>
+    internal static int[] ReadIndices(JsonArray array, int limit, EncodeContext context, DocumentNodePath path, string name)
     {
         if (array.Items.Count > context.Limits.CollectionItems)
         {
@@ -628,9 +416,9 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
                 throw context.Fail(Codes.Type, name + " is an integer.", array.Items[i], path.Item(i), array.Items[i].KindName);
             }
 
-            if (number.Value < 0 || number.Value >= count)
+            if (number.Value < 0 || number.Value >= limit)
             {
-                throw context.Fail(Codes.Range, name + " is outside its storage range.", array.Items[i], path.Item(i), Text(number.Value), "0 to " + (count - 1));
+                throw context.Fail(Codes.Range, name + " is outside its storage range.", array.Items[i], path.Item(i), Text(number.Value), "0 to " + (limit - 1));
             }
 
             int index = (int)number.Value;

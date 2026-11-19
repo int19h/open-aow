@@ -352,15 +352,17 @@ public static partial class Fixtures
         yield return new("diagnostics", "trailing commas and comments fail", () => ExpectAny(
             () => GameFiles.Read("{\"$format\": \"OpenAoW\", }"u8.ToArray()),
             () => GameFiles.Read("{\"$format\": \"OpenAoW\" // c\n}"u8.ToArray())));
+        int newer = OwnFormat.CurrentVersion + 1;
         yield return new("diagnostics", "a newer version fails with both numbers", () => Expect(Codes.Version,
-            () => GameFiles.Read("{\"$format\": \"OpenAoW\", \"$version\": 7}"u8.ToArray()),
-            d => d.Message.Contains("version 7", StringComparison.Ordinal)
+            () => GameFiles.Read(System.Text.Encoding.UTF8.GetBytes($"{{\"$format\": \"OpenAoW\", \"$version\": {newer}}}")),
+            d => d.Message.Contains($"version {newer}", StringComparison.Ordinal)
                 && d.Message.Contains("supported version " + OwnFormat.CurrentVersion, StringComparison.Ordinal)
                 ? null : "the numbers are missing"));
 
+        int older = OwnFormat.CurrentVersion - 1;
         yield return new("diagnostics", "an older version fails and asks for a new conversion", () => Expect(Codes.Version,
-            () => GameFiles.Read("{\"$format\": \"OpenAoW\", \"$version\": 5}"u8.ToArray()),
-            d => d.Message.Contains("version 5", StringComparison.Ordinal)
+            () => GameFiles.Read(System.Text.Encoding.UTF8.GetBytes($"{{\"$format\": \"OpenAoW\", \"$version\": {older}}}")),
+            d => d.Message.Contains($"version {older}", StringComparison.Ordinal)
                 && d.Message.Contains("supported version " + OwnFormat.CurrentVersion, StringComparison.Ordinal)
                 && d.Message.Contains("Convert the original file again", StringComparison.Ordinal)
                 ? null : "the numbers or the advice are missing"));

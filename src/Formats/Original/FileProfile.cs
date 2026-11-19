@@ -381,12 +381,8 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
             throw context.Fail(Codes.Corrupt, "The HSM header size is outside the payload.", 0, null, size.ToString(CultureInfo.InvariantCulture), $"16 to {payload.Length}");
         }
 
-        int reserved = context.Int32(8);
+        // Bytes 8..11 of THSMHeader are always 0 in 1.36 and never read (HSEngine.pas:5298-5327).
         int classId = context.Int32(12);
-        if (reserved != 0)
-        {
-            _ = container.Add("header", new JsonObject().Add("Reserved", new JsonInteger(reserved)));
-        }
 
         SchemaClass classValue = session.Schema.Resolve(Engine, classId)
             ?? throw context.Fail(Codes.UnknownClass, $"Root class id {classId} is not in the {Engine} engine table.", 12, DocumentNodePath.Root, classId.ToString(CultureInfo.InvariantCulture));
@@ -408,31 +404,8 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
 
     internal byte[] ExportPayload(JsonObject container, JsonValue root, EncodeContext context, out string compression, out int level)
     {
-        CheckContainer(context, container, "profile", "compression", "level", "header");
+        CheckContainer(context, container, "profile", "compression", "level");
         compression = CompressionOf(context, container, out level);
-        int reserved = 0;
-        if (container["header"] is { } header)
-        {
-            if (header is not JsonObject h)
-            {
-                throw context.Fail(Codes.Type, "header is an object.", header, DocumentNodePath.Named("$container.header"));
-            }
-
-            foreach (JsonMember m in h.Members)
-            {
-                if (m.Name != "Reserved")
-                {
-                    throw context.Fail(Codes.UnknownMember, $"The HSM header has no member \"{m.Name}\".", m.Value, DocumentNodePath.Named("$container.header." + m.Name));
-                }
-
-                if (m.Value is not JsonInteger { Value: >= int.MinValue and <= int.MaxValue } r)
-                {
-                    throw context.Fail(Codes.Range, "Reserved is a 32-bit integer.", m.Value, DocumentNodePath.Named("$container.header.Reserved"));
-                }
-
-                reserved = (int)r.Value;
-            }
-        }
         if (root is not JsonObject rootObject)
         {
             throw context.Fail(Codes.Type, "root is an object.", root, DocumentNodePath.Root);
@@ -443,7 +416,7 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
         ByteBuffer output = new(1 << 16);
         output.Int32(16);
         output.Bytes(Magic);
-        output.Int32(reserved);
+        output.Int32(0);
         output.Int32(classValue.Id!.Value);
         if (layout is not null)
         {

@@ -303,7 +303,7 @@ public static class FileBoundary
 
     // The header a listing shows when the document has no engine image. A scenario set's 52
     // bytes are size, the HSS identifier, the short-string name from $container.header.Name and
-    // zeros. An HSM's 16 bytes are size, the HSM magic, the reserved word and the root class id.
+    // zeros. An HSM's 16 bytes are size, the HSM magic, zero and the root class id.
     // Neither form is a parse of the file bytes.
     private static byte[] ListingHeaderFromDocument(JsonObject document, GameProfile profile) => profile.Profile is ScenarioSetProfile
         ? ScenarioSetHeader(document)
@@ -360,16 +360,9 @@ public static class FileBoundary
             return [];
         }
 
-        int reserved = 0;
-        if (document["$container"] is JsonObject container && container["header"] is JsonObject header && header["Reserved"] is JsonInteger word)
-        {
-            reserved = (int)word.Value;
-        }
-
         byte[] head = new byte[16];
         BinaryPrimitives.WriteInt32LittleEndian(head, 16);
         HsmProfile.Magic.CopyTo(head.AsSpan(4));
-        BinaryPrimitives.WriteInt32LittleEndian(head.AsSpan(8), reserved);
         BinaryPrimitives.WriteInt32LittleEndian(head.AsSpan(12), classId);
         return head;
     }

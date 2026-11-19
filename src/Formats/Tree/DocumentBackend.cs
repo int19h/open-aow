@@ -88,7 +88,7 @@ public static class DocumentBackend
         // A mapped class stores its case: the stored discriminator selects it, as on the converter.
         if (classValue.Mapping is { } mapping)
         {
-            CaseCodec.ToDocument(classValue, mapping, json, site.Path);
+            CaseCodec.ToDocument(classValue, mapping, json, site);
         }
 
         return json;
