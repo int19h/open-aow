@@ -22,10 +22,6 @@ public partial class ProductionTokenEvent(CustomNode owner) : TokenEvent(owner)
     public bool Queue { get; set; }
     public int Index { get; set; }
 
-    // An integer of unknown meaning that the original stores at id 27 and never reads. It round
-    // trips unchanged.
-    private int _unknownValue;
-
     // Structur.PAS:155
     // { Original leaves the upkeep fields unchanged. }
     public override void Dispose()
@@ -48,7 +44,8 @@ public partial class ProductionTokenEvent(CustomNode owner) : TokenEvent(owner)
         Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
         Item = persister.Created("Item", objectValue: Item);
         Index = persister.Int32("Index", value: Index);
-        _unknownValue = persister.Int32("UnknownValue", value: _unknownValue);
+        // Delphi TProductionTE.FReserved (id 27) is always 0 (omitted) and never read.
+        persister.Skip("UnknownValue");
         Queue = persister.Boolean("Queue", value: Queue);
     }
 

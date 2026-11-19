@@ -18,19 +18,14 @@ public partial class CityTargetSpellTokenEvent(CustomNode owner) : SpellTokenEve
 
     private MapCoordinate _targetLocation;
 
-    // The fourth byte of the packed location stored at id 20, 0 from every writer and in every
-    // corpus file, kept so that a loaded value saves back unchanged.
-    public byte UnknownBytes { get; set; }
-
     public sbyte TargetPlayer { get; set; }
 
     // CitySpells.pas:175
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        int location = StoredCoordinateImage.From(_targetLocation, unknownBytes: UnknownBytes).ToInt32();
-        location = persister.Int32("TargetLocation", value: location);
-        (_targetLocation, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
+        int location = persister.Int32("TargetLocation", value: StoredCoordinateImage.From(_targetLocation).ToInt32());
+        _targetLocation = StoredCoordinateImage.FromInt32(location).Location;
         TargetPlayer = PersistSupport.UnsignedByte(persister, name: "TargetPlayer", value: TargetPlayer);
     }
 

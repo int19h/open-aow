@@ -23,18 +23,13 @@ public partial class CityEnchantment : GlobalEnchantment
 
     public MapCoordinate EnchantmentLocation { get; internal set; }
 
-    // The fourth byte of the packed location stored at id 21, 0 from every writer and in every
-    // corpus file, kept so that a loaded value saves back unchanged.
-    public byte UnknownBytes { get; set; }
-
     // City.pas:2727
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
         CityEnchantmentId = persister.Enum("CityEnchantmentId", value: CityEnchantmentId);
-        int location = StoredCoordinateImage.From(EnchantmentLocation, unknownBytes: UnknownBytes).ToInt32();
-        location = persister.Int32("EnchantmentLocation", value: location);
-        (EnchantmentLocation, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
+        int location = persister.Int32("EnchantmentLocation", value: StoredCoordinateImage.From(EnchantmentLocation).ToInt32());
+        EnchantmentLocation = StoredCoordinateImage.FromInt32(location).Location;
     }
 
     // City.pas:2716

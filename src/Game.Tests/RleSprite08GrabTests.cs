@@ -132,6 +132,36 @@ public sealed class RleSprite08GrabTests
         }
     }
 
+    [Fact]
+    public void ImageDataIgnoresReservedDwordOnLoadAndWritesZero()
+    {
+        (RleSprite08 writer, bool grabbed) = Grab(new byte[,] { { 7 } }, new Rect(0, 0, 1, 1));
+        Assert.True(grabbed);
+        using (writer)
+        {
+            using MemoryStream initial = new();
+            writer.WriteImageData(initial);
+            byte[] bytes = initial.ToArray();
+            // The last four bytes are Delphi TRLESprite08.FReserved.
+            bytes[^4] = 0x11;
+            bytes[^3] = 0x22;
+            bytes[^2] = 0x33;
+            bytes[^1] = 0x44;
+
+            using RleSprite08 reader = new(null);
+            using MemoryStream input = new(bytes);
+            reader.ReadImageData(input);
+            Assert.Equal(bytes.Length, input.Position);
+
+            using MemoryStream saved = new();
+            reader.WriteImageData(saved);
+            byte[] output = saved.ToArray();
+            Assert.Equal(bytes.Length, output.Length);
+            Assert.Equal(new byte[] { 0, 0, 0, 0 }, output[^4..]);
+            Assert.Equal(bytes[..^4], output[..^4]);
+        }
+    }
+
     // Draws the image at (0, 0) on an 8-bit surface filled with $55.
     private static byte[,] Draw(RleSprite08 image, int w, int h)
     {

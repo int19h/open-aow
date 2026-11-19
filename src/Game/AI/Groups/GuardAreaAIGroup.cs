@@ -16,17 +16,16 @@ public partial class GuardAreaAIGroup : AIGroup, IAIGroupClass
 
     public MapCoordinate GuardLocation { get; internal set; }
 
-    // The fourth byte of the packed location stored at id 50, 0 from every writer and in every
-    // corpus file, kept so that a loaded value saves back unchanged.
-    public byte UnknownBytes { get; set; }
-
-    // IndependentAG.pas:170
+    // IndependentAG.pas:170. Delphi compares FGuardLocation as a full integer, so a non-zero
+    // fourth byte on load is refused.
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        int location = StoredCoordinateImage.From(GuardLocation, unknownBytes: UnknownBytes).ToInt32();
-        location = persister.Int32("GuardLocation", value: location);
-        (GuardLocation, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
+        int location = persister.Int32("GuardLocation", value: StoredCoordinateImage.From(GuardLocation).ToInt32());
+        if (persister.Loading)
+        {
+            GuardLocation = StoredCoordinateImage.FromInt32(location).ReadCheckedLocation("GuardLocation");
+        }
     }
 
     // IndependentAG.pas:153

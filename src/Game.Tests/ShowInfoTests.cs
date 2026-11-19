@@ -72,14 +72,15 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
     }
 
     [Fact]
-    public void TheFileImageKeepsModesPaddingAndPercentage()
+    public void TheFileImageIgnoresPaddingOnLoadAndWritesZero()
     {
         byte[] image = [(byte)ShowMode.Blended, (byte)BlendMode.Shadow, 0x5A, 0xA5, 0x78, 0x56, 0x34, 0x12];
+        byte[] expected = [(byte)ShowMode.Blended, (byte)BlendMode.Shadow, 0x00, 0x00, 0x78, 0x56, 0x34, 0x12];
         ShowInfo info = Read(image);
         Assert.Equal(ShowMode.Blended, info.ShowMode);
         Assert.Equal(BlendMode.Shadow, info.BlendMode);
         Assert.True(info.Blend is int percentage && percentage == 0x12345678);
-        Assert.Equal(image, Written(info));
+        Assert.Equal(expected, Written(info));
 
         Assert.Equal(new byte[8], Written(default));
         Assert.True(Read(new byte[8]).Blend is int read && read == 0);

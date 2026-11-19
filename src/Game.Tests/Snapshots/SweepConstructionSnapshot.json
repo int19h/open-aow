@@ -705,7 +705,6 @@
             },
             "StructureTokenEvent.Param": 0,
             "StructureTokenEvent.Player": 0,
-            "StructureTokenEvent._param2": 0,
             "StructureTokenEvent._razed": false,
             "StructureTokenEvent._structureClassId": 0,
             "TokenEvent.RefCount": 1,
@@ -740,7 +739,6 @@
             },
             "StructureTokenEvent.Param": 0,
             "StructureTokenEvent.Player": 0,
-            "StructureTokenEvent._param2": 0,
             "StructureTokenEvent._razed": false,
             "StructureTokenEvent._structureClassId": 0,
             "TokenEvent.RefCount": 1,
@@ -771,7 +769,6 @@
               },
               "StructureTokenEvent.Param": 0,
               "StructureTokenEvent.Player": 0,
-              "StructureTokenEvent._param2": 0,
               "StructureTokenEvent._razed": false,
               "StructureTokenEvent._structureClassId": 0,
               "TokenEvent.RefCount": 1,
@@ -1138,7 +1135,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -1165,7 +1161,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -1188,7 +1183,6 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
               "SpellTokenEvent.EventMana": 0,
               "SpellTokenEvent.EventPlayerIndex": 0,
               "SpellTokenEvent.EventSourceId": 0,
@@ -1215,7 +1209,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -1242,7 +1235,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -1265,7 +1257,6 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
               "SpellTokenEvent.EventMana": 0,
               "SpellTokenEvent.EventPlayerIndex": 0,
               "SpellTokenEvent.EventSourceId": 0,
@@ -1390,7 +1381,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -1417,7 +1407,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -1440,7 +1429,6 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
               "SpellTokenEvent.EventMana": 0,
               "SpellTokenEvent.EventPlayerIndex": 0,
               "SpellTokenEvent.EventSourceId": 0,
@@ -1467,7 +1455,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -1494,7 +1481,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -1517,7 +1503,6 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
               "SpellTokenEvent.EventMana": 0,
               "SpellTokenEvent.EventPlayerIndex": 0,
               "SpellTokenEvent.EventSourceId": 0,
@@ -1680,7 +1665,6 @@
             },
             "StructureTokenEvent.Param": 0,
             "StructureTokenEvent.Player": 0,
-            "StructureTokenEvent._param2": 0,
             "StructureTokenEvent._razed": false,
             "StructureTokenEvent._structureClassId": 0,
             "TokenEvent.RefCount": 1,
@@ -1708,7 +1692,6 @@
             },
             "StructureTokenEvent.Param": 0,
             "StructureTokenEvent.Player": 0,
-            "StructureTokenEvent._param2": 0,
             "StructureTokenEvent._razed": false,
             "StructureTokenEvent._structureClassId": 0,
             "TokenEvent.RefCount": 1,
@@ -1732,7 +1715,6 @@
               },
               "StructureTokenEvent.Param": 0,
               "StructureTokenEvent.Player": 0,
-              "StructureTokenEvent._param2": 0,
               "StructureTokenEvent._razed": false,
               "StructureTokenEvent._structureClassId": 0,
               "TokenEvent.RefCount": 1,
@@ -2061,7 +2043,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -2088,7 +2069,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -2111,7 +2091,6 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
               "SpellTokenEvent.EventMana": 0,
               "SpellTokenEvent.EventPlayerIndex": 0,
               "SpellTokenEvent.EventSourceId": 0,

@@ -11,10 +11,8 @@ public partial class ArmyId
     {
         base.PersistFields(persister);
         Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
-        int location = StoredCoordinateImage.From(Location, unknownBytes: UnknownBytes).ToInt32();
-        location = persister.Int32("Location", value: location);
-        (MapCoordinate stored, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
-        Location = stored;
+        int location = persister.Int32("Location", value: StoredCoordinateImage.From(Location).ToInt32());
+        Location = StoredCoordinateImage.FromInt32(location).Location;
         PersistSupport.Int32List(persister, name: "UnitIds", list: UnitIds);
     }
 }

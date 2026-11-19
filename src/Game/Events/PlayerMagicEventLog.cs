@@ -20,10 +20,6 @@ public partial class PlayerMagicEventLog(CustomNode owner) : EventLog(owner)
 
     public MapCoordinate Location { get; internal set; } = MapCoordinate.None;
 
-    // The fourth byte of the packed location stored at id 24, 0 from every writer and in every
-    // corpus file, kept so that a loaded value saves back unchanged.
-    public byte UnknownBytes { get; set; }
-
     public int SpellId { get; set; }
 
     private int _value;
@@ -38,9 +34,8 @@ public partial class PlayerMagicEventLog(CustomNode owner) : EventLog(owner)
         SpellId = persister.Int32("SpellId", value: SpellId);
         _value = persister.Int32("Value", value: _value);
         EnchantmentName = persister.String("EnchantmentName", value: EnchantmentName);
-        int location = StoredCoordinateImage.From(Location, unknownBytes: UnknownBytes).ToInt32();
-        location = persister.Int32("Location", value: location);
-        (Location, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
+        int location = persister.Int32("Location", value: StoredCoordinateImage.From(Location).ToInt32());
+        Location = StoredCoordinateImage.FromInt32(location).Location;
     }
 
     // Spells.PAS:1892

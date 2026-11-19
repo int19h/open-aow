@@ -5114,7 +5114,6 @@
             "ChangePlayerMagicTokenEvent.Mode": 0,
             "ChangePlayerMagicTokenEvent.PlayerIndex": 0,
             "ChangePlayerMagicTokenEvent.Value": 0,
-            "ChangePlayerMagicTokenEvent._extraValue": 0,
             "EngineObject._owner": null,
             "TokenEvent.RefCount": 1,
             "TokenEvent.TokenCounter": -1
@@ -5143,7 +5142,6 @@
             "ChangePlayerMagicTokenEvent.Mode": 0,
             "ChangePlayerMagicTokenEvent.PlayerIndex": 0,
             "ChangePlayerMagicTokenEvent.Value": 0,
-            "ChangePlayerMagicTokenEvent._extraValue": 0,
             "EngineObject._owner": "$owner",
             "TokenEvent.RefCount": 1,
             "TokenEvent.TokenCounter": -1
@@ -5159,7 +5157,6 @@
               "ChangePlayerMagicTokenEvent.Mode": 0,
               "ChangePlayerMagicTokenEvent.PlayerIndex": 0,
               "ChangePlayerMagicTokenEvent.Value": 0,
-              "ChangePlayerMagicTokenEvent._extraValue": 0,
               "EngineObject._owner": "$owner",
               "TokenEvent.RefCount": 1,
               "TokenEvent.TokenCounter": -1
@@ -5322,7 +5319,6 @@
           "$jsonText": {
             "$type": "Aow.Game.Commands.CityEnchantmentSpellTokenEvent",
             "CityTargetSpellTokenEvent.TargetPlayer": 0,
-            "CityTargetSpellTokenEvent.UnknownBytes": 0,
             "CityTargetSpellTokenEvent._targetLocation": {
               "$type": "Aow.Game.World.Map.MapCoordinate",
               "MapCoordinate.MapLevel": 0,
@@ -5359,7 +5355,6 @@
           "$jsonText": {
             "$type": "Aow.Game.Commands.CityEnchantmentSpellTokenEvent",
             "CityTargetSpellTokenEvent.TargetPlayer": 0,
-            "CityTargetSpellTokenEvent.UnknownBytes": 0,
             "CityTargetSpellTokenEvent._targetLocation": {
               "$type": "Aow.Game.World.Map.MapCoordinate",
               "MapCoordinate.MapLevel": 0,
@@ -5383,7 +5378,6 @@
             "$jsonText": {
               "$type": "Aow.Game.Commands.CityEnchantmentSpellTokenEvent",
               "CityTargetSpellTokenEvent.TargetPlayer": 0,
-              "CityTargetSpellTokenEvent.UnknownBytes": 0,
               "CityTargetSpellTokenEvent._targetLocation": {
                 "$type": "Aow.Game.World.Map.MapCoordinate",
                 "MapCoordinate.MapLevel": 0,
@@ -5420,7 +5414,6 @@
           "$jsonText": {
             "$type": "Aow.Game.Commands.CityTargetSpellTokenEvent",
             "CityTargetSpellTokenEvent.TargetPlayer": 0,
-            "CityTargetSpellTokenEvent.UnknownBytes": 0,
             "CityTargetSpellTokenEvent._targetLocation": {
               "$type": "Aow.Game.World.Map.MapCoordinate",
               "MapCoordinate.MapLevel": 0,
@@ -5457,7 +5450,6 @@
           "$jsonText": {
             "$type": "Aow.Game.Commands.CityTargetSpellTokenEvent",
             "CityTargetSpellTokenEvent.TargetPlayer": 0,
-            "CityTargetSpellTokenEvent.UnknownBytes": 0,
             "CityTargetSpellTokenEvent._targetLocation": {
               "$type": "Aow.Game.World.Map.MapCoordinate",
               "MapCoordinate.MapLevel": 0,
@@ -5481,7 +5473,6 @@
             "$jsonText": {
               "$type": "Aow.Game.Commands.CityTargetSpellTokenEvent",
               "CityTargetSpellTokenEvent.TargetPlayer": 0,
-              "CityTargetSpellTokenEvent.UnknownBytes": 0,
               "CityTargetSpellTokenEvent._targetLocation": {
                 "$type": "Aow.Game.World.Map.MapCoordinate",
                 "MapCoordinate.MapLevel": 0,
@@ -6051,7 +6042,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -6087,7 +6077,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -6110,7 +6099,6 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
               "SpellTokenEvent.EventMana": 0,
               "SpellTokenEvent.EventPlayerIndex": 0,
               "SpellTokenEvent.EventSourceId": 0,
@@ -6146,7 +6134,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -6182,7 +6169,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -6205,7 +6191,6 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
               "SpellTokenEvent.EventMana": 0,
               "SpellTokenEvent.EventPlayerIndex": 0,
               "SpellTokenEvent.EventSourceId": 0,
@@ -6386,7 +6371,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "HealingShowersTokenEvent._animation": null,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
@@ -6423,7 +6407,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "HealingShowersTokenEvent._animation": null,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
@@ -6447,7 +6430,6 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
               "HealingShowersTokenEvent._animation": null,
               "SpellTokenEvent.EventMana": 0,
               "SpellTokenEvent.EventPlayerIndex": 0,
@@ -6804,7 +6786,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -6840,7 +6821,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -6863,7 +6843,6 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
               "SpellTokenEvent.EventMana": 0,
               "SpellTokenEvent.EventPlayerIndex": 0,
               "SpellTokenEvent.EventSourceId": 0,
@@ -7321,8 +7300,6 @@
             "EngineObject._owner": null,
             "NegotiateTokenEvent.ArmyHexSprite": null,
             "NegotiateTokenEvent.ArmyId": null,
-            "NegotiateTokenEvent.Data1": 0,
-            "NegotiateTokenEvent.Data2": 0,
             "NegotiateTokenEvent.EventLogId": -1,
             "NegotiateTokenEvent.Gold": 0,
             "NegotiateTokenEvent.Location": {
@@ -7375,8 +7352,6 @@
             "EngineObject._owner": "$owner",
             "NegotiateTokenEvent.ArmyHexSprite": null,
             "NegotiateTokenEvent.ArmyId": null,
-            "NegotiateTokenEvent.Data1": 0,
-            "NegotiateTokenEvent.Data2": 0,
             "NegotiateTokenEvent.EventLogId": -1,
             "NegotiateTokenEvent.Gold": 0,
             "NegotiateTokenEvent.Location": {
@@ -7416,8 +7391,6 @@
               "EngineObject._owner": "$owner",
               "NegotiateTokenEvent.ArmyHexSprite": null,
               "NegotiateTokenEvent.ArmyId": null,
-              "NegotiateTokenEvent.Data1": 0,
-              "NegotiateTokenEvent.Data2": 0,
               "NegotiateTokenEvent.EventLogId": -1,
               "NegotiateTokenEvent.Gold": 0,
               "NegotiateTokenEvent.Location": {
@@ -7479,7 +7452,6 @@
             },
             "ProductionTokenEvent.Player": 0,
             "ProductionTokenEvent.Queue": false,
-            "ProductionTokenEvent._unknownValue": 0,
             "TokenEvent.RefCount": 1,
             "TokenEvent.TokenCounter": -1
           }
@@ -7516,7 +7488,6 @@
             },
             "ProductionTokenEvent.Player": 0,
             "ProductionTokenEvent.Queue": false,
-            "ProductionTokenEvent._unknownValue": 0,
             "TokenEvent.RefCount": 1,
             "TokenEvent.TokenCounter": -1
           }
@@ -7540,7 +7511,6 @@
               },
               "ProductionTokenEvent.Player": 0,
               "ProductionTokenEvent.Queue": false,
-              "ProductionTokenEvent._unknownValue": 0,
               "TokenEvent.RefCount": 1,
               "TokenEvent.TokenCounter": -1
             }
@@ -7572,7 +7542,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -7608,7 +7577,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -7631,7 +7599,6 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
               "SpellTokenEvent.EventMana": 0,
               "SpellTokenEvent.EventPlayerIndex": 0,
               "SpellTokenEvent.EventSourceId": 0,
@@ -7960,7 +7927,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -7999,7 +7965,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -8025,7 +7990,6 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
               "SpellTokenEvent.EventMana": 0,
               "SpellTokenEvent.EventPlayerIndex": 0,
               "SpellTokenEvent.EventSourceId": 0,
@@ -8058,7 +8022,6 @@
           "$jsonText": {
             "$type": "Aow.Game.Commands.TownGateTokenEvent",
             "CityTargetSpellTokenEvent.TargetPlayer": 0,
-            "CityTargetSpellTokenEvent.UnknownBytes": 0,
             "CityTargetSpellTokenEvent._targetLocation": {
               "$type": "Aow.Game.World.Map.MapCoordinate",
               "MapCoordinate.MapLevel": 0,
@@ -8078,8 +8041,7 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
-            },
-            "TownGateTokenEvent.TeleportUnknownBytes": 0
+            }
           }
         }
       },
@@ -8103,7 +8065,6 @@
           "$jsonText": {
             "$type": "Aow.Game.Commands.TownGateTokenEvent",
             "CityTargetSpellTokenEvent.TargetPlayer": 0,
-            "CityTargetSpellTokenEvent.UnknownBytes": 0,
             "CityTargetSpellTokenEvent._targetLocation": {
               "$type": "Aow.Game.World.Map.MapCoordinate",
               "MapCoordinate.MapLevel": 0,
@@ -8123,8 +8084,7 @@
               "MapCoordinate.MapLevel": 0,
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
-            },
-            "TownGateTokenEvent.TeleportUnknownBytes": 0
+            }
           }
         }
       },
@@ -8135,7 +8095,6 @@
             "$jsonText": {
               "$type": "Aow.Game.Commands.TownGateTokenEvent",
               "CityTargetSpellTokenEvent.TargetPlayer": 0,
-              "CityTargetSpellTokenEvent.UnknownBytes": 0,
               "CityTargetSpellTokenEvent._targetLocation": {
                 "$type": "Aow.Game.World.Map.MapCoordinate",
                 "MapCoordinate.MapLevel": 0,
@@ -8155,8 +8114,7 @@
                 "MapCoordinate.MapLevel": 0,
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
-              },
-              "TownGateTokenEvent.TeleportUnknownBytes": 0
+              }
             }
           }
         ]
@@ -8313,7 +8271,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -8352,7 +8309,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -8378,7 +8334,6 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
               "SpellTokenEvent.EventMana": 0,
               "SpellTokenEvent.EventPlayerIndex": 0,
               "SpellTokenEvent.EventSourceId": 0,
@@ -8418,7 +8373,6 @@
             "TokenEvent.RefCount": 1,
             "TokenEvent.TokenCounter": -1,
             "WarpPartyTokenEvent.ArmyId": null,
-            "WarpPartyTokenEvent.UnknownBytes": 0,
             "WarpPartyTokenEvent.WarpLocation": {
               "$type": "Aow.Game.World.Map.MapCoordinate",
               "MapCoordinate.MapLevel": 0,
@@ -8455,7 +8409,6 @@
             "TokenEvent.RefCount": 1,
             "TokenEvent.TokenCounter": -1,
             "WarpPartyTokenEvent.ArmyId": null,
-            "WarpPartyTokenEvent.UnknownBytes": 0,
             "WarpPartyTokenEvent.WarpLocation": {
               "$type": "Aow.Game.World.Map.MapCoordinate",
               "MapCoordinate.MapLevel": 0,
@@ -8479,7 +8432,6 @@
               "TokenEvent.RefCount": 1,
               "TokenEvent.TokenCounter": -1,
               "WarpPartyTokenEvent.ArmyId": null,
-              "WarpPartyTokenEvent.UnknownBytes": 0,
               "WarpPartyTokenEvent.WarpLocation": {
                 "$type": "Aow.Game.World.Map.MapCoordinate",
                 "MapCoordinate.MapLevel": 0,
@@ -8515,7 +8467,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -8551,7 +8502,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
             "SpellTokenEvent.EventMana": 0,
             "SpellTokenEvent.EventPlayerIndex": 0,
             "SpellTokenEvent.EventSourceId": 0,
@@ -8574,7 +8524,6 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "GlobalTargetSpellTokenEvent.UnknownBytes": 0,
               "SpellTokenEvent.EventMana": 0,
               "SpellTokenEvent.EventPlayerIndex": 0,
               "SpellTokenEvent.EventSourceId": 0,

@@ -16,8 +16,6 @@ public partial class ChangePlayerMagicTokenEvent(CustomNode owner) : TokenEvent(
     public byte PlayerIndex { get; set; }
     public int Value { get; set; }
 
-    private int _extraValue;
-
     // Spells.PAS:2448
     public override void PersistFields(IPersister persister)
     {
@@ -25,7 +23,8 @@ public partial class ChangePlayerMagicTokenEvent(CustomNode owner) : TokenEvent(
         Mode = persister.Enum("Mode", value: Mode);
         PlayerIndex = persister.Byte("PlayerIndex", value: PlayerIndex);
         Value = persister.Int32("Value", value: Value);
-        _extraValue = persister.Int32("ExtraValue", value: _extraValue);
+        // Delphi TChangePlayerMagicTE.FExtraValue (id 23) is always 0 (omitted) and never read.
+        persister.Skip("ExtraValue");
     }
 
     // Spells.PAS:2456

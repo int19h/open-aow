@@ -15,7 +15,7 @@ using Aow.Rtl;
 namespace Aow.Game.Commands;
 
 // Gold, Offer, X/Y/L, ArmyId, Player, OwnerPlayer, ArmyHexSprite, Object, MovePoints, Selection, Mode,
-// Result, EventLogID, Data1/Data2
+// Result, EventLogID
 public partial class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
 
@@ -40,8 +40,6 @@ public partial class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
     public Set<NegotiateModeElement> Mode { get; set; } = Set<NegotiateModeElement>.Of(NegotiateModeElement.AttackOnReject, NegotiateModeElement.MoveOnAccept);
     public NegotiateResult Result { get; set; }
     public int EventLogId { get; set; } = -1;
-    public int Data1 { get; set; }
-    public int Data2 { get; set; }
 
     // Diplomacy.pas:124
     public override void Dispose()
@@ -67,8 +65,9 @@ public partial class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
         _ownerPlayer = persister.Byte("OwnerPlayer", value: _ownerPlayer);
         Object = persister.Enum("Object", value: Object);
         MovePoints = persister.Int32("MovePoints", value: MovePoints);
-        Data1 = persister.Int32("Data1", value: Data1);
-        Data2 = persister.Int32("Data2", value: Data2);
+        // Delphi TNegotiateTE.FData1 and FData2 (ids 39 and 40) are always 0 (omitted) and never read.
+        persister.Skip("Data1");
+        persister.Skip("Data2");
         Mode = persister.Set("Mode", value: Mode);
         Result = persister.Enum("Result", value: Result);
         ArmyId = persister.Created("ArmyId", objectValue: ArmyId);
