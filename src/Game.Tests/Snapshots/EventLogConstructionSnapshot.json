@@ -4154,7 +4154,6 @@
             "Int32List._default": 0,
             "Int32List._list": []
           },
-          "JoinEventLog.UnknownBytes": 0,
           "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.MapLevel": -1,
@@ -4212,7 +4211,6 @@
             "Int32List._default": 0,
             "Int32List._list": []
           },
-          "JoinEventLog.UnknownBytes": 0,
           "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.MapLevel": -1,
@@ -4262,7 +4260,6 @@
                   "Int32List._default": 0,
                   "Int32List._list": []
                 },
-                "JoinEventLog.UnknownBytes": 0,
                 "JoinEventLog._location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
                   "MapCoordinate.MapLevel": -1,
@@ -4322,7 +4319,6 @@
             "Int32List._default": 0,
             "Int32List._list": []
           },
-          "JoinEventLog.UnknownBytes": 0,
           "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.MapLevel": -1,
@@ -4380,7 +4376,6 @@
             "Int32List._default": 0,
             "Int32List._list": []
           },
-          "JoinEventLog.UnknownBytes": 0,
           "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.MapLevel": -1,
@@ -4430,7 +4425,6 @@
                   "Int32List._default": 0,
                   "Int32List._list": []
                 },
-                "JoinEventLog.UnknownBytes": 0,
                 "JoinEventLog._location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
                   "MapCoordinate.MapLevel": -1,
@@ -4970,7 +4964,6 @@
             "Int32List._default": 0,
             "Int32List._list": []
           },
-          "JoinEventLog.UnknownBytes": 0,
           "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.MapLevel": -1,
@@ -5028,7 +5021,6 @@
             "Int32List._default": 0,
             "Int32List._list": []
           },
-          "JoinEventLog.UnknownBytes": 0,
           "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.MapLevel": -1,
@@ -5078,7 +5070,6 @@
                   "Int32List._default": 0,
                   "Int32List._list": []
                 },
-                "JoinEventLog.UnknownBytes": 0,
                 "JoinEventLog._location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
                   "MapCoordinate.MapLevel": -1,
@@ -5138,7 +5129,6 @@
             "Int32List._default": 0,
             "Int32List._list": []
           },
-          "JoinEventLog.UnknownBytes": 0,
           "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.MapLevel": -1,
@@ -5196,7 +5186,6 @@
             "Int32List._default": 0,
             "Int32List._list": []
           },
-          "JoinEventLog.UnknownBytes": 0,
           "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.MapLevel": -1,
@@ -5246,7 +5235,6 @@
                   "Int32List._default": 0,
                   "Int32List._list": []
                 },
-                "JoinEventLog.UnknownBytes": 0,
                 "JoinEventLog._location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
                   "MapCoordinate.MapLevel": -1,
@@ -5732,7 +5720,6 @@
             "Int32List._default": 0,
             "Int32List._list": []
           },
-          "JoinEventLog.UnknownBytes": 0,
           "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.MapLevel": -1,
@@ -5747,9 +5734,7 @@
             "MapCoordinate.Y": 0
           },
           "NegotiateRequestEventLog.MovePoints": 0,
-          "NegotiateRequestEventLog.Object": 0,
-          "NegotiateRequestEventLog._data1": 0,
-          "NegotiateRequestEventLog._data2": 0
+          "NegotiateRequestEventLog.Object": 0
         }
       },
       "Observations": null,
@@ -5801,7 +5786,6 @@
             "Int32List._default": 0,
             "Int32List._list": []
           },
-          "JoinEventLog.UnknownBytes": 0,
           "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.MapLevel": -1,
@@ -5816,9 +5800,7 @@
             "MapCoordinate.Y": 0
           },
           "NegotiateRequestEventLog.MovePoints": 0,
-          "NegotiateRequestEventLog.Object": 0,
-          "NegotiateRequestEventLog._data1": 0,
-          "NegotiateRequestEventLog._data2": 0
+          "NegotiateRequestEventLog.Object": 0
         }
       },
       "Observations": [
@@ -5862,7 +5844,6 @@
                   "Int32List._default": 0,
                   "Int32List._list": []
                 },
-                "JoinEventLog.UnknownBytes": 0,
                 "JoinEventLog._location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
                   "MapCoordinate.MapLevel": -1,
@@ -5877,9 +5858,7 @@
                   "MapCoordinate.Y": 0
                 },
                 "NegotiateRequestEventLog.MovePoints": 0,
-                "NegotiateRequestEventLog.Object": 0,
-                "NegotiateRequestEventLog._data1": 0,
-                "NegotiateRequestEventLog._data2": 0
+                "NegotiateRequestEventLog.Object": 0
               }
             }
           }
@@ -5933,7 +5912,6 @@
             "Int32List._default": 0,
             "Int32List._list": []
           },
-          "JoinEventLog.UnknownBytes": 0,
           "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.MapLevel": -1,
@@ -5948,9 +5926,7 @@
             "MapCoordinate.Y": 0
           },
           "NegotiateRequestEventLog.MovePoints": 0,
-          "NegotiateRequestEventLog.Object": 0,
-          "NegotiateRequestEventLog._data1": 0,
-          "NegotiateRequestEventLog._data2": 0
+          "NegotiateRequestEventLog.Object": 0
         }
       },
       "Observations": null,
@@ -6002,7 +5978,6 @@
             "Int32List._default": 0,
             "Int32List._list": []
           },
-          "JoinEventLog.UnknownBytes": 0,
           "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.MapLevel": -1,
@@ -6017,9 +5992,7 @@
             "MapCoordinate.Y": 0
           },
           "NegotiateRequestEventLog.MovePoints": 0,
-          "NegotiateRequestEventLog.Object": 0,
-          "NegotiateRequestEventLog._data1": 0,
-          "NegotiateRequestEventLog._data2": 0
+          "NegotiateRequestEventLog.Object": 0
         }
       },
       "Observations": [
@@ -6063,7 +6036,6 @@
                   "Int32List._default": 0,
                   "Int32List._list": []
                 },
-                "JoinEventLog.UnknownBytes": 0,
                 "JoinEventLog._location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
                   "MapCoordinate.MapLevel": -1,
@@ -6078,9 +6050,7 @@
                   "MapCoordinate.Y": 0
                 },
                 "NegotiateRequestEventLog.MovePoints": 0,
-                "NegotiateRequestEventLog.Object": 0,
-                "NegotiateRequestEventLog._data1": 0,
-                "NegotiateRequestEventLog._data2": 0
+                "NegotiateRequestEventLog.Object": 0
               }
             }
           }
@@ -6936,7 +6906,6 @@
           },
           "PlayerMagicEventLog.Mode": 0,
           "PlayerMagicEventLog.SpellId": 0,
-          "PlayerMagicEventLog.UnknownBytes": 0,
           "PlayerMagicEventLog._value": 0
         }
       },
@@ -6975,7 +6944,6 @@
           },
           "PlayerMagicEventLog.Mode": 0,
           "PlayerMagicEventLog.SpellId": 0,
-          "PlayerMagicEventLog.UnknownBytes": 0,
           "PlayerMagicEventLog._value": 0
         }
       },
@@ -7006,7 +6974,6 @@
                 },
                 "PlayerMagicEventLog.Mode": 0,
                 "PlayerMagicEventLog.SpellId": 0,
-                "PlayerMagicEventLog.UnknownBytes": 0,
                 "PlayerMagicEventLog._value": 0
               }
             }
@@ -7047,7 +7014,6 @@
           },
           "PlayerMagicEventLog.Mode": 0,
           "PlayerMagicEventLog.SpellId": 0,
-          "PlayerMagicEventLog.UnknownBytes": 0,
           "PlayerMagicEventLog._value": 0
         }
       },
@@ -7086,7 +7052,6 @@
           },
           "PlayerMagicEventLog.Mode": 0,
           "PlayerMagicEventLog.SpellId": 0,
-          "PlayerMagicEventLog.UnknownBytes": 0,
           "PlayerMagicEventLog._value": 0
         }
       },
@@ -7117,7 +7082,6 @@
                 },
                 "PlayerMagicEventLog.Mode": 0,
                 "PlayerMagicEventLog.SpellId": 0,
-                "PlayerMagicEventLog.UnknownBytes": 0,
                 "PlayerMagicEventLog._value": 0
               }
             }
@@ -7172,7 +7136,6 @@
             "Int32List._default": 0,
             "Int32List._list": []
           },
-          "JoinEventLog.UnknownBytes": 0,
           "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.MapLevel": -1,
@@ -7236,7 +7199,6 @@
             "Int32List._default": 0,
             "Int32List._list": []
           },
-          "JoinEventLog.UnknownBytes": 0,
           "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.MapLevel": -1,
@@ -7292,7 +7254,6 @@
                   "Int32List._default": 0,
                   "Int32List._list": []
                 },
-                "JoinEventLog.UnknownBytes": 0,
                 "JoinEventLog._location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
                   "MapCoordinate.MapLevel": -1,
@@ -7358,7 +7319,6 @@
             "Int32List._default": 0,
             "Int32List._list": []
           },
-          "JoinEventLog.UnknownBytes": 0,
           "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.MapLevel": -1,
@@ -7422,7 +7382,6 @@
             "Int32List._default": 0,
             "Int32List._list": []
           },
-          "JoinEventLog.UnknownBytes": 0,
           "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.MapLevel": -1,
@@ -7478,7 +7437,6 @@
                   "Int32List._default": 0,
                   "Int32List._list": []
                 },
-                "JoinEventLog.UnknownBytes": 0,
                 "JoinEventLog._location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
                   "MapCoordinate.MapLevel": -1,

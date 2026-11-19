@@ -27,10 +27,6 @@ public partial class JoinEventLog(CustomNode owner) : EventLog(owner)
 
     private MapCoordinate _location = new(-1, -1, -1);
 
-    // The fourth byte of the packed location stored at id 26, 0 from every writer and in every
-    // corpus file, kept so that a loaded value saves back unchanged.
-    public byte UnknownBytes { get; set; }
-
     public byte Selection { get; set; }
     public int JoinIndex { get; set; } = -1;
 
@@ -57,9 +53,8 @@ public partial class JoinEventLog(CustomNode owner) : EventLog(owner)
         Selection = persister.Byte("Selection", value: Selection);
         PersistSupport.Lines(persister, name: "JoinMessage", lines: JoinMessage);
         Gold = persister.Int32("Gold", value: Gold);
-        int location = StoredCoordinateImage.From(_location, unknownBytes: UnknownBytes).ToInt32();
-        location = persister.Int32("Location", value: location);
-        (_location, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
+        int location = persister.Int32("Location", value: StoredCoordinateImage.From(_location).ToInt32());
+        _location = StoredCoordinateImage.FromInt32(location).Location;
         JoinMode = persister.Enum("JoinMode", value: JoinMode);
         Text = persister.String("Text", value: Text);
         JoinIndex = persister.Int32("JoinIndex", value: JoinIndex, fallback: -1);

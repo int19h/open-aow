@@ -9,10 +9,9 @@ using static Aow.Rtl.DelphiPaths;
 namespace Aow.Game.Draw.Images;
 
 // an 8 bit sprite, run length encoded (ClassID 2). FTransparentColor (the palette index of the
-// transparent pixels), FReserved (only stored), FData (the encoded rows: per row a length
-// dword, then the opaque pixels and, for a transparent run, the transparent index and the run
-// length), FRLELeft, FRLETop, FRLEWidth, FRLEHeight (the rectangle of the encoded pixels in the
-// data rectangle)
+// transparent pixels), FData (the encoded rows: per row a length dword, then the opaque pixels
+// and, for a transparent run, the transparent index and the run length), FRLELeft, FRLETop,
+// FRLEWidth, FRLEHeight (the rectangle of the encoded pixels in the data rectangle)
 public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILibraryImageClass
 {
     static int ILibraryImageClass.ClassId => 2;
@@ -21,9 +20,6 @@ public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILi
     static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new RleSprite08(owner);
 
     private int _transparentColor;
-    // Four bytes of unknown meaning after the transparent colour in the sprite's image data. The
-    // original reads and writes them and uses them nowhere else. They round trip unchanged.
-    private int _unknownBytes;
 
     internal byte[] Data { get; private set; }
 
@@ -101,8 +97,10 @@ public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILi
     }
 
     // ImageLib.pas:7561
+    // Delphi TRLESprite08.FReserved is always 0 on write and never read outside WriteImageData.
     public override void ReadImageData(Stream stream)
     {
+        int reserved = default;
         base.ReadImageData(stream);
         int rleWidth = RleWidth;
         stream.ReadExactly(Bytes.Of(ref rleWidth, 4));
@@ -117,12 +115,13 @@ public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILi
         stream.ReadExactly(Bytes.Of(ref rleTop, 4));
         RleTop = rleTop;
         stream.ReadExactly(Bytes.Of(ref _transparentColor, 4));
-        stream.ReadExactly(Bytes.Of(ref _unknownBytes, 4));
+        stream.ReadExactly(Bytes.Of(ref reserved, 4));
     }
 
     // ImageLib.pas:7572
     public override void WriteImageData(Stream stream)
     {
+        int reserved = default;
         base.WriteImageData(stream);
         int rleWidth = RleWidth;
         stream.Write(Bytes.Of(ref rleWidth, 4));
@@ -137,7 +136,7 @@ public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILi
         stream.Write(Bytes.Of(ref rleTop, 4));
         RleTop = rleTop;
         stream.Write(Bytes.Of(ref _transparentColor, 4));
-        stream.Write(Bytes.Of(ref _unknownBytes, 4));
+        stream.Write(Bytes.Of(ref reserved, 4));
     }
 
     // ImageLib.pas:7583

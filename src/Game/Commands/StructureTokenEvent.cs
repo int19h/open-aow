@@ -28,8 +28,6 @@ public partial class StructureTokenEvent(CustomNode owner) : TokenEvent(owner)
 
     public int Param { get; set; }
 
-    private int _param2;
-
     // Structur.PAS:3051
     public override void PersistFields(IPersister persister)
     {
@@ -40,7 +38,8 @@ public partial class StructureTokenEvent(CustomNode owner) : TokenEvent(owner)
         _structureClassId = persister.Int32("StructureClassId", value: _structureClassId);
         _razed = persister.Boolean("Razed", value: _razed);
         Param = persister.Int32("Param", value: Param);
-        _param2 = persister.Int32("Param2", value: _param2);
+        // Delphi TStructureTE.FParam2 (id 23) is always 0 (omitted) and never read.
+        persister.Skip("Param2");
     }
 
     // Structur.PAS:3077

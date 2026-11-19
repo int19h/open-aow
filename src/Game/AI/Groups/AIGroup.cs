@@ -118,7 +118,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         // Property id 23. A location stores through StoredCoordinateImage with fourth byte 0, and the
         // cleared target stores as -1. A loaded value with any other fourth byte is refused.
         int target = TargetLocation is MapCoordinate location
-            ? StoredCoordinateImage.From(location, unknownBytes: 0).ToInt32()
+            ? StoredCoordinateImage.From(location).ToInt32()
             : -1;
         target = persister.Int32("TargetLocation", value: target);
         if (persister.Loading)
@@ -138,9 +138,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
 
     private static MapCoordinate? ReadTargetLocation(int stored) => stored == -1
         ? null
-        : (byte)((uint)stored >> 24) != 0
-            ? throw new InvalidOperationException("TargetLocation is " + stored.ToString(System.Globalization.CultureInfo.InvariantCulture) + ", outside its storage range.")
-            : StoredCoordinateImage.FromInt32(stored).Location;
+        : StoredCoordinateImage.FromInt32(stored).ReadCheckedLocation("TargetLocation");
 
     // Unit.PAS:2294. The load releases the reference each loaded child took when it was created.
     public override void MainPersist(IPersister persister)

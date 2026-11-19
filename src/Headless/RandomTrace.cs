@@ -19,7 +19,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
     public void Save(int day) => _writer.WriteLine(JsonSerializer.Serialize(new { kind = "save", day, frame = frame() }));
 
     public void Line(MapCoordinate location, int direction, int over, int count) => _writer.WriteLine(JsonSerializer.Serialize(new
-    { kind = "line", frame = frame(), location = StoredCoordinateImage.From(location, unknownBytes: 0).ToInt32(), direction, over, count }));
+    { kind = "line", frame = frame(), location = StoredCoordinateImage.From(location).ToInt32(), direction, over, count }));
 
     public void Cost(int cost, int used) => _writer.WriteLine(JsonSerializer.Serialize(new
     { kind = "cost", frame = frame(), cost, used }));
@@ -48,7 +48,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
                 AIGroupControlTarget target = (AIGroupControlTarget)list[i]!;
                 return new
                 {
-                    location = StoredCoordinateImage.From(target.Location, unknownBytes: 0).ToInt32(),
+                    location = StoredCoordinateImage.From(target.Location).ToInt32(),
                     points = target.MovePoints,
                     priority = target.Data.Priority,
                     a = target.DataA,

@@ -21,10 +21,6 @@ public partial class ArmyId(CustomNode owner) : EngineObject(owner)
 
     public MapCoordinate Location { get; set; }
 
-    // The fourth byte of the packed location stored at id 11, 0 from every writer, kept so that a
-    // loaded value saves back unchanged.
-    public byte UnknownBytes { get; set; }
-
     // Army.PAS:7
     public override void Dispose()
     {

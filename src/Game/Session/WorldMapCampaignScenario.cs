@@ -8,7 +8,7 @@ using Aow.Game.UI.Dialogs;
 
 namespace Aow.Game.Session;
 
-// image library, path text, description, flag, position, paths, pages, map kind
+// image library, path text, description, position, paths, pages, map kind
 public partial class WorldMapCampaignScenario : CampaignScenario
 {
     // AoWVideoDlg.pas:304
@@ -17,10 +17,6 @@ public partial class WorldMapCampaignScenario : CampaignScenario
     public string ImageLibrary { get; private set; } = "";
     public string PathDescription { get; private set; } = "";
     public string Description { get; private set; } = "";
-
-    // A Boolean of unknown meaning that the original stores at id 15 and never reads. It round
-    // trips unchanged.
-    private bool _unknownFlag;
 
     public int MapX { get; private set; }
     public int MapY { get; private set; }
@@ -52,7 +48,8 @@ public partial class WorldMapCampaignScenario : CampaignScenario
 
         PathDescription = persister.String("PathDescription", value: PathDescription);
         Description = persister.String("Description", value: Description);
-        _unknownFlag = persister.Boolean("UnknownFlag", value: _unknownFlag);
+        // Delphi TWMCampaignScenario.F_WMCampaignScenario_20 (id 15) is always false (omitted) and never read.
+        persister.Skip("UnknownFlag");
         MapX = persister.Int32("MapX", value: MapX);
         MapY = persister.Int32("MapY", value: MapY);
         persister.Object("IntroPages", objectValue: IntroPages);

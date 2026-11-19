@@ -21,11 +21,6 @@ public partial class TownGateTokenEvent(CustomNode owner) : CityTargetSpellToken
 
     public MapCoordinate TeleportLocation { get; internal set; }
 
-    // The fourth byte of the packed teleport location stored at id 30 (UnknownBytes keeps the one of
-    // id 20), 0 from every writer and in every corpus file, kept so that a loaded value saves back
-    // unchanged.
-    public byte TeleportUnknownBytes { get; set; }
-
     // CitySpells.pas:391
     public override void Dispose()
     {
@@ -37,9 +32,8 @@ public partial class TownGateTokenEvent(CustomNode owner) : CityTargetSpellToken
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        int location = StoredCoordinateImage.From(TeleportLocation, unknownBytes: TeleportUnknownBytes).ToInt32();
-        location = persister.Int32("TeleportLocation", value: location);
-        (TeleportLocation, TeleportUnknownBytes) = StoredCoordinateImage.FromInt32(location);
+        int location = persister.Int32("TeleportLocation", value: StoredCoordinateImage.From(TeleportLocation).ToInt32());
+        TeleportLocation = StoredCoordinateImage.FromInt32(location).Location;
         ArmyId = persister.Created("ArmyId", objectValue: ArmyId);
     }
 

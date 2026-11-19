@@ -14,7 +14,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Events;
 
-// Hex, MovePoints, ArmyId, Object, Data1/Data2. inherited join fields
+// Hex, MovePoints, ArmyId, Object. inherited join fields
 public partial class NegotiateRequestEventLog(CustomNode owner) : JoinEventLog(owner)
 {
 
@@ -28,9 +28,6 @@ public partial class NegotiateRequestEventLog(CustomNode owner) : JoinEventLog(o
 
     public ArmyId ArmyId { get; set; }
     public NegotiateObject Object { get; set; }
-
-    private int _data1;
-    private int _data2;
 
     // Diplomacy.pas:270
     public override void Dispose()
@@ -51,8 +48,9 @@ public partial class NegotiateRequestEventLog(CustomNode owner) : JoinEventLog(o
         base.PersistFields(persister);
         Hex = PersistSupport.Coordinate(persister, name: "Hex", value: Hex, width: CoordinateWidth.Byte);
         Object = persister.Enum("Object", value: Object);
-        _data1 = persister.Int32("Data1", value: _data1);
-        _data2 = persister.Int32("Data2", value: _data2);
+        // Delphi TNegotiateRequestEventLog.FData1 and FData2 (ids 44 and 45) are always 0 (omitted) and never read.
+        persister.Skip("Data1");
+        persister.Skip("Data2");
         ArmyId = persister.Created("ArmyId", objectValue: ArmyId);
     }
 
@@ -117,9 +115,7 @@ public partial class NegotiateRequestEventLog(CustomNode owner) : JoinEventLog(o
             Holder = CreationHolder(),
             Player = Player,
             Object = Object,
-            Location = new MapCoordinate(unchecked((sbyte)(byte)Hex.X), unchecked((sbyte)(byte)Hex.Y), unchecked((sbyte)(byte)Hex.MapLevel)),
-            Data1 = _data1,
-            Data2 = _data2
+            Location = new MapCoordinate(unchecked((sbyte)(byte)Hex.X), unchecked((sbyte)(byte)Hex.Y), unchecked((sbyte)(byte)Hex.MapLevel))
         };
         id = ArmyId;
         if (id != null)

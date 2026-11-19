@@ -22,10 +22,6 @@ public partial class WarpPartyTokenEvent(CustomNode owner) : SpellTokenEvent(own
 
     public MapCoordinate WarpLocation { get; internal set; }
 
-    // The fourth byte of the packed location stored at id 30, 0 from every writer and in every
-    // corpus file, kept so that a loaded value saves back unchanged.
-    public byte UnknownBytes { get; set; }
-
     // GlobalSpells.pas:558
     public override void Dispose()
     {
@@ -37,9 +33,8 @@ public partial class WarpPartyTokenEvent(CustomNode owner) : SpellTokenEvent(own
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        int location = StoredCoordinateImage.From(WarpLocation, unknownBytes: UnknownBytes).ToInt32();
-        location = persister.Int32("WarpLocation", value: location);
-        (WarpLocation, UnknownBytes) = StoredCoordinateImage.FromInt32(location);
+        int location = persister.Int32("WarpLocation", value: StoredCoordinateImage.From(WarpLocation).ToInt32());
+        WarpLocation = StoredCoordinateImage.FromInt32(location).Location;
         ArmyId = persister.Created("ArmyId", objectValue: ArmyId);
     }
 

@@ -15826,7 +15826,6 @@
               "MapCoordinate.X": -1,
               "MapCoordinate.Y": -1
             },
-            "GuardAreaAIGroup.UnknownBytes": 0,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -15903,7 +15902,6 @@
               "MapCoordinate.X": -1,
               "MapCoordinate.Y": -1
             },
-            "GuardAreaAIGroup.UnknownBytes": 0,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -15959,7 +15957,6 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "GuardAreaAIGroup.UnknownBytes": 0,
               "ObservableNode.CollectionChanged": null,
               "ObservableNode.UpdateCount": 0,
               "ObservableNode._children": {
@@ -20896,8 +20893,7 @@
               "MapCoordinate.X": -1,
               "MapCoordinate.Y": -1
             },
-            "PatrolAIGroup.PreviousHeading": 0,
-            "PatrolAIGroup.UnknownBytes": 0
+            "PatrolAIGroup.PreviousHeading": 0
           }
         }
       },
@@ -20981,8 +20977,7 @@
               "MapCoordinate.X": -1,
               "MapCoordinate.Y": -1
             },
-            "PatrolAIGroup.PreviousHeading": 0,
-            "PatrolAIGroup.UnknownBytes": 0
+            "PatrolAIGroup.PreviousHeading": 0
           }
         }
       },
@@ -21045,8 +21040,7 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "PatrolAIGroup.PreviousHeading": 0,
-              "PatrolAIGroup.UnknownBytes": 0
+              "PatrolAIGroup.PreviousHeading": 0
             }
           }
         ]
@@ -41902,8 +41896,7 @@
               "Int32List._count": 0,
               "Int32List._default": -1,
               "Int32List._list": []
-            },
-            "WorldMapCampaignScenario._unknownFlag": false
+            }
           }
         }
       },
@@ -42306,8 +42299,7 @@
               "Int32List._count": 0,
               "Int32List._default": -1,
               "Int32List._list": []
-            },
-            "WorldMapCampaignScenario._unknownFlag": false
+            }
           }
         }
       },
@@ -42329,8 +42321,7 @@
               "WorldMapCampaignScenario.MapY": 0,
               "WorldMapCampaignScenario.OutroPages": null,
               "WorldMapCampaignScenario.PathDescription": "",
-              "WorldMapCampaignScenario.Paths": null,
-              "WorldMapCampaignScenario._unknownFlag": false
+              "WorldMapCampaignScenario.Paths": null
             }
           }
         ]
@@ -43601,7 +43592,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "CityEnchantment.UnknownBytes": 0,
             "EngineObject._owner": null,
             "GlobalEnchantment.DispelMana": 0,
             "GlobalEnchantment.EnchantmentId": 0,
@@ -43659,7 +43649,6 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "CityEnchantment.UnknownBytes": 0,
             "EngineObject._owner": "$owner",
             "GlobalEnchantment.DispelMana": 0,
             "GlobalEnchantment.EnchantmentId": 0,
@@ -43704,7 +43693,6 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "CityEnchantment.UnknownBytes": 0,
               "EngineObject._owner": "$owner",
               "GlobalEnchantment.DispelMana": 0,
               "GlobalEnchantment.EnchantmentId": 0,
