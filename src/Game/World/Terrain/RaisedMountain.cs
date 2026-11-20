@@ -76,7 +76,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
         Dispose();
         if (overlay > 0)
         {
-            StrategicMap.Current.PlaceTerrain(field.HexX, field.HexY, field.HexLevel, field.TerrainType, overlay);
+            StrategicMap.Current.PlaceTerrain(field.HexX, field.HexY, L: field.HexLevel, field.TerrainType, overlayType: overlay);
         }
     }
 
@@ -109,7 +109,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
                 sbyte hexLevel2 = HexLevel;
                 sbyte hexY2 = HexY;
                 sbyte hexX2 = HexX;
-                condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, hexLevel2, 0);
+                condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, L: hexLevel2, radius: 0);
             }
 
             if (condition)
@@ -142,7 +142,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
         public override int ResourceUserClassId() => 131434;
 
         // Mountain.pas:252
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_raisedMountainText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_raisedMountainText);
 
         private static readonly string s_raisedMountainText = "Raised Mountain";
 

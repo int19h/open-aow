@@ -115,7 +115,7 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
         switch (trigger)
         {
             case ExecuteTrigger.User:
-                StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
+                StrategicMap.Current.TriggerExecuteEventLog(this, immediate: false, done);
                 return true;
             case ExecuteTrigger.Event:
             case ExecuteTrigger.NewTurn:
@@ -137,7 +137,7 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
                 showCombat = showCombat || Logbook.PlayerEliminated;
                 if (showCombat)
                 {
-                    StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
+                    StrategicMap.Current.TriggerExecuteEventLog(this, immediate: false, done);
                     return true;
                 }
                 else
@@ -167,6 +167,6 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
     public override void ViewLocation()
     {
         CombatData data = Logbook.FinalData;
-        CenterViewTo(data.Location.X, data.Location.Y, data.Location.MapLevel);
+        CenterViewTo(data.Location.X, data.Location.Y, L: data.Location.MapLevel);
     }
 }

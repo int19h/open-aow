@@ -34,7 +34,7 @@ public class CombatPartyList(CustomNode owner) : OwningNode(owner), IChildList<C
                 Position = position,
                 Location = new MapCoordinate((sbyte)X, (sbyte)Y, (sbyte)L)
             };
-            p.SetArrayOwner(this, position);
+            p.SetArrayOwner(this, index: position);
             p.Army.SetMapCoordinate((sbyte)(byte)X, (sbyte)(byte)Y, (sbyte)L);
             CombatPlayer players = combat.CombatData.Players.GetPlayers((sbyte)combatPlayer);
             p.Army.SetPlayer(players.Player);

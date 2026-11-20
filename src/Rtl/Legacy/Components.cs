@@ -57,7 +57,7 @@ public class Component : Persistent
     {
         if (i < 0 || i >= children.Count)
         {
-            DelphiListCore.Error("List index out of bounds (%d)", i);
+            DelphiListCore.Error("List index out of bounds (%d)", data: i);
         }
 
         return children[i];
@@ -108,7 +108,7 @@ public class Component : Persistent
             if (i >= 0 && i != target)
             {
                 Owner.children.RemoveAt(i);
-                Owner.children.Insert(target, this);
+                Owner.children.Insert(target, item: this);
             }
         }
     }
@@ -120,7 +120,7 @@ public class Component : Persistent
         ValidateRename(component, "", component.Name);
         children.Add(component);
         component.Owner = this;
-        Notification(component, Operation.Insert);
+        Notification(component, operation: Operation.Insert);
     }
 
     protected virtual void ValidateContainer(Component container) => container.ValidateInsert(this);
@@ -130,7 +130,7 @@ public class Component : Persistent
     // CLASSES.PAS TComponent.RemoveComponent and Remove.
     public void RemoveComponent(Component component)
     {
-        Notification(component, Operation.Remove);
+        Notification(component, operation: Operation.Remove);
         component.Owner = null;
         _ = children.Remove(component);
         ValidateRename(component, component.Name, "");
@@ -206,7 +206,7 @@ public class Component : Persistent
         {
             for (int i = 0; freeNotifies is not null && i < freeNotifies.Count; i++)
             {
-                freeNotifies[i].Notification(this, Operation.Remove);
+                freeNotifies[i].Notification(this, operation: Operation.Remove);
             }
 
             freeNotifies = null;

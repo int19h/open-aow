@@ -30,8 +30,8 @@ public class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSpellToken
         _ = base.Process(source, value);
         if (value == 0)
         {
-            _ = StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 2);
-            if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.WatchingTerrain(Location.X, Location.Y, Location.MapLevel, 2))
+            _ = StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, L: Location.MapLevel, radius: 2);
+            if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.WatchingTerrain(Location.X, Location.Y, L: Location.MapLevel, radius: 2))
             {
                 _ = GamePack.Current.SpellControl[73].CastSounds.Play(0);
             }
@@ -46,15 +46,15 @@ public class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSpellToken
             _animation.AnimationMap = StrategicMap.Current;
             _animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
             _animation.Activate();
-            GamePack.Current.SpellControl[EventSpellId].CastingDone(source, EventMana);
+            GamePack.Current.SpellControl[EventSpellId].CastingDone(source, mana: EventMana);
         }
 
         if (value == 50)
         {
             bool playSound = false;
-            _ = StrategicMap.Current.ChangeTerrain(null, Location.X, Location.Y, Location.MapLevel, 1, ChangeTerrain, null);
+            _ = StrategicMap.Current.ChangeTerrain(null, Location.X, Location.Y, L: Location.MapLevel, radius: 1, changeTerrainProc: ChangeTerrain, terrainChangedProc: null);
             MapLevel level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
-            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Location.X, Location.Y, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Location.X, Location.Y, radius: 0);
             while (walk.Radius <= 1)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && level.Height > walk.Y)
@@ -87,7 +87,7 @@ public class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSpellToken
                             {
                                 sbyte hexY = army.HexY;
                                 sbyte hexX = army.HexX;
-                                healed = StrategicMap.Current.VisibleForPlayer(hexX, hexY, army.HexLevel, StrategicMap.Current.SeatedPlayer);
+                                healed = StrategicMap.Current.VisibleForPlayer(hexX, hexY, army.HexLevel, player: StrategicMap.Current.SeatedPlayer);
                             }
 
                             if (healed)
@@ -97,7 +97,7 @@ public class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSpellToken
                                 {
                                     sbyte hexY = army.HexY;
                                     sbyte hexX = army.HexX;
-                                    condition = StrategicMap.Current.Watching(hexX, hexY, army.HexLevel, 1);
+                                    condition = StrategicMap.Current.Watching(hexX, hexY, L: army.HexLevel, radius: 1);
                                 }
 
                                 playSound = condition;
@@ -106,7 +106,7 @@ public class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSpellToken
                                 animation.AnimationLevel = 27;
                                 sbyte armyHexY = army.HexY;
                                 sbyte armyHexX = army.HexX;
-                                _ = StrategicMap.Current.PlaceHex(animation, armyHexX, armyHexY, army.HexLevel);
+                                _ = StrategicMap.Current.PlaceHex(animation, armyHexX, armyHexY, L: army.HexLevel);
                             }
                         }
 
@@ -167,7 +167,7 @@ public class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSpellToken
                         {
                             int xShift = x - Round(j * 2 * 0.1);
                             int yShift = y + Round(j * 10 * 0.1);
-                            _ = GamePack.Current.SpellControl[73].CastImages.Show(0, pixelX + xShift + 120, pixelY + yShift - 500 + 30, 0, lockedSurface);
+                            _ = GamePack.Current.SpellControl[73].CastImages.Show(0, pixelX + xShift + 120, pixelY + yShift - 500 + 30, frame: 0, lockedSurface);
                         }
                     }
                 }

@@ -18,39 +18,39 @@ public class CompressStream : MemoryStream
         bool compressed = default;
         Span<byte> magic = stackalloc byte[4];
         stream.ReadExactly(magic);
-        stream.ReadExactly(Bytes.Of(ref compressed, 1));
+        stream.ReadExactly(Bytes.Of(ref compressed, count: 1));
         if (!magic.SequenceEqual(CompressMagic))
         {
             compressed = false;
-            _ = stream.Seek(0, SeekOrigin.Begin);
+            _ = stream.Seek(0, origin: SeekOrigin.Begin);
         }
 
         if (compressed)
         {
             byte[] buffer = default;
-            Array.Resize(ref buffer, 8096);
-            ZLibStream d = new(stream, CompressionMode.Decompress, true);
+            Array.Resize(ref buffer, newSize: 8096);
+            ZLibStream d = new(stream, mode: CompressionMode.Decompress, leaveOpen: true);
             try
             {
                 int count = -1;
                 while (count != 0)
                 {
-                    count = d.Read(buffer.AsSpan(0, 8096));
+                    count = d.Read(buffer.AsSpan(0, length: 8096));
                     if (count != 0)
                     {
-                        this.WriteBuffer(buffer.AsSpan(0, count));
+                        this.WriteBuffer(buffer.AsSpan(0, length: count));
                     }
                 }
             }
             finally
             {
-                Array.Resize(ref buffer, 0);
+                Array.Resize(ref buffer, newSize: 0);
                 d?.Dispose();
             }
         }
         else
         {
-            _ = this.CopyFrom(stream, (int)(stream.Length - stream.Position));
+            _ = this.CopyFrom(stream, count: (int)(stream.Length - stream.Position));
         }
 
         Position = 0;
@@ -62,13 +62,13 @@ public class CompressStream : MemoryStream
         Position = 0;
         int startSize = (int)stream.Length;
         stream.Write(CompressMagic);
-        stream.Write(Bytes.Of(ref level, 1));
+        stream.Write(Bytes.Of(ref level, count: 1));
         if (level != Level.None)
         {
-            ZLibStream c = new(stream, ZLibLevels.ForByte((byte)level), true);
+            ZLibStream c = new(stream, compressionLevel: ZLibLevels.ForByte((byte)level), leaveOpen: true);
             try
             {
-                _ = c.CopyFrom(this, 0);
+                _ = c.CopyFrom(this, count: 0);
                 return Round((double)(1 - ((double)(stream.Length - startSize) / Length)) * 100);
             }
             finally
@@ -78,19 +78,19 @@ public class CompressStream : MemoryStream
         }
         else
         {
-            _ = stream.CopyFrom(this, 0);
+            _ = stream.CopyFrom(this, count: 0);
         }
 
         return 100;
     }
 
     // Engine.pas:1776
-    public void SaveToStream(Stream stream) => SaveToStream(stream, Level.Default);
+    public void SaveToStream(Stream stream) => SaveToStream(stream, level: Level.Default);
 
     // Engine.pas:1781
     public int SaveToFile(string fileName, Level level)
     {
-        Stream f = OpenFile(fileName, 65535);
+        Stream f = OpenFile(fileName, mode: 65535);
         try
         {
             return SaveToStream(f, level);
@@ -104,10 +104,10 @@ public class CompressStream : MemoryStream
     // Engine.pas:1793
     public void SaveToFile(string fileName)
     {
-        Stream f = OpenFile(fileName, 65535);
+        Stream f = OpenFile(fileName, mode: 65535);
         try
         {
-            _ = SaveToStream(f, Level.Default);
+            _ = SaveToStream(f, level: Level.Default);
         }
         finally
         {
@@ -118,7 +118,7 @@ public class CompressStream : MemoryStream
     // Engine.pas:1805
     public void LoadFromFile(string fileName)
     {
-        Stream f = OpenFile(fileName, 0 | 32);
+        Stream f = OpenFile(fileName, mode: 0 | 32);
         try
         {
             LoadFromStream(f);

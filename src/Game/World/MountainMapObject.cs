@@ -33,13 +33,13 @@ public class MountainMapObject(CustomNode owner) : Hexes.Terrain(owner)
         {
             if (list.Terrain[i] >= 0 || list.Overlay[i] >= 0)
             {
-                HexGeometry.CenterHexNumberToHex(hexX, hexY, i, ref x, ref y);
+                HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: i, ref x, ref y);
                 if (x >= 0 && y >= 0 && x < mapContainer.Width && y < mapContainer.Height)
                 {
                     MapField mapField = mapContainer.GetField(x, y, hexLevel);
                     HexSprite hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
                     valid = hexSprite is not null && hexSprite.EngineClass.ClassId == 131432
-                        ? ValidMountainOverlap(mapField, list.Overlay[i])
+                        ? ValidMountainOverlap(mapField, overlay: list.Overlay[i])
                         : hexSprite is null || hexSprite.Level < 10;
                 }
             }
@@ -47,7 +47,7 @@ public class MountainMapObject(CustomNode owner) : Hexes.Terrain(owner)
             i += 1;
         }
 
-        return valid && mapContainer.Map.CanChangeTerrain(this, hexX, hexY, hexLevel, ((MapObject)this).Resource.TerrainList);
+        return valid && mapContainer.Map.CanChangeTerrain(this, hexX, hexY, hexLevel, terrain: ((MapObject)this).Resource.TerrainList);
     }
 
     // Mountain.pas:113

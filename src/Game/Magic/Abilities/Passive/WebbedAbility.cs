@@ -12,7 +12,7 @@ public class WebbedAbility : DurationAbility
     public WebbedAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_webbedText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_webbedText);
         AbilityId = 97;
         AbilityType = AbilityType.Handicap;
         DurationMode = DurationMode.CombatTurn;

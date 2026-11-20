@@ -93,7 +93,7 @@ public class StructureControl : EngineObject
     // Structur.PAS:3281
     public void Register(Structure structure)
     {
-        Assert(_structures.IndexOfChild(structure) == -1, "", "Structur.PAS", 3299);
+        Assert(_structures.IndexOfChild(structure) == -1, message: "", file: "Structur.PAS", line: 3299);
         if (structure.StructureId == 0 || IndexOfId(structure.StructureId) != -1)
         {
             structure.StructureId = CreateUniqueId();

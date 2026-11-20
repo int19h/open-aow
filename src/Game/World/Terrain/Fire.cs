@@ -224,7 +224,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         }
 
         counts.Clear();
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 0);
         while (walk.HexNumber < terrains.Count)
         {
             if (base.Resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -331,7 +331,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
             MapLevel mapLevel = Owner.Owner;
             sbyte hexY = HexY;
             sbyte hexX = HexX;
-            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 1);
+            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 1);
             while (walk.Radius == 1)
             {
                 // { Original excludes the top row when spreading fire. }
@@ -342,7 +342,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
                     {
                         RandSeed = StrategicMap.Current.Random(16777215);
                         sbyte hexLevel = HexLevel;
-                        Fire fire = GamePack.Current.FireControl.PlaceFire(walk.X, walk.Y, hexLevel, FireType.Large);
+                        Fire fire = GamePack.Current.FireControl.PlaceFire(walk.X, walk.Y, L: hexLevel, fireType: FireType.Large);
                         if (fire is not null)
                         {
                             fire.Player = Player;
@@ -427,7 +427,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         public override int ResourceUserClassId() => 132990;
 
         // Structur.PAS:3692
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), GameTables.FireText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.FireText);
 
     }
 }

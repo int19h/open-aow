@@ -78,7 +78,7 @@ public partial class CityJoinDialog(UIContext ui) : UIModule(ui)
     public void DlgDrawBack(LockedSurface surface)
     {
         LibraryImage face = GamePack.Current.RaceResources.GetRaceResource(_race).GetFace();
-        face?.ShowClipped(CelticFrame.WinLeft + 10, CelticFrame.WinTop + 28, surface);
+        face?.ShowClipped(CelticFrame.WinLeft + 10, CelticFrame.WinTop + 28, lockedSurface: surface);
     }
 
     // AoWCityJoinDlg.pas:102
@@ -118,6 +118,6 @@ public partial class CityJoinDialog(UIContext ui) : UIModule(ui)
         LibraryImage bottomCityActionImage = town.GetBottomCityActionImage(null);
         dialog.CityPictureLine.ImageBottom = bottomCityActionImage;
         dialog.Window.Visible = true;
-        StrategicMap.Current.TutorialControl.ShowMessage(62, true, true);
+        StrategicMap.Current.TutorialControl.ShowMessage(62, immediate: true, onceOnly: true);
     }
 }

@@ -65,7 +65,7 @@ public class EventLogbook : EngineObject
         {
             if (_events[i].Visible)
             {
-                _ = strings.AddObject(_events[i].GetText(), IntToObject(i));
+                _ = strings.AddObject(_events[i].GetText(), item: IntToObject(i));
             }
         }
     }
@@ -124,7 +124,7 @@ public class EventLogbook : EngineObject
     // EventLog.pas:600
     public void AddEvent(EventLog eventValue)
     {
-        Assert(StrategicMap.Current.Synchronized, "", "EventLog.pas", 704);
+        Assert(StrategicMap.Current.Synchronized, message: "", file: "EventLog.pas", line: 704);
         eventValue.SetOwner(_events);
         eventValue.Id = CreateUniqueId();
         eventValue.NotifyLogged(this);

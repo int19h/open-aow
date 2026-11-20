@@ -149,7 +149,7 @@ public partial class Sign(CustomNode owner) : Structure(owner)
         }
 
         // Sign.pas:162
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_signText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_signText);
 
         private static readonly string s_signText = "Sign";
 

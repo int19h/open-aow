@@ -76,7 +76,7 @@ public static class PersistSupport
                 int level = body.Int32("MapLevel", value.MapLevel);
                 if (body.Loading)
                 {
-                    loaded = new MapCoordinate(InRange(name, "X", x), InRange(name, "Y", y), InRange(name, "MapLevel", level));
+                    loaded = new MapCoordinate(InRange(name, component: "X", stored: x), InRange(name, component: "Y", stored: y), InRange(name, component: "MapLevel", stored: level));
                 }
             }
         });
@@ -86,7 +86,7 @@ public static class PersistSupport
     private static sbyte InRange(string name, string component, int stored)
     {
         return stored is < -128 or > 127
-            ? throw new InvalidOperationException(string.Create(System.Globalization.CultureInfo.InvariantCulture, $"{name}.{component} is {stored}, outside -128 to 127."))
+            ? throw new InvalidOperationException(string.Create(System.Globalization.CultureInfo.InvariantCulture, handler: $"{name}.{component} is {stored}, outside -128 to 127."))
             : (sbyte)stored;
     }
 
@@ -98,7 +98,7 @@ public static class PersistSupport
             list.Add(values[i]);
         }
 
-        persister.List(name, list, static (slot, item) => slot.Int32(item));
+        persister.List(name, items: list, static (slot, item) => slot.Int32(item));
         if (!persister.Loading)
         {
             return;
@@ -123,7 +123,7 @@ public static class PersistSupport
             list.Add(values[i]);
         }
 
-        persister.List(name, list, static (slot, item) => slot.UInt16(item));
+        persister.List(name, items: list, static (slot, item) => slot.UInt16(item));
         if (!persister.Loading)
         {
             return;
@@ -155,7 +155,7 @@ public static class PersistSupport
             items.Add(list[i]);
         }
 
-        int stored = persister.Int32List(name, items, list.Default);
+        int stored = persister.Int32List(name, items, defaultValue: list.Default);
         if (!persister.Loading || !present)
         {
             return;
@@ -183,7 +183,7 @@ public static class PersistSupport
             items.Add(list[i]);
         }
 
-        byte stored = persister.ByteList(name, items, list.Default);
+        byte stored = persister.ByteList(name, items, defaultValue: list.Default);
         if (!persister.Loading || !present)
         {
             return;
@@ -213,7 +213,7 @@ public static class PersistSupport
     /// cuts it into groups of the schema's size.
     /// </summary>
     public static void UnitIndexListCollection(IPersister persister, string name, UnitIndexListCollection collection)
-        => Int32List(persister, name, collection.Units);
+        => Int32List(persister, name, list: collection.Units);
 
     /// <summary>
     /// A TBitList stream. The save writes what <c>SaveToStream</c> writes. A present member loads as
@@ -331,8 +331,8 @@ public static class PersistSupport
             list.Count = pairs.Count;
             for (int i = 0; i < pairs.Count; i++)
             {
-                list.SetTerrain(i, pairs[i].First);
-                list.SetOverlay(i, pairs[i].Second);
+                list.SetTerrain(i, value: pairs[i].First);
+                list.SetOverlay(i, value: pairs[i].Second);
             }
         });
     }
@@ -416,7 +416,7 @@ public static class PersistSupport
             copy.Add(lines[i]);
         }
 
-        persister.Lines(name, copy);
+        persister.Lines(name, lines: copy);
         if (!persister.Loading)
         {
             return;
@@ -452,7 +452,7 @@ public static class PersistSupport
             copy.Add(lines[i]);
             objects.Add(ObjectToInt(lines.Objects[i]));
         }
-        persister.LinesWithObjects(name, copy, objects);
+        persister.LinesWithObjects(name, lines: copy, objects);
         if (!persister.Loading)
         {
             return;
@@ -464,7 +464,7 @@ public static class PersistSupport
             lines.Clear();
             for (int i = 0; i < copy.Count; i++)
             {
-                _ = lines.AddObject(copy[i], IntToObject(objects[i]));
+                _ = lines.AddObject(copy[i], item: IntToObject(objects[i]));
             }
         }
         finally

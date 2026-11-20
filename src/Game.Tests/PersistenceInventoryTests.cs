@@ -50,18 +50,18 @@ public sealed class PersistenceInventoryTests
         Assert.Contains(Product, static assembly => assembly == typeof(GameEngine).Assembly);
         IReadOnlyList<BackendReach> reaches = PersistenceInventory.BackendReaches(Product);
         IReadOnlyList<ExposedMember> exposed = PersistenceInventory.ExposedMembers(Product);
-        Assert.True(reaches.Count == 0, $"Own-path reaches:\n{string.Join("\n", reaches)}");
-        Assert.True(exposed.Count == 0, $"Exposed members:\n{string.Join("\n", exposed)}");
+        Assert.True(reaches.Count == 0, userMessage: $"Own-path reaches:\n{string.Join("\n", values: reaches)}");
+        Assert.True(exposed.Count == 0, userMessage: $"Exposed members:\n{string.Join("\n", values: exposed)}");
     }
 
     [Fact]
     public void PlantedViolationsAreFound()
     {
         Assert.Equal(
-            [new BackendReach("Aow.Game.Tests.PersistenceInventoryPlant.WriteOwnPath", "Aow.Formats.Tree.OriginalBackend.Write")],
+            [new BackendReach("Aow.Game.Tests.PersistenceInventoryPlant.WriteOwnPath", Target: "Aow.Formats.Tree.OriginalBackend.Write")],
             PersistenceInventory.BackendReaches(typeof(PersistenceInventoryPlant)));
         Assert.Equal(
-            [new ExposedMember("Aow.Game.Tests.PlantedStoredId", "Id", "stored id", UsedBy: null)],
+            [new ExposedMember("Aow.Game.Tests.PlantedStoredId", Member: "Id", Kind: "stored id", UsedBy: null)],
             PersistenceInventory.ExposedMembers(typeof(PlantedStoredId)));
     }
 }

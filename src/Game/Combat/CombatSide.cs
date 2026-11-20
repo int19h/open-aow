@@ -85,11 +85,11 @@ public class CombatSide(CustomNode owner) : OwningNode(owner), IChildList<Combat
     {
         if (SideIndex == 0)
         {
-            GetEngine().OutputDebugMessage(DebugChannel.Combat, "--- Combat Side Attacker ---");
+            GetEngine().OutputDebugMessage(DebugChannel.Combat, S: "--- Combat Side Attacker ---");
         }
         else
         {
-            GetEngine().OutputDebugMessage(DebugChannel.Combat, "--- Combat Side Defender ---");
+            GetEngine().OutputDebugMessage(DebugChannel.Combat, S: "--- Combat Side Defender ---");
         }
 
         for (int i = 0, last = Count - 1; i <= last; i++)

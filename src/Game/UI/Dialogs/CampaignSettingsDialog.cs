@@ -23,16 +23,16 @@ public partial class CampaignSettingsDialog(UIContext ui) : UIModule(ui)
         {
             CampaignDifficultyLevel level = (CampaignDifficultyLevel)levelOrdinal;
             string campaignDifficultyLevel = UI.Engine.TranslateResourceString(s_campaignDifficultyLevelTexts[(int)level]);
-            _ = DifficultyLevelComboBox.Items.AddObject(campaignDifficultyLevel, IntToObject((int)level));
+            _ = DifficultyLevelComboBox.Items.AddObject(campaignDifficultyLevel, item: IntToObject((int)level));
         }
 
         int indexOfObject = DifficultyLevelComboBox.Items.IndexOfObject(IntToObject((int)UI.Engine.Campaign.DifficultyLevel));
         DifficultyLevelComboBox.Selected = indexOfObject;
         TurnModeComboBox.Items.Clear();
         string playMode = UI.Engine.TranslateResourceString(GameText.PlayModeTexts[(int)PlayMode.Turn]);
-        _ = TurnModeComboBox.Items.AddObject(playMode, IntToObject((int)PlayMode.Turn));
+        _ = TurnModeComboBox.Items.AddObject(playMode, item: IntToObject((int)PlayMode.Turn));
         string playModeText = UI.Engine.TranslateResourceString(GameText.PlayModeTexts[(int)PlayMode.Simultaneous]);
-        _ = TurnModeComboBox.Items.AddObject(playModeText, IntToObject((int)PlayMode.Simultaneous));
+        _ = TurnModeComboBox.Items.AddObject(playModeText, item: IntToObject((int)PlayMode.Simultaneous));
         int itemsIndexOfObject = TurnModeComboBox.Items.IndexOfObject(IntToObject((int)UI.Engine.Campaign.PlayMode));
         TurnModeComboBox.Selected = itemsIndexOfObject;
     }

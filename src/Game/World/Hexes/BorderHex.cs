@@ -30,7 +30,7 @@ public class BorderHex(CustomNode owner) : AbstractBorderHexagon(owner)
             MapField field = Owner;
             if (field is not null && field.HexY != 0)
             {
-                _ = field.Owner.GetField(field.HexX, Owner.HexY - 1).AddHexSprite(this, 1);
+                _ = field.Owner.GetField(field.HexX, Owner.HexY - 1).AddHexSprite(this, hexNumber: 1);
             }
         }
         else

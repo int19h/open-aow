@@ -22,7 +22,7 @@ public static partial class Blit
             {
                 if (Visible(x, y, clip))
                 {
-                    destination.UInt16((y * destination.Pitch) + (x * 2), color);
+                    destination.UInt16((y * destination.Pitch) + (x * 2), value: color);
                 }
 
                 count = skip;

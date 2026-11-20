@@ -154,7 +154,7 @@ public partial class ChatWindow : ILayoutModule
         PlayerList.BorderWidth = 8;
         PlayerList.BorderHeight = 2;
         PlayerList.Selected = -1;
-        PlayerList.OnPreDrawItem += (_, in drawRectangle, drawItem, ref surface) => PlayerListPreDrawItem(default, drawItem, default);
+        PlayerList.OnPreDrawItem += (_, in drawRectangle, drawItem, ref surface) => PlayerListPreDrawItem(default, drawItem, lockedSurface: default);
         PlayerList.TextColor = 9415072;
         PlayerList.TextSelectedColor = 16777215;
         PlayerList.ImageLibraryIndexFrame = 113;
@@ -353,9 +353,9 @@ public partial class ChatWindow : ILayoutModule
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";
-        translator.TargetsData.Add(new TranslationTarget("", "Items", 0));
-        translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
-        translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "Items", Options: 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "Text", Options: 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "ToolTipText", Options: 0));
         session.EndRead(translator);
         session.EndRead(this);
         ChatMemo.Window = chatPnl;

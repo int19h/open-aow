@@ -44,7 +44,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
     // The view key names the kind. Another kind throws.
     internal static void AddRenderer<TLog>(EventView view, Action<MapEvents, TLog, bool, ExecuteDoneEvent> render)
         where TLog : EventLog
-        => EventRenderers.Add(view, value: (events, log, mode, done) => render(events, (TLog)log, mode, done));
+        => EventRenderers.Add(view, value: (events, log, mode, done) => render(events, (TLog)log, arg3: mode, done));
 
     // aowMapEvents.pas:93
     public void TheMapActivateAbility(AbilityActivation request)
@@ -158,7 +158,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
 
         for (int i = 0, last = army.Units.Count - 1; i <= last; i++)
         {
-            if (!army.GetUnitConcealedForPlayer(i, StrategicMap.Current.SeatedPlayer))
+            if (!army.GetUnitConcealedForPlayer(i, player: StrategicMap.Current.SeatedPlayer))
             {
                 UI.General.SelectedUnits[count] = i;
                 count += 1;
@@ -169,7 +169,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
         UI.ControlWindow.UpdateArmy();
         if (StrategicMap.Current.SeatedPlayer == army.Player)
         {
-            StrategicMap.Current.TutorialControl.ShowMessage(63, true, true);
+            StrategicMap.Current.TutorialControl.ShowMessage(63, immediate: true, onceOnly: true);
         }
     }
 
@@ -181,7 +181,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
             UI.TaskBar.WorldTurnButton.LastPlayer = -1;
         }
 
-        string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_dayFormat), [day]);
+        string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_dayFormat), arguments: [day]);
         UI.PlayerInfoWindow.TurnLabel.Text = format;
         UI.MapEvents.TheMapGemsChanged(StrategicMap.Current.SeatedPlayer);
         UI.MapEvents.TheMapIncomeChanged(StrategicMap.Current.SeatedPlayer);
@@ -221,7 +221,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
         // None has no renderer: nothing shows and the event is not reported done.
         if (EventRenderers.TryGet(eventValue.View(), out Action<MapEvents, EventLog, bool, ExecuteDoneEvent> render))
         {
-            render(this, eventValue, mode, done);
+            render(this, eventValue, arg3: mode, done);
         }
     }
 
@@ -540,7 +540,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
     // aowMapEvents.pas:457
     public void TheMapStructureDeselected()
     {
-        _ = (UI.General.Sign?.ChangeText(StrategicMap.Current.SeatedPlayer, UI.InfoWindow.SignTextMemo.Items));
+        _ = (UI.General.Sign?.ChangeText(StrategicMap.Current.SeatedPlayer, text: UI.InfoWindow.SignTextMemo.Items));
 
         UI.General.Structure = null;
         UI.General.City = null;
@@ -612,7 +612,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
     {
         if (caster is UnitSpellCaster unitCaster)
         {
-            ShowUnitSpellCaster(UI.CastUnitSpellDialog, unitCaster);
+            ShowUnitSpellCaster(UI.CastUnitSpellDialog, caster: unitCaster);
         }
         else
         {
@@ -635,7 +635,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
     {
         if (hexSprite is ItemHexSprite itemHexSprite)
         {
-            UpdateItemSelection(UI.InfoWindow, itemHexSprite);
+            UpdateItemSelection(UI.InfoWindow, items: itemHexSprite);
         }
     }
 
@@ -733,7 +733,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
         if (armyHexSprite is not null && armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)
         {
             dialog.ItemBagMemo.Visible = false;
-            Hero hero = armyHexSprite.Army.Hero(255, RosterTables.AllHeroTypes);
+            Hero hero = armyHexSprite.Army.Hero(255, types: RosterTables.AllHeroTypes);
             dialog.MainButton.Visible = hero is not null;
             string text2 = dialog.UI.Engine.TranslateResourceString(s_pickupText);
             dialog.MainButton.Text = text2;
@@ -761,7 +761,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
     {
         if (dialog.MainWindow.Visible && items == dialog.ItemBag)
         {
-            ShowItemSelection(dialog, dialog.ItemBag);
+            ShowItemSelection(dialog, items: dialog.ItemBag);
         }
     }
 

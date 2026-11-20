@@ -21,7 +21,7 @@ public class FrameTableList : Persistent
     {
         if (index < 0 || index >= _count)
         {
-            Error("List index out of bounds (%d)", index);
+            Error("List index out of bounds (%d)", data: index);
         }
 
         return List[index];
@@ -40,7 +40,7 @@ public class FrameTableList : Persistent
     {
         if (index < 0)
         {
-            Error("List index out of bounds (%d)", index);
+            Error("List index out of bounds (%d)", data: index);
         }
 
         if (index >= _count)
@@ -56,12 +56,12 @@ public class FrameTableList : Persistent
     {
         if (newCapacity < _count || newCapacity > 134217727)
         {
-            Error("List capacity out of bounds (%d)", newCapacity);
+            Error("List capacity out of bounds (%d)", data: newCapacity);
         }
 
         if (newCapacity != _capacity)
         {
-            List = ReallocArray(List, newCapacity);
+            List = ReallocArray(List, count: newCapacity);
             _capacity = newCapacity;
         }
     }
@@ -71,7 +71,7 @@ public class FrameTableList : Persistent
     {
         if (newCount is < 0 or > 134217727)
         {
-            Error("List count out of bounds (%d)", newCount);
+            Error("List count out of bounds (%d)", data: newCount);
         }
 
         if (newCount > _capacity)
@@ -82,7 +82,7 @@ public class FrameTableList : Persistent
         if (newCount > _count)
         {
             // FillChar: each byte of a new item is the low byte of the default.
-            List.AsSpan(_count, newCount - _count).Fill(unchecked((byte)_defaultValue * 0x01010101));
+            List.AsSpan(_count, length: newCount - _count).Fill(unchecked((byte)_defaultValue * 0x01010101));
         }
 
         _count = newCount;
@@ -98,7 +98,7 @@ public class FrameTableList : Persistent
         {
             SetCapacity(frameTableList._count);
             _count = frameTableList._count;
-            MoveElements(frameTableList.List, 0, List, 0, _count);
+            MoveElements(frameTableList.List, sourceIndex: 0, destination: List, destinationIndex: 0, _count);
             _defaultValue = frameTableList._defaultValue;
         }
         else
@@ -133,13 +133,13 @@ public class FrameTableList : Persistent
     {
         if (index < 0 || index >= _count)
         {
-            Error("List index out of bounds (%d)", index);
+            Error("List index out of bounds (%d)", data: index);
         }
 
         _count -= 1;
         if (index < _count)
         {
-            MoveElements(List, index + 1, List, index, _count - index);
+            MoveElements(List, sourceIndex: index + 1, destination: List, destinationIndex: index, count: _count - index);
         }
     }
 
@@ -148,12 +148,12 @@ public class FrameTableList : Persistent
     {
         if (index1 < 0 || index1 >= _count)
         {
-            Error("List index out of bounds (%d)", index1);
+            Error("List index out of bounds (%d)", data: index1);
         }
 
         if (index2 < 0 || index2 >= _count)
         {
-            Error("List index out of bounds (%d)", index2);
+            Error("List index out of bounds (%d)", data: index2);
         }
 
         (List[index2], List[index1]) = (List[index1], List[index2]);
@@ -190,7 +190,7 @@ public class FrameTableList : Persistent
     {
         if (index < 0 || index > _count)
         {
-            Error("List index out of bounds (%d)", index);
+            Error("List index out of bounds (%d)", data: index);
         }
 
         if (_count == _capacity)
@@ -200,7 +200,7 @@ public class FrameTableList : Persistent
 
         if (index < _count)
         {
-            MoveElements(List, index, List, index + 1, _count - index);
+            MoveElements(List, sourceIndex: index, destination: List, destinationIndex: index + 1, count: _count - index);
         }
 
         List[index] = item;
@@ -217,7 +217,7 @@ public class FrameTableList : Persistent
         {
             if (newIndex < 0 || newIndex >= _count)
             {
-                Error("List index out of bounds (%d)", newIndex);
+                Error("List index out of bounds (%d)", data: newIndex);
             }
 
             int item = Get(currentIndex);
@@ -255,22 +255,22 @@ public class FrameTableList : Persistent
     {
         if (List is not null && Count > 0)
         {
-            FrameTableQuickSort(List, 0, Count - 1, compare);
+            FrameTableQuickSort(List, L: 0, R: Count - 1, sCompare: compare);
         }
     }
 
     // ImageLib.pas:9560
-    public bool Compare(FrameTableList list) => list._count == _count && List.AsSpan(0, _count).SequenceEqual(list.List.AsSpan(0, _count));
+    public bool Compare(FrameTableList list) => list._count == _count && List.AsSpan(0, length: _count).SequenceEqual(list.List.AsSpan(0, length: _count));
 
     // ImageLib.pas:9566
     public void LoadFromStream(Stream stream)
     {
         int n = default;
         Clear();
-        stream.ReadExactly(Bytes.Of(ref _defaultValue, 4));
-        stream.ReadExactly(Bytes.Of(ref n, 4));
+        stream.ReadExactly(Bytes.Of(ref _defaultValue, count: 4));
+        stream.ReadExactly(Bytes.Of(ref n, count: 4));
         SetCapacity(n);
-        stream.ReadExactly(MemoryMarshal.AsBytes(List.AsSpan(0, n)));
+        stream.ReadExactly(MemoryMarshal.AsBytes(List.AsSpan(0, length: n)));
         _count = n;
     }
 
@@ -291,9 +291,9 @@ public class FrameTableList : Persistent
     // ImageLib.pas:9578
     public void SaveToStream(Stream stream)
     {
-        stream.Write(Bytes.Of(ref _defaultValue, 4));
-        stream.Write(Bytes.Of(ref _count, 4));
-        stream.Write(MemoryMarshal.AsBytes(List.AsSpan(0, _count)));
+        stream.Write(Bytes.Of(ref _defaultValue, count: 4));
+        stream.Write(Bytes.Of(ref _count, count: 4));
+        stream.Write(MemoryMarshal.AsBytes(List.AsSpan(0, length: _count)));
     }
 
     // ImageLib.pas:9586
@@ -306,7 +306,7 @@ public class FrameTableList : Persistent
             result = $"{result}{IntToStr(List[i])},";
         }
 
-        return !IsEmpty(result) ? Copy(result, 1, result.Length - 1) : result;
+        return !IsEmpty(result) ? Copy(result, index: 1, count: result.Length - 1) : result;
     }
 
     // ImageLib.pas:9597
@@ -319,19 +319,19 @@ public class FrameTableList : Persistent
         {
             if (!Set<byte>.WithBounds(0, 255).With(44).WithRange(48, 57).Contains(Cp1252.Byte(value[i - 1])))
             {
-                value = DelphiStrings.Delete(value, i, 1);
+                value = DelphiStrings.Delete(value, index: i, count: 1);
             }
         }
 
         Clear();
-        i = Pos(",", value);
+        i = Pos(",", haystack: value);
         while (!IsEmpty(value))
         {
             string s;
             if (i != 0)
             {
-                s = Copy(value, 1, i - 1);
-                value = DelphiStrings.Delete(value, 1, i);
+                s = Copy(value, index: 1, count: i - 1);
+                value = DelphiStrings.Delete(value, index: 1, count: i);
             }
             else
             {
@@ -342,21 +342,21 @@ public class FrameTableList : Persistent
             int n = !IsEmpty(s) ? StrToInt(s) : 0;
 
             _ = Add(n);
-            i = Pos(",", value);
+            i = Pos(",", haystack: value);
         }
     }
 
     public int Capacity { get => _capacity; set => SetCapacity(value); }
     public int Count { get => _count; set => SetCount(value); }
 
-    public int this[int index] { get => Get(index); set => Put(index, value); }
+    public int this[int index] { get => Get(index); set => Put(index, item: value); }
 
     public int[] List { get; private set; }
     public int DefaultValue { get => _defaultValue; set => _defaultValue = value; }
     public string ItemString { get => GetItemString(); set => SetItemString(value); }
 
     // ImageLib.pas:9401
-    public static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
+    public static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, message: Format(message, args: [data]));
 
     private static void FrameTableQuickSort(int[] sortList, int L, int R, FrameTableSortCompare sCompare)
     {
@@ -390,7 +390,7 @@ public class FrameTableList : Persistent
             }
             if (L < number3)
             {
-                FrameTableQuickSort(sortList, L, number3, sCompare);
+                FrameTableQuickSort(sortList, L, R: number3, sCompare);
             }
             L = number2;
         }

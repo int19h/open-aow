@@ -120,7 +120,7 @@ public class AIMoveTargetSelector : EngineObject
         }
 
         _ = MovePointTable;
-        army.Army.CreateMovePointTable(selection, out MovePointTable movePointTable);
+        army.Army.CreateMovePointTable(selection, table: out MovePointTable movePointTable);
         MovePointTable = movePointTable;
         return true;
     }
@@ -186,7 +186,7 @@ public class AIMoveTargetSelector : EngineObject
             sbyte locationMapLevel = coordinate106.MapLevel;
             MapCoordinate location = new(locationX, locationY, locationMapLevel);
             bool valid;
-            if (ListMovementGaps(StrategicMap.Current, target.MovePath, MovePointTable, gaps, null) != 0)
+            if (ListMovementGaps(StrategicMap.Current, path: target.MovePath, table: MovePointTable, starts: gaps, ends: null) != 0)
             {
                 _settings.Reset();
                 _settings.Player = TargetInfo.Player;
@@ -208,7 +208,7 @@ public class AIMoveTargetSelector : EngineObject
                     int item3 = gaps[i];
                     PathStep item4 = target.MovePath[item3];
                     _settings.SetDestinationPosition(item4.Location.X, item2.Location.Y, fMovePathItem.Location.MapLevel);
-                    valid = StrategicMap.Current.MoveControl.CanMove(_settings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast)) != -1;
+                    valid = StrategicMap.Current.MoveControl.CanMove(_settings, mode: Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast)) != -1;
                 }
             }
             else
@@ -289,7 +289,7 @@ public class AIMoveTargetSelector : EngineObject
                     if ((field.FieldFlags & MapField.AITargetFlag) != 0)
                     {
                         MapCoordinate mapCoordinate = field.MapCoordinate;
-                        if (_targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(_control, TargetInfo, out data))
+                        if (_targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(_control, info: TargetInfo, out data))
                         {
                             target = new MoveTarget(null) { Holder = CreationHolder() };
                             MapCoordinate fieldMapCoordinate = field.MapCoordinate;
@@ -397,7 +397,7 @@ public class AIMoveTargetSelector : EngineObject
                     if ((field.FieldFlags & MapField.AITargetFlag) != 0)
                     {
                         MapCoordinate mapCoordinate = field.MapCoordinate;
-                        if (_targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(_control, TargetInfo, out data) && MovePointTable[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay] >= 0)
+                        if (_targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(_control, info: TargetInfo, out data) && MovePointTable[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay] >= 0)
                         {
                             target = new MoveTarget(null) { Holder = CreationHolder() };
                             MapCoordinate fieldMapCoordinate = field.MapCoordinate;

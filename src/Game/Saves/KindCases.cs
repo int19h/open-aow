@@ -14,7 +14,7 @@ public abstract class KindCases : ContentRule, ICaseUnit
 {
     public override IEnumerable<FormatDiagnostic> Check(ContentScope scope, JsonObject value, DocumentNodePath path) => [];
 
-    public override void Attach(string persistedName) => CaseMappings.Register(persistedName, this);
+    public override void Attach(string persistedName) => CaseMappings.Register(persistedName, unit: this);
 
     public abstract IReadOnlyDictionary<string, long> Written(long key, IReadOnlyDictionary<string, long> stored);
 }

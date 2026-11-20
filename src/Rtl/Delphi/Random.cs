@@ -16,7 +16,7 @@ public static class DelphiRandom
         {
             int before = randomSeed;
             randomSeed = value;
-            RandomTrace?.Invoke(new("seed", null, value, before, value));
+            RandomTrace?.Invoke(new("seed", Argument: null, Result: value, before, After: value));
         }
     }
 
@@ -26,7 +26,7 @@ public static class DelphiRandom
         int before = randomSeed;
         randomSeed = unchecked((randomSeed * 0x08088405) + 1);
         int result = (int)(((ulong)(uint)randomSeed * (uint)range) >> 32);
-        RandomTrace?.Invoke(new("random", range, result, before, randomSeed));
+        RandomTrace?.Invoke(new("random", Argument: range, result, before, After: randomSeed));
         return result;
     }
 
@@ -36,7 +36,7 @@ public static class DelphiRandom
         int before = randomSeed;
         randomSeed = unchecked((randomSeed * 0x08088405) + 1);
         double result = (uint)randomSeed * (1.0 / 4294967296.0);
-        RandomTrace?.Invoke(new("random", null, result, before, randomSeed));
+        RandomTrace?.Invoke(new("random", Argument: null, result, before, After: randomSeed));
         return result;
     }
 

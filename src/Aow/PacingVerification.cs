@@ -50,7 +50,7 @@ internal static class PacingVerification
 
                 if (previous != 0)
                 {
-                    times.Add(Stopwatch.GetElapsedTime(previous, now).TotalMilliseconds);
+                    times.Add(Stopwatch.GetElapsedTime(previous, endingTimestamp: now).TotalMilliseconds);
                 }
 
                 previous = now;
@@ -79,7 +79,7 @@ internal static class PacingVerification
         double[] following = [.. times.Skip(301)];
         bool equal = regular.Concat(following).All(t => Math.Abs(t - 33) <= 1) && slow >= 70;
         _ = Directory.CreateDirectory(output);
-        File.WriteAllText(Path.Combine(output, "pacing.json"), JsonSerializer.Serialize(new
+        File.WriteAllText(Path.Combine(output, "pacing.json"), contents: JsonSerializer.Serialize(new
         {
             equal,
             frames = 300,
@@ -93,8 +93,8 @@ internal static class PacingVerification
             following_ms = following,
             frame_ms = regular,
             no_window = true
-        }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
-        Console.WriteLine($"G5: {(equal ? "PASS" : "FAIL")}, 300 frames, {regular.Min():F3}..{regular.Max():F3} ms, slow {slow:F3} ms, following {string.Join(", ", following.Select(t => t.ToString("F3")))} ms, no window");
+        }, options: new JsonSerializerOptions { WriteIndented = true }) + "\n");
+        Console.WriteLine($"G5: {(equal ? "PASS" : "FAIL")}, 300 frames, {regular.Min():F3}..{regular.Max():F3} ms, slow {slow:F3} ms, following {string.Join(", ", values: following.Select(t => t.ToString("F3")))} ms, no window");
         return equal ? 0 : 1;
     }
 

@@ -54,7 +54,7 @@ internal static class PersistenceMeasurement
         {
             case "map":
                 engine.LoadHsm(Path.GetFullPath(file), edit: false, progress: null, profile: GameProfile.WorldMap);
-                Require(engine.HexSpriteMap is not null, "original load");
+                Require(engine.HexSpriteMap is not null, step: "original load");
                 break;
             case "set":
                 engine.LoadHss(Path.GetFullPath(file), edit: false, progress: null, profile: GameProfile.ScenarioSet);
@@ -62,7 +62,7 @@ internal static class PersistenceMeasurement
             default:
                 engine.LoadCampaign(Path.GetFullPath(file));
                 engine.LoadHsm(Path.GetFullPath(map ?? throw new ArgumentException("a campaign needs --map")), edit: false, progress: null, profile: GameProfile.WorldMap);
-                Require(engine.Campaign is not null && engine.HexSpriteMap is not null, "original load");
+                Require(engine.Campaign is not null && engine.HexSpriteMap is not null, step: "original load");
                 break;
         }
         double originalLoad = watch.Elapsed.TotalMilliseconds;
@@ -86,7 +86,7 @@ internal static class PersistenceMeasurement
         {
             case "map":
                 engine.LoadHsm(saved, edit: false, progress: null, profile: GameProfile.WorldMap);
-                Require(engine.HexSpriteMap is not null, "own load");
+                Require(engine.HexSpriteMap is not null, step: "own load");
                 break;
             case "set":
                 engine.LoadHss(saved, edit: false, progress: null, profile: GameProfile.ScenarioSet);
@@ -94,7 +94,7 @@ internal static class PersistenceMeasurement
             default:
                 engine.LoadCampaign(saved);
                 engine.LoadCampaignMap(null);
-                Require(engine.Campaign is not null && engine.HexSpriteMap is not null, "own load");
+                Require(engine.Campaign is not null && engine.HexSpriteMap is not null, step: "own load");
                 break;
         }
         double ownLoad = watch.Elapsed.TotalMilliseconds;

@@ -23,7 +23,7 @@ public class Crusade : Spell
     public Crusade(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_crusadeText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_crusadeText);
         SpellId = 75;
         SpellType = SpellType.Global;
         BaseManaCost = 0;
@@ -40,7 +40,7 @@ public class Crusade : Spell
             sbyte x = coordinate61.X;
             sbyte y = coordinate61.Y;
             sbyte layer = coordinate61.MapLevel;
-            _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, layer, 0);
+            _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, layer, radius: 0);
             HexGeometry.HexToPixel(x, y, out int pixelX, out int pixelY);
             WorldEffectHexSprite worldEffectHexSprite = StrategicMap.Current.AddEffect(WorldEffectType.Crusade);
             worldEffectHexSprite.X = pixelX + 16;
@@ -118,7 +118,7 @@ public class Crusade : Spell
                 }
             }
 
-            GamePack.Current.SpellControl[SpellId].CastingDone(source, BaseManaCost);
+            GamePack.Current.SpellControl[SpellId].CastingDone(source, mana: BaseManaCost);
             _ = GamePack.Current.SpellControl[SpellId].CastSounds.Play(0);
         }
 
@@ -130,10 +130,10 @@ public class Crusade : Spell
     {
         string reason = "";
         _ = base.Activate(source);
-        if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        if (CanActivate(source, messageText: ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             SpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
-            eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
+            eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;
@@ -155,14 +155,14 @@ public class Crusade : Spell
         sbyte layer = coordinate62.MapLevel;
         int radiusToHexNumber = HexGeometry.RadiusToHexNumber(5);
         HexGeometry.CenterHexNumberToHex(hexNumber: StrategicMap.Current.Random(radiusToHexNumber), hexX: x, hexY: y, newHexX: ref targetX, newHexY: ref targetY);
-        if (party.Place((sbyte)targetX, (sbyte)targetY, layer, Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea)))
+        if (party.Place((sbyte)targetX, (sbyte)targetY, layer, mode: Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea)))
         {
             party.Activate();
-            party.Army.SetBehavior(255, GroupBehavior.Suicidal);
+            party.Army.SetBehavior(255, behavior: GroupBehavior.Suicidal);
             sbyte hexLevel = party.HexLevel;
             sbyte hexY = party.HexY;
             sbyte hexX = party.HexX;
-            if (StrategicMap.Current.Watching(hexX, hexY, hexLevel, 0))
+            if (StrategicMap.Current.Watching(hexX, hexY, L: hexLevel, radius: 0))
             {
                 if (GamePack.Current.SpellControl[34].CastImages.GetImageSequence(0) is not null)
                 {
@@ -173,7 +173,7 @@ public class Crusade : Spell
                     sbyte partyHexLevel = party.HexLevel;
                     sbyte partyHexY = party.HexY;
                     sbyte partyHexX = party.HexX;
-                    _ = StrategicMap.Current.PlaceHex(animation, partyHexX, partyHexY, partyHexLevel);
+                    _ = StrategicMap.Current.PlaceHex(animation, partyHexX, partyHexY, L: partyHexLevel);
                 }
             }
 

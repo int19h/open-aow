@@ -152,7 +152,7 @@ public partial class CustomDisplay
         }
 
         _mouseAboveSurface = x != -1;
-        OnUpdateFrame?.Invoke(this, ActiveDisplayController, SurfaceIndex);
+        OnUpdateFrame?.Invoke(this, DC: ActiveDisplayController, SurfaceType: SurfaceIndex);
         if (ActiveDisplayController is null)
         {
             return;
@@ -181,8 +181,8 @@ public partial class CustomDisplay
             {
                 for (int i = 1; i <= (int)_bufferingScheme; i++)
                 {
-                    saved[i] = new DataSurface(0, 0, PixelFormat.None, null);
-                    _ = saved[i].CaptureSurface(previous.GetSurface(i), default);
+                    saved[i] = new DataSurface(0, 0, pixelFormatId: PixelFormat.None, palette: null);
+                    _ = saved[i].CaptureSurface(previous.GetSurface(i), R: default);
                 }
             }
 
@@ -217,11 +217,11 @@ public partial class CustomDisplay
             {
                 if (saved[i] is not null)
                 {
-                    _ = RemapSurface(saved[i], ActiveDisplayController.GetSurface(i));
+                    _ = RemapSurface(saved[i], destination: ActiveDisplayController.GetSurface(i));
                 }
             }
 
-            OnActivateDisplayController?.Invoke(this, ActiveDisplayController);
+            OnActivateDisplayController?.Invoke(this, DC: ActiveDisplayController);
             return result;
         }
         finally

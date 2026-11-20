@@ -15,6 +15,6 @@ public class DefendersArmy(CustomNode owner) : Army(owner)
     public override bool CanAddUnit(Troop troop)
     {
         bool result = base.CanAddUnit(troop);
-        return result && !troop.GetTransporter() && troop.ValidTerrain(1, 4);
+        return result && !troop.GetTransporter() && troop.ValidTerrain(1, overlayType: 4);
     }
 }

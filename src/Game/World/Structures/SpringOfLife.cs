@@ -34,7 +34,7 @@ public partial class SpringOfLife(CustomNode owner) : Structure(owner)
         HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int pixelX, out int pixelY);
         pixelX -= pixelXSurface;
         pixelY -= pixelYSurface;
-        _ = base.Resource.ImageSequenceList.Show(20, pixelX, pixelY, animation.FrameCounter, lockedSurface);
+        _ = base.Resource.ImageSequenceList.Show(20, pixelX, pixelY, frame: animation.FrameCounter, lockedSurface);
     }
 
     // Spring.pas:86
@@ -52,7 +52,7 @@ public partial class SpringOfLife(CustomNode owner) : Structure(owner)
             sbyte hexLevel = HexLevel;
             sbyte hexY = HexY;
             sbyte hexX = HexX;
-            condition = StrategicMap.Current.Watching(hexX, hexY, hexLevel, 0);
+            condition = StrategicMap.Current.Watching(hexX, hexY, L: hexLevel, radius: 0);
         }
 
         if (condition)
@@ -63,7 +63,7 @@ public partial class SpringOfLife(CustomNode owner) : Structure(owner)
         sbyte hexLevel2 = HexLevel;
         sbyte hexY2 = HexY;
         sbyte hexX2 = HexX;
-        if (StrategicMap.Current.Visible(hexX2, hexY2, hexLevel2, 0))
+        if (StrategicMap.Current.Visible(hexX2, hexY2, L: hexLevel2, radius: 0))
         {
             SpringOfLifeAnimation animation = new(null) { Holder = CreationHolder() };
             Rect r = new(-16, -8, 32, 40);
@@ -73,7 +73,7 @@ public partial class SpringOfLife(CustomNode owner) : Structure(owner)
             sbyte hexLevel = HexLevel;
             sbyte hexY = HexY;
             sbyte hexX = HexX;
-            _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
+            _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY, L: hexLevel);
         }
     }
 
@@ -88,7 +88,7 @@ public partial class SpringOfLife(CustomNode owner) : Structure(owner)
         public override int ResourceUserClassId() => 131328;
 
         // Spring.pas:126
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_springOfLifeText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_springOfLifeText);
 
         private static readonly string s_springOfLifeText = "Spring of Life";
 

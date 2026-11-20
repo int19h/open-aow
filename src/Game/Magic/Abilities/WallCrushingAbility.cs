@@ -17,7 +17,7 @@ public partial class WallCrushingAbility : TouchAbility
         Holder = holder;
         AbilityId = 117;
         AbilityType = AbilityType.Combat;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_wallCrushingText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_wallCrushingText);
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem, AbilitySelectionType.UseItem);
     }
 
@@ -32,7 +32,7 @@ public partial class WallCrushingAbility : TouchAbility
         sbyte resistance = defender.GetResistance();
         Set<DamageType> immunityTypes = defender.GetImmunityTypes();
         Set<DamageType> protectionTypes = defender.GetProtectionTypes();
-        return AbilityRules.StatisticsToLimitedDamageValue(6, 6, Set<DamageType>.Of(DamageType.Wall), hitPoints, defense, resistance, immunityTypes, protectionTypes);
+        return AbilityRules.StatisticsToLimitedDamageValue(6, damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Wall), maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
     }
 
     // AoWAb.PAS:2006
@@ -46,7 +46,7 @@ public partial class WallCrushingAbility : TouchAbility
             sbyte resistance = defender.GetResistance();
             Set<DamageType> immunityTypes = defender.GetImmunityTypes();
             Set<DamageType> protectionTypes = defender.GetProtectionTypes();
-            int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(6, 6, Set<DamageType>.Of(DamageType.Wall), hitPoints, defense, resistance, immunityTypes, protectionTypes);
+            int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(6, damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Wall), maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
             damageValues.SourceDamage = statisticsToLimitedDamageValue;
             int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Wall));
             damageValues.SourceCost = statisticsToMaxDamage;
@@ -68,7 +68,7 @@ public partial class WallCrushingAbility : TouchAbility
     {
         if (owner is Troop troop)
         {
-            strength = AbilityRules.LimitedDamage(troop.GetAttack(), 6, 1);
+            strength = AbilityRules.LimitedDamage(troop.GetAttack(), defense: 6, damage: 1);
             types = Set<DamageType>.Of(DamageType.Wall);
         }
     }
@@ -76,14 +76,14 @@ public partial class WallCrushingAbility : TouchAbility
     // AoWAb.PAS:2027
     public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        if (CanTouch(attacker, defender))
+        if (CanTouch(attacker, target: defender))
         {
             sbyte hitPoints = defender.HitPoints;
             sbyte defense = defender.GetDefense();
             sbyte resistance = defender.GetResistance();
             Set<DamageType> immunityTypes = defender.GetImmunityTypes();
             Set<DamageType> protectionTypes = defender.GetProtectionTypes();
-            int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(6, 6, Set<DamageType>.Of(DamageType.Wall), hitPoints, defense, resistance, immunityTypes, protectionTypes);
+            int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(6, damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Wall), maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
             damageValues.SourceDamage = statisticsToLimitedDamageValue;
             int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Wall));
             damageValues.SourceCost = statisticsToMaxDamage;
@@ -103,14 +103,14 @@ public partial class WallCrushingAbility : TouchAbility
     // AoWAb.PAS:2047
     public override void TacticalBattleGetDamageValues(CombatObject attacker, CombatObject defender, ref AbilityDamageValues damageValues)
     {
-        if (CanTouch(attacker, defender))
+        if (CanTouch(attacker, target: defender))
         {
             sbyte hitPoints = defender.HitPoints;
             sbyte defense = defender.GetDefense();
             sbyte resistance = defender.GetResistance();
             Set<DamageType> immunityTypes = defender.GetImmunityTypes();
             Set<DamageType> protectionTypes = defender.GetProtectionTypes();
-            int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(6, 6, Set<DamageType>.Of(DamageType.Wall), hitPoints, defense, resistance, immunityTypes, protectionTypes);
+            int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(6, damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Wall), maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
             damageValues.SourceDamage = statisticsToLimitedDamageValue;
             int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Wall));
             damageValues.SourceCost = statisticsToMaxDamage;
@@ -149,7 +149,7 @@ public partial class WallCrushingAbility : TouchAbility
     private static DamageCombatAction CreateDamageCombatAction(CombatObject source, CombatObject target, int attack, int damage, Set<DamageType> damageTypes)
     {
         DamageCombatAction damageCombatAction = new(null) { Holder = source };
-        damageCombatAction.Generate(source, target, (sbyte)attack, (sbyte)damage, damageTypes);
+        damageCombatAction.Generate(source, target, attack: (sbyte)attack, damage: (sbyte)damage, damageTypes);
         return damageCombatAction;
     }
 }

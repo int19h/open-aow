@@ -341,6 +341,15 @@ dotnet_diagnostic.IDE2005.severity = warning
 csharp_style_allow_blank_line_after_token_in_arrow_expression_clause_experimental = false
 dotnet_diagnostic.IDE2006.severity = warning
 
+# The OpenAoW analyzers (analyzers/README.md). AOW0001 names arguments (issue 325).
+# AOW0002 keeps integer-to-enum conversions in read and write code (issue 333). It has
+# remaining sites in game logic and raises to warning when the enum work of issue 333 has
+# removed them. aow_read_write_namespaces names the namespaces, with the ones inside them, that
+# are read and write code as a whole: the format codecs and the SDL host's native records.
+dotnet_diagnostic.AOW0001.severity = warning
+dotnet_diagnostic.AOW0002.severity = suggestion
+aow_read_write_namespaces = Aow.Formats, Aow.Platform
+
 # Exclusions. Severity none. The reason for each one is in style1-status.md, as
 # amended by the decisions of 2026-11-15 (IDE2003 stays off).
 dotnet_diagnostic.IDE0064.severity = none
@@ -390,3 +399,7 @@ dotnet_diagnostic.IDE0240.severity = none
 dotnet_diagnostic.IDE0241.severity = none
 dotnet_diagnostic.IDE0370.severity = none
 dotnet_diagnostic.IDE0080.severity = none
+
+# AOW0002. A test builds enum values from numbers on purpose, out-of-range ones included.
+[{src/*.Tests/*.cs,src/*.Tests/**/*.cs}]
+dotnet_diagnostic.AOW0002.severity = none

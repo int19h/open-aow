@@ -34,7 +34,7 @@ public readonly struct PathStepImage : IRecordImage<PathStepImage, PathStep>
     public static PathStepImage Read(Stream stream)
     {
         PathStepImage image = default;
-        stream.ReadExactly(Bytes.Of(ref image, 4));
+        stream.ReadExactly(Bytes.Of(ref image, count: 4));
         return image;
     }
 
@@ -42,7 +42,7 @@ public readonly struct PathStepImage : IRecordImage<PathStepImage, PathStep>
     public void Write(Stream stream)
     {
         PathStepImage image = this;
-        stream.Write(Bytes.Of(ref image, 4));
+        stream.Write(Bytes.Of(ref image, count: 4));
     }
 
     /// <summary>The four bytes as one little-endian integer, the number the headless trace writes.</summary>

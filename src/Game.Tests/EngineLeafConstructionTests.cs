@@ -46,20 +46,20 @@ public sealed class EngineLeafConstructionTests
         EngineClass meta = EngineClass.Of(type);
         engine.RegisterEngineClasses([EngineClass.Of(type)]);
         EngineObject direct = new PluginControl(argument);
-        EngineObject[] objects = [direct, meta.CreateInstance(argument, holder: EngineFixture.Engine), engine.CreateEngineObject(meta.ClassId, argument)];
+        EngineObject[] objects = [direct, meta.CreateInstance(argument, holder: EngineFixture.Engine), engine.CreateEngineObject(meta.ClassId, owner: argument)];
         EngineObject? copy = null;
         try
         {
             Assert.Equal(80, meta.ClassId);
             foreach (EngineObject value in objects)
             {
-                Assert.IsType(type, value);
+                Assert.IsType(type, @object: value);
                 Assert.Same(argument, value.Owner);
                 Assert.Same(meta, value.EngineClass);
                 AssertLeafState(value);
             }
             copy = direct.Copy(engine);
-            Assert.IsType(type, copy);
+            Assert.IsType(type, @object: copy);
             Assert.Null(copy.Owner);
             // Sort style is constructor state and has no ReadWrite override.
             AssertLeafState(copy);
@@ -159,7 +159,7 @@ public sealed class EngineLeafConstructionTests
             switch (value)
             {
                 case BitList list:
-                    Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.True(Field<Memory<byte>>(list, "List").IsEmpty);
+                    Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.True(Field<Memory<byte>>(list, name: "List").IsEmpty);
                     break;
                 case DoubleItemList list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);
@@ -169,11 +169,11 @@ public sealed class EngineLeafConstructionTests
                     Assert.Equal(0, stream.Capacity); Assert.Empty(stream.Memory);
                     break;
                 case PropertyTable table:
-                    Assert.Empty(Field<Array>(table, "_items")); Assert.Empty(Field<Array>(table, "_stack"));
-                    Assert.Equal(0, Field<int>(table, "Count")); Assert.Equal(0, Field<int>(table, "_capacity"));
-                    Assert.Equal(0, Field<int>(table, "_nextIndex")); Assert.Equal(0, Field<int>(table, "_maxId"));
-                    Assert.Equal(0, Field<int>(table, "_stackCount")); Assert.Equal(0, Field<int>(table, "_stackCapacity"));
-                    Assert.Equal(0, Field<int>(table, "First"));
+                    Assert.Empty(Field<Array>(table, name: "_items")); Assert.Empty(Field<Array>(table, name: "_stack"));
+                    Assert.Equal(0, Field<int>(table, name: "Count")); Assert.Equal(0, Field<int>(table, name: "_capacity"));
+                    Assert.Equal(0, Field<int>(table, name: "_nextIndex")); Assert.Equal(0, Field<int>(table, name: "_maxId"));
+                    Assert.Equal(0, Field<int>(table, name: "_stackCount")); Assert.Equal(0, Field<int>(table, name: "_stackCapacity"));
+                    Assert.Equal(0, Field<int>(table, name: "First"));
                     break;
                 case QuadItemList list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);

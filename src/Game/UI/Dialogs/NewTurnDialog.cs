@@ -137,7 +137,7 @@ public partial class NewTurnDialog(UIContext ui) : UIModule(ui)
             if (StrategicMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).Leader is not null)
             {
                 r = new Rect(Window.WinLeft + 188, Window.WinTop + 40, Window.WinLeft + 188 + 103, Window.WinTop + 40 + 128);
-                StrategicMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).Leader.ShowFace(r, surface);
+                StrategicMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).Leader.ShowFace(r, lockedSurface: surface);
             }
         }
         else
@@ -145,7 +145,7 @@ public partial class NewTurnDialog(UIContext ui) : UIModule(ui)
             if (StrategicMap.Current.Players.GetPlayers(_newTurn.TurnPlayer).Leader is not null)
             {
                 r = new Rect(Window.WinLeft + 188, Window.WinTop + 40, Window.WinLeft + 188 + 103, Window.WinTop + 40 + 128);
-                StrategicMap.Current.Players.GetPlayers(_newTurn.TurnPlayer).Leader.ShowFace(r, surface);
+                StrategicMap.Current.Players.GetPlayers(_newTurn.TurnPlayer).Leader.ShowFace(r, lockedSurface: surface);
             }
         }
     }

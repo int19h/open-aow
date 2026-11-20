@@ -110,23 +110,23 @@ public sealed class RemainingConstructionTests
             }
             if (item is Array array)
             {
-                return array.Cast<object?>().Select((x, i) => State(x, $"{path}[{i}]")).ToArray();
+                return array.Cast<object?>().Select((x, i) => State(x, path: $"{path}[{i}]")).ToArray();
             }
 
             if (InlineArrays.Elements(item) is { } elements)
             {
-                return elements.Select((x, i) => State(x, $"{path}[{i}]")).ToArray();
+                return elements.Select((x, i) => State(x, path: $"{path}[{i}]")).ToArray();
             }
 
             if (item is IList list)
             {
-                return list.Cast<object?>().Select((x, i) => State(x, $"{path}[{i}]")).ToArray();
+                return list.Cast<object?>().Select((x, i) => State(x, path: $"{path}[{i}]")).ToArray();
             }
 
             SortedDictionary<string, object?> fields = new(StringComparer.Ordinal) { ["$type"] = type.FullName };
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
             {
-                foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
+                foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, comparer: StringComparer.Ordinal))
                 {
                     if (MemberNames.Of(field) is "_engineClass" or "EngineClass" or "_actionClass" or "ActionClass" or "_groupClass" or "GroupClass" or "Holder" or "Creator")
                     {
@@ -140,13 +140,13 @@ public sealed class RemainingConstructionTests
                         fields[key] = child is null ? null : "$owner";
                         continue;
                     }
-                    fields[key] = State(child, $"{path}.{key}");
+                    fields[key] = State(child, path: $"{path}.{key}");
                 }
             }
 
             return fields;
         }
-        return JsonSerializer.Serialize(State(value, "$"));
+        return JsonSerializer.Serialize(State(value, path: "$"));
     }
 
     private static readonly string[] s_names =
@@ -245,7 +245,7 @@ public sealed class RemainingConstructionTests
     ];
 
     public static IEnumerable<object[]> Classes => s_names.Select(name => new object[] { name });
-    public static IEnumerable<object[]> GuardedClasses => s_names.Where(name => name.StartsWith("Aow.Game.Magic.Spells.", StringComparison.Ordinal) && name.EndsWith("StormSpell", StringComparison.Ordinal)).Select(name => new object[] { name });
+    public static IEnumerable<object[]> GuardedClasses => s_names.Where(name => name.StartsWith("Aow.Game.Magic.Spells.", comparisonType: StringComparison.Ordinal) && name.EndsWith("StormSpell", comparisonType: StringComparison.Ordinal)).Select(name => new object[] { name });
 
     private static object? Invoke(Func<object?> action)
     {
@@ -283,14 +283,14 @@ public sealed class RemainingConstructionTests
         if (route == 3)
         {
             EngineClass meta = EngineClass.Of(type);
-            return Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine]))!;
+            return Invoke(() => meta.GetType().GetMethod("CreateInstance", types: [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, parameters: [owner, EngineFixture.Engine]))!;
         }
         MethodInfo? factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
         bool node = typeof(EngineObject).IsAssignableFrom(type);
         // A helper that is no engine node takes the node that creates it (issue 224). The test has none.
         ConstructorInfo? constructor = node ? EngineClassCreation.OwnerConstructor(type) : type.GetConstructor([]) ?? type.GetConstructor([typeof(EngineObject)]);
         return factory is not null
-            ? Invoke(() => factory.Invoke(null, factory.GetParameters().Length == 0 ? [] : [owner]))!
+            ? Invoke(() => factory.Invoke(null, parameters: factory.GetParameters().Length == 0 ? [] : [owner]))!
             : constructor is not null
             ? Invoke(() => constructor.Invoke(node
                 ? EngineClassCreation.OwnerArguments(constructor, owner)
@@ -298,7 +298,7 @@ public sealed class RemainingConstructionTests
             : throw new InvalidOperationException($"{type.FullName} has no declared completed construction signature.");
     }
 
-    private static void Check(string name, string key, string actual) => ConstructionSnapshot.Check("RemainingConstruction", $"{name}.{key}", actual);
+    private static void Check(string name, string key, string actual) => ConstructionSnapshot.Check("RemainingConstruction", key: $"{name}.{key}", actual);
 
     [Theory]
     [MemberData(nameof(Classes))]
@@ -318,7 +318,7 @@ public sealed class RemainingConstructionTests
                 try
                 {
                     value = Create(type, owner!, route);
-                    Assert.IsType(type, value);
+                    Assert.IsType(type, @object: value);
                     if (engineObject)
                     {
                         Assert.Same(owner, ((EngineObject)value).Owner);
@@ -348,7 +348,7 @@ public sealed class RemainingConstructionTests
                     states.Add(JsonSerializer.Serialize(owner.Observations));
                 }
 
-                Check(name, $"owner{ownerMode}route{route}", string.Join("\n", states));
+                Check(name, key: $"owner{ownerMode}route{route}", actual: string.Join("\n", values: states));
                 Assert.StartsWith("success:", state);
             }
         }
@@ -364,7 +364,7 @@ public sealed class RemainingConstructionTests
             using Fixture fixture = new();
             RemainingOwner owner = new();
             Spell value = Assert.IsAssignableFrom<Spell>(Create(type, owner, route));
-            Assert.IsType(type, value);
+            Assert.IsType(type, @object: value);
             Assert.Same(owner, value.Owner);
             Assert.Same(value, Assert.Single(owner.Members));
             Assert.NotNull(value.SpellText);

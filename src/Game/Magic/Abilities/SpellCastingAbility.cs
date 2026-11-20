@@ -20,7 +20,7 @@ public class SpellCastingAbility : MultiLevelAbility
     {
         Holder = holder;
         AbilityId = 52;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_spellCastingText);
         AbilityType = AbilityType.Enhancement;
         MaxLevel = 5;
         LevelCosts[1] = 20;
@@ -59,7 +59,7 @@ public class SpellCastingAbility : MultiLevelAbility
                             spell = GamePack.Current.SpellControl[item];
                             if (spell is not null && spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat))
                             {
-                                if (sourceUnit.Troop.CanCastSpellInstantly(spell.SpellId, spell.BaseManaCost, ref error))
+                                if (sourceUnit.Troop.CanCastSpellInstantly(spell.SpellId, mana: spell.BaseManaCost, reason: ref error))
                                 {
                                     spell.FastBattlePrefetchCombatCommands(commands);
                                 }
@@ -140,7 +140,7 @@ public class SpellCastingAbility : MultiLevelAbility
                 Spell spell = GamePack.Current.SpellControl[item];
                 if (spell is not null && spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat) && source.GetCastingPointsMax() >= spell.BaseManaCost)
                 {
-                    spell.FastBattleGetDamageValues(attacker, defender, wallSituation, ref values);
+                    spell.FastBattleGetDamageValues(attacker, target: defender, wallSituation, ref values);
                     if (damageValues.SourceDamage < values.SourceDamage)
                     {
                         damageValues = values;
@@ -166,7 +166,7 @@ public class SpellCastingAbility : MultiLevelAbility
                 Spell spell = GamePack.Current.SpellControl[item];
                 if (spell is not null && spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat) && source.GetCastingPoints() >= spell.BaseManaCost)
                 {
-                    spell.FastBattleGetDamageValues(attacker, defender, WallSituation.None, ref values);
+                    spell.FastBattleGetDamageValues(attacker, target: defender, wallSituation: WallSituation.None, ref values);
                     if (damageValues.SourceDamage < values.SourceDamage)
                     {
                         damageValues = values;
@@ -181,12 +181,12 @@ public class SpellCastingAbility : MultiLevelAbility
     {
         return level switch
         {
-            0 => AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText),
-            1 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText)} I",
-            2 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText)} II",
-            3 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText)} III",
-            4 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText)} IV",
-            5 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText)} V",
+            0 => AbilityRules.TranslateResourceString(GetEngine(), S: s_spellCastingText),
+            1 => $"{AbilityRules.TranslateResourceString(GetEngine(), S: s_spellCastingText)} I",
+            2 => $"{AbilityRules.TranslateResourceString(GetEngine(), S: s_spellCastingText)} II",
+            3 => $"{AbilityRules.TranslateResourceString(GetEngine(), S: s_spellCastingText)} III",
+            4 => $"{AbilityRules.TranslateResourceString(GetEngine(), S: s_spellCastingText)} IV",
+            5 => $"{AbilityRules.TranslateResourceString(GetEngine(), S: s_spellCastingText)} V",
             _ => "",
         };
     }

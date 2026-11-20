@@ -82,7 +82,7 @@ public class MagicSanctuary : Structure
         public override int ResourceUserClassId() => 133274;
 
         // MagicSanctuary.pas:157
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_magicSanctuaryText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_magicSanctuaryText);
 
         private static readonly string s_magicSanctuaryText = "Magic Sanctuary";
 

@@ -11,7 +11,7 @@ public class SummonAirElemental : SummonSpell
     public SummonAirElemental(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_summonAirElementalText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_summonAirElementalText);
         SpellId = 27;
         BaseManaCost = 5;
         SpellLevel = 4;

@@ -87,7 +87,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
             };
 
             // { Original dereferences the destination even for an idle entrance. }
-            ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, field, ((MoveControl)info.Sender).MovePointTable.AtOffset(1 + (16 * field.TerrainType) + field.OverlayType));
+            ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, target: field, movePoints: ((MoveControl)info.Sender).MovePointTable.AtOffset(1 + (16 * field.TerrainType) + field.OverlayType));
         }
     }
 
@@ -226,7 +226,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
             byte visibilityRange = armyHexSprite.Army.VisibilityRange();
             sbyte hexY = armyHexSprite.HexY;
             sbyte hexX = armyHexSprite.HexX;
-            _ = StrategicMap.Current.MapContainer.GetMapLevel(l).ExploreArea(hexX, hexY, armyHexSprite.Army.Player, visibilityRange);
+            _ = StrategicMap.Current.MapContainer.GetMapLevel(l).ExploreArea(hexX, hexY, armyHexSprite.Army.Player, radius: visibilityRange);
         }
     }
 
@@ -301,7 +301,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
             if (!condition)
             {
                 sbyte player = field.GetPlayer();
-                DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(armyHexSprite.Army.Player, player);
+                DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(armyHexSprite.Army.Player, otherPlayer: player);
                 condition = Set<byte>.WithBounds(0, 255).With(1).With(3).Contains((byte)(int)diplomaticRelation);
             }
 
@@ -312,7 +312,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
                     if (!StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).GetBusy())
                     {
                         // { Original passes action before mode. }
-                        TokenEvent eventValue = ArmyHexSprite.CreateArmyMoveTokenEvent(armyHexSprite, selection, path, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
+                        TokenEvent eventValue = ArmyHexSprite.CreateArmyMoveTokenEvent(armyHexSprite, selection, path, action: MoveAction.Attack, mode: Set<ArmyMoveModeElement>.Of());
                         if (eventValue is not null)
                         {
                             StrategicMap.Current.TokenManager.GetTokenControl(armyHexSprite.Army.Player).AddEvent(eventValue);
@@ -331,7 +331,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
                 }
                 else
                 {
-                    result = ArmyHexSprite.MoveArmy(armyHexSprite, selection, path, Set<ArmyMoveModeElement>.Of(), false);
+                    result = ArmyHexSprite.MoveArmy(armyHexSprite, selection, path, mode: Set<ArmyMoveModeElement>.Of(), force: false);
                 }
 
                 if (result && (byte)StrategicMap.Current.SeatedPlayer == (byte)armyHexSprite.Army.Player)
@@ -347,8 +347,8 @@ public partial class Cave(CustomNode owner) : Structure(owner)
                 {
                     sbyte player = field.GetPlayer();
                     Player playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player);
-                    string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
-                    string messageText = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.NoWarDeclaredFormat), [raceNamesPlural]);
+                    string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
+                    string messageText = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.NoWarDeclaredFormat), args: [raceNamesPlural]);
                     StrategicMap.Current.ShowMessage(messageText);
                 }
 
@@ -378,10 +378,10 @@ public partial class Cave(CustomNode owner) : Structure(owner)
                 {
                     Cave = this
                 };
-                string splitOnEnterCaveWarning = AbilityRules.TranslateResourceString(GetEngine(), s_splitOnEnterCaveWarningText);
+                string splitOnEnterCaveWarning = AbilityRules.TranslateResourceString(GetEngine(), S: s_splitOnEnterCaveWarningText);
                 log.Message.Text = splitOnEnterCaveWarning;
                 log.Buttons = MessageEventLogButtons.YesNo;
-                _ = log.Execute(true, ExecuteTrigger.User, null);
+                _ = log.Execute(true, trigger: ExecuteTrigger.User, done: null);
                 _ = log.Release();
                 return true;
             }
@@ -413,7 +413,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
         public override int ResourceUserClassId() => 131966;
 
         // Cave.pas:433
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_caveText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_caveText);
 
         private static readonly string s_caveText = "Cave";
 

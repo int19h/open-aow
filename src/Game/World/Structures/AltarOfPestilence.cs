@@ -25,7 +25,7 @@ public class AltarOfPestilence(CustomNode owner) : Altar(owner)
         public override int ResourceUserClassId() => 131852;
 
         // AltPest.pas:49
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_altarOfPestilenceText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_altarOfPestilenceText);
 
         private static readonly string s_altarOfPestilenceText = "Altar of Pestilence";
 

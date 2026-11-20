@@ -125,7 +125,7 @@ public class AIGroupWanderControl : AIGroupTask
                         // { Original reads the list item before GetXYL. }
                         int targetWeight = fields[i].Second;
                         MapCoordinate location = field.MapCoordinate;
-                        _ = _control.Group.SetupTarget(location, targetWeight, AIGroupTargetStatus.Execute, 1, -1, 0, 0);
+                        _ = _control.Group.SetupTarget(location, movePoints: targetWeight, targetType: AIGroupTargetStatus.Execute, mode: 1, transporterId: -1, gold: 0, mana: 0);
                         State += 1;
                     }
                     else
@@ -147,7 +147,7 @@ public class AIGroupWanderControl : AIGroupTask
                     AIGroupControl aiGroupControl = _control;
                     aiGroupControl.SetupME();
                     MapCoordinate aimed = aiGroupControl.Group.TargetLocation ?? MapCoordinate.None;
-                    aiGroupControl.ExecuteME(aimed.X, aimed.Y, aimed.MapLevel);
+                    aiGroupControl.ExecuteME(aimed.X, aimed.Y, L: aimed.MapLevel);
                 }
 
                 State += 1;

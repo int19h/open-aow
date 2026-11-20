@@ -31,7 +31,7 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
                     {
                         byte duration = GetDuration(owner);
                         int totalDuration = TotalDuration;
-                        string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationDaysFormat), [IntToStr(duration), IntToStr(totalDuration)]);
+                        string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DurationDaysFormat), arguments: [IntToStr(duration), IntToStr(totalDuration)]);
                         return $"{result} {format}";
                     }
 
@@ -39,11 +39,11 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
                 case DurationMode.CombatTurn:
                     byte duration2 = GetDuration(owner);
                     int totalDuration2 = TotalDuration;
-                    string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationCombatTurnFormat), [IntToStr(duration2), IntToStr(totalDuration2)]);
+                    string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DurationCombatTurnFormat), arguments: [IntToStr(duration2), IntToStr(totalDuration2)]);
                     return $"{base.GetName(owner)} {formattedText}";
                 case DurationMode.EntireCombat:
                     string name = base.GetName(owner);
-                    string durationEntireCombat = AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationEntireCombatText);
+                    string durationEntireCombat = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DurationEntireCombatText);
                     return $"{name} {durationEntireCombat}";
                 case DurationMode.None:
                 default:
@@ -105,7 +105,7 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
                 AbilityId = (ushort)AbilityId,
                 Duration = (byte)TotalDuration
             };
-            SetAbility(owner, AbilityId, 1);
+            SetAbility(owner, index: AbilityId, value: 1);
             owner.AddAbilityData(data);
             return true;
         }
@@ -179,7 +179,7 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
     public override bool Remove(AbilityOwner owner)
     {
         AbilityData data = owner.GetAbilityData(AbilityId);
-        SetAbility(owner, AbilityId, 0);
+        SetAbility(owner, index: AbilityId, value: 0);
         if (data is null)
         {
             return false;

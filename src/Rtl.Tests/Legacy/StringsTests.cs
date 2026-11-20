@@ -19,8 +19,8 @@ public sealed class StringsTests
         DelphiStringList list = new();
         TrackObject objectValue = new();
         TrackObject other = new();
-        Assert.Equal(0, list.AddObject("First=one", objectValue));
-        list.InsertObject(1, "blank", other);
+        Assert.Equal(0, list.AddObject("First=one", item: objectValue));
+        list.InsertObject(1, value: "blank", item: other);
         _ = list.Add("FIRST=two");
         _ = list.Add("=emptyname");
         Assert.Equal("First", list.Names[0]);
@@ -50,13 +50,13 @@ public sealed class StringsTests
         Assert.Same(objectValue, copy.Objects[0]);
         copy.AddStrings(list);
         Assert.Equal(list.Count * 2, copy.Count);
-        list.Move(0, 2);
+        list.Move(0, target: 2);
         Assert.Equal("FIRST=updated", list[2]);
         Assert.Same(objectValue, list.Objects[2]);
-        list.Exchange(0, 2);
+        list.Exchange(0, second: 2);
         Assert.Equal("FIRST=updated", list[0]);
         Assert.Same(objectValue, list.Objects[0]);
-        list.Move(-1, -1);
+        list.Move(-1, target: -1);
         _ = Assert.Throws<FormatException>(() => copy.Assign(new Persistent()));
         copy.Assign(copy);
         Assert.Equal(0, copy.Count);
@@ -100,9 +100,9 @@ public sealed class StringsTests
         list.Sorted = true;
         Assert.Empty(events);
         _ = Assert.Throws<InvalidOperationException>(() => list[0] = "z");
-        _ = Assert.Throws<InvalidOperationException>(() => list.Insert(0, "z"));
+        _ = Assert.Throws<InvalidOperationException>(() => list.Insert(0, value: "z"));
         list.Objects[0] = new object();
-        list.Exchange(0, 1);
+        list.Exchange(0, second: 1);
         Assert.Equal(4, events.Count);
         list.Sorted = false;
         events.Clear();
@@ -125,13 +125,13 @@ public sealed class StringsTests
             _ = Assert.Throws<ArgumentOutOfRangeException>(() => list.Objects[i]);
             _ = Assert.Throws<ArgumentOutOfRangeException>(() => list.Objects[i] = null);
             _ = Assert.Throws<ArgumentOutOfRangeException>(() => list.Delete(i));
-            _ = Assert.Throws<ArgumentOutOfRangeException>(() => list.Exchange(0, i));
+            _ = Assert.Throws<ArgumentOutOfRangeException>(() => list.Exchange(0, second: i));
         }
-        _ = Assert.Throws<ArgumentOutOfRangeException>(() => list.Insert(-1, "x"));
-        _ = Assert.Throws<ArgumentOutOfRangeException>(() => list.Insert(2, "x"));
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => list.Insert(-1, value: "x"));
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => list.Insert(2, value: "x"));
         list.Duplicates = Duplicates.Ignore;
         list.Sorted = true;
-        _ = list.AddObject("A", new object());
+        _ = list.AddObject("A", item: new object());
         Assert.Equal(1, list.Count);
         events.Clear();
         list.Dispose();
@@ -172,7 +172,7 @@ public sealed class StringsTests
         public override int Count => _items.Count;
         public override string this[int index] { get => _items[index]; set => _items[index] = value; }
 
-        public override void Insert(int index, string value) => _items.Insert(index, value);
+        public override void Insert(int index, string value) => _items.Insert(index, item: value);
         public override void Delete(int index) => _items.RemoveAt(index);
         public override void Clear() => _items.Clear();
     }
@@ -184,8 +184,8 @@ public sealed class StringsTests
         using ProbeDirectory directory = new();
         PlainStrings source = new();
         object ignored = new();
-        _ = source.AddObject("a", ignored);
-        source.InsertObject(1, "b", ignored);
+        _ = source.AddObject("a", item: ignored);
+        source.InsertObject(1, value: "b", item: ignored);
         Assert.Null(source.Objects[0]);
         source.Objects[0] = ignored;
         Assert.Equal(0, source.IndexOfObject(null));
@@ -193,11 +193,11 @@ public sealed class StringsTests
         Assert.Equal(2, source.Capacity);
         source.Capacity = 100;
         Assert.Equal(2, source.Capacity);
-        source.Exchange(0, 1);
+        source.Exchange(0, second: 1);
         Assert.Equal("b", source[0]);
-        source.Move(0, 1);
+        source.Move(0, target: 1);
         Assert.Equal("a", source[0]);
-        source.Move(-1, -1);
+        source.Move(-1, target: -1);
         Assert.Equal(0, source.IndexOf("A"));
         Assert.Equal(-1, source.IndexOf("c"));
         PlainStrings copy = new();
@@ -216,7 +216,7 @@ public sealed class StringsTests
         copy.Clear();
         copy.LoadFromFile("strings.txt");
         Assert.Equal(source.Text, copy.Text);
-        Assert.Equal("error 1", Assert.Throws<ArgumentException>(() => DelphiStringCollection.Error("error %d", 1)).Message);
+        Assert.Equal("error 1", Assert.Throws<ArgumentException>(() => DelphiStringCollection.Error("error %d", data: 1)).Message);
         copy.BeginUpdate();
         copy.EndUpdate();
         copy.Dispose();

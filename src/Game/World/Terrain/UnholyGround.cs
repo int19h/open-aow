@@ -146,9 +146,9 @@ public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         ArmyEventLog log = new(null)
         {
             Holder = CreationHolder(),
-            ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_unholyGroundDamageText)
+            ArmyText = AbilityRules.TranslateResourceString(GetEngine(), S: s_unholyGroundDamageText)
         };
-        string unholyGroundDamage = AbilityRules.TranslateResourceString(GetEngine(), s_unholyGroundDamageText);
+        string unholyGroundDamage = AbilityRules.TranslateResourceString(GetEngine(), S: s_unholyGroundDamageText);
         _ = log.ArmyMessages.Add(unholyGroundDamage);
         log.ArmyIcon = 2;
         Army armyLocal = army.Army;
@@ -164,7 +164,7 @@ public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner
 
             if (condition && !troop.GetAbilityEnabled(1))
             {
-                int damage = troop.ExecuteDamageRole(4, 3, Set<DamageType>.Of(DamageType.Death));
+                int damage = troop.ExecuteDamageRole(4, damage: 3, damageTypes: Set<DamageType>.Of(DamageType.Death));
                 if (damage > troop.GetHitPoints())
                 {
                     damage = troop.GetHitPoints();
@@ -188,7 +188,7 @@ public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner
 
         log.Player = armyLocal.Player;
         ArmyHexSprite armyHexSprite = armyLocal.GetArmyHexSprite();
-        log.ArmyView.Setup(armyHexSprite.Army, 255);
+        log.ArmyView.Setup(armyHexSprite.Army, selection: 255);
 
         log.ValidateGameOver();
         if (damaged != 0)
@@ -217,7 +217,7 @@ public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         Dispose();
         if (overlay > 0)
         {
-            StrategicMap.Current.PlaceTerrain(field.HexX, field.HexY, field.HexLevel, field.TerrainType, overlay);
+            StrategicMap.Current.PlaceTerrain(field.HexX, field.HexY, L: field.HexLevel, field.TerrainType, overlayType: overlay);
         }
     }
 
@@ -277,7 +277,7 @@ public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner
                 sbyte hexLevel2 = HexLevel;
                 sbyte hexY2 = HexY;
                 sbyte hexX2 = HexX;
-                condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, hexLevel2, 0);
+                condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, L: hexLevel2, radius: 0);
             }
 
             if (condition)
@@ -312,7 +312,7 @@ public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         public override int ResourceUserClassId() => 131985;
 
         // UnHolyG.pas:273
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_unholyGroundText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_unholyGroundText);
 
         private static readonly string s_unholyGroundText = "Unholy Ground";
 

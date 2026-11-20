@@ -16,7 +16,7 @@ public class FireBreath : CombatSpell
     public FireBreath(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_fireBreathText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_fireBreathText);
         SpellId = 114;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;

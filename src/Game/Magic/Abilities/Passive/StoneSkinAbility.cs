@@ -10,7 +10,7 @@ public class StoneSkinAbility : UnitEnchantmentAbility
     public StoneSkinAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.StoneSkinText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.StoneSkinText);
         AbilityId = 153;
     }
 
@@ -23,7 +23,7 @@ public class StoneSkinAbility : UnitEnchantmentAbility
         // { Original assumes the ability data and enchantment exist. }
         UnitEnchantmentAbilityData unitEnchantmentAbilityData = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
         return unitEnchantmentAbilityData.Enchantment.Source == -2
-            ? AbilityRules.TranslateResourceString(GetEngine(), GameText.EarthMasteryText)
+            ? AbilityRules.TranslateResourceString(GetEngine(), S: GameText.EarthMasteryText)
             : base.GetSourceName(owner);
     }
 }

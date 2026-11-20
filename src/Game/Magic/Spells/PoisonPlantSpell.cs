@@ -21,7 +21,7 @@ public class PoisonPlantSpell : GlobalTargetSpell
     public PoisonPlantSpell(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_poisonPlantsText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_poisonPlantsText);
         SpellId = 12;
         BaseManaCost = 5;
         SpellLevel = 2;
@@ -44,8 +44,8 @@ public class PoisonPlantSpell : GlobalTargetSpell
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
         PoisonPlantSpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
-        eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
-        eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
+        eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
+        eventValue.SetLocation((sbyte)X, (sbyte)Y, layer: (sbyte)L);
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
         _ = eventValue.Release();
         return true;

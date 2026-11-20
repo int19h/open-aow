@@ -28,7 +28,7 @@ public class UnitGraphicsResource : EngineResource
     // UnitHS.PAS:1
     public UnitGraphicsResource(CustomNode owner) : base(owner)
     {
-        Sequences = new ImageSequenceList(null, null);
+        Sequences = new ImageSequenceList(null, imageLibrary: null);
         _refCount = 0;
         SfxLibrary sfxLibrary = new(null) { Holder = CreationHolder() };
         SfxLibraries[0] = sfxLibrary;
@@ -143,7 +143,7 @@ public class UnitGraphicsResource : EngineResource
         Sequences.LinkToImageLibrary();
         if (!IsEmpty(_faceImageLibraryName))
         {
-            _faceImageLibrary = Sequences.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _faceImageLibraryName);
+            _faceImageLibrary = Sequences.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: _faceImageLibraryName);
             return;
         }
 
@@ -158,7 +158,7 @@ public class UnitGraphicsResource : EngineResource
         {
             if (!IsEmpty(_faceImageLibraryName))
             {
-                Sequences.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _faceImageLibraryName);
+                Sequences.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: _faceImageLibraryName);
             }
 
             _faceImageLibrary = null;
@@ -170,14 +170,14 @@ public class UnitGraphicsResource : EngineResource
     {
         if (!IsEmpty(_faceImageLibraryName))
         {
-            Sequences.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _faceImageLibraryName);
+            Sequences.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: _faceImageLibraryName);
         }
 
         _faceImageLibraryName = value;
         // { Original releases the old library even when no reference is held. }
         if (!IsEmpty(_faceImageLibraryName) && _refCount != 0)
         {
-            _faceImageLibrary = Sequences.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _faceImageLibraryName);
+            _faceImageLibrary = Sequences.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: _faceImageLibraryName);
         }
     }
 
@@ -198,7 +198,7 @@ public class UnitGraphicsResource : EngineResource
         ImageSequence sequence = Sequences.List[direction - 1];
         while (sequence is not null)
         {
-            int index = sequence.GetFrameIndex(1, 0);
+            int index = sequence.GetFrameIndex(1, offset: 0);
             if (index != -1)
             {
                 sequence.ImageLibrary[index].Show(X, Y, lockedSurface);

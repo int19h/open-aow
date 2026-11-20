@@ -50,10 +50,10 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
                 sbyte hexLevel = HexLevel;
                 sbyte hexY = HexY;
                 sbyte hexX = HexX;
-                notFogEnabled = StrategicMap.Current.VisibleForPlayer(hexX, hexY, hexLevel, StrategicMap.Current.SeatedPlayer);
+                notFogEnabled = StrategicMap.Current.VisibleForPlayer(hexX, hexY, hexLevel, player: StrategicMap.Current.SeatedPlayer);
             }
 
-            if (notFogEnabled || StrategicMap.Current.VisibleForPlayer(Destination.X, Destination.Y, Destination.MapLevel, StrategicMap.Current.SeatedPlayer))
+            if (notFogEnabled || StrategicMap.Current.VisibleForPlayer(Destination.X, Destination.Y, Destination.MapLevel, player: StrategicMap.Current.SeatedPlayer))
             {
                 _ = AudioPlayback.PlaySample("SFX\\PLACES\\TELEPORT.WAV");
             }
@@ -68,7 +68,7 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
         if (info.HexNumber == 0 && !State.Contains(StateElement.Razed))
         {
             MapField fieldValue = StrategicMap.Current.MapContainer.GetField(Destination.X, Destination.Y, Destination.MapLevel);
-            ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, fieldValue, 0);
+            ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, target: fieldValue, movePoints: 0);
         }
     }
 
@@ -109,7 +109,7 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
     {
         if (Destination.X == 0 || Destination.Y == 0)
         {
-            _ = messages.Add($"{AbilityRules.TranslateResourceString(GetEngine(), GameText.WarningText)}: {AbilityRules.TranslateResourceString(GetEngine(), s_invalidLocationSpecifiedText)}");
+            _ = messages.Add($"{AbilityRules.TranslateResourceString(GetEngine(), S: GameText.WarningText)}: {AbilityRules.TranslateResourceString(GetEngine(), S: s_invalidLocationSpecifiedText)}");
             return false;
         }
         else
@@ -126,10 +126,10 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
         sbyte hexLevel = HexLevel;
         sbyte hexY = HexY;
         sbyte hexX = HexX;
-        _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
+        _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY, L: hexLevel);
         animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
         animation.SetImageSequence(GamePack.Current.ImageSequences.ImageSequences[12]);
-        _ = StrategicMap.Current.PlaceHex(animation, Destination.X, Destination.Y, Destination.MapLevel);
+        _ = StrategicMap.Current.PlaceHex(animation, Destination.X, Destination.Y, L: Destination.MapLevel);
     }
 
     // Teleport.pas:185
@@ -175,7 +175,7 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
                 if (!condition)
                 {
                     sbyte playerLocal = field.GetPlayer();
-                    DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(armyHexSprite.Army.Player, playerLocal);
+                    DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(armyHexSprite.Army.Player, otherPlayer: playerLocal);
                     condition = Set<DiplomaticRelation>.Of(DiplomaticRelation.War, DiplomaticRelation.Unknown).Contains(diplomaticRelation);
                 }
 
@@ -186,7 +186,7 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
                         if (!StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).GetBusy())
                         {
                             // { Original passes action before mode. }
-                            TokenEvent eventValue = ArmyHexSprite.CreateArmyMoveTokenEvent(armyHexSprite, 255, path, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
+                            TokenEvent eventValue = ArmyHexSprite.CreateArmyMoveTokenEvent(armyHexSprite, selection: 255, path, action: MoveAction.Attack, mode: Set<ArmyMoveModeElement>.Of());
                             if (eventValue is not null)
                             {
                                 StrategicMap.Current.TokenManager.GetTokenControl(armyHexSprite.Army.Player).AddEvent(eventValue);
@@ -205,7 +205,7 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
                     }
                     else
                     {
-                        result = ArmyHexSprite.MoveArmy(armyHexSprite, 255, path, Set<ArmyMoveModeElement>.Of(), false);
+                        result = ArmyHexSprite.MoveArmy(armyHexSprite, selection: 255, path, mode: Set<ArmyMoveModeElement>.Of(), force: false);
                     }
 
                     if (result && (byte)StrategicMap.Current.SeatedPlayer == (byte)armyHexSprite.Army.Player)
@@ -218,8 +218,8 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
                 {
                     sbyte playerLocal = field.GetPlayer();
                     Player playerPlayerRace = StrategicMap.Current.Players.GetPlayers(playerLocal);
-                    string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
-                    string messageText = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.NoWarDeclaredFormat), [raceNamesPlural]);
+                    string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
+                    string messageText = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.NoWarDeclaredFormat), args: [raceNamesPlural]);
                     StrategicMap.Current.ShowMessage(messageText);
                     result = false;
                 }
@@ -267,7 +267,7 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
         public override int ResourceUserClassId() => 131332;
 
         // Teleport.pas:302
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), TeleportText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: TeleportText);
 
         internal static string TeleportText { get; } = "Teleport";
 

@@ -91,7 +91,7 @@ public static class AudioPlayback
     internal static string GetSongName(string fileName)
     {
         Span<byte> title = stackalloc byte[28];
-        Stream stream = OpenFile(AudioHost.BaseSoundEnginePath + fileName, 0 | 32);
+        Stream stream = OpenFile(AudioHost.BaseSoundEnginePath + fileName, mode: 0 | 32);
         string result;
         try
         {
@@ -99,7 +99,7 @@ public static class AudioPlayback
             title.Clear();
             if (ext == ".IT")
             {
-                _ = stream.Seek(4, SeekOrigin.Begin);
+                _ = stream.Seek(4, origin: SeekOrigin.Begin);
                 stream.ReadExactly(title);
                 return StrPasBuffer(title);
             }
@@ -113,10 +113,10 @@ public static class AudioPlayback
                 else
                 {
                     result = ExtractFileName(fileName);
-                    int p = Pos(".", result);
+                    int p = Pos(".", haystack: result);
                     if (p != 0)
                     {
-                        return Copy(result, 1, p - 1);
+                        return Copy(result, index: 1, count: p - 1);
                     }
                 }
             }

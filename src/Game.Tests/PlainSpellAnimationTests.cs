@@ -46,7 +46,7 @@ public sealed class PlainSpellAnimationTests
             control.UnregisterSpell(spell);
             if (control.RegisteredSpells.Count > count)
             {
-                control.RegisteredSpells.RemoveRange(count, control.RegisteredSpells.Count - count);
+                control.RegisteredSpells.RemoveRange(count, count: control.RegisteredSpells.Count - count);
             }
         }
     }

@@ -17,10 +17,10 @@ internal sealed class GameContentValidator : IDocumentValidator
     public IEnumerable<FormatDiagnostic> Validate(ValidationContext context)
     {
         JsonObject root = context.Root;
-        ContentScope scope = new(context, root, DocumentNodePath.Root);
+        ContentScope scope = new(context, root, rootPath: DocumentNodePath.Root);
         List<FormatDiagnostic> findings = [];
         SchemaClass? rootClass = root["$class"] is JsonString name ? GameFiles.Schema.Find(name.Value) : GameFiles.Schema.Find(context.Profile.RootFamily);
-        Visit(scope, root, rootClass, DocumentNodePath.Root, findings);
+        Visit(scope, value: root, classValue: rootClass, path: DocumentNodePath.Root, findings);
         return findings;
     }
 
@@ -33,7 +33,7 @@ internal sealed class GameContentValidator : IDocumentValidator
                 // resolve inside its root.
                 if (objectValue["$container"] is JsonObject && objectValue["root"] is JsonObject nested && objectValue["$class"] is null)
                 {
-                    Visit(new ContentScope(scope.Context, nested, path.Member("root")), nested, null, path.Member("root"), findings);
+                    Visit(new ContentScope(scope.Context, root: nested, rootPath: path.Member("root")), value: nested, classValue: null, path: path.Member("root"), findings);
                     break;
                 }
                 if (objectValue["$class"] is JsonString name)
@@ -47,7 +47,7 @@ internal sealed class GameContentValidator : IDocumentValidator
                     {
                         foreach (ContentRule rule in rules)
                         {
-                            findings.AddRange(rule.Check(scope, objectValue, path));
+                            findings.AddRange(rule.Check(scope, value: objectValue, path));
                         }
                     }
                 }
@@ -56,7 +56,7 @@ internal sealed class GameContentValidator : IDocumentValidator
                 {
                     if (member.Value is JsonObject or JsonArray && member.Name != "Fields")
                     {
-                        Visit(scope, member.Value, null, path.Member(member.Name), findings);
+                        Visit(scope, member.Value, classValue: null, path: path.Member(member.Name), findings);
                     }
                 }
 
@@ -66,7 +66,7 @@ internal sealed class GameContentValidator : IDocumentValidator
                 {
                     if (array.Items[i] is JsonObject or JsonArray)
                     {
-                        Visit(scope, array.Items[i], null, path.Item(i), findings);
+                        Visit(scope, value: array.Items[i], classValue: null, path: path.Item(i), findings);
                     }
                 }
 

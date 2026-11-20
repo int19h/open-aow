@@ -13,9 +13,9 @@ internal static class PilotImage
     {
         FormatSchema schema = FormatSchema.Current;
         SchemaClass classValue = schema.Get(className);
-        DecodeContext context = new(image, schema, engine, engine, null, FormatLimits.Default);
+        DecodeContext context = new(image, schema, engine, profile: engine, file: null, limits: FormatLimits.Default);
         JsonObject objectValue = new();
-        ObjectImage.Decode(context, 0, image.Length, classValue, DocumentNodePath.Root, objectValue);
+        ObjectImage.Decode(context, start: 0, end: image.Length, classValue, path: DocumentNodePath.Root, target: objectValue);
         return objectValue;
     }
 
@@ -23,9 +23,9 @@ internal static class PilotImage
     {
         FormatSchema schema = FormatSchema.Current;
         SchemaClass classValue = schema.Get(className);
-        EncodeContext context = new(schema, engine, engine, null, FormatLimits.Default);
+        EncodeContext context = new(schema, engine, profile: engine, file: null, limits: FormatLimits.Default);
         ByteBuffer output = new();
-        ObjectImage.Encode(context, objectValue, classValue, output, DocumentNodePath.Root, "$class", "$slot");
+        ObjectImage.Encode(context, objectValue, classValue, output, path: DocumentNodePath.Root, "$class", "$slot");
         return output.ToArray();
     }
 }

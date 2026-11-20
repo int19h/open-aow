@@ -36,24 +36,24 @@ internal static class FrameFixtureChecks
         }
         // The fixture host replays native scripts, so the game writes original names under it.
         Check(!RtlHost.WritesOwnExtensions && FileBoundary.WriteName("roundtrip.asg") == "roundtrip.asg"
-            && FileBoundary.WriteExtension(DocumentKind.Save) == ".asg", "fixture host writes original extensions");
+            && FileBoundary.WriteExtension(DocumentKind.Save) == ".asg", label: "fixture host writes original extensions");
         object instance = new();
-        Check(FrameFixtureInputs.AnimationOffset(instance) == ((RuntimeHelpers.GetHashCode(instance) >>> 2) & 65535), "ordinary animation phase");
-        Check(!new GDPlay().Connected && new GDPlay().ConnectionType == ConnectionType.None, "offline connection queries");
-        Check(ControlWindow.UnitMoveText(32) == "   32", "native unit movement label spacing");
+        Check(FrameFixtureInputs.AnimationOffset(instance) == ((RuntimeHelpers.GetHashCode(instance) >>> 2) & 65535), label: "ordinary animation phase");
+        Check(!new GDPlay().Connected && new GDPlay().ConnectionType == ConnectionType.None, label: "offline connection queries");
+        Check(ControlWindow.UnitMoveText(32) == "   32", label: "native unit movement label spacing");
         FrameFixtureInputs.AddressAnimationPhase = 0;
-        Check(FrameFixtureInputs.AnimationOffset(instance) == 0, "capture phase");
+        Check(FrameFixtureInputs.AnimationOffset(instance) == 0, label: "capture phase");
         FrameFixtureInputs.AddressAnimationPhase = null;
         FixtureClock clock = new(new(2000, 1, 1, 12, 0, 0));
         clock.WaitMilliseconds(90000);
-        Check(clock.Now == new DateTime(2000, 1, 1, 12, 0, 0) && clock.ElapsedMilliseconds == 90000, "wall time stays fixed while pacing advances");
-        Check(DelphiDateTime.DateTimeToStr(DelphiDateTime.EncodeDate(2000, 1, 1) + DelphiDateTime.EncodeTime(12, 0, 0, 0)) == "1/1/2000 12:00:00 PM", "native English file date includes seconds and the day period");
+        Check(clock.Now == new DateTime(2000, 1, 1, 12, 0, 0) && clock.ElapsedMilliseconds == 90000, label: "wall time stays fixed while pacing advances");
+        Check(DelphiDateTime.DateTimeToStr(DelphiDateTime.EncodeDate(2000, 1, 1) + DelphiDateTime.EncodeTime(12, 0, 0, millisecond: 0)) == "1/1/2000 12:00:00 PM", label: "native English file date includes seconds and the day period");
 
         DateTime displayedFileTime = new(2000, 1, 1, 13, 0, 0);
-        Check(FrameFixture.FileStampUtc(displayedFileTime, TimeSpan.FromHours(-7)) ==
-            new DateTime(2000, 1, 1, 20, 0, 0, DateTimeKind.Utc), "daylight file stamp preserves captured 1 PM text");
-        Check(FrameFixture.FileStampUtc(displayedFileTime, TimeSpan.FromHours(-8)) ==
-            new DateTime(2000, 1, 1, 21, 0, 0, DateTimeKind.Utc), "standard file stamp preserves captured 1 PM text");
+        Check(FrameFixture.FileStampUtc(displayedFileTime, offset: TimeSpan.FromHours(-7)) ==
+            new DateTime(2000, 1, 1, 20, 0, 0, kind: DateTimeKind.Utc), label: "daylight file stamp preserves captured 1 PM text");
+        Check(FrameFixture.FileStampUtc(displayedFileTime, offset: TimeSpan.FromHours(-8)) ==
+            new DateTime(2000, 1, 1, 21, 0, 0, kind: DateTimeKind.Utc), label: "standard file stamp preserves captured 1 PM text");
 
         StrategicMap oldMap = StrategicMap.Current;
         ISettingsStore oldSettings = RtlHost.Settings;
@@ -72,11 +72,11 @@ internal static class FrameFixtureChecks
             _ = manager.Children.Add(menu);
             _ = manager.Children.Add(hidden);
             General controller = new(ui) { Manager = manager };
-            Check(!General.HasModalWindow(controller), "modeless menu and hidden window do not block the map");
+            Check(!General.HasModalWindow(controller), label: "modeless menu and hidden window do not block the map");
             menu.Modal = true;
-            Check(General.HasModalWindow(controller), "modal sibling menu blocks input");
+            Check(General.HasModalWindow(controller), label: "modal sibling menu blocks input");
             controller.HideTransientWindows();
-            Check(!menu.Visible && mapWindow.Visible, "hide modal sibling and retain map");
+            Check(!menu.Visible && mapWindow.Visible, label: "hide modal sibling and retain map");
 
             PlayerCollection players = new(null) { Holder = startup.Engine };
             // The constructor sizes the list for two players. The check wants exactly three.
@@ -96,33 +96,33 @@ internal static class FrameFixtureChecks
             bar.WorldMessageEdit.Alignment.LeftOffset = 48;
             bar.UpdatePlayerIndicator();
             Check(bar.PlayerIndicatorFrame.WinWidth == 14 && bar.WorldMessageEdit.Alignment.RightOffset == 292 &&
-                bar.WorldMessageEdit.Alignment.LeftOffset == 48, "indicator counts active players and reserves the right side");
-            Check(!bar.PlayerIndicatorFrame.Aligned && !bar.WorldMessageEdit.Aligned, "indicator invalidates alignment");
+                bar.WorldMessageEdit.Alignment.LeftOffset == 48, label: "indicator counts active players and reserves the right side");
+            Check(!bar.PlayerIndicatorFrame.Aligned && !bar.WorldMessageEdit.Aligned, label: "indicator invalidates alignment");
             Check(GameTables.MagicSphereTexts[(int)MagicSphere.Life] == "Life" &&
-                GameTables.MagicSphereTexts[(int)MagicSphere.Cosmos] == "Cosmos", "sphere names are initialized");
+                GameTables.MagicSphereTexts[(int)MagicSphere.Cosmos] == "Cosmos", label: "sphere names are initialized");
             Check(GameTables.PlayerBehaviorTexts[(int)PlayerBehavior.Normal] == "Normal" &&
-                GameTables.PlayerBehaviorTexts[(int)PlayerBehavior.Random] == "Random", "setup behavior names are initialized");
+                GameTables.PlayerBehaviorTexts[(int)PlayerBehavior.Random] == "Random", label: "setup behavior names are initialized");
 
             RtlHost.Settings = new MemorySettingsStore();
             startup.Engine.Registry.SetMovementSpeed(GameSettings.MovementSpeed.Normal);
             FrameFixtureInputs.MeasuredFrameRate = 9;
             MapWindow world = new(ui) { MainWindow = mapWindow };
             world.MapWindowUpdate();
-            Check(StrategicMap.Current.FPS == 9, "captured FPS reaches the strategic movement input");
+            Check(StrategicMap.Current.FPS == 9, label: "captured FPS reaches the strategic movement input");
             MovementArmy army = new() { Holder = startup.Engine, MoveStep = -1, UnitGraphicsResource = new(null) { Holder = startup.Engine, MoveAnimationSpeed = 2 } };
-            _ = army.MoveFirst(1, false);
-            Check(army.MoveSteps == 4, "native capture advances each eight-step move in four frames");
+            _ = army.MoveFirst(1, instant: false);
+            Check(army.MoveSteps == 4, label: "native capture advances each eight-step move in four frames");
             foreach (int fps in new[] { 1, 6, 8, 9, 14 })
             {
                 StrategicMap.Current.UpdateFPS(fps);
                 army.MoveStep = -1;
-                _ = army.MoveFirst(1, false);
-                Check(army.MoveSteps == 4, $"positive FPS below 15 preserves the captured movement tier: {fps}");
+                _ = army.MoveFirst(1, instant: false);
+                Check(army.MoveSteps == 4, label: $"positive FPS below 15 preserves the captured movement tier: {fps}");
             }
             StrategicMap.Current.UpdateFPS(30);
             army.MoveStep = -1;
-            _ = army.MoveFirst(1, false);
-            Check(army.MoveSteps == 8, "normal measured FPS retains the eight-step animation");
+            _ = army.MoveFirst(1, instant: false);
+            Check(army.MoveSteps == 8, label: "normal measured FPS retains the eight-step animation");
         }
         finally
         {
@@ -148,7 +148,7 @@ internal static class FrameFixtureChecks
         internal StartupScope(string root)
         {
             _ = Directory.CreateDirectory(_scratch);
-            RtlHost.InstallHost(new FrameFixture.FixtureHost(root, _scratch, [], _clock, null));
+            RtlHost.InstallHost(new FrameFixture.FixtureHost(root, user: _scratch, settings: [], _clock, saveDirectory: null));
             Startup.InitializeAll();
             NullSoundSystem.Install();
             Engine = Startup.CreateEngine();
@@ -165,7 +165,7 @@ internal static class FrameFixtureChecks
             RtlHost.Clock = _clock;
             LegacyApplication.Application.ExeName = _executable;
             RtlHost.WritesOwnExtensions = _ownExtensions;
-            Directory.Delete(_scratch, true);
+            Directory.Delete(_scratch, recursive: true);
         }
     }
 

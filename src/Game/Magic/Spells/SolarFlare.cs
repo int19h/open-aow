@@ -16,7 +16,7 @@ public class SolarFlare : CombatSpell
     public SolarFlare(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_solarFlareText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_solarFlareText);
         SpellId = 100;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 8;

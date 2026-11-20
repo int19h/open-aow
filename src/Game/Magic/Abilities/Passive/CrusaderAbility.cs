@@ -13,7 +13,7 @@ public class CrusaderAbility : DurationAbility
     public CrusaderAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_crusaderText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_crusaderText);
         AbilityId = 101;
         AbilityType = AbilityType.Handicap;
         DurationMode = DurationMode.Day;

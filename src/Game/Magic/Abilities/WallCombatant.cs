@@ -34,9 +34,9 @@ public class WallCombatant(CustomNode owner) : Troop(owner)
     {
         return _wallType switch
         {
-            WallType.Wood => AbilityRules.TranslateResourceString(GetEngine(), GameText.WoodenWallText),
-            WallType.Stone => AbilityRules.TranslateResourceString(GetEngine(), GameText.StoneWallText),
-            WallType.None => AbilityRules.TranslateResourceString(GetEngine(), GameText.UndefinedWallText),
+            WallType.Wood => AbilityRules.TranslateResourceString(GetEngine(), S: GameText.WoodenWallText),
+            WallType.Stone => AbilityRules.TranslateResourceString(GetEngine(), S: GameText.StoneWallText),
+            WallType.None => AbilityRules.TranslateResourceString(GetEngine(), S: GameText.UndefinedWallText),
             _ => "",
         };
     }

@@ -65,15 +65,15 @@ public static class DocumentValidation
         try
         {
             JsonValue rootValue;
-            (profile, kind, _, rootValue) = GameFiles.Envelope(document, file);
+            (profile, kind, _, rootValue) = GameFiles.Envelope(document, fileName: file);
             if (rootValue is not JsonObject root)
             {
-                throw new ConversionException(new FormatDiagnostic(Codes.Type, "The root is an object.")
+                throw new ConversionException(new FormatDiagnostic(Codes.Type, Message: "The root is an object.")
                 { File = file, Span = rootValue.Span, Path = "root" });
             }
 
             FormatSchema schema = GameFiles.Schema;
-            SchemaClass classValue = profile.RootClass(new EncodeContext(schema, profile.Engine, profile.Name, file, FormatLimits.Default), root: root);
+            SchemaClass classValue = profile.RootClass(new EncodeContext(schema, profile.Engine, profile: profile.Name, file, limits: FormatLimits.Default), root: root);
             JsonObject body = root;
             if (profile.RootHasClass)
             {

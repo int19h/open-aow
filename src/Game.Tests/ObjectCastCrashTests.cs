@@ -120,33 +120,33 @@ public sealed class ObjectCastCrashTests
         HolyGround holy = new(null) { Holder = EngineFixture.Engine };
         Own(holy, scope.Field);
         holy.Mode = Set<HolySummoning>.Of(HolySummoning.Summoning);
-        holy.NewFrameSummonAnimation(animation, 8);
+        holy.NewFrameSummonAnimation(animation, frameCounter: 8);
         Assert.True(holy.Mode.Contains(HolySummoning.Summoning));
-        holy.NewFrameSummonAnimation(animation, 9);
+        holy.NewFrameSummonAnimation(animation, frameCounter: 9);
         Assert.False(holy.Mode.Contains(HolySummoning.Summoning));
 
         UnholyGround unholy = new(null) { Holder = EngineFixture.Engine };
         Own(unholy, scope.Field);
         unholy.Mode = Set<UnholySummoning>.Of(UnholySummoning.Summoning);
-        unholy.NewFrameSummonAnimation(animation, 8);
+        unholy.NewFrameSummonAnimation(animation, frameCounter: 8);
         Assert.True(unholy.Mode.Contains(UnholySummoning.Summoning));
-        unholy.NewFrameSummonAnimation(animation, 9);
+        unholy.NewFrameSummonAnimation(animation, frameCounter: 9);
         Assert.False(unholy.Mode.Contains(UnholySummoning.Summoning));
 
         PoisonPlant plant = new(null) { Holder = EngineFixture.Engine };
         Own(plant, scope.Field);
         plant.PlantStatus = Set<PoisonPlantStatusElement>.Of(PoisonPlantStatusElement.Summoning);
-        plant.NewFrameSummonAnimation(animation, 8);
+        plant.NewFrameSummonAnimation(animation, frameCounter: 8);
         Assert.True(plant.PlantStatus.Contains(PoisonPlantStatusElement.Summoning));
-        plant.NewFrameSummonAnimation(animation, 9);
+        plant.NewFrameSummonAnimation(animation, frameCounter: 9);
         Assert.False(plant.PlantStatus.Contains(PoisonPlantStatusElement.Summoning));
 
         RaisedMountain mountain = new(null) { Holder = EngineFixture.Engine };
         Own(mountain, scope.Field);
         mountain.Mode = Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);
-        mountain.NewFrameRaiseTerrainAnimation(animation, 8);
+        mountain.NewFrameRaiseTerrainAnimation(animation, frameCounter: 8);
         Assert.True(mountain.Mode.Contains(RaisedMountainMode.Raising));
-        mountain.NewFrameRaiseTerrainAnimation(animation, 9);
+        mountain.NewFrameRaiseTerrainAnimation(animation, frameCounter: 9);
         Assert.False(mountain.Mode.Contains(RaisedMountainMode.Raising));
     }
 
@@ -219,11 +219,11 @@ public sealed class ObjectCastCrashTests
             MapObjectResourceList clearing = new(null) { Holder = EngineFixture.Engine };
             _ = clearing.AddChild(new MapObjectResource(null) { Holder = EngineFixture.Engine });
             TerrainMapObjectResource wide = new(null) { Holder = EngineFixture.Engine };
-            wide.TerrainList.SetTerrain(0, 1);
-            wide.TerrainList.SetTerrain(1, 1);
+            wide.TerrainList.SetTerrain(0, value: 1);
+            wide.TerrainList.SetTerrain(1, value: 1);
             ListedTerrain terrain = new(clearing);
             terrain.SetResourceWithoutOverrides(wide);
-            terrain.ClearTerrain(null, 0);
+            terrain.ClearTerrain(null, hexNumber: 0);
             Assert.True(terrain.Destroyed);
         }
         finally

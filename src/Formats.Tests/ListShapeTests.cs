@@ -21,28 +21,28 @@ public sealed class ListShapeTests : FormatsTest
     [Fact]
     public void ABitListStoresItsSetIndicesAndDefaultTail()
     {
-        JsonValue value = Decode("Player", "AIValidAttackPlayers", s_bits);
+        JsonValue value = Decode("Player", property: "AIValidAttackPlayers", bytes: s_bits);
         Assert.Equal("""{"default":false,"count":13,"bits":[0,2,12]}""", Compact(value));
-        Assert.Equal(s_bits, Encode("Player", "AIValidAttackPlayers", value));
-        JsonValue trueValue = Decode("Player", "AIValidAttackPlayers", s_trueBits);
+        Assert.Equal(s_bits, Encode("Player", property: "AIValidAttackPlayers", value));
+        JsonValue trueValue = Decode("Player", property: "AIValidAttackPlayers", bytes: s_trueBits);
         Assert.Equal("""{"default":true,"count":13,"bits":[0,2,12]}""", Compact(trueValue));
-        Assert.Equal(s_trueBits, Encode("Player", "AIValidAttackPlayers", trueValue));
+        Assert.Equal(s_trueBits, Encode("Player", property: "AIValidAttackPlayers", value: trueValue));
         byte[] odd = [2, 0, 0, 0, 0];
-        JsonValue other = Decode("Sign", "TextSeen", odd);
+        JsonValue other = Decode("Sign", property: "TextSeen", bytes: odd);
         Assert.Equal("""{"default":2,"count":0,"bits":[]}""", Compact(other));
-        Assert.Equal(odd, Encode("Sign", "TextSeen", other));
+        Assert.Equal(odd, Encode("Sign", property: "TextSeen", value: other));
     }
 
     [Fact]
     public void ABitListWithWrongTailBitsIsRefused()
     {
         byte[] falseBadTail = [0, 13, 0, 0, 0, 0x05, 0x90];
-        ConversionException falseError = Assert.Throws<ConversionException>(() => Decode("Player", "AIValidAttackPlayers", falseBadTail));
+        ConversionException falseError = Assert.Throws<ConversionException>(() => Decode("Player", property: "AIValidAttackPlayers", bytes: falseBadTail));
         Assert.Equal(Codes.Range, falseError.Diagnostic.Code);
         Assert.Equal("root.AIValidAttackPlayers.bits", falseError.Diagnostic.Path);
 
         byte[] trueBadTail = [1, 13, 0, 0, 0, 0x05, 0x10];
-        ConversionException trueError = Assert.Throws<ConversionException>(() => Decode("Player", "AIValidAttackPlayers", trueBadTail));
+        ConversionException trueError = Assert.Throws<ConversionException>(() => Decode("Player", property: "AIValidAttackPlayers", bytes: trueBadTail));
         Assert.Equal(Codes.Range, trueError.Diagnostic.Code);
         Assert.Equal("root.AIValidAttackPlayers.bits", trueError.Diagnostic.Path);
     }
@@ -56,41 +56,41 @@ public sealed class ListShapeTests : FormatsTest
     [InlineData("""{"default":false,"count":13,"bits":"0590"}""", Codes.Type, "root.VictoryLocations.bits")]
     [InlineData("""{"default":false,"count":13,"bits":[],"extra":1}""", Codes.UnknownMember, "root.VictoryLocations.extra")]
     public void AMalformedBitListIsRefused(string json, string code, string path)
-        => Refused("PlayerStructure", "VictoryLocations", json, code, path);
+        => Refused("PlayerStructure", property: "VictoryLocations", json, code, path);
 
     [Fact]
     public void EnumListsStoreNames()
     {
         byte[] relations = [3, 4, 0, 0, 0, 1, 0, 2, 7];
-        JsonValue value = Decode("PlayerDiplomaticRelations", "Relations", relations);
+        JsonValue value = Decode("PlayerDiplomaticRelations", property: "Relations", bytes: relations);
         Assert.Equal("""{"default":"Unknown","items":["War","Peace","Alliance",7]}""", Compact(value));
-        Assert.Equal(relations, Encode("PlayerDiplomaticRelations", "Relations", value));
+        Assert.Equal(relations, Encode("PlayerDiplomaticRelations", property: "Relations", value));
         byte[] spheres = [0, 3, 0, 0, 0, 3, 7, 0, 1];
-        JsonValue picks = Decode("Leader", "Spheres", spheres);
+        JsonValue picks = Decode("Leader", property: "Spheres", bytes: spheres);
         Assert.Equal("""{"default":"Cosmos","items":["Earth","Secret","Cosmos"]}""", Compact(picks));
-        Assert.Equal(spheres, Encode("Leader", "Spheres", picks));
+        Assert.Equal(spheres, Encode("Leader", property: "Spheres", value: picks));
     }
 
     [Fact]
     public void AnUnknownEnumNameIsRefused()
     {
-        Refused("PlayerDiplomaticRelations", "Relations", """{"default":"Unknown","items":["Friendly"]}""", Codes.Type, "root.Relations.items[0]");
-        Refused("Race", "DefaultRelations", """{"default":"Nobody","items":[]}""", Codes.Type, "root.DefaultRelations.default");
+        Refused("PlayerDiplomaticRelations", property: "Relations", json: """{"default":"Unknown","items":["Friendly"]}""", code: Codes.Type, path: "root.Relations.items[0]");
+        Refused("Race", property: "DefaultRelations", json: """{"default":"Nobody","items":[]}""", code: Codes.Type, path: "root.DefaultRelations.default");
     }
 
     [Fact]
     public void ACollectionStoresTrimmedGroups()
     {
         long[] flat = [198, 201, 199, -1, -1, -1, -1, -1, 203, 200, 200, -1, -1, -1, -1, -1, -1, -1, -1];
-        byte[] bytes = RunList(-1, flat);
-        JsonValue value = Decode("StructureResource", "Defenders", bytes);
+        byte[] bytes = RunList(-1, items: flat);
+        JsonValue value = Decode("StructureResource", property: "Defenders", bytes);
         Assert.Equal("""{"groups":[[198,201,199],[203,200,200],[]],"count":19}""", Compact(value));
-        Assert.Equal(bytes, Encode("StructureResource", "Defenders", value));
+        Assert.Equal(bytes, Encode("StructureResource", property: "Defenders", value));
         long[] full = [1, -1, 2, -1, -1, -1, -1, -1, 4, 4, 4, 4, 4, 4, 4, 4];
-        JsonValue other = Decode("ExplorationSiteResource", "DefenderCollections", RunList(5, full));
+        JsonValue other = Decode("ExplorationSiteResource", property: "DefenderCollections", bytes: RunList(5, items: full));
         Assert.Equal("""{"default":5,"groups":[[1,-1,2],[4,4,4,4,4,4,4,4]]}""", Compact(other));
-        Assert.Equal(RunList(5, full), Encode("ExplorationSiteResource", "DefenderCollections", other));
-        Assert.Equal("""{"groups":[]}""", Compact(Decode("StructureResource", "Defenders", RunList(-1, []))));
+        Assert.Equal(RunList(5, items: full), Encode("ExplorationSiteResource", property: "DefenderCollections", value: other));
+        Assert.Equal("""{"groups":[]}""", Compact(Decode("StructureResource", property: "Defenders", bytes: RunList(-1, items: []))));
     }
 
     [Theory]
@@ -103,26 +103,26 @@ public sealed class ListShapeTests : FormatsTest
     [InlineData("""{"count":0}""", Codes.MissingMember, "root.Defenders")]
     [InlineData("""{"groups":[],"$slot":1}""", Codes.ReservedMember, "root.Defenders.$slot")]
     public void AMalformedCollectionIsRefused(string json, string code, string path)
-        => Refused("StructureResource", "Defenders", json, code, path);
+        => Refused("StructureResource", property: "Defenders", json, code, path);
 
     [Fact]
     public void AMovePathStoresMapCoordinates()
     {
-        byte[] bytes = RunList(0, [0x03000201, 0, 0, unchecked((int)0xFF0001FE)]);
-        JsonValue value = Decode("MoveTokenEvent", "Path", bytes);
+        byte[] bytes = RunList(0, items: [0x03000201, 0, 0, unchecked((int)0xFF0001FE)]);
+        JsonValue value = Decode("MoveTokenEvent", property: "Path", bytes);
         Assert.Equal("""{"default":{},"items":[{"X":1,"Y":2,"Tag":3},{},{},{"X":-2,"Y":1,"Tag":-1}]}""", Compact(value));
-        Assert.Equal(bytes, Encode("MoveTokenEvent", "Path", value));
-        Refused("MoveTokenEvent", "Path", """{"default":{},"items":[{"Z":1}]}""", Codes.UnknownMember, "root.Path.items[0].Z");
+        Assert.Equal(bytes, Encode("MoveTokenEvent", property: "Path", value));
+        Refused("MoveTokenEvent", property: "Path", json: """{"default":{},"items":[{"Z":1}]}""", code: Codes.UnknownMember, path: "root.Path.items[0].Z");
     }
 
     [Fact]
     public void AUnitIndexListIsAListWithADefault()
     {
-        byte[] bytes = RunList(-1, [12, -1, -1, 40]);
-        JsonValue value = Decode("RaceResource", "UnitIndexes", bytes);
+        byte[] bytes = RunList(-1, items: [12, -1, -1, 40]);
+        JsonValue value = Decode("RaceResource", property: "UnitIndexes", bytes);
         Assert.Equal("""{"default":-1,"items":[12,-1,-1,40]}""", Compact(value));
-        Assert.Equal(bytes, Encode("RaceResource", "UnitIndexes", value));
-        Assert.Equal("""{"default":"Unknown","items":["Alliance","Unknown"]}""", Compact(Decode("Player", "LegacyNewRelations", [3, 2, 0, 0, 0, 2, 3, 1])));
+        Assert.Equal(bytes, Encode("RaceResource", property: "UnitIndexes", value));
+        Assert.Equal("""{"default":"Unknown","items":["Alliance","Unknown"]}""", Compact(Decode("Player", property: "LegacyNewRelations", bytes: [3, 2, 0, 0, 0, 2, 3, 1])));
     }
 
     private static SchemaProperty Property(string className, string property)
@@ -131,23 +131,23 @@ public sealed class ListShapeTests : FormatsTest
     private static JsonValue Decode(string className, string property, byte[] bytes)
     {
         SchemaProperty prop = Property(className, property);
-        DecodeContext context = new(bytes, FormatSchema.Current, "game", "world-hsm", "lists.json", FormatLimits.Default);
+        DecodeContext context = new(bytes, schema: FormatSchema.Current, engine: "game", profile: "world-hsm", file: "lists.json", limits: FormatLimits.Default);
         ValueSite site = new() { Property = prop, Id = prop.Id ?? 0, Path = DocumentNodePath.Root.Member(property), Owner = new JsonObject() };
-        return prop.Codec.Decode(context, 0, bytes.Length, site);
+        return prop.Codec.Decode(context, start: 0, end: bytes.Length, site);
     }
 
     private static byte[] Encode(string className, string property, JsonValue value)
     {
         SchemaProperty prop = Property(className, property);
-        EncodeContext context = new(FormatSchema.Current, "game", "world-hsm", "lists.json", FormatLimits.Default);
+        EncodeContext context = new(FormatSchema.Current, engine: "game", profile: "world-hsm", file: "lists.json", limits: FormatLimits.Default);
         ByteBuffer data = new();
-        prop.Codec.Encode(context, value, data, new ValueSite { Property = prop, Id = prop.Id ?? 0, Path = DocumentNodePath.Root.Member(property), Owner = new JsonObject() });
+        prop.Codec.Encode(context, value, data, site: new ValueSite { Property = prop, Id = prop.Id ?? 0, Path = DocumentNodePath.Root.Member(property), Owner = new JsonObject() });
         return data.ToArray();
     }
 
     private static void Refused(string className, string property, string json, string code, string path)
     {
-        ConversionException error = Assert.Throws<ConversionException>(() => Encode(className, property, JsonReader.Parse(json)));
+        ConversionException error = Assert.Throws<ConversionException>(() => Encode(className, property, value: JsonReader.Parse(json)));
         Assert.Equal(code, error.Diagnostic.Code);
         Assert.Equal(path, error.Diagnostic.Path);
     }
@@ -157,7 +157,7 @@ public sealed class ListShapeTests : FormatsTest
     {
         StringBuilder text = new();
         JsonWriter.WriteCompact(text, value);
-        return text.ToString().Replace(": ", ":", StringComparison.Ordinal).Replace(", ", ",", StringComparison.Ordinal);
+        return text.ToString().Replace(": ", ":", comparisonType: StringComparison.Ordinal).Replace(", ", ",", comparisonType: StringComparison.Ordinal);
     }
 
     private static byte[] RunList(int defaultValue, long[] items)

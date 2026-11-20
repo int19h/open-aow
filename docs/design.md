@@ -701,6 +701,7 @@ src/Platform/         the SDL host: window, input, audio, video, files, settings
 src/Headless/         the host without a display, for the oracle                    testing.md
 src/Rtl.Tests/        xUnit tests of the RTL shim                                    rtl-shim.md 8
 src/Formats.Tests/    xUnit tests of the own formats                                 own-formats.md
+analyzers/            Roslyn analyzers that the product build loads, with tests      analyzers/README.md
 
 D:\git\open-aow-private
 correspondence/       requests to and replies from the recovery project, dated      (exists)

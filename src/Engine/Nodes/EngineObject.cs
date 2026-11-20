@@ -192,7 +192,7 @@ public class EngineObject : IDisposable, IPersistable, IOwned
         _ = (_owner?.RemoveChild(this));
 
         _owner = owner;
-        _owner?.SetChild(index, this);
+        _owner?.SetChild(index, child: this);
     }
 
     // Engine.pas:2436
@@ -238,7 +238,7 @@ public class EngineObject : IDisposable, IPersistable, IOwned
     {
         if (owner is not null && !AcceptsOwner(owner))
         {
-            throw new ArgumentException($"{GetType().Name} does not take an owner of type {owner.GetType().Name}.", nameof(owner));
+            throw new ArgumentException($"{GetType().Name} does not take an owner of type {owner.GetType().Name}.", paramName: nameof(owner));
         }
     }
 

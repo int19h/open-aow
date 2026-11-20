@@ -109,7 +109,7 @@ public class RaceList : ControlStyleNode, IChildList<Race>
                         Holder = CreationHolder(),
                         RaceIndex = (sbyte)i
                     };
-                    race.SetArrayOwner(this, i);
+                    race.SetArrayOwner(this, index: i);
                     race.SetEnabled(true);
                 }
             }

@@ -109,7 +109,7 @@ public class CombatFire(CustomNode owner) : SingleHexSprite(owner)
                 for (int i = 1; i <= 6; i++)
                 {
                     sbyte hexY2 = HexY;
-                    HexGeometry.CenterHexNumberToHex(HexX, hexY2, i, ref hexX, ref hexY);
+                    HexGeometry.CenterHexNumberToHex(HexX, hexY2, hexNumber: i, ref hexX, ref hexY);
                     if (hexX > 0 && hexY > 0)
                     {
                         EffectPaths.CreateFire(50, hexX, hexY, engine: GetEngine());
@@ -132,7 +132,7 @@ public class CombatFire(CustomNode owner) : SingleHexSprite(owner)
         {
             do
             {
-                int imageIndex = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                int imageIndex = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
                 if (imageIndex != -1)
                 {
                     sequence.ImageLibrary.Get(imageIndex).Show(pixelXSurface + sequence.OffsetX + _xShift, pixelYSurface + sequence.OffsetY + _yShift, lockedSurface);

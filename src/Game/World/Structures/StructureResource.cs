@@ -126,7 +126,7 @@ public class StructureResource : FixedImageLibraryTerrainMapObjectResource
             }
             else
             {
-                ShowComplexImage(X, Y, lockedSurface, structure.ImageIndex, (uint)(structure.Owner.HexX + (structure.Owner.HexY * 16)));
+                ShowComplexImage(X, Y, lockedSurface, index: structure.ImageIndex, offset: (uint)(structure.Owner.HexX + (structure.Owner.HexY * 16)));
             }
         }
     }

@@ -121,7 +121,7 @@ public static class RecordCatalog
     }
 
     internal static RecordTypeInfo Require(string typeName, string? file, string path)
-        => Find(typeName) ?? throw new ConversionException(new FormatDiagnostic(Codes.Type, $"The record {typeName} is not in the catalog.")
+        => Find(typeName) ?? throw new ConversionException(new FormatDiagnostic(Codes.Type, Message: $"The record {typeName} is not in the catalog.")
         { File = file, Path = path });
 }
 
@@ -244,7 +244,7 @@ internal sealed partial class RecordTypeInfo
 
             int at = offset!.Value;
             int fieldSize = FieldSize(field);
-            named.Add(DescribeField(type, field, at, fieldSize));
+            named.Add(DescribeField(type, field, offset: at, size: fieldSize));
         }
         foreach (StoredPaddingAttribute declared in type.GetCustomAttributes<StoredPaddingAttribute>(inherit: false))
         {
@@ -277,12 +277,12 @@ internal sealed partial class RecordTypeInfo
         named.Sort(static (a, b) => a.Offset.CompareTo(b.Offset));
         foreach (RecordFieldInfo field in named)
         {
-            Cover(field.Offset, field.Size, field.Name);
+            Cover(field.Offset, length: field.Size, field.Name);
         }
 
         foreach ((int offset, int length) in padding)
         {
-            Cover(offset, length, "padding");
+            Cover(offset, length, name: "padding");
         }
 
         for (int i = 0; i < size; i++)
@@ -304,7 +304,7 @@ internal sealed partial class RecordTypeInfo
         {
             FieldInfo element = field.FieldType.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).FirstOrDefault()
                 ?? throw new InvalidOperationException($"{owner.Name}.{field.Name} has no element.");
-            (int width, bool signed) = IntegerLayout(element.FieldType, $"{owner.Name}.{field.Name}");
+            (int width, bool signed) = IntegerLayout(element.FieldType, name: $"{owner.Name}.{field.Name}");
             return new ArrayRecordField
             {
                 Name = field.Name,
@@ -348,7 +348,7 @@ internal sealed partial class RecordTypeInfo
             };
         }
 
-        (int integerWidth, bool integerSigned) = IntegerLayout(field.FieldType, $"{owner.Name}.{field.Name}");
+        (int integerWidth, bool integerSigned) = IntegerLayout(field.FieldType, name: $"{owner.Name}.{field.Name}");
         return new IntegerRecordField
         {
             Name = field.Name,

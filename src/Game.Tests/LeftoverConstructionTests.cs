@@ -82,7 +82,7 @@ public sealed class LeftoverConstructionTests
             // (issue 200 folded the game part into the set), so the root reads as $root.
             if (item is string text)
             {
-                return text.StartsWith(EngineFixture.Root, StringComparison.OrdinalIgnoreCase) ? $"$root{text[EngineFixture.Root.Length..]}" : text;
+                return text.StartsWith(EngineFixture.Root, comparisonType: StringComparison.OrdinalIgnoreCase) ? $"$root{text[EngineFixture.Root.Length..]}" : text;
             }
 
             if (type.IsEnum)
@@ -116,23 +116,23 @@ public sealed class LeftoverConstructionTests
             }
             if (item is Array array)
             {
-                return array.Cast<object?>().Select((x, i) => State(x, $"{path}[{i}]")).ToArray();
+                return array.Cast<object?>().Select((x, i) => State(x, path: $"{path}[{i}]")).ToArray();
             }
 
             if (InlineArrays.Elements(item) is { } elements)
             {
-                return elements.Select((x, i) => State(x, $"{path}[{i}]")).ToArray();
+                return elements.Select((x, i) => State(x, path: $"{path}[{i}]")).ToArray();
             }
 
             if (item is IList list)
             {
-                return list.Cast<object?>().Select((x, i) => State(x, $"{path}[{i}]")).ToArray();
+                return list.Cast<object?>().Select((x, i) => State(x, path: $"{path}[{i}]")).ToArray();
             }
 
             SortedDictionary<string, object?> fields = new(StringComparer.Ordinal) { ["$type"] = type.FullName };
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
             {
-                foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
+                foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, comparer: StringComparer.Ordinal))
                 {
                     if (MemberNames.Of(field) is "_engineClass" or "EngineClass" or "Holder" or "Creator")
                     {
@@ -151,13 +151,13 @@ public sealed class LeftoverConstructionTests
                         fields[key] = child is null ? null : "$owner";
                         continue;
                     }
-                    fields[key] = State(child, $"{path}.{key}");
+                    fields[key] = State(child, path: $"{path}.{key}");
                 }
             }
 
             return fields;
         }
-        return JsonSerializer.Serialize(State(value, "$"));
+        return JsonSerializer.Serialize(State(value, path: "$"));
     }
 
     private static readonly string[] s_names =
@@ -288,9 +288,9 @@ public sealed class LeftoverConstructionTests
             return (EngineObject)Invoke(() => constructor.Invoke(EngineClassCreation.OwnerArguments(constructor, owner)))!;
         }
 
-        MethodInfo? factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(CustomNode)]);
+        MethodInfo? factory = type.GetMethod("Create", bindingAttr: BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, types: [typeof(CustomNode)]);
         return factory is not null
-            ? (EngineObject)Invoke(() => factory.Invoke(null, [owner]))!
+            ? (EngineObject)Invoke(() => factory.Invoke(null, parameters: [owner]))!
             : EngineClass.Of(type).CreateInstance(owner, holder: EngineFixture.Engine);
     }
 
@@ -306,16 +306,16 @@ public sealed class LeftoverConstructionTests
             {
                 using Fixture fixture = new();
                 LeftoverOwner? owner = owned == 0 ? null : new LeftoverOwner();
-                CustomNode given = EngineFixture.OwnerFor(type, owner!);
+                CustomNode given = EngineFixture.OwnerFor(type, recorder: owner!);
                 EngineObject? value = null;
                 List<string> states = [];
                 try
                 {
                     value = route == 1 ? EngineClass.Of(type).CreateInstance(given, holder: EngineFixture.Engine)
-                        : route == 0 ? Direct(type, given)
+                        : route == 0 ? Direct(type, owner: given)
                         : route == 2 ? EngineClass.Of(type).CreateInstance(given, holder: EngineFixture.Engine)
-                        : Saved(type, given);
-                    Assert.IsType(type, value);
+                        : Saved(type, owner: given);
+                    Assert.IsType(type, @object: value);
                     Assert.Same(given, value.Owner);
                     states.Add($"success:{Snapshot(value)}");
                 }
@@ -340,7 +340,7 @@ public sealed class LeftoverConstructionTests
                     states.Add(JsonSerializer.Serialize(owner.Observations));
                 }
 
-                ConstructionSnapshot.Check(actual: string.Join("\n", states), key: $"{name}.owner{owned}.route{route}", name: "LeftoverConstruction");
+                ConstructionSnapshot.Check(actual: string.Join("\n", values: states), key: $"{name}.owner{owned}.route{route}", name: "LeftoverConstruction");
             }
         }
     }
@@ -386,7 +386,7 @@ public sealed class LeftoverConstructionTests
             0 => new StrategicMap(null!, holder: EngineFixture.Engine),
             1 => EngineClass.Of<StrategicMap>().CreateInstance(null!, holder: EngineFixture.Engine),
             2 => EngineClass.Of(typeof(StrategicMap)).CreateInstance(null!, holder: EngineFixture.Engine),
-            _ => Saved(typeof(StrategicMap), null!)
+            _ => Saved(typeof(StrategicMap), owner: null!)
         });
         Assert.Equal(0, value.MapChangedLockCount);
         Assert.NotNull(value.ItemControl);

@@ -14,7 +14,7 @@ public sealed class BinaryDictionaryTests
             using (FileStream stream = File.Create(path))
             using (BinaryWriter writer = new(stream))
             {
-                WriteHeader(writer, 4);
+                WriteHeader(writer, count: 4);
                 void Text(byte[] bytes)
                 {
                     writer.Write((ushort)bytes.Length);
@@ -28,9 +28,9 @@ public sealed class BinaryDictionaryTests
                     Text(Encoding.ASCII.GetBytes(english));
                     Text(Encoding.ASCII.GetBytes(german));
                 }
-                Entry("item(plural)", "", "items", "Dinge");
-                Entry("item(plural)", "SomeForm", "context only", "Kontext");
-                Entry("unchanged", "", "", "");
+                Entry("item(plural)", form: "", english: "items", german: "Dinge");
+                Entry("item(plural)", form: "SomeForm", english: "context only", german: "Kontext");
+                Entry("unchanged", form: "", english: "", german: "");
                 Text([0x63, 0x61, 0x66, 0xe9]);
                 Text([]);
                 Text([]);
@@ -67,7 +67,7 @@ public sealed class BinaryDictionaryTests
             using (FileStream stream = File.Create(path))
             using (BinaryWriter writer = new(stream))
             {
-                WriteHeader(writer, 1);
+                WriteHeader(writer, count: 1);
                 writer.Write((ushort)5);
             }
             IvBinaryDictionary dictionary = new() { FileName = path };
@@ -84,10 +84,10 @@ public sealed class BinaryDictionaryTests
         byte[] header = new byte[42];
         "MLD\x03"u8.CopyTo(header);
         header[4] = header[5] = header[6] = 1;
-        System.Buffers.Binary.BinaryPrimitives.WriteUInt16LittleEndian(header.AsSpan(12), 3);
-        System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(header.AsSpan(14), 42);
-        System.Buffers.Binary.BinaryPrimitives.WriteUInt16LittleEndian(header.AsSpan(18), count);
-        System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(header.AsSpan(20), 120);
+        System.Buffers.Binary.BinaryPrimitives.WriteUInt16LittleEndian(header.AsSpan(12), value: 3);
+        System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(header.AsSpan(14), value: 42);
+        System.Buffers.Binary.BinaryPrimitives.WriteUInt16LittleEndian(header.AsSpan(18), value: count);
+        System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(header.AsSpan(20), value: 120);
         writer.Write(header);
         for (ushort language = 0; language < 3; language++)
         {

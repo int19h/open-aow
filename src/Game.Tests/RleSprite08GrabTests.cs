@@ -30,7 +30,7 @@ public sealed class RleSprite08GrabTests
 
             grab.TransparentPixel = 0;
             grab.FileName = "grab.bmp";
-            bool grabbed = image.GrabImage(lockedSurface, rectangle, grab);
+            bool grabbed = image.GrabImage(lockedSurface, R: rectangle, grabInfo: grab);
             _ = surface.Unlock();
             return (image, grabbed);
         }
@@ -40,7 +40,7 @@ public sealed class RleSprite08GrabTests
         }
     }
 
-    private static byte[] Encoded(RleSprite08 image) => image.Data.AsSpan(0, image.DataSize).ToArray();
+    private static byte[] Encoded(RleSprite08 image) => image.Data.AsSpan(0, length: image.DataSize).ToArray();
 
     [Fact]
     public void GrabEncodesTheOpaqueRectangle()
@@ -51,7 +51,7 @@ public sealed class RleSprite08GrabTests
             { 0, 7, 0, 0, 9 },
             { 0, 0, 0, 0, 0 },
         };
-        (RleSprite08? image, bool grabbed) = Grab(pixels, new Rect(0, 0, 5, 3));
+        (RleSprite08? image, bool grabbed) = Grab(pixels, rectangle: new Rect(0, 0, 5, 3));
         try
         {
             Assert.True(grabbed);
@@ -59,7 +59,7 @@ public sealed class RleSprite08GrabTests
             Assert.Equal((1, 1, 4, 1), (image.RleLeft, image.RleTop, image.RleWidth, image.RleHeight));
             // Row 1 from x = 1: 7, a run of two, 9. The length word counts 8 bytes.
             Assert.Equal(new byte[] { 8, 0, 0, 0, 7, 0, 2, 9 }, Encoded(image));
-            Assert.Equal(new byte[,] { { 0x55, 0x55, 0x55, 0x55, 0x55 }, { 0x55, 7, 0x55, 0x55, 9 }, { 0x55, 0x55, 0x55, 0x55, 0x55 } }, Draw(image, 5, 3));
+            Assert.Equal(new byte[,] { { 0x55, 0x55, 0x55, 0x55, 0x55 }, { 0x55, 7, 0x55, 0x55, 9 }, { 0x55, 0x55, 0x55, 0x55, 0x55 } }, Draw(image, w: 5, h: 3));
         }
         finally
         {
@@ -74,7 +74,7 @@ public sealed class RleSprite08GrabTests
         pixels[0, 0] = 3;
         pixels[0, 299] = 4;
         pixels[1, 10] = 5;
-        (RleSprite08? image, bool grabbed) = Grab(pixels, new Rect(0, 0, 300, 2));
+        (RleSprite08? image, bool grabbed) = Grab(pixels, rectangle: new Rect(0, 0, 300, 2));
         try
         {
             Assert.True(grabbed);
@@ -82,7 +82,7 @@ public sealed class RleSprite08GrabTests
             // Row 0: 3, a run of 298 as 254 and 44, 4. Row 1: a run of 10, 5, a run of 289 as 254
             // and 35, flushed by EndLine.
             Assert.Equal(new byte[] { 10, 0, 0, 0, 3, 0, 254, 0, 44, 4, 11, 0, 0, 0, 0, 10, 5, 0, 254, 0, 35 }, Encoded(image));
-            byte[,] drawn = Draw(image, 300, 2);
+            byte[,] drawn = Draw(image, w: 300, h: 2);
             for (int y = 0; y < 2; y++)
             {
                 for (int x = 0; x < 300; x++)
@@ -107,7 +107,7 @@ public sealed class RleSprite08GrabTests
             { 1, 6, 6, 1 },
             { 1, 1, 1, 1 },
         };
-        (RleSprite08? image, bool grabbed) = Grab(pixels, new Rect(1, 1, 3, 3));
+        (RleSprite08? image, bool grabbed) = Grab(pixels, rectangle: new Rect(1, 1, 3, 3));
         try
         {
             Assert.True(grabbed);
@@ -124,14 +124,14 @@ public sealed class RleSprite08GrabTests
     [Fact]
     public void GrabOfAnotherFormatFails()
     {
-        DataSurface surface = new(2, 2, PixelFormat.Rgb555, null);
+        DataSurface surface = new(2, 2, pixelFormatId: PixelFormat.Rgb555, palette: null);
         RleSprite08 image = new(null);
         GrabInfo grab = image.CreateGrabInfo();
         try
         {
             LockedSurface lockedSurface = default;
             _ = surface.Lock(ref lockedSurface);
-            Assert.False(image.GrabImage(lockedSurface, new Rect(0, 0, 2, 2), grab));
+            Assert.False(image.GrabImage(lockedSurface, R: new Rect(0, 0, 2, 2), grabInfo: grab));
             _ = surface.Unlock();
         }
         finally
@@ -144,7 +144,7 @@ public sealed class RleSprite08GrabTests
     [Fact]
     public void ImageDataIgnoresReservedDwordOnLoadAndWritesZero()
     {
-        (RleSprite08 writer, bool grabbed) = Grab(new byte[,] { { 7 } }, new Rect(0, 0, 1, 1));
+        (RleSprite08 writer, bool grabbed) = Grab(new byte[,] { { 7 } }, rectangle: new Rect(0, 0, 1, 1));
         Assert.True(grabbed);
         using (writer)
         {
@@ -179,7 +179,7 @@ public sealed class RleSprite08GrabTests
         Assert.Equal(GraphicsResult.Ok, surface.Lock(ref lockedSurface));
         for (int y = 0; y < h; y++)
         {
-            lockedSurface.View().Bytes(y * lockedSurface.Pitch, w).Fill(0x55);
+            lockedSurface.View().Bytes(y * lockedSurface.Pitch, count: w).Fill(0x55);
         }
 
         image.ShowOpaque(0, 0, lockedSurface);

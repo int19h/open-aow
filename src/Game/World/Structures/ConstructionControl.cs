@@ -21,10 +21,10 @@ public class ConstructionControl(CustomNode owner) : EngineObject(owner)
     // AoWAb.PAS:5500
     public virtual bool CanConstruct(Troop troop, ref string reason)
     {
-        GetInfo(troop, out _, out int gold, out _);
+        GetInfo(troop, text: out _, out int gold, days: out _);
         if (StrategicMap.Current.Players.GetPlayers(troop.Player).Gems < gold)
         {
-            reason = AbilityRules.TranslateResourceString(GetEngine(), s_notEnoughGoldText);
+            reason = AbilityRules.TranslateResourceString(GetEngine(), S: s_notEnoughGoldText);
             return false;
         }
         else

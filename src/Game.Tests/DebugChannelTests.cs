@@ -35,7 +35,7 @@ public sealed class DebugChannelTests
         List<(DebugChannel Channel, string Text)> received = [];
         void Handler(EngineDebugNotification notification) => received.Add((notification.Info.Channel, notification.Info.Text));
         engine.DebugEvents += Handler;
-        engine.OutputDebugMessage(DebugChannel.Combat, "combat");
+        engine.OutputDebugMessage(DebugChannel.Combat, S: "combat");
         engine.OutputDebugString("user");
         engine.DebugEvents -= Handler;
         Assert.Equal([(DebugChannel.Combat, "combat"), (DebugChannel.User, "user")], received);

@@ -8,7 +8,7 @@ public partial class MapLevel
 {
     private IEnumerable<MapField> Area(int x, int y, int radius)
     {
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, radius: 0);
         while (walk.Radius <= radius)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < Width && walk.Y < Height)
@@ -59,7 +59,7 @@ public partial class MapLevel
             return false;
         }
 
-        field.SetExplored(player, true);
+        field.SetExplored(player, value: true);
         GameMap map = Map;
         if (map.ExplorationEnabled && map.SeatedPlayer == player)
         {
@@ -71,7 +71,7 @@ public partial class MapLevel
 
     public Set<FogExplorationChangedElement> UnFogExploreArea(int x, int y, sbyte player, int radius)
     {
-        DelphiAssert.Assert(player >= 0, "Invalid Player Index", "AoWHSMap.PAS", 276);
+        DelphiAssert.Assert(player >= 0, message: "Invalid Player Index", file: "AoWHSMap.PAS", line: 276);
         Set<FogExplorationChangedElement> result = default;
         foreach (MapField field in Area(x, y, radius))
         {

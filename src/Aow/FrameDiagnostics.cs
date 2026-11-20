@@ -43,7 +43,7 @@ internal sealed class FrameDiagnostics : IDisposable
                 before = unchecked((uint)entry.Before),
                 after = unchecked((uint)entry.After),
                 result = entry.Result,
-                stack = new StackTrace(1, false).GetFrames().Select(frame => frame.GetMethod())
+                stack = new StackTrace(1, fNeedFileInfo: false).GetFrames().Select(frame => frame.GetMethod())
                     .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Game")
                     .Select(method => $"{method!.DeclaringType!.Name}.{method.Name}")
             }));
@@ -54,7 +54,7 @@ internal sealed class FrameDiagnostics : IDisposable
             return;
         }
 
-        MethodBase?[] stack = [.. new StackTrace(1, false).GetFrames().Select(frame => frame.GetMethod()).Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Game")];
+        MethodBase?[] stack = [.. new StackTrace(1, fNeedFileInfo: false).GetFrames().Select(frame => frame.GetMethod()).Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Game")];
         if (!stack.Any(method => method is { Name: "Random", DeclaringType.Name: nameof(StrategicMap) }))
         {
             return;
@@ -90,7 +90,7 @@ internal sealed class FrameDiagnostics : IDisposable
             ai_player = map.AIExecutor.Player,
             cost,
             used,
-            stack = new StackTrace(1, false).GetFrames().Select(frame => frame.GetMethod())
+            stack = new StackTrace(1, fNeedFileInfo: false).GetFrames().Select(frame => frame.GetMethod())
                 .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Game")
                 .Take(10).Select(method => $"{method!.DeclaringType!.Name}.{method.Name}")
         }));
@@ -137,8 +137,8 @@ internal sealed class FrameDiagnostics : IDisposable
                                     mode = sequence.SequenceMode.ToString(),
                                     sequence.SpeedCount,
                                     sequence.ImageIndex,
-                                    lastFrame = typeof(ImageSequence).GetField("_lastFrame", BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(sequence),
-                                    counter = typeof(ImageSequence).GetField("_frameCounter", BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(sequence)
+                                    lastFrame = typeof(ImageSequence).GetField("_lastFrame", bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(sequence),
+                                    counter = typeof(ImageSequence).GetField("_frameCounter", bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(sequence)
                                 });
                             }
                         }
@@ -159,7 +159,7 @@ internal sealed class FrameDiagnostics : IDisposable
             }
         }
 
-        File.WriteAllText(Path.Combine(_output, $"diagnostic-{name}.json"), JsonSerializer.Serialize(new
+        File.WriteAllText(Path.Combine(_output, $"diagnostic-{name}.json"), contents: JsonSerializer.Serialize(new
         {
             FDay = map.Day,
             map.Frame,
@@ -167,7 +167,7 @@ internal sealed class FrameDiagnostics : IDisposable
             viewer.SceneY,
             viewer.SceneL,
             objects
-        }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
+        }, options: new JsonSerializerOptions { WriteIndented = true }) + "\n");
     }
 
     public void Dispose()

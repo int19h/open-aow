@@ -79,7 +79,7 @@ internal sealed class EventStore<TSender>
         Count -= 1;
         if (index < Count)
         {
-            Array.Copy(_items, index + 1, _items, index, Count - index);
+            Array.Copy(_items, sourceIndex: index + 1, destinationArray: _items, destinationIndex: index, length: Count - index);
         }
     }
 
@@ -87,6 +87,6 @@ internal sealed class EventStore<TSender>
     private void Grow(int capacity)
     {
         int delta = capacity > 64 ? capacity / 4 : capacity > 8 ? 16 : 4;
-        Array.Resize(ref _items, capacity + delta);
+        Array.Resize(ref _items, newSize: capacity + delta);
     }
 }

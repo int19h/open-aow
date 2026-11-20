@@ -21,7 +21,7 @@ public partial class NegotiateRequestEventLog
             if (armyHexSprite is not null)
             {
                 byte joinSelection = armyHexSprite.Army.GetJoinSelection(Player);
-                return armyHexSprite.Army.Hero(joinSelection, RosterTables.AllHeroTypes) is null ? EventView.PartyJoin : EventView.HeroNegotiation;
+                return armyHexSprite.Army.Hero(joinSelection, types: RosterTables.AllHeroTypes) is null ? EventView.PartyJoin : EventView.HeroNegotiation;
             }
         }
 

@@ -16,7 +16,7 @@ public class Stoning : CombatSpell
     public Stoning(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_stoningText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_stoningText);
         SpellId = 122;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 5;

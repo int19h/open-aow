@@ -11,7 +11,7 @@ public class SummonFireSprite : SummonSpell
     public SummonFireSprite(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_summonFireSpriteText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_summonFireSpriteText);
         SpellId = 21;
         BaseManaCost = 5;
         SpellLevel = 1;

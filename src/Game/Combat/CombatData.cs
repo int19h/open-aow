@@ -141,7 +141,7 @@ public partial class CombatData : EngineObject
     // Combat2.pas:282
     public void AddObject(CombatObject combatObject)
     {
-        Assert(FindId(combatObject.Id) is null && FindPosition(combatObject.Position) is null, "CombatObject Position/ID double defined", "Combat2.pas", 284);
+        Assert(FindId(combatObject.Id) is null && FindPosition(combatObject.Position) is null, message: "CombatObject Position/ID double defined", file: "Combat2.pas", line: 284);
         combatObject.SetOwner(CombatObjects);
     }
 }

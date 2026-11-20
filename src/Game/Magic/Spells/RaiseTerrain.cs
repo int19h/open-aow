@@ -21,7 +21,7 @@ public class RaiseTerrain : GlobalTargetSpell
     public RaiseTerrain(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_raiseTerrainText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_raiseTerrainText);
         SpellId = 19;
         BaseManaCost = 5;
         SpellLevel = 4;
@@ -44,8 +44,8 @@ public class RaiseTerrain : GlobalTargetSpell
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
         RaiseTerrainTokenEvent eventValue = new(null) { Holder = CreationHolder() };
-        eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
-        eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
+        eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
+        eventValue.SetLocation((sbyte)X, (sbyte)Y, layer: (sbyte)L);
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
         _ = eventValue.Release();
         return true;

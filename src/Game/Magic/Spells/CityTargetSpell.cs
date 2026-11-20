@@ -32,7 +32,7 @@ public class CityTargetSpell : Spell
     public override bool Activate(Troop source)
     {
         string reason = "";
-        if (CanActivate(source, ref reason))
+        if (CanActivate(source, messageText: ref reason))
         {
             _sourceId = source.UnitId;
             SetupTargetSelection(source, StrategicMap.Current.TargetSelection);
@@ -59,10 +59,10 @@ public class CityTargetSpell : Spell
                     break;
                 case TargetSelectionChange.Selected:
                     bool valid = default;
-                    ValidateTarget(targetSelection, targetSelection.Target.X, targetSelection.Target.Y, targetSelection.Target.MapLevel, ref valid);
+                    ValidateTarget(targetSelection, targetSelection.Target.X, targetSelection.Target.Y, L: targetSelection.Target.MapLevel, ref valid);
                     if (valid)
                     {
-                        if (TargetSelected(source, targetSelection.Target.X, targetSelection.Target.Y, targetSelection.Target.MapLevel))
+                        if (TargetSelected(source, targetSelection.Target.X, targetSelection.Target.Y, L: targetSelection.Target.MapLevel))
                         {
                             targetSelection.Changed -= OnTargetSelectionChange;
                             targetSelection.Deactivate();
@@ -91,7 +91,7 @@ public class CityTargetSpell : Spell
         MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(hexLevel);
         sbyte hexY = targetCity.HexY;
         sbyte hexX = targetCity.HexX;
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 0);
         while (walk.HexNumber < targetCity.Resource.TerrainList.Count)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height && targetCity.Resource.TerrainList.Used[walk.HexNumber])
@@ -100,7 +100,7 @@ public class CityTargetSpell : Spell
                 if (!condition)
                 {
                     sbyte targetCityHexLevel = targetCity.HexLevel;
-                    condition = StrategicMap.Current.TerrainVisible((sbyte)walk.X, (sbyte)walk.Y, targetCityHexLevel, 0);
+                    condition = StrategicMap.Current.TerrainVisible((sbyte)walk.X, (sbyte)walk.Y, L: targetCityHexLevel, radius: 0);
                 }
 
                 if (condition)
@@ -111,12 +111,12 @@ public class CityTargetSpell : Spell
                     a.FrameCounter = Random(5);
                     a.AnimationLevel = 27;
                     sbyte targetCityHexLevel = targetCity.HexLevel;
-                    _ = StrategicMap.Current.PlaceHex(a, walk.X, walk.Y, targetCityHexLevel);
+                    _ = StrategicMap.Current.PlaceHex(a, walk.X, walk.Y, L: targetCityHexLevel);
                     bool test = source.Player == StrategicMap.Current.SeatedPlayer;
                     if (!test)
                     {
                         sbyte hexLevel2 = targetCity.HexLevel;
-                        test = StrategicMap.Current.WatchingTerrain((sbyte)walk.X, (sbyte)walk.Y, hexLevel2, 0);
+                        test = StrategicMap.Current.WatchingTerrain((sbyte)walk.X, (sbyte)walk.Y, L: hexLevel2, radius: 0);
                     }
 
                     if (test)
@@ -140,10 +140,10 @@ public class CityTargetSpell : Spell
     {
         targetSelection.Initialize(source);
         targetSelection.TargetMode += Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
-        string format = Format(AbilityRules.TranslateResourceString(GetEngine(), s_selectTargetCityForOnMapFormat), [SpellName]);
+        string format = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_selectTargetCityForOnMapFormat), args: [SpellName]);
         targetSelection.Text.Text = format;
         targetSelection.Title = SpellName;
-        targetSelection.CancelText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CancelText);
+        targetSelection.CancelText = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CancelText);
         targetSelection.SourceImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[20].GetPreviewImage();
         targetSelection.ValidTargetImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[21].GetPreviewImage();
         targetSelection.InvalidTargetImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[22].GetPreviewImage();
@@ -220,7 +220,7 @@ public class CityTargetSpell : Spell
     // CitySpells.pas:351
     public virtual bool SetupTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int X, int Y, int L)
     {
-        eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
+        eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         eventValue.TargetPlayer = eventValue.GetSelectedCity().Player;
         return true;

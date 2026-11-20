@@ -41,13 +41,13 @@ public class UnitSpell : Spell
     {
         if (AIValue != -1 && source.Owner is Army)
         {
-            bool valid = AIRequestCastSpellExpense(source, BaseManaCost, ManaUpkeep, 0);
+            bool valid = AIRequestCastSpellExpense(source, budget: BaseManaCost, mana: ManaUpkeep, upkeep: 0);
             valid = valid && source.Owner is Army;
             string reason = "";
             valid = valid && source.CanCastSpell(SpellId, ref reason);
             int priority = default;
             Troop target = default;
-            if (valid && AIRetrieveOptimalTargetUnit(source, source.OwnerUnits, ref target, ref priority))
+            if (valid && AIRetrieveOptimalTargetUnit(source, targets: source.OwnerUnits, ref target, ref priority))
             {
                 AICastSpellAction action = CreateCastSpellAction();
                 SetupCastSpellAction(source, action);
@@ -63,8 +63,8 @@ public class UnitSpell : Spell
         string reason = "";
         if (source.CanCastSpell(SpellId, ref reason))
         {
-            _ = AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, 0);
-            if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
+            _ = AICastSpellExpenseMade(source, budget: BaseManaCost, mana: ManaUpkeep, upkeep: 0);
+            if (source.CanCastSpellInstantly(SpellId, mana: BaseManaCost, ref reason))
             {
                 int priority = default;
                 Troop target = default;
@@ -72,10 +72,10 @@ public class UnitSpell : Spell
                 {
                     return false;
                 }
-                else if (AIRetrieveOptimalTargetUnit(source, source.OwnerUnits, ref target, ref priority))
+                else if (AIRetrieveOptimalTargetUnit(source, targets: source.OwnerUnits, ref target, ref priority))
                 {
                     UnitSpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
-                    eventValue.Initialize(SpellId, source, null, BaseManaCost);
+                    eventValue.Initialize(SpellId, source, targets: null, mana: BaseManaCost);
                     eventValue.TargetPlayer = (byte)source.Player;
                     _ = eventValue.TargetUnitIds.Add(target.UnitId);
                     StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
@@ -111,7 +111,7 @@ public class UnitSpell : Spell
     {
         string reason = "";
         _ = base.Activate(source);
-        if (CanActivate(source, ref reason))
+        if (CanActivate(source, messageText: ref reason))
         {
             if (TargetRange == 0)
             {
@@ -119,11 +119,11 @@ public class UnitSpell : Spell
                 if (source.Owner is IHeroHolder)
                 {
                     using UnitUserList empty = new(null) { Holder = CreationHolder() };
-                    SetupUnitSelectionControl(caster, source, empty.Units);
+                    SetupUnitSelectionControl(caster, source, targets: empty.Units);
                 }
                 else
                 {
-                    SetupUnitSelectionControl(caster, source, source.OwnerUnits);
+                    SetupUnitSelectionControl(caster, source, targets: source.OwnerUnits);
                 }
 
                 StrategicMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
@@ -131,7 +131,7 @@ public class UnitSpell : Spell
             }
             else
             {
-                SetupTargetSelection(source, StrategicMap.Current.TargetSelection);
+                SetupTargetSelection(source, control: StrategicMap.Current.TargetSelection);
                 StrategicMap.Current.TargetSelection.Activate();
             }
 
@@ -191,7 +191,7 @@ public class UnitSpell : Spell
         {
             if ((selection & (1 << i)) != 0)
             {
-                if (!ValidTargetUnit(source, targets.GetUnit(i)))
+                if (!ValidTargetUnit(source, target: targets.GetUnit(i)))
                 {
                     selection = (byte)(selection & ~(1 << i));
                 }
@@ -220,7 +220,7 @@ public class UnitSpell : Spell
         caster.ValidSelection = 0;
         for (int i = caster.TargetUnits.GetCount() - 1; i >= 0; i--)
         {
-            if (ValidTargetUnit(source, caster.TargetUnits.GetUnit(i)))
+            if (ValidTargetUnit(source, target: caster.TargetUnits.GetUnit(i)))
             {
                 caster.ValidSelection = (byte)(caster.ValidSelection | (1 << i));
             }
@@ -252,7 +252,7 @@ public class UnitSpell : Spell
     public virtual void TargetPartySelected(Troop source, ArmyHexSprite party)
     {
         UnitSpellCaster caster = new(null) { Holder = CreationHolder() };
-        SetupUnitSelectionControl(caster, source, party.Army.Units);
+        SetupUnitSelectionControl(caster, source, targets: party.Army.Units);
         StrategicMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
         _ = caster.Release();
     }
@@ -281,7 +281,7 @@ public class UnitSpell : Spell
         CombatObject target = combat.CombatData.FindId(action.TargetId);
         if (source is CombatUnit sourceUnit && target is CombatUnit targetUnit)
         {
-            if (ExecuteSpell(sourceUnit.Troop, targetUnit.Troop, action.Mana, action.SpellData))
+            if (ExecuteSpell(sourceUnit.Troop, target: targetUnit.Troop, action.Mana, data: action.SpellData))
             {
                 if (action.Mana != 0 && (((byte)combat.Status.Image) & 1) != 0)
                 {
@@ -297,7 +297,7 @@ public class UnitSpell : Spell
         DoubleItemList<Troop> list = new();
         for (int i = 0, last = targets.Count - 1; i <= last; i++)
         {
-            if (ValidTargetUnit(source, targets.GetUnit(i)) && targets.GetUnit(i).GetUnitType() != UnitType.Machine)
+            if (ValidTargetUnit(source, target: targets.GetUnit(i)) && targets.GetUnit(i).GetUnitType() != UnitType.Machine)
             {
                 int value = targets.GetUnit(i).UnitLevel + AIValue;
                 _ = list.AddAbility(targets.GetUnit(i), value);
@@ -327,7 +327,7 @@ public class UnitSpell : Spell
         Troop source = StrategicMap.Current.UnitControl.FindUnit(control.SourceUnitId);
         if (source is not null)
         {
-            if (StrategicMap.Current.Visible(X, Y, L, 0))
+            if (StrategicMap.Current.Visible(X, Y, L, radius: 0))
             {
                 ArmyHexSprite party = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
                 valid = party is not null && (party.Army.Player == source.Player || !StrategicMap.Current.MapContainer.GetField(X, Y, L).GetMagicShieldActive()) && ValidTargetParty(source, party);
@@ -407,10 +407,10 @@ public class UnitSpell : Spell
         control.SourceLocation = new MapCoordinate(x, y, l);
         control.Changed += OnTargetSelectionChange;
         control.SetValidateTargetHandler(OnValidateTarget);
-        string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_selectTargetPartyFormat), [SpellName]);
+        string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_selectTargetPartyFormat), arguments: [SpellName]);
         control.Text.Text = format;
         control.Title = SpellName;
-        control.CancelText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CancelText);
+        control.CancelText = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CancelText);
         control.SourceUnitId = source.UnitId;
         control.SourceImage = GamePack.Current.SpellControl[SpellId].CastImages.GetImageSequence(20).GetPreviewImage();
         control.ValidTargetImage = GamePack.Current.SpellControl[SpellId].CastImages.GetImageSequence(21).GetPreviewImage();

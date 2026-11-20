@@ -19,7 +19,7 @@ public class Terror : CombatSpell
     public Terror(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_terrorText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_terrorText);
         SpellId = 105;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;

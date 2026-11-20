@@ -7,7 +7,7 @@ public partial class BlendTable5Bit
     {
         if (source is BlendTable5Bit table)
         {
-            Array.Copy(table.Table, Table, 32 * 32);
+            Array.Copy(table.Table, destinationArray: Table, length: 32 * 32);
         }
     }
 }

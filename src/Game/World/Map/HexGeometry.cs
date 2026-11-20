@@ -39,24 +39,24 @@ public static class HexGeometry
             switch (side)
             {
                 case 0:
-                    HVtoHex(r, position - r, out newHexX, out newHexY);
+                    HVtoHex(r, v: position - r, out newHexX, out newHexY);
                     break;
                 case 1:
                     newHexX = r;
                     newHexY = position - ((r + 1) / 2);
                     break;
                 case 2:
-                    HVtoHex(-position, r, out newHexX, out newHexY);
+                    HVtoHex(-position, v: r, out newHexX, out newHexY);
                     break;
                 case 3:
-                    HVtoHex(-r, r - position, out newHexX, out newHexY);
+                    HVtoHex(-r, v: r - position, out newHexX, out newHexY);
                     break;
                 case 4:
                     newHexX = -r;
                     newHexY = -position + (r / 2);
                     break;
                 case 5:
-                    HVtoHex(position, -r, out newHexX, out newHexY);
+                    HVtoHex(position, v: -r, out newHexX, out newHexY);
                     break;
                 default:
                     break;
@@ -154,7 +154,7 @@ public static class HexGeometry
 
     internal static ReadOnlySpan<int> RadiusToHexNumberTable => [0, 1, 7, 19, 37, 61, 91, 127, 169, 217, 271];
 
-    public static void OriginalAssert(string message, string fileName, int lineNumber) => Assert(false, message, fileName, lineNumber);
+    public static void OriginalAssert(string message, string fileName, int lineNumber) => Assert(false, message, file: fileName, line: lineNumber);
 
     internal static ImmutableArray<ImmutableArray<XYTableEntry>> HexNumberWalkTable { get; } = [[new XYTableEntry(1, 0), new XYTableEntry(0, 1), new XYTableEntry(-1, 0), new XYTableEntry(-1, -1), new XYTableEntry(0, -1), new XYTableEntry(1, -1), new XYTableEntry(0, 0), new XYTableEntry(0, 0)], [new XYTableEntry(1, 1), new XYTableEntry(0, 1), new XYTableEntry(-1, 1), new XYTableEntry(-1, 0), new XYTableEntry(0, -1), new XYTableEntry(1, 0), new XYTableEntry(0, 0), new XYTableEntry(0, 0)]];
 
@@ -187,24 +187,24 @@ public static class HexGeometry
             switch (side)
             {
                 case 0:
-                    HVtoHex(r, position - r, out hexX, out hexY);
+                    HVtoHex(r, v: position - r, out hexX, out hexY);
                     break;
                 case 1:
                     hexX = r;
                     hexY = position - ((r + 1) / 2);
                     break;
                 case 2:
-                    HVtoHex(-position, r, out hexX, out hexY);
+                    HVtoHex(-position, v: r, out hexX, out hexY);
                     break;
                 case 3:
-                    HVtoHex(-r, r - position, out hexX, out hexY);
+                    HVtoHex(-r, v: r - position, out hexX, out hexY);
                     break;
                 case 4:
                     hexX = -r;
                     hexY = -position + (r / 2);
                     break;
                 case 5:
-                    HVtoHex(position, -r, out hexX, out hexY);
+                    HVtoHex(position, v: -r, out hexX, out hexY);
                     break;
                 default:
                     break;
@@ -234,7 +234,7 @@ public static class HexGeometry
 
     internal static int PixelToHexNumber(int pixelX, int pixelY)
     {
-        PixelToHex(pixelX, pixelY, out pixelX, out pixelY);
+        PixelToHex(pixelX, vertical: pixelY, out pixelX, out pixelY);
         return HexToHexNumber(pixelX, pixelY);
     }
 

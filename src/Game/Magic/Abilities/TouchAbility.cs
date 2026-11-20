@@ -33,7 +33,7 @@ public class TouchAbility : AdjustableAbility
             CombatObject target = commands.TargetSide.GetObjects(i);
             if (target.GetEnabled() && CanTouch(commands.Source, target) && FastBattleValidRoundDistance(commands.Source, target))
             {
-                FastBattleGetDamageValues(commands.Source, target, WallSituation.None, ref values);
+                FastBattleGetDamageValues(commands.Source, defender: target, wallSituation: WallSituation.None, damageValues: ref values);
                 if (values.SourceDamage != 0)
                 {
                     FastBattleCommand command = new(AbilityId)
@@ -41,7 +41,7 @@ public class TouchAbility : AdjustableAbility
                         Target = commands.TargetSide.GetObjects(i),
                         SourceDamageValue = values.SourceDamage,
                         TargetDamageValue = values.TargetDamage,
-                        ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, commands.Source, target),
+                        ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, targetDamageValue: values.TargetDamage, commands.Source, target),
                         MoveCost = values.TargetDamage == 0 ? 1 : 2
                     };
 

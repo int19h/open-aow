@@ -85,7 +85,7 @@ public partial class Memo
                         _currentLine--;
                     }
 
-                    while (Lines[_currentLine].Length > _currentColumn && base.Font.GetTextWidth(DelphiStrings.Copy(Lines[_currentLine], 1, _currentColumn + 1)) + left < x)
+                    while (Lines[_currentLine].Length > _currentColumn && base.Font.GetTextWidth(DelphiStrings.Copy(Lines[_currentLine], index: 1, count: _currentColumn + 1)) + left < x)
                     {
                         _currentColumn++;
                         _realColumn++;

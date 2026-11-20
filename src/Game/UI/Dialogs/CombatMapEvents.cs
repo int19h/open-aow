@@ -296,7 +296,7 @@ public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                     Set<MoveType> moveTypes = fTroop.GetMoveTypes();
                     int current = window.UI.General.MoveTypesToInt32(moveTypes);
                     window.UnitMovesIcon.SetCurrent(current);
-                    window.UI.General.CombatUnit.ListAbilities((DelphiStringCollection)(object)window.UnitAbilityList.Items, null, null);
+                    window.UI.General.CombatUnit.ListAbilities((DelphiStringCollection)(object)window.UnitAbilityList.Items, types: null, sources: null);
                     window.UnitAbilityList.Selected = -1;
                     window.UnitAbilityList.HoverItem = -1;
                     window.UnitAbilityList.ListOffset = 0;
@@ -374,7 +374,7 @@ public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                     window.CombatAbilityPanel.Visible = true;
                     window.TargetSelectPanel.Visible = false;
                     AbilityCombatInfo abilityCombatInfo = default;
-                    GamePack.Current.AbilityControl[window.UI.General.CombatUnit.SelectedAbility].GetCombatInfo(window.UI.General.CombatUnit.Unit.Troop, ref abilityCombatInfo);
+                    GamePack.Current.AbilityControl[window.UI.General.CombatUnit.SelectedAbility].GetCombatInfo(window.UI.General.CombatUnit.Unit.Troop, info: ref abilityCombatInfo);
                     string name = GamePack.Current.AbilityControl[window.UI.General.CombatUnit.SelectedAbility].GetName(window.UI.General.CombatUnit.Unit.Troop);
                     window.AbilityNameLabel.Text = name;
                     window.AbilityAttackLabel.Text = abilityCombatInfo.Attack > 0 ? IntToStr(abilityCombatInfo.Attack) : "-";

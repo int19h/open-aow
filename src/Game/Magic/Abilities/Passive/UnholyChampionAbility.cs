@@ -12,7 +12,7 @@ public class UnholyChampionAbility : EnhancementAbility
     public UnholyChampionAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.UnholyChampionText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.UnholyChampionText);
         AbilityId = 147;
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem, AbilitySelectionType.Editor);
     }

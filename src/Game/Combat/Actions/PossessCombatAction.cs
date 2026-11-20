@@ -105,7 +105,7 @@ public class PossessCombatAction(CustomNode owner) : SingleTargetCombatAction(ow
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == SourceId || objectValue.Id == TargetId)
         {
-            _ = GamePack.Current.AbilityControl[106].ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
+            _ = GamePack.Current.AbilityControl[106].ImageSequences.Show(0, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
         }
     }
 

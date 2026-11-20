@@ -58,7 +58,7 @@ public sealed partial class EngineFixture : IDisposable
     internal static GamePack CreateGameSet(ImageLibraryManager manager)
     {
         GamePack value = GamePack.Create(null!, holder: Engine);
-        MemberNames.Field(typeof(GamePack), "ImageLibraryManager")!.SetValue(value, manager);
+        MemberNames.Field(typeof(GamePack), name: "ImageLibraryManager")!.SetValue(value, value: manager);
         return value;
     }
 

@@ -149,7 +149,7 @@ public abstract class CustomNode : EngineObject, IOwner
                     if (c is not null && c.LastMessage != message.Sequence)
                     {
                         c.LastMessage = message.Sequence;
-                        c.MessageProc(ref message, this);
+                        c.MessageProc(ref message, sender: this);
                     }
                 }
             }
@@ -161,7 +161,7 @@ public abstract class CustomNode : EngineObject, IOwner
                     if (c is not null && c.LastMessage != message.Sequence && c.Owner == this)
                     {
                         c.LastMessage = message.Sequence;
-                        c.MessageProc(ref message, this);
+                        c.MessageProc(ref message, sender: this);
                     }
                 }
             }
@@ -173,7 +173,7 @@ public abstract class CustomNode : EngineObject, IOwner
                 for (int i = Count - 1; i >= 0; i--)
                 {
                     c = Children[i];
-                    c?.MessageProc(ref message, this);
+                    c?.MessageProc(ref message, sender: this);
                 }
             }
             else
@@ -183,7 +183,7 @@ public abstract class CustomNode : EngineObject, IOwner
                     c = Children[i];
                     if (c is not null && c.Owner == this)
                     {
-                        c.MessageProc(ref message, this);
+                        c.MessageProc(ref message, sender: this);
                     }
                 }
             }
@@ -299,7 +299,7 @@ public abstract class CustomNode : EngineObject, IOwner
 
     public sealed class ChildrenAccessor(CustomNode target)
     {
-        public EngineObject this[int index] { get => target.GetChild(index); set => target.SetChild(index, value); }
+        public EngineObject this[int index] { get => target.GetChild(index); set => target.SetChild(index, child: value); }
     }
 
     public ChildrenAccessor Children => new(this);
@@ -327,7 +327,7 @@ public abstract class CustomNode : EngineObject, IOwner
     {
         if (child is not null && !AcceptsChild(child))
         {
-            throw new ArgumentException($"{GetType().Name} does not take a child of type {child.GetType().Name}.", nameof(child));
+            throw new ArgumentException($"{GetType().Name} does not take a child of type {child.GetType().Name}.", paramName: nameof(child));
         }
     }
 }

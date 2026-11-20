@@ -16,12 +16,12 @@ public sealed record Trade(int TurnsTotal) : ProductionOrder
     public override CityAction CityAction => CityAction.Trade;
 
     public override string Name(ProductionControl control) => control.MagicSphere() != MagicSphere.None
-        ? AbilityRules.TranslateResourceString(control.GetEngine(), GenerateExtraPowerText)
-        : AbilityRules.TranslateResourceString(control.GetEngine(), GameText.ProduceMerchandiseText);
+        ? AbilityRules.TranslateResourceString(control.GetEngine(), S: GenerateExtraPowerText)
+        : AbilityRules.TranslateResourceString(control.GetEngine(), S: GameText.ProduceMerchandiseText);
 
     public override string NameProgressive(ProductionControl control) => control.MagicSphere() != MagicSphere.None
-        ? AbilityRules.TranslateResourceString(control.GetEngine(), GameText.GeneratingExtraPowerText)
-        : AbilityRules.TranslateResourceString(control.GetEngine(), GameText.ProducingMerchandiseText);
+        ? AbilityRules.TranslateResourceString(control.GetEngine(), S: GameText.GeneratingExtraPowerText)
+        : AbilityRules.TranslateResourceString(control.GetEngine(), S: GameText.ProducingMerchandiseText);
 
     public override bool CanExecute(ProductionControl control, ref string reason) => true;
 

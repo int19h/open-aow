@@ -140,7 +140,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     {
         if (trigger == ExecuteTrigger.User || ((trigger == ExecuteTrigger.Event || (trigger == ExecuteTrigger.NewTurn && StrategicMap.Current.RequestCombatType)) && StrategicMap.Current.SeatedPlayer == Player))
         {
-            StrategicMap.Current.TriggerExecuteEventLog(this, mode, done);
+            StrategicMap.Current.TriggerExecuteEventLog(this, immediate: mode, done);
             return true;
         }
         else
@@ -186,7 +186,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
                 player.EventLogbook.AddEvent(copyLog);
                 if (i == StrategicMap.Current.SeatedPlayer && execute)
                 {
-                    _ = copyLog.Execute(false, ExecuteTrigger.Event, null);
+                    _ = copyLog.Execute(false, trigger: ExecuteTrigger.Event, done: null);
                 }
 
                 _ = copyLog.Release();
@@ -199,13 +199,13 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
         for (int i = 0, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
         {
             Player targetPlayer = StrategicMap.Current.Players.GetPlayers(i);
-            if (targetPlayer.Status == PlayerStatus.Playing && (i == player || !StrategicMap.Current.FoggedForPlayer(x, y, level, (sbyte)i)))
+            if (targetPlayer.Status == PlayerStatus.Playing && (i == player || !StrategicMap.Current.FoggedForPlayer(x, y, L: level, player: (sbyte)i)))
             {
                 EventLog copyLog = log.Copy<EventLog>(log.GetEngine());
                 targetPlayer.EventLogbook.AddEvent(copyLog);
                 if (i == StrategicMap.Current.SeatedPlayer && StrategicMap.Current.Players.GetPlayers(i).PlayerType == PlayerType.Human && execute)
                 {
-                    _ = copyLog.Execute(false, ExecuteTrigger.Event, null);
+                    _ = copyLog.Execute(false, trigger: ExecuteTrigger.Event, done: null);
                 }
 
                 _ = copyLog.Release();

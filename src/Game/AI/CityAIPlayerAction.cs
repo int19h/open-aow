@@ -219,7 +219,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
             index = StrategicMap.Current.Random(index + 1);
             city = cities[index].First;
             RandSeed = StrategicMap.Current.Random(16777215);
-            index = cities[index].First.Production.FindOptimalResearchProduction(null, researchBudget.Gold + upgradeBudget.Gold);
+            index = cities[index].First.Production.FindOptimalResearchProduction(null, gold: researchBudget.Gold + upgradeBudget.Gold);
             if (index != -1)
             {
                 city.Production.ExecuteDeleteProductions();
@@ -234,12 +234,12 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
                 if (index > researchBudget.Gold)
                 {
                     index -= researchBudget.Gold;
-                    _ = player.AIBudget.BudgetExpenseMade(researchBudget.Gold, 0, researchBudget, AIBudgetManager.ExpenseMode.Budget);
-                    _ = player.AIBudget.BudgetExpenseMade(index, 0, upgradeBudget, AIBudgetManager.ExpenseMode.Budget);
+                    _ = player.AIBudget.BudgetExpenseMade(researchBudget.Gold, mana: 0, budget: researchBudget, mode: AIBudgetManager.ExpenseMode.Budget);
+                    _ = player.AIBudget.BudgetExpenseMade(index, mana: 0, budget: upgradeBudget, mode: AIBudgetManager.ExpenseMode.Budget);
                 }
                 else
                 {
-                    _ = player.AIBudget.BudgetExpenseMade(index, 0, researchBudget, AIBudgetManager.ExpenseMode.Budget);
+                    _ = player.AIBudget.BudgetExpenseMade(index, mana: 0, budget: researchBudget, mode: AIBudgetManager.ExpenseMode.Budget);
                 }
 
                 result = true;
@@ -312,7 +312,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
             };
             city.Production.ExecuteAddProduction(production);
             production?.Dispose();
-            _ = player.AIBudget.BudgetExpenseMade(250, 0, budget, AIBudgetManager.ExpenseMode.Budget);
+            _ = player.AIBudget.BudgetExpenseMade(250, mana: 0, budget, mode: AIBudgetManager.ExpenseMode.Budget);
 
             result = true;
         }
@@ -423,7 +423,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
             city = cities[0].First;
             city.Production.ExecuteDeleteProductions();
             int fortifyCost = city.FortifyCost();
-            _ = player.AIBudget.BudgetExpenseMade(fortifyCost, 0, budget, AIBudgetManager.ExpenseMode.Budget);
+            _ = player.AIBudget.BudgetExpenseMade(fortifyCost, mana: 0, budget, mode: AIBudgetManager.ExpenseMode.Budget);
             ProductionItem production = new(null)
             {
                 Holder = CreationHolder(),

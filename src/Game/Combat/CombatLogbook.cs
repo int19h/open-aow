@@ -80,8 +80,8 @@ public class CombatLogbook : EngineObject
     }
 
     // Combat2.pas:368
-    public void SetInitialData(CombatData data) => InitialData.Assign(data, GetEngine());
+    public void SetInitialData(CombatData data) => InitialData.Assign(data, engine: GetEngine());
 
     // Combat2.pas:371
-    public void SetFinalData(CombatData data) => FinalData.Assign(data, GetEngine());
+    public void SetFinalData(CombatData data) => FinalData.Assign(data, engine: GetEngine());
 }

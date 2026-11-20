@@ -45,11 +45,11 @@ public partial class PlayerMagicEventLog(CustomNode owner) : EventLog(owner)
         {
             case EventMode.SpellResearched:
                 Spell spell = GamePack.Current.SpellControl[SpellId];
-                return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_researchedFormat), [spell.SpellName]);
+                return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_researchedFormat), arguments: [spell.SpellName]);
             case EventMode.OutOfMana:
                 return StrategicMap.Current.SeatedPlayer == Player
-                    ? AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_removedOutOfManaFormat), [EnchantmentName])
-                    : AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.RemovedFormat), [EnchantmentName]);
+                    ? AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_removedOutOfManaFormat), arguments: [EnchantmentName])
+                    : AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.RemovedFormat), arguments: [EnchantmentName]);
             case EventMode.StartResearch:
             default:
                 break;
@@ -80,7 +80,7 @@ public partial class PlayerMagicEventLog(CustomNode owner) : EventLog(owner)
         if (x != -1)
         {
             StrategicMap.Current.CenterViewTo(x, Location.Y, Location.MapLevel);
-            StrategicMap.Current.PlayCenterAnimation(Location.X, Location.Y, Location.MapLevel);
+            StrategicMap.Current.PlayCenterAnimation(Location.X, Location.Y, L: Location.MapLevel);
         }
     }
 

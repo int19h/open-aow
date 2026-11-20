@@ -85,7 +85,7 @@ public partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
     }
 
     // AoWTCUnit.pas:138
-    public void TCUnitPnlDrawBack(LockedSurface lockedSurface) => UI.General.CombatUnit?.Unit.Troop.Show(CombatUnitPanel.AbsoluteLeft - 10, CombatUnitPanel.AbsoluteTop - 2, lockedSurface, UI.General.UnitShowInfo);
+    public void TCUnitPnlDrawBack(LockedSurface lockedSurface) => UI.General.CombatUnit?.Unit.Troop.Show(CombatUnitPanel.AbsoluteLeft - 10, CombatUnitPanel.AbsoluteTop - 2, lockedSurface, info: UI.General.UnitShowInfo);
 
     // AoWTCUnit.pas:146
     public void UAbilLBUpdate()
@@ -165,7 +165,7 @@ public partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
         sbyte fCombatUnitHexLevel = UI.General.CombatUnit.HexLevel;
         sbyte fCombatUnitHexY = UI.General.CombatUnit.HexY;
         sbyte fCombatUnitHexX = UI.General.CombatUnit.HexX;
-        CombatMap.Current.PlayCenterAnimation(fCombatUnitHexX, fCombatUnitHexY, fCombatUnitHexLevel);
+        CombatMap.Current.PlayCenterAnimation(fCombatUnitHexX, fCombatUnitHexY, L: fCombatUnitHexLevel);
     }
 
     // AoWTCUnit.pas:195

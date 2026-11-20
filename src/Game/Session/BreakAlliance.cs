@@ -16,9 +16,9 @@ public sealed record BreakAlliance : DiplomaticProposal
 
     public override int Icon => 8;
 
-    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(action.GetEngine(), GameText.BreakAllianceText);
+    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(action.GetEngine(), S: GameText.BreakAllianceText);
 
-    public override string LogText(DiplomaticAction action) => AbilityRules.TranslateResourceString(action.GetEngine(), AllianceBrokenText);
+    public override string LogText(DiplomaticAction action) => AbilityRules.TranslateResourceString(action.GetEngine(), S: AllianceBrokenText);
 
     public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation)
         => text.Proposing(109);
@@ -26,19 +26,19 @@ public sealed record BreakAlliance : DiplomaticProposal
     public override void Sent(DiplomaticAction action)
     {
         action.ApplyRelationModifiers();
-        StrategicMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Source, (sbyte)(byte)action.Target, DiplomaticRelation.Peace);
+        StrategicMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Source, otherPlayer: (sbyte)(byte)action.Target, relation: DiplomaticRelation.Peace);
         if (action.Source == StrategicMap.Current.SeatedPlayer)
         {
-            string allianceBroken = AbilityRules.TranslateResourceString(action.GetEngine(), AllianceBrokenText);
+            string allianceBroken = AbilityRules.TranslateResourceString(action.GetEngine(), S: AllianceBrokenText);
             StrategicMap.Current.ShowMessage(allianceBroken);
         }
 
-        Broadcast(action, -1, action.Target);
+        Broadcast(action, exclude: -1, viewer: action.Target);
     }
 
     public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race)
-        => player == action.Source && Relation(action.Source, action.Target) == DiplomaticRelation.Alliance
-            ? RaceModifier(action.Target, race, -40)
+        => player == action.Source && Relation(action.Source, second: action.Target) == DiplomaticRelation.Alliance
+            ? RaceModifier(action.Target, race, modifier: -40)
             : 0;
 
     internal static string AllianceBrokenText { get; } = "Alliance broken";

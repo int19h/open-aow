@@ -38,7 +38,7 @@ public partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
             ArmyHexSprite army = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_event.Location).GetArmyHexSprite();
             if (army is not null && army.Army.Player == StrategicMap.Current.SeatedPlayer)
             {
-                return army.Army.Hero(255, RosterTables.AllHeroTypes);
+                return army.Army.Hero(255, types: RosterTables.AllHeroTypes);
             }
         }
 
@@ -82,7 +82,7 @@ public partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
             {
                 int itemId = _event.ItemIds[slot + _itemOffset];
                 Item item = StrategicMap.Current.ItemControl.FindItem(itemId);
-                item?.Show(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, lockedSurface);
+                item?.Show(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, surface: lockedSurface);
             }
         }
     }
@@ -106,7 +106,7 @@ public partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
                 {
                     TextControlItem id = StrategicMap.Current.TextControl.FindId(55);
                     eventValue.Message.Assign(id.Text);
-                    StrategicMap.Current.TriggerExecuteEventLog(eventValue, true, null);
+                    StrategicMap.Current.TriggerExecuteEventLog(eventValue, immediate: true, done: null);
                 }
 
                 _ = eventValue.Release();
@@ -186,7 +186,7 @@ public partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
             dialog.PickupPanel.Visible = true;
         }
 
-        StrategicMap.Current.TutorialControl.ShowMessage(54, true, true);
+        StrategicMap.Current.TutorialControl.ShowMessage(54, immediate: true, onceOnly: true);
         dialog.Window.Drawn = false;
         dialog.Window.Visible = true;
     }

@@ -26,7 +26,7 @@ public class SByteList : Persistent
     {
         if (index < 0)
         {
-            Error("List index out of bounds (%d)", index);
+            Error("List index out of bounds (%d)", data: index);
         }
 
         if (index >= _count)
@@ -42,12 +42,12 @@ public class SByteList : Persistent
     {
         if (newCapacity < _count || newCapacity > EngineServices.MaxListSize)
         {
-            Error("List capacity out of bounds (%d)", newCapacity);
+            Error("List capacity out of bounds (%d)", data: newCapacity);
         }
 
         if (newCapacity != _capacity)
         {
-            Array.Resize(ref _list, newCapacity * 1);
+            Array.Resize(ref _list, newSize: newCapacity * 1);
             _capacity = newCapacity;
         }
     }
@@ -57,7 +57,7 @@ public class SByteList : Persistent
     {
         if (newCount is < 0 or > EngineServices.MaxListSize)
         {
-            Error("List count out of bounds (%d)", newCount);
+            Error("List count out of bounds (%d)", data: newCount);
         }
 
         if (newCount > _capacity)
@@ -67,7 +67,7 @@ public class SByteList : Persistent
 
         if (newCount > _count)
         {
-            _list.AsSpan(_count, newCount - _count).Fill(_default);
+            _list.AsSpan(_count, length: newCount - _count).Fill(_default);
         }
 
         _count = newCount;
@@ -90,7 +90,7 @@ public class SByteList : Persistent
         {
             _count = sByteList._count;
             SetCapacity(sByteList._count);
-            Array.Copy(sByteList._list, 0, _list, 0, _count * 1);
+            Array.Copy(sByteList._list, sourceIndex: 0, destinationArray: _list, destinationIndex: 0, length: _count * 1);
             _default = sByteList._default;
         }
         else
@@ -125,13 +125,13 @@ public class SByteList : Persistent
     {
         if (index < 0 || index >= _count)
         {
-            Error("List index out of bounds (%d)", index);
+            Error("List index out of bounds (%d)", data: index);
         }
 
         _count -= 1;
         if (index < _count)
         {
-            Array.Copy(_list, index + 1, _list, index, (_count - index) * 1);
+            Array.Copy(_list, sourceIndex: index + 1, destinationArray: _list, destinationIndex: index, length: (_count - index) * 1);
         }
     }
 
@@ -140,12 +140,12 @@ public class SByteList : Persistent
     {
         if (index1 < 0 || index1 >= _count)
         {
-            Error("List index out of bounds (%d)", index1);
+            Error("List index out of bounds (%d)", data: index1);
         }
 
         if (index2 < 0 || index2 >= _count)
         {
-            Error("List index out of bounds (%d)", index2);
+            Error("List index out of bounds (%d)", data: index2);
         }
 
         (_list[index2], _list[index1]) = (_list[index1], _list[index2]);
@@ -182,7 +182,7 @@ public class SByteList : Persistent
     {
         if (index < 0 || index > _count)
         {
-            Error("List index out of bounds (%d)", index);
+            Error("List index out of bounds (%d)", data: index);
         }
 
         if (_count == _capacity)
@@ -192,7 +192,7 @@ public class SByteList : Persistent
 
         if (index < _count)
         {
-            Array.Copy(_list, index, _list, index + 1, (_count - index) * 1);
+            Array.Copy(_list, sourceIndex: index, destinationArray: _list, destinationIndex: index + 1, length: (_count - index) * 1);
         }
 
         _list[index] = item;
@@ -209,7 +209,7 @@ public class SByteList : Persistent
         {
             if (newIndex < 0 || newIndex >= _count)
             {
-                Error("List index out of bounds (%d)", newIndex);
+                Error("List index out of bounds (%d)", data: newIndex);
             }
 
             sbyte item = Get(currentIndex);
@@ -247,12 +247,12 @@ public class SByteList : Persistent
     {
         if (_list.Length != 0 && Count > 0)
         {
-            QuickSortShortInteger(_list, 0, Count - 1, compare);
+            QuickSortShortInteger(_list, L: 0, R: Count - 1, sCompare: compare);
         }
     }
 
     // Engine.pas:4153
-    public bool Compare(SByteList list) => list._count == _count && _list.AsSpan(0, _count).SequenceEqual(list._list.AsSpan(0, _count));
+    public bool Compare(SByteList list) => list._count == _count && _list.AsSpan(0, length: _count).SequenceEqual(list._list.AsSpan(0, length: _count));
 
     // Engine.pas:4160
     public void LoadFromStream(Stream stream)
@@ -261,15 +261,15 @@ public class SByteList : Persistent
         sbyte item = default;
         int count = default;
         Clear();
-        stream.ReadExactly(Bytes.Of(ref _default, 1));
-        stream.ReadExactly(Bytes.Of(ref count, 4));
+        stream.ReadExactly(Bytes.Of(ref _default, count: 1));
+        stream.ReadExactly(Bytes.Of(ref count, count: 4));
         SetCapacity(count);
         while (_count < count)
         {
-            stream.ReadExactly(Bytes.Of(ref item, 1));
+            stream.ReadExactly(Bytes.Of(ref item, count: 1));
             if (item == _default)
             {
-                stream.ReadExactly(Bytes.Of(ref run, 1));
+                stream.ReadExactly(Bytes.Of(ref run, count: 1));
                 SetCount(_count + run);
             }
             else
@@ -297,8 +297,8 @@ public class SByteList : Persistent
         }
 
         i = 0;
-        stream.Write(Bytes.Of(ref _default, 1));
-        stream.Write(Bytes.Of(ref _count, 4));
+        stream.Write(Bytes.Of(ref _default, count: 1));
+        stream.Write(Bytes.Of(ref _count, count: 4));
         while (_count != i)
         {
             int run = DefaultRun();
@@ -308,20 +308,20 @@ public class SByteList : Persistent
                 while (run > 255)
                 {
                     b = 255;
-                    stream.Write(Bytes.Of(ref _default, 1));
-                    stream.Write(Bytes.Of(ref b, 1));
+                    stream.Write(Bytes.Of(ref _default, count: 1));
+                    stream.Write(Bytes.Of(ref b, count: 1));
                     run -= 255;
                     i += 255;
                 }
 
                 b = (byte)run;
-                stream.Write(Bytes.Of(ref _default, 1));
-                stream.Write(Bytes.Of(ref b, 1));
+                stream.Write(Bytes.Of(ref _default, count: 1));
+                stream.Write(Bytes.Of(ref b, count: 1));
                 i += run;
             }
             else
             {
-                stream.Write(MemoryMarshal.AsBytes(_list.AsSpan(i, 1)));
+                stream.Write(MemoryMarshal.AsBytes(_list.AsSpan(i, length: 1)));
                 i += 1;
             }
         }
@@ -373,12 +373,12 @@ public class SByteList : Persistent
     public int Count { get => _count; set => SetCount(value); }
     public sbyte Default { get => _default; set => _default = value; }
 
-    public sbyte this[int index] { get => Get(index); set => Put(index, value); }
+    public sbyte this[int index] { get => Get(index); set => Put(index, item: value); }
 
     public sbyte[] List => _list;
 
     // Engine.pas:3992
-    protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
+    protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, message: Format(message, args: [data]));
 
     private static void QuickSortShortInteger(Span<sbyte> sortList, int L, int R, ShortIntSortCompare sCompare)
     {
@@ -412,7 +412,7 @@ public class SByteList : Persistent
             }
             if (L < number2)
             {
-                QuickSortShortInteger(sortList, L, number2, sCompare);
+                QuickSortShortInteger(sortList, L, R: number2, sCompare);
             }
             L = number;
         }

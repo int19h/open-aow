@@ -42,7 +42,7 @@ public class AbstractRoad(CustomNode owner) : MapObject(owner)
                 sbyte hexLevel = HexLevel;
                 sbyte hexY = HexY;
                 sbyte hexX = HexX;
-                if (Resource.TerrainControl.Place(Owner.Owner.Owner, hexX, hexY, hexLevel, message.TerrainType) is null)
+                if (Resource.TerrainControl.Place(Owner.Owner.Owner, hexX, hexY, L: hexLevel, message.TerrainType) is null)
                 {
                     Dispose();
                 }

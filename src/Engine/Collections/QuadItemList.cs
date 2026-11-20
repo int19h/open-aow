@@ -22,7 +22,7 @@ public class QuadItemList : Persistent
     {
         if (index < 0)
         {
-            Error("List index out of bounds (%d)", index);
+            Error("List index out of bounds (%d)", data: index);
         }
 
         if (index >= _count)
@@ -38,12 +38,12 @@ public class QuadItemList : Persistent
     {
         if (newCapacity < _count || newCapacity > EngineServices.MaxListSize)
         {
-            Error("List capacity out of bounds (%d)", newCapacity);
+            Error("List capacity out of bounds (%d)", data: newCapacity);
         }
 
         if (newCapacity != _capacity)
         {
-            Array.Resize(ref _list, newCapacity);
+            Array.Resize(ref _list, newSize: newCapacity);
             _capacity = newCapacity;
         }
     }
@@ -53,7 +53,7 @@ public class QuadItemList : Persistent
     {
         if (newCount is < 0 or > EngineServices.MaxListSize)
         {
-            Error("List count out of bounds (%d)", newCount);
+            Error("List count out of bounds (%d)", data: newCount);
         }
 
         if (newCount > _capacity)
@@ -63,7 +63,7 @@ public class QuadItemList : Persistent
 
         if (newCount > _count)
         {
-            FillQuadInteger(_list.AsSpan(_count), newCount - _count, Default);
+            FillQuadInteger(_list.AsSpan(_count), count: newCount - _count, value: Default);
         }
 
         _count = newCount;
@@ -86,7 +86,7 @@ public class QuadItemList : Persistent
         {
             _count = quadItemList._count;
             SetCapacity(quadItemList._count);
-            Array.Copy(quadItemList._list, 0, _list, 0, _count);
+            Array.Copy(quadItemList._list, sourceIndex: 0, destinationArray: _list, destinationIndex: 0, length: _count);
             Default = quadItemList.Default;
         }
         else
@@ -135,13 +135,13 @@ public class QuadItemList : Persistent
     {
         if (index < 0 || index >= _count)
         {
-            Error("List index out of bounds (%d)", index);
+            Error("List index out of bounds (%d)", data: index);
         }
 
         _count -= 1;
         if (index < _count)
         {
-            _list.AsSpan(index + 1, _count - index).CopyTo(_list.AsSpan(index, _count - index));
+            _list.AsSpan(index + 1, length: _count - index).CopyTo(_list.AsSpan(index, length: _count - index));
         }
     }
 
@@ -150,12 +150,12 @@ public class QuadItemList : Persistent
     {
         if (index1 < 0 || index1 >= _count)
         {
-            Error("List index out of bounds (%d)", index1);
+            Error("List index out of bounds (%d)", data: index1);
         }
 
         if (index2 < 0 || index2 >= _count)
         {
-            Error("List index out of bounds (%d)", index2);
+            Error("List index out of bounds (%d)", data: index2);
         }
 
         (_list[index2], _list[index1]) = (_list[index1], _list[index2]);
@@ -240,7 +240,7 @@ public class QuadItemList : Persistent
     {
         if (index < 0 || index > _count)
         {
-            Error("List index out of bounds (%d)", index);
+            Error("List index out of bounds (%d)", data: index);
         }
 
         if (_count == _capacity)
@@ -250,7 +250,7 @@ public class QuadItemList : Persistent
 
         if (index < _count)
         {
-            _list.AsSpan(index, _count - index).CopyTo(_list.AsSpan(index + 1, _count - index));
+            _list.AsSpan(index, length: _count - index).CopyTo(_list.AsSpan(index + 1, length: _count - index));
         }
 
         _list[index] = item;
@@ -267,7 +267,7 @@ public class QuadItemList : Persistent
         {
             if (newIndex < 0 || newIndex >= _count)
             {
-                Error("List index out of bounds (%d)", newIndex);
+                Error("List index out of bounds (%d)", data: newIndex);
             }
 
             QuadInteger item = Get(currentIndex);
@@ -305,7 +305,7 @@ public class QuadItemList : Persistent
     {
         if (_list.Length != 0 && Count > 0)
         {
-            QuickSortQuadItem(_list, 0, Count - 1, compare);
+            QuickSortQuadItem(_list, L: 0, R: Count - 1, sCompare: compare);
         }
     }
 
@@ -334,18 +334,18 @@ public class QuadItemList : Persistent
     public void SortDescendingItemD() => Sort(CompareQuadItemDDescending);
 
     // Engine.pas:5777
-    public bool Compare(QuadItemList list) => list._count == _count && _list.AsSpan(0, _count).SequenceEqual(list._list.AsSpan(0, _count));
+    public bool Compare(QuadItemList list) => list._count == _count && _list.AsSpan(0, length: _count).SequenceEqual(list._list.AsSpan(0, length: _count));
 
     public int Capacity { get => _capacity; set => SetCapacity(value); }
     public int Count { get => _count; set => SetCount(value); }
     public QuadInteger Default { get; set; }
 
-    public QuadInteger this[int index] { get => Get(index); set => Put(index, value); }
+    public QuadInteger this[int index] { get => Get(index); set => Put(index, item: value); }
 
     public QuadInteger[] List => _list;
 
     // Engine.pas:5505
-    protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
+    protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, message: Format(message, args: [data]));
 
     private static void QuickSortQuadItem(Span<QuadInteger> sortList, int L, int R, QuadItemSortCompare sCompare)
     {
@@ -379,7 +379,7 @@ public class QuadItemList : Persistent
             }
             if (L < number2)
             {
-                QuickSortQuadItem(sortList, L, number2, sCompare);
+                QuickSortQuadItem(sortList, L, R: number2, sCompare);
             }
             L = number;
         }

@@ -20,7 +20,7 @@ public class LifeMasteryEnchantment : GlobalEnchantment
     public LifeMasteryEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.LifeMasteryText);
+        Name = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.LifeMasteryText);
         EnchantmentType = GlobalEnchantmentType.None;
         DispelMana = 175;
     }
@@ -36,8 +36,8 @@ public class LifeMasteryEnchantment : GlobalEnchantment
         StrategicMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Death);
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.LifeMastery));
-        EngineMessage.InitializeMessage(out EngineMessage message, 537002240, this);
-        StrategicMap.Current.SendMessage(ref message, this);
+        EngineMessage.InitializeMessage(out EngineMessage message, messageId: 537002240, sender: this);
+        StrategicMap.Current.SendMessage(ref message, sender: this);
         return true;
     }
 
@@ -49,9 +49,9 @@ public class LifeMasteryEnchantment : GlobalEnchantment
         {
             if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.LifeMastery))
             {
-                string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
+                string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsAlreadyActiveFormat);
                 string name = GetName();
-                reason = DelphiFormat.Format(xIsAlreadyActive, [name]);
+                reason = DelphiFormat.Format(xIsAlreadyActive, args: [name]);
                 return false;
             }
         }

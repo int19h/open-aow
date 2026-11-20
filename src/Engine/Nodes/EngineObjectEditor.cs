@@ -13,7 +13,7 @@ public partial class EngineObjectEditor(CustomNode owner) : EngineObject(owner),
     public static int EditorClassId => 0;
 
     // Engine.pas:3041
-    public static void Edit(EngineObject objectValue, GameEngine engine, EditDoneEvent done) => done(EditResult.Cancel, objectValue);
+    public static void Edit(EngineObject objectValue, GameEngine engine, EditDoneEvent done) => done(EditResult.Cancel, EObject: objectValue);
 
     public enum EditModeElement : byte
     {

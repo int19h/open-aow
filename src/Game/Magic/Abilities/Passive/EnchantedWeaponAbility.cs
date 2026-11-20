@@ -10,7 +10,7 @@ public class EnchantedWeaponAbility : UnitEnchantmentAbility
     public EnchantedWeaponAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_enchantedWeaponText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_enchantedWeaponText);
         AbilityId = 154;
     }
 

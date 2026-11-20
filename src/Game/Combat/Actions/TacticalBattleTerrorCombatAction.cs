@@ -43,7 +43,7 @@ public class TacticalBattleTerrorCombatAction(CustomNode owner) : CombatAction(o
         if (ManaCost != 0 && combat.Status.Contains(CombatStatusElement.Executing))
         {
             CombatUnit source = combat.CombatData.FindId<CombatUnit>(_sourceId);
-            GamePack.Current.SpellControl[105].CastingDone(source.Troop, ManaCost);
+            GamePack.Current.SpellControl[105].CastingDone(source.Troop, mana: ManaCost);
         }
     }
 

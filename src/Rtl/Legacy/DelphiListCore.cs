@@ -24,7 +24,7 @@ internal static class DelphiListCore
     }
 
     // CLASSES.PAS TList.Error.
-    internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, DelphiFormat.Format(message, data));
+    internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, message: DelphiFormat.Format(message, data));
 
     internal static int Growth(int capacity) => capacity > 64 ? capacity / 4 : capacity > 8 ? 16 : 4;
 
@@ -32,7 +32,7 @@ internal static class DelphiListCore
     {
         if (index < 0 || index >= count)
         {
-            Error("List index out of bounds (%d)", index);
+            Error("List index out of bounds (%d)", data: index);
         }
     }
 
@@ -40,7 +40,7 @@ internal static class DelphiListCore
     {
         if (index < 0 || index > count)
         {
-            Error("List index out of bounds (%d)", index);
+            Error("List index out of bounds (%d)", data: index);
         }
     }
 
@@ -48,7 +48,7 @@ internal static class DelphiListCore
     {
         if (value is < 0 or > 134217727)
         {
-            Error("List count out of bounds (%d)", value);
+            Error("List count out of bounds (%d)", data: value);
         }
 
         if (value > items.Length)
@@ -58,7 +58,7 @@ internal static class DelphiListCore
 
         if (value > count)
         {
-            Array.Clear(items, count, value - count);
+            Array.Clear(items, index: count, length: value - count);
         }
 
         count = value;
@@ -68,15 +68,15 @@ internal static class DelphiListCore
     {
         if (value < count || value > 134217727)
         {
-            Error("List capacity out of bounds (%d)", value);
+            Error("List capacity out of bounds (%d)", data: value);
         }
 
-        Array.Resize(ref items, value);
+        Array.Resize(ref items, newSize: value);
     }
 
     internal static void InsertAt<T>(T[] items, ref int count, int index, T item)
     {
-        Array.Copy(items, index, items, index + 1, count - index);
+        Array.Copy(items, sourceIndex: index, destinationArray: items, destinationIndex: index + 1, length: count - index);
         items[index] = item;
         count++;
     }
@@ -86,7 +86,7 @@ internal static class DelphiListCore
     {
         Check(index, count);
         count--;
-        Array.Copy(items, index + 1, items, index, count - index);
+        Array.Copy(items, sourceIndex: index + 1, destinationArray: items, destinationIndex: index, length: count - index);
     }
 
     internal static bool Same(object? left, object? right)
@@ -130,7 +130,7 @@ internal static class DelphiListCore
         {
             if (items[i] is null)
             {
-                Delete(items, ref count, i);
+                Delete(items, ref count, index: i);
             }
         }
     }
@@ -140,13 +140,13 @@ internal static class DelphiListCore
     {
         if (count > 0)
         {
-            QuickSort(items, 0, count - 1, new TypedCompare<T>(compare));
+            QuickSort(items, 0, count - 1, compare: new TypedCompare<T>(compare));
         }
     }
 
     internal static void SortStable<T>(T?[] items, int count, ListSortCompare<T> compare)
         where T : class
-        => SortStable(items, count, new TypedCompare<T>(compare));
+        => SortStable(items, count, compare: new TypedCompare<T>(compare));
 
     internal static void SortAs<T, TItem>(T?[] items, int count, ListSortCompare<TItem> compare)
         where T : class
@@ -154,14 +154,14 @@ internal static class DelphiListCore
     {
         if (count > 0)
         {
-            QuickSort(items, 0, count - 1, new NarrowCompare<T, TItem>(compare));
+            QuickSort(items, 0, count - 1, compare: new NarrowCompare<T, TItem>(compare));
         }
     }
 
     internal static void SortStableAs<T, TItem>(T?[] items, int count, ListSortCompare<TItem> compare)
         where T : class
         where TItem : class, T
-        => SortStable(items, count, new NarrowCompare<T, TItem>(compare));
+        => SortStable(items, count, compare: new NarrowCompare<T, TItem>(compare));
 
     private static void SortStable<T, TCompare>(T[] items, int count, TCompare compare)
         where TCompare : ICompare<T>

@@ -32,14 +32,14 @@ public sealed class TacticalBattleWallCastTests
         OwningNode objects = combat.CombatData.CombatObjects;
         TacticalBattleUnit unit = new(objects) { Combat = combat };
         CombatWall wall = new(objects) { Combat = combat };
-        wall.Setup(1, 1, 0);
-        Assert.Equal(-1, ai.MakeTerrainPath(settings, path, ref value, unit, wall, true, true, 1));
+        wall.Setup(1, wallType: 1, combatPlayer: 0);
+        Assert.Equal(-1, ai.MakeTerrainPath(settings, path, ref value, unit, ignore: wall, freeStrikes: true, findWalls: true, cost: 1));
         Assert.Equal(0, value);
         value = 7;
-        Assert.Equal(-1, ai.MakeTerrainPath(settings, path, ref value, unit, unit, true, false, 1));
+        Assert.Equal(-1, ai.MakeTerrainPath(settings, path, ref value, unit, ignore: unit, freeStrikes: true, findWalls: false, cost: 1));
         Assert.Equal(0, value);
         value = 7;
-        Assert.Equal(-1, ai.MakeTerrainPath(settings, path, ref value, unit, null, false, false, 1));
+        Assert.Equal(-1, ai.MakeTerrainPath(settings, path, ref value, unit, ignore: null, freeStrikes: false, findWalls: false, cost: 1));
         Assert.Equal(0, value);
     }
 
@@ -55,7 +55,7 @@ public sealed class TacticalBattleWallCastTests
             OwningNode objects = combat.CombatData.CombatObjects;
             Troop hero = new(null) { Holder = EngineFixture.Engine };
             CombatWall wall = new(objects) { Combat = combat };
-            wall.Setup(1, 1, 0);
+            wall.Setup(1, wallType: 1, combatPlayer: 0);
             TacticalBattleUnit unit = new(objects) { Combat = combat, Id = 2, Position = 1, Troop = hero };
             unit.UnitHexSprite = new PlacedUnitHexSprite(null) { Holder = EngineFixture.Engine, Unit = unit };
             sbyte y = 0;

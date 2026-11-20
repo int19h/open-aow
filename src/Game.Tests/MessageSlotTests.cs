@@ -39,7 +39,7 @@ public sealed class MessageSlotTests
         Handler[] handlers = [.. procs.Select(p => new Handler(p))];
         foreach (Handler? handler in handlers)
         {
-            _ = field.AddHexSprite(handler, 0);
+            _ = field.AddHexSprite(handler, hexNumber: 0);
         }
 
         return (field, handlers);
@@ -114,12 +114,12 @@ public sealed class MessageSlotTests
     public void ThePayloadCarriesTheEngineOrThePlayer()
     {
         using GameEngine engine = new(null);
-        EngineMessage.InitializeMessage(out EngineMessage message, 0x20000008, engine);
+        EngineMessage.InitializeMessage(out EngineMessage message, messageId: 0x20000008, sender: engine);
         message.Payload = engine;
         Assert.Same(engine, message.Payload.As<GameEngine>());
         _ = Assert.Throws<InvalidCastException>(() => message.Payload.Int);
         Assert.Equal(-1, message.Result);
-        EngineMessage.InitializeMessage(out message, 0x20020002, engine);
+        EngineMessage.InitializeMessage(out message, messageId: 0x20020002, sender: engine);
         Assert.False(message.Payload.HasValue);
         message.Payload = 5;
         Assert.Equal(5, (sbyte)message.Payload.Int);
@@ -282,8 +282,8 @@ public sealed class MessageSlotTests
         {
             foreach (MethodInfo method in type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly))
             {
-                if (!method.Name.StartsWith("rw", StringComparison.Ordinal) && !method.Name.StartsWith("Read", StringComparison.Ordinal)
-                    && !method.Name.StartsWith("Write", StringComparison.Ordinal))
+                if (!method.Name.StartsWith("rw", comparisonType: StringComparison.Ordinal) && !method.Name.StartsWith("Read", comparisonType: StringComparison.Ordinal)
+                    && !method.Name.StartsWith("Write", comparisonType: StringComparison.Ordinal))
                 {
                     continue;
                 }

@@ -12,7 +12,7 @@ public class Concealment : UnitSpell
     public Concealment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.ConcealmentText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.ConcealmentText);
         SpellId = 39;
         BaseManaCost = 5;
         SpellLevel = 3;

@@ -34,7 +34,7 @@ public sealed record FormatDiagnostic(string Code, string Message)
         }
         else if (Offset is long offset)
         {
-            _ = head.Append(":0x").Append(offset.ToString("x", System.Globalization.CultureInfo.InvariantCulture));
+            _ = head.Append(":0x").Append(offset.ToString("x", provider: System.Globalization.CultureInfo.InvariantCulture));
         }
 
         if (Decompressed)

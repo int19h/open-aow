@@ -28,7 +28,7 @@ public sealed class JsonSettingsStore : ISettingsStore
             string key = Normalize(property.Name);
             if (Allowed(key))
             {
-                _values[key] = Decode(key, property.Value);
+                _values[key] = Decode(key, item: property.Value);
             }
         }
     }
@@ -36,12 +36,12 @@ public sealed class JsonSettingsStore : ISettingsStore
     private static string Normalize(string key)
     {
         key = key.Replace('\\', '/').Trim('/');
-        return key.StartsWith(Prefix, StringComparison.OrdinalIgnoreCase) ? key[Prefix.Length..] : key;
+        return key.StartsWith(Prefix, comparisonType: StringComparison.OrdinalIgnoreCase) ? key[Prefix.Length..] : key;
     }
 
     /// <summary>A string setting read from a file: a path keeps its chars, text is normalized.</summary>
-    public static string ReadText(string key, string value) => s_pathKeys.Contains(Normalize(key), StringComparer.OrdinalIgnoreCase) ? value : Cp1252.Normalize(value);
-    private static bool Allowed(string key) => !key.StartsWith("Software/", StringComparison.OrdinalIgnoreCase) && !key.StartsWith('{');
+    public static string ReadText(string key, string value) => s_pathKeys.Contains(Normalize(key), comparer: StringComparer.OrdinalIgnoreCase) ? value : Cp1252.Normalize(value);
+    private static bool Allowed(string key) => !key.StartsWith("Software/", comparisonType: StringComparison.OrdinalIgnoreCase) && !key.StartsWith('{');
 
     public object? Read(string key) => _values.GetValueOrDefault(Normalize(key)) is { } value ? value is Rect rectangle
         ? $"{rectangle.Left},{rectangle.Top},{rectangle.Right},{rectangle.Bottom}" : Clone(value) : null;
@@ -56,13 +56,13 @@ public sealed class JsonSettingsStore : ISettingsStore
 
         object stored = Clone(value);
         _ = Encode(key, stored);
-        Dictionary<string, object> next = new(_values, StringComparer.OrdinalIgnoreCase) { [key] = stored };
+        Dictionary<string, object> next = new(_values, comparer: StringComparer.OrdinalIgnoreCase) { [key] = stored };
         _ = Directory.CreateDirectory(Path.GetDirectoryName(_path)!);
         string temporary = $"{_path}.{Guid.NewGuid():N}.tmp";
         try
         {
-            File.WriteAllText(temporary, $"{JsonSerializer.Serialize(next.OrderBy(p => p.Key, StringComparer.Ordinal).ToDictionary(p => p.Key, p => Encode(p.Key, p.Value)), new JsonSerializerOptions { WriteIndented = true })}\n");
-            File.Move(temporary, _path, true);
+            File.WriteAllText(temporary, contents: $"{JsonSerializer.Serialize(next.OrderBy(p => p.Key, comparer: StringComparer.Ordinal).ToDictionary(p => p.Key, p => Encode(p.Key, p.Value)), options: new JsonSerializerOptions { WriteIndented = true })}\n");
+            File.Move(temporary, destFileName: _path, overwrite: true);
             _values[key] = stored;
         }
         finally
@@ -78,7 +78,7 @@ public sealed class JsonSettingsStore : ISettingsStore
 
     private static object Encode(string key, object value)
     {
-        if (value is string rectangleText && (key.StartsWith("General/rectangles/", StringComparison.OrdinalIgnoreCase) || key.Equals("Workspace/Main Window Position", StringComparison.OrdinalIgnoreCase) || key.Equals("Workspace/Map Window Position", StringComparison.OrdinalIgnoreCase)))
+        if (value is string rectangleText && (key.StartsWith("General/rectangles/", comparisonType: StringComparison.OrdinalIgnoreCase) || key.Equals("Workspace/Main Window Position", comparisonType: StringComparison.OrdinalIgnoreCase) || key.Equals("Workspace/Map Window Position", comparisonType: StringComparison.OrdinalIgnoreCase)))
         {
             int[] coordinates = [.. rectangleText.Split(',').Select(int.Parse)];
             return coordinates.Length != 4
@@ -119,7 +119,7 @@ public sealed class JsonSettingsStore : ISettingsStore
             "string" => ReadText(key, value.GetString()!),
             "bytes" => Convert.FromBase64String(value.GetString()!),
             // TAoWRegistry.rwRect uses a comma separated string through TRegistry.ReadString.
-            "rectangle" => string.Join(",", value.EnumerateArray().Select(e => e.GetInt32())),
+            "rectangle" => string.Join(",", values: value.EnumerateArray().Select(e => e.GetInt32())),
             _ => throw new InvalidDataException("Unsupported setting kind.")
         };
     }

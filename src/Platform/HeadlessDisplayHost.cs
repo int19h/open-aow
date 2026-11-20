@@ -34,7 +34,7 @@ public sealed class HeadlessDisplayHost(string directory, int width = 640, int h
     public void Wheel(float y, int direction, float x, float yPosition, IDisplayEvents sink)
     {
         (int clientWidth, int clientHeight) = ClientSize;
-        DisplayViewport viewport = new(clientWidth, clientHeight, 1, 0, 0, clientWidth, clientHeight);
+        DisplayViewport viewport = new(clientWidth, clientHeight, Scale: 1, 0, 0, clientWidth, clientHeight);
         _input.Wheel(y, direction, x, yPosition, viewport, sink);
     }
 
@@ -42,7 +42,7 @@ public sealed class HeadlessDisplayHost(string directory, int width = 640, int h
     {
         if (surface.Width < 1 || surface.Height < 1 || surface.BitCount != 16 || surface.PixelFormatId != PixelFormat.Rgb555 || Math.Abs((long)surface.Pitch) < surface.Width * 2L)
         {
-            throw new ArgumentException("The presenter requires 555 rows with a valid pitch.", nameof(surface));
+            throw new ArgumentException("The presenter requires 555 rows with a valid pitch.", paramName: nameof(surface));
         }
 
         ClientSize = (surface.Width, surface.Height);
@@ -56,13 +56,13 @@ public sealed class HeadlessDisplayHost(string directory, int width = 640, int h
         byte[] bytes = new byte[checked(pitch * surface.Height)];
         for (int y = 0; y < surface.Height; y++)
         {
-            surface.Data.AsSpan(checked(surface.DataIndex + (y * surface.Pitch)), pitch).CopyTo(bytes.AsSpan(y * pitch, pitch));
+            surface.Data.AsSpan(checked(surface.DataIndex + (y * surface.Pitch)), length: pitch).CopyTo(bytes.AsSpan(y * pitch, length: pitch));
         }
 
         _ = Directory.CreateDirectory(directory);
         string name = Path.Combine(directory, CaptureName ?? $"frame-{FixtureFrame ?? Frame}");
         File.WriteAllBytes($"{name}.raw", bytes);
-        File.WriteAllText($"{name}.json", JsonSerializer.Serialize(new
+        File.WriteAllText($"{name}.json", contents: JsonSerializer.Serialize(new
         {
             width = surface.Width,
             height = surface.Height,
@@ -71,7 +71,7 @@ public sealed class HeadlessDisplayHost(string directory, int width = 640, int h
             format = "RGB555LE",
             orientation = "top-down",
             sha256 = Convert.ToHexStringLower(SHA256.HashData(bytes))
-        }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
+        }, options: new JsonSerializerOptions { WriteIndented = true }) + "\n");
         AfterPresent?.Invoke();
     }
 }

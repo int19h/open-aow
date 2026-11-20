@@ -48,7 +48,7 @@ public class FlagMessageEvent(CustomNode owner) : FlagEvent(owner)
             };
             string text = _message.Text;
             log.Message.Text = text;
-            StrategicMap.Current.TriggerExecuteEventLog(log, TriggerMode == FlagEventTriggerMode.Instant, null);
+            StrategicMap.Current.TriggerExecuteEventLog(log, immediate: TriggerMode == FlagEventTriggerMode.Instant, done: null);
             _ = log.Release();
         }
 
@@ -65,7 +65,7 @@ public class FlagMessageEvent(CustomNode owner) : FlagEvent(owner)
         public override int ResourceUserClassId() => 132461;
 
         // FlagEvents.pas:223
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_flagMessageEventText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_flagMessageEventText);
 
         private static readonly string s_flagMessageEventText = "Flag Message Event";
 

@@ -22,7 +22,7 @@ public class FireMastery : GlobalEnchantmentSpell
     {
         Holder = holder;
         SpellType = SpellType.Global;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.FireMasteryText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FireMasteryText);
         SpellId = 63;
         BaseManaCost = 1;
         SpellLevel = 4;
@@ -40,8 +40,8 @@ public class FireMastery : GlobalEnchantmentSpell
             sbyte x = coordinate66.X;
             sbyte y = coordinate66.Y;
             sbyte l = coordinate66.MapLevel;
-            SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Fire);
-            _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
+            SpellTargets.NotifySpellSphere(source.Player, sphere: MagicSphere.Fire);
+            _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
             Animation animation = new(null)
             {
                 Holder = CreationHolder(),
@@ -53,11 +53,11 @@ public class FireMastery : GlobalEnchantmentSpell
             animation.Activate();
 
             _ = CastSounds.Play(0);
-            CastingDone(source, eventValue.EventMana);
+            CastingDone(source, mana: eventValue.EventMana);
         }
         if (executeCount == 20)
         {
-            _ = base.ExecuteTokenEvent(eventValue, source, 0);
+            _ = base.ExecuteTokenEvent(eventValue, source, executeCount: 0);
             return false;
         }
         else
@@ -95,7 +95,7 @@ public class FireMastery : GlobalEnchantmentSpell
                 }
 
                 int delay = Random(40);
-                _ = CastImages.Show(0, pixelX, pixelY, animation.FrameCounter - delay, surface);
+                _ = CastImages.Show(0, pixelX, pixelY, frame: animation.FrameCounter - delay, lockedSurface: surface);
                 if (animation.FrameCounter == delay && GetEngine().AnimationDetail != 0)
                 {
                     _ = AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[x % 2]);

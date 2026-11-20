@@ -57,7 +57,7 @@ public class CombatViewer : IDisposable
         _ = Logbook.AddRef();
         Position = 0;
         Time = -1;
-        Combat.CombatData.Assign(logbook.InitialData, Creator.GetEngine());
+        Combat.CombatData.Assign(logbook.InitialData, engine: Creator.GetEngine());
         Combat.Activate();
         Delay = _speed;
     }
@@ -103,7 +103,7 @@ public class CombatViewer : IDisposable
             if (position > 0 && position <= Logbook.Actions.Count)
             {
                 Combat.Deactivate();
-                Combat.CombatData.Assign(Logbook.InitialData, Creator.GetEngine());
+                Combat.CombatData.Assign(Logbook.InitialData, engine: Creator.GetEngine());
                 Combat.Activate();
                 Position = 0;
                 while (position > Position)
@@ -121,14 +121,14 @@ public class CombatViewer : IDisposable
                 {
                     Position = 0;
                     Combat.Deactivate();
-                    Combat.CombatData.Assign(Logbook.InitialData, Creator.GetEngine());
+                    Combat.CombatData.Assign(Logbook.InitialData, engine: Creator.GetEngine());
                     Combat.Activate();
                 }
                 else
                 {
                     Position = EndPosition;
                     Combat.Deactivate();
-                    Combat.CombatData.Assign(Logbook.FinalData, Creator.GetEngine());
+                    Combat.CombatData.Assign(Logbook.FinalData, engine: Creator.GetEngine());
                     Combat.Activate();
                 }
             }
@@ -248,11 +248,11 @@ public class CombatViewer : IDisposable
         {
             if (target.Side == CombatSideIndex.Attacker)
             {
-                ShowObject(target, frame, 3, X, Y, surface);
+                ShowObject(target, frame, direction: 3, X, Y, surface);
             }
             else
             {
-                ShowObject(target, frame, 5, X + 25, Y, surface);
+                ShowObject(target, frame, direction: 5, X + 25, Y, surface);
             }
         }
 
@@ -260,11 +260,11 @@ public class CombatViewer : IDisposable
         {
             if (source.Side == CombatSideIndex.Attacker)
             {
-                ShowObject(source, frame, 2, X, Y + 15, surface);
+                ShowObject(source, frame, direction: 2, X, Y + 15, surface);
             }
             else
             {
-                ShowObject(source, frame, 6, X + 25, Y + 15, surface);
+                ShowObject(source, frame, direction: 6, X + 25, Y + 15, surface);
             }
         }
     }

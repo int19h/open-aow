@@ -45,7 +45,7 @@ public class AbstractHexagon(CustomNode owner) : MapObject(owner)
                     sbyte hexLevel = HexLevel;
                     sbyte hexY = HexY;
                     sbyte hexX = HexX;
-                    _ = Resource.TerrainControl.Place(Owner.Owner.Owner, hexX, hexY, hexLevel, message.TerrainType);
+                    _ = Resource.TerrainControl.Place(Owner.Owner.Owner, hexX, hexY, L: hexLevel, message.TerrainType);
                 }
             }
         }

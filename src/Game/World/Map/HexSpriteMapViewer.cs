@@ -75,7 +75,7 @@ public class HexSpriteMapViewer : Component
             if (StaticSurface is null)
             {
                 PixelFormat pixelFormatId = surface.GetPixelFormatId();
-                StaticSurface = new DataSurface(_sceneWidth, _sceneHeight, pixelFormatId, null);
+                StaticSurface = new DataSurface(_sceneWidth, _sceneHeight, pixelFormatId, palette: null);
             }
             else
             {
@@ -95,7 +95,7 @@ public class HexSpriteMapViewer : Component
             SetSceneX(pixelX);
             SetSceneY(pixelY);
             SetSceneL(lHitPoints);
-            if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged is not null)
+            if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, lHitPoints: _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged is not null)
             {
                 OnSceneChanged(this);
             }
@@ -111,7 +111,7 @@ public class HexSpriteMapViewer : Component
             SetSceneX(pixelX + 16 - (_sceneWidth >>> 1));
             SetSceneY(pixelY + 16 - (_sceneHeight >>> 1));
             SetSceneL(hexLevel);
-            if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged is not null)
+            if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, lHitPoints: _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged is not null)
             {
                 OnSceneChanged(this);
             }
@@ -208,7 +208,7 @@ public class HexSpriteMapViewer : Component
             {
                 // The field holds the map. The object-typed copy belongs to #150.
                 GameMap m = (GameMap)mp;
-                if (m.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged is not null)
+                if (m.SetViewPort(_sceneX, _sceneY, lHitPoints: _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged is not null)
                 {
                     OnSceneChanged(this);
                 }
@@ -358,7 +358,7 @@ public class HexSpriteMapViewer : Component
 
         if (CenteredSurface is null)
         {
-            CenteredSurface = new DataSurface(_sceneWidth, _sceneHeight, surface.GetPixelFormatId(), null);
+            CenteredSurface = new DataSurface(_sceneWidth, _sceneHeight, pixelFormatId: surface.GetPixelFormatId(), palette: null);
         }
         else if (CenteredSurface.Width != _sceneWidth || CenteredSurface.Height != _sceneHeight)
         {
@@ -375,22 +375,22 @@ public class HexSpriteMapViewer : Component
         LockedSurface lockedSurface = default;
         Rect source = GetMapSceneRectangle();
         Rect shown = GetMapDisplayRectangle();
-        if (target.Lock(ref lockedSurface, new Rect(X, Y, X + _sceneWidth, Y + _sceneHeight)) >= 0)
+        if (target.Lock(ref lockedSurface, R: new Rect(X, Y, X + _sceneWidth, Y + _sceneHeight)) >= 0)
         {
             FillOutsideRectangle(shown, lockedSurface);
             _ = target.Unlock(lockedSurface);
         }
 
-        _ = CenteredSurface.BlitClipped(target, source, X + shown.Left, Y + shown.Top);
+        _ = CenteredSurface.BlitClipped(target, sourceRectangle: source, X + shown.Left, Y + shown.Top);
     }
 
     // Port extension: fills every pixel of SD outside Inside black.
     public static void FillOutsideRectangle(Rect inside, in LockedSurface lockedSurface)
     {
-        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, inside.Top), 0, lockedSurface);
-        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, inside.Bottom, lockedSurface.Width, lockedSurface.Height), 0, lockedSurface);
-        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, inside.Top, inside.Left, inside.Bottom), 0, lockedSurface);
-        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(inside.Right, inside.Top, lockedSurface.Width, inside.Bottom), 0, lockedSurface);
+        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, inside.Top), color: 0, lockedSurface);
+        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, inside.Bottom, lockedSurface.Width, lockedSurface.Height), color: 0, lockedSurface);
+        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, inside.Top, inside.Left, inside.Bottom), color: 0, lockedSurface);
+        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(inside.Right, inside.Top, lockedSurface.Width, inside.Bottom), color: 0, lockedSurface);
     }
 
     public GameMap HexSpriteMap { get => _hexSpriteMap; set => SetHexSpriteMap(value); }

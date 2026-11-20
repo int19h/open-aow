@@ -29,7 +29,7 @@ public class AbstractRoadResource(CustomNode owner) : MapObjectResource(owner)
         HexGeometry.HexToPixel(hexX, hexY, out int pixelX, out int pixelY);
         pixelX += 16;
         pixelY += 16;
-        if (!hexSpriteMap.Place(result, pixelX, pixelY, hexLevel))
+        if (!hexSpriteMap.Place(result, pixelX, pixelY, L: hexLevel))
         {
             result?.Dispose();
             return null;

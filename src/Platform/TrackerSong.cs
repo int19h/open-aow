@@ -14,7 +14,7 @@ public sealed unsafe class TrackerSong : IDisposable
 
     private static string? s_reported;
 
-    static TrackerSong() => NativeLibrary.SetDllImportResolver(typeof(TrackerSong).Assembly, Resolve);
+    static TrackerSong() => NativeLibrary.SetDllImportResolver(typeof(TrackerSong).Assembly, resolver: Resolve);
 
     private static nint Resolve(string name, Assembly assembly, DllImportSearchPath? path)
     {
@@ -27,7 +27,7 @@ public sealed unsafe class TrackerSong : IDisposable
         foreach (string file in files)
         {
             if (NativeLibrary.TryLoad(Path.Combine(AppContext.BaseDirectory, file), out nint handle) ||
-                NativeLibrary.TryLoad(file, assembly, path, out handle))
+                NativeLibrary.TryLoad(file, assembly, searchPath: path, out handle))
             {
                 return handle;
             }
@@ -47,7 +47,7 @@ public sealed unsafe class TrackerSong : IDisposable
             nint result;
             fixed (byte* data = bytes)
             {
-                result = Create(data, (nuint)bytes.Length, s_log, 0, s_errorHandler, 0, &code, &message, 0);
+                result = Create(data, size: (nuint)bytes.Length, s_log, logUser: 0, error: s_errorHandler, errorUser: 0, code: &code, message: &message, controls: 0);
             }
 
             string? detail = message == 0 ? null : Marshal.PtrToStringUTF8(message);
@@ -88,14 +88,14 @@ public sealed unsafe class TrackerSong : IDisposable
         set
         {
             Check();
-            _ = SetOrder(_module, value, 0);
+            _ = SetOrder(_module, order: value, row: 0);
         }
     }
 
     public void SetLoop(bool loop)
     {
         Check();
-        _ = SetRepeat(_module, loop ? -1 : 0);
+        _ = SetRepeat(_module, count: loop ? -1 : 0);
     }
 
     public int Render(int rate, Span<float> stereo)
@@ -109,13 +109,13 @@ public sealed unsafe class TrackerSong : IDisposable
         int count;
         fixed (float* data = stereo)
         {
-            count = checked((int)Read(_module, rate, (nuint)(stereo.Length / 2), data));
+            count = checked((int)Read(_module, rate, count: (nuint)(stereo.Length / 2), data));
         }
 
         return GetError(_module) != 0 ? throw new InvalidDataException("libopenmpt failed while rendering the song.") : count;
     }
 
-    private void Check() => ObjectDisposedException.ThrowIf(_module == 0, this);
+    private void Check() => ObjectDisposedException.ThrowIf(_module == 0, instance: this);
 
     public void Dispose()
     {

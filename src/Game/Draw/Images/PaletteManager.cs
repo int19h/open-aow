@@ -38,7 +38,7 @@ public class PaletteManager : IDisposable
     {
         int n = default;
         Clear();
-        stream.ReadExactly(Bytes.Of(ref n, 4));
+        stream.ReadExactly(Bytes.Of(ref n, count: 4));
         for (int i = 0, last = n - 1; i <= last; i++)
         {
             LibraryImagePalette p = new();
@@ -51,7 +51,7 @@ public class PaletteManager : IDisposable
     // ImageLib.pas:7017
     public void SaveToStream(Stream stream)
     {
-        stream.Write(ValueBytes(Palettes.Count, 4));
+        stream.Write(ValueBytes(Palettes.Count, count: 4));
         for (int i = 0, last = Palettes.Count - 1; i <= last; i++)
         {
             Palettes[i].SaveToStream(stream);

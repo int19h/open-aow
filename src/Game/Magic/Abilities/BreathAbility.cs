@@ -55,7 +55,7 @@ public class BreathAbility : RangedAttackAbility
             while (count != 0 && targets.Count != 0)
             {
                 other = targets[StrategicMap.Current.Random(targets.Count)];
-                RangedAttackCombatAction action = CreateRangedAttackCombatAction(source, other, 2);
+                RangedAttackCombatAction action = CreateRangedAttackCombatAction(source, target: other, attackPenalty: 2);
                 source.Combat.ExecuteCombatAction(action);
                 _ = action.Release();
                 _ = targets.Remove(other);
@@ -73,7 +73,7 @@ public class BreathAbility : RangedAttackAbility
     {
         sbyte attackRepeatRangedAttack = GetAttackRepeatRangedAttack(owner);
         sbyte damageRangedAttack = GetDamageRangedAttack(owner);
-        strength = AbilityRules.LimitedDamage(GetAttackRangedAttack(owner), damageRangedAttack, attackRepeatRangedAttack);
+        strength = AbilityRules.LimitedDamage(GetAttackRangedAttack(owner), defense: damageRangedAttack, damage: attackRepeatRangedAttack);
         strength *= 2;
         types = GetDamageTypesRangedAttack(owner);
     }
@@ -116,5 +116,5 @@ public class BreathAbility : RangedAttackAbility
     }
 
     // AoWAb.PAS:4930
-    public override void TacticalBattleGetDamageValues(CombatObject attacker, CombatObject defender, ref AbilityDamageValues damageValues) => base.FastBattleGetDamageValues(attacker, defender, WallSituation.None, ref damageValues);
+    public override void TacticalBattleGetDamageValues(CombatObject attacker, CombatObject defender, ref AbilityDamageValues damageValues) => base.FastBattleGetDamageValues(attacker, defender, wallSituation: WallSituation.None, ref damageValues);
 }

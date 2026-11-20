@@ -55,7 +55,7 @@ public class SpellControl(CustomNode owner) : EngineObject(owner)
             if (index < 0)
             {
                 // { Preserve the original assertion diagnostic. }
-                Assert(false, "Invalid SpellID", "D:\\AoWDev\\AoWE\\inc\\Spells.PAS", 54989);
+                Assert(false, message: "Invalid SpellID", file: "D:\\AoWDev\\AoWE\\inc\\Spells.PAS", line: 54989);
             }
             if (index < RegisteredSpells.Count)
             {
@@ -152,7 +152,7 @@ public class SpellControl(CustomNode owner) : EngineObject(owner)
         {
             if (RegisteredSpells[i] is not null && spheres.Contains(RegisteredSpells[i].MagicSphere))
             {
-                _ = spellStrings.AddObject(RegisteredSpells[i].SpellName, IntToObject(i));
+                _ = spellStrings.AddObject(RegisteredSpells[i].SpellName, item: IntToObject(i));
             }
         }
     }

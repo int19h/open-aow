@@ -13,7 +13,7 @@ public sealed class NullSoundSystem : SoundSystem
     public static void Install()
     {
         RegisterSoundSystem(Descriptor);
-        _ = AudioPlayback.InitializeSoundSystem("Galaxy", default);
+        _ = AudioPlayback.InitializeSoundSystem("Galaxy", settings: default);
     }
 
     public static string Name => "Galaxy";

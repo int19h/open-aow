@@ -33,14 +33,14 @@ public class SaveGameTokenEvent(CustomNode owner) : TokenEvent(owner)
             if (tokenEvent.ExecuteCount == 0)
             {
                 string fileName = ExtractFileName(FileName);
-                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_savingGameFormat), [fileName]);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_savingGameFormat), arguments: [fileName]);
                 StrategicMap.Current.ShowMessage(format);
                 return ExecuteResult.Retry;
             }
             else
             {
                 string fileName = ExtractFileName(FileName);
-                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.GameSavedFormat), [fileName]);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.GameSavedFormat), arguments: [fileName]);
                 StrategicMap.Current.ShowMessage(format);
                 try
                 {
@@ -52,7 +52,7 @@ public class SaveGameTokenEvent(CustomNode owner) : TokenEvent(owner)
                     }
                     else
                     {
-                        GetEngine().SaveHsm(FileName, null, GameProfile.WorldMap);
+                        GetEngine().SaveHsm(FileName, progress: null, profile: GameProfile.WorldMap);
                         StrategicMap.Current.FileName = FileName;
                     }
 
@@ -61,7 +61,7 @@ public class SaveGameTokenEvent(CustomNode owner) : TokenEvent(owner)
                 catch
                 {
                     // { Original leaves the turn timer disabled after a save failure. }
-                    string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_errorSavingFormat), [FileName]);
+                    string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_errorSavingFormat), arguments: [FileName]);
                     StrategicMap.Current.ShowMessage(formattedText);
                 }
 

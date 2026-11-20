@@ -265,15 +265,15 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
         };
         if (StrategicMap.Current.CurrentPlayer == 0)
         {
-            log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_independentsAreMovingText);
+            log.Text = AbilityRules.TranslateResourceString(GetEngine(), S: s_independentsAreMovingText);
         }
         else
         {
             string name = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).GetName();
-            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_playerIsMovingFormat), [name]);
+            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_playerIsMovingFormat), arguments: [name]);
         }
 
-        StrategicMap.Current.TriggerExecuteEventLog(log, true, null);
+        StrategicMap.Current.TriggerExecuteEventLog(log, immediate: true, done: null);
         _ = log.Release();
     }
 
@@ -531,7 +531,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
             PathStep fPathItem = Path[0];
             PathStep item2 = Path[0];
             sbyte hexX = ArmyHexSprite.HexX;
-            _ = combat.Setup((byte)ArmyHexSprite.Army.Player, (byte)ArmyHexSprite.Army.IndependentRelation, hexX, hexY, hexLevel, (byte)player, independentRelation, item.Location.X, fPathItem.Location.Y, item2.Location.MapLevel, false);
+            _ = combat.Setup((byte)ArmyHexSprite.Army.Player, attackerRelation: (byte)ArmyHexSprite.Army.IndependentRelation, hexX, hexY, attackerL: hexLevel, defenderPlayer: (byte)player, defenderRelation: independentRelation, item.Location.X, fPathItem.Location.Y, L: item2.Location.MapLevel, logActions: false);
             message.MessageId = 4359;
             MapFieldMessageParameters param = message.Param;
             param[0] = combat;
@@ -546,7 +546,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                 sbyte fArmyHexSpriteHexLevel = ArmyHexSprite.HexLevel;
                 sbyte fArmyHexSpriteHexY = ArmyHexSprite.HexY;
                 sbyte fArmyHexSpriteHexX = ArmyHexSprite.HexX;
-                combat.InitializeDefaultArmies(ArmyHexSprite.Army, fArmyHexSpriteHexX, fArmyHexSpriteHexY, fArmyHexSpriteHexLevel);
+                combat.InitializeDefaultArmies(ArmyHexSprite.Army, fArmyHexSpriteHexX, fArmyHexSpriteHexY, L: fArmyHexSpriteHexLevel);
             }
 
             if (!combat.DefendersAvailable() || !combat.PlayerTypeInvolved(Set<PlayerType>.Of(PlayerType.Human)))
@@ -599,7 +599,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
 
                     FinishMove();
                     ArmyHexSprite = null;
-                    StrategicMap.Current.TriggerTypedExecuteEventLog(request, false, RequestCombatTypeCallback);
+                    StrategicMap.Current.TriggerTypedExecuteEventLog(request, immediate: false, done: RequestCombatTypeCallback);
                 }
                 else
                 {
@@ -637,9 +637,9 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                 TurnPlayer = field.GetPlayer(),
                 Mode = NewTurnEventLogMode.Dialog,
                 DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
-                Text = AbilityRules.TranslateResourceString(GetEngine(), s_youAreBeingAttackedText)
+                Text = AbilityRules.TranslateResourceString(GetEngine(), S: s_youAreBeingAttackedText)
             };
-            StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ShowHotSeatPlayerCallback);
+            StrategicMap.Current.TriggerTypedExecuteEventLog(log, immediate: false, done: ShowHotSeatPlayerCallback);
             _ = log.Release();
         }
         else
@@ -653,9 +653,9 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                     TurnPlayer = field.GetPlayer(),
                     Mode = NewTurnEventLogMode.Dialog,
                     DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
-                    Text = AbilityRules.TranslateResourceString(GetEngine(), s_youAreBeingAttackedText)
+                    Text = AbilityRules.TranslateResourceString(GetEngine(), S: s_youAreBeingAttackedText)
                 };
-                StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ShowHotSeatPlayerCallback);
+                StrategicMap.Current.TriggerTypedExecuteEventLog(log, immediate: false, done: ShowHotSeatPlayerCallback);
                 _ = log.Release();
             }
         }
@@ -678,7 +678,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                 StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
             }
 
-            StrategicMap.Current.TriggerTypedExecuteEventLog(request, false, RequestCombatTypeCallback);
+            StrategicMap.Current.TriggerTypedExecuteEventLog(request, immediate: false, done: RequestCombatTypeCallback);
             _ = request.Release();
         }
     }
@@ -713,7 +713,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                         MoveArmyTokenEvent move;
                         if (field.GetPlayer() == armyHexSprite.Army.Player)
                         {
-                            move = CreateArmyMoveMapCoordinateTokenEvent(armyHexSprite, selection, combat.CombatData.Location.X, combat.CombatData.Location.Y, combat.CombatData.Location.MapLevel, MoveAction.Normal);
+                            move = CreateArmyMoveMapCoordinateTokenEvent(armyHexSprite, selection, combat.CombatData.Location.X, combat.CombatData.Location.Y, L: combat.CombatData.Location.MapLevel, action: MoveAction.Normal);
                         }
                         else
                         {
@@ -755,7 +755,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
             }
 
             StrategicMap.Current.SynchronizeBegin();
-            DistributeCombatEvent(combat.Logbook, false);
+            DistributeCombatEvent(combat.Logbook, execute: false);
             StrategicMap.Current.SynchronizeEnd();
         }
     }
@@ -788,14 +788,14 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
         int i = 1;
         for (int number = StrategicMap.Current.Players.GetCount() - 1; i <= number; i++)
         {
-            if (StrategicMap.Current.VisibleForPlayer(fFinalData.Location.X, fFinalData.Location.Y, fFinalData.Location.MapLevel, (sbyte)i) || logbook.InitialData.Players.IndexOfPlayer((byte)i) != -1)
+            if (StrategicMap.Current.VisibleForPlayer(fFinalData.Location.X, fFinalData.Location.Y, fFinalData.Location.MapLevel, player: (sbyte)i) || logbook.InitialData.Players.IndexOfPlayer((byte)i) != -1)
             {
                 CombatEventLog combatEventLog = new(null) { Holder = logbook };
                 combatEventLog.SetCombatLogbook(logbook);
                 StrategicMap.Current.Players.GetPlayers(i).EventLogbook.AddEvent(combatEventLog);
                 if (execute && i == StrategicMap.Current.SeatedPlayer && StrategicMap.Current.Players.GetPlayers(i).PlayerType == PlayerType.Human && logbook.FinalData.CombatResult != 6)
                 {
-                    _ = combatEventLog.Execute(mode: false, ExecuteTrigger.Event, null);
+                    _ = combatEventLog.Execute(mode: false, trigger: ExecuteTrigger.Event, done: null);
                 }
                 _ = combatEventLog.Release();
             }
@@ -829,7 +829,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
         moveControlSettings.Selection = selection;
         moveControlSettings.SetDestinationPosition(x, y, l);
         _ = moveControlSettings.MovePointTable;
-        army.Army.CreateMovePointTable(selection, out MovePointTable movePointTable);
+        army.Army.CreateMovePointTable(selection, table: out MovePointTable movePointTable);
         moveControlSettings.MovePointTable = movePointTable;
         StrategicMap.Current.MoveControl.ProcessMove(moveControlSettings);
         return moveControlSettings;

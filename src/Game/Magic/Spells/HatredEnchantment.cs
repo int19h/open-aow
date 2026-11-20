@@ -27,7 +27,7 @@ public class HatredEnchantment : GlobalEnchantment
     public HatredEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.HatredText);
+        Name = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.HatredText);
         EnchantmentType = GlobalEnchantmentType.Hatred;
         DispelMana = 50;
     }

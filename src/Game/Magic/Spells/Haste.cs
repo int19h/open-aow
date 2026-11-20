@@ -13,7 +13,7 @@ public class Haste : UnitSpell
     {
         Holder = holder;
         SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.HasteText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.HasteText);
         SpellId = 15;
         BaseManaCost = 5;
         ManaUpkeep = 2;

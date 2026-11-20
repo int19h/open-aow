@@ -68,7 +68,7 @@ public partial class ArenaDialog(UIContext ui) : UIModule(ui)
             {
                 UI.Fonts.Age8.Color = 0;
                 int unitTrainCost = _event.Arena.UnitTrainCost(u);
-                UI.Fonts.Age8.SetTextCentered(X + 25, Y + 62, IntToStr(unitTrainCost), lockedSurface);
+                UI.Fonts.Age8.SetTextCentered(X + 25, Y + 62, text: IntToStr(unitTrainCost), lockedSurface);
             }
         }
     }
@@ -179,9 +179,9 @@ public partial class ArenaDialog(UIContext ui) : UIModule(ui)
             y = 16;
         }
 
-        LockedSurface.CreateFrom(lockedSurface, r, out LockedSurface mapSurfaceDescription);
+        LockedSurface.CreateFrom(lockedSurface, r, destination: out LockedSurface mapSurfaceDescription);
         sbyte hexLevel = _event.Arena.HexLevel;
-        _ = StrategicMap.Current.SetViewPort(x, y, hexLevel, r.Right - r.Left, r.Bottom - r.Top);
+        _ = StrategicMap.Current.SetViewPort(x, y, lHitPoints: hexLevel, r.Right - r.Left, r.Bottom - r.Top);
         StrategicMap.Current.UpdateStaticScene();
         StrategicMap.Current.UpdateDynamicScene();
         StrategicMap.Current.DrawStaticScene(in mapSurfaceDescription);
@@ -207,7 +207,7 @@ public partial class ArenaDialog(UIContext ui) : UIModule(ui)
 
     internal static void ShowArena(ArenaDialog dialog, EnterArenaEventLog eventValue, ExecuteDoneEvent done)
     {
-        Assert(dialog._event is null, "", "AoWArenaDlg.pas", 94);
+        Assert(dialog._event is null, message: "", file: "AoWArenaDlg.pas", line: 94);
         ResetArena(dialog);
         dialog.OnClose = done;
         dialog._event = eventValue;

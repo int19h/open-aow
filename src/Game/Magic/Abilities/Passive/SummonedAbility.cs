@@ -14,7 +14,7 @@ public class SummonedAbility : UnitEnchantmentAbility
     public SummonedAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_summonedText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_summonedText);
         AbilityId = 155;
     }
 

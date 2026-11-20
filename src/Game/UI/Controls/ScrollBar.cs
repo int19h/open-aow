@@ -63,42 +63,42 @@ public partial class ScrollBar(Rtl.Component owner) : Control(owner)
     {
         if (_imageLibraryImageIncrement is not null)
         {
-            _imageLibraryImageIncrement = _imageLibraryImageIncrement.CheckImageLibrary(_imageLibraryIndexIncrementUp, 1, this);
+            _imageLibraryImageIncrement = _imageLibraryImageIncrement.CheckImageLibrary(_imageLibraryIndexIncrementUp, count: 1, sender: this);
         }
 
         if (_imageLibraryImageIncrement is not null)
         {
-            _imageLibraryImageIncrement = _imageLibraryImageIncrement.CheckImageLibrary(_imageLibraryIndexIncrementDown, 1, this);
+            _imageLibraryImageIncrement = _imageLibraryImageIncrement.CheckImageLibrary(_imageLibraryIndexIncrementDown, count: 1, sender: this);
         }
 
         if (_imageLibraryIDecrement is not null)
         {
-            _imageLibraryIDecrement = _imageLibraryIDecrement.CheckImageLibrary(_imageLibraryIndexDecrementUp, 1, this);
+            _imageLibraryIDecrement = _imageLibraryIDecrement.CheckImageLibrary(_imageLibraryIndexDecrementUp, count: 1, sender: this);
         }
 
         if (_imageLibraryIDecrement is not null)
         {
-            _imageLibraryIDecrement = _imageLibraryIDecrement.CheckImageLibrary(_imageLibraryIndexDecrementDown, 1, this);
+            _imageLibraryIDecrement = _imageLibraryIDecrement.CheckImageLibrary(_imageLibraryIndexDecrementDown, count: 1, sender: this);
         }
 
         if (_imageLibraryTileBack is not null)
         {
-            _imageLibraryTileBack = _imageLibraryTileBack.CheckImageLibrary(_imageLibraryIndexBack, 1, this);
+            _imageLibraryTileBack = _imageLibraryTileBack.CheckImageLibrary(_imageLibraryIndexBack, count: 1, sender: this);
         }
 
         if (_imageLibraryLineBack is not null)
         {
-            _imageLibraryLineBack = _imageLibraryLineBack.CheckImageLibrary(_imageLibraryIndexBack, 3, this);
+            _imageLibraryLineBack = _imageLibraryLineBack.CheckImageLibrary(_imageLibraryIndexBack, count: 3, sender: this);
         }
 
         if (_thumbImage is not null)
         {
-            _thumbImage = _thumbImage.CheckImageLibrary(_thumbImageIndex, 3, this);
+            _thumbImage = _thumbImage.CheckImageLibrary(_thumbImageIndex, count: 3, sender: this);
         }
 
         if (_thumbStrip is not null)
         {
-            _thumbStrip = _thumbStrip.CheckImageLibrary(_thumbImageIndex, 3, this);
+            _thumbStrip = _thumbStrip.CheckImageLibrary(_thumbImageIndex, count: 3, sender: this);
         }
 
         ThumbStyle = _thumbImage is not null ? ScrollBarThumbStyle.Icon : ScrollBarThumbStyle.Bar;

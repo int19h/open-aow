@@ -11,7 +11,7 @@ public class SummonGoldDragon : SummonSpell
     public SummonGoldDragon(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_summonGoldDragonText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_summonGoldDragonText);
         SpellId = 25;
         BaseManaCost = 5;
         SpellLevel = 4;

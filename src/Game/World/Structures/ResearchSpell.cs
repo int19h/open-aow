@@ -24,11 +24,11 @@ public sealed record ResearchSpell(int Index) : ProductionOrder
         UnitProduction production = control.UnitProductions.GetItem(Index);
         if (production is null)
         {
-            return AbilityRules.TranslateResourceString(control.GetEngine(), GameTables.UnknownText);
+            return AbilityRules.TranslateResourceString(control.GetEngine(), S: GameTables.UnknownText);
         }
 
         string unitName = GamePack.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
-        return AbilityRules.Format(AbilityRules.TranslateResourceString(control.GetEngine(), GameText.InstallFormat), [unitName]);
+        return AbilityRules.Format(AbilityRules.TranslateResourceString(control.GetEngine(), S: GameText.InstallFormat), arguments: [unitName]);
     }
 
     public override string NameProgressive(ProductionControl control)
@@ -36,11 +36,11 @@ public sealed record ResearchSpell(int Index) : ProductionOrder
         UnitProduction production = control.UnitProductions.GetItem(Index);
         if (production is null)
         {
-            return AbilityRules.TranslateResourceString(control.GetEngine(), GameTables.UnknownText);
+            return AbilityRules.TranslateResourceString(control.GetEngine(), S: GameTables.UnknownText);
         }
 
         string unitName = GamePack.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
-        return AbilityRules.Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_installingFormat), [unitName]);
+        return AbilityRules.Format(AbilityRules.TranslateResourceString(control.GetEngine(), S: s_installingFormat), arguments: [unitName]);
     }
 
     public override bool CanExecute(ProductionControl control, ref string reason)
@@ -52,7 +52,7 @@ public sealed record ResearchSpell(int Index) : ProductionOrder
             return true;
         }
 
-        reason = AbilityRules.TranslateResourceString(control.GetEngine(), GameText.NotEnoughGoldText);
+        reason = AbilityRules.TranslateResourceString(control.GetEngine(), S: GameText.NotEnoughGoldText);
         return false;
     }
 
@@ -88,7 +88,7 @@ public sealed record ResearchSpell(int Index) : ProductionOrder
     public override void ActivityLines(ProductionControl control, DelphiStringCollection lines)
     {
         Unit unit = control.CreateUnitProduction(Index);
-        _ = lines.Add(AbilityRules.TranslateResourceString(control.GetEngine(), s_installingText));
+        _ = lines.Add(AbilityRules.TranslateResourceString(control.GetEngine(), S: s_installingText));
         _ = lines.Add(unit.GetName());
         _ = unit.Release();
     }

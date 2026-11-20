@@ -160,7 +160,7 @@ public partial class MapWindow(UIContext ui) : UIModule(ui)
             MapViewer.SceneHeight = MainWindow.WinHeight - 24;
             if (MainWindow.DoubleBuffered)
             {
-                MapViewer.ShowScene(12, 12, MainWindow.BackSurface);
+                MapViewer.ShowScene(12, 12, surface: MainWindow.BackSurface);
             }
             else
             {

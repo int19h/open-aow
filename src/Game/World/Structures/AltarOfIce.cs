@@ -25,7 +25,7 @@ public class AltarOfIce(CustomNode owner) : Altar(owner)
         public override int ResourceUserClassId() => 131659;
 
         // AltIce.pas:49
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_altarOfIceText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_altarOfIceText);
 
         private static readonly string s_altarOfIceText = "Altar of Ice";
 

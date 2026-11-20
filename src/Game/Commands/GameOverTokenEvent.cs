@@ -26,7 +26,7 @@ public class GameOverTokenEvent(CustomNode owner) : TokenEvent(owner)
     // MoveT.PAS:3240
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        StrategicMap.Current.PlayerControl.GameOver(Player, GameOverStatus);
+        StrategicMap.Current.PlayerControl.GameOver(Player, status: GameOverStatus);
         return ExecuteResult.Done;
     }
 }

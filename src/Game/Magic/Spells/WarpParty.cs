@@ -23,7 +23,7 @@ public class WarpParty : Spell
     public WarpParty(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_warpPartyText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_warpPartyText);
         SpellId = 34;
         SpellType = SpellType.Global;
         BaseManaCost = 1;
@@ -37,7 +37,7 @@ public class WarpParty : Spell
         string reason = "";
         _ = base.Activate(source);
         bool result;
-        if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        if (CanActivate(source, messageText: ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             // Without an army the source has no party to move.
             if (source.ArmyOwner is not Army armyOwner)
@@ -46,7 +46,7 @@ public class WarpParty : Spell
             }
 
             WarpPartyTokenEvent eventValue = new(null) { Holder = CreationHolder() };
-            eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
+            eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
             eventValue.ArmyId = armyOwner.CreateId(255);
             MapCoordinate warpLocation = CalculateWarpLocation(armyOwner.GetArmyHexSprite());
             eventValue.WarpLocation = warpLocation;
@@ -85,7 +85,7 @@ public class WarpParty : Spell
             message.Param = param;
             message.Result = 0;
             field.SendMapFieldMessage(ref message);
-            return message.Result.Int == 0 && army.Army.CanPlace(X, Y, layer);
+            return message.Result.Int == 0 && army.Army.CanPlace(X, Y, L: layer);
         }
 
         return result;
@@ -99,7 +99,7 @@ public class WarpParty : Spell
         army.Army.CreateMovePointTable(255, out MovePointTable table);
         sbyte hexY = army.HexY;
         sbyte hexX = army.HexX;
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 10);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 10);
         MapLevel level = StrategicMap.Current.MapContainer.MapLevels[army.HexLevel];
         MapField field;
         while (walk.Radius < 20)
@@ -123,7 +123,7 @@ public class WarpParty : Spell
                 level = StrategicMap.Current.MapContainer.MapLevels[l];
                 sbyte armyHexY = army.HexY;
                 sbyte armyHexX = army.HexX;
-                HexNumberWalkData.InitializeHexNumberWalk(out walk, armyHexX, armyHexY, 0);
+                HexNumberWalkData.InitializeHexNumberWalk(out walk, armyHexX, armyHexY, radius: 0);
                 while (walk.Radius < 10)
                 {
                     if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -154,7 +154,7 @@ public class WarpParty : Spell
                 message.Param = param;
                 message.Result = 0;
                 field.SendMapFieldMessage(ref message);
-                found = message.Result.Int == 0 && army.Army.CanPlace(field.HexX, field.HexY, field.HexLevel);
+                found = message.Result.Int == 0 && army.Army.CanPlace(field.HexX, field.HexY, L: field.HexLevel);
             }
 
             if (found)

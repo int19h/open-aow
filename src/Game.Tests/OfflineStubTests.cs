@@ -25,10 +25,10 @@ public sealed class OfflineStubTests
     // UI context with the game windows it needs.
     private static readonly FieldInfo[] s_globals =
     [
-        Field(typeof(AudioHost), nameof(AudioHost.SongPlayer)),
+        Field(typeof(AudioHost), name: nameof(AudioHost.SongPlayer)),
     ];
 
-    private static FieldInfo Field(Type type, string name) => MemberNames.Field(type, name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static)!;
+    private static FieldInfo Field(Type type, string name) => MemberNames.Field(type, name, flags: BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static)!;
 
     private sealed class SavedGlobals : IDisposable
     {
@@ -41,7 +41,7 @@ public sealed class OfflineStubTests
         {
             for (int i = 0; i < s_globals.Length; i++)
             {
-                s_globals[i].SetValue(null, _values[i]);
+                s_globals[i].SetValue(null, value: _values[i]);
             }
 
             StrategicMap.Current = _map;
@@ -73,7 +73,7 @@ public sealed class OfflineStubTests
                 continue;
             }
 
-            _ = setter.Invoke(module, [constructor.Invoke([module])]);
+            _ = setter.Invoke(module, parameters: [constructor.Invoke([module])]);
         }
         return module;
     }
@@ -304,7 +304,7 @@ public sealed class OfflineStubTests
         MapLevel level = new(null) { Holder = EngineFixture.Engine };
         SetField(level, "Width", 2);
         int[] overlaid = [0, 4, 3];
-        MapField[] fields = [.. Enumerable.Range(0, 6).Select(i => new MapField(null)
+        MapField[] fields = [.. Enumerable.Range(0, count: 6).Select(i => new MapField(null)
         { Holder = EngineFixture.Engine, HexX = (sbyte)(i % 2), HexY = (sbyte)(i / 2), OverlayType = (sbyte)(overlaid.Contains(i) ? 4 : 0) })];
         SetField(level, "_fields", fields);
         MapContainer container = new(null) { Holder = EngineFixture.Engine };
@@ -319,19 +319,19 @@ public sealed class OfflineStubTests
         ImageSequence sequence = new(null);
         SetField(sequence, "ImageLibrary", library);
         sequence.SequenceMode = SequenceMode.Up;
-        ImageSequenceList cast = new(null, null);
+        ImageSequenceList cast = new(null, imageLibrary: null);
         _ = cast.Add(sequence);
         EarthMastery spell = new(null, holder: EngineFixture.Engine);
         spell.CastImages?.Dispose();
         spell.CastImages = cast;
         FinishedAnimation animation = new() { FrameCounter = 100 };
 
-        spell.ShowAnimation(animation, 0, 0, default);
+        spell.ShowAnimation(animation, 0, 0, lockedSurface: default);
         Assert.Equal([(24, 16), (24, 80), (56, 64)], recorder.Calls);
         Assert.False(animation.Finished);
 
         animation.FrameCounter = 50;
-        spell.ShowAnimation(animation, 0, 0, default);
+        spell.ShowAnimation(animation, 0, 0, lockedSurface: default);
         Assert.True(animation.Finished);
     }
 

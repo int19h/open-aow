@@ -144,8 +144,8 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
             FileDialogWindow.Directories = null!;
             NullReferenceException click = Assert.Throws<NullReferenceException>(() => Click(dialog.OpenButton));
             NullReferenceException doubleClick = Assert.Throws<NullReferenceException>(() => DoubleClick(dialog.FileList));
-            Assert.Contains(nameof(FileDialogWindow.OpenbutClick), click.ToString(), StringComparison.Ordinal);
-            Assert.Contains(nameof(FileDialogWindow.OpenbutClick), doubleClick.ToString(), StringComparison.Ordinal);
+            Assert.Contains(nameof(FileDialogWindow.OpenbutClick), click.ToString(), comparisonType: StringComparison.Ordinal);
+            Assert.Contains(nameof(FileDialogWindow.OpenbutClick), doubleClick.ToString(), comparisonType: StringComparison.Ordinal);
         }
         finally
         {
@@ -251,7 +251,7 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
         => EventFields.Handler<MouseEvent<UIComponent>>(component, declaring: typeof(UIComponent), name: nameof(UIComponent.OnMouseDown));
 
     private static void MouseDown(UIComponent component, UIComponent sender)
-        => MouseDownHandler(component)!(sender, MouseButton.Left, default, 1, 2);
+        => MouseDownHandler(component)!(sender, button: MouseButton.Left, shift: default, 1, 2);
 
     private static KeyPressEvent<UIComponent>? KeyPressHandler(UIComponent component)
         => EventFields.Handler<KeyPressEvent<UIComponent>>(component, declaring: typeof(UIComponent), name: nameof(UIComponent.OnKeyPress));

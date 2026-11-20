@@ -12,7 +12,7 @@ public class StunnedAbility : DurationAbility
     public StunnedAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_stunnedText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_stunnedText);
         AbilityId = 92;
         AbilityType = AbilityType.Handicap;
         DurationMode = DurationMode.CombatTurn;

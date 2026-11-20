@@ -47,12 +47,12 @@ public class ConstructStructureTokenEvent(CustomNode owner) : TokenEvent(owner)
                 sbyte y = coordinate4.Y;
                 sbyte l = coordinate4.MapLevel;
                 MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(l);
-                HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, 0);
+                HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, radius: 0);
                 while (walk.HexNumber < resource.TerrainList.Count)
                 {
                     if (walk.X >= 0 && walk.Y >= 0 && level.Width > walk.X && level.Height > walk.Y && resource.TerrainList.GetUsed(walk.HexNumber))
                     {
-                        StrategicMap.Current.ClearTerrain(walk.X, walk.Y, l, 0, -1);
+                        StrategicMap.Current.ClearTerrain(walk.X, walk.Y, l, radius: 0, terrainType: -1);
                     }
 
                     HexNumberWalkData.WalkToNextHexNumber(ref walk);

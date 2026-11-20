@@ -107,7 +107,7 @@ public sealed class EngineStartupTests
                 process.Kill(entireProcessTree: true);
                 throw;
             }
-            Assert.True(process.ExitCode == 0, await stdout + await stderr);
+            Assert.True(process.ExitCode == 0, userMessage: await stdout + await stderr);
             return;
         }
         JsonObject actual = [];
@@ -126,7 +126,7 @@ public sealed class EngineStartupTests
                 string[] destroy = [.. new StackTrace(arguments.Exception).GetFrames()
                     .Where(x => x.GetMethod()?.Name == "Dispose")
                     .Select(x => x.GetMethod()!.DeclaringType!.Name)];
-                events.Add(fixture.Event("throw", $"{arguments.Exception.GetType().FullName}: {fixture.Relative(arguments.Exception.Message)}", destroy));
+                events.Add(fixture.Event("throw", argument: $"{arguments.Exception.GetType().FullName}: {fixture.Relative(arguments.Exception.Message)}", destroy));
             }
             AppDomain.CurrentDomain.FirstChanceException += Thrown;
             try
@@ -148,7 +148,7 @@ public sealed class EngineStartupTests
                 }
                 // A failed construction leaves no reference to the partial engine, so the caller
                 // records its objects only for an engine that was built.
-                Assert.Equal(route is "AoW" or "HS" or "Engine", caught is null);
+                Assert.Equal(route is "AoW" or "HS" or "Engine", actual: caught is null);
                 JsonObject result = new()
                 {
                     ["ExceptionType"] = caught?.GetType().FullName,
@@ -169,9 +169,9 @@ public sealed class EngineStartupTests
                 }
                 if (value is not null)
                 {
-                    events.Add(fixture.Event("Destroy.begin", value.GetType().Name));
+                    events.Add(fixture.Event("Destroy.begin", argument: value.GetType().Name));
                     value.Dispose();
-                    events.Add(fixture.Event("Destroy.end", value.GetType().Name));
+                    events.Add(fixture.Event("Destroy.end", argument: value.GetType().Name));
                 }
                 result["StateAfterDestruction"] = fixture.State();
                 // Failed early destructors leave partial objects. Free their independent resources
@@ -200,7 +200,7 @@ public sealed class EngineStartupTests
         JsonObject expected = JsonNode.Parse(baseline)!.AsObject();
         foreach (KeyValuePair<string, JsonNode?> pair in actual)
         {
-            Assert.True(JsonNode.DeepEquals(expected[pair.Key], pair.Value), $"{pair.Key} startup recording differs from the base commit.");
+            Assert.True(JsonNode.DeepEquals(expected[pair.Key], pair.Value), userMessage: $"{pair.Key} startup recording differs from the base commit.");
         }
 
         Assert.Equal(expected.Count, actual.Count);
@@ -224,7 +224,7 @@ public sealed class EngineStartupTests
                 {
                     if (list[index] is object element && LegacyRoots.Contains(element.GetType()))
                     {
-                        Visit(element, $"{path}[{index}]");
+                        Visit(element, path: $"{path}[{index}]");
                     }
                 }
             }
@@ -234,13 +234,13 @@ public sealed class EngineStartupTests
                 {
                     if (items[index] is object element && LegacyRoots.Contains(element.GetType()))
                     {
-                        Visit(element, $"{path}[{index}]");
+                        Visit(element, path: $"{path}[{index}]");
                     }
                 }
             }
             for (Type? type = value.GetType(); type is not null && type != typeof(object); type = type.BaseType)
             {
-                foreach (FieldInfo? field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
+                foreach (FieldInfo? field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, comparer: StringComparer.Ordinal))
                 {
                     if (MemberNames.Of(field) is "_owner" or "Owner" || field.GetValue(value) is not object child)
                     {
@@ -251,12 +251,12 @@ public sealed class EngineStartupTests
                         || (IsGenericList(child) && ConvertedListField(field))
                         || (IsDictionary(child) && ConvertedDictionaryField(field)))
                     {
-                        Visit(child, $"{path}.{MemberNames.Of(field)}");
+                        Visit(child, path: $"{path}.{MemberNames.Of(field)}");
                     }
                 }
             }
         }
-        Visit(root, "Engine");
+        Visit(root, path: "Engine");
         return result;
     }
 

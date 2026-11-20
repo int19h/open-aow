@@ -145,7 +145,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     {
         if (base.Resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            HexGeometry.PixelToHex(pixelX, pixelY, out int hexX, out int hexY);
+            HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int hexX, out int hexY);
             int hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, hexX, hexY);
             return hexNumber < base.Resource.TerrainList.Count && base.Resource.TerrainList.Terrain[hexNumber] >= -1;
         }
@@ -159,7 +159,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     public new void UpdateMapFields(MapLevel level, int hexX, int hexY)
     {
         int count = base.Resource.TerrainList.Count;
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 0);
         while (walk.HexNumber != count)
         {
             if (GetTerrain(walk.HexNumber) >= -1 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -191,7 +191,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     {
         if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && !armyHexSprite.Owner.GetMagicShieldActive())
         {
-            armyHexSprite.Army.IncomingStorm(StormType.Pestilence, 0, armyHexSprite.Army.Player);
+            armyHexSprite.Army.IncomingStorm(StormType.Pestilence, distance: 0, armyHexSprite.Army.Player);
         }
     }
 
@@ -202,7 +202,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
         MapLevel level = Owner.Owner;
         sbyte hexY = HexY;
         sbyte hexX = HexX;
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData hexNumberWalkData, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData hexNumberWalkData, hexX, hexY, radius: 0);
         message.MessageId = 4432;
         MapFieldMessageParameters param = message.Param;
         param[0] = (int)StormType.Pestilence;
@@ -232,8 +232,8 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
         int hexY = default;
         MapLevel level = Owner.Owner;
         sbyte yhx = HexY;
-        HexGeometry.CenterHexNumberToHex(HexX, yhx, direction, ref hexX, ref hexY);
-        HexGeometry.CenterHexNumberToHex(hexX, hexY, direction, ref hexX, ref hexY);
+        HexGeometry.CenterHexNumberToHex(HexX, yhx, hexNumber: direction, ref hexX, ref hexY);
+        HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: direction, ref hexX, ref hexY);
         return hexX >= 10 && hexY >= 10 && hexX + 10 <= level.Width && hexY + 10 <= level.Height;
     }
 
@@ -289,8 +289,8 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
                     sbyte yhx = HexY;
                     int hexX = default;
                     int hexY = default;
-                    HexGeometry.CenterHexNumberToHex(HexX, yhx, direction, ref hexX, ref hexY);
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, direction, ref hexX, ref hexY);
+                    HexGeometry.CenterHexNumberToHex(HexX, yhx, hexNumber: direction, ref hexX, ref hexY);
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: direction, ref hexX, ref hexY);
                     Disconnect();
                     UpdateMapFields(StrategicMap.Current.MapContainer.GetMapLevel(hexLevel), oldHexX, oldHexY);
                     StoredHexX = (sbyte)hexX;
@@ -319,7 +319,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
         public override int ResourceUserClassId() => 135743;
 
         // PoisonC.pas:289
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_poisonCloudText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_poisonCloudText);
 
         private static readonly string s_poisonCloudText = "Poison Cloud";
 

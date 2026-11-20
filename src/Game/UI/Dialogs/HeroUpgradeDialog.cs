@@ -135,16 +135,16 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         switch (_selectedSort)
         {
             case 0:
-                StringSorting.SortStringsAscending(SelectedAbilitiesList.Items, [SelectedAbilitiesCostList.Items]);
+                StringSorting.SortStringsAscending(SelectedAbilitiesList.Items, linkedStrings: [SelectedAbilitiesCostList.Items]);
                 break;
             case 1:
-                StringSorting.SortStringsDescending(SelectedAbilitiesList.Items, [SelectedAbilitiesCostList.Items]);
+                StringSorting.SortStringsDescending(SelectedAbilitiesList.Items, linkedStrings: [SelectedAbilitiesCostList.Items]);
                 break;
             case 2:
-                StringSorting.SortStringsNumericalAscending(SelectedAbilitiesCostList.Items, [SelectedAbilitiesList.Items]);
+                StringSorting.SortStringsNumericalAscending(SelectedAbilitiesCostList.Items, linkedStrings: [SelectedAbilitiesList.Items]);
                 break;
             case 3:
-                StringSorting.SortStringsNumericalDescending(SelectedAbilitiesCostList.Items, [SelectedAbilitiesList.Items]);
+                StringSorting.SortStringsNumericalDescending(SelectedAbilitiesCostList.Items, linkedStrings: [SelectedAbilitiesList.Items]);
                 break;
             default:
                 break;
@@ -157,16 +157,16 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         switch (_availableSort)
         {
             case 0:
-                StringSorting.SortStringsAscending(AvailableAbilitiesList.Items, [AvailableAbilitiesCostList.Items]);
+                StringSorting.SortStringsAscending(AvailableAbilitiesList.Items, linkedStrings: [AvailableAbilitiesCostList.Items]);
                 break;
             case 1:
-                StringSorting.SortStringsDescending(AvailableAbilitiesList.Items, [AvailableAbilitiesCostList.Items]);
+                StringSorting.SortStringsDescending(AvailableAbilitiesList.Items, linkedStrings: [AvailableAbilitiesCostList.Items]);
                 break;
             case 2:
-                StringSorting.SortStringsNumericalAscending(AvailableAbilitiesCostList.Items, [AvailableAbilitiesList.Items]);
+                StringSorting.SortStringsNumericalAscending(AvailableAbilitiesCostList.Items, linkedStrings: [AvailableAbilitiesList.Items]);
                 break;
             case 3:
-                StringSorting.SortStringsNumericalDescending(AvailableAbilitiesCostList.Items, [AvailableAbilitiesList.Items]);
+                StringSorting.SortStringsNumericalDescending(AvailableAbilitiesCostList.Items, linkedStrings: [AvailableAbilitiesList.Items]);
                 break;
             default:
                 break;
@@ -185,7 +185,7 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
             if (ability is not null && ability.CanExpand(_editedHero) && ability.SelectionTypes.Contains(AbilitySelectionType.HeroUpgrade))
             {
                 string expandName = ability.ExpandName(_editedHero);
-                _ = AvailableAbilitiesList.Items.AddObject(expandName, IntToObject(i));
+                _ = AvailableAbilitiesList.Items.AddObject(expandName, item: IntToObject(i));
                 int expandCost = ability.ExpandCost(_editedHero);
                 _ = AvailableAbilitiesCostList.Items.Add(IntToStr(expandCost));
             }
@@ -211,7 +211,7 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
                 }
 
                 _ = SelectedAbilitiesCostList.Items.Add(cost);
-                _ = SelectedAbilitiesList.Items.AddObject(name, IntToObject(i));
+                _ = SelectedAbilitiesList.Items.AddObject(name, item: IntToObject(i));
             }
         }
 
@@ -561,12 +561,12 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
             dialog.LevelLabel.Text = $"{levelText} {IntToStr(level)}";
             if (dialog._referencedHero.NewLevel - dialog._referencedHero.OldLevel > 1)
             {
-                string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(ScenarioText.MadeLevelsFormat), [dialog._hero.HeroName, (dialog._referencedHero.NewLevel - dialog._referencedHero.OldLevel)]);
+                string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(ScenarioText.MadeLevelsFormat), arguments: [dialog._hero.HeroName, (dialog._referencedHero.NewLevel - dialog._referencedHero.OldLevel)]);
                 dialog.HeaderLabel.Text = $"{format}!";
             }
             else
             {
-                string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(ScenarioText.MadeLevelFormat), [dialog._hero.HeroName]);
+                string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(ScenarioText.MadeLevelFormat), arguments: [dialog._hero.HeroName]);
                 dialog.HeaderLabel.Text = $"{format}!";
             }
 

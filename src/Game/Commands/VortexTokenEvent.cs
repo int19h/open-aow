@@ -50,9 +50,9 @@ public class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(ow
         {
             _angle = 0;
             Spell spell = GamePack.Current.SpellControl[EventSpellId];
-            GamePack.Current.SpellControl[EventSpellId].CastingDone(source, spell.BaseManaCost);
-            _ = StrategicMap.Current.ValidateObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 2);
-            if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(Location.X, Location.Y, Location.MapLevel, 2))
+            GamePack.Current.SpellControl[EventSpellId].CastingDone(source, mana: spell.BaseManaCost);
+            _ = StrategicMap.Current.ValidateObservation(source.Player, Location.X, Location.Y, Location.MapLevel, radius: 2);
+            if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(Location.X, Location.Y, L: Location.MapLevel, radius: 2))
             {
                 _ = GamePack.Current.SpellControl[EventSpellId].CastSounds.Play(0);
             }
@@ -74,13 +74,13 @@ public class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(ow
                 ArmyEventLog log = new(null)
                 {
                     Holder = CreationHolder(),
-                    ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_vortexDamageText),
+                    ArmyText = AbilityRules.TranslateResourceString(GetEngine(), S: s_vortexDamageText),
                     Player = source.Player
                 };
-                string vortex = AbilityRules.TranslateResourceString(GetEngine(), GameText.VortexText);
+                string vortex = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.VortexText);
                 _ = log.ArmyMessages.Add(vortex);
                 log.ArmyIcon = 2;
-                log.ArmyView.Setup(army.Army, 255);
+                log.ArmyView.Setup(army.Army, selection: 255);
                 using (army.Army.BeginUpdate())
                 {
                     bool damaged = false;
@@ -92,7 +92,7 @@ public class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(ow
                         {
                             damage = troopObject.GetAbilityEnabled(2) ? 7 : troopObject.GetAbilityEnabled(23) ? 10 : 0;
 
-                            damage = troopObject.ExecuteDamageRole(8, damage, Set<DamageType>.Of(DamageType.Physical));
+                            damage = troopObject.ExecuteDamageRole(8, damage, damageTypes: Set<DamageType>.Of(DamageType.Physical));
                             if (damage > troopObject.GetHitPoints())
                             {
                                 damage = troopObject.GetHitPoints();
@@ -162,7 +162,7 @@ public class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(ow
                     {
                         int x = Round((double)Math.Cos(angle) * radius) + xShift;
                         int y = Round((double)((double)Math.Sin(angle) * radius) / 1.75) + height;
-                        _ = GamePack.Current.SpellControl[70].CastImages.Show(0, pixelX + x, pixelY - y, 0, lockedSurface);
+                        _ = GamePack.Current.SpellControl[70].CastImages.Show(0, pixelX + x, pixelY - y, frame: 0, lockedSurface);
                         angle = (float)((double)0.035 + angle);
                     }
                 }

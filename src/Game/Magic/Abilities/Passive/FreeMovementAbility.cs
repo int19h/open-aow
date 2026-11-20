@@ -10,7 +10,7 @@ public class FreeMovementAbility : UnitEnchantmentAbility
     public FreeMovementAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.FreeMovementText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FreeMovementText);
         AbilityId = 157;
     }
 }

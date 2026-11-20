@@ -111,8 +111,8 @@ public partial class CombatChoice(UIContext ui) : UIModule(ui)
             y = 16;
         }
 
-        LockedSurface.CreateFrom(lockedSurface, r, out LockedSurface viewSurfaceDescription);
-        _ = StrategicMap.Current.SetViewPort(x, y, _request.Location.MapLevel, r.Right - r.Left, r.Bottom - r.Top);
+        LockedSurface.CreateFrom(lockedSurface, r, destination: out LockedSurface viewSurfaceDescription);
+        _ = StrategicMap.Current.SetViewPort(x, y, lHitPoints: _request.Location.MapLevel, r.Right - r.Left, r.Bottom - r.Top);
         StrategicMap.Current.UpdateStaticScene();
         StrategicMap.Current.UpdateDynamicScene();
         StrategicMap.Current.DrawStaticScene(in viewSurfaceDescription);
@@ -190,7 +190,7 @@ public partial class CombatChoice(UIContext ui) : UIModule(ui)
 
             dialog.Window.ReAlign();
             dialog.Window.Visible = true;
-            StrategicMap.Current.TutorialControl.ShowMessage(61, true, true);
+            StrategicMap.Current.TutorialControl.ShowMessage(61, immediate: true, onceOnly: true);
         }
     }
 }

@@ -31,7 +31,7 @@ public partial class EarthNode(CustomNode owner) : ProductionPlace(owner)
         public override int ResourceUserClassId() => 132302;
 
         // EarthNode.pas:50
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_earthNodeText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_earthNodeText);
 
         private static readonly string s_earthNodeText = "Earth Node";
 

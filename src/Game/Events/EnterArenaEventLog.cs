@@ -100,7 +100,7 @@ public partial class EnterArenaEventLog(CustomNode owner) : EventLog(owner)
             }
         }
 
-        return total != 0 ? Format(AbilityRules.TranslateResourceString(GetEngine(), s_totalCostFormat), [IntToStr(total)]) : "";
+        return total != 0 ? Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_totalCostFormat), args: [IntToStr(total)]) : "";
     }
 
     private static readonly string s_totalCostFormat = "Total Cost: %s";

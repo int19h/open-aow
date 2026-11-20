@@ -69,7 +69,7 @@ public class UnitSelector : IDisposable
     {
         if (Selection == 0)
         {
-            error = AbilityRules.TranslateResourceString(Creator.GetEngine(), GameText.NoUnitSelectedText);
+            error = AbilityRules.TranslateResourceString(Creator.GetEngine(), S: GameText.NoUnitSelectedText);
             return false;
         }
         else

@@ -24,17 +24,17 @@ public class Frame(Component owner) : Control(owner)
     {
         if (_imageLibraryFrame is not null)
         {
-            _imageLibraryFrame = _imageLibraryFrame.CheckImageLibrary(_imageLibraryIndexFrame, 8, this);
+            _imageLibraryFrame = _imageLibraryFrame.CheckImageLibrary(_imageLibraryIndexFrame, count: 8, sender: this);
         }
 
         if (_imageLibraryTexture is not null)
         {
-            _imageLibraryTexture = _imageLibraryTexture.CheckImageLibrary(_imageLibraryIndexTexture, 1, this);
+            _imageLibraryTexture = _imageLibraryTexture.CheckImageLibrary(_imageLibraryIndexTexture, count: 1, sender: this);
         }
 
         if (_imageLibraryLine is not null)
         {
-            _imageLibraryLine = _imageLibraryLine.CheckImageLibrary(_imageLibraryIndexLine, 3, this);
+            _imageLibraryLine = _imageLibraryLine.CheckImageLibrary(_imageLibraryIndexLine, count: 3, sender: this);
         }
 
         if (_imageLibraryFrame is not null || _imageLibraryLine is not null)
@@ -123,25 +123,25 @@ public class Frame(Component owner) : Control(owner)
         {
             if (Valid && Visible)
             {
-                RaisePreDraw(this, lockedSurface);
+                RaisePreDraw(this, surfDesc: lockedSurface);
 
                 switch (FrameType)
                 {
                     case FrameType.VertLine:
                         SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
-                        _imageLibraryLine.DrawVerticalStrip(_imageLibraryIndexLine, rectangle, ref lockedSurface);
+                        _imageLibraryLine.DrawVerticalStrip(_imageLibraryIndexLine, area: rectangle, ref lockedSurface);
                         break;
                     case FrameType.HorizontalLine:
                         SizedRectangle rectangle2 = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
-                        _imageLibraryLine.DrawHorizontalStrip(_imageLibraryIndexLine, rectangle2, ref lockedSurface);
+                        _imageLibraryLine.DrawHorizontalStrip(_imageLibraryIndexLine, area: rectangle2, ref lockedSurface);
                         break;
                     case FrameType.HollowBox:
                         SizedRectangle rectangle3 = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
-                        _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle3, ref lockedSurface);
+                        _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, area: rectangle3, ref lockedSurface);
                         break;
                     case FrameType.FilledBox:
                         SizedRectangle rectangle4 = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
-                        _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle4, ref lockedSurface);
+                        _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, area: rectangle4, ref lockedSurface);
                         LibraryImage imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         LibraryImage imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
                         LibraryImage imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
@@ -149,18 +149,18 @@ public class Frame(Component owner) : Control(owner)
                         LibraryImage imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         LibraryImage imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                         SizedRectangle rectangle5 = new(Window.AbsoluteLeft + WinLeft + imageLibraryFrame4.Width, Window.AbsoluteTop + WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
-                        _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, rectangle5, ref lockedSurface);
+                        _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, area: rectangle5, ref lockedSurface);
                         break;
                     default:
                         break;
                 }
 
-                RaiseDraw(this, lockedSurface);
+                RaiseDraw(this, surfDesc: lockedSurface);
             }
         }
         catch
         {
-            _ = MessageBox(0, "Exception during Draw", $"Error - {Name}", 0);
+            _ = MessageBox(0, text: "Exception during Draw", caption: $"Error - {Name}", flags: 0);
         }
     }
 

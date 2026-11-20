@@ -14,7 +14,7 @@ public class SpellWardEnchantment : GlobalEnchantment
     public SpellWardEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.SpellWardText);
+        Name = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SpellWardText);
         EnchantmentType = GlobalEnchantmentType.SpellWard;
         DispelMana = 50;
     }

@@ -107,22 +107,22 @@ public partial class MagicWindow(UIContext ui) : UIModule(ui)
         switch (_enchantmentSort)
         {
             case 0:
-                StringSorting.SortStringsAscending(EnchantmentList.Items, [BindingList.Items, UpkeepList.Items]);
+                StringSorting.SortStringsAscending(EnchantmentList.Items, linkedStrings: [BindingList.Items, UpkeepList.Items]);
                 break;
             case 1:
-                StringSorting.SortStringsDescending(EnchantmentList.Items, [BindingList.Items, UpkeepList.Items]);
+                StringSorting.SortStringsDescending(EnchantmentList.Items, linkedStrings: [BindingList.Items, UpkeepList.Items]);
                 break;
             case 2:
-                StringSorting.SortStringsAscending(BindingList.Items, [EnchantmentList.Items, UpkeepList.Items]);
+                StringSorting.SortStringsAscending(BindingList.Items, linkedStrings: [EnchantmentList.Items, UpkeepList.Items]);
                 break;
             case 3:
-                StringSorting.SortStringsDescending(BindingList.Items, [EnchantmentList.Items, UpkeepList.Items]);
+                StringSorting.SortStringsDescending(BindingList.Items, linkedStrings: [EnchantmentList.Items, UpkeepList.Items]);
                 break;
             case 4:
-                StringSorting.SortStringsNumericalAscending(UpkeepList.Items, [EnchantmentList.Items, BindingList.Items]);
+                StringSorting.SortStringsNumericalAscending(UpkeepList.Items, linkedStrings: [EnchantmentList.Items, BindingList.Items]);
                 break;
             case 5:
-                StringSorting.SortStringsNumericalDescending(UpkeepList.Items, [EnchantmentList.Items, BindingList.Items]);
+                StringSorting.SortStringsNumericalDescending(UpkeepList.Items, linkedStrings: [EnchantmentList.Items, BindingList.Items]);
                 break;
             default:
                 break;
@@ -135,22 +135,22 @@ public partial class MagicWindow(UIContext ui) : UIModule(ui)
         switch (_globalEnchantmentSort)
         {
             case 0:
-                StringSorting.SortStringsAscending(GlobalEnchantmentList.Items, [GlobalNameList.Items, GlobalUpkeepList.Items]);
+                StringSorting.SortStringsAscending(GlobalEnchantmentList.Items, linkedStrings: [GlobalNameList.Items, GlobalUpkeepList.Items]);
                 break;
             case 1:
-                StringSorting.SortStringsDescending(GlobalEnchantmentList.Items, [GlobalNameList.Items, GlobalUpkeepList.Items]);
+                StringSorting.SortStringsDescending(GlobalEnchantmentList.Items, linkedStrings: [GlobalNameList.Items, GlobalUpkeepList.Items]);
                 break;
             case 2:
-                StringSorting.SortStringsAscending(GlobalNameList.Items, [GlobalEnchantmentList.Items, GlobalUpkeepList.Items]);
+                StringSorting.SortStringsAscending(GlobalNameList.Items, linkedStrings: [GlobalEnchantmentList.Items, GlobalUpkeepList.Items]);
                 break;
             case 3:
-                StringSorting.SortStringsDescending(GlobalNameList.Items, [GlobalEnchantmentList.Items, GlobalUpkeepList.Items]);
+                StringSorting.SortStringsDescending(GlobalNameList.Items, linkedStrings: [GlobalEnchantmentList.Items, GlobalUpkeepList.Items]);
                 break;
             case 4:
-                StringSorting.SortStringsNumericalAscending(GlobalUpkeepList.Items, [GlobalEnchantmentList.Items, GlobalNameList.Items]);
+                StringSorting.SortStringsNumericalAscending(GlobalUpkeepList.Items, linkedStrings: [GlobalEnchantmentList.Items, GlobalNameList.Items]);
                 break;
             case 5:
-                StringSorting.SortStringsNumericalDescending(GlobalUpkeepList.Items, [GlobalEnchantmentList.Items, GlobalNameList.Items]);
+                StringSorting.SortStringsNumericalDescending(GlobalUpkeepList.Items, linkedStrings: [GlobalEnchantmentList.Items, GlobalNameList.Items]);
                 break;
             default:
                 break;
@@ -163,16 +163,16 @@ public partial class MagicWindow(UIContext ui) : UIModule(ui)
         switch (_powerSort)
         {
             case 0:
-                StringSorting.SortStringsAscending(PowerSourceList.Items, [PowerValueList.Items]);
+                StringSorting.SortStringsAscending(PowerSourceList.Items, linkedStrings: [PowerValueList.Items]);
                 break;
             case 1:
-                StringSorting.SortStringsDescending(PowerSourceList.Items, [PowerValueList.Items]);
+                StringSorting.SortStringsDescending(PowerSourceList.Items, linkedStrings: [PowerValueList.Items]);
                 break;
             case 2:
-                StringSorting.SortStringsNumericalAscending(PowerValueList.Items, [PowerSourceList.Items]);
+                StringSorting.SortStringsNumericalAscending(PowerValueList.Items, linkedStrings: [PowerSourceList.Items]);
                 break;
             case 3:
-                StringSorting.SortStringsNumericalDescending(PowerValueList.Items, [PowerSourceList.Items]);
+                StringSorting.SortStringsNumericalDescending(PowerValueList.Items, linkedStrings: [PowerSourceList.Items]);
                 break;
             default:
                 break;
@@ -255,7 +255,7 @@ public partial class MagicWindow(UIContext ui) : UIModule(ui)
         if (condition)
         {
             GlobalEnchantment globalEnchantment = GlobalEnchantmentList.Items.Objects[GlobalEnchantmentList.Selected];
-            _ = StrategicMap.Current.GlobalMagicControl.RemoveEnchantment(StrategicMap.Current.SeatedPlayer, globalEnchantment);
+            _ = StrategicMap.Current.GlobalMagicControl.RemoveEnchantment(StrategicMap.Current.SeatedPlayer, enchantment: globalEnchantment);
         }
     }
 
@@ -301,7 +301,7 @@ public partial class MagicWindow(UIContext ui) : UIModule(ui)
                 {
                     int x = sender.Window.AbsoluteLeft;
                     int y = sender.Window.AbsoluteTop + sender.WinTop;
-                    _ = spell.CastImages.Show(10, sender.WinLeft + x, y, 0, surface);
+                    _ = spell.CastImages.Show(10, sender.WinLeft + x, y, frame: 0, lockedSurface: surface);
                 }
             }
         }
@@ -514,7 +514,7 @@ public partial class MagicWindow(UIContext ui) : UIModule(ui)
             {
                 string name = control.Enchantments.GetEnchantments(i).GetName();
                 Enchantment enchantment = control.Enchantments.GetEnchantments(i);
-                _ = window.EnchantmentList.Items.AddObject(name, enchantment);
+                _ = window.EnchantmentList.Items.AddObject(name, item: enchantment);
                 string binding = control.Enchantments.GetEnchantments(i).GetBinding();
                 _ = window.BindingList.Items.Add(binding);
                 Enchantment enchantmentUpkeep = control.Enchantments.GetEnchantments(i);
@@ -529,7 +529,7 @@ public partial class MagicWindow(UIContext ui) : UIModule(ui)
                 {
                     string name = control.PowerSources.GetItems(i).Name();
                     PowerSource powerSource = control.PowerSources.GetItems(i);
-                    _ = window.PowerSourceList.Items.AddObject(name, powerSource);
+                    _ = window.PowerSourceList.Items.AddObject(name, item: powerSource);
                     int power = control.PowerSources.GetItems(i).Power();
                     _ = window.PowerValueList.Items.Add(IntToStr(power));
                 }
@@ -562,7 +562,7 @@ public partial class MagicWindow(UIContext ui) : UIModule(ui)
                 }
                 else
                 {
-                    string format = AbilityRules.Format(window.UI.Engine.TranslateResourceString(GameText.TurnsFormat), [(byte)63]);
+                    string format = AbilityRules.Format(window.UI.Engine.TranslateResourceString(GameText.TurnsFormat), arguments: [(byte)63]);
                     window.ResearchTurnsLeftLabel.Text = format;
                 }
 
@@ -592,7 +592,7 @@ public partial class MagicWindow(UIContext ui) : UIModule(ui)
             {
                 string name = control.Enchantments.GetEnchantments(i).GetName();
                 GlobalEnchantment enchantment = control.Enchantments.GetEnchantments(i);
-                _ = window.GlobalEnchantmentList.Items.AddObject(name, enchantment);
+                _ = window.GlobalEnchantmentList.Items.AddObject(name, item: enchantment);
                 GlobalEnchantment enchantmentPlayerIndex = control.Enchantments.GetEnchantments(i);
                 Player player = StrategicMap.Current.Players.GetPlayers(enchantmentPlayerIndex.PlayerIndex);
                 _ = window.GlobalNameList.Items.Add(player.Leader.HeroName);

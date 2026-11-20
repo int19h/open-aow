@@ -41,7 +41,7 @@ public partial class Edit(Component owner) : Control(owner)
     {
         if (_imageLibraryEdit is not null)
         {
-            _imageLibraryEdit = _imageLibraryEdit.CheckImageLibrary(_imageLibraryIndex, 3, this);
+            _imageLibraryEdit = _imageLibraryEdit.CheckImageLibrary(_imageLibraryIndex, count: 3, sender: this);
         }
 
         if (_imageLibraryEdit is not null && base.Font is not null)
@@ -71,9 +71,9 @@ public partial class Edit(Component owner) : Control(owner)
             _cursorPosition = base.Text.Length;
         }
 
-        if (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length - FirstChar)) > WinWidth - (2 * BorderWidth) - 1)
+        if (base.Font.GetTextWidth(Copy(base.Text, index: FirstChar, count: base.Text.Length - FirstChar)) > WinWidth - (2 * BorderWidth) - 1)
         {
-            while (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length)) > WinWidth - (2 * BorderWidth) - 1)
+            while (base.Font.GetTextWidth(Copy(base.Text, index: FirstChar, count: base.Text.Length)) > WinWidth - (2 * BorderWidth) - 1)
             {
                 FirstChar += 1;
             }
@@ -106,10 +106,10 @@ public partial class Edit(Component owner) : Control(owner)
         {
             if (Valid && Visible)
             {
-                RaisePreDraw(this, lockedSurface);
+                RaisePreDraw(this, surfDesc: lockedSurface);
 
                 SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
-                _imageLibraryEdit.DrawHorizontalStrip(_imageLibraryIndex, rectangle, ref lockedSurface);
+                _imageLibraryEdit.DrawHorizontalStrip(_imageLibraryIndex, area: rectangle, ref lockedSurface);
                 Rect oldClip = lockedSurface.ClipRectangle;
                 LibraryImage imageLibraryEditWidth = _imageLibraryEdit[_imageLibraryIndex + 2];
                 if (Window.AbsoluteLeft + WinLeft + WinWidth - imageLibraryEditWidth.Width < oldClip.Right)
@@ -123,7 +123,7 @@ public partial class Edit(Component owner) : Control(owner)
                 base.Font.Color = Color;
                 if (PassWordChar == 0)
                 {
-                    base.Font.SetText(Window.AbsoluteLeft + WinLeft + BorderWidth, Window.AbsoluteTop + WinTop + BorderHeight, Copy(base.Text, FirstChar, _shownChars), lockedSurface);
+                    base.Font.SetText(Window.AbsoluteLeft + WinLeft + BorderWidth, Window.AbsoluteTop + WinTop + BorderHeight, text: Copy(base.Text, index: FirstChar, count: _shownChars), lockedSurface);
                 }
                 else
                 {
@@ -133,22 +133,22 @@ public partial class Edit(Component owner) : Control(owner)
                         s += Cp1252.Text(PassWordChar);
                     }
 
-                    base.Font.SetText(Window.AbsoluteLeft + WinLeft + BorderWidth, Window.AbsoluteTop + WinTop + BorderHeight, s, lockedSurface);
+                    base.Font.SetText(Window.AbsoluteLeft + WinLeft + BorderWidth, Window.AbsoluteTop + WinTop + BorderHeight, text: s, lockedSurface);
                 }
 
                 lockedSurface.ClipRectangle = oldClip;
                 if (Editable && Redraw && _cursorShown)
                 {
-                    int textWidth = base.Font.GetTextWidth(Copy(base.Text, FirstChar, _cursorPosition));
-                    base.Font.SetText(Window.AbsoluteLeft + WinLeft + BorderWidth + textWidth, Window.AbsoluteTop + WinTop + BorderHeight, Cp1252.Text(CursorChar), lockedSurface);
+                    int textWidth = base.Font.GetTextWidth(Copy(base.Text, index: FirstChar, count: _cursorPosition));
+                    base.Font.SetText(Window.AbsoluteLeft + WinLeft + BorderWidth + textWidth, Window.AbsoluteTop + WinTop + BorderHeight, text: Cp1252.Text(CursorChar), lockedSurface);
                 }
 
-                RaiseDraw(this, lockedSurface);
+                RaiseDraw(this, surfDesc: lockedSurface);
             }
         }
         catch
         {
-            _ = MessageBox(0, "Exception during Draw", $"Error - {Name}", 0);
+            _ = MessageBox(0, text: "Exception during Draw", caption: $"Error - {Name}", flags: 0);
         }
     }
 
@@ -171,13 +171,13 @@ public partial class Edit(Component owner) : Control(owner)
                         Redraw = true;
                     }
 
-                    int textWidth = base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length));
+                    int textWidth = base.Font.GetTextWidth(Copy(base.Text, index: FirstChar, count: base.Text.Length));
                     if (X > Window.AbsoluteLeft + WinLeft + BorderWidth + textWidth)
                     {
                         FirstChar = 1;
-                        if (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length - FirstChar)) > WinWidth - (2 * BorderWidth) - 1)
+                        if (base.Font.GetTextWidth(Copy(base.Text, index: FirstChar, count: base.Text.Length - FirstChar)) > WinWidth - (2 * BorderWidth) - 1)
                         {
-                            while (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length)) > WinWidth - (2 * BorderWidth) - 1)
+                            while (base.Font.GetTextWidth(Copy(base.Text, index: FirstChar, count: base.Text.Length)) > WinWidth - (2 * BorderWidth) - 1)
                             {
                                 FirstChar += 1;
                             }
@@ -188,11 +188,11 @@ public partial class Edit(Component owner) : Control(owner)
                     else
                     {
                         int i = 0;
-                        int w = base.Font.GetTextWidth(Copy(base.Text, FirstChar, i + 1));
+                        int w = base.Font.GetTextWidth(Copy(base.Text, index: FirstChar, count: i + 1));
                         while (X > Window.AbsoluteLeft + WinLeft + BorderWidth + w && base.Text.Length > i + FirstChar - 1)
                         {
                             i += 1;
-                            w = base.Font.GetTextWidth(Copy(base.Text, FirstChar, i + 1));
+                            w = base.Font.GetTextWidth(Copy(base.Text, index: FirstChar, count: i + 1));
                         }
 
                         _cursorPosition = i;
@@ -263,7 +263,7 @@ public partial class Edit(Component owner) : Control(owner)
                 case 8:
                     if (_cursorPosition > 0)
                     {
-                        base.Text = Copy(base.Text, 1, _cursorPosition + FirstChar - 2) + Copy(base.Text, _cursorPosition + FirstChar, base.Text.Length - _cursorPosition - FirstChar + 1);
+                        base.Text = Copy(base.Text, index: 1, count: _cursorPosition + FirstChar - 2) + Copy(base.Text, index: _cursorPosition + FirstChar, count: base.Text.Length - _cursorPosition - FirstChar + 1);
                         _cursorPosition = _cursorPosition + FirstChar - 2;
                     }
 
@@ -283,7 +283,7 @@ public partial class Edit(Component owner) : Control(owner)
                     byte c = key;
                     if (base.Text.Length < MaxChars || MaxChars == 0)
                     {
-                        base.Text = Copy(base.Text, 1, FirstChar + _cursorPosition - 1) + Cp1252.Text(c) + Copy(base.Text, FirstChar + _cursorPosition, base.Text.Length - _cursorPosition - FirstChar + 1);
+                        base.Text = Copy(base.Text, index: 1, count: FirstChar + _cursorPosition - 1) + Cp1252.Text(c) + Copy(base.Text, index: FirstChar + _cursorPosition, count: base.Text.Length - _cursorPosition - FirstChar + 1);
                         _cursorPosition += 1;
                         _cursorPosition = _cursorPosition + FirstChar - 1;
                         FirstChar = 1;
@@ -295,7 +295,7 @@ public partial class Edit(Component owner) : Control(owner)
             bool scroll = true;
             if (scroll)
             {
-                while (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length)) > WinWidth - (2 * BorderWidth) - 1)
+                while (base.Font.GetTextWidth(Copy(base.Text, index: FirstChar, count: base.Text.Length)) > WinWidth - (2 * BorderWidth) - 1)
                 {
                     FirstChar += 1;
                     _cursorPosition -= 1;
@@ -403,8 +403,8 @@ public partial class Edit(Component owner) : Control(owner)
             case 46:
                 if (_cursorPosition < base.Text.Length)
                 {
-                    base.Text = Copy(base.Text, 1, _cursorPosition + FirstChar - 1) +
-                        Copy(base.Text, _cursorPosition + FirstChar + 1, base.Text.Length - _cursorPosition - FirstChar);
+                    base.Text = Copy(base.Text, index: 1, count: _cursorPosition + FirstChar - 1) +
+                        Copy(base.Text, index: _cursorPosition + FirstChar + 1, count: base.Text.Length - _cursorPosition - FirstChar);
                     _cursorPosition += FirstChar - 1;
                     FirstChar = 1;
                 }

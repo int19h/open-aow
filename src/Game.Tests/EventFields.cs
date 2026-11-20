@@ -9,6 +9,6 @@ internal static class EventFields
 {
     internal static T? Handler<T>(object owner, Type declaring, string name)
         where T : Delegate
-        => (T?)(declaring.GetField(name, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)
-            ?? throw new MissingFieldException(declaring.FullName, name)).GetValue(owner);
+        => (T?)(declaring.GetField(name, bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)
+            ?? throw new MissingFieldException(declaring.FullName, fieldName: name)).GetValue(owner);
 }

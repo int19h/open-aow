@@ -15,8 +15,8 @@ public sealed class CountedChildren(string family, string countMember) : Content
         int actual = ContentChildren.Count(value, family);
         if (actual != expected)
         {
-            yield return scope.Context.At(Codes.Required, $"{countMember} counts {expected} {family} children, the document holds {actual}.",
-                value[countMember] ?? value, path.Member(countMember), actual.ToString(System.Globalization.CultureInfo.InvariantCulture), $"{expected} {family} children");
+            yield return scope.Context.At(Codes.Required, message: $"{countMember} counts {expected} {family} children, the document holds {actual}.",
+                value: value[countMember] ?? value, path: path.Member(countMember), rejected: actual.ToString(System.Globalization.CultureInfo.InvariantCulture), constraint: $"{expected} {family} children");
         }
     }
 }

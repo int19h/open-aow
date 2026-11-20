@@ -375,7 +375,7 @@ public class CombatMapControl : Component
 
             ExecuteEventLogInfo info = sender is ExecuteEventLogNotification notification
                 ? notification.Info : ReadLegacyRecord<ExecuteEventLogInfo>(sender);
-            OnExecuteEventLog(info.Log, info.Done);
+            OnExecuteEventLog(info.Log, ExecuteDoneEvent: info.Done);
         }
         catch
         {

@@ -31,7 +31,7 @@ public static class ExceptionCensus
     public static void Start(string hostName, string[] arguments)
     {
         string? file = Environment.GetEnvironmentVariable(Variable);
-        if (string.IsNullOrWhiteSpace(file) || Interlocked.Exchange(ref s_started, 1) != 0)
+        if (string.IsNullOrWhiteSpace(file) || Interlocked.Exchange(ref s_started, value: 1) != 0)
         {
             return;
         }
@@ -73,13 +73,13 @@ public static class ExceptionCensus
     /// <summary>Appends this run's line once. The process exit and an unhandled exception both call it.</summary>
     public static void Finish()
     {
-        if (!Active || Interlocked.Exchange(ref s_written, 1) != 0)
+        if (!Active || Interlocked.Exchange(ref s_written, value: 1) != 0)
         {
             return;
         }
 
-        long[] snapshot = [.. Enumerable.Range(0, s_counts.Length).Select(index => Interlocked.Read(ref s_counts[index]))];
-        Append(s_path, Line(s_host, s_arguments, snapshot));
+        long[] snapshot = [.. Enumerable.Range(0, count: s_counts.Length).Select(index => Interlocked.Read(ref s_counts[index]))];
+        Append(s_path, line: Line(s_host, s_arguments, values: snapshot));
     }
 
     /// <summary>One run as a JSON object on one line: the host, its arguments and the count of each kind.</summary>
@@ -87,7 +87,7 @@ public static class ExceptionCensus
     {
         if (values.Count != Kinds.Count)
         {
-            throw new ArgumentException("one count per kind", nameof(values));
+            throw new ArgumentException("one count per kind", paramName: nameof(values));
         }
 
         using MemoryStream buffer = new();
@@ -123,7 +123,7 @@ public static class ExceptionCensus
         {
             try
             {
-                using FileStream stream = new(file, FileMode.Append, FileAccess.Write, FileShare.None);
+                using FileStream stream = new(file, mode: FileMode.Append, access: FileAccess.Write, share: FileShare.None);
                 stream.Write(bytes);
                 return;
             }

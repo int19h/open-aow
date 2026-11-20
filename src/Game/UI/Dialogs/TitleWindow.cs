@@ -29,8 +29,8 @@ public partial class TitleWindow(UIContext ui) : UIModule(ui)
     // AOWTitleWindow.pas:73
     public void InitializeSplash()
     {
-        UI.VideoDialog.SetSceneSize(640, 480);
-        VideoDialog.SetVideoMode(UI.VideoDialog, VideoDialog.ScreenMode.Title);
+        UI.VideoDialog.SetSceneSize(640, H: 480);
+        VideoDialog.SetVideoMode(UI.VideoDialog, fullScreen: VideoDialog.ScreenMode.Title);
         UI.VideoDialog.ApplyMode();
         MainWindow.Visible = true;
         TitlePanel.Visible = false;
@@ -73,11 +73,11 @@ public partial class TitleWindow(UIContext ui) : UIModule(ui)
             _ = surface.Lock(ref lockedSurface);
             if (UI.FactionSelectionWindow.FadeDirection == 0)
             {
-                UI.Graphics.FactionWindow[UI.FactionSelectionWindow.FadeImage].ShowBlended(UI.FactionSelectionWindow.FactionPanel.AbsoluteLeft, UI.FactionSelectionWindow.FactionPanel.AbsoluteTop, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[100 - UI.FactionSelectionWindow.Fade]);
+                UI.Graphics.FactionWindow[UI.FactionSelectionWindow.FadeImage].ShowBlended(UI.FactionSelectionWindow.FactionPanel.AbsoluteLeft, UI.FactionSelectionWindow.FactionPanel.AbsoluteTop, lockedSurface, table: GraphicsState.AlphaBlendTable.LookupTables[100 - UI.FactionSelectionWindow.Fade]);
             }
             else
             {
-                UI.Graphics.FactionWindow[UI.FactionSelectionWindow.FadeImage].ShowBlended(UI.FactionSelectionWindow.FactionPanel.AbsoluteLeft, UI.FactionSelectionWindow.FactionPanel.AbsoluteTop, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[UI.FactionSelectionWindow.Fade]);
+                UI.Graphics.FactionWindow[UI.FactionSelectionWindow.FadeImage].ShowBlended(UI.FactionSelectionWindow.FactionPanel.AbsoluteLeft, UI.FactionSelectionWindow.FactionPanel.AbsoluteTop, lockedSurface, table: GraphicsState.AlphaBlendTable.LookupTables[UI.FactionSelectionWindow.Fade]);
             }
 
             _ = surface.Unlock();
@@ -103,7 +103,7 @@ public partial class TitleWindow(UIContext ui) : UIModule(ui)
         if (key == 27)
         {
             HideSplash();
-            WindowActions.ShowTitleScene(UI.TitleScene, false);
+            WindowActions.ShowTitleScene(UI.TitleScene, music: false);
         }
         else
         {
@@ -127,7 +127,7 @@ public partial class TitleWindow(UIContext ui) : UIModule(ui)
     internal static void ShowSplash(TitleWindow dialog)
     {
         VideoDialog.SetVideoSize(dialog.UI.VideoDialog, 640, 480);
-        VideoDialog.SetVideoMode(dialog.UI.VideoDialog, VideoDialog.ScreenMode.Title);
+        VideoDialog.SetVideoMode(dialog.UI.VideoDialog, fullScreen: VideoDialog.ScreenMode.Title);
         dialog.UI.VideoDialog.ApplyBtnClick();
         dialog.MainWindow.Visible = true;
         dialog.TitlePanel.Visible = false;

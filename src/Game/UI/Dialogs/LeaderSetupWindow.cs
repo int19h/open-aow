@@ -121,7 +121,7 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
                 int item = Setup.Items[i];
                 string raceNames = UI.Engine.TranslateResourceString(GameTables.RaceNames[item]);
                 int item2 = Setup.Items[i];
-                _ = RaceComboBox.Items.AddObject(raceNames, IntToObject(item2));
+                _ = RaceComboBox.Items.AddObject(raceNames, item: IntToObject(item2));
             }
 
             int indexOf = Setup.Items.IndexOf(Setup.OriginalLeader.Race);
@@ -265,16 +265,16 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         switch (_selectedSort)
         {
             case 0:
-                StringSorting.SortStringsAscending(SelectedAbilitiesList.Items, [SelectedAbilitiesCostList.Items]);
+                StringSorting.SortStringsAscending(SelectedAbilitiesList.Items, linkedStrings: [SelectedAbilitiesCostList.Items]);
                 break;
             case 1:
-                StringSorting.SortStringsDescending(SelectedAbilitiesList.Items, [SelectedAbilitiesCostList.Items]);
+                StringSorting.SortStringsDescending(SelectedAbilitiesList.Items, linkedStrings: [SelectedAbilitiesCostList.Items]);
                 break;
             case 2:
-                StringSorting.SortStringsNumericalAscending(SelectedAbilitiesCostList.Items, [SelectedAbilitiesList.Items]);
+                StringSorting.SortStringsNumericalAscending(SelectedAbilitiesCostList.Items, linkedStrings: [SelectedAbilitiesList.Items]);
                 break;
             case 3:
-                StringSorting.SortStringsNumericalDescending(SelectedAbilitiesCostList.Items, [SelectedAbilitiesList.Items]);
+                StringSorting.SortStringsNumericalDescending(SelectedAbilitiesCostList.Items, linkedStrings: [SelectedAbilitiesList.Items]);
                 break;
             default:
                 break;
@@ -287,16 +287,16 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         switch (_availableSort)
         {
             case 0:
-                StringSorting.SortStringsAscending(AvailableAbilitiesList.Items, [AvailableAbilitiesCostList.Items]);
+                StringSorting.SortStringsAscending(AvailableAbilitiesList.Items, linkedStrings: [AvailableAbilitiesCostList.Items]);
                 break;
             case 1:
-                StringSorting.SortStringsDescending(AvailableAbilitiesList.Items, [AvailableAbilitiesCostList.Items]);
+                StringSorting.SortStringsDescending(AvailableAbilitiesList.Items, linkedStrings: [AvailableAbilitiesCostList.Items]);
                 break;
             case 2:
-                StringSorting.SortStringsNumericalAscending(AvailableAbilitiesCostList.Items, [AvailableAbilitiesList.Items]);
+                StringSorting.SortStringsNumericalAscending(AvailableAbilitiesCostList.Items, linkedStrings: [AvailableAbilitiesList.Items]);
                 break;
             case 3:
-                StringSorting.SortStringsNumericalDescending(AvailableAbilitiesCostList.Items, [AvailableAbilitiesList.Items]);
+                StringSorting.SortStringsNumericalDescending(AvailableAbilitiesCostList.Items, linkedStrings: [AvailableAbilitiesList.Items]);
                 break;
             default:
                 break;
@@ -315,7 +315,7 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
                 if (GamePack.Current.AbilityControl[i].CanExpand(Leader))
                 {
                     string expandName = GamePack.Current.AbilityControl[i].ExpandName(Leader);
-                    _ = AvailableAbilitiesList.Items.AddObject(expandName, IntToObject(i));
+                    _ = AvailableAbilitiesList.Items.AddObject(expandName, item: IntToObject(i));
                     int expandCost = GamePack.Current.AbilityControl[i].ExpandCost(Leader);
                     _ = AvailableAbilitiesCostList.Items.Add(IntToStr(expandCost));
                 }
@@ -342,7 +342,7 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
                 }
 
                 _ = SelectedAbilitiesCostList.Items.Add(cost);
-                _ = SelectedAbilitiesList.Items.AddObject(name, IntToObject(i));
+                _ = SelectedAbilitiesList.Items.AddObject(name, item: IntToObject(i));
             }
         }
 

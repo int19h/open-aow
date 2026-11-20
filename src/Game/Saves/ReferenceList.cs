@@ -20,7 +20,7 @@ public sealed class ReferenceList(string member, ReferenceDomain domain) : Conte
         {
             if (items.Items[i] is JsonInteger target && !scope.Identities(domain).Contains(target.Value))
             {
-                yield return Reference.Dangling(scope, target, path.Member(member).Member("items").Item(i), domain);
+                yield return Reference.Dangling(scope, target, at: path.Member(member).Member("items").Item(i), domain);
             }
         }
     }

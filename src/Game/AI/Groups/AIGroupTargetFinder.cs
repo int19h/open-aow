@@ -122,7 +122,7 @@ public class AIGroupTargetFinder : AIGroupTask
             newTarget.TransporterId = target.TransporterId;
         }
 
-        _control.TargetFoundEvent(this, newTarget, ref searchDone);
+        _control.TargetFoundEvent(this, target: newTarget, ref searchDone);
         _ = newTarget.Release();
     }
 }

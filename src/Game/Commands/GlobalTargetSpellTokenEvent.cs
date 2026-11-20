@@ -38,7 +38,7 @@ public class GlobalTargetSpellTokenEvent(CustomNode owner) : SpellTokenEvent(own
         {
             ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
             animation.SetImageSequence(GamePack.Current.SpellControl[EventSpellId].CastImages.ImageSequences[0]);
-            _ = StrategicMap.Current.PlaceHex(animation, X, Y, layer);
+            _ = StrategicMap.Current.PlaceHex(animation, X, Y, L: layer);
         }
 
         _ = GamePack.Current.SpellControl[EventSpellId].CastSounds.Play(0);

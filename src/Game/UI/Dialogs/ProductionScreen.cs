@@ -293,12 +293,12 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                     UnitMovesIcon.CurrentImage = moveTypesToInt32;
                     Units.Alignment alignment = u.GetAlignment();
                     string alignmentText = UI.Engine.TranslateResourceString(GameText.AlignmentTexts[(int)alignment]);
-                    string format = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.AlignmentFormat), [alignmentText]);
+                    string format = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.AlignmentFormat), arguments: [alignmentText]);
                     UnitAlignmentLabel.Text = format;
                     sbyte unitLevel = u.UnitLevel;
-                    string formattedText = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.LevelFormat), [IntToStr(unitLevel)]);
+                    string formattedText = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.LevelFormat), arguments: [IntToStr(unitLevel)]);
                     byte upkeep = u.GetUpkeep();
-                    string format2 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.UpkeepFormat), [(int)upkeep]);
+                    string format2 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.UpkeepFormat), arguments: [(int)upkeep]);
                     UnitLevelLabel.Text = $"{formattedText} / {format2}";
                     UnitAbilitiesList.Items.Clear();
                     u.ListAbilities(UnitAbilitiesList.Items);
@@ -312,7 +312,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                         string queue = UI.Engine.TranslateResourceString(GameText.QueueText);
                         MainButton2.Text = queue;
                         string name = u.GetName();
-                        string format3 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.ProduceFormat), [name]);
+                        string format3 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.ProduceFormat), arguments: [name]);
                         UnitLabel.Text = format3;
                         int unitProductionGold = _place.ProductionControl.UnitProductionGold(_productionIndex);
                         UnitCostLabel.Text = IntToStr(unitProductionGold);
@@ -329,7 +329,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                         string queue = UI.Engine.TranslateResourceString(GameText.QueueText);
                         MainButton2.Text = queue;
                         string name = u.GetName();
-                        string format3 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.InstallFormat), [name]);
+                        string format3 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.InstallFormat), arguments: [name]);
                         UnitLabel.Text = format3;
                         int unitResearchGold = _place.ProductionControl.UnitResearchGold(_productionIndex);
                         UnitCostLabel.Text = IntToStr(unitResearchGold);
@@ -380,7 +380,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                 PreviousButton.Visible = false;
                 NextButton.Visible = false;
                 string fPlaceName = _place.GetName();
-                string format4 = AbilityRules.Format(UI.Engine.TranslateResourceString(s_productionPlaceRazeFormat), [fPlaceName]);
+                string format4 = AbilityRules.Format(UI.Engine.TranslateResourceString(s_productionPlaceRazeFormat), arguments: [fPlaceName]);
                 UpgradeMemo.Items.Text = format4;
                 UpgradePanel.Visible = true;
                 UpgradePicture.CurrentImage = 26;
@@ -404,7 +404,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
         {
             int power = _place.GetPower();
             string xPower = UI.Engine.TranslateResourceString(s_powerFormat);
-            string format = AbilityRules.Format(" " + xPower, [IntToStr(power)]);
+            string format = AbilityRules.Format(" " + xPower, arguments: [IntToStr(power)]);
             _ = IncomeHeader.Items.Add(format);
         }
 
@@ -412,7 +412,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
         {
             int fPlaceIncome = _place.GetIncome();
             string xGold = UI.Engine.TranslateResourceString(GameText.GoldFormat);
-            string format = AbilityRules.Format(" " + xGold, [IntToStr(fPlaceIncome)]);
+            string format = AbilityRules.Format(" " + xGold, arguments: [IntToStr(fPlaceIncome)]);
             _ = IncomeHeader.Items.Add(format);
         }
 
@@ -444,7 +444,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
 
         IncomeMemo.Items.Clear();
         IncomeValuesMemo.Items.Clear();
-        _place.ListIncomeInfo(IncomeMemo.Items, IncomeValuesMemo.Items);
+        _place.ListIncomeInfo(IncomeMemo.Items, values: IncomeValuesMemo.Items);
         QueueList.Items.Clear();
         for (int i = 0, last = _place.ProductionControl.Queue.GetCount() - 1; i <= last; i++)
         {
@@ -571,7 +571,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
         RandomBattleMapGenerator generator = new(UI.Engine);
         sbyte hexLevel = _place.HexLevel;
         sbyte hexY = _place.HexY;
-        _preview = generator.RandomMap(null, _place.HexX, hexY, hexLevel);
+        _preview = generator.RandomMap(null, _place.HexX, hexY, L: hexLevel);
         generator?.Dispose();
         ArmyHexSprite army = _place.Owner.GetArmyHexSprite();
         if (army is not null)
@@ -652,7 +652,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                         _ = (u?.Show(r.Left - 4, r.Top, lockedSurface, info));
 
                         BlendTable lookupTable = GraphicsState.AlphaBlendTable.GetLookupTables(45);
-                        UI.Graphics.CityWindow[5].ShowBlended(r.Left + 2, r.Top + 2, lockedSurface, lookupTable);
+                        UI.Graphics.CityWindow[5].ShowBlended(r.Left + 2, r.Top + 2, lockedSurface, table: lookupTable);
                     }
                     else
                     {
@@ -704,9 +704,9 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                     case >= 0 and <= 3:
                         if (_place.ProductionControl.UnitProductions.GetItem(_productionIndex).Researched)
                         {
-                            if (_place.CanProduce(_productionIndex, false, reason))
+                            if (_place.CanProduce(_productionIndex, queue: false, reason))
                             {
-                                _ = _place.Produce(_productionIndex, false);
+                                _ = _place.Produce(_productionIndex, queue: false);
                                 SetMode(0);
                             }
                             else
@@ -716,9 +716,9 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                         }
                         else
                         {
-                            if (_place.CanResearch(_productionIndex, false, ref reason))
+                            if (_place.CanResearch(_productionIndex, queue: false, ref reason))
                             {
-                                _ = _place.Research(_productionIndex, false);
+                                _ = _place.Research(_productionIndex, queue: false);
                                 SetMode(0);
                             }
                             else
@@ -781,9 +781,9 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                     case >= 0 and <= 3:
                         if (_place.ProductionControl.UnitProductions.GetItem(_productionIndex).Researched)
                         {
-                            if (_place.CanProduce(_productionIndex, true, reason))
+                            if (_place.CanProduce(_productionIndex, queue: true, reason))
                             {
-                                _ = _place.Produce(_productionIndex, true);
+                                _ = _place.Produce(_productionIndex, queue: true);
                             }
                             else
                             {
@@ -792,9 +792,9 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                         }
                         else
                         {
-                            if (_place.CanResearch(_productionIndex, true, ref reason))
+                            if (_place.CanResearch(_productionIndex, queue: true, ref reason))
                             {
-                                _ = _place.Research(_productionIndex, true);
+                                _ = _place.Research(_productionIndex, queue: true);
                             }
                             else
                             {
@@ -985,10 +985,10 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                 _viewY = 16;
             }
 
-            LockedSurface.CreateFrom(lockedSurface, r, out LockedSurface viewSurfaceDescription);
+            LockedSurface.CreateFrom(lockedSurface, r, destination: out LockedSurface viewSurfaceDescription);
             _preview.SetExplorationEnabled(false);
             _preview.SetFogEnabled(false);
-            _ = _preview.SetViewPort(_viewX, _viewY, 0, width, r.Bottom - r.Top);
+            _ = _preview.SetViewPort(_viewX, _viewY, lHitPoints: 0, width, r.Bottom - r.Top);
             _preview.UpdateStaticScene();
             _preview.UpdateDynamicScene();
             _preview.DrawStaticScene(in viewSurfaceDescription);

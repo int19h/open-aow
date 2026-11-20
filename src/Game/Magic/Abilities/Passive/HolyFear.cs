@@ -12,7 +12,7 @@ public class HolyFear : DurationAbility
     public HolyFear(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_holyFearText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_holyFearText);
         AbilityId = 53;
         AbilityType = AbilityType.Handicap;
         SelectionTypes = Set<AbilitySelectionType>.Of();
@@ -25,7 +25,7 @@ public class HolyFear : DurationAbility
         // { Original assumes the ability data exists. }
         DurationAbilityData durationAbilityData = GetData(owner);
         return durationAbilityData.Source == 1
-            ? AbilityRules.TranslateResourceString(GetEngine(), GameText.LifeMasteryText)
+            ? AbilityRules.TranslateResourceString(GetEngine(), S: GameText.LifeMasteryText)
             : base.GetSourceName(owner);
     }
 

@@ -117,7 +117,7 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
             {
                 Reaction = DiplomaticActionReaction.Ignore;
                 EventLog log = StrategicMap.Current.Players.GetPlayers(Target).EventLogbook.FindId(EventLogId);
-                Assert(log is DiplomaticActionEventLog, "", "Diplomacy.pas", 697);
+                Assert(log is DiplomaticActionEventLog, message: "", file: "Diplomacy.pas", line: 697);
                 StrategicMap.Current.Players.GetPlayers(Source).EventLogbook.AddEvent(log);
                 Player players = StrategicMap.Current.Players.GetPlayers(Source);
                 StrategicMap.Current.Players.GetPlayers(Source).SetGems(players.Gems + EscrowGold);
@@ -149,7 +149,7 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
     public virtual void ExecuteAccept(DiplomaticActionTokenEvent tokenEvent)
     {
         Reaction = DiplomaticActionReaction.Accept;
-        RetrieveDefaultMessage(Source, Target, OtherPlayer, Reaction);
+        RetrieveDefaultMessage(Source, Target, other: OtherPlayer, Reaction);
         Player players = StrategicMap.Current.Players.GetPlayers(Target);
         StrategicMap.Current.Players.GetPlayers(Target).SetGems(players.Gems + EscrowGold);
         EscrowGold = 0;
@@ -170,7 +170,7 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
         Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Source);
         StrategicMap.Current.Players.GetPlayers(Source).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana + EscrowMana);
         EscrowMana = 0;
-        RetrieveDefaultMessage(Source, Target, OtherPlayer, Reaction);
+        RetrieveDefaultMessage(Source, Target, other: OtherPlayer, Reaction);
         DiplomaticActionEventLog log = StrategicMap.Current.Players.GetPlayers(Target).EventLogbook.FindId<DiplomaticActionEventLog>(EventLogId);
         log.SetDiplomaticAction(this);
         StrategicMap.Current.Players.GetPlayers(Source).EventLogbook.AddEvent(log);
@@ -182,14 +182,14 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
         DiplomaticActionReaction reaction = Reaction;
         if (reaction == DiplomaticActionReaction.None)
         {
-            DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation((sbyte)(byte)Source, (sbyte)(byte)Target);
+            DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation((sbyte)(byte)Source, otherPlayer: (sbyte)(byte)Target);
             ByteList idealPeace = new();
             ByteList idealWar = new();
             ByteList peace = new();
             ByteList war = new();
             ByteList unknown = new();
             StrategicMap.Current.Players.GetPlayers(Target).AIControl.ListPeaceWarUnknownPlayers(peace, war, unknown);
-            StrategicMap.Current.Players.GetPlayers(Target).AIControl.ListIdealPeaceWarPlayers(idealPeace, idealWar);
+            StrategicMap.Current.Players.GetPlayers(Target).AIControl.ListIdealPeaceWarPlayers(idealPeace, war: idealWar);
             Proposal.AnswerAI(this, player, relation, idealPeace, idealWar);
             peace?.Dispose();
             war?.Dispose();
@@ -220,13 +220,13 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
             else
             {
                 result = false;
-                errorText = AbilityRules.TranslateResourceString(GetEngine(), s_notEnoughManaText);
+                errorText = AbilityRules.TranslateResourceString(GetEngine(), S: s_notEnoughManaText);
             }
         }
         else
         {
             result = false;
-            errorText = AbilityRules.TranslateResourceString(GetEngine(), GameText.TributeNotEnoughGoldText);
+            errorText = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.TributeNotEnoughGoldText);
         }
 
         return result;
@@ -330,16 +330,16 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
     {
         text.Clear();
         TextControl fTextControl = GamePack.Current.TextControl;
-        DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(source, target);
+        DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(source, otherPlayer: target);
         Player players = StrategicMap.Current.Players.GetPlayers(source);
-        string sourceRace = AbilityRules.TranslateResourceString(engine, GameTables.RaceNamesPluralTexts[players.PlayerRace]);
+        string sourceRace = AbilityRules.TranslateResourceString(engine, S: GameTables.RaceNamesPluralTexts[players.PlayerRace]);
         Player players2 = StrategicMap.Current.Players.GetPlayers(target);
-        string targetRace = AbilityRules.TranslateResourceString(engine, GameTables.RaceNamesPluralTexts[players2.PlayerRace]);
+        string targetRace = AbilityRules.TranslateResourceString(engine, S: GameTables.RaceNamesPluralTexts[players2.PlayerRace]);
         string otherRace;
         if (other > 0)
         {
             Player players3 = StrategicMap.Current.Players.GetPlayers(other);
-            otherRace = AbilityRules.TranslateResourceString(engine, GameTables.RaceNamesPluralTexts[players3.PlayerRace]);
+            otherRace = AbilityRules.TranslateResourceString(engine, S: GameTables.RaceNamesPluralTexts[players3.PlayerRace]);
         }
         else
         {
@@ -358,6 +358,6 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
         ]).Contains(alignment))
             ? 1
             : 2)
-            : 0, textControl: fTextControl, sourceRace: sourceRace, targetRace: targetRace, otherRace: otherRace, text: text), reaction, diplomaticRelation);
+            : 0, textControl: fTextControl, sourceRace: sourceRace, targetRace: targetRace, otherRace: otherRace, text: text), reaction, relation: diplomaticRelation);
     }
 }

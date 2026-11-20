@@ -9,7 +9,7 @@ namespace Aow.Rtl.Tests;
 /// </summary>
 public sealed class NameTableTests
 {
-    public NameTableTests() => TranslatorProperties.Register<RenamedForm>("Caption", form => form.Caption, (form, value) => form.Caption = value);
+    public NameTableTests() => TranslatorProperties.Register<RenamedForm>("Caption", read: form => form.Caption, (form, value) => form.Caption = value);
 
     [Fact]
     public void OriginalFilesKeepTheDelphiName()
@@ -21,7 +21,7 @@ public sealed class NameTableTests
             using (FileStream stream = File.Create(path))
             using (BinaryWriter writer = new(stream))
             {
-                WriteHeader(writer, 2);
+                WriteHeader(writer, count: 2);
                 void Text(string value)
                 {
                     byte[] bytes = Encoding.ASCII.GetBytes(value);
@@ -36,8 +36,8 @@ public sealed class NameTableTests
                     Text(english);
                     Text("");
                 }
-                Entry("Hello", "TDelphiForm", "from delphi");
-                Entry("Hello", "RenamedForm", "from current");
+                Entry("Hello", form: "TDelphiForm", english: "from delphi");
+                Entry("Hello", form: "RenamedForm", english: "from current");
             }
             MldDictionary dictionary = new();
             dictionary.Open(path);
@@ -45,18 +45,18 @@ public sealed class NameTableTests
             {
                 Assert.Equal("TDelphiForm", NameTable.Delphi(typeof(RenamedForm)));
                 Assert.Equal(nameof(RenamedForm), NameTable.Stored(typeof(RenamedForm)));
-                Assert.Equal("from delphi", dictionary.TranslateContext("Hello", NameTable.Delphi(typeof(RenamedForm)), ""));
-                Assert.Equal("from current", dictionary.TranslateContext("Hello", NameTable.Stored(typeof(RenamedForm)), ""));
+                Assert.Equal("from delphi", dictionary.TranslateContext("Hello", form: NameTable.Delphi(typeof(RenamedForm)), component: ""));
+                Assert.Equal("from current", dictionary.TranslateContext("Hello", form: NameTable.Stored(typeof(RenamedForm)), component: ""));
 
                 RenamedForm form = new() { Caption = "Hello" };
                 IvCustomTranslator translator = new(form) { Dictionary = dictionary, Language = 1 };
-                translator.TargetsData.Add(new TranslationTarget(NameTable.Delphi(typeof(RenamedForm)), "Caption"));
+                translator.TargetsData.Add(new TranslationTarget(NameTable.Delphi(typeof(RenamedForm)), PropertyName: "Caption"));
                 translator.Translate(form);
                 Assert.Equal("from delphi", form.Caption);
 
                 form.Caption = "Hello";
                 translator.TargetsData.Clear();
-                translator.TargetsData.Add(new TranslationTarget(NameTable.Stored(typeof(RenamedForm)), "Caption"));
+                translator.TargetsData.Add(new TranslationTarget(NameTable.Stored(typeof(RenamedForm)), PropertyName: "Caption"));
                 translator.Translate(form);
                 Assert.Equal("Hello", form.Caption);
                 form.Dispose();
@@ -89,10 +89,10 @@ public sealed class NameTableTests
         byte[] header = new byte[42];
         "MLD\x03"u8.CopyTo(header);
         header[4] = header[5] = header[6] = 1;
-        System.Buffers.Binary.BinaryPrimitives.WriteUInt16LittleEndian(header.AsSpan(12), 3);
-        System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(header.AsSpan(14), 42);
-        System.Buffers.Binary.BinaryPrimitives.WriteUInt16LittleEndian(header.AsSpan(18), count);
-        System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(header.AsSpan(20), 120);
+        System.Buffers.Binary.BinaryPrimitives.WriteUInt16LittleEndian(header.AsSpan(12), value: 3);
+        System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(header.AsSpan(14), value: 42);
+        System.Buffers.Binary.BinaryPrimitives.WriteUInt16LittleEndian(header.AsSpan(18), value: count);
+        System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(header.AsSpan(20), value: 120);
         writer.Write(header);
         for (ushort language = 0; language < 3; language++)
         {

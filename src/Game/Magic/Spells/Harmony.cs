@@ -17,7 +17,7 @@ public class Harmony : GlobalEnchantmentSpell
     public Harmony(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.HarmonyText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.HarmonyText);
         SpellId = 47;
         SpellType = SpellType.Global;
         BaseManaCost = 15;
@@ -33,10 +33,10 @@ public class Harmony : GlobalEnchantmentSpell
         sbyte x = coordinate71.X;
         sbyte y = coordinate71.Y;
         sbyte l = coordinate71.MapLevel;
-        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
+        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
         _ = StrategicMap.Current.AddEffect(WorldEffectType.Tranquility);
         _ = CastSounds.Play(0);
-        CastingDone(source, eventValue.EventMana);
+        CastingDone(source, mana: eventValue.EventMana);
         return false;
     }
 

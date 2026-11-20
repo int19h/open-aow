@@ -148,7 +148,7 @@ public partial class HexSpriteSelection(CustomNode owner) : ControlStyleNode(own
     public void SelectLocationHex(int hexX, int hexY, int hexLevel)
     {
         HexGeometry.HexToPixel(hexX, hexY, out int pixelX, out int pixelY);
-        SelectLocation(pixelX, pixelY, hexLevel);
+        SelectLocation(pixelX, pixelY, lHitPoints: hexLevel);
     }
 
     // HSEngine.pas:3837

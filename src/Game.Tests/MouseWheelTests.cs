@@ -55,13 +55,13 @@ public sealed class MouseWheelTests
     {
         InputMapper mapper = new();
         Sink sink = new();
-        DisplayViewport view = new(100, 100, 2, 10, 20, 220, 240);
+        DisplayViewport view = new(100, 100, Scale: 2, 10, 20, 220, 240);
         mapper.SetModifiers(1);
-        mapper.Wheel(2, 0, 20, 34, view, sink);
-        mapper.Wheel(2, 1, 20, 34, view, sink);
+        mapper.Wheel(2, direction: 0, 20, 34, viewport: view, sink);
+        mapper.Wheel(2, direction: 1, 20, 34, viewport: view, sink);
         // The margin around the image is still inside the output, so it lands on the nearest edge.
-        mapper.Wheel(1, 0, 0, 20, view, sink);
-        mapper.Wheel(1, 0, -1, 20, view, sink);
+        mapper.Wheel(1, direction: 0, 0, 20, viewport: view, sink);
+        mapper.Wheel(1, direction: 0, -1, 20, viewport: view, sink);
         Assert.Equal([(2, true, 5, 7), (-2, true, 5, 7), (1, true, 0, 0)], sink.Rolls.Select(r => (r.Steps, r.Shift.Contains(ShiftState.Shift), r.X, r.Y)));
     }
 
@@ -70,19 +70,19 @@ public sealed class MouseWheelTests
     {
         InputMapper mapper = new();
         Sink sink = new();
-        DisplayViewport view = new(100, 100, 1, 0, 0, 100, 100);
-        mapper.Wheel(0.5f, 0, 10, 10, view, sink);
-        mapper.Wheel(0.5f, 0, 10, 10, view, sink);
-        mapper.Wheel(0.5f, 1, 10, 10, view, sink);
-        mapper.Wheel(0.5f, 1, 10, 10, view, sink);
-        mapper.Wheel(0.5f, 0, -1, 10, view, sink);
-        mapper.Wheel(0.5f, 0, 10, 10, view, sink);
+        DisplayViewport view = new(100, 100, Scale: 1, 0, 0, 100, 100);
+        mapper.Wheel(0.5f, direction: 0, 10, 10, viewport: view, sink);
+        mapper.Wheel(0.5f, direction: 0, 10, 10, viewport: view, sink);
+        mapper.Wheel(0.5f, direction: 1, 10, 10, viewport: view, sink);
+        mapper.Wheel(0.5f, direction: 1, 10, 10, viewport: view, sink);
+        mapper.Wheel(0.5f, direction: 0, -1, 10, viewport: view, sink);
+        mapper.Wheel(0.5f, direction: 0, 10, 10, viewport: view, sink);
         // The leftover +0.5 is dropped when the roll reverses, so the next two halves make one step down.
-        mapper.Wheel(-0.5f, 0, 10, 10, view, sink);
-        mapper.Wheel(-0.5f, 0, 10, 10, view, sink);
+        mapper.Wheel(-0.5f, direction: 0, 10, 10, viewport: view, sink);
+        mapper.Wheel(-0.5f, direction: 0, 10, 10, viewport: view, sink);
         mapper.Reset();
-        mapper.Wheel(0.5f, 0, 10, 10, view, sink);
-        mapper.Wheel(0.5f, 0, 10, 10, view, sink);
+        mapper.Wheel(0.5f, direction: 0, 10, 10, viewport: view, sink);
+        mapper.Wheel(0.5f, direction: 0, 10, 10, viewport: view, sink);
         Assert.Equal([1, -1, -1, 1], sink.Rolls.Select(r => r.Steps));
     }
 
@@ -91,11 +91,11 @@ public sealed class MouseWheelTests
     {
         HeadlessDisplayHost host = new(Path.Combine(Path.GetTempPath(), "open-aow-wheel-unused"));
         Sink sink = new();
-        host.Wheel(0.5f, 0, 12, 34, sink);
-        host.Wheel(0.5f, 0, 12, 34, sink);
-        host.Wheel(3, 1, 12, 34, sink);
-        host.Wheel(4, 0, -1, 34, sink);
-        host.Wheel(1, 0, 640, 10, sink);
+        host.Wheel(0.5f, direction: 0, 12, 34, sink);
+        host.Wheel(0.5f, direction: 0, 12, 34, sink);
+        host.Wheel(3, direction: 1, 12, 34, sink);
+        host.Wheel(4, direction: 0, -1, 34, sink);
+        host.Wheel(1, direction: 0, 640, 10, sink);
         Assert.Equal([(1, 12, 34), (-3, 12, 34)], sink.Rolls.Select(r => (r.Steps, r.X, r.Y)));
     }
 
@@ -104,13 +104,13 @@ public sealed class MouseWheelTests
     {
         WindowManager manager = new(null);
         Window window = new(null);
-        Place(window, manager, 100, 50, 400, 400, 1);
+        Place(window, owner: manager, 100, 50, 400, 400, priority: 1);
         Panel panel = new(null);
-        Place(panel, window, 20, 30, 220, 160);
+        Place(panel, owner: window, 20, 30, 220, 160);
         ListBox list = new(null);
-        Place(list, panel, 10, 15, 80, 40);
-        Fill(list, 10, 3);
-        VerticalScrollBar bar = Bar(panel, 180, 10, 16, 80, 9, 3);
+        Place(list, owner: panel, 10, 15, 80, 40);
+        Fill(list, count: 10, shown: 3);
+        VerticalScrollBar bar = Bar(panel, 180, 10, 16, 80, max: 9, visible: 3);
         Set<ShiftState> shift = default;
 
         Assert.True(manager.CheckMouseWheel(-1, shift, 140, 100));
@@ -130,15 +130,15 @@ public sealed class MouseWheelTests
     {
         WindowManager manager = new(null);
         Window window = new(null);
-        Place(window, manager, 0, 0, 400, 400, 1);
+        Place(window, owner: manager, 0, 0, 400, 400, priority: 1);
         Panel panel = new(null);
-        Place(panel, window, 0, 0, 300, 200);
+        Place(panel, owner: window, 0, 0, 300, 200);
         ListBox list = new(null);
-        Place(list, panel, 0, 0, 40, 40);
-        Fill(list, 8, 3);
-        VerticalScrollBar bar = Bar(panel, 200, 0, 16, 80, 9, 3);
+        Place(list, owner: panel, 0, 0, 40, 40);
+        Fill(list, count: 8, shown: 3);
+        VerticalScrollBar bar = Bar(panel, 200, 0, 16, 80, max: 9, visible: 3);
         Label label = new(null);
-        Place(label, panel, 80, 80, 40, 20);
+        Place(label, owner: panel, 80, 80, 40, 20);
 
         Assert.True(manager.CheckMouseWheel(shift: default, steps: -2, x: 90, y: 90));
         Assert.Equal(0, list.FirstShownItem);
@@ -150,11 +150,11 @@ public sealed class MouseWheelTests
     {
         WindowManager manager = new(null);
         Window window = new(null);
-        Place(window, manager, 0, 0, 400, 400, 1);
+        Place(window, owner: manager, 0, 0, 400, 400, priority: 1);
         Panel panel = new(null);
-        Place(panel, window, 0, 0, 300, 200);
-        VerticalScrollBar first = Bar(panel, 200, 0, 16, 40, 9, 3);
-        VerticalScrollBar second = Bar(panel, 200, 50, 16, 40, 9, 3);
+        Place(panel, owner: window, 0, 0, 300, 200);
+        VerticalScrollBar first = Bar(panel, 200, 0, 16, 40, max: 9, visible: 3);
+        VerticalScrollBar second = Bar(panel, 200, 50, 16, 40, max: 9, visible: 3);
         Set<ShiftState> shift = default;
 
         // The window contains the pointer, so the manager accepts the wheel. Two bars mean the panel scrolls neither.
@@ -179,15 +179,15 @@ public sealed class MouseWheelTests
         WindowManager manager = new(null);
         manager.SetOverlayPriorityImmediately(10);
         Window back = new(null);
-        Place(back, manager, 0, 0, 400, 300, 1);
+        Place(back, owner: manager, 0, 0, 400, 300, priority: 1);
         ListBox backList = new(null);
-        Place(backList, back, 0, 0, 400, 40);
-        Fill(backList, 10, 3);
+        Place(backList, owner: back, 0, 0, 400, 40);
+        Fill(backList, count: 10, shown: 3);
         Window modal = new(null);
-        Place(modal, manager, 0, 0, 100, 100, 10);
+        Place(modal, owner: manager, 0, 0, 100, 100, priority: 10);
         ListBox modalList = new(null);
-        Place(modalList, modal, 0, 0, 80, 40);
-        Fill(modalList, 10, 3);
+        Place(modalList, owner: modal, 0, 0, 80, 40);
+        Fill(modalList, count: 10, shown: 3);
         Set<ShiftState> shift = default;
 
         Assert.True(manager.CheckMouseWheel(-1, shift, 20, 20));
@@ -207,11 +207,11 @@ public sealed class MouseWheelTests
     {
         WindowManager manager = new(null);
         Window window = new(null);
-        Place(window, manager, 0, 0, 200, 120, 1);
+        Place(window, owner: manager, 0, 0, 200, 120, priority: 1);
         ListBox list = new(null);
-        Place(list, window, 0, 0, 80, 40);
-        Fill(list, 10, 3);
-        VerticalScrollBar bar = Bar(window, 90, 0, 16, 40, 9, 3);
+        Place(list, owner: window, 0, 0, 80, 40);
+        Fill(list, count: 10, shown: 3);
+        VerticalScrollBar bar = Bar(window, 90, 0, 16, 40, max: 9, visible: 3);
         bar.SetSmallChangeUnclamped(2);
         list.SetVerticalScrollBarWithoutLayout(bar);
         int changes = 0;
@@ -246,13 +246,13 @@ public sealed class MouseWheelTests
     {
         WindowManager manager = new(null);
         Window window = new(null);
-        Place(window, manager, 0, 0, 200, 120, 1);
+        Place(window, owner: manager, 0, 0, 200, 120, priority: 1);
         Panel panel = new(null);
-        Place(panel, window, 0, 0, 180, 100);
+        Place(panel, owner: window, 0, 0, 180, 100);
         ListBox list = new(null);
-        Place(list, panel, 10, 10, 80, 40);
-        Fill(list, 10, 4);
-        VerticalScrollBar bar = Bar(panel, 140, 10, 16, 40, 9, 3);
+        Place(list, owner: panel, 10, 10, 80, 40);
+        Fill(list, count: 10, shown: 4);
+        VerticalScrollBar bar = Bar(panel, 140, 10, 16, 40, max: 9, visible: 3);
         int changes = 0;
         list.OnChange += _ => changes++;
         Set<ShiftState> shift = default;
@@ -274,7 +274,7 @@ public sealed class MouseWheelTests
     {
         WindowManager manager = new(null);
         BookWindow book = new(null);
-        Place(book, manager, 0, 0, 200, 160, 1);
+        Place(book, owner: manager, 0, 0, 200, 160, priority: 1);
         int page = 0;
         Button back = new(null);
         Button forward = new(null);
@@ -300,8 +300,8 @@ public sealed class MouseWheelTests
         book.PageBack = back;
         book.PageForward = forward;
         ListBox list = new(null);
-        Place(list, book, 10, 10, 60, 30);
-        Fill(list, 8, 3);
+        Place(list, owner: book, 10, 10, 60, 30);
+        Fill(list, count: 8, shown: 3);
         Set<ShiftState> shift = default;
 
         Assert.True(manager.CheckMouseWheel(-5, shift, 120, 80));
@@ -339,15 +339,15 @@ public sealed class MouseWheelTests
     {
         WindowManager manager = new(null);
         Window window = new(null);
-        Place(window, manager, 0, 0, 200, 120, 1);
-        VerticalScrollBar parent = Bar(window, 170, 10, 16, 80, 9, 3);
+        Place(window, owner: manager, 0, 0, 200, 120, priority: 1);
+        VerticalScrollBar parent = Bar(window, 170, 10, 16, 80, max: 9, visible: 3);
         ListBox list = new(null);
-        Place(list, window, 10, 10, 70, 40);
-        Fill(list, 2, 4);
+        Place(list, owner: window, 10, 10, 70, 40);
+        Fill(list, count: 2, shown: 4);
         Memo memo = new(null);
-        Place(memo, window, 90, 10, 70, 40);
+        Place(memo, owner: window, 90, 10, 70, 40);
         memo.CaptureInput = false;
-        VerticalScrollBar memoBar = Bar(window, 140, 10, 16, 40, 0, 1);
+        VerticalScrollBar memoBar = Bar(window, 140, 10, 16, 40, max: 0, visible: 1);
         memoBar.SetVisibleWithoutUpdate(false);
         memo.SetVerticalScrollBarWithoutLayout(memoBar);
         Set<ShiftState> shift = default;
@@ -375,9 +375,9 @@ public sealed class MouseWheelTests
     {
         Window window = new(null);
         WindowManager manager = new(null);
-        Place(window, manager, 0, 0, 80, 80);
+        Place(window, owner: manager, 0, 0, 80, 80);
         VerticalScrollBar bar = new(null);
-        Place(bar, window, 10, 10, 16, 40);
+        Place(bar, owner: window, 10, 10, 16, 40);
         bar.SetMinUnclamped(0);
         bar.SetMaxUnclamped(5);
         bar.SetNumberVisibleUnclamped(2);
@@ -395,11 +395,11 @@ public sealed class MouseWheelTests
         int x = window.WinLeft + bar.WinLeft + 1;
         int top = window.WinTop + bar.WinTop;
 
-        bar.CheckMouseDown(MouseButton.Left, default, x, top + 1);
+        bar.CheckMouseDown(MouseButton.Left, shift: default, x, top + 1);
         Assert.Equal(0, bar.Position);
         Assert.Equal(1, changes);
 
-        bar.CheckMouseDown(MouseButton.Left, default, x, top + bar.WinHeight - 1);
+        bar.CheckMouseDown(MouseButton.Left, shift: default, x, top + bar.WinHeight - 1);
         Assert.Equal(2, bar.Position);
         Assert.Equal(2, changes);
         Assert.Equal(4, bar.HeldPart);

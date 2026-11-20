@@ -32,7 +32,7 @@ public class CombatSpellCombatAction(CustomNode owner) : DamageCombatAction(owne
         if (ManaCost != 0 && combat.Status.Contains(CombatStatusElement.Executing))
         {
             CombatObject source = combat.CombatData.FindId(SourceId);
-            GamePack.Current.SpellControl[SpellId].CombatCastingDone(source, ManaCost);
+            GamePack.Current.SpellControl[SpellId].CombatCastingDone(source, mana: ManaCost);
         }
     }
 
@@ -59,13 +59,13 @@ public class CombatSpellCombatAction(CustomNode owner) : DamageCombatAction(owne
         if (objectValue.Id == SourceId)
         {
             Spell spell = GamePack.Current.SpellControl[SpellId];
-            GetEngine().CombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.SpellName, surface);
+            GetEngine().CombatFont.SetTextCentered(X + 32, Y + 32 + 8, text: spell.SpellName, lockedSurface: surface);
         }
         else
         {
             if (objectValue.Id == TargetId)
             {
-                _ = GamePack.Current.SpellControl[SpellId].CastImages.Show(11, X + 32, Y + 32, viewer.Time, surface);
+                _ = GamePack.Current.SpellControl[SpellId].CastImages.Show(11, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
             }
         }
     }
@@ -78,13 +78,13 @@ public class CombatSpellCombatAction(CustomNode owner) : DamageCombatAction(owne
         if (objectValue.Id == SourceId)
         {
             Spell spell = GamePack.Current.SpellControl[SpellId];
-            GetEngine().CombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.SpellName, surface);
+            GetEngine().CombatFont.SetTextCentered(X + 32, Y + 32 + 8, text: spell.SpellName, lockedSurface: surface);
         }
         else
         {
             if (objectValue.Id == TargetId)
             {
-                _ = GamePack.Current.SpellControl[SpellId].CastImages.Show(11, X + 32, Y + 32, viewer.Time, surface);
+                _ = GamePack.Current.SpellControl[SpellId].CastImages.Show(11, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
             }
         }
     }

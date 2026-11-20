@@ -18,9 +18,9 @@ public sealed class FilesAndStreamsTests
         IFileSystem files = new PhysicalFileSystem();
         string current = Directory.GetCurrentDirectory();
         string sameDrive = Path.Combine(Path.GetPathRoot(current)!, "Games", "x.ilb");
-        Assert.Equal(sameDrive, files.ExtractRelativePath("", sameDrive));
-        Assert.Equal(@"Images\x.ilb", files.ExtractRelativePath("", @"Images\x.ilb"));
-        Assert.Equal(@"Images\x.ilb", files.ExtractRelativePath(Path.Combine(current, "base") + Path.DirectorySeparatorChar, Path.Combine(current, "base", "Images", "x.ilb")));
+        Assert.Equal(sameDrive, files.ExtractRelativePath("", destination: sameDrive));
+        Assert.Equal(@"Images\x.ilb", files.ExtractRelativePath("", destination: @"Images\x.ilb"));
+        Assert.Equal(@"Images\x.ilb", files.ExtractRelativePath(Path.Combine(current, "base") + Path.DirectorySeparatorChar, destination: Path.Combine(current, "base", "Images", "x.ilb")));
     }
 
     [Fact]
@@ -35,14 +35,14 @@ public sealed class FilesAndStreamsTests
             Assert.False(FileExists("a"));
             Assert.False(DirectoryExists("a"));
             Assert.False(DeleteFile("a"));
-            Assert.False(RenameFile("a", "b"));
+            Assert.False(RenameFile("a", target: "b"));
             Assert.Equal(-1, FileAge("a"));
             Assert.False(CreateDir("absent/child"));
             Assert.True(CreateDir("a"));
             Assert.False(CreateDir("a"));
             Assert.True(DirectoryExists("a"));
             Assert.False(FileExists("a"));
-            using (Stream f = OpenFile("a/test.bin", fmCreate))
+            using (Stream f = OpenFile("a/test.bin", mode: fmCreate))
             {
                 f.WriteBuffer([1, 2, 3]);
             }
@@ -51,31 +51,31 @@ public sealed class FilesAndStreamsTests
             Assert.True(FileExists("A/TEST.BIN"));
             Assert.False(DirectoryExists("a/test.bin"));
             DateTime modified = new(2024, 2, 29, 12, 34, 56);
-            File.SetLastWriteTime("a/test.bin", modified);
+            File.SetLastWriteTime("a/test.bin", lastWriteTime: modified);
             // The native file API uses the current Windows time-zone bias.
             DateTime nativeTime = OperatingSystem.IsWindows() ? modified.ToUniversalTime() + TimeZoneInfo.Local.GetUtcOffset(DateTime.Now) : modified;
-            Assert.Equal(EncodeDate(nativeTime.Year, nativeTime.Month, nativeTime.Day) + EncodeTime(nativeTime.Hour, nativeTime.Minute, nativeTime.Second, 0), FileDateToDateTime(FileAge("a/test.bin")));
-            Assert.True(RenameFile("a/test.bin", "a/new.bin"));
+            Assert.Equal(EncodeDate(nativeTime.Year, nativeTime.Month, nativeTime.Day) + EncodeTime(nativeTime.Hour, nativeTime.Minute, nativeTime.Second, millisecond: 0), FileDateToDateTime(FileAge("a/test.bin")));
+            Assert.True(RenameFile("a/test.bin", target: "a/new.bin"));
             Assert.False(FileExists("a/test.bin"));
-            using (Stream readwrite = OpenFile("a/new.bin", fmOpenReadWrite))
+            using (Stream readwrite = OpenFile("a/new.bin", mode: fmOpenReadWrite))
             {
                 readwrite.Position = 1;
                 readwrite.Write([4]);
                 Assert.Equal(2L, readwrite.Position);
             }
 
-            using (Stream write = OpenFile("a/new.bin", fmOpenWrite))
+            using (Stream write = OpenFile("a/new.bin", mode: fmOpenWrite))
             {
                 _ = Assert.Throws<NotSupportedException>(() => write.Read(new byte[1]));
             }
 
             Assert.True(DeleteFile("a/new.bin"));
             Assert.False(DeleteFile("a/new.bin"));
-            Assert.Equal("Cannot open file missing", Assert.Throws<FileNotFoundException>(() => OpenFile("missing", fmOpenRead)).Message);
-            Assert.Equal("Cannot create file absent/file", Assert.Throws<IOException>(() => OpenFile("absent/file", fmCreate)).Message);
+            Assert.Equal("Cannot open file missing", Assert.Throws<FileNotFoundException>(() => OpenFile("missing", mode: fmOpenRead)).Message);
+            Assert.Equal("Cannot create file absent/file", Assert.Throws<IOException>(() => OpenFile("absent/file", mode: fmCreate)).Message);
             Assert.Empty(Files.FindEntries("absent\\*", attributes: faAnyFile));
-            File.WriteAllBytes("a/hidden", []);
-            File.SetAttributes("a/hidden", FileAttributes.Hidden);
+            File.WriteAllBytes("a/hidden", bytes: []);
+            File.SetAttributes("a/hidden", fileAttributes: FileAttributes.Hidden);
             // Only Windows has a hidden attribute. On Linux a hidden file is one whose name starts with a dot.
             if (OperatingSystem.IsWindows())
             {
@@ -148,7 +148,7 @@ public sealed class FilesAndStreamsTests
         public IEnumerable<RtlFileEntry> Enumerate(string directory)
         {
             Calls.Add($"enumerate {directory}");
-            return new[] { new RtlFileEntry("b", 3, 128, new DateTime(2020, 1, 2)), new RtlFileEntry("A", 1, 128, new DateTime(2020, 1, 2)) };
+            return new[] { new RtlFileEntry("b", Size: 3, Attribute: 128, Modified: new DateTime(2020, 1, 2)), new RtlFileEntry("A", Size: 1, Attribute: 128, Modified: new DateTime(2020, 1, 2)) };
         }
     }
 
@@ -166,20 +166,20 @@ public sealed class FilesAndStreamsTests
             Assert.True(DirectoryExists("a"));
             Assert.True(CreateDir("a"));
             Assert.True(DeleteFile("a"));
-            Assert.True(RenameFile("a", "b"));
-            using (Stream stream = OpenFile("virtual", fmCreate))
+            Assert.True(RenameFile("a", target: "b"));
+            using (Stream stream = OpenFile("virtual", mode: fmCreate))
             {
                 stream.WriteBuffer([7]);
                 Assert.Equal(new byte[] { 7 }, files.Opened.ToArray());
             }
-            Assert.Contains("open virtual 65535", files.Calls);
+            Assert.Contains("open virtual 65535", collection: files.Calls);
             IReadOnlyList<RtlFileEntry> entries = Files.FindEntries("*", attributes: 0);
             Assert.Equal(2, entries.Count);
             Assert.Equal("A", entries[0].Name);
             Assert.Equal(1, entries[0].Size);
             Assert.Equal(FileAge("A"), entries[0].FileDate);
             Assert.Equal("b", entries[1].Name);
-            Assert.Contains("enumerate fake", files.Calls);
+            Assert.Contains("enumerate fake", collection: files.Calls);
         }
         finally
         {
@@ -228,7 +228,7 @@ public sealed class FilesAndStreamsTests
             return 0;
         }
 
-        public override void Write(byte[] buffer, int offset, int count) => Write(buffer.AsSpan(offset, count));
+        public override void Write(byte[] buffer, int offset, int count) => Write(buffer.AsSpan(offset, length: count));
 
         public override void Write(ReadOnlySpan<byte> buffer)
         {
@@ -254,8 +254,8 @@ public sealed class FilesAndStreamsTests
         Record record = new() { Number = 0x04030201, Tail = 5 };
         Assert.Equal(8, memory.Write(in record));
         memory.WriteBuffer(in record);
-        Assert.Equal(2, memory.Write(in record, 2));
-        memory.WriteBuffer(in record, 2);
+        Assert.Equal(2, memory.Write(in record, count: 2));
+        memory.WriteBuffer(in record, count: 2);
         memory.Position = 0;
         Record restored = new();
         Assert.Equal(8, memory.Read(ref restored));
@@ -265,27 +265,27 @@ public sealed class FilesAndStreamsTests
         memory.ReadBuffer(ref restored);
         Assert.Equal(record.Number, restored.Number);
         restored = default;
-        Assert.Equal(2, memory.Read(ref restored, 2));
+        Assert.Equal(2, memory.Read(ref restored, count: 2));
         Assert.Equal(0x0201, restored.Number);
-        memory.ReadBuffer(ref restored, 2);
+        memory.ReadBuffer(ref restored, count: 2);
         _ = Assert.Throws<EndOfStreamException>(() => memory.ReadBuffer(ref restored));
         memory.Clear();
-        Ptr<byte> pointer = Ptr<byte>.To([1, 2, 3, 4], 1);
-        Assert.Equal(2, memory.Write(pointer, 2));
-        memory.WriteBuffer(pointer, 2);
+        Ptr<byte> pointer = Ptr<byte>.To([1, 2, 3, 4], index: 1);
+        Assert.Equal(2, memory.Write(pointer, count: 2));
+        memory.WriteBuffer(pointer, count: 2);
         memory.Position = 0;
-        Assert.Equal(2, memory.Read(pointer, 2));
-        memory.ReadBuffer(pointer, 2);
-        _ = Assert.Throws<EndOfStreamException>(() => memory.ReadBuffer(pointer, 1));
-        Assert.Equal(0, memory.Write(pointer, -1));
-        Assert.Equal(0, memory.Read(pointer, -1));
-        Assert.Equal(0, memory.Write(new byte[1], -1));
-        Assert.Equal(0, memory.Read(new byte[1], -1));
+        Assert.Equal(2, memory.Read(pointer, count: 2));
+        memory.ReadBuffer(pointer, count: 2);
+        _ = Assert.Throws<EndOfStreamException>(() => memory.ReadBuffer(pointer, count: 1));
+        Assert.Equal(0, memory.Write(pointer, count: -1));
+        Assert.Equal(0, memory.Read(pointer, count: -1));
+        Assert.Equal(0, memory.Write(new byte[1], count: -1));
+        Assert.Equal(0, memory.Read(new byte[1], count: -1));
         memory.Clear();
-        Assert.Equal(1, memory.Write([9, 8], 1));
-        Assert.Equal(0, memory.Read(new byte[2], 1));
-        memory.ReadBuffer(default, 0);
-        memory.WriteBuffer(default, 0);
+        Assert.Equal(1, memory.Write([9, 8], count: 1));
+        Assert.Equal(0, memory.Read(new byte[2], count: 1));
+        memory.ReadBuffer(default, count: 0);
+        memory.WriteBuffer(default, count: 0);
         using ShortStream shortStream = new();
         shortStream.ReadBuffer([]);
         shortStream.WriteBuffer([]);
@@ -293,7 +293,7 @@ public sealed class FilesAndStreamsTests
         _ = Assert.Throws<EndOfStreamException>(() => shortStream.ReadBuffer(new byte[1]));
         _ = Assert.Throws<IOException>(() => shortStream.WriteBuffer(new byte[1]));
         Assert.Equal(2, shortStream.Calls);
-        _ = Assert.Throws<IOException>(() => shortStream.CopyFrom(memory, -1));
+        _ = Assert.Throws<IOException>(() => shortStream.CopyFrom(memory, count: -1));
     }
 
     [Fact]
@@ -326,11 +326,11 @@ public sealed class FilesAndStreamsTests
         destination.LoadFromStream(source);
         Assert.Equal(0L, destination.Length);
         Assert.Equal(0L, destination.Position);
-        using Stream file = OpenFile("memory.bin", fmOpenRead | fmShareDenyWrite);
+        using Stream file = OpenFile("memory.bin", mode: fmOpenRead | fmShareDenyWrite);
         // .NET enforces share modes between opens only on Windows.
         if (OperatingSystem.IsWindows())
         {
-            _ = Assert.Throws<IOException>(() => OpenFile("memory.bin", fmOpenWrite));
+            _ = Assert.Throws<IOException>(() => OpenFile("memory.bin", mode: fmOpenWrite));
         }
 
         _ = Assert.Throws<NotSupportedException>(() => file.SetLength(2));

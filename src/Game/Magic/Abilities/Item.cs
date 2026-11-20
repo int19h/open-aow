@@ -242,13 +242,13 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
             {
                 result = false;
                 Spell spell = GamePack.Current.SpellControl[_spellId];
-                reason = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_itemSpellAlreadyResearchedFormat), [spell.SpellName]);
+                reason = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_itemSpellAlreadyResearchedFormat), arguments: [spell.SpellName]);
             }
         }
         else
         {
             result = false;
-            reason = AbilityRules.TranslateResourceString(GetEngine(), s_itemNotUsableText);
+            reason = AbilityRules.TranslateResourceString(GetEngine(), S: s_itemNotUsableText);
         }
 
         return result;
@@ -291,7 +291,7 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
                     {
                         _ = AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB01.WAV");
                         Spell spell = GamePack.Current.SpellControl[_spellId];
-                        string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_itemSpellResearchedFormat), [spell.SpellName]);
+                        string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_itemSpellResearchedFormat), arguments: [spell.SpellName]);
                         StrategicMap.Current.ShowMessage(format);
                     }
 
@@ -319,7 +319,7 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
         if (graphics is not null)
         {
             _ = graphics.AddRef();
-            graphics.ItemImage.Show(X, Y, surface);
+            graphics.ItemImage.Show(X, Y, lockedSurface: surface);
             _ = graphics.Release();
         }
     }
@@ -384,7 +384,7 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
             result = LibraryName;
             if (IsEmpty(result))
             {
-                return AbilityRules.TranslateResourceString(GetEngine(), s_itemSystemLibraryText);
+                return AbilityRules.TranslateResourceString(GetEngine(), S: s_itemSystemLibraryText);
             }
         }
 
@@ -400,7 +400,7 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
             if (item is not null)
             {
                 int id = ItemId;
-                Assign(item, GetEngine());
+                Assign(item, engine: GetEngine());
                 ItemId = id;
                 Changed();
             }
@@ -446,7 +446,7 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
             if (hexSprite is null)
             {
                 hexSprite = new ItemHexSprite(null) { Holder = CreationHolder() };
-                if (!map.PlaceHex(hexSprite, x, y, level))
+                if (!map.PlaceHex(hexSprite, x, y, L: level))
                 {
                     hexSprite?.Dispose();
                     hexSprite = null;

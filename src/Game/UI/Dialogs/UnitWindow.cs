@@ -246,7 +246,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
                     if (AbilityUseButton.Visible)
                     {
                         string name = a.GetName(UI.General.SelectedUnit);
-                        string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_useFormat), [name]);
+                        string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_useFormat), arguments: [name]);
                         AbilityUseButton.Text = format;
                     }
                 }
@@ -282,7 +282,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
                 AbilityUseButton.Visible = true;
                 object objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
                 string name = GamePack.Current.AbilityControl[ObjectToInt(objectValue)].GetName(UI.General.CombatUnit.Unit.Troop);
-                string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_useFormat), [name]);
+                string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_useFormat), arguments: [name]);
                 AbilityUseButton.Text = format;
             }
             else
@@ -374,7 +374,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(AbilityAbilityList);
         _ = lists.Add(AbilityTypeList);
         _ = lists.Add(AbilitySourceList);
-        UI.General.SortLists(lists, 0);
+        UI.General.SortLists(lists, order: 0);
         AbilityUseButton.Visible = false;
     }
 
@@ -386,7 +386,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(AbilityTypeList);
         _ = lists.Add(AbilityAbilityList);
         _ = lists.Add(AbilitySourceList);
-        UI.General.SortLists(lists, 0);
+        UI.General.SortLists(lists, order: 0);
         AbilityUseButton.Visible = false;
     }
 
@@ -398,7 +398,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(AbilitySourceList);
         _ = lists.Add(AbilityAbilityList);
         _ = lists.Add(AbilityTypeList);
-        UI.General.SortLists(lists, 0);
+        UI.General.SortLists(lists, order: 0);
         AbilityUseButton.Visible = false;
     }
 
@@ -535,7 +535,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
                 : Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.Rank);
 
             UIComponent image = sender;
-            _ = UI.General.SelectedUnit.Show(image.WinLeft + 49, image.WinTop + 78, lockedSurface, _showInfo);
+            _ = UI.General.SelectedUnit.Show(image.WinLeft + 49, image.WinTop + 78, lockedSurface, info: _showInfo);
         }
     }
 
@@ -570,7 +570,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
         if (s_selectedItem is not null && sender != s_selectedItem && _itemType == 0)
         {
             UIComponent checkBox = sender;
-            UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.AbsoluteLeft + checkBox.WinLeft, InventoryPanel.AbsoluteTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
+            UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.AbsoluteLeft + checkBox.WinLeft, InventoryPanel.AbsoluteTop + checkBox.WinTop, lockedSurface, table: GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
 
@@ -581,7 +581,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
         if (s_selectedItem is not null && sender != s_selectedItem && _itemType == (ItemType)1)
         {
             UIComponent checkBox = sender;
-            UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.AbsoluteLeft + checkBox.WinLeft, InventoryPanel.AbsoluteTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
+            UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.AbsoluteLeft + checkBox.WinLeft, InventoryPanel.AbsoluteTop + checkBox.WinTop, lockedSurface, table: GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
 
@@ -592,7 +592,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
         if (s_selectedItem is not null && sender != s_selectedItem && _itemType == (ItemType)2)
         {
             UIComponent checkBox = sender;
-            UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.AbsoluteLeft + checkBox.WinLeft, InventoryPanel.AbsoluteTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
+            UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.AbsoluteLeft + checkBox.WinLeft, InventoryPanel.AbsoluteTop + checkBox.WinTop, lockedSurface, table: GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
 
@@ -603,7 +603,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
         if (s_selectedItem is not null && sender != s_selectedItem && _itemType == (ItemType)3)
         {
             UIComponent checkBox = sender;
-            UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.AbsoluteLeft + checkBox.WinLeft, InventoryPanel.AbsoluteTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
+            UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.AbsoluteLeft + checkBox.WinLeft, InventoryPanel.AbsoluteTop + checkBox.WinTop, lockedSurface, table: GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
 
@@ -614,7 +614,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
         if (s_selectedItem is not null && sender != s_selectedItem && _itemType == (ItemType)4)
         {
             UIComponent checkBox = sender;
-            UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.AbsoluteLeft + checkBox.WinLeft, InventoryPanel.AbsoluteTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
+            UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.AbsoluteLeft + checkBox.WinLeft, InventoryPanel.AbsoluteTop + checkBox.WinTop, lockedSurface, table: GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
 

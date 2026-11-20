@@ -58,11 +58,11 @@ public sealed class EngineSupportTests
     [Fact]
     public void BufferHelpersPreservePhysicalAndStringBytes()
     {
-        Assert.Equal(new byte[] { 0x78, 0x56 }, Heap.ValueBytes(0x12345678, 2));
-        _ = Assert.Throws<ArgumentOutOfRangeException>(() => Heap.ValueBytes(1, 5));
+        Assert.Equal(new byte[] { 0x78, 0x56 }, Heap.ValueBytes(0x12345678, count: 2));
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => Heap.ValueBytes(1, count: 5));
         Assert.Equal(new byte[] { 0, 233, 255 }, Cp1252.Encode("\0\u00E9\u00FF").ToArray());
         byte[] bytes = new byte[3];
-        Heap.FillBytes(bytes, -1);
+        Heap.FillBytes(bytes, value: -1);
         Assert.Equal(new byte[] { 255, 255, 255 }, bytes);
     }
 
@@ -96,7 +96,7 @@ public sealed class EngineSupportTests
     public void SetTransferUsesTheDelphiImageAndItsLowByte()
     {
         Set<Flag> value = default;
-        SetImage.TransferSet(ref value, 1, 17, (bytes, size, id) =>
+        SetImage.TransferSet(ref value, size: 1, id: 17, (bytes, size, id) =>
         {
             Assert.Equal(1, size);
             Assert.Equal(17, id);
@@ -106,7 +106,7 @@ public sealed class EngineSupportTests
         Assert.True(value.Contains(Flag.Third));
         Assert.False(value.Contains(Flag.Second));
         Set<OffsetFlag> offset = default;
-        SetImage.TransferSet(ref offset, 1, 0, (bytes, _, _) => bytes[0] = 5, 8);
+        SetImage.TransferSet(ref offset, size: 1, id: 0, transfer: (bytes, _, _) => bytes[0] = 5, low: 8);
         Assert.True(offset.Contains(OffsetFlag.First));
         Assert.True(offset.Contains(OffsetFlag.Third));
     }
@@ -118,11 +118,11 @@ public sealed class EngineSupportTests
         stream.WriteBuffer([0, 233]);
         stream.Position = 0;
         string value = "abcd", shared = value;
-        Assert.Equal(2, StreamText.ReadString(stream, ref value, 1, 2, false));
+        Assert.Equal(2, StreamText.ReadString(stream, ref value, start: 1, count: 2, exact: false));
         Assert.Equal("abcd", shared);
         Assert.Equal("a\0\u00E9d", value);
         stream.Position = 0;
-        _ = Assert.Throws<EndOfStreamException>(() => StreamText.ReadString(stream, ref value, 0, 4, true));
+        _ = Assert.Throws<EndOfStreamException>(() => StreamText.ReadString(stream, ref value, start: 0, count: 4, exact: true));
         Assert.Equal((byte)0, Cp1252.Byte(value[0]));
         Assert.Equal((byte)233, Cp1252.Byte(value[1]));
     }
@@ -132,22 +132,22 @@ public sealed class EngineSupportTests
     {
         foreach (CompressionLevel level in new[] { CompressionLevel.NoCompression, CompressionLevel.Fastest, CompressionLevel.Optimal, CompressionLevel.SmallestSize })
         {
-            byte[] expected = [.. Enumerable.Range(0, 8193).Select(i => (byte)(i * 17))];
+            byte[] expected = [.. Enumerable.Range(0, count: 8193).Select(i => (byte)(i * 17))];
             MemoryStream backing = new();
-            ZLibStream compressor = new(backing, level, true);
+            ZLibStream compressor = new(backing, compressionLevel: level, leaveOpen: true);
             compressor.Write(expected);
             compressor.Dispose();
             compressor.Dispose();
             Assert.True(backing.Length > 0);
             backing.Position = 0;
-            ZLibStream reader = new(backing, CompressionMode.Decompress, true);
+            ZLibStream reader = new(backing, mode: CompressionMode.Decompress, leaveOpen: true);
             byte[] actual = new byte[expected.Length];
             reader.ReadExactly(actual);
             Assert.Equal(expected, actual);
             Assert.Equal(0, reader.Read(actual));
             reader.Dispose();
             backing.Position = 0;
-            Assert.True(backing.Read(actual.AsSpan(0, 1)) > 0);
+            Assert.True(backing.Read(actual.AsSpan(0, length: 1)) > 0);
         }
     }
 

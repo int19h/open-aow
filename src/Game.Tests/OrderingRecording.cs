@@ -22,7 +22,7 @@ internal static class OrderingRecording
         Assert.Equal(ConstructionSnapshot.Keys(name), actual.Keys);
         foreach (KeyValuePair<string, string> pair in actual)
         {
-            ConstructionSnapshot.Check(name, pair.Key, pair.Value);
+            ConstructionSnapshot.Check(name, pair.Key, actual: pair.Value);
         }
     }
 
@@ -32,8 +32,8 @@ internal static class OrderingRecording
         {
             return EngineClassCreation.OwnerConstructor(type) is { } ctor
                 ? (EngineObject)ctor.Invoke(EngineClassCreation.OwnerArguments(ctor, owner))
-                : type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(CustomNode)]) is { } factory
-                ? (EngineObject)factory.Invoke(null, [owner])!
+                : type.GetMethod("Create", bindingAttr: BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, types: [typeof(CustomNode)]) is { } factory
+                ? (EngineObject)factory.Invoke(null, parameters: [owner])!
                 : throw new InvalidOperationException($"{type.FullName} has no public construction entry.");
         }
         catch (TargetInvocationException error) when (error.InnerException is not null)
@@ -153,23 +153,23 @@ internal static class OrderingRecording
             }
             if (item is Array array)
             {
-                return array.Cast<object?>().Select((x, i) => State(x, $"{path}[{i}]")).ToArray();
+                return array.Cast<object?>().Select((x, i) => State(x, path: $"{path}[{i}]")).ToArray();
             }
 
             if (InlineArrays.Elements(item) is { } elements)
             {
-                return elements.Select((x, i) => State(x, $"{path}[{i}]")).ToArray();
+                return elements.Select((x, i) => State(x, path: $"{path}[{i}]")).ToArray();
             }
 
             if (item is IList list)
             {
-                return list.Cast<object?>().Select((x, i) => State(x, $"{path}[{i}]")).ToArray();
+                return list.Cast<object?>().Select((x, i) => State(x, path: $"{path}[{i}]")).ToArray();
             }
 
             SortedDictionary<string, object?> fields = new(StringComparer.Ordinal) { ["$type"] = type.FullName };
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
             {
-                foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
+                foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, comparer: StringComparer.Ordinal))
                 {
                     if (MemberNames.Of(field) is "_engineClass" or "EngineClass" or "Holder" or "Creator")
                     {
@@ -183,12 +183,12 @@ internal static class OrderingRecording
                         fields[key] = child is null ? null : "$owner";
                         continue;
                     }
-                    fields[key] = State(child, $"{path}.{key}");
+                    fields[key] = State(child, path: $"{path}.{key}");
                 }
             }
 
             return fields;
         }
-        return JsonSerializer.Serialize(State(value, "$"));
+        return JsonSerializer.Serialize(State(value, path: "$"));
     }
 }

@@ -32,7 +32,7 @@ public partial class CityRebellionEventLog(CustomNode owner) : EventLog(owner)
     }
 
     // City.pas:2689
-    public override string GetText() => DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), s_cityRebellionFormat), [CityName]);
+    public override string GetText() => DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_cityRebellionFormat), args: [CityName]);
 
     // City.pas:2699
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
@@ -44,7 +44,7 @@ public partial class CityRebellionEventLog(CustomNode owner) : EventLog(owner)
     }
 
     // City.pas:2694
-    public override void ViewLocation() => CenterViewTo(Location.X, Location.Y, Location.MapLevel);
+    public override void ViewLocation() => CenterViewTo(Location.X, Location.Y, L: Location.MapLevel);
 
     private static readonly string s_cityRebellionFormat = "%s rebelled";
 

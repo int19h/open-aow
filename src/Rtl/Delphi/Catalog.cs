@@ -9,7 +9,7 @@ public sealed class Catalog<TKey, TValue>(string kind) where TKey : notnull wher
     private sealed record Snapshot(Dictionary<TKey, TValue> Entries, ReadOnlyCollection<TValue> All);
 
     private readonly Lock _writeLock = new();
-    private Snapshot _snapshot = new([], Array.AsReadOnly(Array.Empty<TValue>()));
+    private Snapshot _snapshot = new([], All: Array.AsReadOnly(Array.Empty<TValue>()));
 
     public TValue Add(TKey key, TValue value)
     {
@@ -25,9 +25,9 @@ public sealed class Catalog<TKey, TValue>(string kind) where TKey : notnull wher
 
             Dictionary<TKey, TValue> entries = new(previous.Entries) { [key] = value };
             TValue[] values = new TValue[previous.All.Count + 1];
-            previous.All.CopyTo(values, 0);
+            previous.All.CopyTo(values, index: 0);
             values[^1] = value;
-            Volatile.Write(ref _snapshot, new Snapshot(entries, Array.AsReadOnly(values)));
+            Volatile.Write(ref _snapshot, value: new Snapshot(entries, All: Array.AsReadOnly(values)));
         }
         return value;
     }

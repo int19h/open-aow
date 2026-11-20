@@ -31,7 +31,7 @@ public class InvokeDeathCombatAction(CustomNode owner) : SingleTargetCombatActio
         {
             CombatObject source = combat.CombatData.FindId(SourceId);
             CombatObject target = combat.CombatData.FindId(TargetId);
-            _ = source.DoDamage(target, target.HitPoints);
+            _ = source.DoDamage(target, damage: target.HitPoints);
         }
     }
 
@@ -57,7 +57,7 @@ public class InvokeDeathCombatAction(CustomNode owner) : SingleTargetCombatActio
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == TargetId)
         {
-            _ = GamePack.Current.AbilityControl[35].ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
+            _ = GamePack.Current.AbilityControl[35].ImageSequences.Show(0, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
         }
     }
 

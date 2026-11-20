@@ -48,7 +48,7 @@ public partial class PowerDialog(UIContext ui) : UIModule(ui)
         manaPower -= researchPower;
         if (spellId != 0)
         {
-            int turns = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchTurns(researchPower, pointsLeft);
+            int turns = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchTurns(researchPower, points: pointsLeft);
             Spell spell = GamePack.Current.SpellControl[spellId];
             SpellNameLabel.Text = spell.SpellName;
             string formatTurnsString = FormatTurnsString(UI.Engine, turns: turns);
@@ -93,7 +93,7 @@ public partial class PowerDialog(UIContext ui) : UIModule(ui)
         int x = sender.Window.AbsoluteLeft;
         int y = sender.Window.AbsoluteTop;
         int intensity = Round((double)((100 - PowerSlider.Position) * 50) / 100);
-        UI.Graphics.MiscArt[7].ShowBlended(sender.WinLeft + x, sender.WinTop + y, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
+        UI.Graphics.MiscArt[7].ShowBlended(sender.WinLeft + x, sender.WinTop + y, lockedSurface, table: GraphicsState.IntensityBlendTable.LookupTables[intensity]);
     }
 
     // AoWPowerDlg.pas:128
@@ -102,7 +102,7 @@ public partial class PowerDialog(UIContext ui) : UIModule(ui)
         int x = sender.Window.AbsoluteLeft;
         int y = sender.Window.AbsoluteTop;
         int intensity = Round((double)(PowerSlider.Position * 50) / 100);
-        UI.Graphics.MiscArt[8].ShowBlended(sender.WinLeft + x, sender.WinTop + y, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
+        UI.Graphics.MiscArt[8].ShowBlended(sender.WinLeft + x, sender.WinTop + y, lockedSurface, table: GraphicsState.IntensityBlendTable.LookupTables[intensity]);
     }
 
     // AoWPowerDlg.pas:141
@@ -122,10 +122,10 @@ public partial class PowerDialog(UIContext ui) : UIModule(ui)
         {
             string s = engine.TranslateResourceString(s_turnFormat);
             FormatArg value = (FormatArg)(byte)49;
-            return AbilityRules.Format(s, new ReadOnlySpan<FormatArg>(ref value));
+            return AbilityRules.Format(s, arguments: new ReadOnlySpan<FormatArg>(ref value));
         }
         string s2 = engine.TranslateResourceString(GameText.TurnsFormat);
         FormatArg value2 = (FormatArg)IntToStr(turns);
-        return AbilityRules.Format(s2, new ReadOnlySpan<FormatArg>(ref value2));
+        return AbilityRules.Format(s2, arguments: new ReadOnlySpan<FormatArg>(ref value2));
     }
 }

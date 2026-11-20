@@ -18,7 +18,7 @@ public class CosmeticSurgery : UnitSpell
     public CosmeticSurgery(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_deformFaceText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_deformFaceText);
         SpellId = 59;
         SpellType = SpellType.Unit;
         SpellLevel = 1;

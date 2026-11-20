@@ -92,7 +92,7 @@ public class WatcherHexSprite : SingleHexSprite
         {
             sbyte hexY = HexY;
             sbyte hexX = HexX;
-            condition = StrategicMap.Current.Visible(hexX, hexY, HexLevel, 0);
+            condition = StrategicMap.Current.Visible(hexX, hexY, L: HexLevel, radius: 0);
         }
 
         if (condition)
@@ -122,7 +122,7 @@ public class WatcherHexSprite : SingleHexSprite
                         HexGeometry.HexNumberToPixel(_unexplored[i], ref pixelX, ref pixelY);
                         pixelX += x;
                         pixelY += y;
-                        GamePack.Current.GeneralImages[5].ShowBlended(pixelX, pixelY, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[intensity]);
+                        GamePack.Current.GeneralImages[5].ShowBlended(pixelX, pixelY, lockedSurface, table: GraphicsState.AlphaBlendTable.LookupTables[intensity]);
                     }
                 }
 
@@ -136,7 +136,7 @@ public class WatcherHexSprite : SingleHexSprite
                     if (_animationFrame - delay >= 0)
                     {
                         AbilityRules.PolarToCartesian(angle, radius, out int deltaX, out int deltaY);
-                        _ = GamePack.Current.SpellControl[57].CastImages.Show(0, x + deltaX, y + deltaY, _animationFrame - delay, lockedSurface);
+                        _ = GamePack.Current.SpellControl[57].CastImages.Show(0, x + deltaX, y + deltaY, frame: _animationFrame - delay, lockedSurface);
                     }
                 }
 
@@ -207,7 +207,7 @@ public class WatcherHexSprite : SingleHexSprite
             if (VisibilityRange() >= mapFieldMessage.Param[0].Int)
             {
                 // { Param[0] is already available. }
-                StrategicMap.Current.UpdatePlayerSeen(Enchantment.PlayerIndex, Owner.HexX, Owner.HexY, Owner.HexLevel, mapFieldMessage.Param[0].Int, mapFieldMessage.Param[0].Int);
+                StrategicMap.Current.UpdatePlayerSeen(Enchantment.PlayerIndex, Owner.HexX, Owner.HexY, L: Owner.HexLevel, sightRadius: mapFieldMessage.Param[0].Int, radius: mapFieldMessage.Param[0].Int);
             }
 
             UpdateVisibleForSeatedPlayer();
@@ -221,12 +221,12 @@ public class WatcherHexSprite : SingleHexSprite
         WatcherState = (byte)(Set<StateElement>.FromMask(WatcherState) + Set<StateElement>.Of(StateElement.Active)).Image;
         _ = Enchantment.Activate(Enchantment.PlayerIndex);
         MapField mapField = Owner;
-        StrategicMap.Current.NotifyPlayerChanged(mapField.HexX, mapField.HexY, mapField.HexLevel);
+        StrategicMap.Current.NotifyPlayerChanged(mapField.HexX, mapField.HexY, L: mapField.HexLevel);
 
         MapField mapFieldLocal = Owner;
         int visibilityRange = VisibilityRange();
         int visibilityRange2 = VisibilityRange();
-        StrategicMap.Current.UpdatePlayerSeen(Enchantment.PlayerIndex, mapFieldLocal.HexX, mapFieldLocal.HexY, mapFieldLocal.HexLevel, visibilityRange, visibilityRange2);
+        StrategicMap.Current.UpdatePlayerSeen(Enchantment.PlayerIndex, mapFieldLocal.HexX, mapFieldLocal.HexY, L: mapFieldLocal.HexLevel, sightRadius: visibilityRange, radius: visibilityRange2);
         UpdateExploration();
         UpdateUnfog();
     }
@@ -241,7 +241,7 @@ public class WatcherHexSprite : SingleHexSprite
             _ = Enchantment.Deactivate((byte)Enchantment.PlayerIndex);
         }
 
-        StrategicMap.Current.NotifyPlayerChanged(Owner.HexX, Owner.HexY, Owner.HexLevel);
+        StrategicMap.Current.NotifyPlayerChanged(Owner.HexX, Owner.HexY, L: Owner.HexLevel);
         UpdateUnfog();
     }
 
@@ -263,7 +263,7 @@ public class WatcherHexSprite : SingleHexSprite
         _unexplored.Clear();
         if (StrategicMap.Current.ExplorationEnabled)
         {
-            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, radius: 0);
             MapLevel level = StrategicMap.Current.MapContainer.MapLevels[layer];
             while (true)
             {
@@ -307,7 +307,7 @@ public class WatcherHexSprite : SingleHexSprite
                     int visibilityRange = VisibilityRange();
                     sbyte hexY = HexY;
                     sbyte hexX = HexX;
-                    _ = StrategicMap.Current.ExploreArea(hexX, hexY, HexLevel, (sbyte)i, visibilityRange);
+                    _ = StrategicMap.Current.ExploreArea(hexX, hexY, HexLevel, player: (sbyte)i, range: visibilityRange);
                 }
             }
         }
@@ -325,7 +325,7 @@ public class WatcherHexSprite : SingleHexSprite
             {
                 sbyte hexY = HexY;
                 sbyte hexX = HexX;
-                _ = StrategicMap.Current.FogArea(hexX, hexY, HexLevel, _unfogRadius);
+                _ = StrategicMap.Current.FogArea(hexX, hexY, HexLevel, range: _unfogRadius);
             }
 
             _unfogRadius = (byte)radius;
@@ -333,7 +333,7 @@ public class WatcherHexSprite : SingleHexSprite
             {
                 sbyte hexY = HexY;
                 sbyte hexX = HexX;
-                _ = StrategicMap.Current.UnFogArea(hexX, hexY, HexLevel, _unfogRadius);
+                _ = StrategicMap.Current.UnFogArea(hexX, hexY, HexLevel, range: _unfogRadius);
             }
         }
     }

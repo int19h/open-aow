@@ -67,7 +67,7 @@ public partial class TacticalBattle(CustomNode owner) : Battle(owner)
                 {
                     PlayerCommunicationSettings playerConnectionMode = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(HostPlayer);
                     CombatPlayer player = CombatData.Players.GetPlayers((sbyte)i);
-                    remote.SetConnectionMode(player.Player, playerConnectionMode.ConnectionMode);
+                    remote.SetConnectionMode(player.Player, mode: playerConnectionMode.ConnectionMode);
                     PlayerCommunicationSettings playerSystemId = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(HostPlayer);
                     CombatPlayer player2 = CombatData.Players.GetPlayers((sbyte)i);
                     remote.SetSystemId(player2.Player, playerSystemId.SystemId);
@@ -135,7 +135,7 @@ public partial class TacticalBattle(CustomNode owner) : Battle(owner)
         if (!ValidateWallCombat())
         {
             SetLogCombatActions(1);
-            SetLogbookHeader(AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotBreachWallText));
+            SetLogbookHeader(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CannotBreachWallText));
             CombatResult = CombatResult.CannotBreachWall;
             result = CombatResult;
         }
@@ -144,7 +144,7 @@ public partial class TacticalBattle(CustomNode owner) : Battle(owner)
             if (Sides[(int)CombatSideIndex.Defender].GetCount() == Sides[(int)CombatSideIndex.Defender].ConquerCount)
             {
                 SetLogCombatActions(1);
-                SetLogbookHeader(AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotInflictDamageText));
+                SetLogbookHeader(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CannotInflictDamageText));
                 CombatResult = CombatResult.CannotInflictDamage;
                 result = CombatResult;
             }
@@ -158,9 +158,9 @@ public partial class TacticalBattle(CustomNode owner) : Battle(owner)
                 {
                     StrategicMap.Current.TokenManager.TokenExecutor.HoldTacticalBattle = true;
                     RandomBattleMapGenerator generator = new(this);
-                    _ = generator.RandomMap(this, CombatData.Location.X, CombatData.Location.Y, CombatData.Location.MapLevel);
+                    _ = generator.RandomMap(this, CombatData.Location.X, CombatData.Location.Y, L: CombatData.Location.MapLevel);
                     generator?.Dispose();
-                    bool condition = StrategicMap.Current.StartingGame || StrategicMap.Current.VisibleForPlayer(CombatData.Location.X, CombatData.Location.Y, CombatData.Location.MapLevel, StrategicMap.Current.SeatedPlayer);
+                    bool condition = StrategicMap.Current.StartingGame || StrategicMap.Current.VisibleForPlayer(CombatData.Location.X, CombatData.Location.Y, CombatData.Location.MapLevel, player: StrategicMap.Current.SeatedPlayer);
                     CombatMap.Current.PlaySounds = condition;
                     if (!CombatMap.Current.PlaySounds)
                     {

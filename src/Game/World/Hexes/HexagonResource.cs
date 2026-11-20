@@ -25,7 +25,7 @@ public class HexagonResource : AbstractHexagonResource
         base.MessageProc(ref message, sender);
         if (message.MessageId == 536870920)
         {
-            TransitionLibrary = Engine.HexSpriteSet.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "HexTrans.ILB");
+            TransitionLibrary = Engine.HexSpriteSet.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "HexTrans.ILB");
         }
 
         if (message.MessageId == 65621)

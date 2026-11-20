@@ -58,7 +58,7 @@ public class FastBattle(CustomNode owner) : Battle(owner)
                 else
                 {
                     CombatResult = CombatResult.CannotInflictDamage;
-                    header = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotInflictDamageText);
+                    header = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CannotInflictDamageText);
                     SetLogbookHeader(header);
                 }
             }
@@ -69,7 +69,7 @@ public class FastBattle(CustomNode owner) : Battle(owner)
         }
         else
         {
-            header = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotBreachWallText);
+            header = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CannotBreachWallText);
             SetLogbookHeader(header);
             CombatResult = CombatResult.CannotBreachWall;
         }
@@ -176,7 +176,7 @@ public class FastBattle(CustomNode owner) : Battle(owner)
         bool idle = true;
         CombatObjectList objects = new();
         int round = Round;
-        SetLogbookHeader(AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_roundFormat), [IntToStr(round)]));
+        SetLogbookHeader(AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_roundFormat), arguments: [IntToStr(round)]));
         for (int playerIndex = 0, last = CombatData.TurnOrder.Count - 1; playerIndex <= last; playerIndex++)
         {
             NewTurn(CombatData.TurnOrder[playerIndex]);

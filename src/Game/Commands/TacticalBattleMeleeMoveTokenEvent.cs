@@ -48,7 +48,7 @@ public class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : CombatMoveTok
                         {
                             sbyte hexY = Unit.UnitHexSprite.HexY;
                             sbyte hexX = Unit.UnitHexSprite.HexX;
-                            CombatMap.Current.MakeVisible(hexX, hexY, 0, 5);
+                            CombatMap.Current.MakeVisible(hexX, hexY, 0, radius: 5);
                         }
 
                         PathStep pathY = Path[0];
@@ -63,7 +63,7 @@ public class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : CombatMoveTok
                         else
                         {
                             _meleeRound = new MeleeRound(this);
-                            _meleeRound.Calculate(Unit, PreviousUnit);
+                            _meleeRound.Calculate(Unit, defender: PreviousUnit);
                             if (_meleeRound.Count == 0)
                             {
                                 result = MoveStatus.Done;
@@ -89,7 +89,7 @@ public class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : CombatMoveTok
                     }
                     catch
                     {
-                        _ = MessageBox(0, "Error during Token Start", "Error - TCMelMoveToken", 0);
+                        _ = MessageBox(0, text: "Error during Token Start", caption: "Error - TCMelMoveToken", flags: 0);
                     }
 
                     break;
@@ -127,12 +127,12 @@ public class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : CombatMoveTok
                                 HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, out x, out y);
                                 if (Strike.DamageTypes - Strike.Effects != Set<DamageType>.Of())
                                 {
-                                    CombatEvents.MakeDamageEffectHexSpriteList(x + Unit.UnitHexSprite.OffsetX, y + Unit.UnitHexSprite.OffsetY, Strike.DamageTypes - Strike.Effects, false);
+                                    CombatEvents.MakeDamageEffectHexSpriteList(x + Unit.UnitHexSprite.OffsetX, y + Unit.UnitHexSprite.OffsetY, damageTypes: Strike.DamageTypes - Strike.Effects, resisted: false);
                                 }
 
                                 if (Strike.Effects != Set<DamageType>.Of())
                                 {
-                                    CombatEvents.MakeDamageEffectHexSpriteList(x + Unit.UnitHexSprite.OffsetX, y + Unit.UnitHexSprite.OffsetY, Strike.Effects, true);
+                                    CombatEvents.MakeDamageEffectHexSpriteList(x + Unit.UnitHexSprite.OffsetX, y + Unit.UnitHexSprite.OffsetY, damageTypes: Strike.Effects, resisted: true);
                                 }
                             }
 
@@ -151,12 +151,12 @@ public class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : CombatMoveTok
                                     HexGeometry.HexToPixel(PreviousUnit.UnitHexSprite.HexX, hexY, out x, out y);
                                     if (Strike.DamageTypes - Strike.Effects != Set<DamageType>.Of())
                                     {
-                                        CombatEvents.MakeDamageEffectHexSpriteList(x, y, Strike.DamageTypes - Strike.Effects, false);
+                                        CombatEvents.MakeDamageEffectHexSpriteList(x, y, damageTypes: Strike.DamageTypes - Strike.Effects, resisted: false);
                                     }
 
                                     if (Strike.Effects != Set<DamageType>.Of())
                                     {
-                                        CombatEvents.MakeDamageEffectHexSpriteList(x, y, Strike.Effects, true);
+                                        CombatEvents.MakeDamageEffectHexSpriteList(x, y, damageTypes: Strike.Effects, resisted: true);
                                     }
                                 }
 
@@ -166,7 +166,7 @@ public class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : CombatMoveTok
                     }
                     catch
                     {
-                        _ = MessageBox(0, "Error during Token InitStrike", "Error - TCMelMoveToken", 0);
+                        _ = MessageBox(0, text: "Error during Token InitStrike", caption: "Error - TCMelMoveToken", flags: 0);
                     }
 
                     break;
@@ -212,7 +212,7 @@ public class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : CombatMoveTok
                     }
                     catch
                     {
-                        _ = MessageBox(0, "Error during Token ExeStrike", "Error - TCMelMoveToken", 0);
+                        _ = MessageBox(0, text: "Error during Token ExeStrike", caption: "Error - TCMelMoveToken", flags: 0);
                     }
 
                     break;
@@ -249,7 +249,7 @@ public class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : CombatMoveTok
         }
         catch
         {
-            _ = MessageBox(0, "Error during Token", "Error - TCMelMoveToken", 0);
+            _ = MessageBox(0, text: "Error during Token", caption: "Error - TCMelMoveToken", flags: 0);
         }
 
         return result;

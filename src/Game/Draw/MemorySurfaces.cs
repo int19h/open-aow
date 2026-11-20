@@ -22,7 +22,7 @@ internal static class MemorySurfaces
         _ = lockedSurface.GMask;
         _ = lockedSurface.BMask;
         _ = lockedSurface.AMask;
-        _ = PixelFormatIdToMask(format, out int rMask, out int gMask, out int bMask, out int aMask);
+        _ = PixelFormatIdToMask(format, out int rMask, out int gMask, out int bMask, mask: out int aMask);
         lockedSurface.RMask = rMask;
         lockedSurface.GMask = gMask;
         lockedSurface.BMask = bMask;
@@ -48,7 +48,7 @@ internal static class MemorySurfaces
         }
 
         byte[] result = new byte[size];
-        memory?.AsSpan(0, Math.Min(memory.Length, size)).CopyTo(result);
+        memory?.AsSpan(0, length: Math.Min(memory.Length, size)).CopyTo(result);
 
         return result;
     }

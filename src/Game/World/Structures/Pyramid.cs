@@ -21,7 +21,7 @@ public partial class Pyramid(CustomNode owner) : ItemExplorationSite(owner)
         public override int ResourceUserClassId() => 131982;
 
         // Pyramid.pas:37
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_pyramidText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_pyramidText);
 
         private static readonly string s_pyramidText = "Pyramid";
 

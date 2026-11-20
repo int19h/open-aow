@@ -23,7 +23,7 @@ public class FireMasteryEnchantment : GlobalEnchantment
     public FireMasteryEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.FireMasteryText);
+        Name = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FireMasteryText);
         EnchantmentType = GlobalEnchantmentType.FireMastery;
         DispelMana = 175;
     }
@@ -38,7 +38,7 @@ public class FireMasteryEnchantment : GlobalEnchantment
             {
                 if (StrategicMap.Current.Players.GetPlayers(message.Payload.Int).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.FireMastery))
                 {
-                    UpdateFire(2, !StrategicMap.Current.RequestCombatType);
+                    UpdateFire(2, explosions: !StrategicMap.Current.RequestCombatType);
                 }
             }
         }
@@ -73,9 +73,9 @@ public class FireMasteryEnchantment : GlobalEnchantment
     {
         if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.FireMastery))
         {
-            string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
+            string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsAlreadyActiveFormat);
             string name = GetName();
-            reason = Format(xIsAlreadyActive, [name]);
+            reason = Format(xIsAlreadyActive, args: [name]);
             return false;
         }
         else
@@ -102,7 +102,7 @@ public class FireMasteryEnchantment : GlobalEnchantment
             }
         }
 
-        UpdateFire(15, true);
+        UpdateFire(15, explosions: true);
         return true;
     }
 
@@ -122,7 +122,7 @@ public class FireMasteryEnchantment : GlobalEnchantment
                     {
                         if (StrategicMap.Current.Random(10000) < chance * factor)
                         {
-                            Fire fire = GamePack.Current.FireControl.PlaceFire(x, y, l, FireType.Large);
+                            Fire fire = GamePack.Current.FireControl.PlaceFire(x, y, l, fireType: FireType.Large);
                             if (fire is not null)
                             {
                                 if (explosions)

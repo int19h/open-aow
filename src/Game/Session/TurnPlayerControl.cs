@@ -44,9 +44,9 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
                     TurnPlayer = StrategicMap.Current.CurrentPlayer,
                     Mode = NewTurnEventLogMode.Dialog,
                     DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
-                    Text = AbilityRules.TranslateResourceString(GetEngine(), s_itsYourTurnText)
+                    Text = AbilityRules.TranslateResourceString(GetEngine(), S: s_itsYourTurnText)
                 };
-                StrategicMap.Current.TriggerExecuteEventLog(log, false, ShowNewTurnCallback);
+                StrategicMap.Current.TriggerExecuteEventLog(log, immediate: false, done: ShowNewTurnCallback);
                 _ = log.Release();
             }
             else
@@ -60,15 +60,15 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
                 };
                 if (player == 0)
                 {
-                    log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_independentsAreMovingText);
+                    log.Text = AbilityRules.TranslateResourceString(GetEngine(), S: s_independentsAreMovingText);
                 }
                 else
                 {
                     string name = StrategicMap.Current.Players.GetPlayers(player).GetName();
-                    log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_playerIsMovingFormat), [name]);
+                    log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_playerIsMovingFormat), arguments: [name]);
                 }
 
-                StrategicMap.Current.TriggerExecuteEventLog(log, true, null);
+                StrategicMap.Current.TriggerExecuteEventLog(log, immediate: true, done: null);
                 _ = log.Release();
             }
         }
@@ -87,15 +87,15 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
                         TurnPlayer = player,
                         Mode = NewTurnEventLogMode.Dialog,
                         DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
-                        Text = AbilityRules.TranslateResourceString(GetEngine(), s_itsYourTurnText)
+                        Text = AbilityRules.TranslateResourceString(GetEngine(), S: s_itsYourTurnText)
                     };
-                    StrategicMap.Current.TriggerExecuteEventLog(log, false, null);
+                    StrategicMap.Current.TriggerExecuteEventLog(log, immediate: false, done: null);
                     _ = log.Release();
                     ReplayLogbook();
                 }
                 else
                 {
-                    StrategicMap.Current.TutorialControl.ShowMessage(50, false, true);
+                    StrategicMap.Current.TutorialControl.ShowMessage(50, immediate: false, onceOnly: true);
                 }
             }
         }
@@ -113,15 +113,15 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
             _ = StrategicMap.Current.AIExecutor.ActivatePlayer(player);
             if (player == 0)
             {
-                string independents = AbilityRules.TranslateResourceString(GetEngine(), GameTables.IndependentsText);
-                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_areMovingFormat), [independents]);
+                string independents = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.IndependentsText);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_areMovingFormat), arguments: [independents]);
                 StrategicMap.Current.ShowMessage(format);
             }
             else
             {
                 Player players = StrategicMap.Current.Players.GetPlayers(player);
-                string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[players.PlayerRace]);
-                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_areMovingFormat), [raceNamesPlural]);
+                string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.RaceNamesPluralTexts[players.PlayerRace]);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_areMovingFormat), arguments: [raceNamesPlural]);
                 StrategicMap.Current.ShowMessage(format);
             }
         }
@@ -133,14 +133,14 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
                 if (Set<GameType>.Of(GameType.Custom, GameType.Tutorial).Contains(StrategicMap.Current.GameType))
                 {
                     ShowBookEventLog bookLog = new(null) { Holder = CreationHolder() };
-                    StrategicMap.Current.TriggerExecuteEventLog(bookLog, false, null);
+                    StrategicMap.Current.TriggerExecuteEventLog(bookLog, immediate: false, done: null);
                     _ = bookLog.Release();
                 }
 
                 if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId == 0)
                 {
                     SpellList spells = new();
-                    StrategicMap.Current.Players.GetPlayers(player).MagicControl.ListResearchSpells(spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
+                    StrategicMap.Current.Players.GetPlayers(player).MagicControl.ListResearchSpells(spells, spellTypes: Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
                     if (spells.GetCount() > 0)
                     {
                         PlayerMagicEventLog magicLog = new(null)
@@ -148,14 +148,14 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
                             Holder = CreationHolder(),
                             Mode = PlayerMagicEventLog.EventMode.StartResearch
                         };
-                        StrategicMap.Current.TriggerExecuteEventLog(magicLog, false, null);
+                        StrategicMap.Current.TriggerExecuteEventLog(magicLog, immediate: false, done: null);
                         _ = magicLog.Release();
                     }
 
                     spells?.Dispose();
                 }
 
-                StrategicMap.Current.TutorialControl.ShowMessage(52, false, true);
+                StrategicMap.Current.TutorialControl.ShowMessage(52, immediate: false, onceOnly: true);
             }
         }
     }
@@ -350,9 +350,9 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
                     TurnPlayer = StrategicMap.Current.CurrentPlayer,
                     Mode = NewTurnEventLogMode.Dialog,
                     DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
-                    Text = AbilityRules.TranslateResourceString(GetEngine(), GameText.YourTurnContinuesText)
+                    Text = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.YourTurnContinuesText)
                 };
-                StrategicMap.Current.TriggerExecuteEventLog(log, false, StartGameCallback);
+                StrategicMap.Current.TriggerExecuteEventLog(log, immediate: false, done: StartGameCallback);
                 _ = log.Release();
             }
             else
@@ -366,15 +366,15 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
                 };
                 if (StrategicMap.Current.CurrentPlayer == 0)
                 {
-                    log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_independentsAreMovingText);
+                    log.Text = AbilityRules.TranslateResourceString(GetEngine(), S: s_independentsAreMovingText);
                 }
                 else
                 {
                     string name = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).GetName();
-                    log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_playerIsMovingFormat), [name]);
+                    log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_playerIsMovingFormat), arguments: [name]);
                 }
 
-                StrategicMap.Current.TriggerExecuteEventLog(log, true, null);
+                StrategicMap.Current.TriggerExecuteEventLog(log, immediate: true, done: null);
                 _ = log.Release();
             }
         }
@@ -391,9 +391,9 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
                     TurnPlayer = StrategicMap.Current.SeatedPlayer,
                     Mode = NewTurnEventLogMode.Dialog,
                     DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
-                    Text = AbilityRules.TranslateResourceString(GetEngine(), GameText.YourTurnContinuesText)
+                    Text = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.YourTurnContinuesText)
                 };
-                StrategicMap.Current.TriggerExecuteEventLog(log, false, StartGameCallback);
+                StrategicMap.Current.TriggerExecuteEventLog(log, immediate: false, done: StartGameCallback);
                 _ = log.Release();
             }
         }
@@ -410,10 +410,10 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
     public void ReplayLogbook()
     {
         EventLogbook book = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).EventLogbook;
-        int index = book.FindFirstLog(131811, StrategicMap.Current.CurrentPlayer, StrategicMap.Current.Day - 1);
+        int index = book.FindFirstLog(131811, player: StrategicMap.Current.CurrentPlayer, day: StrategicMap.Current.Day - 1);
         for (int i = index + 1, last = book.GetCount() - 1; i <= last; i++)
         {
-            _ = book[i].Execute(false, ExecuteTrigger.NewTurn, null);
+            _ = book[i].Execute(false, trigger: ExecuteTrigger.NewTurn, done: null);
         }
     }
 

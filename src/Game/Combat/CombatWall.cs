@@ -117,10 +117,10 @@ public class CombatWall : CombatObject
         switch (_wallType)
         {
             case 1:
-                GamePack.Current.CombatImages[21].Show(X + 15, Y + 5, surface);
+                GamePack.Current.CombatImages[21].Show(X + 15, Y + 5, lockedSurface: surface);
                 break;
             case 2:
-                GamePack.Current.CombatImages[22].Show(X + 15, Y + 5, surface);
+                GamePack.Current.CombatImages[22].Show(X + 15, Y + 5, lockedSurface: surface);
                 break;
             default:
                 break;

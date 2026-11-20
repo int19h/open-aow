@@ -32,7 +32,7 @@ public class DispelMagicSpellCombatAction(CustomNode owner) : DispelMagicCombatA
             if (GamePack.Current.SpellControl[SpellId] is not null)
             {
                 CombatUnit source = combat.CombatData.FindId<CombatUnit>(SourceId);
-                GamePack.Current.SpellControl[SpellId].CastingDone(source.Troop, ManaCost);
+                GamePack.Current.SpellControl[SpellId].CastingDone(source.Troop, mana: ManaCost);
             }
         }
     }

@@ -192,7 +192,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
         show = show && (trigger == ExecuteTrigger.User || Action.Reaction != DiplomaticActionReaction.Ignore);
         if (show)
         {
-            StrategicMap.Current.TriggerExecuteEventLog(this, mode, done);
+            StrategicMap.Current.TriggerExecuteEventLog(this, immediate: mode, done);
             return true;
         }
         else

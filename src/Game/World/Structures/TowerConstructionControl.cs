@@ -14,8 +14,8 @@ public class TowerConstructionControl(CustomNode owner) : StructureConstructionC
     // Tower.pas:139
     public override void GetInfo(Troop troop, out string text, out int gold, out int days)
     {
-        string tower = AbilityRules.TranslateResourceString(GetEngine(), GameText.TowerText);
-        text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.BuildFormat), [tower]);
+        string tower = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.TowerText);
+        text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.BuildFormat), args: [tower]);
         gold = 50;
         days = 2;
     }
@@ -33,8 +33,8 @@ public class TowerConstructionControl(CustomNode owner) : StructureConstructionC
         }
         else
         {
-            string tower = AbilityRules.TranslateResourceString(GetEngine(), GameText.TowerText);
-            reason = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), s_cannotBuildInUndergroundFormat), [tower]);
+            string tower = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.TowerText);
+            reason = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_cannotBuildInUndergroundFormat), args: [tower]);
         }
 
         return false;

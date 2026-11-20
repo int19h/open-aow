@@ -25,15 +25,15 @@ internal static class Commands
     {
         if (GameFiles.IsGzip(bytes) || GameFiles.IsJsonCandidate(bytes))
         {
-            throw new ConversionException(new FormatDiagnostic(Codes.Format, "The input is an own document, not an original file. Use normalize.") { File = path });
+            throw new ConversionException(new FormatDiagnostic(Codes.Format, Message: "The input is an own document, not an original file. Use normalize.") { File = path });
         }
 
-        Classification c = GameFiles.Classify(bytes, Path.GetExtension(path), kind, profile);
+        Classification c = GameFiles.Classify(bytes, extension: Path.GetExtension(path), kind, profileName: profile);
         return c.Format != DetectedFormat.Original || c.Profile is null || c.Kind is null
             ? throw new ConversionException(new FormatDiagnostic(Codes.Unknown,
-                "The input is not a recognized original file. Give --kind and --profile for headerless or ambiguous input.")
+                Message: "The input is not a recognized original file. Give --kind and --profile for headerless or ambiguous input.")
             { File = path })
-            : GameFiles.Import(bytes, c.Profile, c.Kind, path);
+            : GameFiles.Import(bytes, c.Profile, c.Kind, fileName: path);
     }
 
     internal static int ToOwn(Options o, TextWriter output, TextWriter errors)
@@ -49,15 +49,15 @@ internal static class Commands
         }
 
         string input = o.Positional[0], target = o.Positional[1];
-        if (SafeOutput.CheckFile(input, target, o.Overwrite) is { } refusal)
+        if (SafeOutput.CheckFile(input, output: target, o.Overwrite) is { } refusal)
         {
-            return Fail(errors, refusal);
+            return Fail(errors, message: refusal);
         }
 
         try
         {
-            ImportResult result = ImportOriginal(File.ReadAllBytes(input), input, o.Kind, o.Profile);
-            SafeOutput.Replace(target, GameFiles.Write(result.Document));
+            ImportResult result = ImportOriginal(File.ReadAllBytes(input), path: input, o.Kind, o.Profile);
+            SafeOutput.Replace(target, bytes: GameFiles.Write(result.Document));
             output.WriteLine($"{input}: {Describe(result.Document)} -> {target}");
             return Program.Success;
         }
@@ -80,15 +80,15 @@ internal static class Commands
         }
 
         string input = o.Positional[0], target = o.Positional[1];
-        if (SafeOutput.CheckFile(input, target, o.Overwrite) is { } refusal)
+        if (SafeOutput.CheckFile(input, output: target, o.Overwrite) is { } refusal)
         {
-            return Fail(errors, refusal);
+            return Fail(errors, message: refusal);
         }
 
         try
         {
-            ReadResult read = GameFiles.Read(File.ReadAllBytes(input), input);
-            ExportResult exported = GameFiles.Export(read.Document, input);
+            ReadResult read = GameFiles.Read(File.ReadAllBytes(input), fileName: input);
+            ExportResult exported = GameFiles.Export(read.Document, fileName: input);
             SafeOutput.Replace(target, exported.Bytes);
             output.WriteLine($"{input}: {Describe(read.Document)} -> {target}, 0 losses");
             return Program.Success;
@@ -107,14 +107,14 @@ internal static class Commands
         }
 
         string input = o.Positional[0], target = o.Positional[1];
-        if (SafeOutput.CheckFile(input, target, o.Overwrite) is { } refusal)
+        if (SafeOutput.CheckFile(input, output: target, o.Overwrite) is { } refusal)
         {
-            return Fail(errors, refusal);
+            return Fail(errors, message: refusal);
         }
 
         try
         {
-            byte[] bytes = GameFiles.Normalize(File.ReadAllBytes(input), input);
+            byte[] bytes = GameFiles.Normalize(File.ReadAllBytes(input), fileName: input);
             SafeOutput.Replace(target, bytes);
             output.WriteLine($"{input}: normalized -> {target}");
             return Program.Success;
@@ -127,7 +127,7 @@ internal static class Commands
 
     private static string Describe(Formats.Json.JsonObject document)
     {
-        (FileProfile? profile, string? kind, Formats.Json.JsonObject? container, Formats.Json.JsonValue _) = GameFiles.Envelope(document, null);
+        (FileProfile? profile, string? kind, Formats.Json.JsonObject? container, Formats.Json.JsonValue _) = GameFiles.Envelope(document, fileName: null);
         string compression = ((Formats.Json.JsonString)container["compression"]!).Value;
         string level = container["level"] is Formats.Json.JsonInteger l ? $" level {l.Value}" : "";
         return $"profile {profile.Name}, kind {kind}, {compression}{level}";
@@ -135,8 +135,8 @@ internal static class Commands
 
     /// <summary>Sorted relative paths of every file under a directory.</summary>
     internal static List<string> Enumerate(string directory)
-        => [.. Directory.EnumerateFiles(directory, "*", SearchOption.AllDirectories)
-            .Select(f => Path.GetRelativePath(directory, f))
+        => [.. Directory.EnumerateFiles(directory, searchPattern: "*", searchOption: SearchOption.AllDirectories)
+            .Select(f => Path.GetRelativePath(directory, path: f))
             .Order(StringComparer.Ordinal)];
 
     private static Dictionary<string, (string? Kind, string? Profile)> Manifest(string? path)
@@ -167,7 +167,7 @@ internal static class Commands
 
         if (SafeOutput.Overlaps(o.Directory!, o.Out))
         {
-            return Fail(errors, "The input and output directory trees overlap.");
+            return Fail(errors, message: "The input and output directory trees overlap.");
         }
 
         Dictionary<string, (string? Kind, string? Profile)> manifest = Manifest(o.Profiles);
@@ -185,16 +185,16 @@ internal static class Commands
             }
             try
             {
-                ImportResult result = ImportOriginal(File.ReadAllBytes(input), input, entry.Kind, entry.Profile);
+                ImportResult result = ImportOriginal(File.ReadAllBytes(input), path: input, entry.Kind, entry.Profile);
                 // A derived output name takes the kind's own extension (own-formats.md 3.2).
                 string target = Path.Combine(o.Out, DerivedName(relative, result.Document, own: true));
-                if (SafeOutput.CheckFile(input, target, o.Overwrite) is { } refusal)
+                if (SafeOutput.CheckFile(input, output: target, o.Overwrite) is { } refusal)
                 {
                     errors.WriteLine($"{relative}: {refusal}");
                     failed++;
                     continue;
                 }
-                SafeOutput.Replace(target, GameFiles.Write(result.Document));
+                SafeOutput.Replace(target, bytes: GameFiles.Write(result.Document));
                 output.WriteLine($"{relative}: {Describe(result.Document)}");
                 done++;
             }
@@ -217,7 +217,7 @@ internal static class Commands
 
         if (SafeOutput.Overlaps(o.Directory!, o.Out))
         {
-            return Fail(errors, "The input and output directory trees overlap.");
+            return Fail(errors, message: "The input and output directory trees overlap.");
         }
 
         int done = 0, failed = 0, skipped = 0;
@@ -234,8 +234,8 @@ internal static class Commands
             }
             try
             {
-                ReadResult read = GameFiles.Read(bytes, input);
-                ExportResult exported = GameFiles.Export(read.Document, input);
+                ReadResult read = GameFiles.Read(bytes, fileName: input);
+                ExportResult exported = GameFiles.Export(read.Document, fileName: input);
                 // A derived output name takes the kind's original extension (own-formats.md 3.2).
                 string target = Path.Combine(o.Out, DerivedName(relative, read.Document, own: false));
                 // Foo.asg and Foo.oasg both export to Foo.asg: the second is refused by name.
@@ -246,7 +246,7 @@ internal static class Commands
                     continue;
                 }
                 sources[target] = relative;
-                if (SafeOutput.CheckFile(input, target, o.Overwrite) is { } refusal)
+                if (SafeOutput.CheckFile(input, output: target, o.Overwrite) is { } refusal)
                 {
                     errors.WriteLine($"{relative}: {refusal}");
                     failed++;
@@ -273,7 +273,7 @@ internal static class Commands
     /// </summary>
     internal static string DerivedName(string relative, Formats.Json.JsonObject document, bool own)
     {
-        (FileProfile _, string? kindName, Formats.Json.JsonObject _, Formats.Json.JsonValue _) = GameFiles.Envelope(document, relative);
+        (FileProfile _, string? kindName, Formats.Json.JsonObject _, Formats.Json.JsonValue _) = GameFiles.Envelope(document, fileName: relative);
         DocumentKind kind = DocumentKind.Find(kindName)!;
         return own ? kind.OwnName(relative) : kind.OriginalName(relative);
     }
@@ -298,7 +298,7 @@ internal static class Commands
             byte[] text;
             if (GameFiles.IsGzip(bytes) || GameFiles.IsJsonCandidate(bytes))
             {
-                ReadResult read = GameFiles.Read(bytes, input);
+                ReadResult read = GameFiles.Read(bytes, fileName: input);
                 parseMilliseconds = watch.Elapsed.TotalMilliseconds;
                 document = read.Document;
                 format = $"{(read.Gzip ? "gzip own JSON" : "own JSON")}, declared version {read.DeclaredVersion}";
@@ -310,7 +310,7 @@ internal static class Commands
             }
             else
             {
-                ImportResult result = ImportOriginal(bytes, input, o.Kind, o.Profile);
+                ImportResult result = ImportOriginal(bytes, path: input, o.Kind, o.Profile);
                 importMilliseconds = watch.Elapsed.TotalMilliseconds;
                 document = result.Document;
                 legacyRules = result.LegacyRules;
@@ -319,28 +319,28 @@ internal static class Commands
                 text = GameFiles.Write(document);
                 writeMilliseconds = watch.Elapsed.TotalMilliseconds;
                 watch.Restart();
-                _ = GameFiles.Read(text, input);
+                _ = GameFiles.Read(text, fileName: input);
                 parseMilliseconds = watch.Elapsed.TotalMilliseconds;
             }
             watch.Restart();
-            ExportResult exported = GameFiles.Export(document, input);
+            ExportResult exported = GameFiles.Export(document, fileName: input);
             double exportMilliseconds = watch.Elapsed.TotalMilliseconds;
-            (FileProfile? profile, string? kind, _, _) = GameFiles.Envelope(document, input);
+            (FileProfile? profile, string? kind, _, _) = GameFiles.Envelope(document, fileName: input);
             output.WriteLine($"File: {input}");
             output.WriteLine($"Format: {format}");
             output.WriteLine($"Profile: {profile.Name}, kind {kind}, version {OwnFormat.CurrentVersion}");
             output.WriteLine("Representable: yes, strict export lost nothing");
             output.WriteLine(legacyRules.Count == 0
                 ? "Legacy rules: none"
-                : $"Legacy rules: {string.Join(", ", legacyRules.OrderBy(c => c.Key, StringComparer.Ordinal).Select(c => $"{c.Key} {c.Value}"))}");
+                : $"Legacy rules: {string.Join(", ", values: legacyRules.OrderBy(c => c.Key, comparer: StringComparer.Ordinal).Select(c => $"{c.Key} {c.Value}"))}");
             output.WriteLine("Validation: structural (schema, codecs, limits). Game content validation arrives with 9.7-3.");
             output.WriteLine(string.Create(CultureInfo.InvariantCulture,
-                $"Size: original {bytes.Length} bytes, exported {exported.Bytes.Length} bytes, own JSON {text.Length} bytes"));
+                handler: $"Size: original {bytes.Length} bytes, exported {exported.Bytes.Length} bytes, own JSON {text.Length} bytes"));
             output.WriteLine(string.Create(CultureInfo.InvariantCulture,
-                $"Latency: import {importMilliseconds:F1} ms, write {writeMilliseconds:F1} ms, parse {parseMilliseconds:F1} ms, export {exportMilliseconds:F1} ms"));
+                handler: $"Latency: import {importMilliseconds:F1} ms, write {writeMilliseconds:F1} ms, parse {parseMilliseconds:F1} ms, export {exportMilliseconds:F1} ms"));
             using Process process = Process.GetCurrentProcess();
             output.WriteLine(string.Create(CultureInfo.InvariantCulture,
-                $"Memory: peak working set {process.PeakWorkingSet64 / (1024.0 * 1024.0):F1} MiB, managed heap {GC.GetTotalMemory(false) / (1024.0 * 1024.0):F1} MiB"));
+                handler: $"Memory: peak working set {process.PeakWorkingSet64 / (1024.0 * 1024.0):F1} MiB, managed heap {GC.GetTotalMemory(false) / (1024.0 * 1024.0):F1} MiB"));
             return Program.Success;
         }
         catch (ConversionException error)

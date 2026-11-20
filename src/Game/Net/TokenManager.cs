@@ -125,7 +125,7 @@ public class TokenManager : IDisposable
     public TokenControl GetTokenControl(int player) => player < _tokenControls.Count ? _tokenControls[player] : null;
 
     // NetworkE.pas:1718
-    public void TriggerMessage(string message) => OnMessage?.Invoke(this, message);
+    public void TriggerMessage(string message) => OnMessage?.Invoke(this, Msg: message);
 
     public TokenExecutor TokenExecutor { get; }
     public TokenPackageDistributor TokenPackageDistributor { get; }

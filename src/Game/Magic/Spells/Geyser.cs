@@ -18,7 +18,7 @@ public class Geyser : CombatSpell
     public Geyser(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_geyserText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_geyserText);
         SpellId = 118;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 9;
@@ -41,7 +41,7 @@ public class Geyser : CombatSpell
         };
         if (target.GetAbilityEnabled(1) || target.GetAbilityEnabled(59))
         {
-            action.Generate(source, target, CombatInfo.Attack, (sbyte)(CombatInfo.Damage / 2), CombatInfo.DamageTypes);
+            action.Generate(source, target, CombatInfo.Attack, damage: (sbyte)(CombatInfo.Damage / 2), CombatInfo.DamageTypes);
         }
         else
         {

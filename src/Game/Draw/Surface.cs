@@ -17,7 +17,7 @@ public partial class Surface : IDisposable
         {
             try
             {
-                Assert(X >= 0 && X < lockedSurface.Width && Y >= 0 && Y < lockedSurface.Height, "Coordinates out of bounds!", "GFXE.pas", 11974);
+                Assert(X >= 0 && X < lockedSurface.Width && Y >= 0 && Y < lockedSurface.Height, message: "Coordinates out of bounds!", file: "GFXE.pas", line: 11974);
                 // { 8 bit pixels need the palette; 1555 and the TColor ordered 24 bit layout are not handled }
                 ushort w;
                 switch (lockedSurface.PixelFormatId)
@@ -29,7 +29,7 @@ public partial class Surface : IDisposable
                         w = lockedSurface.View().UInt16(X + X + (Y * lockedSurface.Pitch));
                         return ((w & 63488) >>> 8) + ((w & 2016) << 5) + ((w & 31) << 19);
                     case PixelFormat.Pal8:
-                        Assert(lockedSurface.Palette is not null, "Palette not found, cannot retrieve color (GetColor)", "GFXE.pas", 11986);
+                        Assert(lockedSurface.Palette is not null, message: "Palette not found, cannot retrieve color (GetColor)", file: "GFXE.pas", line: 11986);
                         byte index = lockedSurface.View().Byte(X + (Y * lockedSurface.Pitch));
                         Palette.Entry e = lockedSurface.Palette[index];
                         return e.Red + (e.Green << 8) + (e.Blue << 16);
@@ -44,7 +44,7 @@ public partial class Surface : IDisposable
                     case PixelFormat.Bgr24:
                     case PixelFormat.Xrgb32:
                     default:
-                        Assert(false, "Pixel format not supported (GetColor)", "GFXE.pas", 11999);
+                        Assert(false, message: "Pixel format not supported (GetColor)", file: "GFXE.pas", line: 11999);
                         return 0;
                 }
             }
@@ -55,7 +55,7 @@ public partial class Surface : IDisposable
         }
         else
         {
-            Assert(false, "Cannot Lock Surface", "GFXE.pas", 12004);
+            Assert(false, message: "Cannot Lock Surface", file: "GFXE.pas", line: 12004);
             return -1;
         }
     }
@@ -69,7 +69,7 @@ public partial class Surface : IDisposable
         {
             try
             {
-                Assert(X >= 0 && X < lockedSurface.Width && Y >= 0 && Y < lockedSurface.Height, "Coordinates out of bounds!", "GFXE.pas", 11932);
+                Assert(X >= 0 && X < lockedSurface.Width && Y >= 0 && Y < lockedSurface.Height, message: "Coordinates out of bounds!", file: "GFXE.pas", line: 11932);
                 switch (lockedSurface.BitCount)
                 {
                     case 8:
@@ -89,7 +89,7 @@ public partial class Surface : IDisposable
                     case 32:
                         return (int)lockedSurface.View().Dword((X << 2) + (Y * lockedSurface.Pitch));
                     default:
-                        Assert(false, "Pixel format not supported (GetColor)", "GFXE.pas", 11946);
+                        Assert(false, message: "Pixel format not supported (GetColor)", file: "GFXE.pas", line: 11946);
                         return 0;
                 }
             }
@@ -100,7 +100,7 @@ public partial class Surface : IDisposable
         }
         else
         {
-            Assert(false, "Cannot Lock Surface", "GFXE.pas", 11951);
+            Assert(false, message: "Cannot Lock Surface", file: "GFXE.pas", line: 11951);
             return -1;
         }
     }
@@ -153,7 +153,7 @@ public partial class Surface : IDisposable
 
                     SurfaceView s = sourceSurface.View((sourceRectangle.Value.Left * sourceSurface.BitCount / 8) + (sourceRectangle.Value.Top * sourceSurface.Pitch));
                     SurfaceView d = destinationSurface.View((X * destinationSurface.BitCount / 8) + (Y * destinationSurface.Pitch));
-                    BlitRects.BlitRectangle(s, d, (sourceRectangle.Value.Right - sourceRectangle.Value.Left) * destinationSurface.BitCount / 8, sourceRectangle.Value.Bottom - sourceRectangle.Value.Top);
+                    BlitRects.BlitRectangle(s, destination: d, (sourceRectangle.Value.Right - sourceRectangle.Value.Left) * destinationSurface.BitCount / 8, sourceRectangle.Value.Bottom - sourceRectangle.Value.Top);
                     _ = Unlock();
                     result = GraphicsResult.Ok;
                 }
@@ -247,7 +247,7 @@ public partial class Surface : IDisposable
         {
             r.Right = w + r.Left;
             r.Bottom = r.Top + h;
-            return Blit(destination, r, X, Y);
+            return Blit(destination, sourceRectangle: r, X, Y);
         }
         else
         {
@@ -279,7 +279,7 @@ public partial class Surface : IDisposable
 
                     SurfaceView s = sourceSurface.View((sourceRectangle.Value.Left * sourceSurface.BitCount / 8) + (sourceRectangle.Value.Top * sourceSurface.Pitch));
                     SurfaceView d = destinationSurface.View((X * destinationSurface.BitCount / 8) + (Y * destinationSurface.Pitch));
-                    BlitRects.BlitColorKey16(s, d, sourceRectangle.Value.Right - sourceRectangle.Value.Left, sourceRectangle.Value.Bottom - sourceRectangle.Value.Top, colorKey);
+                    BlitRects.BlitColorKey16(s, destination: d, sourceRectangle.Value.Right - sourceRectangle.Value.Left, sourceRectangle.Value.Bottom - sourceRectangle.Value.Top, colorKey);
                     result = GraphicsResult.Ok;
                     _ = Unlock();
                 }
@@ -373,7 +373,7 @@ public partial class Surface : IDisposable
         {
             r.Right = w + r.Left;
             r.Bottom = r.Top + h;
-            return BlitColorKey(destination, r, X, Y, colorKey);
+            return BlitColorKey(destination, sourceRectangle: r, X, Y, colorKey);
         }
         else
         {

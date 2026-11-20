@@ -52,14 +52,14 @@ public sealed class CatalogTests
     public async Task ConcurrentAddsPublishEveryEntryAndRejectTheDuplicate()
     {
         Catalog<int, object> catalog = new("kind");
-        object[] values = [.. Enumerable.Range(0, 32).Select(_ => new object())];
+        object[] values = [.. Enumerable.Range(0, count: 32).Select(_ => new object())];
         await Task.WhenAll(values.Select((value, key) => Task.Run(() =>
         {
             _ = catalog.Add(key, value);
             Assert.Same(value, catalog[key]);
             foreach (object item in catalog.All)
             {
-                Assert.Contains(item, values);
+                Assert.Contains(item, collection: values);
             }
         })));
         Assert.Equal(values.Length, catalog.All.Count);
@@ -68,7 +68,7 @@ public sealed class CatalogTests
             Assert.Same(values[key], catalog[key]);
         }
 
-        bool[] results = await Task.WhenAll(Enumerable.Range(0, 2).Select(attempt => Task.Run(() =>
+        bool[] results = await Task.WhenAll(Enumerable.Range(0, count: 2).Select(attempt => Task.Run(() =>
         {
             try
             {

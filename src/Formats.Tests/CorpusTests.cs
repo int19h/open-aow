@@ -23,10 +23,10 @@ public sealed class CorpusTests : FormatsTest
                 continue;
             }
 
-            foreach (string? file in Directory.EnumerateFiles(directory, Path.GetFileName(pattern), new EnumerationOptions { MatchCasing = MatchCasing.CaseInsensitive })
+            foreach (string? file in Directory.EnumerateFiles(directory, searchPattern: Path.GetFileName(pattern), enumerationOptions: new EnumerationOptions { MatchCasing = MatchCasing.CaseInsensitive })
                 .Order(StringComparer.Ordinal))
             {
-                data.Add(Path.GetRelativePath(Checker.GameRoot, file).Replace('\\', '/'));
+                data.Add(Path.GetRelativePath(Checker.GameRoot, path: file).Replace('\\', '/'));
             }
         }
         return data;
@@ -36,7 +36,7 @@ public sealed class CorpusTests : FormatsTest
     public void TheGameRootHoldsTheShippedFiles()
     {
         int count = Files().Count;
-        Assert.True(count >= 132, $"{count} in-scope files under {Checker.GameRoot}");
+        Assert.True(count >= 132, userMessage: $"{count} in-scope files under {Checker.GameRoot}");
     }
 
     [GameTheory]
@@ -45,14 +45,14 @@ public sealed class CorpusTests : FormatsTest
     {
         string path = Path.Combine(Checker.GameRoot, relative);
         byte[] bytes = File.ReadAllBytes(path);
-        Classification c = GameFiles.Classify(bytes, Path.GetExtension(path));
+        Classification c = GameFiles.Classify(bytes, extension: Path.GetExtension(path));
         Assert.Equal(DetectedFormat.Original, c.Format);
-        ImportResult imported = GameFiles.Import(bytes, c.Profile!, c.Kind!, relative);
+        ImportResult imported = GameFiles.Import(bytes, c.Profile!, c.Kind!, fileName: relative);
         byte[] text = GameFiles.Write(imported.Document);
-        ExportResult exported = GameFiles.Export(GameFiles.Read(text, relative).Document, relative);
+        ExportResult exported = GameFiles.Export(GameFiles.Read(text, fileName: relative).Document, fileName: relative);
         OriginalComparisonResult comparison = GameFiles.CompareG1(bytes, exported: exported.Bytes, profile: c.Profile!, document: imported.Document, kind: c.Kind!);
         Assert.NotEqual(OriginalMatchKind.Mismatch, comparison.Kind);
-        byte[] again = GameFiles.Write(GameFiles.Import(exported.Bytes, c.Profile!, c.Kind!, relative).Document);
-        Assert.True(again.AsSpan().SequenceEqual(text), "G2");
+        byte[] again = GameFiles.Write(GameFiles.Import(exported.Bytes, c.Profile!, c.Kind!, fileName: relative).Document);
+        Assert.True(again.AsSpan().SequenceEqual(text), userMessage: "G2");
     }
 }

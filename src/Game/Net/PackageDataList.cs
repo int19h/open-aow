@@ -42,7 +42,7 @@ public class PackageDataList : IDisposable
         MemoryStream s = new();
         s.SetLength(stream.Length);
         int size = (int)s.Length;
-        Move(stream.GetBuffer().AsSpan(0, size), s.GetBuffer().AsSpan(0, size), size);
+        Move(stream.GetBuffer().AsSpan(0, length: size), destination: s.GetBuffer().AsSpan(0, length: size), count: size);
         _list.Add(s);
     }
 
@@ -51,7 +51,7 @@ public class PackageDataList : IDisposable
     {
         MemoryStream s = new();
         s.SetLength(size);
-        Move(BufferBytes(data)[..size], s.GetBuffer().AsSpan(0, size), size);
+        Move(BufferBytes(data)[..size], destination: s.GetBuffer().AsSpan(0, length: size), count: size);
         _list.Add(s);
     }
 
@@ -61,8 +61,8 @@ public class PackageDataList : IDisposable
         MemoryStream s = new();
         s.SetLength(stream.Length);
         int size = (int)s.Length;
-        Move(stream.GetBuffer().AsSpan(0, size), s.GetBuffer().AsSpan(0, size), size);
-        _list.Insert(index, s);
+        Move(stream.GetBuffer().AsSpan(0, length: size), destination: s.GetBuffer().AsSpan(0, length: size), count: size);
+        _list.Insert(index, item: s);
     }
 
     // NetworkE.pas:935

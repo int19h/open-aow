@@ -24,7 +24,7 @@ public sealed class FileDialogSortTests
             dialog.FindFiles();
             Assert.Equal(["alpha", "beta", "aaa.asg", "zzz.asg"], Names(dialog.FileList));
             Assert.Equal(Names(dialog.FileList), Names(dialog.SaveList));
-            Assert.DoesNotContain("note.txt", Names(dialog.FileList));
+            Assert.DoesNotContain("note.txt", collection: Names(dialog.FileList));
             Assert.Equal(-1, dialog.FileList.Selected);
 
             EngineFixture.Engine.Registry.SetFileDialogSortByDate(true);
@@ -126,7 +126,7 @@ public sealed class FileDialogSortTests
             _ = Directory.CreateDirectory(root);
             _ = Directory.CreateDirectory(settingsDirectory);
             WriteTree(user);
-            RtlHost.Files = new LayeredFileSystem(root, user);
+            RtlHost.Files = new LayeredFileSystem(root, userDirectory: user);
             RtlHost.Settings = new JsonSettingsStore(settingsDirectory);
             EngineFixture.Engine.Registry = new GameSettings();
             FileDialogWindow.Directories = new DelphiStringList();
@@ -161,7 +161,7 @@ public sealed class FileDialogSortTests
             FileDialogWindow.Drives = previousDrives;
             if (Directory.Exists(directory))
             {
-                Directory.Delete(directory, true);
+                Directory.Delete(directory, recursive: true);
             }
         }
     }
@@ -171,18 +171,18 @@ public sealed class FileDialogSortTests
         _ = Directory.CreateDirectory(Path.Combine(user, "one", "alpha"));
         _ = Directory.CreateDirectory(Path.Combine(user, "one", "beta"));
         _ = Directory.CreateDirectory(Path.Combine(user, "two", "gamma"));
-        Write("one", "aaa.asg", new DateTime(1999, 1, 1, 0, 0, 0, DateTimeKind.Utc));
-        Write("one", "zzz.asg", new DateTime(2001, 6, 1, 0, 0, 0, DateTimeKind.Utc));
-        Write("one", "note.txt", new DateTime(2002, 1, 1, 0, 0, 0, DateTimeKind.Utc));
-        Write("two", "bbb.asg", new DateTime(1999, 1, 1, 0, 0, 0, DateTimeKind.Utc));
-        Write("two", "yyy.asg", new DateTime(2001, 6, 1, 0, 0, 0, DateTimeKind.Utc));
+        Write("one", name: "aaa.asg", stamp: new DateTime(1999, 1, 1, 0, 0, 0, kind: DateTimeKind.Utc));
+        Write("one", name: "zzz.asg", stamp: new DateTime(2001, 6, 1, 0, 0, 0, kind: DateTimeKind.Utc));
+        Write("one", name: "note.txt", stamp: new DateTime(2002, 1, 1, 0, 0, 0, kind: DateTimeKind.Utc));
+        Write("two", name: "bbb.asg", stamp: new DateTime(1999, 1, 1, 0, 0, 0, kind: DateTimeKind.Utc));
+        Write("two", name: "yyy.asg", stamp: new DateTime(2001, 6, 1, 0, 0, 0, kind: DateTimeKind.Utc));
         return;
 
         void Write(string folder, string name, DateTime stamp)
         {
             string path = Path.Combine(user, folder, name);
-            File.WriteAllBytes(path, [1]);
-            File.SetLastWriteTimeUtc(path, stamp);
+            File.WriteAllBytes(path, bytes: [1]);
+            File.SetLastWriteTimeUtc(path, lastWriteTimeUtc: stamp);
         }
     }
 

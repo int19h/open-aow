@@ -20,7 +20,7 @@ public class TurnUndead : CombatSpell
     public TurnUndead(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.TurnUndeadText);
         SpellId = 101;
         DamageMode = 1;
         SpellCombatInfo spellCombatInfo = CombatInfo;

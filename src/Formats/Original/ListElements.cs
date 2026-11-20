@@ -29,10 +29,10 @@ internal sealed class EnumListElement(string typeName, int width) : ListElement
     public string TypeName { get; } = typeName;
 
     internal override JsonValue Write(long value, DecodeContext context, DocumentNodePath path)
-        => _codec.MemberText(value, context.File, path.ToString());
+        => _codec.MemberText(value, context.File, path: path.ToString());
 
     internal override long Read(JsonValue value, EncodeContext context, DocumentNodePath path)
-        => _codec.Parse(context, value, path, "A list value");
+        => _codec.Parse(context, value, path, name: "A list value");
 }
 
 /// <summary>
@@ -43,7 +43,7 @@ internal sealed class RecordListElement : ListElement
 {
     private readonly CatalogRecordCodec _codec;
 
-    public RecordListElement(string typeName) => _codec = new CatalogRecordCodec(typeName, 4);
+    public RecordListElement(string typeName) => _codec = new CatalogRecordCodec(typeName, size: 4);
 
     /// <summary>The version 3 to 4 step builds its records from this layout and does not consult the live catalog.</summary>
     internal RecordListElement(RecordTypeInfo pinned) => _codec = new CatalogRecordCodec(pinned);
@@ -52,16 +52,16 @@ internal sealed class RecordListElement : ListElement
 
     internal override JsonValue Write(long value, DecodeContext context, DocumentNodePath path)
     {
-        byte[] bytes = IntegerBytes.Bytes(value, 4);
+        byte[] bytes = IntegerBytes.Bytes(value, width: 4);
         DecodeContext nested = new(bytes, context.Schema, context.Engine, context.Profile, context.File, context.Limits);
-        return _codec.Decode(nested, 0, bytes.Length, Site(path));
+        return _codec.Decode(nested, start: 0, end: bytes.Length, site: Site(path));
     }
 
     internal override long Read(JsonValue value, EncodeContext context, DocumentNodePath path)
     {
         ByteBuffer buffer = new(4);
-        _codec.Encode(context, value, buffer, Site(path));
-        return IntegerBytes.Read(buffer.Span, 4, signed: true);
+        _codec.Encode(context, value, data: buffer, site: Site(path));
+        return IntegerBytes.Read(buffer.Span, width: 4, signed: true);
     }
 
     private static ValueSite Site(DocumentNodePath path) => new() { Property = null!, Id = 0, Path = path, Owner = new JsonObject() };

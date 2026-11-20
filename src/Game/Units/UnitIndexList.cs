@@ -37,7 +37,7 @@ public class UnitIndexList : Int32List
     // UnitRes.PAS:245
     public void SetUnitIndex(int index, int value)
     {
-        Assert(index >= 0, "List index out of bounds (TUnitIndexList)", "UnitRes.PAS", 250);
+        Assert(index >= 0, message: "List index out of bounds (TUnitIndexList)", file: "UnitRes.PAS", line: 250);
         if (index >= Count)
         {
             Count = index + 1;
@@ -65,7 +65,7 @@ public class UnitIndexList : Int32List
     private static int CompareUnitIndexes(int item1, int item2)
     {
         // UnitRes.PAS:256 tests the first item twice.
-        Assert(GamePack.Current.UnitResources.GetUnitResource(item1) is not null, "Undefined UnitResource Used!", "UnitRes.PAS", 256);
+        Assert(GamePack.Current.UnitResources.GetUnitResource(item1) is not null, message: "Undefined UnitResource Used!", file: "UnitRes.PAS", line: 256);
         UnitResource unitResource = GamePack.Current.UnitResources.GetUnitResource(item2);
         UnitResource unitResource2 = GamePack.Current.UnitResources.GetUnitResource(item1);
         return unitResource.Level - unitResource2.Level;

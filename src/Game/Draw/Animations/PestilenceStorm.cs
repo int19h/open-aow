@@ -38,7 +38,7 @@ public class PestilenceStorm(CustomNode owner) : Storm(owner)
                 int blend = sequence.TotalSequenceFrames;
                 blend = blend != 0 ? FrameCounter * 100 / blend : 100;
 
-                sequence.ImageLibrary[frame].ShowBlended(x + sequence.OffsetX, y + sequence.OffsetY, lockedSurface, GraphicsState.ShadowBlendTable.LookupTables[blend]);
+                sequence.ImageLibrary[frame].ShowBlended(x + sequence.OffsetX, y + sequence.OffsetY, lockedSurface, table: GraphicsState.ShadowBlendTable.LookupTables[blend]);
             }
 
             sequence = sequence.Next;
@@ -46,7 +46,7 @@ public class PestilenceStorm(CustomNode owner) : Storm(owner)
     }
 
     // Storms.pas:725
-    public override void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info) => AbilityRules.RetrieveStormDamageInfo(player, StormType.Pestilence, X, Y, L, 0, 2, out info);
+    public override void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info) => AbilityRules.RetrieveStormDamageInfo(player, storm: StormType.Pestilence, X, Y, L, innerRadius: 0, outerRadius: 2, out info);
 
     // Storms.pas:716
     public override void UpdateTargetSelection(TargetSelectionControl selection)
@@ -70,8 +70,8 @@ public class PestilenceStorm(CustomNode owner) : Storm(owner)
         r.Top = -80;
         r.Bottom = 96;
         SetDimensions(r);
-        _ = StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, 2);
-        if (StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.TerrainVisible(X, Y, L, 2))
+        _ = StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, radius: 2);
+        if (StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.TerrainVisible(X, Y, L, radius: 2))
         {
             _ = GamePack.Current.SpellControl[9].CastSounds.Play(0);
         }
@@ -98,7 +98,7 @@ public class PestilenceStorm(CustomNode owner) : Storm(owner)
             sbyte hexLevel = HexLevel;
             sbyte hexY = HexY;
             sbyte hexX = HexX;
-            if (StrategicMap.Current.PlaceHex(cloud, hexX, hexY, hexLevel))
+            if (StrategicMap.Current.PlaceHex(cloud, hexX, hexY, L: hexLevel))
             {
                 cloud.TriggerDamage();
             }
@@ -119,6 +119,6 @@ public class PestilenceStorm(CustomNode owner) : Storm(owner)
     public override void FinalizeStorm() => base.FinalizeStorm();
 
     // Storms.pas:639
-    public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), GameTables.PestilenceStormText);
+    public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.PestilenceStormText);
 
 }

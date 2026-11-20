@@ -70,7 +70,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
                     ArmyHexSprite armyHexSprite = default;
                     try
                     {
-                        aiMoveExecutorArmyList.GetArmies(i).RetrieveArmy(255, out armyHexSprite, out armySelection);
+                        aiMoveExecutorArmyList.GetArmies(i).RetrieveArmy(255, army: out armyHexSprite, out armySelection);
                     }
                     catch
                     {
@@ -85,7 +85,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
 
                     settings.Reset();
                     settings.MovePointsMax = Executor.MovePointsMax;
-                    settings.SetupArmy(armyHexSprite, armySelection);
+                    settings.SetupArmy(armyHexSprite, selection: armySelection);
                     settings.SetDestinationPosition(Executor.Destination);
                     StrategicMap.Current.MoveControl.ProcessMove(settings);
                     AdjacentArmy adjacent = new(_adjacentArmies);
@@ -177,7 +177,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
                                 ? Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue, CreateMoveModeElement.Surround)
                                 : Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue);
 
-                            move = CreateMove(aiMoveExecutorArmyList.GetArmies(index), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode, out moveResult);
+                            move = CreateMove(aiMoveExecutorArmyList.GetArmies(index), selection: 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode, out moveResult);
                             if (move is null)
                             {
                                 if (moveResult == 1)
@@ -219,7 +219,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
                             ? Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue, CreateMoveModeElement.Surround)
                             : Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue);
 
-                        move = CreateMove(aiMoveExecutorArmyList.GetArmies(0), 255, _meetingPoint.Location.X, _meetingPoint.Location.Y, _meetingPoint.Location.MapLevel, mode, out moveResult);
+                        move = CreateMove(aiMoveExecutorArmyList.GetArmies(0), selection: 255, _meetingPoint.Location.X, _meetingPoint.Location.Y, _meetingPoint.Location.MapLevel, mode, out moveResult);
                         if (move is not null)
                         {
                             if (moveResult == 0)
@@ -241,7 +241,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
                         {
                             if (moveResult is 1 or 2)
                             {
-                                aiMoveExecutorArmyList.GetArmies(0).SetStatus(255, AIMoveExecutorUnitStatus.Done);
+                                aiMoveExecutorArmyList.GetArmies(0).SetStatus(255, status: AIMoveExecutorUnitStatus.Done);
                             }
                             else
                             {
@@ -304,7 +304,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
                 aiMoveExecutorArmyList = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
                 while (aiMoveExecutorArmyList.Count != i)
                 {
-                    move = CreateMove(aiMoveExecutorArmyList.GetArmies(i), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue, CreateMoveModeElement.Surround), out moveResult);
+                    move = CreateMove(aiMoveExecutorArmyList.GetArmies(i), selection: 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode: Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue, CreateMoveModeElement.Surround), out moveResult);
                     bool condition = moveResult != 0;
                     if (!condition)
                     {
@@ -336,7 +336,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
                     aiMoveExecutorArmyList = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
                     while (move is null && aiMoveExecutorArmyList.Count != i)
                     {
-                        move = CreateMove(aiMoveExecutorArmyList.GetArmies(i), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(), out _);
+                        move = CreateMove(aiMoveExecutorArmyList.GetArmies(i), selection: 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode: Set<CreateMoveModeElement>.Of(), moveResult: out _);
                         if (move is not null)
                         {
                             Executor.ExecuteMoves();
@@ -380,7 +380,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
                 AIMoveExecutorArmy army = armies.GetArmies(index);
                 if (army.Location.MapLevel == Executor.Destination.MapLevel && HexGeometry.DeltaHexToRadius(army.Location.X, army.Location.Y, Executor.Destination.X, Executor.Destination.Y) > 1)
                 {
-                    _ = CreateMove(army, 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(CreateMoveModeElement.SurroundNearest), out byte moveResult);
+                    _ = CreateMove(army, selection: 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode: Set<CreateMoveModeElement>.Of(CreateMoveModeElement.SurroundNearest), out byte moveResult);
                     result = moveResult is not 0 and not 3;
                 }
             }
@@ -438,7 +438,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
                         {
                             PathStep item = adjacent.Path[position];
                             PathStep fPathItem = adjacent.Path[position];
-                            condition = CanMoveTo(army, 255, adjacent.Path[position].Location.X, item.Location.Y, fPathItem.Location.MapLevel) != 255;
+                            condition = CanMoveTo(army, selection: 255, adjacent.Path[position].Location.X, item.Location.Y, fPathItem.Location.MapLevel) != 255;
                         }
 
                         if (!condition)
@@ -483,7 +483,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
             int index = armies.IndexOfLocation(sorted[i].First.Location);
             if (index != -1)
             {
-                _ = CreateMove(armies.GetArmies(index), 255, mapCoordinate.X, mapCoordinate.Y, mapCoordinate.MapLevel, Set<CreateMoveModeElement>.Of(), out byte moveResult);
+                _ = CreateMove(armies.GetArmies(index), selection: 255, mapCoordinate.X, mapCoordinate.Y, mapCoordinate.MapLevel, mode: Set<CreateMoveModeElement>.Of(), out byte moveResult);
                 if (moveResult == 0)
                 {
                     result = false;

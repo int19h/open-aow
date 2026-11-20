@@ -31,9 +31,9 @@ internal static class ConstructionSnapshot
         HashSet<string> seen = [with(StringComparer.Ordinal)];
         while (recording[key] is JsonObject { Count: 1 } entry && entry["$sameAs"] is { } reference)
         {
-            Assert.True(seen.Add(key), $"Snapshot reference cycle: {key}");
+            Assert.True(seen.Add(key), userMessage: $"Snapshot reference cycle: {key}");
             key = reference.GetValue<string>();
-            Assert.True(recording.ContainsKey(key), $"Snapshot reference is absent: {key}");
+            Assert.True(recording.ContainsKey(key), userMessage: $"Snapshot reference is absent: {key}");
         }
         return recording[key];
     }
@@ -41,7 +41,7 @@ internal static class ConstructionSnapshot
     internal static void Check(string name, string key, string actual, string? member = null)
     {
         JsonObject recording = Load(name);
-        Assert.True(recording.ContainsKey(key), $"{name} has no recording for {key}");
+        Assert.True(recording.ContainsKey(key), userMessage: $"{name} has no recording for {key}");
         JsonNode? expected = member is null ? Entry(recording, key) : Entry(recording, key)![member];
         JsonNode? value = Readable(actual);
         string? target = Environment.GetEnvironmentVariable("AOW_CONSTRUCTION_RECORD");
@@ -61,17 +61,17 @@ internal static class ConstructionSnapshot
             Dictionary<string, string> shared = [with(StringComparer.Ordinal)];
             foreach (string entryKey in Keys(name))
             {
-                JsonNode? entryValue = Entry(recording, entryKey);
+                JsonNode? entryValue = Entry(recording, key: entryKey);
                 string text = entryValue?.ToJsonString() ?? "null";
                 sorted[entryKey] = shared.TryGetValue(text, out string? first)
                     ? new JsonObject { ["$sameAs"] = first } : entryValue?.DeepClone();
                 _ = shared.TryAdd(text, entryKey);
             }
             File.WriteAllText(Path.Combine(target, $"{name}Snapshot.json"),
-                $"{sorted.ToJsonString(s_format).Replace("\r\n", "\n", StringComparison.Ordinal)}\n", new UTF8Encoding(false));
+                contents: $"{sorted.ToJsonString(s_format).Replace("\r\n", "\n", comparisonType: StringComparison.Ordinal)}\n", encoding: new UTF8Encoding(false));
             return;
         }
-        Compare(expected, value, $"{name}.{key}{(member is null ? "" : $".{member}")}");
+        Compare(expected, value, path: $"{name}.{key}{(member is null ? "" : $".{member}")}");
     }
 
     private static void Compare(JsonNode? expected, JsonNode? actual, string path)
@@ -79,23 +79,23 @@ internal static class ConstructionSnapshot
         if (expected is JsonObject left && actual is JsonObject right)
         {
             Assert.True(left.Select(pair => pair.Key).Order(StringComparer.Ordinal)
-                .SequenceEqual(right.Select(pair => pair.Key).Order(StringComparer.Ordinal)), $"{path} field names differ: expected {string.Join(", ", left.Select(pair => pair.Key))}, actual {string.Join(", ", right.Select(pair => pair.Key))}");
+                .SequenceEqual(right.Select(pair => pair.Key).Order(StringComparer.Ordinal)), userMessage: $"{path} field names differ: expected {string.Join(", ", values: left.Select(pair => pair.Key))}, actual {string.Join(", ", values: right.Select(pair => pair.Key))}");
             foreach (KeyValuePair<string, JsonNode?> pair in left)
             {
-                Compare(pair.Value, right[pair.Key], $"{path}.{pair.Key}");
+                Compare(pair.Value, right[pair.Key], path: $"{path}.{pair.Key}");
             }
         }
         else if (expected is JsonArray before && actual is JsonArray after)
         {
-            Assert.True(before.Count == after.Count, $"{path} length: expected {before.Count}, actual {after.Count}");
+            Assert.True(before.Count == after.Count, userMessage: $"{path} length: expected {before.Count}, actual {after.Count}");
             for (int i = 0; i < before.Count; i++)
             {
-                Compare(before[i], after[i], $"{path}[{i}]");
+                Compare(before[i], after[i], path: $"{path}[{i}]");
             }
         }
         else
         {
-            Assert.True(JsonNode.DeepEquals(expected, actual), $"{path}: expected {expected?.ToJsonString() ?? "null"}, actual {actual?.ToJsonString() ?? "null"}");
+            Assert.True(JsonNode.DeepEquals(expected, actual), userMessage: $"{path}: expected {expected?.ToJsonString() ?? "null"}, actual {actual?.ToJsonString() ?? "null"}");
         }
     }
 
@@ -111,7 +111,7 @@ internal static class ConstructionSnapshot
         }
         return text.Contains('\n')
             ? new JsonObject { ["$lines"] = new JsonArray(text.Split('\n').Select(Readable).ToArray()) }
-            : text.StartsWith("success:", StringComparison.Ordinal)
+            : text.StartsWith("success:", comparisonType: StringComparison.Ordinal)
             ? new JsonObject { ["$prefix"] = "success:", ["$value"] = Readable(text[8..]) }
             : JsonValue.Create(text);
     }

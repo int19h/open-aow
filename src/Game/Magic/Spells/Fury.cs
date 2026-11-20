@@ -16,7 +16,7 @@ public class Fury : UnitSpell
     public Fury(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.FuryText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FuryText);
         SpellId = 33;
         AIValue = 175;
         BaseManaCost = 5;
@@ -31,7 +31,7 @@ public class Fury : UnitSpell
     public override void PlayDefaultCastEffects(sbyte player, sbyte X, sbyte Y, sbyte layer)
     {
         base.PlayDefaultCastEffects(player, X, Y, layer);
-        if (player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(X, Y, layer, 0))
+        if (player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(X, Y, L: layer, radius: 0))
         {
             _ = GamePack.Current.SpellControl[SpellId].CastSounds.Play(1);
         }

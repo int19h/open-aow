@@ -54,7 +54,7 @@ public class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner
                 for (int i = first; i <= last2 - 1; i++)
                 {
                     sbyte yhx = Selection.TacticalBattleUnitHexSprite.HexY;
-                    HexGeometry.CenterHexNumberToHex(Selection.TacticalBattleUnitHexSprite.HexX, yhx, i, ref hexX, ref hexY);
+                    HexGeometry.CenterHexNumberToHex(Selection.TacticalBattleUnitHexSprite.HexX, yhx, hexNumber: i, ref hexX, ref hexY);
                     HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
                     _targetImages[2].Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface + 2, lockedSurface);
                 }
@@ -94,14 +94,14 @@ public class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner
                         int count = Selection.RangedPath.Count;
                         Point3D rangedPath = Selection.RangedPath[count - 1];
                         int fRangedPathCount = Selection.RangedPath.Count;
-                        HexGeometry.PixelToHex(Selection.RangedPath[fRangedPathCount - 1].X, rangedPath.Y, out x, out y);
+                        HexGeometry.PixelToHex(Selection.RangedPath[fRangedPathCount - 1].X, vertical: rangedPath.Y, out x, out y);
                         {
                             for (int i = 0; i <= 11; i++)
                             {
                                 sbyte yhx = Selection.TacticalBattleUnitHexSprite.HexY;
                                 int deltaHexToHexNumber2 = HexGeometry.DeltaHexToHexNumber(Selection.TacticalBattleUnitHexSprite.HexX, yhx, x, y);
                                 sbyte hexY2 = Selection.TacticalBattleUnitHexSprite.HexY;
-                                HexGeometry.CenterHexNumberToHex(Selection.TacticalBattleUnitHexSprite.HexX, hexY2, TacticalTables.BreathHexNumber[(deltaHexToHexNumber2 * 12) + i - 12], ref hexX, ref hexY);
+                                HexGeometry.CenterHexNumberToHex(Selection.TacticalBattleUnitHexSprite.HexX, hexY2, hexNumber: TacticalTables.BreathHexNumber[(deltaHexToHexNumber2 * 12) + i - 12], ref hexX, ref hexY);
                                 HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
                                 _targetImages[0].ShowClipped(pixelX - 8 - pixelXSurface, pixelY + 2 - pixelYSurface, lockedSurface);
                             }
@@ -176,8 +176,8 @@ public class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner
                                                 int count2 = Selection.RangedPath.Count;
                                                 Point3D rangedPathY = Selection.RangedPath[count2 - 1];
                                                 int count3 = Selection.RangedPath.Count;
-                                                HexGeometry.PixelToHex(Selection.RangedPath[count3 - 1].X, rangedPathY.Y, out x, out y);
-                                                HexGeometry.CenterHexNumberToHex(x, y, i, ref hexX, ref hexY);
+                                                HexGeometry.PixelToHex(Selection.RangedPath[count3 - 1].X, vertical: rangedPathY.Y, out x, out y);
+                                                HexGeometry.CenterHexNumberToHex(x, y, hexNumber: i, ref hexX, ref hexY);
                                                 HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
                                                 _targetImages[0].ShowClipped(pixelX - 8 - pixelXSurface, pixelY + 2 - pixelYSurface, lockedSurface);
                                             }
@@ -192,8 +192,8 @@ public class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner
                                                 int count2 = Selection.RangedPath.Count;
                                                 Point3D rangedPathY = Selection.RangedPath[count2 - 1];
                                                 int count3 = Selection.RangedPath.Count;
-                                                HexGeometry.PixelToHex(Selection.RangedPath[count3 - 1].X, rangedPathY.Y, out x, out y);
-                                                HexGeometry.CenterHexNumberToHex(x, y, i, ref hexX, ref hexY);
+                                                HexGeometry.PixelToHex(Selection.RangedPath[count3 - 1].X, vertical: rangedPathY.Y, out x, out y);
+                                                HexGeometry.CenterHexNumberToHex(x, y, hexNumber: i, ref hexX, ref hexY);
                                                 HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
                                                 _targetImages[0].ShowClipped(pixelX - 8 - pixelXSurface, pixelY + 2 - pixelYSurface, lockedSurface);
                                             }
@@ -242,12 +242,12 @@ public class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner
                     RangedObstacle obstacle = Selection.Obstacles[i];
                     Point3D rangedPath = Selection.RangedPath[obstacle.PathIndex];
                     RangedObstacle obstacle2 = Selection.Obstacles[i];
-                    HexGeometry.PixelToHex(Selection.RangedPath[obstacle2.PathIndex].X, rangedPath.Y, out hexX, out hexY);
+                    HexGeometry.PixelToHex(Selection.RangedPath[obstacle2.PathIndex].X, vertical: rangedPath.Y, out hexX, out hexY);
                     HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
                     _miscellaneousImages[1].Show(pixelX + 5 - pixelXSurface, pixelY + 5 - pixelYSurface, lockedSurface);
                     GetEngine().CombatFont.Color = 0;
                     RangedObstacle obstacle3 = Selection.Obstacles[i];
-                    GetEngine().CombatFont.SetTextCentered(pixelX + 16 - pixelXSurface, pixelY + 12 - pixelYSurface, IntToStr(obstacle3.Chance), lockedSurface);
+                    GetEngine().CombatFont.SetTextCentered(pixelX + 16 - pixelXSurface, pixelY + 12 - pixelYSurface, text: IntToStr(obstacle3.Chance), lockedSurface);
                 }
             }
         }
@@ -257,15 +257,15 @@ public class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner
     public override void Activate()
     {
         base.Activate();
-        _miscellaneousImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCombat\\Misc.ILB");
-        _targetImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TargHex.ILB");
+        _miscellaneousImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "TCombat\\Misc.ILB");
+        _targetImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "TargHex.ILB");
     }
 
     // AoWTC.pas:4839
     public override void Deactivate()
     {
-        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCombat\\Misc.ILB");
-        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TargHex.ILB");
+        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "TCombat\\Misc.ILB");
+        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "TargHex.ILB");
         base.Deactivate();
     }
 }

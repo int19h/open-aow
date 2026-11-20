@@ -20,7 +20,7 @@ public class Picture08(CustomImageLibrary owner) : Image08(owner), ILibraryImage
     private byte[] _buffer;
 
     // The rows of the picture: FBuffer from its first byte, FPitch bytes apart.
-    internal SurfaceView View => new(_buffer, 0, _pitch);
+    internal SurfaceView View => new(_buffer, start: 0, _pitch);
 
     // ImageLib.pas:7305
     public override void SetXshift(int value)
@@ -100,7 +100,7 @@ public class Picture08(CustomImageLibrary owner) : Image08(owner), ILibraryImage
         AllocateDiscardableImageData(DataWidth, DataHeight);
         for (int y = 0, last = DataHeight - 1; y <= last; y++)
         {
-            stream.ReadExactly(_buffer.AsSpan(y * _pitch, DataWidth));
+            stream.ReadExactly(_buffer.AsSpan(y * _pitch, length: DataWidth));
         }
     }
 
@@ -110,7 +110,7 @@ public class Picture08(CustomImageLibrary owner) : Image08(owner), ILibraryImage
         base.WriteDiscardableImageData(stream);
         for (int y = 0, last = DataHeight - 1; y <= last; y++)
         {
-            stream.Write(_buffer.AsSpan(y * _pitch, DataWidth));
+            stream.Write(_buffer.AsSpan(y * _pitch, length: DataWidth));
         }
     }
 
@@ -136,7 +136,7 @@ public class Picture08(CustomImageLibrary owner) : Image08(owner), ILibraryImage
             {
                 for (int y = 0, last = Height - 1; y <= last; y++)
                 {
-                    lockedSurface.View().Bytes(((R.Top + y) * lockedSurface.Pitch) + R.Left, DataWidth).CopyTo(_buffer.AsSpan(_pitch * y, DataWidth));
+                    lockedSurface.View().Bytes(((R.Top + y) * lockedSurface.Pitch) + R.Left, count: DataWidth).CopyTo(_buffer.AsSpan(_pitch * y, length: DataWidth));
                 }
 
                 CreateLibraryImagePalette(lockedSurface.Palette);
@@ -219,11 +219,11 @@ public class Picture08(CustomImageLibrary owner) : Image08(owner), ILibraryImage
 
             if (lockedSurface.PixelFormatId == PixelFormat.Rgb555)
             {
-                PixelRemap.RemapSurface08To555(source, destination, width, height, RemapPaletteValue);
+                PixelRemap.RemapSurface08To555(source, destination, width, height, palette: RemapPaletteValue);
             }
             else if (lockedSurface.PixelFormatId == PixelFormat.Rgb565)
             {
-                PixelRemap.RemapSurface08To565(source, destination, width, height, RemapPaletteValue);
+                PixelRemap.RemapSurface08To565(source, destination, width, height, palette: RemapPaletteValue);
             }
         }
         if (loadedHere && LoadMode == LoadMode.LoadFreeOnDemand)

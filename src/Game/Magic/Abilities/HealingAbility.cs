@@ -25,7 +25,7 @@ public class HealingAbility : TouchAbility
     {
         Holder = holder;
         AbilityId = 47;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_healingText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_healingText);
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem, AbilitySelectionType.Editor);
         AbilityType = AbilityType.Enhancement;
     }
@@ -39,7 +39,7 @@ public class HealingAbility : TouchAbility
         }
         else
         {
-            string used = AbilityRules.TranslateResourceString(GetEngine(), GameText.UsedText);
+            string used = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.UsedText);
             return $"{AbilityName} ({LowerCase(used)})";
         }
     }
@@ -69,7 +69,7 @@ public class HealingAbility : TouchAbility
             CombatObject target = commands.SourceSide.GetObjects(i);
             if (target.GetEnabled() && CanTouch(commands.Source, target))
             {
-                FastBattleGetDamageValues(commands.Source, target, WallSituation.None, ref values);
+                FastBattleGetDamageValues(commands.Source, defender: target, wallSituation: WallSituation.None, damageValues: ref values);
                 if (values.SourceDamage != 0)
                 {
                     FastBattleCommand command = new(AbilityId)
@@ -77,7 +77,7 @@ public class HealingAbility : TouchAbility
                         Target = target,
                         SourceDamageValue = values.SourceDamage,
                         TargetDamageValue = 0,
-                        ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, 0, commands.Source, target),
+                        ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, targetDamageValue: 0, commands.Source, target),
                         MoveCost = 0
                     };
                     commands.Add(command);
@@ -102,7 +102,7 @@ public class HealingAbility : TouchAbility
     {
         if (owner is Troop troop && troop.Player == player)
         {
-            SetEnabled(owner, true);
+            SetEnabled(owner, enabled: true);
         }
     }
 
@@ -120,8 +120,8 @@ public class HealingAbility : TouchAbility
             };
 
             HealingUnitSelector selector = new(this);
-            string healing = AbilityRules.TranslateResourceString(GetEngine(), s_healingText);
-            selector.Caption = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SelectUnitFormat), [healing]);
+            string healing = AbilityRules.TranslateResourceString(GetEngine(), S: s_healingText);
+            selector.Caption = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SelectUnitFormat), arguments: [healing]);
             if (troop is not null)
             {
                 if (troop.Owner is IHeroHolder)
@@ -131,7 +131,7 @@ public class HealingAbility : TouchAbility
                 }
                 else
                 {
-                    selector.Setup(troop, troop.OwnerUnits);
+                    selector.Setup(troop, units: troop.OwnerUnits);
                 }
             }
 
@@ -207,7 +207,7 @@ public class HealingAbility : TouchAbility
     // AoWAb.PAS:3738
     public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        if (wallSituation == WallSituation.None && CanTouch(attacker, defender))
+        if (wallSituation == WallSituation.None && CanTouch(attacker, target: defender))
         {
             int hitPoints = GetHealHitPoints(defender);
             damageValues.SourceCost = hitPoints;
@@ -289,7 +289,7 @@ public class HealingAbility : TouchAbility
     public HealingCombatAction CreateHealingCombatAction(CombatObject source, CombatObject target)
     {
         HealingCombatAction result = new(null) { Holder = CreationHolder() };
-        result.Initialize(source.Id, target.Id);
+        result.Initialize(source.Id, targetId: target.Id);
         return result;
     }
 

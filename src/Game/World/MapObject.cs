@@ -88,7 +88,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     {
         get
         {
-            Assert(Owner is not null, "Owner not set", "MAPOBJ.PAS", 47);
+            Assert(Owner is not null, message: "Owner not set", file: "MAPOBJ.PAS", line: 47);
             return Owner.HexX;
         }
     }
@@ -98,7 +98,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     {
         get
         {
-            Assert(Owner is not null, "Owner not set", "MAPOBJ.PAS", 53);
+            Assert(Owner is not null, message: "Owner not set", file: "MAPOBJ.PAS", line: 53);
             return Owner.HexY;
         }
     }
@@ -108,7 +108,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     {
         get
         {
-            Assert(Owner is not null, "Owner not set", "MAPOBJ.PAS", 59);
+            Assert(Owner is not null, message: "Owner not set", file: "MAPOBJ.PAS", line: 59);
             return Owner.HexLevel;
         }
     }
@@ -149,7 +149,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
         }
         else
         {
-            _resource.ShowComplexImage(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface, 0, (uint)(Owner.HexX + (Owner.HexY * 16)));
+            _resource.ShowComplexImage(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface, index: 0, offset: (uint)(Owner.HexX + (Owner.HexY * 16)));
         }
     }
 
@@ -171,7 +171,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
         if (!EditMode)
         {
             MapField mapField = Owner;
-            mapField.Owner.Map.TerrainChangedRadius(mapField.HexX, mapField.HexY, mapField.HexLevel, 0);
+            mapField.Owner.Map.TerrainChangedRadius(mapField.HexX, mapField.HexY, L: mapField.HexLevel, radius: 0);
         }
 
         return true;
@@ -201,7 +201,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
 
                 if (!EditMode)
                 {
-                    mapField.Owner.Map.TerrainChangedRadius(mapField.HexX, mapField.HexY, mapField.HexLevel, 0);
+                    mapField.Owner.Map.TerrainChangedRadius(mapField.HexX, mapField.HexY, L: mapField.HexLevel, radius: 0);
                 }
             }
 
@@ -215,7 +215,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
         bool result;
         if (!Status.Contains(MapObjectStatusElement.PlacedOnMap))
         {
-            HexGeometry.PixelToHex(pixelX, pixelY, out int hexX, out int hexY);
+            HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int hexX, out int hexY);
             if (EditMode || CanPlace(mapContainer, (sbyte)hexX, (sbyte)hexY, (sbyte)hexLevel))
             {
                 result = PlaceHex(mapContainer, (sbyte)hexX, (sbyte)hexY, (sbyte)hexLevel);
@@ -263,7 +263,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     // MAPOBJ.PAS:206
     public override bool Place(MapContainer mapContainer, int pixelX, int pixelY, int hexLevel)
     {
-        HexGeometry.PixelToHex(pixelX, pixelY, out int hexX, out int hexY);
+        HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int hexX, out int hexY);
         return PlaceHex(mapContainer, (sbyte)hexX, (sbyte)hexY, (sbyte)hexLevel);
     }
 
@@ -318,7 +318,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
         if (!Status.Contains(MapObjectStatusElement.Visible))
         {
             Status += Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Visible);
-            _ = visibilityList.AddSortChild(this, GetShowPriority());
+            _ = visibilityList.AddSortChild(this, sortValue: GetShowPriority());
         }
     }
 

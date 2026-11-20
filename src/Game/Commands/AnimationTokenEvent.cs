@@ -32,7 +32,7 @@ public class AnimationTokenEvent(CustomNode owner) : TokenEvent(owner)
         {
             if (_state == AnimationTokenEventState.Idle)
             {
-                if (_animation.PlaceTokenEvent(this, tokenEvent))
+                if (_animation.PlaceTokenEvent(this, executor: tokenEvent))
                 {
                     _state = AnimationTokenEventState.Playing;
                 }
@@ -44,9 +44,9 @@ public class AnimationTokenEvent(CustomNode owner) : TokenEvent(owner)
 
             if (_state == AnimationTokenEventState.Playing)
             {
-                if (!_animation.ExecuteTokenEvent(this, tokenEvent))
+                if (!_animation.ExecuteTokenEvent(this, executor: tokenEvent))
                 {
-                    _ = _animation.RemoveTokenEvent(this, tokenEvent);
+                    _ = _animation.RemoveTokenEvent(this, executor: tokenEvent);
                     _state = AnimationTokenEventState.Done;
                 }
             }

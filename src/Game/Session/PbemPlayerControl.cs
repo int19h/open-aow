@@ -49,7 +49,7 @@ public class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owner)
                     Mode = 2,
                     SendPlayer = player
                 };
-                StrategicMap.Current.TriggerExecuteEventLog(log, false, SendEmailGameCallback);
+                StrategicMap.Current.TriggerExecuteEventLog(log, immediate: false, done: SendEmailGameCallback);
                 _ = log.Release();
             }
             else
@@ -141,7 +141,7 @@ public class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owner)
             {
                 SaveGameEventLog log = new(null, holder: CreationHolder())
                 {
-                    Title = AbilityRules.TranslateResourceString(GetEngine(), s_saveEmailGameText)
+                    Title = AbilityRules.TranslateResourceString(GetEngine(), S: s_saveEmailGameText)
                 };
                 if (!IsEmpty(StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.EmailGame.Name))
                 {
@@ -149,14 +149,14 @@ public class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owner)
                 }
 
                 log.Directory = $"{GetEngine().StartupDirectory}EmailIn\\";
-                StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ExitGameSaveAsCallback);
+                StrategicMap.Current.TriggerTypedExecuteEventLog(log, immediate: false, done: ExitGameSaveAsCallback);
                 _ = log.Release();
             }
             else
             {
                 // A game file outside EmailIn takes the name the host writes (own-formats.md 4.2).
                 StrategicMap.Current.FileName = FileBoundary.WriteName(StrategicMap.Current.FileName);
-                GetEngine().SaveHsm(StrategicMap.Current.FileName, null, GameProfile.WorldMap);
+                GetEngine().SaveHsm(StrategicMap.Current.FileName, progress: null, profile: GameProfile.WorldMap);
                 StrategicMap.Current.ExecuteExitGame();
             }
         }
@@ -175,7 +175,7 @@ public class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owner)
             {
                 SaveGameEventLog saveLog = new(null, holder: CreationHolder())
                 {
-                    Title = AbilityRules.TranslateResourceString(GetEngine(), s_saveEmailGameText)
+                    Title = AbilityRules.TranslateResourceString(GetEngine(), S: s_saveEmailGameText)
                 };
                 if (!IsEmpty(StrategicMap.Current.Players.GetPlayers(player).PbemSettings.EmailGame.Name))
                 {
@@ -183,7 +183,7 @@ public class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owner)
                 }
 
                 saveLog.Directory = $"{GetEngine().StartupDirectory}EmailIn\\";
-                StrategicMap.Current.TriggerTypedExecuteEventLog(saveLog, false, EndTurnGameSavedCallback);
+                StrategicMap.Current.TriggerTypedExecuteEventLog(saveLog, immediate: false, done: EndTurnGameSavedCallback);
                 _ = saveLog.Release();
             }
             else
@@ -195,7 +195,7 @@ public class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owner)
                 bool saved;
                 try
                 {
-                    GetEngine().SaveHsm(StrategicMap.Current.FileName, null, GameProfile.WorldMap);
+                    GetEngine().SaveHsm(StrategicMap.Current.FileName, progress: null, profile: GameProfile.WorldMap);
                     saved = true;
                 }
                 catch
@@ -210,9 +210,9 @@ public class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owner)
                 else
                 {
                     MessageEventLog messageLog = new(null, holder: CreationHolder());
-                    string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CouldNotSaveFormat) + ".", [StrategicMap.Current.FileName]);
+                    string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CouldNotSaveFormat) + ".", arguments: [StrategicMap.Current.FileName]);
                     messageLog.Message.Text = format;
-                    StrategicMap.Current.TriggerExecuteEventLog(messageLog, false, TerminateEmailGameCallback);
+                    StrategicMap.Current.TriggerExecuteEventLog(messageLog, immediate: false, done: TerminateEmailGameCallback);
                     _ = messageLog.Release();
                 }
             }
@@ -225,7 +225,7 @@ public class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owner)
     }
 
     // PlayerC.PAS:887
-    public void TerminateEmailGame() => StrategicMap.Current.ExitGame(ExitGameMode.Exit, null);
+    public void TerminateEmailGame() => StrategicMap.Current.ExitGame(ExitGameMode.Exit, done: null);
 
     // PlayerC.PAS:890
     public void TerminateEmailGameCallback(EventLog log) => TerminateEmailGame();
@@ -242,7 +242,7 @@ public class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owner)
                 Mode = 1,
                 SendPlayer = StrategicMap.Current.CurrentPlayer
             };
-            StrategicMap.Current.TriggerExecuteEventLog(sendLog, false, SendEmailGameCallback);
+            StrategicMap.Current.TriggerExecuteEventLog(sendLog, immediate: false, done: SendEmailGameCallback);
             _ = sendLog.Release();
         }
         else
@@ -259,8 +259,8 @@ public class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owner)
         {
             try
             {
-                GetEngine().SaveHsm(log.FileName, null, GameProfile.WorldMap);
-                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.GameSavedFormat), [log.FileName]);
+                GetEngine().SaveHsm(log.FileName, progress: null, profile: GameProfile.WorldMap);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.GameSavedFormat), arguments: [log.FileName]);
                 StrategicMap.Current.ShowMessage(format);
                 failed = false;
             }
@@ -278,17 +278,17 @@ public class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owner)
         if (failed)
         {
             messageLog = new MessageEventLog(null, holder: CreationHolder());
-            string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CouldNotSaveFormat) + ".", [log.FileName]);
+            string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CouldNotSaveFormat) + ".", arguments: [log.FileName]);
             messageLog.Message.Text = format;
-            StrategicMap.Current.TriggerExecuteEventLog(messageLog, false, TerminateEmailGameCallback);
+            StrategicMap.Current.TriggerExecuteEventLog(messageLog, immediate: false, done: TerminateEmailGameCallback);
             _ = messageLog.Release();
         }
         else
         {
             messageLog = new MessageEventLog(null, holder: CreationHolder());
-            string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_gameSuccessfullySavedText) + ".", [log.FileName]);
+            string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_gameSuccessfullySavedText) + ".", arguments: [log.FileName]);
             messageLog.Message.Text = format;
-            StrategicMap.Current.TriggerExecuteEventLog(messageLog, false, TerminateEmailGameCallback);
+            StrategicMap.Current.TriggerExecuteEventLog(messageLog, immediate: false, done: TerminateEmailGameCallback);
             _ = messageLog.Release();
         }
     }
@@ -307,9 +307,9 @@ public class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owner)
             Player = player
         };
         string name = StrategicMap.Current.Players.GetPlayers(player).GetName();
-        string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_gameRestartEventLogFormat), [name]);
+        string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_gameRestartEventLogFormat), arguments: [name]);
         log.Message.Text = format;
-        EventLog.DistributeEventLog(log, false);
+        EventLog.DistributeEventLog(log, execute: false);
         _ = log.Release();
         StrategicMap.Current.SynchronizeEnd();
     }
@@ -324,8 +324,8 @@ public class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owner)
             {
                 Player players = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer);
                 StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.Status = players.PbemSettings.Status + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.TurnDone) - Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.Playing);
-                GetEngine().SaveHsm(log.FileName, null, GameProfile.WorldMap);
-                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.GameSavedFormat), [log.FileName]);
+                GetEngine().SaveHsm(log.FileName, progress: null, profile: GameProfile.WorldMap);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.GameSavedFormat), arguments: [log.FileName]);
                 StrategicMap.Current.ShowMessage(format);
                 StrategicMap.Current.SynchronizeBegin();
                 base.EndTurn(StrategicMap.Current.CurrentPlayer);
@@ -334,7 +334,7 @@ public class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owner)
             }
             catch
             {
-                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CouldNotSaveFormat), [log.FileName]);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CouldNotSaveFormat), arguments: [log.FileName]);
                 StrategicMap.Current.ShowWarning(format);
                 failed = true;
             }
@@ -435,14 +435,14 @@ public class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owner)
                 log = new MessageEventLog(null, holder: CreationHolder())
                 {
                     Buttons = MessageEventLogButtons.YesNo,
-                    Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.WarningText)
+                    Title = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.WarningText)
                 };
-                string pbemRestartCheat = AbilityRules.TranslateResourceString(GetEngine(), s_pbemRestartCheatText);
+                string pbemRestartCheat = AbilityRules.TranslateResourceString(GetEngine(), S: s_pbemRestartCheatText);
                 log.Message.Text = pbemRestartCheat;
                 _ = log.Message.Add("");
-                string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_doYouWantToContinueText);
+                string translatedText = AbilityRules.TranslateResourceString(GetEngine(), S: s_doYouWantToContinueText);
                 _ = log.Message.Add(translatedText);
-                StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ContinueRestartedGameCallback);
+                StrategicMap.Current.TriggerTypedExecuteEventLog(log, immediate: false, done: ContinueRestartedGameCallback);
                 _ = log.Release();
             }
             else
@@ -452,15 +452,15 @@ public class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owner)
                 {
                     log = new MessageEventLog(null, holder: CreationHolder())
                     {
-                        Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.WarningText),
+                        Title = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.WarningText),
                         Buttons = MessageEventLogButtons.YesNo
                     };
-                    string pbemGameEnded = AbilityRules.TranslateResourceString(GetEngine(), s_pbemGameEndedText);
+                    string pbemGameEnded = AbilityRules.TranslateResourceString(GetEngine(), S: s_pbemGameEndedText);
                     log.Message.Text = pbemGameEnded;
                     _ = log.Message.Add("");
-                    string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_doYouWantToContinueText);
+                    string translatedText = AbilityRules.TranslateResourceString(GetEngine(), S: s_doYouWantToContinueText);
                     _ = log.Message.Add(translatedText);
-                    StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ContinueTurnDoneGameCallback);
+                    StrategicMap.Current.TriggerTypedExecuteEventLog(log, immediate: false, done: ContinueTurnDoneGameCallback);
                     _ = log.Release();
                 }
                 else
@@ -478,12 +478,12 @@ public class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owner)
         {
             try
             {
-                GetEngine().SaveHsm(log.FileName, null, GameProfile.WorldMap);
+                GetEngine().SaveHsm(log.FileName, progress: null, profile: GameProfile.WorldMap);
                 StrategicMap.Current.ExecuteExitGame();
             }
             catch
             {
-                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CouldNotSaveFormat), [log.FileName]);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CouldNotSaveFormat), arguments: [log.FileName]);
                 StrategicMap.Current.ShowWarning(format);
             }
         }

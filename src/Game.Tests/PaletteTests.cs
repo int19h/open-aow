@@ -15,7 +15,7 @@ public sealed class PaletteTests
         new Random(5).NextBytes(image);
         Palette palette = new();
         palette.LoadFromStream(new MemoryStream(image));
-        Assert.Equal((PixelFormat)BitConverter.ToInt32(image, 0), palette.PixelFormatId);
+        Assert.Equal((PixelFormat)BitConverter.ToInt32(image, startIndex: 0), palette.PixelFormatId);
         for (int i = 0; i < 256; i++)
         {
             Palette.Entry entry = palette[i];
@@ -23,8 +23,8 @@ public sealed class PaletteTests
             Assert.Equal(image[5 + (4 * i)], entry.Green);
             Assert.Equal(image[6 + (4 * i)], entry.Blue);
             Assert.Equal(image[7 + (4 * i)], entry.Flags);
-            Assert.Equal(BitConverter.ToUInt16(image, 4 + (4 * i)), entry.PackedColor);
-            Assert.Equal(BitConverter.ToUInt32(image, 4 + (4 * i)), entry.Value);
+            Assert.Equal(BitConverter.ToUInt16(image, startIndex: 4 + (4 * i)), entry.PackedColor);
+            Assert.Equal(BitConverter.ToUInt32(image, startIndex: 4 + (4 * i)), entry.Value);
             Assert.Equal(entry.Value, palette.Pixels[i]);
         }
 
@@ -92,7 +92,7 @@ public sealed class PaletteTests
         for (int shift = 0; shift < 32; shift += 8)
         {
             second[200] = new(first[200].Value ^ (0x80u << shift));
-            Assert.Equal((compared & (0x80u << shift)) == 0, first.Compare(second));
+            Assert.Equal((compared & (0x80u << shift)) == 0, actual: first.Compare(second));
         }
     }
 

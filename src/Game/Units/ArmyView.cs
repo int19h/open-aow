@@ -26,9 +26,9 @@ public class ArmyView(CustomNode owner) : Army(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.UInt16Array(persister, "UnitConcealment", UnitConcealment);
+        PersistSupport.UInt16Array(persister, name: "UnitConcealment", values: UnitConcealment);
         ConcealedForPlayers = persister.UInt16("ConcealedForPlayers", ConcealedForPlayers);
-        PersistSupport.Int32Array(persister, "MoraleValues", MoraleValues);
+        PersistSupport.Int32Array(persister, name: "MoraleValues", values: MoraleValues);
     }
 
     // Army.PAS:130
@@ -73,7 +73,7 @@ public class ArmyView(CustomNode owner) : Army(owner)
                 MoraleValues[count - 1] = unit.MoraleValue;
                 for (int player = 1, lastPlayer = StrategicMap.Current.Players.GetCount() - 1; player <= lastPlayer; player++)
                 {
-                    SetUnitConcealedForPlayer(value: army.GetUnitConcealedForPlayer(i, (sbyte)player), index: Units.Count - 1, player: (sbyte)player);
+                    SetUnitConcealedForPlayer(value: army.GetUnitConcealedForPlayer(i, player: (sbyte)player), index: Units.Count - 1, player: (sbyte)player);
                 }
             }
 

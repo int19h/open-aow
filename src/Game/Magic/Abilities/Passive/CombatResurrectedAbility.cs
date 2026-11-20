@@ -12,7 +12,7 @@ public class CombatResurrectedAbility : AdjustableAbility
     public CombatResurrectedAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.ResurrectedText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.ResurrectedText);
         AbilityId = 130;
         AbilityType = AbilityType.Handicap;
         SelectionTypes = Set<AbilitySelectionType>.Of();

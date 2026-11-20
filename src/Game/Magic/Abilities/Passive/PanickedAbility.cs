@@ -12,7 +12,7 @@ public class PanickedAbility : DurationAbility
     public PanickedAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_panickedText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_panickedText);
         AbilityId = 108;
         AbilityType = AbilityType.Handicap;
         DurationMode = DurationMode.EntireCombat;

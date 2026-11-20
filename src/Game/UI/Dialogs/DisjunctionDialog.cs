@@ -58,7 +58,7 @@ public partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
                         reason = magic.Enchantments.GetEnchantments(i).GetName();
                         string name = magic.Enchantments.GetEnchantments(i).GetName();
                         GlobalEnchantment enchantmentEnchantmentId = magic.Enchantments.GetEnchantments(i);
-                        _ = EnchantmentList.Items.AddObject(name, IntToObject(enchantmentEnchantmentId.EnchantmentId));
+                        _ = EnchantmentList.Items.AddObject(name, item: IntToObject(enchantmentEnchantmentId.EnchantmentId));
                         GlobalEnchantment enchantmentPlayerIndex = magic.Enchantments.GetEnchantments(i);
                         Player player = StrategicMap.Current.Players.GetPlayers(enchantmentPlayerIndex.PlayerIndex);
                         _ = OwnerList.Items.Add(player.Leader.HeroName);
@@ -77,16 +77,16 @@ public partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
         switch (_sortOrder)
         {
             case 0:
-                StringSorting.SortStringsAscending(EnchantmentList.Items, [OwnerList.Items]);
+                StringSorting.SortStringsAscending(EnchantmentList.Items, linkedStrings: [OwnerList.Items]);
                 break;
             case 1:
-                StringSorting.SortStringsDescending(EnchantmentList.Items, [OwnerList.Items]);
+                StringSorting.SortStringsDescending(EnchantmentList.Items, linkedStrings: [OwnerList.Items]);
                 break;
             case 2:
-                StringSorting.SortStringsAscending(OwnerList.Items, [EnchantmentList.Items]);
+                StringSorting.SortStringsAscending(OwnerList.Items, linkedStrings: [EnchantmentList.Items]);
                 break;
             case 3:
-                StringSorting.SortStringsDescending(OwnerList.Items, [EnchantmentList.Items]);
+                StringSorting.SortStringsDescending(OwnerList.Items, linkedStrings: [EnchantmentList.Items]);
                 break;
             default:
                 break;
@@ -251,8 +251,8 @@ public partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
             y = 16;
         }
 
-        LockedSurface.CreateFrom(lockedSurface, r, out LockedSurface mapSurfaceDescription);
-        _ = StrategicMap.Current.SetViewPort(x, y, Location.MapLevel, r.Right - r.Left, r.Bottom - r.Top);
+        LockedSurface.CreateFrom(lockedSurface, r, destination: out LockedSurface mapSurfaceDescription);
+        _ = StrategicMap.Current.SetViewPort(x, y, lHitPoints: Location.MapLevel, r.Right - r.Left, r.Bottom - r.Top);
         StrategicMap.Current.UpdateStaticScene();
         StrategicMap.Current.UpdateDynamicScene();
         StrategicMap.Current.DrawStaticScene(in mapSurfaceDescription);

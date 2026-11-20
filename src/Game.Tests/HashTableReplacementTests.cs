@@ -43,10 +43,10 @@ public sealed class HashTableReplacementTests
         };
         control.UnregisterUnit(other);
         Assert.Same(first, control.FindUnit(4));
-        Assert.Contains(first, control.Units);
+        Assert.Contains(first, collection: control.Units);
         control.UnregisterUnit(first);
         Assert.Null(control.FindUnit(4));
-        Assert.DoesNotContain(first, control.Units);
+        Assert.DoesNotContain(first, collection: control.Units);
     }
 
     [Fact]

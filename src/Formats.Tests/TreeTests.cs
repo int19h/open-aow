@@ -14,9 +14,9 @@ namespace Aow.Formats.Tests;
 /// </summary>
 public sealed class TreeTests : FormatsTest
 {
-    private static FormatSchema Schema { get; } = FormatSchema.Load(File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "TreeSchema.json")), "TreeSchema.json");
+    private static FormatSchema Schema { get; } = FormatSchema.Load(File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "TreeSchema.json")), file: "TreeSchema.json");
 
-    private static FormatSchema Version1 { get; } = FormatSchema.Load(File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "TreeSchemaV1.json")), "TreeSchemaV1.json");
+    private static FormatSchema Version1 { get; } = FormatSchema.Load(File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "TreeSchemaV1.json")), file: "TreeSchemaV1.json");
 
     private static SchemaClass SampleClass => Schema.Get(NameTable.Stored(typeof(Sample)));
 
@@ -29,10 +29,10 @@ public sealed class TreeTests : FormatsTest
         Assert.Equal("0a0b0c0d", ((JsonString)document["Blob"]!).Value);
         Assert.Equal("Jörg", ((JsonString)document["Title"]!).Value);
         Assert.Equal(4, ((JsonInteger)document["Player"]!).Value);
-        ObjectNode readNode = DocumentBackend.Read(document, SampleClass, Schema, "game");
+        ObjectNode readNode = DocumentBackend.Read(document, classValue: SampleClass, Schema, engine: "game");
         Assert.Equal([("Player", 4)], readNode.References("player-slot").ToList());
         Sample loaded = new();
-        TreeReader.Read(readNode, loaded, new TestFactory());
+        TreeReader.Read(readNode, objectValue: loaded, factory: new TestFactory());
         AssertSame(source, loaded);
     }
 
@@ -69,7 +69,7 @@ public sealed class TreeTests : FormatsTest
         loaded.Kids.Add(new Inner { Number = 1 });
         loaded.Made = new Inner { Number = 1 };
         loaded.Fixed.Number = 5;
-        TreeReader.Read(DocumentBackend.Read(document, SampleClass, Schema, "game"), loaded, new TestFactory());
+        TreeReader.Read(DocumentBackend.Read(document, classValue: SampleClass, Schema, engine: "game"), objectValue: loaded, factory: new TestFactory());
         AssertSame(new Sample(), loaded);
     }
 
@@ -107,18 +107,18 @@ public sealed class TreeTests : FormatsTest
     public void AnEmptyByteSpanIsOmittedAndAnAbsentValueLeavesTheSpan()
     {
         BytesProbe empty = new();
-        ObjectNode node = TreeWriter.Write(empty, new TestFactory());
+        ObjectNode node = TreeWriter.Write(empty, factory: new TestFactory());
         Assert.Null(node.Find("Blob"));
         BytesProbe kept = new() { Data = [9, 9] };
-        TreeReader.Read(node, kept, new TestFactory());
+        TreeReader.Read(node, objectValue: kept, factory: new TestFactory());
         Assert.Equal([9, 9], kept.Data);
         BytesProbe wrong = new() { Data = [1, 2] };
-        ConversionException mismatch = Assert.Throws<ConversionException>(() => TreeReader.Read(TreeWriter.Write(new BytesProbe { Data = [1, 2, 3, 4] }, new TestFactory()), wrong, new TestFactory()));
+        ConversionException mismatch = Assert.Throws<ConversionException>(() => TreeReader.Read(TreeWriter.Write(new BytesProbe { Data = [1, 2, 3, 4] }, factory: new TestFactory()), objectValue: wrong, factory: new TestFactory()));
         Assert.Equal(Codes.Range, mismatch.Diagnostic.Code);
         Assert.Equal("root.Blob", mismatch.Diagnostic.Path);
-        ObjectNode shortNode = new(null, null);
+        ObjectNode shortNode = new(null, slot: null);
         shortNode.Add("Blob", new BytesNode([1, 2]));
-        ConversionException size = Assert.Throws<ConversionException>(() => DocumentBackend.Write(shortNode, SampleClass, Schema, "game"));
+        ConversionException size = Assert.Throws<ConversionException>(() => DocumentBackend.Write(shortNode, classValue: SampleClass, Schema, engine: "game"));
         Assert.Equal(Codes.Range, size.Diagnostic.Code);
         Assert.Equal("root.Blob", size.Diagnostic.Path);
     }
@@ -138,8 +138,8 @@ public sealed class TreeTests : FormatsTest
         Sample source = new();
         source.EditorLines.Add("a\rb");
         source.EditorObjects.Add(1);
-        ObjectNode node = TreeWriter.Write(source, new TestFactory());
-        ConversionException error = Assert.Throws<ConversionException>(() => DocumentBackend.Write(node, SampleClass, Schema, "game"));
+        ObjectNode node = TreeWriter.Write(source, factory: new TestFactory());
+        ConversionException error = Assert.Throws<ConversionException>(() => DocumentBackend.Write(node, classValue: SampleClass, Schema, engine: "game"));
         Assert.Equal(Codes.Corrupt, error.Diagnostic.Code);
         Assert.Equal("root.Editors", error.Diagnostic.Path);
     }
@@ -148,19 +148,19 @@ public sealed class TreeTests : FormatsTest
     public void AnUnconsumedMemberIsAnErrorWithItsPath()
     {
         Sample source = new() { SkipNote = true, Note = "kept" };
-        ObjectNode node = TreeWriter.Write(new Sample { Note = "kept" }, new TestFactory());
-        ConversionException error = Assert.Throws<ConversionException>(() => TreeReader.Read(node, source, new TestFactory()));
+        ObjectNode node = TreeWriter.Write(new Sample { Note = "kept" }, factory: new TestFactory());
+        ConversionException error = Assert.Throws<ConversionException>(() => TreeReader.Read(node, objectValue: source, factory: new TestFactory()));
         Assert.Equal(Codes.Required, error.Diagnostic.Code);
         Assert.Equal("root.Note", error.Diagnostic.Path);
-        Assert.Contains("was not read", error.Diagnostic.Message, StringComparison.Ordinal);
+        Assert.Contains("was not read", error.Diagnostic.Message, comparisonType: StringComparison.Ordinal);
     }
 
     [Fact]
     public void HasDoesNotConsumeAMember()
     {
-        ObjectNode node = TreeWriter.Write(new Sample { Note = "kept" }, new TestFactory());
+        ObjectNode node = TreeWriter.Write(new Sample { Note = "kept" }, factory: new TestFactory());
         Sample target = new() { SkipNote = true };
-        ConversionException error = Assert.Throws<ConversionException>(() => TreeReader.Read(node, target, new TestFactory()));
+        ConversionException error = Assert.Throws<ConversionException>(() => TreeReader.Read(node, objectValue: target, factory: new TestFactory()));
         Assert.Equal("root.Note", error.Diagnostic.Path);
         Assert.True(target.HadNote);
     }
@@ -168,32 +168,32 @@ public sealed class TreeTests : FormatsTest
     [Fact]
     public void ANestedRefusalIsSwallowedUnlessTheHandlerStops()
     {
-        ObjectNode made = new(nameof(Inner), null);
-        made.Add("N", new IntegerNode(4, true, 2));
-        made.Add("Extra", new IntegerNode(4, true, 1));
-        ObjectNode created = new(null, null);
+        ObjectNode made = new(nameof(Inner), slot: null);
+        made.Add("N", new IntegerNode(4, signed: true, value: 2));
+        made.Add("Extra", new IntegerNode(4, signed: true, value: 1));
+        ObjectNode created = new(null, slot: null);
         created.Add("Made", made);
-        created.Add("Number", new IntegerNode(4, true, 6));
+        created.Add("Number", new IntegerNode(4, signed: true, value: 6));
         Sample continued = new() { Number = 1 };
-        TreeReader.Read(created, continued, new TestFactory());
+        TreeReader.Read(created, objectValue: continued, factory: new TestFactory());
         Assert.Null(continued.Made);
         Assert.Equal(6, continued.Number);
         Sample stopped = new() { Number = 1 };
         ConversionException createdError = Assert.Throws<ConversionException>(() =>
-            TreeReader.Read(created, stopped, new TestFactory(), static (_, out cont) => cont = false));
+            TreeReader.Read(created, objectValue: stopped, factory: new TestFactory(), static (_, out cont) => cont = false));
         Assert.Equal(Codes.Required, createdError.Diagnostic.Code);
         Assert.Equal("root.Made.Extra", createdError.Diagnostic.Path);
         Assert.Equal(1, stopped.Number);
 
-        ObjectNode nested = new(null, null);
+        ObjectNode nested = new(null, slot: null);
         nested.Add("N", new BooleanNode(true));
-        ObjectNode parent = new(null, null);
+        ObjectNode parent = new(null, slot: null);
         parent.Add("Fixed", nested);
-        parent.Add("Number", new IntegerNode(4, true, 6));
+        parent.Add("Number", new IntegerNode(4, signed: true, value: 6));
         Sample kept = new() { Number = 1 };
         kept.Fixed.Number = 4;
         Inner instance = kept.Fixed;
-        TreeReader.Read(parent, kept, new TestFactory());
+        TreeReader.Read(parent, objectValue: kept, factory: new TestFactory());
         Assert.Same(instance, kept.Fixed);
         Assert.Equal(4, kept.Fixed.Number);
         Assert.Equal(6, kept.Number);
@@ -201,7 +201,7 @@ public sealed class TreeTests : FormatsTest
         refused.Fixed.Number = 4;
         Inner refusedFixed = refused.Fixed;
         ConversionException fixedError = Assert.Throws<ConversionException>(() =>
-            TreeReader.Read(parent, refused, new TestFactory(), static (_, out cont) => cont = false));
+            TreeReader.Read(parent, objectValue: refused, factory: new TestFactory(), static (_, out cont) => cont = false));
         Assert.Equal(Codes.Type, fixedError.Diagnostic.Code);
         Assert.Equal("root.Fixed.N", fixedError.Diagnostic.Path);
         Assert.Same(refusedFixed, refused.Fixed);
@@ -214,12 +214,12 @@ public sealed class TreeTests : FormatsTest
     {
         JsonObject document = Write(new Sample());
         _ = document.Add("Nope", new JsonInteger(1));
-        ConversionException error = Assert.Throws<ConversionException>(() => DocumentBackend.Read(document, SampleClass, Schema, "game"));
+        ConversionException error = Assert.Throws<ConversionException>(() => DocumentBackend.Read(document, classValue: SampleClass, Schema, engine: "game"));
         Assert.Equal(Codes.UnknownMember, error.Diagnostic.Code);
         Assert.Equal("root.Nope", error.Diagnostic.Path);
         JsonObject nested = Write(new Sample());
         _ = ((JsonObject)nested["Fixed"]!).Add("Nope", new JsonInteger(1));
-        ConversionException nestedError = Assert.Throws<ConversionException>(() => DocumentBackend.Read(nested, SampleClass, Schema, "game"));
+        ConversionException nestedError = Assert.Throws<ConversionException>(() => DocumentBackend.Read(nested, classValue: SampleClass, Schema, engine: "game"));
         Assert.Equal("root.Fixed.Nope", nestedError.Diagnostic.Path);
     }
 
@@ -228,10 +228,10 @@ public sealed class TreeTests : FormatsTest
     {
         JsonObject document = Write(new Sample());
         _ = document.Add("Fixed", new JsonObject());
-        ConversionException error = Assert.Throws<ConversionException>(() => DocumentBackend.Read(document, SampleClass, Schema, "game"));
+        ConversionException error = Assert.Throws<ConversionException>(() => DocumentBackend.Read(document, classValue: SampleClass, Schema, engine: "game"));
         Assert.Equal(Codes.Duplicate, error.Diagnostic.Code);
         Assert.Equal("root.Fixed", error.Diagnostic.Path);
-        ConversionException twice = Assert.Throws<ConversionException>(() => TreeWriter.Write(new Twice { Number = 1 }, new TestFactory()));
+        ConversionException twice = Assert.Throws<ConversionException>(() => TreeWriter.Write(new Twice { Number = 1 }, factory: new TestFactory()));
         Assert.Equal(Codes.Duplicate, twice.Diagnostic.Code);
         Assert.Equal("root.Number", twice.Diagnostic.Path);
     }
@@ -261,13 +261,13 @@ public sealed class TreeTests : FormatsTest
     [Fact]
     public void ARecordThatGainsAFieldReadsTheOlderDocumentWithTheFallback()
     {
-        JsonObject older = (JsonObject)JsonReader.Parse("""{"Pair":{"A":2}}""", "older.json");
+        JsonObject older = (JsonObject)JsonReader.Parse("""{"Pair":{"A":2}}""", file: "older.json");
         Sample loaded = new();
-        TreeReader.Read(DocumentBackend.Read(older, SampleClass, Schema, "game"), loaded, new TestFactory());
+        TreeReader.Read(DocumentBackend.Read(older, classValue: SampleClass, Schema, engine: "game"), objectValue: loaded, factory: new TestFactory());
         Assert.Equal(2, loaded.PairA);
         Assert.Equal(4, loaded.PairB);
         Sample absent = new() { PairA = 9, PairB = 9 };
-        TreeReader.Read(DocumentBackend.Read(new JsonObject(), SampleClass, Schema, "game"), absent, new TestFactory());
+        TreeReader.Read(DocumentBackend.Read(new JsonObject(), classValue: SampleClass, Schema, engine: "game"), objectValue: absent, factory: new TestFactory());
         Assert.Equal(0, absent.PairA);
         Assert.Equal(4, absent.PairB);
         JsonObject written = Write(new Sample { PairA = 2, PairB = 4 });
@@ -279,39 +279,39 @@ public sealed class TreeTests : FormatsTest
     {
         FormatSchema current = FormatSchema.Current;
         SchemaClass enchantment = current.Get("TEnchantment");
-        ObjectNode unknown = new(null, null);
+        ObjectNode unknown = new(null, slot: null);
         unknown.Add("Extra", new ListNode());
-        ConversionException unknownError = Assert.Throws<ConversionException>(() => DocumentBackend.Write(unknown, enchantment, current, "game"));
+        ConversionException unknownError = Assert.Throws<ConversionException>(() => DocumentBackend.Write(unknown, classValue: enchantment, schema: current, engine: "game"));
         Assert.Equal(Codes.UnknownMember, unknownError.Diagnostic.Code);
         Assert.Equal("root.Extra", unknownError.Diagnostic.Path);
-        ObjectNode upkeep = new(null, null);
+        ObjectNode upkeep = new(null, slot: null);
         upkeep.Add("Upkeep", new ListNode());
-        ConversionException upkeepError = Assert.Throws<ConversionException>(() => DocumentBackend.Write(upkeep, enchantment, current, "game"));
+        ConversionException upkeepError = Assert.Throws<ConversionException>(() => DocumentBackend.Write(upkeep, classValue: enchantment, schema: current, engine: "game"));
         Assert.Equal(Codes.Type, upkeepError.Diagnostic.Code);
         Assert.Equal("root.Upkeep", upkeepError.Diagnostic.Path);
         Assert.Equal($"Version {OwnFormat.CurrentVersion} stores a list only for a fixed integer array.", upkeepError.Diagnostic.Message);
-        ObjectNode record = new(null, null);
+        ObjectNode record = new(null, slot: null);
         record.Add("Extra", new RecordNode());
-        ConversionException recordError = Assert.Throws<ConversionException>(() => DocumentBackend.Write(record, enchantment, current, "game"));
+        ConversionException recordError = Assert.Throws<ConversionException>(() => DocumentBackend.Write(record, classValue: enchantment, schema: current, engine: "game"));
         Assert.Equal("root.Extra", recordError.Diagnostic.Path);
         Assert.Equal(Codes.UnknownMember, recordError.Diagnostic.Code);
         Assert.Equal($"Class {enchantment.Name} has no member \"Extra\".", recordError.Diagnostic.Message);
         ConversionException upkeepDocument = Assert.Throws<ConversionException>(() => DocumentBackend.Read(
-            (JsonObject)JsonReader.Parse("""{"Upkeep":[1,2]}""", "upkeep.json"), enchantment, current, "game"));
+            (JsonObject)JsonReader.Parse("""{"Upkeep":[1,2]}""", file: "upkeep.json"), classValue: enchantment, schema: current, engine: "game"));
         Assert.Equal("root.Upkeep", upkeepDocument.Diagnostic.Path);
         Assert.Equal($"Version {OwnFormat.CurrentVersion} stores a list only for a fixed integer array.", upkeepDocument.Diagnostic.Message);
 
         FormatSchema schema = Version1;
         SchemaClass classValue = schema.Get("TRefuse");
-        ConversionException scores = Assert.Throws<ConversionException>(() => DocumentBackend.Read((JsonObject)JsonReader.Parse("""{"Scores":[1,2]}""", "list.json"), classValue, schema, "game"));
+        ConversionException scores = Assert.Throws<ConversionException>(() => DocumentBackend.Read((JsonObject)JsonReader.Parse("""{"Scores":[1,2]}""", file: "list.json"), classValue, schema, engine: "game"));
         Assert.Equal("root.Scores", scores.Diagnostic.Path);
         Assert.Equal("Version 1 does not store a list.", scores.Diagnostic.Message);
-        ConversionException pair = Assert.Throws<ConversionException>(() => DocumentBackend.Read((JsonObject)JsonReader.Parse("""{"Pair":{"A":1}}""", "record.json"), classValue, schema, "game"));
+        ConversionException pair = Assert.Throws<ConversionException>(() => DocumentBackend.Read((JsonObject)JsonReader.Parse("""{"Pair":{"A":1}}""", file: "record.json"), classValue, schema, engine: "game"));
         Assert.Equal("root.Pair", pair.Diagnostic.Path);
         Assert.Equal("Version 1 does not store a record.", pair.Diagnostic.Message);
-        ObjectNode node = new(null, null);
+        ObjectNode node = new(null, slot: null);
         node.Add("Scores", new ListNode());
-        ConversionException written = Assert.Throws<ConversionException>(() => DocumentBackend.Write(node, classValue, schema, "game"));
+        ConversionException written = Assert.Throws<ConversionException>(() => DocumentBackend.Write(node, classValue, schema, engine: "game"));
         Assert.Equal("root.Scores", written.Diagnostic.Path);
         Assert.Equal("Version 1 does not store a list.", written.Diagnostic.Message);
     }
@@ -319,27 +319,27 @@ public sealed class TreeTests : FormatsTest
     [Fact]
     public void Version1WritesAReferenceAsAPlainInteger()
     {
-        ObjectNode node = new(null, null);
-        node.Add("Upkeep", new ReferenceNode("player-slot", 4));
-        JsonObject document = DocumentBackend.Write(node, FormatSchema.Current.Get("TEnchantment"), FormatSchema.Current, "game");
+        ObjectNode node = new(null, slot: null);
+        node.Add("Upkeep", new ReferenceNode("player-slot", key: 4));
+        JsonObject document = DocumentBackend.Write(node, classValue: FormatSchema.Current.Get("TEnchantment"), schema: FormatSchema.Current, engine: "game");
         Assert.Equal(4, ((JsonInteger)document["Upkeep"]!).Value);
-        ObjectNode read = DocumentBackend.Read(document, FormatSchema.Current.Get("TEnchantment"), FormatSchema.Current, "game");
+        ObjectNode read = DocumentBackend.Read(document, classValue: FormatSchema.Current.Get("TEnchantment"), schema: FormatSchema.Current, engine: "game");
         _ = Assert.IsType<IntegerNode>(read.Find("Upkeep"));
         ReferenceProbe probe = new();
-        TreeReader.Read(node, probe, new TestFactory());
+        TreeReader.Read(node, objectValue: probe, factory: new TestFactory());
         Assert.Equal(4, probe.Key);
         ReferenceProbe fromDocument = new();
-        TreeReader.Read(read, fromDocument, new TestFactory());
+        TreeReader.Read(read, objectValue: fromDocument, factory: new TestFactory());
         Assert.Equal(4, fromDocument.Key);
     }
 
     private static JsonObject Write(Sample sample)
-        => DocumentBackend.Write(TreeWriter.Write(sample, new TestFactory()), SampleClass, Schema, "game");
+        => DocumentBackend.Write(TreeWriter.Write(sample, factory: new TestFactory()), classValue: SampleClass, Schema, engine: "game");
 
     private static Sample RoundTrip(Sample sample)
     {
         Sample loaded = new();
-        TreeReader.Read(DocumentBackend.Read(Write(sample), SampleClass, Schema, "game"), loaded, new TestFactory());
+        TreeReader.Read(DocumentBackend.Read(Write(sample), classValue: SampleClass, Schema, engine: "game"), objectValue: loaded, factory: new TestFactory());
         return loaded;
     }
 
@@ -387,7 +387,7 @@ public sealed class TreeTests : FormatsTest
         Assert.Equal(expected.SignedByte, actual.SignedByte);
         Assert.Equal(expected.Word, actual.Word);
         Assert.Equal(expected.WordFallback, actual.WordFallback);
-        Assert.Equal(expected.Flag, actual.Flag);
+        Assert.Equal(expected.Flag, actual: actual.Flag);
         Assert.Equal(expected.Title, actual.Title);
         Assert.Equal(expected.Note, actual.Note);
         Assert.Equal(expected.Player, actual.Player);
@@ -451,24 +451,24 @@ public sealed class TreeTests : FormatsTest
                 Kids.Clear();
             }
 
-            Player = persister.Reference("Player", "player-slot", Player);
-            persister.List("Flags", Flags, FlagItem);
-            persister.List("Scores", Scores, ScoreItem);
-            persister.Record("Pair", WritePair);
-            persister.Children("Children", new KidList(Kids));
+            Player = persister.Reference("Player", domain: "player-slot", key: Player);
+            persister.List("Flags", items: Flags, transfer: FlagItem);
+            persister.List("Scores", items: Scores, transfer: ScoreItem);
+            persister.Record("Pair", body: WritePair);
+            persister.Children("Children", children: new KidList(Kids));
             Made = persister.Created("Made", Made);
             persister.Object("Fixed", Fixed);
-            persister.Bytes("Blob", Blob);
-            persister.LinesWithObjects("Editors", EditorLines, EditorObjects);
-            persister.Lines("Message", Message);
+            persister.Bytes("Blob", data: Blob);
+            persister.LinesWithObjects("Editors", lines: EditorLines, objects: EditorObjects);
+            persister.Lines("Message", lines: Message);
             Title = persister.String("Title", Title);
-            Flag = persister.Boolean("Flag", Flag);
-            WordFallback = persister.UInt16("WordFallback", WordFallback, 9);
+            Flag = persister.Boolean("Flag", value: Flag);
+            WordFallback = persister.UInt16("WordFallback", WordFallback, fallback: 9);
             Word = persister.UInt16("Word", Word);
             SignedByte = persister.SByte("SignedByte", SignedByte);
-            SmallFallback = persister.Byte("SmallFallback", SmallFallback, 3);
+            SmallFallback = persister.Byte("SmallFallback", SmallFallback, fallback: 3);
             Small = persister.Byte("Small", Small);
-            NumberFallback = persister.Int32("NumberFallback", NumberFallback, 7);
+            NumberFallback = persister.Int32("NumberFallback", NumberFallback, fallback: 7);
             Number = persister.Int32("Number", Number);
             if (SkipNote)
             {
@@ -482,7 +482,7 @@ public sealed class TreeTests : FormatsTest
 
         private void WritePair(IPersister record)
         {
-            PairB = record.Int32("B", PairB, 4);
+            PairB = record.Int32("B", PairB, fallback: 4);
             PairA = record.Int32("A", PairA);
         }
 
@@ -532,7 +532,7 @@ public sealed class TreeTests : FormatsTest
     {
         public int Key { get; set; }
 
-        public void Persist(IPersister persister) => Key = persister.Reference("Upkeep", "player-slot", Key);
+        public void Persist(IPersister persister) => Key = persister.Reference("Upkeep", domain: "player-slot", Key);
     }
 
     private sealed class TestFactory : IPersistableFactory
@@ -541,9 +541,9 @@ public sealed class TreeTests : FormatsTest
 
         public IPersistable Create(string className)
         {
-            return NameTable.Names(typeof(Inner), className)
+            return NameTable.Names(typeof(Inner), name: className)
                 ? new Inner()
-                : NameTable.Names(typeof(Sample), className)
+                : NameTable.Names(typeof(Sample), name: className)
                 ? (IPersistable)new Sample()
                 : throw new InvalidOperationException($"The test factory has no class {className}.");
         }

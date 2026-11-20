@@ -31,15 +31,15 @@ public sealed class StringRoutineTests
                 {
                     string changed = text;
                     string changedAnsi = ansi;
-                    DelphiStrings.Insert(source, ref changed, index);
-                    DelphiStrings.Insert(Ansi(source), ref changedAnsi, index);
+                    DelphiStrings.Insert(source, value: ref changed, index);
+                    DelphiStrings.Insert(Ansi(source), value: ref changedAnsi, index);
                     Assert.Equal(changedAnsi, changed);
-                    Assert.Equal(DelphiStrings.Insert(Ansi(source), ansi, index), DelphiStrings.Insert(source, text, index));
+                    Assert.Equal(DelphiStrings.Insert(Ansi(source), value: ansi, index), DelphiStrings.Insert(source, value: text, index));
                 }
             }
         }
         string self = "abcd";
-        DelphiStrings.Insert(self, ref self, 3);
+        DelphiStrings.Insert(self, value: ref self, index: 3);
         Assert.Equal("ababcdcd", self);
     }
 
@@ -51,8 +51,8 @@ public sealed class StringRoutineTests
             ("a", ""), ("", ""), ("aa", "aaaa"), ("abcde", "abcd"),
             ("\0b", "a\0b"), ("\u20ac", "a\u20ac\u00ff"), ("\u00ff", "\u20ac") })
         {
-            Assert.Equal(DelphiStrings.Pos(Ansi(needle), Ansi(text)), DelphiStrings.Pos(needle, text));
-            Assert.Equal(DelphiStrings.AnsiPos(Ansi(needle), Ansi(text)), DelphiStrings.AnsiPos(needle, text));
+            Assert.Equal(DelphiStrings.Pos(Ansi(needle), haystack: Ansi(text)), DelphiStrings.Pos(needle, haystack: text));
+            Assert.Equal(DelphiStrings.AnsiPos(Ansi(needle), value: Ansi(text)), DelphiStrings.AnsiPos(needle, value: text));
         }
     }
 
@@ -67,7 +67,7 @@ public sealed class StringRoutineTests
             {
                 foreach (byte b in new byte[] { 0, 88, 128, 255 })
                 {
-                    Assert.Equal(DelphiStrings.WithChar(ansi, i, Cp1252.Char(b)), DelphiStrings.WithChar(text, i, Cp1252.Char(b)));
+                    Assert.Equal(DelphiStrings.WithChar(ansi, index: i, character: Cp1252.Char(b)), DelphiStrings.WithChar(text, index: i, character: Cp1252.Char(b)));
                 }
             }
 
@@ -83,18 +83,18 @@ public sealed class StringRoutineTests
             }
             foreach (int index in new[] { int.MinValue, -1, 0, text.Length + 1, int.MaxValue })
             {
-                _ = Assert.Throws<IndexOutOfRangeException>(() => DelphiStrings.WithChar(text, index, 'X'));
+                _ = Assert.Throws<IndexOutOfRangeException>(() => DelphiStrings.WithChar(text, index, character: 'X'));
             }
 
-            _ = Assert.Throws<ArgumentOutOfRangeException>(() => DelphiStrings.Resized(text, -1));
+            _ = Assert.Throws<ArgumentOutOfRangeException>(() => DelphiStrings.Resized(text, length: -1));
             string invalid = text;
-            _ = Assert.Throws<ArgumentOutOfRangeException>(() => DelphiStrings.SetLength(ref invalid, -1));
+            _ = Assert.Throws<ArgumentOutOfRangeException>(() => DelphiStrings.SetLength(ref invalid, length: -1));
             Assert.Equal(text, invalid);
         }
         string original = "abc";
-        Assert.Equal("aXc", DelphiStrings.WithChar(original, 2, 'X'));
+        Assert.Equal("aXc", DelphiStrings.WithChar(original, index: 2, character: 'X'));
         Assert.Equal("abc", original);
-        Assert.Equal("abc\0\0", DelphiStrings.Resized(original, 5));
+        Assert.Equal("abc\0\0", DelphiStrings.Resized(original, length: 5));
     }
 
     [Fact]
@@ -153,7 +153,7 @@ public sealed class StringRoutineTests
             "$100000000", "$G", "1\n", "\0" + "1", "  +42", "-0", "$80000000",
             "$abcdef", "00000000", "0002147483647", "12\0junk", "$fF\0junk", "-2147483647" })
         {
-            Assert.Equal(DelphiConversions.StrToIntDef(Ansi(text), 91), DelphiConversions.StrToIntDef(text, 91));
+            Assert.Equal(DelphiConversions.StrToIntDef(Ansi(text), fallback: 91), DelphiConversions.StrToIntDef(text, fallback: 91));
             Exception? error = Record.Exception(() => DelphiConversions.StrToInt(Ansi(text)));
             if (error is null)
             {
@@ -178,14 +178,14 @@ public sealed class StringRoutineTests
             Assert.Equal(PCharStrings.NullTerminatedText(ansi), PCharStrings.NullTerminatedText(text));
             foreach (int length in new[] { -1, 0, text.Length })
             {
-                PCharStrings.SetString(out string value, pointer, length);
+                PCharStrings.SetString(out string value, source: pointer, length);
                 Assert.Equal(PCharStrings.SetString(pointer, length), value);
             }
         }
         Assert.Equal("", PCharStrings.FromPChar(default));
         foreach (int length in new[] { -1, 0, 3 })
         {
-            PCharStrings.SetString(out string value, default, length);
+            PCharStrings.SetString(out string value, source: default, length);
             Assert.Equal(PCharStrings.SetString(default, length), value);
         }
     }
@@ -195,23 +195,23 @@ public sealed class StringRoutineTests
     {
         using StringMode mode = new(false);
         Assert.Equal(0, DelphiStrings.Length(null));
-        Assert.Equal("", DelphiStrings.Copy(null, 1, 3));
-        Assert.Equal("", DelphiStrings.Delete(null, 1, 3));
-        Assert.Equal("x", DelphiStrings.Insert("x", null, 1));
-        Assert.Equal("x", DelphiStrings.Insert(null, "x", 1));
-        Assert.Equal(0, DelphiStrings.Pos(null, "x"));
-        Assert.Equal(0, DelphiStrings.Pos("x", null));
-        Assert.Equal(0, DelphiStrings.AnsiPos(null, null));
-        Assert.Equal("\0\0", DelphiStrings.Resized(null, 2));
-        _ = Assert.Throws<IndexOutOfRangeException>(() => DelphiStrings.WithChar(null, 1, 'x'));
+        Assert.Equal("", DelphiStrings.Copy(null, index: 1, count: 3));
+        Assert.Equal("", DelphiStrings.Delete(null, index: 1, count: 3));
+        Assert.Equal("x", DelphiStrings.Insert("x", value: null, index: 1));
+        Assert.Equal("x", DelphiStrings.Insert(null, value: "x", index: 1));
+        Assert.Equal(0, DelphiStrings.Pos(null, haystack: "x"));
+        Assert.Equal(0, DelphiStrings.Pos("x", haystack: null));
+        Assert.Equal(0, DelphiStrings.AnsiPos(null, value: null));
+        Assert.Equal("\0\0", DelphiStrings.Resized(null, length: 2));
+        _ = Assert.Throws<IndexOutOfRangeException>(() => DelphiStrings.WithChar(null, index: 1, character: 'x'));
         string value = null!;
-        DelphiStrings.Delete(ref value, 1, 3);
+        DelphiStrings.Delete(ref value, index: 1, count: 3);
         Assert.Equal("", value);
         value = null!;
-        DelphiStrings.Insert(null, ref value, 1);
+        DelphiStrings.Insert(null, ref value, index: 1);
         Assert.Equal("", value);
         value = null!;
-        DelphiStrings.SetLength(ref value, 2);
+        DelphiStrings.SetLength(ref value, length: 2);
         Assert.Equal("\0\0", value);
         foreach (Func<string?, string> function in new Func<string?, string>[] {
             DelphiTextCompare.UpperCase, DelphiTextCompare.LowerCase, DelphiTextCompare.AnsiUpperCase, DelphiTextCompare.AnsiLowerCase,
@@ -227,7 +227,7 @@ public sealed class StringRoutineTests
             Assert.Equal(0, function("", null));
         }
         Assert.Equal("''", DelphiStrings.QuotedStr(null));
-        Assert.Equal(91, DelphiConversions.StrToIntDef(null, 91));
+        Assert.Equal(91, DelphiConversions.StrToIntDef(null, fallback: 91));
         _ = Assert.Throws<FormatException>(() => DelphiConversions.StrToInt(null));
         Assert.Equal("", DelphiFormat.Format(null));
         Assert.Equal("", DelphiFormat.Format("%s", (string?)null));
@@ -239,12 +239,12 @@ public sealed class StringRoutineTests
         using StringMode mode = new(false);
         foreach (string text in new[] { "", "broken", "\u20ac" })
         {
-            DelphiAssert.Assert(true, text, "unit.pas", 42);
-            AssertionFailedException expected = Assert.Throws<AssertionFailedException>(() => DelphiAssert.Assert(false, Ansi(text), "unit.pas", 42));
-            AssertionFailedException actual = Assert.Throws<AssertionFailedException>(() => DelphiAssert.Assert(false, text, "unit.pas", 42));
+            DelphiAssert.Assert(true, message: text, file: "unit.pas", line: 42);
+            AssertionFailedException expected = Assert.Throws<AssertionFailedException>(() => DelphiAssert.Assert(false, message: Ansi(text), file: "unit.pas", line: 42));
+            AssertionFailedException actual = Assert.Throws<AssertionFailedException>(() => DelphiAssert.Assert(false, message: text, file: "unit.pas", line: 42));
             Assert.Equal(expected.Message, actual.Message);
         }
         Assert.Equal("Assertion failed (unit.pas, line 1)",
-            Assert.Throws<AssertionFailedException>(() => DelphiAssert.Assert(false, null, "unit.pas", 1)).Message);
+            Assert.Throws<AssertionFailedException>(() => DelphiAssert.Assert(false, message: null, file: "unit.pas", line: 1)).Message);
     }
 }

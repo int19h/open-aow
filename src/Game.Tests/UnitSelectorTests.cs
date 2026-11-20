@@ -37,8 +37,8 @@ public sealed class UnitSelectorTests
         HealingUnitSelector selector = new(EngineFixture.Engine);
         try
         {
-            _ = units.AddUnit(new WoundedHero(1, 10, 10));
-            _ = units.AddUnit(new WoundedHero(2, 4, 10));
+            _ = units.AddUnit(new WoundedHero(1, hits: 10, hitPoints: 10));
+            _ = units.AddUnit(new WoundedHero(2, hits: 4, hitPoints: 10));
             selector.Setup(null, units.Units);
             // The sort puts the higher unit id first, so the wounded hero is item 0.
             Assert.Equal(2, selector.Units.GetUnit(0).UnitId);

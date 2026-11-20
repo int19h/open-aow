@@ -59,7 +59,7 @@ public class GlobalMagicControl : EngineObject
         base.PersistFields(persister);
         persister.Object("Enchantments", Enchantments);
         NextEnchantmentId = persister.Int32("NextEnchantmentId", NextEnchantmentId);
-        PersistSupport.Int32Array(persister, "DoubleSphereManaCount", DoubleSphereManaCount);
+        PersistSupport.Int32Array(persister, name: "DoubleSphereManaCount", values: DoubleSphereManaCount);
         UpdateActiveEnchantments();
     }
 
@@ -108,7 +108,7 @@ public class GlobalMagicControl : EngineObject
                     Mode = PlayerMagicEventLog.EventMode.OutOfMana,
                     EnchantmentName = Enchantments.GetEnchantments(index).GetName()
                 };
-                EventLog.DistributeEventLog(log, false);
+                EventLog.DistributeEventLog(log, execute: false);
                 _ = log.Release();
                 _ = enchantment.AddRef();
                 _ = enchantment.Deactivate((byte)player);

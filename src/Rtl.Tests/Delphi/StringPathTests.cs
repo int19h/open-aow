@@ -48,9 +48,9 @@ public sealed class StringPathTests
             Assert.Equal("", function(null));
         }
 
-        Assert.Equal("", DelphiPaths.ChangeFileExt(null, null));
-        Assert.Equal("file", DelphiPaths.ChangeFileExt("file.ext", null));
+        Assert.Equal("", DelphiPaths.ChangeFileExt(null, extension: null));
+        Assert.Equal("file", DelphiPaths.ChangeFileExt("file.ext", extension: null));
         Assert.Equal("\u2603.ext", DelphiPaths.ExtractFileName("C:\\folder\\\u2603.ext"));
-        Assert.Equal("C:\\folder\\\u2603.new", DelphiPaths.ChangeFileExt("C:\\folder\\\u2603.ext", ".new"));
+        Assert.Equal("C:\\folder\\\u2603.new", DelphiPaths.ChangeFileExt("C:\\folder\\\u2603.ext", extension: ".new"));
     }
 }

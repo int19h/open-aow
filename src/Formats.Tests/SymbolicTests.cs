@@ -22,29 +22,29 @@ public sealed class SymbolicTests : FormatsTest
         ]}
         """;
 
-    private static FormatSchema Sample => FormatSchema.Load(Encoding.UTF8.GetBytes(SampleSchema), "sample.json");
+    private static FormatSchema Sample => FormatSchema.Load(Encoding.UTF8.GetBytes(SampleSchema), file: "sample.json");
 
     [Fact]
     public void NamesAndListsRoundTripThroughTheOriginalBackend()
     {
         FormatSchema schema = Sample;
         SchemaClass classValue = schema.Get("TSampleHolder");
-        ObjectNode node = new(null, null);
-        node.Add("Rank", new EnumNode("TSampleRank", 1, false, 1));
-        node.Add("Marks", new SetNode("TSampleRank", 1, 0x81));
+        ObjectNode node = new(null, slot: null);
+        node.Add("Rank", new EnumNode("TSampleRank", width: 1, signed: false, value: 1));
+        node.Add("Marks", new SetNode("TSampleRank", width: 1, mask: 0x81));
         ListNode scores = new();
-        scores.Items.Add(new IntegerNode(4, true, int.MinValue));
-        scores.Items.Add(new IntegerNode(4, true, 0));
+        scores.Items.Add(new IntegerNode(4, signed: true, value: int.MinValue));
+        scores.Items.Add(new IntegerNode(4, signed: true, value: 0));
         node.Add("Scores", scores);
-        JsonObject document = DocumentBackend.Write(node, classValue, schema, "game");
+        JsonObject document = DocumentBackend.Write(node, classValue, schema, engine: "game");
         Assert.Equal("Gold", ((JsonString)document["Rank"]!).Value);
         Assert.Equal(["None", 7L], Items(document["Marks"]!));
         Assert.Equal([(long)int.MinValue, 0L], Items(document["Scores"]!));
-        JsonObject back = DocumentBackend.Write(OriginalBackend.Read(OriginalBackend.Write(node, classValue, schema, "game"), classValue: classValue, schema: schema, engine: "game"), classValue, schema, "game");
+        JsonObject back = DocumentBackend.Write(OriginalBackend.Read(OriginalBackend.Write(node, classValue, schema, engine: "game"), classValue: classValue, schema: schema, engine: "game"), classValue, schema, engine: "game");
         Assert.Equal(JsonWriter.ToUtf8(document), JsonWriter.ToUtf8(back));
-        ObjectNode unnamed = new(null, null);
-        unnamed.Add("Rank", new EnumNode("TSampleRank", 1, false, 9));
-        Assert.Equal(9, ((JsonInteger)DocumentBackend.Write(unnamed, classValue, schema, "game")["Rank"]!).Value);
+        ObjectNode unnamed = new(null, slot: null);
+        unnamed.Add("Rank", new EnumNode("TSampleRank", width: 1, signed: false, value: 9));
+        Assert.Equal(9, ((JsonInteger)DocumentBackend.Write(unnamed, classValue, schema, engine: "game")["Rank"]!).Value);
     }
 
     [Fact]
@@ -52,7 +52,7 @@ public sealed class SymbolicTests : FormatsTest
     {
         FormatSchema schema = Sample;
         SchemaClass classValue = schema.Get("TSampleHolder");
-        JsonObject back = DocumentBackend.Write(OriginalBackend.Read(OriginalBackend.Write(DocumentBackend.Read(new JsonObject().Add("Scores", new JsonArray().Add(new JsonInteger(7))), classValue: classValue, schema: schema, engine: "game"), classValue, schema, "game"), classValue: classValue, schema: schema, engine: "game"), classValue, schema, "game");
+        JsonObject back = DocumentBackend.Write(OriginalBackend.Read(OriginalBackend.Write(DocumentBackend.Read(new JsonObject().Add("Scores", new JsonArray().Add(new JsonInteger(7))), classValue: classValue, schema: schema, engine: "game"), classValue, schema, engine: "game"), classValue: classValue, schema: schema, engine: "game"), classValue, schema, engine: "game");
         Assert.Equal([7L, 0L], Items(back["Scores"]!));
     }
 
@@ -61,15 +61,15 @@ public sealed class SymbolicTests : FormatsTest
     {
         FormatSchema schema = Sample;
         SchemaClass classValue = schema.Get("TSampleHolder");
-        ConversionException unknown = Assert.Throws<ConversionException>(() => Pilot(classValue, schema, new JsonObject().Add("Rank", new JsonString("missing"))));
+        ConversionException unknown = Assert.Throws<ConversionException>(() => Pilot(classValue, schema, document: new JsonObject().Add("Rank", new JsonString("missing"))));
         Assert.Equal(Codes.Type, unknown.Diagnostic.Code);
         Assert.Equal("root.Rank", unknown.Diagnostic.Path);
         Assert.Equal("missing", unknown.Diagnostic.Value);
-        ConversionException wrong = Assert.Throws<ConversionException>(() => Pilot(classValue, schema, new JsonObject().Add("Rank", new JsonString("orLow"))));
+        ConversionException wrong = Assert.Throws<ConversionException>(() => Pilot(classValue, schema, document: new JsonObject().Add("Rank", new JsonString("orLow"))));
         Assert.Equal(Codes.Type, wrong.Diagnostic.Code);
         Assert.Equal("root.Rank", wrong.Diagnostic.Path);
         Assert.Equal("orLow", wrong.Diagnostic.Value);
-        ConversionException set = Assert.Throws<ConversionException>(() => Pilot(classValue, schema, new JsonObject().Add("Marks", new JsonArray().Add(new JsonString("orLow")))));
+        ConversionException set = Assert.Throws<ConversionException>(() => Pilot(classValue, schema, document: new JsonObject().Add("Marks", new JsonArray().Add(new JsonString("orLow")))));
         Assert.Equal("root.Marks[0]", set.Diagnostic.Path);
     }
 
@@ -91,7 +91,7 @@ public sealed class SymbolicTests : FormatsTest
         SchemaClass classValue = schema.Get("TSampleHolder");
         ObjectNode node = DocumentBackend.Read(new JsonObject().Add("Scores", new JsonArray().Add(new JsonInteger(1)).Add(new JsonInteger(2)).Add(new JsonInteger(3))), classValue: classValue, schema: schema, engine: "game");
         Assert.Equal(3, ((ListNode)node.Find("Scores")!).Items.Count);
-        ConversionException error = Assert.Throws<ConversionException>(() => OriginalBackend.Write(node, classValue, schema, "game"));
+        ConversionException error = Assert.Throws<ConversionException>(() => OriginalBackend.Write(node, classValue, schema, engine: "game"));
         Assert.Equal(Codes.Range, error.Diagnostic.Code);
         Assert.Equal("root.Scores", error.Diagnostic.Path);
         Assert.Contains("holds at most 2", error.Diagnostic.Message);
@@ -103,9 +103,9 @@ public sealed class SymbolicTests : FormatsTest
     {
         FormatSchema schema = Sample;
         SchemaClass classValue = schema.Get("TSampleHolder");
-        ObjectNode node = new(null, null);
+        ObjectNode node = new(null, slot: null);
         node.Add("Rank", new ListNode());
-        ConversionException error = Assert.Throws<ConversionException>(() => DocumentBackend.Write(node, classValue, schema, "game"));
+        ConversionException error = Assert.Throws<ConversionException>(() => DocumentBackend.Write(node, classValue, schema, engine: "game"));
         Assert.Equal("root.Rank", error.Diagnostic.Path);
         Assert.Equal("Version 2 stores a list only for a fixed integer array.", error.Diagnostic.Message);
     }
@@ -113,7 +113,7 @@ public sealed class SymbolicTests : FormatsTest
     [Fact]
     public void AMissingCatalogEntryCarriesThePath()
     {
-        ConversionException direct = Assert.Throws<ConversionException>(() => EnumCatalog.Require("TNoSuchEnum", "sample.json", "root.Rank"));
+        ConversionException direct = Assert.Throws<ConversionException>(() => EnumCatalog.Require("TNoSuchEnum", file: "sample.json", path: "root.Rank"));
         Assert.Equal(Codes.Type, direct.Diagnostic.Code);
         Assert.Equal("root.Rank", direct.Diagnostic.Path);
         Assert.Equal("sample.json", direct.Diagnostic.File);
@@ -124,8 +124,8 @@ public sealed class SymbolicTests : FormatsTest
               {"name":"Rank","id":1,"codec":"enum","enum":"TNoSuchEnum","width":1,"signed":false}
             ]}]}
             """;
-        FormatSchema schema = FormatSchema.Load(Encoding.UTF8.GetBytes(missing), "missing.json");
-        ConversionException error = Assert.Throws<ConversionException>(() => Pilot(schema.Get("TSampleHolder"), schema, new JsonObject().Add("Rank", new JsonInteger(0))));
+        FormatSchema schema = FormatSchema.Load(Encoding.UTF8.GetBytes(missing), file: "missing.json");
+        ConversionException error = Assert.Throws<ConversionException>(() => Pilot(schema.Get("TSampleHolder"), schema, document: new JsonObject().Add("Rank", new JsonInteger(0))));
         Assert.Equal(Codes.Type, error.Diagnostic.Code);
         Assert.Equal("root.Rank", error.Diagnostic.Path);
     }
@@ -133,9 +133,9 @@ public sealed class SymbolicTests : FormatsTest
     [Fact]
     public void AnUnsupportedSymbolicWidthIsRefusedWithTheSchemaPath()
     {
-        AssertWidth("enum", """{"name":"Rank","codec":"enum","enum":"TSampleRank","width":8,"signed":false}""", "TSampleHolder.Rank");
-        AssertWidth("set", """{"name":"Marks","codec":"set","set":"TSampleRank","width":3}""", "TSampleHolder.Marks");
-        AssertWidth("int-array", """{"name":"Scores","codec":"int-array","width":8,"signed":true,"count":1}""", "TSampleHolder.Scores");
+        AssertWidth("enum", property: """{"name":"Rank","codec":"enum","enum":"TSampleRank","width":8,"signed":false}""", path: "TSampleHolder.Rank");
+        AssertWidth("set", property: """{"name":"Marks","codec":"set","set":"TSampleRank","width":3}""", path: "TSampleHolder.Marks");
+        AssertWidth("int-array", property: """{"name":"Scores","codec":"int-array","width":8,"signed":true,"count":1}""", path: "TSampleHolder.Scores");
     }
 
     // A mapped class stores its flat members in the image. The document backend names the case
@@ -146,21 +146,21 @@ public sealed class SymbolicTests : FormatsTest
         FormatSchema schema = FormatSchema.Current;
         SchemaClass classValue = schema.Get("TProductionItem");
         ObjectNode node = Production(kind: 1, parameter: 5, groupId: 3);
-        JsonObject document = DocumentBackend.Write(node, classValue, schema, "game");
+        JsonObject document = DocumentBackend.Write(node, classValue, schema, engine: "game");
         AssertMembers(document, ("$case", "ProduceUnit"), ("Index", 5L), ("GroupId", 3L));
-        byte[] image = OriginalBackend.Write(node, classValue, schema, "game");
-        Assert.Equal(image, OriginalBackend.Write(OriginalBackend.Read(image, classValue, schema, "game"), classValue: classValue, schema: schema, engine: "game"));
-        Assert.Equal(image, OriginalBackend.Write(DocumentBackend.Read(document, classValue, schema, "game"), classValue: classValue, schema: schema, engine: "game"));
+        byte[] image = OriginalBackend.Write(node, classValue, schema, engine: "game");
+        Assert.Equal(image, OriginalBackend.Write(OriginalBackend.Read(image, classValue, schema, engine: "game"), classValue: classValue, schema: schema, engine: "game"));
+        Assert.Equal(image, OriginalBackend.Write(DocumentBackend.Read(document, classValue, schema, engine: "game"), classValue: classValue, schema: schema, engine: "game"));
 
         // A key no case registers keeps every stored member in the unknown case.
-        JsonObject unknown = DocumentBackend.Write(Production(kind: 99, parameter: 7, groupId: 2), classValue, schema, "game");
+        JsonObject unknown = DocumentBackend.Write(Production(kind: 99, parameter: 7, groupId: 2), classValue, schema, engine: "game");
         AssertMembers(unknown, ("$case", "Unknown"), ("Kind", 99L), ("Parameter", 7L), ("GroupId", 2L));
-        Assert.Equal(OriginalBackend.Write(Production(kind: 99, parameter: 7, groupId: 2), classValue, schema, "game"),
-            OriginalBackend.Write(DocumentBackend.Read(unknown, classValue, schema, "game"), classValue, schema, "game"));
+        Assert.Equal(OriginalBackend.Write(Production(kind: 99, parameter: 7, groupId: 2), classValue, schema, engine: "game"),
+            OriginalBackend.Write(DocumentBackend.Read(unknown, classValue, schema, engine: "game"), classValue, schema, engine: "game"));
 
         // A case field the case does not keep is refused with its path.
         JsonObject wrong = new JsonObject().Add("$case", new JsonString("ResearchSpell")).Add("Index", new JsonInteger(4)).Add("GroupId", new JsonInteger(1));
-        ConversionException error = Assert.Throws<ConversionException>(() => DocumentBackend.Read(wrong, classValue, schema, "game"));
+        ConversionException error = Assert.Throws<ConversionException>(() => DocumentBackend.Read(wrong, classValue, schema, engine: "game"));
         Assert.Equal(Codes.UnknownMember, error.Diagnostic.Code);
         Assert.Equal("root.GroupId", error.Diagnostic.Path);
     }
@@ -182,23 +182,23 @@ public sealed class SymbolicTests : FormatsTest
 
     private static ObjectNode Production(int kind, int parameter, int groupId)
     {
-        ObjectNode node = new(null, null);
-        node.Add("Kind", new IntegerNode(4, true, kind));
-        node.Add("Parameter", new IntegerNode(4, true, parameter));
-        node.Add("GroupId", new IntegerNode(4, true, groupId));
+        ObjectNode node = new(null, slot: null);
+        node.Add("Kind", new IntegerNode(4, signed: true, value: kind));
+        node.Add("Parameter", new IntegerNode(4, signed: true, value: parameter));
+        node.Add("GroupId", new IntegerNode(4, signed: true, value: groupId));
         return node;
     }
 
     private static void AssertWidth(string kind, string property, string path)
     {
         string json = $"{{\"version\":2,\"classes\":[{{\"name\":\"TSampleHolder\",\"properties\":[{property}]}}]}}";
-        InvalidOperationException error = Assert.Throws<InvalidOperationException>(() => FormatSchema.Load(Encoding.UTF8.GetBytes(json), "wide.json"));
+        InvalidOperationException error = Assert.Throws<InvalidOperationException>(() => FormatSchema.Load(Encoding.UTF8.GetBytes(json), file: "wide.json"));
         Assert.Contains(path, error.Message);
         Assert.Contains(kind, error.Message);
     }
 
     private static byte[] Pilot(SchemaClass classValue, FormatSchema schema, JsonObject document)
-        => OriginalBackend.Write(DocumentBackend.Read(document, classValue, schema, "game"), classValue, schema, "game");
+        => OriginalBackend.Write(DocumentBackend.Read(document, classValue, schema, engine: "game"), classValue, schema, engine: "game");
 
     private static List<object> Items(JsonValue value)
     {

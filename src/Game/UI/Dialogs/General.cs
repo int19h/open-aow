@@ -74,7 +74,7 @@ public partial class General(UIContext ui) : UIModule(ui)
         UI.TaskBar.TaskWindow.Visible = false;
         UI.TitleWindow.MainWindow.Visible = false;
         UI.TitleScene.ResetScene();
-        WindowActions.ShowTitleScene(UI.TitleScene, true);
+        WindowActions.ShowTitleScene(UI.TitleScene, music: true);
     }
 
     // AoWWinMan.pas:415
@@ -125,81 +125,81 @@ public partial class General(UIContext ui) : UIModule(ui)
     {
         // { Read the saved rectangle through the window pointer cell. }
         Rect rectangle = new(UI.PlayerInfoWindow.MainWindow.Alignment.RightOffset, UI.PlayerInfoWindow.MainWindow.Alignment.BottomOffset, UI.PlayerInfoWindow.MainWindow.WinWidth, UI.PlayerInfoWindow.MainWindow.WinHeight);
-        UI.Engine.Registry.SetRectangle(0, rectangle);
+        UI.Engine.Registry.SetRectangle(0, value: rectangle);
         Rect rectangle2 = new(UI.ControlWindow.MainWindow.Alignment.RightOffset, UI.ControlWindow.MainWindow.Alignment.TopOffset, UI.ControlWindow.MainWindow.WinWidth, UI.ControlWindow.MainWindow.WinHeight);
-        UI.Engine.Registry.SetRectangle(1, rectangle2);
+        UI.Engine.Registry.SetRectangle(1, value: rectangle2);
         if (UI.UnitWindow.MainWindow.Alignment.AlignWidth != AlignWidth.Center)
         {
             Rect rectangle3 = new(UI.UnitWindow.MainWindow.Alignment.LeftOffset, UI.UnitWindow.MainWindow.Alignment.TopOffset, UI.UnitWindow.MainWindow.WinWidth, UI.UnitWindow.MainWindow.WinHeight);
-            UI.Engine.Registry.SetRectangle(2, rectangle3);
+            UI.Engine.Registry.SetRectangle(2, value: rectangle3);
         }
         else
         {
             Rect rectangle3 = new(0, 0, 0, 0);
-            UI.Engine.Registry.SetRectangle(2, rectangle3);
+            UI.Engine.Registry.SetRectangle(2, value: rectangle3);
         }
 
         if (UI.RealmWindow.Window.Alignment.AlignWidth != AlignWidth.Both)
         {
             Rect rectangle3 = new(UI.RealmWindow.Window.Alignment.LeftOffset, UI.RealmWindow.Window.Alignment.TopOffset, UI.RealmWindow.Window.WinWidth, UI.RealmWindow.Window.WinHeight);
-            UI.Engine.Registry.SetRectangle(5, rectangle3);
+            UI.Engine.Registry.SetRectangle(5, value: rectangle3);
         }
         else
         {
             Rect rectangle3 = new(0, 0, 0, 0);
-            UI.Engine.Registry.SetRectangle(5, rectangle3);
+            UI.Engine.Registry.SetRectangle(5, value: rectangle3);
         }
 
         if (UI.MagicWindow.Window.Alignment.AlignWidth != AlignWidth.Both)
         {
             Rect rectangle3 = new(UI.MagicWindow.Window.Alignment.LeftOffset, UI.MagicWindow.Window.Alignment.TopOffset, UI.MagicWindow.Window.WinWidth, UI.MagicWindow.Window.WinHeight);
-            UI.Engine.Registry.SetRectangle(13, rectangle3);
+            UI.Engine.Registry.SetRectangle(13, value: rectangle3);
         }
         else
         {
             Rect rectangle3 = new(0, 0, 0, 0);
-            UI.Engine.Registry.SetRectangle(13, rectangle3);
+            UI.Engine.Registry.SetRectangle(13, value: rectangle3);
         }
 
         Rect rectangle4 = new(UI.ScannerWindow.MainWindow.Alignment.RightOffset, UI.ScannerWindow.MainWindow.Alignment.TopOffset, UI.ScannerWindow.MainWindow.WinWidth, UI.ScannerWindow.MainWindow.WinHeight);
-        UI.Engine.Registry.SetRectangle(6, rectangle4);
+        UI.Engine.Registry.SetRectangle(6, value: rectangle4);
         Rect rectangle5 = new(UI.InfoWindow.MainWindow.Alignment.RightOffset, UI.InfoWindow.MainWindow.Alignment.TopOffset, UI.InfoWindow.MainWindow.WinWidth, UI.InfoWindow.MainWindow.WinHeight);
-        UI.Engine.Registry.SetRectangle(7, rectangle5);
+        UI.Engine.Registry.SetRectangle(7, value: rectangle5);
         if (UI.ChatWindow.MainWindow.Alignment.AlignWidth != AlignWidth.Both)
         {
             Rect rectangle3 = new(UI.ChatWindow.MainWindow.Alignment.LeftOffset, UI.ChatWindow.MainWindow.Alignment.BottomOffset, UI.ChatWindow.MainWindow.WinWidth, UI.ChatWindow.MainWindow.WinHeight);
-            UI.Engine.Registry.SetRectangle(8, rectangle3);
+            UI.Engine.Registry.SetRectangle(8, value: rectangle3);
         }
         else
         {
             Rect rectangle3 = new(0, 0, 0, 0);
-            UI.Engine.Registry.SetRectangle(8, rectangle3);
+            UI.Engine.Registry.SetRectangle(8, value: rectangle3);
         }
 
         if (UI.MapWindow.MainWindow.Alignment.AlignWidth != AlignWidth.Both)
         {
             Rect rectangle3 = new(UI.MapWindow.MainWindow.Alignment.LeftOffset, UI.MapWindow.MainWindow.Alignment.TopOffset, UI.MapWindow.MainWindow.WinWidth, UI.MapWindow.MainWindow.WinHeight);
-            UI.Engine.Registry.SetRectangle(9, rectangle3);
+            UI.Engine.Registry.SetRectangle(9, value: rectangle3);
         }
         else
         {
             Rect rectangle3 = new(0, 0, 0, 0);
-            UI.Engine.Registry.SetRectangle(9, rectangle3);
+            UI.Engine.Registry.SetRectangle(9, value: rectangle3);
         }
 
         Rect rectangle6 = new(UI.CombatScanner.CombatScannerWindow.Alignment.RightOffset, UI.CombatScanner.CombatScannerWindow.Alignment.TopOffset, UI.CombatScanner.CombatScannerWindow.WinWidth, UI.CombatScanner.CombatScannerWindow.WinHeight);
-        UI.Engine.Registry.SetRectangle(12, rectangle6);
+        UI.Engine.Registry.SetRectangle(12, value: rectangle6);
         Rect rectangle7 = new(UI.CombatUnitInfo.MainWindow.Alignment.RightOffset, UI.CombatUnitInfo.MainWindow.Alignment.BottomOffset, UI.CombatUnitInfo.MainWindow.WinWidth, UI.CombatUnitInfo.MainWindow.WinHeight);
-        UI.Engine.Registry.SetRectangle(10, rectangle7);
+        UI.Engine.Registry.SetRectangle(10, value: rectangle7);
         if (UI.MapWindow.MapAlignWidth != AlignWidth.Both)
         {
             Rect rectangle3 = new(UI.MapWindow.MapRectangle.Left, UI.MapWindow.MapRectangle.Top, UI.MapWindow.MapRectangle.Right, UI.MapWindow.MapRectangle.Bottom);
-            UI.Engine.Registry.SetRectangle(11, rectangle3);
+            UI.Engine.Registry.SetRectangle(11, value: rectangle3);
         }
         else
         {
             Rect rectangle3 = new(0, 0, 0, 0);
-            UI.Engine.Registry.SetRectangle(11, rectangle3);
+            UI.Engine.Registry.SetRectangle(11, value: rectangle3);
         }
     }
 
@@ -298,7 +298,7 @@ public partial class General(UIContext ui) : UIModule(ui)
                 int limit = lists.Count - 1;
                 for (; j <= limit; j += 1)
                 {
-                    lists[j].Items.Move(i, insertAt);
+                    lists[j].Items.Move(i, target: insertAt);
                 }
             }
         }
@@ -383,7 +383,7 @@ public partial class General(UIContext ui) : UIModule(ui)
                 };
                 if (UI.General.SelectedUnit.Player == StrategicMap.Current.SeatedPlayer && (GamePack.Current.AbilityControl[i].GetControlType(UI.General.SelectedUnit) & Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.Action)) != Set<AbilityControlTypeElement>.Of())
                 {
-                    Abilities.Insert(ActiveAbilityCount, a);
+                    Abilities.Insert(ActiveAbilityCount, item: a);
                     ActiveAbilityCount += 1;
                 }
                 else
@@ -657,14 +657,14 @@ public partial class General(UIContext ui) : UIModule(ui)
                     s = ExtractFileDir(LegacyApplication.Application.ExeName);
                     s += "\\Scenario\\Custom";
                     _ = SetCurrentDir(s);
-                    LoadGame(this, FileBoundary.ReadName("Crap.hsm"));
+                    LoadGame(this, name: FileBoundary.ReadName("Crap.hsm"));
                     StartGame(this);
                     break;
                 case 123:
                     s = ExtractFileDir(LegacyApplication.Application.ExeName);
                     s += "\\Scenario\\Custom";
                     _ = SetCurrentDir(s);
-                    LoadGame(this, FileBoundary.ReadName("demomap.hsm"));
+                    LoadGame(this, name: FileBoundary.ReadName("demomap.hsm"));
                     StartGame(this);
                     break;
                 default:
@@ -747,97 +747,97 @@ public partial class General(UIContext ui) : UIModule(ui)
     {
         Window playerInfo = controller.UI.PlayerInfoWindow.MainWindow;
         Rect rectangle = new(playerInfo.Alignment.RightOffset, playerInfo.Alignment.BottomOffset, playerInfo.WinWidth, playerInfo.WinHeight);
-        controller.UI.Engine.Registry.SetRectangle(0, rectangle);
+        controller.UI.Engine.Registry.SetRectangle(0, value: rectangle);
 
         Window controls = controller.UI.ControlWindow.MainWindow;
         Rect rectangle2 = new(controls.Alignment.RightOffset, controls.Alignment.TopOffset, controls.WinWidth, controls.WinHeight);
-        controller.UI.Engine.Registry.SetRectangle(1, rectangle2);
+        controller.UI.Engine.Registry.SetRectangle(1, value: rectangle2);
 
         Window unitWindow = controller.UI.UnitWindow.MainWindow;
         if (unitWindow.Alignment.AlignWidth != AlignWidth.Center)
         {
             Rect rectangle3 = new(unitWindow.Alignment.LeftOffset, unitWindow.Alignment.TopOffset, unitWindow.WinWidth, unitWindow.WinHeight);
-            controller.UI.Engine.Registry.SetRectangle(2, rectangle3);
+            controller.UI.Engine.Registry.SetRectangle(2, value: rectangle3);
         }
         else
         {
             Rect rectangle3 = new(0, 0, 0, 0);
-            controller.UI.Engine.Registry.SetRectangle(2, rectangle3);
+            controller.UI.Engine.Registry.SetRectangle(2, value: rectangle3);
         }
 
         Window realm = controller.UI.RealmWindow.Window;
         if (realm.Alignment.AlignWidth != AlignWidth.Both)
         {
             Rect rectangle3 = new(realm.Alignment.LeftOffset, realm.Alignment.TopOffset, realm.WinWidth, realm.WinHeight);
-            controller.UI.Engine.Registry.SetRectangle(5, rectangle3);
+            controller.UI.Engine.Registry.SetRectangle(5, value: rectangle3);
         }
         else
         {
             Rect rectangle3 = new(0, 0, 0, 0);
-            controller.UI.Engine.Registry.SetRectangle(5, rectangle3);
+            controller.UI.Engine.Registry.SetRectangle(5, value: rectangle3);
         }
 
         Window magic = controller.UI.MagicWindow.Window;
         if (magic.Alignment.AlignWidth != AlignWidth.Both)
         {
             Rect rectangle3 = new(magic.Alignment.LeftOffset, magic.Alignment.TopOffset, magic.WinWidth, magic.WinHeight);
-            controller.UI.Engine.Registry.SetRectangle(13, rectangle3);
+            controller.UI.Engine.Registry.SetRectangle(13, value: rectangle3);
         }
         else
         {
             Rect rectangle3 = new(0, 0, 0, 0);
-            controller.UI.Engine.Registry.SetRectangle(13, rectangle3);
+            controller.UI.Engine.Registry.SetRectangle(13, value: rectangle3);
         }
 
         Window scanner = controller.UI.ScannerWindow.MainWindow;
         Rect rectangle4 = new(scanner.Alignment.RightOffset, scanner.Alignment.TopOffset, scanner.WinWidth, scanner.WinHeight);
-        controller.UI.Engine.Registry.SetRectangle(6, rectangle4);
+        controller.UI.Engine.Registry.SetRectangle(6, value: rectangle4);
 
         Window info = controller.UI.InfoWindow.MainWindow;
         Rect rectangle5 = new(info.Alignment.RightOffset, info.Alignment.TopOffset, info.WinWidth, info.WinHeight);
-        controller.UI.Engine.Registry.SetRectangle(7, rectangle5);
+        controller.UI.Engine.Registry.SetRectangle(7, value: rectangle5);
 
         Window chat = controller.UI.ChatWindow.MainWindow;
         if (chat.Alignment.AlignWidth != AlignWidth.Both)
         {
             Rect rectangle3 = new(chat.Alignment.LeftOffset, chat.Alignment.BottomOffset, chat.WinWidth, chat.WinHeight);
-            controller.UI.Engine.Registry.SetRectangle(8, rectangle3);
+            controller.UI.Engine.Registry.SetRectangle(8, value: rectangle3);
         }
         else
         {
             Rect rectangle3 = new(0, 0, 0, 0);
-            controller.UI.Engine.Registry.SetRectangle(8, rectangle3);
+            controller.UI.Engine.Registry.SetRectangle(8, value: rectangle3);
         }
 
         Window map = controller.UI.MapWindow.MainWindow;
         if (map.Alignment.AlignWidth != AlignWidth.Both)
         {
             Rect rectangle3 = new(map.Alignment.LeftOffset, map.Alignment.TopOffset, map.WinWidth, map.WinHeight);
-            controller.UI.Engine.Registry.SetRectangle(9, rectangle3);
+            controller.UI.Engine.Registry.SetRectangle(9, value: rectangle3);
         }
         else
         {
             Rect rectangle3 = new(0, 0, 0, 0);
-            controller.UI.Engine.Registry.SetRectangle(9, rectangle3);
+            controller.UI.Engine.Registry.SetRectangle(9, value: rectangle3);
         }
 
         Window tacticalBattleUnit = controller.UI.CombatUnitInfo.MainWindow;
         Rect rectangle6 = new(tacticalBattleUnit.Alignment.RightOffset, tacticalBattleUnit.Alignment.TopOffset, tacticalBattleUnit.WinWidth, tacticalBattleUnit.WinHeight);
-        controller.UI.Engine.Registry.SetRectangle(12, rectangle6);
+        controller.UI.Engine.Registry.SetRectangle(12, value: rectangle6);
 
         Window tacticalBattleScanner = controller.UI.CombatScanner.CombatScannerWindow;
         Rect rectangle7 = new(tacticalBattleScanner.Alignment.RightOffset, tacticalBattleScanner.Alignment.BottomOffset, tacticalBattleScanner.WinWidth, tacticalBattleScanner.WinHeight);
-        controller.UI.Engine.Registry.SetRectangle(10, rectangle7);
+        controller.UI.Engine.Registry.SetRectangle(10, value: rectangle7);
 
         if (controller.UI.MapWindow.MapAlignWidth != AlignWidth.Both)
         {
             Rect rectangle3 = new(controller.UI.MapWindow.MapRectangle.Left, controller.UI.MapWindow.MapRectangle.Top, controller.UI.MapWindow.MapRectangle.Right, controller.UI.MapWindow.MapRectangle.Bottom);
-            controller.UI.Engine.Registry.SetRectangle(11, rectangle3);
+            controller.UI.Engine.Registry.SetRectangle(11, value: rectangle3);
         }
         else
         {
             Rect rectangle3 = new(0, 0, 0, 0);
-            controller.UI.Engine.Registry.SetRectangle(11, rectangle3);
+            controller.UI.Engine.Registry.SetRectangle(11, value: rectangle3);
         }
     }
 
@@ -876,8 +876,8 @@ public partial class General(UIContext ui) : UIModule(ui)
 
         _ = AudioHost.SongPlayer.Stop(false);
         AudioHost.SongPlayer.Songs.Clear();
-        AudioPlayback.FadeMusicVolume(0, 1);
-        controller.UI.Engine.LoadHsm(name, false, (_, message, progression) => controller.MapProgress(message, progression), GameProfile.WorldMap);
+        AudioPlayback.FadeMusicVolume(0, speed: 1);
+        controller.UI.Engine.LoadHsm(name, edit: false, progress: (_, message, progression) => controller.MapProgress(message, progression), profile: GameProfile.WorldMap);
         if (controller.UI.Engine.Demo && StrategicMap.Current is not null && !StrategicMap.Current.ShowAllPlayers)
         {
             controller.ReturnToTitle();
@@ -993,6 +993,6 @@ public partial class General(UIContext ui) : UIModule(ui)
         controller.UI.TaskBar.WorldClockDelay = 0;
         controller.UI.TaskBar.ChatButton.ImageLibraryIndexUp = 14;
         controller.UI.TaskBar.ChatFlash = 0;
-        controller.UI.VideoDialog.SetSceneSize(controller.UI.VideoDialog.DisplayWidth, controller.UI.VideoDialog.DisplayHeight);
+        controller.UI.VideoDialog.SetSceneSize(controller.UI.VideoDialog.DisplayWidth, H: controller.UI.VideoDialog.DisplayHeight);
     }
 }

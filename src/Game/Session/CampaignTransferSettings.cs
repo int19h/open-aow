@@ -443,7 +443,7 @@ public class CampaignTransferSettings : EngineObject
                     points = Heroes.GetHero(i).GetCampaignTransferPoints();
                     if (points <= TransferPointsLeft)
                     {
-                        _ = candidates.AddABCD(0, i, points, 0);
+                        _ = candidates.AddABCD(0, i, C: points, D: 0);
                     }
                 }
             }
@@ -455,7 +455,7 @@ public class CampaignTransferSettings : EngineObject
                     points = Items.GetItem(i).CampaignTransferPoints;
                     if (points <= TransferPointsLeft)
                     {
-                        _ = candidates.AddABCD(1, i, points, 0);
+                        _ = candidates.AddABCD(1, i, C: points, D: 0);
                     }
                 }
             }
@@ -467,7 +467,7 @@ public class CampaignTransferSettings : EngineObject
                     points = Units.GetUnit(i).GetCampaignTransferPoints();
                     if (points <= TransferPointsLeft)
                     {
-                        _ = candidates.AddABCD(2, i, points, 0);
+                        _ = candidates.AddABCD(2, i, C: points, D: 0);
                     }
                 }
             }
@@ -535,7 +535,7 @@ public class CampaignTransferSettings : EngineObject
             if (Leader is not null)
             {
                 leader.Deactivate();
-                leader.Assign(Leader, GetEngine());
+                leader.Assign(Leader, engine: GetEngine());
                 leader.SetSpherePicksMax((byte)(leader.SphereCount + SelectedSpheres.Count));
                 for (int i = 0, last = SelectedSpheres.Count - 1; i <= last; i++)
                 {
@@ -569,7 +569,7 @@ public class CampaignTransferSettings : EngineObject
                 int item = SelectedUnits[i];
                 Troop troop = Units.GetUnit(item).Copy<Troop>(GetEngine());
                 troop.UnitId = -1;
-                _ = troop.Place(x, y, l, player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                _ = troop.Place(x, y, l, player, mode: Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                 _ = troop.Release();
             }
 
@@ -596,7 +596,7 @@ public class CampaignTransferSettings : EngineObject
 
                 hero.UnitId = -1;
                 hero.Mode += Set<HeroModeElement>.Of(HeroModeElement.SkipLibraryUpdate);
-                _ = hero.Place(x, y, l, player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                _ = hero.Place(x, y, l, player, mode: Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                 hero.Mode -= Set<HeroModeElement>.Of(HeroModeElement.SkipLibraryUpdate);
                 _ = hero.Release();
             }

@@ -17,7 +17,7 @@ public class SpellWard : GlobalEnchantmentSpell
     public SpellWard(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.SpellWardText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SpellWardText);
         SpellId = 65;
         SpellType = SpellType.Global;
         BaseManaCost = 1;
@@ -33,10 +33,10 @@ public class SpellWard : GlobalEnchantmentSpell
         sbyte x = coordinate79.X;
         sbyte y = coordinate79.Y;
         sbyte l = coordinate79.MapLevel;
-        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
+        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
         _ = StrategicMap.Current.AddEffect(WorldEffectType.SpellWard);
         _ = CastSounds.Play(0);
-        CastingDone(source, eventValue.EventMana);
+        CastingDone(source, mana: eventValue.EventMana);
         return false;
     }
 

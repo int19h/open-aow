@@ -93,7 +93,7 @@ public partial class MultiWindow(UIContext ui) : UIModule(ui)
 
         UI.TitleWindow.MainWindow.Visible = false;
         MultiPanel.Visible = false;
-        WindowActions.ShowTitleScene(UI.TitleScene, true);
+        WindowActions.ShowTitleScene(UI.TitleScene, music: true);
     }
 
     // AOWMultiWin.pas:142
@@ -155,11 +155,11 @@ public partial class MultiWindow(UIContext ui) : UIModule(ui)
         if (ConnectProvider(ConnectionType.TCP) == 0)
         {
             UI.SetupEvents.DirectPlay.PlayerName = TcpNameEdit.Text;
-            UI.SetupEvents.DirectPlay.SessionName = AbilityRules.Format(UI.Engine.TranslateResourceString(s_playerGameFormat), [TcpNameEdit.Text]);
+            UI.SetupEvents.DirectPlay.SessionName = AbilityRules.Format(UI.Engine.TranslateResourceString(s_playerGameFormat), arguments: [TcpNameEdit.Text]);
             if (UI.SetupEvents.DirectPlay.CreateSession() == 0)
             {
                 MultiPanel.Visible = false;
-                _ = UI.SetupEvents.SetupControl.SetupHost(UI.SetupEvents.DirectPlay.PlayerName, 1, UI.SetupEvents.DirectPlay.PlayerID);
+                _ = UI.SetupEvents.SetupControl.SetupHost(UI.SetupEvents.DirectPlay.PlayerName, mode: 1, remoteId: UI.SetupEvents.DirectPlay.PlayerID);
                 if (!IsEmpty(_pendingMap))
                 {
                     _ = UI.SetupEvents.SetupControl.PickMap(_pendingMap);
@@ -191,7 +191,7 @@ public partial class MultiWindow(UIContext ui) : UIModule(ui)
     {
         UI.General.PlayButtonSound(0);
         MultiPanel.Visible = false;
-        _ = UI.SetupEvents.SetupControl.SetupHost("", 0, 0);
+        _ = UI.SetupEvents.SetupControl.SetupHost("", mode: 0, remoteId: 0);
         if (!IsEmpty(_pendingMap))
         {
             _ = UI.SetupEvents.SetupControl.PickMap(_pendingMap);
@@ -239,7 +239,7 @@ public partial class MultiWindow(UIContext ui) : UIModule(ui)
         if (ValidateEmail())
         {
             MultiPanel.Visible = false;
-            _ = UI.SetupEvents.SetupControl.SetupHost("", 2, 0);
+            _ = UI.SetupEvents.SetupControl.SetupHost("", mode: 2, remoteId: 0);
             if (!IsEmpty(_pendingMap))
             {
                 _ = UI.SetupEvents.SetupControl.PickMap(_pendingMap);

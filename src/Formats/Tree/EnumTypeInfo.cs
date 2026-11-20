@@ -71,7 +71,7 @@ public sealed class EnumTypeInfo
         Dictionary<long, string> byValue = [];
         foreach (string name in Enum.GetNames(type))
         {
-            long value = ToInt64(Enum.Parse(type, name));
+            long value = ToInt64(Enum.Parse(type, value: name));
             byName.Add(name, value);
             _ = byValue.TryAdd(value, name);
         }

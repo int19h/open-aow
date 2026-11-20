@@ -12,7 +12,7 @@ public class DarkGift : UnitSpell
     public DarkGift(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.DarkGiftText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DarkGiftText);
         SpellId = 77;
         BaseManaCost = 5;
         SpellLevel = 3;

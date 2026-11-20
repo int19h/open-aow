@@ -93,10 +93,10 @@ public partial class ImageLibraryFont(Component owner) : CustomImageLibrary(owne
                 ShowText(X, Y, text, lockedSurface);
                 break;
             case EditCharCase.LowerCase:
-                ShowText(X, Y, LowerCase(text), lockedSurface);
+                ShowText(X, Y, text: LowerCase(text), lockedSurface);
                 break;
             case EditCharCase.UpperCase:
-                ShowText(X, Y, UpperCase(text), lockedSurface);
+                ShowText(X, Y, text: UpperCase(text), lockedSurface);
                 break;
             default:
                 break;
@@ -116,12 +116,12 @@ public partial class ImageLibraryFont(Component owner) : CustomImageLibrary(owne
             case EditCharCase.LowerCase:
                 s = LowerCase(text);
                 X -= TextWidth(s) >>> 1;
-                ShowText(X, Y, s, lockedSurface);
+                ShowText(X, Y, text: s, lockedSurface);
                 break;
             case EditCharCase.UpperCase:
                 s = UpperCase(text);
                 X -= TextWidth(s) >>> 1;
-                ShowText(X, Y, s, lockedSurface);
+                ShowText(X, Y, text: s, lockedSurface);
                 break;
             default:
                 break;

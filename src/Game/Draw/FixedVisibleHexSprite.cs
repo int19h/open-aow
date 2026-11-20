@@ -28,7 +28,7 @@ public class FixedVisibleHexSprite(CustomNode owner) : HexSprite(owner)
     {
         Deactivate();
         Remove();
-        Assert(!Visible, "FixedVisibleHS still in VisibilityList!!!", "HXSPRITE.PAS", 795);
+        Assert(!Visible, message: "FixedVisibleHS still in VisibilityList!!!", file: "HXSPRITE.PAS", line: 795);
     }
 
     // HXSPRITE.PAS:779
@@ -37,7 +37,7 @@ public class FixedVisibleHexSprite(CustomNode owner) : HexSprite(owner)
         if ((_status & 1) == 0)
         {
             _status = (byte)(_status | 1);
-            _ = visibilityList.AddSortChild(this, GetShowPriority());
+            _ = visibilityList.AddSortChild(this, sortValue: GetShowPriority());
         }
     }
 }

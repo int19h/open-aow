@@ -77,7 +77,7 @@ public partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     public void EventListDoubleClick()
     {
         object objectValue = EventList.Items.Objects[EventList.Selected];
-        _ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook[ObjectToInt(objectValue)].Execute(true, ExecuteTrigger.User, null);
+        _ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook[ObjectToInt(objectValue)].Execute(true, trigger: ExecuteTrigger.User, done: null);
     }
 
     // AoWPInfoWin.pas:78
@@ -174,7 +174,7 @@ public partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     {
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader is not null)
         {
-            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(out sbyte hexX, out _, out _);
+            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(out sbyte hexX, out _, L: out _);
             if (hexX > -1)
             {
                 Player player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);

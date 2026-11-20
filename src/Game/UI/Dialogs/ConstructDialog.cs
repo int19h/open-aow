@@ -51,8 +51,8 @@ public partial class ConstructDialog(UIContext ui) : UIModule(ui)
         for (int i = 0, last = controls.Count - 1; i <= last; i++)
         {
             ConstructionControl control = controls.GetConstructionControl(i);
-            control.GetInfo(u, out string name, out int gold, out int days);
-            _ = ConstructionList.Items.AddObject(name, control);
+            control.GetInfo(u, text: out string name, out int gold, out int days);
+            _ = ConstructionList.Items.AddObject(name, item: control);
             _ = gold != 0 ? ConstructionCostList.Items.Add(IntToStr(gold)) : ConstructionCostList.Items.Add("-");
 
             _ = days != 0 ? ConstructionTurnsList.Items.Add(IntToStr(days)) : ConstructionTurnsList.Items.Add("-");

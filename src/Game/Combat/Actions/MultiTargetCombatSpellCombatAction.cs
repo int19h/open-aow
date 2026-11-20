@@ -49,7 +49,7 @@ public class MultiTargetCombatSpellCombatAction(CustomNode owner) : CombatAction
         if (ManaCost != 0 && combat.Status.Contains(CombatStatusElement.Executing))
         {
             CombatObject source = combat.CombatData.FindId(SourceId);
-            GamePack.Current.SpellControl[SpellId].CombatCastingDone(source, ManaCost);
+            GamePack.Current.SpellControl[SpellId].CombatCastingDone(source, mana: ManaCost);
         }
     }
 
@@ -84,13 +84,13 @@ public class MultiTargetCombatSpellCombatAction(CustomNode owner) : CombatAction
         if (objectValue.Id == SourceId)
         {
             Spell spell = GamePack.Current.SpellControl[SpellId];
-            GetEngine().CombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.SpellName, surface);
+            GetEngine().CombatFont.SetTextCentered(X + 32, Y + 32 + 8, text: spell.SpellName, lockedSurface: surface);
         }
         else
         {
             if (TargetIds.IndexOf(objectValue.Id) != -1)
             {
-                _ = GamePack.Current.SpellControl[SpellId].CastImages.Show(11, X + 32, Y + 32, viewer.Time, surface);
+                _ = GamePack.Current.SpellControl[SpellId].CastImages.Show(11, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
             }
         }
     }
@@ -103,13 +103,13 @@ public class MultiTargetCombatSpellCombatAction(CustomNode owner) : CombatAction
         if (objectValue.Id == SourceId)
         {
             Spell spell = GamePack.Current.SpellControl[SpellId];
-            GetEngine().CombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.SpellName, surface);
+            GetEngine().CombatFont.SetTextCentered(X + 32, Y + 32 + 8, text: spell.SpellName, lockedSurface: surface);
         }
         else
         {
             if (TargetIds.IndexOf(objectValue.Id) != -1)
             {
-                _ = GamePack.Current.SpellControl[SpellId].CastImages.Show(11, X + 32, Y + 32, viewer.Time, surface);
+                _ = GamePack.Current.SpellControl[SpellId].CastImages.Show(11, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
             }
         }
     }
@@ -118,6 +118,6 @@ public class MultiTargetCombatSpellCombatAction(CustomNode owner) : CombatAction
     public override void ShowFightingObjects(CombatViewer viewer, int frame, int X, int Y, in LockedSurface surface)
     {
         CombatObject source = viewer.Combat.CombatData.FindId(SourceId);
-        viewer.DefaultShowFightingObjects(null, source, frame, X, Y, surface);
+        viewer.DefaultShowFightingObjects(null, target: source, frame, X, Y, surface);
     }
 }

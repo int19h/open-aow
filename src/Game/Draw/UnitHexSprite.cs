@@ -92,7 +92,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     {
         get
         {
-            Assert(Owner is not null, "Onwer isn't defined", "UnitHS.PAS", 557);
+            Assert(Owner is not null, message: "Onwer isn't defined", file: "UnitHS.PAS", line: 557);
             return Owner.HexLevel;
         }
     }
@@ -115,7 +115,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
         MapField field = Owner;
         _ = field.RemoveChild(this);
         MapLevel level = field.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, field.HexX, field.HexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, field.HexX, field.HexY, radius: 0);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.X < level.Width && walk.Y >= 0 && walk.Y < level.Height)
@@ -135,7 +135,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
         {
             MapField field = Owner;
             MapLevel level = field.Owner;
-            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, field.HexX, field.HexY, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, field.HexX, field.HexY, radius: 0);
             while (walk.Radius <= 1)
             {
                 if (walk.X >= 0 && walk.X < level.Width && walk.Y >= 0 && walk.Y < level.Height)
@@ -162,7 +162,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     public override bool PlaceOnMap()
     {
         Connect();
-        Owner.Owner.Map.ScannerIconsChangedRadius(Owner.HexX, Owner.HexY, Owner.HexLevel, 0);
+        Owner.Owner.Map.ScannerIconsChangedRadius(Owner.HexX, Owner.HexY, Owner.HexLevel, radius: 0);
         return true;
     }
 
@@ -179,14 +179,14 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
 
             Disconnect();
             field.UpdateMapField();
-            field.Owner.Map.ScannerIconsChangedRadius(field.HexX, field.HexY, field.HexLevel, 0);
+            field.Owner.Map.ScannerIconsChangedRadius(field.HexX, field.HexY, field.HexLevel, radius: 0);
         }
     }
 
     // UnitHS.PAS:809
     public override bool Place(MapContainer map, int pixelX, int pixelY, int hexLevel)
     {
-        HexGeometry.PixelToHex(pixelX, pixelY, out int x, out int y);
+        HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int x, out int y);
         return PlaceHex(map, (sbyte)x, (sbyte)y, (sbyte)hexLevel);
     }
 
@@ -245,7 +245,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
         if ((Status & 1) == 0)
         {
             Status = (byte)(Status | 1);
-            _ = visibilityList.AddSortChild(this, _showPriority);
+            _ = visibilityList.AddSortChild(this, sortValue: _showPriority);
             // { Read Shadow directly. }
             if (_shadow is not null)
             {
@@ -259,7 +259,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     {
         if (!Moving())
         {
-            HexGeometry.PixelToHex(pixelX, pixelY, out int x, out int y);
+            HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int x, out int y);
             return Owner.HexX == x && Owner.HexY == y;
         }
         else
@@ -286,7 +286,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
         MapField field = Owner;
         if (Moving() && Set<byte>.WithBounds(0, 255).WithRange(3, 5).Contains(Direction))
         {
-            HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, Direction, ref x, ref y);
+            HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, hexNumber: Direction, ref x, ref y);
             field = Owner.Owner.GetField(x, y);
             HexGeometry.HexToPixel(x, y, out x, out y);
         }

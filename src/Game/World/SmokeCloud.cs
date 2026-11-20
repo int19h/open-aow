@@ -185,7 +185,7 @@ public class SmokeCloud : MultiHexMapObject
     {
         if (base.Resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            HexGeometry.PixelToHex(pixelX, pixelY, out int hexX, out int hexY);
+            HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int hexX, out int hexY);
             int hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, hexX, hexY);
             return hexNumber < base.Resource.TerrainList.Count && base.Resource.TerrainList.Terrain[hexNumber] >= -1;
         }
@@ -199,7 +199,7 @@ public class SmokeCloud : MultiHexMapObject
     public void UpdateConcealment(sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         MapLevel level = StrategicMap.Current.MapContainer.MapLevels[hexLevel];
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 0);
         while (base.Resource.TerrainList.Count > walk.HexNumber)
         {
             if (base.Resource.TerrainList.Terrain[walk.HexNumber] >= -1 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && level.Height > walk.Y)
@@ -219,7 +219,7 @@ public class SmokeCloud : MultiHexMapObject
         sbyte hexLevel = HexLevel;
         sbyte hexY = HexY;
         sbyte hexX = HexX;
-        bool visible = StrategicMap.Current.Visible(hexX, hexY, hexLevel, 3) || Enchantment.PlayerIndex == StrategicMap.Current.SeatedPlayer;
+        bool visible = StrategicMap.Current.Visible(hexX, hexY, L: hexLevel, radius: 3) || Enchantment.PlayerIndex == StrategicMap.Current.SeatedPlayer;
         if (_visibleForSeatedPlayer ^ visible)
         {
             _visibleForSeatedPlayer = visible;
@@ -234,8 +234,8 @@ public class SmokeCloud : MultiHexMapObject
         int hexY = default;
         MapLevel level = Owner.Owner;
         sbyte yhx = HexY;
-        HexGeometry.CenterHexNumberToHex(HexX, yhx, direction, ref hexX, ref hexY);
-        HexGeometry.CenterHexNumberToHex(hexX, hexY, direction, ref hexX, ref hexY);
+        HexGeometry.CenterHexNumberToHex(HexX, yhx, hexNumber: direction, ref hexX, ref hexY);
+        HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: direction, ref hexX, ref hexY);
         return hexX >= 10 && hexY >= 10 && level.Width >= hexX + 10 && level.Height >= hexY + 10;
     }
 
@@ -289,8 +289,8 @@ public class SmokeCloud : MultiHexMapObject
                     sbyte yhx = HexY;
                     int hexX = default;
                     int hexY = default;
-                    HexGeometry.CenterHexNumberToHex(HexX, yhx, direction, ref hexX, ref hexY);
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, direction, ref hexX, ref hexY);
+                    HexGeometry.CenterHexNumberToHex(HexX, yhx, hexNumber: direction, ref hexX, ref hexY);
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: direction, ref hexX, ref hexY);
                     Disconnect();
                     UpdateConcealment(StoredHexX, StoredHexY, (sbyte)hexLevel);
                     StoredHexX = (sbyte)hexX;
@@ -317,7 +317,7 @@ public class SmokeCloud : MultiHexMapObject
         public override int ResourceUserClassId() => 135746;
 
         // SmokeCloud.pas:388
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), GameText.SmokeCloudText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SmokeCloudText);
 
     }
 }

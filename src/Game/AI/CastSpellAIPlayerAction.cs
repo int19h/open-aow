@@ -87,12 +87,12 @@ public class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
     public void PrefetchCastSpellActions(Hero hero)
     {
         SpellList spells = new();
-        Control.Player.MagicControl.ListSpells(spells, Set<SpellType>.Of(SpellType.Unit, SpellType.Global));
+        Control.Player.MagicControl.ListSpells(spells, spellTypes: Set<SpellType>.Of(SpellType.Unit, SpellType.Global));
         for (int i = 0, last = spells.GetCount() - 1; i <= last; i++)
         {
             if (hero.CastingTurns(spells[i]) < 8)
             {
-                spells[i].AIPrefetchCastSpellActions(hero, _castSpellActions);
+                spells[i].AIPrefetchCastSpellActions(hero, actions: _castSpellActions);
             }
         }
 

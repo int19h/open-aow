@@ -19,7 +19,7 @@ public static class Program
     public static int Main(string[] arguments)
     {
         ProcessSafety.Initialize();
-        return Run(arguments, Console.Out, Console.Error);
+        return Run(arguments, output: Console.Out, errors: Console.Error);
     }
 
     // The built-in unit mappings register in Aow.Game's module initializer (own-formats.md 3.1).
@@ -38,7 +38,7 @@ public static class Program
                 "normalize" => Commands.Normalize(options, output, errors),
                 "check" => new Checker(output, errors).Run(options),
                 "info" => Commands.Info(options, output, errors),
-                _ => Usage(errors, $"Unknown command \"{options.Command}\"."),
+                _ => Usage(errors, message: $"Unknown command \"{options.Command}\"."),
             };
         }
         catch (UsageException error)
@@ -108,7 +108,7 @@ public sealed class Options
                 case "--profiles": o.Profiles = Value(); break;
                 case "--expect": o.Expect = Value(); break;
                 default:
-                    if (a.StartsWith("--", StringComparison.Ordinal))
+                    if (a.StartsWith("--", comparisonType: StringComparison.Ordinal))
                     {
                         throw new UsageException($"Unknown option {a}.");
                     }

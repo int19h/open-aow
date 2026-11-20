@@ -31,7 +31,7 @@ public class Image08(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
     public override void ReadImageData(Stream stream)
     {
         base.ReadImageData(stream);
-        stream.ReadExactly(Bytes.Of(ref _ownPalette, 1));
+        stream.ReadExactly(Bytes.Of(ref _ownPalette, count: 1));
         if (_ownPalette)
         {
             _imagePalette = new LibraryImagePalette();
@@ -40,7 +40,7 @@ public class Image08(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
         else
         {
             int index = default;
-            stream.ReadExactly(Bytes.Of(ref index, 4));
+            stream.ReadExactly(Bytes.Of(ref index, count: 4));
             _imagePalette = Owner.PaletteManager.LinkToPalette(index);
         }
 
@@ -51,7 +51,7 @@ public class Image08(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
     public override void WriteImageData(Stream stream)
     {
         base.WriteImageData(stream);
-        stream.Write(Bytes.Of(ref _ownPalette, 1));
+        stream.Write(Bytes.Of(ref _ownPalette, count: 1));
         if (_ownPalette)
         {
             _imagePalette.SaveToStream(stream);
@@ -59,7 +59,7 @@ public class Image08(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
         else
         {
             int indexValue = _imagePalette.IndexValue;
-            stream.Write(Bytes.Of(ref indexValue, 4));
+            stream.Write(Bytes.Of(ref indexValue, count: 4));
             _imagePalette.IndexValue = indexValue;
         }
     }

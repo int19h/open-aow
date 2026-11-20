@@ -139,7 +139,7 @@ public class AbilityControl : EngineObject
             {
                 if ((Abilities[i].SelectionTypes & types) != Set<AbilitySelectionType>.Of() || (types == Set<AbilitySelectionType>.Of().WithRange(0, (AbilitySelectionType)9) && Abilities[i].SelectionTypes == Set<AbilitySelectionType>.Of()))
                 {
-                    _ = text.AddObject(Abilities[i].GetName(null), IntToObject(i));
+                    _ = text.AddObject(Abilities[i].GetName(null), item: IntToObject(i));
                 }
             }
         }
@@ -186,7 +186,7 @@ public class AbilityControl : EngineObject
     {
         get
         {
-            Assert(index >= 0, "Invalid AbilityID", "Ability.PAS", 2069);
+            Assert(index >= 0, message: "Invalid AbilityID", file: "Ability.PAS", line: 2069);
             return index < Abilities.Count ? Abilities[index] : null;
         }
     }

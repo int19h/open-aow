@@ -13,7 +13,7 @@ public class BurningAbility : DurationAbility
     public BurningAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_burningText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_burningText);
         AbilityId = 127;
         AbilityType = AbilityType.Handicap;
         DurationMode = DurationMode.CombatTurn;

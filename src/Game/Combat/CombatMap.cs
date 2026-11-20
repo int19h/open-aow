@@ -212,7 +212,7 @@ public class CombatMap : GameMap
         {
             for (int y = 6, lastY = MapContainer.Height - 7; y <= lastY; y++)
             {
-                _ = GamePack.Current.CombatHexes.Place(MapContainer, (sbyte)x, (sbyte)y, 0, 1);
+                _ = GamePack.Current.CombatHexes.Place(MapContainer, (sbyte)x, (sbyte)y, L: 0, terrainType: 1);
             }
         }
 
@@ -221,12 +221,12 @@ public class CombatMap : GameMap
         {
             for (int y = 0; y <= 5; y++)
             {
-                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, 0, 15);
+                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, L: 0, terrainType: 15);
             }
 
             for (int y = MapContainer.Height - 6, lastY = MapContainer.Height - 1; y <= lastY; y++)
             {
-                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, 0, 15);
+                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, L: 0, terrainType: 15);
             }
         }
 
@@ -234,12 +234,12 @@ public class CombatMap : GameMap
         {
             for (int x = 0; x <= 5; x++)
             {
-                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, 0, 15);
+                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, L: 0, terrainType: 15);
             }
 
             for (int x = MapContainer.Width - 6, last = MapContainer.Width - 1; x <= last; x++)
             {
-                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, 0, 15);
+                _ = control.Place(MapContainer, (sbyte)x, (sbyte)y, L: 0, terrainType: 15);
             }
         }
     }
@@ -261,7 +261,7 @@ public class CombatMap : GameMap
         DrawMoveRoute(lockedSurface);
         if (Mouse.SelectionRectangle.Left != -1)
         {
-            DrawSelectionRectangle(ViewPixelX, ViewPixelY, Mouse.SelectionRectangle, lockedSurface);
+            DrawSelectionRectangle(ViewPixelX, ViewPixelY, R: Mouse.SelectionRectangle, lockedSurface);
         }
     }
 
@@ -430,16 +430,16 @@ public class CombatMap : GameMap
         StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(CurrentPlayer);
         if (Players.GetPlayers(CurrentCombatPlayer).Player == 0)
         {
-            string ind = AbilityRules.TranslateResourceString(GetEngine(), s_independentsText);
-            string beginRound = AbilityRules.TranslateResourceString(GetEngine(), s_beginRoundText);
+            string ind = AbilityRules.TranslateResourceString(GetEngine(), S: s_independentsText);
+            string beginRound = AbilityRules.TranslateResourceString(GetEngine(), S: s_beginRoundText);
             ShowMessage($"{ind} {beginRound}");
         }
         else
         {
             TacticalBattlePlayer playerLocal = Players.GetPlayers(CurrentCombatPlayer);
             Player playerPlayerRace = StrategicMap.Current.Players.GetPlayers(playerLocal.Player);
-            string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
-            string beginRound = AbilityRules.TranslateResourceString(GetEngine(), s_beginRoundText);
+            string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
+            string beginRound = AbilityRules.TranslateResourceString(GetEngine(), S: s_beginRoundText);
             ShowMessage($"{raceNamesPlural} {beginRound}");
         }
 
@@ -452,7 +452,7 @@ public class CombatMap : GameMap
                 SetSeatedCombatPlayer(CurrentCombatPlayer);
                 if (Players.GetPlayers(CurrentCombatPlayer).LastX == 0)
                 {
-                    TacticalBattleUnit u = GetNextUnit(null, true, true);
+                    TacticalBattleUnit u = GetNextUnit(null, allUnits: true, forward: true);
                     if (u is not null)
                     {
                         sbyte hexX = u.UnitHexSprite.HexX;
@@ -481,12 +481,12 @@ public class CombatMap : GameMap
         }
 
         _ = AudioPlayback.PlaySample("Sfx\\Events\\NewEvent.wav");
-        EngineMessage.InitializeMessage(out EngineMessage message, 537006081, this);
-        SendMessage(ref message, this);
+        EngineMessage.InitializeMessage(out EngineMessage message, messageId: 537006081, sender: this);
+        SendMessage(ref message, sender: this);
         if (ExplorationEnabled)
         {
             Rect rectangle = new(0, 0, 65, 58);
-            TriggerMapChangedEvent(rectangle, 0);
+            TriggerMapChangedEvent(rectangle, L: 0);
         }
 
         UnitSelection.Unselect();
@@ -660,7 +660,7 @@ public class CombatMap : GameMap
     {
         if (SeatedCombatPlayer == CurrentCombatPlayer)
         {
-            TacticalBattleUnit u = GetNextUnit(Players.GetPlayers(SeatedCombatPlayer).LastUnit, false, forward);
+            TacticalBattleUnit u = GetNextUnit(Players.GetPlayers(SeatedCombatPlayer).LastUnit, allUnits: false, forward);
             if (u is not null)
             {
                 if (UnitSelection.TacticalBattleUnitHexSprite != u.UnitHexSprite)
@@ -671,7 +671,7 @@ public class CombatMap : GameMap
                     Selection.UnselectLocation();
                     sbyte fUnitHexSpriteHexY = u.UnitHexSprite.HexY;
                     HexGeometry.HexToPixel(u.UnitHexSprite.HexX, fUnitHexSpriteHexY, out int x, out int y);
-                    Selection.SelectLocation(x, y, 0);
+                    Selection.SelectLocation(x, y, lHitPoints: 0);
                 }
             }
         }
@@ -744,13 +744,13 @@ public class CombatMap : GameMap
         TacticalBattleUnitHexSprite occupant;
         do
         {
-            HexGeometry.CenterHexNumberToHex(x0, y0, i, ref x, ref y);
+            HexGeometry.CenterHexNumberToHex(x0, y0, hexNumber: i, ref x, ref y);
             overlay = Current.MapContainer.MapLevels[0].Field[x, y].OverlayType;
             occupant = Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
             i += 1;
         }
         while (!(overlay != 8 && occupant is null));
-        if (!map.PlaceHex(hexSprite, x, y, 0))
+        if (!map.PlaceHex(hexSprite, x, y, L: 0))
         {
             hexSprite?.Dispose();
         }

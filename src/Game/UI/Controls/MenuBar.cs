@@ -56,12 +56,12 @@ public partial class MenuBar : Control
     {
         if (_imageLibraryButton is not null)
         {
-            _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexUp, 3, this);
+            _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexUp, count: 3, sender: this);
         }
 
         if (_imageLibraryButton is not null)
         {
-            _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexDown, 3, this);
+            _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexDown, count: 3, sender: this);
         }
 
         if (_imageLibraryButton is not null)
@@ -116,7 +116,7 @@ public partial class MenuBar : Control
         {
             if (Valid && Visible)
             {
-                RaisePreDraw(this, lockedSurface);
+                RaisePreDraw(this, surfDesc: lockedSurface);
 
                 Rect oldClip = lockedSurface.ClipRectangle;
                 for (int i = 0, last = _items.Count - 1; i <= last; i++)
@@ -126,13 +126,13 @@ public partial class MenuBar : Control
                         int count = _items.Count;
                         int fItemsCount = _items.Count;
                         SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft + (WinWidth * i / fItemsCount), Window.AbsoluteTop + WinTop, WinWidth / count, WinHeight);
-                        _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexDown, rectangle, ref lockedSurface);
+                        _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexDown, area: rectangle, ref lockedSurface);
                         if (base.Font is not null)
                         {
                             base.Font.Color = SelectedColor;
                             string item = _items[i];
                             int count2 = _items.Count;
-                            base.Font.SetText(Window.AbsoluteLeft + WinLeft + (WinWidth * i / count2) + BorderWidth, Window.AbsoluteTop + WinTop + BorderHeight, item, lockedSurface);
+                            base.Font.SetText(Window.AbsoluteLeft + WinLeft + (WinWidth * i / count2) + BorderWidth, Window.AbsoluteTop + WinTop + BorderHeight, text: item, lockedSurface);
                         }
                     }
                     else
@@ -140,23 +140,23 @@ public partial class MenuBar : Control
                         int count = _items.Count;
                         int fItemsCount = _items.Count;
                         SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft + (WinWidth * i / fItemsCount), Window.AbsoluteTop + WinTop, WinWidth / count, WinHeight);
-                        _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexUp, rectangle, ref lockedSurface);
+                        _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexUp, area: rectangle, ref lockedSurface);
                         if (base.Font is not null)
                         {
                             base.Font.Color = Color;
                             string item = _items[i];
                             int count2 = _items.Count;
-                            base.Font.SetText(Window.AbsoluteLeft + WinLeft + (WinWidth * i / count2) + BorderWidth, Window.AbsoluteTop + WinTop + BorderHeight + 1, item, lockedSurface);
+                            base.Font.SetText(Window.AbsoluteLeft + WinLeft + (WinWidth * i / count2) + BorderWidth, Window.AbsoluteTop + WinTop + BorderHeight + 1, text: item, lockedSurface);
                         }
                     }
                 }
 
-                RaiseDraw(this, lockedSurface);
+                RaiseDraw(this, surfDesc: lockedSurface);
             }
         }
         catch
         {
-            _ = MessageBox(0, "Exception during Draw", $"Error - {Name}", 0);
+            _ = MessageBox(0, text: "Exception during Draw", caption: $"Error - {Name}", flags: 0);
         }
     }
 

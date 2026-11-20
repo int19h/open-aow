@@ -45,7 +45,7 @@ public class FastMemoryStream : Stream
 
         if (newCapacity != _capacity)
         {
-            Array.Resize(ref _memory, newCapacity);
+            Array.Resize(ref _memory, newSize: newCapacity);
 
             _capacity = newCapacity;
             if (_capacity > _size)
@@ -79,7 +79,7 @@ public class FastMemoryStream : Stream
         base.Dispose(disposing);
     }
 
-    public override int Read(byte[] buffer, int offset, int count) => count < 0 ? 0 : Read(buffer.AsSpan(offset, count));
+    public override int Read(byte[] buffer, int offset, int count) => count < 0 ? 0 : Read(buffer.AsSpan(offset, length: count));
 
     // FMemStr.pas:43
     public override int Read(Span<byte> buffer)
@@ -100,26 +100,26 @@ public class FastMemoryStream : Stream
 
             if (count == 4)
             {
-                int value3 = MemoryMarshal.Read<int>(_memory.AsSpan(_position, 4));
-                MemoryMarshal.Write(buffer, in value3);
+                int value3 = MemoryMarshal.Read<int>(_memory.AsSpan(_position, length: 4));
+                MemoryMarshal.Write(buffer, value: in value3);
             }
             else
             {
                 if (count == 1)
                 {
-                    byte value4 = MemoryMarshal.Read<byte>(_memory.AsSpan(_position, 1));
-                    MemoryMarshal.Write(buffer, in value4);
+                    byte value4 = MemoryMarshal.Read<byte>(_memory.AsSpan(_position, length: 1));
+                    MemoryMarshal.Write(buffer, value: in value4);
                 }
                 else
                 {
                     if (count == 2)
                     {
-                        ushort value5 = MemoryMarshal.Read<ushort>(_memory.AsSpan(_position, 2));
-                        MemoryMarshal.Write(buffer, in value5);
+                        ushort value5 = MemoryMarshal.Read<ushort>(_memory.AsSpan(_position, length: 2));
+                        MemoryMarshal.Write(buffer, value: in value5);
                     }
                     else
                     {
-                        Move(_memory.AsSpan(_position, result), buffer[..result], result);
+                        Move(_memory.AsSpan(_position, length: result), destination: buffer[..result], count: result);
                     }
                 }
             }
@@ -138,7 +138,7 @@ public class FastMemoryStream : Stream
             return;
         }
 
-        Write(buffer.AsSpan(offset, count));
+        Write(buffer.AsSpan(offset, length: count));
     }
 
     // FMemStr.pas:159. A non-empty write that stores nothing raises the stream write error.
@@ -163,27 +163,27 @@ public class FastMemoryStream : Stream
                 if (count == 4)
                 {
                     int value6 = MemoryMarshal.Read<int>(buffer);
-                    MemoryMarshal.Write(_memory.AsSpan(_position, 4), in value6);
+                    MemoryMarshal.Write(_memory.AsSpan(_position, length: 4), value: in value6);
                 }
                 else
                 {
                     if (count == 1)
                     {
                         byte value7 = MemoryMarshal.Read<byte>(buffer);
-                        MemoryMarshal.Write(_memory.AsSpan(_position, 1), in value7);
+                        MemoryMarshal.Write(_memory.AsSpan(_position, length: 1), value: in value7);
                     }
                     else
                     {
                         if (count == 2)
                         {
                             ushort value8 = MemoryMarshal.Read<ushort>(buffer);
-                            MemoryMarshal.Write(_memory.AsSpan(_position, 2), in value8);
+                            MemoryMarshal.Write(_memory.AsSpan(_position, length: 2), value: in value8);
                         }
                         else
                         {
                             if (count != 0)
                             {
-                                Move(buffer[..count], _memory.AsSpan(_position, count), count);
+                                Move(buffer[..count], destination: _memory.AsSpan(_position, length: count), count);
                             }
                         }
                     }
@@ -238,14 +238,14 @@ public class FastMemoryStream : Stream
         SetLength(count);
         if (count != 0)
         {
-            stream.ReadBuffer(_memory.AsSpan(0, count));
+            stream.ReadBuffer(_memory.AsSpan(0, length: count));
         }
     }
 
     // FMemStr.pas:113
     public void LoadFromFile(string fileName)
     {
-        Stream stream = OpenFile(fileName, 0);
+        Stream stream = OpenFile(fileName, mode: 0);
         try
         {
             LoadFromStream(stream);
@@ -261,14 +261,14 @@ public class FastMemoryStream : Stream
     {
         if (_size != 0)
         {
-            stream.WriteBuffer(_memory.AsSpan(0, _size));
+            stream.WriteBuffer(_memory.AsSpan(0, length: _size));
         }
     }
 
     // FMemStr.pas:78
     public void SaveToFile(string fileName)
     {
-        Stream stream = OpenFile(fileName, 65535);
+        Stream stream = OpenFile(fileName, mode: 65535);
         try
         {
             SaveToStream(stream);

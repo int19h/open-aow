@@ -147,7 +147,7 @@ public sealed class EventLogConstructionTests
                         try
                         {
                             value = (EventLog)OrderingRecording.Create(type, owner, route, fixture.Engine);
-                            Assert.IsType(type, value);
+                            Assert.IsType(type, @object: value);
                             state = OrderingRecording.Snapshot(value);
                         }
                         catch (Exception error) when (error is not XunitException)

@@ -15,17 +15,17 @@ namespace Aow.Formats.Json;
 /// </summary>
 public static class JsonWriter
 {
-    public static byte[] ToUtf8(JsonValue value) => new UTF8Encoding(false, true).GetBytes(ToText(value));
+    public static byte[] ToUtf8(JsonValue value) => new UTF8Encoding(false, throwOnInvalidBytes: true).GetBytes(ToText(value));
 
     public static string ToText(JsonValue value)
     {
         StringBuilder builder = new();
-        Write(builder, value, 0);
+        Write(builder, value, depth: 0);
         _ = builder.Append('\n');
         return builder.ToString();
     }
 
-    private static void Indent(StringBuilder builder, int depth) => builder.Append(' ', depth * 2);
+    private static void Indent(StringBuilder builder, int depth) => builder.Append(' ', repeatCount: depth * 2);
 
     private static void Write(StringBuilder builder, JsonValue value, int depth)
     {
@@ -40,18 +40,18 @@ public static class JsonWriter
                 _ = builder.Append("{\n");
                 for (int i = 0; i < objectValue.Members.Count; i++)
                 {
-                    Indent(builder, depth + 1);
-                    WriteString(builder, objectValue.Members[i].Name);
+                    Indent(builder, depth: depth + 1);
+                    WriteString(builder, value: objectValue.Members[i].Name);
                     _ = builder.Append(": ");
                     JsonMember member = objectValue.Members[i];
                     // Map field rows take one line each, also in a parsed document without layout marks.
                     if (member.Name == "Fields" && member.Value is JsonArray { Items.Count: > 0 } rows && rows.Items.All(r => r is JsonArray))
                     {
-                        WriteRows(builder, rows, depth + 1);
+                        WriteRows(builder, rows, depth: depth + 1);
                     }
                     else
                     {
-                        Write(builder, member.Value, depth + 1);
+                        Write(builder, member.Value, depth: depth + 1);
                     }
 
                     _ = builder.Append(i + 1 < objectValue.Members.Count ? ",\n" : "\n");
@@ -68,14 +68,14 @@ public static class JsonWriter
                 _ = builder.Append("[\n");
                 for (int i = 0; i < array.Items.Count; i++)
                 {
-                    Indent(builder, depth + 1);
+                    Indent(builder, depth: depth + 1);
                     if (array.Layout == ArrayLayout.RowsOnLines)
                     {
-                        WriteCompact(builder, array.Items[i]);
+                        WriteCompact(builder, value: array.Items[i]);
                     }
                     else
                     {
-                        Write(builder, array.Items[i], depth + 1);
+                        Write(builder, value: array.Items[i], depth: depth + 1);
                     }
 
                     _ = builder.Append(i + 1 < array.Items.Count ? ",\n" : "\n");
@@ -94,8 +94,8 @@ public static class JsonWriter
         _ = builder.Append("[\n");
         for (int i = 0; i < rows.Items.Count; i++)
         {
-            Indent(builder, depth + 1);
-            WriteCompact(builder, rows.Items[i]);
+            Indent(builder, depth: depth + 1);
+            WriteCompact(builder, value: rows.Items[i]);
             _ = builder.Append(i + 1 < rows.Items.Count ? ",\n" : "\n");
         }
         Indent(builder, depth);
@@ -116,7 +116,7 @@ public static class JsonWriter
                         _ = builder.Append(", ");
                     }
 
-                    WriteString(builder, objectValue.Members[i].Name);
+                    WriteString(builder, value: objectValue.Members[i].Name);
                     _ = builder.Append(": ");
                     WriteCompact(builder, objectValue.Members[i].Value);
                 }
@@ -131,7 +131,7 @@ public static class JsonWriter
                         _ = builder.Append(", ");
                     }
 
-                    WriteCompact(builder, array.Items[i]);
+                    WriteCompact(builder, value: array.Items[i]);
                 }
                 _ = builder.Append(']');
                 return;
@@ -183,7 +183,7 @@ public static class JsonWriter
                 default:
                     if (c is < ' ' or (>= '\u007f' and <= '\u009f'))
                     {
-                        _ = builder.Append("\\u").Append(((int)c).ToString("x4", CultureInfo.InvariantCulture));
+                        _ = builder.Append("\\u").Append(((int)c).ToString("x4", provider: CultureInfo.InvariantCulture));
                     }
                     else if (char.IsHighSurrogate(c) && i + 1 < value.Length && char.IsLowSurrogate(value[i + 1]))
                     {
@@ -193,7 +193,7 @@ public static class JsonWriter
                     else
                     {
                         _ = char.IsSurrogate(c)
-                            ? throw new ConversionException(new FormatDiagnostic(Codes.Surrogate, "A string holds an unpaired surrogate."))
+                            ? throw new ConversionException(new FormatDiagnostic(Codes.Surrogate, Message: "A string holds an unpaired surrogate."))
                             : builder.Append(c);
                     }
 

@@ -32,8 +32,8 @@ public class TerminatePlayerTokenEvent(CustomNode owner) : TokenEvent(owner)
     {
         StrategicMap.Current.Players.GetPlayers(Player).PlayerType = PlayerType.Cpu3;
         RemotePlayerCommunicationControl remotePlayerCommunicationControl = (RemotePlayerCommunicationControl)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl;
-        remotePlayerCommunicationControl.SetConnectionMode(Player, ConnectionMode.Global);
-        remotePlayerCommunicationControl.SetSystemId(Player, 0);
+        remotePlayerCommunicationControl.SetConnectionMode(Player, mode: ConnectionMode.Global);
+        remotePlayerCommunicationControl.SetSystemId(Player, systemId: 0);
 
         if (!StrategicMap.Current.Players.GetPlayers(Player).SingleProcessCycle)
         {
@@ -49,16 +49,16 @@ public class TerminatePlayerTokenEvent(CustomNode owner) : TokenEvent(owner)
                 Layout = MessageEventLogLayout.Normal
             };
             string name = StrategicMap.Current.Players.GetPlayers(Player).GetName();
-            string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_leftGameFormat), [name]);
+            string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_leftGameFormat), arguments: [name]);
             _ = log.Message.Add(format);
             // { Append the departure message, as in the original. }
-            StrategicMap.Current.TriggerExecuteEventLog(log, false, null);
+            StrategicMap.Current.TriggerExecuteEventLog(log, immediate: false, done: null);
             _ = log.Release();
         }
         else
         {
             StrategicMap.Current.ExecuteExitGame();
-            ExitCallback?.Invoke(ExitMode, true);
+            ExitCallback?.Invoke(ExitMode, Exited: true);
         }
 
         return ExecuteResult.Done;

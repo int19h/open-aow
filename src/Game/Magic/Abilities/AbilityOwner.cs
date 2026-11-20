@@ -40,7 +40,7 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
             }
 
             Int32List ids = new();
-            PersistSupport.Int32List(persister, "AbilityDataIds", ids);
+            PersistSupport.Int32List(persister, name: "AbilityDataIds", list: ids);
             AbilityData previous = null;
             for (int i = 0; i < ids.Count; i++)
             {
@@ -69,7 +69,7 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
             _ = stored.Add(data.GetAbilityId());
         }
 
-        PersistSupport.Int32List(persister, "AbilityDataIds", stored);
+        PersistSupport.Int32List(persister, name: "AbilityDataIds", list: stored);
         for (AbilityData data = AbilityData; data is not null; data = data.Next)
         {
             _ = persister.CreatedSlot("AbilityData", slot: data.GetAbilityId(), objectValue: data);
@@ -119,7 +119,7 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
                 Ability ability = GamePack.Current.AbilityControl[i];
                 if ((ability.SelectionTypes & types) != Set<AbilitySelectionType>.Of())
                 {
-                    _ = text.AddObject(ability.GetName(this), IntToObject(i));
+                    _ = text.AddObject(ability.GetName(this), item: IntToObject(i));
                 }
             }
         }
@@ -201,7 +201,7 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
         {
             if (GetAbilitySetAt(i) && (GamePack.Current.AbilityControl[i].SelectionTypes & types) == Set<AbilitySelectionType>.Of())
             {
-                SetAbilitySet(i, 0);
+                SetAbilitySet(i, value: 0);
             }
         }
     }
@@ -235,7 +235,7 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
         {
             if (source.GetAbilitySetAt(i) != GetAbilitySetAt(i))
             {
-                SetAbilitySet(i, (byte)(source.GetAbilitySetAt(i) ? 1 : 0));
+                SetAbilitySet(i, value: (byte)(source.GetAbilitySetAt(i) ? 1 : 0));
             }
         }
 
@@ -322,7 +322,7 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
                     AddAbilityData(data);
                 }
 
-                SetAbilitySet(i, 1);
+                SetAbilitySet(i, value: 1);
             }
         }
     }
@@ -612,7 +612,7 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
                 string name = ability.GetName(this);
                 if (!IsEmpty(name))
                 {
-                    _ = text.AddObject(name, IntToObject(i));
+                    _ = text.AddObject(name, item: IntToObject(i));
                 }
             }
         }

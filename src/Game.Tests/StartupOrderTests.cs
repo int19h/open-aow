@@ -20,7 +20,7 @@ public sealed class StartupOrderTests
         ("Sound", "Aow.Game.Audio.AudioHost", "Initialize", "Finalize"),
     ];
 
-    private static string[] Split(string text) => text.Split([' ', '\n'], StringSplitOptions.RemoveEmptyEntries);
+    private static string[] Split(string text) => text.Split([' ', '\n'], options: StringSplitOptions.RemoveEmptyEntries);
 
     private static void AssertDelegate(Action? section, string type, string name)
     {
@@ -38,8 +38,8 @@ public sealed class StartupOrderTests
     {
         List<string> calls = [];
         StartupUnit[] units = [.. Startup.Units.Select(u => new StartupUnit(u.Name,
-            u.Initialize is null ? null! : () => calls.Add($"I {u.Name}"),
-            u.Finalize is null ? null! : () => calls.Add($"F {u.Name}")))];
+            Initialize: u.Initialize is null ? null! : () => calls.Add($"I {u.Name}"),
+            Finalize: u.Finalize is null ? null! : () => calls.Add($"F {u.Name}")))];
         return (units, calls);
     }
 
@@ -51,8 +51,8 @@ public sealed class StartupOrderTests
         for (int i = 0; i < s_delegates.Length; i++)
         {
             Assert.Equal(s_delegates[i].Name, Startup.Units[i].Name);
-            AssertDelegate(Startup.Units[i].Initialize, s_delegates[i].Type, s_delegates[i].Init);
-            AssertDelegate(Startup.Units[i].Finalize, s_delegates[i].Type, s_delegates[i].Fin);
+            AssertDelegate(Startup.Units[i].Initialize, s_delegates[i].Type, name: s_delegates[i].Init);
+            AssertDelegate(Startup.Units[i].Finalize, s_delegates[i].Type, name: s_delegates[i].Fin);
         }
     }
 
@@ -61,15 +61,15 @@ public sealed class StartupOrderTests
     {
         (StartupUnit[]? units, List<string>? calls) = Recording();
         bool[] state = new bool[units.Length];
-        Startup.InitializeUnits(units, state, null);
+        Startup.InitializeUnits(units, state, selection: null);
         Assert.Equal(Split(Initializations).Select(n => $"I {n}"), calls);
-        Assert.All(state, Assert.True);
+        Assert.All(state, action: Assert.True);
         calls.Clear();
-        Startup.InitializeUnits(units, state, null);
+        Startup.InitializeUnits(units, state, selection: null);
         Assert.Empty(calls);
-        Startup.FinalizeUnits(units, state, null);
+        Startup.FinalizeUnits(units, state, selection: null);
         Assert.Equal(Split(Finalizations).Select(n => $"F {n}"), calls);
-        Assert.All(state, Assert.False);
+        Assert.All(state, action: Assert.False);
     }
 
     [Fact]
@@ -77,27 +77,27 @@ public sealed class StartupOrderTests
     {
         (StartupUnit[]? units, List<string>? calls) = Recording();
         bool[] state = new bool[units.Length];
-        Startup.InitializeUnits(units, state, ["ImageLib", "Sound"]);
+        Startup.InitializeUnits(units, state, selection: ["ImageLib", "Sound"]);
         Assert.Equal(["I ImageLib", "I Sound"], calls);
         calls.Clear();
         // Units outside the finalization selection stay initialized, and GFXE was not initialized.
-        Startup.FinalizeUnits(units, state, ["Sound", "GFXE"]);
+        Startup.FinalizeUnits(units, state, selection: ["Sound", "GFXE"]);
         Assert.Equal(["F Sound"], calls);
         calls.Clear();
         // Only initialized units are finalized: GFXE was never initialized.
-        Startup.FinalizeUnits(units, state, null);
+        Startup.FinalizeUnits(units, state, selection: null);
         Assert.Equal(["F ImageLib"], calls);
-        Assert.All(state, Assert.False);
+        Assert.All(state, action: Assert.False);
     }
 
     [Fact]
     public void FailingInitializationStopsTheRun()
     {
         List<string> calls = [];
-        StartupUnit[] units = [new("A", () => calls.Add("A"), null!), new("B", () => throw new InvalidOperationException("B"), null!),
-            new("C", () => calls.Add("C"), null!)];
+        StartupUnit[] units = [new("A", Initialize: () => calls.Add("A"), Finalize: null!), new("B", Initialize: () => throw new InvalidOperationException("B"), Finalize: null!),
+            new("C", Initialize: () => calls.Add("C"), Finalize: null!)];
         bool[] state = new bool[units.Length];
-        _ = Assert.Throws<InvalidOperationException>(() => Startup.InitializeUnits(units, state, null!));
+        _ = Assert.Throws<InvalidOperationException>(() => Startup.InitializeUnits(units, state, selection: null!));
         Assert.Equal(["A"], calls);
         Assert.Equal([true, false, false], state);
     }
@@ -106,12 +106,12 @@ public sealed class StartupOrderTests
     public void FailingFinalizationFinalizesTheRestAndRethrowsTheLastFailure()
     {
         List<string> calls = [];
-        StartupUnit[] units = [new("A", null!, () => throw new InvalidOperationException("A")), new("B", null!, () => calls.Add("B")),
-            new("C", null!, () => throw new InvalidOperationException("C")), new("D", null!, () => calls.Add("D"))];
+        StartupUnit[] units = [new("A", Initialize: null!, () => throw new InvalidOperationException("A")), new("B", Initialize: null!, () => calls.Add("B")),
+            new("C", Initialize: null!, () => throw new InvalidOperationException("C")), new("D", Initialize: null!, () => calls.Add("D"))];
         bool[] state = [true, true, true, true];
-        InvalidOperationException failure = Assert.Throws<InvalidOperationException>(() => Startup.FinalizeUnits(units, state, null!));
+        InvalidOperationException failure = Assert.Throws<InvalidOperationException>(() => Startup.FinalizeUnits(units, state, selection: null!));
         Assert.Equal("A", failure.Message);
         Assert.Equal(["D", "B"], calls);
-        Assert.All(state, Assert.False);
+        Assert.All(state, action: Assert.False);
     }
 }

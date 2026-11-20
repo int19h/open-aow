@@ -12,7 +12,7 @@ public class CosmeticSurgeryAbility : UnitEnchantmentAbility
     public CosmeticSurgeryAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.CosmeticSurgeryText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CosmeticSurgeryText);
         AbilityId = 126;
     }
 

@@ -39,14 +39,14 @@ public class CityOverlayHexSprite(CustomNode owner) : SingleHexSprite(owner)
                 sequence = City.Resource.ImageSequenceList.ImageSequences[17];
                 while (sequence is not null)
                 {
-                    index = sequence.GetFrameIndex(0, 0);
+                    index = sequence.GetFrameIndex(0, offset: 0);
                     if (sequence == City.Resource.ImageSequenceList.ImageSequences[17])
                     {
-                        sequence.ImageLibrary[index].ShowBlended(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
+                        sequence.ImageLibrary[index].ShowBlended(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface, table: GraphicsState.IntensityBlendTable.LookupTables[intensity]);
                     }
                     else
                     {
-                        sequence.ImageLibrary[index].ShowBlended(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[intensity]);
+                        sequence.ImageLibrary[index].ShowBlended(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface, table: GraphicsState.AlphaBlendTable.LookupTables[intensity]);
                     }
 
                     sequence = sequence.Next;
@@ -61,15 +61,15 @@ public class CityOverlayHexSprite(CustomNode owner) : SingleHexSprite(owner)
                 {
                     if (sequence == City.Resource.ImageSequenceList.ImageSequences[18])
                     {
-                        index = sequence.GetFrameIndex(0, 0);
+                        index = sequence.GetFrameIndex(0, offset: 0);
                         if (sequence.ImageLibrary.ImageExist(index))
                         {
-                            sequence.ImageLibrary[index].ShowBlended(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
+                            sequence.ImageLibrary[index].ShowBlended(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface, table: GraphicsState.IntensityBlendTable.LookupTables[intensity]);
                         }
                     }
                     else
                     {
-                        index = sequence.GetFrameIndex(0, StrategicMap.Current.Frame);
+                        index = sequence.GetFrameIndex(0, offset: StrategicMap.Current.Frame);
                         if (sequence.ImageLibrary.ImageExist(index))
                         {
                             sequence.ImageLibrary[index].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface);
@@ -86,7 +86,7 @@ public class CityOverlayHexSprite(CustomNode owner) : SingleHexSprite(owner)
                 if (sequence is not null)
                 {
                     intensity = 50;
-                    index = sequence.GetFrameIndex(0, 0);
+                    index = sequence.GetFrameIndex(0, offset: 0);
                     if (_shellEndFrame != -1 && StrategicMap.Current.Frame < _shellEndFrame)
                     {
                         int frame;
@@ -121,13 +121,13 @@ public class CityOverlayHexSprite(CustomNode owner) : SingleHexSprite(owner)
                         }
                     }
 
-                    sequence.ImageLibrary[index].ShowBlended(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
+                    sequence.ImageLibrary[index].ShowBlended(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface, table: GraphicsState.IntensityBlendTable.LookupTables[intensity]);
                 }
             }
 
             if (Mode == OverlayMode.Looting)
             {
-                City.Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 22, (uint)(City.Owner.HexX + (City.Owner.HexY * 16)));
+                City.Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, index: 22, offset: (uint)(City.Owner.HexX + (City.Owner.HexY * 16)));
             }
         }
     }

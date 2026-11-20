@@ -113,7 +113,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
         }
 
         output.WriteLine($"{checkedNames} schema members checked, {s_unboundNames.Count} bind no member of their name");
-        Assert.True(failures.Count == 0, string.Join("\n", failures));
+        Assert.True(failures.Count == 0, userMessage: string.Join("\n", values: failures));
     }
 
     // The original image of an object whose integer members hold distinct values decodes, under each
@@ -177,8 +177,8 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
             output.WriteLine($"skipped {line}");
         }
 
-        Assert.True(failures.Count == 0, string.Join("\n", failures));
-        Assert.True(objects >= 300, $"only {objects} objects were checked");
+        Assert.True(failures.Count == 0, userMessage: string.Join("\n", values: failures));
+        Assert.True(objects >= 300, userMessage: $"only {objects} objects were checked");
     }
 
     [Fact]
@@ -214,7 +214,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
             Assert.Equal(actual: EnumTypeInfo.Describe(type).ByName.Keys.Order(StringComparer.Ordinal).ToArray(), expected: [.. Enum.GetNames(type).Order(StringComparer.Ordinal)]);
         }
         output.WriteLine($"{records.Count} records and {enums.Count} enums checked");
-        Assert.True(failures.Count == 0, string.Join("\n", failures));
+        Assert.True(failures.Count == 0, userMessage: string.Join("\n", values: failures));
     }
 
     // Issue 158 part 9. A renamed node keeps the stored name the schema already uses.
@@ -270,14 +270,14 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
             return field;
         }
 
-        if (MemberNames.Field(type, $"_{char.ToLowerInvariant(name[0])}{name[1..]}") is { } privateField)
+        if (MemberNames.Field(type, name: $"_{char.ToLowerInvariant(name[0])}{name[1..]}") is { } privateField)
         {
             return privateField;
         }
 
         for (Type? current = type; current is not null; current = current.BaseType)
         {
-            if (current.GetProperty(name, Instance | BindingFlags.DeclaredOnly) is { } property)
+            if (current.GetProperty(name, bindingAttr: Instance | BindingFlags.DeclaredOnly) is { } property)
             {
                 return property;
             }
@@ -357,7 +357,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
         using Stream stream = typeof(FormatSchema).Assembly.GetManifestResourceStream("Aow.Formats.schema.json")!;
         using MemoryStream memory = new();
         stream.CopyTo(memory);
-        return (JsonObject)JsonReader.Parse(memory.ToArray(), "schema.json");
+        return (JsonObject)JsonReader.Parse(memory.ToArray(), file: "schema.json");
     }
 
     private static void Collect(JsonValue value, SortedSet<string> records, SortedSet<string> enums)

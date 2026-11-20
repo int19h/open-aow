@@ -75,7 +75,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
             return;
         }
 
-        SetVersion(1, 36, 53);
+        SetVersion(1, minor: 36, build: 53);
         Registry = new GameSettings();
         User = Set<EngineUserElement>.Of(EngineUserElement.Programmer, EngineUserElement.Designer, EngineUserElement.User);
         InitializeMovePoints();
@@ -166,7 +166,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         };
         try
         {
-            stream.Object(objectValue, 0);
+            stream.Object(objectValue, id: 0);
         }
         finally
         {
@@ -313,7 +313,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         {
             MemoryStream memory = new();
             // { Original leaks Mem if opening or loading the file raises. }
-            Stream fileStream = OpenFile($"{StartupDirectory}RELEASE\\GENERAL.PFS", 0 | 32);
+            Stream fileStream = OpenFile($"{StartupDirectory}RELEASE\\GENERAL.PFS", mode: 0 | 32);
             try
             {
                 memory.LoadFromStream(fileStream);
@@ -327,9 +327,9 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
             {
                 memory.Position = 0;
                 bool registered = default;
-                _ = memory.Read(Bytes.Of(ref registered, 1));
+                _ = memory.Read(Bytes.Of(ref registered, count: 1));
                 string name = "";
-                StringFromStream(ref name, memory);
+                StringFromStream(ref name, stream: memory);
                 return registered;
             }
             finally
@@ -353,9 +353,9 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
             {
                 memory.LoadFromFile($"{StartupDirectory}RELEASE\\GENERAL.PFS");
                 bool registered = default;
-                _ = memory.Read(Bytes.Of(ref registered, 1));
+                _ = memory.Read(Bytes.Of(ref registered, count: 1));
                 string name = "";
-                StringFromStream(ref name, memory);
+                StringFromStream(ref name, stream: memory);
                 return AbilityRules.Encode(name);
             }
             finally
@@ -385,7 +385,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
                 for (int i = 1; i <= 4; i++)
                 {
-                    string hex = IntToHex((Cp1252.Byte(text[i - 1]) * value) + i, 6);
+                    string hex = IntToHex((Cp1252.Byte(text[i - 1]) * value) + i, digits: 6);
                     result += hex[^1].ToString();
                     value += Cp1252.Byte(hex[^1]) + Cp1252.Byte(hex[0]);
                 }
@@ -413,7 +413,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         if (Campaign is not null && Campaign.Stream is not null)
         {
             CloseHsm(null);
-            LoadHsmFromStream(Campaign.Stream, false, progress);
+            LoadHsmFromStream(Campaign.Stream, edit: false, progress);
         }
     }
 
@@ -427,7 +427,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         CloseCampaign();
         // The file stores a world map campaign, and the reader returns that class.
         Campaign = RetrieveFromTree<WorldMapCampaign>(tree, progress: null);
-        TranslateEngineObjectFromFile(Campaign, $"{StartupDirectory}Dict\\Campaign.mld");
+        TranslateEngineObjectFromFile(Campaign, fileName: $"{StartupDirectory}Dict\\Campaign.mld");
         Campaign.FileName = fileName;
     }
 
@@ -439,10 +439,10 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
             Campaign.Stream.Clear();
             if (_gameMap is not null)
             {
-                SaveHsmToStream(Campaign.Stream, null);
+                SaveHsmToStream(Campaign.Stream, progress: null);
             }
 
-            StoreInFile(fileName, Campaign, null, GameProfile.Campaign);
+            StoreInFile(fileName, Campaign, progress: null, profile: GameProfile.Campaign);
         }
     }
 
@@ -701,67 +701,67 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     private void RegisterRangedGroup1(AbilityControl control)
     {
-        control.RegisterAbility(CreateBolts(120, TranslateResourceString(s_registerBlackBoltsText), 6, 3, DamageType.Death, 126));
-        control.RegisterAbility(CreateBolts(121, TranslateResourceString(s_registerMagicBoltsText), 7, 3, DamageType.Magic, 124));
-        control.RegisterAbility(CreateBolts(122, TranslateResourceString(s_registerFrostBoltsText), 6, 3, DamageType.Cold, 125));
-        control.RegisterAbility(CreateBolts(123, TranslateResourceString(s_registerLightningBoltsText), 6, 3, DamageType.Lightning, -1));
-        control.RegisterAbility(CreateBolts(124, TranslateResourceString(s_registerHolyBoltsText), 6, 3, DamageType.Holy, 125));
-        control.RegisterAbility(CreateBreath(86, TranslateResourceString(s_registerFireBreathText), DamageType.Fire, -1));
-        control.RegisterAbility(CreateBreath(87, TranslateResourceString(s_registerColdBreathText), DamageType.Cold, -1));
+        control.RegisterAbility(CreateBolts(120, name: TranslateResourceString(s_registerBlackBoltsText), attack: 6, damage: 3, damageType: DamageType.Death, enchantment: 126));
+        control.RegisterAbility(CreateBolts(121, name: TranslateResourceString(s_registerMagicBoltsText), attack: 7, damage: 3, damageType: DamageType.Magic, enchantment: 124));
+        control.RegisterAbility(CreateBolts(122, name: TranslateResourceString(s_registerFrostBoltsText), attack: 6, damage: 3, damageType: DamageType.Cold, enchantment: 125));
+        control.RegisterAbility(CreateBolts(123, name: TranslateResourceString(s_registerLightningBoltsText), attack: 6, damage: 3, damageType: DamageType.Lightning, enchantment: -1));
+        control.RegisterAbility(CreateBolts(124, name: TranslateResourceString(s_registerHolyBoltsText), attack: 6, damage: 3, damageType: DamageType.Holy, enchantment: 125));
+        control.RegisterAbility(CreateBreath(86, name: TranslateResourceString(s_registerFireBreathText), damageType: DamageType.Fire, enchantment: -1));
+        control.RegisterAbility(CreateBreath(87, name: TranslateResourceString(s_registerColdBreathText), damageType: DamageType.Cold, enchantment: -1));
     }
 
     private void RegisterRangedGroup2(AbilityControl control)
     {
-        control.RegisterAbility(CreateBreath(88, TranslateResourceString(s_registerBlackBreathText), DamageType.Death, -1));
-        control.RegisterAbility(CreateBreath(89, TranslateResourceString(s_registerDivineBreathText), DamageType.Holy, -1));
-        control.RegisterAbility(CreateBreath(90, TranslateResourceString(s_registerGasBreathText), DamageType.Poison, -1));
+        control.RegisterAbility(CreateBreath(88, name: TranslateResourceString(s_registerBlackBreathText), damageType: DamageType.Death, enchantment: -1));
+        control.RegisterAbility(CreateBreath(89, name: TranslateResourceString(s_registerDivineBreathText), damageType: DamageType.Holy, enchantment: -1));
+        control.RegisterAbility(CreateBreath(90, name: TranslateResourceString(s_registerGasBreathText), damageType: DamageType.Poison, enchantment: -1));
         control.RegisterAbility(new FlameThrowingAbility(null, holder: this));
-        control.RegisterAbility(CreateRangedAttack(57, TranslateResourceString(s_registerShootJavelinText), 5, 5, 2, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Physical), 122));
-        control.RegisterAbility(CreateRangedAttack(58, TranslateResourceString(s_registerShootBlackJavelinText), 5, 5, 2, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Death, DamageType.Physical), 123));
-        control.RegisterAbility(CreateRangedAttack(25, TranslateResourceString(s_registerHurlStonesText), 3, 1, 4, RangedAttackAbility.CombatRange.Medium, Set<DamageType>.Of(DamageType.Physical), 111));
+        control.RegisterAbility(CreateRangedAttack(57, name: TranslateResourceString(s_registerShootJavelinText), attack: 5, damage: 5, repeats: 2, range: RangedAttackAbility.CombatRange.Long, damageTypes: Set<DamageType>.Of(DamageType.Physical), enchantment: 122));
+        control.RegisterAbility(CreateRangedAttack(58, name: TranslateResourceString(s_registerShootBlackJavelinText), attack: 5, damage: 5, repeats: 2, range: RangedAttackAbility.CombatRange.Long, damageTypes: Set<DamageType>.Of(DamageType.Death, DamageType.Physical), enchantment: 123));
+        control.RegisterAbility(CreateRangedAttack(25, name: TranslateResourceString(s_registerHurlStonesText), attack: 3, damage: 1, repeats: 4, range: RangedAttackAbility.CombatRange.Medium, damageTypes: Set<DamageType>.Of(DamageType.Physical), enchantment: 111));
     }
 
     private void RegisterRangedGroup3(AbilityControl control)
     {
-        control.RegisterAbility(CreateRangedAttack(45, TranslateResourceString(s_registerFireMusketText), 5, 7, 1, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Physical), 113));
-        control.RegisterAbility(CreateRangedAttack(44, TranslateResourceString(s_registerFireCannonText), 5, 8, 1, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Physical, DamageType.Wall), 112));
-        control.RegisterAbility(CreateRangedAttack(24, TranslateResourceString(s_registerHurlBoulderText), 3, 7, 1, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Physical, DamageType.Wall), 110));
-        control.RegisterAbility(CreateRangedAttack(62, TranslateResourceString(s_registerVenomousSpitText), 5, 4, 1, RangedAttackAbility.CombatRange.Short, Set<DamageType>.Of(DamageType.Poison), -1));
-        control.RegisterAbility(CreateRangedAttack(31, TranslateResourceString(s_registerCallFlamesText), 5, 4, 1, RangedAttackAbility.CombatRange.Medium, Set<DamageType>.Of(DamageType.Fire), -1));
-        control.RegisterAbility(CreateRangedAttack(22, TranslateResourceString(s_registerArcheryText), 4, 2, 2, RangedAttackAbility.CombatRange.Medium, Set<DamageType>.Of(DamageType.Physical), -1));
+        control.RegisterAbility(CreateRangedAttack(45, name: TranslateResourceString(s_registerFireMusketText), attack: 5, damage: 7, repeats: 1, range: RangedAttackAbility.CombatRange.Long, damageTypes: Set<DamageType>.Of(DamageType.Physical), enchantment: 113));
+        control.RegisterAbility(CreateRangedAttack(44, name: TranslateResourceString(s_registerFireCannonText), attack: 5, damage: 8, repeats: 1, range: RangedAttackAbility.CombatRange.Long, damageTypes: Set<DamageType>.Of(DamageType.Physical, DamageType.Wall), enchantment: 112));
+        control.RegisterAbility(CreateRangedAttack(24, name: TranslateResourceString(s_registerHurlBoulderText), attack: 3, damage: 7, repeats: 1, range: RangedAttackAbility.CombatRange.Long, damageTypes: Set<DamageType>.Of(DamageType.Physical, DamageType.Wall), enchantment: 110));
+        control.RegisterAbility(CreateRangedAttack(62, name: TranslateResourceString(s_registerVenomousSpitText), attack: 5, damage: 4, repeats: 1, range: RangedAttackAbility.CombatRange.Short, damageTypes: Set<DamageType>.Of(DamageType.Poison), enchantment: -1));
+        control.RegisterAbility(CreateRangedAttack(31, name: TranslateResourceString(s_registerCallFlamesText), attack: 5, damage: 4, repeats: 1, range: RangedAttackAbility.CombatRange.Medium, damageTypes: Set<DamageType>.Of(DamageType.Fire), enchantment: -1));
+        control.RegisterAbility(CreateRangedAttack(22, name: TranslateResourceString(s_registerArcheryText), attack: 4, damage: 2, repeats: 2, range: RangedAttackAbility.CombatRange.Medium, damageTypes: Set<DamageType>.Of(DamageType.Physical), enchantment: -1));
     }
 
     private void RegisterRangedGroup4(AbilityControl control)
     {
-        control.RegisterAbility(CreateRangedAttack(61, TranslateResourceString(s_registerPoisonDartsText), 4, 1, 3, RangedAttackAbility.CombatRange.Medium, Set<DamageType>.Of(DamageType.Poison, DamageType.Physical), 114));
-        control.RegisterAbility(CreateRangedAttack(55, TranslateResourceString(s_registerDoomGazeText), 6, 5, 1, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Death), -1));
+        control.RegisterAbility(CreateRangedAttack(61, name: TranslateResourceString(s_registerPoisonDartsText), attack: 4, damage: 1, repeats: 3, range: RangedAttackAbility.CombatRange.Medium, damageTypes: Set<DamageType>.Of(DamageType.Poison, DamageType.Physical), enchantment: 114));
+        control.RegisterAbility(CreateRangedAttack(55, name: TranslateResourceString(s_registerDoomGazeText), attack: 6, damage: 5, repeats: 1, range: RangedAttackAbility.CombatRange.Long, damageTypes: Set<DamageType>.Of(DamageType.Death), enchantment: -1));
     }
 
     private void RegisterStrikeGroup1(AbilityControl control)
     {
         control.RegisterAbility(new StrikeAbility(null, holder: this));
-        control.RegisterAbility(CreateStrikeEnhancement(118, TranslateResourceString(s_registerLifeStealingText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem, AbilitySelectionType.Editor)));
-        control.RegisterAbility(CreateStrikeEnhancement(111, TranslateResourceString(s_registerChargeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.Editor)));
-        control.RegisterAbility(CreateStrikeEnhancement(112, TranslateResourceString(s_registerDragonSlayingText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem, AbilitySelectionType.Editor)));
-        control.RegisterAbility(CreateStrikeEnhancement(113, TranslateResourceString(s_registerParryText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.Editor)));
-        control.RegisterAbility(CreateStrikeEnhancement(115, TranslateResourceString(s_registerExtraStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem, AbilitySelectionType.Editor)));
-        control.RegisterAbility(CreateStrikeEnhancement(116, TranslateResourceString(s_registerFirstStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem, AbilitySelectionType.Editor)));
+        control.RegisterAbility(CreateStrikeEnhancement(118, name: TranslateResourceString(s_registerLifeStealingText), selection: Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem, AbilitySelectionType.Editor)));
+        control.RegisterAbility(CreateStrikeEnhancement(111, name: TranslateResourceString(s_registerChargeText), selection: Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.Editor)));
+        control.RegisterAbility(CreateStrikeEnhancement(112, name: TranslateResourceString(s_registerDragonSlayingText), selection: Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem, AbilitySelectionType.Editor)));
+        control.RegisterAbility(CreateStrikeEnhancement(113, name: TranslateResourceString(s_registerParryText), selection: Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.Editor)));
+        control.RegisterAbility(CreateStrikeEnhancement(115, name: TranslateResourceString(s_registerExtraStrikeText), selection: Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem, AbilitySelectionType.Editor)));
+        control.RegisterAbility(CreateStrikeEnhancement(116, name: TranslateResourceString(s_registerFirstStrikeText), selection: Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem, AbilitySelectionType.Editor)));
     }
 
     private void RegisterStrikeGroup2(AbilityControl control)
     {
-        control.RegisterAbility(CreateStrikeEnhancement(119, TranslateResourceString(s_registerEntangleStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit)));
-        control.RegisterAbility(CreateStrikeEnhancement(14, TranslateResourceString(s_registerFireStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
-        control.RegisterAbility(CreateStrikeEnhancement(15, TranslateResourceString(s_registerColdStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
-        control.RegisterAbility(CreateStrikeEnhancement(16, TranslateResourceString(s_registerLightningStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
-        control.RegisterAbility(CreateStrikeEnhancement(17, TranslateResourceString(s_registerPoisonStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
-        control.RegisterAbility(CreateStrikeEnhancement(18, TranslateResourceString(s_registerDeathStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
+        control.RegisterAbility(CreateStrikeEnhancement(119, name: TranslateResourceString(s_registerEntangleStrikeText), selection: Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit)));
+        control.RegisterAbility(CreateStrikeEnhancement(14, name: TranslateResourceString(s_registerFireStrikeText), selection: Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
+        control.RegisterAbility(CreateStrikeEnhancement(15, name: TranslateResourceString(s_registerColdStrikeText), selection: Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
+        control.RegisterAbility(CreateStrikeEnhancement(16, name: TranslateResourceString(s_registerLightningStrikeText), selection: Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
+        control.RegisterAbility(CreateStrikeEnhancement(17, name: TranslateResourceString(s_registerPoisonStrikeText), selection: Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
+        control.RegisterAbility(CreateStrikeEnhancement(18, name: TranslateResourceString(s_registerDeathStrikeText), selection: Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
     }
 
     private void RegisterStrikeGroup3(AbilityControl control)
     {
-        control.RegisterAbility(CreateStrikeEnhancement(19, TranslateResourceString(s_registerHolyStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
-        control.RegisterAbility(CreateStrikeEnhancement(20, TranslateResourceString(s_registerMagicStrikeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
+        control.RegisterAbility(CreateStrikeEnhancement(19, name: TranslateResourceString(s_registerHolyStrikeText), selection: Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
+        control.RegisterAbility(CreateStrikeEnhancement(20, name: TranslateResourceString(s_registerMagicStrikeText), selection: Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem)));
     }
 
     private void RegisterEnhancements(AbilityControl control)
@@ -860,10 +860,10 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     internal static void StringFromStream(ref string S, Stream stream)
     {
         int length = default;
-        stream.ReadExactly(Bytes.Of(ref length, 4));
+        stream.ReadExactly(Bytes.Of(ref length, count: 4));
         if (length < 0)
         {
-            throw new ArgumentOutOfRangeException(paramName: null, "Negative string length");
+            throw new ArgumentOutOfRangeException(paramName: null, message: "Negative string length");
         }
 
         byte[] buffer = new byte[length];

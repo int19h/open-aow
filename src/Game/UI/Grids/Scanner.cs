@@ -71,7 +71,7 @@ public class Scanner(Component owner) : Control(owner)
         InterfaceImageLibrary frame = _imageLibraryFrame;
         if (frame is not null)
         {
-            _imageLibraryFrame = frame.CheckImageLibrary(_imageLibraryIndexFrame, 8, this);
+            _imageLibraryFrame = frame.CheckImageLibrary(_imageLibraryIndexFrame, count: 8, sender: this);
         }
 
         if (_imageLibraryFrame is not null && _tilesImageLibrary is not null && _objectsImageLibrary is not null && _map is not null && _fogImageLibrary is not null && _highlightImageLibrary is not null)
@@ -156,7 +156,7 @@ public class Scanner(Component owner) : Control(owner)
         {
             if (Valid && Visible)
             {
-                RaisePreDraw(this, lockedSurface);
+                RaisePreDraw(this, surfDesc: lockedSurface);
 
                 if (_mapSurface is not null && _mapSurface.PixelFormatId != lockedSurface.PixelFormatId)
                 {
@@ -167,9 +167,9 @@ public class Scanner(Component owner) : Control(owner)
 
                 if (_mapSurface is null)
                 {
-                    _objectSurface = new DataSurface(WinWidth, WinHeight, lockedSurface.PixelFormatId, null);
+                    _objectSurface = new DataSurface(WinWidth, WinHeight, lockedSurface.PixelFormatId, palette: null);
                     _ = _objectSurface.Clear(65280);
-                    _mapSurface = new DataSurface(WinWidth, WinHeight, lockedSurface.PixelFormatId, null);
+                    _mapSurface = new DataSurface(WinWidth, WinHeight, lockedSurface.PixelFormatId, palette: null);
                     _ = _mapSurface.Lock(ref surfaceDescription);
                     for (int x = 0, last = WinWidth / _fogImageLibrary[0].Width; x <= last; x++)
                     {
@@ -177,7 +177,7 @@ public class Scanner(Component owner) : Control(owner)
                         {
                             LibraryImage fogImageLibraryHeight = _fogImageLibrary[0];
                             LibraryImage fogImageLibraryWidth = _fogImageLibrary[0];
-                            _fogImageLibrary[0].ShowClipped(x * fogImageLibraryWidth.Width, y * fogImageLibraryHeight.Height, surfaceDescription);
+                            _fogImageLibrary[0].ShowClipped(x * fogImageLibraryWidth.Width, y * fogImageLibraryHeight.Height, lockedSurface: surfaceDescription);
                         }
                     }
 
@@ -203,23 +203,23 @@ public class Scanner(Component owner) : Control(owner)
                 Rect rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, Window.AbsoluteLeft + WinLeft + WinWidth, Window.AbsoluteTop + WinTop + WinHeight);
                 surfaceDescription.ClipRectangle = rectangle;
                 _ = _mapSurface.Lock(ref lockedSurface);
-                _ = LockedSurface.BlitSurfaceDescriptionRectangleClipped(lockedSurface, r, surfaceDescription, Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop);
+                _ = LockedSurface.BlitSurfaceDescriptionRectangleClipped(lockedSurface, sourceRectangle: r, destination: surfaceDescription, Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop);
                 _ = _mapSurface.Unlock();
                 _ = _objectSurface.Lock(ref lockedSurface);
-                _ = LockedSurface.BlitSpriteClipped16(lockedSurface, r, surfaceDescription, Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, 65280);
+                _ = LockedSurface.BlitSpriteClipped16(lockedSurface, sourceRectangle: r, destination: surfaceDescription, Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, colorKey: 65280);
                 _ = _objectSurface.Unlock();
                 if (_mapWidth > 0 && _mapHeight > 0)
                 {
                     SizedRectangle rectangle2 = new(Window.AbsoluteLeft + WinLeft + (TLeft * WinWidth / _mapWidth), Window.AbsoluteTop + WinTop + (TTop * WinHeight / _mapHeight), _tWidth * WinWidth / _mapWidth, (_tHeight + 2) * WinHeight / _mapHeight);
-                    _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle2, ref surfaceDescription);
+                    _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, area: rectangle2, lockedSurface: ref surfaceDescription);
                 }
 
-                RaiseDraw(this, surfaceDescription);
+                RaiseDraw(this, surfDesc: surfaceDescription);
             }
         }
         catch
         {
-            _ = MessageBox(0, "Exception during Draw", $"Error - {Name}", 0);
+            _ = MessageBox(0, text: "Exception during Draw", caption: $"Error - {Name}", flags: 0);
         }
     }
 
@@ -675,7 +675,7 @@ public class Scanner(Component owner) : Control(owner)
         }
         catch
         {
-            _ = MessageBox(0, "Exception during DrawMap", $"Error - {Name}", 0);
+            _ = MessageBox(0, text: "Exception during DrawMap", caption: $"Error - {Name}", flags: 0);
         }
     }
 

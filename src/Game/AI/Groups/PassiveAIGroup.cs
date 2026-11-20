@@ -34,7 +34,7 @@ public class PassiveAIGroup : AIGroup, IAIGroupClass
         MapCoordinate location = GetLocation();
         bool result = false;
         GroupDefenseSelector selector = new(this);
-        _ = selector.Execute(this, location.X, location.Y, location.MapLevel, units);
+        _ = selector.Execute(this, location.X, location.Y, L: location.MapLevel, units);
         if (selector.Defenders.Count != 0)
         {
             for (int i = units.Count - 1; i >= 0; i--)

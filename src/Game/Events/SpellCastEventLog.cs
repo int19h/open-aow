@@ -30,7 +30,7 @@ public class SpellCastEventLog(CustomNode owner) : EventLog(owner)
     public override string GetText()
     {
         Spell spell = GamePack.Current.SpellControl[SpellId];
-        return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_castingReadyFormat), [spell.SpellName]);
+        return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_castingReadyFormat), arguments: [spell.SpellName]);
     }
 
     // Spells.PAS:818

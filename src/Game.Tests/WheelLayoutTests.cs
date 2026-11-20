@@ -136,7 +136,7 @@ public sealed class WheelLayoutTests(WheelLayoutTests.Host host) : IClassFixture
         map.BookAction = 0;
         map.BackButton.CaptureInput = true;
         map.NextButton.CaptureInput = true;
-        map.LeftPageMemo.Items.Text = $"{new string('a', 40)} {new string('b', 40)}";
+        map.LeftPageMemo.Items.Text = $"{new string('a', count: 40)} {new string('b', count: 40)}";
         map.LeftPageScrollBar.SetMaxUnclamped(40);
         map.LeftPageScrollBar.SetNumberVisibleUnclamped(5);
         map.LeftPageScrollBar.SetPositionUnclamped(0);
@@ -216,7 +216,7 @@ public sealed class WheelLayoutTests(WheelLayoutTests.Host host) : IClassFixture
         realm.CityScrollBar.SetPositionUnclamped(0);
         int x = realm.Window.WinLeft + realm.CityPanel.WinLeft + realm.CityListPanel.WinLeft + realm.CityNameList.WinLeft + 4;
         int y = realm.Window.WinTop + realm.CityPanel.WinTop + realm.CityListPanel.WinTop + realm.CityNameList.WinTop + 8;
-        Assert.True(realm.Window.CheckMouseWheel(-1, default, x, y));
+        Assert.True(realm.Window.CheckMouseWheel(-1, shift: default, x, y));
         Assert.Equal(1, realm.CityScrollBar.Position);
         Assert.Equal(1, realm.CityNameList.ListOffset);
     }
@@ -237,12 +237,12 @@ public sealed class WheelLayoutTests(WheelLayoutTests.Host host) : IClassFixture
             _ = Directory.CreateDirectory(Path.Combine(user, "one"));
             string older = Path.Combine(user, "one", "aaa.asg");
             string newer = Path.Combine(user, "one", "zzz.asg");
-            File.WriteAllBytes(older, [1]);
-            File.WriteAllBytes(newer, [1]);
-            File.SetLastWriteTimeUtc(older, new DateTime(1999, 1, 1, 0, 0, 0, DateTimeKind.Utc));
-            File.SetLastWriteTimeUtc(newer, new DateTime(2001, 6, 1, 0, 0, 0, DateTimeKind.Utc));
+            File.WriteAllBytes(older, bytes: [1]);
+            File.WriteAllBytes(newer, bytes: [1]);
+            File.SetLastWriteTimeUtc(older, lastWriteTimeUtc: new DateTime(1999, 1, 1, 0, 0, 0, kind: DateTimeKind.Utc));
+            File.SetLastWriteTimeUtc(newer, lastWriteTimeUtc: new DateTime(2001, 6, 1, 0, 0, 0, kind: DateTimeKind.Utc));
             _ = Directory.CreateDirectory(Path.Combine(user, "one", "alpha"));
-            RtlHost.Files = new LayeredFileSystem(root, user);
+            RtlHost.Files = new LayeredFileSystem(root, userDirectory: user);
             RtlHost.Settings = new JsonSettingsStore(settingsDirectory);
             EngineFixture.Engine.Registry = new GameSettings();
             EngineFixture.Engine.Registry.SetFileDialogSortByDate(true);
@@ -258,7 +258,7 @@ public sealed class WheelLayoutTests(WheelLayoutTests.Host host) : IClassFixture
         {
             if (Directory.Exists(directory))
             {
-                Directory.Delete(directory, true);
+                Directory.Delete(directory, recursive: true);
             }
         }
     }

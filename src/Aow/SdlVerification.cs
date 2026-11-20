@@ -11,7 +11,7 @@ internal static unsafe class SdlVerification
 {
     public static int Run()
     {
-        Environment.SetEnvironmentVariable("SDL_VIDEODRIVER", "dummy");
+        Environment.SetEnvironmentVariable("SDL_VIDEODRIVER", value: "dummy");
         for (int iteration = 0; iteration < 2; iteration++)
         {
             using SdlDisplayHost display = new("OpenAoW verification", hidden: true);

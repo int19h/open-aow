@@ -11,7 +11,7 @@ public class SummonMermaid : SummonSpell
     public SummonMermaid(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_summonMermaidText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_summonMermaidText);
         SpellId = 78;
         BaseManaCost = 5;
         SpellLevel = 1;

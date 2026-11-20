@@ -88,7 +88,7 @@ public class ItemExplorationSite : ExplorationSite
             {
                 Holder = CreationHolder(),
                 Player = army.Army.Player,
-                Title = AbilityRules.TranslateResourceString(GetEngine(), s_itemsFoundText),
+                Title = AbilityRules.TranslateResourceString(GetEngine(), S: s_itemsFoundText),
                 Location = new MapCoordinate(X: HexX, Y: HexY, MapLevel: HexLevel)
             };
             for (int i = _items.Count - 1; i >= 0; i--)
@@ -99,11 +99,11 @@ public class ItemExplorationSite : ExplorationSite
             }
 
             // { Original parses the formatted text as CSV. }
-            string itemsExplored = AbilityRules.TranslateResourceString(GetEngine(), s_itemsExploredFormat);
+            string itemsExplored = AbilityRules.TranslateResourceString(GetEngine(), S: s_itemsExploredFormat);
             string resourceEditName = Resource.ResourceEditName();
-            string format = Format(itemsExplored, [resourceEditName]);
+            string format = Format(itemsExplored, args: [resourceEditName]);
             log.Messages.CommaText = format;
-            _ = log.Execute(false, ExecuteTrigger.Event, null);
+            _ = log.Execute(false, trigger: ExecuteTrigger.Event, done: null);
             _ = log.Release();
             Update();
         }

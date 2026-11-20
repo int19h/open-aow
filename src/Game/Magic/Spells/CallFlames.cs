@@ -16,7 +16,7 @@ public class CallFlames : CombatSpell
     public CallFlames(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_callFlamesText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_callFlamesText);
         SpellId = 113;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 9;

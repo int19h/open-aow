@@ -25,7 +25,7 @@ public class AltarOfLightning(CustomNode owner) : Altar(owner)
         public override int ResourceUserClassId() => 131645;
 
         // AltLight.pas:49
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_altarOfLightningText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_altarOfLightningText);
 
         private static readonly string s_altarOfLightningText = "Altar of Lightning";
 

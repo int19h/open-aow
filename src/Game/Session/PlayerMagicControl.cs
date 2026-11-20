@@ -226,7 +226,7 @@ public class PlayerMagicControl : EngineObject
             Mana = value;
             if (StrategicMap.Current.VictoryCondition == StrategicMapVictoryCondition.AccumulateMana && StrategicMap.Current.VictoryMana <= Mana)
             {
-                StrategicMap.Current.GameOver(Player.PlayerIndex, GameOverStatus.Won);
+                StrategicMap.Current.GameOver(Player.PlayerIndex, status: GameOverStatus.Won);
             }
 
             Update();
@@ -379,7 +379,7 @@ public class PlayerMagicControl : EngineObject
                     _ = ExecuteSpellResearched(ResearchSpellId);
                     if (Player.PlayerIndex == StrategicMap.Current.SeatedPlayer && Player.PlayerType == PlayerType.Human)
                     {
-                        _ = log.Execute(false, ExecuteTrigger.Event, null);
+                        _ = log.Execute(false, trigger: ExecuteTrigger.Event, done: null);
                     }
 
                     _ = log.Release();
@@ -478,7 +478,7 @@ public class PlayerMagicControl : EngineObject
     }
 
     // Spells.PAS:2172
-    public int GetResearchTurnsLeft() => ResearchTurns(GetNetPowerToResearch(), ResearchPointsLeft);
+    public int GetResearchTurnsLeft() => ResearchTurns(GetNetPowerToResearch(), points: ResearchPointsLeft);
 
     // Spells.PAS:2176
     public bool ValidResearchSpell(Spell spell)

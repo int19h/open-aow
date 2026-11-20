@@ -52,7 +52,7 @@ public class MeleeRound(EngineObject creator) : IDisposable
             Count = _capacity;
         }
 
-        Array.Resize(ref _strikes, newCapacity);
+        Array.Resize(ref _strikes, newSize: newCapacity);
     }
 
     // AoWAb.PAS:1505
@@ -65,7 +65,7 @@ public class MeleeRound(EngineObject creator) : IDisposable
 
         if (newCount > Count)
         {
-            _strikes.AsSpan(Count, newCount - Count).Clear();
+            _strikes.AsSpan(Count, length: newCount - Count).Clear();
         }
 
         Count = newCount;
@@ -163,7 +163,7 @@ public class MeleeRound(EngineObject creator) : IDisposable
             Set<DamageType> immunityTypes = target.GetImmunityTypes();
             Set<DamageType> protectionTypes = target.GetProtectionTypes();
             sbyte damage = source.GetDamage();
-            int statisticsToDamageValue = StatisticsToDamageValue(source.GetAttack() + strike.AttackBonus, damage + strike.DamageBonus, AttackerDamageTypes, defense, resistance, immunityTypes, protectionTypes);
+            int statisticsToDamageValue = StatisticsToDamageValue(source.GetAttack() + strike.AttackBonus, damage: damage + strike.DamageBonus, damageTypes: AttackerDamageTypes, defense, resistance, immunityTypes, protectionTypes);
             strike.DamageValue = statisticsToDamageValue;
             switch (side)
             {
@@ -310,7 +310,7 @@ public class MeleeRound(EngineObject creator) : IDisposable
             Set<DamageType> immunityTypes = target.GetImmunityTypes();
             Set<DamageType> protectionTypes = target.GetProtectionTypes();
             sbyte damage = source.GetDamage();
-            int statisticsToDamageValue = StatisticsToDamageValue(source.GetAttack() + strike.AttackBonus, damage + strike.DamageBonus, AttackerDamageTypes, defense, resistance, immunityTypes, protectionTypes);
+            int statisticsToDamageValue = StatisticsToDamageValue(source.GetAttack() + strike.AttackBonus, damage: damage + strike.DamageBonus, damageTypes: AttackerDamageTypes, defense, resistance, immunityTypes, protectionTypes);
             strike.DamageValue = statisticsToDamageValue;
             switch (side)
             {
@@ -402,7 +402,7 @@ public class MeleeRound(EngineObject creator) : IDisposable
                         result = new StrikeCombatAction(null) { Holder = Creator.CreationHolder() };
                         sbyte damage = _attacker.GetDamage();
                         sbyte attack = _attacker.GetAttack();
-                        result.Generate(_attacker, _defender, (sbyte)(attack + strike.AttackBonus), (sbyte)(damage + strike.DamageBonus), AttackerDamageTypes);
+                        result.Generate(_attacker, target: _defender, attack: (sbyte)(attack + strike.AttackBonus), damage: (sbyte)(damage + strike.DamageBonus), damageTypes: AttackerDamageTypes);
                         if (_attacker.GetAbilityEnabled(118))
                         {
                             result.StrikeMode += Set<StrikeModeElement>.Of(StrikeModeElement.LifeStealing);
@@ -417,7 +417,7 @@ public class MeleeRound(EngineObject creator) : IDisposable
                         result.SetDefensive(true);
                         sbyte damage = _defender.GetDamage();
                         sbyte attack = _defender.GetAttack();
-                        result.Generate(_defender, _attacker, (sbyte)(attack + strike.AttackBonus), (sbyte)(damage + strike.DamageBonus), _defenderDamageTypes);
+                        result.Generate(_defender, target: _attacker, attack: (sbyte)(attack + strike.AttackBonus), damage: (sbyte)(damage + strike.DamageBonus), damageTypes: _defenderDamageTypes);
                     }
 
                     break;
@@ -521,7 +521,7 @@ public class MeleeRound(EngineObject creator) : IDisposable
             {
                 damage = damage + 1 >>> 1;
             }
-            return AbilityRules.ExpectedDamage(damage, attack);
+            return AbilityRules.ExpectedDamage(damage, attackDefense: attack);
         }
         return 0;
     }

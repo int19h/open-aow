@@ -170,7 +170,7 @@ public partial class TaskBar(UIContext ui) : UIModule(ui)
                         race = 12;
                     }
 
-                    UI.Graphics.TaskBar[race + 32].ShowClipped(PlayerIndicatorFrame.WinLeft + 3 + (position * 5), PlayerIndicatorFrame.WinTop + 2, surface);
+                    UI.Graphics.TaskBar[race + 32].ShowClipped(PlayerIndicatorFrame.WinLeft + 3 + (position * 5), PlayerIndicatorFrame.WinTop + 2, lockedSurface: surface);
                     if (StrategicMap.Current.PlayMode == PlayMode.Turn)
                     {
                         if (i == StrategicMap.Current.CurrentPlayer)
@@ -183,7 +183,7 @@ public partial class TaskBar(UIContext ui) : UIModule(ui)
                     {
                         if (StrategicMap.Current.Players.GetPlayers(i).SingleProcessCycle)
                         {
-                            UI.Graphics.TaskBar[50].ShowClipped(PlayerIndicatorFrame.WinLeft + 2 + (position * 5), PlayerIndicatorFrame.WinTop + 11, surface);
+                            UI.Graphics.TaskBar[50].ShowClipped(PlayerIndicatorFrame.WinLeft + 2 + (position * 5), PlayerIndicatorFrame.WinTop + 11, lockedSurface: surface);
                         }
                     }
 
@@ -247,7 +247,7 @@ public partial class TaskBar(UIContext ui) : UIModule(ui)
                 race = 12;
             }
 
-            UI.Graphics.TaskBar[race + 32].ShowClipped(CombatPlayerIndicatorFrame.WinLeft + 3 + (position * 5), CombatPlayerIndicatorFrame.WinTop + 2, surface);
+            UI.Graphics.TaskBar[race + 32].ShowClipped(CombatPlayerIndicatorFrame.WinLeft + 3 + (position * 5), CombatPlayerIndicatorFrame.WinTop + 2, lockedSurface: surface);
             if (CombatMap.Current.Combat.CombatData.TurnOrder[i] == CombatMap.Current.CurrentCombatPlayer)
             {
                 CombatCurrentPlayerImage.WinLeft = CombatPlayerIndicatorFrame.WinLeft + 2 + (position * 5);

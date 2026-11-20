@@ -53,8 +53,8 @@ public sealed class ProductionControlOrderTests
 
             city.Status = ProductionControlStatus.Producing;
             place.Status = ProductionControlStatus.Producing;
-            Assert.False(action.ExecuteProduce(city, 0));
-            Assert.False(action.ExecuteResearch(place, 0));
+            Assert.False(action.ExecuteProduce(city, index: 0));
+            Assert.False(action.ExecuteResearch(place, index: 0));
             Assert.Equal(1, player.ProductionControls.Remove(place));
             Assert.Equal(-1, player.ProductionControls.IndexOf(place));
             Assert.Same(city, player.ProductionControls[0]);

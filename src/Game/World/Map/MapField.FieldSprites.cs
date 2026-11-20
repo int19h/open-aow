@@ -18,8 +18,8 @@ public partial class MapField
             capacity = 3;
         }
 
-        Array.Resize(ref _hexSpriteList, capacity);
-        Array.Resize(ref _directions, capacity);
+        Array.Resize(ref _hexSpriteList, newSize: capacity);
+        Array.Resize(ref _directions, newSize: capacity);
         Capacity = capacity;
     }
 
@@ -67,8 +67,8 @@ public partial class MapField
 
         if (index < StoredCount)
         {
-            Array.Copy(_hexSpriteList, index, _hexSpriteList, index + 1, StoredCount - index);
-            Array.Copy(_directions, index, _directions, index + 1, StoredCount - index);
+            Array.Copy(_hexSpriteList, sourceIndex: index, destinationArray: _hexSpriteList, destinationIndex: index + 1, length: StoredCount - index);
+            Array.Copy(_directions, sourceIndex: index, destinationArray: _directions, destinationIndex: index + 1, length: StoredCount - index);
         }
         if (priority >>> 26 <= 15)
         {
@@ -97,8 +97,8 @@ public partial class MapField
         StoredCount--;
         if (index < StoredCount)
         {
-            Array.Copy(_directions, index + 1, _directions, index, StoredCount - index);
-            Array.Copy(_hexSpriteList, index + 1, _hexSpriteList, index, StoredCount - index);
+            Array.Copy(_directions, sourceIndex: index + 1, destinationArray: _directions, destinationIndex: index, length: StoredCount - index);
+            Array.Copy(_hexSpriteList, sourceIndex: index + 1, destinationArray: _hexSpriteList, destinationIndex: index, length: StoredCount - index);
         }
         if (sprite.GetShowPriority() >>> 26 <= 15)
         {
@@ -123,8 +123,8 @@ public partial class MapField
         StoredCount--;
         if (index < StoredCount)
         {
-            Array.Copy(_directions, index + 1, _directions, index, StoredCount - index);
-            Array.Copy(_hexSpriteList, index + 1, _hexSpriteList, index, StoredCount - index);
+            Array.Copy(_directions, sourceIndex: index + 1, destinationArray: _directions, destinationIndex: index, length: StoredCount - index);
+            Array.Copy(_hexSpriteList, sourceIndex: index + 1, destinationArray: _hexSpriteList, destinationIndex: index, length: StoredCount - index);
         }
         if (Capacity > StoredCount + 1)
         {
@@ -449,7 +449,7 @@ public partial class MapField
         {
             i--;
             info.HexNumber = (sbyte)_directions[i];
-            _hexSpriteList[i].CanMoveOn(info, ref result);
+            _hexSpriteList[i].CanMoveOn(info, moveResult: ref result);
         }
         return result.Code;
     }

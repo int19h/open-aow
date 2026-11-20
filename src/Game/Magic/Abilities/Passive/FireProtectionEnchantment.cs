@@ -10,7 +10,7 @@ public class FireProtectionEnchantment : UnitEnchantmentAbility
     public FireProtectionEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), FireProtectionText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: FireProtectionText);
         AbilityId = 167;
     }
 
@@ -20,7 +20,7 @@ public class FireProtectionEnchantment : UnitEnchantmentAbility
         // { Original assumes the ability data and enchantment exist. }
         UnitEnchantmentAbilityData unitEnchantmentAbilityData = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
         return unitEnchantmentAbilityData.Enchantment.Source == -2
-            ? AbilityRules.TranslateResourceString(GetEngine(), GameText.FireMasteryText)
+            ? AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FireMasteryText)
             : base.GetSourceName(owner);
     }
 

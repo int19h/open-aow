@@ -52,7 +52,7 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
     public override void Connect()
     {
         MapLevel level = Owner.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Owner.HexX, Owner.HexY, 1);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Owner.HexX, Owner.HexY, radius: 1);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -70,7 +70,7 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
     public override void Disconnect()
     {
         MapLevel level = Owner.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Owner.HexX, Owner.HexY, 1);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Owner.HexX, Owner.HexY, radius: 1);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -117,9 +117,9 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
                 for (int i = 0, last = _sideB.Count - 1; i <= last; i++)
                 {
                     byte sideB = _sideB[i];
-                    HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, sideB, ref hexX, ref hexY);
+                    HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, hexNumber: sideB, ref hexX, ref hexY);
                     mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, Owner.HexLevel);
-                    ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, mapField, ((MoveControl)info.Sender).MovePointTable[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay]);
+                    ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, target: mapField, movePoints: ((MoveControl)info.Sender).MovePointTable[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay]);
                 }
             }
             else
@@ -129,9 +129,9 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
                     for (int i = 0, last = _sideA.Count - 1; i <= last; i++)
                     {
                         byte sideA = _sideA[i];
-                        HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, sideA, ref hexX, ref hexY);
+                        HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, hexNumber: sideA, ref hexX, ref hexY);
                         mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, Owner.HexLevel);
-                        ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, mapField, ((MoveControl)info.Sender).MovePointTable[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay]);
+                        ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, target: mapField, movePoints: ((MoveControl)info.Sender).MovePointTable[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay]);
                     }
                 }
             }
@@ -166,7 +166,7 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
-        return base.CanPlace(mapContainer, hexX, hexY, hexLevel) && (DirectionValid(mapField, 0) || DirectionValid(mapField, 1) || DirectionValid(mapField, 2));
+        return base.CanPlace(mapContainer, hexX, hexY, hexLevel) && (DirectionValid(mapField, direction: 0) || DirectionValid(mapField, direction: 1) || DirectionValid(mapField, direction: 2));
     }
 
     // HxBridge.pas:209
@@ -198,19 +198,19 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
     {
         if (Direction == -1 || !DirectionValid(Owner, Direction))
         {
-            if (DirectionValid(Owner, 1))
+            if (DirectionValid(Owner, direction: 1))
             {
                 Direction = 1;
             }
             else
             {
-                if (DirectionValid(Owner, 2))
+                if (DirectionValid(Owner, direction: 2))
                 {
                     Direction = 2;
                 }
                 else
                 {
-                    if (DirectionValid(Owner, 0))
+                    if (DirectionValid(Owner, direction: 0))
                     {
                         Direction = 0;
                     }
@@ -234,12 +234,12 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
         int hexX = default;
         int hexY = default;
         MapLevel level = mapField.Owner;
-        HexGeometry.CenterHexNumberToHex(mapField.HexX, mapField.HexY, direction + 1, ref hexX, ref hexY);
+        HexGeometry.CenterHexNumberToHex(mapField.HexX, mapField.HexY, hexNumber: direction + 1, ref hexX, ref hexY);
         if (hexX >= 0 && hexY >= 0 && hexX < level.Width && hexY < level.Height)
         {
             if (Land(level.GetField(hexX, hexY).TerrainType))
             {
-                HexGeometry.CenterHexNumberToHex(mapField.HexX, mapField.HexY, direction + 4, ref hexX, ref hexY);
+                HexGeometry.CenterHexNumberToHex(mapField.HexX, mapField.HexY, hexNumber: direction + 4, ref hexX, ref hexY);
                 if (hexX >= 0 && hexY >= 0 && hexX < level.Width && hexY < level.Height)
                 {
                     return Land(level.GetField(hexX, hexY).TerrainType);
@@ -266,25 +266,25 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
             switch (Direction)
             {
                 case 0:
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 2, ref x, ref y);
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: 2, ref x, ref y);
                     if (!Land(level.GetField(x, y).TerrainType))
                     {
                         _ = _sideB.Add(2);
                     }
 
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 3, ref x, ref y);
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: 3, ref x, ref y);
                     if (!Land(level.GetField(x, y).TerrainType))
                     {
                         _ = _sideB.Add(3);
                     }
 
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 5, ref x, ref y);
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: 5, ref x, ref y);
                     if (!Land(level.GetField(x, y).TerrainType))
                     {
                         _ = _sideA.Add(5);
                     }
 
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 6, ref x, ref y);
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: 6, ref x, ref y);
                     if (!Land(level.GetField(x, y).TerrainType))
                     {
                         _ = _sideA.Add(6);
@@ -292,25 +292,25 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
 
                     break;
                 case 1:
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 3, ref x, ref y);
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: 3, ref x, ref y);
                     if (!Land(level.GetField(x, y).TerrainType))
                     {
                         _ = _sideB.Add(3);
                     }
 
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 4, ref x, ref y);
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: 4, ref x, ref y);
                     if (!Land(level.GetField(x, y).TerrainType))
                     {
                         _ = _sideB.Add(4);
                     }
 
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 6, ref x, ref y);
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: 6, ref x, ref y);
                     if (!Land(level.GetField(x, y).TerrainType))
                     {
                         _ = _sideA.Add(6);
                     }
 
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 1, ref x, ref y);
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: 1, ref x, ref y);
                     if (!Land(level.GetField(x, y).TerrainType))
                     {
                         _ = _sideA.Add(1);
@@ -318,25 +318,25 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
 
                     break;
                 case 2:
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 1, ref x, ref y);
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: 1, ref x, ref y);
                     if (!Land(level.GetField(x, y).TerrainType))
                     {
                         _ = _sideB.Add(1);
                     }
 
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 2, ref x, ref y);
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: 2, ref x, ref y);
                     if (!Land(level.GetField(x, y).TerrainType))
                     {
                         _ = _sideB.Add(2);
                     }
 
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 4, ref x, ref y);
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: 4, ref x, ref y);
                     if (!Land(level.GetField(x, y).TerrainType))
                     {
                         _ = _sideA.Add(4);
                     }
 
-                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 5, ref x, ref y);
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: 5, ref x, ref y);
                     if (!Land(level.GetField(x, y).TerrainType))
                     {
                         _ = _sideA.Add(5);

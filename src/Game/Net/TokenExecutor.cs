@@ -133,7 +133,7 @@ public class TokenExecutor : IDisposable
     public void RemoveTacticalBattle(TokenControl tacticalBattle) => TacticalBattleList.Remove(tacticalBattle);
 
     // NetworkE.pas:1400
-    public void InsertTacticalBattle(int index, TokenControl tacticalBattle) => TacticalBattleList.Insert(index, tacticalBattle);
+    public void InsertTacticalBattle(int index, TokenControl tacticalBattle) => TacticalBattleList.Insert(index, item: tacticalBattle);
 
     // NetworkE.pas:1405
     public void Reset()

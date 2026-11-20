@@ -18,7 +18,7 @@ public class RecallSpirit : CombatSpell
     public RecallSpirit(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_recallSpiritText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_recallSpiritText);
         SpellId = 129;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 0;

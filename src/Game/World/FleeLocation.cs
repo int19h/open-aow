@@ -28,7 +28,7 @@ public class FleeLocation(CustomNode owner) : MapObject(owner)
         if (_alpha > 0)
         {
             HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
-            base.Resource.ImageLibrary.Get(0).ShowBlended(x - pixelXSurface - 8, y - pixelYSurface, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[_alpha]);
+            base.Resource.ImageLibrary.Get(0).ShowBlended(x - pixelXSurface - 8, y - pixelYSurface, lockedSurface, table: GraphicsState.AlphaBlendTable.LookupTables[_alpha]);
         }
     }
 
@@ -82,7 +82,7 @@ public class FleeLocation(CustomNode owner) : MapObject(owner)
             if (oldHex is not null)
             {
                 oldHex?.Dispose();
-                _ = GamePack.Current.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, 0, 1);
+                _ = GamePack.Current.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, L: 0, terrainType: 1);
             }
         }
 

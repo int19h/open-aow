@@ -21,7 +21,7 @@ public class DeathMasteryEnchantment : GlobalEnchantment
     public DeathMasteryEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.DeathMasteryText);
+        Name = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DeathMasteryText);
         EnchantmentType = GlobalEnchantmentType.None;
         DispelMana = 175;
     }
@@ -53,8 +53,8 @@ public class DeathMasteryEnchantment : GlobalEnchantment
         StrategicMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Life);
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.DeathMastery));
-        EngineMessage.InitializeMessage(out EngineMessage message, 537002241, this);
-        StrategicMap.Current.SendMessage(ref message, this);
+        EngineMessage.InitializeMessage(out EngineMessage message, messageId: 537002241, sender: this);
+        StrategicMap.Current.SendMessage(ref message, sender: this);
         return true;
     }
 
@@ -66,9 +66,9 @@ public class DeathMasteryEnchantment : GlobalEnchantment
         {
             if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.DeathMastery))
             {
-                string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
+                string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsAlreadyActiveFormat);
                 string name = GetName();
-                reason = DelphiFormat.Format(xIsAlreadyActive, [name]);
+                reason = DelphiFormat.Format(xIsAlreadyActive, args: [name]);
                 return false;
             }
         }
@@ -96,7 +96,7 @@ public class DeathMasteryEnchantment : GlobalEnchantment
         {
             MapLevel mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(l);
             int index = 0;
-            Array.Resize(ref flags, mapLevel.Width * mapLevel.Height);
+            Array.Resize(ref flags, newSize: mapLevel.Width * mapLevel.Height);
             Array.Clear(flags);
             for (int y = 1, lastY = mapLevel.Height - 1; y <= lastY; y++)
             {
@@ -105,7 +105,7 @@ public class DeathMasteryEnchantment : GlobalEnchantment
                     if ((mapLevel.GetField(x, y).FieldFlags & mask) != 0)
                     {
                         bool border = false;
-                        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, 1);
+                        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, radius: 1);
                         while (walk.Radius == 1 && !border)
                         {
                             if (walk.X >= 0 && walk.X < mapLevel.Width && walk.Y >= 0 && walk.Y < mapLevel.Height)
@@ -133,7 +133,7 @@ public class DeathMasteryEnchantment : GlobalEnchantment
                 {
                     if (flags[index] != 0)
                     {
-                        mapLevel.GetField(x, y).SetExplored(player, false);
+                        mapLevel.GetField(x, y).SetExplored(player, value: false);
                     }
 
                     index += 1;
@@ -142,6 +142,6 @@ public class DeathMasteryEnchantment : GlobalEnchantment
         }
 
         StrategicMap.Current.UpdateVisibility();
-        Array.Resize(ref flags, 0);
+        Array.Resize(ref flags, newSize: 0);
     }
 }

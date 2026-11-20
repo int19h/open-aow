@@ -13,7 +13,7 @@ public class SummonBlackSpider : SummonSpell
     public SummonBlackSpider(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_summonBlackSpiderText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_summonBlackSpiderText);
         SpellId = 20;
         BaseManaCost = 5;
         SpellLevel = 1;

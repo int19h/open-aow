@@ -89,7 +89,7 @@ public static class FileBoundary
         }
         catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException)
         {
-            Record(report: new GameFileReport { Operation = operation, Profile = profile, Error = new FormatDiagnostic(Codes.Output, $"The file cannot be read: {e.Message}") { File = fileName } }, files: files, fileName: fileName);
+            Record(report: new GameFileReport { Operation = operation, Profile = profile, Error = new FormatDiagnostic(Codes.Output, Message: $"The file cannot be read: {e.Message}") { File = fileName } }, files: files, fileName: fileName);
             return null;
         }
         string layer = LayerOf(files, fileName);
@@ -97,13 +97,13 @@ public static class FileBoundary
         // A final open always validates the actual bytes. A document the original image cannot
         // carry has no image, so a preview of it is not cached.
         bool preview = operation != "open";
-        PreviewKey key = preview ? new PreviewKey(layer, fileName, profile.Name, OwnFormat.CurrentVersion, Convert.ToHexStringLower(SHA256.HashData(bytes))) : default;
-        if (preview && Previews.TryGet(key, out PreviewEntry? cached))
+        PreviewKey key = preview ? new PreviewKey(layer, Path: fileName, Profile: profile.Name, Version: OwnFormat.CurrentVersion, Sha256: Convert.ToHexStringLower(SHA256.HashData(bytes))) : default;
+        if (preview && Previews.TryGet(key, entry: out PreviewEntry? cached))
         {
             Record(new FileLogRecord(fileName, layer, cached.Report, cached: true));
             return new Prepared(cached.Image, Report: cached.Report, Result: null);
         }
-        GameFileResult result = GameBoundary.PrepareLoad(bytes, fileName, profile, FormatMapping.Validators, operation);
+        GameFileResult result = GameBoundary.PrepareLoad(bytes, fileName, use: profile, FormatMapping.Validators, operation);
         Record(new FileLogRecord(fileName, layer, result.Report));
         if (!result.Succeeded)
         {
@@ -114,7 +114,7 @@ public static class FileBoundary
         byte[]? image = result.HasImage ? result.Bytes : null;
         if (preview && image is not null)
         {
-            Previews.Add(key, new PreviewEntry(image, result.Report));
+            Previews.Add(key, entry: new PreviewEntry(image, result.Report));
         }
 
         return new Prepared(image, Report: result.Report, Result: result);
@@ -177,7 +177,7 @@ public static class FileBoundary
         }
         catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException)
         {
-            result.Report.Error = new FormatDiagnostic(Codes.Output, $"The file cannot be written: {e.Message}") { File = fileName };
+            result.Report.Error = new FormatDiagnostic(Codes.Output, Message: $"The file cannot be written: {e.Message}") { File = fileName };
             Record(files, fileName, result.Report);
             throw new GameFileErrorException(LastFailure!);
         }
@@ -196,10 +196,10 @@ public static class FileBoundary
         byte[] head;
         try
         {
-            using Stream stream = files.Open(fileName, DelphiStreams.fmOpenRead | DelphiStreams.fmShareDenyWrite);
+            using Stream stream = files.Open(fileName, mode: DelphiStreams.fmOpenRead | DelphiStreams.fmShareDenyWrite);
             head = new byte[count];
             int total = 0, read;
-            while (total < count && (read = stream.Read(head, total, count - total)) > 0)
+            while (total < count && (read = stream.Read(head, offset: total, count: count - total)) > 0)
             {
                 total += read;
             }
@@ -214,7 +214,7 @@ public static class FileBoundary
         {
             // An original lists its leading bytes without a preflight. The open is logged like
             // every other one.
-            Record(files, fileName, new GameFileReport
+            Record(files, fileName, report: new GameFileReport
             {
                 Operation = "list",
                 Profile = profile,
@@ -260,7 +260,7 @@ public static class FileBoundary
 
         if (prepared.Image is { } image)
         {
-            return EngineServices.GetCrc32(image, image.Length);
+            return EngineServices.GetCrc32(image, size: image.Length);
         }
 
         if (prepared.Result?.Document is not JsonObject document)
@@ -269,7 +269,7 @@ public static class FileBoundary
         }
 
         byte[] text = GameFiles.Write(document);
-        return EngineServices.GetCrc32(text, text.Length);
+        return EngineServices.GetCrc32(text, size: text.Length);
     }
 
     /// <summary>
@@ -335,7 +335,7 @@ public static class FileBoundary
         }
 
         byte[] head = new byte[52];
-        BinaryPrimitives.WriteInt32LittleEndian(head, 52);
+        BinaryPrimitives.WriteInt32LittleEndian(head, value: 52);
         head[4] = 4;
         "HSS\0"u8.CopyTo(head.AsSpan(5));
         head[9] = (byte)encoded.Length;
@@ -361,9 +361,9 @@ public static class FileBoundary
         }
 
         byte[] head = new byte[16];
-        BinaryPrimitives.WriteInt32LittleEndian(head, 16);
+        BinaryPrimitives.WriteInt32LittleEndian(head, value: 16);
         HsmProfile.Magic.CopyTo(head.AsSpan(4));
-        BinaryPrimitives.WriteInt32LittleEndian(head.AsSpan(12), classId);
+        BinaryPrimitives.WriteInt32LittleEndian(head.AsSpan(12), value: classId);
         return head;
     }
 
@@ -374,7 +374,7 @@ public static class FileBoundary
     /// game files with the original extension. A host that writes original extensions
     /// (IRtlHost.WritesOwnExtensions) keeps every name.
     /// </summary>
-    public static string WriteName(string fileName) => WriteName(fileName, "");
+    public static string WriteName(string fileName) => WriteName(fileName, directory: "");
 
     /// <summary>WriteName for a name relative to a directory the caller knows, so the EmailIn
     /// decision does not rest on the current directory. The result stays relative.</summary>
@@ -386,7 +386,7 @@ public static class FileBoundary
         }
 
         DocumentKind? kind = DocumentKind.ForOriginalExtension(DelphiPaths.ExtractFileExt(fileName));
-        return kind is null || IsEmailExchange(directory + fileName) ? fileName : DelphiPaths.ChangeFileExt(fileName, kind.OwnExtension);
+        return kind is null || IsEmailExchange(directory + fileName) ? fileName : DelphiPaths.ChangeFileExt(fileName, extension: kind.OwnExtension);
     }
 
     /// <summary>
@@ -417,10 +417,10 @@ public static class FileBoundary
                 return fileName;
             }
 
-            string original = DelphiPaths.ChangeFileExt(fileName, kind.OriginalExtension);
+            string original = DelphiPaths.ChangeFileExt(fileName, extension: kind.OriginalExtension);
             return DelphiFiles.FileExists(original) ? original : fileName;
         }
-        string own = DelphiPaths.ChangeFileExt(fileName, kind.OwnExtension);
+        string own = DelphiPaths.ChangeFileExt(fileName, extension: kind.OwnExtension);
         return DelphiFiles.FileExists(own) ? own : fileName;
     }
 
@@ -440,7 +440,7 @@ public static class FileBoundary
         List<string> result = [];
         foreach (string name in originals)
         {
-            string own = DelphiPaths.ChangeFileExt(name, kind.OwnExtension);
+            string own = DelphiPaths.ChangeFileExt(name, extension: kind.OwnExtension);
             int index = owns.FindIndex(o => DelphiTextCompare.CompareText(o, own) == 0);
             if (index < 0)
             {
@@ -478,7 +478,7 @@ public static class FileBoundary
         bool replaced = false;
         try
         {
-            using (Stream stream = files.Open(temporary, DelphiStreams.fmCreate))
+            using (Stream stream = files.Open(temporary, mode: DelphiStreams.fmCreate))
             {
                 stream.Write(bytes);
                 // The temporary reaches the disk before it replaces the old file.
@@ -491,7 +491,7 @@ public static class FileBoundary
                     stream.Flush();
                 }
             }
-            if (!files.ReplaceFile(temporary, fileName))
+            if (!files.ReplaceFile(temporary, target: fileName))
             {
                 throw new IOException($"The file service did not replace {fileName}.");
             }
@@ -509,7 +509,7 @@ public static class FileBoundary
 
     private static byte[] ReadAll(IFileSystem files, string fileName)
     {
-        using Stream stream = files.Open(fileName, DelphiStreams.fmOpenRead | DelphiStreams.fmShareDenyWrite);
+        using Stream stream = files.Open(fileName, mode: DelphiStreams.fmOpenRead | DelphiStreams.fmShareDenyWrite);
         using MemoryStream memory = new();
         stream.CopyTo(memory);
         return memory.ToArray();
@@ -528,7 +528,7 @@ public static class FileBoundary
     }
 
     private static void Record(IFileSystem files, string fileName, GameFileReport report)
-        => Record(new FileLogRecord(fileName, LayerOf(files, fileName), report));
+        => Record(new FileLogRecord(fileName, layer: LayerOf(files, fileName), report));
 
     private static void Record(FileLogRecord record)
     {

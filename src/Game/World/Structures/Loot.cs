@@ -19,10 +19,10 @@ public sealed record Loot : ProductionOrder
     public override CityAction CityAction => CityAction.Loot;
 
     public override string Name(ProductionControl control)
-        => control.ProductionCity() is not null ? AbilityRules.TranslateResourceString(control.GetEngine(), GameText.LootText) : base.Name(control);
+        => control.ProductionCity() is not null ? AbilityRules.TranslateResourceString(control.GetEngine(), S: GameText.LootText) : base.Name(control);
 
     public override string NameProgressive(ProductionControl control)
-        => control.ProductionCity() is not null ? AbilityRules.TranslateResourceString(control.GetEngine(), s_lootingText) : base.NameProgressive(control);
+        => control.ProductionCity() is not null ? AbilityRules.TranslateResourceString(control.GetEngine(), S: s_lootingText) : base.NameProgressive(control);
 
     public override bool CanExecute(ProductionControl control, ref string reason)
     {
@@ -42,12 +42,12 @@ public sealed record Loot : ProductionOrder
         control.Settings.TurnsLeft = control.Settings.TurnsTotal;
         control.Settings.Player = control.GetPlayer();
         control.Settings.Gold = 0;
-        ChangeRelation(control, city, -30);
+        ChangeRelation(control, city, change: -30);
         LocationTextEventLog log = new(null)
         {
             Holder = control,
             Player = control.GetPlayer(),
-            Text = Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_cityLootingFormat), [city.GetName()])
+            Text = Format(AbilityRules.TranslateResourceString(control.GetEngine(), S: s_cityLootingFormat), args: [city.GetName()])
         };
         log.SetLocation(level: city.HexLevel, y: city.HexY, x: city.HexX);
         EventLog.DistributeLocationEventLog(y: city.HexY, level: city.HexLevel, x: city.HexX, log: log, player: control.GetPlayer(), execute: false);
@@ -65,7 +65,7 @@ public sealed record Loot : ProductionOrder
         }
 
         control.BeginUpdate();
-        Log(control, city, Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_cityLootedFormat), [city.GetName(), IntToStr(city.Income * 3)]));
+        Log(control, city, text: Format(AbilityRules.TranslateResourceString(control.GetEngine(), S: s_cityLootedFormat), args: [city.GetName(), IntToStr(city.Income * 3)]));
         Player playerGems = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
         StrategicMap.Current.Players.GetPlayers(control.GetPlayer()).SetGems(playerGems.Gems + (city.Income * 3));
         city.Overlay.SetMode(CityOverlayHexSprite.OverlayMode.Idle);
@@ -78,7 +78,7 @@ public sealed record Loot : ProductionOrder
         City city = control.ProductionCity();
         if (city is not null)
         {
-            ChangeRelation(control, city, control.Settings.TurnsLeft == control.Settings.TurnsTotal ? 30 : 20);
+            ChangeRelation(control, city, change: control.Settings.TurnsLeft == control.Settings.TurnsTotal ? 30 : 20);
         }
     }
 

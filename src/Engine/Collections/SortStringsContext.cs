@@ -49,7 +49,7 @@ public struct SortStringsContext
 
                 if (i <= j)
                 {
-                    context.Strings.Exchange(i, j);
+                    context.Strings.Exchange(i, second: j);
                     context.ExchangeProc?.Invoke(context.ExchangeData, i, j);
 
                     i += 1;
@@ -59,7 +59,7 @@ public struct SortStringsContext
             while (!(i > j));
             if (L < j)
             {
-                QuickSortStrings(ref context, L, j);
+                QuickSortStrings(ref context, L, R: j);
             }
 
             L = i;

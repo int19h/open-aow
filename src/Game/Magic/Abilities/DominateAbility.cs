@@ -12,7 +12,7 @@ public class DominateAbility : CommandAbility
     {
         Holder = holder;
         AbilityId = 28;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_dominateText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_dominateText);
         CommandedAbilityId = 150;
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
     }

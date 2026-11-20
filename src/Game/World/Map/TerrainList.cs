@@ -14,13 +14,13 @@ public class TerrainList : IDisposable
     private (sbyte Terrain, sbyte Overlay)[] _list = [];
 
     // HSEngine.pas:1411
-    public virtual void Dispose() => Array.Resize(ref _list, 0);
+    public virtual void Dispose() => Array.Resize(ref _list, newSize: 0);
 
     // HSEngine.pas:1417
     public virtual void Assign(TerrainList source)
     {
         SetCount(source._count);
-        Array.Copy(source._list, 0, _list, 0, _count);
+        Array.Copy(source._list, sourceIndex: 0, destinationArray: _list, destinationIndex: 0, length: _count);
     }
 
     // HSEngine.pas:1423
@@ -40,10 +40,10 @@ public class TerrainList : IDisposable
     // HSEngine.pas:1437
     public void SetCount(int newCount)
     {
-        Array.Resize(ref _list, newCount);
+        Array.Resize(ref _list, newSize: newCount);
         if (newCount > _count)
         {
-            _list.AsSpan(_count, newCount - _count).Fill((-2, -2));
+            _list.AsSpan(_count, length: newCount - _count).Fill((-2, -2));
         }
 
         _count = newCount;
@@ -137,7 +137,7 @@ public class TerrainList : IDisposable
             if (GetTerrain(i) >= 0)
             {
                 HexGeometry.HexNumberToHex(i, ref hexX, ref hexY);
-                HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 1);
+                HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 1);
                 while (walk.HexNumber != 7)
                 {
                     int hexNumber = HexGeometry.HexToHexNumber(walk.X, walk.Y);

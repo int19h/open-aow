@@ -193,7 +193,7 @@ public partial class CampaignJoinDialog(UIContext ui) : UIModule(ui)
         for (int i = 0, last = ScrollText.Count - 1; i <= last; i++)
         {
             string scrollText = ScrollText[i];
-            UI.Fonts.Age15WhiteOnGrey.SetTextCentered(x, y, scrollText, lockedSurface);
+            UI.Fonts.Age15WhiteOnGrey.SetTextCentered(x, y, text: scrollText, lockedSurface);
             y += 20;
         }
     }

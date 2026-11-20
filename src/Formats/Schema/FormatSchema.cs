@@ -52,14 +52,14 @@ public sealed class FormatSchema
             ?? throw new InvalidOperationException("The embedded schema is missing.");
         using MemoryStream memory = new();
         stream.CopyTo(memory);
-        return Load(memory.ToArray(), "schema.json");
+        return Load(memory.ToArray(), file: "schema.json");
     }
 
     public static FormatSchema Load(byte[] utf8, string file)
     {
         JsonObject root = JsonReader.Parse(utf8, file) as JsonObject
             ?? throw new InvalidOperationException("The schema is not an object.");
-        return new FormatSchema(root, Convert.ToHexStringLower(SHA256.HashData(JsonWriter.ToUtf8(root))));
+        return new FormatSchema(root, hash: Convert.ToHexStringLower(SHA256.HashData(JsonWriter.ToUtf8(root))));
     }
 
     private FormatSchema(JsonObject root, string hash)
@@ -70,7 +70,7 @@ public sealed class FormatSchema
         JsonArray list = (JsonArray)root["classes"]!;
         foreach (JsonValue item in list.Items)
         {
-            SchemaClass c = new((JsonObject)item, this);
+            SchemaClass c = new((JsonObject)item, schema: this);
             _classes.Add(c.Name, c);
         }
         if (root["legacyShapes"] is JsonArray shapes)
@@ -78,7 +78,7 @@ public sealed class FormatSchema
             foreach (JsonValue item in shapes.Items)
             {
                 JsonObject shape = (JsonObject)item;
-                SchemaClass c = new(shape, this, ((JsonString)shape["class"]!).Value);
+                SchemaClass c = new(shape, schema: this, shapeOf: ((JsonString)shape["class"]!).Value);
                 _legacyShapes.Add((((JsonString)shape["context"]!).Value, c.Name), (((JsonString)shape["name"]!).Value, c));
             }
         }
@@ -218,7 +218,7 @@ public static class FormatVersions
             ?? throw new InvalidOperationException("The embedded versions.json is missing.");
         using MemoryStream memory = new();
         stream.CopyTo(memory);
-        JsonObject current = (JsonObject)JsonReader.Parse(memory.ToArray(), "versions.json");
+        JsonObject current = (JsonObject)JsonReader.Parse(memory.ToArray(), file: "versions.json");
         return current["version"] is not JsonInteger { Value: OwnFormat.CurrentVersion }
             ? throw new InvalidOperationException("versions.json does not pin the current version.")
             : current;
@@ -256,7 +256,7 @@ public sealed class SchemaClass
             Engines = [];
             foreach (JsonValue p in ((JsonArray)source["properties"]!).Items)
             {
-                _own.Add(new SchemaProperty((JsonObject)p, this, schema));
+                _own.Add(new SchemaProperty((JsonObject)p, owner: this, schema));
             }
 
             if (source["skippedIds"] is JsonArray shapeSkipped)
@@ -277,7 +277,7 @@ public sealed class SchemaClass
         {
             foreach (JsonValue p in props.Items)
             {
-                _own.Add(new SchemaProperty((JsonObject)p, this, schema));
+                _own.Add(new SchemaProperty((JsonObject)p, owner: this, schema));
             }
         }
         if (source["skippedIds"] is JsonArray skipped)
@@ -414,7 +414,7 @@ public sealed class SchemaClass
                 // never writes it for this class (THuntAG id 30, TAoWTerrainResource id 20).
                 // A coordinate shadows on any of its three ids, and a subclass id that matches
                 // any of those three drops the whole coordinate.
-                _ = readWrite.RemoveAll(q => SharesImageId(q, p));
+                _ = readWrite.RemoveAll(q => SharesImageId(q, incoming: p));
                 (p.IsChildrenPhase ? children : readWrite).Add(p);
             }
         }
@@ -441,7 +441,7 @@ public sealed class SchemaClass
         List<SchemaProperty> all = [.. readWrite, .. children];
         if (_source["order"] is JsonArray order)
         {
-            Dictionary<string, SchemaProperty> named = all.ToDictionary(p => p.Name, StringComparer.Ordinal);
+            Dictionary<string, SchemaProperty> named = all.ToDictionary(p => p.Name, comparer: StringComparer.Ordinal);
             List<SchemaProperty> ordered = [];
             foreach (JsonValue item in order.Items)
             {
@@ -455,7 +455,7 @@ public sealed class SchemaClass
             }
             if (named.Count != 0)
             {
-                throw new InvalidOperationException($"Class {Name} leaves {string.Join(", ", named.Keys)} out of its order.");
+                throw new InvalidOperationException($"Class {Name} leaves {string.Join(", ", values: named.Keys)} out of its order.");
             }
 
             all = ordered;
@@ -553,7 +553,7 @@ public sealed class SchemaProperty
         DynamicMinimum = source["dynamic"] is JsonInteger d ? (int)d.Value : null;
         SlotBase = source["slotBase"] is JsonInteger s ? (int)s.Value : null;
         IsChildrenPhase = source["phase"] is JsonString { Value: "children" };
-        Codec = PropertyCodec.Create(source, schema, $"{owner.Name}.{Name}");
+        Codec = PropertyCodec.Create(source, schema, path: $"{owner.Name}.{Name}");
         ImageIds = ImageIdList(Id, DataId, Codec);
     }
 
@@ -617,9 +617,9 @@ public sealed class SchemaMapping
         Name = ((JsonString)source["name"]!).Value;
         Discriminator = ((JsonString)source["discriminator"]!).Value;
         Cases = ((JsonArray)source["cases"]!).Items.Cast<JsonObject>()
-            .Select(c => new SchemaCase(((JsonInteger)c["key"]!).Value, ((JsonString)c["case"]!).Value, Fields(c), Refused(c))).ToArray();
+            .Select(c => new SchemaCase(((JsonInteger)c["key"]!).Value, Name: ((JsonString)c["case"]!).Value, Fields: Fields(c), Refused: Refused(c))).ToArray();
         JsonObject unknown = (JsonObject)source["unknown"]!;
-        Unknown = new SchemaCase(null, ((JsonString)unknown["case"]!).Value, Fields(unknown), Refused(unknown));
+        Unknown = new SchemaCase(null, Name: ((JsonString)unknown["case"]!).Value, Fields: Fields(unknown), Refused: Refused(unknown));
         StoredMembers = [.. Cases.Append(Unknown).SelectMany(c => c.Fields.Select(f => f.Member)).Append(Discriminator).Distinct()];
     }
 

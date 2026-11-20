@@ -20,7 +20,7 @@ public sealed class CensusFacts
 
     public static CensusFacts Read(byte[] bytes)
     {
-        using JsonDocument census = JsonDocument.Parse(bytes, new JsonDocumentOptions { MaxDepth = 256 });
+        using JsonDocument census = JsonDocument.Parse(bytes, options: new JsonDocumentOptions { MaxDepth = 256 });
         List<CensusRow> rows = [];
         foreach (JsonElement row in census.RootElement.GetProperty("corpus").EnumerateArray())
         {
@@ -29,9 +29,9 @@ public sealed class CensusFacts
                 continue;
             }
 
-            rows.Add(new CensusRow(row.GetProperty("identity").GetString()!, row.GetProperty("sourceRoot").GetString()!,
-                row.GetProperty("relativePath").GetString()!, row.GetProperty("profile").GetString()!,
-                row.GetProperty("kind").GetString()!, row.GetProperty("sha256").GetString()!));
+            rows.Add(new CensusRow(row.GetProperty("identity").GetString()!, SourceRoot: row.GetProperty("sourceRoot").GetString()!,
+                RelativePath: row.GetProperty("relativePath").GetString()!, Profile: row.GetProperty("profile").GetString()!,
+                Kind: row.GetProperty("kind").GetString()!, Sha256: row.GetProperty("sha256").GetString()!));
         }
         return new CensusFacts
         {
@@ -65,7 +65,7 @@ public sealed class Expectation
     public static (CensusFacts Census, Expectation? Expectation) Load(string path)
     {
         byte[] bytes = File.ReadAllBytes(path);
-        using JsonDocument doc = JsonDocument.Parse(bytes, new JsonDocumentOptions { MaxDepth = 256 });
+        using JsonDocument doc = JsonDocument.Parse(bytes, options: new JsonDocumentOptions { MaxDepth = 256 });
         JsonElement root = doc.RootElement;
         if (root.TryGetProperty("corpus", out _))
         {
@@ -143,25 +143,25 @@ public sealed class Expectation
             }
         }
 
-        Check("G1 exact files", Exact, exact);
-        Check("G1 masked files", Masked, masked);
-        Check("G1 document files", Document, document);
+        Check("G1 exact files", pinned: Exact, measured: exact);
+        Check("G1 masked files", pinned: Masked, measured: masked);
+        Check("G1 document files", pinned: Document, measured: document);
         foreach (string key in Rules.Keys.Union(maskedRules.Keys).Order(StringComparer.Ordinal))
         {
-            Check($"masked rule {key}", Rules.GetValueOrDefault(key), maskedRules.GetValueOrDefault(key));
+            Check($"masked rule {key}", pinned: Rules.GetValueOrDefault(key), measured: maskedRules.GetValueOrDefault(key));
         }
 
         foreach (string key in Profiles.Keys.Union(profiles.Keys).Order(StringComparer.Ordinal))
         {
-            Check($"profile {key}", Profiles.GetValueOrDefault(key), profiles.GetValueOrDefault(key));
+            Check($"profile {key}", pinned: Profiles.GetValueOrDefault(key), measured: profiles.GetValueOrDefault(key));
         }
 
         foreach (string key in LegacyRules.Keys.Union(legacyRules.Keys).Order(StringComparer.Ordinal))
         {
             (int pinnedOccurrences, List<string> pinnedFiles) = LegacyRules.GetValueOrDefault(key, (0, []));
             (int measuredOccurrences, List<string> measuredFiles) = legacyRules.GetValueOrDefault(key, (0, []));
-            Check($"legacy rule {key} occurrences", pinnedOccurrences, measuredOccurrences);
-            Check($"legacy rule {key} files", string.Join(", ", pinnedFiles.Order(StringComparer.Ordinal)), string.Join(", ", measuredFiles.Order(StringComparer.Ordinal)));
+            Check($"legacy rule {key} occurrences", pinned: pinnedOccurrences, measured: measuredOccurrences);
+            Check($"legacy rule {key} files", pinned: string.Join(", ", values: pinnedFiles.Order(StringComparer.Ordinal)), measured: string.Join(", ", values: measuredFiles.Order(StringComparer.Ordinal)));
         }
 
         return problems;

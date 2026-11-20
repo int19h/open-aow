@@ -5,13 +5,13 @@ namespace Aow.Graphics;
 
 public static partial class Blit
 {
-    internal static ushort UInt16(ReadOnlySpan<byte> s, int offset) => BinaryPrimitives.ReadUInt16LittleEndian(s.Slice(offset, 2));
+    internal static ushort UInt16(ReadOnlySpan<byte> s, int offset) => BinaryPrimitives.ReadUInt16LittleEndian(s.Slice(offset, length: 2));
 
-    internal static uint Dword(ReadOnlySpan<byte> s, int offset) => BinaryPrimitives.ReadUInt32LittleEndian(s.Slice(offset, 4));
+    internal static uint Dword(ReadOnlySpan<byte> s, int offset) => BinaryPrimitives.ReadUInt32LittleEndian(s.Slice(offset, length: 4));
 
-    internal static void UInt16(Span<byte> d, int offset, int value) => BinaryPrimitives.WriteUInt16LittleEndian(d.Slice(offset, 2), unchecked((ushort)value));
+    internal static void UInt16(Span<byte> d, int offset, int value) => BinaryPrimitives.WriteUInt16LittleEndian(d.Slice(offset, length: 2), value: unchecked((ushort)value));
 
-    internal static void Dword(Span<byte> d, int offset, uint value) => BinaryPrimitives.WriteUInt32LittleEndian(d.Slice(offset, 4), value);
+    internal static void Dword(Span<byte> d, int offset, uint value) => BinaryPrimitives.WriteUInt32LittleEndian(d.Slice(offset, length: 4), value);
 
     private static Span<ushort> Words(Span<byte> row) => MemoryMarshal.Cast<byte, ushort>(row);
 
@@ -49,17 +49,17 @@ public static partial class Blit
         int head = (-s.Start) & 3, tail = (s.Start + w) & 3;
         bool whole = w - tail - head >= 0;
         uint words = unchecked((uint)(w - tail - head)) >> 2;
-        bool shared = s.Memory.Overlaps(d.Memory, out int shift);
+        bool shared = s.Memory.Overlaps(d.Memory, elementOffset: out int shift);
         for (int y = 0; y < h; y++)
         {
             int si = s.RowIndex(y), di = d.RowIndex(y);
-            if (whole && Plain(s, si, d, di, w, shared, shift))
+            if (whole && Plain(s, si, d, di, count: w, shared, shift))
             {
-                s.Memory.Slice(si, w).CopyTo(d.Memory.Slice(di, w));
+                s.Memory.Slice(si, length: w).CopyTo(d.Memory.Slice(di, length: w));
             }
             else
             {
-                RegisterRow(s.Memory, si, d.Memory, di, head, words, tail);
+                RegisterRow(s.Memory, si, destination: d.Memory, di, head, words, tail);
             }
         }
     }
@@ -74,14 +74,14 @@ public static partial class Blit
         }
         for (uint i = 0; i < (words >> 1); i++)
         {
-            uint first = Dword(source, si + offset), second = Dword(source, si + offset + 4);
-            Dword(destination, di + offset, first);
-            Dword(destination, di + offset + 4, second);
+            uint first = Dword(source, offset: si + offset), second = Dword(source, offset: si + offset + 4);
+            Dword(destination, offset: di + offset, value: first);
+            Dword(destination, offset: di + offset + 4, value: second);
             offset += 8;
         }
         if ((words & 1) != 0)
         {
-            Dword(value: Dword(source, si + offset), d: destination, offset: di + offset);
+            Dword(value: Dword(source, offset: si + offset), d: destination, offset: di + offset);
             offset += 4;
         }
         for (int i = 0; i < tail; i++)
@@ -104,13 +104,13 @@ public static partial class Blit
         int tail = w < 4 ? w : (s.Start + w) & 3;
         int head = w < 4 ? 0 : (w - tail) & 3;
         int words = w < 4 ? 0 : (w - tail) >> 2;
-        bool shared = s.Memory.Overlaps(d.Memory, out int shift);
+        bool shared = s.Memory.Overlaps(d.Memory, elementOffset: out int shift);
         for (int y = 0; y < h; y++)
         {
             int si = s.RowIndex(y), di = d.RowIndex(y);
-            if (Plain(s, si, d, di, w, shared, shift))
+            if (Plain(s, si, d, di, count: w, shared, shift))
             {
-                s.Memory.Slice(si, w).CopyTo(d.Memory.Slice(di, w));
+                s.Memory.Slice(si, length: w).CopyTo(d.Memory.Slice(di, length: w));
             }
             else
             {
@@ -122,7 +122,7 @@ public static partial class Blit
                 }
                 for (int i = 0; i < words; i++)
                 {
-                    Dword(value: Dword(s.Memory, si + offset), d: d.Memory, offset: di + offset);
+                    Dword(value: Dword(s.Memory, offset: si + offset), d: d.Memory, offset: di + offset);
                     offset += 4;
                 }
                 for (int i = 0; i < tail; i++)
@@ -138,8 +138,8 @@ public static partial class Blit
     {
         for (int y = 0; y < h; y++)
         {
-            Span<ushort> source = Words(s.Row(y, w * 2));
-            Span<ushort> destination = Words(d.Row(y, w * 2));
+            Span<ushort> source = Words(s.Row(y, count: w * 2));
+            Span<ushort> destination = Words(d.Row(y, count: w * 2));
             for (int x = 0; x < w; x++)
             {
                 int pixel = source[x];
@@ -167,18 +167,18 @@ public static partial class Blit
         int paired = ((s.Start | d.Start) & 3) == 0 ? w & ~3 : 0;
         for (int y = 0; y < h; y++)
         {
-            Span<ushort> source = Words(s.Row(y, w * 2));
-            Span<ushort> destination = Words(d.Row(y, w * 2));
+            Span<ushort> source = Words(s.Row(y, count: w * 2));
+            Span<ushort> destination = Words(d.Row(y, count: w * 2));
             for (int x = 0; x < w; x++)
             {
-                destination[x] = (ushort)Half(source[x], destination[x], rgb565, x < paired && (x & 1) != 0);
+                destination[x] = (ushort)Half(source[x], d: destination[x], rgb565, high: x < paired && (x & 1) != 0);
             }
         }
     }
 
-    public static void BlitTransparent555(SurfaceView s, SurfaceView d, int w, int h) => Transparent(s, d, w, h, false);
+    public static void BlitTransparent555(SurfaceView s, SurfaceView d, int w, int h) => Transparent(s, d, w, h, rgb565: false);
 
-    public static void BlitTransparent565(SurfaceView s, SurfaceView d, int w, int h) => Transparent(s, d, w, h, true);
+    public static void BlitTransparent565(SurfaceView s, SurfaceView d, int w, int h) => Transparent(s, d, w, h, rgb565: true);
 
     public static void FillInteger(Span<byte> d, int count, int value)
     {
@@ -189,7 +189,7 @@ public static partial class Blit
                 throw new AccessViolationException("FillInt crossed the buffer");
             }
 
-            BinaryPrimitives.WriteInt32LittleEndian(d.Slice((int)i * 4, 4), value);
+            BinaryPrimitives.WriteInt32LittleEndian(d.Slice((int)i * 4, length: 4), value);
         }
     }
 
@@ -203,7 +203,7 @@ public static partial class Blit
                 throw new AccessViolationException("FillWord crossed the buffer");
             }
 
-            BinaryPrimitives.WriteUInt32LittleEndian(d.Slice((int)i * 4, 4), pair);
+            BinaryPrimitives.WriteUInt32LittleEndian(d.Slice((int)i * 4, length: 4), value: pair);
         }
         if ((count & 1) != 0)
         {
@@ -213,7 +213,7 @@ public static partial class Blit
                 throw new AccessViolationException("FillWord crossed the buffer");
             }
 
-            BinaryPrimitives.WriteUInt16LittleEndian(d.Slice(offset, 2), (ushort)pair);
+            BinaryPrimitives.WriteUInt16LittleEndian(d.Slice(offset, length: 2), value: (ushort)pair);
         }
     }
 
@@ -227,7 +227,7 @@ public static partial class Blit
                 throw new AccessViolationException("FillTrippleByte crossed the buffer");
             }
 
-            BinaryPrimitives.WriteUInt16LittleEndian(d.Slice(offset, 2), (ushort)value);
+            BinaryPrimitives.WriteUInt16LittleEndian(d.Slice(offset, length: 2), value: (ushort)value);
             if (offset + 2 >= d.Length)
             {
                 throw new AccessViolationException("FillTrippleByte crossed the buffer");
@@ -254,8 +254,8 @@ public static partial class Blit
         ReadOnlySpan<ushort> map = MemoryMarshal.Cast<byte, ushort>(table);
         for (int y = 0; y < h; y++)
         {
-            Span<ushort> source = Words(s.Row(y, w * 2));
-            Span<ushort> destination = Words(d.Row(y, w * 2));
+            Span<ushort> source = Words(s.Row(y, count: w * 2));
+            Span<ushort> destination = Words(d.Row(y, count: w * 2));
             for (int x = 0; x < w; x++)
             {
                 destination[x] = map[source[x]];
@@ -268,8 +268,8 @@ public static partial class Blit
         CheckShortRows(s, d, w, h);
         for (int y = 0; y < h; y++)
         {
-            Span<ushort> source = Words(s.Row(y, w * 2));
-            Span<byte> destination = d.Row(y, w);
+            Span<ushort> source = Words(s.Row(y, count: w * 2));
+            Span<byte> destination = d.Row(y, count: w);
             for (int x = 0; x < w; x++)
             {
                 destination[x] = table[source[x]];
@@ -283,8 +283,8 @@ public static partial class Blit
         ReadOnlySpan<uint> map = MemoryMarshal.Cast<byte, uint>(table);
         for (int y = 0; y < h; y++)
         {
-            Span<ushort> source = Words(s.Row(y, w * 2));
-            Span<uint> destination = Dwords(d.Row(y, w * 4));
+            Span<ushort> source = Words(s.Row(y, count: w * 2));
+            Span<uint> destination = Dwords(d.Row(y, count: w * 4));
             for (int x = 0; x < w; x++)
             {
                 destination[x] = map[source[x]];
@@ -302,8 +302,8 @@ public static partial class Blit
     {
         for (int y = 0; y < h; y++)
         {
-            Span<ushort> source = Words(s.Row(y, w * 2));
-            Span<ushort> destination = Words(d.Row(y, w * 2));
+            Span<ushort> source = Words(s.Row(y, count: w * 2));
+            Span<ushort> destination = Words(d.Row(y, count: w * 2));
             for (int x = 0; x < w; x++)
             {
                 destination[x] = (ushort)To565(source[x]);
@@ -315,8 +315,8 @@ public static partial class Blit
     {
         for (int y = 0; y < h; y++)
         {
-            Span<ushort> source = Words(s.Row(y, w * 2));
-            Span<ushort> destination = Words(d.Row(y, w * 2));
+            Span<ushort> source = Words(s.Row(y, count: w * 2));
+            Span<ushort> destination = Words(d.Row(y, count: w * 2));
             for (int x = 0; x < w; x++)
             {
                 destination[x] = (ushort)To555(source[x]);
@@ -330,8 +330,8 @@ public static partial class Blit
         int paired = ((s.Start | d.Start) & 3) == 0 ? w & ~3 : 0;
         for (int y = 0; y < h; y++)
         {
-            Span<ushort> source = Words(s.Row(y, w * 2));
-            Span<uint> destination = Dwords(d.Row(y, w * 4));
+            Span<ushort> source = Words(s.Row(y, count: w * 2));
+            Span<uint> destination = Dwords(d.Row(y, count: w * 4));
             for (int x = 0; x < w; x++)
             {
                 int p = source[x];
@@ -346,8 +346,8 @@ public static partial class Blit
         bool paired = ((s.Start | d.Start) & 3) == 0;
         for (int y = 0; y < h; y++)
         {
-            Span<ushort> source = Words(s.Row(y, w * 2));
-            Span<uint> destination = Dwords(d.Row(y, w * 4));
+            Span<ushort> source = Words(s.Row(y, count: w * 2));
+            Span<uint> destination = Dwords(d.Row(y, count: w * 4));
             for (int x = 0; x < w; x++)
             {
                 int p = source[x];
@@ -366,14 +366,14 @@ public static partial class Blit
     {
         for (int y = 0; y < h; y++)
         {
-            Span<ushort> source = Words(s.Row(y, w * 2));
-            Span<ushort> destination = Words(d.Row(y, w * 2));
+            Span<ushort> source = Words(s.Row(y, count: w * 2));
+            Span<ushort> destination = Words(d.Row(y, count: w * 2));
             for (int x = 0; x < w; x++)
             {
                 int p = source[x];
                 if (p != key)
                 {
-                    destination[x] = (ushort)BlendPixel(p, destination[x], table, rgb565);
+                    destination[x] = (ushort)BlendPixel(p, d: destination[x], table, rgb565);
                 }
             }
         }
@@ -386,14 +386,14 @@ public static partial class Blit
     {
         int head = (d.Start & 3) == 0 ? 0 : 1;
         int draw = (w - head) / 2 == 0 ? head : w;
-        Blend(s.WithPitch(s.Pitch - ((w - draw) * 2)), d.WithPitch(d.Pitch - ((w - draw) * 2)), draw, h, t, false);
+        Blend(s.WithPitch(s.Pitch - ((w - draw) * 2)), d: d.WithPitch(d.Pitch - ((w - draw) * 2)), w: draw, h, table: t, rgb565: false);
     }
 
-    public static void BlendSurface565(SurfaceView s, SurfaceView d, int w, int h, ReadOnlySpan<byte> t) => Blend(s, d, w, h, t, true);
+    public static void BlendSurface565(SurfaceView s, SurfaceView d, int w, int h, ReadOnlySpan<byte> t) => Blend(s, d, w, h, table: t, rgb565: true);
 
-    public static void BlendColorKey555(SurfaceView s, SurfaceView d, int w, int h, int k, ReadOnlySpan<byte> t) => Blend(s, d, w, h, t, false, k);
+    public static void BlendColorKey555(SurfaceView s, SurfaceView d, int w, int h, int k, ReadOnlySpan<byte> t) => Blend(s, d, w, h, table: t, rgb565: false, key: k);
 
-    public static void BlendColorKey565(SurfaceView s, SurfaceView d, int w, int h, int k, ReadOnlySpan<byte> t) => Blend(s, d, w, h, t, true, k);
+    public static void BlendColorKey565(SurfaceView s, SurfaceView d, int w, int h, int k, ReadOnlySpan<byte> t) => Blend(s, d, w, h, table: t, rgb565: true, key: k);
 
     // `rows[y]` is the byte offset of source row y from the source's first pixel (an address in
     // the original) and `cols[x]` the source column of destination pixel x.
@@ -401,20 +401,20 @@ public static partial class Blit
     {
         for (int y = 0; y < h; y++)
         {
-            Span<ushort> row = Words(destination.Row(y, w * 2));
+            Span<ushort> row = Words(destination.Row(y, count: w * 2));
             for (int x = 0; x < w; x++)
             {
                 int p = source.UInt16(rows[y] + (cols[x] * 2));
-                row[x] = (ushort)(!blend ? p : BlendPixel(p, row[x], table, rgb565));
+                row[x] = (ushort)(!blend ? p : BlendPixel(p, d: row[x], table, rgb565));
             }
         }
     }
 
-    public static void BlitStretched16(SurfaceView source, ReadOnlySpan<int> rows, ReadOnlySpan<int> cols, SurfaceView destination, int w, int h) => Stretch(source, rows, cols, destination, w, h, default, false, false);
+    public static void BlitStretched16(SurfaceView source, ReadOnlySpan<int> rows, ReadOnlySpan<int> cols, SurfaceView destination, int w, int h) => Stretch(source, rows, cols, destination, w, h, table: default, rgb565: false, blend: false);
 
-    public static void BlendStretched555(SurfaceView source, ReadOnlySpan<int> rows, ReadOnlySpan<int> cols, SurfaceView destination, int w, int h, ReadOnlySpan<byte> table) => Stretch(source, rows, cols, destination, w, h, table, false, true);
+    public static void BlendStretched555(SurfaceView source, ReadOnlySpan<int> rows, ReadOnlySpan<int> cols, SurfaceView destination, int w, int h, ReadOnlySpan<byte> table) => Stretch(source, rows, cols, destination, w, h, table, rgb565: false, blend: true);
 
-    public static void BlendStretched565(SurfaceView source, ReadOnlySpan<int> rows, ReadOnlySpan<int> cols, SurfaceView destination, int w, int h, ReadOnlySpan<byte> table) => Stretch(source, rows, cols, destination, w, h, table, true, true);
+    public static void BlendStretched565(SurfaceView source, ReadOnlySpan<int> rows, ReadOnlySpan<int> cols, SurfaceView destination, int w, int h, ReadOnlySpan<byte> table) => Stretch(source, rows, cols, destination, w, h, table, rgb565: true, blend: true);
 
     public static int ReadTimeStampCounter() => 0;
 

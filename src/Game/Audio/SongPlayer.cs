@@ -29,7 +29,7 @@ public class SongPlayer : IDisposable
             try
             {
                 string songName = AudioPlayback.GetSongName(_songs[i]);
-                SongNames.Insert(0, songName);
+                SongNames.Insert(0, value: songName);
             }
             catch
             {
@@ -119,7 +119,7 @@ public class SongPlayer : IDisposable
         {
             Status += Set<StatusElement>.Of(StatusElement.Playing);
             string item = _songs[index];
-            result = AudioHost.SoundSystem.PlaySong(item, fadeOut, fadeIn, false);
+            result = AudioHost.SoundSystem.PlaySong(item, fadeOut, fadeIn, loop: false);
             if (result)
             {
                 CurrentIndex = index;
@@ -148,7 +148,7 @@ public class SongPlayer : IDisposable
         {
             Status += Set<StatusElement>.Of(StatusElement.Playing);
             string item = _songs[index];
-            result = AudioHost.SoundSystem.PlaySong(item, 2, 0, false);
+            result = AudioHost.SoundSystem.PlaySong(item, fadeOut: 2, fadeIn: 0, loop: false);
             if (result)
             {
                 CurrentIndex = index;

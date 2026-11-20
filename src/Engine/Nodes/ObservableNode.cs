@@ -820,7 +820,7 @@ public class ObservableNode(CustomNode owner) : CustomNode(owner)
     // }
     public void EndUpdate()
     {
-        Assert(UpdateCount > 0, "Invalid UpdateCount Usage", "Engine.pas", 7959);
+        Assert(UpdateCount > 0, message: "Invalid UpdateCount Usage", file: "Engine.pas", line: 7959);
         UpdateCount -= 1;
         if (UpdateCount == 0)
         {
@@ -870,7 +870,7 @@ public class ObservableNode(CustomNode owner) : CustomNode(owner)
                             if (node.LastMessage != message.Sequence)
                             {
                                 node.LastMessage = message.Sequence;
-                                node.MessageProc(ref message, this);
+                                node.MessageProc(ref message, sender: this);
                             }
                         }
                     }
@@ -885,7 +885,7 @@ public class ObservableNode(CustomNode owner) : CustomNode(owner)
                             if (node.LastMessage != message.Sequence && node.Owner == this)
                             {
                                 node.LastMessage = message.Sequence;
-                                node.MessageProc(ref message, this);
+                                node.MessageProc(ref message, sender: this);
                             }
                         }
                     }
@@ -900,7 +900,7 @@ public class ObservableNode(CustomNode owner) : CustomNode(owner)
                         if (children.List[i] is not null)
                         {
                             EngineObject node = children.List[i];
-                            node.MessageProc(ref message, this);
+                            node.MessageProc(ref message, sender: this);
                         }
                     }
                 }
@@ -913,7 +913,7 @@ public class ObservableNode(CustomNode owner) : CustomNode(owner)
                             EngineObject node = children[i];
                             if (node.Owner == this)
                             {
-                                node.MessageProc(ref message, this);
+                                node.MessageProc(ref message, sender: this);
                             }
                         }
                     }
@@ -932,7 +932,7 @@ public class ObservableNode(CustomNode owner) : CustomNode(owner)
                         if (node.LastMessage != message.Sequence)
                         {
                             node.LastMessage = message.Sequence;
-                            node.MessageProc(ref message, this);
+                            node.MessageProc(ref message, sender: this);
                         }
                     }
                 }
@@ -944,7 +944,7 @@ public class ObservableNode(CustomNode owner) : CustomNode(owner)
                         if (node.LastMessage != message.Sequence && node.Owner == this)
                         {
                             node.LastMessage = message.Sequence;
-                            node.MessageProc(ref message, this);
+                            node.MessageProc(ref message, sender: this);
                         }
                     }
                 }
@@ -956,7 +956,7 @@ public class ObservableNode(CustomNode owner) : CustomNode(owner)
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
                         EngineObject node = children.List[i];
-                        node.MessageProc(ref message, this);
+                        node.MessageProc(ref message, sender: this);
                     }
                 }
                 else
@@ -966,7 +966,7 @@ public class ObservableNode(CustomNode owner) : CustomNode(owner)
                         EngineObject node = children[i];
                         if (node.Owner == this)
                         {
-                            node.MessageProc(ref message, this);
+                            node.MessageProc(ref message, sender: this);
                         }
                     }
                 }

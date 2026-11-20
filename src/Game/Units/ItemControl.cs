@@ -198,7 +198,7 @@ public class ItemControl(CustomNode owner) : EngineObject(owner)
         if (!item.Status.Contains(ItemStatusElement.Registered))
         {
             Item existing = FindItem(item.ItemId);
-            if (existing is not null && existing.Compare(item, GetEngine()) && existing.RefCount == 1)
+            if (existing is not null && existing.Compare(item, engine: GetEngine()) && existing.RefCount == 1)
             {
                 UnregisterItem(existing);
             }

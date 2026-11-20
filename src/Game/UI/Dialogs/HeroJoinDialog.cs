@@ -82,17 +82,17 @@ public partial class HeroJoinDialog(UIContext ui) : UIModule(ui)
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 LibraryImage image = UI.Graphics.UnitBackgrounds[(int)alignment];
-                image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), surface);
+                image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), lockedSurface: surface);
             }
 
             info = default;
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
-            _ = _units.GetUnit(index).Show(x - 33, y - 35, surface, info);
+            _ = _units.GetUnit(index).Show(x - 33, y - 35, lockedSurface: surface, info);
             if (((_selection >>> index) & 1) == 0)
             {
                 LibraryImage image = UI.Graphics.UnitBackgrounds[7];
-                image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), surface);
+                image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), lockedSurface: surface);
             }
 
             surface.ClipRectangle = oldClip;
@@ -161,7 +161,7 @@ public partial class HeroJoinDialog(UIContext ui) : UIModule(ui)
             r.Right = FaceFrame.WinWidth + r.Left;
             r.Top = FaceFrame.WinTop + Window.WinTop;
             r.Bottom = FaceFrame.WinHeight + r.Top;
-            _faceUnit.GetFace()?.ShowStretched(r, surface);
+            _faceUnit.GetFace()?.ShowStretched(r, lockedSurface: surface);
         }
     }
 
@@ -220,7 +220,7 @@ public partial class HeroJoinDialog(UIContext ui) : UIModule(ui)
             dialog._faceUnit = StrategicMap.Current.UnitControl.FindUnit<Hero>(dialog._joinEvent.FirstUnitId);
             dialog._joinEvent.ListJoinUnits(dialog._units, out dialog._selection);
             sbyte level = dialog._faceUnit.GetLevel();
-            string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.LevelFormat), [IntToStr(level)]);
+            string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.LevelFormat), arguments: [IntToStr(level)]);
             dialog.HeroLevelLabel.Text = format;
             dialog.HeroNameLabel.Text = dialog._faceUnit.HeroName;
             string text = dialog._joinEvent.JoinMessage.Text;

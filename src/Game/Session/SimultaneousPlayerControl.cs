@@ -52,14 +52,14 @@ public class SimultaneousPlayerControl(CustomNode owner) : PlayerControl(owner)
                     if (StrategicMap.Current.GameType == GameType.Custom)
                     {
                         ShowBookEventLog log = new(null) { Holder = CreationHolder() };
-                        StrategicMap.Current.TriggerExecuteEventLog(log, false, null);
+                        StrategicMap.Current.TriggerExecuteEventLog(log, immediate: false, done: null);
                         _ = log.Release();
                     }
 
                     if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId == 0)
                     {
                         SpellList spells = new();
-                        StrategicMap.Current.Players.GetPlayers(player).MagicControl.ListResearchSpells(spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
+                        StrategicMap.Current.Players.GetPlayers(player).MagicControl.ListResearchSpells(spells, spellTypes: Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
                         if (spells.GetCount() > 0)
                         {
                             PlayerMagicEventLog research = new(null)
@@ -67,7 +67,7 @@ public class SimultaneousPlayerControl(CustomNode owner) : PlayerControl(owner)
                                 Holder = CreationHolder(),
                                 Mode = PlayerMagicEventLog.EventMode.StartResearch
                             };
-                            StrategicMap.Current.TriggerExecuteEventLog(research, false, null);
+                            StrategicMap.Current.TriggerExecuteEventLog(research, immediate: false, done: null);
                             _ = research.Release();
                         }
 
@@ -132,7 +132,7 @@ public class SimultaneousPlayerControl(CustomNode owner) : PlayerControl(owner)
         byte item = StrategicMap.Current.Players.LocalHumanPlayers[0];
         StrategicMap.Current.SetSeatedPlayer((sbyte)item);
         StrategicMap.Current.NotifySeatedPlayerChanged();
-        Assert(StrategicMap.Current.SeatedPlayer != 0, "", "PlayerC.PAS", 1584);
+        Assert(StrategicMap.Current.SeatedPlayer != 0, message: "", file: "PlayerC.PAS", line: 1584);
         StrategicMap.Current.ResetSeatedPlayerView();
         StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(StrategicMap.Current.CurrentPlayer);
         NewTurnEventLog log = new(null)
@@ -141,9 +141,9 @@ public class SimultaneousPlayerControl(CustomNode owner) : PlayerControl(owner)
             TurnPlayer = StrategicMap.Current.SeatedPlayer,
             Mode = NewTurnEventLogMode.Dialog,
             DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
-            Text = AbilityRules.TranslateResourceString(GetEngine(), s_letGameBeginText)
+            Text = AbilityRules.TranslateResourceString(GetEngine(), S: s_letGameBeginText)
         };
-        StrategicMap.Current.TriggerExecuteEventLog(log, false, StartGameCallback);
+        StrategicMap.Current.TriggerExecuteEventLog(log, immediate: false, done: StartGameCallback);
         _ = log.Release();
         if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network)
         {
@@ -238,9 +238,9 @@ public class SimultaneousPlayerControl(CustomNode owner) : PlayerControl(owner)
                     _ = log.Release();
                 }
 
-                EngineMessage.InitializeMessage(out message, 537001991, this);
+                EngineMessage.InitializeMessage(out message, messageId: 537001991, sender: this);
                 message.Payload = i;
-                StrategicMap.Current.SendMessage(ref message, this);
+                StrategicMap.Current.SendMessage(ref message, sender: this);
             }
 
             StrategicMap.Current.UnlockRelationsChanged();
@@ -291,9 +291,9 @@ public class SimultaneousPlayerControl(CustomNode owner) : PlayerControl(owner)
             TurnPlayer = StrategicMap.Current.SeatedPlayer,
             Mode = NewTurnEventLogMode.Dialog,
             DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
-            Text = AbilityRules.TranslateResourceString(GetEngine(), s_gameContinuesText)
+            Text = AbilityRules.TranslateResourceString(GetEngine(), S: s_gameContinuesText)
         };
-        StrategicMap.Current.TriggerExecuteEventLog(log, false, StartGameCallback);
+        StrategicMap.Current.TriggerExecuteEventLog(log, immediate: false, done: StartGameCallback);
         _ = log.Release();
         if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network)
         {

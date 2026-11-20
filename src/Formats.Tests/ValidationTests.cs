@@ -24,8 +24,8 @@ public sealed class ValidationTests : FormatsTest
             if (!slots.Contains(current.Value))
             {
                 yield return context.At(Codes.Reference,
-                    $"Player slot {current.Value} is absent from root.Players.Children. Use an existing slot.",
-                    current, DocumentNodePath.Root.Member("CurrentPlayer"), current.Value.ToString(System.Globalization.CultureInfo.InvariantCulture), "domain player-slot");
+                    message: $"Player slot {current.Value} is absent from root.Players.Children. Use an existing slot.",
+                    value: current, path: DocumentNodePath.Root.Member("CurrentPlayer"), rejected: current.Value.ToString(System.Globalization.CultureInfo.InvariantCulture), constraint: "domain player-slot");
             }
         }
     }
@@ -33,18 +33,18 @@ public sealed class ValidationTests : FormatsTest
     private static JsonObject Map()
     {
         byte[] bytes = File.ReadAllBytes(Path.Combine(Checker.GameRoot, "Scenario", "Custom", "Mountain Clash.hsm"));
-        return GameFiles.Read(GameFiles.Write(GameFiles.Import(bytes, FileProfile.Find("world-hsm")!, "map").Document)).Document;
+        return GameFiles.Read(GameFiles.Write(GameFiles.Import(bytes, profile: FileProfile.Find("world-hsm")!, kind: "map").Document)).Document;
     }
 
     [GameFact]
-    public void AValidDocumentHasNoFindings() => Assert.Empty(DocumentValidation.Run(Map(), [new PlayerSlotValidator()]));
+    public void AValidDocumentHasNoFindings() => Assert.Empty(DocumentValidation.Run(Map(), validators: [new PlayerSlotValidator()]));
 
     [GameFact]
     public void ADanglingReferenceIsLocatedAndNamesItsDomain()
     {
         byte[] text = [.. GameFiles.Write(Map())];
-        string edited = System.Text.Encoding.UTF8.GetString(text).Replace("\"$class\": \"StrategicMap\",", "\"$class\": \"StrategicMap\",\n    \"CurrentPlayer\": 17,", StringComparison.Ordinal);
-        FormatDiagnostic finding = Assert.Single(DocumentValidation.Run(GameFiles.Read(System.Text.Encoding.UTF8.GetBytes(edited), "edited.hsm").Document, validators: [new PlayerSlotValidator()], file: "edited.hsm"));
+        string edited = System.Text.Encoding.UTF8.GetString(text).Replace("\"$class\": \"StrategicMap\",", "\"$class\": \"StrategicMap\",\n    \"CurrentPlayer\": 17,", comparisonType: StringComparison.Ordinal);
+        FormatDiagnostic finding = Assert.Single(DocumentValidation.Run(GameFiles.Read(System.Text.Encoding.UTF8.GetBytes(edited), fileName: "edited.hsm").Document, validators: [new PlayerSlotValidator()], file: "edited.hsm"));
         Assert.Equal(Codes.Reference, finding.Code);
         Assert.Equal("root.CurrentPlayer", finding.Path);
         Assert.Equal(12, finding.Span.Line);
@@ -58,10 +58,10 @@ public sealed class ValidationTests : FormatsTest
     {
         JsonObject document = Map();
         JsonObject root = (JsonObject)document["root"]!;
-        root.Members.Insert(1, new JsonMember("CurrentPlayer", new JsonInteger(1)));
+        root.Members.Insert(1, item: new JsonMember("CurrentPlayer", new JsonInteger(1)));
         JsonArray players = (JsonArray)((JsonObject)root["Players"]!)["Children"]!;
         players.Items.RemoveAt(1);
-        FormatDiagnostic finding = Assert.Single(DocumentValidation.Run(document, [new PlayerSlotValidator()]));
+        FormatDiagnostic finding = Assert.Single(DocumentValidation.Run(document, validators: [new PlayerSlotValidator()]));
         Assert.Equal("root.CurrentPlayer", finding.Path);
     }
 
@@ -70,7 +70,7 @@ public sealed class ValidationTests : FormatsTest
     {
         JsonObject document = Map();
         _ = ((JsonObject)document["root"]!).Add("NoSuchMember", new JsonInteger(1));
-        FormatDiagnostic finding = Assert.Single(DocumentValidation.Run(document, [new PlayerSlotValidator()]));
+        FormatDiagnostic finding = Assert.Single(DocumentValidation.Run(document, validators: [new PlayerSlotValidator()]));
         Assert.Equal(Codes.UnknownMember, finding.Code);
     }
 
@@ -100,7 +100,7 @@ public sealed class ValidationTests : FormatsTest
             .Add("$class", new JsonString("Dungeon"))
             .Add("$slot", new JsonInteger(slot))
             .Add("Prisoners", prisoners));
-        Assert.Empty(DocumentValidation.Run(document, []));
+        Assert.Empty(DocumentValidation.Run(document, validators: []));
         ConversionException error = Assert.Throws<ConversionException>(() => GameFiles.Export(document));
         Assert.Equal(Codes.Unrepresentable, error.Diagnostic.Code);
         Assert.EndsWith(".Items", error.Diagnostic.Path);

@@ -39,7 +39,7 @@ public class CityEnchantmentSpell(CustomNode owner) : CityTargetSpell(owner)
         enchantment.PlayerIndex = source.Player;
         targetCity.ActivateEnchantment(enchantment);
         PlayDefaultCityEffects(eventValue.Source, targetCity);
-        CastingDone(source, eventValue.EventMana);
+        CastingDone(source, mana: eventValue.EventMana);
         return false;
     }
 
@@ -88,8 +88,8 @@ public class CityEnchantmentSpell(CustomNode owner) : CityTargetSpell(owner)
         City targetCity = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
         if (targetCity is not null && ValidTargetCity(source, targetCity) && source.CanCastSpell(SpellId, ref reason))
         {
-            _ = AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, AIBudget);
-            if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
+            _ = AICastSpellExpenseMade(source, budget: BaseManaCost, mana: ManaUpkeep, upkeep: AIBudget);
+            if (source.CanCastSpellInstantly(SpellId, mana: BaseManaCost, ref reason))
             {
                 return TargetSelected(source, x, y, l);
             }

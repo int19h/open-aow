@@ -16,7 +16,7 @@ public class PowerLeakEnchantment : GlobalEnchantment
     public PowerLeakEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.PowerLeakText);
+        Name = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.PowerLeakText);
         EnchantmentType = GlobalEnchantmentType.PowerLeak;
         DispelMana = 25;
     }

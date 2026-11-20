@@ -456,7 +456,7 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
         if (types != Set<DamageType>.Of())
         {
             int attackLocal = attack - GetDefense();
-            result = AbilityRules.ExecuteDamageRole(damage, attackLocal);
+            result = AbilityRules.ExecuteDamageRole(damage, attackDefense: attackLocal);
             if (types - GetProtectionTypes() == Set<DamageType>.Of())
             {
                 return (result + 1) / 2;
@@ -475,7 +475,7 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
         {
             int attackLocal = damageMode == 1 ? attack - GetResistance() : attack - GetDefense();
 
-            result = AbilityRules.ExecuteDamageRole(damage, attackLocal);
+            result = AbilityRules.ExecuteDamageRole(damage, attackDefense: attackLocal);
             if (types - GetProtectionTypes() == Set<DamageType>.Of())
             {
                 return (result + 1) / 2;
@@ -520,7 +520,7 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
     // Combat.pas:5903
     public virtual int ExecuteDamage(int damage)
     {
-        Assert(damage is >= 0 and < 50, "Invalid Damage Value (TCombatUnit.ExecuteDamage)", "Combat.pas", 5982);
+        Assert(damage is >= 0 and < 50, message: "Invalid Damage Value (TCombatUnit.ExecuteDamage)", file: "Combat.pas", line: 5982);
         int hits = HitPoints;
         int result = hits < damage ? hits : damage;
 
@@ -559,11 +559,11 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
     // Combat.pas:1941
     public void AddTarget(CombatObject target, int combatValue, int wallCombatValue, int damageValue)
     {
-        Assert(Targets.IndexOfItemA(target) == -1, "target already exists use update target", "Combat.pas", 5473);
+        Assert(Targets.IndexOfItemA(target) == -1, message: "target already exists use update target", file: "Combat.pas", line: 5473);
         CombatValue += combatValue;
         _wallCombatValue += wallCombatValue;
-        _ = Targets.AddABCD(target, combatValue, wallCombatValue, damageValue);
-        _ = target.TargetedBy.AddABCD(this, combatValue, wallCombatValue, damageValue);
+        _ = Targets.AddABCD(target, combatValue, C: wallCombatValue, D: damageValue);
+        _ = target.TargetedBy.AddABCD(this, combatValue, C: wallCombatValue, D: damageValue);
         target.IncomingCombatValue += combatValue;
         target.IncomingWallCombatValue += wallCombatValue;
         if (combatValue > 0)
@@ -738,7 +738,7 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
                 damage = (sbyte)(damage + 3);
             }
 
-            return AbilityRules.StatisticsToLimitedDamageValue(attack, damage, types, target.HitPoints, target.GetDefense(), target.GetResistance(), target.GetImmunityTypes(), target.GetProtectionTypes());
+            return AbilityRules.StatisticsToLimitedDamageValue(attack, damage, damageTypes: types, maximum: target.HitPoints, defense: target.GetDefense(), resistance: target.GetResistance(), immunityTypes: target.GetImmunityTypes(), protectionTypes: target.GetProtectionTypes());
         }
         else
         {
@@ -787,7 +787,7 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
             }
 
             result = new StrikeCombatAction(null) { Holder = source };
-            result.Generate(source, target, attack, damage, types);
+            result.Generate(source, target, attack, damage, damageTypes: types);
             result.SetDefensive(defensive);
         }
         else

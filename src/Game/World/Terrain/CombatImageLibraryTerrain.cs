@@ -82,7 +82,7 @@ public class CombatImageLibraryTerrain(CustomNode owner) : ImageLibraryTerrainMa
         HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int pixelX, out int pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
-        Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 40, (uint)(Owner.HexX + (Owner.HexY << 4)));
+        Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, index: 40, offset: (uint)(Owner.HexX + (Owner.HexY << 4)));
     }
 
     // CombatILTer.pas:87

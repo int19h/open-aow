@@ -159,7 +159,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
             {
                 byte availability = (byte)availabilityOrdinal;
                 string tacticalBattleAvailability = UI.Engine.TranslateResourceString(TacticalCombatAvailabilityTexts[availability]);
-                _ = TacticalCombatComboBox.Items.AddObject(tacticalBattleAvailability, IntToObject(availability));
+                _ = TacticalCombatComboBox.Items.AddObject(tacticalBattleAvailability, item: IntToObject(availability));
             }
         }
         else
@@ -174,7 +174,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
             CustomizeLeadersCheckBox.CaptureInput = false;
             PlayModeComboBox.Items.Clear();
             string classic = UI.Engine.TranslateResourceString(s_classicText);
-            _ = PlayModeComboBox.Items.AddObject(classic, IntToObject(1));
+            _ = PlayModeComboBox.Items.AddObject(classic, item: IntToObject(1));
         }
         else
         {
@@ -182,9 +182,9 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
             CustomizeLeadersCheckBox.CaptureInput = true;
             PlayModeComboBox.Items.Clear();
             string simultaneous = UI.Engine.TranslateResourceString(s_simultaneousText);
-            _ = PlayModeComboBox.Items.AddObject(simultaneous, IntToObject(2));
+            _ = PlayModeComboBox.Items.AddObject(simultaneous, item: IntToObject(2));
             string classic = UI.Engine.TranslateResourceString(s_classicText);
-            _ = PlayModeComboBox.Items.AddObject(classic, IntToObject(1));
+            _ = PlayModeComboBox.Items.AddObject(classic, item: IntToObject(1));
         }
 
         bool condition = AudioHost.SongPlayer.CurrentIndex == -1;
@@ -280,14 +280,14 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
                 if (SetupControl.Settings.RemotePlayers.GetPlayers(i).MapValidation == MapValidationInfo.Invalid)
                 {
                     UI.Fonts.Age8Shadow.Color = 255;
-                    UI.Fonts.Age8Shadow.SetText(drawRectangle.Right - 8, drawRectangle.Top + 4, "X", lockedSurface);
+                    UI.Fonts.Age8Shadow.SetText(drawRectangle.Right - 8, drawRectangle.Top + 4, text: "X", lockedSurface);
                 }
                 else
                 {
                     if (SetupControl.Settings.RemotePlayers.GetPlayers(i).MapValidation == MapValidationInfo.InvalidMap)
                     {
                         UI.Fonts.Age8Shadow.Color = 32768;
-                        UI.Fonts.Age8Shadow.SetText(drawRectangle.Right - 8, drawRectangle.Top + 4, "X", lockedSurface);
+                        UI.Fonts.Age8Shadow.SetText(drawRectangle.Right - 8, drawRectangle.Top + 4, text: "X", lockedSurface);
                     }
                 }
             }
@@ -411,7 +411,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
         if (SetupControl.PlayerNameToPlayerId(item, ref behavior))
         {
             int indexOfRace = SetupControl.Settings.IndexOfRace((byte)slot);
-            SetupControl.SetPlayerId(indexOfRace, behavior, true);
+            SetupControl.SetPlayerId(indexOfRace, behavior, forced: true);
         }
 
         UI.TitleWindow.MainWindow.Drawn = false;
@@ -422,7 +422,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
     {
         ComboBox control = sender;
         int indexOfRace = SetupControl.Settings.IndexOfRace((byte)slot);
-        SetupControl.SetPlayerBehavior(indexOfRace, (byte)control.Selected);
+        SetupControl.SetPlayerBehavior(indexOfRace, value: (byte)control.Selected);
         UI.TitleWindow.MainWindow.Drawn = false;
     }
 
@@ -515,7 +515,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
         }
         else
         {
-            string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_minutesFormat), [IntToStr(TurnTimeSlider.Position)]);
+            string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_minutesFormat), arguments: [IntToStr(TurnTimeSlider.Position)]);
             TurnTimeValueLabel.Text = format;
         }
     }
@@ -530,7 +530,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
         }
         else
         {
-            string format = AbilityRules.Format(LowerCase(UI.Engine.TranslateResourceString(GameText.TurnsFormat)), [IntToStr(TurnsSlider.Position * 10)]);
+            string format = AbilityRules.Format(LowerCase(UI.Engine.TranslateResourceString(GameText.TurnsFormat)), arguments: [IntToStr(TurnsSlider.Position * 10)]);
             TurnsValueLabel.Text = format;
         }
     }
@@ -604,7 +604,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
             {
                 byte b = (byte)bOrdinal;
                 string tacticalBattleAvailability = setup.UI.Engine.TranslateResourceString(TacticalCombatAvailabilityTexts[b]);
-                _ = setup.TacticalCombatComboBox.Items.AddObject(tacticalBattleAvailability, IntToObject(b));
+                _ = setup.TacticalCombatComboBox.Items.AddObject(tacticalBattleAvailability, item: IntToObject(b));
             }
         }
         else
@@ -619,7 +619,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
             setup.CustomizeLeadersCheckBox.CaptureInput = false;
             setup.PlayModeComboBox.Items.Clear();
             string classic = setup.UI.Engine.TranslateResourceString(s_classicText);
-            _ = setup.PlayModeComboBox.Items.AddObject(classic, IntToObject(1));
+            _ = setup.PlayModeComboBox.Items.AddObject(classic, item: IntToObject(1));
         }
         else
         {
@@ -627,9 +627,9 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
             setup.CustomizeLeadersCheckBox.CaptureInput = true;
             setup.PlayModeComboBox.Items.Clear();
             string simultaneous = setup.UI.Engine.TranslateResourceString(s_simultaneousText);
-            _ = setup.PlayModeComboBox.Items.AddObject(simultaneous, IntToObject(2));
+            _ = setup.PlayModeComboBox.Items.AddObject(simultaneous, item: IntToObject(2));
             string classic = setup.UI.Engine.TranslateResourceString(s_classicText);
-            _ = setup.PlayModeComboBox.Items.AddObject(classic, IntToObject(1));
+            _ = setup.PlayModeComboBox.Items.AddObject(classic, item: IntToObject(1));
         }
 
         bool condition = AudioHost.SongPlayer.CurrentIndex != -1;
@@ -660,7 +660,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
             for (int i = 0, last = control.Settings.RemotePlayers.Count - 1; i <= last; i++)
             {
                 RemotePlayer player = control.Settings.RemotePlayers.GetPlayers(i);
-                _ = setup.PlayerList.Items.AddObject(player.Name, IntToObject(player.RemoteId));
+                _ = setup.PlayerList.Items.AddObject(player.Name, item: IntToObject(player.RemoteId));
                 if (player.PreferredRace != 255)
                 {
                     string raceNamesPlural = setup.UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[(sbyte)player.PreferredRace]);
@@ -672,7 +672,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
                     _ = setup.PreferredRaceList.Items.Add(none);
                 }
 
-                _ = setup.PingList.Items.AddObject("", IntToObject(player.RemoteId));
+                _ = setup.PingList.Items.AddObject("", item: IntToObject(player.RemoteId));
             }
 
             int count = setup.PlayerList.Items.Count;
@@ -709,7 +709,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
             {
                 setup.PreferredRaceComboBox.Items.Clear();
                 string none = setup.UI.Engine.TranslateResourceString(GameTables.NoneText);
-                _ = setup.PreferredRaceComboBox.Items.AddObject(none, IntToObject(-1));
+                _ = setup.PreferredRaceComboBox.Items.AddObject(none, item: IntToObject(-1));
                 for (int i = 0, last = setup.SetupControl.Settings.Count - 1; i <= last; i++)
                 {
                     if (!setup.SetupControl.Settings.GetSettings(i).Status.Contains(PlayerSetupStatusElement.Fixed))
@@ -717,7 +717,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
                         PlayerSetupSettings settingRace = setup.SetupControl.Settings.GetSettings(i);
                         string raceNamesPlural = setup.UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[settingRace.Race]);
                         PlayerSetupSettings setting = setup.SetupControl.Settings.GetSettings(i);
-                        _ = setup.PreferredRaceComboBox.Items.AddObject(raceNamesPlural, IntToObject(setting.Race));
+                        _ = setup.PreferredRaceComboBox.Items.AddObject(raceNamesPlural, item: IntToObject(setting.Race));
                     }
                 }
 
@@ -728,29 +728,29 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
             }
 
             int indexOfRace = control.Settings.IndexOfRace(0);
-            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace), setup.Side1PlayerComboBox, setup.Side1BehaviorComboBox, setup.Side1PlayerIcon, setup.Side1PlayerLabel, setup.Side1InfoLabel, setup.Side1FogPanel);
+            UpdateScenarioRow(setup, settings: control.Settings.GetSettings(indexOfRace), playerBox: setup.Side1PlayerComboBox, behaviorBox: setup.Side1BehaviorComboBox, icon: setup.Side1PlayerIcon, playerName: setup.Side1PlayerLabel, info: setup.Side1InfoLabel, fog: setup.Side1FogPanel);
             int fSettingsIndexOfRace = control.Settings.IndexOfRace(1);
-            UpdateScenarioRow(setup, control.Settings.GetSettings(fSettingsIndexOfRace), setup.Side2PlayerComboBox, setup.Side2BehaviorComboBox, setup.Side2PlayerIcon, setup.Side2PlayerLabel, setup.Side2InfoLabel, setup.Side2FogPanel);
+            UpdateScenarioRow(setup, settings: control.Settings.GetSettings(fSettingsIndexOfRace), playerBox: setup.Side2PlayerComboBox, behaviorBox: setup.Side2BehaviorComboBox, icon: setup.Side2PlayerIcon, playerName: setup.Side2PlayerLabel, info: setup.Side2InfoLabel, fog: setup.Side2FogPanel);
             int indexOfRace2 = control.Settings.IndexOfRace(2);
-            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace2), setup.Side3PlayerComboBox, setup.Side3BehaviorComboBox, setup.Side3PlayerIcon, setup.Side3PlayerLabel, setup.Side3InfoLabel, setup.Side3FogPanel);
+            UpdateScenarioRow(setup, settings: control.Settings.GetSettings(indexOfRace2), playerBox: setup.Side3PlayerComboBox, behaviorBox: setup.Side3BehaviorComboBox, icon: setup.Side3PlayerIcon, playerName: setup.Side3PlayerLabel, info: setup.Side3InfoLabel, fog: setup.Side3FogPanel);
             int indexOfRace3 = control.Settings.IndexOfRace(3);
-            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace3), setup.Side4PlayerComboBox, setup.Side4BehaviorComboBox, setup.Side4PlayerIcon, setup.Side4PlayerLabel, setup.Side4InfoLabel, setup.Side4FogPanel);
+            UpdateScenarioRow(setup, settings: control.Settings.GetSettings(indexOfRace3), playerBox: setup.Side4PlayerComboBox, behaviorBox: setup.Side4BehaviorComboBox, icon: setup.Side4PlayerIcon, playerName: setup.Side4PlayerLabel, info: setup.Side4InfoLabel, fog: setup.Side4FogPanel);
             int indexOfRace4 = control.Settings.IndexOfRace(4);
-            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace4), setup.Side5PlayerComboBox, setup.Side5BehaviorComboBox, setup.Side5PlayerIcon, setup.Side5PlayerLabel, setup.Side5InfoLabel, setup.Side5FogPanel);
+            UpdateScenarioRow(setup, settings: control.Settings.GetSettings(indexOfRace4), playerBox: setup.Side5PlayerComboBox, behaviorBox: setup.Side5BehaviorComboBox, icon: setup.Side5PlayerIcon, playerName: setup.Side5PlayerLabel, info: setup.Side5InfoLabel, fog: setup.Side5FogPanel);
             int indexOfRace5 = control.Settings.IndexOfRace(5);
-            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace5), setup.Side6PlayerComboBox, setup.Side6BehaviorComboBox, setup.Side6PlayerIcon, setup.Side6PlayerLabel, setup.Side6InfoLabel, setup.Side6FogPanel);
+            UpdateScenarioRow(setup, settings: control.Settings.GetSettings(indexOfRace5), playerBox: setup.Side6PlayerComboBox, behaviorBox: setup.Side6BehaviorComboBox, icon: setup.Side6PlayerIcon, playerName: setup.Side6PlayerLabel, info: setup.Side6InfoLabel, fog: setup.Side6FogPanel);
             int indexOfRace6 = control.Settings.IndexOfRace(6);
-            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace6), setup.Side7PlayerComboBox, setup.Side7BehaviorComboBox, setup.Side7PlayerIcon, setup.Side7PlayerLabel, setup.Side7InfoLabel, setup.Side7FogPanel);
+            UpdateScenarioRow(setup, settings: control.Settings.GetSettings(indexOfRace6), playerBox: setup.Side7PlayerComboBox, behaviorBox: setup.Side7BehaviorComboBox, icon: setup.Side7PlayerIcon, playerName: setup.Side7PlayerLabel, info: setup.Side7InfoLabel, fog: setup.Side7FogPanel);
             int indexOfRace7 = control.Settings.IndexOfRace(7);
-            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace7), setup.Side8PlayerComboBox, setup.Side8BehaviorComboBox, setup.Side8PlayerIcon, setup.Side8PlayerLabel, setup.Side8InfoLabel, setup.Side8FogPanel);
+            UpdateScenarioRow(setup, settings: control.Settings.GetSettings(indexOfRace7), playerBox: setup.Side8PlayerComboBox, behaviorBox: setup.Side8BehaviorComboBox, icon: setup.Side8PlayerIcon, playerName: setup.Side8PlayerLabel, info: setup.Side8InfoLabel, fog: setup.Side8FogPanel);
             int indexOfRace8 = control.Settings.IndexOfRace(8);
-            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace8), setup.Side9PlayerComboBox, setup.Side9BehaviorComboBox, setup.Side9PlayerIcon, setup.Side9PlayerLabel, setup.Side9InfoLabel, setup.Side9FogPanel);
+            UpdateScenarioRow(setup, settings: control.Settings.GetSettings(indexOfRace8), playerBox: setup.Side9PlayerComboBox, behaviorBox: setup.Side9BehaviorComboBox, icon: setup.Side9PlayerIcon, playerName: setup.Side9PlayerLabel, info: setup.Side9InfoLabel, fog: setup.Side9FogPanel);
             int indexOfRace9 = control.Settings.IndexOfRace(9);
-            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace9), setup.Side10PlayerComboBox, setup.Side10BehaviorComboBox, setup.Side10PlayerIcon, setup.Side10PlayerLabel, setup.Side10InfoLabel, setup.Side10FogPanel);
+            UpdateScenarioRow(setup, settings: control.Settings.GetSettings(indexOfRace9), playerBox: setup.Side10PlayerComboBox, behaviorBox: setup.Side10BehaviorComboBox, icon: setup.Side10PlayerIcon, playerName: setup.Side10PlayerLabel, info: setup.Side10InfoLabel, fog: setup.Side10FogPanel);
             int indexOfRace10 = control.Settings.IndexOfRace(10);
-            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace10), setup.Side11PlayerComboBox, setup.Side11BehaviorComboBox, setup.Side11PlayerIcon, setup.Side11PlayerLabel, setup.Side11InfoLabel, setup.Side11FogPanel);
+            UpdateScenarioRow(setup, settings: control.Settings.GetSettings(indexOfRace10), playerBox: setup.Side11PlayerComboBox, behaviorBox: setup.Side11BehaviorComboBox, icon: setup.Side11PlayerIcon, playerName: setup.Side11PlayerLabel, info: setup.Side11InfoLabel, fog: setup.Side11FogPanel);
             int indexOfRace11 = control.Settings.IndexOfRace(11);
-            UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace11), setup.Side12PlayerComboBox, setup.Side12BehaviorComboBox, setup.Side12PlayerIcon, setup.Side12PlayerLabel, setup.Side12InfoLabel, setup.Side12FogPanel);
+            UpdateScenarioRow(setup, settings: control.Settings.GetSettings(indexOfRace11), playerBox: setup.Side12PlayerComboBox, behaviorBox: setup.Side12BehaviorComboBox, icon: setup.Side12PlayerIcon, playerName: setup.Side12PlayerLabel, info: setup.Side12InfoLabel, fog: setup.Side12FogPanel);
             if (setup.SetupControl.GetRemote())
             {
                 string connection = setup.UI.SetupEvents.DirectPlay.ConnectionType switch
@@ -769,11 +769,11 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
                 setup.HostNameLabel.Visible = true;
                 setup.FileNameLabel.Visible = true;
                 setup.PlayerNameLabel.Visible = true;
-                string format = AbilityRules.Format(setup.UI.Engine.TranslateResourceString(GameText.HostFormat), [connection, hostName]);
+                string format = AbilityRules.Format(setup.UI.Engine.TranslateResourceString(GameText.HostFormat), arguments: [connection, hostName]);
                 setup.HostNameLabel.Text = format;
-                string formattedText = AbilityRules.Format(setup.UI.Engine.TranslateResourceString(GameText.PlayerNameFormat), [setup.SetupControl.RemotePlayer.Name]);
+                string formattedText = AbilityRules.Format(setup.UI.Engine.TranslateResourceString(GameText.PlayerNameFormat), arguments: [setup.SetupControl.RemotePlayer.Name]);
                 setup.PlayerNameLabel.Text = formattedText;
-                string format2 = AbilityRules.Format(setup.UI.Engine.TranslateResourceString(GameText.FileNameFormat), [setup.SetupControl.Settings.MapName]);
+                string format2 = AbilityRules.Format(setup.UI.Engine.TranslateResourceString(GameText.FileNameFormat), arguments: [setup.SetupControl.Settings.MapName]);
                 setup.FileNameLabel.Text = format2;
                 setup.FileNameLabel.TextColor = setup.SetupControl.RemotePlayer.MapValidation == MapValidationInfo.Invalid ? 255 : 10329501;
             }
@@ -784,7 +784,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
                 setup.PlayerNameLabel.Visible = false;
             }
 
-            string format3 = AbilityRules.Format(setup.UI.Engine.TranslateResourceString(GameText.ScenarioFormat), [setup.SetupControl.Settings.FileName]);
+            string format3 = AbilityRules.Format(setup.UI.Engine.TranslateResourceString(GameText.ScenarioFormat), arguments: [setup.SetupControl.Settings.FileName]);
             setup.ScenarioLabel.Text = format3;
             setup.UI.TitleWindow.MainWindow.Drawn = false;
         }
@@ -887,7 +887,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
                 {
                     byte b = (byte)bOrdinal;
                     string playerBehavior = setup.UI.Engine.TranslateResourceString(GameTables.PlayerBehaviorTexts[(int)(PlayerBehavior)b]);
-                    _ = behaviorBox.Items.AddObject(playerBehavior, IntToObject(b));
+                    _ = behaviorBox.Items.AddObject(playerBehavior, item: IntToObject(b));
                 }
 
                 behaviorBox.Items.EndUpdate();

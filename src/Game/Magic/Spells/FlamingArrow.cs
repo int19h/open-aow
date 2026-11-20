@@ -16,7 +16,7 @@ public class FlamingArrow : CombatSpell
     public FlamingArrow(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_flamingArrowText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_flamingArrowText);
         SpellId = 123;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 8;

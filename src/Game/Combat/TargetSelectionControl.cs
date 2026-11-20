@@ -78,7 +78,7 @@ public class TargetSelectionControl : IDisposable
         if (ImageLibrary is not null)
         {
             // { Original links the image library again when destroying the control. }
-            _ = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TARGHEX.ILB");
+            _ = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "TARGHEX.ILB");
             ImageLibrary = null;
         }
     }
@@ -115,7 +115,7 @@ public class TargetSelectionControl : IDisposable
                 HexSpriteMapMouse mouse = StrategicMap.Current.Mouse;
                 if (mouse.Capture == this && mouse.Button == MouseButton.Left)
                 {
-                    if (ValidTarget(Target.X, Target.Y, Target.MapLevel))
+                    if (ValidTarget(Target.X, Target.Y, L: Target.MapLevel))
                     {
                         TriggerOnChangeEvent(TargetSelectionChange.Selected);
                         if (!Status.Contains(TargetSelectionStatusElement.Activated))
@@ -145,7 +145,7 @@ public class TargetSelectionControl : IDisposable
             result = result && mapField.TerrainType != 15;
             if (result && OnValidateTarget is not null)
             {
-                OnValidateTarget(this, X, Y, L, ref result);
+                OnValidateTarget(this, X, Y, Lt: L, Valid: ref result);
             }
         }
         else
@@ -184,7 +184,7 @@ public class TargetSelectionControl : IDisposable
             if (condition)
             {
                 int hexY = StrategicMap.Current.Mouse.HexY;
-                condition = ValidTarget((sbyte)StrategicMap.Current.Mouse.HexX, (sbyte)hexY, (sbyte)StrategicMap.Current.ViewMapLevel);
+                condition = ValidTarget((sbyte)StrategicMap.Current.Mouse.HexX, (sbyte)hexY, L: (sbyte)StrategicMap.Current.ViewMapLevel);
             }
 
             Status = condition
@@ -212,7 +212,7 @@ public class TargetSelectionControl : IDisposable
                     int ys = y + deltaY;
                     if (TargetMode.Contains(TargetSelectionModeElement.OwnerDraw))
                     {
-                        OnShow?.Invoke(this, i, xs, ys, lockedSurface);
+                        OnShow?.Invoke(this, HN: i, xs, ys, SurfaceDesc: lockedSurface);
                     }
                     else
                     {
@@ -227,7 +227,7 @@ public class TargetSelectionControl : IDisposable
     // Structur.PAS:3915
     public void Initialize(object source)
     {
-        ImageLibrary ??= GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TARGHEX.ILB");
+        ImageLibrary ??= GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "TARGHEX.ILB");
 
         if (!Status.Contains(TargetSelectionStatusElement.Activated))
         {

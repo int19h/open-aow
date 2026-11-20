@@ -146,13 +146,13 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         ArmyEventLog log = new(null)
         {
             Holder = CreationHolder(),
-            ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_holyGroundDamageText)
+            ArmyText = AbilityRules.TranslateResourceString(GetEngine(), S: s_holyGroundDamageText)
         };
-        string holyGroundDamage = AbilityRules.TranslateResourceString(GetEngine(), s_holyGroundDamageText);
+        string holyGroundDamage = AbilityRules.TranslateResourceString(GetEngine(), S: s_holyGroundDamageText);
         _ = log.ArmyMessages.Add(holyGroundDamage);
         log.ArmyIcon = 2;
         log.Player = army.Army.Player;
-        log.ArmyView.Setup(army.Army, 255);
+        log.ArmyView.Setup(army.Army, selection: 255);
         Army armyLocal = army.Army;
         for (int i = 0, last = armyLocal.Units.Count - 1; i <= last; i++)
         {
@@ -166,7 +166,7 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 
             if (condition && !troop.GetAbilityEnabled(1))
             {
-                int damage = troop.ExecuteDamageRole(3, 4, Set<DamageType>.Of(DamageType.Holy));
+                int damage = troop.ExecuteDamageRole(3, damage: 4, damageTypes: Set<DamageType>.Of(DamageType.Holy));
                 if (damage > troop.GetHitPoints())
                 {
                     damage = troop.GetHitPoints();
@@ -215,7 +215,7 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         Dispose();
         if (overlay > 0)
         {
-            StrategicMap.Current.PlaceTerrain(field.HexX, field.HexY, field.HexLevel, field.TerrainType, overlay);
+            StrategicMap.Current.PlaceTerrain(field.HexX, field.HexY, L: field.HexLevel, field.TerrainType, overlayType: overlay);
         }
     }
 
@@ -275,7 +275,7 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
                 sbyte hexLevel2 = HexLevel;
                 sbyte hexY2 = HexY;
                 sbyte hexX2 = HexX;
-                condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, hexLevel2, 0);
+                condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, L: hexLevel2, radius: 0);
             }
 
             if (condition)
@@ -310,7 +310,7 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         public override int ResourceUserClassId() => 131987;
 
         // HolyG.pas:273
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_holyGroundText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_holyGroundText);
 
         private static readonly string s_holyGroundText = "Holy Ground";
 

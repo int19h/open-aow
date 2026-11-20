@@ -23,7 +23,7 @@ public class FountainOfLife : CityEnchantmentSpell
     public FountainOfLife(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.FountainOfLifeText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FountainOfLifeText);
         SpellId = 52;
         CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
         BaseManaCost = 1;
@@ -79,7 +79,7 @@ public class FountainOfLife : CityEnchantmentSpell
                 int deltaY = (vy * t) - Round((double)(t * 0.25) * t);
                 if (t > 0)
                 {
-                    _ = GamePack.Current.SpellControl[52].CastImages.Show(0, cx + deltaX + offset, cy - deltaY, 0, lockedSurface);
+                    _ = GamePack.Current.SpellControl[52].CastImages.Show(0, cx + deltaX + offset, cy - deltaY, frame: 0, lockedSurface);
                 }
             }
         }

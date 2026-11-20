@@ -14,7 +14,7 @@ public class Warmonger : CityEnchantmentSpell
     public Warmonger(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.WarmongerText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.WarmongerText);
         SpellId = 58;
         CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
         EnchantmentId = CityEnchantmentId.Warmonger;

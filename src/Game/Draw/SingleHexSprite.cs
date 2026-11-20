@@ -49,7 +49,7 @@ public class SingleHexSprite(CustomNode owner) : HexSprite(owner)
     // HXSPRITE.PAS:749
     public override bool Place(MapContainer map, int pixelX, int pixelY, int hexLevel)
     {
-        HexGeometry.PixelToHex(pixelX, pixelY, out int hexX, out int hexY);
+        HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int hexX, out int hexY);
         return PlaceHex(map, (sbyte)hexX, (sbyte)hexY, (sbyte)hexLevel);
     }
 
@@ -93,7 +93,7 @@ public class SingleHexSprite(CustomNode owner) : HexSprite(owner)
         if ((_status & 1) == 0)
         {
             _status = (byte)(_status | 1);
-            _ = visibilityList.AddSortChild(this, GetShowPriority());
+            _ = visibilityList.AddSortChild(this, sortValue: GetShowPriority());
         }
     }
 

@@ -92,7 +92,7 @@ public class HexSpriteMapMouse : IDisposable
             {
                 int pixelY = PixelY;
                 int pixelX = PixelX;
-                HexSpriteMap.Selection.SelectLocation(pixelX, pixelY, HexSpriteMap.ViewMapLevel);
+                HexSpriteMap.Selection.SelectLocation(pixelX, pixelY, lHitPoints: HexSpriteMap.ViewMapLevel);
                 return false;
             }
             else
@@ -268,7 +268,7 @@ public class HexSpriteMapMouse : IDisposable
             int result;
             if (X != -2147483648)
             {
-                HexGeometry.PixelToHex(HexSpriteMap.ViewPixelX + X, 0, out result, out _);
+                HexGeometry.PixelToHex(HexSpriteMap.ViewPixelX + X, vertical: 0, out result, out _);
                 if (result < 0 || HexSpriteMap.MapContainer.Width <= result || HexSpriteMap.MapContainer.Height <= result)
                 {
                     result = -1;
@@ -291,7 +291,7 @@ public class HexSpriteMapMouse : IDisposable
             int result;
             if (Y != -2147483648)
             {
-                HexGeometry.PixelToHex(HexSpriteMap.ViewPixelX + X, HexSpriteMap.ViewPixelY + Y, out _, out result);
+                HexGeometry.PixelToHex(HexSpriteMap.ViewPixelX + X, vertical: HexSpriteMap.ViewPixelY + Y, out _, out result);
                 if (result < 0 || HexSpriteMap.MapContainer.Width <= result || HexSpriteMap.MapContainer.Height <= result)
                 {
                     result = -1;

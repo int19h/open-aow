@@ -15,7 +15,7 @@ public class Disjunction : Spell
     public Disjunction(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_disjunctionText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_disjunctionText);
         SpellId = 51;
         SpellType = SpellType.Global;
         BaseManaCost = 0;
@@ -37,7 +37,7 @@ public class Disjunction : Spell
         }
         if (count == 0)
         {
-            messageText = AbilityRules.TranslateResourceString(GetEngine(), s_noGlobalOpponentEnchantmentsActiveText);
+            messageText = AbilityRules.TranslateResourceString(GetEngine(), S: s_noGlobalOpponentEnchantmentsActiveText);
             return false;
         }
         else
@@ -50,7 +50,7 @@ public class Disjunction : Spell
     public override bool Activate(Troop source)
     {
         string reason = "";
-        if (CanActivate(source, ref reason))
+        if (CanActivate(source, messageText: ref reason))
         {
             DisjunctionSpellCaster caster = new(null)
             {

@@ -21,9 +21,9 @@ public interface IFileSystem
         }
 
         string first = ExpandPath(baseFile), second = ExpandPath(destination);
-        return !string.Equals(Path.GetPathRoot(first), Path.GetPathRoot(second), StringComparison.OrdinalIgnoreCase)
+        return !string.Equals(Path.GetPathRoot(first), Path.GetPathRoot(second), comparisonType: StringComparison.OrdinalIgnoreCase)
             ? destination
-            : Path.GetRelativePath(Path.GetDirectoryName(first) ?? CurrentDirectory, second).Replace(Path.DirectorySeparatorChar, '\\');
+            : Path.GetRelativePath(Path.GetDirectoryName(first) ?? CurrentDirectory, path: second).Replace(Path.DirectorySeparatorChar, '\\');
     }
 
     bool SetCurrentDirectory(string path) => false;
@@ -63,7 +63,7 @@ public sealed class PhysicalFileSystem : IFileSystem
         return true;
     }
 
-    public string ExpandPath(string path) => Path.GetFullPath(path.Length == 0 ? "." : path.Replace('\\', Path.DirectorySeparatorChar).Replace('/', Path.DirectorySeparatorChar), CurrentDirectory);
+    public string ExpandPath(string path) => Path.GetFullPath(path.Length == 0 ? "." : path.Replace('\\', Path.DirectorySeparatorChar).Replace('/', Path.DirectorySeparatorChar), basePath: CurrentDirectory);
 
     private string Resolve(string path)
     {
@@ -74,17 +74,17 @@ public sealed class PhysicalFileSystem : IFileSystem
         }
 
         string current = Path.GetPathRoot(full)!;
-        foreach (string part in full[current.Length..].Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
+        foreach (string part in full[current.Length..].Split(Path.DirectorySeparatorChar, options: StringSplitOptions.RemoveEmptyEntries))
         {
-            string? match = Directory.Exists(current) ? Directory.EnumerateFileSystemEntries(current).FirstOrDefault(p => string.Equals(Path.GetFileName(p), part, StringComparison.OrdinalIgnoreCase)) : null;
+            string? match = Directory.Exists(current) ? Directory.EnumerateFileSystemEntries(current).FirstOrDefault(p => string.Equals(Path.GetFileName(p), part, comparisonType: StringComparison.OrdinalIgnoreCase)) : null;
             current = match ?? Path.Combine(current, part);
         }
         return current;
     }
 
-    public Stream Open(string path, int mode) => new FileStream(Resolve(path), mode == DelphiStreams.fmCreate ? FileMode.Create : FileMode.Open,
-        mode == DelphiStreams.fmCreate ? FileAccess.ReadWrite : (mode & 3) switch { 0 => FileAccess.Read, 1 => FileAccess.Write, _ => FileAccess.ReadWrite },
-        (mode & 0xF0) == DelphiStreams.fmShareDenyWrite ? FileShare.Read : FileShare.ReadWrite);
+    public Stream Open(string path, int mode) => new FileStream(Resolve(path), mode: mode == DelphiStreams.fmCreate ? FileMode.Create : FileMode.Open,
+        access: mode == DelphiStreams.fmCreate ? FileAccess.ReadWrite : (mode & 3) switch { 0 => FileAccess.Read, 1 => FileAccess.Write, _ => FileAccess.ReadWrite },
+        share: (mode & 0xF0) == DelphiStreams.fmShareDenyWrite ? FileShare.Read : FileShare.ReadWrite);
 
     public bool FileExists(string path) => File.Exists(Resolve(path));
     public bool DirectoryExists(string path) => Directory.Exists(Resolve(path));
@@ -103,8 +103,8 @@ public sealed class PhysicalFileSystem : IFileSystem
     }
 
     public bool DeleteFile(string path) => FileExists(path) && Attempt(() => File.Delete(Resolve(path)));
-    public bool RenameFile(string source, string target) => Attempt(() => File.Move(Resolve(source), Resolve(target)));
-    public bool ReplaceFile(string source, string target) => FileExists(source) && Attempt(() => File.Move(Resolve(source), Resolve(target), true));
+    public bool RenameFile(string source, string target) => Attempt(() => File.Move(Resolve(source), destFileName: Resolve(target)));
+    public bool ReplaceFile(string source, string target) => FileExists(source) && Attempt(() => File.Move(Resolve(source), destFileName: Resolve(target), overwrite: true));
     public bool CreateDirectory(string path) => !DirectoryExists(path) && Directory.Exists(Path.GetDirectoryName(Resolve(path))) && Attempt(() => Directory.CreateDirectory(Resolve(path)));
     public bool RemoveDirectory(string path) => DirectoryExists(path) && Attempt(() => Directory.Delete(Resolve(path)));
 
@@ -120,7 +120,7 @@ public sealed class PhysicalFileSystem : IFileSystem
         }
     }
 
-    public int SetAttributes(string path, int attributes) => Attempt(() => File.SetAttributes(Resolve(path), (FileAttributes)attributes)) ? 0 : -1;
+    public int SetAttributes(string path, int attributes) => Attempt(() => File.SetAttributes(Resolve(path), fileAttributes: (FileAttributes)attributes)) ? 0 : -1;
     public DateTime? LastWriteTime(string path) => FileExists(path) ? RtlFileTime.LastWriteTime(Resolve(path)) : null;
 
     public IEnumerable<RtlFileEntry> Enumerate(string directory)
@@ -133,7 +133,7 @@ public sealed class PhysicalFileSystem : IFileSystem
         foreach (string path in Directory.EnumerateFileSystemEntries(Resolve(directory)))
         {
             FileAttributes attribute = File.GetAttributes(path);
-            yield return new(Path.GetFileName(path), (attribute & FileAttributes.Directory) != 0 ? 0 : unchecked((int)new FileInfo(path).Length), (int)attribute, RtlFileTime.LastWriteTime(path));
+            yield return new(Path.GetFileName(path), Size: (attribute & FileAttributes.Directory) != 0 ? 0 : unchecked((int)new FileInfo(path).Length), Attribute: (int)attribute, Modified: RtlFileTime.LastWriteTime(path));
         }
     }
 }

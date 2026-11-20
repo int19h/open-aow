@@ -1824,9 +1824,9 @@ public partial class MagicWindow : ILayoutModule
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";
-        translator.TargetsData.Add(new TranslationTarget("", "Items", 0));
-        translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
-        translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "Items", Options: 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "Text", Options: 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "ToolTipText", Options: 0));
         session.EndRead(translator);
         Button help = new(this);
         session.BeginRead(help);

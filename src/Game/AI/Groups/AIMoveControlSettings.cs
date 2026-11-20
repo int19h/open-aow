@@ -114,7 +114,7 @@ public class AIMoveControlSettings : EngineObject
         Selection = selection;
         Player = army.Army.Player;
         _ = MovePointTable;
-        army.Army.CreateMovePointTable(selection, out MovePointTable movePointTable);
+        army.Army.CreateMovePointTable(selection, table: out MovePointTable movePointTable);
         MovePointTable = movePointTable;
     }
 }

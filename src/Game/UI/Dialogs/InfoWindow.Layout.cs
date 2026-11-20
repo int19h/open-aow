@@ -2205,7 +2205,7 @@ public partial class InfoWindow : ILayoutModule
         ItemBagList.BorderWidth = 6;
         ItemBagList.BorderHeight = 3;
         ItemBagList.Selected = -1;
-        ItemBagList.OnDrawItem += (_, in drawRectangle, _, ref surface) => ItembagLBDrawItem(drawRectangle, default, surface);
+        ItemBagList.OnDrawItem += (_, in drawRectangle, _, ref surface) => ItembagLBDrawItem(drawRectangle, drawItem: default, surface);
         ItemBagList.TextColor = 9415072;
         ItemBagList.TextSelectedColor = 0;
         ItemBagList.ImageLibraryIndexFrame = 40;
@@ -2591,9 +2591,9 @@ public partial class InfoWindow : ILayoutModule
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";
-        translator.TargetsData.Add(new TranslationTarget("", "Items", 0));
-        translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
-        translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "Items", Options: 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "Text", Options: 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "ToolTipText", Options: 0));
         session.EndRead(translator);
         session.EndRead(this);
         min.Window = MainWindow;

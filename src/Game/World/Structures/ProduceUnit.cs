@@ -24,12 +24,12 @@ public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder
         UnitProduction production = control.UnitProductions.GetItem(Index);
         if (production is null)
         {
-            return AbilityRules.TranslateResourceString(control.GetEngine(), GameTables.UnknownText);
+            return AbilityRules.TranslateResourceString(control.GetEngine(), S: GameTables.UnknownText);
         }
 
         string format = control.UnitProductionGold(Index) != 0 ? GameText.ProduceFormat : GameText.SummonFormat;
         string unitName = GamePack.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
-        return AbilityRules.Format(AbilityRules.TranslateResourceString(control.GetEngine(), format), [unitName]);
+        return AbilityRules.Format(AbilityRules.TranslateResourceString(control.GetEngine(), S: format), arguments: [unitName]);
     }
 
     public override string NameProgressive(ProductionControl control)
@@ -37,12 +37,12 @@ public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder
         UnitProduction production = control.UnitProductions.GetItem(Index);
         if (production is null)
         {
-            return AbilityRules.TranslateResourceString(control.GetEngine(), GameTables.UnknownText);
+            return AbilityRules.TranslateResourceString(control.GetEngine(), S: GameTables.UnknownText);
         }
 
         string format = control.UnitProductionGold(Index) != 0 ? GameText.ProducingFormat : GameText.SummoningFormat;
         string unitName = GamePack.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
-        return AbilityRules.Format(AbilityRules.TranslateResourceString(control.GetEngine(), format), [unitName]);
+        return AbilityRules.Format(AbilityRules.TranslateResourceString(control.GetEngine(), S: format), arguments: [unitName]);
     }
 
     public override bool CanExecute(ProductionControl control, ref string reason)
@@ -60,13 +60,13 @@ public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder
             else
             {
                 result = false;
-                reason = AbilityRules.TranslateResourceString(control.GetEngine(), GameText.NotEnoughManaText);
+                reason = AbilityRules.TranslateResourceString(control.GetEngine(), S: GameText.NotEnoughManaText);
             }
         }
         else
         {
             result = false;
-            reason = AbilityRules.TranslateResourceString(control.GetEngine(), GameText.NotEnoughGoldText);
+            reason = AbilityRules.TranslateResourceString(control.GetEngine(), S: GameText.NotEnoughGoldText);
         }
 
         return result;
@@ -116,7 +116,7 @@ public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder
     {
         Unit unit = control.CreateUnitProduction(Index);
         lines.Clear();
-        _ = lines.Add(AbilityRules.TranslateResourceString(control.GetEngine(), GameText.ProducingText));
+        _ = lines.Add(AbilityRules.TranslateResourceString(control.GetEngine(), S: GameText.ProducingText));
         _ = lines.Add(unit.GetName());
         _ = unit.Release();
     }

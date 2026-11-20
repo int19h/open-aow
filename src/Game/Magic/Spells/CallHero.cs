@@ -24,7 +24,7 @@ public class CallHero : Spell
     public CallHero(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_callHeroText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_callHeroText);
         SpellId = 69;
         SpellType = SpellType.Global;
         BaseManaCost = 0;
@@ -48,15 +48,15 @@ public class CallHero : Spell
                 hero.SetHitPoints(hero.GetHits());
             }
 
-            ArmyHexSprite army = hero.Place(x, y, layer, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
-            bool showSource = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(x, y, layer, StrategicMap.Current.SeatedPlayer);
+            ArmyHexSprite army = hero.Place(x, y, L: layer, player: 0, mode: Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
+            bool showSource = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(x, y, layer, player: StrategicMap.Current.SeatedPlayer);
             bool condition = StrategicMap.Current.SeatedPlayer == source.Player;
             if (!condition)
             {
                 sbyte hexLevel = army.HexLevel;
                 sbyte hexY = army.HexY;
                 sbyte hexX = army.HexX;
-                condition = StrategicMap.Current.VisibleForPlayer(hexX, hexY, hexLevel, StrategicMap.Current.SeatedPlayer);
+                condition = StrategicMap.Current.VisibleForPlayer(hexX, hexY, hexLevel, player: StrategicMap.Current.SeatedPlayer);
             }
 
             bool showTarget = condition;
@@ -67,7 +67,7 @@ public class CallHero : Spell
                 {
                     animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(GamePack.Current.SpellControl[SpellId].CastImages.GetImageSequence(0));
-                    _ = StrategicMap.Current.PlaceHex(animation, x, y, layer);
+                    _ = StrategicMap.Current.PlaceHex(animation, x, y, L: layer);
                 }
             }
 
@@ -80,7 +80,7 @@ public class CallHero : Spell
                     sbyte hexLevel = army.HexLevel;
                     sbyte hexY = army.HexY;
                     sbyte hexX = army.HexX;
-                    _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
+                    _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY, L: hexLevel);
                 }
             }
 
@@ -96,16 +96,16 @@ public class CallHero : Spell
                 sbyte hexLevel = army.HexLevel;
                 sbyte hexY = army.HexY;
                 sbyte hexX = army.HexX;
-                _ = StrategicMap.Current.ValidateObservation(source.Player, hexX, hexY, hexLevel, 0);
+                _ = StrategicMap.Current.ValidateObservation(source.Player, hexX, hexY, hexLevel, radius: 0);
             }
 
-            bool test = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.Watching(x, y, layer, 0);
+            bool test = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.Watching(x, y, L: layer, radius: 0);
             if (!test)
             {
                 sbyte hexLevel = army.HexLevel;
                 sbyte hexY = army.HexY;
                 sbyte hexX = army.HexX;
-                test = StrategicMap.Current.Watching(hexX, hexY, hexLevel, 0);
+                test = StrategicMap.Current.Watching(hexX, hexY, L: hexLevel, radius: 0);
             }
 
             if (test)
@@ -117,14 +117,14 @@ public class CallHero : Spell
         {
             if (StrategicMap.Current.SeatedPlayer == source.Player)
             {
-                string noHeroAnsweredYourCall = AbilityRules.TranslateResourceString(GetEngine(), s_noHeroAnsweredYourCallText);
+                string noHeroAnsweredYourCall = AbilityRules.TranslateResourceString(GetEngine(), S: s_noHeroAnsweredYourCallText);
                 StrategicMap.Current.ShowMessage(noHeroAnsweredYourCall);
                 _ = GamePack.Current.SpellControl[SpellId].CastSounds.Play(0);
             }
         }
 
         Spell spell = GamePack.Current.SpellControl[SpellId];
-        GamePack.Current.SpellControl[SpellId].CastingDone(source, spell.BaseManaCost);
+        GamePack.Current.SpellControl[SpellId].CastingDone(source, mana: spell.BaseManaCost);
         return false;
     }
 
@@ -132,10 +132,10 @@ public class CallHero : Spell
     public override bool Activate(Troop source)
     {
         string reason = "";
-        if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        if (CanActivate(source, messageText: ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             SpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
-            eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
+            eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;

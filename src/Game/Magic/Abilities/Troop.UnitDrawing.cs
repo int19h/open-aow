@@ -42,7 +42,7 @@ public partial class Troop
                 }
                 else
                 {
-                    frame = sequence.GetFrameIndex(info.Frame, FrameFixtureInputs.AnimationOffset(this));
+                    frame = sequence.GetFrameIndex(info.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
                     if (frame >= 0)
                     {
                         sequence.ImageLibrary[frame].Show(X + sequence.OffsetX + 16, Y + sequence.OffsetY + 20, lockedSurface);
@@ -54,7 +54,7 @@ public partial class Troop
                 sequence = sequence.Next;
                 while (sequence is not null)
                 {
-                    frame = sequence.GetFrameIndex(info.Frame, 0);
+                    frame = sequence.GetFrameIndex(info.Frame, offset: 0);
                     if (frame >= 0)
                     {
                         sequence.ImageLibrary[frame].Show(X + sequence.OffsetX + 16, Y + sequence.OffsetY + 20, lockedSurface);
@@ -81,7 +81,7 @@ public partial class Troop
             }
             else
             {
-                _ = GamePack.Current.AbilityControl[96].ImageSequences.Show(0, X + 32, Y + 32, 4, lockedSurface);
+                _ = GamePack.Current.AbilityControl[96].ImageSequences.Show(0, X + 32, Y + 32, frame: 4, lockedSurface);
             }
         }
 
@@ -93,7 +93,7 @@ public partial class Troop
             }
             else
             {
-                _ = GamePack.Current.AbilityControl[98].ImageSequences.Show(0, X + 32, Y + 32, 4, lockedSurface);
+                _ = GamePack.Current.AbilityControl[98].ImageSequences.Show(0, X + 32, Y + 32, frame: 4, lockedSurface);
             }
         }
 
@@ -105,14 +105,14 @@ public partial class Troop
             }
             else
             {
-                _ = GamePack.Current.AbilityControl[93].ImageSequences.Show(0, X + 32, Y + 32, 4, lockedSurface);
+                _ = GamePack.Current.AbilityControl[93].ImageSequences.Show(0, X + 32, Y + 32, frame: 4, lockedSurface);
             }
         }
 
         if (info.Overlays.Contains(UnitOverlayModesElement.HitPoints))
         {
             byte hitPointsToHitPercent = (byte)HitChance.HitPointsToHitPercent(hits: GetHits(), hitPoints: GetHitPoints());
-            HitChance.ShowHitPercent(X, Y, lockedSurface, hitPointsToHitPercent);
+            HitChance.ShowHitPercent(X, Y, surface: lockedSurface, percent: hitPointsToHitPercent);
         }
 
         if (info.Overlays.Contains(UnitOverlayModesElement.Combat))
@@ -181,7 +181,7 @@ public partial class Troop
             }
             else
             {
-                _ = GamePack.Current.ImageSequences.Show(70, X + 32, Y + 40, 5, lockedSurface);
+                _ = GamePack.Current.ImageSequences.Show(70, X + 32, Y + 40, frame: 5, lockedSurface);
             }
         }
 

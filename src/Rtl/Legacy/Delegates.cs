@@ -23,7 +23,7 @@ public static class DelegateRoutines
             return (T)Delegate.Combine(subscribers.Select(RebindDelegate<T>).Cast<Delegate>().ToArray())!;
         }
 
-        if (Delegate.CreateDelegate(typeof(T), value.Target, value.Method, false) is T compatible)
+        if (Delegate.CreateDelegate(typeof(T), firstArgument: value.Target, value.Method, throwOnBindFailure: false) is T compatible)
         {
             return compatible;
         }
@@ -38,7 +38,7 @@ public static class DelegateRoutines
         }
         // Delphi method-pointer casts retain the call and its object argument. Adapt the
         // managed reference type at invocation, including every multicast subscriber.
-        IEnumerable<Expression> arguments = parameters.Select((p, i) => (Expression)Expression.Convert(p, inputs[i].ParameterType));
+        IEnumerable<Expression> arguments = parameters.Select((p, i) => (Expression)Expression.Convert(p, type: inputs[i].ParameterType));
         return Expression.Lambda<T>(Expression.Invoke(Expression.Constant(value), arguments), parameters).Compile();
     }
 

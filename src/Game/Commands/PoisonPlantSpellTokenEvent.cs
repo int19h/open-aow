@@ -26,8 +26,8 @@ public class PoisonPlantSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTok
     {
         _ = base.Process(source, value);
         CreatePoisonPlant(source);
-        _ = StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 1);
-        GamePack.Current.SpellControl[EventSpellId].CastingDone(source, EventMana);
+        _ = StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, L: Location.MapLevel, radius: 1);
+        GamePack.Current.SpellControl[EventSpellId].CastingDone(source, mana: EventMana);
         return false;
     }
 
@@ -37,7 +37,7 @@ public class PoisonPlantSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTok
         HexNumberWalkData hexNumberWalkData = default;
         ref HexNumberWalkData walk = ref hexNumberWalkData;
         MapLevel level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
-        HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, Location.X, Location.Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, Location.X, Location.Y, radius: 0);
         PoisonPlant.Resource resource = GamePack.Current.MapObjectResourceList.FindChild<PoisonPlant.Resource>(131999);
         while (walk.Radius <= 1)
         {
@@ -51,8 +51,8 @@ public class PoisonPlantSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTok
                     plant.DaysRemaining = (sbyte)(3 + ((StrategicMap.Current.Random(11) - 5) / 5));
                     plant.CasterPlayer = source.Player;
                     plant.OriginalOverlay = mapField.OverlayType;
-                    StrategicMap.Current.ClearTerrain(walk.X, walk.Y, Location.MapLevel, 0, -1);
-                    if (StrategicMap.Current.PlaceHex(plant, walk.X, walk.Y, Location.MapLevel))
+                    StrategicMap.Current.ClearTerrain(walk.X, walk.Y, L: Location.MapLevel, radius: 0, terrainType: -1);
+                    if (StrategicMap.Current.PlaceHex(plant, walk.X, walk.Y, L: Location.MapLevel))
                     {
                         plant.PlantStatus = Set<PoisonPlantStatusElement>.Of(PoisonPlantStatusElement.Summoning);
                         ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
@@ -61,10 +61,10 @@ public class PoisonPlantSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTok
                         animation.OnNewFrame += plant.NewFrameSummonAnimation;
                         animation.FrameCounter = -StrategicMap.Current.Random(15);
                         animation.AnimationLevel = 27;
-                        _ = StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, Location.MapLevel);
+                        _ = StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, L: Location.MapLevel);
                         TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
-                        twinkle.Setup(GamePack.Current.SpellControl[2].CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(), 2, 6, Math.Abs(animation.FrameCounter + 5), Math.Abs(animation.FrameCounter + 5) / 2);
-                        _ = StrategicMap.Current.PlaceHex(twinkle, walk.X, walk.Y, Location.MapLevel);
+                        twinkle.Setup(GamePack.Current.SpellControl[2].CastImages.ImageSequences[0], mode: Set<TwinkleModeElement>.Of(), count: 2, radius: 6, duration: Math.Abs(animation.FrameCounter + 5), startDelay: Math.Abs(animation.FrameCounter + 5) / 2);
+                        _ = StrategicMap.Current.PlaceHex(twinkle, walk.X, walk.Y, L: Location.MapLevel);
                     }
                     else
                     {

@@ -150,12 +150,12 @@ public class WindowControl(Component owner) : UIComponent(owner)
         {
             if (ImageLibraryFrame is not null)
             {
-                ImageLibraryFrame = ImageLibraryFrame.CheckImageLibrary(ImageLibraryIndexFrame, 8, this);
+                ImageLibraryFrame = ImageLibraryFrame.CheckImageLibrary(ImageLibraryIndexFrame, count: 8, sender: this);
             }
 
             if (ImageLibraryTexture is not null)
             {
-                ImageLibraryTexture = ImageLibraryTexture.CheckImageLibrary(ImageLibraryIndexTexture, 1, this);
+                ImageLibraryTexture = ImageLibraryTexture.CheckImageLibrary(ImageLibraryIndexTexture, count: 1, sender: this);
             }
 
             WindowStyle = ImageLibraryFrame is not null
@@ -234,12 +234,12 @@ public class WindowControl(Component owner) : UIComponent(owner)
         Rect r = new(0, 0, WinWidth, WinHeight);
         if (!Masked)
         {
-            _ = BackSurface.BlitAreaClipped(surface, r, WinLeft, WinTop);
+            _ = BackSurface.BlitAreaClipped(surface, area: r, WinLeft, WinTop);
         }
         else
         {
             int color2PixelInfo = PixelFormats.Color2PixelInfo(pixelFormatId: BackSurface.GetPixelFormatId(), color: MaskColor, palette: null);
-            _ = BackSurface.BlitAreaColorKeyClipped(surface, r, WinLeft, WinTop, color2PixelInfo);
+            _ = BackSurface.BlitAreaColorKeyClipped(surface, area: r, WinLeft, WinTop, colorKey: color2PixelInfo);
         }
 
         OnDrawSurface?.Invoke(this, surface, WinLeft, WinTop);
@@ -286,7 +286,7 @@ public class WindowControl(Component owner) : UIComponent(owner)
             if (BackSurface is null)
             {
                 PixelFormat pixelFormatId = surface.GetPixelFormatId();
-                BackSurface = new DataSurface(WinWidth, WinHeight, pixelFormatId, null);
+                BackSurface = new DataSurface(WinWidth, WinHeight, pixelFormatId, palette: null);
                 if (Masked)
                 {
                     _ = BackSurface.Clear(MaskColor);

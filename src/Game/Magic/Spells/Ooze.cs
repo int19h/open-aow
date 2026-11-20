@@ -17,7 +17,7 @@ public class Ooze : CombatSpell
     public Ooze(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_oozeText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_oozeText);
         SpellId = 124;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 0;

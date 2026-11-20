@@ -16,7 +16,7 @@ public class SeduceAbility : CommandAbility
     {
         Holder = holder;
         AbilityId = 29;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_seduceText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_seduceText);
         CommandedAbilityId = 48;
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
     }

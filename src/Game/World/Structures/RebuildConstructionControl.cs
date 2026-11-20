@@ -38,13 +38,13 @@ public class RebuildConstructionControl(CustomNode owner) : ConstructionControl(
         if (structure is not null)
         {
             string editName = structure.EditName();
-            text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_rebuildFormat), [editName]);
-            structure.GetRebuildInfo(out gold, out days);
+            text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_rebuildFormat), arguments: [editName]);
+            structure.GetRebuildInfo(out gold, time: out days);
         }
         else
         {
-            string structureLocal = AbilityRules.TranslateResourceString(GetEngine(), s_structureText);
-            text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_rebuildFormat), [structureLocal]);
+            string structureLocal = AbilityRules.TranslateResourceString(GetEngine(), S: s_structureText);
+            text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_rebuildFormat), arguments: [structureLocal]);
             gold = 0;
             days = 0;
         }
@@ -59,7 +59,7 @@ public class RebuildConstructionControl(CustomNode owner) : ConstructionControl(
         }
         else
         {
-            reason = AbilityRules.TranslateResourceString(GetEngine(), s_noRazedStructuresText);
+            reason = AbilityRules.TranslateResourceString(GetEngine(), S: s_noRazedStructuresText);
             return false;
         }
     }

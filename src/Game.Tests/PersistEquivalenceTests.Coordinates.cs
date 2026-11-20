@@ -38,7 +38,7 @@ public sealed partial class PersistEquivalenceTests
     [InlineData("ArmyId", 11)]
     public void APackedLocationIgnoresItsFourthByteAndSavesZero(string className, int id)
     {
-        SchemaProperty property = s_schema.Get(className).PropertyById(id) ?? throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, $"{className} has no id {id}."));
+        SchemaProperty property = s_schema.Get(className).PropertyById(id) ?? throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, handler: $"{className} has no id {id}."));
         EngineObject? blank = null;
         EngineObject? loaded = null;
         try
@@ -55,8 +55,8 @@ public sealed partial class PersistEquivalenceTests
             byte[] expectedImage = PilotImage.Encode(expectedDocument, className);
 
             loaded = Blank(className);
-            Load(loaded, inputImage);
-            EqualBytes(expectedImage, Image(loaded), string.Create(CultureInfo.InvariantCulture, $"{className} id {id}"));
+            Load(loaded, image: inputImage);
+            EqualBytes(expectedImage, Image(loaded), label: string.Create(CultureInfo.InvariantCulture, handler: $"{className} id {id}"));
             switch (loaded)
             {
                 case PatrolAIGroup patrol:
@@ -109,14 +109,14 @@ public sealed partial class PersistEquivalenceTests
         try
         {
             blank = Blank("GuardAreaAIGroup");
-            JsonObject document = PilotImage.Decode(Image(blank), "GuardAreaAIGroup");
+            JsonObject document = PilotImage.Decode(Image(blank), className: "GuardAreaAIGroup");
             _ = document.Remove("GuardLocation");
             _ = document.Add("GuardLocation", new JsonInteger(stored));
-            byte[] image = PilotImage.Encode(document, "GuardAreaAIGroup");
+            byte[] image = PilotImage.Encode(document, className: "GuardAreaAIGroup");
             loaded = Blank("GuardAreaAIGroup");
             InvalidOperationException error = Assert.Throws<InvalidOperationException>(() => Load(loaded, image));
-            Assert.Contains("GuardLocation", error.Message, StringComparison.Ordinal);
-            Assert.Contains("outside its storage range", error.Message, StringComparison.Ordinal);
+            Assert.Contains("GuardLocation", error.Message, comparisonType: StringComparison.Ordinal);
+            Assert.Contains("outside its storage range", error.Message, comparisonType: StringComparison.Ordinal);
         }
         finally
         {
@@ -153,7 +153,7 @@ public sealed partial class PersistEquivalenceTests
     public void ConstantStoredPropertiesIgnoreLoadedValuesAndOmitOnSave(string className, int id, bool isBoolean)
     {
         SchemaClass classValue = s_schema.Get(className);
-        SchemaProperty property = classValue.PropertyById(id) ?? throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, $"{className} has no id {id}."));
+        SchemaProperty property = classValue.PropertyById(id) ?? throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, handler: $"{className} has no id {id}."));
         string engine = classValue.Engines.Count == 0 || classValue.Engines.Contains("game") ? "game" : classValue.Engines[0];
         EngineClass[] enlisted = EnlistSessionClasses();
         EngineObject? blank = null;
@@ -168,9 +168,9 @@ public sealed partial class PersistEquivalenceTests
             byte[] inputImage = PilotImage.Encode(document, className: className, engine: engine);
 
             loaded = Blank(className);
-            Load(loaded, inputImage);
+            Load(loaded, image: inputImage);
             byte[] savedImage = Image(loaded);
-            EqualBytes(blankImage, savedImage, string.Create(CultureInfo.InvariantCulture, $"{className} id {id}"));
+            EqualBytes(blankImage, savedImage, label: string.Create(CultureInfo.InvariantCulture, handler: $"{className} id {id}"));
             Assert.Null(PilotImage.Decode(savedImage, className: className, engine: engine).Find(property.Name));
         }
         finally
@@ -202,13 +202,13 @@ public sealed partial class PersistEquivalenceTests
         try
         {
             blank = Blank("AIGroup");
-            JsonObject document = PilotImage.Decode(Image(blank), "AIGroup");
+            JsonObject document = PilotImage.Decode(Image(blank), className: "AIGroup");
             _ = document.Remove("TargetLocation");
             _ = document.Add("TargetLocation", new JsonInteger(stored));
-            byte[] image = PilotImage.Encode(document, "AIGroup");
+            byte[] image = PilotImage.Encode(document, className: "AIGroup");
             loaded = Blank("AIGroup");
             InvalidOperationException error = Assert.Throws<InvalidOperationException>(() => Load(loaded, image));
-            Assert.Contains("outside its storage range", error.Message, StringComparison.Ordinal);
+            Assert.Contains("outside its storage range", error.Message, comparisonType: StringComparison.Ordinal);
         }
         finally
         {
@@ -264,8 +264,8 @@ public sealed partial class PersistEquivalenceTests
             Load(read, image);
             Assert.True(read.Path.Compare(move.Path));
             Assert.Equal(stored, read.Path.Default);
-            EqualBytes(image, Image(read), "MoveArmyTokenEvent");
-            EqualBytes(image, PilotImage.Encode(PilotImage.Decode(image, "MoveArmyTokenEvent"), "MoveArmyTokenEvent"), "MoveArmyTokenEvent converter");
+            EqualBytes(image, Image(read), label: "MoveArmyTokenEvent");
+            EqualBytes(image, PilotImage.Encode(PilotImage.Decode(image, className: "MoveArmyTokenEvent"), className: "MoveArmyTokenEvent"), label: "MoveArmyTokenEvent converter");
         }
         finally
         {

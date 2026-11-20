@@ -90,7 +90,7 @@ public class HeroLibrary(CustomNode owner) : Engine.Nodes.ReferenceNode(owner), 
     public string GetName()
     {
         string result = LibraryName;
-        return IsEmpty(result) ? AbilityRules.TranslateResourceString(GetEngine(), GameText.SystemText) : result;
+        return IsEmpty(result) ? AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SystemText) : result;
     }
 
     // Hero.PAS:2620
@@ -110,8 +110,8 @@ public class HeroLibrary(CustomNode owner) : Engine.Nodes.ReferenceNode(owner), 
     }
 
     // Hero.PAS:2633
-    public void LoadFromFile(string fileName) => GetEngine().ReadFromFile(fileName, this, null, GameProfile.HeroList);
+    public void LoadFromFile(string fileName) => GetEngine().ReadFromFile(fileName, this, progress: null, profile: GameProfile.HeroList);
 
     // Hero.PAS:2636
-    public void SaveToFile(string fileName) => GetEngine().WriteToFile(fileName, this, null, GameProfile.HeroList);
+    public void SaveToFile(string fileName) => GetEngine().WriteToFile(fileName, this, progress: null, profile: GameProfile.HeroList);
 }

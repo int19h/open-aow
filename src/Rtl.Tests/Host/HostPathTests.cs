@@ -18,7 +18,7 @@ public sealed class HostPathTests
     {
         foreach (string name in s_names)
         {
-            Assert.True(name == "plain.sav" || !name.All(Cp1252.IsMapped), name);
+            Assert.True(name == "plain.sav" || !name.All(Cp1252.IsMapped), userMessage: name);
         }
 
         Assert.Equal(Cp1252.Encode("\u0141.sav"), Cp1252.Encode("\u03a9.sav"));
@@ -29,7 +29,7 @@ public sealed class HostPathTests
             Files = new PhysicalFileSystem();
             for (int i = 0; i < s_names.Length; i++)
             {
-                File.WriteAllBytes(Path.Combine(directory.Root, s_names[i]), [(byte)i]);
+                File.WriteAllBytes(Path.Combine(directory.Root, s_names[i]), bytes: [(byte)i]);
             }
 
             List<string> found = [];
@@ -42,10 +42,10 @@ public sealed class HostPathTests
 
             foreach (string name in found)
             {
-                using Stream stream = OpenFile(name, fmOpenRead);
+                using Stream stream = OpenFile(name, mode: fmOpenRead);
                 byte[] content = new byte[1];
                 Assert.Equal(1, stream.Read(content));
-                Assert.Equal(Array.IndexOf(s_names, name), content[0]);
+                Assert.Equal(Array.IndexOf(s_names, value: name), content[0]);
             }
         }
         finally
@@ -61,9 +61,9 @@ public sealed class HostPathTests
         {
             for (int j = 0; j < s_names.Length; j++)
             {
-                Assert.Equal(i == j, AnsiCompareText(s_names[i], s_names[j]) == 0);
-                Assert.Equal(i == j, AnsiCompareStr(s_names[i], s_names[j]) == 0);
-                Assert.Equal(i == j, CompareText(s_names[i], s_names[j]) == 0);
+                Assert.Equal(i == j, actual: AnsiCompareText(s_names[i], s_names[j]) == 0);
+                Assert.Equal(i == j, actual: AnsiCompareStr(s_names[i], s_names[j]) == 0);
+                Assert.Equal(i == j, actual: CompareText(s_names[i], s_names[j]) == 0);
                 Assert.Equal(Math.Sign(AnsiCompareText(s_names[i], s_names[j])), -Math.Sign(AnsiCompareText(s_names[j], s_names[i])));
             }
         }

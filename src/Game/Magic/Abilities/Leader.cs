@@ -58,7 +58,7 @@ public class Leader(CustomNode owner) : Hero(owner)
                 if (StrategicMap.Current.Players.GetPlayers((sbyte)(byte)Player).PlayerRace != Race)
                 {
                     Player players = StrategicMap.Current.Players.GetPlayers(Player);
-                    SetHeroResourceIndex(GamePack.Current.HeroResources.Find(players.PlayerRace, HeroType.HeroLeader));
+                    SetHeroResourceIndex(GamePack.Current.HeroResources.Find(players.PlayerRace, heroType: HeroType.HeroLeader));
                     Changed();
                 }
             }
@@ -174,7 +174,7 @@ public class Leader(CustomNode owner) : Hero(owner)
     {
         if (UnitStatus.Contains(UnitStatusElement.Activated) && StrategicMap.Current.Combat is null)
         {
-            StrategicMap.Current.GameOver(Player, GameOverStatus.Lost);
+            StrategicMap.Current.GameOver(Player, status: GameOverStatus.Lost);
         }
 
         base.Killed();
@@ -207,8 +207,8 @@ public class Leader(CustomNode owner) : Hero(owner)
     {
         MapLevel level = message.Param[0].As<MapLevel>();
         int l = message.Data[1];
-        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out int x, out int y);
-        bool placed = x >= 0 && y >= 0 && x < level.Width && y < level.Height && Place(x, y, l, Player, Set<UnitPlaceModeElement>.Of()) is not null;
+        HexGeometry.PixelToHex(message.Payload.Int, vertical: message.Data[0], out int x, out int y);
+        bool placed = x >= 0 && y >= 0 && x < level.Width && y < level.Height && Place(x, y, l, Player, mode: Set<UnitPlaceModeElement>.Of()) is not null;
 
         message.Result = placed ? 0 : -1;
     }

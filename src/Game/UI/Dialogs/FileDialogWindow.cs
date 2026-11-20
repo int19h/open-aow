@@ -127,7 +127,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                         UI.TitleScene.HideScene();
                         UI.General.HideWindows();
                         UI.TaskBar.TaskWindow.Visible = false;
-                        string relativePath = ExtractRelativePath(UI.Engine.StartupDirectory, name);
+                        string relativePath = ExtractRelativePath(UI.Engine.StartupDirectory, destination: name);
                         UI.MultiWindow.Execute(relativePath);
                     }
                 }
@@ -192,9 +192,9 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
         SavedTownsLabel.Text = "";
         SavedTurnsLabel.Text = "";
         string directory = GetCurrentDir();
-        if (Copy(directory, directory.Length, 1) == "\\")
+        if (Copy(directory, index: directory.Length, count: 1) == "\\")
         {
-            directory = Copy(directory, 1, directory.Length - 1);
+            directory = Copy(directory, index: 1, count: directory.Length - 1);
         }
 
         foreach (RtlFileEntry entry in RtlHost.Files.FindEntries($"{directory}\\**", attributes: 16))
@@ -208,14 +208,14 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                 else
                 {
                     string extension = LowerCase(ExtractFileExt(entry.Name));
-                    bool includeFile = ListsFile(Mode, UI.Engine.Campaign is not null, extension);
+                    bool includeFile = ListsFile(Mode, campaign: UI.Engine.Campaign is not null, extension);
                     if (includeFile)
                     {
                         FileTime stamp = new()
                         {
                             Time = FileDateToDateTime(entry.FileDate)
                         };
-                        _ = Files.AddObject(entry.Name, stamp);
+                        _ = Files.AddObject(entry.Name, item: stamp);
                     }
                 }
             }
@@ -245,7 +245,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
         {
             string dateTimeToString = DateTimeToStr(Files.Objects[i].Time);
             FileTime objectValue = Files.Objects[i];
-            _ = DateList.Items.AddObject(dateTimeToString, objectValue);
+            _ = DateList.Items.AddObject(dateTimeToString, item: objectValue);
         }
 
         RestoreSortOrder();
@@ -285,9 +285,9 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
         if (FileList.Selected < count && FileList.Selected > -1)
         {
             string directory = GetCurrentDir();
-            if (Copy(directory, directory.Length, 1) == "\\")
+            if (Copy(directory, index: directory.Length, count: 1) == "\\")
             {
-                directory = Copy(directory, 1, directory.Length - 1);
+                directory = Copy(directory, index: 1, count: directory.Length - 1);
             }
 
             string item = FileList.Items[FileList.Selected];
@@ -323,22 +323,22 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                                 {
                                     if (CompareText(UI.Engine.Campaign.FileName, Directory + SaveFileNameEdit.Text) == 0)
                                     {
-                                        StrategicMap.Current.ExitGame(ExitGameMode.Reload, ExitForLoad);
+                                        StrategicMap.Current.ExitGame(ExitGameMode.Reload, done: ExitForLoad);
                                     }
                                     else
                                     {
-                                        StrategicMap.Current.ExitGame(ExitGameMode.Load, ExitForLoad);
+                                        StrategicMap.Current.ExitGame(ExitGameMode.Load, done: ExitForLoad);
                                     }
                                 }
                                 else
                                 {
                                     if (CompareText(StrategicMap.Current.FileName, Directory + SaveFileNameEdit.Text) == 0)
                                     {
-                                        StrategicMap.Current.ExitGame(ExitGameMode.Reload, ExitForLoad);
+                                        StrategicMap.Current.ExitGame(ExitGameMode.Reload, done: ExitForLoad);
                                     }
                                     else
                                     {
-                                        StrategicMap.Current.ExitGame(ExitGameMode.Load, ExitForLoad);
+                                        StrategicMap.Current.ExitGame(ExitGameMode.Load, done: ExitForLoad);
                                     }
                                 }
                             }
@@ -359,9 +359,9 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                     if (!IsEmpty(SaveFileNameEdit.Text))
                     {
                         Directory = path;
-                        if (Pos(".", SaveFileNameEdit.Text) != 0)
+                        if (Pos(".", haystack: SaveFileNameEdit.Text) != 0)
                         {
-                            SaveFileNameEdit.Text = Copy(SaveFileNameEdit.Text, 1, Pos(".", SaveFileNameEdit.Text) - 1);
+                            SaveFileNameEdit.Text = Copy(SaveFileNameEdit.Text, index: 1, count: Pos(".", haystack: SaveFileNameEdit.Text) - 1);
                         }
 
                         if (UI.Engine.Campaign is not null)
@@ -395,7 +395,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                 case 2:
                     if (!IsEmpty(FileNameEdit.Text) && FileExists(FileNameEdit.Text))
                     {
-                        PickScenarioMap(UI.ScenarioSetup, FileNameEdit.Text);
+                        PickScenarioMap(UI.ScenarioSetup, name: FileNameEdit.Text);
                         LastFileName = FileNameEdit.Text;
                     }
 
@@ -420,7 +420,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
     public void DriveCmbChange()
     {
         string item = DriveComboBox.Items[DriveComboBox.Selected];
-        if (SetCurrentDir(Copy(DriveComboBox.Items[DriveComboBox.Selected], item.Length - 3, 3)))
+        if (SetCurrentDir(Copy(DriveComboBox.Items[DriveComboBox.Selected], index: item.Length - 3, count: 3)))
         {
             FindFiles();
         }
@@ -537,9 +537,9 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                 _ = SetCurrentDir(Directory);
                 string fileName2 = ExtractFileName(LastFileName);
                 SaveFileNameEdit.Text = fileName2;
-                if (Pos(".", SaveFileNameEdit.Text) != 0)
+                if (Pos(".", haystack: SaveFileNameEdit.Text) != 0)
                 {
-                    SaveFileNameEdit.Text = Copy(SaveFileNameEdit.Text, 1, Pos(".", SaveFileNameEdit.Text) - 1);
+                    SaveFileNameEdit.Text = Copy(SaveFileNameEdit.Text, index: 1, count: Pos(".", haystack: SaveFileNameEdit.Text) - 1);
                 }
 
                 if (!IsEmpty(SaveFileNameEdit.Text))
@@ -629,22 +629,22 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
 
         if (Mode is 1 or 0)
         {
-            StringSorting.SortStringsAscending(SaveList.Items, [DateList.Items, FileList.Items]);
+            StringSorting.SortStringsAscending(SaveList.Items, linkedStrings: [DateList.Items, FileList.Items]);
             FileList.Items.Assign(SaveList.Items);
         }
         else
         {
             if (Mode == 2)
             {
-                StringSorting.SortStringsAscending(FileList.Items, [DateList.Items, SaveList.Items]);
+                StringSorting.SortStringsAscending(FileList.Items, linkedStrings: [DateList.Items, SaveList.Items]);
             }
         }
 
         for (int i = 0, last = Directories.Count - 1; i <= last; i++)
         {
             string directory = Directories[i];
-            SaveList.Items.Insert(i, directory);
-            DateList.Items.Insert(i, "");
+            SaveList.Items.Insert(i, value: directory);
+            DateList.Items.Insert(i, value: "");
         }
 
         if (!IsEmpty(selected))
@@ -680,7 +680,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                 SaveList.Items.Objects[i] = objectValue;
             }
 
-            StringSorting.SortStrings(SaveList.Items, CompareFileDates, [DateList.Items, FileList.Items]);
+            StringSorting.SortStrings(SaveList.Items, compare: CompareFileDates, linkedStrings: [DateList.Items, FileList.Items]);
         }
         else
         {
@@ -692,7 +692,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                     FileList.Items.Objects[i] = objectValue;
                 }
 
-                StringSorting.SortStrings(FileList.Items, CompareFileDates, [DateList.Items, SaveList.Items]);
+                StringSorting.SortStrings(FileList.Items, compare: CompareFileDates, linkedStrings: [DateList.Items, SaveList.Items]);
             }
         }
 
@@ -793,7 +793,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
 
                 _ = AudioHost.SongPlayer.Stop(false);
                 AudioHost.SongPlayer.Songs.Clear();
-                AudioPlayback.FadeMusicVolume(0, 1);
+                AudioPlayback.FadeMusicVolume(0, speed: 1);
                 controller.UI.Engine.LoadCampaignMap((_, message, progression) => controller.MapProgress(message, progression));
                 controller.UI.General.Manager.OverlayPriority = 0;
                 controller.UI.ProgressDialog.Window.Visible = false;
@@ -815,7 +815,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
     private static void PickScenarioMap(ScenarioSetup dialog, string name)
     {
         string currentDirectory = GetCurrentDir();
-        name = ExtractRelativePath(dialog.UI.Engine.StartupDirectory, $"{currentDirectory}\\{name}");
+        name = ExtractRelativePath(dialog.UI.Engine.StartupDirectory, destination: $"{currentDirectory}\\{name}");
         dialog.UI.FileDialogWindow.Window.Visible = false;
         _ = dialog.SetupControl.PickMap(name);
     }

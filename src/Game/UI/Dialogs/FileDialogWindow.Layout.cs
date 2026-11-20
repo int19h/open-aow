@@ -202,7 +202,7 @@ public partial class FileDialogWindow : ILayoutModule
         FileList.OnChange += FileLBChange;
         FileList.OnDoubleClick += _ => OpenbutClick();
         FileList.Selected = -1;
-        FileList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => FileLBDrawItem(drawRectangle, drawItem, in surface);
+        FileList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => FileLBDrawItem(drawRectangle, drawItem, lockedSurface: in surface);
         FileList.TextColor = 9415072;
         FileList.TextSelectedColor = 0;
         FileList.ImageLibraryIndexFrame = 113;
@@ -1142,7 +1142,7 @@ public partial class FileDialogWindow : ILayoutModule
         SaveList.OnChange += FileLBChange;
         SaveList.OnDoubleClick += _ => OpenbutClick();
         SaveList.Selected = -1;
-        SaveList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => FileLBDrawItem(drawRectangle, drawItem, in surface);
+        SaveList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => FileLBDrawItem(drawRectangle, drawItem, lockedSurface: in surface);
         SaveList.TextColor = 9415072;
         SaveList.TextSelectedColor = 0;
         SaveList.ImageLibraryIndexFrame = 113;
@@ -1764,9 +1764,9 @@ public partial class FileDialogWindow : ILayoutModule
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";
-        translator.TargetsData.Add(new TranslationTarget("", "Items", 0));
-        translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
-        translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "Items", Options: 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "Text", Options: 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "ToolTipText", Options: 0));
         session.EndRead(translator);
         session.EndRead(this);
         cancelBut.Window = Window;

@@ -28,7 +28,7 @@ public sealed class LibraryImageClass
     public LibraryImage CreateInstance(CustomImageLibrary owner) => _create(owner);
 
     public static LibraryImageClass Register<T>() where T : LibraryImage, ILibraryImageClass
-        => s_catalog.Add(typeof(T), new LibraryImageClass(typeof(T), T.ClassId, T.ClassVersion, T.Name, T.CreateInstance));
+        => s_catalog.Add(typeof(T), new LibraryImageClass(typeof(T), T.ClassId, T.ClassVersion, T.Name, create: T.CreateInstance));
 
     public static LibraryImageClass Of<T>() where T : LibraryImage, ILibraryImageClass => s_catalog[typeof(T)];
     public static LibraryImageClass Of(Type type) => s_catalog[type];
@@ -37,14 +37,14 @@ public sealed class LibraryImageClass
 
     public GraphicsResult GrabImages(in LockedSurface lockedSurface, GrabInfo grabInfo, CustomImageLibrary imageLibrary, GrabProgressEvent onProgress)
     {
-        void Progress(int percent, string message) => onProgress?.Invoke(null, percent, message);
+        void Progress(int percent, string message) => onProgress?.Invoke(null, percent, Msg: message);
 
-        Progress(10, "Analyzing Image..");
+        Progress(10, message: "Analyzing Image..");
         LibraryImageClass imageClass = LibraryCatalog.FindLibraryImageClass(ClassId);
         RectangleList rects;
         if (grabInfo.FindRectangles)
         {
-            rects = GetSurfaceRectangles(lockedSurface, grabInfo.TransparentColor, null);
+            rects = GetSurfaceRectangles(lockedSurface, grabInfo.TransparentColor, onProgress: null);
         }
         else
         {
@@ -59,17 +59,17 @@ public sealed class LibraryImageClass
             {
                 if (rects.Count > 1)
                 {
-                    Progress(DelphiRounding.Round((double)(i * 90) / (rects.Count - 1)) + 10, $"Grabbing Image {DelphiConversions.IntToStr(i + 1)}");
+                    Progress(DelphiRounding.Round((double)(i * 90) / (rects.Count - 1)) + 10, message: $"Grabbing Image {DelphiConversions.IntToStr(i + 1)}");
                 }
                 else
                 {
-                    Progress(100, "Grabbing Image");
+                    Progress(100, message: "Grabbing Image");
                 }
 
                 LibraryImage image = imageClass.CreateInstance(null);
                 grabInfo.FileIndex = i;
                 Rectangle rectangle = rects.Rectangles[i];
-                if (image.GrabImage(lockedSurface, rectangle.Bounds, grabInfo))
+                if (image.GrabImage(lockedSurface, R: rectangle.Bounds, grabInfo))
                 {
                     imageLibrary.Add(image);
                 }
@@ -112,7 +112,7 @@ public sealed class LibraryImageClass
             }
             if (onProgress is not null && (number2 % 20 == 0 || number2 == lockedSurface.Height - 1))
             {
-                onProgress(null, DelphiRounding.Round(number2 * 100 / (double)(lockedSurface.Height - 1)), 0);
+                onProgress(null, Percent: DelphiRounding.Round(number2 * 100 / (double)(lockedSurface.Height - 1)), Param: 0);
             }
         }
         if (rectangleList.Count == 0)

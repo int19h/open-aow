@@ -28,7 +28,7 @@ public class AnimateRuins : CityTargetSpell
     public AnimateRuins(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_animateRuinsText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_animateRuinsText);
         SpellId = 76;
         CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Enemy, CityTargetModeElement.Razed);
     }
@@ -45,8 +45,8 @@ public class AnimateRuins : CityTargetSpell
                 Holder = CreationHolder(),
                 Player = source.Player
             };
-            string animateRuins = AbilityRules.TranslateResourceString(GetEngine(), s_animateRuinsText);
-            log.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [animateRuins]);
+            string animateRuins = AbilityRules.TranslateResourceString(GetEngine(), S: s_animateRuinsText);
+            log.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CastFormat), args: [animateRuins]);
             log.SetLocation(level: targetCity.HexLevel, y: targetCity.HexY, x: targetCity.HexX);
             EventLog.DistributeLocationEventLog(y: targetCity.HexY, level: targetCity.HexLevel, x: targetCity.HexX, log: log, player: source.Player, execute: false);
             _ = log.Release();
@@ -62,7 +62,7 @@ public class AnimateRuins : CityTargetSpell
                 sbyte hexLevel2 = targetCity.HexLevel;
                 sbyte hexY2 = targetCity.HexY;
                 sbyte targetCityHexX = targetCity.HexX;
-                _ = StrategicMap.Current.PlaceHex(a, targetCityHexX, hexY2, hexLevel2);
+                _ = StrategicMap.Current.PlaceHex(a, targetCityHexX, hexY2, L: hexLevel2);
             }
 
             return true;
@@ -83,11 +83,11 @@ public class AnimateRuins : CityTargetSpell
                     unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(UndeadUnitResourceIds[random]));
                     sbyte hexLevel = targetCity.HexLevel;
                     sbyte hexY = targetCity.HexY;
-                    _ = unit.Place(targetCity.HexX, hexY, hexLevel, source.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                    _ = unit.Place(targetCity.HexX, hexY, L: hexLevel, source.Player, mode: Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                     _ = unit.Release();
                 }
 
-                CastingDone(source, eventValue.EventMana);
+                CastingDone(source, mana: eventValue.EventMana);
                 return false;
             }
             else

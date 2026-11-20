@@ -25,7 +25,7 @@ public class PropertyTable : IDisposable
 
         if (newCapacity != _capacity)
         {
-            Array.Resize(ref _items, newCapacity);
+            Array.Resize(ref _items, newSize: newCapacity);
             _capacity = newCapacity;
             if (_capacity < Count)
             {
@@ -38,7 +38,7 @@ public class PropertyTable : IDisposable
     public virtual void Dispose()
     {
         SetCapacity(0);
-        Array.Resize(ref _stack, 0);
+        Array.Resize(ref _stack, newSize: 0);
     }
 
     // Engine.pas:2273
@@ -136,7 +136,7 @@ public class PropertyTable : IDisposable
         if (_stackCount == _stackCapacity)
         {
             _stackCapacity += 16;
-            Array.Resize(ref _stack, _stackCapacity);
+            Array.Resize(ref _stack, newSize: _stackCapacity);
         }
 
         _stack[_stackCount] = new Settings(First: First, NextIndex: _nextIndex, MaxId: _maxId);
@@ -160,11 +160,11 @@ public class PropertyTable : IDisposable
     {
         int longCount = default;
         byte shortCount = default;
-        stream.ReadExactly(Bytes.Of(ref shortCount, 1));
+        stream.ReadExactly(Bytes.Of(ref shortCount, count: 1));
         if ((shortCount & 128) != 0)
         {
             shortCount = (byte)(shortCount & 127);
-            stream.ReadExactly(Bytes.Of(ref longCount, 4));
+            stream.ReadExactly(Bytes.Of(ref longCount, count: 4));
         }
         else
         {
@@ -176,8 +176,8 @@ public class PropertyTable : IDisposable
             ushort pair = default;
             for (int ordinal = 0, last = shortCount - 1; ordinal <= last; ordinal++)
             {
-                stream.ReadExactly(Bytes.Of(ref pair, 2));
-                Add(pair & 255, pair >>> 8);
+                stream.ReadExactly(Bytes.Of(ref pair, count: 2));
+                Add(pair & 255, offset: pair >>> 8);
             }
         }
 
@@ -187,8 +187,8 @@ public class PropertyTable : IDisposable
             int offset = default;
             for (int ordinal = 0, last = longCount - 1; ordinal <= last; ordinal++)
             {
-                stream.ReadExactly(Bytes.Of(ref id, 4));
-                stream.ReadExactly(Bytes.Of(ref offset, 4));
+                stream.ReadExactly(Bytes.Of(ref id, count: 4));
+                stream.ReadExactly(Bytes.Of(ref offset, count: 4));
                 Add(id, offset);
             }
         }
@@ -214,12 +214,12 @@ public class PropertyTable : IDisposable
         if (longCount != 0)
         {
             byte marker = (byte)(shortCount | 128);
-            stream.Write(Bytes.Of(ref marker, 1));
-            stream.Write(Bytes.Of(ref longCount, 4));
+            stream.Write(Bytes.Of(ref marker, count: 1));
+            stream.Write(Bytes.Of(ref longCount, count: 4));
         }
         else
         {
-            stream.Write(Bytes.Of(ref shortCount, 1));
+            stream.Write(Bytes.Of(ref shortCount, count: 1));
         }
 
         if (shortCount != 0)
@@ -229,7 +229,7 @@ public class PropertyTable : IDisposable
                 if (_items[i].Id <= 127 && _items[i].Offset <= 255)
                 {
                     int pair = _items[i].Id + (_items[i].Offset << 8);
-                    stream.Write(Bytes.Of(ref pair, 2));
+                    stream.Write(Bytes.Of(ref pair, count: 2));
                 }
             }
         }
@@ -240,8 +240,8 @@ public class PropertyTable : IDisposable
             {
                 if (_items[i].Id > 127 || _items[i].Offset > 255)
                 {
-                    stream.Write(Bytes.Of(ref _items[i].Id, 4));
-                    stream.Write(Bytes.Of(ref _items[i].Offset, 4));
+                    stream.Write(Bytes.Of(ref _items[i].Id, count: 4));
+                    stream.Write(Bytes.Of(ref _items[i].Offset, count: 4));
                 }
             }
         }

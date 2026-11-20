@@ -90,7 +90,7 @@ public class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexSprite(o
                 {
                     sbyte hexY2 = HexY;
                     sbyte hexX2 = HexX;
-                    CombatMap.Current.MakeVisible(hexX2, hexY2, 0, 5);
+                    CombatMap.Current.MakeVisible(hexX2, hexY2, 0, radius: 5);
                     sbyte hexY3 = HexY;
                     HexGeometry.HexToPixel(HexX, hexY3, out x, out y);
                     for (int ring = 1; ring <= 3; ring++)
@@ -113,7 +113,7 @@ public class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexSprite(o
                             double sin = Math.Sin((double)(((i * 5) + n) * pi) / 180);
                             double mathPI = Math.PI;
                             Point3DList path = effect.Path;
-                            EffectPaths.MakeLinePath(Round((double)Math.Cos((double)(((i * 5) + n) * mathPI) / 180) * deltaX) + x + 16, (Round((double)sin * deltaY) / 2) + y + 16, x + 16, y + 16, 100, path);
+                            EffectPaths.MakeLinePath(Round((double)Math.Cos((double)(((i * 5) + n) * mathPI) / 180) * deltaX) + x + 16, (Round((double)sin * deltaY) / 2) + y + 16, x + 16, y + 16, steps: 100, list: path);
                             effect.Path = path;
                         }
                     }
@@ -142,7 +142,7 @@ public class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexSprite(o
                         float vz = (float)((Random(50) + 50) * 0.05);
                         float z = 0;
                         Point3DList path2 = effect.Path;
-                        EffectPaths.MakeArcPath(x + 16, y + 16, i * 360 / n, ref z, speed, ref vz, gravity, path2);
+                        EffectPaths.MakeArcPath(x + 16, y + 16, angle: i * 360 / n, ref z, speed, ref vz, gravity, list: path2);
                         effect.Path = path2;
                     }
 
@@ -150,13 +150,13 @@ public class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexSprite(o
                     {
                         case 130:
                             RandSeed = StrategicMap.Current.Random(16777215);
-                            CombatAction animateAction = GamePack.Current.SpellControl[130].CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                            CombatAction animateAction = GamePack.Current.SpellControl[130].CreateCombatAction(message.Param[0].As<CombatObject>(), target: Unit, chargeMana: false);
                             CombatMap.Current.Combat.ExecuteCombatAction(animateAction);
                             _ = animateAction.Release();
                             break;
                         case 129:
                             RandSeed = StrategicMap.Current.Random(16777215);
-                            CombatAction raiseAction = GamePack.Current.SpellControl[129].CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                            CombatAction raiseAction = GamePack.Current.SpellControl[129].CreateCombatAction(message.Param[0].As<CombatObject>(), target: Unit, chargeMana: false);
                             CombatMap.Current.Combat.ExecuteCombatAction(raiseAction);
                             _ = raiseAction.Release();
                             break;
@@ -171,7 +171,7 @@ public class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexSprite(o
                         unitHexSprite.SetDirection((byte)(Random(6) + 1));
                         sbyte hexY3 = HexY;
                         sbyte hexX2 = HexX;
-                        _ = CombatMap.Current.PlaceHex(unitHexSprite, hexX2, hexY3, 0);
+                        _ = CombatMap.Current.PlaceHex(unitHexSprite, hexX2, hexY3, L: 0);
                     }
 
                     Dispose();

@@ -37,20 +37,20 @@ internal static class PersistenceInventory
     private const string TreeNamespace = "Aow.Formats.Tree";
 
     internal static AllowedSite[] AllowedSites { get; } = [
-        new("Aow.Formats.GameBoundary", "ReadImageTree",
-            "Import reads an original image the game already holds, such as a campaign map that is still an image, a preview or an imported file."),
-        new("Aow.Formats.GameBoundary", "WriteImage",
-            "Export writes the original image of a map the image can carry. A map the image cannot carry is stored as the own document instead."),
-        new("Aow.Formats.GameBoundary", "WritePacket",
-            "The packet adapter writes the legacy packet image. A value that image cannot carry is refused and the packet is not written."),
-        new("Aow.Formats.GameBoundary", "ReadPacket",
-            "The packet adapter reads the legacy packet image."),
-        new("Aow.Formats.GameBoundary", "WriteWrittenObject",
-            "Original files stay original until milestone 10. This writes the game set files, the system hero and item libraries and the e-mail game index."),
-        new("Aow.Formats.GameBoundary", "ReadWrittenObject",
-            "Original files stay original until milestone 10. This reads the game set files, the system hero and item libraries and the e-mail game index."),
-        new("Aow.Engine.PersistSupport", "BitListOverRead",
-            "A bit-list load reads up to 3 bytes past the stored bits. This rebuilds those bytes from the members that follow and writes no file. Own documents still use the document backend."),
+        new("Aow.Formats.GameBoundary", MethodName: "ReadImageTree",
+            Reason: "Import reads an original image the game already holds, such as a campaign map that is still an image, a preview or an imported file."),
+        new("Aow.Formats.GameBoundary", MethodName: "WriteImage",
+            Reason: "Export writes the original image of a map the image can carry. A map the image cannot carry is stored as the own document instead."),
+        new("Aow.Formats.GameBoundary", MethodName: "WritePacket",
+            Reason: "The packet adapter writes the legacy packet image. A value that image cannot carry is refused and the packet is not written."),
+        new("Aow.Formats.GameBoundary", MethodName: "ReadPacket",
+            Reason: "The packet adapter reads the legacy packet image."),
+        new("Aow.Formats.GameBoundary", MethodName: "WriteWrittenObject",
+            Reason: "Original files stay original until milestone 10. This writes the game set files, the system hero and item libraries and the e-mail game index."),
+        new("Aow.Formats.GameBoundary", MethodName: "ReadWrittenObject",
+            Reason: "Original files stay original until milestone 10. This reads the game set files, the system hero and item libraries and the e-mail game index."),
+        new("Aow.Engine.PersistSupport", MethodName: "BitListOverRead",
+            Reason: "A bit-list load reads up to 3 bytes past the stored bits. This rebuilds those bytes from the members that follow and writes no file. Own documents still use the document backend."),
     ];
 
     private static readonly OperandType[] OneByte = new OperandType[256];
@@ -140,7 +140,7 @@ internal static class PersistenceInventory
                     {
                         if (target is null)
                         {
-                            reaches.Add(new BackendReach(caller, $"unresolved method token 0x{token:X8}"));
+                            reaches.Add(new BackendReach(caller, Target: $"unresolved method token 0x{token:X8}"));
                             return;
                         }
                         Type? declaring = Definition(target.DeclaringType);
@@ -152,18 +152,18 @@ internal static class PersistenceInventory
                         string declaringName = declaring.FullName ?? declaring.Name;
                         if (declaringName == OriginalBackendName)
                         {
-                            if (callerType != OriginalBackendName && !Allowed(callerType, callerMethod))
+                            if (callerType != OriginalBackendName && !Allowed(callerType, methodName: callerMethod))
                             {
-                                reaches.Add(new BackendReach(caller, $"{declaringName}.{target.Name}"));
+                                reaches.Add(new BackendReach(caller, Target: $"{declaringName}.{target.Name}"));
                             }
 
                             return;
                         }
                         if (declaringName == ImageTreeName)
                         {
-                            if (!IsImageImplementation(callerType) && !Allowed(callerType, callerMethod))
+                            if (!IsImageImplementation(callerType) && !Allowed(callerType, methodName: callerMethod))
                             {
-                                reaches.Add(new BackendReach(caller, $"{declaringName}.{target.Name}"));
+                                reaches.Add(new BackendReach(caller, Target: $"{declaringName}.{target.Name}"));
                             }
 
                             return;
@@ -199,9 +199,9 @@ internal static class PersistenceInventory
         string owner = type.FullName ?? type.Name;
         foreach (PropertyInfo property in type.GetProperties(flags))
         {
-            if (Kind(property.Name, property.PropertyType, type) is { } kind)
+            if (Kind(property.Name, memberType: property.PropertyType, declaring: type) is { } kind)
             {
-                found.Add(new ExposedMember(owner, property.Name, kind, UsedBy: null));
+                found.Add(new ExposedMember(owner, Member: property.Name, kind, UsedBy: null));
             }
         }
         foreach (FieldInfo field in type.GetFields(flags))
@@ -211,9 +211,9 @@ internal static class PersistenceInventory
                 continue;
             }
 
-            if (Kind(field.Name, field.FieldType, type) is { } kind)
+            if (Kind(field.Name, memberType: field.FieldType, declaring: type) is { } kind)
             {
-                found.Add(new ExposedMember(owner, field.Name, kind, UsedBy: null));
+                found.Add(new ExposedMember(owner, Member: field.Name, kind, UsedBy: null));
             }
         }
         foreach (MethodInfo method in type.GetMethods(flags))
@@ -225,7 +225,7 @@ internal static class PersistenceInventory
 
             if (IsStoredId(method.Name) && IsIntegral(method.ReturnType))
             {
-                found.Add(new ExposedMember(owner, method.Name, "stored id", UsedBy: null));
+                found.Add(new ExposedMember(owner, Member: method.Name, Kind: "stored id", UsedBy: null));
             }
         }
         return found;
@@ -234,20 +234,20 @@ internal static class PersistenceInventory
     private static ExposedMember? Exposure(MemberInfo member, Type declaring)
     {
         return member is MethodInfo method && TryProperty(method, out string name, out Type? type)
-            ? Kind(name, type, declaring) is not { } propertyKind
+            ? Kind(name, memberType: type, declaring) is not { } propertyKind
                 ? null
-                : new ExposedMember(declaring.FullName ?? declaring.Name, name, propertyKind, UsedBy: null)
+                : new ExposedMember(declaring.FullName ?? declaring.Name, Member: name, Kind: propertyKind, UsedBy: null)
             : member is FieldInfo field
-            ? Kind(field.Name, field.FieldType, declaring) is not { } fieldKind
+            ? Kind(field.Name, memberType: field.FieldType, declaring) is not { } fieldKind
                 ? null
-                : new ExposedMember(declaring.FullName ?? declaring.Name, field.Name, fieldKind, UsedBy: null)
+                : new ExposedMember(declaring.FullName ?? declaring.Name, Member: field.Name, Kind: fieldKind, UsedBy: null)
             : member is not MethodBase plain || plain.IsSpecialName
             ? null
             : !IsStoredId(plain.Name)
             ? null
             : plain is not MethodInfo info || !IsIntegral(info.ReturnType)
             ? null
-            : new ExposedMember(declaring.FullName ?? declaring.Name, plain.Name, "stored id", UsedBy: null);
+            : new ExposedMember(declaring.FullName ?? declaring.Name, Member: plain.Name, Kind: "stored id", UsedBy: null);
     }
 
     private static string? Kind(string name, Type memberType, Type declaring)
@@ -291,7 +291,7 @@ internal static class PersistenceInventory
     }
 
     private static bool HasPublicHeight(Type type)
-        => type.GetProperty("Height", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly) is not null
+        => type.GetProperty("Height", bindingAttr: BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly) is not null
         || (type.BaseType is { } parent && parent != typeof(object) && parent != typeof(ValueType) && HasPublicHeight(parent));
 
     private static bool Allowed(string typeName, string methodName)
@@ -309,7 +309,7 @@ internal static class PersistenceInventory
 
     private static bool IsImageImplementation(string typeName)
         => typeName == ImageTreeName || typeName == OriginalBackendName
-        || typeName.StartsWith("Aow.Formats.Original.", StringComparison.Ordinal);
+        || typeName.StartsWith("Aow.Formats.Original.", comparisonType: StringComparison.Ordinal);
 
     private static bool InScope(Type? declaring, Type? only)
     {
@@ -335,7 +335,7 @@ internal static class PersistenceInventory
         string name = method.Name;
         while (type.IsNested && type.Name.IndexOf('<') >= 0)
         {
-            Match match = Regex.Match(type.Name, "<([^>]+)>");
+            Match match = Regex.Match(type.Name, pattern: "<([^>]+)>");
             if (match.Success && match.Groups[1].Value.Length > 0)
             {
                 name = match.Groups[1].Value;
@@ -348,7 +348,7 @@ internal static class PersistenceInventory
 
             type = outer;
         }
-        Match methodMatch = Regex.Match(name, "^<([^>]+)>");
+        Match methodMatch = Regex.Match(name, pattern: "^<([^>]+)>");
         if (methodMatch.Success && methodMatch.Groups[1].Value.Length > 0)
         {
             name = methodMatch.Groups[1].Value;
@@ -386,8 +386,8 @@ internal static class PersistenceInventory
         }
         catch (ReflectionTypeLoadException error)
         {
-            string reason = string.Join("\n", error.LoaderExceptions.Select(item => item?.Message));
-            throw new InvalidOperationException($"Loading types from {assembly.GetName().Name} failed.\n{reason}", error);
+            string reason = string.Join("\n", values: error.LoaderExceptions.Select(item => item?.Message));
+            throw new InvalidOperationException($"Loading types from {assembly.GetName().Name} failed.\n{reason}", innerException: error);
         }
     }
 
@@ -419,13 +419,13 @@ internal static class PersistenceInventory
             {
                 if (index + 1 >= il.Length)
                 {
-                    Fail(method, index);
+                    Fail(method, offset: index);
                 }
 
                 code = il[index + 1];
                 if (!TwoByteKnown[code])
                 {
-                    Fail(method, index);
+                    Fail(method, offset: index);
                 }
 
                 operand = TwoByte[code];
@@ -435,22 +435,22 @@ internal static class PersistenceInventory
             {
                 if (!OneByteKnown[code])
                 {
-                    Fail(method, index);
+                    Fail(method, offset: index);
                 }
 
                 operand = OneByte[code];
                 operandAt = index + 1;
             }
-            int size = OperandBytes(il, operandAt, operand, method);
+            int size = OperandBytes(il, at: operandAt, operand, method);
             if (IsMethodOpcode(code, wide))
             {
-                int token = ReadInt(il, operandAt, method);
-                onMethod(ResolveMethod(module, token, method), token);
+                int token = ReadInt(il, at: operandAt, method);
+                onMethod(ResolveMethod(module, token, caller: method), token);
             }
             else if (!wide && IsFieldOpcode(code))
             {
-                int token = ReadInt(il, operandAt, method);
-                onMethod(ResolveField(module, token, method), token);
+                int token = ReadInt(il, at: operandAt, method);
+                onMethod(ResolveField(module, token, caller: method), token);
             }
             index = operandAt + size;
         }
@@ -480,7 +480,7 @@ internal static class PersistenceInventory
         int count = ReadInt(il, at, method);
         if (count < 0)
         {
-            Fail(method, at);
+            Fail(method, offset: at);
         }
 
         return checked(4 + (count * 4));
@@ -490,10 +490,10 @@ internal static class PersistenceInventory
     {
         if (at < 0 || at + 4 > il.Length)
         {
-            Fail(method, at);
+            Fail(method, offset: at);
         }
 
-        return BitConverter.ToInt32(il, at);
+        return BitConverter.ToInt32(il, startIndex: at);
     }
 
     private static MethodBase? ResolveMethod(Module module, int token, MethodBase caller)
@@ -502,7 +502,7 @@ internal static class PersistenceInventory
         Type[]? methodArgs = caller.IsGenericMethod ? caller.GetGenericArguments() : null;
         try
         {
-            return module.ResolveMethod(token, typeArgs, methodArgs);
+            return module.ResolveMethod(token, genericTypeArguments: typeArgs, genericMethodArguments: methodArgs);
         }
         catch (Exception error) when (error is ArgumentException or TypeLoadException or FileNotFoundException or BadImageFormatException)
         {
@@ -523,7 +523,7 @@ internal static class PersistenceInventory
         Type[]? methodArgs = caller.IsGenericMethod ? caller.GetGenericArguments() : null;
         try
         {
-            return module.ResolveField(token, typeArgs, methodArgs);
+            return module.ResolveField(token, genericTypeArguments: typeArgs, genericMethodArguments: methodArgs);
         }
         catch (Exception error) when (error is ArgumentException or TypeLoadException or FileNotFoundException or BadImageFormatException)
         {
@@ -547,13 +547,13 @@ internal static class PersistenceInventory
             return false;
         }
 
-        if (method.Name.StartsWith("get_", StringComparison.Ordinal) && method.Name.Length > 4)
+        if (method.Name.StartsWith("get_", comparisonType: StringComparison.Ordinal) && method.Name.Length > 4)
         {
             name = method.Name[4..];
             type = method.ReturnType;
             return true;
         }
-        if (method.Name.StartsWith("set_", StringComparison.Ordinal) && method.Name.Length > 4 && method.GetParameters() is { Length: > 0 } parameters)
+        if (method.Name.StartsWith("set_", comparisonType: StringComparison.Ordinal) && method.Name.Length > 4 && method.GetParameters() is { Length: > 0 } parameters)
         {
             name = method.Name[4..];
             type = parameters[^1].ParameterType;

@@ -60,17 +60,17 @@ public partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 LibraryImage image = UI.Graphics.UnitBackgrounds[(int)alignment];
-                image.ShowClipped(X + 25 - (image.Width / 2), Y + 30 - (image.Height / 2), surface);
+                image.ShowClipped(X + 25 - (image.Width / 2), Y + 30 - (image.Height / 2), lockedSurface: surface);
             }
 
             info = default;
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
-            _ = Caster.TargetUnits.GetUnit(index).Show(X - 8, Y - 4, surface, info);
+            _ = Caster.TargetUnits.GetUnit(index).Show(X - 8, Y - 4, lockedSurface: surface, info);
             if (((Caster.ValidSelection >>> index) & 1) == 0)
             {
                 LibraryImage image = UI.Graphics.UnitBackgrounds[7];
-                image.ShowClipped(X + 25 - (image.Width / 2), Y + 30 - (image.Height / 2), surface);
+                image.ShowClipped(X + 25 - (image.Width / 2), Y + 30 - (image.Height / 2), lockedSurface: surface);
             }
 
             surface.ClipRectangle = oldClip;
@@ -114,7 +114,7 @@ public partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
                 r.Top = FaceFrame.WinTop + TopPanel.AbsoluteTop;
                 r.Bottom = r.Top + FaceFrame.WinHeight;
 
-                u.GetFace().ShowStretched(r, surface);
+                u.GetFace().ShowStretched(r, lockedSurface: surface);
             }
         }
     }
@@ -140,7 +140,7 @@ public partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
 
                 if (spell.CastImages.GetImageSequence(10) is not null)
                 {
-                    _ = spell.CastImages.Show(10, r.Left + 5, r.Top + 15, 0, surface);
+                    _ = spell.CastImages.Show(10, r.Left + 5, r.Top + 15, frame: 0, lockedSurface: surface);
                 }
             }
         }

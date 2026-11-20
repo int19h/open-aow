@@ -63,7 +63,7 @@ public partial class Farm(CustomNode owner) : PlayerCropStructure(owner)
     public override string GetCurrentActivityText()
     {
         int income = GetIncome();
-        return Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducingIncomeFormat), [IntToStr(income)]);
+        return Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.ProducingIncomeFormat), args: [IntToStr(income)]);
     }
 
     // Farm.pas:111
@@ -83,7 +83,7 @@ public partial class Farm(CustomNode owner) : PlayerCropStructure(owner)
                         }
                         else
                         {
-                            if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, Player, 0))
+                            if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: Player, targetRace: 0))
                             {
                                 priority = 50 - (StrategicMap.Current.Players.GetPlayers(info.Player).Income / 2);
                                 if (priority < 25)
@@ -169,7 +169,7 @@ public partial class Farm(CustomNode owner) : PlayerCropStructure(owner)
         public override int ResourceUserClassId() => 131950;
 
         // Farm.pas:146
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_farmText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_farmText);
 
         private static readonly string s_farmText = "Farm";
 

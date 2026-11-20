@@ -41,7 +41,7 @@ public class UnitEnchantmentAbility : AdjustableAbility
                     {
                         byte duration = GetDuration(owner);
                         sbyte totalDuration = TotalDuration;
-                        string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationDaysFormat), [IntToStr(duration), IntToStr(totalDuration)]);
+                        string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DurationDaysFormat), arguments: [IntToStr(duration), IntToStr(totalDuration)]);
                         return $"{result} {format}";
                     }
 
@@ -49,11 +49,11 @@ public class UnitEnchantmentAbility : AdjustableAbility
                 case DurationMode.CombatTurn:
                     byte duration2 = GetDuration(owner);
                     sbyte totalDuration2 = TotalDuration;
-                    string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationCombatTurnFormat), [IntToStr(duration2), IntToStr(totalDuration2)]);
+                    string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DurationCombatTurnFormat), arguments: [IntToStr(duration2), IntToStr(totalDuration2)]);
                     return $"{base.GetName(owner)} {formattedText}";
                 case DurationMode.EntireCombat:
                     string name = base.GetName(owner);
-                    string durationEntireCombat = AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationEntireCombatText);
+                    string durationEntireCombat = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DurationEntireCombatText);
                     return $"{name} {durationEntireCombat}";
                 case DurationMode.None:
                 default:
@@ -77,14 +77,14 @@ public class UnitEnchantmentAbility : AdjustableAbility
             Troop source = StrategicMap.Current.UnitControl.FindUnit(data.Enchantment.UnitId);
             // { Original also reports player zero as unknown. }
             return data.Enchantment.Source <= 0
-                ? AbilityRules.TranslateResourceString(GetEngine(), GameTables.UnknownText)
+                ? AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.UnknownText)
                 : source is not null && source.Player == data.Enchantment.Source
-                    ? AbilityRules.TranslateResourceString(GetEngine(), s_manaText)
+                    ? AbilityRules.TranslateResourceString(GetEngine(), S: s_manaText)
                     : StrategicMap.Current.Players.GetPlayers(data.Enchantment.Source).Leader.HeroName;
         }
         else
         {
-            return AbilityRules.TranslateResourceString(GetEngine(), GameTables.UnknownText);
+            return AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.UnknownText);
         }
     }
 
@@ -118,7 +118,7 @@ public class UnitEnchantmentAbility : AdjustableAbility
         if (owner is not Troop troop)
         {
             // { Preserve the original assertion diagnostic. }
-            Assert(false, "Assertion failure", "D:\\AoWDev\\AoWE\\inc\\AoWAb.PAS", 46175);
+            Assert(false, message: "Assertion failure", file: "D:\\AoWDev\\AoWE\\inc\\AoWAb.PAS", line: 46175);
             return false;
         }
         UnitEnchantmentAbilityData data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
@@ -127,7 +127,7 @@ public class UnitEnchantmentAbility : AdjustableAbility
             if (troop.UnitId <= 0)
             {
                 // { Preserve the original assertion diagnostic. }
-                Assert(false, "Assertion failure", "D:\\AoWDev\\AoWE\\inc\\AoWAb.PAS", 46181);
+                Assert(false, message: "Assertion failure", file: "D:\\AoWDev\\AoWE\\inc\\AoWAb.PAS", line: 46181);
             }
 
             data = new UnitEnchantmentAbilityData(null)
@@ -140,7 +140,7 @@ public class UnitEnchantmentAbility : AdjustableAbility
             data.Enchantment = enchantment;
             enchantment.EnchantmentAbilityId = AbilityId;
             enchantment.UnitId = troop.UnitId;
-            SetAbility(owner, AbilityId, 1);
+            SetAbility(owner, index: AbilityId, value: 1);
             owner.AddAbilityData(data);
             return true;
         }
@@ -163,12 +163,12 @@ public class UnitEnchantmentAbility : AdjustableAbility
                 _ = StrategicMap.Current.Players.GetPlayers(data.Enchantment.Source).MagicControl.UnregisterEnchantment(data.Enchantment);
             }
 
-            SetAbility(owner, AbilityId, 0);
+            SetAbility(owner, index: AbilityId, value: 0);
             owner.RemoveAbilityData(data);
         }
         else
         {
-            SetAbility(owner, AbilityId, 0);
+            SetAbility(owner, index: AbilityId, value: 0);
             return false;
         }
 

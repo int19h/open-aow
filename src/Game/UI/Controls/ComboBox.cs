@@ -70,22 +70,22 @@ public partial class ComboBox : Control
     {
         if (_imageLibraryEdit is not null)
         {
-            _imageLibraryEdit = _imageLibraryEdit.CheckImageLibrary(_ileIndex, 3, this);
+            _imageLibraryEdit = _imageLibraryEdit.CheckImageLibrary(_ileIndex, count: 3, sender: this);
         }
 
         if (_imageLibraryFrame is not null)
         {
-            _imageLibraryFrame = _imageLibraryFrame.CheckImageLibrary(_ilfIndex, 8, this);
+            _imageLibraryFrame = _imageLibraryFrame.CheckImageLibrary(_ilfIndex, count: 8, sender: this);
         }
 
         if (_imageLibraryTextureNormal is not null)
         {
-            _imageLibraryTextureNormal = _imageLibraryTextureNormal.CheckImageLibrary(_imageLibraryTnIndex, 1, this);
+            _imageLibraryTextureNormal = _imageLibraryTextureNormal.CheckImageLibrary(_imageLibraryTnIndex, count: 1, sender: this);
         }
 
         if (_imageLibraryTextureSelected is not null)
         {
-            _imageLibraryTextureSelected = _imageLibraryTextureSelected.CheckImageLibrary(_imageLibraryTsIndex, 1, this);
+            _imageLibraryTextureSelected = _imageLibraryTextureSelected.CheckImageLibrary(_imageLibraryTsIndex, count: 1, sender: this);
         }
 
         if (base.Font is not null && _imageLibraryEdit is not null && _imageLibraryFrame is not null && _imageLibraryTextureNormal is not null && _imageLibraryTextureSelected is not null)
@@ -200,16 +200,16 @@ public partial class ComboBox : Control
         {
             if (Valid && Visible)
             {
-                RaisePreDraw(this, lockedSurface);
+                RaisePreDraw(this, surfDesc: lockedSurface);
 
                 base.Font.Color = Color;
                 Rect oldClip = lockedSurface.ClipRectangle;
                 SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
-                _imageLibraryEdit.DrawHorizontalStrip(_ileIndex, rectangle, ref lockedSurface);
+                _imageLibraryEdit.DrawHorizontalStrip(_ileIndex, area: rectangle, ref lockedSurface);
                 if (_selected > -1 && _items.Count > _selected)
                 {
                     string item = _items[_selected];
-                    base.Font.SetText(Window.AbsoluteLeft + WinLeft + BorderWidth, Window.AbsoluteTop + WinTop + BorderHeight, item, lockedSurface);
+                    base.Font.SetText(Window.AbsoluteLeft + WinLeft + BorderWidth, Window.AbsoluteTop + WinTop + BorderHeight, text: item, lockedSurface);
                 }
 
                 lockedSurface.ClipRectangle = oldClip;
@@ -219,14 +219,14 @@ public partial class ComboBox : Control
                     LibraryImage imageLibraryFrame = _imageLibraryFrame[_ilfIndex + 6];
                     LibraryImage imageLibraryEditHeight = _imageLibraryEdit[_ileIndex];
                     SizedRectangle rectangle2 = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop + imageLibraryEditHeight.Height, WinWidth, imageLibraryFrameHeight.Height + imageLibraryFrame.Height + (ItemHeight * _openListRows) + ListBorderHeight);
-                    _imageLibraryFrame.DrawFrame(_ilfIndex, rectangle2, ref lockedSurface);
+                    _imageLibraryFrame.DrawFrame(_ilfIndex, area: rectangle2, ref lockedSurface);
                     LibraryImage imageLibraryFrameWidth = _imageLibraryFrame[_ilfIndex + 3];
                     LibraryImage imageLibraryFrame2 = _imageLibraryFrame[_ilfIndex + 4];
                     LibraryImage imageLibraryEdit = _imageLibraryEdit[_ileIndex];
                     LibraryImage imageLibraryFrame3 = _imageLibraryFrame[_ilfIndex + 1];
                     LibraryImage imageLibraryFrame4 = _imageLibraryFrame[_ilfIndex + 3];
                     SizedRectangle rectangle3 = new(Window.AbsoluteLeft + WinLeft + imageLibraryFrame4.Width, Window.AbsoluteTop + WinTop + imageLibraryEdit.Height + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, (ItemHeight * _openListRows) + ListBorderHeight);
-                    _imageLibraryTextureNormal.DrawTiled(_imageLibraryTnIndex, rectangle3, ref lockedSurface);
+                    _imageLibraryTextureNormal.DrawTiled(_imageLibraryTnIndex, area: rectangle3, ref lockedSurface);
                     if (_hoverItem >= _firstShownItem && _hoverItem < _openListRows + _firstShownItem)
                     {
                         LibraryImage imageLibraryFrame5 = _imageLibraryFrame[_ilfIndex + 3];
@@ -235,7 +235,7 @@ public partial class ComboBox : Control
                         LibraryImage imageLibraryFrame7 = _imageLibraryFrame[_ilfIndex + 1];
                         LibraryImage imageLibraryFrame8 = _imageLibraryFrame[_ilfIndex + 3];
                         SizedRectangle rectangle4 = new(Window.AbsoluteLeft + WinLeft + imageLibraryFrame8.Width, Window.AbsoluteTop + WinTop + imageLibraryEdit2.Height + imageLibraryFrame7.Height + ((_hoverItem - _firstShownItem) * ItemHeight), WinWidth - imageLibraryFrame5.Width - imageLibraryFrame6.Width, ItemHeight);
-                        _imageLibraryTextureSelected.DrawTiled(_imageLibraryTsIndex, rectangle4, ref lockedSurface);
+                        _imageLibraryTextureSelected.DrawTiled(_imageLibraryTsIndex, area: rectangle4, ref lockedSurface);
                     }
 
                     if (Window.AbsoluteLeft + WinLeft + WinWidth - _scrollBarWidth < oldClip.Right)
@@ -257,7 +257,7 @@ public partial class ComboBox : Control
                             LibraryImage imageLibraryEdit2 = _imageLibraryEdit[_ileIndex];
                             LibraryImage imageLibraryFrame5 = _imageLibraryFrame[_ilfIndex + 1];
                             string item = _items[_firstShownItem + i];
-                            base.Font.SetText(Window.AbsoluteLeft + WinLeft + ListBorderWidth, Window.AbsoluteTop + WinTop + imageLibraryEdit2.Height + imageLibraryFrame5.Height + ListBorderHeight + (ItemHeight * i), item, lockedSurface);
+                            base.Font.SetText(Window.AbsoluteLeft + WinLeft + ListBorderWidth, Window.AbsoluteTop + WinTop + imageLibraryEdit2.Height + imageLibraryFrame5.Height + ListBorderHeight + (ItemHeight * i), text: item, lockedSurface);
                             if (_firstShownItem + i == _hoverItem)
                             {
                                 base.Font.Color = Color;
@@ -275,12 +275,12 @@ public partial class ComboBox : Control
                     lockedSurface.ClipRectangle = oldClip;
                 }
 
-                RaiseDraw(this, lockedSurface);
+                RaiseDraw(this, surfDesc: lockedSurface);
             }
         }
         catch
         {
-            _ = MessageBox(0, "Exception during Draw", $"Error - {Name}", 0);
+            _ = MessageBox(0, text: "Exception during Draw", caption: $"Error - {Name}", flags: 0);
         }
     }
 

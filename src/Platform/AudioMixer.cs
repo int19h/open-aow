@@ -118,7 +118,7 @@ public sealed class AudioMixer : IDisposable
                 Span<float> block = output[..(frames * 2)];
                 if (Song is not null && !SongEnded)
                 {
-                    int read = Song.Render(Rate, block);
+                    int read = Song.Render(Rate, stereo: block);
                     if (read < frames)
                     {
                         block[(read * 2)..].Clear();

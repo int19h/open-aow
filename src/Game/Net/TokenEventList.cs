@@ -106,7 +106,7 @@ public class TokenEventList : EngineObject
     public void Insert(int index, TokenEvent tokenEvent)
     {
         _ = tokenEvent.AddRef();
-        List.InsertChild(index, tokenEvent);
+        List.InsertChild(index, child: tokenEvent);
     }
 
     public int Count => GetCount();

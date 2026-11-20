@@ -40,7 +40,7 @@ public sealed class RecordShapeTests : FormatsTest
         ]}
         """;
 
-    private static FormatSchema Sample => FormatSchema.Load(Encoding.UTF8.GetBytes(SampleSchema), "records.json");
+    private static FormatSchema Sample => FormatSchema.Load(Encoding.UTF8.GetBytes(SampleSchema), file: "records.json");
 
     [Fact]
     public void ARecordABitArrayAndRawValuesRoundTrip()
@@ -59,13 +59,13 @@ public sealed class RecordShapeTests : FormatsTest
             Flag = false,
         };
         SampleBehavior behavior2 = source.Behavior;
-        Poke(ref behavior2, 1, 1);
+        Poke(ref behavior2, offset: 1, stored: 1);
         source.Behavior = behavior2;
         SampleBehavior behavior3 = source.Behavior;
-        Poke(ref behavior3, 3, 2);
+        Poke(ref behavior3, offset: 3, stored: 2);
         source.Behavior = behavior3;
         ObjectNode node = TreeWriter.Write(source, s_factory);
-        JsonObject document = DocumentBackend.Write(node, classValue, schema, "game");
+        JsonObject document = DocumentBackend.Write(node, classValue, schema, engine: "game");
         JsonObject behavior = (JsonObject)document["Behavior"]!;
         Assert.Equal(["PlayerType", "Flags"], behavior.Members.Select(m => m.Name).ToList());
         Assert.Equal(2, ((JsonInteger)behavior["PlayerType"]!).Value);
@@ -78,16 +78,16 @@ public sealed class RecordShapeTests : FormatsTest
         Assert.Equal(0, ((JsonInteger)document["Wide"]!).Value);
         Assert.False(((JsonBoolean)document["Flag"]!).Value);
 
-        byte[] image = OriginalBackend.Write(node, classValue, schema, "game");
-        JsonObject back = DocumentBackend.Write(OriginalBackend.Read(image, classValue, schema, "game"), classValue, schema, "game");
+        byte[] image = OriginalBackend.Write(node, classValue, schema, engine: "game");
+        JsonObject back = DocumentBackend.Write(OriginalBackend.Read(image, classValue, schema, engine: "game"), classValue, schema, engine: "game");
         Assert.Equal(JsonWriter.ToUtf8(document), JsonWriter.ToUtf8(back));
         Holder loaded = new();
-        TreeReader.Read(OriginalBackend.Read(image, classValue, schema, "game"), loaded, s_factory);
+        TreeReader.Read(OriginalBackend.Read(image, classValue, schema, engine: "game"), objectValue: loaded, s_factory);
         Assert.Equal(2, loaded.Behavior.PlayerType);
         Assert.Equal(9, loaded.Behavior.Flags);
-        Assert.Equal(0, At(loaded.Behavior, 1));
-        Assert.Equal(0, At(loaded.Behavior, 2));
-        Assert.Equal(0, At(loaded.Behavior, 3));
+        Assert.Equal(0, At(loaded.Behavior, offset: 1));
+        Assert.Equal(0, At(loaded.Behavior, offset: 2));
+        Assert.Equal(0, At(loaded.Behavior, offset: 3));
         Assert.Equal(0x81, loaded.Marks.ValueImage);
         Assert.Equal(4, loaded.AbilityCount);
         Assert.Equal(0x81, loaded.Bits[0]);
@@ -104,20 +104,20 @@ public sealed class RecordShapeTests : FormatsTest
         SchemaClass classValue = schema.Get("THolder");
         SchemaProperty property = classValue.PropertyByName("Behavior")!;
         byte[] raw = [2, 0x11, 0x22, 0x33, 9, 0, 0, 0];
-        DecodeContext decode = new(raw, schema, "game", "game", null, FormatLimits.Default);
+        DecodeContext decode = new(raw, schema, engine: "game", profile: "game", file: null, limits: FormatLimits.Default);
         ValueSite site = new() { Property = property, Id = property.Id ?? 0, Path = DocumentNodePath.Root.Member("Behavior"), Owner = new JsonObject() };
-        JsonObject decoded = (JsonObject)property.Codec.Decode(decode, 0, raw.Length, site);
+        JsonObject decoded = (JsonObject)property.Codec.Decode(decode, start: 0, end: raw.Length, site);
         Assert.Equal(["PlayerType", "Flags"], decoded.Members.Select(m => m.Name).ToList());
-        EncodeContext encode = new(schema, "game", "game", null, FormatLimits.Default);
+        EncodeContext encode = new(schema, engine: "game", profile: "game", file: null, limits: FormatLimits.Default);
         ByteBuffer written = new();
-        property.Codec.Encode(encode, decoded, written, site);
+        property.Codec.Encode(encode, value: decoded, data: written, site);
         Assert.Equal([2, 0, 0, 0, 9, 0, 0, 0], written.ToArray());
 
         ImageFrame frame = new() { Property = property, Id = property.Id ?? 0, Path = site.Path };
-        RecordNode tree = (RecordNode)property.Codec.ReadImage(decode, 0, raw.Length, frame);
+        RecordNode tree = (RecordNode)property.Codec.ReadImage(decode, start: 0, end: raw.Length, frame);
         Assert.Equal(["PlayerType", "Flags"], tree.Members.Select(m => m.Name).ToList());
         ByteBuffer treeBytes = new();
-        property.Codec.WriteImage(tree, encode, treeBytes, frame);
+        property.Codec.WriteImage(tree, context: encode, data: treeBytes, frame);
         Assert.Equal([2, 0, 0, 0, 9, 0, 0, 0], treeBytes.ToArray());
 
         _ = Assert.Throws<InvalidOperationException>(() => RecordTypeInfo.Describe(typeof(UndeclaredGapRecord)));
@@ -132,14 +132,14 @@ public sealed class RecordShapeTests : FormatsTest
         FormatSchema schema = Sample;
         SchemaClass classValue = schema.Get("THolder");
         Holder source = new() { AbilityCount = 8, Bits = new byte[1], Marks = new SamplePacked { Value = Set<SampleRank>.FromMask(0) } };
-        JsonObject document = DocumentBackend.Write(TreeWriter.Write(source, s_factory), classValue, schema, "game");
+        JsonObject document = DocumentBackend.Write(TreeWriter.Write(source, s_factory), classValue, schema, engine: "game");
         Assert.Empty(((JsonObject)document["Behavior"]!).Members);
         Assert.Empty(((JsonArray)document["Marks"]!).Items);
         Assert.Empty(((JsonArray)document["Bits"]!).Items);
         Assert.False(document["Bits"] is JsonObject);
-        byte[] image = OriginalBackend.Write(TreeWriter.Write(source, s_factory), classValue, schema, "game");
+        byte[] image = OriginalBackend.Write(TreeWriter.Write(source, s_factory), classValue, schema, engine: "game");
         Holder loaded = new();
-        TreeReader.Read(OriginalBackend.Read(image, classValue, schema, "game"), loaded, s_factory);
+        TreeReader.Read(OriginalBackend.Read(image, classValue, schema, engine: "game"), objectValue: loaded, s_factory);
         Assert.Equal(0, loaded.Behavior.PlayerType);
         Assert.Equal(0, loaded.Behavior.Flags);
         Assert.Equal(8, loaded.AbilityCount);
@@ -155,12 +155,12 @@ public sealed class RecordShapeTests : FormatsTest
         JsonObject document = new JsonObject().Add("Behavior", new JsonObject().Add("PlayerType", new JsonInteger(2)));
         Holder loaded = new() { Behavior = new SampleBehavior { PlayerType = 9, Flags = 9 } };
         SampleBehavior behavior = loaded.Behavior;
-        Poke(ref behavior, 1, 7);
+        Poke(ref behavior, offset: 1, stored: 7);
         loaded.Behavior = behavior;
-        TreeReader.Read(DocumentBackend.Read(document, schema.Get("THolder"), schema, "game"), loaded, s_factory);
+        TreeReader.Read(DocumentBackend.Read(document, classValue: schema.Get("THolder"), schema, engine: "game"), objectValue: loaded, s_factory);
         Assert.Equal(2, loaded.Behavior.PlayerType);
         Assert.Equal(0, loaded.Behavior.Flags);
-        Assert.Equal(0, At(loaded.Behavior, 1));
+        Assert.Equal(0, At(loaded.Behavior, offset: 1));
     }
 
     [Fact]
@@ -199,14 +199,14 @@ public sealed class RecordShapeTests : FormatsTest
         Assert.Equal("root.Bits", bitConv.Diagnostic.Path);
 
         FormatSchema schema = Sample;
-        ObjectNode node = new(null, null);
+        ObjectNode node = new(null, slot: null);
         RecordNode behavior = new();
         behavior.Add("$reserved", new BytesNode([1, 0, 2]));
         node.Add("Behavior", behavior);
-        ConversionException image = Assert.Throws<ConversionException>(() => OriginalBackend.Write(node, schema.Get("THolder"), schema, "game"));
+        ConversionException image = Assert.Throws<ConversionException>(() => OriginalBackend.Write(node, classValue: schema.Get("THolder"), schema, engine: "game"));
         Assert.Equal(Codes.UnknownMember, image.Diagnostic.Code);
         Assert.Equal("root.Behavior.$reserved", image.Diagnostic.Path);
-        ConversionException document = Assert.Throws<ConversionException>(() => DocumentBackend.Write(node, schema.Get("THolder"), schema, "game"));
+        ConversionException document = Assert.Throws<ConversionException>(() => DocumentBackend.Write(node, classValue: schema.Get("THolder"), schema, engine: "game"));
         Assert.Equal(Codes.UnknownMember, document.Diagnostic.Code);
         Assert.Equal("root.Behavior.$reserved", document.Diagnostic.Path);
     }
@@ -271,15 +271,15 @@ public sealed class RecordShapeTests : FormatsTest
         FormatSchema schema = Sample;
         SchemaClass classValue = schema.Get("THolder");
         SchemaProperty behavior = classValue.PropertyByName("Behavior")!;
-        DecodeContext shortRecord = new(new byte[7], schema, "game", "game", null, FormatLimits.Default);
+        DecodeContext shortRecord = new(new byte[7], schema, engine: "game", profile: "game", file: null, limits: FormatLimits.Default);
         ValueSite recordSite = new() { Property = behavior, Id = behavior.Id ?? 0, Path = DocumentNodePath.Root.Member("Behavior"), Owner = new JsonObject() };
-        ConversionException size = Assert.Throws<ConversionException>(() => behavior.Codec.Decode(shortRecord, 0, 7, recordSite));
+        ConversionException size = Assert.Throws<ConversionException>(() => behavior.Codec.Decode(shortRecord, start: 0, end: 7, site: recordSite));
         Assert.Equal(Codes.Corrupt, size.Diagnostic.Code);
         SchemaProperty bits = classValue.PropertyByName("Bits")!;
         JsonObject owner = new JsonObject().Add("AbCount", new JsonInteger(8));
-        DecodeContext shortBits = new(new byte[2], schema, "game", "game", null, FormatLimits.Default);
+        DecodeContext shortBits = new(new byte[2], schema, engine: "game", profile: "game", file: null, limits: FormatLimits.Default);
         ValueSite bitSite = new() { Property = bits, Id = bits.Id ?? 0, Path = DocumentNodePath.Root.Member("Bits"), Owner = owner };
-        ConversionException length = Assert.Throws<ConversionException>(() => bits.Codec.Decode(shortBits, 0, 2, bitSite));
+        ConversionException length = Assert.Throws<ConversionException>(() => bits.Codec.Decode(shortBits, start: 0, end: 2, site: bitSite));
         Assert.Equal(Codes.Range, length.Diagnostic.Code);
     }
 
@@ -288,11 +288,11 @@ public sealed class RecordShapeTests : FormatsTest
     {
         FormatSchema schema = Sample;
         SchemaClass classValue = schema.Get("THolder");
-        ObjectNode node = new(null, null);
-        node.Add("Flag", new IntegerNode(1, false, 2));
-        JsonObject document = DocumentBackend.Write(node, classValue, schema, "game");
+        ObjectNode node = new(null, slot: null);
+        node.Add("Flag", new IntegerNode(1, signed: false, value: 2));
+        JsonObject document = DocumentBackend.Write(node, classValue, schema, engine: "game");
         Assert.Equal(2, ((JsonInteger)document["Flag"]!).Value);
-        ObjectNode back = OriginalBackend.Read(OriginalBackend.Write(node, classValue, schema, "game"), classValue: classValue, schema: schema, engine: "game");
+        ObjectNode back = OriginalBackend.Read(OriginalBackend.Write(node, classValue, schema, engine: "game"), classValue: classValue, schema: schema, engine: "game");
         Assert.Equal(2, ((IntegerNode)back.Find("Flag")!).Value);
 
         Holder source = new();
@@ -302,13 +302,13 @@ public sealed class RecordShapeTests : FormatsTest
         ObjectNode stored = TreeWriter.Write(source, s_factory);
         Assert.Equal(2, ((IntegerNode)stored.Find("Flag")!).Value);
         Holder loaded = new();
-        TreeReader.Read(stored, loaded, s_factory);
+        TreeReader.Read(stored, objectValue: loaded, s_factory);
         bool flag2 = loaded.Flag;
         Assert.Equal(2, Unsafe.As<bool, byte>(ref flag2));
         loaded.Flag = flag2;
-        ObjectNode round = OriginalBackend.Read(OriginalBackend.Write(stored, classValue, schema, "game"), classValue, schema, "game");
+        ObjectNode round = OriginalBackend.Read(OriginalBackend.Write(stored, classValue, schema, engine: "game"), classValue, schema, engine: "game");
         Holder again = new();
-        TreeReader.Read(round, again, s_factory);
+        TreeReader.Read(round, objectValue: again, s_factory);
         bool flag3 = again.Flag;
         Assert.Equal(2, Unsafe.As<bool, byte>(ref flag3));
         again.Flag = flag3;
@@ -320,37 +320,37 @@ public sealed class RecordShapeTests : FormatsTest
         FormatSchema schema = Sample;
         SchemaClass classValue = schema.Get("TWide");
         SchemaProperty property = classValue.PropertyByName("Value")!;
-        IntegerCodec codec = new(4, false);
+        IntegerCodec codec = new(4, signed: false);
         foreach (uint number in new uint[] { 0x80000000, 0xFFFFFFFF })
         {
             byte[] bytes = new byte[4];
-            BinaryPrimitives.WriteUInt32LittleEndian(bytes, number);
+            BinaryPrimitives.WriteUInt32LittleEndian(bytes, value: number);
             ValueSite site = new() { Property = property, Id = property.Id ?? 0, Path = DocumentNodePath.Root.Member("Value").Member("U32"), Owner = new JsonObject() };
-            JsonValue decoded = codec.Decode(new DecodeContext(bytes, schema, "game", "game", null, FormatLimits.Default), 0, 4, site);
+            JsonValue decoded = codec.Decode(new DecodeContext(bytes, schema, engine: "game", profile: "game", file: null, limits: FormatLimits.Default), start: 0, end: 4, site);
             Assert.Equal(number, ((JsonInteger)decoded).Value);
-            EncodeContext encode = new(schema, "game", "game", null, FormatLimits.Default);
+            EncodeContext encode = new(schema, engine: "game", profile: "game", file: null, limits: FormatLimits.Default);
             ByteBuffer buffer = new();
-            codec.Encode(encode, decoded, buffer, site);
+            codec.Encode(encode, value: decoded, data: buffer, site);
             Assert.Equal(bytes, buffer.ToArray());
             ImageFrame frame = new() { Property = property, Id = property.Id ?? 0, Path = site.Path };
-            IntegerNode read = (IntegerNode)codec.ReadImage(new DecodeContext(bytes, schema, "game", "game", null, FormatLimits.Default), 0, 4, frame);
+            IntegerNode read = (IntegerNode)codec.ReadImage(new DecodeContext(bytes, schema, engine: "game", profile: "game", file: null, limits: FormatLimits.Default), start: 0, end: 4, frame);
             Assert.Equal(4, read.Width);
             Assert.False(read.Signed);
             Assert.Equal(number, read.Value);
             ByteBuffer written = new();
-            codec.WriteImage(read, encode, written, frame);
+            codec.WriteImage(read, context: encode, data: written, frame);
             Assert.Equal(bytes, written.ToArray());
 
             RecordNode record = new();
-            record.Add("U32", new IntegerNode(4, false, number));
-            ObjectNode node = new(null, null);
+            record.Add("U32", new IntegerNode(4, signed: false, value: number));
+            ObjectNode node = new(null, slot: null);
             node.Add("Value", record);
-            byte[] image = OriginalBackend.Write(node, classValue, schema, "game");
-            ObjectNode back = OriginalBackend.Read(image, classValue, schema, "game");
+            byte[] image = OriginalBackend.Write(node, classValue, schema, engine: "game");
+            ObjectNode back = OriginalBackend.Read(image, classValue, schema, engine: "game");
             Assert.Equal(number, ((IntegerNode)((RecordNode)back.Find("Value")!).Find("U32")!).Value);
-            JsonObject document = DocumentBackend.Write(back, classValue, schema, "game");
+            JsonObject document = DocumentBackend.Write(back, classValue, schema, engine: "game");
             Assert.Equal(number, ((JsonInteger)((JsonObject)document["Value"]!)["U32"]!).Value);
-            Assert.Equal(image, OriginalBackend.Write(DocumentBackend.Read(document, classValue, schema, "game"), classValue: classValue, schema: schema, engine: "game"));
+            Assert.Equal(image, OriginalBackend.Write(DocumentBackend.Read(document, classValue, schema, engine: "game"), classValue: classValue, schema: schema, engine: "game"));
         }
     }
 
@@ -370,7 +370,7 @@ public sealed class RecordShapeTests : FormatsTest
         Assert.Equal(uint.MaxValue, ((IntegerNode)record.Find("U32")!).Value);
         Assert.Equal(int.MinValue, ((IntegerNode)record.Find("I32")!).Value);
         WidthHolder loaded = new();
-        TreeReader.Read(node, loaded, s_factory);
+        TreeReader.Read(node, objectValue: loaded, s_factory);
         Assert.Equal(source.Value.U8, loaded.Value.U8);
         Assert.Equal(source.Value.I8, loaded.Value.I8);
         Assert.Equal(source.Value.U16, loaded.Value.U16);
@@ -383,11 +383,11 @@ public sealed class RecordShapeTests : FormatsTest
     public void AnExplicitRecordHasNoImage()
     {
         FormatSchema schema = Sample;
-        ObjectNode node = new(null, null);
+        ObjectNode node = new(null, slot: null);
         RecordNode pair = new();
-        pair.Add("A", new IntegerNode(4, true, 1));
+        pair.Add("A", new IntegerNode(4, signed: true, value: 1));
         node.Add("Pair", pair);
-        ConversionException error = Assert.Throws<ConversionException>(() => OriginalBackend.Write(node, schema.Get("TPlain"), schema, "game"));
+        ConversionException error = Assert.Throws<ConversionException>(() => OriginalBackend.Write(node, classValue: schema.Get("TPlain"), schema, engine: "game"));
         Assert.Equal(Codes.Type, error.Diagnostic.Code);
         Assert.Equal("root.Pair", error.Diagnostic.Path);
         Assert.Contains("A record has no image.", error.Diagnostic.Message);
@@ -398,46 +398,46 @@ public sealed class RecordShapeTests : FormatsTest
     {
         FormatSchema schema = FormatSchema.Current;
         RecordNode rectangle = new();
-        rectangle.Add("Left", new IntegerNode(4, true, int.MinValue));
-        rectangle.Add("Bottom", new IntegerNode(4, true, 4));
-        ObjectNode animation = new(null, null);
+        rectangle.Add("Left", new IntegerNode(4, signed: true, value: int.MinValue));
+        rectangle.Add("Bottom", new IntegerNode(4, signed: true, value: 4));
+        ObjectNode animation = new(null, slot: null);
         animation.Add("Dimensions", rectangle);
-        JsonObject animationDocument = RoundTrip(schema.Get("TAnimation"), schema, animation);
+        JsonObject animationDocument = RoundTrip(schema.Get("TAnimation"), schema, node: animation);
         JsonObject dimensions = (JsonObject)animationDocument["Dimensions"]!;
         Assert.Equal(["Left", "Bottom"], dimensions.Members.Select(m => m.Name).ToList());
         Assert.Equal(int.MinValue, ((JsonInteger)dimensions["Left"]!).Value);
 
-        SetNode effects = new("DamageType", 2, (1UL << 9) | (1UL << 15));
-        ObjectNode damage = new(null, null);
+        SetNode effects = new("DamageType", width: 2, mask: (1UL << 9) | (1UL << 15));
+        ObjectNode damage = new(null, slot: null);
         damage.Add("Effects", effects);
-        JsonObject damageDocument = RoundTrip(schema.Get("TDamageCA"), schema, damage);
+        JsonObject damageDocument = RoundTrip(schema.Get("TDamageCA"), schema, node: damage);
         Assert.Equal(["None", 15L], Items(damageDocument["Effects"]!));
 
         RecordNode behavior = new();
-        behavior.Add("PlayerType", new IntegerNode(1, false, 2));
-        behavior.Add("Flags", new IntegerNode(4, true, 9));
-        ObjectNode player = new(null, null);
+        behavior.Add("PlayerType", new IntegerNode(1, signed: false, value: 2));
+        behavior.Add("Flags", new IntegerNode(4, signed: true, value: 9));
+        ObjectNode player = new(null, slot: null);
         player.Add("Behavior", behavior);
-        JsonObject playerDocument = RoundTrip(schema.Get("TPlayerSetupSettings"), schema, player);
+        JsonObject playerDocument = RoundTrip(schema.Get("TPlayerSetupSettings"), schema, node: player);
         JsonObject stored = (JsonObject)playerDocument["Behavior"]!;
         Assert.Equal(["PlayerType", "Flags"], stored.Members.Select(m => m.Name).ToList());
 
-        ObjectNode list = new(null, null);
-        list.Add("AbilityCount", new IntegerNode(4, true, 1));
-        list.Add("AbilityBits", new BitArrayNode(1, [7]));
-        JsonObject listDocument = RoundTrip(schema.Get("TCustomAbilityList"), schema, list);
+        ObjectNode list = new(null, slot: null);
+        list.Add("AbilityCount", new IntegerNode(4, signed: true, value: 1));
+        list.Add("AbilityBits", new BitArrayNode(1, indices: [7]));
+        JsonObject listDocument = RoundTrip(schema.Get("TCustomAbilityList"), schema, node: list);
         Assert.Equal([7L], Items(listDocument["AbilityBits"]!));
 
-        ObjectNode champion = new(null, null);
-        champion.Add("Champion", new IntegerNode(1, false, 2));
-        JsonObject championDocument = RoundTrip(schema.Get("TUnitResource"), schema, champion);
+        ObjectNode champion = new(null, slot: null);
+        champion.Add("Champion", new IntegerNode(1, signed: false, value: 2));
+        JsonObject championDocument = RoundTrip(schema.Get("TUnitResource"), schema, node: champion);
         Assert.Equal(2, ((JsonInteger)championDocument["Champion"]!).Value);
     }
 
     private static JsonObject RoundTrip(SchemaClass classValue, FormatSchema schema, ObjectNode node)
     {
-        JsonObject document = DocumentBackend.Write(node, classValue, schema, "game");
-        JsonObject back = DocumentBackend.Write(OriginalBackend.Read(OriginalBackend.Write(node, classValue, schema, "game"), classValue: classValue, schema: schema, engine: "game"), classValue, schema, "game");
+        JsonObject document = DocumentBackend.Write(node, classValue, schema, engine: "game");
+        JsonObject back = DocumentBackend.Write(OriginalBackend.Read(OriginalBackend.Write(node, classValue, schema, engine: "game"), classValue: classValue, schema: schema, engine: "game"), classValue, schema, engine: "game");
         Assert.Equal(JsonWriter.ToUtf8(document), JsonWriter.ToUtf8(back));
         return document;
     }
@@ -445,15 +445,15 @@ public sealed class RecordShapeTests : FormatsTest
     private static ConversionException Converter(JsonObject document)
     {
         FormatSchema schema = Sample;
-        EncodeContext context = new(schema, "game", "game", null, FormatLimits.Default);
-        return Assert.Throws<ConversionException>(() => ObjectImage.Encode(context, document, schema.Get("THolder"), new ByteBuffer(), DocumentNodePath.Root));
+        EncodeContext context = new(schema, engine: "game", profile: "game", file: null, limits: FormatLimits.Default);
+        return Assert.Throws<ConversionException>(() => ObjectImage.Encode(context, objectValue: document, classValue: schema.Get("THolder"), output: new ByteBuffer(), path: DocumentNodePath.Root));
     }
 
     private static ConversionException Refuse(JsonObject document)
     {
         FormatSchema schema = Sample;
         return Assert.Throws<ConversionException>(() => OriginalBackend.Write(
-            DocumentBackend.Read(document, schema.Get("THolder"), schema, "game"), schema.Get("THolder"), schema, "game"));
+            DocumentBackend.Read(document, classValue: schema.Get("THolder"), schema, engine: "game"), classValue: schema.Get("THolder"), schema, engine: "game"));
     }
 
     private static JsonObject Bits(int count, params int[] indices)
@@ -468,10 +468,10 @@ public sealed class RecordShapeTests : FormatsTest
     }
 
     private static void Poke(ref SampleBehavior value, int offset, byte stored)
-        => MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref value, 1))[offset] = stored;
+        => MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref value, length: 1))[offset] = stored;
 
     private static byte At(SampleBehavior value, int offset)
-        => MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref value, 1))[offset];
+        => MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref value, length: 1))[offset];
 
     private static List<object> Items(JsonValue value)
     {
@@ -525,14 +525,14 @@ public sealed class RecordShapeTests : FormatsTest
             if (persister.Loading)
             {
                 byte[] bits = Bits;
-                Array.Resize(ref bits, length);
+                Array.Resize(ref bits, newSize: length);
                 Bits = bits;
             }
-            persister.BitArray("Bits", AbilityCount, Bits.AsSpan(0, Math.Max(length, 0)));
+            persister.BitArray("Bits", count: AbilityCount, bits: Bits.AsSpan(0, length: Math.Max(length, 0)));
             Raw = persister.RawByte("Raw", Raw);
             Signed = persister.RawSByte("Signed", Signed);
             Wide = persister.RawInt32("Wide", Wide);
-            Flag = persister.RawBool("Flag", Flag);
+            Flag = persister.RawBool("Flag", value: Flag);
         }
     }
 

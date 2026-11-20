@@ -53,14 +53,14 @@ public class UnitPositionHexSprite(CustomNode owner) : SingleHexSprite(owner)
         if (CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && CombatMap.Current.UnitPositions.ValidatePosition(ref _position, ref _index))
         {
             MapCoordinate packMapCoordinate = HexGeometry.PackMapCoordinate(y: HexY, x: HexX, mapLevel: 0);
-            CombatMap.Current.UnitPositions.SetUnitPosition(_position, _index, new UnitPosition(Location: packMapCoordinate, Facing: 0));
-            _images = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCUNITS.ILB");
+            CombatMap.Current.UnitPositions.SetUnitPosition(_position, _index, value: new UnitPosition(Location: packMapCoordinate, Facing: 0));
+            _images = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "TCUNITS.ILB");
             UpdateImageIndex();
         }
         else
         {
             MapCoordinate location = new(X: HexX, Y: HexY, MapLevel: 0);
-            CombatMap.Current.UnitPositions.SetUnitPosition(_position, _index, new UnitPosition(Location: location, Facing: _direction));
+            CombatMap.Current.UnitPositions.SetUnitPosition(_position, _index, value: new UnitPosition(Location: location, Facing: _direction));
             Dispose();
         }
     }
@@ -70,7 +70,7 @@ public class UnitPositionHexSprite(CustomNode owner) : SingleHexSprite(owner)
     {
         if (Activated() && Owner.Owner.Map.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCUNITS.ILB");
+            GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "TCUNITS.ILB");
             UnitPosition unitPosition = CombatMap.Current.UnitPositions.GetUnitPosition(_position, _index);
             sbyte hexX = HexX;
             bool condition = unitPosition.Location.X == hexX;
@@ -83,7 +83,7 @@ public class UnitPositionHexSprite(CustomNode owner) : SingleHexSprite(owner)
 
             if (condition)
             {
-                CombatMap.Current.UnitPositions.SetUnitPosition(_position, _index, UnitPosition.None);
+                CombatMap.Current.UnitPositions.SetUnitPosition(_position, _index, value: UnitPosition.None);
             }
         }
 

@@ -44,7 +44,7 @@ public class FireStorm(CustomNode owner) : Storm(owner)
     }
 
     // Storms.pas:603
-    public override void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info) => AbilityRules.RetrieveStormDamageInfo(player, StormType.Fire, X, Y, L, 0, 2, out info);
+    public override void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info) => AbilityRules.RetrieveStormDamageInfo(player, storm: StormType.Fire, X, Y, L, innerRadius: 0, outerRadius: 2, out info);
 
     // Storms.pas:594
     public override void UpdateTargetSelection(TargetSelectionControl selection)
@@ -67,7 +67,7 @@ public class FireStorm(CustomNode owner) : Storm(owner)
         r.Top = -80;
         r.Bottom = 96;
         SetDimensions(r);
-        _ = StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, 2);
+        _ = StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, radius: 2);
         _ = PlaceHex(StrategicMap.Current.MapContainer, X, Y, L);
     }
 
@@ -81,7 +81,7 @@ public class FireStorm(CustomNode owner) : Storm(owner)
             sbyte hexLevel2 = HexLevel;
             sbyte hexY2 = HexY;
             sbyte hexX = HexX;
-            _ = StrategicMap.Current.ChangeTerrain(this, hexX, hexY2, hexLevel2, 2, ChangeStormTerrain, null);
+            _ = StrategicMap.Current.ChangeTerrain(this, hexX, hexY2, L: hexLevel2, radius: 2, changeTerrainProc: ChangeStormTerrain, terrainChangedProc: null);
         }
 
         ImageSequence sequence = GamePack.Current.ImageSequences.ImageSequences[0];
@@ -100,7 +100,7 @@ public class FireStorm(CustomNode owner) : Storm(owner)
                 sbyte hexLevel = HexLevel;
                 sbyte hexY = HexY;
                 sbyte hexX = HexX;
-                condition = StrategicMap.Current.TerrainVisible(hexX, hexY, hexLevel, 2);
+                condition = StrategicMap.Current.TerrainVisible(hexX, hexY, L: hexLevel, radius: 2);
             }
 
             if (condition)
@@ -126,6 +126,6 @@ public class FireStorm(CustomNode owner) : Storm(owner)
     }
 
     // Storms.pas:522
-    public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), GameTables.FireStormText);
+    public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.FireStormText);
 
 }

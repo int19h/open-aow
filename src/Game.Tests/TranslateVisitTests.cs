@@ -28,7 +28,7 @@ public sealed class TranslateVisitTests
     {
         using TranslateVisit translator = new(EngineFixture.Engine);
         using StoredObject value = new() { Name = "Oak", Detail = "Hill" };
-        translator.Object(value, 4);
+        translator.Object(value, id: 4);
         Assert.Equal("Oak", value.Name);
         Assert.Equal("Hill", value.Detail);
     }
@@ -40,7 +40,7 @@ public sealed class TranslateVisitTests
         using IvDictionary dictionary = new();
         translator.FDictionary = dictionary;
         using StoredObject value = new() { Name = "Oak", Detail = "Hill" };
-        translator.Object(value, 4);
+        translator.Object(value, id: 4);
         Assert.Equal("Oak", value.Name);
         Assert.Equal("Hill", value.Detail);
         Assert.Equal("Oak", dictionary.Translate("Oak"));

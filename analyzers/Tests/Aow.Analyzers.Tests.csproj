@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>Aow.Analyzers.Tests</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <!-- The tests reference the analyzers as an assembly. The reference below also loads them
+         as analyzers, so the tests follow the rules they test. -->
+    <UseAowAnalyzers>false</UseAowAnalyzers>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <ProjectReference Include="../Aow.Analyzers.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
+    <!-- The Roslyn of the pinned SDK, with the workspace layer of its dotnet-format, so the code
+         fixes run in the tests as they run in dotnet format. -->
+    <Reference Include="$(MSBuildSDKsPath)/../DotnetTools/dotnet-format/Microsoft.CodeAnalysis*.dll" />
+    <Reference Include="$(MSBuildSDKsPath)/../DotnetTools/dotnet-format/System.Composition*.dll" />
+    <Reference Include="$(MSBuildSDKsPath)/../DotnetTools/dotnet-format/Microsoft.DiaSymReader.dll" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+</Project>

@@ -11,7 +11,7 @@ public class SummonGreatEagle : SummonSpell
     public SummonGreatEagle(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_summonGreatEagleText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_summonGreatEagleText);
         SpellId = 23;
         BaseManaCost = 5;
         SpellLevel = 2;

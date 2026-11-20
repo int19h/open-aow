@@ -38,7 +38,7 @@ public class AIRecruitmentGroupList(CustomNode owner) : ReferenceNode(owner), IC
             text = $"{text}/Loc:({IntToStr(group.Location.X)},{IntToStr(group.Location.Y)},{IntToStr(group.Location.MapLevel)})";
             text = $"{text}/MP:{IntToStr(group.MovePoints)}";
             text = $"{text}/MPBFS:{IntToStr(group.PathStrength)}";
-            GetEngine().OutputDebugMessage(DebugChannel.AI, text);
+            GetEngine().OutputDebugMessage(DebugChannel.AI, S: text);
         }
     }
 

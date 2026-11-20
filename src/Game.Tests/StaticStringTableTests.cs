@@ -35,7 +35,7 @@ public sealed class StaticStringTableTests
                 process.Kill(entireProcessTree: true);
                 throw;
             }
-            Assert.True(process.ExitCode == 0, await stdout + await stderr);
+            Assert.True(process.ExitCode == 0, userMessage: await stdout + await stderr);
             return;
         }
         using EngineFixture.RecordingHost host = new("fixture");
@@ -88,7 +88,7 @@ public sealed class StaticStringTableTests
             }
         }
 
-        Assert.True(tables >= 24, $"{tables} static string tables");
+        Assert.True(tables >= 24, userMessage: $"{tables} static string tables");
         Assert.Empty(nulls);
     }
 }

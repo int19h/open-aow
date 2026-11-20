@@ -15,7 +15,7 @@ public class BuildRoadsControl(CustomNode owner) : ConstructionControl(owner)
     // AoWAb.PAS:5458
     public override void GetInfo(Troop troop, out string text, out int gold, out int days)
     {
-        text = AbilityRules.TranslateResourceString(GetEngine(), s_buildRoadText);
+        text = AbilityRules.TranslateResourceString(GetEngine(), S: s_buildRoadText);
         gold = 0;
         days = 0;
     }
@@ -33,8 +33,8 @@ public class BuildRoadsControl(CustomNode owner) : ConstructionControl(owner)
         }
         else
         {
-            string roads = AbilityRules.TranslateResourceString(GetEngine(), s_roadsText);
-            reason = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_cannotBuildUndergroundFormat), [roads]);
+            string roads = AbilityRules.TranslateResourceString(GetEngine(), S: s_roadsText);
+            reason = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_cannotBuildUndergroundFormat), arguments: [roads]);
         }
 
         return false;

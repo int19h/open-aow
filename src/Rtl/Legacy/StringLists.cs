@@ -34,19 +34,19 @@ public abstract class DelphiStringCollection : Persistent
     protected virtual void PutObject(int index, object? value) { }
 
     public IndexedProperty<int, string> Strings => new(i => this[i], (i, s) => this[i] = s);
-    public IndexedProperty<int, object?> Objects => new(GetObject, PutObject);
+    public IndexedProperty<int, object?> Objects => new(GetObject, set: PutObject);
 
     // CLASSES.PAS TStrings.GetName, GetValue and SetValue.
     public IndexedProperty<int, string> Names => new(i =>
     {
         string s = this[i];
-        return Copy(s, 1, AnsiPos("=", s) - 1);
+        return Copy(s, index: 1, count: AnsiPos("=", value: s) - 1);
     });
 
     public IndexedProperty<string, string> Values => new(name =>
     {
         int i = IndexOfName(name);
-        return i < 0 ? "" : Copy(this[i], name.Length + 2, int.MaxValue);
+        return i < 0 ? "" : Copy(this[i], index: name.Length + 2, count: int.MaxValue);
     }, (name, value) =>
     {
         int i = IndexOfName(name);
@@ -76,14 +76,14 @@ public abstract class DelphiStringCollection : Persistent
     public int AddObject(string value, object? item)
     {
         int i = Add(value);
-        PutObject(i, item);
+        PutObject(i, value: item);
         return i;
     }
 
     public void InsertObject(int index, string value, object? item)
     {
         Insert(index, value);
-        PutObject(index, item);
+        PutObject(index, value: item);
     }
 
     public abstract void Insert(int index, string value);
@@ -109,8 +109,8 @@ public abstract class DelphiStringCollection : Persistent
         for (int i = 0; i < Count; i++)
         {
             string s = this[i];
-            int p = AnsiPos("=", s);
-            if (p > 0 && AnsiCompareText(Copy(s, 1, p - 1), name) == 0)
+            int p = AnsiPos("=", value: s);
+            if (p > 0 && AnsiCompareText(Copy(s, index: 1, count: p - 1), name) == 0)
             {
                 return i;
             }
@@ -159,7 +159,7 @@ public abstract class DelphiStringCollection : Persistent
                         p++;
                     }
 
-                    _ = Add(Copy(value, start, p - start));
+                    _ = Add(Copy(value, index: start, count: p - start));
                     if (p <= value.Length && value[p - 1] == 13)
                     {
                         p++;
@@ -264,7 +264,7 @@ public abstract class DelphiStringCollection : Persistent
                             p++;
                         }
 
-                        s = Copy(value, start, p - start);
+                        s = Copy(value, index: start, count: p - start);
                     }
                     _ = Add(s);
                     Spaces();
@@ -313,7 +313,7 @@ public abstract class DelphiStringCollection : Persistent
             int count = source.Count;
             for (int i = 0; i < count; i++)
             {
-                _ = AddObject(source[i], source.Objects[i]);
+                _ = AddObject(source[i], item: source.Objects[i]);
             }
         }
         finally
@@ -350,9 +350,9 @@ public abstract class DelphiStringCollection : Persistent
             string s = this[first];
             object? o = GetObject(first);
             this[first] = this[second];
-            PutObject(first, GetObject(second));
+            PutObject(first, value: GetObject(second));
             this[second] = s;
-            PutObject(second, o);
+            PutObject(second, value: o);
         }
         finally
         {
@@ -373,7 +373,7 @@ public abstract class DelphiStringCollection : Persistent
             string s = this[current];
             object? o = GetObject(current);
             Delete(current);
-            InsertObject(target, s, o);
+            InsertObject(target, value: s, item: o);
         }
         finally
         {
@@ -391,7 +391,7 @@ public abstract class DelphiStringCollection : Persistent
             int read = stream.Read(bytes);
             if (read < bytes.Length)
             {
-                Array.Clear(bytes, read, bytes.Length - read);
+                Array.Clear(bytes, index: read, length: bytes.Length - read);
             }
 
             Text = Cp1252.Decode(bytes);
@@ -407,13 +407,13 @@ public abstract class DelphiStringCollection : Persistent
     // CLASSES.PAS TStrings.LoadFromFile and SaveToFile.
     public void LoadFromFile(string name)
     {
-        using Stream stream = OpenFile(name, fmOpenRead);
+        using Stream stream = OpenFile(name, mode: fmOpenRead);
         LoadFromStream(stream);
     }
 
     public void SaveToFile(string name)
     {
-        using Stream stream = OpenFile(name, fmCreate);
+        using Stream stream = OpenFile(name, mode: fmCreate);
         SaveToStream(stream);
     }
 
@@ -424,7 +424,7 @@ public abstract class DelphiStringCollection : Persistent
         if (message.AsSpan().StartsWith("List index out of bounds")
             || message.AsSpan().StartsWith("List capacity out of bounds"))
         {
-            throw new ArgumentOutOfRangeException(paramName: null, text);
+            throw new ArgumentOutOfRangeException(paramName: null, message: text);
         }
 
         if (message.AsSpan().StartsWith("Operation not allowed on sorted string list"))
@@ -454,10 +454,10 @@ public class DelphiStringList : DelphiStringCollection
         {
             if (value < count)
             {
-                Error("List capacity out of bounds (%d)", value);
+                Error("List capacity out of bounds (%d)", data: value);
             }
 
-            Array.Resize(ref items, value);
+            Array.Resize(ref items, newSize: value);
         }
     }
 
@@ -498,7 +498,7 @@ public class DelphiStringList : DelphiStringCollection
     {
         if (index < 0 || index >= count)
         {
-            Error("List index out of bounds (%d)", index);
+            Error("List index out of bounds (%d)", data: index);
         }
     }
 
@@ -514,7 +514,7 @@ public class DelphiStringList : DelphiStringCollection
         {
             if (Sorted)
             {
-                Error("Operation not allowed on sorted string list", 0);
+                Error("Operation not allowed on sorted string list", data: 0);
             }
 
             Check(index);
@@ -570,8 +570,8 @@ public class DelphiStringList : DelphiStringCollection
             Grow();
         }
 
-        Array.Copy(items, index, items, index + 1, count - index);
-        items[index] = new(value, null);
+        Array.Copy(items, sourceIndex: index, destinationArray: items, destinationIndex: index + 1, length: count - index);
+        items[index] = new(value, Object: null);
         count++;
         Changed();
     }
@@ -580,7 +580,7 @@ public class DelphiStringList : DelphiStringCollection
     public override int Add(string value)
     {
         int i = count;
-        if (Sorted && Find(value, out i))
+        if (Sorted && Find(value, index: out i))
         {
             if (Duplicates == Duplicates.Ignore)
             {
@@ -589,7 +589,7 @@ public class DelphiStringList : DelphiStringCollection
 
             if (Duplicates == Duplicates.Error)
             {
-                Error("String list does not allow duplicates", 0);
+                Error("String list does not allow duplicates", data: 0);
             }
         }
         InsertItem(i, value);
@@ -601,12 +601,12 @@ public class DelphiStringList : DelphiStringCollection
     {
         if (Sorted)
         {
-            Error("Operation not allowed on sorted string list", 0);
+            Error("Operation not allowed on sorted string list", data: 0);
         }
 
         if (index < 0 || index > count)
         {
-            Error("List index out of bounds (%d)", index);
+            Error("List index out of bounds (%d)", data: index);
         }
 
         InsertItem(index, value);
@@ -617,7 +617,7 @@ public class DelphiStringList : DelphiStringCollection
         Check(index);
         Changing();
         count--;
-        Array.Copy(items, index + 1, items, index, count - index);
+        Array.Copy(items, sourceIndex: index + 1, destinationArray: items, destinationIndex: index, length: count - index);
         items[count] = default;
         Changed();
     }
@@ -742,7 +742,7 @@ public class DelphiStringList : DelphiStringCollection
 public class DelphiStringList<T> : DelphiStringList
     where T : class
 {
-    public new IndexedProperty<int, T?> Objects => new(GetItem, (index, item) => PutObject(index, item));
+    public new IndexedProperty<int, T?> Objects => new(GetItem, (index, item) => PutObject(index, value: item));
 
     public int AddObject(string value, T? item) => base.AddObject(value, item);
 
@@ -754,7 +754,7 @@ public class DelphiStringList<T> : DelphiStringList
     {
         if (value is not (null or T))
         {
-            throw new ArgumentException($"A {typeof(T).Name} string list does not hold a {value.GetType().Name}.", nameof(value));
+            throw new ArgumentException($"A {typeof(T).Name} string list does not hold a {value.GetType().Name}.", paramName: nameof(value));
         }
 
         base.PutObject(index, value);

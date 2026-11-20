@@ -37,7 +37,7 @@ public sealed partial class PersistEquivalenceTests
                 missing.Add($"{type.Name} (no schema)");
             }
         }
-        Assert.True(missing.Count == 0, string.Join(", ", missing));
+        Assert.True(missing.Count == 0, userMessage: string.Join(", ", values: missing));
     }
 
     [Theory]

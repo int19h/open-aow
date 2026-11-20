@@ -49,8 +49,8 @@ public sealed class MapCoordinateEqualityTests
         Assert.Equal(new MapCoordinate(5, -2, 1), nonZero.Location);
         Assert.Equal(0x0001_FE05, StoredCoordinateImage.From(nonZero.Location).ToInt32());
         InvalidOperationException error = Assert.Throws<InvalidOperationException>(() => nonZero.ReadCheckedLocation("Slot"));
-        Assert.Contains("Slot", error.Message, StringComparison.Ordinal);
-        Assert.Contains("outside its storage range", error.Message, StringComparison.Ordinal);
+        Assert.Contains("Slot", error.Message, comparisonType: StringComparison.Ordinal);
+        Assert.Contains("outside its storage range", error.Message, comparisonType: StringComparison.Ordinal);
     }
 
     [Fact]

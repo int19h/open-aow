@@ -13,7 +13,7 @@ public class FireAuraEnchantment : UnitEnchantmentAbility
     public FireAuraEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.FireAuraText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FireAuraText);
         AbilityId = 163;
     }
 

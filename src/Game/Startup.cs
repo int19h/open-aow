@@ -42,9 +42,9 @@ public static class Startup
 
     public static void FinalizeAll() => FinalizeSelected(null);
 
-    public static void InitializeSelected(string[] selection) => InitializeUnits(Units, s_initialized, selection);
+    public static void InitializeSelected(string[] selection) => InitializeUnits(Units, state: s_initialized, selection);
 
-    public static void FinalizeSelected(string[] selection) => FinalizeUnits(Units, s_initialized, selection);
+    public static void FinalizeSelected(string[] selection) => FinalizeUnits(Units, state: s_initialized, selection);
 
     /// <summary>Runs the initialization of every selected unit not yet initialized, in table
     /// order. A null selection selects every unit. A unit counts as initialized once its section
@@ -54,7 +54,7 @@ public static class Startup
         for (int index = 0; index < units.Length; index++)
         {
             StartupUnit unit = units[index];
-            if ((selection is null || Array.IndexOf(selection, unit.Name) >= 0) && !state[index])
+            if ((selection is null || Array.IndexOf(selection, value: unit.Name) >= 0) && !state[index])
             {
                 unit.Initialize?.Invoke();
                 state[index] = true;
@@ -75,7 +75,7 @@ public static class Startup
             StartupUnit unit = units[index];
             try
             {
-                if ((selection is null || Array.IndexOf(selection, unit.Name) >= 0) && state[index])
+                if ((selection is null || Array.IndexOf(selection, value: unit.Name) >= 0) && state[index])
                 {
                     state[index] = false;
                     unit.Finalize?.Invoke();

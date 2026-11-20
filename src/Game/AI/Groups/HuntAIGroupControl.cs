@@ -88,7 +88,7 @@ public class HuntAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                 }
                 else
                 {
-                    AIGroup newGroup = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, GroupBehavior.Patrol);
+                    AIGroup newGroup = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, relation: Group.IndependentRelation, behavior: GroupBehavior.Patrol);
                     _ = newGroup.AddUnits(Group.Units);
                     _ = newGroup.Release();
                     Done();
@@ -101,7 +101,7 @@ public class HuntAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                     SetupME();
                     AIGroupControlTarget targets = Targets.GetTargets(0);
                     AIGroupControlTarget fTargetsTargets = Targets.GetTargets(0);
-                    ExecuteME(Targets.GetTargets(0).Location.X, fTargetsTargets.Location.Y, targets.Location.MapLevel);
+                    ExecuteME(Targets.GetTargets(0).Location.X, fTargetsTargets.Location.Y, L: targets.Location.MapLevel);
                     Targets.Delete(0);
                 }
                 else

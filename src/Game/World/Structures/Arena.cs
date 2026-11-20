@@ -33,7 +33,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
             // Arena.CreateTokenEvent constructs ArenaTokenEvent for Arena actions.
             ArenaTokenEvent arenaTokenEvent = (ArenaTokenEvent)tokenEvent;
             string errorText = "";
-            if (CanTrainUnits((sbyte)tokenEvent.Param, arenaTokenEvent.UnitIds, ref errorText))
+            if (CanTrainUnits((sbyte)tokenEvent.Param, units: arenaTokenEvent.UnitIds, ref errorText))
             {
                 for (int i = 0, last = arenaTokenEvent.UnitIds.Count - 1; i <= last; i++)
                 {
@@ -52,12 +52,12 @@ public partial class Arena(CustomNode owner) : Structure(owner)
                 {
                     if (arenaTokenEvent.UnitIds.Count == 1)
                     {
-                        string oneUnitTrained = AbilityRules.TranslateResourceString(GetEngine(), s_oneUnitTrainedText);
+                        string oneUnitTrained = AbilityRules.TranslateResourceString(GetEngine(), S: s_oneUnitTrainedText);
                         StrategicMap.Current.ShowMessage(oneUnitTrained);
                     }
                     else
                     {
-                        string format = Format(AbilityRules.TranslateResourceString(GetEngine(), s_unitsTrainedFormat), [IntToStr(arenaTokenEvent.UnitIds.Count)]);
+                        string format = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_unitsTrainedFormat), args: [IntToStr(arenaTokenEvent.UnitIds.Count)]);
                         StrategicMap.Current.ShowMessage(format);
                     }
                 }
@@ -143,14 +143,14 @@ public partial class Arena(CustomNode owner) : Structure(owner)
                 else
                 {
                     result = false;
-                    errorText = AbilityRules.TranslateResourceString(GetEngine(), GameText.NotEnoughGoldText);
+                    errorText = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.NotEnoughGoldText);
                 }
             }
         }
         else
         {
             result = false;
-            errorText = AbilityRules.TranslateResourceString(GetEngine(), GameText.NoUnitSelectedText);
+            errorText = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.NoUnitSelectedText);
         }
 
         return result;
@@ -205,7 +205,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
                 }
             }
 
-            _ = log.Execute(true, ExecuteTrigger.User, null);
+            _ = log.Execute(true, trigger: ExecuteTrigger.User, done: null);
             _ = log.Release();
             return true;
         }
@@ -229,7 +229,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
         public override int ResourceUserClassId() => 133276;
 
         // Arena.pas:250
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_arenaText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_arenaText);
 
         private static readonly string s_arenaText = "Arena";
 

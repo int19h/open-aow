@@ -37,31 +37,31 @@ public sealed class StringNullTests
                 Assert.True(value is string text && text.Length == 0);
             },
             () => DelphiStrings.Length(null), () => DelphiStrings.IsEmpty(null),
-            () => DelphiStrings.Copy(null, 1, 1), () => DelphiStrings.Delete(null, 1, 1),
-            () => DelphiStrings.Insert(null, "", 1), () => DelphiStrings.Insert("", null, 1),
+            () => DelphiStrings.Copy(null, index: 1, count: 1), () => DelphiStrings.Delete(null, index: 1, count: 1),
+            () => DelphiStrings.Insert(null, value: "", index: 1), () => DelphiStrings.Insert("", value: null, index: 1),
             () =>
             {
                 string value = null!;
-                DelphiStrings.Delete(ref value, 1, 1);
+                DelphiStrings.Delete(ref value, index: 1, count: 1);
             },
             () =>
             {
                 string value = null!;
-                DelphiStrings.Insert("", ref value, 1);
+                DelphiStrings.Insert("", ref value, index: 1);
             },
             () =>
             {
                 string value = "";
-                DelphiStrings.Insert(null, ref value, 1);
+                DelphiStrings.Insert(null, ref value, index: 1);
             },
             () =>
             {
                 string value = null!;
-                DelphiStrings.SetLength(ref value, 1);
+                DelphiStrings.SetLength(ref value, length: 1);
             },
-            () => DelphiStrings.Pos(null, ""), () => DelphiStrings.Pos("", null),
-            () => DelphiStrings.AnsiPos(null, ""), () => DelphiStrings.AnsiPos("", null),
-            () => DelphiStrings.Resized(null, 1), () => PCharStrings.NullTerminatedText(null),
+            () => DelphiStrings.Pos(null, haystack: ""), () => DelphiStrings.Pos("", haystack: null),
+            () => DelphiStrings.AnsiPos(null, value: ""), () => DelphiStrings.AnsiPos("", value: null),
+            () => DelphiStrings.Resized(null, length: 1), () => PCharStrings.NullTerminatedText(null),
             () => DelphiTextCompare.UpperCase(null), () => DelphiTextCompare.LowerCase(null),
             () => DelphiTextCompare.AnsiUpperCase(null), () => DelphiTextCompare.AnsiLowerCase(null),
             () => DelphiTextCompare.CompareStr(null, ""), () => DelphiTextCompare.CompareStr("", null),
@@ -69,13 +69,13 @@ public sealed class StringNullTests
             () => DelphiTextCompare.AnsiCompareStr(null, ""), () => DelphiTextCompare.AnsiCompareStr("", null),
             () => DelphiTextCompare.AnsiCompareText(null, ""), () => DelphiTextCompare.AnsiCompareText("", null),
             () => DelphiStrings.Trim(null), () => DelphiStrings.TrimLeft(null), () => DelphiStrings.TrimRight(null),
-            () => DelphiStrings.QuotedStr(null), () => DelphiConversions.StrToIntDef(null, 1),
+            () => DelphiStrings.QuotedStr(null), () => DelphiConversions.StrToIntDef(null, fallback: 1),
             () => DelphiFormat.Format(null), () => DelphiFormat.Format("%s", (string?)null),
-            () => DelphiAssert.Assert(true, null, "file.pas", 1),
+            () => DelphiAssert.Assert(true, message: null, file: "file.pas", line: 1),
             () => DelphiPaths.ExtractFileName(null), () => DelphiPaths.ExtractFileDrive(null),
             () => DelphiPaths.ExtractFilePath(null), () => DelphiPaths.ExtractFileDir(null),
             () => DelphiPaths.ExtractFileExt(null), () => DelphiPaths.ExpandFileName(null),
-            () => DelphiPaths.ChangeFileExt(null, ""), () => DelphiPaths.ChangeFileExt("", null)
+            () => DelphiPaths.ChangeFileExt(null, extension: ""), () => DelphiPaths.ChangeFileExt("", extension: null)
         ];
         foreach (Action read in reads)
         {
@@ -90,15 +90,15 @@ public sealed class StringNullTests
         }
         if (strict)
         {
-            _ = Assert.Throws<NullStringException>(() => DelphiStrings.WithChar(null, 1, 'x'));
+            _ = Assert.Throws<NullStringException>(() => DelphiStrings.WithChar(null, index: 1, character: 'x'));
             _ = Assert.Throws<NullStringException>(() => DelphiConversions.StrToInt(null));
-            _ = Assert.Throws<NullStringException>(() => DelphiAssert.Assert(false, null, "file.pas", 1));
+            _ = Assert.Throws<NullStringException>(() => DelphiAssert.Assert(false, message: null, file: "file.pas", line: 1));
         }
         else
         {
-            _ = Assert.Throws<IndexOutOfRangeException>(() => DelphiStrings.WithChar(null, 1, 'x'));
+            _ = Assert.Throws<IndexOutOfRangeException>(() => DelphiStrings.WithChar(null, index: 1, character: 'x'));
             _ = Assert.Throws<FormatException>(() => DelphiConversions.StrToInt(null));
-            _ = Assert.Throws<AssertionFailedException>(() => DelphiAssert.Assert(false, null, "file.pas", 1));
+            _ = Assert.Throws<AssertionFailedException>(() => DelphiAssert.Assert(false, message: null, file: "file.pas", line: 1));
             Assert.Empty(Cp1252.Encode(null));
             Assert.Equal("", Cp1252.Normalize(null));
             Assert.True(DelphiStrings.IsEmpty(null));

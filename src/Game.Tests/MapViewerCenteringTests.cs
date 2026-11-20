@@ -28,9 +28,9 @@ public sealed class MapViewerCenteringTests
 
         public override void DrawStaticScene(ref readonly LockedSurface lockedSurface)
         {
-            _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, lockedSurface.Height), 0xFFFFFF, lockedSurface);
-            _ = PixelFormats.ColorFillSurfaceDescription(new Rect(16 - ViewPixelX, 0, 17 - ViewPixelX, lockedSurface.Height), 0x0000FF, lockedSurface);
-            _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, 16 - ViewPixelY, lockedSurface.Width, 17 - ViewPixelY), 0x0000FF, lockedSurface);
+            _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, lockedSurface.Height), color: 0xFFFFFF, lockedSurface);
+            _ = PixelFormats.ColorFillSurfaceDescription(new Rect(16 - ViewPixelX, 0, 17 - ViewPixelX, lockedSurface.Height), color: 0x0000FF, lockedSurface);
+            _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, 16 - ViewPixelY, lockedSurface.Width, 17 - ViewPixelY), color: 0x0000FF, lockedSurface);
         }
     }
 
@@ -39,7 +39,7 @@ public sealed class MapViewerCenteringTests
         public PaintedMap Map { get; } = new();
         public HexSpriteMapViewer Viewer { get; } = new(null);
 
-        private readonly DataSurface _target = new(420, 320, PixelFormat.Rgb555, null);
+        private readonly DataSurface _target = new(420, 320, pixelFormatId: PixelFormat.Rgb555, palette: null);
 
         public Fixture(int sceneWidth, int sceneHeight)
         {
@@ -47,12 +47,12 @@ public sealed class MapViewerCenteringTests
             Viewer.HexSpriteMap = Map;
             Viewer.SceneWidth = sceneWidth;
             Viewer.SceneHeight = sceneHeight;
-            Viewer.ChangeScene(100, 30, 0);
+            Viewer.ChangeScene(100, 30, lHitPoints: 0);
             LockedSurface lockedSurface = default;
             Assert.Equal(GraphicsResult.Ok, _target.Lock(ref lockedSurface));
-            _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, lockedSurface.Height), 0x00FF00, lockedSurface);
+            _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, lockedSurface.Height), color: 0x00FF00, lockedSurface);
             _ = _target.Unlock();
-            Viewer.ShowScene(SceneLeft, SceneTop, _target);
+            Viewer.ShowScene(SceneLeft, SceneTop, surface: _target);
         }
 
         public int Pixel(int x, int y)
@@ -179,7 +179,7 @@ public sealed class MapViewerCenteringTests
     public void TheBottomEdgeHasPointsWithAColumnAndNoRow()
     {
         using Fixture fixture = new(300, 200);
-        fixture.Viewer.ChangeScene(100, 1000, 0);
+        fixture.Viewer.ChangeScene(100, 1000, lHitPoints: 0);
         HexSpriteMapMouse mouse = fixture.Map.Mouse;
         bool found = false;
         for (int x = 0; x < 300 && !found; x++)

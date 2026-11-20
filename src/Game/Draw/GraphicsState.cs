@@ -31,11 +31,11 @@ public static class GraphicsState
 
     internal static void InitializeBlendTables(int bits, int count)
     {
-        _ = AlphaBlendTable.GenerateLookupTables(bits, BlendTable.GenerateAlphaBlendTable, count);
-        _ = IntensityBlendTable.GenerateLookupTables(bits, BlendTable.GenerateIntensityBlendTable, count);
-        _ = BrightenBlendTable.GenerateLookupTables(bits, BlendTable.GenerateBrightenBlendTable, count);
-        _ = ShadowBlendTable.GenerateLookupTables(bits, BlendTable.GenerateShadowBlendTable, count);
-        _ = LinearAlphaBlendTable.GenerateLookupTables(bits, BlendTable.GenerateLinearAlphaBlendTable, count);
+        _ = AlphaBlendTable.GenerateLookupTables(bits, proc: BlendTable.GenerateAlphaBlendTable, count);
+        _ = IntensityBlendTable.GenerateLookupTables(bits, proc: BlendTable.GenerateIntensityBlendTable, count);
+        _ = BrightenBlendTable.GenerateLookupTables(bits, proc: BlendTable.GenerateBrightenBlendTable, count);
+        _ = ShadowBlendTable.GenerateLookupTables(bits, proc: BlendTable.GenerateShadowBlendTable, count);
+        _ = LinearAlphaBlendTable.GenerateLookupTables(bits, proc: BlendTable.GenerateLinearAlphaBlendTable, count);
     }
 
     public static void Initialize()
@@ -45,7 +45,7 @@ public static class GraphicsState
         BrightenBlendTable = new LookupBlendTableCollection100();
         ShadowBlendTable = new LookupBlendTableCollection100();
         LinearAlphaBlendTable = new LookupBlendTableCollection100();
-        InitializeBlendTables(5, 31);
+        InitializeBlendTables(5, count: 31);
         ForcedPixelFormatId = PixelFormat.None;
         ImageFileClassList = new ImageFileClassList();
         RegisterImageFileClasses([ImageFileClass.Of<BmpImageFile>()]);

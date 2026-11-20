@@ -49,7 +49,7 @@ public sealed class EngineClassTests
         HashSet<EngineClass> seen = [];
         foreach (EngineClass? engineClass in EngineClass.All)
         {
-            Assert.True(engineClass.Type == typeof(EngineObject) || seen.Contains(EngineClass.Of(engineClass.Type.BaseType)), engineClass.StorageKey);
+            Assert.True(engineClass.Type == typeof(EngineObject) || seen.Contains(EngineClass.Of(engineClass.Type.BaseType)), userMessage: engineClass.StorageKey);
             Assert.True(seen.Add(engineClass));
             Assert.True(typeof(EngineObject).IsAssignableFrom(engineClass.Type));
         }
@@ -72,7 +72,7 @@ public sealed class EngineClassTests
             engines.Add(full);
         }
 
-        Assert.Contains(EngineClass.Of<ControlStyleObject>(), ProductRegistered(engine));
+        Assert.Contains(EngineClass.Of<ControlStyleObject>(), collection: ProductRegistered(engine));
         foreach (GameEngine registered in engines)
         {
             List<EngineClass> classes = ProductRegistered(registered);
@@ -114,7 +114,7 @@ public sealed class EngineClassTests
                 EngineClass parent = EngineClass.Of(c.Type.BaseType);
                 Assert.Equal(c.Type.BaseType, parent.Type);
                 c = parent;
-                Assert.True(++steps < 64, engineClass.StorageKey);
+                Assert.True(++steps < 64, userMessage: engineClass.StorageKey);
             }
             Assert.Same(root, c);
         }
@@ -188,7 +188,7 @@ public sealed class EngineClassTests
         Assert.Same(EngineClass.Of<EngineObject>(), EngineClass.Of(descriptor.Type.BaseType));
         Assert.Equal(previous.Count + 1, EngineClass.All.Count);
         Assert.Same(descriptor, EngineClass.All[^1]);
-        Assert.DoesNotContain(descriptor, previous);
+        Assert.DoesNotContain(descriptor, collection: previous);
         EngineObject instance = descriptor.CreateInstance(null, holder: EngineFixture.Engine);
         try
         {

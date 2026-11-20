@@ -99,7 +99,7 @@ public partial class ControlWindow(UIContext ui) : UIModule(ui)
 
                 LibraryImage previewImage = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage();
                 LibraryImage previewImage2 = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage();
-                _ = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).Show(R.Left + ((R.Right - R.Left - previewImage2.Width) / 2), R.Top + ((R.Bottom - R.Top - previewImage.Height) / 2), lockedSurface, UI.General.UnitShowInfo);
+                _ = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).Show(R.Left + ((R.Right - R.Left - previewImage2.Width) / 2), R.Top + ((R.Bottom - R.Top - previewImage.Height) / 2), lockedSurface, info: UI.General.UnitShowInfo);
             }
         }
     }
@@ -261,7 +261,7 @@ public partial class ControlWindow(UIContext ui) : UIModule(ui)
         StrategicMap.Current.CenterViewTo(army.Location.X, army.Location.Y, army.Location.MapLevel);
 
         Army army2 = UI.General.UnitList;
-        StrategicMap.Current.PlayCenterAnimation(army2.Location.X, army2.Location.Y, army2.Location.MapLevel);
+        StrategicMap.Current.PlayCenterAnimation(army2.Location.X, army2.Location.Y, L: army2.Location.MapLevel);
     }
 
     // AOWControlWin.pas:422
@@ -272,7 +272,7 @@ public partial class ControlWindow(UIContext ui) : UIModule(ui)
             UIComponent component = sender;
             Rect saveRectangle = lockedSurface.ClipRectangle;
             Rect rectangle = new(component.OwnerComponent.WinLeft + component.WinLeft + 4, component.OwnerComponent.WinTop + component.WinTop + 3, component.OwnerComponent.WinLeft + component.WinLeft + component.WinWidth - 3, component.OwnerComponent.WinTop + component.WinTop + component.WinHeight - 7);
-            DrawUnit(slot, rectangle, ref lockedSurface);
+            DrawUnit(slot, R: rectangle, ref lockedSurface);
             lockedSurface.ClipRectangle = saveRectangle;
         }
     }

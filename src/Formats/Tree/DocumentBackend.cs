@@ -12,10 +12,10 @@ namespace Aow.Formats.Tree;
 public static class DocumentBackend
 {
     public static JsonObject Write(ObjectNode node, SchemaClass classValue, FormatSchema schema, string engine, DocumentNodePath? path = null)
-        => WriteObject(node, classValue, Site(schema, engine, path ?? DocumentNodePath.Root), created: false, slotted: false);
+        => WriteObject(node, classValue, site: Site(schema, engine, path: path ?? DocumentNodePath.Root), created: false, slotted: false);
 
     public static ObjectNode Read(JsonObject document, SchemaClass classValue, FormatSchema schema, string engine, DocumentNodePath? path = null, string? file = null)
-        => ReadObject(document, classValue, Site(schema, engine, path ?? DocumentNodePath.Root, file), created: false, slotted: false);
+        => ReadObject(document, classValue, site: Site(schema, engine, path: path ?? DocumentNodePath.Root, file), created: false, slotted: false);
 
     internal static JsonObject WriteObject(ObjectNode node, SchemaClass classValue, DocumentSite site, bool created, bool slotted)
     {
@@ -25,28 +25,28 @@ public static class DocumentBackend
         {
             if (node.ClassName is not string className)
             {
-                throw site.Fail(Codes.MissingMember, "A created object needs a class.");
+                throw site.Fail(Codes.MissingMember, message: "A created object needs a class.");
             }
 
             _ = json.Add("$class", new JsonString(className));
         }
         else if (node.ClassName is not null)
         {
-            throw site.Fail(Codes.ReservedMember, "Reserved member \"$class\" is not allowed here.", value: "$class");
+            throw site.Fail(Codes.ReservedMember, message: "Reserved member \"$class\" is not allowed here.", value: "$class");
         }
 
         if (slotted)
         {
             if (node.Slot is not int slot || slot < 0)
             {
-                throw site.Fail(Codes.MissingMember, "A child needs a non-negative integer $slot.");
+                throw site.Fail(Codes.MissingMember, message: "A child needs a non-negative integer $slot.");
             }
 
             _ = json.Add("$slot", new JsonInteger(slot));
         }
         else if (node.Slot is not null)
         {
-            throw site.Fail(Codes.ReservedMember, "Reserved member \"$slot\" is not allowed here.", value: "$slot");
+            throw site.Fail(Codes.ReservedMember, message: "Reserved member \"$slot\" is not allowed here.", value: "$slot");
         }
 
         HashSet<string> seen = [with(StringComparer.Ordinal)];
@@ -61,16 +61,16 @@ public static class DocumentBackend
             DocumentSite member = site.For(prop, parent: node, ownerClass: classValue);
             if (prop.IsDynamic)
             {
-                _ = json.Add(prop.Name, prop.Codec.WriteSlotsTree(value, member));
+                _ = json.Add(prop.Name, prop.Codec.WriteSlotsTree(value, site: member));
                 _ = seen.Add(prop.Name);
                 continue;
             }
             if (site.Schema.Version >= 2 && value is ListNode && !prop.Codec.AcceptsList(site.Schema.Version))
             {
-                throw member.Fail(Codes.Type, ListOnly(site.Schema.Version));
+                throw member.Fail(Codes.Type, message: ListOnly(site.Schema.Version));
             }
 
-            JsonValue? written = prop.Codec.WriteTree(value, member);
+            JsonValue? written = prop.Codec.WriteTree(value, site: member);
             if (written is not null)
             {
                 _ = json.Add(prop.Name, written);
@@ -82,13 +82,13 @@ public static class DocumentBackend
         {
             if (!seen.Contains(name))
             {
-                throw site.ForName(name).Fail(Codes.UnknownMember, $"Class {classValue.Name} has no member \"{name}\".", value: name);
+                throw site.ForName(name).Fail(Codes.UnknownMember, message: $"Class {classValue.Name} has no member \"{name}\".", value: name);
             }
         }
         // A mapped class stores its case: the stored discriminator selects it, as on the converter.
         if (classValue.Mapping is { } mapping)
         {
-            CaseCodec.ToDocument(classValue, mapping, json, site);
+            CaseCodec.ToDocument(classValue, mapping, target: json, site);
         }
 
         return json;
@@ -99,7 +99,7 @@ public static class DocumentBackend
         // A mapped class names its case. The flat stored members of the case are read as any others.
         if (classValue.Mapping is { } mapping)
         {
-            document = CaseCodec.FromDocument(site.Context, classValue, mapping, document, site.Path);
+            document = CaseCodec.FromDocument(site.Context, classValue, mapping, objectValue: document, site.Path);
         }
 
         site = site.WithOwner(document);
@@ -108,7 +108,7 @@ public static class DocumentBackend
         {
             if (!seen.Add(member.Name))
             {
-                throw site.ForName(member.Name).Fail(Codes.Duplicate, $"Member \"{member.Name}\" is stored twice.", member.Value, member.Name);
+                throw site.ForName(member.Name).Fail(Codes.Duplicate, message: $"Member \"{member.Name}\" is stored twice.", at: member.Value, value: member.Name);
             }
         }
 
@@ -123,7 +123,7 @@ public static class DocumentBackend
             reserved.Add("$slot");
         }
 
-        ObjectImage.CheckMembers(site.Context, document, classValue, site.Path, [.. reserved]);
+        ObjectImage.CheckMembers(site.Context, objectValue: document, classValue, site.Path, reserved: [.. reserved]);
 
         string? className = null;
         int? slot = null;
@@ -131,7 +131,7 @@ public static class DocumentBackend
         {
             if (document["$class"] is not JsonValue classValueLocal)
             {
-                throw site.Fail(Codes.MissingMember, "A created object needs $class.");
+                throw site.Fail(Codes.MissingMember, message: "A created object needs $class.");
             }
 
             className = ClassName(classValueLocal, site);
@@ -140,7 +140,7 @@ public static class DocumentBackend
         {
             if (document["$slot"] is not JsonInteger { Value: >= 0 and <= int.MaxValue } number)
             {
-                throw site.ForName("$slot").Fail(Codes.MissingMember, "A child needs a non-negative integer $slot.", document["$slot"]);
+                throw site.ForName("$slot").Fail(Codes.MissingMember, message: "A child needs a non-negative integer $slot.", at: document["$slot"]);
             }
 
             slot = (int)number.Value;
@@ -158,15 +158,15 @@ public static class DocumentBackend
             DocumentSite at = site.For(prop, parent: null, ownerClass: classValue);
             if (prop.IsDynamic)
             {
-                node.Add(prop.Name, prop.Codec.ReadSlotsTree(member.Value, at));
+                node.Add(prop.Name, prop.Codec.ReadSlotsTree(member.Value, site: at));
                 continue;
             }
             if (site.Schema.Version >= 2 && member.Value is JsonArray && !prop.Codec.AcceptsDocumentArray(site.Schema.Version))
             {
-                throw at.Fail(Codes.Type, ListOnly(site.Schema.Version), member.Value);
+                throw at.Fail(Codes.Type, message: ListOnly(site.Schema.Version), at: member.Value);
             }
 
-            TreeValue? value = prop.Codec.ReadTree(member.Value, at);
+            TreeValue? value = prop.Codec.ReadTree(member.Value, site: at);
             if (value is not null)
             {
                 node.Add(prop.Name, value);
@@ -176,24 +176,24 @@ public static class DocumentBackend
     }
 
     private static string ListOnly(int version)
-        => string.Create(System.Globalization.CultureInfo.InvariantCulture, $"Version {version} stores a list only for a fixed integer array.");
+        => string.Create(System.Globalization.CultureInfo.InvariantCulture, handler: $"Version {version} stores a list only for a fixed integer array.");
 
     internal static SchemaClass RequireClass(DocumentSite site, string name, string? family, JsonValue? at)
     {
-        SchemaClass classValue = site.Schema.Find(name) ?? throw site.Fail(Codes.UnknownClass, $"Unknown class {name}.", at, name);
-        return site.Schema.Version == 1 && (classValue.Id is not int id || site.Schema.Resolve(site.Engine, id) != classValue)
-            ? throw site.Fail(Codes.UnknownClass, $"Class {classValue.Name} is not in the {site.Engine} engine table.", at, classValue.Name)
+        SchemaClass classValue = site.Schema.Find(name) ?? throw site.Fail(Codes.UnknownClass, message: $"Unknown class {name}.", at, value: name);
+        return site.Schema.Version == 1 && (classValue.Id is not int id || site.Schema.Resolve(site.Engine, classId: id) != classValue)
+            ? throw site.Fail(Codes.UnknownClass, message: $"Class {classValue.Name} is not in the {site.Engine} engine table.", at, value: classValue.Name)
             : family is not null && !classValue.InheritsFrom(family)
-            ? throw site.Fail(Codes.ClassFamily, $"Class {classValue.Name} is not a {family}.", at, classValue.Name, family)
+            ? throw site.Fail(Codes.ClassFamily, message: $"Class {classValue.Name} is not a {family}.", at, value: classValue.Name, constraint: family)
             : classValue;
     }
 
     private static string ClassName(JsonValue value, DocumentSite site)
     {
         return value is JsonNull
-            ? throw site.ForName("$class").Fail(Codes.Type, "A stored nil object is null, not $class null.", value)
+            ? throw site.ForName("$class").Fail(Codes.Type, message: "A stored nil object is null, not $class null.", at: value)
             : value is not JsonString name
-            ? throw site.ForName("$class").Fail(Codes.Type, "$class is a class name.", value, value.KindName)
+            ? throw site.ForName("$class").Fail(Codes.Type, message: "$class is a class name.", at: value, value: value.KindName)
             : name.Value;
     }
 
@@ -202,11 +202,11 @@ public static class DocumentBackend
         Path = path,
         Schema = schema,
         Engine = engine,
-        Context = new EncodeContext(schema, engine, "tree", file, FormatLimits.Default),
+        Context = new EncodeContext(schema, engine, profile: "tree", file, limits: FormatLimits.Default),
     };
 }
 
 internal static class DocumentSiteNames
 {
-    public static DocumentSite ForName(this DocumentSite site, string name) => site.At(site.Path.Member(name), false);
+    public static DocumentSite ForName(this DocumentSite site, string name) => site.At(site.Path.Member(name), element: false);
 }

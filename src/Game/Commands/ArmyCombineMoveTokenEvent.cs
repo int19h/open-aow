@@ -27,7 +27,7 @@ public class ArmyCombineMoveTokenEvent(CustomNode owner) : MoveArmyTokenEvent(ow
             {
                 Army sourceArmy = ArmyHexSprite.Army;
                 Army targetArmy = armyHexSprite.Army;
-                AddUnitsResult combineResult = targetArmy.CanAddUnitSelection(sourceArmy.Units, 255);
+                AddUnitsResult combineResult = targetArmy.CanAddUnitSelection(sourceArmy.Units, selection: 255);
                 if (combineResult != AddUnitsResult.Ok)
                 {
                     ShowCombineFailure(combineResult);
@@ -45,15 +45,15 @@ public class ArmyCombineMoveTokenEvent(CustomNode owner) : MoveArmyTokenEvent(ow
         switch (reason)
         {
             case AddUnitsResult.InvalidMoveType:
-                string cannotCombineArmies = AbilityRules.TranslateResourceString(GetEngine(), s_cannotCombineArmiesText);
+                string cannotCombineArmies = AbilityRules.TranslateResourceString(GetEngine(), S: s_cannotCombineArmiesText);
                 StrategicMap.Current.ShowMessage(cannotCombineArmies);
                 break;
             case AddUnitsResult.TooManyUnits:
-                string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_cannotCombineArmiesText);
+                string translatedText = AbilityRules.TranslateResourceString(GetEngine(), S: s_cannotCombineArmiesText);
                 StrategicMap.Current.ShowMessage(translatedText);
                 break;
             case AddUnitsResult.MultipleTransporters:
-                string cannotCombineTransporters = AbilityRules.TranslateResourceString(GetEngine(), s_cannotCombineTransportersText);
+                string cannotCombineTransporters = AbilityRules.TranslateResourceString(GetEngine(), S: s_cannotCombineTransportersText);
                 StrategicMap.Current.ShowMessage(cannotCombineTransporters);
                 break;
             case AddUnitsResult.Ok:

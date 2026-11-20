@@ -40,21 +40,21 @@ public class HealingTokenEvent(CustomNode owner) : TokenEvent(owner)
             HealingAbility ability = GamePack.Current.AbilityControl.GetAbility<HealingAbility>(47);
             if (ability.GetEnabled(source))
             {
-                ability.SetEnabled(source, false);
+                ability.SetEnabled(source, enabled: false);
                 _ = ability.HealUnit(target);
                 MapCoordinate coordinate9 = target.GetLocation();
                 sbyte x = coordinate9.X;
                 sbyte y = coordinate9.Y;
                 sbyte l = coordinate9.MapLevel;
-                _ = StrategicMap.Current.ValidateObservation((sbyte)SourcePlayer, x, y, l, 0);
-                if (StrategicMap.Current.Visible(x, y, l, 0))
+                _ = StrategicMap.Current.ValidateObservation((sbyte)SourcePlayer, x, y, l, radius: 0);
+                if (StrategicMap.Current.Visible(x, y, l, radius: 0))
                 {
                     ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(ability.ImageSequences.GetImageSequence(0));
                     _ = StrategicMap.Current.PlaceHex(animation, x, y, l);
                 }
 
-                if ((byte)StrategicMap.Current.SeatedPlayer == SourcePlayer || StrategicMap.Current.Watching(x, y, l, 0))
+                if ((byte)StrategicMap.Current.SeatedPlayer == SourcePlayer || StrategicMap.Current.Watching(x, y, l, radius: 0))
                 {
                     _ = ability.SfxLibrary.Play(0);
                 }

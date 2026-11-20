@@ -55,7 +55,7 @@ public partial class PrisonersJoinEventLog(CustomNode owner) : JoinEventLog(owne
                     {
                         int random = Random(15);
                         UnitGraphicsResource unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index);
-                        _ = unitGraphicsResource.SfxLibraries[3].Play(0, 100, false, random, SamplePanning.Center, null);
+                        _ = unitGraphicsResource.SfxLibraries[3].Play(0, volume: 100, looped: false, delay: random, panning: SamplePanning.Center, callback: null);
                     }
                 }
             }

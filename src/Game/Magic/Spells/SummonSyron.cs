@@ -11,7 +11,7 @@ public class SummonSyron : SummonSpell
     public SummonSyron(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_summonSyronText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_summonSyronText);
         SpellId = 24;
         BaseManaCost = 5;
         SpellLevel = 4;

@@ -28,14 +28,14 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
                 sbyte hexLevel = HexLevel;
                 sbyte hexY = HexY;
                 sbyte hexX = HexX;
-                _ = base.Resource.Engine.HexSpriteSet.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
+                _ = base.Resource.Engine.HexSpriteSet.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, L: hexLevel, message.TerrainType);
             }
             else
             {
                 sbyte hexLevel = HexLevel;
                 sbyte hexY = HexY;
                 sbyte hexX = HexX;
-                _ = base.Resource.Engine.HexSpriteSet.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, hexLevel, 0);
+                _ = base.Resource.Engine.HexSpriteSet.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, L: hexLevel, terrainType: 0);
             }
         }
     }
@@ -108,7 +108,7 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
         int x = default;
         int y = default;
         MapLevel mapLevel = Owner.Owner;
-        HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, TransitionNeighbours[side - 1], ref x, ref y);
+        HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, hexNumber: TransitionNeighbours[side - 1], ref x, ref y);
         if (x >= 0 && y >= 0 && x < mapLevel.Width && y < mapLevel.Height)
         {
             sbyte neighbourTerrain = mapLevel.GetField(x, y).TerrainType;
@@ -230,7 +230,7 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
 
             if (message.MessageId == 536870920)
             {
-                TransitionLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCombat\\Base_Hex\\CTransHx.ILB");
+                TransitionLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "TCombat\\Base_Hex\\CTransHx.ILB");
             }
         }
 

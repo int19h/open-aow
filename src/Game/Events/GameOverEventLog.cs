@@ -41,10 +41,10 @@ public partial class GameOverEventLog(CustomNode owner) : EventLog(owner)
         {
             case GameOverStatus.Lost:
                 string name = StrategicMap.Current.Players.GetPlayers(Player).GetName();
-                return DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), s_gameOverDefeatEventLogFormat), [name]);
+                return DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_gameOverDefeatEventLogFormat), args: [name]);
             case GameOverStatus.Won:
                 string name2 = StrategicMap.Current.Players.GetPlayers(Player).GetName();
-                return DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), s_gameOverVictoryEventLogFormat), [name2]);
+                return DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_gameOverVictoryEventLogFormat), args: [name2]);
             case GameOverStatus.None:
             default:
                 break;
@@ -61,7 +61,7 @@ public partial class GameOverEventLog(CustomNode owner) : EventLog(owner)
             case ExecuteTrigger.User:
                 if (StrategicMap.Current.SeatedPlayer != Player)
                 {
-                    StrategicMap.Current.TriggerExecuteEventLog(this, mode, done);
+                    StrategicMap.Current.TriggerExecuteEventLog(this, immediate: mode, done);
                     return true;
                 }
                 else
@@ -69,10 +69,10 @@ public partial class GameOverEventLog(CustomNode owner) : EventLog(owner)
                     return false;
                 }
             case ExecuteTrigger.Event:
-                StrategicMap.Current.TriggerExecuteEventLog(this, mode, done);
+                StrategicMap.Current.TriggerExecuteEventLog(this, immediate: mode, done);
                 return true;
             case ExecuteTrigger.NewTurn:
-                StrategicMap.Current.TriggerExecuteEventLog(this, mode, done);
+                StrategicMap.Current.TriggerExecuteEventLog(this, immediate: mode, done);
                 return true;
             default:
                 return false;

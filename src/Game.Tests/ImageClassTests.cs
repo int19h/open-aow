@@ -112,11 +112,11 @@ public sealed class ImageClassTests
         BitMask.GrabInfo copy = Assert.IsType<BitMask.GrabInfo>(value.Copy());
         Assert.Same(descriptor, copy.GrabInfoClass());
         Assert.Equal(value.TransparentColor, copy.TransparentColor);
-        Assert.Equal(value.FindRectangles, copy.FindRectangles);
+        Assert.Equal(value.FindRectangles, actual: copy.FindRectangles);
         Assert.Equal(value.TransparentPixel, copy.TransparentPixel);
         Assert.Equal(value.FileName, copy.FileName);
         Assert.Equal(value.FileIndex, copy.FileIndex);
-        Assert.Equal(value.Inverse, copy.Inverse);
+        Assert.Equal(value.Inverse, actual: copy.Inverse);
     }
 
     [Fact]
@@ -140,7 +140,7 @@ public sealed class ImageClassTests
     public void GrabImagesUsesTheDescriptorCreationDelegate()
     {
         ImageLibrary library = new(null!);
-        DataSurface surface = new(2, 3, PixelFormat.Rgb555, null!);
+        DataSurface surface = new(2, 3, pixelFormatId: PixelFormat.Rgb555, palette: null!);
         List<LibraryImageClass> previousClasses = ImageLibraries.LibraryImageClasses;
         ImageLibraries.LibraryImageClasses = [];
         ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>()]);
@@ -149,7 +149,7 @@ public sealed class ImageClassTests
         GrabInfo grab = new() { FileName = "grab.bmp", FindRectangles = false };
         try
         {
-            Assert.Equal(GraphicsResult.Ok, LibraryImageClass.Of<Picture16>().GrabImages(lockedSurface, grab, library, null!));
+            Assert.Equal(GraphicsResult.Ok, LibraryImageClass.Of<Picture16>().GrabImages(lockedSurface, grabInfo: grab, imageLibrary: library, onProgress: null!));
             Picture16 image = Assert.IsType<Picture16>(library[0]);
             Assert.Equal(2, image.Width);
             Assert.Equal(3, image.Height);

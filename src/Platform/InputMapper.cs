@@ -109,7 +109,7 @@ public sealed class InputMapper
         _wheelY -= steps;
         if (steps != 0)
         {
-            sink.MouseWheel(steps, Shift(), mappedX, mappedY);
+            sink.MouseWheel(steps, shift: Shift(), mappedX, mappedY);
         }
     }
 
@@ -126,7 +126,7 @@ public sealed class InputMapper
         MouseButton mapped = button == 1 ? MouseButton.Left : MouseButton.Right;
         if (!down)
         {
-            sink.MouseUp(mapped, Shift(_doubleButton == button), mappedX, mappedY);
+            sink.MouseUp(mapped, shift: Shift(_doubleButton == button), mappedX, mappedY);
             if (_doubleButton == button)
             {
                 _doubleButton = 0;
@@ -143,7 +143,7 @@ public sealed class InputMapper
             sink.DoubleClick();
         }
 
-        sink.MouseDown(mapped, Shift(twice), mappedX, mappedY);
+        sink.MouseDown(mapped, shift: Shift(twice), mappedX, mappedY);
     }
 
     public void Key(int keycode, int scancode, int keyModifiers, bool down, IDisplayEvents sink)
@@ -157,10 +157,10 @@ public sealed class InputMapper
 
         if (!down)
         {
-            sink.KeyUp(key, Shift());
+            sink.KeyUp(key, shift: Shift());
             return;
         }
-        sink.KeyDown(key, Shift());
+        sink.KeyDown(key, shift: Shift());
         byte character = key switch { 13 => 13, 8 => 8, 27 => 27, 9 => 9, _ => 0 };
         if (character != 0)
         {

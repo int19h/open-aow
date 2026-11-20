@@ -15,7 +15,7 @@ public class SlowEnchantmentAbility : UnitEnchantmentAbility
     public SlowEnchantmentAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.SlowText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SlowText);
         AbilityId = 132;
         SelectionTypes = Set<AbilitySelectionType>.Of();
     }

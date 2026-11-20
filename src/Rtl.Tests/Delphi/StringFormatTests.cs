@@ -10,15 +10,15 @@ public sealed class StringFormatTests
     private static void Same(string format, params FormatArg[] arguments)
     {
         string ansi = format;
-        Exception? error = Record.Exception(() => DelphiFormat.Format(ansi, arguments));
+        Exception? error = Record.Exception(() => DelphiFormat.Format(ansi, args: arguments));
         if (error is null)
         {
-            Assert.Equal(DelphiFormat.Format(ansi, arguments), DelphiFormat.Format(format, arguments));
+            Assert.Equal(DelphiFormat.Format(ansi, args: arguments), DelphiFormat.Format(format, args: arguments));
         }
         else
         {
             Assert.Equal(Assert.IsType<FormatException>(error).Message,
-            Assert.Throws<FormatException>(() => DelphiFormat.Format(format, arguments)).Message);
+            Assert.Throws<FormatException>(() => DelphiFormat.Format(format, args: arguments)).Message);
         }
     }
 
@@ -101,10 +101,10 @@ public sealed class StringFormatTests
     // An exhaustive switch over the cases. A case added to FormatArg fails this with CS8509.
     private static string CaseOf(FormatArg argument) => argument switch
     {
-        int value => string.Create(CultureInfo.InvariantCulture, $"Integer {value}"),
+        int value => string.Create(CultureInfo.InvariantCulture, handler: $"Integer {value}"),
         bool value => $"Boolean {value}",
         char value => $"Char U+{(int)value:X4}",
-        double value => string.Create(CultureInfo.InvariantCulture, $"Extended {value}"),
+        double value => string.Create(CultureInfo.InvariantCulture, handler: $"Extended {value}"),
         string value => $"String {value}",
         PointerArg value => $"Pointer {value.Value:X8}",
         object value => $"Object {value.GetType().Name}",
@@ -159,7 +159,7 @@ public sealed class StringFormatTests
         Assert.Equal(new[] { "Integer 7", "Char U+20AC", "Char U+0080", "Boolean True", "Extended 1.25", "String s",
             "Object SampleObject", "null", "Pointer 00000001" }, list.Select(CaseOf));
         Assert.Equal("7 € € \u0080 x", DelphiFormat.Format("%d %s %s %s %s", 7, (byte)0x80, '€', '\u0080', "x"));
-        Assert.Equal("7 € x", DelphiFormat.Format("%d %s %s", [7, (byte)0x80, "x"]));
+        Assert.Equal("7 € x", DelphiFormat.Format("%d %s %s", args: [7, (byte)0x80, "x"]));
     }
 
     [Fact]

@@ -28,7 +28,7 @@ public class CombatUnitSelectionControl : MoveSelector
         Obstacles = new DelphiList<RangedObstacle>();
         RangedPathHexSprite = new RangedPathHexSprite(null) { Holder = Creator.CreationHolder() };
         RangedPathHexSprite.Activate();
-        TargetImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TargHex.ILB");
+        TargetImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "TargHex.ILB");
     }
 
     private Set<PathKind> _pathInvalid;
@@ -60,7 +60,7 @@ public class CombatUnitSelectionControl : MoveSelector
         Obstacles?.Dispose();
         RangedPath?.Dispose();
         RangedPathHexSprite?.Dispose();
-        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TargHex.ILB");
+        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "TargHex.ILB");
         base.Dispose();
     }
 
@@ -130,7 +130,7 @@ public class CombatUnitSelectionControl : MoveSelector
                                             deltaY = unitHexSprite.HexY - pathY.Location.Y;
                                             PathStep path2 = MoveSettingsList.GetMoveSettings(0).Path[0];
                                             PathStep pathX = MoveSettingsList.GetMoveSettings(0).Path[0];
-                                            CalculateMovePath(MoveSettingsList.IndexOfMoveObject(unitHexSprite), (sbyte)(pathX.Location.X + deltaX), (sbyte)(path2.Location.Y + deltaY), 0);
+                                            CalculateMovePath(MoveSettingsList.IndexOfMoveObject(unitHexSprite), (sbyte)(pathX.Location.X + deltaX), (sbyte)(path2.Location.Y + deltaY), L: 0);
                                         }
                                     }
 
@@ -180,7 +180,7 @@ public class CombatUnitSelectionControl : MoveSelector
                                                 deltaY = unitHexSprite.HexY - pathY.Location.Y;
                                                 PathStep path2 = MoveSettingsList.GetMoveSettings(0).Path[0];
                                                 PathStep pathX = MoveSettingsList.GetMoveSettings(0).Path[0];
-                                                CalculateMovePath(MoveSettingsList.IndexOfMoveObject(unitHexSprite), (sbyte)(pathX.Location.X + deltaX), (sbyte)(path2.Location.Y + deltaY), 0);
+                                                CalculateMovePath(MoveSettingsList.IndexOfMoveObject(unitHexSprite), (sbyte)(pathX.Location.X + deltaX), (sbyte)(path2.Location.Y + deltaY), L: 0);
                                             }
                                         }
 
@@ -222,7 +222,7 @@ public class CombatUnitSelectionControl : MoveSelector
                                             TacticalBattleUnitHexSprite tacticalBattleUnitHexSprite = TacticalBattleUnitHexSprite;
                                             TacticalBattleUnitHexSprite tacticalBattleUnitHexSprite2 = TacticalBattleUnitHexSprite;
                                             SpellCombatInfo spellInfo = default;
-                                            GamePack.Current.SpellControl[tacticalBattleUnitHexSprite2.SelectedSpell].GetCombatInfo(tacticalBattleUnitHexSprite.Unit.Troop, ref spellInfo);
+                                            GamePack.Current.SpellControl[tacticalBattleUnitHexSprite2.SelectedSpell].GetCombatInfo(tacticalBattleUnitHexSprite.Unit.Troop, info: ref spellInfo);
                                             targets = spellInfo.TargetTypes;
                                         }
                                         else
@@ -230,7 +230,7 @@ public class CombatUnitSelectionControl : MoveSelector
                                             TacticalBattleUnitHexSprite tacticalBattleUnitHexSprite = TacticalBattleUnitHexSprite;
                                             TacticalBattleUnitHexSprite tacticalBattleUnitHexSprite2 = TacticalBattleUnitHexSprite;
                                             AbilityCombatInfo abilityInfo = default;
-                                            GamePack.Current.AbilityControl[tacticalBattleUnitHexSprite2.SelectedAbility].GetCombatInfo(tacticalBattleUnitHexSprite.Unit.Troop, ref abilityInfo);
+                                            GamePack.Current.AbilityControl[tacticalBattleUnitHexSprite2.SelectedAbility].GetCombatInfo(tacticalBattleUnitHexSprite.Unit.Troop, info: ref abilityInfo);
                                             targets = abilityInfo.TargetTypes;
                                         }
                                     }
@@ -305,13 +305,13 @@ public class CombatUnitSelectionControl : MoveSelector
                         PathStep path = MoveSettingsList.GetMoveSettings(i).Path[moveSettingPath.Path.Count - 1];
                         MoveSettings moveSetting = MoveSettingsList.GetMoveSettings(i);
                         PathStep pathX = MoveSettingsList.GetMoveSettings(i).Path[moveSetting.Path.Count - 1];
-                        _ = CombatMap.Current.PlaceHex(movement, pathX.Location.X, path.Location.Y, 0);
+                        _ = CombatMap.Current.PlaceHex(movement, pathX.Location.X, path.Location.Y, L: 0);
                         movement.Enabled = true;
                         _ = temporary.Add(movement);
                         movement = new MovementHexSprite(null) { Holder = Creator.CreationHolder() };
                         PathStep pathY = MoveSettingsList.GetMoveSettings(i).Path[0];
                         PathStep path2 = MoveSettingsList.GetMoveSettings(i).Path[0];
-                        _ = CombatMap.Current.PlaceHex(movement, path2.Location.X, pathY.Location.Y, 0);
+                        _ = CombatMap.Current.PlaceHex(movement, path2.Location.X, pathY.Location.Y, L: 0);
                         movement.Enabled = false;
                         _ = temporary.Add(movement);
                     }
@@ -447,12 +447,12 @@ public class CombatUnitSelectionControl : MoveSelector
 
             if (unitHexSprite.SelectedAbility == 52)
             {
-                GamePack.Current.SpellControl[unitHexSprite.SelectedSpell].GetCombatInfo(unitHexSprite.Unit.Troop, ref spellInfo);
+                GamePack.Current.SpellControl[unitHexSprite.SelectedSpell].GetCombatInfo(unitHexSprite.Unit.Troop, info: ref spellInfo);
                 targets = spellInfo.TargetTypes;
             }
             else
             {
-                GamePack.Current.AbilityControl[unitHexSprite.SelectedAbility].GetCombatInfo(unitHexSprite.Unit.Troop, ref abilityInfo);
+                GamePack.Current.AbilityControl[unitHexSprite.SelectedAbility].GetCombatInfo(unitHexSprite.Unit.Troop, info: ref abilityInfo);
                 targets = abilityInfo.TargetTypes;
             }
 
@@ -467,7 +467,7 @@ public class CombatUnitSelectionControl : MoveSelector
             {
                 if (GamePack.Current.AbilityControl[unitHexSprite.SelectedAbility].GetCombatMode(unitHexSprite.Unit.Troop) == CombatMode.Touch)
                 {
-                    if (((targets.Contains(CombatTargetTypeElement.Friend) && unitHexSprite.Unit.Side == targetHexSprite.Unit.Side) || (targets.Contains(CombatTargetTypeElement.Enemy) && unitHexSprite.Unit.Side != targetHexSprite.Unit.Side)) && GamePack.Current.AbilityControl.GetAbility<TouchAbility>(unitHexSprite.SelectedAbility).CanTouch(unitHexSprite.Unit, targetHexSprite.Unit))
+                    if (((targets.Contains(CombatTargetTypeElement.Friend) && unitHexSprite.Unit.Side == targetHexSprite.Unit.Side) || (targets.Contains(CombatTargetTypeElement.Enemy) && unitHexSprite.Unit.Side != targetHexSprite.Unit.Side)) && GamePack.Current.AbilityControl.GetAbility<TouchAbility>(unitHexSprite.SelectedAbility).CanTouch(unitHexSprite.Unit, target: targetHexSprite.Unit))
                     {
                         if (_cursorImage is < 105 or > 107)
                         {
@@ -638,9 +638,9 @@ public class CombatUnitSelectionControl : MoveSelector
                 for (int i = 1; i <= 6; i++)
                 {
                     PathStep path = MoveSettingsList.GetMoveSettings(0).Path[1];
-                    HexGeometry.CenterHexNumberToHex(MoveSettingsList.GetMoveSettings(0).Path[1].Location.X, path.Location.Y, i, ref x, ref y);
+                    HexGeometry.CenterHexNumberToHex(MoveSettingsList.GetMoveSettings(0).Path[1].Location.X, path.Location.Y, hexNumber: i, ref x, ref y);
                     HexGeometry.HexToPixel(x, y, out int pixelX, out int pixelY);
-                    TargetImages[0].Show(pixelX - CombatMap.Current.ViewPixelX - 8, pixelY - CombatMap.Current.ViewPixelY + 2, surface);
+                    TargetImages[0].Show(pixelX - CombatMap.Current.ViewPixelX - 8, pixelY - CombatMap.Current.ViewPixelY + 2, lockedSurface: surface);
                 }
             }
         }
@@ -675,8 +675,8 @@ public class CombatUnitSelectionControl : MoveSelector
         DelphiList<TacticalBattleUnitHexSprite> units = new();
         Rect r = sender.SelectionRectangle;
         MapLevel level = CombatMap.Current.MapContainer.MapLevels[CombatMap.Current.ViewMapLevel];
-        HexGeometry.PixelToHex(r.Left, r.Top, out int x1, out int y1);
-        HexGeometry.PixelToHex(r.Right, r.Bottom, out int x2, out int y2);
+        HexGeometry.PixelToHex(r.Left, vertical: r.Top, out int x1, out int y1);
+        HexGeometry.PixelToHex(r.Right, vertical: r.Bottom, out int x2, out int y2);
         for (int x = x1 - 1, last = x2 + 1; x <= last; x++)
         {
             for (int y = y1 - 1, lastY = y2 + 1; y <= lastY; y++)
@@ -817,13 +817,13 @@ public class CombatUnitSelectionControl : MoveSelector
                     case 30:
                     case >= 86 and <= 90:
                         sbyte unitHexSpriteHexY = unitHexSprite.HexY;
-                        HexGeometry.CenterHexNumberToHex(unitHexSprite.HexX, unitHexSpriteHexY, TacticalTables.BreathHexNumber[(TacticalTables.BreathDirection[direction - 1] * 12) - 12], ref hexX, ref hexY);
+                        HexGeometry.CenterHexNumberToHex(unitHexSprite.HexX, unitHexSpriteHexY, hexNumber: TacticalTables.BreathHexNumber[(TacticalTables.BreathDirection[direction - 1] * 12) - 12], ref hexX, ref hexY);
                         break;
                     case 52:
                         if (TacticalTables.SpellTypes[unitHexSprite.SelectedSpell] == BattleEffectType.Breath)
                         {
                             sbyte hexY2 = unitHexSprite.HexY;
-                            HexGeometry.CenterHexNumberToHex(unitHexSprite.HexX, hexY2, TacticalTables.BreathHexNumber[(TacticalTables.BreathDirection[direction - 1] * 12) - 12], ref hexX, ref hexY);
+                            HexGeometry.CenterHexNumberToHex(unitHexSprite.HexX, hexY2, hexNumber: TacticalTables.BreathHexNumber[(TacticalTables.BreathDirection[direction - 1] * 12) - 12], ref hexX, ref hexY);
                         }
 
                         break;
@@ -837,7 +837,7 @@ public class CombatUnitSelectionControl : MoveSelector
                 TacticalBattleUnitHexSprite tacticalBattleUnitHexSprite = TacticalBattleUnitHexSprite;
                 Point3DList rangedPath = RangedPath;
                 DelphiList<RangedObstacle> obstacles = Obstacles;
-                TacticalTables.MakeAbilityPath(side, (short)TacticalBattleUnitHexSprite.SelectedAbility, (short)tacticalBattleUnitHexSprite.SelectedSpell, xhx, hexY3, (short)hexX, (short)hexY, rangedPath, obstacles);
+                TacticalTables.MakeAbilityPath(side, ability: (short)TacticalBattleUnitHexSprite.SelectedAbility, spell: (short)tacticalBattleUnitHexSprite.SelectedSpell, xhx, hexY3, (short)hexX, (short)hexY, path: rangedPath, obstacles);
                 RangedPath = rangedPath;
                 Obstacles = obstacles;
             }
@@ -1010,7 +1010,7 @@ public class CombatUnitSelectionControl : MoveSelector
                                 int hexY3 = CombatMap.Current.Mouse.HexY;
                                 if (deltaHexToRadius2 < HexGeometry.DeltaHexToRadius(CombatMap.Current.Mouse.HexX, hexY3, hexX2, hexY2))
                                 {
-                                    MoveSettingsList.ExchangeChildren(a, b);
+                                    MoveSettingsList.ExchangeChildren(a, second: b);
                                 }
                             }
                         }
@@ -1022,7 +1022,7 @@ public class CombatUnitSelectionControl : MoveSelector
                         else
                         {
                             int hexY = CombatMap.Current.Mouse.HexY;
-                            CalculateMovePath(0, (sbyte)CombatMap.Current.Mouse.HexX, (sbyte)hexY, (sbyte)CombatMap.Current.ViewMapLevel);
+                            CalculateMovePath(0, (sbyte)CombatMap.Current.Mouse.HexX, (sbyte)hexY, L: (sbyte)CombatMap.Current.ViewMapLevel);
                         }
 
                         if (MoveSettingsList.GetMoveSettings(0).Path.Count > 1)
@@ -1042,8 +1042,8 @@ public class CombatUnitSelectionControl : MoveSelector
                                     sbyte hexY2 = ((HexSprite)MoveSettingsList.GetMoveSettings(0).MoveObject).HexY;
                                     int direction = HexGeometry.DeltaHexToHexNumber(((HexSprite)MoveSettingsList.GetMoveSettings(0).MoveObject).HexX, hexY2, hexX, hexY);
                                     PathStep path = MoveSettingsList.GetMoveSettings(0).Path[0];
-                                    HexGeometry.CenterHexNumberToHex(MoveSettingsList.GetMoveSettings(0).Path[0].Location.X, path.Location.Y, direction, ref x, ref y);
-                                    CalculateMovePath(i, (sbyte)x, (sbyte)y, 0);
+                                    HexGeometry.CenterHexNumberToHex(MoveSettingsList.GetMoveSettings(0).Path[0].Location.X, path.Location.Y, hexNumber: direction, ref x, ref y);
+                                    CalculateMovePath(i, (sbyte)x, (sbyte)y, L: 0);
                                 }
                             }
                         }
@@ -1096,7 +1096,7 @@ public class CombatUnitSelectionControl : MoveSelector
                 {
                     int hexY = CombatMap.Current.Mouse.HexY;
                     int hexX = CombatMap.Current.Mouse.HexX;
-                    CalculateMovePath(CurrentMove, (sbyte)hexX, (sbyte)hexY, (sbyte)CombatMap.Current.ViewMapLevel);
+                    CalculateMovePath(CurrentMove, (sbyte)hexX, (sbyte)hexY, L: (sbyte)CombatMap.Current.ViewMapLevel);
                 }
             }
         }
@@ -1171,7 +1171,7 @@ public class CombatUnitSelectionControl : MoveSelector
 
                                     int mouseHexY = CombatMap.Current.Mouse.HexY;
                                     int mouseHexX = CombatMap.Current.Mouse.HexX;
-                                    CalculateMovePath(CurrentMove, (sbyte)mouseHexX, (sbyte)mouseHexY, 0);
+                                    CalculateMovePath(CurrentMove, (sbyte)mouseHexX, (sbyte)mouseHexY, L: 0);
                                 }
                             }
                             else
@@ -1199,7 +1199,7 @@ public class CombatUnitSelectionControl : MoveSelector
                                         if (!unitHexSprite.Unit.GetLocked())
                                         {
                                             int hexY = CombatMap.Current.Mouse.HexY;
-                                            CalculateMovePath(0, (sbyte)CombatMap.Current.Mouse.HexX, (sbyte)hexY, 0);
+                                            CalculateMovePath(0, (sbyte)CombatMap.Current.Mouse.HexX, (sbyte)hexY, L: 0);
                                         }
 
                                         break;
@@ -1388,7 +1388,7 @@ public class CombatUnitSelectionControl : MoveSelector
                     MoveSettings moveSettings2 = moves.GetMoveSettings(i);
                     if (moveSettings.Path.Count > moveSettings2.Path.Count)
                     {
-                        moves.ExchangeChildren(i, j);
+                        moves.ExchangeChildren(i, second: j);
                     }
                 }
             }
@@ -1405,7 +1405,7 @@ public class CombatUnitSelectionControl : MoveSelector
                         _ = movePath.Add(moveSettings3.Path[l]);
                     }
                     CombatMoveTokenEvent combatMoveTokenEvent = new(null) { Holder = moves };
-                    if (combatMoveTokenEvent.Setup(((TacticalBattleUnitHexSprite)moveSettings3.MoveObject).Unit, movePath))
+                    if (combatMoveTokenEvent.Setup(((TacticalBattleUnitHexSprite)moveSettings3.MoveObject).Unit, path: movePath))
                     {
                         multiMoveTokenEvent.Events.Add(combatMoveTokenEvent);
                     }

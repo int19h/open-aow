@@ -163,7 +163,7 @@ public static class AbilityRules
                 damage = (damage + 1) >>> 1;
             }
 
-            result = ExpectedDamageCapped(damage, attack, limit);
+            result = ExpectedDamageCapped(damage, attackDefense: attack, maximum: limit);
             int limit100 = limit * 100;
             if (result > limit100)
             {
@@ -205,7 +205,7 @@ public static class AbilityRules
     {
         try
         {
-            return DelphiFormat.Format(S, arguments);
+            return DelphiFormat.Format(S, args: arguments);
         }
         catch
         {
@@ -217,12 +217,12 @@ public static class AbilityRules
     {
         if (damageType != DamageType.None)
         {
-            GamePack.Current.CombatImages[(int)damageType + 10].Show(x + 15, y + 10, surface);
+            GamePack.Current.CombatImages[(int)damageType + 10].Show(x + 15, y + 10, lockedSurface: surface);
             engine.CombatFont.Color = Set<DamageType>.Of(DamageType.Cold, DamageType.Lightning, DamageType.Magic, DamageType.Holy).Contains(damageType)
                 ? 0
                 : 16777215;
 
-            engine.CombatFont.SetTextCentered(x + 34, y + 36, IntToStr(damage), surface);
+            engine.CombatFont.SetTextCentered(x + 34, y + 36, text: IntToStr(damage), lockedSurface: surface);
         }
     }
 
@@ -340,7 +340,7 @@ public static class AbilityRules
                 {
                     Unit unit = new(null) { Holder = engine };
                     unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
-                    if (unit.Place(X, Y, L, player, Set<UnitPlaceModeElement>.Of()) is not null)
+                    if (unit.Place(X, Y, L, player, mode: Set<UnitPlaceModeElement>.Of()) is not null)
                     {
                         result += unit.GetObtainValue();
                         tries = 50;
@@ -410,7 +410,7 @@ public static class AbilityRules
         {
             if (targetPlayer != 0)
             {
-                DiplomaticRelation relation = DiplomaticRelation(player, independentRelation, targetPlayer, targetRace);
+                DiplomaticRelation relation = DiplomaticRelation(player, independentRelation, otherPlayer: targetPlayer, otherIndependentRelation: targetRace);
                 return Set<DiplomaticRelation>.Of(Session.DiplomaticRelation.War, Session.DiplomaticRelation.Unknown).Contains(relation);
             }
             else
@@ -420,7 +420,7 @@ public static class AbilityRules
         }
         else
         {
-            return StrategicMap.Current.Players.GetPlayers(player).ValidAttackRelation(targetPlayer, targetRace);
+            return StrategicMap.Current.Players.GetPlayers(player).ValidAttackRelation(targetPlayer, independentRelation: targetRace);
         }
     }
 
@@ -471,7 +471,7 @@ public static class AbilityRules
                 i = movePath.Count - targetRange;
             }
 
-            BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, player, independentRelation, Set<BattleFieldInfoRequestsElement>.Of(), s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+            BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, player, relation: independentRelation, requests: Set<BattleFieldInfoRequestsElement>.Of(), damageTypes: s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
             info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
             info.Requests += Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents, BattleFieldInfoRequestsElement.EffectiveStrength);
             if (step > 0)
@@ -481,7 +481,7 @@ public static class AbilityRules
                 MapLevel level = StrategicMap.Current.MapContainer.MapLevels[item.Location.MapLevel];
                 PathStep movePathItem = movePath[^1];
                 PathStep item2 = movePath[^1];
-                HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, item2.Location.X, movePathItem.Location.Y, 0);
+                HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, item2.Location.X, movePathItem.Location.Y, radius: 0);
                 while (walk.Radius <= step)
                 {
                     if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -509,7 +509,7 @@ public static class AbilityRules
                 PathStep item = movePath[i];
                 PathStep movePathItem = movePath[i];
                 PathStep item2 = movePath[i];
-                StrategicMap.Current.RetrieveBattleFieldInfo(item2.Location.X, movePathItem.Location.Y, item.Location.MapLevel, range, ref info);
+                StrategicMap.Current.RetrieveBattleFieldInfo(item2.Location.X, movePathItem.Location.Y, item.Location.MapLevel, radius: range, ref info);
                 if (info.Strength > result)
                 {
                     result = info.Strength;
@@ -550,7 +550,7 @@ public static class AbilityRules
                         PathStep item3 = movePath[j + 1];
                         PathStep item4 = movePath[j + 1];
                         PathStep item5 = movePath[j + 1];
-                        StrategicMap.Current.RetrieveBattleFieldInfo(item5.Location.X, item4.Location.Y, item3.Location.MapLevel, range, ref info);
+                        StrategicMap.Current.RetrieveBattleFieldInfo(item5.Location.X, item4.Location.Y, item3.Location.MapLevel, radius: range, ref info);
                         if (info.Strength > result)
                         {
                             result = info.Strength;
@@ -660,7 +660,7 @@ public static class AbilityRules
         MapFieldMessageParameters param2 = message.Param;
         param2[2] = query;
         message.Param = param2;
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, innerRadius);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, radius: innerRadius);
         try
         {
             while (walk.Radius <= outerRadius)
@@ -696,7 +696,7 @@ public static class AbilityRules
         MapFieldMessageParameters param2 = message.Param;
         param2[2] = player;
         message.Param = param2;
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, innerRadius);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, radius: innerRadius);
         while (walk.Radius <= outerRadius)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

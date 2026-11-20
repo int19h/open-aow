@@ -23,7 +23,7 @@ public partial class UnitWindow
             Troop u = UI.General.SelectedUnit;
             if (u is not null && StrategicMap.Current.SeatedPlayer == u.Player)
             {
-                StrategicMap.Current.TutorialControl.ShowMessage(64, true, true);
+                StrategicMap.Current.TutorialControl.ShowMessage(64, immediate: true, onceOnly: true);
             }
 
             Hero h = u is Hero heroUnit ? heroUnit : null;
@@ -504,21 +504,21 @@ public partial class UnitWindow
                 UI.UnitWindow.AbilitySourceList.Items.Clear();
                 Troop.Morale morale = u.GetMorale();
                 string moraleText = UI.Engine.TranslateResourceString(s_moraleTexts[(int)morale]);
-                string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_moraleFormat), [moraleText]);
+                string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_moraleFormat), arguments: [moraleText]);
                 MoraleLabel.Text = format;
                 UnitType unitType = u.GetUnitType();
                 MoraleLabel.Visible = unitType != UnitType.Machine;
                 if (StrategicMap.Current.CombatMap is null)
                 {
-                    u.ListAbilityInfo(AbilityAbilityList.Items, AbilityTypeList.Items, AbilitySourceList.Items);
-                    StringSorting.SortStrings(AbilityAbilityList.Items, CompareUnitAbilities, [AbilityTypeList.Items, AbilitySourceList.Items]);
+                    u.ListAbilityInfo(AbilityAbilityList.Items, types: AbilityTypeList.Items, sources: AbilitySourceList.Items);
+                    StringSorting.SortStrings(AbilityAbilityList.Items, compare: CompareUnitAbilities, linkedStrings: [AbilityTypeList.Items, AbilitySourceList.Items]);
                 }
                 else
                 {
                     if (UI.General.CombatUnit is not null && UI.General.CombatUnit.Unit is not null && UI.General.CombatUnit.Unit.Troop is not null)
                     {
-                        UI.General.CombatUnit.Unit.Troop.ListAbilityInfo(AbilityAbilityList.Items, AbilityTypeList.Items, AbilitySourceList.Items);
-                        StringSorting.SortStrings(AbilityAbilityList.Items, CompareUnitAbilities, [AbilityTypeList.Items, AbilitySourceList.Items]);
+                        UI.General.CombatUnit.Unit.Troop.ListAbilityInfo(AbilityAbilityList.Items, types: AbilityTypeList.Items, sources: AbilitySourceList.Items);
+                        StringSorting.SortStrings(AbilityAbilityList.Items, compare: CompareUnitAbilities, linkedStrings: [AbilityTypeList.Items, AbilitySourceList.Items]);
                     }
                 }
 

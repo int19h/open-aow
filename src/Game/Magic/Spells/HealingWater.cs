@@ -11,7 +11,7 @@ public class HealingWater : UnitSpell
     public HealingWater(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_healingWaterText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_healingWaterText);
         SpellId = 55;
         BaseManaCost = 5;
         SpellLevel = 1;

@@ -340,7 +340,7 @@ public class ImageSequence(ImageSequenceList owner) : IDisposable
         }
 
         ImageLibrary = !IsEmpty(_imageLibraryName)
-            ? Owner.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName)
+            ? Owner.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: _imageLibraryName)
             : Owner.ImageLibrary;
     }
 
@@ -351,7 +351,7 @@ public class ImageSequence(ImageSequenceList owner) : IDisposable
         {
             if (!IsEmpty(_imageLibraryName))
             {
-                Owner.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName);
+                Owner.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: _imageLibraryName);
             }
 
             ImageLibrary = null;
@@ -362,19 +362,19 @@ public class ImageSequence(ImageSequenceList owner) : IDisposable
     public void SaveToStream(Stream stream)
     {
         LibraryDrawing.WriteStringToStream(_imageLibraryName, stream);
-        stream.Write(Bytes.Of(ref _layer, 1));
-        stream.Write(Bytes.Of(ref _sequenceSpeed, 1));
-        stream.Write(Bytes.Of(ref _sequenceMode, 1));
-        stream.Write(Bytes.Of(ref _imageIndex, 4));
-        stream.Write(Bytes.Of(ref _offsetX, 4));
-        stream.Write(Bytes.Of(ref _offsetY, 4));
+        stream.Write(Bytes.Of(ref _layer, count: 1));
+        stream.Write(Bytes.Of(ref _sequenceSpeed, count: 1));
+        stream.Write(Bytes.Of(ref _sequenceMode, count: 1));
+        stream.Write(Bytes.Of(ref _imageIndex, count: 4));
+        stream.Write(Bytes.Of(ref _offsetX, count: 4));
+        stream.Write(Bytes.Of(ref _offsetY, count: 4));
         if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RandomFrameTable).Contains(_sequenceMode))
         {
             FrameTable.SaveToStream(stream);
         }
 
         bool hasNext = Next is not null;
-        stream.Write(Bytes.Of(ref hasNext, 1));
+        stream.Write(Bytes.Of(ref hasNext, count: 1));
         if (hasNext)
         {
             Next.SaveToStream(stream);
@@ -387,12 +387,12 @@ public class ImageSequence(ImageSequenceList owner) : IDisposable
         bool hasNext = default;
         ReleaseImageLibrary();
         LibraryDrawing.ReadStringFromStream(ref _imageLibraryName, stream);
-        stream.ReadExactly(Bytes.Of(ref _layer, 1));
-        stream.ReadExactly(Bytes.Of(ref _sequenceSpeed, 1));
-        stream.ReadExactly(Bytes.Of(ref _sequenceMode, 1));
-        stream.ReadExactly(Bytes.Of(ref _imageIndex, 4));
-        stream.ReadExactly(Bytes.Of(ref _offsetX, 4));
-        stream.ReadExactly(Bytes.Of(ref _offsetY, 4));
+        stream.ReadExactly(Bytes.Of(ref _layer, count: 1));
+        stream.ReadExactly(Bytes.Of(ref _sequenceSpeed, count: 1));
+        stream.ReadExactly(Bytes.Of(ref _sequenceMode, count: 1));
+        stream.ReadExactly(Bytes.Of(ref _imageIndex, count: 4));
+        stream.ReadExactly(Bytes.Of(ref _offsetX, count: 4));
+        stream.ReadExactly(Bytes.Of(ref _offsetY, count: 4));
         if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RandomFrameTable).Contains(_sequenceMode))
         {
             FrameTable ??= new FrameTableList();
@@ -401,7 +401,7 @@ public class ImageSequence(ImageSequenceList owner) : IDisposable
             _imageIndex = Random(FrameTable.Count);
         }
 
-        stream.ReadExactly(Bytes.Of(ref hasNext, 1));
+        stream.ReadExactly(Bytes.Of(ref hasNext, count: 1));
         if (hasNext)
         {
             Next = new ImageSequence(Owner);
@@ -418,7 +418,7 @@ public class ImageSequence(ImageSequenceList owner) : IDisposable
             FrameTable frames = null;
             if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RandomFrameTable).Contains(sequence._sequenceMode))
             {
-                frames = new FrameTable(Default: sequence.FrameTable.DefaultValue, Items: sequence.FrameTable.List.AsSpan(0, sequence.FrameTable.Count).ToArray());
+                frames = new FrameTable(Default: sequence.FrameTable.DefaultValue, Items: sequence.FrameTable.List.AsSpan(0, length: sequence.FrameTable.Count).ToArray());
             }
 
             layers.Add(new SequenceLayer
@@ -464,7 +464,7 @@ public class ImageSequence(ImageSequenceList owner) : IDisposable
         if (index + 1 < layers.Count)
         {
             Next = new ImageSequence(Owner);
-            Next.LoadLayers(layers, index + 1);
+            Next.LoadLayers(layers, index: index + 1);
         }
     }
 
@@ -494,7 +494,7 @@ public class ImageSequence(ImageSequenceList owner) : IDisposable
     internal static void BlitImageSequence(ImageSequence sequence, int X, int Y, in Rect R, int frame, int bkColor)
     {
         LockedSurface lockedSurface = default;
-        Dib16Surface surface = new(R.Right - R.Left, R.Bottom - R.Top, PixelFormat.Rgb565);
+        Dib16Surface surface = new(R.Right - R.Left, R.Bottom - R.Top, pixelFormatId: PixelFormat.Rgb565);
         _ = surface.Clear(bkColor);
         _ = surface.Lock(ref lockedSurface);
         while (sequence is not null)

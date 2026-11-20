@@ -30,7 +30,7 @@ public class CosmeticSurgerySpellCaster(CustomNode owner) : SpellCaster(owner)
         {
             UnitSpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             Spell spell = GamePack.Current.SpellControl[59];
-            eventValue.Initialize(CasterSpellId, source, null, spell.BaseManaCost);
+            eventValue.Initialize(CasterSpellId, source, targets: null, mana: spell.BaseManaCost);
             _ = eventValue.TargetUnitIds.Add(TargetUnitId);
             eventValue.SpellData[0] = FaceIndex;
             eventValue.TargetPlayer = (byte)target.Player;

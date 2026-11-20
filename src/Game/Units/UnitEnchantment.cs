@@ -93,18 +93,18 @@ public class UnitEnchantment : Enchantment
         sbyte hexLevel = coordinate28.MapLevel;
         if (hexX != -1)
         {
-            if (StrategicMap.Current.Visible(hexX, hexY, hexLevel, 0))
+            if (StrategicMap.Current.Visible(hexX, hexY, L: hexLevel, radius: 0))
             {
                 ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel).GetArmyHexSprite();
                 if (armyHexSprite is not null)
                 {
-                    StrategicMap.Current.Select(armyHexSprite, true);
+                    StrategicMap.Current.Select(armyHexSprite, center: true);
                 }
             }
             else
             {
                 string binding = GetBinding();
-                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.IsOutOfSightFormat), [binding]);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsOutOfSightFormat), arguments: [binding]);
                 StrategicMap.Current.ShowMessage(format);
             }
         }

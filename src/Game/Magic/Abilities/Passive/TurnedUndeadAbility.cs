@@ -14,7 +14,7 @@ public class TurnedUndeadAbility : UnitEnchantmentAbility
     public TurnedUndeadAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_turnedUndeadText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_turnedUndeadText);
         AbilityId = 34;
         SelectionTypes = Set<AbilitySelectionType>.Of();
     }

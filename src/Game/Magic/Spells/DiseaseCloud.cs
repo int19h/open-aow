@@ -16,7 +16,7 @@ public class DiseaseCloud : CombatSpell
     public DiseaseCloud(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_diseaseCloudText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_diseaseCloudText);
         SpellId = 104;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;

@@ -88,7 +88,7 @@ public class Sample : IDisposable
     // Sound.pas:735
     public virtual void Dispose()
     {
-        Callback?.Invoke(this, SampleCallbackMode.Done);
+        Callback?.Invoke(this, Mode: SampleCallbackMode.Done);
 
         SampleData?.Release();
 
@@ -117,7 +117,7 @@ public class Sample : IDisposable
 
     // Sound.pas:89
     public static Sample Create(SampleData data)
-        => ConstructionContext.Create(data, static (context, value) => new Sample(context, value));
+        => ConstructionContext.Create(data, static (context, value) => new Sample(context, sampleData: value));
 
     public enum StatusElement : byte
     {

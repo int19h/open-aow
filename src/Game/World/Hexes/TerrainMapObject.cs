@@ -130,7 +130,7 @@ public partial class TerrainMapObject(CustomNode owner) : MultiHexMapObject(owne
                 {
                     if (terrainList.GetTerrain(i) >= 0 && i != hexNumber)
                     {
-                        HexGeometry.CenterHexNumberToHex(hexX, hexY, i, ref x, ref y);
+                        HexGeometry.CenterHexNumberToHex(hexX, hexY, hexNumber: i, ref x, ref y);
                         _ = r.PlaceResourceUser(map, (sbyte)x, (sbyte)y, (sbyte)hexLevel);
                     }
                 }
@@ -156,7 +156,7 @@ public partial class TerrainMapObject(CustomNode owner) : MultiHexMapObject(owne
             if (resources[i] is TerrainMapObjectResource terrain)
             {
                 TerrainMapObjectResource r = terrain;
-                if (r.EngineClass.ClassId == Resource.EngineClass.ClassId && r.TerrainType == Resource.TerrainType && r.DecorationType == decorationType && r != Resource && r.TerrainList.CompareTerrain(Resource.TerrainList, Set<TerrainCompareModeElement>.Of(TerrainCompareModeElement.SameOverlayType)))
+                if (r.EngineClass.ClassId == Resource.EngineClass.ClassId && r.TerrainType == Resource.TerrainType && r.DecorationType == decorationType && r != Resource && r.TerrainList.CompareTerrain(Resource.TerrainList, mode: Set<TerrainCompareModeElement>.Of(TerrainCompareModeElement.SameOverlayType)))
                 {
                     _ = candidates.Add(r);
                 }
@@ -184,7 +184,7 @@ public partial class TerrainMapObject(CustomNode owner) : MultiHexMapObject(owne
         bool result = true;
         MapLevel level = Owner.Owner;
         int count = TerrainCount;
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, radius: 0);
         while (walk.HexNumber < count && result)
         {
             if (walk.HexNumber != hexNumber && GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

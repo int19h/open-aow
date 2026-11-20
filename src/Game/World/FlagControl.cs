@@ -26,7 +26,7 @@ public class FlagControl : ControlStyleObject
     // PlayerC.PAS:1920
     public override void Dispose()
     {
-        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "Flags.ILB");
+        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "Flags.ILB");
         Flags = null;
         base.Dispose();
     }
@@ -36,7 +36,7 @@ public class FlagControl : ControlStyleObject
     {
         // Both creation paths pass the game set: GamePack.Create and a game set child load.
         GamePack gameSet = GetOwner<GamePack>();
-        Flags = gameSet.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "Flags.ILB");
+        Flags = gameSet.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "Flags.ILB");
         _raceResources = gameSet.RaceResources;
 
         SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.FixedChild));
@@ -112,5 +112,5 @@ public class FlagControl : ControlStyleObject
 
     // PlayerC.PAS:1909
     public static FlagControl Create(CustomNode owner)
-        => ConstructionContext.Create(owner, static (context, owner) => new FlagControl(context, owner ?? throw new NullReferenceException()));
+        => ConstructionContext.Create(owner, static (context, owner) => new FlagControl(context, owner: owner ?? throw new NullReferenceException()));
 }

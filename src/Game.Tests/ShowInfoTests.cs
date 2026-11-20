@@ -57,7 +57,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
     private static byte[] Written(ShowInfo info)
     {
         using MemoryStream stream = new();
-        Assert.Equal(8, info.WriteImage(stream, true));
+        Assert.Equal(8, info.WriteImage(stream, exact: true));
         return stream.ToArray();
     }
 
@@ -67,7 +67,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         stream.Write(image);
         stream.Position = 0;
         ShowInfo info = default;
-        Assert.Equal(8, info.ReadImage(stream, true));
+        Assert.Equal(8, info.ReadImage(stream, exact: true));
         return info;
     }
 
@@ -137,13 +137,13 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
             LockedSurface lockedSurface = default;
             image.Show(0, 0, lockedSurface);
             image.ShowStretched(s_square, lockedSurface);
-            image.Show(0, 0, lockedSurface, new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = BlendMode.User, Blend = 50 });
-            image.Show(0, 0, lockedSurface, new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = BlendMode.Alpha, Blend = 50 });
+            image.Show(0, 0, lockedSurface, showInfo: new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = BlendMode.User, Blend = 50 });
+            image.Show(0, 0, lockedSurface, showInfo: new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = BlendMode.Alpha, Blend = 50 });
             Assert.Empty(image.Drawn);
 
             // ShowEx reads the image's own blend mode with the caller's blend value
             // (transpiler.md 4.3): a caller's table draws through the image's bmUser arm.
-            image.Show(0, 0, lockedSurface, new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = BlendMode.Alpha, Blend = table });
+            image.Show(0, 0, lockedSurface, showInfo: new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = BlendMode.Alpha, Blend = table });
             Assert.Equal(new BlendTable[] { table }, image.Drawn);
 
             // The image's own table, set in memory, draws through Show and ShowStretched.
@@ -180,19 +180,19 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
                     image.ShowStretched(s_square, lockedSurface);
                     List<BlendTable> expected = [tables.Lookup[30], tables.Lookup[30]];
                     // ShowEx has no bmLinearAlpha arm in the original.
-                    image.Show(0, 0, lockedSurface, new ShowInfo { ShowMode = ShowMode.Blended, Blend = 70 });
+                    image.Show(0, 0, lockedSurface, showInfo: new ShowInfo { ShowMode = ShowMode.Blended, Blend = 70 });
                     if (mode != BlendMode.LinearAlpha)
                     {
                         expected.Add(tables.Lookup[70]);
                     }
 
                     Assert.Equal(expected, image.Drawn);
-                    Assert.DoesNotContain(null, image.Drawn);
+                    Assert.DoesNotContain(null, collection: image.Drawn);
 
                     // A table in a percentage arm has no percentage to read.
                     if (mode != BlendMode.LinearAlpha)
                     {
-                        _ = Assert.Throws<InvalidCastException>(() => image.Show(0, 0, lockedSurface, new ShowInfo { ShowMode = ShowMode.Blended, Blend = table }));
+                        _ = Assert.Throws<InvalidCastException>(() => image.Show(0, 0, lockedSurface, showInfo: new ShowInfo { ShowMode = ShowMode.Blended, Blend = table }));
                     }
 
                     image.ShowInfo = new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = mode, Blend = table };
@@ -215,13 +215,13 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         ShowInfo caller = new() { ShowMode = ShowMode.Blended, Blend = 60 };
         LockedSurface lockedSurface = default;
         image.Show(0, 0, lockedSurface);
-        image.Show(0, 0, lockedSurface, caller);
+        image.Show(0, 0, lockedSurface, showInfo: caller);
         long before = GC.GetAllocatedBytesForCurrentThread();
         for (int i = 0; i < 1000; i++)
         {
             image.Show(0, 0, lockedSurface);
             image.ShowStretched(s_square, lockedSurface);
-            image.Show(0, 0, lockedSurface, caller);
+            image.Show(0, 0, lockedSurface, showInfo: caller);
         }
         Assert.Equal(0, GC.GetAllocatedBytesForCurrentThread() - before);
     });
@@ -234,7 +234,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
             (new(), new(), new(), new(), new());
         try
         {
-            GraphicsState.InitializeBlendTables(5, 31);
+            GraphicsState.InitializeBlendTables(5, count: 31);
             body();
         }
         finally
@@ -265,7 +265,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
     public void EveryInstalledImageWritesItsShowInfoBackAsTheFileHoldsIt()
     {
         string[] files = [.. InstalledLibrariesFactAttribute.Folders
-            .SelectMany(folder => Directory.EnumerateFiles(folder, "*.ILB", SearchOption.AllDirectories))
+            .SelectMany(folder => Directory.EnumerateFiles(folder, searchPattern: "*.ILB", searchOption: SearchOption.AllDirectories))
             .Order(StringComparer.OrdinalIgnoreCase)];
         List<LibraryImageClass> previousClasses = ImageLibraries.LibraryImageClasses;
         ImageLibraries.LibraryImageClasses = [];
@@ -295,7 +295,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         }
 
         Assert.Equal(files.Length, tally.Libraries);
-        Assert.True(tally.Images - tally.WithoutShowInfo > 1000, $"only {tally.Images - tally.WithoutShowInfo} records compared");
+        Assert.True(tally.Images - tally.WithoutShowInfo > 1000, userMessage: $"only {tally.Images - tally.WithoutShowInfo} records compared");
         // A bmUser image in a file carries an int in place of a table (spec 3.3), and draws nothing.
         Assert.Equal(0, tally.User);
     }
@@ -322,7 +322,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         {
             for (int i = 0; i < node.Count; i++)
             {
-                CheckImage(file, bytes, node.Images[i], ref from, tally);
+                CheckImage(file, bytes, image: node.Images[i], ref from, tally);
             }
 
             return;
@@ -336,7 +336,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         }
 
         ShowInfo info = image.ShowInfoValue;
-        Assert.True(info.Blend is int, $"{file}: a show info read from a file holds a percentage");
+        Assert.True(info.Blend is int, userMessage: $"{file}: a show info read from a file holds a percentage");
         _ = tally.Modes.TryGetValue($"{info.ShowMode} {info.BlendMode}", out int seen);
         tally.Modes[$"{info.ShowMode} {info.BlendMode}"] = seen + 1;
         if (info.BlendMode == BlendMode.User)
@@ -360,9 +360,9 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
             at = bytes.AsSpan().IndexOf(header);
         }
 
-        Assert.True(at >= 0, $"{file}: the header of {image.FileName} at data position {image.DataPosition} is not in the file");
+        Assert.True(at >= 0, userMessage: $"{file}: the header of {image.FileName} at data position {image.DataPosition} is not in the file");
         int record = at + header.Length;
-        Assert.Equal(bytes.AsSpan(record, 8).ToArray(), Written(info));
+        Assert.Equal(bytes.AsSpan(record, length: 8).ToArray(), Written(info));
         from = record + 8;
     }
 
@@ -373,7 +373,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         byte[] name = Cp1252.Encode(image.FileName);
         byte[] header = new byte[4 + name.Length + 37];
         Span<byte> span = header.AsSpan();
-        BinaryPrimitives.WriteInt32LittleEndian(span, name.Length);
+        BinaryPrimitives.WriteInt32LittleEndian(span, value: name.Length);
         name.CopyTo(span[4..]);
         span = span[(4 + name.Length)..];
         foreach (int value in new[] { image.DataWidth, image.DataHeight, image.Xshift, image.Yshift, image.FileIndex })

@@ -27,7 +27,7 @@ public class Anarchy : CityTargetSpell
     public Anarchy(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_anarchyText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_anarchyText);
         SpellId = 72;
         CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Enemy);
     }
@@ -43,7 +43,7 @@ public class Anarchy : CityTargetSpell
             {
                 Holder = CreationHolder(),
                 Player = source.Player,
-                Text = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [SpellName])
+                Text = Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CastFormat), args: [SpellName])
             };
             log.SetLocation(level: targetCity.HexLevel, y: targetCity.HexY, x: targetCity.HexX);
             StrategicMap.Current.Players.GetPlayers(targetCity.Player).EventLogbook.AddEvent(log);
@@ -62,7 +62,7 @@ public class Anarchy : CityTargetSpell
                 sbyte targetCityHexLevel = targetCity.HexLevel;
                 sbyte targetCityHexY = targetCity.HexY;
                 sbyte hexX = targetCity.HexX;
-                _ = StrategicMap.Current.PlaceHex(a, hexX, targetCityHexY, targetCityHexLevel);
+                _ = StrategicMap.Current.PlaceHex(a, hexX, targetCityHexY, L: targetCityHexLevel);
             }
 
             return true;
@@ -73,7 +73,7 @@ public class Anarchy : CityTargetSpell
             {
                 targetCity = eventValue.GetSelectedCity();
                 targetCity.ExecuteAnarchy();
-                CastingDone(source, eventValue.EventMana);
+                CastingDone(source, mana: eventValue.EventMana);
                 return false;
             }
             else

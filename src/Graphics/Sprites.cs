@@ -11,9 +11,9 @@ public static partial class Blit
     }
 
     private static bool Visible(int x, int y, in Rect clip) => x >= clip.Left && x < clip.Right && y >= clip.Top && y < clip.Bottom;
-    public static void BlitRle16(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h, int key) => Rle16(x, y, destination, data, w, h, key, false, false);
-    public static void BlendRle555(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h, int key) => Rle16(x, y, destination, data, w, h, key, true, false);
-    public static void BlendRle565(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h, int key) => Rle16(x, y, destination, data, w, h, key, true, true);
+    public static void BlitRle16(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h, int key) => Rle16(x, y, destination, data, w, h, key, blend: false, rgb565: false);
+    public static void BlendRle555(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h, int key) => Rle16(x, y, destination, data, w, h, key, blend: true, rgb565: false);
+    public static void BlendRle565(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h, int key) => Rle16(x, y, destination, data, w, h, key, blend: true, rgb565: true);
 
     private static void Rle16(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h, int key, bool blend, bool rgb565)
     {
@@ -28,7 +28,7 @@ public static partial class Blit
         int row = 0;
         for (int ry = 0; ry < h; ry++)
         {
-            int length = (int)Dword(data, row), end = row + length, p = row + 4, dx = x;
+            int length = (int)Dword(data, offset: row), end = row + length, p = row + 4, dx = x;
             if (y + ry >= clip.Top && y + ry < clip.Bottom)
             {
                 int destinationLocal = ((y + ry) * pitch) + (x * 2);
@@ -40,11 +40,11 @@ public static partial class Blit
                 {
                     while (p < end)
                     {
-                        int pixel = UInt16(data, p);
+                        int pixel = UInt16(data, offset: p);
                         p += 2;
                         if (pixel == key)
                         {
-                            dx += UInt16(data, p) / 2;
+                            dx += UInt16(data, offset: p) / 2;
                             p += 2;
                         }
                         else
@@ -52,7 +52,7 @@ public static partial class Blit
                             if (Visible(dx, y + ry, clip))
                             {
                                 int at = ((y + ry) * pitch) + (dx * 2);
-                                destination.UInt16(at, blend ? Half(pixel, destination.UInt16(at), rgb565) : pixel);
+                                destination.UInt16(at, value: blend ? Half(pixel, d: destination.UInt16(at), rgb565) : pixel);
                             }
                             dx++;
                         }
@@ -77,26 +77,26 @@ public static partial class Blit
 
         private void Scalar()
         {
-            int pixel = UInt16(Data, DataPosition);
+            int pixel = UInt16(Data, offset: DataPosition);
             DataPosition += 2;
             Count -= 2;
             if (pixel == Key)
             {
-                DestinationOffset += UInt16(Data, DataPosition);
+                DestinationOffset += UInt16(Data, offset: DataPosition);
                 DataPosition += 2;
                 Count -= 2;
             }
             else
             {
-                Destination.UInt16(DestinationOffset, Half(pixel, Destination.UInt16(DestinationOffset), Rgb565));
+                Destination.UInt16(DestinationOffset, value: Half(pixel, d: Destination.UInt16(DestinationOffset), Rgb565));
                 DestinationOffset += 2;
             }
         }
 
         private void Pair()
         {
-            Destination.UInt16(DestinationOffset, Half(UInt16(Data, DataPosition), Destination.UInt16(DestinationOffset), Rgb565));
-            Destination.UInt16(DestinationOffset + 2, Half(UInt16(Data, DataPosition + 2), Destination.UInt16(DestinationOffset + 2), Rgb565, true));
+            Destination.UInt16(DestinationOffset, value: Half(UInt16(Data, offset: DataPosition), d: Destination.UInt16(DestinationOffset), Rgb565));
+            Destination.UInt16(DestinationOffset + 2, value: Half(UInt16(Data, offset: DataPosition + 2), d: Destination.UInt16(DestinationOffset + 2), Rgb565, high: true));
             DataPosition += 4;
             Count -= 4;
             DestinationOffset += 4;
@@ -111,16 +111,16 @@ public static partial class Blit
                     Scalar();
                     continue;
                 }
-                if (UInt16(Data, DataPosition) == Key)
+                if (UInt16(Data, offset: DataPosition) == Key)
                 {
                     Scalar();
-                    if (UInt16(Data, DataPosition) == Key)
+                    if (UInt16(Data, offset: DataPosition) == Key)
                     {
                         Scalar();
                         continue;
                     }
                 }
-                else if (UInt16(Data, DataPosition + 2) == Key)
+                else if (UInt16(Data, offset: DataPosition + 2) == Key)
                 {
                     Scalar();
                     Scalar();
@@ -132,11 +132,11 @@ public static partial class Blit
                     Pair();
                 }
 
-                if (UInt16(Data, DataPosition) == Key)
+                if (UInt16(Data, offset: DataPosition) == Key)
                 {
                     Scalar();
                 }
-                else if (UInt16(Data, DataPosition + 2) != Key)
+                else if (UInt16(Data, offset: DataPosition + 2) != Key)
                 {
                     Pair();
                 }
@@ -144,7 +144,7 @@ public static partial class Blit
                 {
                     Scalar();
                     Scalar();
-                    while (Count > 0 && UInt16(Data, DataPosition) == Key)
+                    while (Count > 0 && UInt16(Data, offset: DataPosition) == Key)
                     {
                         Scalar();
                     }
@@ -163,10 +163,10 @@ public static partial class Blit
         int row = 0;
         for (int y = 0; y < h; y++)
         {
-            int end = row + (int)Dword(data, row);
+            int end = row + (int)Dword(data, offset: row);
             for (int p = row + 4; p < end; p += 2)
             {
-                int pixel = UInt16(data, p);
+                int pixel = UInt16(data, offset: p);
                 if (pixel == key)
                 {
                     p += 2;
@@ -179,15 +179,15 @@ public static partial class Blit
                         converted += to565 ? 1 : 0x400;
                     }
 
-                    UInt16(data, p, converted);
+                    UInt16(data, offset: p, value: converted);
                 }
             }
             row = (end + 3) & ~3;
         }
     }
 
-    public static void RemapRle555To565(Span<byte> data, int h, int key) => RemapRle(data, h, key, true);
-    public static void RemapRle565To555(Span<byte> data, int h, int key) => RemapRle(data, h, key, false);
+    public static void RemapRle555To565(Span<byte> data, int h, int key) => RemapRle(data, h, key, to565: true);
+    public static void RemapRle565To555(Span<byte> data, int h, int key) => RemapRle(data, h, key, to565: false);
     public static void ShowRle08(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h, byte key) => Rle08(x, y, destination, data, w, h, key, palette: default, paletteMode: false);
     public static void ShowRle08To16(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h, byte key, ReadOnlySpan<uint> palette) => Rle08(x, y, destination, data, w, h, key, palette, paletteMode: true);
 
@@ -215,7 +215,7 @@ public static partial class Blit
                     }
                     else if (Visible(x + dx, y + ry, clip))
                     {
-                        destination.UInt16(((y + ry) * pitch) + ((x + dx) * 2), (ushort)palette[pixel]);
+                        destination.UInt16(((y + ry) * pitch) + ((x + dx) * 2), value: (ushort)palette[pixel]);
                     }
 
                     dx++;
@@ -224,9 +224,9 @@ public static partial class Blit
         }
     }
 
-    public static void ShowBitMask16(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h) => Mask(x, y, destination, data, w, h, false, false);
-    public static void ShowShadow555(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h) => Mask(x, y, destination, data, w, h, true, false);
-    public static void ShowShadow565(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h) => Mask(x, y, destination, data, w, h, true, true);
+    public static void ShowBitMask16(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h) => Mask(x, y, destination, data, w, h, shadow: false, rgb565: false);
+    public static void ShowShadow555(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h) => Mask(x, y, destination, data, w, h, shadow: true, rgb565: false);
+    public static void ShowShadow565(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h) => Mask(x, y, destination, data, w, h, shadow: true, rgb565: true);
 
     private static void Mask(int x, int y, SurfaceView destination, ReadOnlySpan<byte> data, int w, int h, bool shadow, bool rgb565)
     {
@@ -270,7 +270,7 @@ public static partial class Blit
         for (int ry = first; ry < last; ry++)
         {
             int p = (ry * sourcePitch) + (skip * 4), d = ((y + ry) * pitch) + (x * 2), offset = left * 2, remaining = words;
-            uint bits = Dword(data, p);
+            uint bits = Dword(data, offset: p);
             if (left != 0)
             {
                 bits <<= left;
@@ -303,7 +303,7 @@ public static partial class Blit
                         }
                         if (!shadow)
                         {
-                            destination.UInt16(d + offset, 0xFFFF);
+                            destination.UInt16(d + offset, value: 0xFFFF);
                             offset += 2;
                             if (bits == 0)
                             {
@@ -314,7 +314,7 @@ public static partial class Blit
                         }
                         if (bits == 0)
                         {
-                            destination.UInt16(d + offset, Dark(destination, d + offset, m1, m2));
+                            destination.UInt16(d + offset, value: Dark(destination, at: d + offset, m1, m2));
                             break;
                         }
                         bool second = (bits & 0x80000000u) != 0;
@@ -322,14 +322,14 @@ public static partial class Blit
                         if (second)
                         {
                             uint pixel = destination.Dword(d + offset);
-                            destination.Dword(d + offset, ((pixel >> 1) & pair1) + ((pixel & pair2) >> 2));
+                            destination.Dword(d + offset, value: ((pixel >> 1) & pair1) + ((pixel & pair2) >> 2));
                             offset += 4;
                         }
                         else
                         {
-                            int pixel = Dark(destination, d + offset, m1, m2);
+                            int pixel = Dark(destination, at: d + offset, m1, m2);
                             offset += 4;
-                            destination.UInt16(d + offset, pixel);
+                            destination.UInt16(d + offset, value: pixel);
                         }
                         if (bits == 0)
                         {
@@ -354,7 +354,7 @@ public static partial class Blit
                         break;
                     }
 
-                    bits = Dword(data, p);
+                    bits = Dword(data, offset: p);
                     if (!shadow)
                     {
                         p += 4;
@@ -365,7 +365,7 @@ public static partial class Blit
                     continue;
                 }
 
-                bits = Dword(data, p);
+                bits = Dword(data, offset: p);
             }
             while (true)
             {
@@ -373,13 +373,13 @@ public static partial class Blit
                 bits <<= 1;
                 if (set)
                 {
-                    int pixel = shadow ? Dark(destination, d + offset, m1, m2) : 0xFFFF;
+                    int pixel = shadow ? Dark(destination, at: d + offset, m1, m2) : 0xFFFF;
                     if (shadow)
                     {
                         offset += 2;
                     }
 
-                    destination.UInt16(d + offset, pixel);
+                    destination.UInt16(d + offset, value: pixel);
                     if (!shadow)
                     {
                         offset += 2;

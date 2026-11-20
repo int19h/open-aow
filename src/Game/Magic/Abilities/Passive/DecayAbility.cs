@@ -13,7 +13,7 @@ public class DecayAbility : DurationAbility
     public DecayAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_decayText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_decayText);
         AbilityId = 131;
         AbilityType = AbilityType.Handicap;
         DurationMode = DurationMode.EntireCombat;

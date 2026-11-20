@@ -32,7 +32,7 @@ public partial class LifeNode(CustomNode owner) : ProductionPlace(owner)
         public override int ResourceUserClassId() => 131953;
 
         // LifeNode.pas:52
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_lifeNodeText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_lifeNodeText);
 
         private static readonly string s_lifeNodeText = "Life Node";
 

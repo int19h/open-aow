@@ -24,7 +24,7 @@ public class TownQuake : CityTargetSpell
     public TownQuake(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_townQuakeText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_townQuakeText);
         SpellId = 71;
         CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Enemy);
     }
@@ -56,11 +56,11 @@ public class TownQuake : CityTargetSpell
                 _ = targetCity.ListArmies(armies);
                 for (int i = 0, last = armies.Count - 1; i <= last; i++)
                 {
-                    TriggerArmyDamage(source, armies[i]);
+                    TriggerArmyDamage(source, army: armies[i]);
                 }
 
                 armies?.Dispose();
-                CastingDone(source, eventValue.EventMana);
+                CastingDone(source, mana: eventValue.EventMana);
                 return false;
             }
             else
@@ -83,20 +83,20 @@ public class TownQuake : CityTargetSpell
         ArmyEventLog log = new(null)
         {
             Holder = CreationHolder(),
-            ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_townQuakeDamageText),
+            ArmyText = AbilityRules.TranslateResourceString(GetEngine(), S: s_townQuakeDamageText),
             Player = source.Player
         };
-        string townQuake = AbilityRules.TranslateResourceString(GetEngine(), s_townQuakeText);
+        string townQuake = AbilityRules.TranslateResourceString(GetEngine(), S: s_townQuakeText);
         _ = log.ArmyMessages.Add(townQuake);
         log.ArmyIcon = 2;
-        log.ArmyView.Setup(army.Army, 255);
+        log.ArmyView.Setup(army.Army, selection: 255);
         using (army.Army.BeginUpdate())
         {
             bool damaged = false;
             for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
             {
                 Troop troop = army.Army.Units.GetUnit(i);
-                int damage = troop.ExecuteDamageRole(7, 5, Set<DamageType>.Of(DamageType.Physical));
+                int damage = troop.ExecuteDamageRole(7, damage: 5, damageTypes: Set<DamageType>.Of(DamageType.Physical));
                 if (damage > troop.GetHitPoints())
                 {
                     damage = troop.GetHitPoints();

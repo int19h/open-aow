@@ -84,7 +84,7 @@ public class RangedAttackAbility : AdjustableAbility
                     {
                         Target = commands.TargetSide.GetObjects(i),
                         MoveCost = 1,
-                        ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, commands.Source, target)
+                        ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, targetDamageValue: values.TargetDamage, commands.Source, target)
                     };
                     commands.Add(command);
                 }
@@ -102,7 +102,7 @@ public class RangedAttackAbility : AdjustableAbility
         {
             for (int i = GetAttackRepeatRangedAttack(source.AbilityOwner) - 1; i >= 0; i--)
             {
-                RangedAttackCombatAction action = CreateRangedAttackCombatAction(source, target, penalty);
+                RangedAttackCombatAction action = CreateRangedAttackCombatAction(source, target, attackPenalty: penalty);
                 source.Combat.ExecuteCombatAction(action);
                 _ = action.Release();
             }
@@ -126,7 +126,7 @@ public class RangedAttackAbility : AdjustableAbility
         Set<DamageType> protectionTypes = defender.GetProtectionTypes();
         Set<DamageType> damageTypesRangedAttack = GetDamageTypesRangedAttack(attacker);
         sbyte damageRangedAttack = GetDamageRangedAttack(attacker);
-        int result = AbilityRules.StatisticsToLimitedDamageValue(GetAttackRangedAttack(attacker), damageRangedAttack, damageTypesRangedAttack, hitPoints, defense, resistance, immunityTypes, protectionTypes);
+        int result = AbilityRules.StatisticsToLimitedDamageValue(GetAttackRangedAttack(attacker), damage: damageRangedAttack, damageTypes: damageTypesRangedAttack, maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
         int repeats = GetAttackRepeatRangedAttack(attacker);
         return result * repeats;
     }
@@ -146,7 +146,7 @@ public class RangedAttackAbility : AdjustableAbility
         Set<DamageType> protectionTypes = defender.GetProtectionTypes();
         Set<DamageType> damageTypesRangedAttack = GetDamageTypesRangedAttack(attacker);
         sbyte damageRangedAttack = GetDamageRangedAttack(attacker);
-        int damage = AbilityRules.StatisticsToLimitedDamageValue(GetAttackRangedAttack(attacker), damageRangedAttack, damageTypesRangedAttack, hitPoints, defense, resistance, immunityTypes, protectionTypes);
+        int damage = AbilityRules.StatisticsToLimitedDamageValue(GetAttackRangedAttack(attacker), damage: damageRangedAttack, damageTypes: damageTypesRangedAttack, maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
         int repeats = GetAttackRepeatRangedAttack(attacker);
         damage *= repeats;
         damageValues.SourceDamage = damage;
@@ -160,7 +160,7 @@ public class RangedAttackAbility : AdjustableAbility
     {
         sbyte attackRepeatRangedAttack = GetAttackRepeatRangedAttack(owner);
         sbyte damageRangedAttack = GetDamageRangedAttack(owner);
-        strength = AbilityRules.LimitedDamage(GetAttackRangedAttack(owner), damageRangedAttack, attackRepeatRangedAttack);
+        strength = AbilityRules.LimitedDamage(GetAttackRangedAttack(owner), defense: damageRangedAttack, damage: attackRepeatRangedAttack);
         types = GetDamageTypesRangedAttack(owner);
     }
 
@@ -185,12 +185,12 @@ public class RangedAttackAbility : AdjustableAbility
             damageValues.DamageTypes = damageTypesRangedAttack;
             sbyte hitPoints = defender.HitPoints;
             sbyte resistance = defender.GetResistance();
-            int value = AbilityRules.StatisticsToLimitedDamageValue(GetAttackRangedAttack(attacker.AbilityOwner), damage, damageTypes, hitPoints, defense, resistance, immunityTypes, protectionTypes);
+            int value = AbilityRules.StatisticsToLimitedDamageValue(GetAttackRangedAttack(attacker.AbilityOwner), damage, damageTypes, maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
             int repeats = GetAttackRepeatRangedAttack(attacker.AbilityOwner);
             value *= repeats;
             damageValues.SourceDamage = value;
             // { Original swaps protection and immunity for maximum damage. }
-            value = AbilityRules.StatisticsToMaxDamage(damage, damageTypes, protectionTypes, immunityTypes);
+            value = AbilityRules.StatisticsToMaxDamage(damage, damageTypes, immunityTypes: protectionTypes, protectionTypes: immunityTypes);
             repeats = GetAttackRepeatRangedAttack(attacker.AbilityOwner);
             value *= repeats;
             damageValues.SourceCost = value;

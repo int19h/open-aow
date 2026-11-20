@@ -24,8 +24,8 @@ public sealed class BlitterTests
 
     private static SurfaceView ViewOf(Area area, Rect clip = default) => new(area.Memory, area.Start, area.Pitch, clip);
 
-    private static readonly byte[] s_table = Bytes(262144, 7);
-    private static readonly byte[] s_blend = Bytes(1024, 8);
+    private static readonly byte[] s_table = Bytes(262144, seed: 7);
+    private static readonly byte[] s_blend = Bytes(1024, seed: 8);
 
     // The 1,024 blend bytes read as 256 little-endian palette pixel values, as the pointer
     // implementation read its palette argument.
@@ -36,7 +36,7 @@ public sealed class BlitterTests
         uint[] values = new uint[bytes.Length / 4];
         for (int i = 0; i < values.Length; i++)
         {
-            values[i] = BinaryPrimitives.ReadUInt32LittleEndian(bytes.AsSpan(4 * i, 4));
+            values[i] = BinaryPrimitives.ReadUInt32LittleEndian(bytes.AsSpan(4 * i, length: 4));
         }
 
         return values;
@@ -44,31 +44,31 @@ public sealed class BlitterTests
 
     private static readonly (string Name, Rectangle Call)[] s_copies =
     [
-        ("BltRect", (s, d, w, h) => Blit.BlitRectangle(ViewOf(s), ViewOf(d), w, h)),
-        ("RegisterBltRect", (s, d, w, h) => Blit.RegisterBlitRectangle(ViewOf(s), ViewOf(d), w, h)),
-        ("RepMovsdBltRect", (s, d, w, h) => Blit.RepMovsdBlitRectangle(ViewOf(s), ViewOf(d), w, h)),
-        ("GFXEUnit.BltRect", (s, d, w, h) => BlitRects.BlitRectangle(ViewOf(s), ViewOf(d), w, h)),
+        ("BltRect", (s, d, w, h) => Blit.BlitRectangle(ViewOf(s), d: ViewOf(d), w, h)),
+        ("RegisterBltRect", (s, d, w, h) => Blit.RegisterBlitRectangle(ViewOf(s), d: ViewOf(d), w, h)),
+        ("RepMovsdBltRect", (s, d, w, h) => Blit.RepMovsdBlitRectangle(ViewOf(s), d: ViewOf(d), w, h)),
+        ("GFXEUnit.BltRect", (s, d, w, h) => BlitRects.BlitRectangle(ViewOf(s), destination: ViewOf(d), w, h)),
     ];
 
     private static readonly (string Name, int SourceBytes, Rectangle Call)[] s_pixels =
     [
-        ("BltColorKey16", 2, (s, d, w, h) => Blit.BlitColorKey16(ViewOf(s), ViewOf(d), w, h, 0x1234)),
-        ("BltTransparent555", 2, (s, d, w, h) => Blit.BlitTransparent555(ViewOf(s), ViewOf(d), w, h)),
-        ("BltTransparent565", 2, (s, d, w, h) => Blit.BlitTransparent565(ViewOf(s), ViewOf(d), w, h)),
-        ("RemapSurface16to16", 2, (s, d, w, h) => Blit.RemapSurface16To16(ViewOf(s), ViewOf(d), s_table, w, h)),
-        ("RemapSurface16to08", 2, (s, d, w, h) => Blit.RemapSurface16To08(ViewOf(s), ViewOf(d), s_table, w, h)),
-        ("RemapSurface16to32", 2, (s, d, w, h) => Blit.RemapSurface16To32(ViewOf(s), ViewOf(d), s_table, w, h)),
-        ("RemapSurface555to32", 2, (s, d, w, h) => Blit.RemapSurface555To32(ViewOf(s), ViewOf(d), w, h)),
-        ("RemapSurface565to32", 2, (s, d, w, h) => Blit.RemapSurface565To32(ViewOf(s), ViewOf(d), w, h)),
-        ("RemapSurface555to565", 2, (s, d, w, h) => Blit.RemapSurface555To565(ViewOf(s), ViewOf(d), w, h)),
-        ("RemapSurface565to555", 2, (s, d, w, h) => Blit.RemapSurface565To555(ViewOf(s), ViewOf(d), w, h)),
-        ("BlendSurface555", 2, (s, d, w, h) => Blit.BlendSurface555(ViewOf(s), ViewOf(d), w, h, s_blend)),
-        ("BlendSurface565", 2, (s, d, w, h) => Blit.BlendSurface565(ViewOf(s), ViewOf(d), w, h, s_blend)),
-        ("BlendColorKey555", 2, (s, d, w, h) => Blit.BlendColorKey555(ViewOf(s), ViewOf(d), w, h, 0x1234, s_blend)),
-        ("BlendColorKey565", 2, (s, d, w, h) => Blit.BlendColorKey565(ViewOf(s), ViewOf(d), w, h, 0x1234, s_blend)),
-        ("RemapSurface08to24", 1, (s, d, w, h) => PixelRemap.RemapSurface08To24(ViewOf(s), ViewOf(d), w, h, s_palette)),
-        ("RemapSurface08to555", 1, (s, d, w, h) => PixelRemap.RemapSurface08To555(ViewOf(s), ViewOf(d), w, h, s_palette)),
-        ("RemapSurface08to565", 1, (s, d, w, h) => PixelRemap.RemapSurface08To565(ViewOf(s), ViewOf(d), w, h, s_palette)),
+        ("BltColorKey16", 2, (s, d, w, h) => Blit.BlitColorKey16(ViewOf(s), d: ViewOf(d), w, h, key: 0x1234)),
+        ("BltTransparent555", 2, (s, d, w, h) => Blit.BlitTransparent555(ViewOf(s), d: ViewOf(d), w, h)),
+        ("BltTransparent565", 2, (s, d, w, h) => Blit.BlitTransparent565(ViewOf(s), d: ViewOf(d), w, h)),
+        ("RemapSurface16to16", 2, (s, d, w, h) => Blit.RemapSurface16To16(ViewOf(s), d: ViewOf(d), s_table, w, h)),
+        ("RemapSurface16to08", 2, (s, d, w, h) => Blit.RemapSurface16To08(ViewOf(s), d: ViewOf(d), s_table, w, h)),
+        ("RemapSurface16to32", 2, (s, d, w, h) => Blit.RemapSurface16To32(ViewOf(s), d: ViewOf(d), s_table, w, h)),
+        ("RemapSurface555to32", 2, (s, d, w, h) => Blit.RemapSurface555To32(ViewOf(s), d: ViewOf(d), w, h)),
+        ("RemapSurface565to32", 2, (s, d, w, h) => Blit.RemapSurface565To32(ViewOf(s), d: ViewOf(d), w, h)),
+        ("RemapSurface555to565", 2, (s, d, w, h) => Blit.RemapSurface555To565(ViewOf(s), d: ViewOf(d), w, h)),
+        ("RemapSurface565to555", 2, (s, d, w, h) => Blit.RemapSurface565To555(ViewOf(s), d: ViewOf(d), w, h)),
+        ("BlendSurface555", 2, (s, d, w, h) => Blit.BlendSurface555(ViewOf(s), d: ViewOf(d), w, h, t: s_blend)),
+        ("BlendSurface565", 2, (s, d, w, h) => Blit.BlendSurface565(ViewOf(s), d: ViewOf(d), w, h, t: s_blend)),
+        ("BlendColorKey555", 2, (s, d, w, h) => Blit.BlendColorKey555(ViewOf(s), d: ViewOf(d), w, h, k: 0x1234, t: s_blend)),
+        ("BlendColorKey565", 2, (s, d, w, h) => Blit.BlendColorKey565(ViewOf(s), d: ViewOf(d), w, h, k: 0x1234, t: s_blend)),
+        ("RemapSurface08to24", 1, (s, d, w, h) => PixelRemap.RemapSurface08To24(ViewOf(s), destination: ViewOf(d), w, h, s_palette)),
+        ("RemapSurface08to555", 1, (s, d, w, h) => PixelRemap.RemapSurface08To555(ViewOf(s), destination: ViewOf(d), w, h, s_palette)),
+        ("RemapSurface08to565", 1, (s, d, w, h) => PixelRemap.RemapSurface08To565(ViewOf(s), destination: ViewOf(d), w, h, s_palette)),
     ];
 
     // The six converters between 16-bit and 24 or 32-bit pixels. Before GP-2 each one raised
@@ -76,57 +76,57 @@ public sealed class BlitterTests
     // expectation is the Delphi source (GFXE.pas:8325 to 8448), not a recording.
     private static readonly (string Name, int SourceBytes, int DestinationBytes, Rectangle Call)[] s_converters =
     [
-        ("RemapSurface24to565", 3, 2, (s, d, w, h) => PixelRemap.RemapSurface24To565(ViewOf(s), ViewOf(d), w, h)),
-        ("RemapSurface24to555", 3, 2, (s, d, w, h) => PixelRemap.RemapSurface24To555(ViewOf(s), ViewOf(d), w, h)),
-        ("RemapSurface555to24", 2, 3, (s, d, w, h) => PixelRemap.RemapSurface555To24(ViewOf(s), ViewOf(d), w, h)),
-        ("RemapSurface565to24", 2, 3, (s, d, w, h) => PixelRemap.RemapSurface565To24(ViewOf(s), ViewOf(d), w, h)),
-        ("RemapSurface32to565", 4, 2, (s, d, w, h) => PixelRemap.RemapSurface32To565(ViewOf(s), ViewOf(d), w, h)),
-        ("RemapSurface32to555", 4, 2, (s, d, w, h) => PixelRemap.RemapSurface32To555(ViewOf(s), ViewOf(d), w, h)),
+        ("RemapSurface24to565", 3, 2, (s, d, w, h) => PixelRemap.RemapSurface24To565(ViewOf(s), destination: ViewOf(d), w, h)),
+        ("RemapSurface24to555", 3, 2, (s, d, w, h) => PixelRemap.RemapSurface24To555(ViewOf(s), destination: ViewOf(d), w, h)),
+        ("RemapSurface555to24", 2, 3, (s, d, w, h) => PixelRemap.RemapSurface555To24(ViewOf(s), destination: ViewOf(d), w, h)),
+        ("RemapSurface565to24", 2, 3, (s, d, w, h) => PixelRemap.RemapSurface565To24(ViewOf(s), destination: ViewOf(d), w, h)),
+        ("RemapSurface32to565", 4, 2, (s, d, w, h) => PixelRemap.RemapSurface32To565(ViewOf(s), destination: ViewOf(d), w, h)),
+        ("RemapSurface32to555", 4, 2, (s, d, w, h) => PixelRemap.RemapSurface32To555(ViewOf(s), destination: ViewOf(d), w, h)),
     ];
 
     private static readonly (string Name, Action<Area, int[], int[], Area, int, int> Call)[] s_stretches =
     [
-        ("BltStretched16", (s, rows, cols, d, w, h) => Blit.BlitStretched16(ViewOf(s), rows, cols, ViewOf(d), w, h)),
-        ("BlendStretched555", (s, rows, cols, d, w, h) => Blit.BlendStretched555(ViewOf(s), rows, cols, ViewOf(d), w, h, s_blend)),
-        ("BlendStretched565", (s, rows, cols, d, w, h) => Blit.BlendStretched565(ViewOf(s), rows, cols, ViewOf(d), w, h, s_blend)),
-        ("GFXEUnit.BltStretched16", (s, rows, cols, d, w, h) => Draw.Images.Picture16.BlitStretched16(ViewOf(s), rows, cols, ViewOf(d), w, h)),
-        ("GFXEUnit.BlendStretched555", (s, rows, cols, d, w, h) => Draw.Images.Picture16.BlendStretched555(ViewOf(s), rows, cols, ViewOf(d), w, h, s_blend)),
+        ("BltStretched16", (s, rows, cols, d, w, h) => Blit.BlitStretched16(ViewOf(s), rows, cols, destination: ViewOf(d), w, h)),
+        ("BlendStretched555", (s, rows, cols, d, w, h) => Blit.BlendStretched555(ViewOf(s), rows, cols, destination: ViewOf(d), w, h, table: s_blend)),
+        ("BlendStretched565", (s, rows, cols, d, w, h) => Blit.BlendStretched565(ViewOf(s), rows, cols, destination: ViewOf(d), w, h, table: s_blend)),
+        ("GFXEUnit.BltStretched16", (s, rows, cols, d, w, h) => Draw.Images.Picture16.BlitStretched16(ViewOf(s), rows, cols, destination: ViewOf(d), w, h)),
+        ("GFXEUnit.BlendStretched555", (s, rows, cols, d, w, h) => Draw.Images.Picture16.BlendStretched555(ViewOf(s), rows, cols, destination: ViewOf(d), w, h, table: s_blend)),
     ];
 
     private static readonly (string Name, Sprite Call)[] s_sprites16 =
     [
-        ("BltRLE16", (x, y, d, clip, data, w, h) => Blit.BlitRle16(x, y, ViewOf(d, clip), data, w, h, 0)),
-        ("BlendRLE555", (x, y, d, clip, data, w, h) => Blit.BlendRle555(x, y, ViewOf(d, clip), data, w, h, 0)),
-        ("BlendRLE565", (x, y, d, clip, data, w, h) => Blit.BlendRle565(x, y, ViewOf(d, clip), data, w, h, 0)),
+        ("BltRLE16", (x, y, d, clip, data, w, h) => Blit.BlitRle16(x, y, destination: ViewOf(d, clip), data, w, h, key: 0)),
+        ("BlendRLE555", (x, y, d, clip, data, w, h) => Blit.BlendRle555(x, y, destination: ViewOf(d, clip), data, w, h, key: 0)),
+        ("BlendRLE565", (x, y, d, clip, data, w, h) => Blit.BlendRle565(x, y, destination: ViewOf(d, clip), data, w, h, key: 0)),
     ];
 
     private static readonly (string Name, Sprite Call)[] s_masks =
     [
-        ("ShowBitMask16", (x, y, d, clip, data, w, h) => Blit.ShowBitMask16(x, y, ViewOf(d, clip), data, w, h)),
-        ("ShowShadow555", (x, y, d, clip, data, w, h) => Blit.ShowShadow555(x, y, ViewOf(d, clip), data, w, h)),
-        ("ShowShadow565", (x, y, d, clip, data, w, h) => Blit.ShowShadow565(x, y, ViewOf(d, clip), data, w, h)),
+        ("ShowBitMask16", (x, y, d, clip, data, w, h) => Blit.ShowBitMask16(x, y, destination: ViewOf(d, clip), data, w, h)),
+        ("ShowShadow555", (x, y, d, clip, data, w, h) => Blit.ShowShadow555(x, y, destination: ViewOf(d, clip), data, w, h)),
+        ("ShowShadow565", (x, y, d, clip, data, w, h) => Blit.ShowShadow565(x, y, destination: ViewOf(d, clip), data, w, h)),
     ];
 
     private static readonly (string Name, Sprite Call)[] s_sprites08 =
     [
-        ("ShowRLE08", (x, y, d, clip, data, w, h) => Blit.ShowRle08(x, y, ViewOf(d, clip), data, w, h, 255)),
-        ("ShowRLE08to16", (x, y, d, clip, data, w, h) => Blit.ShowRle08To16(x, y, ViewOf(d, clip), data, w, h, 255, s_palettePixels)),
+        ("ShowRLE08", (x, y, d, clip, data, w, h) => Blit.ShowRle08(x, y, destination: ViewOf(d, clip), data, w, h, key: 255)),
+        ("ShowRLE08to16", (x, y, d, clip, data, w, h) => Blit.ShowRle08To16(x, y, destination: ViewOf(d, clip), data, w, h, key: 255, palette: s_palettePixels)),
     ];
 
     private static void RemapRle(bool to565, byte[] data, int height)
     {
         if (to565)
         {
-            Blit.RemapRle555To565(data, height, 0);
+            Blit.RemapRle555To565(data, h: height, key: 0);
         }
         else
         {
-            Blit.RemapRle565To555(data, height, 0);
+            Blit.RemapRle565To555(data, h: height, key: 0);
         }
     }
 
     private static void DrawLine(int x1, int y1, int x2, int y2, int skip, Area d, Rect clip)
-        => Blit.DrawLine16(x1, y1, x2, y2, skip, 0x6B5A, ViewOf(d, clip));
+        => Blit.DrawLine16(x1, y1, x2, y2, skip, color: 0x6B5A, destination: ViewOf(d, clip));
 
     #endregion
 
@@ -160,7 +160,7 @@ public sealed class BlitterTests
         {
             if (random.Next(4) == 0)
             {
-                BinaryPrimitives.WriteUInt16LittleEndian(bytes.AsSpan(i), 0x1234);
+                BinaryPrimitives.WriteUInt16LittleEndian(bytes.AsSpan(i), value: 0x1234);
             }
         }
 
@@ -218,7 +218,7 @@ public sealed class BlitterTests
     // with 16 spare bytes on both sides. A negative sign makes the rows bottom-up: row 0 is the
     // last row of the block and the pitch is negative.
     private static Area Make(byte[] memory, int align, int pitch, int height, int sign)
-        => sign > 0 ? new Area(memory, 16 + align, pitch) : new Area(memory, 16 + ((height - 1) * pitch) + align, -pitch);
+        => sign > 0 ? new Area(memory, Start: 16 + align, pitch) : new Area(memory, Start: 16 + ((height - 1) * pitch) + align, Pitch: -pitch);
 
     private static int Size(int pitch, int height) => 32 + (pitch * height);
 
@@ -283,13 +283,13 @@ public sealed class BlitterTests
         string? record = Environment.GetEnvironmentVariable("AOW_BLITTER_RECORD");
         if (record is not null)
         {
-            File.AppendAllLines(record, results);
+            File.AppendAllLines(record, contents: results);
             return;
         }
         foreach (string result in results)
         {
             string name = result[..result.IndexOf(' ')];
-            Assert.True(s_expected.TryGetValue(name, out string? expected), $"no expectation for {name}");
+            Assert.True(s_expected.TryGetValue(name, out string? expected), userMessage: $"no expectation for {name}");
             Assert.Equal(expected, result[(name.Length + 1)..]);
         }
     }
@@ -319,11 +319,11 @@ public sealed class BlitterTests
                                         continue;
                                     }
 
-                                    byte[] source = Bytes(Size(80, 3), seed++);
-                                    byte[] destination = Bytes(Size(88, 3) - (cut ? 104 - da - (w / 2) : 0), seed++);
-                                    Area s = Make(source, sa, 80, 3, sign);
-                                    Area d = Make(destination, da, 88, 3, cut ? 1 : sign);
-                                    recorder.Run(destination, () => call(s, d, w, height));
+                                    byte[] source = Bytes(Size(80, height: 3), seed: seed++);
+                                    byte[] destination = Bytes(Size(88, height: 3) - (cut ? 104 - da - (w / 2) : 0), seed: seed++);
+                                    Area s = Make(source, align: sa, pitch: 80, height: 3, sign);
+                                    Area d = Make(destination, align: da, pitch: 88, height: 3, sign: cut ? 1 : sign);
+                                    recorder.Run(destination, () => call(s, destination: d, w, height));
                                 }
                             }
                         }
@@ -356,11 +356,11 @@ public sealed class BlitterTests
                     {
                         foreach (int sign in (int[])[1, -1])
                         {
-                            byte[] memory = Bytes(1024, seed++);
+                            byte[] memory = Bytes(1024, seed: seed++);
                             int start = sign > 0 ? 200 + a : 200 + (3 * 160) + a;
-                            Area s = new(memory, start, 160 * sign);
-                            Area d = new(memory, start + shift, 160 * sign);
-                            recorder.Run(memory, () => call(s, d, w, 3));
+                            Area s = new(memory, start, Pitch: 160 * sign);
+                            Area d = new(memory, Start: start + shift, Pitch: 160 * sign);
+                            recorder.Run(memory, () => call(s, destination: d, w, 3));
                         }
                     }
                 }
@@ -385,7 +385,7 @@ public sealed class BlitterTests
                 memory[i] = (byte)i;
             }
 
-            call(new Area(memory, 4, 48), new Area(memory, 5, 48), 40, 1);
+            call(new Area(memory, Start: 4, Pitch: 48), destination: new Area(memory, Start: 5, Pitch: 48), 40, 1);
             results.Add($"{name}-literal 1 {System.Convert.ToHexString(memory)}");
         }
         Check(results);
@@ -409,11 +409,11 @@ public sealed class BlitterTests
                         {
                             foreach (bool cut in (bool[])[false, true])
                             {
-                                byte[] source = Pixels16(Size(136, 3), seed++);
-                                byte[] destination = Pixels16(Size(144, 3) - (cut ? 160 - da - w : 0), seed++);
-                                Area s = Make(source, sa, 136, 3, sign);
-                                Area d = Make(destination, da, 144, 3, cut ? 1 : sign);
-                                recorder.Run(destination, () => call(s, d, w, 3));
+                                byte[] source = Pixels16(Size(136, height: 3), seed: seed++);
+                                byte[] destination = Pixels16(Size(144, height: 3) - (cut ? 160 - da - w : 0), seed: seed++);
+                                Area s = Make(source, align: sa, pitch: 136, height: 3, sign);
+                                Area d = Make(destination, align: da, pitch: 144, height: 3, sign: cut ? 1 : sign);
+                                recorder.Run(destination, () => call(s, destination: d, w, 3));
                             }
                         }
                     }
@@ -426,9 +426,9 @@ public sealed class BlitterTests
                 {
                     for (int a = 0; a < 4; a++)
                     {
-                        byte[] memory = Pixels16(Size(144, 3), seed++);
-                        Area area = Make(memory, a, 144, 3, 1);
-                        recorder.Run(memory, () => call(area, area, w, 3));
+                        byte[] memory = Pixels16(Size(144, height: 3), seed: seed++);
+                        Area area = Make(memory, align: a, pitch: 144, height: 3, sign: 1);
+                        recorder.Run(memory, () => call(area, destination: area, w, 3));
                     }
                 }
             }
@@ -444,11 +444,11 @@ public sealed class BlitterTests
         int word = s.Length >= 2 ? s[0] | (s[1] << 8) : 0;
         switch (name)
         {
-            case "RemapSurface24to565": BinaryPrimitives.WriteUInt16LittleEndian(d, (ushort)(((s[2] & 0xF8) << 8) + ((s[1] & 0xFC) << 3) + (s[0] >> 3))); break;
-            case "RemapSurface24to555": BinaryPrimitives.WriteUInt16LittleEndian(d, (ushort)(((s[2] & 0xF8) << 7) + ((s[1] & 0xF8) << 2) + (s[0] >> 3))); break;
+            case "RemapSurface24to565": BinaryPrimitives.WriteUInt16LittleEndian(d, value: (ushort)(((s[2] & 0xF8) << 8) + ((s[1] & 0xFC) << 3) + (s[0] >> 3))); break;
+            case "RemapSurface24to555": BinaryPrimitives.WriteUInt16LittleEndian(d, value: (ushort)(((s[2] & 0xF8) << 7) + ((s[1] & 0xF8) << 2) + (s[0] >> 3))); break;
             case "RemapSurface555to24": d[2] = (byte)((word & 0x7C00) >> 7); d[1] = (byte)((word & 0x3E0) >> 2); d[0] = (byte)((word & 31) << 3); break;
             case "RemapSurface565to24": d[2] = (byte)((word & 0xF800) >> 8); d[1] = (byte)((word & 0x7E0) >> 3); d[0] = (byte)((word & 31) << 3); break;
-            default: BinaryPrimitives.WriteUInt16LittleEndian(d, (ushort)(((s[1] & 0xF8) << 7) + ((s[2] & 0xF8) << 2) + (s[3] >> 3))); break;
+            default: BinaryPrimitives.WriteUInt16LittleEndian(d, value: (ushort)(((s[1] & 0xF8) << 7) + ((s[2] & 0xF8) << 2) + (s[3] >> 3))); break;
         }
     }
 
@@ -466,21 +466,21 @@ public sealed class BlitterTests
                     {
                         foreach (int sign in (int[])[1, -1])
                         {
-                            byte[] source = Bytes(Size(136, 3), seed++);
-                            byte[] destination = Bytes(Size(144, 3), seed++);
+                            byte[] source = Bytes(Size(136, height: 3), seed: seed++);
+                            byte[] destination = Bytes(Size(144, height: 3), seed: seed++);
                             byte[] expected = (byte[])destination.Clone();
-                            Area s = Make(source, sa, 136, 3, sign);
-                            Area d = Make(destination, da, 144, 3, sign);
+                            Area s = Make(source, align: sa, pitch: 136, height: 3, sign);
+                            Area d = Make(destination, align: da, pitch: 144, height: 3, sign);
                             for (int y = 0; y < 3; y++)
                             {
                                 for (int x = 0; x < w; x++)
                                 {
-                                    Convert(name, source.AsSpan(s.Start + (y * s.Pitch) + (x * sourceBytes), sourceBytes), expected.AsSpan(d.Start + (y * d.Pitch) + (x * destinationBytes), destinationBytes));
+                                    Convert(name, s: source.AsSpan(s.Start + (y * s.Pitch) + (x * sourceBytes), length: sourceBytes), d: expected.AsSpan(d.Start + (y * d.Pitch) + (x * destinationBytes), length: destinationBytes));
                                 }
                             }
 
-                            call(s, d, w, 3);
-                            Assert.True(expected.AsSpan().SequenceEqual(destination), $"{name} {w} {sa} {da} {sign}");
+                            call(s, destination: d, w, 3);
+                            Assert.True(expected.AsSpan().SequenceEqual(destination), userMessage: $"{name} {w} {sa} {da} {sign}");
                         }
                     }
                 }
@@ -502,13 +502,13 @@ public sealed class BlitterTests
                 {
                     foreach (int sign in (int[])[1, -1])
                     {
-                        byte[] source = Pixels16(Size(96, 6), seed++);
-                        Area s = Make(source, a, 96, 6, sign);
+                        byte[] source = Pixels16(Size(96, height: 6), seed: seed++);
+                        Area s = Make(source, align: a, pitch: 96, height: 6, sign);
                         Random random = new(seed);
-                        int[] rows = [.. Enumerable.Range(0, 4).Select(_ => random.Next(6) * s.Pitch)];
-                        int[] cols = [.. Enumerable.Range(0, w).Select(_ => random.Next(40))];
-                        byte[] destination = Pixels16(Size(80, 4), seed++);
-                        Area d = Make(destination, (a + 1) & 3, 80, 4, sign);
+                        int[] rows = [.. Enumerable.Range(0, count: 4).Select(_ => random.Next(6) * s.Pitch)];
+                        int[] cols = [.. Enumerable.Range(0, count: w).Select(_ => random.Next(40))];
+                        byte[] destination = Pixels16(Size(80, height: 4), seed: seed++);
+                        Area d = Make(destination, align: (a + 1) & 3, pitch: 80, height: 4, sign);
                         recorder.Run(destination, () => call(s, rows, cols, d, w, 4));
                     }
                 }
@@ -644,10 +644,10 @@ public sealed class BlitterTests
                         for (int a = 0; a < 2; a++)
                         {
                             byte[] data = encode(w, 4, new Random(seed));
-                            byte[] destination = Pixels16(Size((96 * pixelBytes) + 16, 12), seed++);
-                            Area d = Make(destination, a * 2, (96 * pixelBytes) + 16, 12, sign);
-                            (Rect rectangle, int x, int y) = Placement(clip, w);
-                            recorder.Run(destination, () => call(x, y, d, rectangle, data, w, 4));
+                            byte[] destination = Pixels16(Size((96 * pixelBytes) + 16, height: 12), seed: seed++);
+                            Area d = Make(destination, align: a * 2, pitch: (96 * pixelBytes) + 16, height: 12, sign);
+                            (Rect rectangle, int x, int y) = Placement(clip, width: w);
+                            recorder.Run(destination, () => call(x, y, destination: d, clip: rectangle, data, w, 4));
                         }
                     }
                 }
@@ -661,16 +661,16 @@ public sealed class BlitterTests
     public void SpritesPinTheirBytes()
     {
         List<string> results = [];
-        RunSprites(s_sprites16, Rle16, 2, results);
-        RunSprites(s_masks, Mask, 2, results);
-        RunSprites(s_sprites08, Rle08, 2, results);
+        RunSprites(s_sprites16, encode: Rle16, pixelBytes: 2, results);
+        RunSprites(s_masks, encode: Mask, pixelBytes: 2, results);
+        RunSprites(s_sprites08, encode: Rle08, pixelBytes: 2, results);
         foreach (bool to565 in (bool[])[true, false])
         {
             Recorder recorder = new(to565 ? "RemapRLE555to565" : "RemapRLE565to555");
             foreach (int w in s_spriteWidths)
             {
-                byte[] data = Rle16(w, 4, new Random(w));
-                recorder.Run(data, () => RemapRle(to565, data, 4));
+                byte[] data = Rle16(w, 4, random: new Random(w));
+                recorder.Run(data, () => RemapRle(to565, data, height: 4));
             }
             results.Add(recorder.Result);
         }
@@ -693,10 +693,10 @@ public sealed class BlitterTests
                     {
                         foreach (int sign in (int[])[1, -1])
                         {
-                            byte[] destination = Pixels16(Size(40, 16), seed++);
-                            Area d = Make(destination, 2, 40, 16, sign);
+                            byte[] destination = Pixels16(Size(40, height: 16), seed: seed++);
+                            Area d = Make(destination, align: 2, pitch: 40, height: 16, sign);
                             Rect rectangle = clip == 0 ? new Rect(0, 0, 16, 16) : clip == 1 ? new Rect(3, 3, 12, 12) : new Rect(5, 5, 5, 5);
-                            recorder.Run(destination, () => DrawLine(px[i], py[i], px[j], py[j], skip, d, rectangle));
+                            recorder.Run(destination, () => DrawLine(px[i], py[i], px[j], py[j], skip, d, clip: rectangle));
                         }
                     }
                 }

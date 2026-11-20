@@ -63,7 +63,7 @@ public class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
                     }
 
                     sbyte hexY = UnitHexSprite.HexY;
-                    HexGeometry.CenterHexNumberToHex(UnitHexSprite.HexX, hexY, direction, ref x2, ref y2);
+                    HexGeometry.CenterHexNumberToHex(UnitHexSprite.HexX, hexY, hexNumber: direction, ref x2, ref y2);
                     if (CombatMap.Current.MapContainer.MapLevels[0].Field[x2, y2].TerrainType is not 0 and not 9)
                     {
                         TacticalBattleBloodHexSprite blood = new(CombatMap.Current.MapContainer.MapLevels[0].Field[x2, y2]);
@@ -86,7 +86,7 @@ public class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
             {
                 if (GetAbilityEnabled(131))
                 {
-                    MakeHitBlood(this, 100);
+                    MakeHitBlood(this, damage: 100);
                     for (int i = 0; i <= 9; i++)
                     {
                         BattleEffectSprite effect = CombatMap.Current.AddEffect(BattleEffectType.DecayComet);
@@ -194,7 +194,7 @@ public class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
                 Rect r = new(UnitHexSprite.HexX, hexY3, hexX2 + 1, hexY2 + 1);
                 UnitHexSprite?.Dispose();
                 UnitHexSprite = null;
-                CombatMap.Current.TriggerMapChangedEvent(r, 0);
+                CombatMap.Current.TriggerMapChangedEvent(r, L: 0);
             }
         }
         else
@@ -323,7 +323,7 @@ public class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
                     _ = newPath.Add(path[i]);
                 }
 
-                CombatMoveTokenEvent eventValue = CreateCombatMoveTokenEvent(unitObject, newPath);
+                CombatMoveTokenEvent eventValue = CreateCombatMoveTokenEvent(unitObject, path: newPath);
                 if (eventValue is not null)
                 {
                     sbyte unitObjectPlayer = unitObject.GetPlayer();

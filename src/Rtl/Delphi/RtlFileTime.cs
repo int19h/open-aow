@@ -11,12 +11,12 @@ public static class RtlFileTime
         if (!OperatingSystem.IsWindows())
         {
             DateTime stamp = File.GetLastWriteTimeUtc(path);
-            return DateTime.SpecifyKind(stamp + TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow), DateTimeKind.Unspecified);
+            return DateTime.SpecifyKind(stamp + TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow), kind: DateTimeKind.Unspecified);
         }
         long utc = File.GetLastWriteTimeUtc(path).ToFileTimeUtc();
-        return !FileTimeToLocalFileTime(in utc, out long local)
+        return !FileTimeToLocalFileTime(in utc, localFileTime: out long local)
             ? throw new IOException("File time conversion failed.")
-            : DateTime.SpecifyKind(DateTime.FromFileTimeUtc(local), DateTimeKind.Unspecified);
+            : DateTime.SpecifyKind(DateTime.FromFileTimeUtc(local), kind: DateTimeKind.Unspecified);
     }
 
     [DllImport("kernel32.dll", SetLastError = true)]

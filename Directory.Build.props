@@ -14,6 +14,8 @@
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <NoWarn>$(NoWarn);EnableGenerateDocumentationFile</NoWarn>
   </PropertyGroup>
+  <!-- The OpenAoW analyzers (analyzers/README.md): named arguments and enum conversions. -->
+  <Import Project="$(MSBuildThisFileDirectory)analyzers/Aow.Analyzers.props" />
   <ItemGroup>
     <CompilerVisibleProperty Include="RootNamespace" />
     <CompilerVisibleProperty Include="ProjectDir" />

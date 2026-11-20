@@ -38,22 +38,22 @@ public sealed class GameProfile
     public string WriteKind => Kinds[0];
 
     /// <summary>World maps and saves: THSEngine.LoadHSM, SaveHSM and the previews.</summary>
-    public static GameProfile WorldMap { get; } = new("world-map", "world-hsm", ["save", "map", "campaign-map"]);
+    public static GameProfile WorldMap { get; } = new("world-map", profile: "world-hsm", kinds: ["save", "map", "campaign-map"]);
 
     /// <summary>Tactical combat maps under TCMaps: THSEngine.LoadHSMEx in combat context.</summary>
-    public static GameProfile TacticalMap { get; } = new("tactical-map", "tactical-hsm", ["map"]);
+    public static GameProfile TacticalMap { get; } = new("tactical-map", profile: "tactical-hsm", kinds: ["map"]);
 
     /// <summary>Campaign saves and definitions: TAoWEngine.SaveCampaign and LoadCampaign.</summary>
-    public static GameProfile Campaign { get; } = new("campaign", "campaign", ["campaign-save", "campaign"]);
+    public static GameProfile Campaign { get; } = new("campaign", profile: "campaign", kinds: ["campaign-save", "campaign"]);
 
     /// <summary>Scenario sets: THSEngine.LoadHSS and SaveHSS.</summary>
-    public static GameProfile ScenarioSet { get; } = new("scenario-set", "scenario-set", ["scenario-set"]);
+    public static GameProfile ScenarioSet { get; } = new("scenario-set", profile: "scenario-set", kinds: ["scenario-set"]);
 
     /// <summary>User hero lists: THeroLibrary.LoadFromFile and SaveToFile.</summary>
-    public static GameProfile HeroList { get; } = new("hero-list", "hero-list", ["hero-list"]);
+    public static GameProfile HeroList { get; } = new("hero-list", profile: "hero-list", kinds: ["hero-list"]);
 
     /// <summary>User item lists: TItemLibrary.LoadFromFile and SaveToFile.</summary>
-    public static GameProfile ItemList { get; } = new("item-list", "item-list", ["item-list"]);
+    public static GameProfile ItemList { get; } = new("item-list", profile: "item-list", kinds: ["item-list"]);
 
     public override string ToString() => Name;
 }
@@ -157,13 +157,13 @@ public static class GameBoundary
         report.Kind = kind;
         if (profile != use.Profile)
         {
-            throw new ConversionException(new FormatDiagnostic(Codes.Profile, $"The document has profile {profile.Name}, the game opens it as {use.Profile.Name}.")
+            throw new ConversionException(new FormatDiagnostic(Codes.Profile, Message: $"The document has profile {profile.Name}, the game opens it as {use.Profile.Name}.")
             { File = fileName, Path = "$container.profile", Value = profile.Name, Constraint = use.Profile.Name, Span = ((JsonObject)read.Document["$container"]!)["profile"]!.Span });
         }
 
         if (!use.Kinds.Contains(kind))
         {
-            throw new ConversionException(new FormatDiagnostic(Codes.Kind, $"The document has kind {kind}, the game opens {string.Join(", ", use.Kinds)} here.")
+            throw new ConversionException(new FormatDiagnostic(Codes.Kind, Message: $"The document has kind {kind}, the game opens {string.Join(", ", values: use.Kinds)} here.")
             { File = fileName, Path = "$kind", Value = kind, Span = read.Document["$kind"]!.Span });
         }
 
@@ -208,8 +208,8 @@ public static class GameBoundary
         if (comparison.Kind == OriginalMatchKind.Mismatch)
         {
             long offset = comparison.FirstDifferenceOffset ?? 0;
-            report.OriginalRoundTrip = string.Create(CultureInfo.InvariantCulture, $"different at 0x{offset:x}");
-            throw new ConversionException(new FormatDiagnostic(Codes.OriginalRoundTripDiffers, "The reconstructed original differs from the file.")
+            report.OriginalRoundTrip = string.Create(CultureInfo.InvariantCulture, handler: $"different at 0x{offset:x}");
+            throw new ConversionException(new FormatDiagnostic(Codes.OriginalRoundTripDiffers, Message: "The reconstructed original differs from the file.")
             { File = fileName, Offset = offset, Profile = use.Profile.Name, Decompressed = container["compression"] is JsonString { Value: "cfs" } });
         }
 
@@ -248,7 +248,7 @@ public static class GameBoundary
     /// </summary>
     public static bool LacksImage(ConversionException error)
         => error.Diagnostic.Code == Codes.Unrepresentable
-        || (error.Diagnostic.Code == Codes.Range && error.Diagnostic.Message.Contains("does not truncate", StringComparison.Ordinal));
+        || (error.Diagnostic.Code == Codes.Range && error.Diagnostic.Message.Contains("does not truncate", comparisonType: StringComparison.Ordinal));
 
     /// <summary>
     /// The tree of a prepared load. An own document reads through the document backend, an
@@ -463,7 +463,7 @@ public static class GameBoundary
             JsonObject rootDocument = DocumentBackend.Write(root, classValue: classValue, schema: schema, engine: profile.Engine);
             if (profile.RootHasClass)
             {
-                rootDocument.Members.Insert(0, new JsonMember("$class", value: new JsonString(classValue.Name)));
+                rootDocument.Members.Insert(0, item: new JsonMember("$class", value: new JsonString(classValue.Name)));
             }
 
             JsonObject document = GameFiles.NewDocument(use.WriteKind, container: profile.SaveContainer(headerName), root: rootDocument);

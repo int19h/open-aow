@@ -25,11 +25,11 @@ public class VisionAbility : MultiLevelAbility
     {
         return level switch
         {
-            0 => AbilityRules.TranslateResourceString(GetEngine(), s_visionText),
-            1 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_visionText)} I",
-            2 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_visionText)} II",
-            3 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_visionText)} III",
-            4 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_visionText)} IV",
+            0 => AbilityRules.TranslateResourceString(GetEngine(), S: s_visionText),
+            1 => $"{AbilityRules.TranslateResourceString(GetEngine(), S: s_visionText)} I",
+            2 => $"{AbilityRules.TranslateResourceString(GetEngine(), S: s_visionText)} II",
+            3 => $"{AbilityRules.TranslateResourceString(GetEngine(), S: s_visionText)} III",
+            4 => $"{AbilityRules.TranslateResourceString(GetEngine(), S: s_visionText)} IV",
             _ => "",
         };
     }

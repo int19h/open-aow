@@ -23,7 +23,7 @@ public sealed class MemoryProbeTests
             list[i] = null;
         }
 
-        probe.Fact("nil", ObjectToInt(list[0]));
+        probe.Fact("nil", value: ObjectToInt(list[0]));
         list[0] = IntToObject(17);
         list[1] = IntToObject(-9);
         list[2] = IntToObject(17);
@@ -33,24 +33,24 @@ public sealed class MemoryProbeTests
             total += ObjectToInt(list[i]);
         }
 
-        probe.Fact("sum", total);
-        probe.Fact("same_box", Ord(ReferenceEquals(list[0], list[2])));
-        probe.Fact("find_box", list.IndexOf(IntToObject(17)));
-        list.Insert(1, IntToObject(int.MinValue));
+        probe.Fact("sum", value: total);
+        probe.Fact("same_box", value: Ord(ReferenceEquals(list[0], list[2])));
+        probe.Fact("find_box", value: list.IndexOf(IntToObject(17)));
+        list.Insert(1, item: IntToObject(int.MinValue));
         _ = list.Add(IntToObject(int.MaxValue));
-        probe.Fact("minimum", ObjectToInt(list[1]));
-        probe.Fact("maximum", ObjectToInt(list[4]));
+        probe.Fact("minimum", value: ObjectToInt(list[1]));
+        probe.Fact("maximum", value: ObjectToInt(list[4]));
         if (ObjectToInt(list[0]) < 30)
         {
             list[0] = IntToObject(30);
         }
 
-        probe.Fact("maximum_score", ObjectToInt(list[0]));
+        probe.Fact("maximum_score", value: ObjectToInt(list[0]));
         list[0] = IntToObject(0);
-        probe.Fact("zero_is_nil", Ord(list[0] is null));
+        probe.Fact("zero_is_nil", value: Ord(list[0] is null));
         list[0] = stored;
-        probe.Fact("object_identity", Ord(ObjectToInt(list[0]) == ObjectToInt(stored)));
-        probe.Fact("object_recovered", Ord(ReferenceEquals(list[0], stored)));
+        probe.Fact("object_identity", value: Ord(ObjectToInt(list[0]) == ObjectToInt(stored)));
+        probe.Fact("object_recovered", value: Ord(ReferenceEquals(list[0], stored)));
         probe.End();
     }
 
@@ -65,21 +65,21 @@ public sealed class MemoryProbeTests
             items[i].Second = (i + 1) * 10;
         }
         int count = 3;
-        Ptr<Item>.Copy(items + 1, items, count);
+        Ptr<Item>.Copy(items + 1, destination: items, count);
         for (int i = 0; i < 5; i++)
         {
-            probe.Fact("left", $"{i} {items[i].First} {items[i].Second}");
+            probe.Fact("left", value: $"{i} {items[i].First} {items[i].Second}");
         }
 
-        Ptr<Item>.Copy(items, items + 1, count);
+        Ptr<Item>.Copy(items, destination: items + 1, count);
         for (int i = 0; i < 5; i++)
         {
-            probe.Fact("right", $"{i} {items[i].First} {items[i].Second}");
+            probe.Fact("right", value: $"{i} {items[i].First} {items[i].Second}");
         }
 
         count = 0;
-        Ptr<Item>.Copy(items + 4, items, count);
-        probe.Fact("zero", $"{items.Value.First} {items.Value.Second}");
+        Ptr<Item>.Copy(items + 4, destination: items, count);
+        probe.Fact("zero", value: $"{items.Value.First} {items.Value.Second}");
         probe.End();
     }
 
@@ -92,12 +92,12 @@ public sealed class MemoryProbeTests
         items[0] = item;
         items[1] = item;
         items[2] = item;
-        Ptr<object?>.Fill(items + 1, 2, null);
-        probe.Fact("first", Ord(items[0] == item));
-        probe.Fact("second", Ord(items[1] is null));
-        probe.Fact("third", Ord(items[2] is null));
-        Ptr<object?>.Fill(items, 3, null);
-        probe.Fact("root", Ord(items[0] is null && items[1] is null && items[2] is null));
+        Ptr<object?>.Fill(items + 1, count: 2, value: null);
+        probe.Fact("first", value: Ord(items[0] == item));
+        probe.Fact("second", value: Ord(items[1] is null));
+        probe.Fact("third", value: Ord(items[2] is null));
+        Ptr<object?>.Fill(items, count: 3, value: null);
+        probe.Fact("root", value: Ord(items[0] is null && items[1] is null && items[2] is null));
         probe.End();
     }
 }

@@ -41,7 +41,7 @@ public partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
 
         _ = (eventValue?.Release());
 
-        StrategicMap.Current.TutorialControl.ShowMessage(69, true, true);
+        StrategicMap.Current.TutorialControl.ShowMessage(69, immediate: true, onceOnly: true);
     }
 
     // AoWWizardsTowerDlg.pas:67
@@ -81,7 +81,7 @@ public partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
                 {
                     int x = sender.Window.AbsoluteLeft;
                     int y = sender.Window.AbsoluteTop;
-                    _ = s.CastImages.Show(10, sender.WinLeft + x, sender.WinTop + y, 0, lockedSurface);
+                    _ = s.CastImages.Show(10, sender.WinLeft + x, sender.WinTop + y, frame: 0, lockedSurface);
                 }
             }
         }
@@ -105,7 +105,7 @@ public partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
         if (tower.SpellId != 0)
         {
             int buyCost = dialog._event.Tower.BuyCost();
-            string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.ForGoldFormat), [IntToStr(buyCost)]);
+            string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.ForGoldFormat), arguments: [IntToStr(buyCost)]);
             dialog.PriceLabel.Text = $"{format}.";
             Spell spell = GamePack.Current.SpellControl[tower.SpellId];
             dialog.SpellNameLabel.Text = spell.SpellName;

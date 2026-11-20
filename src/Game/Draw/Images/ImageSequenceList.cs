@@ -36,7 +36,7 @@ public class ImageSequenceList(ImageLibraryManager aILManager, CustomImageLibrar
             }
         }
 
-        return !IsEmpty(result) ? Copy(result, 1, result.Length - 1) : result;
+        return !IsEmpty(result) ? Copy(result, index: 1, count: result.Length - 1) : result;
     }
 
     // ImageLib.pas:8928
@@ -233,7 +233,7 @@ public class ImageSequenceList(ImageLibraryManager aILManager, CustomImageLibrar
         }
         else
         {
-            SetImageSequence(index, sequence);
+            SetImageSequence(index, value: sequence);
         }
     }
 
@@ -418,7 +418,7 @@ public class ImageSequenceList(ImageLibraryManager aILManager, CustomImageLibrar
             ImageSequence sequence = List[index];
             while (sequence is not null)
             {
-                int i = sequence.GetFrameIndex(frame, 0);
+                int i = sequence.GetFrameIndex(frame, offset: 0);
                 if (i != -1)
                 {
                     if (sequence.ImageLibrary.ImageExist(i))

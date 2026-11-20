@@ -33,32 +33,32 @@ public class BaseButton(Component owner) : Control(owner)
     {
         if (_imageLibraryButton is not null)
         {
-            _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexUp, 3, this);
+            _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexUp, count: 3, sender: this);
         }
 
         if (_imageLibraryButton is not null)
         {
-            _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexDown, 3, this);
+            _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexDown, count: 3, sender: this);
         }
 
         if (_imageLibraryButton is not null && _imageLibraryIndexLit != _imageLibraryIndexUp)
         {
-            _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexLit, 3, this);
+            _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexLit, count: 3, sender: this);
         }
 
         if (_imageLibraryIcon is not null)
         {
-            _imageLibraryIcon = _imageLibraryIcon.CheckImageLibrary(_imageLibraryIndexUp, 1, this);
+            _imageLibraryIcon = _imageLibraryIcon.CheckImageLibrary(_imageLibraryIndexUp, count: 1, sender: this);
         }
 
         if (_imageLibraryIcon is not null)
         {
-            _imageLibraryIcon = _imageLibraryIcon.CheckImageLibrary(_imageLibraryIndexDown, 1, this);
+            _imageLibraryIcon = _imageLibraryIcon.CheckImageLibrary(_imageLibraryIndexDown, count: 1, sender: this);
         }
 
         if (_imageLibraryIcon is not null && _imageLibraryIndexLit != _imageLibraryIndexUp)
         {
-            _imageLibraryIcon = _imageLibraryIcon.CheckImageLibrary(_imageLibraryIndexLit, 1, this);
+            _imageLibraryIcon = _imageLibraryIcon.CheckImageLibrary(_imageLibraryIndexLit, count: 1, sender: this);
         }
 
         if (_imageLibraryButton is not null)
@@ -124,19 +124,19 @@ public class BaseButton(Component owner) : Control(owner)
         {
             if (Visible && Valid)
             {
-                RaisePreDraw(this, lockedSurface);
+                RaisePreDraw(this, surfDesc: lockedSurface);
 
                 if (Checked)
                 {
                     if (_buttonType == UIComponentButtonType.Text)
                     {
                         SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
-                        _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexDown, rectangle, ref lockedSurface);
+                        _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexDown, area: rectangle, ref lockedSurface);
                     }
                     else
                     {
                         SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
-                        _imageLibraryIcon.DrawImage(_imageLibraryIndexDown, rectangle, ref lockedSurface);
+                        _imageLibraryIcon.DrawImage(_imageLibraryIndexDown, area: rectangle, ref lockedSurface);
                     }
 
                     if (base.Font is not null)
@@ -153,12 +153,12 @@ public class BaseButton(Component owner) : Control(owner)
                         if (Lit)
                         {
                             SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
-                            _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexLit, rectangle, ref lockedSurface);
+                            _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexLit, area: rectangle, ref lockedSurface);
                         }
                         else
                         {
                             SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
-                            _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexUp, rectangle, ref lockedSurface);
+                            _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexUp, area: rectangle, ref lockedSurface);
                         }
                     }
                     else
@@ -166,12 +166,12 @@ public class BaseButton(Component owner) : Control(owner)
                         if (Lit)
                         {
                             SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
-                            _imageLibraryIcon.DrawImage(_imageLibraryIndexLit, rectangle, ref lockedSurface);
+                            _imageLibraryIcon.DrawImage(_imageLibraryIndexLit, area: rectangle, ref lockedSurface);
                         }
                         else
                         {
                             SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
-                            _imageLibraryIcon.DrawImage(_imageLibraryIndexUp, rectangle, ref lockedSurface);
+                            _imageLibraryIcon.DrawImage(_imageLibraryIndexUp, area: rectangle, ref lockedSurface);
                         }
                     }
 
@@ -183,12 +183,12 @@ public class BaseButton(Component owner) : Control(owner)
                     }
                 }
 
-                RaiseDraw(this, lockedSurface);
+                RaiseDraw(this, surfDesc: lockedSurface);
             }
         }
         catch
         {
-            _ = MessageBox(0, "Exception during Draw", $"Error - {Name}", 0);
+            _ = MessageBox(0, text: "Exception during Draw", caption: $"Error - {Name}", flags: 0);
         }
     }
 

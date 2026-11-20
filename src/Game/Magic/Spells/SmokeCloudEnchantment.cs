@@ -35,7 +35,7 @@ public class SmokeCloudEnchantment : GlobalEnchantment
         ref HexNumberWalkData walk = ref hexNumberWalkData;
         sbyte hexY = Cloud.HexY;
         sbyte hexX = Cloud.HexX;
-        HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, hexX, hexY, radius: 0);
         while (!result && walk.Radius <= 3)
         {
             result = StrategicMap.Current.VisibleForPlayer(walk.X, walk.Y, Cloud.HexLevel, player);

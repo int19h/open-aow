@@ -183,7 +183,7 @@ public class Campaign : EngineObject
 
         for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            if (StrategicMap.Current.Players.GetPlayers(i).PlayerType != PlayerType.Human && StrategicMap.Current.Players.GetDiplomaticRelation((sbyte)i, player) != DiplomaticRelation.Alliance)
+            if (StrategicMap.Current.Players.GetPlayers(i).PlayerType != PlayerType.Human && StrategicMap.Current.Players.GetDiplomaticRelation((sbyte)i, otherPlayer: player) != DiplomaticRelation.Alliance)
             {
                 if (DifficultyLevel == CampaignDifficultyLevel.Easy)
                 {
@@ -237,7 +237,7 @@ public class Campaign : EngineObject
             }
         }
 
-        StrategicMap.Current.SetupPlayerControl(PlayMode, PlayerConnectionType.Local);
+        StrategicMap.Current.SetupPlayerControl(PlayMode, connection: PlayerConnectionType.Local);
         for (int r = 0, last = StrategicMap.Current.Races.Count - 1; r <= last; r++)
         {
             if (StrategicMap.Current.Races.GetRace(r) is not null)

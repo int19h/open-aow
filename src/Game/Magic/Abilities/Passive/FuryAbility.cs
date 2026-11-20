@@ -10,7 +10,7 @@ public class FuryAbility : UnitEnchantmentAbility
     public FuryAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.FuryText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FuryText);
         AbilityId = 156;
     }
 

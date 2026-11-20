@@ -25,7 +25,7 @@ public class Hex(CustomNode owner) : AbstractHexagon(owner)
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
-        GetResource<HexagonResource>().Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface, this);
+        GetResource<HexagonResource>().Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface, hex: this);
     }
 
     // Hexagon.pas:74
@@ -56,7 +56,7 @@ public class Hex(CustomNode owner) : AbstractHexagon(owner)
                 sbyte hexLevel = HexLevel;
                 sbyte hexY = HexY;
                 sbyte hexX = HexX;
-                _ = base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
+                _ = base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, L: hexLevel, message.TerrainType);
             }
         }
     }
@@ -71,14 +71,14 @@ public class Hex(CustomNode owner) : AbstractHexagon(owner)
                 sbyte hexLevel = HexLevel;
                 sbyte hexY = HexY;
                 sbyte hexX = HexX;
-                _ = base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
+                _ = base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, L: hexLevel, message.TerrainType);
             }
             else
             {
                 sbyte hexLevel = HexLevel;
                 sbyte hexY = HexY;
                 sbyte hexX = HexX;
-                _ = base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, hexLevel, 0);
+                _ = base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, L: hexLevel, terrainType: 0);
             }
         }
     }

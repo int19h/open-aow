@@ -31,20 +31,20 @@ public sealed class HeadlessServicesTests
     public void RegistryDefaultsAreEmptyAndWritesRemainInMemory()
     {
         DelphiRegistry registry = new();
-        Assert.True(registry.OpenKey("General", true));
+        Assert.True(registry.OpenKey("General", create: true));
         Assert.False(registry.ValueExists("Language"));
         registry.WriteInteger("Language", 1);
-        registry.WriteBool("Enabled", true);
+        registry.WriteBool("Enabled", value: true);
         registry.WriteString("Name", "English");
         registry.CloseKey();
-        _ = registry.OpenKey("general", false);
+        _ = registry.OpenKey("general", create: false);
         Assert.Equal(1, registry.ReadInteger("language"));
         Assert.True(registry.ReadBool("enabled"));
         Assert.Equal("English", registry.ReadString("name"));
-        _ = registry.OpenKey("Other", false);
+        _ = registry.OpenKey("Other", create: false);
         Assert.False(registry.ValueExists("Language"));
         DelphiRegistry separate = new();
-        _ = separate.OpenKey("General", false);
+        _ = separate.OpenKey("General", create: false);
         Assert.False(separate.ValueExists("Language"));
     }
 
@@ -52,7 +52,7 @@ public sealed class HeadlessServicesTests
     public void MissingStringValueReadsAsEmpty()
     {
         DelphiRegistry registry = new();
-        _ = registry.OpenKey("General", false);
+        _ = registry.OpenKey("General", create: false);
         Assert.False(registry.ValueExists("Absent Name"));
         Assert.Equal("", registry.ReadString("Absent Name"));
     }
@@ -61,10 +61,10 @@ public sealed class HeadlessServicesTests
     public void BinarySettingsRetainTheirStoredSizeAndLeaveTheUnreadTail()
     {
         DelphiRegistry registry = new();
-        _ = registry.OpenKey("General", true);
-        registry.WriteBinaryData("Movement Speed", [2, 7, 9], 2);
+        _ = registry.OpenKey("General", create: true);
+        registry.WriteBinaryData("Movement Speed", buffer: [2, 7, 9], size: 2);
         byte[] result = [0xff, 0xff, 0xff, 0xff];
-        Assert.Equal(2, registry.ReadBinaryData("Movement Speed", result, result.Length));
+        Assert.Equal(2, registry.ReadBinaryData("Movement Speed", buffer: result, size: result.Length));
         Assert.Equal(new byte[] { 2, 7, 0xff, 0xff }, result);
     }
 }

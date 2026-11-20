@@ -12,7 +12,7 @@ public class FreeMovement : UnitSpell
     public FreeMovement(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.FreeMovementText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FreeMovementText);
         SpellId = 32;
         BaseManaCost = 5;
         SpellLevel = 2;

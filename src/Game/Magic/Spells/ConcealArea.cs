@@ -24,7 +24,7 @@ public class ConcealArea : Spell
     public ConcealArea(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_concealAreaText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_concealAreaText);
         SpellId = 1;
         SpellType = SpellType.Global;
         BaseManaCost = 5;
@@ -36,7 +36,7 @@ public class ConcealArea : Spell
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
-        CastingDone(source, eventValue.EventMana);
+        CastingDone(source, mana: eventValue.EventMana);
         MapCoordinate coordinate60 = source.GetLocation();
         sbyte x = coordinate60.X;
         sbyte y = coordinate60.Y;
@@ -44,25 +44,25 @@ public class ConcealArea : Spell
         if (source.Player == StrategicMap.Current.SeatedPlayer)
         {
             ConcealAreaHexSprite conceal = new(null) { Holder = CreationHolder() };
-            conceal.StartAnimation(x, y, layer, 14);
+            conceal.StartAnimation(x, y, layer, radius: 14);
         }
 
         for (int player = 1, last = StrategicMap.Current.Players.Count - 1; player <= last; player++)
         {
             MapLevel level = StrategicMap.Current.MapContainer.MapLevels[layer];
             LocationTextEventLog log;
-            if (StrategicMap.Current.Players.GetDiplomaticRelation(source.Player, (sbyte)player) == DiplomaticRelation.War && player != source.Player)
+            if (StrategicMap.Current.Players.GetDiplomaticRelation(source.Player, otherPlayer: (sbyte)player) == DiplomaticRelation.War && player != source.Player)
             {
                 log = null;
-                HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, 0);
+                HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, radius: 0);
                 while (walk.Radius <= 14)
                 {
                     if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                     {
                         MapField mapField = level.GetField(walk.X, walk.Y);
-                        if (mapField.GetExplored(player) && !StrategicMap.Current.VisibleForPlayer(walk.X, walk.Y, layer, (sbyte)player))
+                        if (mapField.GetExplored(player) && !StrategicMap.Current.VisibleForPlayer(walk.X, walk.Y, layer, player: (sbyte)player))
                         {
-                            mapField.SetExplored(player, false);
+                            mapField.SetExplored(player, value: false);
                             if (log is null)
                             {
                                 log = new LocationTextEventLog(null)
@@ -71,8 +71,8 @@ public class ConcealArea : Spell
                                     Location = new MapCoordinate((sbyte)walk.X, (sbyte)walk.Y, layer),
                                     Player = source.Player
                                 };
-                                string concealArea = AbilityRules.TranslateResourceString(GetEngine(), s_concealAreaText);
-                                log.Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [concealArea]);
+                                string concealArea = AbilityRules.TranslateResourceString(GetEngine(), S: s_concealAreaText);
+                                log.Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CastFormat), args: [concealArea]);
                                 StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(log);
                                 _ = log.Release();
                             }
@@ -84,7 +84,7 @@ public class ConcealArea : Spell
             }
             else
             {
-                if (StrategicMap.Current.VisibleForPlayer(x, y, layer, (sbyte)player))
+                if (StrategicMap.Current.VisibleForPlayer(x, y, layer, player: (sbyte)player))
                 {
                     log = new LocationTextEventLog(null)
                     {
@@ -92,8 +92,8 @@ public class ConcealArea : Spell
                         Location = new MapCoordinate(x, y, layer),
                         Player = source.Player
                     };
-                    string concealArea = AbilityRules.TranslateResourceString(GetEngine(), s_concealAreaText);
-                    log.Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [concealArea]);
+                    string concealArea = AbilityRules.TranslateResourceString(GetEngine(), S: s_concealAreaText);
+                    log.Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CastFormat), args: [concealArea]);
                     StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(log);
                     _ = log.Release();
                 }
@@ -120,8 +120,8 @@ public class ConcealArea : Spell
 
             if (!war)
             {
-                string concealArea = AbilityRules.TranslateResourceString(GetEngine(), s_concealAreaText);
-                messageText = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), s_warRelationIsRequiredFormat), [concealArea]);
+                string concealArea = AbilityRules.TranslateResourceString(GetEngine(), S: s_concealAreaText);
+                messageText = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_warRelationIsRequiredFormat), args: [concealArea]);
                 return false;
             }
         }
@@ -134,10 +134,10 @@ public class ConcealArea : Spell
     {
         string reason = "";
         _ = base.Activate(source);
-        if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        if (CanActivate(source, messageText: ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             SpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
-            eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
+            eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;

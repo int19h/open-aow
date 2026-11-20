@@ -78,7 +78,7 @@ public class AIMoveControl : EngineObject
         {
             case 0:
                 _pathSettings.MovePointsMax = Settings.QuickMovePointsMax;
-                int points = StrategicMap.Current.MoveControl.CanMove(_pathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
+                int points = StrategicMap.Current.MoveControl.CanMove(_pathSettings, mode: Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
                 Settings.MovePoints = points;
                 if (points != -1)
                 {
@@ -96,7 +96,7 @@ public class AIMoveControl : EngineObject
                 break;
             case 1:
                 _pathSettings.MovePointsMax = Settings.MovePointsMax;
-                int canMove = StrategicMap.Current.MoveControl.CanMove(_pathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Exact));
+                int canMove = StrategicMap.Current.MoveControl.CanMove(_pathSettings, mode: Set<CanMoveModeElement>.Of(CanMoveModeElement.Exact));
                 Settings.MovePoints = canMove;
                 Settings.TransportPath.Assign(_pathSettings.Path);
                 ProcessingDone(AIMoveControlStatus.Done);
@@ -201,7 +201,7 @@ public class AIMoveControl : EngineObject
             case 0:
                 _pathSettings.MovePointTable = _movePointTable;
                 _pathSettings.MovePointsMax = Settings.QuickMovePointsMax;
-                points = StrategicMap.Current.MoveControl.CanMove(_pathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
+                points = StrategicMap.Current.MoveControl.CanMove(_pathSettings, mode: Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
                 Settings.MovePoints = points;
                 if (points == -1)
                 {
@@ -230,7 +230,7 @@ public class AIMoveControl : EngineObject
                     int movePoints = _pathSettings.GetMovePoints(item2.Location.X, fPathItem.Location.Y, item.Location.MapLevel);
                     Settings.MovePoints = movePoints;
                     Settings.TransportPath.Assign(_pathSettings.Path);
-                    if (CalculateTransportGaps(_pathSettings.Path, _movePointTable))
+                    if (CalculateTransportGaps(_pathSettings.Path, table: _movePointTable))
                     {
                         _state = 2;
                         _pathSettings.MovePointTable = _transportMovePointTable;
@@ -261,7 +261,7 @@ public class AIMoveControl : EngineObject
                 break;
             case 2:
                 _pathSettings.MovePointsMax = Settings.QuickMovePointsMax;
-                points = StrategicMap.Current.MoveControl.CanMove(_pathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
+                points = StrategicMap.Current.MoveControl.CanMove(_pathSettings, mode: Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
                 if (points == -1)
                 {
                     _state = 3;
@@ -295,7 +295,7 @@ public class AIMoveControl : EngineObject
             case 3:
                 _pathSettings.MovePointTable = _transportMovePointTable;
                 _pathSettings.MovePointsMax = Settings.MovePointsMax;
-                points = StrategicMap.Current.MoveControl.CanMove(_pathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Exact));
+                points = StrategicMap.Current.MoveControl.CanMove(_pathSettings, mode: Set<CanMoveModeElement>.Of(CanMoveModeElement.Exact));
                 if (points == -1)
                 {
                     Settings.MovePoints = -1;

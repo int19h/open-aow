@@ -10,7 +10,7 @@ public class SeducedAbility : CommandedAbility
     {
         Holder = holder;
         AbilityId = 48;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_seducedText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_seducedText);
     }
 
     private static readonly string s_seducedText = "Seduced";

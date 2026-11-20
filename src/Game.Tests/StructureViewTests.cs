@@ -26,7 +26,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
 
     private static Type[] StructureTypes() => [.. EngineClass.All
         .Where(c => typeof(Structure).IsAssignableFrom(c.Type))
-        .Select(c => c.Type).OrderBy(t => t.Name, StringComparer.Ordinal)];
+        .Select(c => c.Type).OrderBy(t => t.Name, comparer: StringComparer.Ordinal)];
 
     // The original's army query on the structure's field tells that a kind action ran. No army
     // stands on the field, so every action stops at that query. A structure's owner is a field.
@@ -92,8 +92,8 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             Set<City.ModeElement> war = Set<City.ModeElement>.Of(City.ModeElement.WarMode);
             city.Mode = state.War ? city.Mode + war : city.Mode - war;
         }
-        Assert.Equal(state.Razed, structure.GetRazed());
-        Assert.Equal(state.Building, structure.Building);
+        Assert.Equal(state.Razed, actual: structure.GetRazed());
+        Assert.Equal(state.Building, actual: structure.Building);
     }
 
     // Each GetRazed override reads a field of its own.
@@ -235,11 +235,11 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                 fileName += fRandomTerrain ? "TeleN000" : "Telep000";
                 randomTerrain = true;
                 break;
-            case 131886: fileName += Site("eMrLr00", 4, true, out takesItems, ref fixedTags); break;
-            case 131982: fileName += Site("eZigg00", 2, true, out takesItems, ref fixedTags); break;
-            case 131850: fileName += Site("eCrpt00", 2, true, out takesItems, ref fixedTags); break;
-            case 131994: fileName += Site("eRuin00", 2, true, out takesItems, ref fixedTags); break;
-            case 131882: fileName += Site("eDung00", 2, false, out takesItems, ref fixedTags); break;
+            case 131886: fileName += Site("eMrLr00", variants: 4, items: true, out takesItems, ref fixedTags); break;
+            case 131982: fileName += Site("eZigg00", variants: 2, items: true, out takesItems, ref fixedTags); break;
+            case 131850: fileName += Site("eCrpt00", variants: 2, items: true, out takesItems, ref fixedTags); break;
+            case 131994: fileName += Site("eRuin00", variants: 2, items: true, out takesItems, ref fixedTags); break;
+            case 131882: fileName += Site("eDung00", variants: 2, items: false, out takesItems, ref fixedTags); break;
             default: fileName += "Blank000"; break;
         }
         return fileName["TCMaps\\".Length..];
@@ -266,7 +266,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         {
             ArmyOwner owner = new() { Holder = EngineFixture.Engine };
             Structure structure = (Structure)EngineClass.Of(type).CreateInstance(owner, holder: EngineFixture.Engine);
-            Assert.IsType(type, structure);
+            Assert.IsType(type, @object: structure);
             _created.Add(structure);
             return (structure, owner);
         }
@@ -295,7 +295,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     {
         Type[] types = StructureTypes();
         Assert.Equal(40, types.Length);
-        Assert.Contains(typeof(Structure), types);
+        Assert.Contains(typeof(Structure), collection: types);
         Assert.DoesNotContain(types, t => t.Assembly != typeof(Structure).Assembly);
     }
 
@@ -312,9 +312,9 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             foreach (State state in States(type))
             {
                 Apply(structure, state);
-                string expected = OldInfoPanel(structure, Viewer);
+                string expected = OldInfoPanel(structure, seated: Viewer);
                 StructureView view = structure.InfoPanel(Viewer);
-                Assert.True(InfoWindow.StructurePanels.TryGet(view, out _), $"{type.Name} {state}: no panel renderer for {view}");
+                Assert.True(InfoWindow.StructurePanels.TryGet(view, out _), userMessage: $"{type.Name} {state}: no panel renderer for {view}");
                 if (view.Name != expected)
                 {
                     mismatches.Add($"{type.Name} {state}: {view.Name}, old cascade {expected}");
@@ -327,7 +327,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                     structure = scene.Create(type).Structure;
                 }
             }
-            _ = table.AppendLine($"{type.Name}: {string.Join(" ", row.Distinct())}");
+            _ = table.AppendLine($"{type.Name}: {string.Join(" ", values: row.Distinct())}");
         }
         output.WriteLine(table.ToString());
         Assert.Empty(mismatches);
@@ -359,10 +359,10 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                 selection.Source = null;
                 if (view != StructureView.None)
                 {
-                    Assert.True(InfoWindow.StructureButtons.TryGet(view, out _), $"{type.Name}: no button renderer for {view}");
+                    Assert.True(InfoWindow.StructureButtons.TryGet(view, out _), userMessage: $"{type.Name}: no button renderer for {view}");
                 }
 
-                string actual = Observed(view, type, nameof(Structure.InfoButton), owner, queries, cancelled);
+                string actual = Observed(view, type, method: nameof(Structure.InfoButton), owner, queries, cancelled);
                 if (actual != expected)
                 {
                     mismatches.Add($"{type.Name} {(owned ? "owned" : "other")}: {actual}, old cascade {expected}");
@@ -390,16 +390,16 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                 }
 
                 int queries = owner.ArmyQueries;
-                string expected = OldDoubleClick(structure, Viewer);
+                string expected = OldDoubleClick(structure, seated: Viewer);
                 // The old cascade only names the arm, so the army count is unchanged here.
                 Assert.Equal(queries, owner.ArmyQueries);
                 StructureView view = structure.DoubleClick(Viewer);
                 if (view != StructureView.None)
                 {
-                    Assert.True(MapEvents.StructureScreens.TryGet(view, out _), $"{type.Name}: no screen renderer for {view}");
+                    Assert.True(MapEvents.StructureScreens.TryGet(view, out _), userMessage: $"{type.Name}: no screen renderer for {view}");
                 }
 
-                string actual = Observed(view, type, nameof(Structure.DoubleClick), owner, queries, false);
+                string actual = Observed(view, type, method: nameof(Structure.DoubleClick), owner, queries, cancelled: false);
                 if (actual != expected)
                 {
                     mismatches.Add($"{type.Name} {(owned ? "owned" : "other")}: {actual}, old cascade {expected}");
@@ -440,9 +440,9 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                             int actualSeed = DelphiRandom.RandSeed;
                             DelphiRandom.RandSeed = 0x5EED + pattern.Length;
                             bool expectedTerrain = randomTerrain;
-                            string expected = OldCombatMapName(EngineClass.Of(type).ClassId, siteCombat, ref expectedTerrain, randomTerrain,
-                                pattern.Contains, out bool expectedItems, out int expectedTags);
-                            string state = $"{type.Name} site={siteCombat} random={randomTerrain} neighbors=[{string.Join(",", pattern)}]";
+                            string expected = OldCombatMapName(EngineClass.Of(type).ClassId, siteCombat, randomTerrain: ref expectedTerrain, fRandomTerrain: randomTerrain,
+                                neighborHoldsCity: pattern.Contains, takesItems: out bool expectedItems, fixedTags: out int expectedTags);
+                            string state = $"{type.Name} site={siteCombat} random={randomTerrain} neighbors=[{string.Join(",", values: pattern)}]";
                             if (actual != expected)
                             {
                                 mismatches.Add($"{state}: {actual}, old switch {expected}");
@@ -473,7 +473,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                     }
                 }
 
-                output.WriteLine($"{type.Name} ({EngineClass.Of(type).ClassId}): {string.Join(" ", names)}");
+                output.WriteLine($"{type.Name} ({EngineClass.Of(type).ClassId}): {string.Join(" ", values: names)}");
             }
         }
         finally
@@ -492,11 +492,11 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         foreach (Type type in StructureTypes())
         {
             Type declaring = type.GetMethod(nameof(Structure.CombatMapName)).DeclaringType;
-            Assert.True(declaring == type || declaring == typeof(Structure), $"{type.Name} inherits CombatMapName from {declaring.Name}");
-            MethodInfo owner = type.GetMethod("OwnerPanel", BindingFlags.Instance | BindingFlags.NonPublic);
-            _ = resolved.AppendLine($"{type.Name}: InfoPanel {Declaring(type, nameof(Structure.InfoPanel))}" +
+            Assert.True(declaring == type || declaring == typeof(Structure), userMessage: $"{type.Name} inherits CombatMapName from {declaring.Name}");
+            MethodInfo owner = type.GetMethod("OwnerPanel", bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic);
+            _ = resolved.AppendLine($"{type.Name}: InfoPanel {Declaring(type, method: nameof(Structure.InfoPanel))}" +
                 (owner is null ? "" : $" (OwnerPanel {owner.DeclaringType.Name})") + ", " +
-                $"InfoButton {Declaring(type, nameof(Structure.InfoButton))}, DoubleClick {Declaring(type, nameof(Structure.DoubleClick))}, " +
+                $"InfoButton {Declaring(type, method: nameof(Structure.InfoButton))}, DoubleClick {Declaring(type, method: nameof(Structure.DoubleClick))}, " +
                 $"CombatMapName {declaring.Name}");
         }
         output.WriteLine(resolved.ToString());

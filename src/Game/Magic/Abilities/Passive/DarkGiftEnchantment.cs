@@ -10,7 +10,7 @@ public class DarkGiftEnchantment : UnitEnchantmentAbility
     public DarkGiftEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.DarkGiftText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DarkGiftText);
         AbilityId = 169;
     }
 

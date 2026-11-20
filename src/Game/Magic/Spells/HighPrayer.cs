@@ -18,7 +18,7 @@ public class HighPrayer : CombatSpell
     public HighPrayer(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_highPrayerText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_highPrayerText);
         SpellId = 102;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;
@@ -89,7 +89,7 @@ public class HighPrayer : CombatSpell
             CombatObject target = combatSide.GetObjects(i);
             if (target.CombatValue != 0 && target is CombatUnit)
             {
-                value += AbilityRules.DamageValueToDamageEvaluation((target.GetHits() - target.HitPoints) * 100, 0, commands.Source, target);
+                value += AbilityRules.DamageValueToDamageEvaluation((target.GetHits() - target.HitPoints) * 100, targetDamageValue: 0, commands.Source, target);
             }
         }
 

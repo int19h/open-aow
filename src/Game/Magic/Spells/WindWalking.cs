@@ -12,7 +12,7 @@ public class WindWalking : UnitSpell
     public WindWalking(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.WindWalkingText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.WindWalkingText);
         SpellId = 43;
         BaseManaCost = 5;
         SpellLevel = 3;

@@ -14,7 +14,7 @@ public class DivineStormSpell : StormSpell
     public DivineStormSpell(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameTables.DivineStormText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.DivineStormText);
         SpellId = 6;
         BaseManaCost = 5;
         SpellLevel = 4;

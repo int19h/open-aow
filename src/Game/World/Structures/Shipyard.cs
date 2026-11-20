@@ -34,7 +34,7 @@ public partial class Shipyard(CustomNode owner) : ProductionPlace(owner)
         public override int ResourceUserClassId() => 132286;
 
         // Shipyard.pas:69
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), GameText.ShipyardText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: GameText.ShipyardText);
 
     }
 }

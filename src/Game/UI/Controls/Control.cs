@@ -108,7 +108,7 @@ public partial class Control : UIComponent
                         ? new Rect(OldRectangle.Left, OldRectangle.Top, OldRectangle.Left + OldRectangle.Width - 1, OldRectangle.Top + OldRectangle.Height - 1)
                         : new Rect(OwnerComponent.WindowRelativeLeft + OldRectangle.Left, OwnerComponent.WindowRelativeTop + OldRectangle.Top, OwnerComponent.WindowRelativeLeft + OldRectangle.Left + OldRectangle.Width - 1, OwnerComponent.WindowRelativeTop + OldRectangle.Top + OldRectangle.Height - 1);
 
-                    OwnerComponent.AddDrawRectangle(ref r, this);
+                    OwnerComponent.AddDrawRectangle(ref r, sender: this);
                     Drawn = false;
                 }
                 else
@@ -119,7 +119,7 @@ public partial class Control : UIComponent
                             ? new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1)
                             : new Rect(OwnerComponent.WindowRelativeLeft + WinLeft, OwnerComponent.WindowRelativeTop + WinTop, OwnerComponent.WindowRelativeLeft + WinLeft + WinWidth - 1, OwnerComponent.WindowRelativeTop + WinTop + WinHeight - 1);
 
-                        OwnerComponent.AddDrawRectangle(ref r, this);
+                        OwnerComponent.AddDrawRectangle(ref r, sender: this);
                     }
                 }
 
@@ -130,7 +130,7 @@ public partial class Control : UIComponent
                         : new Rect(OwnerComponent.WindowRelativeLeft + WinLeft, OwnerComponent.WindowRelativeTop + WinTop, OwnerComponent.WindowRelativeLeft + WinLeft + WinWidth - 1, OwnerComponent.WindowRelativeTop + WinTop + WinHeight - 1);
 
                     int indexOf = OwnerComponent.Children.IndexOf(this);
-                    OwnerComponent.InvalidateRectangle(indexOf, ref r, this);
+                    OwnerComponent.InvalidateRectangle(indexOf, rectangle: ref r, sender: this);
                 }
 
                 OldRectangle = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
@@ -143,7 +143,7 @@ public partial class Control : UIComponent
                         ? new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1)
                         : new Rect(OwnerComponent.WindowRelativeLeft + WinLeft, OwnerComponent.WindowRelativeTop + WinTop, OwnerComponent.WindowRelativeLeft + WinLeft + WinWidth - 1, OwnerComponent.WindowRelativeTop + WinTop + WinHeight - 1);
 
-                    OwnerComponent.AddDrawRectangle(ref r, this);
+                    OwnerComponent.AddDrawRectangle(ref r, sender: this);
                     Hidden = false;
                 }
             }

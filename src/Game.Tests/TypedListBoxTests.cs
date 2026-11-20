@@ -10,7 +10,7 @@ public sealed class TypedListBoxTests
     {
         ListBox<FileTime> box = new(null!);
         FileTime stamp = new() { Time = 2 };
-        _ = box.Items.AddObject("a", stamp);
+        _ = box.Items.AddObject("a", item: stamp);
         ListBox plain = box;
         Assert.Same(box.Items, plain.Items);
         Assert.Same(stamp, box.Items.Objects[0]);

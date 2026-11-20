@@ -14,7 +14,7 @@ public class FireStormSpell : StormSpell
     public FireStormSpell(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameTables.FireStormText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.FireStormText);
         SpellId = 3;
         BaseManaCost = 5;
         SpellLevel = 4;

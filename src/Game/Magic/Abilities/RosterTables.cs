@@ -45,7 +45,7 @@ internal static class RosterTables
                 unit.SetUnitResource(resource);
                 HypotheticalUnit defaultUnit = new(null) { Holder = engine };
                 defaultUnit.MakeDefaultLevelUnit(1);
-                if (unit.GetCombatValue(defaultUnit, 0) > 0)
+                if (unit.GetCombatValue(defaultUnit, mode: 0) > 0)
                 {
                     result = (unit.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall)) / 100) + (resource.Level * 100) + (resource.Moves * 10) + (value / 2);
                     if (resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(57) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(58))

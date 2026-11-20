@@ -38,7 +38,7 @@ public class PlayerDiplomaticRelations : EngineObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.ByteList(persister, "Relations", _relations);
+        PersistSupport.ByteList(persister, name: "Relations", list: _relations);
         persister.Object("History", _history);
         // The translate stream's mode holds read, so the original ReadWrite resets it there too.
         if (persister.Loading || PersistSupport.Translating(persister))
@@ -66,7 +66,7 @@ public class PlayerDiplomaticRelations : EngineObject
                 {
                     // { The loop index supplies the player. }
                     DiplomaticRelation diplomaticRelation = GetDiplomaticRelation((sbyte)i);
-                    GetHistory((sbyte)i).Add(diplomaticRelation, 0);
+                    GetHistory((sbyte)i).Add(diplomaticRelation, day: 0);
                 }
             }
             else
@@ -76,7 +76,7 @@ public class PlayerDiplomaticRelations : EngineObject
                     for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
                     {
                         DiplomaticRelation diplomaticRelation = Player.LegacyRelations.GetDiplomaticRelation(i);
-                        GetHistory((sbyte)i).Add(diplomaticRelation, 0);
+                        GetHistory((sbyte)i).Add(diplomaticRelation, day: 0);
                     }
 
                     Player.LegacyRelations.Clear();

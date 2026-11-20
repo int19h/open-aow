@@ -39,8 +39,8 @@ public class EndTurnTokenEvent(CustomNode owner) : TokenEvent(owner)
                 if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && StrategicMap.Current.Players.GetPlayers(Player).PlayerRace != -1)
                 {
                     Player players = StrategicMap.Current.Players.GetPlayers(Player);
-                    string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[players.PlayerRace]);
-                    string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_finishedTheirTurnText);
+                    string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.RaceNamesPluralTexts[players.PlayerRace]);
+                    string translatedText = AbilityRules.TranslateResourceString(GetEngine(), S: s_finishedTheirTurnText);
                     StrategicMap.Current.ShowMessage($"{raceNamesPlural} {translatedText}");
                 }
             }

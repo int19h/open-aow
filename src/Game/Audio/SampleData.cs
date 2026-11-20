@@ -8,7 +8,7 @@ namespace Aow.Game.Audio;
 // Create counts the first reference
 public class SampleData : IDisposable
 {
-    public static SampleDataClass Descriptor { get; } = new("SampleData", Create, Create);
+    public static SampleDataClass Descriptor { get; } = new("SampleData", Create, createEx: Create);
 
     // Sound.pas:674
     protected SampleData(ConstructionContext context, string name)
@@ -49,7 +49,7 @@ public class SampleData : IDisposable
 
     // Sound.pas:60
     public static SampleData Create(string name)
-        => ConstructionContext.Create(name, static (context, value) => new SampleData(context, value));
+        => ConstructionContext.Create(name, static (context, value) => new SampleData(context, name: value));
 
     // Sound.pas:61
     public static SampleData Create(in WaveFormat format, object data, int size)

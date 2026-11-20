@@ -11,7 +11,7 @@ public class SummonWaterElemental : SummonSpell
     public SummonWaterElemental(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_summonWaterElementalText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_summonWaterElementalText);
         SpellId = 30;
         BaseManaCost = 5;
         SpellLevel = 4;

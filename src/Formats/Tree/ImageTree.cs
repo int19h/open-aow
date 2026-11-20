@@ -20,11 +20,11 @@ internal static class ImageTree
     {
         EncodeContext context = new(schema, engine: engine, profile: profile ?? engine, file: null, limits: FormatLimits.Default);
         ByteBuffer output = new();
-        WriteBody(node, classValue, context, output, DocumentNodePath.Root, false);
+        WriteBody(node, classValue, context, data: output, path: DocumentNodePath.Root, allowIdentity: false);
         return output.ToArray();
     }
 
-    internal static ObjectNode Read(byte[] image, SchemaClass classValue, FormatSchema schema, string engine) => ReadBody(new DecodeContext(image, schema, engine, engine, null, FormatLimits.Default), start: 0, end: image.Length, classValue: classValue, path: DocumentNodePath.Root, className: null, slot: null);
+    internal static ObjectNode Read(byte[] image, SchemaClass classValue, FormatSchema schema, string engine) => ReadBody(new DecodeContext(image, schema, engine, profile: engine, file: null, limits: FormatLimits.Default), start: 0, end: image.Length, classValue: classValue, path: DocumentNodePath.Root, className: null, slot: null);
 
     /// <summary>Reads the object image between two offsets of a decode context, such as the root of an engine image.</summary>
     internal static ObjectNode Read(DecodeContext context, int start, int end, SchemaClass classValue)
@@ -52,12 +52,12 @@ internal static class ImageTree
         {
             if (node.ClassName is not null)
             {
-                throw context.Fail(Codes.ReservedMember, "Reserved member \"$class\" is not allowed here.", null, path, "$class");
+                throw context.Fail(Codes.ReservedMember, message: "Reserved member \"$class\" is not allowed here.", at: null, path, value: "$class");
             }
 
             if (node.Slot is not null)
             {
-                throw context.Fail(Codes.ReservedMember, "Reserved member \"$slot\" is not allowed here.", null, path, "$slot");
+                throw context.Fail(Codes.ReservedMember, message: "Reserved member \"$slot\" is not allowed here.", at: null, path, value: "$slot");
             }
         }
         context.Enter(s_marker, path);
@@ -74,21 +74,21 @@ internal static class ImageTree
             DocumentNodePath memberPath = path.Member(prop.Name);
             // Every original image refuses a member whose stored id sits in the port range or the
             // mod range. The own document keeps that member. Absence is not state.
-            if (!TransportProfile.Carries(context.Profile, prop))
+            if (!TransportProfile.Carries(context.Profile, property: prop))
             {
-                throw TransportProfile.Unrepresentable(context, classValue, prop, memberPath);
+                throw TransportProfile.Unrepresentable(context, classValue, property: prop, path: memberPath);
             }
 
             if (prop.IsDynamic)
             {
                 ImageFrame slots = new() { Property = prop, Id = prop.DynamicMinimum!.Value, Path = memberPath, Parent = node, OwnerClass = classValue };
-                prop.Codec.WriteSlotsImage(value, context, writer, slots);
+                prop.Codec.WriteSlotsImage(value, context, writer, frame: slots);
                 matched++;
                 continue;
             }
             if (prop.Codec.ImageRefusal is string reason)
             {
-                throw context.Fail(Codes.Type, reason, null, memberPath);
+                throw context.Fail(Codes.Type, message: reason, at: null, path: memberPath);
             }
 
             matched++;
@@ -112,7 +112,7 @@ internal static class ImageTree
             {
                 if (classValue.PropertyByName(name) is null)
                 {
-                    throw context.Fail(Codes.UnknownMember, $"Class {classValue.Name} has no member \"{name}\".", null, path.Member(name), name);
+                    throw context.Fail(Codes.UnknownMember, message: $"Class {classValue.Name} has no member \"{name}\".", at: null, path: path.Member(name), value: name);
                 }
             }
         }
@@ -140,7 +140,7 @@ internal static class ImageTree
                 {
                     if (entries[k].Id == entry.Id)
                     {
-                        throw context.Fail(Codes.Duplicate, $"Property {entry.Id} of class {classValue.Name} is stored twice.", start, path);
+                        throw context.Fail(Codes.Duplicate, message: $"Property {entry.Id} of class {classValue.Name} is stored twice.", offset: start, path);
                     }
                 }
 
@@ -149,16 +149,16 @@ internal static class ImageTree
             }
 
             SchemaProperty prop = classValue.PropertyById(entry.Id)
-                ?? throw context.Fail(Codes.UnknownProperty, $"Class {classValue.Name} has no property {entry.Id}.", db + entry.Offset, path, entry.Id.ToString(CultureInfo.InvariantCulture));
+                ?? throw context.Fail(Codes.UnknownProperty, message: $"Class {classValue.Name} has no property {entry.Id}.", offset: db + entry.Offset, path, value: entry.Id.ToString(CultureInfo.InvariantCulture));
             for (int k = 0; k < i; k++)
             {
                 if (entries[k].Id == entry.Id)
                 {
-                    throw context.Fail(Codes.Duplicate, $"{(prop.IsDynamic ? "Dynamic id " : "Property ")}{entry.Id} of class {classValue.Name} is stored twice.", start, path);
+                    throw context.Fail(Codes.Duplicate, message: $"{(prop.IsDynamic ? "Dynamic id " : "Property ")}{entry.Id} of class {classValue.Name} is stored twice.", offset: start, path);
                 }
             }
 
-            located[i] = new Located(entry, prop, classValue.Ordinal(prop), db + entry.Offset, db + entry.Offset);
+            located[i] = new Located(entry, Property: prop, Ordinal: classValue.Ordinal(prop), Start: db + entry.Offset, End: db + entry.Offset);
         }
         // Each valued entry runs to the next larger stored offset, or to the end of the object.
         Array.Sort(located, static (left, right) => left.Entry.Offset != right.Entry.Offset
@@ -174,7 +174,7 @@ internal static class ImageTree
             int offset = located[i].Entry.Offset;
             if (offset == valuedAt)
             {
-                throw context.Fail(Codes.Layout, $"Two valued properties of class {classValue.Name} share offset {offset}.", db + offset, path);
+                throw context.Fail(Codes.Layout, message: $"Two valued properties of class {classValue.Name} share offset {offset}.", offset: db + offset, path);
             }
 
             valuedAt = offset;
@@ -216,11 +216,11 @@ internal static class ImageTree
                 }
 
                 ImageFrame slots = new() { Property = prop, Id = prop.DynamicMinimum!.Value, Path = memberPath, Parent = node, OwnerClass = classValue };
-                node.Add(prop.Name, prop.Codec.ReadSlotsImage(context, images, slots));
+                node.Add(prop.Name, prop.Codec.ReadSlotsImage(context, entries: images, frame: slots));
             }
             else if (prop.Codec.ImageRefusal is string reason)
             {
-                throw context.Fail(Codes.Type, reason, located[first].Start, memberPath);
+                throw context.Fail(Codes.Type, message: reason, offset: located[first].Start, path: memberPath);
             }
             else if (prop.Codec.GroupsEntries)
             {
@@ -231,7 +231,7 @@ internal static class ImageTree
                 }
 
                 ImageFrame grouped = new() { Property = prop, Id = prop.Id!.Value, Path = memberPath, Parent = node, OwnerClass = classValue };
-                node.Add(prop.Name, prop.Codec.ReadGroupImage(context, images, grouped));
+                node.Add(prop.Name, prop.Codec.ReadGroupImage(context, entries: images, frame: grouped));
             }
             else if (prop.DataId is int dataId)
             {
@@ -249,7 +249,7 @@ internal static class ImageTree
                     }
                 }
                 ImageFrame pair = new() { Property = prop, Id = prop.Id!.Value, Path = memberPath, Parent = node, OwnerClass = classValue };
-                node.Add(prop.Name, prop.Codec.ReadPairImage(context, pairFirst, pairSecond, pair));
+                node.Add(prop.Name, prop.Codec.ReadPairImage(context, first: pairFirst, second: pairSecond, frame: pair));
             }
             else
             {
@@ -261,7 +261,7 @@ internal static class ImageTree
         }
         if (classValue.Mapping is { } mapping)
         {
-            CaseCodec.CheckTree(context, mapping, node, path, start);
+            CaseCodec.CheckTree(context, mapping, node, path, offset: start);
         }
 
         context.Leave();

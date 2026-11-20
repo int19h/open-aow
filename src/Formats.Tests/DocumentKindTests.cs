@@ -70,10 +70,10 @@ public sealed class DocumentKindTests : FormatsTest
     public void ClassificationIgnoresTheFormOfTheExtension()
     {
         byte[] own = Encoding.UTF8.GetBytes($"{{\"$format\": \"OpenAoW\", \"$version\": {OwnFormat.CurrentVersion}, \"$kind\": \"hero-list\", \"$container\": {{\"profile\": \"hero-list\", \"compression\": \"none\"}}, \"root\": {{}}}}");
-        Assert.Equal(DetectedFormat.OwnJson, GameFiles.Classify(own, ".ahl").Format);
-        Assert.Equal(DetectedFormat.OwnJson, GameFiles.Classify(own, ".oahl").Format);
+        Assert.Equal(DetectedFormat.OwnJson, GameFiles.Classify(own, extension: ".ahl").Format);
+        Assert.Equal(DetectedFormat.OwnJson, GameFiles.Classify(own, extension: ".oahl").Format);
         byte[] original = GameFiles.Export(GameFiles.Read(own).Document).Bytes;
-        Assert.Equal(DetectedFormat.Original, GameFiles.Classify(original, ".ahl").Format);
-        Assert.Equal(DetectedFormat.Original, GameFiles.Classify(original, ".oahl").Format);
+        Assert.Equal(DetectedFormat.Original, GameFiles.Classify(original, extension: ".ahl").Format);
+        Assert.Equal(DetectedFormat.Original, GameFiles.Classify(original, extension: ".oahl").Format);
     }
 }

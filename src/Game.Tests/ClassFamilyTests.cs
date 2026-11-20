@@ -49,9 +49,9 @@ public sealed class ClassFamilyTests
             IOrderedEnumerable<string?> expected = typeof(EngineObject).Assembly.GetTypes().Where(t => t.IsClass && contract.IsAssignableFrom(t)).Select(t => t.FullName).Order(StringComparer.Ordinal);
             Assert.Equal(expected, registered.Where(t => t.Assembly == typeof(EngineObject).Assembly).Select(t => t.FullName).Order(StringComparer.Ordinal));
         }
-        Verify(typeof(IAIPlayerActionClass), AIPlayerActionClass.All.Select(c => c.Class.Type));
-        Verify(typeof(IAIGroupClass), AIGroupClass.All.Select(c => c.Class.Type));
-        Verify(typeof(IEngineObjectEditorClass), EditorClass.All.Select(c => c.Class.Type));
+        Verify(typeof(IAIPlayerActionClass), registered: AIPlayerActionClass.All.Select(c => c.Class.Type));
+        Verify(typeof(IAIGroupClass), registered: AIGroupClass.All.Select(c => c.Class.Type));
+        Verify(typeof(IEngineObjectEditorClass), registered: EditorClass.All.Select(c => c.Class.Type));
         _ = Assert.Throws<AbstractErrorException>(() => AIPlayerActionClass.Of<AIPlayerAction>().Priority);
         _ = Assert.Throws<AbstractErrorException>(() => AIPlayerActionClass.Of<StructureAIPlayerAction>().Priority);
         Assert.Equal("EndTurnAIPlayerAction", AIPlayerActionClass.Of<EndTurnAIPlayerAction>().StorageKey);
@@ -94,7 +94,7 @@ public sealed class ClassFamilyTests
             const BindingFlags flags = BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly;
             for (Type? t = type; t != null; t = t.BaseType)
             {
-                if (t.GetProperty(name, flags) is { } property)
+                if (t.GetProperty(name, bindingAttr: flags) is { } property)
                 {
                     return property.GetValue(null);
                 }
@@ -109,8 +109,8 @@ public sealed class ClassFamilyTests
         {
             AIPlayerActionClass descriptor = AIPlayerActionClass.Of(type);
             Assert.Same(EngineClass.Of(type), descriptor.Class);
-            Assert.Equal(Nearest(type, nameof(AIPlayerAction.Priority)), descriptor.Priority);
-            Assert.Equal(Nearest(type, nameof(AIPlayerAction.SupportedPhases)), descriptor.SupportedPhases);
+            Assert.Equal(Nearest(type, name: nameof(AIPlayerAction.Priority)), descriptor.Priority);
+            Assert.Equal(Nearest(type, name: nameof(AIPlayerAction.SupportedPhases)), descriptor.SupportedPhases);
         }
         List<Type> groups = [.. types.Where(t => typeof(AIGroup).IsAssignableFrom(t))];
         Assert.Equal(19, groups.Count);
@@ -118,7 +118,7 @@ public sealed class ClassFamilyTests
         {
             AIGroupClass descriptor = AIGroupClass.Of(type);
             Assert.Same(EngineClass.Of(type), descriptor.Class);
-            Assert.Equal(Nearest(type, nameof(AIGroup.Behavior)), descriptor.Behavior);
+            Assert.Equal(Nearest(type, name: nameof(AIGroup.Behavior)), descriptor.Behavior);
         }
     }
 
@@ -129,10 +129,10 @@ public sealed class ClassFamilyTests
         AIPlayerActionClass[] classes = [AIPlayerActionClass.Of<EndTurnAIPlayerAction>(), AIPlayerActionClass.Of<InitializeAIPlayerAction>(), AIPlayerActionClass.Of<GroupControlLoopAIPlayerAction>()];
         manager.RegisterClasses(classes);
         Assert.Equal(3, manager.GetCount());
-        List<AIPlayerActionClass> registered = [.. Enumerable.Range(0, 3).Select(manager.GetRegisteredClasses)];
+        List<AIPlayerActionClass> registered = [.. Enumerable.Range(0, count: 3).Select(manager.GetRegisteredClasses)];
         foreach (AIPlayerActionClass c in classes)
         {
-            Assert.Contains(c, registered);
+            Assert.Contains(c, collection: registered);
         }
         // CompareAIPlayerActionClasses orders by descending priority
         for (int i = 1; i < registered.Count; i++)
@@ -223,14 +223,14 @@ public sealed class ClassFamilyTests
             DynamicIsometricHex dynamic = hex.Dynamic;
             Assert.NotNull(dynamic);
             Assert.Null(dynamic.Owner);
-            Assert.Contains(dynamic, field.HexSpriteList.Take(field.StoredCount));
+            Assert.Contains(dynamic, collection: field.HexSpriteList.Take(field.StoredCount));
             Assert.Equal(field.HexX, dynamic.HexX);
             Assert.Equal(field.HexY, dynamic.HexY);
             Assert.Equal(resource.DynamicLevel, dynamic.Level);
             Assert.Equal(26, dynamic.Level);
             hex.Dispose();
             hex = null!;
-            Assert.DoesNotContain(dynamic, field.HexSpriteList.Take(field.StoredCount));
+            Assert.DoesNotContain(dynamic, collection: field.HexSpriteList.Take(field.StoredCount));
         }
         finally
         {

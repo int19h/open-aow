@@ -71,7 +71,7 @@ public class UnitIndexListCollection : IDisposable
             int offset = collection * _collectionSize;
             int unitIndex = offset + index;
             Units.Delete(unitIndex);
-            Units.Insert(offset + n - 1, -1);
+            Units.Insert(offset + n - 1, item: -1);
         }
     }
 

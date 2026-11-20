@@ -20,7 +20,7 @@ public struct ShowInfo
         byte[] image = new byte[8];
         image[0] = (byte)ShowMode;
         image[1] = (byte)BlendMode;
-        BinaryPrimitives.WriteInt32LittleEndian(image.AsSpan(4), Blend.TryGetValue(out int percentage) ? percentage : 0);
+        BinaryPrimitives.WriteInt32LittleEndian(image.AsSpan(4), value: Blend.TryGetValue(out int percentage) ? percentage : 0);
         return image;
     }
 

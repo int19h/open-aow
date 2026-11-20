@@ -11,15 +11,15 @@ public sealed class ExpectationTests : FormatsTest, IDisposable
 
     public ExpectationTests() => Directory.CreateDirectory(_directory);
 
-    public void Dispose() => Directory.Delete(_directory, true);
+    public void Dispose() => Directory.Delete(_directory, recursive: true);
 
     private string Write(string censusSha)
     {
         byte[] census = Encoding.UTF8.GetBytes("{\"corpus\": [], \"summary\": {\"unexplainedSites\": 0}}");
-        File.WriteAllBytes(Path.Combine(_directory, "census.json"), census);
+        File.WriteAllBytes(Path.Combine(_directory, "census.json"), bytes: census);
         string sha = censusSha == "actual" ? System.Convert.ToHexStringLower(SHA256.HashData(census)) : censusSha;
         string path = Path.Combine(_directory, "expect.json");
-        File.WriteAllText(path, """
+        File.WriteAllText(path, contents: """
             {
               "format": "aowconv-check-expectation",
               "version": 2,
@@ -36,7 +36,7 @@ public sealed class ExpectationTests : FormatsTest, IDisposable
               },
               "legacyRules": {"LEGACY_VALLEY01_SPRITE": {"occurrences": 1, "files": ["install:Scenario/Campaign/Valley01.CSM"]}}
             }
-            """.Replace("SHA", sha, StringComparison.Ordinal));
+            """.Replace("SHA", sha, comparisonType: StringComparison.Ordinal));
         return path;
     }
 
@@ -54,8 +54,8 @@ public sealed class ExpectationTests : FormatsTest, IDisposable
             maskedRules: new(StringComparer.Ordinal) { ["file-crc"] = 4, ["hss-header-tail"] = 35 },
             profiles: new(StringComparer.Ordinal)
             {
-                ["scenario-set"] = new(0, 1, 0),
-                ["world-hsm"] = new(10, 1, 1),
+                ["scenario-set"] = new(0, Masked: 1, Document: 0),
+                ["world-hsm"] = new(10, Masked: 1, Document: 1),
             },
             legacyRules: Rules("install:Scenario/Campaign/Valley01.CSM"));
         Assert.Empty(problems);
@@ -72,22 +72,22 @@ public sealed class ExpectationTests : FormatsTest, IDisposable
             maskedRules: new(StringComparer.Ordinal) { ["file-crc"] = 4, ["hss-header-tail"] = 36 },
             profiles: new(StringComparer.Ordinal)
             {
-                ["scenario-set"] = new(0, 1, 0),
-                ["world-hsm"] = new(9, 2, 1),
+                ["scenario-set"] = new(0, Masked: 1, Document: 0),
+                ["world-hsm"] = new(9, Masked: 2, Document: 1),
             },
             legacyRules: Rules("install:Scenario/Campaign/Valley01.CSM", "install:Scenario/Campaign/Other.csm"));
-        Assert.Contains(problems, p => p.StartsWith("G1 exact files", StringComparison.Ordinal));
-        Assert.Contains(problems, p => p.StartsWith("G1 masked files", StringComparison.Ordinal));
-        Assert.Contains(problems, p => p.StartsWith("masked rule hss-header-tail", StringComparison.Ordinal));
-        Assert.Contains(problems, p => p.StartsWith("profile world-hsm", StringComparison.Ordinal));
-        Assert.Contains(problems, p => p.StartsWith("legacy rule LEGACY_VALLEY01_SPRITE occurrences", StringComparison.Ordinal));
-        Assert.Contains(problems, p => p.StartsWith("legacy rule LEGACY_VALLEY01_SPRITE files", StringComparison.Ordinal));
+        Assert.Contains(problems, p => p.StartsWith("G1 exact files", comparisonType: StringComparison.Ordinal));
+        Assert.Contains(problems, p => p.StartsWith("G1 masked files", comparisonType: StringComparison.Ordinal));
+        Assert.Contains(problems, p => p.StartsWith("masked rule hss-header-tail", comparisonType: StringComparison.Ordinal));
+        Assert.Contains(problems, p => p.StartsWith("profile world-hsm", comparisonType: StringComparison.Ordinal));
+        Assert.Contains(problems, p => p.StartsWith("legacy rule LEGACY_VALLEY01_SPRITE occurrences", comparisonType: StringComparison.Ordinal));
+        Assert.Contains(problems, p => p.StartsWith("legacy rule LEGACY_VALLEY01_SPRITE files", comparisonType: StringComparison.Ordinal));
     }
 
     [Fact]
     public void AChangedCensusIsRefused()
     {
-        ExpectationException error = Assert.Throws<ExpectationException>(() => Expectation.Load(Write(new string('0', 64))));
+        ExpectationException error = Assert.Throws<ExpectationException>(() => Expectation.Load(Write(new string('0', count: 64))));
         Assert.Contains("pinned SHA-256", error.Message);
     }
 

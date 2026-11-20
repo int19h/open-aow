@@ -45,7 +45,7 @@ public sealed class LayoutValueTests
             _ = list.Add(new DoubleItemList.DoubleItem(First: i, Second: -i));
         }
 
-        list.Insert(1, new DoubleItemList.DoubleItem(First: 9, Second: 9));
+        list.Insert(1, item: new DoubleItemList.DoubleItem(First: 9, Second: 9));
         list.Delete(3);
         Assert.Equal([0, 9, 1, 3, 4], Enumerable.Range(0, list.Count).Select(i => list[i].First));
         using DoubleItemList copy = new();
@@ -57,10 +57,10 @@ public sealed class LayoutValueTests
         using QuadItemList quads = new();
         for (int i = 0; i < 4; i++)
         {
-            _ = quads.AddABCD(i, i + 1, i + 2, i + 3);
+            _ = quads.AddABCD(i, i + 1, C: i + 2, D: i + 3);
         }
 
-        quads.Insert(0, new QuadItemList.QuadInteger(First: 7, Second: 7, Third: 7, Fourth: 7));
+        quads.Insert(0, item: new QuadItemList.QuadInteger(First: 7, Second: 7, Third: 7, Fourth: 7));
         quads.Delete(2);
         Assert.Equal([7, 0, 2, 3], Enumerable.Range(0, quads.Count).Select(i => quads[i].First));
 
@@ -84,16 +84,16 @@ public sealed class LayoutValueTests
     public void TerrainPairsKeepTheWordView()
     {
         TerrainList terrain = new();
-        terrain.SetTandO(0, 0x05FE);
+        terrain.SetTandO(0, value: 0x05FE);
         Assert.Equal(-2, terrain.GetTerrain(0));
         Assert.Equal(5, terrain.GetOverlay(0));
         Assert.True(terrain.GetUsed(0));
-        terrain.SetTerrain(1, 3);
+        terrain.SetTerrain(1, value: 3);
         Assert.Equal(0xFE03, terrain.GetTandO(1));
         Assert.Equal(0xFEFE, terrain.GetTandO(2));
-        terrain.SetTandO(2, 0x8080);
+        terrain.SetTandO(2, value: 0x8080);
         Assert.False(terrain.GetUsed(2));
-        terrain.SetTandO(2, 0x807F);
+        terrain.SetTandO(2, value: 0x807F);
         Assert.True(terrain.GetUsed(2));
     }
 

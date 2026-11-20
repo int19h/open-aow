@@ -30,33 +30,33 @@ internal static class FrameVerification
         {
             display.Host = host;
             display.EventSink = host;
-            Check(display.ActivateDisplayController(controller) == 0, "activation");
-            Check(controller.GetStatus().Contains(DisplayControllerStatusElement.Activated) && controller.GetStatus().Contains(DisplayControllerStatusElement.Windowed), "controller status");
+            Check(display.ActivateDisplayController(controller) == 0, label: "activation");
+            Check(controller.GetStatus().Contains(DisplayControllerStatusElement.Activated) && controller.GetStatus().Contains(DisplayControllerStatusElement.Windowed), label: "controller status");
             Surface screen = controller.GetSurface(0);
             Surface back = controller.GetSurface(1);
-            Check(screen.Width == 640 && screen.Height == 480 && back.Width == 640 && back.Height == 480, "screen and back sizes");
-            Check(controller.SurfaceCount == 1 && controller.GetSurface(2) is null, "double buffering");
+            Check(screen.Width == 640 && screen.Height == 480 && back.Width == 640 && back.Height == 480, label: "screen and back sizes");
+            Check(controller.SurfaceCount == 1 && controller.GetSurface(2) is null, label: "double buffering");
             LockedSurface lockedSurface = default;
-            Check(back.Lock(ref lockedSurface) == GraphicsResult.Ok && lockedSurface.PixelFormatId == PixelFormat.Rgb555, "555 back surface");
+            Check(back.Lock(ref lockedSurface) == GraphicsResult.Ok && lockedSurface.PixelFormatId == PixelFormat.Rgb555, label: "555 back surface");
             _ = back.Unlock();
-            Check(controller.FlipSurface(1) == DisplayControllerError.NoFlip && host.Presents == 1, "flip presents and reports fallback");
+            Check(controller.FlipSurface(1) == DisplayControllerError.NoFlip && host.Presents == 1, label: "flip presents and reports fallback");
             display.PresentInitialFrame();
             display.PresentInitialFrame();
-            Check(display.PresentedFrames == 1 && host.Presents == 2, "initial paint counts once");
+            Check(display.PresentedFrames == 1 && host.Presents == 2, label: "initial paint counts once");
             int x = 0, y = 0;
             controller.GetMousePosition(ref x, ref y);
-            Check(x == 639 && y == 479 && !host.SystemCursor, "inside pointer");
+            Check(x == 639 && y == 479 && !host.SystemCursor, label: "inside pointer");
             host.HasFocus = false;
             controller.GetMousePosition(ref x, ref y);
-            Check(x == -1 && y == -1 && host.SystemCursor, "unfocused pointer");
+            Check(x == -1 && y == -1 && host.SystemCursor, label: "unfocused pointer");
             host.HasFocus = true;
             host.ClientSize = (800, 600);
             display.Resize();
-            Check(screen.Width == 800 && back.Width == 800 && back.Height == 600, "resize uses client pixels");
+            Check(screen.Width == 800 && back.Width == 800 && back.Height == 600, label: "resize uses client pixels");
             int draws = 0;
             display.SetUpdate((_, _, index) =>
             {
-                Check(index == 1, "double buffer index");
+                Check(index == 1, label: "double buffer index");
                 draws++;
             });
             display.FramePresented = frame =>
@@ -67,23 +67,23 @@ internal static class FrameVerification
                 }
             };
             display.StartUpdateFrameLoop();
-            Check(draws == 3 && host.Pumps == 3 && host.Presents == 5, "synchronous frame loop");
-            Check(clock.ElapsedMilliseconds == 99, "33 ms limiter");
+            Check(draws == 3 && host.Pumps == 3 && host.Presents == 5, label: "synchronous frame loop");
+            Check(clock.ElapsedMilliseconds == 99, label: "33 ms limiter");
             display.PauseFrameUpdateLoop();
             display.PauseFrameUpdateLoop();
             display.ResumeFrameUpdateLoop();
-            Check(display.Status.Contains(DisplayStatusElement.FrameLoopPaused), "nested pause");
+            Check(display.Status.Contains(DisplayStatusElement.FrameLoopPaused), label: "nested pause");
             display.ResumeFrameUpdateLoop();
-            Check(!display.Status.Contains(DisplayStatusElement.FrameLoopPaused), "balanced resume");
-            Check(display.SwapDisplayController() == 0 && host.Fullscreen && ReferenceEquals(back, controller.GetSurface(1)), "fullscreen keeps surface pixels");
+            Check(!display.Status.Contains(DisplayStatusElement.FrameLoopPaused), label: "balanced resume");
+            Check(display.SwapDisplayController() == 0 && host.Fullscreen && ReferenceEquals(back, controller.GetSurface(1)), label: "fullscreen keeps surface pixels");
 
             HeadlessDisplayHost recorder = new(directory);
             byte[] pixels = [1, 0, 2, 0, 99, 99, 3, 0, 4, 0, 99, 99];
             lockedSurface = new() { Width = 2, Height = 2, Pitch = -6, BitCount = 16, PixelFormatId = PixelFormat.Rgb555, Data = pixels, DataIndex = 6 };
             recorder.Present(lockedSurface);
-            Check(File.ReadAllBytes(Path.Combine(directory, "frame-1.raw")).SequenceEqual(new byte[] { 3, 0, 4, 0, 1, 0, 2, 0 }), "top-down recording excludes padding and handles negative pitch");
+            Check(File.ReadAllBytes(Path.Combine(directory, "frame-1.raw")).SequenceEqual(new byte[] { 3, 0, 4, 0, 1, 0, 2, 0 }), label: "top-down recording excludes padding and handles negative pitch");
             using JsonDocument metadata = JsonDocument.Parse(File.ReadAllText(Path.Combine(directory, "frame-1.json")));
-            Check(metadata.RootElement.GetProperty("frame").GetInt32() == 1 && metadata.RootElement.GetProperty("pitch").GetInt32() == 4, "frame metadata");
+            Check(metadata.RootElement.GetProperty("frame").GetInt32() == 1 && metadata.RootElement.GetProperty("pitch").GetInt32() == 4, label: "frame metadata");
         }
         finally
         {

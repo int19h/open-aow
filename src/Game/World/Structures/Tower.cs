@@ -131,7 +131,7 @@ public partial class Tower(CustomNode owner) : PlayerStructure(owner)
         public override int ResourceUserClassId() => 132158;
 
         // Tower.pas:121
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), GameText.TowerText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: GameText.TowerText);
 
     }
 }

@@ -22,7 +22,7 @@ public class Tornado : GlobalTargetSpell
     public Tornado(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.TornadoText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.TornadoText);
         SpellId = 68;
         AboveGroundOnly = true;
     }
@@ -31,7 +31,7 @@ public class Tornado : GlobalTargetSpell
     public override void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
         TargetSelectionControl target = targetSelection;
-        base.SetupTargetSelection(source, target);
+        base.SetupTargetSelection(source, targetSelection: target);
         target.HexNumbers.Clear();
     }
 
@@ -41,8 +41,8 @@ public class Tornado : GlobalTargetSpell
         if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             TornadoTokenEvent eventValue = new(null) { Holder = CreationHolder() };
-            eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
-            eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
+            eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
+            eventValue.SetLocation((sbyte)X, (sbyte)Y, layer: (sbyte)L);
             ArmyHexSprite army = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
             if (army is not null)
             {
@@ -74,7 +74,7 @@ public class Tornado : GlobalTargetSpell
             message.Param = param;
             message.Result = 0;
             mapField.SendMapFieldMessage(ref message);
-            return message.Result.Int == 0 && army.Army.CanPlace(X, Y, layer);
+            return message.Result.Int == 0 && army.Army.CanPlace(X, Y, L: layer);
         }
 
         return result;
@@ -87,7 +87,7 @@ public class Tornado : GlobalTargetSpell
         army.Army.CreateMovePointTable(selection, out MovePointTable table);
         sbyte hexY = army.HexY;
         sbyte hexX = army.HexX;
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 10);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 10);
         MapLevel mapLevel = StrategicMap.Current.MapContainer.MapLevels[army.HexLevel];
         MapField mapField;
         while (walk.Radius < 15)
@@ -111,7 +111,7 @@ public class Tornado : GlobalTargetSpell
         {
             int index = Random(locations.Count);
             mapField = locations[index];
-            if (ValidWarpLocation(army, mapField.HexX, mapField.HexY, mapField.HexLevel))
+            if (ValidWarpLocation(army, mapField.HexX, mapField.HexY, layer: mapField.HexLevel))
             {
                 found = true;
                 result = mapField.Location;

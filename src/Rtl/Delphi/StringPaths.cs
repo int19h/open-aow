@@ -55,7 +55,7 @@ public static class DelphiPaths
             i--;
         }
 
-        return Copy(name, 1, i);
+        return Copy(name, index: 1, count: i);
     }
 
     public static string ExtractFilePath(string? name)
@@ -79,14 +79,14 @@ public static class DelphiPaths
     public static string ExtractFileExt(string? name)
     {
         name = RequireString(name);
-        int i = Delimiter(name, true);
+        int i = Delimiter(name, dot: true);
         return i > 0 && name[i - 1] == '.' ? name[(i - 1)..] : "";
     }
 
     public static string ChangeFileExt(string? name, string? extension)
     {
         name = RequireString(name);
-        int i = Delimiter(name, true);
+        int i = Delimiter(name, dot: true);
         return (i > 0 && name[i - 1] == '.' ? name[..(i - 1)] : name) + RequireString(extension);
     }
 

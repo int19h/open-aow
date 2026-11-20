@@ -194,7 +194,7 @@ public class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
         HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int x, out int y);
         pixelXSurface = x - pixelXSurface;
         pixelYSurface = y - pixelYSurface;
-        base.Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 40, (uint)(Owner.HexX + (Owner.HexY << 4)));
+        base.Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, index: 40, offset: (uint)(Owner.HexX + (Owner.HexY << 4)));
     }
 
     // CombatObstacle.pas:182
@@ -203,7 +203,7 @@ public class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
         HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int x, out int y);
         pixelXSurface = x - pixelXSurface;
         pixelYSurface = y - pixelYSurface;
-        base.Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 41, (uint)(Owner.HexX + (Owner.HexY << 4)));
+        base.Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, index: 41, offset: (uint)(Owner.HexX + (Owner.HexY << 4)));
     }
 
     public new class Resource(CustomNode owner) : MultiHexMapObjectResource(owner)
@@ -216,7 +216,7 @@ public class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
         public override int ResourceUserClassId() => 2229546;
 
         // CombatObstacle.pas:242
-        public override string ResourceEditName() => $"Combat {AbilityRules.TranslateResourceString(GetEngine(), GameText.ObstacleText)}";
+        public override string ResourceEditName() => $"Combat {AbilityRules.TranslateResourceString(GetEngine(), S: GameText.ObstacleText)}";
 
     }
 }

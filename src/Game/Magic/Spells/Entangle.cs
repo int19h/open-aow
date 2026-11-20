@@ -19,7 +19,7 @@ public class Entangle : CombatSpell
     public Entangle(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.EntangleText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.EntangleText);
         SpellId = 111;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 7;

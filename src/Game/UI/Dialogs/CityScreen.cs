@@ -293,22 +293,22 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
         switch (_migrationSort)
         {
             case 0:
-                StringSorting.SortStringsNumericalAscending(MigrationTurnsList.Items, [MigrationRaceList.Items, MigrationRelationList.Items]);
+                StringSorting.SortStringsNumericalAscending(MigrationTurnsList.Items, linkedStrings: [MigrationRaceList.Items, MigrationRelationList.Items]);
                 break;
             case 1:
-                StringSorting.SortStringsNumericalDescending(MigrationTurnsList.Items, [MigrationRaceList.Items, MigrationRelationList.Items]);
+                StringSorting.SortStringsNumericalDescending(MigrationTurnsList.Items, linkedStrings: [MigrationRaceList.Items, MigrationRelationList.Items]);
                 break;
             case 2:
-                StringSorting.SortStringsAscending(MigrationRaceList.Items, [MigrationTurnsList.Items, MigrationRelationList.Items]);
+                StringSorting.SortStringsAscending(MigrationRaceList.Items, linkedStrings: [MigrationTurnsList.Items, MigrationRelationList.Items]);
                 break;
             case 3:
-                StringSorting.SortStringsDescending(MigrationRaceList.Items, [MigrationTurnsList.Items, MigrationRelationList.Items]);
+                StringSorting.SortStringsDescending(MigrationRaceList.Items, linkedStrings: [MigrationTurnsList.Items, MigrationRelationList.Items]);
                 break;
             case 4:
-                StringSorting.SortStringsAscending(MigrationRelationList.Items, [MigrationTurnsList.Items, MigrationRaceList.Items]);
+                StringSorting.SortStringsAscending(MigrationRelationList.Items, linkedStrings: [MigrationTurnsList.Items, MigrationRaceList.Items]);
                 break;
             case 5:
-                StringSorting.SortStringsDescending(MigrationRelationList.Items, [MigrationTurnsList.Items, MigrationRaceList.Items]);
+                StringSorting.SortStringsDescending(MigrationRelationList.Items, linkedStrings: [MigrationTurnsList.Items, MigrationRaceList.Items]);
                 break;
             default:
                 break;
@@ -350,7 +350,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
             if (p.Researched)
             {
                 SelectAction(CityAction.Produce);
-                StrategicMap.Current.TutorialControl.ShowMessage(58, true, true);
+                StrategicMap.Current.TutorialControl.ShowMessage(58, immediate: true, onceOnly: true);
             }
             else
             {
@@ -370,11 +370,11 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
             MigrationRelationList.Selected = index;
             MigrateTurnsLabel.Text = IntToStr(item.Time);
             string raceNames = UI.Engine.TranslateResourceString(GameTables.RaceNames[_city.Race]);
-            string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_relationMinusFormat), [raceNames, -15]);
+            string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_relationMinusFormat), arguments: [raceNames, -15]);
             MigrateInfoLabel.Text = format;
             MigrateInfoLabel.Text = $"{MigrateInfoLabel.Text}   ";
             string raceNamesText = UI.Engine.TranslateResourceString(GameTables.RaceNames[item.Race]);
-            string formattedText = AbilityRules.Format(UI.Engine.TranslateResourceString(s_relationPlusFormat), [raceNamesText, 10]);
+            string formattedText = AbilityRules.Format(UI.Engine.TranslateResourceString(s_relationPlusFormat), arguments: [raceNamesText, 10]);
             MigrateInfoLabel.Text = MigrateInfoLabel.Text + formattedText;
             CityButton1.Visible = true;
             string migrate = UI.Engine.TranslateResourceString(s_migrateText);
@@ -446,7 +446,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                 string upgradeText = UI.Engine.TranslateResourceString(GameText.UpgradeText);
                 UpgradeLabel.Text = upgradeText;
                 string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[_city.Race]);
-                string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_relationPlusFormat), [raceNamesPlural, 5]);
+                string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_relationPlusFormat), arguments: [raceNamesPlural, 5]);
                 UpgradeInfoLabel.Text = format;
                 break;
             case CityAction.Fortify:
@@ -478,7 +478,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                 string fortifyText = UI.Engine.TranslateResourceString(GameText.FortifyText);
                 UpgradeLabel.Text = fortifyText;
                 string raceNames = UI.Engine.TranslateResourceString(GameTables.RaceNames[_city.Race]);
-                string formattedText = AbilityRules.Format(UI.Engine.TranslateResourceString(s_relationPlusFormat), [raceNames, 5]);
+                string formattedText = AbilityRules.Format(UI.Engine.TranslateResourceString(s_relationPlusFormat), arguments: [raceNames, 5]);
                 UpgradeInfoLabel.Text = formattedText;
                 break;
             case CityAction.Migrate:
@@ -496,7 +496,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                 string lootText = UI.Engine.TranslateResourceString(GameText.LootText);
                 UpgradeLabel.Text = lootText;
                 string raceNamesText = UI.Engine.TranslateResourceString(GameTables.RaceNames[_city.Race]);
-                string format2 = AbilityRules.Format(UI.Engine.TranslateResourceString(s_relationMinusFormat), [raceNamesText, -30]);
+                string format2 = AbilityRules.Format(UI.Engine.TranslateResourceString(s_relationMinusFormat), arguments: [raceNamesText, -30]);
                 UpgradeInfoLabel.Text = format2;
                 break;
             case CityAction.Raze:
@@ -510,7 +510,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                 string razeText = UI.Engine.TranslateResourceString(GameText.RazeText);
                 UpgradeLabel.Text = razeText;
                 string raceNames3 = UI.Engine.TranslateResourceString(GameTables.RaceNames[_city.Race]);
-                string format3 = AbilityRules.Format(UI.Engine.TranslateResourceString(s_relationMinusFormat), [raceNames3, -30]);
+                string format3 = AbilityRules.Format(UI.Engine.TranslateResourceString(s_relationMinusFormat), arguments: [raceNames3, -30]);
                 UpgradeInfoLabel.Text = format3;
                 break;
             case CityAction.Research:
@@ -534,16 +534,16 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                 UnitMovesIcon.CurrentImage = moveTypesToInt32;
                 Units.Alignment alignment = u.GetAlignment();
                 string alignmentText = UI.Engine.TranslateResourceString(GameText.AlignmentTexts[(int)alignment]);
-                string format4 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.AlignmentFormat), [alignmentText]);
+                string format4 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.AlignmentFormat), arguments: [alignmentText]);
                 UnitAlignmentLabel.Text = format4;
                 sbyte unitLevel = u.UnitLevel;
-                string format5 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.LevelFormat), [IntToStr(unitLevel)]);
+                string format5 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.LevelFormat), arguments: [IntToStr(unitLevel)]);
                 byte upkeep = u.GetUpkeep();
-                string format6 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.UpkeepFormat), [(int)upkeep]);
+                string format6 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.UpkeepFormat), arguments: [(int)upkeep]);
                 UnitLevelLabel.Text = $"{format5} / {format6}";
                 if (UI.Engine.Debug)
                 {
-                    int unitIndexAIPriority = RosterTables.GetUnitIndexAIPriority(u.UnitResource.UnitResourceIndex(), _city.Player, 0, engine: UI.Engine);
+                    int unitIndexAIPriority = RosterTables.GetUnitIndexAIPriority(u.UnitResource.UnitResourceIndex(), _city.Player, relation: 0, engine: UI.Engine);
                     StrategicMap.Current.ShowMessage($"AI Prio:{IntToStr(unitIndexAIPriority)}");
                 }
 
@@ -559,7 +559,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                     string queue4 = UI.Engine.TranslateResourceString(GameText.QueueText);
                     CityButton2.Text = queue4;
                     string name = u.GetName();
-                    string format7 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.ProduceFormat), [name]);
+                    string format7 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.ProduceFormat), arguments: [name]);
                     UnitLabel.Text = format7;
                     int unitProductionGold = _city.Production.UnitProductionGold(_productionIndex);
                     UnitCostLabel.Text = IntToStr(unitProductionGold);
@@ -576,7 +576,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                     string queue4 = UI.Engine.TranslateResourceString(GameText.QueueText);
                     CityButton2.Text = queue4;
                     string name = u.GetName();
-                    string format7 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.InstallFormat), [name]);
+                    string format7 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.InstallFormat), arguments: [name]);
                     UnitLabel.Text = format7;
                     int unitResearchGold = _city.Production.UnitResearchGold(_productionIndex);
                     UnitCostLabel.Text = IntToStr(unitResearchGold);
@@ -616,11 +616,11 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
         string income = UI.Engine.TranslateResourceString(GameText.IncomeText);
         _ = IncomeHeader.Items.Add(income);
         string xGold = UI.Engine.TranslateResourceString(GameText.GoldFormat);
-        string format = AbilityRules.Format(" " + xGold, [IntToStr(_city.Income)]);
+        string format = AbilityRules.Format(" " + xGold, arguments: [IntToStr(_city.Income)]);
         _ = IncomeHeader.Items.Add(format);
         IncomeMemo.Items.Clear();
         IncomeGoldMemo.Items.Clear();
-        _city.ListIncomeInfo(IncomeMemo.Items, IncomeGoldMemo.Items);
+        _city.ListIncomeInfo(IncomeMemo.Items, values: IncomeGoldMemo.Items);
         EnhancementsHeader.Items.Clear();
         string enhancements = UI.Engine.TranslateResourceString(s_enhancementsText);
         _ = EnhancementsHeader.Items.Add(enhancements);
@@ -648,7 +648,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                 MigrationItem itemRace = _migrations.GetItems(i);
                 string raceNamesPlural3 = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[itemRace.Race]);
                 MigrationItem migrationItem = _migrations.GetItems(i);
-                _ = MigrationRaceList.Items.AddObject(raceNamesPlural3, migrationItem);
+                _ = MigrationRaceList.Items.AddObject(raceNamesPlural3, item: migrationItem);
                 MigrationItem itemTime = _migrations.GetItems(i);
                 _ = MigrationTurnsList.Items.Add(IntToStr(itemTime.Time));
                 MigrationItem itemRelation = _migrations.GetItems(i);
@@ -781,7 +781,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
         RandomBattleMapGenerator generator = new(UI.Engine);
         sbyte hexLevel = _city.HexLevel;
         sbyte hexY = _city.HexY;
-        _preview = generator.RandomMap(null, _city.HexX, hexY, hexLevel);
+        _preview = generator.RandomMap(null, _city.HexX, hexY, L: hexLevel);
         generator?.Dispose();
         ArmyHSList armies = new(null) { Holder = UI.Engine };
         _ = _city.ListArmies(armies);
@@ -813,7 +813,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
             _viewY = 800;
         }
 
-        StrategicMap.Current.TutorialControl.ShowMessage(56, true, true);
+        StrategicMap.Current.TutorialControl.ShowMessage(56, immediate: true, onceOnly: true);
         UI.General.Manager.OverlayPriority = 49;
         Window.Visible = true;
     }
@@ -891,7 +891,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
             case 0:
                 SetMode(1);
                 SelectDefaultAction();
-                StrategicMap.Current.TutorialControl.ShowMessage(57, true, true);
+                StrategicMap.Current.TutorialControl.ShowMessage(57, immediate: true, onceOnly: true);
                 break;
             case 1:
                 string reason = "";
@@ -958,10 +958,10 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
 
                         break;
                     case CityAction.Produce:
-                        if (_city.CanProduce(_productionIndex, false, reason))
+                        if (_city.CanProduce(_productionIndex, queue: false, reason))
                         {
-                            StrategicMap.Current.TutorialControl.ShowMessage(59, true, true);
-                            _ = _city.Produce(_productionIndex, false);
+                            StrategicMap.Current.TutorialControl.ShowMessage(59, immediate: true, onceOnly: true);
+                            _ = _city.Produce(_productionIndex, queue: false);
                             SetMode(0);
                         }
                         else
@@ -971,9 +971,9 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
 
                         break;
                     case CityAction.Research:
-                        if (_city.CanResearch(_productionIndex, false, ref reason))
+                        if (_city.CanResearch(_productionIndex, queue: false, ref reason))
                         {
-                            _ = _city.Research(_productionIndex, false);
+                            _ = _city.Research(_productionIndex, queue: false);
                             SetMode(0);
                         }
                         else
@@ -986,7 +986,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                         sbyte race = MigrationRaceList.Items.Objects[MigrationRaceList.Selected].Race;
                         if (_city.CanMigrate(race, reason))
                         {
-                            StrategicMap.Current.TutorialControl.ShowMessage(66, true, true);
+                            StrategicMap.Current.TutorialControl.ShowMessage(66, immediate: true, onceOnly: true);
                             _ = _city.Migrate(race);
                             SetMode(0);
                         }
@@ -1053,9 +1053,9 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
 
                         break;
                     case CityAction.Produce:
-                        if (_city.CanProduce(_productionIndex, true, reason))
+                        if (_city.CanProduce(_productionIndex, queue: true, reason))
                         {
-                            _ = _city.Produce(_productionIndex, true);
+                            _ = _city.Produce(_productionIndex, queue: true);
                         }
                         else
                         {
@@ -1064,9 +1064,9 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
 
                         break;
                     case CityAction.Research:
-                        if (_city.CanResearch(_productionIndex, true, ref reason))
+                        if (_city.CanResearch(_productionIndex, queue: true, ref reason))
                         {
-                            _ = _city.Research(_productionIndex, true);
+                            _ = _city.Research(_productionIndex, queue: true);
                         }
                         else
                         {
@@ -1115,7 +1115,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
             SetMode(0);
         }
 
-        StrategicMap.Current.TutorialControl.ShowMessage(60, true, true);
+        StrategicMap.Current.TutorialControl.ShowMessage(60, immediate: true, onceOnly: true);
     }
 
     // AoWCityScreen.pas:472
@@ -1140,7 +1140,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                 _ = (u?.Show(r.Left - 4, r.Top, lockedSurface, info));
 
                 BlendTable lookupTable = GraphicsState.AlphaBlendTable.GetLookupTables(45);
-                UI.Graphics.CityWindow[5].ShowBlended(r.Left + 2, r.Top + 2, lockedSurface, lookupTable);
+                UI.Graphics.CityWindow[5].ShowBlended(r.Left + 2, r.Top + 2, lockedSurface, table: lookupTable);
             }
             else
             {
@@ -1338,10 +1338,10 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                 _viewY = 16;
             }
 
-            LockedSurface.CreateFrom(lockedSurface, r, out LockedSurface viewSurfaceDescription);
+            LockedSurface.CreateFrom(lockedSurface, r, destination: out LockedSurface viewSurfaceDescription);
             _preview.SetExplorationEnabled(false);
             _preview.SetFogEnabled(false);
-            _ = _preview.SetViewPort(_viewX, _viewY, 0, width, r.Bottom - r.Top);
+            _ = _preview.SetViewPort(_viewX, _viewY, lHitPoints: 0, width, r.Bottom - r.Top);
             _preview.UpdateStaticScene();
             _preview.UpdateDynamicScene();
             _preview.DrawStaticScene(in viewSurfaceDescription);

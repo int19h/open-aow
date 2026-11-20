@@ -42,7 +42,7 @@ public class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owner)
                         else
                         {
                             result = false;
-                            reason = AbilityRules.TranslateResourceString(GetEngine(), GameText.NotEnoughManaText);
+                            reason = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.NotEnoughManaText);
                         }
                     }
                 }
@@ -54,7 +54,7 @@ public class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owner)
             else
             {
                 result = false;
-                reason = AbilityRules.TranslateResourceString(GetEngine(), CannotDispelWhenSpellWardIsActiveText);
+                reason = AbilityRules.TranslateResourceString(GetEngine(), S: CannotDispelWhenSpellWardIsActiveText);
             }
         }
         else
@@ -76,7 +76,7 @@ public class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owner)
             {
                 DisjunctionTokenEvent eventValue = new(null) { Holder = CreationHolder() };
                 Spell spell = GamePack.Current.SpellControl[51];
-                eventValue.Initialize(CasterSpellId, (byte)source.Player, source.UnitId, spell.BaseManaCost);
+                eventValue.Initialize(CasterSpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: spell.BaseManaCost);
                 eventValue.EnchantmentId = EnchantmentId;
                 eventValue.DispelChance = DispelChance;
                 StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);

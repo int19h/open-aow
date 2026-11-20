@@ -119,7 +119,7 @@ public partial class SmtpDialog(UIContext ui) : UIModule(ui)
         SmtpEventLog smtpEventLog = dialog._event;
         _ = smtpEventLog.AddRef();
 
-        string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.RecipientFormat), [eventValue.ToAddress]);
+        string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.RecipientFormat), arguments: [eventValue.ToAddress]);
         dialog.RecipientLabel.Text = format;
         try
         {
@@ -132,7 +132,7 @@ public partial class SmtpDialog(UIContext ui) : UIModule(ui)
             tmsMessage.IncludeHeader = false;
             tmsMessage.Header.From = eventValue.FromAddress;
             tmsMessage.Recipients.Clear();
-            dialog.MailMessage.Recipients.AddAddress(eventValue.ToAddress, "");
+            dialog.MailMessage.Recipients.AddAddress(eventValue.ToAddress, name: "");
 
             dialog.MailMessage.Subject = eventValue.Subject;
             dialog.MailMessage.SetBody(eventValue.Message);

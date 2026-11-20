@@ -32,7 +32,7 @@ public sealed class ObjectLifetimeTests
     {
         CombatPredictorUnit attacker = new() { Enabled = 1, Targets = new QuadItemList<CombatPredictorUnit>() };
         CombatPredictorUnit target = new() { Enabled = 1, HitPoints = 10, CpuId = 7 };
-        _ = attacker.Targets.AddABCD(target, 4, target.CpuId, 0);
+        _ = attacker.Targets.AddABCD(target, 4, C: target.CpuId, D: 0);
         attacker.SetupRoundTargets(0);
         attacker.SortRoundTargets();
         Assert.Same(target, attacker.RoundTargets[0].First);
@@ -61,13 +61,13 @@ public sealed class ObjectLifetimeTests
         using OwningNode owner = new(null) { Holder = EngineFixture.Engine };
         CombatObject attacker = new(owner);
         CombatObject target = new(owner);
-        attacker.AddTarget(target, 5, 0, 2);
+        attacker.AddTarget(target, combatValue: 5, wallCombatValue: 0, damageValue: 2);
         Assert.Equal(0, attacker.Targets.IndexOfItemA(target));
         Assert.Equal(0, target.TargetedBy.IndexOfItemA(attacker));
         Assert.Equal(5, target.IncomingCombatValue);
         attacker.RemoveTarget(target);
         Assert.Equal(-1, target.TargetedBy.IndexOfItemA(attacker));
-        attacker.AddTarget(target, 3, 0, 1);
+        attacker.AddTarget(target, combatValue: 3, wallCombatValue: 0, damageValue: 1);
         (WeakReference, WeakReference) result = (new WeakReference(attacker), new WeakReference(target));
         attacker?.Dispose();
         target.SetOwner(null);
@@ -93,7 +93,7 @@ public sealed class ObjectLifetimeTests
         WorldEffectHexSprite particle = new(null!) { Holder = EngineFixture.Engine, EffectType = WorldEffectType.EMParticle, Frame = 0 };
         particle.Path.Add(new Point3D { X = 1, Y = 2, Z = 3 });
         RtlHost.Dialogs = null;
-        particle.Show(0, 0, default);
+        particle.Show(0, 0, lockedSurface: default);
         return new WeakReference(particle);
     }
 

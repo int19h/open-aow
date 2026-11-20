@@ -69,7 +69,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                         {
                             sbyte hexY = Unit.UnitHexSprite.HexY;
                             sbyte hexX = Unit.UnitHexSprite.HexX;
-                            CombatMap.Current.MakeVisible(hexX, hexY, 0, 5);
+                            CombatMap.Current.MakeVisible(hexX, hexY, 0, radius: 5);
                         }
 
                         sbyte fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;
@@ -136,7 +136,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                     }
                     catch
                     {
-                        _ = MessageBox(0, "Error during Token Start", $"Error - TCTouchToken {IntToStr(AbilityId)}", 0);
+                        _ = MessageBox(0, text: "Error during Token Start", caption: $"Error - TCTouchToken {IntToStr(AbilityId)}", flags: 0);
                     }
 
                     break;
@@ -151,7 +151,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                     }
                     catch
                     {
-                        _ = MessageBox(0, "Error during Token StepUp", $"Error - TCTouchToken {IntToStr(AbilityId)}", 0);
+                        _ = MessageBox(0, text: "Error during Token StepUp", caption: $"Error - TCTouchToken {IntToStr(AbilityId)}", flags: 0);
                     }
 
                     break;
@@ -187,7 +187,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                                         Step = TokenStep.End;
                                         RandSeed = StrategicMap.Current.Random(16777215);
                                         int defense = _wall.GetDefense();
-                                        int executeDamageRole = AbilityRules.ExecuteDamageRole(TacticalTables.TacticalBattleDamage[0], TacticalTables.TacticalBattleAttack[0] - defense);
+                                        int executeDamageRole = AbilityRules.ExecuteDamageRole(TacticalTables.TacticalBattleDamage[0], attackDefense: TacticalTables.TacticalBattleAttack[0] - defense);
                                         _wall.SetHitPoints(_wall.HitPoints - executeDamageRole);
                                         Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.StepBack);
                                         break;
@@ -213,7 +213,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                     }
                     catch
                     {
-                        _ = MessageBox(0, "Error during Token InitStrike", $"Error - TCTouchToken {IntToStr(AbilityId)}", 0);
+                        _ = MessageBox(0, text: "Error during Token InitStrike", caption: $"Error - TCTouchToken {IntToStr(AbilityId)}", flags: 0);
                     }
 
                     break;
@@ -242,7 +242,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                                             {
                                                 i = ((TacticalTables.RangedAttackDirection[Unit.UnitHexSprite.ActionFrame] + Unit.UnitHexSprite.Direction) % 6) + 1;
                                                 PathStep path = Path[1];
-                                                HexGeometry.CenterHexNumberToHex(Path[1].Location.X, path.Location.Y, i, ref x, ref y);
+                                                HexGeometry.CenterHexNumberToHex(Path[1].Location.X, path.Location.Y, hexNumber: i, ref x, ref y);
                                                 hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                                                 if (hexSprite is null || hexSprite == Unit.UnitHexSprite)
                                                 {
@@ -257,7 +257,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                                                     else
                                                     {
                                                         RandSeed = StrategicMap.Current.Random(16777215);
-                                                        Strike = CombatObject.CreateStrikeCombatAction(Unit, hexSprite.Unit, true);
+                                                        Strike = CombatObject.CreateStrikeCombatAction(Unit, target: hexSprite.Unit, defensive: true);
                                                         if (Strike.Damage > 0)
                                                         {
                                                             hexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
@@ -308,7 +308,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                                             Unit.UnitHexSprite.SetUnitGraphicsResourceIndex(unitGraphicsResourceIndex);
                                             if (!PreviousUnit.GetEnabled())
                                             {
-                                                _ = Unit.UnitHexSprite.MoveTo(PreviousUnit.UnitHexSprite.Owner, 0);
+                                                _ = Unit.UnitHexSprite.MoveTo(PreviousUnit.UnitHexSprite.Owner, moveCost: 0);
                                                 Unit.UnitHexSprite.SetDirection(PreviousUnit.UnitHexSprite.Direction);
                                                 Unit.UnitHexSprite.OffsetX = 0;
                                                 Unit.UnitHexSprite.OffsetY = 0;
@@ -329,7 +329,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                                     if (!_successful && PreviousUnit is not null && PreviousUnit.GetEnabled() && !PreviousUnit.GetLocked() && CombatObject.MeleeDamageTypes(PreviousUnit) != Set<DamageType>.Of() && PreviousUnit.Side != Unit.Side)
                                     {
                                         RandSeed = StrategicMap.Current.Random(16777215);
-                                        Strike = CombatObject.CreateStrikeCombatAction(PreviousUnit, Unit, true);
+                                        Strike = CombatObject.CreateStrikeCombatAction(PreviousUnit, target: Unit, defensive: true);
                                         if (Strike.Damage == 0)
                                         {
                                             PreviousUnit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.MeleeMiss);
@@ -367,7 +367,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                                                 for (; i <= 6; i += 1)
                                                 {
                                                     PathStep path = Path[1];
-                                                    HexGeometry.CenterHexNumberToHex(Path[1].Location.X, path.Location.Y, i, ref x, ref y);
+                                                    HexGeometry.CenterHexNumberToHex(Path[1].Location.X, path.Location.Y, hexNumber: i, ref x, ref y);
                                                     CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).SendMapFieldMessage(ref message);
                                                     EffectPaths.CreateFire(50, x, y, engine: GetEngine());
                                                 }
@@ -385,7 +385,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                     }
                     catch
                     {
-                        _ = MessageBox(0, "Error during Token ExeStrike", $"Error - TCTouchToken {IntToStr(AbilityId)}", 0);
+                        _ = MessageBox(0, text: "Error during Token ExeStrike", caption: $"Error - TCTouchToken {IntToStr(AbilityId)}", flags: 0);
                     }
 
                     break;
@@ -404,12 +404,12 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                             HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, out i, out x);
                             if (Strike.DamageTypes - Strike.Effects != Set<DamageType>.Of())
                             {
-                                CombatEvents.MakeDamageEffectHexSpriteList(i + Unit.UnitHexSprite.OffsetX, x + Unit.UnitHexSprite.OffsetY, Strike.DamageTypes - Strike.Effects, false);
+                                CombatEvents.MakeDamageEffectHexSpriteList(i + Unit.UnitHexSprite.OffsetX, x + Unit.UnitHexSprite.OffsetY, damageTypes: Strike.DamageTypes - Strike.Effects, resisted: false);
                             }
 
                             if (Strike.Effects != Set<DamageType>.Of())
                             {
-                                CombatEvents.MakeDamageEffectHexSpriteList(i + Unit.UnitHexSprite.OffsetX, x + Unit.UnitHexSprite.OffsetY, Strike.Effects, true);
+                                CombatEvents.MakeDamageEffectHexSpriteList(i + Unit.UnitHexSprite.OffsetX, x + Unit.UnitHexSprite.OffsetY, damageTypes: Strike.Effects, resisted: true);
                             }
 
                             Step = TokenStep.ExecuteEndStrike;
@@ -417,7 +417,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                     }
                     catch
                     {
-                        _ = MessageBox(0, "Error during Token StrikeBack", $"Error - TCTouchToken {IntToStr(AbilityId)}", 0);
+                        _ = MessageBox(0, text: "Error during Token StrikeBack", caption: $"Error - TCTouchToken {IntToStr(AbilityId)}", flags: 0);
                     }
 
                     break;
@@ -444,7 +444,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                     }
                     catch
                     {
-                        _ = MessageBox(0, "Error during Token ExeStrikeBack", $"Error - TCTouchToken {IntToStr(AbilityId)}", 0);
+                        _ = MessageBox(0, text: "Error during Token ExeStrikeBack", caption: $"Error - TCTouchToken {IntToStr(AbilityId)}", flags: 0);
                     }
 
                     break;
@@ -481,7 +481,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
         }
         catch
         {
-            _ = MessageBox(0, "Error during Token", $"Error - TCTouchToken {IntToStr(AbilityId)}", 0);
+            _ = MessageBox(0, text: "Error during Token", caption: $"Error - TCTouchToken {IntToStr(AbilityId)}", flags: 0);
         }
 
         return result;

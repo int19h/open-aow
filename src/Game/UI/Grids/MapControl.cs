@@ -433,7 +433,7 @@ public class MapControl : Component
             if (OnEndTurn is not null)
             {
                 Player listed = StrategicMap.Current.Players.GetPlayers(player);
-                OnEndTurn(player, !listed.SingleProcessCycle);
+                OnEndTurn(player, Automatic: !listed.SingleProcessCycle);
             }
         }
         catch

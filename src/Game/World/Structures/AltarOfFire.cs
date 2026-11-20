@@ -25,7 +25,7 @@ public class AltarOfFire(CustomNode owner) : Altar(owner)
         public override int ResourceUserClassId() => 131642;
 
         // AltFire.pas:55
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_altarOfFireText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_altarOfFireText);
 
         private static readonly string s_altarOfFireText = "Altar of Fire";
 

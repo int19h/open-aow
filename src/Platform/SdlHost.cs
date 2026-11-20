@@ -7,7 +7,7 @@ public sealed class SdlHost : IRtlHost, IDisposable
     public SdlHost(string gameRoot, string? userDirectory = null, int scale = 1, bool? fullscreen = null, bool hidden = false, IDialogService? dialogs = null, bool? vsync = null)
     {
         GameRoot = Path.GetFullPath(gameRoot);
-        LayeredFileSystem files = new(GameRoot, userDirectory ?? DefaultUserDirectory());
+        LayeredFileSystem files = new(GameRoot, userDirectory: userDirectory ?? DefaultUserDirectory());
         Files = files;
         Settings = new JsonSettingsStore(files.UserDirectory);
         Display = new SdlDisplayHost("OpenAoW", scale: scale, hidden: hidden);
@@ -83,7 +83,7 @@ public sealed class SdlHost : IRtlHost, IDisposable
         public int Show(DialogRequest request)
         {
             Console.Error.WriteLine($"Message: {request.Text}");
-            if (request.Text.StartsWith("Exception", StringComparison.Ordinal) && t_last is { } error)
+            if (request.Text.StartsWith("Exception", comparisonType: StringComparison.Ordinal) && t_last is { } error)
             {
                 Console.Error.WriteLine(error);
             }

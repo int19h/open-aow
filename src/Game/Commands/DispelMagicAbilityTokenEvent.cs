@@ -66,30 +66,30 @@ public class DispelMagicAbilityTokenEvent(CustomNode owner) : TokenEvent(owner)
             {
                 if (count > 0)
                 {
-                    string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SpellsSuccessfullyDispelledFormat), [IntToStr(count)]);
+                    string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SpellsSuccessfullyDispelledFormat), arguments: [IntToStr(count)]);
                     StrategicMap.Current.ShowMessage(format);
                 }
                 else
                 {
-                    string dispelMagicFailed = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicFailedText);
+                    string dispelMagicFailed = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DispelMagicFailedText);
                     StrategicMap.Current.ShowMessage(dispelMagicFailed);
                 }
             }
 
-            ability.SetEnabled(source, false);
+            ability.SetEnabled(source, enabled: false);
             MapCoordinate coordinate8 = target.GetLocation();
             sbyte x = coordinate8.X;
             sbyte y = coordinate8.Y;
             sbyte l = coordinate8.MapLevel;
-            _ = StrategicMap.Current.ValidateObservation((sbyte)SourcePlayer, x, y, l, 0);
-            if (StrategicMap.Current.Visible(x, y, l, 0))
+            _ = StrategicMap.Current.ValidateObservation((sbyte)SourcePlayer, x, y, l, radius: 0);
+            if (StrategicMap.Current.Visible(x, y, l, radius: 0))
             {
                 ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                 animation.SetImageSequence(ability.ImageSequences.GetImageSequence(0));
                 _ = StrategicMap.Current.PlaceHex(animation, x, y, l);
             }
 
-            if ((byte)StrategicMap.Current.SeatedPlayer == SourcePlayer || StrategicMap.Current.Watching(x, y, l, 0))
+            if ((byte)StrategicMap.Current.SeatedPlayer == SourcePlayer || StrategicMap.Current.Watching(x, y, l, radius: 0))
             {
                 _ = ability.SfxLibrary.Play(0);
             }

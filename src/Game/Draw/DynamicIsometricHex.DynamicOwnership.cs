@@ -16,7 +16,7 @@ public partial class DynamicIsometricHex
     public DynamicIsometricHex(IsometricHex owner) : base(null)
     {
         _hex = owner;
-        _ = Field.AddHexSprite(this, 0);
+        _ = Field.AddHexSprite(this, hexNumber: 0);
     }
 
     public override GameEngine GetEngine() => _hex.GetEngine();
@@ -33,7 +33,7 @@ public partial class DynamicIsometricHex
         return (Level << 26) + ((y + 32) << 13) + x + 8;
     }
 
-    public override void Show(int x, int y, in LockedSurface surface) => _hex.ShowDynamic(x, y, surface);
+    public override void Show(int x, int y, in LockedSurface surface) => _hex.ShowDynamic(x, y, lockedSurface: surface);
 
     public override void Dispose()
     {

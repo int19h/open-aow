@@ -9,7 +9,7 @@ public sealed class CliTests : FormatsTest, IDisposable
 
     public CliTests() => Directory.CreateDirectory(_directory);
 
-    public void Dispose() => Directory.Delete(_directory, true);
+    public void Dispose() => Directory.Delete(_directory, recursive: true);
 
     private static string HeroList => Path.Combine(Checker.GameRoot, "Release", "High Level.ahl");
 
@@ -35,7 +35,7 @@ public sealed class CliTests : FormatsTest, IDisposable
     [GameFact]
     public void AnExistingDestinationNeedsOverwrite()
     {
-        File.WriteAllText(In("a.ahl"), "keep");
+        File.WriteAllText(In("a.ahl"), contents: "keep");
         (int code, _, string errors) = Run("to-own", HeroList, In("a.ahl"));
         Assert.Equal(Program.Error, code);
         Assert.Contains("--overwrite", errors);
@@ -47,7 +47,7 @@ public sealed class CliTests : FormatsTest, IDisposable
     [GameFact]
     public void TheInputIsNeverTheOutput()
     {
-        File.Copy(HeroList, In("x.ahl"));
+        File.Copy(HeroList, destFileName: In("x.ahl"));
         Assert.Equal(Program.Error, Run("to-own", In("x.ahl"), In("x.ahl"), "--overwrite").Code);
         if (OperatingSystem.IsWindows())
         {
@@ -60,7 +60,7 @@ public sealed class CliTests : FormatsTest, IDisposable
     [GameFact]
     public void AFailedConversionWritesNothing()
     {
-        File.WriteAllBytes(In("bad.ahl"), [1, 0, 0, 1, 99, 0, 5, 0, 0, 0]);
+        File.WriteAllBytes(In("bad.ahl"), bytes: [1, 0, 0, 1, 99, 0, 5, 0, 0, 0]);
         (int code, _, string errors) = Run("to-own", In("bad.ahl"), In("out.ahl"));
         Assert.Equal(Program.Error, code);
         Assert.Contains("E_UNKNOWN_PROPERTY", errors);
@@ -83,7 +83,7 @@ public sealed class CliTests : FormatsTest, IDisposable
     public void DirectoryTreesMayNotOverlap()
     {
         _ = Directory.CreateDirectory(In("in"));
-        File.Copy(HeroList, Path.Combine(In("in"), "h.ahl"));
+        File.Copy(HeroList, destFileName: Path.Combine(In("in"), "h.ahl"));
         Assert.Equal(Program.Error, Run("to-own", "--dir", In("in"), "--out", Path.Combine(In("in"), "out")).Code);
         (int code, string output, _) = Run("to-own", "--dir", In("in"), "--out", In("out"));
         Assert.Equal(Program.Success, code);

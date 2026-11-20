@@ -42,7 +42,7 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
         }
 
         int length = (AbilityCount + 7) >>> 3;
-        persister.BitArray("AbilityBits", AbilityCount, AbilityBits.AsSpan(0, length));
+        persister.BitArray("AbilityBits", count: AbilityCount, bits: AbilityBits.AsSpan(0, length));
         if (persister.Preview)
         {
             return;
@@ -52,7 +52,7 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
         {
             if (GetAbilitySetAt(index) && GamePack.Current.AbilityControl[index] is null)
             {
-                SetAbilitySet(index, 0);
+                SetAbilitySet(index, value: 0);
             }
         }
     }
@@ -78,7 +78,7 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
                 Ability ability = GamePack.Current.AbilityControl[i];
                 if ((Set<byte>.FromMask(ability.SelectionTypes.Mask) & Set<byte>.FromMask(types.Mask)) != Set<byte>.WithBounds(0, 15))
                 {
-                    _ = text.AddObject(ability.GetName(null), IntToObject(i));
+                    _ = text.AddObject(ability.GetName(null), item: IntToObject(i));
                 }
             }
         }
@@ -97,7 +97,7 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
             AbilityBits = abilityBits;
             if (newSize > oldSize)
             {
-                FillBytes(AbilityBits.AsSpan(oldSize, newSize - oldSize), 0);
+                FillBytes(AbilityBits.AsSpan(oldSize, length: newSize - oldSize), value: 0);
             }
         }
 
@@ -112,7 +112,7 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
         {
             if (source.GetAbilitySetAt(i) != GetAbilitySetAt(i))
             {
-                SetAbilitySet(i, (byte)(source.GetAbilitySetAt(i) ? 1 : 0));
+                SetAbilitySet(i, value: (byte)(source.GetAbilitySetAt(i) ? 1 : 0));
             }
         }
     }
@@ -124,7 +124,7 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
         if (result)
         {
             int abilityCount = OwnAbilityCount;
-            return CompareMem(AbilityBits.AsSpan(0, (abilityCount + 7) >>> 3), source.AbilityBits.AsSpan(0, (abilityCount + 7) >>> 3), (abilityCount + 7) >>> 3);
+            return CompareMem(AbilityBits.AsSpan(0, length: (abilityCount + 7) >>> 3), source.AbilityBits.AsSpan(0, length: (abilityCount + 7) >>> 3), count: (abilityCount + 7) >>> 3);
         }
 
         return result;
@@ -138,7 +138,7 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
         {
             if (source.GetAbilitySetAt(i) && !GetAbilitySetAt(i))
             {
-                SetAbilitySet(i, 1);
+                SetAbilitySet(i, value: 1);
                 result = true;
             }
         }
@@ -158,21 +158,21 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
             }
         }
 
-        return !IsEmpty(result) ? DelphiStrings.Copy(result, 1, result.Length - 1) : result;
+        return !IsEmpty(result) ? DelphiStrings.Copy(result, index: 1, count: result.Length - 1) : result;
     }
 
     // Ability.PAS:1193
     public void SetItemString(string S)
     {
         Clear();
-        int p = Pos(",", S);
+        int p = Pos(",", haystack: S);
         while (!IsEmpty(S))
         {
             string part;
             if (p != 0)
             {
-                part = DelphiStrings.Copy(S, 1, p - 1);
-                S = Delete(S, 1, p);
+                part = DelphiStrings.Copy(S, index: 1, count: p - 1);
+                S = Delete(S, index: 1, count: p);
             }
             else
             {
@@ -182,10 +182,10 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
 
             if (!IsEmpty(part))
             {
-                SetAbilitySet(StrToInt(part), 1);
+                SetAbilitySet(StrToInt(part), value: 1);
             }
 
-            p = Pos(",", S);
+            p = Pos(",", haystack: S);
         }
     }
 

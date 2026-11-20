@@ -12,7 +12,7 @@ public class BloodlustAbility : DurationAbility
     public BloodlustAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_bloodlustText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_bloodlustText);
         AbilityId = 168;
         AbilityType = AbilityType.Enchantment;
         SelectionTypes = Set<AbilitySelectionType>.Of();

@@ -15,7 +15,7 @@ public class FireAura : UnitSpell
     public FireAura(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.FireAuraText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FireAuraText);
         SpellId = 40;
         BaseManaCost = 5;
         SpellLevel = 2;
@@ -29,7 +29,7 @@ public class FireAura : UnitSpell
     public override void PlayDefaultCastEffects(sbyte player, sbyte X, sbyte Y, sbyte layer)
     {
         base.PlayDefaultCastEffects(player, X, Y, layer);
-        if (player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(X, Y, layer, 0))
+        if (player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(X, Y, L: layer, radius: 0))
         {
             _ = GamePack.Current.SpellControl[SpellId].CastSounds.Play(1);
         }

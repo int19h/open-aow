@@ -12,7 +12,7 @@ public class VertigoAbility : DurationAbility
     public VertigoAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_vertigoText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_vertigoText);
         AbilityId = 98;
         AbilityType = AbilityType.Handicap;
         DurationMode = DurationMode.Day;

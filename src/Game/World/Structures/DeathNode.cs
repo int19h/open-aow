@@ -32,7 +32,7 @@ public partial class DeathNode(CustomNode owner) : ProductionPlace(owner)
         public override int ResourceUserClassId() => 132270;
 
         // DeathNode.pas:52
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_deathNodeText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_deathNodeText);
 
         private static readonly string s_deathNodeText = "Death Node";
 

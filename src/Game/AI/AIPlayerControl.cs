@@ -108,7 +108,7 @@ public partial class AIPlayerControl : EngineObject
     }
 
     // AI.pas:143
-    public int UnitIndexToPriority(int unitIndex) => RosterTables.GetUnitIndexAIPriority(unitIndex, Player.PlayerIndex, 0, engine: GetEngine());
+    public int UnitIndexToPriority(int unitIndex) => RosterTables.GetUnitIndexAIPriority(unitIndex, player: Player.PlayerIndex, relation: 0, engine: GetEngine());
 
     // AI.pas:148
     public void Reset()
@@ -261,7 +261,7 @@ public partial class AIPlayerControl : EngineObject
             units.SortDescendingItemB();
             while (skirmishCount < wantedCount && units.Count != 0)
             {
-                group = StrategicMap.Current.AIGroupManager.CreateGroup(Player.PlayerIndex, 0, GroupBehavior.Skirmish);
+                group = StrategicMap.Current.AIGroupManager.CreateGroup(Player.PlayerIndex, relation: 0, behavior: GroupBehavior.Skirmish);
                 DoubleItem<Troop> item = units[0];
                 _ = group.AddUnit(item.First);
                 _ = group.Release();
@@ -310,7 +310,7 @@ public partial class AIPlayerControl : EngineObject
             {
                 if (StrategicMap.Current.Players.GetPlayers(i).Status == PlayerStatus.Playing)
                 {
-                    DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation(Player.PlayerIndex, (sbyte)i);
+                    DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation(Player.PlayerIndex, otherPlayer: (sbyte)i);
                     if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Alliance).Contains(relation))
                     {
                         _ = peace.Add((byte)i);
@@ -350,11 +350,11 @@ public partial class AIPlayerControl : EngineObject
             if (i != Player.PlayerIndex && StrategicMap.Current.Players.GetPlayers(i).Status == PlayerStatus.Playing)
             {
                 int priority = 0;
-                DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation(Player.PlayerIndex, (sbyte)i);
+                DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation(Player.PlayerIndex, otherPlayer: (sbyte)i);
                 Player players = StrategicMap.Current.Players.GetPlayers(i);
                 Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
                 Status raceRelation = StrategicMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
-                DiplomaticAction action = Player.DiplomaticActions.FindLastAction(DeclareWar.Kind, DiplomaticActionReaction.None, (sbyte)i, Player.PlayerIndex, -1);
+                DiplomaticAction action = Player.DiplomaticActions.FindLastAction(DeclareWar.Kind, reaction: DiplomaticActionReaction.None, source: (sbyte)i, target: Player.PlayerIndex, other: -1);
                 if (action is not null)
                 {
                     int days = StrategicMap.Current.Day - action.Day;
@@ -444,7 +444,7 @@ public partial class AIPlayerControl : EngineObject
             ByteList war = new();
             ByteList unknown = new();
             ListPeaceWarUnknownPlayers(peace, war, unknown);
-            ListIdealPeaceWarPlayers(idealPeace, idealWar);
+            ListIdealPeaceWarPlayers(idealPeace, war: idealWar);
             _ = war.Remove(player);
             _ = unknown.Remove(player);
             _ = peace.Remove(player);
@@ -519,7 +519,7 @@ public partial class AIPlayerControl : EngineObject
             ByteList war = new();
             ByteList unknown = new();
             ListPeaceWarUnknownPlayers(peace, war, unknown);
-            ListIdealPeaceWarPlayers(idealPeace, idealWar);
+            ListIdealPeaceWarPlayers(idealPeace, war: idealWar);
             _ = peace.Remove(player);
             _ = unknown.Remove(player);
             _ = war.Remove(player);

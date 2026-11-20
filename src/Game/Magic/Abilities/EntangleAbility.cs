@@ -21,7 +21,7 @@ public class EntangleAbility : TouchAbility
     {
         Holder = holder;
         AbilityId = 40;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.EntangleText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.EntangleText);
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem);
     }
 
@@ -34,7 +34,7 @@ public class EntangleAbility : TouchAbility
         source.Combat.ExecuteCombatAction(action);
         if (!action.Successful)
         {
-            StrikeCombatAction strike = CombatObject.CreateStrikeCombatAction(target, source, true);
+            StrikeCombatAction strike = CombatObject.CreateStrikeCombatAction(target, target: source, defensive: true);
             if (strike is not null)
             {
                 source.Combat.ExecuteCombatAction(strike);
@@ -49,9 +49,9 @@ public class EntangleAbility : TouchAbility
     // AoWAb.PAS:2999
     public override int GetDamageValue(Troop attacker, Troop defender)
     {
-        if (CanTouchUnit(attacker, defender) && !defender.GetImmunityTypes().Contains(DamageType.None))
+        if (CanTouchUnit(attacker, target: defender) && !defender.GetImmunityTypes().Contains(DamageType.None))
         {
-            float probability = TouchRoleProbability(attacker, defender);
+            float probability = TouchRoleProbability(attacker, target: defender);
             return Round((double)((double)defender.GetHitPoints() * probability) * 100);
         }
         else
@@ -63,14 +63,14 @@ public class EntangleAbility : TouchAbility
     // AoWAb.PAS:3012
     public override void GetDamageValues(Troop attacker, Troop defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        if (wallSituation == WallSituation.None && CanTouchUnit(attacker, defender) && !defender.GetImmunityTypes().Contains(DamageType.None))
+        if (wallSituation == WallSituation.None && CanTouchUnit(attacker, target: defender) && !defender.GetImmunityTypes().Contains(DamageType.None))
         {
-            float probability = TouchRoleProbability(attacker, defender);
+            float probability = TouchRoleProbability(attacker, target: defender);
             sbyte hitPoints = defender.GetHitPoints();
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
             sbyte defenderHitPoints = defender.GetHitPoints();
             damageValues.SourceCost = defenderHitPoints;
-            int unitStrikeDamageValue = Troop.UnitStrikeDamageValue(defender, attacker);
+            int unitStrikeDamageValue = Troop.UnitStrikeDamageValue(defender, target: attacker);
             damageValues.TargetDamage = Round(unitStrikeDamageValue * ((double)1 - probability));
             sbyte damage = defender.GetDamage();
             damageValues.TargetCost = damage;
@@ -99,14 +99,14 @@ public class EntangleAbility : TouchAbility
     // AoWAb.PAS:3035
     public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        if (wallSituation == WallSituation.None && CanTouch(attacker, defender) && attacker is CombatUnit attackerUnit)
+        if (wallSituation == WallSituation.None && CanTouch(attacker, target: defender) && attacker is CombatUnit attackerUnit)
         {
-            float probability = CombatTouchRoleProbability(attackerUnit, defender);
+            float probability = CombatTouchRoleProbability(attackerUnit, target: defender);
             sbyte hitPoints = defender.HitPoints;
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
             sbyte defenderHitPoints = defender.HitPoints;
             damageValues.SourceCost = defenderHitPoints;
-            int strikeDamageValue = CombatObject.StrikeDamageValue(defender, attacker);
+            int strikeDamageValue = CombatObject.StrikeDamageValue(defender, target: attacker);
             damageValues.TargetDamage = Round(strikeDamageValue * ((double)1 - probability));
             int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: attacker.GetProtectionTypes(), immunityTypes: attacker.GetImmunityTypes(), damageTypes: CombatObject.MeleeDamageTypes(defender), damage: defender.GetDamage());
             damageValues.TargetCost = statisticsToMaxDamage;

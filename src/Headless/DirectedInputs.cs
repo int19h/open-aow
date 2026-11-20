@@ -25,7 +25,7 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell)
 
         if (spell != 0)
         {
-            _caster = Enumerable.Range(1, map.Players.GetCount() - 1)
+            _caster = Enumerable.Range(1, count: map.Players.GetCount() - 1)
                 .Where(i => map.Players.GetPlayers(i).Leader is not null)
                 .OrderBy(i => map.Players.GetPlayers(i).Leader.Level).ThenBy(i => i).Last();
             _ = map.Players.GetPlayers(_caster).MagicControl.ExecuteSpellResearched(spell);
@@ -100,7 +100,7 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell)
                 bool? stored = null, reequipped = null, swapped = null, queued = null, executed = null, consumed = null;
                 if (placed && kind <= 3)
                 {
-                    stored = hero.ExecutePlaceItem(id, (HeroItemPosition)6);
+                    stored = hero.ExecutePlaceItem(id, position: (HeroItemPosition)6);
                     reequipped = hero.AutoPlaceItem(item);
                 }
                 if (placed && kind == 4)

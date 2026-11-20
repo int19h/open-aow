@@ -290,7 +290,7 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
             }
             catch
             {
-                _ = MessageBox(0, "Exception during Validate", $"Error - {Name}", 0);
+                _ = MessageBox(0, text: "Exception during Validate", caption: $"Error - {Name}", flags: 0);
             }
 
             if (Valid)
@@ -304,7 +304,7 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
                 }
                 catch
                 {
-                    _ = MessageBox(0, "Exception during SetSize", $"Error - {Name}", 0);
+                    _ = MessageBox(0, text: "Exception during SetSize", caption: $"Error - {Name}", flags: 0);
                 }
 
                 try
@@ -316,7 +316,7 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
                 }
                 catch
                 {
-                    _ = MessageBox(0, "Exception during ReAlign", $"Error - {Name}", 0);
+                    _ = MessageBox(0, text: "Exception during ReAlign", caption: $"Error - {Name}", flags: 0);
                 }
 
                 try
@@ -328,7 +328,7 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
                 }
                 catch
                 {
-                    _ = MessageBox(0, "Exception during SetSize", $"Error - {Name}", 0);
+                    _ = MessageBox(0, text: "Exception during SetSize", caption: $"Error - {Name}", flags: 0);
                 }
 
                 try
@@ -343,7 +343,7 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
                 }
                 catch
                 {
-                    _ = MessageBox(0, "Exception during Setup", $"Error - {Name}", 0);
+                    _ = MessageBox(0, text: "Exception during Setup", caption: $"Error - {Name}", flags: 0);
                 }
             }
         }
@@ -371,7 +371,7 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
         }
         catch
         {
-            _ = MessageBox(0, "Exception during Update", $"Error - {Name}", 0);
+            _ = MessageBox(0, text: "Exception during Update", caption: $"Error - {Name}", flags: 0);
         }
     }
 
@@ -895,7 +895,7 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
             }
             else
             {
-                _ownerComponent.Children.Insert(newIndex, this);
+                _ownerComponent.Children.Insert(newIndex, item: this);
             }
         }
 

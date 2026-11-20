@@ -21,7 +21,7 @@ public partial class ProductionPlaceEventLog(CustomNode owner) : ProductionEvent
             if (place is not null && StrategicMap.Current.SeatedPlayer == place.Player)
             {
                 StrategicMap.Current.CenterViewTo(Location.X, Location.Y, Location.MapLevel);
-                StrategicMap.Current.TriggerExecuteEventLog(this, true, done);
+                StrategicMap.Current.TriggerExecuteEventLog(this, immediate: true, done);
             }
         }
 

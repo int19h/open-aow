@@ -62,12 +62,12 @@ public sealed class PrisonersSaveListingTests
         try
         {
             _ = resources.AddChild(resource);
-            File.WriteAllBytes(source, GameFiles.Write(Document()));
+            File.WriteAllBytes(source, bytes: GameFiles.Write(Document()));
             engine.LoadHsm(source, edit: false, progress: null, profile: GameProfile.WorldMap);
             StrategicMap live = engine.HexSpriteMap as StrategicMap;
             if (live is null)
             {
-                Surface(engine, source);
+                Surface(engine, file: source);
             }
 
             Assert.NotNull(live);
@@ -86,7 +86,7 @@ public sealed class PrisonersSaveListingTests
 
             engine.SaveHsm(saved, progress: null, profile: GameProfile.WorldMap);
             byte[] fileBytes = File.ReadAllBytes(saved);
-            (int listedPlayers, int listedWidth, int listedTowns, int listedDay) = ListLikeTheLoadDialog(engine, saved);
+            (int listedPlayers, int listedWidth, int listedTowns, int listedDay) = ListLikeTheLoadDialog(engine, file: saved);
             Assert.Equal(players, listedPlayers);
             Assert.Equal(width, listedWidth);
             Assert.Equal(towns, listedTowns);
@@ -96,7 +96,7 @@ public sealed class PrisonersSaveListingTests
             StrategicMap opened = engine.HexSpriteMap as StrategicMap;
             if (opened is null)
             {
-                Surface(engine, saved);
+                Surface(engine, file: saved);
             }
 
             Item item = PrisonerItem(opened);
@@ -105,17 +105,17 @@ public sealed class PrisonersSaveListingTests
             Assert.Equal(-2, item.Attack);
             Assert.Equal(3, item.LibraryId);
 
-            Assert.Null(FileBoundary.Load(saved, GameProfile.WorldMap));
-            GameFileResult prepared = GameBoundary.PrepareLoad(fileBytes, saved, GameProfile.WorldMap, FormatMapping.Validators);
-            Assert.True(prepared.Succeeded, prepared.Report.Error?.ToString());
+            Assert.Null(FileBoundary.Load(saved, profile: GameProfile.WorldMap));
+            GameFileResult prepared = GameBoundary.PrepareLoad(fileBytes, fileName: saved, use: GameProfile.WorldMap, FormatMapping.Validators);
+            Assert.True(prepared.Succeeded, userMessage: prepared.Report.Error?.ToString());
             Assert.False(prepared.HasImage);
             Assert.Null(prepared.Bytes);
             Assert.NotNull(prepared.ImageRefusal);
             Assert.Equal(Codes.Unrepresentable, prepared.ImageRefusal.Code);
             Assert.EndsWith(".Items", prepared.ImageRefusal.Path);
             byte[] canonical = GameFiles.Write(prepared.Document);
-            Assert.Equal(EngineServices.GetCrc32(canonical, canonical.Length), FileBoundary.ImageCrc32(saved, GameProfile.WorldMap));
-            ConversionException refused = Assert.Throws<ConversionException>(() => FileBoundary.LoadOrRaise(saved, GameProfile.WorldMap));
+            Assert.Equal(EngineServices.GetCrc32(canonical, size: canonical.Length), FileBoundary.ImageCrc32(saved, profile: GameProfile.WorldMap));
+            ConversionException refused = Assert.Throws<ConversionException>(() => FileBoundary.LoadOrRaise(saved, profile: GameProfile.WorldMap));
             Assert.Equal(Codes.Unrepresentable, refused.Diagnostic.Code);
             Assert.EndsWith(".Items", refused.Diagnostic.Path);
             Assert.Equal("1073741824", refused.Diagnostic.Value);
@@ -196,12 +196,12 @@ public sealed class PrisonersSaveListingTests
         try
         {
             _ = resources.AddChild(resource);
-            File.WriteAllBytes(source, GameFiles.Write(Document()));
+            File.WriteAllBytes(source, bytes: GameFiles.Write(Document()));
             engine.LoadHsm(source, edit: false, progress: null, profile: GameProfile.WorldMap);
             StrategicMap live = engine.HexSpriteMap as StrategicMap;
             if (live is null)
             {
-                Surface(engine, source);
+                Surface(engine, file: source);
             }
 
             Item planted = PrisonerItem(live);
@@ -211,7 +211,7 @@ public sealed class PrisonersSaveListingTests
             engine.NewCampaign(campaignClass.ClassId);
             engine.SaveCampaign(saved);
             GameFileResult prepared = GameBoundary.PrepareLoad(File.ReadAllBytes(saved), fileName: saved, use: GameProfile.Campaign, validators: FormatMapping.Validators);
-            Assert.True(prepared.Succeeded, prepared.Report.Error?.ToString());
+            Assert.True(prepared.Succeeded, userMessage: prepared.Report.Error?.ToString());
             Assert.False(prepared.HasImage);
             Assert.Null(prepared.Bytes);
             Assert.NotNull(prepared.ImageRefusal);
@@ -224,7 +224,7 @@ public sealed class PrisonersSaveListingTests
             Assert.Equal(Codes.Unrepresentable, exported.Diagnostic.Code);
 
             engine.LoadCampaign(saved);
-            Assert.True(GameFiles.IsJsonCandidate(engine.Campaign.Stream.GetBuffer().AsSpan(0, (int)engine.Campaign.Stream.Length)));
+            Assert.True(GameFiles.IsJsonCandidate(engine.Campaign.Stream.GetBuffer().AsSpan(0, length: (int)engine.Campaign.Stream.Length)));
             engine.LoadCampaignMap(null);
             StrategicMap opened = engine.HexSpriteMap as StrategicMap;
             Assert.NotNull(opened);
@@ -278,7 +278,7 @@ public sealed class PrisonersSaveListingTests
     // count minus the independent player, the size letter of the width, the city count and the day.
     private static (int Players, int Width, int Towns, int Day) ListLikeTheLoadDialog(GameEngine engine, string file)
     {
-        StrategicMap map = engine.CreatePreviewHsm(file, GameProfile.WorldMap) as StrategicMap;
+        StrategicMap map = engine.CreatePreviewHsm(file, profile: GameProfile.WorldMap) as StrategicMap;
         if (map is null)
         {
             Surface(engine, file);
@@ -296,8 +296,8 @@ public sealed class PrisonersSaveListingTests
 
     private static void Surface(GameEngine engine, string file)
     {
-        GameFileTree tree = FileBoundary.OpenOrRaise(file, GameProfile.WorldMap);
-        StrategicMap map = (StrategicMap)engine.CreateEngineObject(tree.ClassId, engine);
+        GameFileTree tree = FileBoundary.OpenOrRaise(file, profile: GameProfile.WorldMap);
+        StrategicMap map = (StrategicMap)engine.CreateEngineObject(tree.ClassId, owner: engine);
         StrategicMap previous = StrategicMap.Current;
         StrategicMap.Current = map;
         Exception? caught = null;

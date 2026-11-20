@@ -18,11 +18,11 @@ public sealed class Reference(string member, ReferenceDomain domain) : ContentRu
 
         if (!scope.Identities(domain).Contains(target.Value))
         {
-            yield return Dangling(scope, target, path.Member(member), domain);
+            yield return Dangling(scope, target, at: path.Member(member), domain);
         }
     }
 
     internal static FormatDiagnostic Dangling(ContentScope scope, JsonInteger target, DocumentNodePath at, ReferenceDomain domain)
-        => scope.Context.At(Codes.Reference, $"The {domain.Name} {target.Value} is absent from {scope.RootPath}.{domain.Owner}. Use an existing one.", target, at,
-            target.Value.ToString(System.Globalization.CultureInfo.InvariantCulture), $"{domain.Name} in {scope.RootPath}.{domain.Owner}");
+        => scope.Context.At(Codes.Reference, message: $"The {domain.Name} {target.Value} is absent from {scope.RootPath}.{domain.Owner}. Use an existing one.", value: target, path: at,
+            rejected: target.Value.ToString(System.Globalization.CultureInfo.InvariantCulture), constraint: $"{domain.Name} in {scope.RootPath}.{domain.Owner}");
 }

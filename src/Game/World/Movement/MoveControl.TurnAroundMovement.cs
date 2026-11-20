@@ -19,12 +19,12 @@ public partial class MoveControl
         {
             if (rightActive)
             {
-                Step(true, ref rightField, ref rightDirection, ref rightPoints, ref rightOver, ref rightActive, ref rightFound);
+                Step(true, field: ref rightField, direction: ref rightDirection, total: ref rightPoints, over: ref rightOver, active: ref rightActive, found: ref rightFound);
             }
 
             if (leftActive)
             {
-                Step(false, ref leftField, ref leftDirection, ref leftPoints, ref leftOver, ref leftActive, ref leftFound);
+                Step(false, field: ref leftField, direction: ref leftDirection, total: ref leftPoints, over: ref leftOver, active: ref leftActive, found: ref leftFound);
             }
         }
         gapIndex = index;
@@ -38,7 +38,7 @@ public partial class MoveControl
             do
             {
                 next = NeighborField(field, direction);
-                points = OnMovePoint(next, over);
+                points = OnMovePoint(next, MoveOverCode: over);
                 nextOver = 1;
                 if (points >= 0 && (next.FieldFlags & MapField.MoveOverFlag) != 0 &&
                     (next.HexX != Destination.X || next.HexY != Destination.Y))

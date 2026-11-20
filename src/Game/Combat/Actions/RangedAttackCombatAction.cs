@@ -43,7 +43,7 @@ public class RangedAttackCombatAction(CustomNode owner) : DamageCombatAction(own
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == TargetId && viewer.Time != 0)
         {
-            GamePack.Current.AbilityControl[AbilityId].ImageSequences.ShowLooped(40, X + 32, Y + 32, viewer.Time, surface);
+            GamePack.Current.AbilityControl[AbilityId].ImageSequences.ShowLooped(40, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
         }
     }
 }

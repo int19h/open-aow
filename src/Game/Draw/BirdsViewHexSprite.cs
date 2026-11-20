@@ -48,7 +48,7 @@ public class BirdsViewHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
                 HexGeometry.HexNumberToPixel(_hexes[i], ref hex, ref hy);
                 hex += pixelX;
                 hy += pixelY;
-                GamePack.Current.GeneralImages[5].ShowBlended(hex, hy, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[intensity]);
+                GamePack.Current.GeneralImages[5].ShowBlended(hex, hy, lockedSurface, table: GraphicsState.AlphaBlendTable.LookupTables[intensity]);
             }
 
             RandSeed = StrategicMap.Current.InitialRandomSeed;
@@ -60,7 +60,7 @@ public class BirdsViewHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
                 if (_frame - delay >= 0)
                 {
                     AbilityRules.PolarToCartesian(direction, radius, out int x, out int y);
-                    _ = GamePack.Current.SpellControl[57].CastImages.Show(0, pixelX + x, pixelY + y, _frame - delay, lockedSurface);
+                    _ = GamePack.Current.SpellControl[57].CastImages.Show(0, pixelX + x, pixelY + y, frame: _frame - delay, lockedSurface);
                 }
             }
 
@@ -79,7 +79,7 @@ public class BirdsViewHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
         _layer = layer;
         _frame = 0;
         _ = GamePack.Current.SpellControl[2].CastSounds.Play(0);
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, radius: 0);
         MapLevel level = StrategicMap.Current.MapContainer.MapLevels[layer];
         while (walk.Radius <= radius)
         {

@@ -46,7 +46,7 @@ public class TownGateTokenEvent(CustomNode owner) : CityTargetSpellTokenEvent(ow
             byte selection = default;
             ArmyHexSprite army = default;
             _ = ArmyId.RetrieveArmy(ref army, ref selection);
-            return GamePack.Current.SpellControl.GetSpell<TownGate>(EventSpellId).ValidTeleportLocation(army, selection, TeleportLocation.X, TeleportLocation.Y, TeleportLocation.MapLevel);
+            return GamePack.Current.SpellControl.GetSpell<TownGate>(EventSpellId).ValidTeleportLocation(army, selection, TeleportLocation.X, TeleportLocation.Y, L: TeleportLocation.MapLevel);
         }
 
         return result;

@@ -49,7 +49,7 @@ public sealed class GraphicsConstructionTests
                 Assert.Equal(BlendMode.Alpha, image.ShowInfo.BlendMode);
                 Assert.False(image.ShowInfo.Blend.HasValue);
                 Assert.Equal(0, image.ShowInfo.Blend.Percentage);
-                Assert.Equal(type.Name.StartsWith("Transparent", StringComparison.Ordinal) ? ShowMode.Transparent : ShowMode.Opaque, image.ShowInfo.ShowMode);
+                Assert.Equal(type.Name.StartsWith("Transparent", comparisonType: StringComparison.Ordinal) ? ShowMode.Transparent : ShowMode.Opaque, image.ShowInfo.ShowMode);
                 Assert.Equal(0, image.Width);
                 Assert.Equal(0, image.Height);
                 if (image is ImageNode)
@@ -58,7 +58,7 @@ public sealed class GraphicsConstructionTests
                 }
 
                 Assert.Equal(0, owner.Count);
-                Assert.Empty((System.Collections.IEnumerable)Field(Field(owner, "PaletteManager")!, "Palettes")!);
+                Assert.Empty((System.Collections.IEnumerable)Field(Field(owner, name: "PaletteManager")!, name: "Palettes")!);
                 image.Dispose();
             }
         }
@@ -89,32 +89,32 @@ public sealed class GraphicsConstructionTests
         if (value is CustomDisplay display)
         {
             Assert.Equal(0, display.Color);
-            Assert.Equal(640, Field(display, "_backSurfaceWidth"));
-            Assert.Equal(480, Field(display, "_backSurfaceHeight"));
-            Assert.Equal(30, Field(display, "_frameRate"));
-            Assert.Equal(BufferingScheme.Double, Field(display, "_bufferingScheme"));
+            Assert.Equal(640, Field(display, name: "_backSurfaceWidth"));
+            Assert.Equal(480, Field(display, name: "_backSurfaceHeight"));
+            Assert.Equal(30, Field(display, name: "_frameRate"));
+            Assert.Equal(BufferingScheme.Double, Field(display, name: "_bufferingScheme"));
         }
         if (value is DisplayController displayController)
         {
             Assert.NotNull(displayController.InverseMatrix);
-            Assert.Equal((byte)4, Field(displayController.InverseMatrix, "Width"));
-            Assert.Equal((byte)4, Field(displayController.InverseMatrix, "Height"));
+            Assert.Equal((byte)4, Field(displayController.InverseMatrix, name: "Width"));
+            Assert.Equal((byte)4, Field(displayController.InverseMatrix, name: "Height"));
         }
         if (value is CustomImageLibrary library)
         {
             Assert.Equal(0, library.Count);
-            Assert.Equal(true, Field(library, "_loadOnDemand"));
-            Assert.NotNull(Field(library, "PaletteManager"));
+            Assert.Equal(true, Field(library, name: "_loadOnDemand"));
+            Assert.NotNull(Field(library, name: "PaletteManager"));
         }
         if (value is ImageLibraryFont)
         {
-            Assert.Equal(2, Field(value, "CharacterDistance"));
-            Assert.Equal(-1, Field(value, "_fontColorPaletteIndex"));
+            Assert.Equal(2, Field(value, name: "CharacterDistance"));
+            Assert.Equal(-1, Field(value, name: "_fontColorPaletteIndex"));
         }
         if (value is ImageLibraryManager)
         {
-            Assert.NotNull(Field(value, "DiskList"));
-            Assert.NotSame(Field(value, "DiskList"), Field(value, "OwnedList"));
+            Assert.NotNull(Field(value, name: "DiskList"));
+            Assert.NotSame(Field(value, name: "DiskList"), Field(value, name: "OwnedList"));
         }
         value.Dispose();
         Assert.Equal(0, owner.ComponentCount);
@@ -127,7 +127,7 @@ public sealed class GraphicsConstructionTests
     {
         using Component owner = new(null);
         Component value = create(owner);
-        Assert.IsType(type, value);
+        Assert.IsType(type, @object: value);
         Assert.Same(owner, value.Owner);
         Assert.Equal(1, owner.ComponentCount);
         Assert.Same(value, owner.Components[0]);
@@ -139,28 +139,28 @@ public sealed class GraphicsConstructionTests
     public void PrivateHelpersKeepInitialState()
     {
         LibraryImagePalette palette = new();
-        Assert.NotNull(Field(palette, "Palette"));
+        Assert.NotNull(Field(palette, name: "Palette"));
         PaletteManager manager = new();
-        Assert.NotNull(Field(manager, "Palettes"));
+        Assert.NotNull(Field(manager, name: "Palettes"));
         ImageLibraryManager imageLibraryManager = new(null);
         ImageLibraryManagerList list = new(imageLibraryManager);
-        Assert.Same(imageLibraryManager, Field(list, "_owner"));
-        Assert.NotNull(Field(list, "HashTable"));
-        ImageSequenceList sequences = new(imageLibraryManager, null);
-        Assert.Same(imageLibraryManager, Field(sequences, "ImageLibraryManager"));
+        Assert.Same(imageLibraryManager, Field(list, name: "_owner"));
+        Assert.NotNull(Field(list, name: "HashTable"));
+        ImageSequenceList sequences = new(imageLibraryManager, imageLibrary: null);
+        Assert.Same(imageLibraryManager, Field(sequences, name: "ImageLibraryManager"));
         Assert.Equal(0, sequences.Count);
         ImageSequence sequence = new(sequences);
-        Assert.Same(sequences, Field(sequence, "Owner"));
+        Assert.Same(sequences, Field(sequence, name: "Owner"));
         Matrix matrix = new(3, 2);
         Assert.Equal(0, matrix.GetValue(2, 1));
         DisplayModeList modes = new();
-        Assert.NotNull(Field(modes, "_list"));
+        Assert.NotNull(Field(modes, name: "_list"));
         BlendTable5Bit blend = new();
         Assert.Equal(5, blend.Bits);
         BlendTableList blends = new();
-        Assert.NotNull(Field(blends, "_list"));
+        Assert.NotNull(Field(blends, name: "_list"));
         LookupBlendTableCollection100 lookup = new();
-        Assert.NotNull(Field(lookup, "Tables"));
+        Assert.NotNull(Field(lookup, name: "Tables"));
         foreach (object value in new object[] { palette, manager, list, sequence, sequences, imageLibraryManager, matrix, modes, blend, blends, lookup })
         {
             ((value ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
@@ -169,8 +169,8 @@ public sealed class GraphicsConstructionTests
 
     public static IEnumerable<object[]> Surfaces()
     {
-        yield return new object[] { (Func<Palette, Surface>)(palette => new DataSurface(7, 4, PixelFormat.Pal8, palette)), PixelFormat.Pal8, 8 };
-        yield return new object[] { (Func<Palette, Surface>)(_ => new Dib16Surface(7, 4, PixelFormat.Rgb555)), PixelFormat.Rgb555, 16 };
+        yield return new object[] { (Func<Palette, Surface>)(palette => new DataSurface(7, 4, pixelFormatId: PixelFormat.Pal8, palette)), PixelFormat.Pal8, 8 };
+        yield return new object[] { (Func<Palette, Surface>)(_ => new Dib16Surface(7, 4, pixelFormatId: PixelFormat.Rgb555)), PixelFormat.Rgb555, 16 };
     }
 
     [Theory]
@@ -203,7 +203,7 @@ public sealed class GraphicsConstructionTests
     {
         Palette palette = new();
         palette[0] = palette[0] with { Red = 29 };
-        DataSurface surface = new(7, 4, PixelFormat.Pal8, palette);
+        DataSurface surface = new(7, 4, pixelFormatId: PixelFormat.Pal8, palette);
         Assert.NotSame(palette, surface.Palette);
         Assert.Equal((byte)29, surface.Palette[0].Red);
         Assert.Equal(7, surface.Width);
@@ -234,8 +234,8 @@ public sealed class GraphicsConstructionTests
     {
         Palette palette = new();
         palette[0] = palette[0] with { Red = 29 };
-        _ = Assert.Throws<ArgumentOutOfRangeException>(() => new Dib16Surface(-1, 4, PixelFormat.Rgb555));
-        _ = Assert.Throws<NotSupportedException>(() => new Dib16Surface(7, 4, PixelFormat.Pal8));
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => new Dib16Surface(-1, 4, pixelFormatId: PixelFormat.Rgb555));
+        _ = Assert.Throws<NotSupportedException>(() => new Dib16Surface(7, 4, pixelFormatId: PixelFormat.Pal8));
         Assert.Equal((byte)29, palette[0].Red);
     }
 
@@ -254,7 +254,7 @@ public sealed class GraphicsConstructionTests
         session.EndRead(library);
         Assert.False(library.ComponentState.Contains(ComponentState.Reading));
         Assert.True(library.ComponentState.Contains(ComponentState.Loading));
-        Assert.Equal(2, Field(font, "CharacterDistance"));
+        Assert.Equal(2, Field(font, name: "CharacterDistance"));
     }
 
     [Fact]
@@ -271,7 +271,7 @@ public sealed class GraphicsConstructionTests
         Span<byte> bytes = stackalloc byte[6];
         Assert.Equal(6, stream.Read(bytes));
         Assert.Equal("# Rule", System.Text.Encoding.UTF8.GetString(bytes));
-        Assert.Equal(0L, stream.Seek(0, SeekOrigin.Begin));
+        Assert.Equal(0L, stream.Seek(0, origin: SeekOrigin.Begin));
         stream.Dispose();
         _ = Assert.Throws<FileNotFoundException>(() => new FastLoadFileStream($"{path}.absent"));
     }
@@ -279,9 +279,9 @@ public sealed class GraphicsConstructionTests
     [Fact]
     public void SurfaceCaptureKeepsCopiedPixelsAndPalette()
     {
-        using Dib16Surface source = new(7, 4, PixelFormat.Rgb555);
+        using Dib16Surface source = new(7, 4, pixelFormatId: PixelFormat.Rgb555);
         _ = source.Clear(255);
-        using DataSurface copy = new(source, default);
+        using DataSurface copy = new(source, R: default);
         LockedSurface lockedSurface = default;
         _ = copy.Lock(ref lockedSurface);
         Assert.Equal(7, lockedSurface.Width);

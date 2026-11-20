@@ -19,7 +19,7 @@ public class SortedNode(CustomNode owner) : CustomNode(owner)
     protected internal void Resize(int newCapacity)
     {
         SortItem[] items = Items;
-        Array.Resize(ref items, newCapacity);
+        Array.Resize(ref items, newSize: newCapacity);
         Items = items;
         Capacity = newCapacity;
         if (Capacity < StoredCount)
@@ -81,7 +81,7 @@ public class SortedNode(CustomNode owner) : CustomNode(owner)
             StoredCount -= 1;
             if (result < StoredCount)
             {
-                Array.Copy(Items, result + 1, Items, result, StoredCount - result);
+                Array.Copy(Items, sourceIndex: result + 1, destinationArray: Items, destinationIndex: result, length: StoredCount - result);
             }
         }
 
@@ -89,7 +89,7 @@ public class SortedNode(CustomNode owner) : CustomNode(owner)
     }
 
     // Engine.pas:1537
-    public override int AddChild(EngineObject child) => AddSortChild(child, 0);
+    public override int AddChild(EngineObject child) => AddSortChild(child, sortValue: 0);
 
     // Engine.pas:1542
     public virtual int AddSortChild(EngineObject child, int sortValue)
@@ -111,7 +111,7 @@ public class SortedNode(CustomNode owner) : CustomNode(owner)
 
             if (i != StoredCount)
             {
-                Array.Copy(Items, i, Items, i + 1, StoredCount - i);
+                Array.Copy(Items, sourceIndex: i, destinationArray: Items, destinationIndex: i + 1, length: StoredCount - i);
             }
 
             SortItem[] items = Items;
@@ -145,7 +145,7 @@ public class SortedNode(CustomNode owner) : CustomNode(owner)
     {
         if (!Sorted && StoredCount > 0)
         {
-            SortItems(Items, 0, StoredCount - 1);
+            SortItems(Items, L: 0, R: StoredCount - 1);
         }
 
         Sorted = true;
@@ -185,7 +185,7 @@ public class SortedNode(CustomNode owner) : CustomNode(owner)
             }
             if (L < number2)
             {
-                SortItems(sortList, L, number2);
+                SortItems(sortList, L, R: number2);
             }
             L = number;
         }

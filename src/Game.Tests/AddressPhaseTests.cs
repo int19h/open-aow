@@ -32,9 +32,9 @@ public sealed class AddressPhaseTests
             Assert.Equal(84, FrameFixtureInputs.WaterBasePhase(instance));
             Assert.Equal(0, FrameFixtureInputs.WaterBasePhase(null));
             Assert.Equal(2, FrameFixtureInputs.TextureVariant(instance));
-            Assert.Equal(2, FrameFixtureInputs.PhaseModulo(instance, 3));
-            Assert.Equal(5, FrameFixtureInputs.PhaseModulo(instance, 7));
-            Assert.Equal(5, FrameFixtureInputs.ShimmerOffset(instance, 4));
+            Assert.Equal(2, FrameFixtureInputs.PhaseModulo(instance, divisor: 3));
+            Assert.Equal(5, FrameFixtureInputs.PhaseModulo(instance, divisor: 7));
+            Assert.Equal(5, FrameFixtureInputs.ShimmerOffset(instance, frame: 4));
             Assert.Equal(4, FrameFixtureInputs.ArmyStagger(instance));
             Assert.Equal(0, FrameFixtureInputs.ArmyStagger(null));
             Assert.Equal(2, FrameFixtureInputs.FieldFrameOffset(instance));

@@ -10,7 +10,7 @@ public class DominatedAbility : CommandedAbility
     {
         Holder = holder;
         AbilityId = 150;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_dominatedText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_dominatedText);
     }
 
     private static readonly string s_dominatedText = "Dominated";

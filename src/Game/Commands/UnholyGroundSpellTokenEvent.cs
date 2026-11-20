@@ -26,8 +26,8 @@ public class UnholyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTo
     {
         _ = base.Process(source, value);
         CreateUnholyGround(source);
-        _ = StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 1);
-        GamePack.Current.SpellControl[EventSpellId].CastingDone(source, EventMana);
+        _ = StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, L: Location.MapLevel, radius: 1);
+        GamePack.Current.SpellControl[EventSpellId].CastingDone(source, mana: EventMana);
         return false;
     }
 
@@ -38,7 +38,7 @@ public class UnholyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTo
         ref HexNumberWalkData hexNumberWalkData = ref walkCell[0];
         HexNumberWalkData walk = hexNumberWalkData;
         MapLevel level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
-        HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, Location.X, Location.Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, Location.X, Location.Y, radius: 0);
         UnholyGround.Resource resource = GamePack.Current.MapObjectResourceList.FindChild<UnholyGround.Resource>(131986);
         while (walk.Radius <= 1)
         {
@@ -52,8 +52,8 @@ public class UnholyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTo
                     ground.Duration = (sbyte)(3 + ((StrategicMap.Current.Random(11) - 5) / 5));
                     ground.Player = source.Player;
                     ground.OriginalOverlay = mapField.OverlayType;
-                    StrategicMap.Current.ClearTerrain(walk.X, walk.Y, Location.MapLevel, 0, -1);
-                    if (StrategicMap.Current.PlaceHex(ground, walk.X, walk.Y, Location.MapLevel))
+                    StrategicMap.Current.ClearTerrain(walk.X, walk.Y, L: Location.MapLevel, radius: 0, terrainType: -1);
+                    if (StrategicMap.Current.PlaceHex(ground, walk.X, walk.Y, L: Location.MapLevel))
                     {
                         ground.Mode = Set<UnholySummoning>.Of(UnholySummoning.Summoning);
                         ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
@@ -62,7 +62,7 @@ public class UnholyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTo
                         animation.OnNewFrame += ground.NewFrameSummonAnimation;
                         animation.FrameCounter = -StrategicMap.Current.Random(15);
                         animation.Tag = source.Player;
-                        _ = StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, Location.MapLevel);
+                        _ = StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, L: Location.MapLevel);
                     }
                     else
                     {

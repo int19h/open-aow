@@ -18,7 +18,7 @@ public class AnimateDead : CombatSpell
     public AnimateDead(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_animateDeadText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_animateDeadText);
         SpellId = 130;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 0;

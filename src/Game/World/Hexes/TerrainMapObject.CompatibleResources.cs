@@ -22,7 +22,7 @@ public partial class TerrainMapObject
             if (resource.DecorationType == Resource.DecorationType &&
                 resource.TerrainType == terrainType && resource != Resource &&
                 resource.TerrainList.CompareTerrain(Resource.TerrainList,
-                    Set<TerrainCompareModeElement>.Of(TerrainCompareModeElement.SameOverlayType)))
+                    mode: Set<TerrainCompareModeElement>.Of(TerrainCompareModeElement.SameOverlayType)))
             {
                 _ = candidates.Add(resource);
             }
@@ -50,7 +50,7 @@ public partial class TerrainMapObject
             }
 
             if (resource.TerrainType != terrainType || resource == Resource ||
-                !resource.TerrainList.CompareTerrain(Resource.TerrainList, default))
+                !resource.TerrainList.CompareTerrain(Resource.TerrainList, mode: default))
             {
                 continue;
             }

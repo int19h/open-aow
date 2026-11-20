@@ -52,12 +52,12 @@ public partial class TabPanel : Control
     {
         if (_imageLibraryButton is not null)
         {
-            _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexUp, 3, this);
+            _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexUp, count: 3, sender: this);
         }
 
         if (_imageLibraryButton is not null)
         {
-            _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexDown, 3, this);
+            _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexDown, count: 3, sender: this);
         }
 
         if (_imageLibraryButton is not null && base.Font is not null)
@@ -100,7 +100,7 @@ public partial class TabPanel : Control
         {
             if (Valid && Visible)
             {
-                RaisePreDraw(this, lockedSurface);
+                RaisePreDraw(this, surfDesc: lockedSurface);
 
                 Rect oldClip = lockedSurface.ClipRectangle;
                 for (int i = 0, last = _items.Count - 1; i <= last; i++)
@@ -110,7 +110,7 @@ public partial class TabPanel : Control
                         int count = _items.Count;
                         int fItemsCount = _items.Count;
                         SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft + (WinWidth * i / fItemsCount), Window.AbsoluteTop + WinTop, WinWidth / count, WinHeight);
-                        _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexUp, rectangle, ref lockedSurface);
+                        _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexUp, area: rectangle, ref lockedSurface);
                         if (base.Font is not null)
                         {
                             base.Font.Color = SelectedColor;
@@ -118,7 +118,7 @@ public partial class TabPanel : Control
                             int textWidth = base.Font.GetTextWidth(item);
                             int count2 = _items.Count;
                             string item2 = _items[i];
-                            base.Font.SetText(Window.AbsoluteLeft + WinLeft + (WinWidth * ((2 * i) + 1) / (2 * count2)) - (textWidth / 2), Window.AbsoluteTop + WinTop + BorderHeight, item2, lockedSurface);
+                            base.Font.SetText(Window.AbsoluteLeft + WinLeft + (WinWidth * ((2 * i) + 1) / (2 * count2)) - (textWidth / 2), Window.AbsoluteTop + WinTop + BorderHeight, text: item2, lockedSurface);
                         }
                     }
                     else
@@ -126,7 +126,7 @@ public partial class TabPanel : Control
                         int count = _items.Count;
                         int fItemsCount = _items.Count;
                         SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft + (WinWidth * i / fItemsCount), Window.AbsoluteTop + WinTop, WinWidth / count, WinHeight);
-                        _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexDown, rectangle, ref lockedSurface);
+                        _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexDown, area: rectangle, ref lockedSurface);
                         if (base.Font is not null)
                         {
                             base.Font.Color = Color;
@@ -134,17 +134,17 @@ public partial class TabPanel : Control
                             int textWidth = base.Font.GetTextWidth(item);
                             int count2 = _items.Count;
                             string item2 = _items[i];
-                            base.Font.SetText(Window.AbsoluteLeft + WinLeft + (WinWidth * ((2 * i) + 1) / (2 * count2)) - (textWidth / 2), Window.AbsoluteTop + WinTop + BorderHeightSelected, item2, lockedSurface);
+                            base.Font.SetText(Window.AbsoluteLeft + WinLeft + (WinWidth * ((2 * i) + 1) / (2 * count2)) - (textWidth / 2), Window.AbsoluteTop + WinTop + BorderHeightSelected, text: item2, lockedSurface);
                         }
                     }
                 }
 
-                RaiseDraw(this, lockedSurface);
+                RaiseDraw(this, surfDesc: lockedSurface);
             }
         }
         catch
         {
-            _ = MessageBox(0, "Exception during Draw", $"Error - {Name}", 0);
+            _ = MessageBox(0, text: "Exception during Draw", caption: $"Error - {Name}", flags: 0);
         }
     }
 

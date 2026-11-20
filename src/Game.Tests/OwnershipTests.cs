@@ -81,8 +81,8 @@ public sealed class OwnershipTests
         try
         {
             ArgumentException error = Assert.Throws<ArgumentException>(() => list.AddChild(stranger));
-            Assert.Contains("AIBudgetList does not take a child of type OwningNode", error.Message, StringComparison.Ordinal);
-            _ = Assert.Throws<ArgumentException>(() => list.SetChild(0, stranger));
+            Assert.Contains("AIBudgetList does not take a child of type OwningNode", error.Message, comparisonType: StringComparison.Ordinal);
+            _ = Assert.Throws<ArgumentException>(() => list.SetChild(0, child: stranger));
             Assert.Equal(0, list.Count);
             _ = Assert.Throws<ArgumentException>(() => new EventLogList(null!) { Holder = EngineFixture.Engine }.AddChild(stranger));
         }
@@ -106,7 +106,7 @@ public sealed class OwnershipTests
             Assert.Same(field, ((IOwned)sprite).Owner);
             _ = Assert.Throws<ArgumentException>(() => new SingleHexSprite(stranger));
             _ = Assert.Throws<ArgumentException>(() => sprite.SetOwner(stranger));
-            _ = Assert.Throws<ArgumentException>(() => sprite.SetArrayOwner(stranger, 0));
+            _ = Assert.Throws<ArgumentException>(() => sprite.SetArrayOwner(stranger, index: 0));
             _ = Assert.Throws<ArgumentException>(() => sprite.SetOwnerWithoutNotify(stranger));
             Assert.Same(field, sprite.Owner);
             _ = Assert.Throws<ArgumentException>(() => new MapField(stranger));

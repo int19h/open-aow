@@ -339,7 +339,7 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
     {
         if (CanPlaceItem(item, position))
         {
-            item.SetArrayOwner(this, (int)position);
+            item.SetArrayOwner(this, index: (int)position);
             return true;
         }
         else

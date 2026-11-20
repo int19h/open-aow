@@ -38,7 +38,7 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
     {
         UI.ChatWindow.PlayerList.Items.Clear();
         string allPlayers = UI.Engine.TranslateResourceString(s_allPlayersText);
-        _ = UI.ChatWindow.PlayerList.Items.AddObject(allPlayers, null);
+        _ = UI.ChatWindow.PlayerList.Items.AddObject(allPlayers, item: null);
         if (StrategicMap.Current is not null)
         {
             for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
@@ -47,7 +47,7 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
                 {
                     PlayerCommunicationSettings player = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.Players[i];
                     Player playerLeader = StrategicMap.Current.Players.GetPlayers(i);
-                    _ = UI.ChatWindow.PlayerList.Items.AddObject(playerLeader.Leader.HeroName, IntToObject(player.SystemId));
+                    _ = UI.ChatWindow.PlayerList.Items.AddObject(playerLeader.Leader.HeroName, item: IntToObject(player.SystemId));
                     UI.ChatWindow.PlayerList.Selected = 0;
                 }
             }
@@ -164,7 +164,7 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
     public void SetupControlLoadMap(SetupControl control, string fileName)
     {
         string fileNameLocal = ExtractFileName(fileName);
-        string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_loadingFormat), [fileNameLocal]);
+        string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_loadingFormat), arguments: [fileNameLocal]);
         UI.ProgressDialog.TitleLabel.Text = format;
         UI.ProgressDialog.StatusLabel.Text = "";
         UI.ProgressDialog.ProgressBar.Position = 0;
@@ -175,18 +175,18 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
         {
             _ = AudioHost.SongPlayer.Stop(false);
             AudioHost.SongPlayer.Songs.Clear();
-            AudioPlayback.FadeMusicVolume(0, 1);
+            AudioPlayback.FadeMusicVolume(0, speed: 1);
         }
 
         if (control.Stream.Length != 0)
         {
-            UI.Engine.LoadHsmFromStream(control.Stream, false, (_, message, progression) => UI.General.MapProgress(message, progression));
+            UI.Engine.LoadHsmFromStream(control.Stream, edit: false, (_, message, progression) => UI.General.MapProgress(message, progression));
             string fileName2 = ExtractFileName(fileName);
             StrategicMap.Current.FileName = $"{UI.Engine.StartupDirectory}Scenario\\{fileName2}";
         }
         else
         {
-            UI.Engine.LoadHsm(fileName, false, (_, message, progression) => UI.General.MapProgress(message, progression), GameProfile.WorldMap);
+            UI.Engine.LoadHsm(fileName, edit: false, progress: (_, message, progression) => UI.General.MapProgress(message, progression), profile: GameProfile.WorldMap);
         }
 
         UI.General.Manager.OverlayPriority = 0;
@@ -212,14 +212,14 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
     {
         if (SetupControl.Status.Contains(SetupStatusElement.Busy))
         {
-            SetupControl.DataReceived(data, size, fromId);
+            SetupControl.DataReceived(data, size, senderId: fromId);
         }
 
         if (StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
         {
             if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is RemotePlayerCommunicationControl remote)
             {
-                remote.DataReceived(data, size, fromId);
+                remote.DataReceived(data, size, systemId: fromId);
             }
         }
     }

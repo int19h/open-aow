@@ -49,7 +49,7 @@ public sealed class WallCrushingFastBattleTests
         OwningNode objects = combat.CombatData.CombatObjects;
         Attacker source = new(objects) { Combat = combat, Id = 1 };
         RecordingWall wall = new(objects) { Combat = combat };
-        wall.Setup(2, 2, 1);
+        wall.Setup(2, wallType: 2, combatPlayer: 1);
         return (combat, source, wall);
     }
 

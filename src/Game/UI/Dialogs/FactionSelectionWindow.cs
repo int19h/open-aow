@@ -39,7 +39,7 @@ public partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
     {
         UI.Graphics.FactionWindow.ReleaseDiscardableImageData();
         UI.TitleWindow.MainWindow.Visible = false;
-        WindowActions.ShowTitleScene(UI.TitleScene, true);
+        WindowActions.ShowTitleScene(UI.TitleScene, music: true);
         FactionPanel.Visible = false;
         Fade = 0;
     }
@@ -51,7 +51,7 @@ public partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
         UI.Graphics.FactionWindow.ReleaseDiscardableImageData();
         FactionPanel.Visible = false;
         Fade = 0;
-        StartCampaignJoin(UI.CampaignJoinDialog, side);
+        StartCampaignJoin(UI.CampaignJoinDialog, faction: side);
     }
 
     // AoWSelFactionWin.pas:82
@@ -196,7 +196,7 @@ public partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
 
             Rect r = new(FactionPanel.AbsoluteLeft, FactionPanel.AbsoluteTop, FactionPanel.AbsoluteLeft + FactionPanel.WinWidth, FactionPanel.AbsoluteTop + FactionPanel.WinHeight);
 
-            UI.TitleWindow.MainWindow.AddBlitRectangle(ref r, null);
+            UI.TitleWindow.MainWindow.AddBlitRectangle(ref r, sender: null);
         }
     }
 
@@ -222,21 +222,21 @@ public partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
         switch (dialog.Faction)
         {
             case 0:
-                LoadWorldCampaign(dialog.UI.WorldMap, "Keepers.cam");
+                LoadWorldCampaign(dialog.UI.WorldMap, name: "Keepers.cam");
                 dialog.CharacterGenerationPanel.ImageLibraryIndexTexture = 10;
-                GamePack.Current.TextControl.RetrieveText(10, (DelphiStringCollection)(object)value);
+                GamePack.Current.TextControl.RetrieveText(10, text: (DelphiStringCollection)(object)value);
                 break;
             case 1:
-                LoadWorldCampaign(dialog.UI.WorldMap, "Storm.cam");
+                LoadWorldCampaign(dialog.UI.WorldMap, name: "Storm.cam");
                 dialog.CharacterGenerationPanel.ImageLibraryIndexTexture = 11;
-                GamePack.Current.TextControl.RetrieveText(11, (DelphiStringCollection)(object)value);
+                GamePack.Current.TextControl.RetrieveText(11, text: (DelphiStringCollection)(object)value);
                 break;
             default:
                 break;
         }
-        ParseFontText(value.Text, (DelphiStringCollection)(object)dialog.ScrollText, dialog.UI.Fonts.Age15WhiteOnGrey, 300);
+        ParseFontText(value.Text, strings: (DelphiStringCollection)(object)dialog.ScrollText, font: dialog.UI.Fonts.Age15WhiteOnGrey, maxWidth: 300);
         WorldMapCampaign campaign = dialog.UI.WorldMap.Campaign;
-        int id = WorldMapCampaign.GetCampaignScenario(campaign, 0).Paths[0];
+        int id = WorldMapCampaign.GetCampaignScenario(campaign, index: 0).Paths[0];
         WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(index: campaign.Scenarios.IndexOfId(id), campaign: dialog.UI.WorldMap.Campaign);
         StrategicMap hexSpriteMap = dialog.UI.Engine.CreatePreviewHsm<StrategicMap>(FileBoundary.ReadName($"{dialog.UI.Engine.StartupDirectory}Scenario\\Campaign\\{campaignScenario.FileName}"), profile: GameProfile.WorldMap);
         int i;
@@ -269,7 +269,7 @@ public partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
                 .Contains(Cp1252.Byte(text[i + j - 1])); j++)
             {
             }
-            string text2 = DelphiStrings.Copy(text, i, j);
+            string text2 = DelphiStrings.Copy(text, index: i, count: j);
             int textWidth = font.GetTextWidth(text2);
             if (number + textWidth > maxWidth && !DelphiStrings.IsEmpty(textLocal))
             {

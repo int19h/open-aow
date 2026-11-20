@@ -47,7 +47,7 @@ public class HeroUpdateTokenEvent(CustomNode owner) : TokenEvent(owner)
             switch (Mode)
             {
                 case HeroUpdateTokenEventMode.PlaceItem:
-                    success = hero.ExecutePlaceItem(ItemId, (HeroItemPosition)Parameter);
+                    success = hero.ExecutePlaceItem(ItemId, position: (HeroItemPosition)Parameter);
                     break;
                 case HeroUpdateTokenEventMode.SwapItem:
                     success = hero.ExecuteSwapItem(ItemId, Parameter);

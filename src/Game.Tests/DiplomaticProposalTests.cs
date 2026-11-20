@@ -24,85 +24,85 @@ public sealed class DiplomaticProposalTests
 
     private static readonly Case[] s_cases =
     [
-        new(0, 2, 1, -1, 0, 0, 0, 0, 0, 19, 4, [],
-            "010000520202000714001501160219031A041E051F090201FF00001300000004000000",
-            "01000008110200030A0014041524FFFFFFFF520202000714001501160219031A041E051F090201FF0000130000000400000001000000",
-            "01000013010200020A00140405000000520202000714001501160219031A041E051F090201FF00001300000004000000"),
-        new(0, 4, 8, -1, 0, 0, 0, 0, 0, 0, 6, [],
-            "010000520202000614001501160219031A041F050408FF000006000000",
-            "01000008110200030A001404151EFFFFFFFF520202000614001501160219031A041F050408FF00000600000001000000",
-            "01000013010200020A00140405000000520202000614001501160219031A041F050408FF000006000000"),
-        new(0, 6, 11, -1, 0, 0, 0, 0, 0, 16, 7, ["The Dark Elves declare war on the Humans."],
-            "010000520202000814001501160219031A041B051E341F38060BFF00002B000000546865204461726B20456C766573206465636C61726520776172206F6E207468652048756D616E732E0D0A1000000007000000",
-            "01000008110200030A0014041555FFFFFFFF520202000814001501160219031A041B051E341F38060BFF00002B000000546865204461726B20456C766573206465636C61726520776172206F6E207468652048756D616E732E0D0A100000000700000001000000",
-            "01000013010200020A00140405000000520202000814001501160219031A041B051E341F38060BFF00002B000000546865204461726B20456C766573206465636C61726520776172206F6E207468652048756D616E732E0D0A1000000007000000"),
-        new(1, 1, 2, -1, 0, 0, 0, 0, 0, 42, 7, [],
-            "010000520202000714001501160219031A041E051F090102FF01002A00000007000000",
-            "01000008110200030A0014041524FFFFFFFF520202000714001501160219031A041E051F090102FF01002A0000000700000001000000",
-            "01000013010200020A00140405000000520202000714001501160219031A041E051F090102FF01002A00000007000000"),
-        new(1, 2, 4, -1, 0, 0, 1, 0, 0, 0, 6, [],
-            "010000520202000614001501160219031A041F050204FF010106000000",
-            "01000008110200030A001404151EFFFFFFFF520202000614001501160219031A041F050204FF01010600000001000000",
-            "01000013010200020A00140405000000520202000614001501160219031A041F050204FF010106000000"),
-        new(1, 5, 9, -1, 0, 0, 2, 0, 0, 33, 9, ["The Orcs reject the peace offer of the Elves."],
-            "010000520202000814001501160219031A041B051E381F3C0509FF01022F000000546865204F7263732072656A65637420746865207065616365206F66666572206F662074686520456C7665732E0D0A2100000009000000",
-            "01000008110200030A0014041559FFFFFFFF520202000814001501160219031A041B051E381F3C0509FF01022F000000546865204F7263732072656A65637420746865207065616365206F66666572206F662074686520456C7665732E0D0A210000000900000001000000",
-            "01000013010200020A00140405000000520202000814001501160219031A041B051E381F3C0509FF01022F000000546865204F7263732072656A65637420746865207065616365206F66666572206F662074686520456C7665732E0D0A2100000009000000"),
-        new(1, 6, 3, -1, 0, 0, 3, 0, 0, 30, 14, ["Peace, friends."],
-            "010000520202000814001501160219031A041B051E1A1F1E0603FF01031100000050656163652C20667269656E64732E0D0A1E0000000E000000",
-            "01000008110200030A001404153BFFFFFFFF520202000814001501160219031A041B051E1A1F1E0603FF01031100000050656163652C20667269656E64732E0D0A1E0000000E00000001000000",
-            "01000013010200020A00140405000000520202000814001501160219031A041B051E1A1F1E0603FF01031100000050656163652C20667269656E64732E0D0A1E0000000E000000"),
-        new(1, 1, 2, -1, 100, 50, 0, 100, 50, 0, 8, [],
-            "010000520202000A14001501160217031807190B1A0C1C0D1D111F150102FF64000000320000000100640000003200000008000000",
-            "01000008110200030A0014041536FFFFFFFF520202000A14001501160217031807190B1A0C1C0D1D111F150102FF6400000032000000010064000000320000000800000001000000",
-            "01000013010200020A00140405000000520202000A14001501160217031807190B1A0C1C0D1D111F150102FF64000000320000000100640000003200000008000000"),
-        new(2, 3, 4, -1, 200, 0, 1, 0, 0, 12, 15, ["An alliance.", "Second line."],
-            "0100005202020009140015011602170319071A081B091E291F2D0304FFC800000002011C000000416E20616C6C69616E63652E0D0A5365636F6E64206C696E652E0D0A0C0000000F000000",
-            "01000008110200030A001404154CFFFFFFFF5202020009140015011602170319071A081B091E291F2D0304FFC800000002011C000000416E20616C6C69616E63652E0D0A5365636F6E64206C696E652E0D0A0C0000000F00000001000000",
-            "01000013010200020A001404050000005202020009140015011602170319071A081B091E291F2D0304FFC800000002011C000000416E20616C6C69616E63652E0D0A5365636F6E64206C696E652E0D0A0C0000000F000000"),
-        new(3, 1, 2, -1, 0, 0, 0, 0, 0, 5, 3, ["Hello", "there"],
-            "010000520202000814001501160219031A041B051E171F1B0102FF03000E00000048656C6C6F0D0A74686572650D0A0500000003000000",
-            "01000008110200030A0014041538FFFFFFFF520202000814001501160219031A041B051E171F1B0102FF03000E00000048656C6C6F0D0A74686572650D0A050000000300000001000000",
-            "01000013010200020A00140405000000520202000814001501160219031A041B051E171F1B0102FF03000E00000048656C6C6F0D0A74686572650D0A0500000003000000"),
-        new(4, 2, 5, -1, 0, 0, 0, 0, 0, 0, 8, ["Beware."],
-            "010000520202000714001501160219031A041B051F120205FF0400090000004265776172652E0D0A08000000",
-            "01000008110200030A001404152DFFFFFFFF520202000714001501160219031A041B051F120205FF0400090000004265776172652E0D0A0800000001000000",
-            "01000013010200020A00140405000000520202000714001501160219031A041B051F120205FF0400090000004265776172652E0D0A08000000"),
-        new(5, 2, 3, -1, 0, 75, 0, 0, 75, 0, 11, [],
-            "0100005202020008140015011602180319071A081D091F0D0203FF4B00000005004B0000000B000000",
-            "01000008110200030A001404152AFFFFFFFF5202020008140015011602180319071A081D091F0D0203FF4B00000005004B0000000B00000001000000",
-            "01000013010200020A001404050000005202020008140015011602180319071A081D091F0D0203FF4B00000005004B0000000B000000"),
-        new(6, 7, 8, -1, 0, 0, 0, 0, 0, 21, 20, [],
-            "010000520202000714001501160219031A041E051F090708FF06001500000014000000",
-            "01000008110200030A0014041524FFFFFFFF520202000714001501160219031A041E051F090708FF0600150000001400000001000000",
-            "01000013010200020A00140405000000520202000714001501160219031A041E051F090708FF06001500000014000000"),
-        new(7, 5, 1, 3, 0, 0, 0, 0, 0, 0, 2, ["From someone else."],
-            "010000520202000714001501160219031A041B051F1D05010307001400000046726F6D20736F6D656F6E6520656C73652E0D0A02000000",
-            "01000008110200030A0014041538FFFFFFFF520202000714001501160219031A041B051F1D05010307001400000046726F6D20736F6D656F6E6520656C73652E0D0A0200000001000000",
-            "01000013010200020A00140405000000520202000714001501160219031A041B051F1D05010307001400000046726F6D20736F6D656F6E6520656C73652E0D0A02000000"),
-        new(8, 2, 4, 6, 300, 20, 2, 0, 0, 44, 30, [],
-            "010000520202000914001501160217031807190B1A0C1E0D1F110204062C0100001400000008022C0000001E000000",
-            "01000008110200030A0014041530FFFFFFFF520202000914001501160217031807190B1A0C1E0D1F110204062C0100001400000008022C0000001E00000001000000",
-            "01000013010200020A00140405000000520202000914001501160217031807190B1A0C1E0D1F110204062C0100001400000008022C0000001E000000"),
-        new(9, 3, 1, 2, 50, 0, 1, 0, 0, 0, 12, ["War on them."],
-            "0100005202020008140015011602170319071A081B091F1B0301023200000009010E000000576172206F6E207468656D2E0D0A0C000000",
-            "01000008110200030A0014041538FFFFFFFF5202020008140015011602170319071A081B091F1B0301023200000009010E000000576172206F6E207468656D2E0D0A0C00000001000000",
-            "01000013010200020A001404050000005202020008140015011602170319071A081B091F1B0301023200000009010E000000576172206F6E207468656D2E0D0A0C000000"),
-        new(10, 1, 2, -1, 7, 8, 0, 0, 0, 0, 1, [],
-            "010000520202000814001501160217031807190B1A0C1F0D0102FF07000000080000000A0001000000",
-            "01000008110200030A001404152AFFFFFFFF520202000814001501160217031807190B1A0C1F0D0102FF07000000080000000A000100000001000000",
-            "01000013010200020A00140405000000520202000814001501160217031807190B1A0C1F0D0102FF07000000080000000A0001000000"),
-        new(200, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, ["x"],
-            "01000052020200051400150119021A031B040102C80003000000780D0A",
-            "01000008110200030A001404151EFFFFFFFF52020200051400150119021A031B040102C80003000000780D0A01000000",
-            "01000013010200020A0014040500000052020200051400150119021A031B040102C80003000000780D0A"),
-        new(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, [],
-            "010000520202000219001A010000",
-            "01000008110200030A001404150FFFFFFFFF520202000219001A01000001000000",
-            "01000013010200020A00140405000000520202000219001A010000"),
+        new(0, Source: 2, Target: 1, Other: -1, Gold: 0, Mana: 0, Reaction: 0, EscrowGold: 0, EscrowMana: 0, EventLogId: 19, Day: 4, Message: [],
+            Alone: "010000520202000714001501160219031A041E051F090201FF00001300000004000000",
+            Token: "01000008110200030A0014041524FFFFFFFF520202000714001501160219031A041E051F090201FF0000130000000400000001000000",
+            Logged: "01000013010200020A00140405000000520202000714001501160219031A041E051F090201FF00001300000004000000"),
+        new(0, Source: 4, Target: 8, Other: -1, Gold: 0, Mana: 0, Reaction: 0, EscrowGold: 0, EscrowMana: 0, EventLogId: 0, Day: 6, Message: [],
+            Alone: "010000520202000614001501160219031A041F050408FF000006000000",
+            Token: "01000008110200030A001404151EFFFFFFFF520202000614001501160219031A041F050408FF00000600000001000000",
+            Logged: "01000013010200020A00140405000000520202000614001501160219031A041F050408FF000006000000"),
+        new(0, Source: 6, Target: 11, Other: -1, Gold: 0, Mana: 0, Reaction: 0, EscrowGold: 0, EscrowMana: 0, EventLogId: 16, Day: 7, Message: ["The Dark Elves declare war on the Humans."],
+            Alone: "010000520202000814001501160219031A041B051E341F38060BFF00002B000000546865204461726B20456C766573206465636C61726520776172206F6E207468652048756D616E732E0D0A1000000007000000",
+            Token: "01000008110200030A0014041555FFFFFFFF520202000814001501160219031A041B051E341F38060BFF00002B000000546865204461726B20456C766573206465636C61726520776172206F6E207468652048756D616E732E0D0A100000000700000001000000",
+            Logged: "01000013010200020A00140405000000520202000814001501160219031A041B051E341F38060BFF00002B000000546865204461726B20456C766573206465636C61726520776172206F6E207468652048756D616E732E0D0A1000000007000000"),
+        new(1, Source: 1, Target: 2, Other: -1, Gold: 0, Mana: 0, Reaction: 0, EscrowGold: 0, EscrowMana: 0, EventLogId: 42, Day: 7, Message: [],
+            Alone: "010000520202000714001501160219031A041E051F090102FF01002A00000007000000",
+            Token: "01000008110200030A0014041524FFFFFFFF520202000714001501160219031A041E051F090102FF01002A0000000700000001000000",
+            Logged: "01000013010200020A00140405000000520202000714001501160219031A041E051F090102FF01002A00000007000000"),
+        new(1, Source: 2, Target: 4, Other: -1, Gold: 0, Mana: 0, Reaction: 1, EscrowGold: 0, EscrowMana: 0, EventLogId: 0, Day: 6, Message: [],
+            Alone: "010000520202000614001501160219031A041F050204FF010106000000",
+            Token: "01000008110200030A001404151EFFFFFFFF520202000614001501160219031A041F050204FF01010600000001000000",
+            Logged: "01000013010200020A00140405000000520202000614001501160219031A041F050204FF010106000000"),
+        new(1, Source: 5, Target: 9, Other: -1, Gold: 0, Mana: 0, Reaction: 2, EscrowGold: 0, EscrowMana: 0, EventLogId: 33, Day: 9, Message: ["The Orcs reject the peace offer of the Elves."],
+            Alone: "010000520202000814001501160219031A041B051E381F3C0509FF01022F000000546865204F7263732072656A65637420746865207065616365206F66666572206F662074686520456C7665732E0D0A2100000009000000",
+            Token: "01000008110200030A0014041559FFFFFFFF520202000814001501160219031A041B051E381F3C0509FF01022F000000546865204F7263732072656A65637420746865207065616365206F66666572206F662074686520456C7665732E0D0A210000000900000001000000",
+            Logged: "01000013010200020A00140405000000520202000814001501160219031A041B051E381F3C0509FF01022F000000546865204F7263732072656A65637420746865207065616365206F66666572206F662074686520456C7665732E0D0A2100000009000000"),
+        new(1, Source: 6, Target: 3, Other: -1, Gold: 0, Mana: 0, Reaction: 3, EscrowGold: 0, EscrowMana: 0, EventLogId: 30, Day: 14, Message: ["Peace, friends."],
+            Alone: "010000520202000814001501160219031A041B051E1A1F1E0603FF01031100000050656163652C20667269656E64732E0D0A1E0000000E000000",
+            Token: "01000008110200030A001404153BFFFFFFFF520202000814001501160219031A041B051E1A1F1E0603FF01031100000050656163652C20667269656E64732E0D0A1E0000000E00000001000000",
+            Logged: "01000013010200020A00140405000000520202000814001501160219031A041B051E1A1F1E0603FF01031100000050656163652C20667269656E64732E0D0A1E0000000E000000"),
+        new(1, Source: 1, Target: 2, Other: -1, Gold: 100, Mana: 50, Reaction: 0, EscrowGold: 100, EscrowMana: 50, EventLogId: 0, Day: 8, Message: [],
+            Alone: "010000520202000A14001501160217031807190B1A0C1C0D1D111F150102FF64000000320000000100640000003200000008000000",
+            Token: "01000008110200030A0014041536FFFFFFFF520202000A14001501160217031807190B1A0C1C0D1D111F150102FF6400000032000000010064000000320000000800000001000000",
+            Logged: "01000013010200020A00140405000000520202000A14001501160217031807190B1A0C1C0D1D111F150102FF64000000320000000100640000003200000008000000"),
+        new(2, Source: 3, Target: 4, Other: -1, Gold: 200, Mana: 0, Reaction: 1, EscrowGold: 0, EscrowMana: 0, EventLogId: 12, Day: 15, Message: ["An alliance.", "Second line."],
+            Alone: "0100005202020009140015011602170319071A081B091E291F2D0304FFC800000002011C000000416E20616C6C69616E63652E0D0A5365636F6E64206C696E652E0D0A0C0000000F000000",
+            Token: "01000008110200030A001404154CFFFFFFFF5202020009140015011602170319071A081B091E291F2D0304FFC800000002011C000000416E20616C6C69616E63652E0D0A5365636F6E64206C696E652E0D0A0C0000000F00000001000000",
+            Logged: "01000013010200020A001404050000005202020009140015011602170319071A081B091E291F2D0304FFC800000002011C000000416E20616C6C69616E63652E0D0A5365636F6E64206C696E652E0D0A0C0000000F000000"),
+        new(3, Source: 1, Target: 2, Other: -1, Gold: 0, Mana: 0, Reaction: 0, EscrowGold: 0, EscrowMana: 0, EventLogId: 5, Day: 3, Message: ["Hello", "there"],
+            Alone: "010000520202000814001501160219031A041B051E171F1B0102FF03000E00000048656C6C6F0D0A74686572650D0A0500000003000000",
+            Token: "01000008110200030A0014041538FFFFFFFF520202000814001501160219031A041B051E171F1B0102FF03000E00000048656C6C6F0D0A74686572650D0A050000000300000001000000",
+            Logged: "01000013010200020A00140405000000520202000814001501160219031A041B051E171F1B0102FF03000E00000048656C6C6F0D0A74686572650D0A0500000003000000"),
+        new(4, Source: 2, Target: 5, Other: -1, Gold: 0, Mana: 0, Reaction: 0, EscrowGold: 0, EscrowMana: 0, EventLogId: 0, Day: 8, Message: ["Beware."],
+            Alone: "010000520202000714001501160219031A041B051F120205FF0400090000004265776172652E0D0A08000000",
+            Token: "01000008110200030A001404152DFFFFFFFF520202000714001501160219031A041B051F120205FF0400090000004265776172652E0D0A0800000001000000",
+            Logged: "01000013010200020A00140405000000520202000714001501160219031A041B051F120205FF0400090000004265776172652E0D0A08000000"),
+        new(5, Source: 2, Target: 3, Other: -1, Gold: 0, Mana: 75, Reaction: 0, EscrowGold: 0, EscrowMana: 75, EventLogId: 0, Day: 11, Message: [],
+            Alone: "0100005202020008140015011602180319071A081D091F0D0203FF4B00000005004B0000000B000000",
+            Token: "01000008110200030A001404152AFFFFFFFF5202020008140015011602180319071A081D091F0D0203FF4B00000005004B0000000B00000001000000",
+            Logged: "01000013010200020A001404050000005202020008140015011602180319071A081D091F0D0203FF4B00000005004B0000000B000000"),
+        new(6, Source: 7, Target: 8, Other: -1, Gold: 0, Mana: 0, Reaction: 0, EscrowGold: 0, EscrowMana: 0, EventLogId: 21, Day: 20, Message: [],
+            Alone: "010000520202000714001501160219031A041E051F090708FF06001500000014000000",
+            Token: "01000008110200030A0014041524FFFFFFFF520202000714001501160219031A041E051F090708FF0600150000001400000001000000",
+            Logged: "01000013010200020A00140405000000520202000714001501160219031A041E051F090708FF06001500000014000000"),
+        new(7, Source: 5, Target: 1, Other: 3, Gold: 0, Mana: 0, Reaction: 0, EscrowGold: 0, EscrowMana: 0, EventLogId: 0, Day: 2, Message: ["From someone else."],
+            Alone: "010000520202000714001501160219031A041B051F1D05010307001400000046726F6D20736F6D656F6E6520656C73652E0D0A02000000",
+            Token: "01000008110200030A0014041538FFFFFFFF520202000714001501160219031A041B051F1D05010307001400000046726F6D20736F6D656F6E6520656C73652E0D0A0200000001000000",
+            Logged: "01000013010200020A00140405000000520202000714001501160219031A041B051F1D05010307001400000046726F6D20736F6D656F6E6520656C73652E0D0A02000000"),
+        new(8, Source: 2, Target: 4, Other: 6, Gold: 300, Mana: 20, Reaction: 2, EscrowGold: 0, EscrowMana: 0, EventLogId: 44, Day: 30, Message: [],
+            Alone: "010000520202000914001501160217031807190B1A0C1E0D1F110204062C0100001400000008022C0000001E000000",
+            Token: "01000008110200030A0014041530FFFFFFFF520202000914001501160217031807190B1A0C1E0D1F110204062C0100001400000008022C0000001E00000001000000",
+            Logged: "01000013010200020A00140405000000520202000914001501160217031807190B1A0C1E0D1F110204062C0100001400000008022C0000001E000000"),
+        new(9, Source: 3, Target: 1, Other: 2, Gold: 50, Mana: 0, Reaction: 1, EscrowGold: 0, EscrowMana: 0, EventLogId: 0, Day: 12, Message: ["War on them."],
+            Alone: "0100005202020008140015011602170319071A081B091F1B0301023200000009010E000000576172206F6E207468656D2E0D0A0C000000",
+            Token: "01000008110200030A0014041538FFFFFFFF5202020008140015011602170319071A081B091F1B0301023200000009010E000000576172206F6E207468656D2E0D0A0C00000001000000",
+            Logged: "01000013010200020A001404050000005202020008140015011602170319071A081B091F1B0301023200000009010E000000576172206F6E207468656D2E0D0A0C000000"),
+        new(10, Source: 1, Target: 2, Other: -1, Gold: 7, Mana: 8, Reaction: 0, EscrowGold: 0, EscrowMana: 0, EventLogId: 0, Day: 1, Message: [],
+            Alone: "010000520202000814001501160217031807190B1A0C1F0D0102FF07000000080000000A0001000000",
+            Token: "01000008110200030A001404152AFFFFFFFF520202000814001501160217031807190B1A0C1F0D0102FF07000000080000000A000100000001000000",
+            Logged: "01000013010200020A00140405000000520202000814001501160217031807190B1A0C1F0D0102FF07000000080000000A0001000000"),
+        new(200, Source: 1, Target: 2, Other: 0, Gold: 0, Mana: 0, Reaction: 0, EscrowGold: 0, EscrowMana: 0, EventLogId: 0, Day: 0, Message: ["x"],
+            Alone: "01000052020200051400150119021A031B040102C80003000000780D0A",
+            Token: "01000008110200030A001404151EFFFFFFFF52020200051400150119021A031B040102C80003000000780D0A01000000",
+            Logged: "01000013010200020A0014040500000052020200051400150119021A031B040102C80003000000780D0A"),
+        new(0, Source: 0, Target: 0, Other: 0, Gold: 0, Mana: 0, Reaction: 0, EscrowGold: 0, EscrowMana: 0, EventLogId: 0, Day: 0, Message: [],
+            Alone: "010000520202000219001A010000",
+            Token: "01000008110200030A001404150FFFFFFFFF520202000219001A01000001000000",
+            Logged: "01000013010200020A00140405000000520202000219001A010000"),
     ];
 
-    public static TheoryData<int> CaseIndexes { get; } = [.. Enumerable.Range(0, s_cases.Length)];
+    public static TheoryData<int> CaseIndexes { get; } = [.. Enumerable.Range(0, count: s_cases.Length)];
 
     // The proposal each case reads as, built by hand.
     private static DiplomaticProposal Expected(byte kind, int gold, int mana) => kind switch
@@ -186,33 +186,33 @@ public sealed class DiplomaticProposalTests
             Assert.Equal((c.Kind, c.Gold, c.Mana), proposal.ToFields());
 
             DiplomaticAction action = Action(c);
-            Assert.Equal(c.Alone, Write(engine, action));
+            Assert.Equal(c.Alone, Write(engine, value: action));
             _ = action.Release();
 
             DiplomaticActionTokenEvent tokenEvent = new(null) { Holder = EngineFixture.Engine, Operation = 1 };
             action = Action(c);
             tokenEvent.SetDiplomaticAction(action);
             _ = action.Release();
-            Assert.Equal(c.Token, Write(engine, tokenEvent));
+            Assert.Equal(c.Token, Write(engine, value: tokenEvent));
             tokenEvent.Dispose();
 
             DiplomaticActionEventLog log = new(null) { Holder = EngineFixture.Engine, Day = 5, Action = Action(c) };
-            Assert.Equal(c.Logged, Write(engine, log));
+            Assert.Equal(c.Logged, Write(engine, value: log));
             log.Dispose();
 
-            DiplomaticAction loaded = Read<DiplomaticAction>(engine, c.Alone);
-            AssertCase(c, loaded);
-            Assert.Equal(c.Alone, Write(engine, loaded));
+            DiplomaticAction loaded = Read<DiplomaticAction>(engine, hex: c.Alone);
+            AssertCase(c, action: loaded);
+            Assert.Equal(c.Alone, Write(engine, value: loaded));
             _ = loaded.Release();
 
-            DiplomaticActionTokenEvent loadedEvent = Read<DiplomaticActionTokenEvent>(engine, c.Token);
+            DiplomaticActionTokenEvent loadedEvent = Read<DiplomaticActionTokenEvent>(engine, hex: c.Token);
             AssertCase(c, loadedEvent.Action);
-            Assert.Equal(c.Token, Write(engine, loadedEvent));
+            Assert.Equal(c.Token, Write(engine, value: loadedEvent));
             loadedEvent.Dispose();
 
-            DiplomaticActionEventLog loadedLog = Read<DiplomaticActionEventLog>(engine, c.Logged);
+            DiplomaticActionEventLog loadedLog = Read<DiplomaticActionEventLog>(engine, hex: c.Logged);
             AssertCase(c, loadedLog.Action);
-            Assert.Equal(c.Logged, Write(engine, loadedLog));
+            Assert.Equal(c.Logged, Write(engine, value: loadedLog));
             loadedLog.Dispose();
         }
         finally
@@ -230,14 +230,14 @@ public sealed class DiplomaticProposalTests
             string[] message = ["The Dark Elves declare war on the Humans.", "", "Second line."];
             using DiplomaticActionEventLog log = new(null) { Holder = EngineFixture.Engine, Day = 5 };
             log.Action = new DiplomaticAction(null) { Holder = EngineFixture.Engine, Source = 6, Target = 11, OtherPlayer = -1, EventLogId = 16, Day = 7, Proposal = new DeclareWar() with { Message = message } };
-            string bytes = Write(engine, log);
-            DiplomaticActionEventLog copy = Read<DiplomaticActionEventLog>(engine, bytes);
+            string bytes = Write(engine, value: log);
+            DiplomaticActionEventLog copy = Read<DiplomaticActionEventLog>(engine, hex: bytes);
             Assert.Equal(message, copy.Action.Proposal.Message);
             Assert.Equal("The Dark Elves declare war on the Humans.\r\n\r\nSecond line.\r\n", copy.Action.Proposal.MessageText);
-            Assert.Equal(bytes, Write(engine, copy));
+            Assert.Equal(bytes, Write(engine, value: copy));
 
             // The copy for an AI player's action list drops the message (Diplomacy.pas:938), the logged copy keeps it.
-            DiplomaticActionEventLog listed = Read<DiplomaticActionEventLog>(engine, bytes);
+            DiplomaticActionEventLog listed = Read<DiplomaticActionEventLog>(engine, hex: bytes);
             listed.Action.Proposal = listed.Action.Proposal with { Message = [] };
             Assert.Empty(listed.Action.Proposal.Message);
             Assert.Equal(message, copy.Action.Proposal.Message);
@@ -260,7 +260,7 @@ public sealed class DiplomaticProposalTests
             DiplomaticProposal proposal = DiplomaticProposal.FromFields(kind, gold, mana);
             Assert.Equal(new UnknownProposal(kind, gold, mana), proposal);
             Assert.Equal((kind, gold, mana), proposal.ToFields());
-            Assert.Same(proposal, proposal.WithOffer(5, 5));
+            Assert.Same(proposal, proposal.WithOffer(5, mana: 5));
         }
         Assert.Equal(new DeclareWar(), new DiplomaticAction(null) { Holder = EngineFixture.Engine }.Proposal);
     }
@@ -271,13 +271,13 @@ public sealed class DiplomaticProposalTests
     {
         foreach (byte kind in new byte[] { 0, 3, 4, 6, 7 })
         {
-            Assert.Equal((kind, 0, 0), DiplomaticProposal.FromFields(kind, 5, 6).ToFields());
-            Assert.Equal((kind, 0, 0), DiplomaticProposal.FromFields(kind, 0, 0).WithOffer(5, 6).ToFields());
+            Assert.Equal((kind, 0, 0), DiplomaticProposal.FromFields(kind, gold: 5, mana: 6).ToFields());
+            Assert.Equal((kind, 0, 0), DiplomaticProposal.FromFields(kind, gold: 0, mana: 0).WithOffer(5, mana: 6).ToFields());
         }
         foreach (byte kind in new byte[] { 1, 2, 5, 8, 9 })
         {
-            Assert.Equal((kind, 5, 6), DiplomaticProposal.FromFields(kind, 5, 6).ToFields());
-            Assert.Equal((kind, 7, 8), DiplomaticProposal.FromFields(kind, 0, 0).WithOffer(7, 8).ToFields());
+            Assert.Equal((kind, 5, 6), DiplomaticProposal.FromFields(kind, gold: 5, mana: 6).ToFields());
+            Assert.Equal((kind, 7, 8), DiplomaticProposal.FromFields(kind, gold: 0, mana: 0).WithOffer(7, mana: 8).ToFields());
         }
     }
 
@@ -286,12 +286,12 @@ public sealed class DiplomaticProposalTests
     {
         for (int kind = 0; kind <= 9; kind++)
         {
-            Assert.True(DiplomaticProposal.IsRegistered((byte)kind), $"kind {kind}");
+            Assert.True(DiplomaticProposal.IsRegistered((byte)kind), userMessage: $"kind {kind}");
             _ = Assert.Throws<InvalidOperationException>(() => DiplomaticProposal.Register((byte)kind, static (gold, mana) => new UnknownProposal(0, gold, mana)));
         }
         foreach (byte kind in new byte[] { 10, 11, 200, 255 })
         {
-            Assert.False(DiplomaticProposal.IsRegistered(kind), $"kind {kind}");
+            Assert.False(DiplomaticProposal.IsRegistered(kind), userMessage: $"kind {kind}");
         }
     }
 
@@ -302,10 +302,10 @@ public sealed class DiplomaticProposalTests
     {
         DiplomaticAction action = new(null) { Holder = EngineFixture.Engine, Source = 1, Target = 2, OtherPlayer = -1, Proposal = new OfferPeace() with { Message = ["Default text."] } };
         action.Proposal = action.Proposal with { Message = DiplomaticProposal.Lines("Peace?\r\nPlease.") };
-        action.Proposal = action.Proposal.WithOffer(120, 30);
-        Assert.Equal(new OfferPeace(120, 30) with { Message = ["Peace?", "Please."] }, action.Proposal);
+        action.Proposal = action.Proposal.WithOffer(120, mana: 30);
+        Assert.Equal(new OfferPeace(120, Mana: 30) with { Message = ["Peace?", "Please."] }, action.Proposal);
         DiplomaticAction message = new(null) { Holder = EngineFixture.Engine, Proposal = new SendMessage() };
-        message.Proposal = message.Proposal.WithOffer(120, 30);
+        message.Proposal = message.Proposal.WithOffer(120, mana: 30);
         Assert.Equal(new SendMessage(), message.Proposal);
         _ = action.Release();
         _ = message.Release();
@@ -348,26 +348,26 @@ public sealed class DiplomaticProposalTests
     // Diplomacy.pas:1265 GetText.
     private static string OldText(byte kind, DiplomaticActionReaction reaction, bool sourceSeated)
     {
-        static string Translate(string name) => AbilityRules.TranslateResourceString(EngineFixture.Engine, name);
-        static string FormatText(string format, string argument) => AbilityRules.Format(Translate(format), [argument]);
+        static string Translate(string name) => AbilityRules.TranslateResourceString(EngineFixture.Engine, S: name);
+        static string FormatText(string format, string argument) => AbilityRules.Format(Translate(format), arguments: [argument]);
         string Answer(string none, string subject, string accepted, string otherwise) => reaction switch
         {
             DiplomaticActionReaction.None => none,
-            DiplomaticActionReaction.Reject => FormatText(DiplomaticProposal.RejectedFormat, subject),
+            DiplomaticActionReaction.Reject => FormatText(DiplomaticProposal.RejectedFormat, argument: subject),
             DiplomaticActionReaction.Accept => accepted,
-            DiplomaticActionReaction.Ignore => FormatText(DiplomaticProposal.IgnoredFormat, subject),
+            DiplomaticActionReaction.Ignore => FormatText(DiplomaticProposal.IgnoredFormat, argument: subject),
             _ => otherwise,
         };
         return kind switch
         {
             0 => Translate(GameTables.WarText),
-            2 => Answer(Translate(ProposeAlliance.AllianceProposalText), Translate(ProposeAlliance.AllianceProposalText),
-                sourceSeated ? FormatText(DiplomaticProposal.AcceptedFormat, Translate(ProposeAlliance.AllianceProposalText)) : Translate(ProposeAlliance.MadeAllianceText), Translate(ProposeAlliance.AllianceProposalText)),
-            1 => Answer(Translate(OfferPeace.PeaceOfferText), Translate(OfferPeace.PeaceOfferText),
-                sourceSeated ? FormatText(DiplomaticProposal.AcceptedFormat, Translate(OfferPeace.PeaceOfferText)) : Translate(GameTables.PeaceText), ""),
-            5 => Answer(Translate(Player.MakeTribute.TributeText), Translate(Player.MakeTribute.TributeText), FormatText(DiplomaticProposal.AcceptedFormat, Translate(Player.MakeTribute.TributeText)), ""),
-            9 => Answer(Translate(Player.SuggestWarDeclaration.DeclareWarSuggestionText), Translate(GameText.DeclareWarText), FormatText(DiplomaticProposal.AcceptedFormat, Translate(GameText.DeclareWarText)), ""),
-            8 => Answer(Translate(Player.SuggestAllianceBreak.BreakAllianceSuggestionText), Translate(GameText.BreakAllianceText), FormatText(DiplomaticProposal.AcceptedFormat, Translate(GameText.BreakAllianceText)), ""),
+            2 => Answer(Translate(ProposeAlliance.AllianceProposalText), subject: Translate(ProposeAlliance.AllianceProposalText),
+                accepted: sourceSeated ? FormatText(DiplomaticProposal.AcceptedFormat, argument: Translate(ProposeAlliance.AllianceProposalText)) : Translate(ProposeAlliance.MadeAllianceText), otherwise: Translate(ProposeAlliance.AllianceProposalText)),
+            1 => Answer(Translate(OfferPeace.PeaceOfferText), subject: Translate(OfferPeace.PeaceOfferText),
+                accepted: sourceSeated ? FormatText(DiplomaticProposal.AcceptedFormat, argument: Translate(OfferPeace.PeaceOfferText)) : Translate(GameTables.PeaceText), otherwise: ""),
+            5 => Answer(Translate(Player.MakeTribute.TributeText), subject: Translate(Player.MakeTribute.TributeText), accepted: FormatText(DiplomaticProposal.AcceptedFormat, argument: Translate(Player.MakeTribute.TributeText)), otherwise: ""),
+            9 => Answer(Translate(Player.SuggestWarDeclaration.DeclareWarSuggestionText), subject: Translate(GameText.DeclareWarText), accepted: FormatText(DiplomaticProposal.AcceptedFormat, argument: Translate(GameText.DeclareWarText)), otherwise: ""),
+            8 => Answer(Translate(Player.SuggestAllianceBreak.BreakAllianceSuggestionText), subject: Translate(GameText.BreakAllianceText), accepted: FormatText(DiplomaticProposal.AcceptedFormat, argument: Translate(GameText.BreakAllianceText)), otherwise: ""),
             6 => Translate(BreakAlliance.AllianceBrokenText),
             3 or 7 => Translate(GameText.DiplomaticMessageText),
             4 => Translate(Player.ThreatenToAttack.ThreatText),
@@ -378,13 +378,13 @@ public sealed class DiplomaticProposalTests
     // Diplomacy.pas:505 GetName, for the kinds that name no other player.
     private static string OldName(byte kind) => kind switch
     {
-        0 => AbilityRules.TranslateResourceString(EngineFixture.Engine, GameText.DeclareWarText),
-        1 => AbilityRules.TranslateResourceString(EngineFixture.Engine, OfferPeace.OfferPeaceText),
-        2 => AbilityRules.TranslateResourceString(EngineFixture.Engine, ProposeAlliance.ProposeAllianceText),
-        3 => AbilityRules.TranslateResourceString(EngineFixture.Engine, SendMessage.SendMessageText),
-        4 => AbilityRules.TranslateResourceString(EngineFixture.Engine, Player.ThreatenToAttack.ThreatenToAttackText),
-        5 => AbilityRules.TranslateResourceString(EngineFixture.Engine, Player.MakeTribute.MakeTributeText),
-        6 => AbilityRules.TranslateResourceString(EngineFixture.Engine, GameText.BreakAllianceText),
+        0 => AbilityRules.TranslateResourceString(EngineFixture.Engine, S: GameText.DeclareWarText),
+        1 => AbilityRules.TranslateResourceString(EngineFixture.Engine, S: OfferPeace.OfferPeaceText),
+        2 => AbilityRules.TranslateResourceString(EngineFixture.Engine, S: ProposeAlliance.ProposeAllianceText),
+        3 => AbilityRules.TranslateResourceString(EngineFixture.Engine, S: SendMessage.SendMessageText),
+        4 => AbilityRules.TranslateResourceString(EngineFixture.Engine, S: Player.ThreatenToAttack.ThreatenToAttackText),
+        5 => AbilityRules.TranslateResourceString(EngineFixture.Engine, S: Player.MakeTribute.MakeTributeText),
+        6 => AbilityRules.TranslateResourceString(EngineFixture.Engine, S: GameText.BreakAllianceText),
         _ => "",
     };
 
@@ -396,85 +396,85 @@ public sealed class DiplomaticProposalTests
         void Get(int number, string first, string second, string? third = null)
         {
             textControl.RetrieveText(alignment + number, text);
-            text.Text = third is null ? AbilityRules.Format(text.Text, [first, second]) : AbilityRules.Format(text.Text, [first, second, third]);
+            text.Text = third is null ? AbilityRules.Format(text.Text, arguments: [first, second]) : AbilityRules.Format(text.Text, arguments: [first, second, third]);
         }
         switch (action)
         {
-            case 0: Get(relation == DiplomaticRelation.Unknown ? 151 : 100, sourceRace, targetRace); break;
+            case 0: Get(relation == DiplomaticRelation.Unknown ? 151 : 100, first: sourceRace, second: targetRace); break;
             case 1:
                 if (reaction == DiplomaticActionReaction.None)
                 {
-                    Get(relation == DiplomaticRelation.Unknown ? 103 : 154, sourceRace, targetRace);
+                    Get(relation == DiplomaticRelation.Unknown ? 103 : 154, first: sourceRace, second: targetRace);
                 }
                 else if (reaction == DiplomaticActionReaction.Accept)
                 {
-                    Get(127, targetRace, sourceRace);
+                    Get(127, first: targetRace, second: sourceRace);
                 }
                 else if (reaction == DiplomaticActionReaction.Reject)
                 {
-                    Get(130, targetRace, sourceRace);
+                    Get(130, first: targetRace, second: sourceRace);
                 }
 
                 break;
             case 2:
                 if (reaction == DiplomaticActionReaction.None)
                 {
-                    Get(106, sourceRace, targetRace);
+                    Get(106, first: sourceRace, second: targetRace);
                 }
                 else if (reaction == DiplomaticActionReaction.Accept)
                 {
-                    Get(121, targetRace, sourceRace);
+                    Get(121, first: targetRace, second: sourceRace);
                 }
                 else if (reaction == DiplomaticActionReaction.Reject)
                 {
-                    Get(124, targetRace, sourceRace);
+                    Get(124, first: targetRace, second: sourceRace);
                 }
 
                 break;
-            case 6: Get(109, sourceRace, targetRace); break;
-            case 4: Get(112, sourceRace, targetRace); break;
+            case 6: Get(109, first: sourceRace, second: targetRace); break;
+            case 4: Get(112, first: sourceRace, second: targetRace); break;
             case 5:
                 if (reaction == DiplomaticActionReaction.None)
                 {
-                    Get(118, sourceRace, targetRace);
+                    Get(118, first: sourceRace, second: targetRace);
                 }
                 else if (reaction == DiplomaticActionReaction.Accept)
                 {
-                    Get(133, targetRace, sourceRace);
+                    Get(133, first: targetRace, second: sourceRace);
                 }
                 else if (reaction == DiplomaticActionReaction.Reject)
                 {
-                    Get(136, targetRace, sourceRace);
+                    Get(136, first: targetRace, second: sourceRace);
                 }
 
                 break;
             case 8:
                 if (reaction == DiplomaticActionReaction.None)
                 {
-                    Get(160, sourceRace, targetRace, otherRace);
+                    Get(160, first: sourceRace, second: targetRace, third: otherRace);
                 }
                 else if (reaction == DiplomaticActionReaction.Accept)
                 {
-                    Get(139, targetRace, sourceRace, otherRace);
+                    Get(139, first: targetRace, second: sourceRace, third: otherRace);
                 }
                 else if (reaction == DiplomaticActionReaction.Reject)
                 {
-                    Get(142, targetRace, sourceRace, otherRace);
+                    Get(142, first: targetRace, second: sourceRace, third: otherRace);
                 }
 
                 break;
             case 9:
                 if (reaction == DiplomaticActionReaction.None)
                 {
-                    Get(157, sourceRace, targetRace, otherRace);
+                    Get(157, first: sourceRace, second: targetRace, third: otherRace);
                 }
                 else if (reaction == DiplomaticActionReaction.Accept)
                 {
-                    Get(145, targetRace, sourceRace, otherRace);
+                    Get(145, first: targetRace, second: sourceRace, third: otherRace);
                 }
                 else if (reaction == DiplomaticActionReaction.Reject)
                 {
-                    Get(148, targetRace, sourceRace, otherRace);
+                    Get(148, first: targetRace, second: sourceRace, third: otherRace);
                 }
 
                 break;
@@ -512,10 +512,10 @@ public sealed class DiplomaticProposalTests
             int checks = 0;
             foreach (byte kind in s_kinds)
             {
-                DiplomaticProposal proposal = DiplomaticProposal.FromFields(kind, 0, 0);
+                DiplomaticProposal proposal = DiplomaticProposal.FromFields(kind, gold: 0, mana: 0);
                 Assert.Equal(OldView(kind), proposal.View.Name);
                 Assert.Equal(OldIcon(kind), proposal.Icon);
-                Assert.Equal(kind == 7, proposal.SignedAsOtherPlayer);
+                Assert.Equal(kind == 7, actual: proposal.SignedAsOtherPlayer);
                 Assert.Equal(OldSample(kind), proposal.LoggedSample);
                 if (kind is <= 6 or 10)
                 {
@@ -524,9 +524,9 @@ public sealed class DiplomaticProposalTests
 
                 checks += 5;
                 string error = "";
-                Assert.Equal(kind != 5, proposal.CanSend(new DiplomaticAction(null) { Holder = EngineFixture.Engine, Proposal = proposal }, ref error));
-                Assert.Equal(kind == 5 ? AbilityRules.TranslateResourceString(EngineFixture.Engine, Player.MakeTribute.NoGoldManaSpecifiedText) : "", error);
-                Assert.True(proposal.WithOffer(0, 1).CanSend(new DiplomaticAction(null) { Holder = EngineFixture.Engine }, ref error));
+                Assert.Equal(kind != 5, actual: proposal.CanSend(new DiplomaticAction(null) { Holder = EngineFixture.Engine, Proposal = proposal }, errorText: ref error));
+                Assert.Equal(kind == 5 ? AbilityRules.TranslateResourceString(EngineFixture.Engine, S: Player.MakeTribute.NoGoldManaSpecifiedText) : "", error);
+                Assert.True(proposal.WithOffer(0, mana: 1).CanSend(new DiplomaticAction(null) { Holder = EngineFixture.Engine }, errorText: ref error));
                 checks += 2;
                 foreach (byte reaction in new byte[] { 0, 1, 2, 3, 4 })
                 {
@@ -534,8 +534,8 @@ public sealed class DiplomaticProposalTests
                     {
                         DiplomaticAction action = new(null) { Holder = EngineFixture.Engine, Source = source, Target = 2, Reaction = (DiplomaticActionReaction)reaction, Proposal = proposal };
                         string where = $"{proposal} reaction {reaction} source {source}";
-                        Assert.True(OldText(kind, (DiplomaticActionReaction)reaction, source == StrategicMap.Current.SeatedPlayer) == proposal.LogText(action), where);
-                        Assert.True(OldMiddleIcon(kind, reaction) == proposal.MiddleIcon(action), where);
+                        Assert.True(OldText(kind, reaction: (DiplomaticActionReaction)reaction, sourceSeated: source == StrategicMap.Current.SeatedPlayer) == proposal.LogText(action), userMessage: where);
+                        Assert.True(OldMiddleIcon(kind, reaction) == proposal.MiddleIcon(action), userMessage: where);
                         checks += 2;
                     }
                     foreach (DiplomaticRelation relation in new[] { DiplomaticRelation.Peace, DiplomaticRelation.War, DiplomaticRelation.Alliance, DiplomaticRelation.Unknown })
@@ -544,9 +544,9 @@ public sealed class DiplomaticProposalTests
                         {
                             DelphiStringList expected = new();
                             DelphiStringList actual = new();
-                            OldDefaultMessage(control, alignment, "Elves", "Orcs", "Dwarves", kind, (DiplomaticActionReaction)reaction, relation, expected);
-                            proposal.DefaultMessage(new DiplomaticMessageText(control, alignment, "Elves", "Orcs", "Dwarves", actual), (DiplomaticActionReaction)reaction, relation);
-                            Assert.True(expected.Text == actual.Text, $"{proposal} reaction {reaction} relation {relation} alignment {alignment}");
+                            OldDefaultMessage(control, alignment, sourceRace: "Elves", targetRace: "Orcs", otherRace: "Dwarves", action: kind, reaction: (DiplomaticActionReaction)reaction, relation, text: expected);
+                            proposal.DefaultMessage(new DiplomaticMessageText(control, alignment, sourceRace: "Elves", targetRace: "Orcs", otherRace: "Dwarves", text: actual), reaction: (DiplomaticActionReaction)reaction, relation);
+                            Assert.True(expected.Text == actual.Text, userMessage: $"{proposal} reaction {reaction} relation {relation} alignment {alignment}");
                             checks++;
                         }
                     }

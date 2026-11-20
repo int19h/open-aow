@@ -37,26 +37,26 @@ public partial class WaterHex : LowerIsometricHex
         y -= ySurface;
         CustomImageLibrary library = ((MapObject)this).Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
         int phase = FrameFixtureInputs.WaterBasePhase(Owner);
-        library[((phase + field.HexX + (field.HexY * 2) + (Sides >> 6)) & 15) + 140].Show(x, y, surface);
+        library[((phase + field.HexX + (field.HexY * 2) + (Sides >> 6)) & 15) + 140].Show(x, y, lockedSurface: surface);
         x -= 6;
         y -= 9;
         if ((Sides & 1) != 0)
         {
-            library[36].Show(x, y, surface);
+            library[36].Show(x, y, lockedSurface: surface);
         }
 
         if ((Sides & 2) != 0)
         {
-            library[37].Show(x, y, surface);
+            library[37].Show(x, y, lockedSurface: surface);
         }
 
         if ((Sides & 32) != 0)
         {
-            library[35].Show(x, y, surface);
+            library[35].Show(x, y, lockedSurface: surface);
         }
     }
 
-    public override void UpdateTransitions() => UpdateTransitionCore(typeof(LowerIsometricHex), true,
+    public override void UpdateTransitions() => UpdateTransitionCore(typeof(LowerIsometricHex), water: true,
         (hexNumber, terrain) => ShoreTerrain[hexNumber - 1] = (byte)terrain);
 
     public new class Resource : LowerIsometricHex.Resource
@@ -70,7 +70,7 @@ public partial class WaterHex : LowerIsometricHex
         public override int ResourceUserClassId() => 132925;
 
         // AoWHex.pas:455
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_waterHexText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_waterHexText);
 
         private static readonly string s_waterHexText = "Water/Ice Hexagon";
 

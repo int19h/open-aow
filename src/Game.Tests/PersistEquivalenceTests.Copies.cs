@@ -72,7 +72,7 @@ public sealed partial class PersistEquivalenceTests
             Hero copy = (Hero)hero.Copy(EngineFixture.Engine);
             copy.GroupId = 8;
             Assert.True(hero.CompatibleHero(copy));
-            Assert.Equal(StreamCompare(hero, copy), hero.Compare(copy, engine: EngineFixture.Engine));
+            Assert.Equal(StreamCompare(hero, copy), actual: hero.Compare(copy, engine: EngineFixture.Engine));
             Assert.Equal(3, hero.GroupId);
             Assert.Equal(8, copy.GroupId);
             copy.HeroName = "Changed";
@@ -133,11 +133,11 @@ public sealed partial class PersistEquivalenceTests
                 CombatLogbook logbook = new(null) { Holder = EngineFixture.Engine };
                 logbook.SetInitialData(data);
                 CombatData expected = new(null) { Holder = EngineFixture.Engine };
-                StreamAssign(expected, data);
+                StreamAssign(expected, source: data);
                 EqualBytes(Image(expected), actual: Image(logbook.InitialData), label: "CombatLogbook initial data");
                 CombatData other = new(null) { Holder = EngineFixture.Engine, Location = new MapCoordinate(9, 0, 0), Header = "Other" };
                 SameCopies(data, other);
-                SameCopies(logbook, new CombatLogbook(null) { Holder = EngineFixture.Engine });
+                SameCopies(logbook, other: new CombatLogbook(null) { Holder = EngineFixture.Engine });
                 Discard(other);
                 Discard(expected);
                 Discard(logbook);
@@ -193,7 +193,7 @@ public sealed partial class PersistEquivalenceTests
             viaStream.SetNumberOfPlayers(source.NumberOfPlayers);
             for (int index = 0; index < viaStream.Count; index++)
             {
-                StreamAssign(viaStream.GetPlayers(index), source.GetPlayers(index));
+                StreamAssign(viaStream.GetPlayers(index), source: source.GetPlayers(index));
             }
 
             for (int index = 0; index < viaStream.Count; index++)
@@ -201,7 +201,7 @@ public sealed partial class PersistEquivalenceTests
                 EqualBytes(Image(viaStream.GetPlayers(index)), actual: Image(viaTree.GetPlayers(index)), label: $"Player {index}");
             }
 
-            SameCopies(source.GetPlayers(1), source.GetPlayers(2));
+            SameCopies(source.GetPlayers(1), other: source.GetPlayers(2));
             Discard(viaStream);
             Discard(viaTree);
             Discard(source);
@@ -256,16 +256,16 @@ public sealed partial class PersistEquivalenceTests
         WithUnitResource(resource =>
         {
             AbilityControl classes = new(null) { Holder = EngineFixture.Engine };
-            SameObjectImage(classes, "AbilityControl", classTable: "game");
+            SameObjectImage(classes, className: "AbilityControl", classTable: "game");
             UnitResourceList resources = new(null) { Holder = EngineFixture.Engine };
             _ = new UnitResource(resources) { Race = 3, Attack = 5, ObtainValue = 50 };
-            SameObjectImage(resources, "UnitResourceList", classTable: "game");
+            SameObjectImage(resources, className: "UnitResourceList", classTable: "game");
             HeroLibrary library = new(null) { Holder = EngineFixture.Engine };
             new Hero(null) { Holder = EngineFixture.Engine, HeroName = "Library", Player = 1 }.SetOwner(library);
-            SameObjectImage(library, "HeroLibrary", classTable: "game");
+            SameObjectImage(library, className: "HeroLibrary", classTable: "game");
             EmailGameList games = new(null) { Holder = EngineFixture.Engine };
             new EmailGame(null) { Holder = EngineFixture.Engine, UniqueLocalId = 2, UniqueId = 17 }.SetOwner(games);
-            SameObjectImage(games, "EmailGameList", classTable: "game");
+            SameObjectImage(games, className: "EmailGameList", classTable: "game");
             Discard(games);
             Discard(library);
             Discard(resources);
@@ -376,7 +376,7 @@ public sealed partial class PersistEquivalenceTests
                             DelphiRandom.RandSeed = seed;
                             EngineFixture.Engine.ReadObjectImage(treeImage, objectValue: viaStream, progress: null, classTable: table);
                             EqualBytes(treeImage, actual: EngineFixture.Engine.WriteObjectImage(viaStream, progress: null, classTable: table), label: $"{relative} reload");
-                            Assert.True(treeImage.Length > 64, $"{relative} loads {treeImage.Length} bytes");
+                            Assert.True(treeImage.Length > 64, userMessage: $"{relative} loads {treeImage.Length} bytes");
                             continue;
                         }
 
@@ -385,7 +385,7 @@ public sealed partial class PersistEquivalenceTests
                         int streamSeed = DelphiRandom.RandSeed;
                         DelphiRandom.RandSeed = seed;
                         EngineFixture.Engine.ReadObjectImage(image, objectValue: viaTree, progress: null, classTable: table);
-                        Assert.True(streamSeed == DelphiRandom.RandSeed, $"{relative} ends on seed {DelphiRandom.RandSeed}, the stream load on {streamSeed}");
+                        Assert.True(streamSeed == DelphiRandom.RandSeed, userMessage: $"{relative} ends on seed {DelphiRandom.RandSeed}, the stream load on {streamSeed}");
                         byte[] written = WrittenImage(viaStream);
                         EqualBytes(written, actual: WrittenImage(viaTree), label: $"{relative} load");
                         EqualBytes(written, actual: EngineFixture.Engine.WriteObjectImage(viaTree, progress: null, classTable: table), label: $"{relative} write");
@@ -393,7 +393,7 @@ public sealed partial class PersistEquivalenceTests
                         // abilities and spells, and a blank control has none.
                         if (rootClass is not ("AbilityControl" or "SpellControl"))
                         {
-                            Assert.True(written.Length > 64, $"{relative} loads {written.Length} bytes");
+                            Assert.True(written.Length > 64, userMessage: $"{relative} loads {written.Length} bytes");
                         }
                     }
                     finally
@@ -438,8 +438,8 @@ public sealed partial class PersistEquivalenceTests
                 Discard(source.Copy(EngineFixture.Engine));
                 return;
             }
-            SameCopies(source, target);
-            SameCopies(blank, target);
+            SameCopies(source, other: target);
+            SameCopies(blank, other: target);
             SameObjectImage(classTable: classValue.Engines.Count == 0 || classValue.Engines.Contains("game") ? "game" : classValue.Engines[0], source: source, className: className);
         }
         finally
@@ -485,9 +485,9 @@ public sealed partial class PersistEquivalenceTests
 
             Assert.Equal(streamSeed, treeSeed);
             SameImages(viaStream, viaTree, label: $"{label} copy");
-            Assert.Equal(StreamCompare(source, viaTree), source.Compare(viaTree, engine: EngineFixture.Engine));
-            Assert.Equal(StreamCompare(source, other), source.Compare(other, engine: EngineFixture.Engine));
-            Assert.Equal(StreamCompare(other, source), other.Compare(source, engine: EngineFixture.Engine));
+            Assert.Equal(StreamCompare(source, viaTree), actual: source.Compare(viaTree, engine: EngineFixture.Engine));
+            Assert.Equal(StreamCompare(source, other), actual: source.Compare(other, engine: EngineFixture.Engine));
+            Assert.Equal(StreamCompare(other, source), actual: other.Compare(source, engine: EngineFixture.Engine));
             if (AssignOverridden(source.GetType()))
             {
                 return;
@@ -559,7 +559,7 @@ public sealed partial class PersistEquivalenceTests
         try
         {
             DelphiRandom.RandSeed = seed;
-            ReadWritten(viaStream, expected);
+            ReadWritten(viaStream, image: expected);
             int streamSeed = DelphiRandom.RandSeed;
             DelphiRandom.RandSeed = seed;
             EngineFixture.Engine.ReadObjectImage(expected, objectValue: viaTree, progress: null, classTable: classTable);
@@ -579,7 +579,7 @@ public sealed partial class PersistEquivalenceTests
     // ObservableNode are part of the stream assignment below.
     private static bool AssignOverridden(Type type)
     {
-        Type declaring = type.GetMethod(nameof(EngineObject.Assign), [typeof(EngineObject), typeof(GameEngine)]).DeclaringType;
+        Type declaring = type.GetMethod(nameof(EngineObject.Assign), types: [typeof(EngineObject), typeof(GameEngine)]).DeclaringType;
         return declaring != typeof(EngineObject) && declaring != typeof(CustomNode) && declaring != typeof(ObservableNode);
     }
 
@@ -600,7 +600,7 @@ public sealed partial class PersistEquivalenceTests
     {
         using ObservableNode.UpdateBatch batch = target is ObservableNode node ? node.BeginUpdate() : default;
         (target as CustomNode)?.Clear();
-        ReadWritten(target, WrittenImage(source));
+        ReadWritten(target, image: WrittenImage(source));
     }
 
     // The stream comparison PE-3-h replaced (Engine.pas 2511): the same class and equal images.

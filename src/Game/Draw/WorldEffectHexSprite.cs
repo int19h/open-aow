@@ -67,7 +67,7 @@ public class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
             while (sequence is not null)
             {
                 // { Original uses the instance address as the animation phase. }
-                frame = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, 3));
+                frame = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, divisor: 3));
                 if (frame != -1)
                 {
                     if (shadow)
@@ -77,7 +77,7 @@ public class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
                             Point3D point = Path[Frame];
                             Point3D fPathItem = Path[Frame];
                             Point3D xyz = Path[Frame];
-                            sequence.ImageLibrary[frame].ShowBlended(xyz.X + (lockedSurfaceValue.Width * X / 100) + sequence.OffsetX, point.Y + (lockedSurfaceValue.Height * Y / 100) + sequence.OffsetY - fPathItem.Z, lockedSurfaceValue, GraphicsState.ShadowBlendTable.LookupTables[brightness]);
+                            sequence.ImageLibrary[frame].ShowBlended(xyz.X + (lockedSurfaceValue.Width * X / 100) + sequence.OffsetX, point.Y + (lockedSurfaceValue.Height * Y / 100) + sequence.OffsetY - fPathItem.Z, lockedSurface: lockedSurfaceValue, table: GraphicsState.ShadowBlendTable.LookupTables[brightness]);
                         }
                     }
                     else
@@ -89,7 +89,7 @@ public class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
                                 Point3D item = Path[Frame];
                                 Point3D fPathItem = Path[Frame];
                                 Point3D item2 = Path[Frame];
-                                sequence.ImageLibrary[frame].ShowBlended(item2.X + (lockedSurfaceValue.Width * X / 100) + sequence.OffsetX, item.Y + (lockedSurfaceValue.Height * Y / 100) + sequence.OffsetY - fPathItem.Z, lockedSurfaceValue, GraphicsState.IntensityBlendTable.LookupTables[100 - brightness]);
+                                sequence.ImageLibrary[frame].ShowBlended(item2.X + (lockedSurfaceValue.Width * X / 100) + sequence.OffsetX, item.Y + (lockedSurfaceValue.Height * Y / 100) + sequence.OffsetY - fPathItem.Z, lockedSurface: lockedSurfaceValue, table: GraphicsState.IntensityBlendTable.LookupTables[100 - brightness]);
                             }
                         }
                         else
@@ -99,7 +99,7 @@ public class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
                                 Point3D item = Path[Frame];
                                 Point3D fPathItem = Path[Frame];
                                 Point3D item2 = Path[Frame];
-                                sequence.ImageLibrary[frame].ShowBlended(item2.X + (lockedSurfaceValue.Width * X / 100) + sequence.OffsetX, item.Y + (lockedSurfaceValue.Height * Y / 100) + sequence.OffsetY - fPathItem.Z, lockedSurfaceValue, GraphicsState.IntensityBlendTable.LookupTables[brightness]);
+                                sequence.ImageLibrary[frame].ShowBlended(item2.X + (lockedSurfaceValue.Width * X / 100) + sequence.OffsetX, item.Y + (lockedSurfaceValue.Height * Y / 100) + sequence.OffsetY - fPathItem.Z, lockedSurface: lockedSurfaceValue, table: GraphicsState.IntensityBlendTable.LookupTables[brightness]);
                             }
                         }
                     }
@@ -130,7 +130,7 @@ public class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
 
             while (sequence is not null)
             {
-                frame = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, 3));
+                frame = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, divisor: 3));
                 if (frame != -1)
                 {
                     if (shadow)
@@ -140,7 +140,7 @@ public class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
                             Point3D item = Path[Frame];
                             Point3D fPathItem = Path[Frame];
                             Point3D item2 = Path[Frame];
-                            sequence.ImageLibrary[frame].ShowBlended(item2.X + sequence.OffsetX - pixelXSurface, item.Y + sequence.OffsetY - fPathItem.Z - pixelYSurface, lockedSurfaceValue, GraphicsState.ShadowBlendTable.LookupTables[brightness]);
+                            sequence.ImageLibrary[frame].ShowBlended(item2.X + sequence.OffsetX - pixelXSurface, item.Y + sequence.OffsetY - fPathItem.Z - pixelYSurface, lockedSurface: lockedSurfaceValue, table: GraphicsState.ShadowBlendTable.LookupTables[brightness]);
                         }
                     }
                     else
@@ -150,7 +150,7 @@ public class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
                             Point3D item = Path[Frame];
                             Point3D fPathItem = Path[Frame];
                             Point3D item2 = Path[Frame];
-                            sequence.ImageLibrary[frame].ShowBlended(item2.X + sequence.OffsetX - pixelXSurface, item.Y + sequence.OffsetY - fPathItem.Z - pixelYSurface, lockedSurfaceValue, GraphicsState.IntensityBlendTable.LookupTables[brightness]);
+                            sequence.ImageLibrary[frame].ShowBlended(item2.X + sequence.OffsetX - pixelXSurface, item.Y + sequence.OffsetY - fPathItem.Z - pixelYSurface, lockedSurface: lockedSurfaceValue, table: GraphicsState.IntensityBlendTable.LookupTables[brightness]);
                         }
                     }
                 }
@@ -167,11 +167,11 @@ public class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
                 {
                     case WorldEffectType.EMParticle:
                         sequence = GamePack.Current.SpellControl[64].CastImages.GetImageSequence(0);
-                        ShowGlobal(false, false);
+                        ShowGlobal(false, inverse: false);
                         break;
                     case WorldEffectType.WMParticle:
                         sequence = GamePack.Current.SpellControl[45].CastImages.GetImageSequence(0);
-                        ShowGlobal(false, false);
+                        ShowGlobal(false, inverse: false);
                         break;
                     case WorldEffectType.WMLParticle:
                         if (StrategicMap.Current.ViewMapLevel == Layer)
@@ -183,19 +183,19 @@ public class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
                         break;
                     case WorldEffectType.HatredParticle:
                         sequence = GamePack.Current.SpellControl[46].CastImages.GetImageSequence(0);
-                        ShowGlobal(true, false);
+                        ShowGlobal(true, inverse: false);
                         break;
                     case WorldEffectType.TranqParticle:
                         sequence = GamePack.Current.SpellControl[47].CastImages.GetImageSequence(0);
-                        ShowGlobal(false, false);
+                        ShowGlobal(false, inverse: false);
                         break;
                     case WorldEffectType.SWParticle:
                         sequence = GamePack.Current.SpellControl[65].CastImages.GetImageSequence(1);
-                        ShowGlobal(false, true);
+                        ShowGlobal(false, inverse: true);
                         break;
                     case WorldEffectType.SWBeamParticle:
                         sequence = GamePack.Current.SpellControl[65].CastImages.GetImageSequence(1);
-                        ShowGlobal(false, false);
+                        ShowGlobal(false, inverse: false);
                         break;
                     case WorldEffectType.Hatred:
                     case WorldEffectType.Crusade:
@@ -210,7 +210,7 @@ public class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
         }
         catch
         {
-            _ = MessageBox(0, "Error during Show", $"Error - WorldfxHS {IntToStr((int)EffectType)}", 0);
+            _ = MessageBox(0, text: "Error during Show", caption: $"Error - WorldfxHS {IntToStr((int)EffectType)}", flags: 0);
         }
     }
 
@@ -265,7 +265,7 @@ public class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
                                     int random2 = Random(12);
                                     double mathPI = Math.PI;
                                     Point3DList path = effect.Path;
-                                    EffectPaths.MakeLinePath(0, 0, Round((double)Math.Cos((double)((random2 + ((i * 12) + (Frame * 4))) * mathPI) / 180) * (radiusX + Random(10))), Round((double)sin * (radiusY + random)) / 2, 75, path);
+                                    EffectPaths.MakeLinePath(0, 0, Round((double)Math.Cos((double)((random2 + ((i * 12) + (Frame * 4))) * mathPI) / 180) * (radiusX + Random(10))), Round((double)sin * (radiusY + random)) / 2, steps: 75, list: path);
                                     effect.Path = path;
                                 }
                             }
@@ -299,7 +299,7 @@ public class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
                                     int random2 = Random(12);
                                     double mathPI = Math.PI;
                                     Point3DList path2 = effect.Path;
-                                    EffectPaths.MakeLinePath(0, 0, Round((double)Math.Cos((double)((random2 + ((i * 12) + (Frame * 4))) * mathPI) / 180) * (radiusX + Random(10))), Round((double)sin * (radiusY + random)) / 2, 75, path2);
+                                    EffectPaths.MakeLinePath(0, 0, Round((double)Math.Cos((double)((random2 + ((i * 12) + (Frame * 4))) * mathPI) / 180) * (radiusX + Random(10))), Round((double)sin * (radiusY + random)) / 2, steps: 75, list: path2);
                                     effect.Path = path2;
                                 }
                             }
@@ -333,7 +333,7 @@ public class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
                                     double cos = Math.Cos((double)(((i * 6) + (Frame * 4)) * mathPI) / 180);
                                     int random2 = Random(10);
                                     Point3DList path3 = effect.Path;
-                                    EffectPaths.MakeLinePath(X, Y, X + Round((double)cos * (radiusX + random2)), Y + (Round((double)sin * (radiusY + random)) / 2), 50, path3);
+                                    EffectPaths.MakeLinePath(X, Y, X + Round((double)cos * (radiusX + random2)), Y + (Round((double)sin * (radiusY + random)) / 2), steps: 50, list: path3);
                                     effect.Path = path3;
                                 }
                             }
@@ -365,7 +365,7 @@ public class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
                                     vz = (float)((Random(5) + 5) * 0.1);
                                     z = 0;
                                     Point3DList path4 = effect.Path;
-                                    EffectPaths.MakeArcPath(0, 0, Random(360), ref z, speed, ref vz, gravity, path4);
+                                    EffectPaths.MakeArcPath(0, 0, angle: Random(360), ref z, speed, ref vz, gravity, list: path4);
                                     effect.Path = path4;
                                 }
                             }
@@ -392,7 +392,7 @@ public class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
                                         vz = (float)((Random(50) + (Frame / 2)) * 0.1);
                                         z = 0;
                                         Point3DList path5 = effect.Path;
-                                        EffectPaths.MakeArcPath(0, 0, i * 360 / count2, ref z, speed, ref vz, gravity, path5);
+                                        EffectPaths.MakeArcPath(0, 0, angle: i * 360 / count2, ref z, speed, ref vz, gravity, list: path5);
                                         effect.Path = path5;
                                     }
                                 }
@@ -425,7 +425,7 @@ public class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
                                     int random = Random(10);
                                     double mathPI = Math.PI;
                                     Point3DList path6 = effect.Path;
-                                    EffectPaths.MakeArcPathXY((short)Round((double)Math.Cos((double)(((i * 12) + (Frame * 5)) * mathPI) / 180) * (radiusX + Random(10))), (short)(Round((double)sin * (radiusY + random)) / 2), 0, -150, 100, 10, path6);
+                                    EffectPaths.MakeArcPathXY((short)Round((double)Math.Cos((double)(((i * 12) + (Frame * 5)) * mathPI) / 180) * (radiusX + Random(10))), (short)(Round((double)sin * (radiusY + random)) / 2), 0, -150, stepSize: 100, height: 10, list: path6);
                                     effect.Path = path6;
                                     for (int j = 0, last = effect.Path.Count - 1; j <= last; j++)
                                     {
@@ -458,7 +458,7 @@ public class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
                                     vz = (float)((Random(5) + 5) * 0.1);
                                     z = 0;
                                     Point3DList path8 = effect.Path;
-                                    EffectPaths.MakeArcPath(0, -150, Random(360), ref z, speed, ref vz, gravity, path8);
+                                    EffectPaths.MakeArcPath(0, -150, angle: Random(360), ref z, speed, ref vz, gravity, list: path8);
                                     effect.Path = path8;
                                 }
                             }
@@ -486,7 +486,7 @@ public class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
                                     double mathPI = Math.PI;
                                     effect.Y = (Round((double)Math.Sin((double)(((i * 12) + radiusX) * mathPI) / 180) * Frame) / 2) + 50;
                                     Point3DList path9 = effect.Path;
-                                    EffectPaths.MakeLinePath(0, 0, 0, (Frame * 3) - 200, 30, path9);
+                                    EffectPaths.MakeLinePath(0, 0, 0, (Frame * 3) - 200, steps: 30, list: path9);
                                     effect.Path = path9;
                                 }
                             }
@@ -526,7 +526,7 @@ public class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
         }
         catch
         {
-            _ = MessageBox(0, $"Error - WorldfxHS {IntToStr((int)EffectType)}", "Error during NewFrame", 0);
+            _ = MessageBox(0, text: $"Error - WorldfxHS {IntToStr((int)EffectType)}", caption: "Error during NewFrame", flags: 0);
         }
     }
 }

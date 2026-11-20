@@ -31,25 +31,25 @@ public class TranslateTextStream(GameEngine engine) : TranslateVisit(engine)
             lines.Clear();
             do
             {
-                int endOfLine = Pos("<eol>", text);
-                int lineFeed = Pos("\n", text);
+                int endOfLine = Pos("<eol>", haystack: text);
+                int lineFeed = Pos("\n", haystack: text);
                 if ((endOfLine < lineFeed || lineFeed == 0) && endOfLine != 0)
                 {
-                    _ = lines.Add(Copy(text, 1, endOfLine - 1));
-                    text = Copy(text, endOfLine + 5, text.Length - endOfLine - 4);
+                    _ = lines.Add(Copy(text, index: 1, count: endOfLine - 1));
+                    text = Copy(text, index: endOfLine + 5, count: text.Length - endOfLine - 4);
                 }
                 else
                 {
                     if ((lineFeed < endOfLine || endOfLine == 0) && lineFeed != 0)
                     {
-                        _ = lines.Add(Copy(text, 1, lineFeed - 1));
+                        _ = lines.Add(Copy(text, index: 1, count: lineFeed - 1));
                         // { Original reverses the length comparison before reading the following CR. }
                         if (text.Length < lineFeed + 1 && text[lineFeed] == 13)
                         {
                             lineFeed += 1;
                         }
 
-                        text = Copy(text, lineFeed + 1, text.Length - lineFeed);
+                        text = Copy(text, index: lineFeed + 1, count: text.Length - lineFeed);
                     }
                     else
                     {

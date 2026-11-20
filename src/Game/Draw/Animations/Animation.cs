@@ -132,13 +132,13 @@ public class Animation(CustomNode owner) : HexSprite(owner)
     }
 
     // Animation.pas:383
-    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface) => OnShow?.Invoke(this, pixelXSurface, pixelYSurface, lockedSurface);
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface) => OnShow?.Invoke(this, pixelXSurface, pixelYSurface, SurfaceDesc: lockedSurface);
 
     // Animation.pas:349
     public override bool Place(MapContainer map, int pixelX, int pixelY, int hexLevel)
     {
-        HexGeometry.PixelToHex(pixelX, pixelY, out int x, out int y);
-        return PlaceHex(map, (sbyte)x, (sbyte)y, (sbyte)hexLevel);
+        HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int x, out int y);
+        return PlaceHex(map, (sbyte)x, (sbyte)y, L: (sbyte)hexLevel);
     }
 
     // Animation.pas:372
@@ -207,7 +207,7 @@ public class Animation(CustomNode owner) : HexSprite(owner)
         if (!_state.Contains(StateElement.Visible))
         {
             _state += Set<StateElement>.Of(StateElement.Visible);
-            _ = visibilityList.AddSortChild(this, GetShowPriority());
+            _ = visibilityList.AddSortChild(this, sortValue: GetShowPriority());
         }
     }
 
@@ -226,7 +226,7 @@ public class Animation(CustomNode owner) : HexSprite(owner)
     }
 
     // Animation.pas:286
-    public virtual bool PlaceTokenEvent(AnimationTokenEvent eventValue, TokenExecutor executor) => PlaceHex(AnimationMap.MapContainer, Location.X, Location.Y, Location.MapLevel);
+    public virtual bool PlaceTokenEvent(AnimationTokenEvent eventValue, TokenExecutor executor) => PlaceHex(AnimationMap.MapContainer, Location.X, Location.Y, L: Location.MapLevel);
 
     // Animation.pas:291
     public virtual bool RemoveTokenEvent(AnimationTokenEvent eventValue, TokenExecutor executor)

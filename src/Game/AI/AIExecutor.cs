@@ -144,14 +144,14 @@ public partial class AIExecutor(CustomNode owner) : EngineObject(owner)
     // AI.pas:659
     public void Unlock()
     {
-        Assert(LockCount != 0, "", "AI.pas", 931);
+        Assert(LockCount != 0, message: "", file: "AI.pas", line: 931);
         LockCount -= 1;
     }
 
     // AI.pas:935
     public void CaptureTokenCycles(int cycles)
     {
-        Assert(!Status.Contains(AIExecutorStatusElement.TokenLocked), "", "AI.pas", 937);
+        Assert(!Status.Contains(AIExecutorStatusElement.TokenLocked), message: "", file: "AI.pas", line: 937);
         Status += Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.TokenLocked);
         StrategicMap.Current.TokenManager.TokenExecutor.Lock();
         _tokenCycle = 0;
@@ -161,7 +161,7 @@ public partial class AIExecutor(CustomNode owner) : EngineObject(owner)
     // AI.pas:944
     public void TokenCyclesCaptured()
     {
-        Assert(Status.Contains(AIExecutorStatusElement.TokenLocked), "", "AI.pas", 947);
+        Assert(Status.Contains(AIExecutorStatusElement.TokenLocked), message: "", file: "AI.pas", line: 947);
         Status -= Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.TokenLocked);
         StrategicMap.Current.TokenManager.TokenExecutor.Unlock();
     }

@@ -24,7 +24,7 @@ public partial class TacticalBattleUnitHexSprite
         {
             if (!(Direction < UnitGraphicsResource.Sequences.Count))
             {
-                OriginalUnitAssert("Invalid Unit Index", "D:\\AoWDev\\AoWTC\\inc\\TCUnitHS.pas", 4262);
+                OriginalUnitAssert("Invalid Unit Index", fileName: "D:\\AoWDev\\AoWTC\\inc\\TCUnitHS.pas", lineNumber: 4262);
             }
 
             HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
@@ -58,7 +58,7 @@ public partial class TacticalBattleUnitHexSprite
                 {
                     sbyte yhx = HexY;
                     int hexY = default;
-                    HexGeometry.CenterHexNumberToHex(HexX, yhx, Direction, ref hexX, ref hexY);
+                    HexGeometry.CenterHexNumberToHex(HexX, yhx, hexNumber: Direction, ref hexX, ref hexY);
                     CityWall nextWall = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<CityWall>(2229508) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229510) as CityWall;
                     int moveSteps = GetMoveSteps();
                     if (MoveStep < moveSteps / 2)
@@ -120,7 +120,7 @@ public partial class TacticalBattleUnitHexSprite
 
                     while (sequence is not null)
                     {
-                        index = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        index = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
                         if (index != -1)
                         {
                             sequence.ImageLibrary[index].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY + flyingOffset, lockedSurface);
@@ -174,7 +174,7 @@ public partial class TacticalBattleUnitHexSprite
                     {
                         while (sequence is not null)
                         {
-                            index = sequence.GetFrameIndex(StrategicMap.Current.Frame + ActionFrame, FrameFixtureInputs.AnimationOffset(this));
+                            index = sequence.GetFrameIndex(StrategicMap.Current.Frame + ActionFrame, offset: FrameFixtureInputs.AnimationOffset(this));
                             if (index != -1)
                             {
                                 sequence.ImageLibrary[index].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY + flyingOffset, lockedSurface);
@@ -233,7 +233,7 @@ public partial class TacticalBattleUnitHexSprite
                     sequence = GamePack.Current.AbilityControl[StatusAbilities[hexX]].ImageSequences.ImageSequences[0];
                     while (sequence is not null)
                     {
-                        index = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        index = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
                         if (index != -1)
                         {
                             sequence.ImageLibrary[index].Show(pixelXSurface + sequence.OffsetX + 15, pixelYSurface + sequence.OffsetY + 10 + flyingOffset, lockedSurface);
@@ -283,12 +283,12 @@ public partial class TacticalBattleUnitHexSprite
                     lockedSurfaceLocal.ClipRectangle = clipRectangle;
                 }
 
-                GamePack.Current.CombatImages[1].ShowClipped(pixelXSurface - 4, pixelYSurface - 4, lockedSurfaceLocal);
+                GamePack.Current.CombatImages[1].ShowClipped(pixelXSurface - 4, pixelYSurface - 4, lockedSurface: lockedSurfaceLocal);
             }
         }
         catch
         {
-            _ = MessageBox(0, "Error during ShowUnit", NullTerminatedText($"Error - {Unit.Troop.GetName()}"), 0);
+            _ = MessageBox(0, text: "Error during ShowUnit", caption: NullTerminatedText($"Error - {Unit.Troop.GetName()}"), flags: 0);
         }
     }
 
@@ -312,7 +312,7 @@ public partial class TacticalBattleUnitHexSprite
         ImageSequence sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 23];
         while (sequence is not null)
         {
-            int index = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+            int index = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
             if (index != -1)
             {
                 sequence.ImageLibrary[index].Show(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
@@ -486,7 +486,7 @@ public partial class TacticalBattleUnitHexSprite
                     sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 5];
                     if (sequence is not null && sequence.SpeedCount == sequence.SequenceSpeed && CombatMap.Current.PlaySounds)
                     {
-                        int frameIndex = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        int frameIndex = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
                         _ = UnitGraphicsResource.SfxLibraries[1].Play(frameIndex % 100);
                     }
                 }

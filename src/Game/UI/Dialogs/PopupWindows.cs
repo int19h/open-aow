@@ -71,7 +71,7 @@ public partial class PopupWindows(UIContext ui) : UIModule(ui)
         {
             case 0:
                 // { Original opens the information book. }
-                ShowInformationBook(UI.WorldMap, null, null);
+                ShowInformationBook(UI.WorldMap, eventValue: null, done: null);
                 break;
             case 1:
                 if (UI.Engine.Campaign is not null)
@@ -142,7 +142,7 @@ public partial class PopupWindows(UIContext ui) : UIModule(ui)
                     onConfirmed: SurrenderEmpire);
                 break;
             case 1:
-                StrategicMap.Current.ExitGame(ExitGameMode.Terminate, null);
+                StrategicMap.Current.ExitGame(ExitGameMode.Terminate, done: null);
                 break;
             case 2:
                 if (UI.Engine.Demo)
@@ -204,7 +204,7 @@ public partial class PopupWindows(UIContext ui) : UIModule(ui)
             string text2 = dialog.UI.Engine.TranslateResourceString(s_conquerMapText);
             string s = dialog.UI.Engine.TranslateResourceString(s_objectiveFormat);
             FormatArg value = (FormatArg)text2;
-            string text3 = AbilityRules.Format(s, new ReadOnlySpan<FormatArg>(ref value));
+            string text3 = AbilityRules.Format(s, arguments: new ReadOnlySpan<FormatArg>(ref value));
             _ = dialog.RightPageMemo.Items.Add(text3);
         }
         else
@@ -212,14 +212,14 @@ public partial class PopupWindows(UIContext ui) : UIModule(ui)
             string text4 = dialog.UI.Engine.TranslateResourceString(s_victoryConditionTexts[(int)StrategicMap.Current.VictoryCondition]);
             string s2 = dialog.UI.Engine.TranslateResourceString(s_objectiveFormat);
             FormatArg value2 = (FormatArg)text4;
-            string text5 = AbilityRules.Format(s2, new ReadOnlySpan<FormatArg>(ref value2));
+            string text5 = AbilityRules.Format(s2, arguments: new ReadOnlySpan<FormatArg>(ref value2));
             _ = dialog.RightPageMemo.Items.Add(text5);
         }
         if (StrategicMap.Current.DayLimit > 0)
         {
             string s3 = dialog.UI.Engine.TranslateResourceString(s_dayLimitFormat);
             FormatArg value3 = (FormatArg)DelphiConversions.IntToStr(StrategicMap.Current.DayLimit);
-            string text6 = AbilityRules.Format(s3, new ReadOnlySpan<FormatArg>(ref value3));
+            string text6 = AbilityRules.Format(s3, arguments: new ReadOnlySpan<FormatArg>(ref value3));
             _ = dialog.RightPageMemo.Items.Add(text6);
         }
         if (StrategicMap.Current.AlliedVictory)
@@ -227,7 +227,7 @@ public partial class PopupWindows(UIContext ui) : UIModule(ui)
             string text7 = dialog.UI.Engine.TranslateResourceString(s_enabledText);
             string s4 = dialog.UI.Engine.TranslateResourceString(s_alliedVictoryFormat);
             FormatArg value4 = (FormatArg)text7;
-            string text8 = AbilityRules.Format(s4, new ReadOnlySpan<FormatArg>(ref value4));
+            string text8 = AbilityRules.Format(s4, arguments: new ReadOnlySpan<FormatArg>(ref value4));
             _ = dialog.RightPageMemo.Items.Add(text8);
         }
         else
@@ -235,21 +235,21 @@ public partial class PopupWindows(UIContext ui) : UIModule(ui)
             string text9 = dialog.UI.Engine.TranslateResourceString(s_disabledText);
             string s5 = dialog.UI.Engine.TranslateResourceString(s_alliedVictoryFormat);
             FormatArg value5 = (FormatArg)text9;
-            string text10 = AbilityRules.Format(s5, new ReadOnlySpan<FormatArg>(ref value5));
+            string text10 = AbilityRules.Format(s5, arguments: new ReadOnlySpan<FormatArg>(ref value5));
             _ = dialog.RightPageMemo.Items.Add(text10);
         }
         int count = StrategicMap.Current.Players.GetCount();
         string s6 = dialog.UI.Engine.TranslateResourceString(s_playersOnMapFormat);
         FormatArg value6 = (FormatArg)DelphiConversions.IntToStr(count - 1);
-        string text11 = AbilityRules.Format(s6, new ReadOnlySpan<FormatArg>(ref value6));
+        string text11 = AbilityRules.Format(s6, arguments: new ReadOnlySpan<FormatArg>(ref value6));
         _ = dialog.RightPageMemo.Items.Add(text11);
         string s7 = dialog.UI.Engine.TranslateResourceString(s_maximumSphereLevelFormat);
         FormatArg value7 = (FormatArg)DelphiConversions.IntToStr(StrategicMap.Current.SphereCount);
-        string text12 = AbilityRules.Format(s7, new ReadOnlySpan<FormatArg>(ref value7));
+        string text12 = AbilityRules.Format(s7, arguments: new ReadOnlySpan<FormatArg>(ref value7));
         _ = dialog.RightPageMemo.Items.Add(text12);
         string s8 = dialog.UI.Engine.TranslateResourceString(s_maximumPlayerHeroesFormat);
         FormatArg value8 = (FormatArg)DelphiConversions.IntToStr(StrategicMap.Current.HeroCountMax);
-        string text13 = AbilityRules.Format(s8, new ReadOnlySpan<FormatArg>(ref value8));
+        string text13 = AbilityRules.Format(s8, arguments: new ReadOnlySpan<FormatArg>(ref value8));
         _ = dialog.RightPageMemo.Items.Add(text13);
         if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Local && StrategicMap.Current.RequestCombatType)
         {
@@ -257,7 +257,7 @@ public partial class PopupWindows(UIContext ui) : UIModule(ui)
             string text15 = dialog.UI.Engine.TranslateResourceString(s_hotSeatText);
             string s9 = dialog.UI.Engine.TranslateResourceString(s_gameTypeFormat);
             FormatArg value9 = (FormatArg)(text14 + "/" + text15);
-            string text16 = AbilityRules.Format(s9, new ReadOnlySpan<FormatArg>(ref value9));
+            string text16 = AbilityRules.Format(s9, arguments: new ReadOnlySpan<FormatArg>(ref value9));
             _ = dialog.RightPageMemo.Items.Add(text16);
         }
         else
@@ -265,13 +265,13 @@ public partial class PopupWindows(UIContext ui) : UIModule(ui)
             string text17 = dialog.UI.Engine.TranslateResourceString(s_playerConnectionTypeTexts[(int)StrategicMap.Current.ConnectionType]);
             string s10 = dialog.UI.Engine.TranslateResourceString(s_gameTypeFormat);
             FormatArg value10 = (FormatArg)text17;
-            string text18 = AbilityRules.Format(s10, new ReadOnlySpan<FormatArg>(ref value10));
+            string text18 = AbilityRules.Format(s10, arguments: new ReadOnlySpan<FormatArg>(ref value10));
             _ = dialog.RightPageMemo.Items.Add(text18);
         }
         string text19 = dialog.UI.Engine.TranslateResourceString(GameText.PlayModeTexts[(int)StrategicMap.Current.PlayMode]);
         string s11 = dialog.UI.Engine.TranslateResourceString(s_turnModeFormat);
         FormatArg value11 = (FormatArg)text19;
-        string text20 = AbilityRules.Format(s11, new ReadOnlySpan<FormatArg>(ref value11));
+        string text20 = AbilityRules.Format(s11, arguments: new ReadOnlySpan<FormatArg>(ref value11));
         _ = dialog.RightPageMemo.Items.Add(text20);
         dialog.LeftPagePicture.Visible = false;
         dialog.RightPagePicture.Visible = false;

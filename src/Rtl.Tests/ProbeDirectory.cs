@@ -15,10 +15,10 @@ internal sealed class ProbeDirectory : IDisposable
     public void Dispose()
     {
         Directory.SetCurrentDirectory(_previous);
-        foreach (string entry in Directory.EnumerateFileSystemEntries(Root, "*", SearchOption.AllDirectories).OrderByDescending(p => p.Length))
+        foreach (string entry in Directory.EnumerateFileSystemEntries(Root, searchPattern: "*", searchOption: SearchOption.AllDirectories).OrderByDescending(p => p.Length))
         {
             bool directory = Directory.Exists(entry);
-            File.SetAttributes(entry, directory ? FileAttributes.Directory : FileAttributes.Normal);
+            File.SetAttributes(entry, fileAttributes: directory ? FileAttributes.Directory : FileAttributes.Normal);
             if (directory)
             {
                 Directory.Delete(entry);

@@ -124,23 +124,23 @@ public sealed partial class RuleConstructionTests
             }
             if (item is Array array)
             {
-                return array.Cast<object?>().Select((x, i) => State(x, $"{path}[{i}]")).ToArray();
+                return array.Cast<object?>().Select((x, i) => State(x, path: $"{path}[{i}]")).ToArray();
             }
 
             if (InlineArrays.Elements(item) is { } elements)
             {
-                return elements.Select((x, i) => State(x, $"{path}[{i}]")).ToArray();
+                return elements.Select((x, i) => State(x, path: $"{path}[{i}]")).ToArray();
             }
 
             if (item is IList list)
             {
-                return list.Cast<object?>().Select((x, i) => State(x, $"{path}[{i}]")).ToArray();
+                return list.Cast<object?>().Select((x, i) => State(x, path: $"{path}[{i}]")).ToArray();
             }
 
             SortedDictionary<string, object?> fields = new(StringComparer.Ordinal) { ["$type"] = type.FullName };
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
             {
-                foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
+                foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, comparer: StringComparer.Ordinal))
                 {
                     if (MemberNames.Of(field) is "_engineClass" or "EngineClass" or "_actionClass" or "ActionClass" or "_groupClass" or "GroupClass" or "Holder" or "Creator")
                     {
@@ -159,13 +159,13 @@ public sealed partial class RuleConstructionTests
                         fields[key] = child is null ? null : "$owner";
                         continue;
                     }
-                    fields[key] = State(child, $"{path}.{key}");
+                    fields[key] = State(child, path: $"{path}.{key}");
                 }
             }
 
             return fields;
         }
-        return JsonSerializer.Serialize(State(value, "$"));
+        return JsonSerializer.Serialize(State(value, path: "$"));
     }
 
     private static void AssertPrivateArrayChildren(object value)
@@ -241,11 +241,11 @@ public sealed partial class RuleConstructionTests
         if (route == 3)
         {
             EngineClass meta = EngineClass.Of(type);
-            return Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine]))!;
+            return Invoke(() => meta.GetType().GetMethod("CreateInstance", types: [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, parameters: [owner, EngineFixture.Engine]))!;
         }
         MethodInfo? factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
         ConstructorInfo? constructor = typeof(EngineObject).IsAssignableFrom(type) ? EngineClassCreation.OwnerConstructor(type) : type.GetConstructors().OrderByDescending(x => x.GetParameters().Length).FirstOrDefault();
-        Assert.True(factory is not null || constructor is not null, $"{type.Name} needs its own completed creation signature.");
+        Assert.True(factory is not null || constructor is not null, userMessage: $"{type.Name} needs its own completed creation signature.");
         ParameterInfo[] parameters = factory?.GetParameters() ?? constructor!.GetParameters();
         object?[] arguments = [.. parameters.Select(p => p.ParameterType == typeof(CustomNode) ? owner
             : p.ParameterType == typeof(int) ? (object)37
@@ -256,7 +256,7 @@ public sealed partial class RuleConstructionTests
             : null)];
         try
         {
-            return Invoke(() => factory is not null ? factory.Invoke(null, arguments) : constructor!.Invoke(arguments))!;
+            return Invoke(() => factory is not null ? factory.Invoke(null, parameters: arguments) : constructor!.Invoke(arguments))!;
         }
         finally
         {
@@ -299,7 +299,7 @@ public sealed partial class RuleConstructionTests
         Type[] top = [.. matches.Where(type => type.DeclaringType is null)];
         return top.Length == 1
             ? top[0]
-            : throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, $"{name} matches {matches.Length} types."));
+            : throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, handler: $"{name} matches {matches.Length} types."));
     }
 
     public static IEnumerable<object[]> FormerlyGuardedClasses => new[] { "Ability", "AdjustableAbility", "ArmyHexSprite", "BoltsAbility", "BreathAbility", "CharmAbility", "CharmedAbility", "CommandAbility", "CommandedAbility", "ConstructAbility", "CosmeticSurgeryAbility", "DispelMagicAbility", "DominateAbility", "DominatedAbility", "DurationAbility", "EnhancementAbility", "EntangleAbility", "FlameThrowingAbility", "HealingAbility", "InvokeDeathAbility", "LeadershipAbility", "MultiLevelAbility", "PossessAbility", "PossessedAbility", "RangedAttackAbility", "RoundAttackAbility", "SeduceAbility", "SeducedAbility", "SelfDestructAbility", "Spell", "SpellCastingAbility", "StrikeAbility", "StrikeEnhancementAbility", "TouchAbility", "TransportAbility", "TurnUndeadAbility", "UnitEnchantmentAbility", "UnitSpell", "WallCrushingAbility", "WebAbility" }.Select(name => new object[] { name });
@@ -319,8 +319,8 @@ public sealed partial class RuleConstructionTests
             List<string> states = [];
             try
             {
-                value = Create(type, EngineFixture.OwnerFor(type, owner), route, fixture);
-                Assert.IsType(type, value);
+                value = Create(type, owner: EngineFixture.OwnerFor(type, recorder: owner), route, fixture);
+                Assert.IsType(type, @object: value);
                 AssertPrivateArrayChildren(value);
                 state = $"success:{Snapshot(value)}";
             }
@@ -340,7 +340,7 @@ public sealed partial class RuleConstructionTests
                 }
             }
             states.Add(state);
-            ConstructionSnapshot.Check("AoWERuleConstruction", name, string.Join("\n", states));
+            ConstructionSnapshot.Check("AoWERuleConstruction", key: name, actual: string.Join("\n", values: states));
             Assert.StartsWith("success:", state);
         }
     }
@@ -354,8 +354,8 @@ public sealed partial class RuleConstructionTests
         string? expected = null;
         for (int route = 0; route < 4; route++)
         {
-            EngineObject value = (EngineObject)Create(type, null!, route, fixture);
-            Assert.IsType(type, value);
+            EngineObject value = (EngineObject)Create(type, owner: null!, route, fixture);
+            Assert.IsType(type, @object: value);
             Assert.Null(value.Owner);
             Assert.Same(EngineClass.Of(type), value.EngineClass);
             string state = Snapshot(value);
@@ -441,9 +441,9 @@ public sealed partial class RuleConstructionTests
         {
             using Fixture fixture = new();
             RuleOwner owner = new();
-            CustomNode given = EngineFixture.OwnerFor(type, owner);
-            EngineObject value = Assert.IsAssignableFrom<EngineObject>(Create(type, given, route, fixture));
-            Assert.IsType(type, value);
+            CustomNode given = EngineFixture.OwnerFor(type, recorder: owner);
+            EngineObject value = Assert.IsAssignableFrom<EngineObject>(Create(type, owner: given, route, fixture));
+            Assert.IsType(type, @object: value);
             Assert.Same(given, value.Owner);
             Assert.Same(value, Assert.Single(owner.Members));
             Assert.Equal(0, owner.Removals);

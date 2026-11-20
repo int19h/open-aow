@@ -18,6 +18,6 @@ public class DispelMagicAbilityCombatAction(CustomNode owner) : DispelMagicComba
     {
         base.Execute(combat);
         CombatUnit source = combat.CombatData.FindId<CombatUnit>(SourceId);
-        GamePack.Current.AbilityControl.GetAbility<DispelMagicAbility>(60).SetEnabled(source.Troop, false);
+        GamePack.Current.AbilityControl.GetAbility<DispelMagicAbility>(60).SetEnabled(source.Troop, enabled: false);
     }
 }

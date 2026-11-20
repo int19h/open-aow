@@ -19,7 +19,7 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
     public readonly ref T Value => ref this[0];
 
     private readonly ref T RawReference(int index) => ref view is null
-        ? ref Unsafe.Add(ref MemoryMarshal.GetArrayDataReference(Array!), Index + index) : ref view(Index + index);
+        ? ref Unsafe.Add(ref MemoryMarshal.GetArrayDataReference(Array!), elementOffset: Index + index) : ref view(Index + index);
 
     public readonly ref T this[int index]
     {
@@ -52,10 +52,10 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
         return count == 0
             ? []
             : Array is not null
-            ? Array.AsSpan(Index, count)
+            ? Array.AsSpan(Index, length: count)
             : count < 0 || ByteIndex < 0 || ByteIndex + ((long)count * Unsafe.SizeOf<T>()) > StorageBytes
             ? throw new ArgumentOutOfRangeException(nameof(count))
-            : MemoryMarshal.CreateSpan(ref Value, count);
+            : MemoryMarshal.CreateSpan(ref Value, length: count);
     }
 
     public readonly Span<T> AsSpan() => AsSpan((StorageBytes - ByteIndex) / Unsafe.SizeOf<T>());
@@ -85,7 +85,7 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
     }
 
     private static PointerElement<U> View<U>(Array root, int start)
-        => i => ref Unsafe.As<byte, U>(ref Unsafe.Add(ref MemoryMarshal.GetArrayDataReference(root), start + (i * Unsafe.SizeOf<U>())));
+        => i => ref Unsafe.As<byte, U>(ref Unsafe.Add(ref MemoryMarshal.GetArrayDataReference(root), elementOffset: start + (i * Unsafe.SizeOf<U>())));
 
     // The state a view captures, for the tests that pin that views never nest.
     internal readonly object? ViewState => view?.Target;
@@ -93,7 +93,7 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
     public static Ptr<T> To(T[] array, int index) => new() { Array = array, Index = index };
 
     // SYSTEM.PAS:1042 returns nil without calling the allocator for size zero.
-    public static Ptr<T> Alloc(int count) => count == 0 ? default : To(new T[count], 0);
+    public static Ptr<T> Alloc(int count) => count == 0 ? default : To(new T[count], index: 0);
 
     public readonly Ptr<T> Realloc(int count)
     {
@@ -157,7 +157,7 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
     public static Ptr<T> Unbox(object? value) => value is PtrBox<T> box ? box.Pointer
         : throw new InvalidCastException("Object is not a box of the requested pointer type");
 
-    public static Ptr<T> Unbox(string value) => typeof(T) == typeof(byte) ? (Ptr<T>)(object)Ptr<byte>.To([.. Cp1252.Encode(value), 0], 0)
+    public static Ptr<T> Unbox(string value) => typeof(T) == typeof(byte) ? (Ptr<T>)(object)Ptr<byte>.To([.. Cp1252.Encode(value), 0], index: 0)
         : throw new InvalidCastException("A string pointer requires byte elements");
 }
 
@@ -181,13 +181,13 @@ public sealed class PtrBox<T>(Ptr<T> pointer) : IPointerBox
 
 public static class Bytes
 {
-    public static Span<byte> Of<T>(ref T value) where T : unmanaged => MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref value, 1));
+    public static Span<byte> Of<T>(ref T value) where T : unmanaged => MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref value, length: 1));
 
     public static Span<byte> Of<T>(ref T value, int count) where T : unmanaged
     {
         Span<byte> bytes = Of(ref value);
         return count < 0 || count > bytes.Length
-            ? throw new ArgumentOutOfRangeException(paramName: null, "Buffer size exceeds the record")
+            ? throw new ArgumentOutOfRangeException(paramName: null, message: "Buffer size exceeds the record")
             : bytes[..count];
     }
 }

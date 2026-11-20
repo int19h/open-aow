@@ -14,7 +14,7 @@ public class FrozenAbility : UnitEnchantmentAbility
     public FrozenAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_frozenText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_frozenText);
         AbilityId = 95;
         AbilityType = AbilityType.Enchantment;
         SelectionTypes = Set<AbilitySelectionType>.Of();

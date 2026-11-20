@@ -31,10 +31,10 @@ public class Enchantment(CustomNode owner) : EngineObject(owner)
     }
 
     // Spells.PAS:1700
-    public virtual string GetName() => AbilityRules.TranslateResourceString(GetEngine(), s_undefinedText);
+    public virtual string GetName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_undefinedText);
 
     // Spells.PAS:1702
-    public virtual string GetBinding() => AbilityRules.TranslateResourceString(GetEngine(), GameTables.NoneText);
+    public virtual string GetBinding() => AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.NoneText);
 
     // Spells.PAS:1734
     public virtual void SetUpkeep(int value)
@@ -82,7 +82,7 @@ public class Enchantment(CustomNode owner) : EngineObject(owner)
         sbyte l = coordinate22.MapLevel;
         if (x != -1)
         {
-            if (StrategicMap.Current.Visible(x, y, l, 0))
+            if (StrategicMap.Current.Visible(x, y, l, radius: 0))
             {
                 StrategicMap.Current.CenterViewTo(x, y, l);
                 StrategicMap.Current.PlayCenterAnimation(x, y, l);
@@ -90,7 +90,7 @@ public class Enchantment(CustomNode owner) : EngineObject(owner)
             else
             {
                 string binding = GetBinding();
-                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.IsOutOfSightFormat), [binding]);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsOutOfSightFormat), arguments: [binding]);
                 StrategicMap.Current.ShowMessage(format);
             }
 

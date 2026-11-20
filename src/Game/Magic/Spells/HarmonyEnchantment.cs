@@ -27,7 +27,7 @@ public class HarmonyEnchantment : GlobalEnchantment
     public HarmonyEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.HarmonyText);
+        Name = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.HarmonyText);
         EnchantmentType = GlobalEnchantmentType.Harmony;
         DispelMana = 50;
     }

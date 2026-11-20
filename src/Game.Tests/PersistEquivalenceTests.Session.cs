@@ -117,8 +117,8 @@ public sealed partial class PersistEquivalenceTests
             Player player = NewPlayer(index: 2);
             player.BaseHeroJoinDay = 6;
             JsonObject document = DocumentBackend.Write(TreeWriter.Write(player, factory: Factory), classValue: s_schema.Get("Player"), schema: s_schema, engine: "game");
-            Assert.Equal(network, document["View"] is null);
-            Assert.Equal(network, document["BaseHeroJoinDay"] is null);
+            Assert.Equal(network, actual: document["View"] is null);
+            Assert.Equal(network, actual: document["BaseHeroJoinDay"] is null);
             Check("Player", objectValue: player, converterRead: false);
         });
     }
@@ -166,7 +166,7 @@ public sealed partial class PersistEquivalenceTests
                 LoadPreview(viaReadWrite, image: image);
                 TreeReader.Read(OriginalBackend.Read(image, classValue: s_schema.Get("Player"), schema: s_schema, engine: "game"), objectValue: viaPersist, factory: Factory, preview: true);
             });
-            Assert.Equal(loadingMap, viaReadWrite.Leader is not null);
+            Assert.Equal(loadingMap, actual: viaReadWrite.Leader is not null);
             Assert.Equal(viaReadWrite.Leader?.HeroName, viaPersist.Leader?.HeroName);
             EqualBytes(Image(viaReadWrite), actual: Image(viaPersist), label: "Player leader read");
             viaReadWrite.Leader?.Dispose();
@@ -380,11 +380,11 @@ public sealed partial class PersistEquivalenceTests
             typeof(Player).GetField("_description", bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance).SetValue(player, value: "Lord");
             using (DictionaryStream stream = new(dictionary))
             {
-                stream.Object(player, 0);
-                Assert.Contains("Lord", stream.Visited);
-                Assert.DoesNotContain("Easy", stream.Visited);
-                Assert.Contains("EventLogbook", stream.Objects);
-                Assert.Contains("DiplomaticActionList", stream.Objects);
+                stream.Object(player, id: 0);
+                Assert.Contains("Lord", collection: stream.Visited);
+                Assert.DoesNotContain("Easy", collection: stream.Visited);
+                Assert.Contains("EventLogbook", collection: stream.Objects);
+                Assert.Contains("DiplomaticActionList", collection: stream.Objects);
             }
             Assert.Equal("Easy", player.Settings);
             Assert.Equal(7, unchecked((byte)player.View.X));
@@ -396,7 +396,7 @@ public sealed partial class PersistEquivalenceTests
             list.OnChanged += _ => changes++;
             using (DictionaryStream stream = new(dictionary))
             {
-                stream.Object(list, 0);
+                stream.Object(list, id: 0);
                 Assert.Equal(["First"], stream.Visited);
                 Assert.Equal(["EventLogList", "TextEventLog"], stream.Objects);
             }
@@ -407,7 +407,7 @@ public sealed partial class PersistEquivalenceTests
             using DiplomaticAction action = new(null) { Holder = EngineFixture.Engine, Proposal = DiplomaticProposal.FromFields(1, gold: 100, mana: 20) with { Message = ["Hail"] } };
             using (DictionaryStream stream = new(dictionary))
             {
-                stream.Object(action, 0);
+                stream.Object(action, id: 0);
                 Assert.Equal(["lines 1"], stream.Visited);
             }
             Assert.Equal(DiplomaticProposal.FromFields(1, gold: 100, mana: 20) with { Message = ["Heil"] }, action.Proposal);
@@ -418,7 +418,7 @@ public sealed partial class PersistEquivalenceTests
             typeof(CampaignScenarioPage).GetProperty(nameof(CampaignScenarioPage.ImageLibrary)).SetValue(page, value: "pages.ilb");
             using (DictionaryStream stream = new(dictionary))
             {
-                stream.Object(page, 0);
+                stream.Object(page, id: 0);
                 Assert.Equal(["lines 1", "Intro"], stream.Visited);
             }
             Assert.Equal("Es war einmal", page.Text[0]);
@@ -427,15 +427,15 @@ public sealed partial class PersistEquivalenceTests
 
             using SfxSequence sequence = new(null) { Holder = EngineFixture.Engine };
             Sfx sound = new(null) { Holder = EngineFixture.Engine };
-            MemberNames.Field(typeof(Sfx), "FileName").SetValue(sound, value: "bell.wav");
+            MemberNames.Field(typeof(Sfx), name: "FileName").SetValue(sound, value: "bell.wav");
             sound.SetOwner(sequence);
             using (DictionaryStream stream = new(dictionary))
             {
-                stream.Object(sequence, 0);
+                stream.Object(sequence, id: 0);
                 Assert.Empty(stream.Visited);
                 Assert.Equal(["SfxSequence", "Sfx"], stream.Objects);
             }
-            Assert.Equal("bell.wav", MemberNames.Field(typeof(Sfx), "FileName").GetValue(sound));
+            Assert.Equal("bell.wav", MemberNames.Field(typeof(Sfx), name: "FileName").GetValue(sound));
         });
     }
 
@@ -527,7 +527,7 @@ public sealed partial class PersistEquivalenceTests
     // body and puts the previous status back.
     private static void WithEngineStatus(Set<HexSpriteEngineStatusElement> status, Action body)
     {
-        FieldInfo field = MemberNames.Field(typeof(GameEngine), "Status")
+        FieldInfo field = MemberNames.Field(typeof(GameEngine), name: "Status")
             ?? throw new InvalidOperationException("GameEngine has no Status field.");
         object previous = field.GetValue(EngineFixture.Engine);
         field.SetValue(EngineFixture.Engine, value: status);

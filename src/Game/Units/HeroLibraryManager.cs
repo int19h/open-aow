@@ -56,11 +56,11 @@ public class HeroLibraryManager : EngineObject
         if (persister.Loading)
         {
             ReadUserLibraries();
-            GetEngine().ReadFromFile($"{directory}Heroes.PFS", SystemLibrary, null);
+            GetEngine().ReadFromFile($"{directory}Heroes.PFS", SystemLibrary, progress: null);
         }
         else
         {
-            GetEngine().WriteToFile($"{directory}Heroes.PFS", SystemLibrary, null);
+            GetEngine().WriteToFile($"{directory}Heroes.PFS", SystemLibrary, progress: null);
             WriteUserLibraries();
         }
     }
@@ -78,7 +78,7 @@ public class HeroLibraryManager : EngineObject
         _ = _libraries.AddChild(SystemLibrary);
         // Both extensions list, and a list present in both forms loads its own document once
         // (own-formats.md 4.2).
-        foreach (string listed in FileBoundary.FindDocuments($"{GetEngine().StartupDirectory}User\\", DocumentKind.HeroList))
+        foreach (string listed in FileBoundary.FindDocuments($"{GetEngine().StartupDirectory}User\\", kind: DocumentKind.HeroList))
         {
             HeroLibrary library = new(null) { Holder = CreationHolder() };
             try
@@ -135,9 +135,9 @@ public class HeroLibraryManager : EngineObject
     {
         string libraryName = name;
         // { Original retains the period when stripping the extension. }
-        if (Pos(".", libraryName) != 0)
+        if (Pos(".", haystack: libraryName) != 0)
         {
-            libraryName = DelphiStrings.Copy(libraryName, 1, Pos(".", libraryName));
+            libraryName = DelphiStrings.Copy(libraryName, index: 1, count: Pos(".", haystack: libraryName));
         }
 
         HeroLibrary result;

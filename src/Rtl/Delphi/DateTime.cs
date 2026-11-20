@@ -7,7 +7,7 @@ public static class DelphiDateTime
     private static readonly DateTime Epoch = new(1899, 12, 30);
 
     // SYSUTILS.PAS FileDateToDateTime and DateTimeToFileDate use DOS two-second resolution.
-    public static double FileDateToDateTime(int value) => EncodeDate((value >>> 25) + 1980, (value >> 21) & 15, (value >> 16) & 31) + EncodeTime((value >> 11) & 31, (value >> 5) & 63, (value & 31) * 2, 0);
+    public static double FileDateToDateTime(int value) => EncodeDate((value >>> 25) + 1980, (value >> 21) & 15, (value >> 16) & 31) + EncodeTime((value >> 11) & 31, (value >> 5) & 63, (value & 31) * 2, millisecond: 0);
 
     // The DOS date and time of a file time, as SYSUTILS.PAS FileAge and TSearchRec.Time give it.
     internal static int FileDate(DateTime time)
@@ -40,7 +40,7 @@ public static class DelphiDateTime
     // SYSUTILS.PAS DateTimeToTimeStamp rounds to milliseconds and uses the absolute fraction.
     private static void DecodeTime(double value, out int hour, out int minute, out int second, out int millisecond)
     {
-        long ticks = (long)Math.Round(value * 86400000, MidpointRounding.ToEven);
+        long ticks = (long)Math.Round(value * 86400000, mode: MidpointRounding.ToEven);
         int ms = (int)Math.Abs(ticks % 86400000);
         hour = ms / 3600000;
         minute = ms / 60000 % 60;
@@ -50,7 +50,7 @@ public static class DelphiDateTime
 
     private static void DecodeDate(double value, out int year, out int month, out int day)
     {
-        long rounded = (long)Math.Round(value * 86400000, MidpointRounding.ToEven);
+        long rounded = (long)Math.Round(value * 86400000, mode: MidpointRounding.ToEven);
         long days = rounded / 86400000;
         if (days + (Epoch - DateTime.MinValue).Days < 0)
         {
@@ -66,7 +66,7 @@ public static class DelphiDateTime
     public static string DateTimeToStr(double value)
     {
         DecodeDate(value, out int y, out int m, out int d);
-        DecodeTime(value, out int h, out int n, out int s, out int ms);
-        return new DateTime(y, m, d, h, n, s, ms).ToString("M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+        DecodeTime(value, out int h, out int n, out int s, millisecond: out int ms);
+        return new DateTime(y, m, d, h, n, s, millisecond: ms).ToString("M/d/yyyy h:mm:ss tt", provider: CultureInfo.InvariantCulture);
     }
 }

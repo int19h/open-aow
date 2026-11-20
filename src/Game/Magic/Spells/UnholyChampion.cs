@@ -15,7 +15,7 @@ public class UnholyChampion : UnitSpell
     public UnholyChampion(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.UnholyChampionText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.UnholyChampionText);
         SpellId = 37;
         BaseManaCost = 5;
         SpellLevel = 2;
