@@ -4,9 +4,9 @@ using Aow.Rtl;
 
 namespace Aow.Game.Draw;
 
-public partial class Dib16Surface { private bool _memoryLocked; }
+public sealed partial class Dib16Surface { private bool _memoryLocked; }
 
-public partial class Dib16Surface
+public sealed partial class Dib16Surface
 {
     public Dib16Surface(int width, int height, PixelFormat pixelFormatId)
     {

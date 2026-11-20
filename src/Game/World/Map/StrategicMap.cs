@@ -47,7 +47,7 @@ namespace Aow.Game.World.Map;
 // map name, heroes, game mode, stream mode, fixed leaders, allied victory, day limit, turn
 // order, day/turn events, event-log locks, diplomacy events, initial seed, random seed, debug
 // save, communicator, token log Text, logging enabled
-public partial class StrategicMap : GameMap
+public sealed partial class StrategicMap : GameMap
 {
 
     public new const int ClassId = 131_089;
@@ -1029,20 +1029,20 @@ public partial class StrategicMap : GameMap
     public override void SetSeatedPlayer(sbyte player) => PlayerControl.SetSeatedPlayer(player);
 
     // AoWHSMap.PAS:1887
-    public virtual void TriggerCombatEvent(Battle combat) => _combatEventsStore.Raise(combat);
+    public void TriggerCombatEvent(Battle combat) => _combatEventsStore.Raise(combat);
 
     // AoWHSMap.PAS:1892
-    public virtual void TriggerGameTerminatedEvent()
+    public void TriggerGameTerminatedEvent()
     {
         GameStatus = StrategicMapGameStatus.Terminated;
         _gameOverEventsStore.Raise(this);
     }
 
     // AoWHSMap.PAS:2012
-    public virtual void TriggerPlayerTerminatedEvent(int player) => _playerTerminatedEventsStore.Raise((sbyte)player);
+    public void TriggerPlayerTerminatedEvent(int player) => _playerTerminatedEventsStore.Raise((sbyte)player);
 
     // AoWHSMap.PAS:2586
-    public virtual void StartNewMap()
+    public void StartNewMap()
     {
         TurnOrder.Clear();
         if (TurnOrderMode == StrategicMapTurnOrderMode.Fixed)
@@ -1093,10 +1093,10 @@ public partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:2615
-    public virtual void StartLoadedMap() => PlayerControl.StartLoadedMap();
+    public void StartLoadedMap() => PlayerControl.StartLoadedMap();
 
     // AoWHSMap.PAS:1996
-    public virtual void TriggerExecuteEventLog(EventLog log, bool immediate, ExecuteDoneEvent done)
+    public void TriggerExecuteEventLog(EventLog log, bool immediate, ExecuteDoneEvent done)
     {
         ExecuteEventLogNotification notification = new();
         ExecuteEventLogInfo info = notification.Info;
@@ -2663,7 +2663,7 @@ public partial class StrategicMap : GameMap
 
     // { Interface declaration run owned by P5. }
     // allied victory. . points. gold. mana. next scenario
-    public class MapCampaignSettings(CustomNode owner) : EngineObject(owner)
+    public sealed class MapCampaignSettings(CustomNode owner) : EngineObject(owner)
     {
 
         public bool AlliedVictory { get; private set; }

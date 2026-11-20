@@ -7,7 +7,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class ControlWindow
+public sealed partial class ControlWindow
 {
     // Original AoW.exe loads the three-space string. The recovered UpdateArmy source has one space
     // at all eight labels

@@ -19,7 +19,7 @@ using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Session;
 
-public class SimultaneousPlayerControl(CustomNode owner) : PlayerControl(owner)
+public sealed class SimultaneousPlayerControl(CustomNode owner) : PlayerControl(owner)
 {
     public new const int ClassId = 131_665;
 

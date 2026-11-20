@@ -6,7 +6,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Units;
 
-public class UnitProductionList(CustomNode owner) : OwningNode(owner), IChildList<UnitProduction>
+public sealed class UnitProductionList(CustomNode owner) : OwningNode(owner), IChildList<UnitProduction>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an UnitProduction, so the cast never fails.

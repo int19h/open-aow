@@ -23,7 +23,7 @@ using static Aow.Rtl.LegacyApplication;
 namespace Aow.Game.UI.Dialogs;
 
 // map control
-public partial class MapEvents(UIContext ui) : UIModule(ui)
+public sealed partial class MapEvents(UIContext ui) : UIModule(ui)
 {
 
     // Renderers of the DoubleClick keys of the structures (Structure.Views.cs). ClassRegistry adds

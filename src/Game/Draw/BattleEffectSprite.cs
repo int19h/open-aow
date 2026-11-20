@@ -20,7 +20,7 @@ namespace Aow.Game.Draw;
 
 // Done. Cancelled. Frame. AbilityIndex. SpellIndex. Path. Variant. TargetX. TargetY.
 // Target. EffectType
-public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
+public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
 {
 
     // AoWTC.pas:5227

@@ -3,9 +3,9 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.AI.Groups;
 
-public class GroupControl(CustomNode owner) : EngineObject(owner)
+public sealed class GroupControl(CustomNode owner) : EngineObject(owner)
 {
 
     // AIGroup.pas:1565
-    public virtual GroupBehavior Behavior() => GroupBehavior.None;
+    public GroupBehavior Behavior() => GroupBehavior.None;
 }

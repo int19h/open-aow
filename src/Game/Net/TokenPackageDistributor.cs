@@ -7,7 +7,7 @@ namespace Aow.Game.Net;
 
 // FTokenManager, FPC. Sends the token events of the local players in token packages and files
 // the received ones with their players' token controls
-public class TokenPackageDistributor(TokenManager manager)
+public sealed class TokenPackageDistributor(TokenManager manager)
 {
     internal TokenManager TokenManager { get; } = manager;
     internal PlayerCommunicator Pc { get; private set; }
@@ -15,7 +15,7 @@ public class TokenPackageDistributor(TokenManager manager)
     // NetworkE.pas:1136
     // { The token events of a package from another system go to the token control of the sending player,
     //   unless they were already executed or are already there. }
-    public virtual void TokenPackageReceived(TokenPackage tp)
+    public void TokenPackageReceived(TokenPackage tp)
     {
         if (TokenManager is not null)
         {
@@ -47,7 +47,7 @@ public class TokenPackageDistributor(TokenManager manager)
     }
 
     // NetworkE.pas:1157
-    public virtual void SendTokenEvents(int player, int receiver, TokenEventList events)
+    public void SendTokenEvents(int player, int receiver, TokenEventList events)
     {
         TokenPackage tp = new(null) { Holder = Pc };
         tp.TokenEvents.Assign(events, engine: null);

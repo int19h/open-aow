@@ -9,7 +9,7 @@ using Aow.Rtl;
 namespace Aow.Engine;
 
 // FEngine, FUsedPlugIns. the names of the plug-ins an engine uses, checked as the list changes
-public class PluginControl : EngineObject
+public sealed class PluginControl : EngineObject
 {
     // The name of the abilities plug-in (AbilityP.dpl), the one plug-in the game provides.
     private const string AbilitiesPlugin = "Abilities";

@@ -7,7 +7,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.World.Terrain;
 
 // Resources
-public class FireControl : IDisposable
+public sealed class FireControl : IDisposable
 {
     // Structur.PAS:3720
     // Resources
@@ -16,7 +16,7 @@ public class FireControl : IDisposable
     private readonly List<Fire.Resource> _resources;
 
     // Structur.PAS:3726
-    public virtual void Dispose() => _resources?.Clear();
+    public void Dispose() => _resources?.Clear();
 
     // Structur.PAS:3732
     public Fire.Resource GetRandomFireResource(FireType fireType)

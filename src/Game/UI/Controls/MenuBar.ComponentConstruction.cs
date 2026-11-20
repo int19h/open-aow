@@ -4,7 +4,7 @@ using Aow.Game.Layout;
 
 namespace Aow.Game.UI.Controls;
 
-public partial class MenuBar
+public sealed partial class MenuBar
 {
     public LayoutStrings LayoutItems
     {

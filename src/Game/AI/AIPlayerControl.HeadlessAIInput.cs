@@ -6,7 +6,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.AI;
 
-public partial class AIPlayerControl
+public sealed partial class AIPlayerControl
 {
     // AI.pas:488. The input callback runs at the native debugger boundary.
     public bool Process(AIExecutor executor, bool tokenControlDone)

@@ -13,7 +13,7 @@ namespace Aow.Game.UI.Grids;
 // half-row inset, libraries, icons, viewport, change event, update steps, map, frame library,
 // frame index, map dimensions, level, icons drawn, previous size, drawable height, terrain/icon
 // surfaces, update step, incremental
-public class Scanner(Component owner) : Control(owner)
+public sealed class Scanner(Component owner) : Control(owner)
 {
 
     private int _halfRowInset;
@@ -284,7 +284,7 @@ public class Scanner(Component owner) : Control(owner)
     }
 
     // Scanner.pas:142
-    public virtual void SetImageLibraryFrame(InterfaceImageLibrary value)
+    public void SetImageLibraryFrame(InterfaceImageLibrary value)
     {
         if (value != _imageLibraryFrame)
         {

@@ -4,12 +4,12 @@ using System.Runtime.InteropServices;
 namespace Aow.Game.Events;
 
 // list of -byte callback records
-public class ExecuteEventLogCallbackList : IDisposable
+public sealed class ExecuteEventLogCallbackList : IDisposable
 {
     private readonly List<ExecuteEventLogInfo> _list = [];
 
     // EventLog.pas:283
-    public virtual void Dispose() => Clear();
+    public void Dispose() => Clear();
 
     // EventLog.pas:277
     public ExecuteEventLogCallbackList() => _list = [];

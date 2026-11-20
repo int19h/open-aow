@@ -8,7 +8,7 @@ namespace Aow.Game.Draw.Images;
 // between two characters), FHeight (the largest image height, set by LoadFromStream),
 // FCharCase, FColor, FFontColorPaletteIndex (the entry of the first palette that SetColor sets
 // to Color, -1 for none). A character without an image is 5 pixels wide
-public partial class ImageLibraryFont(Component owner) : CustomImageLibrary(owner)
+public sealed partial class ImageLibraryFont(Component owner) : CustomImageLibrary(owner)
 {
 
     private int _color;

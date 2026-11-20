@@ -9,7 +9,7 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // splash timer, splash stage
-public partial class TitleWindow(UIContext ui) : UIModule(ui)
+public sealed partial class TitleWindow(UIContext ui) : UIModule(ui)
 {
     public Window MainWindow { get; private set; }
     public Panel TitlePanel { get; private set; }

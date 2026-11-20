@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat;
 
-public class CombatParty : EngineObject
+public sealed class CombatParty : EngineObject
 {
     // Combat2.pas:47
     public new const int ClassId = 131_746;

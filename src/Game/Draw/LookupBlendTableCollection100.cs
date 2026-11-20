@@ -4,7 +4,7 @@
 namespace Aow.Game.Draw;
 
 // FTables, Lookup (101 tables, indexed by percentage)
-public class LookupBlendTableCollection100 : IDisposable
+public sealed class LookupBlendTableCollection100 : IDisposable
 {
 
     // { ImageLib's blitters read Lookup directly; adding lines here moves the Asserts below }
@@ -17,7 +17,7 @@ public class LookupBlendTableCollection100 : IDisposable
     public LookupBlendTableCollection100() => Tables = new BlendTableList();
 
     // GFXE.pas:9680
-    public virtual void Dispose()
+    public void Dispose()
     {
         Clear();
         Tables?.Dispose();

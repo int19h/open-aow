@@ -14,7 +14,7 @@ namespace Aow.Game.World.Map;
 // FLocationHS the sprites selected by location (clicking on a hexagon), Selected, Deselected
 // (triggered with the map as the sender), FEventHS the sprite of the last event. The owner is
 // the map
-public partial class HexSpriteSelection(CustomNode owner) : ControlStyleNode(owner), IChildList<HexSprite>, IOwned<GameMap>, IOwnedSink<GameMap>
+public sealed partial class HexSpriteSelection(CustomNode owner) : ControlStyleNode(owner), IChildList<HexSprite>, IOwned<GameMap>, IOwnedSink<GameMap>
 {
 
     // The sprite in slot index, read as the original reads the list, without a range check.

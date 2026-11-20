@@ -4,7 +4,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class SetupEvents
+public sealed partial class SetupEvents
 {
     public event NotifyEvent<SetupEvents> LayoutOnCreate;
 }

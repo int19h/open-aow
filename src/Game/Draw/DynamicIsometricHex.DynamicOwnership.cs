@@ -5,7 +5,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Draw;
 
-public partial class DynamicIsometricHex
+public sealed partial class DynamicIsometricHex
 {
     private IsometricHex _hex;
 

@@ -1,6 +1,6 @@
 namespace Aow.Game.UI.Dialogs;
 
-public partial class SpellBook
+public sealed partial class SpellBook
 {
     public override void Loaded()
     {

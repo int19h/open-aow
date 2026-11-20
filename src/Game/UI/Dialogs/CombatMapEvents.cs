@@ -18,7 +18,7 @@ using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
+public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
 {
     private int _chatHeight;
 

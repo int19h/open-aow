@@ -6,7 +6,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class CombatScanner(UIContext ui) : UIModule(ui)
+public sealed partial class CombatScanner(UIContext ui) : UIModule(ui)
 {
     public Window CombatScannerWindow { get; private set; }
     public Scanner Scanner { get; private set; }

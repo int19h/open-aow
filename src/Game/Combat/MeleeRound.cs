@@ -17,7 +17,7 @@ namespace Aow.Game.Combat;
 
 // count, capacity, strikes, combat objects, cached damage values, units, strike counts,
 // attacker/defender damage types
-public class MeleeRound(EngineObject creator) : IDisposable
+public sealed class MeleeRound(EngineObject creator) : IDisposable
 {
 
     // The node that created this round. It and the nodes it creates reach the engine through it.
@@ -41,7 +41,7 @@ public class MeleeRound(EngineObject creator) : IDisposable
     private Set<DamageType> _defenderDamageTypes;
 
     // AoWAb.PAS:1492
-    public virtual void Dispose() => SetCapacity(0);
+    public void Dispose() => SetCapacity(0);
 
     // AoWAb.PAS:1498
     public void SetCapacity(int newCapacity)

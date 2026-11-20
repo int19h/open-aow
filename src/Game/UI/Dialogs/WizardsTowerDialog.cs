@@ -17,7 +17,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.UI.Dialogs;
 
 // completion callback. tower-entry event
-public partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
+public sealed partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Label SpellNameLabel { get; private set; }

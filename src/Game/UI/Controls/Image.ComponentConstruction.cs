@@ -4,7 +4,7 @@ using Aow.Game.Layout;
 
 namespace Aow.Game.UI.Controls;
 
-public partial class Image
+public sealed partial class Image
 {
     public LayoutStrings LayoutToolTipText
     {

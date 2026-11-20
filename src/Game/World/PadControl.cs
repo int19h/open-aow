@@ -13,7 +13,7 @@ namespace Aow.Game.World;
 
 // { Interface declaration run owned by P5. }
 // pad resources, terrain types
-public class PadControl : ControlStyleObject
+public sealed class PadControl : ControlStyleObject
 {
     public List<MapObjectResource> PadResources { get; }
     public BitList TerrainTypes { get; }

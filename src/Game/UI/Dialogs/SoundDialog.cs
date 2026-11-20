@@ -15,7 +15,7 @@ using static Aow.Rtl.RtlHost;
 namespace Aow.Game.UI.Dialogs;
 
 // sound quality, sound settings (rate, music, DirectSound, window, Sfx, voices)
-public partial class SoundDialog(UIContext ui) : UIModule(ui)
+public sealed partial class SoundDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public ListBox SongList { get; private set; }

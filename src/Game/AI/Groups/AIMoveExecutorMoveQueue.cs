@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.AI.Groups;
 
 // queued moves
-public class AIMoveExecutorMoveQueue(CustomNode owner) : OwningNode(owner), IChildList<AIMoveExecutorMove>
+public sealed class AIMoveExecutorMoveQueue(CustomNode owner) : OwningNode(owner), IChildList<AIMoveExecutorMove>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIMoveExecutorMove.

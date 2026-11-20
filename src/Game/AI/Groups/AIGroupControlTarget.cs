@@ -10,7 +10,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.AI.Groups;
 
 // references. info. data. location. moves. transporter. status. path strength. data A. data B
-public class AIGroupControlTarget(CustomNode owner) : EngineObject(owner), IOwned<AIGroupControlTargetList>, IOwnedSink<AIGroupControlTargetList>
+public sealed class AIGroupControlTarget(CustomNode owner) : EngineObject(owner), IOwned<AIGroupControlTargetList>, IOwnedSink<AIGroupControlTargetList>
 {
     // A reference list holds the target and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list.
@@ -55,7 +55,7 @@ public class AIGroupControlTarget(CustomNode owner) : EngineObject(owner), IOwne
     }
 
     // AIGroup.pas:655
-    public virtual bool Validate(AIGroupControl control)
+    public bool Validate(AIGroupControl control)
     {
         sbyte x = Location.X;
         return x != -1 && StrategicMap.Current.MapContainer.GetField(x, Location.Y, Location.MapLevel).GetAITarget(control, Info, data: out _);

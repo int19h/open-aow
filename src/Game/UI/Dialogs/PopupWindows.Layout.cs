@@ -7,7 +7,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class PopupWindows : ILayoutModule
+public sealed partial class PopupWindows : ILayoutModule
 {
     public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 

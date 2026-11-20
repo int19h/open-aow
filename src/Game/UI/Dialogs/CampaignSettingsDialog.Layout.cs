@@ -7,7 +7,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class CampaignSettingsDialog : ILayoutModule
+public sealed partial class CampaignSettingsDialog : ILayoutModule
 {
     public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 

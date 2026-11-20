@@ -6,7 +6,7 @@ namespace Aow.Game.Draw;
 // A palette of 256 entries. Each entry is one 32-bit pixel value whose meaning follows
 // PixelFormatId: red, green, blue and a flags byte for pfBGR24 and pfRGB24, a 16-bit colour in the
 // low half after Remap to pfRGB565 or pfRGB555, a whole pixel after ImageLibraryFont.SetColor.
-public partial class Palette
+public sealed partial class Palette
 {
     private const int EntryCount = 256;
 

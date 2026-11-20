@@ -3,7 +3,7 @@
 namespace Aow.Game.World.Map;
 
 // the parameters of a new map (THSMap.CreateNewMap)
-public class NewHexSpriteMapSettings
+public sealed class NewHexSpriteMapSettings
 {
 
     public NewHexSpriteMapSettings()

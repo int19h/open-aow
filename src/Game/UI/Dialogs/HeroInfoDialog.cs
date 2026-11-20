@@ -14,7 +14,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.UI.Dialogs;
 
 // done callback, army event, unit-details flag
-public partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
+public sealed partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
 {
     public Panel UnitPanel { get; private set; }
     public Window Window { get; private set; }

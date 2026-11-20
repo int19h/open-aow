@@ -5,7 +5,7 @@ using static Aow.Rtl.PointerMemory;
 namespace Aow.Game.Net;
 
 // FList, the memory streams of the packages that wait to be received
-public class PackageDataList : IDisposable
+public sealed class PackageDataList : IDisposable
 {
     private readonly List<MemoryStream> _list;
 
@@ -13,7 +13,7 @@ public class PackageDataList : IDisposable
     public PackageDataList() => _list = [];
 
     // NetworkE.pas:876
-    public virtual void Dispose()
+    public void Dispose()
     {
         Clear();
         _list?.Clear();

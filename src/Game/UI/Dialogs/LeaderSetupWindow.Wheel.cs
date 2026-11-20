@@ -1,6 +1,6 @@
 namespace Aow.Game.UI.Dialogs;
 
-public partial class LeaderSetupWindow
+public sealed partial class LeaderSetupWindow
 {
     public override void Loaded()
     {

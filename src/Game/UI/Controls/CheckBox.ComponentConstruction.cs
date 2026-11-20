@@ -4,7 +4,7 @@ using Aow.Game.Layout;
 
 namespace Aow.Game.UI.Controls;
 
-public partial class CheckBox
+public sealed partial class CheckBox
 {
     public LayoutStrings LayoutToolTipText
     {

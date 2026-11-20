@@ -3,6 +3,6 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Units;
 
-public class ExplorationSiteItemList(CustomNode owner) : ItemList(owner)
+public sealed class ExplorationSiteItemList(CustomNode owner) : ItemList(owner)
 {
 }

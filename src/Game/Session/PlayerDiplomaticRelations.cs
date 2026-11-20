@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Session;
 
 // player, relations, history
-public class PlayerDiplomaticRelations : EngineObject
+public sealed class PlayerDiplomaticRelations : EngineObject
 {
     // Player.PAS:78
     public PlayerDiplomaticRelations(CustomNode owner) : base(owner)

@@ -5,7 +5,7 @@ namespace Aow.Game.World.Map;
 
 // Engine's value list (Classes.TList adapted to a value type, with a default item for new and
 // out-of-range items) for map locations (TXYLList). Path steps are a PathStepList.
-public class MapCoordinateList : DefaultItemList<MapCoordinate>
+public sealed class MapCoordinateList : DefaultItemList<MapCoordinate>
 {
     // HSEngine.pas:1578
     public MapCoordinateList() => Default = MapCoordinate.None;

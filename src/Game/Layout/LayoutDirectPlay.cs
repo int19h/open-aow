@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Layout;
 
-public class LayoutDirectPlay(Component owner) : GDPlay(owner)
+public sealed class LayoutDirectPlay(Component owner) : GDPlay(owner)
 {
     public int FilePacketSize { get; set; }
     public bool GuaranteeMessages { get; set; }

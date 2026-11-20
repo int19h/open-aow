@@ -17,7 +17,7 @@ using Aow.Rtl;
 namespace Aow.Game.AI.Groups;
 
 // state, targets, settings, buffer, transporter movement table, transporter, control
-public class AIMoveTargetSelector : EngineObject
+public sealed class AIMoveTargetSelector : EngineObject
 {
     // AIGroup.pas:6375
     public AIMoveTargetSelector(CustomNode owner) : base(owner)

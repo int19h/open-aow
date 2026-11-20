@@ -2,6 +2,6 @@
 
 namespace Aow.Engine;
 
-public class PluginMissingException(string message) : Exception(message)
+public sealed class PluginMissingException(string message) : Exception(message)
 {
 }

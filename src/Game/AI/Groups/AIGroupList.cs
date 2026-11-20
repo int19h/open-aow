@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.AI.Groups;
 
 // children
-public class AIGroupList(CustomNode owner) : OwningNode(owner), IChildList<AIGroup>
+public sealed class AIGroupList(CustomNode owner) : OwningNode(owner), IChildList<AIGroup>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIGroup, so the cast never fails.

@@ -16,7 +16,7 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // item offset, completion event, item event
-public partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
+public sealed partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Label TitleLabel { get; private set; }

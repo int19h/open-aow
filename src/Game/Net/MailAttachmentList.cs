@@ -2,7 +2,7 @@
 
 namespace Aow.Game.Net;
 
-public class MailAttachmentList
+public sealed class MailAttachmentList
 {
     // E3IMSTypes.pas:24
     public void Clear()

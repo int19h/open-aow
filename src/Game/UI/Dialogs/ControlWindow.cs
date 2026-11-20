@@ -17,7 +17,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.UI.Dialogs;
 
 // published controls. inverted army selection mask
-public partial class ControlWindow(UIContext ui) : UIModule(ui)
+public sealed partial class ControlWindow(UIContext ui) : UIModule(ui)
 {
     public Window MainWindow { get; private set; }
     public Frame Unit1Frame { get; private set; }

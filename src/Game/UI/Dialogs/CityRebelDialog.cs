@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // completion callback. city-rebellion event
-public partial class CityRebelDialog(UIContext ui) : UIModule(ui)
+public sealed partial class CityRebelDialog(UIContext ui) : UIModule(ui)
 {
     public Window RebelWindow { get; private set; }
     public Label CityNameLabel { get; private set; }

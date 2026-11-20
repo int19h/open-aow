@@ -15,7 +15,7 @@ namespace Aow.Game.AI.Groups;
 
 // status, settings, cycles, army table, transporter table, multiple gaps, mode, search state,
 // path settings
-public class AIMoveControl : EngineObject
+public sealed class AIMoveControl : EngineObject
 {
     // AIGroup.pas:3911
     public AIMoveControl(CustomNode owner) : base(owner)

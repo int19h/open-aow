@@ -5,7 +5,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Units;
 
 // unit index, researched
-public class UnitProduction(CustomNode owner) : EngineObject(owner)
+public sealed class UnitProduction(CustomNode owner) : EngineObject(owner)
 {
     public new const int ClassId = 131_737;
 

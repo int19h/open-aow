@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities;
 
 // { Interface declaration run owned by P2. }
-public class UnitResourceAbilityOwner(CustomNode owner) : AbilityOwner(owner)
+public sealed class UnitResourceAbilityOwner(CustomNode owner) : AbilityOwner(owner)
 {
 
     // Army.PAS:6125

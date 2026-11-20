@@ -21,7 +21,7 @@ using Aow.Rtl;
 namespace Aow.Game.Combat;
 
 // { Interface declaration run owned by P1. }
-public class TargetSelectionControl : IDisposable
+public sealed class TargetSelectionControl : IDisposable
 {
     // Structur.PAS:3785
     // images, HNs, status, mode, callbacks, range, source coordinates, source, change events,
@@ -69,7 +69,7 @@ public class TargetSelectionControl : IDisposable
     public LibraryImage InvalidTargetImage { get; set; }
 
     // Structur.PAS:3793
-    public virtual void Dispose()
+    public void Dispose()
     {
         Text?.Dispose();
         OnChangeStore.Clear();

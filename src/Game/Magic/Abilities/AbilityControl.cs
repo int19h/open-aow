@@ -13,7 +13,7 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Game.Magic.Abilities;
 
 // (Abilities, AbilitiesByType,)
-public class AbilityControl : EngineObject
+public sealed class AbilityControl : EngineObject
 {
     // Ability.PAS:2035
     public AbilityControl(CustomNode owner) : base(owner)

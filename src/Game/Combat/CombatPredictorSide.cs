@@ -4,7 +4,7 @@ using Aow.Rtl;
 namespace Aow.Game.Combat;
 
 // dirty flag. FStrength (ten Integers indexed by TDamageType)
-public class CombatPredictorSide : CombatPredictorUnitList
+public sealed class CombatPredictorSide : CombatPredictorUnitList
 {
     public byte[] UnitRemovedFlags { get; } = new byte[4];
     public int[] Strength { get; } = new int[10];

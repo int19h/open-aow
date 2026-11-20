@@ -8,7 +8,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class CityScreen : ILayoutModule
+public sealed partial class CityScreen : ILayoutModule
 {
     public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 

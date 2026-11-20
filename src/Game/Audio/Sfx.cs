@@ -6,7 +6,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Audio;
 
 // _fileName. One wave file of a sequence
-public class Sfx(CustomNode owner) : EngineObject(owner)
+public sealed class Sfx(CustomNode owner) : EngineObject(owner)
 {
     public new const int ClassId = 2_162_689;
 

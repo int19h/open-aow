@@ -4,7 +4,7 @@ using Aow.Game.Session;
 
 namespace Aow.Game.Combat;
 
-public partial class TacticalBattle
+public sealed partial class TacticalBattle
 {
     // AoWTC.pas:5134. The native remote methods access only the common PCS list.
     public static void RestorePlayerConnection(PlayerCommunicationControl control, int player)

@@ -11,7 +11,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.Combat;
 
 // wall siege object count
-public class FastBattle(CustomNode owner) : Battle(owner)
+public sealed class FastBattle(CustomNode owner) : Battle(owner)
 {
     // AIGroup.pas:7128
     public new const int ClassId = 131_760;

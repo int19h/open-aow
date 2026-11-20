@@ -11,7 +11,7 @@ using static Aow.Rtl.LegacyApplication;
 namespace Aow.Game.UI.Dialogs;
 
 // pending map, menu animation height
-public partial class MultiWindow(UIContext ui) : UIModule(ui)
+public sealed partial class MultiWindow(UIContext ui) : UIModule(ui)
 {
     public Panel JoinPanel { get; private set; }
     public ListBox GamesList { get; private set; }

@@ -10,7 +10,7 @@ using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class ItemBanner(UIContext ui) : UIModule(ui)
+public sealed partial class ItemBanner(UIContext ui) : UIModule(ui)
 {
     public Label ItemNameLabel { get; private set; }
     public Menu BannerMenu { get; private set; }

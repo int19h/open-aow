@@ -4,7 +4,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class VideoDialog
+public sealed partial class VideoDialog
 {
     public event NotifyEvent<VideoDialog> LayoutOnCreate;
     public event NotifyEvent<VideoDialog> LayoutOnDestroy;

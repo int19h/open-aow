@@ -11,7 +11,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.UI.Dialogs;
 
 // published labels, popup and ability-list controls
-public partial class UnitBanner(UIContext ui) : UIModule(ui)
+public sealed partial class UnitBanner(UIContext ui) : UIModule(ui)
 {
     public Label UnitNameLabel { get; private set; }
     public Image MovesIcon { get; private set; }

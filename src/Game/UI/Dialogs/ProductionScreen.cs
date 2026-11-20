@@ -22,7 +22,7 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Game.UI.Dialogs;
 
 // view, place, production, queue, mode, preview, images
-public partial class ProductionScreen(UIContext ui) : UIModule(ui)
+public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Panel UnitPanel { get; private set; }

@@ -14,7 +14,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.Draw;
 
 // MiscellaneousImages. TargetImages. Frame. FrameCount. Selection. Range
-public class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
+public sealed class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
 {
 
     // AoWTC.pas:4846

@@ -21,7 +21,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.AI;
 
 // player, actions, action, action index, cycles, move executer, phase, progress
-public partial class AIPlayerControl : EngineObject
+public sealed partial class AIPlayerControl : EngineObject
 {
     // AI.pas:84
     public AIPlayerControl(CustomNode owner) : base(owner)

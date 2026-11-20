@@ -21,7 +21,7 @@ namespace Aow.Game.Units;
 // { Interface declaration run owned by P2. }
 // Name. FaceIndex. FaceImageLibrary. FaceImageLibraryName. Sequences. RefCount. flags.
 // SfxLibraries
-public class UnitGraphicsResource : EngineResource
+public sealed class UnitGraphicsResource : EngineResource
 {
     public new const int ClassId = 131_600;
 

@@ -14,7 +14,7 @@ namespace Aow.Game.Draw.Images;
 // image - 1), FSequenceMode, FFrameTable (the image indices of smFrameTable and
 // smRndFrameTable), FImageIndex (the image of smNone, the random start of smRandom and
 // smRndFrameTable), _offsetX, _offsetY, _lastFrame, _speedCount, _frameCounter
-public class ImageSequence(ImageSequenceList owner) : IDisposable
+public sealed class ImageSequence(ImageSequenceList owner) : IDisposable
 {
     private byte _layer;
     private string _imageLibraryName = "";
@@ -49,7 +49,7 @@ public class ImageSequence(ImageSequenceList owner) : IDisposable
     }
 
     // ImageLib.pas:8559
-    public virtual void Dispose()
+    public void Dispose()
     {
         FrameTable?.Dispose();
         ReleaseImageLibrary();

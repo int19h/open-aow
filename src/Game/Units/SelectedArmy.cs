@@ -26,7 +26,7 @@ namespace Aow.Game.Units;
 
 // { Interface declaration run owned by P2. }
 // mode, road builder ID, selected graphics references, ignore next mouse-down
-public class SelectedArmy(EngineObject creator) : MoveSelector(creator)
+public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
 {
 
     private SelectedArmyMode _mode;

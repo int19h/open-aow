@@ -19,7 +19,7 @@ using static Aow.Rtl.DelphiTextCompare;
 namespace Aow.Game.Units;
 
 // SystemLibrary. Libraries
-public class HeroLibraryManager : EngineObject
+public sealed class HeroLibraryManager : EngineObject
 {
     // Hero.PAS:2646
     public HeroLibraryManager(CustomNode owner) : base(owner)

@@ -21,7 +21,7 @@ namespace Aow.Game.Combat;
 
 // AllUnits. ActiveUnits. Sides. Result. Superiority. Efficiency. Wall. Round.
 // NextCpuId. Invalid. Work
-public class CombatPredictor : IDisposable
+public sealed class CombatPredictor : IDisposable
 {
     // CombatPredictor.pas:292
     public CombatPredictor(EngineObject creator)
@@ -55,7 +55,7 @@ public class CombatPredictor : IDisposable
     public int Work { get; set; }
 
     // CombatPredictor.pas:301
-    public virtual void Dispose()
+    public void Dispose()
     {
         Reset();
         _allUnits?.Dispose();

@@ -15,7 +15,7 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Game.Magic.Spells;
 
 // (registered-spell list)
-public class SpellControl(CustomNode owner) : EngineObject(owner)
+public sealed class SpellControl(CustomNode owner) : EngineObject(owner)
 {
 
     public List<Spell> RegisteredSpells { get; init; } = [];

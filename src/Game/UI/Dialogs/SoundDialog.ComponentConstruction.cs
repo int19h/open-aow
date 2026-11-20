@@ -4,7 +4,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class SoundDialog
+public sealed partial class SoundDialog
 {
     public event NotifyEvent<SoundDialog> LayoutOnCreate;
     public event NotifyEvent<SoundDialog> LayoutOnDestroy;

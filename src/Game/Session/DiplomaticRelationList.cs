@@ -4,7 +4,7 @@ using Aow.Engine.Collections;
 namespace Aow.Game.Session;
 
 // inherited TByteList, default relation
-public class DiplomaticRelationList : ByteList
+public sealed class DiplomaticRelationList : ByteList
 {
     // Player.PAS:11
     public DiplomaticRelationList() => Default = (int)DiplomaticRelation.Unknown;

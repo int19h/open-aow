@@ -1,9 +1,9 @@
 namespace Aow.Rtl;
 
-public class IniFile
+public sealed class IniFile
 {
 }
 
-public class Filer
+public sealed class Filer
 {
 }

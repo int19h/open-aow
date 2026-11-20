@@ -12,7 +12,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Units;
 
 // UnitConcealment. ConcealedForPlayers. MoraleValues
-public class ArmyView(CustomNode owner) : Army(owner)
+public sealed class ArmyView(CustomNode owner) : Army(owner)
 {
     public new const int ClassId = 131_609;
 
@@ -57,7 +57,7 @@ public class ArmyView(CustomNode owner) : Army(owner)
     public override bool GetConcealedForPlayer(sbyte player) => ((ConcealedForPlayers >>> (player - 1)) & 1) != 0;
 
     // Army.PAS:100
-    public virtual void Setup(Army army, byte selection)
+    public void Setup(Army army, byte selection)
     {
         AssignSettings(army);
         Location = new MapCoordinate(army.Location.X, army.Location.Y, army.Location.MapLevel);

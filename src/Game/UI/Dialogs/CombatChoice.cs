@@ -15,7 +15,7 @@ using static Aow.Rtl.DelegateRoutines;
 namespace Aow.Game.UI.Dialogs;
 
 // combat request, completion event
-public partial class CombatChoice(UIContext ui) : UIModule(ui)
+public sealed partial class CombatChoice(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Button FightButton { get; private set; }

@@ -4,7 +4,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class WorldMap
+public sealed partial class WorldMap
 {
     public event NotifyEvent<WorldMap> LayoutOnCreate;
 }

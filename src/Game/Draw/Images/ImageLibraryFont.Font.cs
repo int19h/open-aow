@@ -4,7 +4,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Draw.Images;
 
-public partial class ImageLibraryFont
+public sealed partial class ImageLibraryFont
 {
     // ImageLib.pas:6308 and 6337 store a reference index in an image variable.
     internal int TextWidth(string text)

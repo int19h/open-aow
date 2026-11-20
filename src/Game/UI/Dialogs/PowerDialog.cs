@@ -15,7 +15,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.UI.Dialogs;
 
 // all fields are form components, power allocation slider
-public partial class PowerDialog(UIContext ui) : UIModule(ui)
+public sealed partial class PowerDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Label NetManaLabel { get; private set; }

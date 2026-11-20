@@ -5,7 +5,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // (spell list)
-public class SpellList : IDisposable
+public sealed class SpellList : IDisposable
 {
     // Spells.PAS:695
     public SpellList() => _spells = new DelphiList<Spell>();
@@ -13,7 +13,7 @@ public class SpellList : IDisposable
     private readonly DelphiList<Spell> _spells;
 
     // Spells.PAS:700
-    public virtual void Dispose() => _spells?.Dispose();
+    public void Dispose() => _spells?.Dispose();
 
     // Spells.PAS:705
     public Spell this[int index] => index >= 0 && index < GetCount() ? _spells[index] : null;

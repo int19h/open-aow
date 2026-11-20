@@ -11,7 +11,7 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Game.UI.Dialogs;
 
 // full screen, change flag, display size
-public partial class VideoDialog(UIContext ui) : UIModule(ui)
+public sealed partial class VideoDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public ListBox DisplayModesList { get; private set; }

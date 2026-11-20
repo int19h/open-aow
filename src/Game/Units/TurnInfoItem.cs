@@ -5,7 +5,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Units;
 
 // gold, mana, structures, army strength, heroes
-public class TurnInfoItem(CustomNode owner) : EngineObject(owner)
+public sealed class TurnInfoItem(CustomNode owner) : EngineObject(owner)
 {
     public new const int ClassId = 131_739;
 

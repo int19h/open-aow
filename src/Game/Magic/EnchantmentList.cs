@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Magic;
 
-public class EnchantmentList(CustomNode owner) : OwningNode(owner), IChildList<Enchantment>
+public sealed class EnchantmentList(CustomNode owner) : OwningNode(owner), IChildList<Enchantment>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an Enchantment, so the read never fails.

@@ -11,7 +11,7 @@ namespace Aow.Game.Draw.Images;
 // FStoredPixelFormatID), FColorKey (the transparent color in FPixelFormatID), FSpriteX,
 // FSpriteY (of the pixels in the grabbed rectangle), FSpriteWidth, FSpriteHeight (of the
 // pixels)
-public class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibraryImageClass
+public sealed class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibraryImageClass
 {
     static int ILibraryImageClass.ClassId => 22;
     static string ILibraryImageClass.Name => "Sprite (16bpp)";

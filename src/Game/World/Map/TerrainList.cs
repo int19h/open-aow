@@ -8,16 +8,16 @@ namespace Aow.Game.World.Map;
 
 // terrain and overlay types by hexagon number, one pair per hexagon (terrain type, overlay
 // type. -2: none). The stream holds the pairs as two signed bytes each.
-public class TerrainList : IDisposable
+public sealed class TerrainList : IDisposable
 {
     private int _count;
     private (sbyte Terrain, sbyte Overlay)[] _list = [];
 
     // HSEngine.pas:1411
-    public virtual void Dispose() => Array.Resize(ref _list, newSize: 0);
+    public void Dispose() => Array.Resize(ref _list, newSize: 0);
 
     // HSEngine.pas:1417
-    public virtual void Assign(TerrainList source)
+    public void Assign(TerrainList source)
     {
         SetCount(source._count);
         Array.Copy(source._list, sourceIndex: 0, destinationArray: _list, destinationIndex: 0, length: _count);

@@ -2,7 +2,7 @@
 namespace Aow.Game.Draw;
 
 // _list
-public class BlendTableList : IDisposable
+public sealed class BlendTableList : IDisposable
 {
     private readonly List<BlendTable> _list;
 
@@ -16,7 +16,7 @@ public class BlendTableList : IDisposable
     public BlendTableList() => _list = [];
 
     // GFXE.pas:9635
-    public virtual void Dispose()
+    public void Dispose()
     {
         Clear();
         _list?.Clear();

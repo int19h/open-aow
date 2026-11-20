@@ -1,7 +1,7 @@
 
 namespace Aow.Game.Draw;
 
-public partial class BlendTable5Bit
+public sealed partial class BlendTable5Bit
 {
     public override void Assign(BlendTable source)
     {

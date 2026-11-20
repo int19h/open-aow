@@ -12,7 +12,7 @@ using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class SynchronizeDialog(UIContext ui) : UIModule(ui)
+public sealed partial class SynchronizeDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Image LeftShield { get; private set; }

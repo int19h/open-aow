@@ -12,7 +12,7 @@ namespace Aow.Game.Draw.Images;
 //   SizedRectangle, clipped to the surface's clip rectangle, which they narrow while drawing and
 //   restore. }
 // no fields or virtual methods of its own
-public partial class InterfaceImageLibrary(Component owner) : ImageLibrary(owner)
+public sealed partial class InterfaceImageLibrary(Component owner) : ImageLibrary(owner)
 {
 
     // AOWInterfaceImgLib.pas:34

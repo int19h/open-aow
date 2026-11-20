@@ -13,7 +13,7 @@ using static Aow.Rtl.DelphiStrings;
 namespace Aow.Game.UI.Dialogs;
 
 // callback, send event
-public partial class SendEmailGameDialog(UIContext ui) : UIModule(ui)
+public sealed partial class SendEmailGameDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Edit EmailAddressEdit { get; private set; }

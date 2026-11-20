@@ -7,7 +7,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class WizardsTowerDialog : ILayoutModule
+public sealed partial class WizardsTowerDialog : ILayoutModule
 {
     public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 

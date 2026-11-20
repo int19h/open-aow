@@ -6,7 +6,7 @@ using Aow.Game.UI.Windows;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class UnitBanner : ILayoutModule
+public sealed partial class UnitBanner : ILayoutModule
 {
     public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 

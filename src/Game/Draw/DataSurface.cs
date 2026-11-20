@@ -9,7 +9,7 @@ namespace Aow.Game.Draw;
 // FPitch, FPixelFormatID, FX, FY (origin of the captured rectangle), FPalette. The port's FMem
 // is the pixel array and its first byte is the first pixel, so FData has no field of its own
 // (graphics.md 3.4).
-public partial class DataSurface : Surface
+public sealed partial class DataSurface : Surface
 {
 
     private int _width;

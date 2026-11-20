@@ -4,7 +4,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class MapWindow
+public sealed partial class MapWindow
 {
     public event NotifyEvent<MapWindow> LayoutOnCreate;
 }

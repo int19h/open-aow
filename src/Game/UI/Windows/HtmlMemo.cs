@@ -19,7 +19,7 @@ namespace Aow.Game.UI.Windows;
 // surface holds the text), FImages (the background textures), FTopItem (the first pixel row
 // shown), FFonts (the fonts loaded, TImageLibraryFont), FAOWWindow, FTextWidth, FTextHeight
 // (the size of the back surface)
-public partial class HtmlMemo : BaseWindow
+public sealed partial class HtmlMemo : BaseWindow
 {
     public List<ChangeInfo> Changes { get; }
 
@@ -1043,7 +1043,7 @@ public partial class HtmlMemo : BaseWindow
 
     // a style change in the text. FHeight (the line height), FColor, FFont (the font file, '' for
     // the current font), FAlign, FPos (the character of the line where it starts), FLine, FSpacing
-    public class ChangeInfo
+    public sealed class ChangeInfo
     {
         public int Height { get; set; }
         public int Color { get; set; }

@@ -16,7 +16,7 @@ using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class RealmWindow(UIContext ui) : UIModule(ui)
+public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public TabPanel HeaderTabs { get; private set; }

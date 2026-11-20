@@ -4,7 +4,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Units;
 
-public partial class ArmyId
+public sealed partial class ArmyId
 {
 
     public override void PersistFields(IPersister persister)

@@ -22,7 +22,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.UI.Dialogs;
 
 // enchantment sort, global sort, power sort
-public partial class MagicWindow(UIContext ui) : UIModule(ui)
+public sealed partial class MagicWindow(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Label ResearchPointsLabel { get; private set; }

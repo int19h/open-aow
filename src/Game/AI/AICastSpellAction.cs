@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.AI;
 
-public class AICastSpellAction(CustomNode owner) : EngineObject(owner)
+public sealed class AICastSpellAction(CustomNode owner) : EngineObject(owner)
 {
     public int SourceUnitId { get; set; }
     public int SpellId { get; set; }

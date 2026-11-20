@@ -15,7 +15,7 @@ using static Aow.Rtl.DelphiStrings;
 namespace Aow.Game.Units;
 
 // { Interface declaration run owned by P1. }
-public class FaceResource(CustomNode owner) : EngineResource(owner)
+public sealed class FaceResource(CustomNode owner) : EngineResource(owner)
 {
     public new const int ClassId = 131_696;
     private string _imageLibraryName = "";

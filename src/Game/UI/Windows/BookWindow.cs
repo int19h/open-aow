@@ -9,7 +9,7 @@ namespace Aow.Game.UI.Windows;
 
 // completion event, first frame, previous surface validity, page turn, animating, saved page
 // surface, page-turn mode
-public partial class BookWindow(Component owner) : Window(owner)
+public sealed partial class BookWindow(Component owner) : Window(owner)
 {
 
     [Published]

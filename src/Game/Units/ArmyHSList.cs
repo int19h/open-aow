@@ -5,7 +5,7 @@ using Aow.Game.Draw;
 
 namespace Aow.Game.Units;
 
-public class ArmyHSList(CustomNode owner) : ObservableEventList(owner)
+public sealed class ArmyHSList(CustomNode owner) : ObservableEventList(owner)
 {
 
     // Army.PAS:3562

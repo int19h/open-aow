@@ -11,7 +11,7 @@ namespace Aow.Game.UI.Grids;
 // { ot=1 }
 // library, current player, last player, animating, animation phase, frame offset, done event,
 // change event, checked, animation frame
-public partial class TurnButton(Component owner) : Control(owner)
+public sealed partial class TurnButton(Component owner) : Control(owner)
 {
 
     private ImageLibrary _imageLibrary;
@@ -171,7 +171,7 @@ public partial class TurnButton(Component owner) : Control(owner)
     }
 
     // TurnButton.pas:73
-    public virtual void SetImageLibrary(ImageLibrary value) => _imageLibrary = value ?? null;
+    public void SetImageLibrary(ImageLibrary value) => _imageLibrary = value ?? null;
 
     [Published]
     public ImageLibrary ImageLibrary { get => _imageLibrary; set => SetImageLibrary(value); }

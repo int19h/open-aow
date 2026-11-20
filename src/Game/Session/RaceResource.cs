@@ -21,7 +21,7 @@ namespace Aow.Game.Session;
 // { Interface declaration run owned by P1. }
 // face library, city library, library name, name, race name, description, alignments,
 // references, units, hero unit, special units, hero names
-public class RaceResource(CustomNode owner) : EngineResource(owner)
+public sealed class RaceResource(CustomNode owner) : EngineResource(owner)
 {
 
     public new const int ClassId = 131_585;

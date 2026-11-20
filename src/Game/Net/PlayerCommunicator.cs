@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.Net;
 
 // _engine, Received, _receivedPackage, SendStream, ReceiveStream, _playerCommunicationControl, Processed
-public class PlayerCommunicator(CustomNode owner) : EngineObject(owner)
+public sealed class PlayerCommunicator(CustomNode owner) : EngineObject(owner)
 {
 
     internal EventStore<PlayerCommunicator> OnReceiveStore { get; } = new();
@@ -31,7 +31,7 @@ public class PlayerCommunicator(CustomNode owner) : EngineObject(owner)
     }
 
     // NetworkE.pas:629
-    public virtual bool ActivatePlayerCommunicationControl(PlayerCommunicationControl playerCommunicationControl)
+    public bool ActivatePlayerCommunicationControl(PlayerCommunicationControl playerCommunicationControl)
     {
         PlayerCommunicationControl?.Release();
         PlayerCommunicationControl = null;
@@ -57,7 +57,7 @@ public class PlayerCommunicator(CustomNode owner) : EngineObject(owner)
     }
 
     // NetworkE.pas:651
-    public virtual void Process()
+    public void Process()
     {
         while (ReceiveDataPackage())
         {

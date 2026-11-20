@@ -11,7 +11,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
+public sealed partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
 {
     public Panel FactionPanel { get; private set; }
     public Label TopLabel { get; private set; }

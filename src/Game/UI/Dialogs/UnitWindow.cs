@@ -20,7 +20,7 @@ namespace Aow.Game.UI.Dialogs;
 
 // highlight. dragged item type. highlight step. blink state. blink delay. cursor image. ground
 // offset/count. show info
-public partial class UnitWindow(UIContext ui) : UIModule(ui)
+public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
 {
     public Window MainWindow { get; private set; }
     public TabPanel UnitTabs { get; private set; }

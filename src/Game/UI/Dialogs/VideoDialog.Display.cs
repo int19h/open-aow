@@ -3,7 +3,7 @@ using Aow.Game.Host;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class VideoDialog
+public sealed partial class VideoDialog
 {
     public void ApplyMode()
     {

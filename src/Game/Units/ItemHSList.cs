@@ -5,7 +5,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.Units;
 
 // inherited children, update lock, change event
-public partial class ItemHSList(CustomNode owner) : ItemList(owner)
+public sealed partial class ItemHSList(CustomNode owner) : ItemList(owner)
 {
 
     // Army.PAS:5202

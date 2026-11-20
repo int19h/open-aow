@@ -7,7 +7,7 @@ using Aow.Rtl;
 namespace Aow.Game.AI;
 
 // registered classes
-public class AIPlayerActionManager(CustomNode owner) : EngineObject(owner)
+public sealed class AIPlayerActionManager(CustomNode owner) : EngineObject(owner)
 {
 
     private readonly DelphiList<AIPlayerActionClass> _registeredClasses = new();

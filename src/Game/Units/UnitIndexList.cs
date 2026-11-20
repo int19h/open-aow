@@ -8,7 +8,7 @@ using static Aow.Rtl.LegacyApplication;
 namespace Aow.Game.Units;
 
 // inherited List, Count, Default
-public class UnitIndexList : Int32List
+public sealed class UnitIndexList : Int32List
 {
     // UnitRes.PAS:219
     public UnitIndexList() => Default = -1;

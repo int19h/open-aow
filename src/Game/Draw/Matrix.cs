@@ -6,7 +6,7 @@ namespace Aow.Game.Draw;
 // a byte matrix (the invalidated blocks of a surface). FData, FWidth, FHeight. The port's FData
 // is the array of FWidth * FHeight bytes, row by row, and null for an empty matrix as GetMem of
 // size 0 gives nil.
-public class Matrix : IDisposable
+public sealed class Matrix : IDisposable
 {
     internal byte[] Data { get; private set; }
 
@@ -20,7 +20,7 @@ public class Matrix : IDisposable
     }
 
     // DisplayC.pas:3155
-    public virtual void Dispose() => Data = null;
+    public void Dispose() => Data = null;
 
     // DisplayC.pas:3166
     // { The value at X, Y, clipped to 2. }

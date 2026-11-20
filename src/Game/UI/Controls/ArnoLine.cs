@@ -9,7 +9,7 @@ using static Aow.Rtl.RtlHost;
 namespace Aow.Game.UI.Controls;
 
 // top, middle, bottom, copied line image library
-public class ArnoLine : Control
+public sealed class ArnoLine : Control
 {
     private LibraryImage _imageTop;
     private LibraryImage _imageMiddle;

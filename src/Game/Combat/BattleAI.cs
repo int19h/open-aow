@@ -19,7 +19,7 @@ namespace Aow.Game.Combat;
 
 // Side. Units. Allies. Enemies. Moves. Walls. CurrentMove. UnitIndex. UnitLimit. MinMoves.
 // HeroMoves. NormalUnits. IgnoreWalls. Flee. Status
-public class BattleAI(EngineObject creator) : IDisposable
+public sealed class BattleAI(EngineObject creator) : IDisposable
 {
     private CombatSideIndex _side;
 
@@ -41,7 +41,7 @@ public class BattleAI(EngineObject creator) : IDisposable
     public AIStatus Status { get; set; }
 
     // AoWTC.pas:762
-    public virtual void Dispose()
+    public void Dispose()
     {
         _units?.Clear();
         _allies?.Clear();

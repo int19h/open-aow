@@ -22,7 +22,7 @@ namespace Aow.Game.UI.Dialogs;
 
 // mode, page kind, spell type, spells, page, hero, activation, researched spell, callback,
 // event, saved player pages
-public partial class SpellBook(UIContext ui) : UIModule(ui)
+public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
 {
     public Label LeftHeaderLabel { get; private set; }
     public Panel LeftSpellPage { get; private set; }

@@ -26,7 +26,7 @@ namespace Aow.Game.UI.Dialogs;
 
 // preview settings. abilities. active ability count. selected indices. unit list. selected
 // unit. combat sprite
-public partial class General(UIContext ui) : UIModule(ui)
+public sealed partial class General(UIContext ui) : UIModule(ui)
 {
     public WindowManager Manager { get; set; }
     public ToolTip ToolTip { get; private set; }

@@ -50,16 +50,16 @@ public class GDPlay(Component? owner = null) : Component(owner)
 }
 
 // aowDPlayComp.pas: a service provider found by EnumConnections.
-public class GDConnection
+public sealed class GDConnection
 {
     public Guid FGuid { get; init; }
     public ConnectionType FType { get; init; }
 }
 
-public class GDFile
+public sealed class GDFile
 {
 }
 
-public class GDMessage
+public sealed class GDMessage
 {
 }

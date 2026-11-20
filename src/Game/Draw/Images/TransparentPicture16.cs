@@ -3,7 +3,7 @@
 namespace Aow.Game.Draw.Images;
 
 // (ClassID $15): a TPicture16 shown transparent by default. it cannot be grabbed
-public class TransparentPicture16 : Picture16, ILibraryImageClass
+public sealed class TransparentPicture16 : Picture16, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassId => 21;
     static string ILibraryImageClass.Name => "Transparent Picture (16bpp)";

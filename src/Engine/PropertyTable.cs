@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Engine;
 
-public class PropertyTable : IDisposable
+public sealed class PropertyTable : IDisposable
 {
     private Item[] _items = [];
     private int _capacity;
@@ -35,7 +35,7 @@ public class PropertyTable : IDisposable
     }
 
     // Engine.pas:2253
-    public virtual void Dispose()
+    public void Dispose()
     {
         SetCapacity(0);
         Array.Resize(ref _stack, newSize: 0);

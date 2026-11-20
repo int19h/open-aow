@@ -19,7 +19,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.UI.Dialogs;
 
 // player indices, checkbox controls
-public partial class ResultsWindow(UIContext ui) : UIModule(ui)
+public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
 {
     public CheckBox Player1CheckBox { get; private set; }
     public CheckBox Player2CheckBox { get; private set; }

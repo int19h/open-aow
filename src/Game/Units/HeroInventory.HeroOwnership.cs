@@ -4,7 +4,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Units;
 
-public partial class HeroInventory
+public sealed partial class HeroInventory
 {
     internal Hero Hero { get; init; }
 

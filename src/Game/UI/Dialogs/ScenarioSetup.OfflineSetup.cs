@@ -4,7 +4,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class ScenarioSetup
+public sealed partial class ScenarioSetup
 {
     public void SidePanelDrawBack(Panel sender, LockedSurface surface, int slot)
     {

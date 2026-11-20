@@ -7,7 +7,7 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // inherited children, engine, control style
-public class ItemGFXList : ResourceCollection, IChildList<ItemGraphics>
+public sealed class ItemGFXList : ResourceCollection, IChildList<ItemGraphics>
 {
     // The item graphics in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a ItemGraphics, so the cast never fails.

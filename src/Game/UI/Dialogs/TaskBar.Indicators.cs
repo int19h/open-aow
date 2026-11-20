@@ -2,7 +2,7 @@ using Aow.Game.Session;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class TaskBar
+public sealed partial class TaskBar
 {
     // Original writes Alignment.RightOffset and FAligned
     public void UpdatePlayerIndicator()

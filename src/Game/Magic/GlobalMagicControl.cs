@@ -17,7 +17,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic;
 
 // next ID, update count, active types, enchantments, double-mana counters, changed events
-public class GlobalMagicControl : EngineObject
+public sealed class GlobalMagicControl : EngineObject
 {
 
     // Spells.PAS:2673

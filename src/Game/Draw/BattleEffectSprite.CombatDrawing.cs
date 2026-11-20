@@ -14,7 +14,7 @@ using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.Draw;
 
-public partial class BattleEffectSprite
+public sealed partial class BattleEffectSprite
 {
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {

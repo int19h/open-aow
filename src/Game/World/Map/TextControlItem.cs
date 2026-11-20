@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Map;
 
 // ID, Text, Name
-public class TextControlItem(CustomNode owner) : EngineObject(owner)
+public sealed class TextControlItem(CustomNode owner) : EngineObject(owner)
 {
 
     public new const int ClassId = 131_738;

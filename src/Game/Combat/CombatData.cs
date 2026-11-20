@@ -9,7 +9,7 @@ using static Aow.Rtl.DelphiAssert;
 namespace Aow.Game.Combat;
 
 // damage set. byte lists. objects. players. parties. round. header string. Boolean. combat wall
-public partial class CombatData : EngineObject
+public sealed partial class CombatData : EngineObject
 {
     // Combat2.pas:184
     public new const int ClassId = 131_747;

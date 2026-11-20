@@ -15,7 +15,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.UI.Dialogs;
 
 // retained unit spell caster
-public partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
+public sealed partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Panel UnitPanel { get; private set; }

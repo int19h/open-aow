@@ -7,7 +7,7 @@ using Aow.Game.UI.Windows;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class TitleWindow : ILayoutModule
+public sealed partial class TitleWindow : ILayoutModule
 {
     public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 

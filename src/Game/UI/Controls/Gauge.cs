@@ -10,7 +10,7 @@ namespace Aow.Game.UI.Controls;
 
 // Fields: _min, _max, _position, _imageLibraryFrame, _imageLibraryTextureNormal, _imageLibraryTextureSelected, Style,
 // _imageLibraryIndexFrame, _imageLibraryIndexTNormal, _imageLibraryIndexTSelected
-public partial class Gauge(Component owner) : Control(owner)
+public sealed partial class Gauge(Component owner) : Control(owner)
 {
 
     private int _position;
@@ -209,7 +209,7 @@ public partial class Gauge(Component owner) : Control(owner)
     public override void CheckKeyPress(ref byte key) => Handled = false;
 
     // AOWGauge.pas:141
-    public virtual void SetImageLibraryFrame(InterfaceImageLibrary value)
+    public void SetImageLibraryFrame(InterfaceImageLibrary value)
     {
         if (value != _imageLibraryFrame)
         {
@@ -219,7 +219,7 @@ public partial class Gauge(Component owner) : Control(owner)
     }
 
     // AOWGauge.pas:150
-    public virtual void SetImageLibraryTileNorm(InterfaceImageLibrary value)
+    public void SetImageLibraryTileNorm(InterfaceImageLibrary value)
     {
         if (value != _imageLibraryTextureNormal)
         {
@@ -229,7 +229,7 @@ public partial class Gauge(Component owner) : Control(owner)
     }
 
     // AOWGauge.pas:159
-    public virtual void SetImageLibraryTileSelected(InterfaceImageLibrary value)
+    public void SetImageLibraryTileSelected(InterfaceImageLibrary value)
     {
         if (value != _imageLibraryTextureSelected)
         {

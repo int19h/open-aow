@@ -4,7 +4,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class TitleScene
+public sealed partial class TitleScene
 {
     public event NotifyEvent<TitleScene> LayoutOnCreate;
     public event NotifyEvent<TitleScene> LayoutOnDestroy;

@@ -19,7 +19,7 @@ using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class SetupEvents(UIContext ui) : UIModule(ui)
+public sealed partial class SetupEvents(UIContext ui) : UIModule(ui)
 {
     public GDPlay DirectPlay { get; set; }
     public SetupControl SetupControl { get; set; }

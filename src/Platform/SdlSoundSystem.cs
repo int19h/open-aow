@@ -3,7 +3,7 @@ using Aow.Rtl;
 
 namespace Aow.Platform;
 
-public class SdlSoundSystem : SoundSystem
+public sealed class SdlSoundSystem : SoundSystem
 {
     private static bool s_muted = true, s_useOutput;
     private static SdlSoundSystem? s_active;

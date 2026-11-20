@@ -19,7 +19,7 @@ using static Aow.Rtl.DelphiTextCompare;
 namespace Aow.Game.Units;
 
 // system library, libraries
-public class ItemLibraryManager : EngineObject
+public sealed class ItemLibraryManager : EngineObject
 {
     // Army.PAS:4967
     public ItemLibraryManager(CustomNode owner) : base(owner)

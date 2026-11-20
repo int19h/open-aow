@@ -21,7 +21,7 @@ namespace Aow.Game.AI.Groups;
 
 // destination, control, control queue, moves, units, transporter, move limit, mode, state,
 // status, player, process cycles, completion event
-public class AIMoveExecutor : EngineObject
+public sealed class AIMoveExecutor : EngineObject
 {
     // AIGroup.pas:5976
     public AIMoveExecutor(CustomNode owner) : base(owner)

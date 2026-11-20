@@ -4,7 +4,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class HeroJoinDialog
+public sealed partial class HeroJoinDialog
 {
     public event NotifyEvent<HeroJoinDialog> LayoutOnCreate;
     public event NotifyEvent<HeroJoinDialog> LayoutOnDestroy;

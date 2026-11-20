@@ -1,10 +1,10 @@
 namespace Aow.Rtl;
 
-public class Canvas
+public sealed class Canvas
 {
 }
 
-public class PopupMenu
+public sealed class PopupMenu
 {
 }
 

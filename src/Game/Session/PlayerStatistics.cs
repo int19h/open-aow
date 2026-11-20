@@ -6,7 +6,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Session;
 
 // turn info, units killed, units lost
-public class PlayerStatistics : EngineObject
+public sealed class PlayerStatistics : EngineObject
 {
     // Player.PAS:182
     public PlayerStatistics(CustomNode owner) : base(owner) => TurnInfo = new TurnInfo(null) { Holder = CreationHolder() };

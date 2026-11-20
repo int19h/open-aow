@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Controls;
 
-public partial class Image
+public sealed partial class Image
 {
     // FastBattleWindow.GlowAnimation is a plain TImageLibrary in the recovered form.
     private ImageLibrary _imageLibrary = null!;

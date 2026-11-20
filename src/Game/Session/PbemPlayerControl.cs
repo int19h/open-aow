@@ -22,7 +22,7 @@ using static Aow.Rtl.DelphiTextCompare;
 namespace Aow.Game.Session;
 
 // local player
-public class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owner)
+public sealed class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owner)
 {
     public new const int ClassId = 131_667;
     private sbyte _localPlayer;

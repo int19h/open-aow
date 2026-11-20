@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.Session;
 
 // status, email game
-public class PbemPlayerSettings : EngineObject
+public sealed class PbemPlayerSettings : EngineObject
 {
     // Player.PAS:236
     public PbemPlayerSettings(CustomNode owner) : base(owner)

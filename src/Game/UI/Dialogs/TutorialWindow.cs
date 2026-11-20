@@ -9,7 +9,7 @@ using static Aow.Rtl.DelphiStrings;
 namespace Aow.Game.UI.Dialogs;
 
 // done callback, retained event
-public partial class TutorialWindow(UIContext ui) : UIModule(ui)
+public sealed partial class TutorialWindow(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Memo MessageMemo { get; private set; }

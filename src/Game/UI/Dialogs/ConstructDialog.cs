@@ -12,7 +12,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.UI.Dialogs;
 
 // activation request
-public partial class ConstructDialog(UIContext ui) : UIModule(ui)
+public sealed partial class ConstructDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public ListBox<ConstructionControl> ConstructionList { get; private set; }

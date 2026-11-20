@@ -17,7 +17,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.UI.Dialogs;
 
 // arena event. completion callback
-public partial class ArenaDialog(UIContext ui) : UIModule(ui)
+public sealed partial class ArenaDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Panel UnitPanel { get; private set; }

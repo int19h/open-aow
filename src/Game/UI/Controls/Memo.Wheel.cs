@@ -3,7 +3,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Controls;
 
-public partial class Memo
+public sealed partial class Memo
 {
     // A memo with CaptureInput clear still takes the wheel. The world map intro text is one of those.
     public override bool WantsMouseWheel => Visible;

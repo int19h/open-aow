@@ -22,7 +22,7 @@ namespace Aow.Game.Combat;
 
 // FItems. FRandomTerrain. neighbor weights. terrain weights. terrain-tag weights. terrain
 // samples. tag samples. resource lists. FHomePosition
-public class RandomBattleMapGenerator : IDisposable
+public sealed class RandomBattleMapGenerator : IDisposable
 {
     public ItemList Items { get; private set; }
 
@@ -38,7 +38,7 @@ public class RandomBattleMapGenerator : IDisposable
     private int _homePosition;
 
     // AoWTC.pas:4149
-    public virtual void Dispose()
+    public void Dispose()
     {
         for (int i = 0; i <= 285; i++)
         {

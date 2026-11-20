@@ -19,7 +19,7 @@ namespace Aow.Game.AI.Groups;
 
 // { TDamageStrengths is shared with TDefenseRequirements in intf_P1_01.inc. }
 // defenders, selected defense location
-public class GroupDefenseSelector : IDisposable
+public sealed class GroupDefenseSelector : IDisposable
 {
     // AIGroup.pas:1640
     public GroupDefenseSelector(EngineObject creator)
@@ -36,7 +36,7 @@ public class GroupDefenseSelector : IDisposable
     public MapCoordinate DefenseLocation { get; private set; }
 
     // AIGroup.pas:1646
-    public virtual void Dispose() => Defenders?.Dispose();
+    public void Dispose() => Defenders?.Dispose();
 
     // AIGroup.pas:1652
     public bool GetDefenders(sbyte player, sbyte X, sbyte Y, sbyte L, UnitUserList units)

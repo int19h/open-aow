@@ -15,7 +15,7 @@ using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
+public sealed partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
 {
     public Window MainWindow { get; private set; }
     public ListBox EventList { get; private set; }

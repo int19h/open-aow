@@ -41,7 +41,7 @@ namespace Aow.Game.Session;
 // players, seen days, PBEM, emerging hero, participating, initial gold, base income, hero join
 // days, upkeep. end turn, view, password, turn number, base hero level, emerging hero ID,
 // emerge day, highest hero level, settings/description
-public class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<PlayerCollection>
+public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<PlayerCollection>
 {
     // The list that holds the player. AcceptsOwner admits only that list, so the cast never fails.
     public new PlayerCollection Owner => GetOwner<PlayerCollection>();

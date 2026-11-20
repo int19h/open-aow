@@ -26,7 +26,7 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Game.UI.Dialogs;
 
 // city, preview, view, action, production, queue, mode, migrations, sort, images
-public partial class CityScreen(UIContext ui) : UIModule(ui)
+public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Panel UnitPanel { get; private set; }

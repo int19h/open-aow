@@ -14,7 +14,7 @@ namespace Aow.Game.UI.Windows;
 //   coordinates never change. A panel can belong to a tab of a TAOWTabPanel (TabPanel and
 //   OwnerItem): it is then visible only while its tab is selected. }
 // Fields: _tabPanel, _window.
-public partial class Panel : BaseWindow
+public sealed partial class Panel : BaseWindow
 {
     private TabPanel _tabPanel;
     private BaseWindow _window;
@@ -629,7 +629,7 @@ public partial class Panel : BaseWindow
     // AoWPanel.pas:145
     // { SetTabPanel moves the panel from the panel list of its old tab panel to the list of the new
     //   one, in priority order }
-    public virtual void SetTabPanel(TabPanel value)
+    public void SetTabPanel(TabPanel value)
     {
         if (value != _tabPanel)
         {

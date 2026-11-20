@@ -5,7 +5,7 @@ using Aow.Formats.Tree;
 
 namespace Aow.Game.Session;
 
-public class SetupPackage(CustomNode owner) : EngineObject(owner)
+public sealed class SetupPackage(CustomNode owner) : EngineObject(owner)
 {
     // AoWSetup.pas:254
     public new const int ClassId = 131_681;

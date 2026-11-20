@@ -6,7 +6,7 @@ namespace Aow.Game.Draw.Images;
 
 // FIndex, FPalette, FRemapPalette (the palette remapped to a pixel format, made on demand),
 // _refCount
-public class LibraryImagePalette : Persistent
+public sealed class LibraryImagePalette : Persistent
 {
     internal int IndexValue { get; set; }
 

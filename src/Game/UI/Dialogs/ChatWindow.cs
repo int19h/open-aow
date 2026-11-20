@@ -13,7 +13,7 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Game.UI.Dialogs;
 
 // pending scroll to the newest message
-public partial class ChatWindow(UIContext ui) : UIModule(ui)
+public sealed partial class ChatWindow(UIContext ui) : UIModule(ui)
 {
     public Window MainWindow { get; private set; }
     public Memo ChatMemo { get; private set; }

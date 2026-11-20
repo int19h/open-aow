@@ -15,7 +15,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Structures;
 
 // production place
-public partial class ProductionPlaceControl(CustomNode owner) : ProductionControl(owner)
+public sealed partial class ProductionPlaceControl(CustomNode owner) : ProductionControl(owner)
 {
     public ProductionPlace ProductionPlace { get; set; }
 

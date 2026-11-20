@@ -7,7 +7,7 @@ namespace Aow.Game;
 
 // { ot=1 }
 // inherited TRegistry fields
-public partial class GameSettings : DelphiRegistry
+public sealed partial class GameSettings : DelphiRegistry
 {
     // AoWReg.pas:128
     public void AssociateMapFiles(string executable)

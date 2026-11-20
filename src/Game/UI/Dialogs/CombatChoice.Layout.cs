@@ -7,7 +7,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class CombatChoice : ILayoutModule
+public sealed partial class CombatChoice : ILayoutModule
 {
     public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 

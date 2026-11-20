@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Units;
 
 // UnitIds. Player. FX, FY, FL
-public partial class ArmyId(CustomNode owner) : EngineObject(owner)
+public sealed partial class ArmyId(CustomNode owner) : EngineObject(owner)
 {
 
     public new const int ClassId = 131_616;

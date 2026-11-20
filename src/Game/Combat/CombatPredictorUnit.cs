@@ -14,7 +14,7 @@ namespace Aow.Game.Combat;
 // Targets. CombatValue. WallTargets. WallCombatValue. cache flags. RoundTargets.
 // CombatValueTotal. CombatRounds. IncomingCombatValue. IneffectiveAttackers.
 // TargetPriority. HitPoints. Status
-public partial class CombatPredictorUnit : IDisposable
+public sealed partial class CombatPredictorUnit : IDisposable
 {
     // CombatPredictor.pas:1
     public CombatPredictorUnit() => RoundTargets = new QuadItemList<CombatPredictorUnit>();
@@ -54,7 +54,7 @@ public partial class CombatPredictorUnit : IDisposable
     public Set<CombatPredictorUnitStatusElement> Status { get; private set; }
 
     // CombatPredictor.pas:4
-    public virtual void Dispose()
+    public void Dispose()
     {
         RoundTargets?.Dispose();
         object objectValue = Targets;

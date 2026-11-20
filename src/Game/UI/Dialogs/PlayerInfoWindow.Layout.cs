@@ -7,7 +7,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class PlayerInfoWindow : ILayoutModule
+public sealed partial class PlayerInfoWindow : ILayoutModule
 {
     public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 

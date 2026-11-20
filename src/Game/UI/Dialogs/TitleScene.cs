@@ -27,7 +27,7 @@ namespace Aow.Game.UI.Dialogs;
 
 // frame counters, mouse button, mouse position, selected/pressed/hover button, scene rectangle,
 // redraw/credits, credits, credit page/frame, intro flag/frame, font
-public partial class TitleScene(UIContext ui) : UIModule(ui)
+public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
 {
     public ImageLibrary TitleSceneImages { get; private set; }
     public UserWindow Window { get; private set; }

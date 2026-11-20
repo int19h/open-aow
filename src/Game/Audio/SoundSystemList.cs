@@ -6,7 +6,7 @@ using static Aow.Rtl.DelphiTextCompare;
 namespace Aow.Game.Audio;
 
 // the registered sound system classes
-public class SoundSystemList : DelphiList<SoundSystemClass>
+public sealed class SoundSystemList : DelphiList<SoundSystemClass>
 {
     // Sound.pas:1293
     public SoundSystemClass Find(string name)

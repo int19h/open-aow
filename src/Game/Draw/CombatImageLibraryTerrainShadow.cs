@@ -6,7 +6,7 @@ using Aow.Game.World.Terrain;
 
 namespace Aow.Game.Draw;
 
-public class CombatImageLibraryTerrainShadow(CustomNode owner) : HexSprite(owner)
+public sealed class CombatImageLibraryTerrainShadow(CustomNode owner) : HexSprite(owner)
 {
     public CombatImageLibraryTerrain Terrain { get; init; }
 

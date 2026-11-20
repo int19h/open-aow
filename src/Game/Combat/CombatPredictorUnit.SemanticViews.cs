@@ -3,7 +3,7 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Combat;
 
-public partial class CombatPredictorUnit
+public sealed partial class CombatPredictorUnit
 {
     public void Setup(Troop troop, CombatPredictor predictor, byte side)
     {

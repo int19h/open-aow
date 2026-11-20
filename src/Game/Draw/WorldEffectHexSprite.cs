@@ -16,7 +16,7 @@ namespace Aow.Game.Draw;
 
 // { Interface declaration run owned by P2. }
 // FFinished, Frame, FX, FY, Layer, Path, EffectType
-public class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
+public sealed class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
 {
 
     public bool Done { get; private set; }

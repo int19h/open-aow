@@ -9,7 +9,7 @@ using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.World.Map;
 
-public class AowHexSpriteMapMouse : GameMapMouse
+public sealed class AowHexSpriteMapMouse : GameMapMouse
 {
 
     public AowHexSpriteMapMouse() : base()

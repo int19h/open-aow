@@ -10,7 +10,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Draw;
 
 // Structure. FadeEndFrame
-public class MagicSanctuaryOverlayHexSprite(CustomNode owner) : SingleHexSprite(owner)
+public sealed class MagicSanctuaryOverlayHexSprite(CustomNode owner) : SingleHexSprite(owner)
 {
 
     public MagicSanctuary Structure { get; init; }

@@ -1190,7 +1190,7 @@ public class AIGroupTargetSelector : AIGroupTask
 
     // target factor, immediate bonus, transport penalty, overlap penalties, existing-target
     // bonuses, cooperation penalties, recruitment penalties, move-day penalty, production penalties
-    public class PrioritySettings
+    public sealed class PrioritySettings
     {
         public float TargetFactor { get; set; }
         public int ImmediateBonus { get; set; }

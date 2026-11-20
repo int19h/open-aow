@@ -11,7 +11,7 @@ namespace Aow.Game.Draw.Images;
 // the image sequences of the indices, each the first layer of a chain (nil for none). FLinked
 // (the sequences are linked to their libraries), FILManager, FImageLibrary (the library of the
 // sequences without a library name)
-public class ImageSequenceList(ImageLibraryManager aILManager, CustomImageLibrary imageLibrary) : DelphiList<ImageSequence>
+public sealed class ImageSequenceList(ImageLibraryManager aILManager, CustomImageLibrary imageLibrary) : DelphiList<ImageSequence>
 {
 
     // { HSEngine's TMapObjectResource.MsgProc writes FILManager directly }

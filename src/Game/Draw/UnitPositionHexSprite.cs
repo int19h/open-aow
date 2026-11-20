@@ -15,7 +15,7 @@ using Aow.Rtl;
 namespace Aow.Game.Draw;
 
 // Position. Index. ImageIndex. Images. Direction
-public class UnitPositionHexSprite(CustomNode owner) : SingleHexSprite(owner)
+public sealed class UnitPositionHexSprite(CustomNode owner) : SingleHexSprite(owner)
 {
 
     // AoWTC.pas:5016

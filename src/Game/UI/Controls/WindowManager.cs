@@ -17,7 +17,7 @@ namespace Aow.Game.UI.Controls;
 // FBorderBottom, FOldCursor (the cursor before CheckMouseMove), FDefaultCursor (the cursor when
 // no window claims the mouse), FOnChangeCursor, FILIndexTBack, FILIndexTFore, FDrawOverlay
 // (draw the foreground texture over the windows below the overlay priority)
-public partial class WindowManager : UIComponent
+public sealed partial class WindowManager : UIComponent
 {
     private InterfaceImageLibrary _foregroundTexture;
     private InterfaceImageLibrary _backgroundTexture;
@@ -624,7 +624,7 @@ public partial class WindowManager : UIComponent
     }
 
     // AOWWinManager.pas:102
-    public virtual void SetILTB(InterfaceImageLibrary value)
+    public void SetILTB(InterfaceImageLibrary value)
     {
         if (value != _backgroundTexture)
         {
@@ -634,7 +634,7 @@ public partial class WindowManager : UIComponent
     }
 
     // AOWWinManager.pas:111
-    public virtual void SetILTF(InterfaceImageLibrary value)
+    public void SetILTF(InterfaceImageLibrary value)
     {
         if (value != _foregroundTexture)
         {

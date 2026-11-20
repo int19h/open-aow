@@ -8,7 +8,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class CombatMapEvents
+public sealed partial class CombatMapEvents
 {
     public void CombatMapActivateMap()
     {

@@ -17,7 +17,7 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Game.UI.Dialogs;
 
 // map-validation delay. setup control. ping delay. chat scroll pending
-public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
+public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
 {
     public Memo ChatMemo { get; private set; }
     public VerticalScrollBar ChatScrollBar { get; private set; }

@@ -26,7 +26,7 @@ using static Aow.Rtl.PointerMemory;
 
 namespace Aow.Game.Session;
 
-public class SetupControl : Component
+public sealed class SetupControl : Component
 {
     private readonly GameEngine _engine;
 

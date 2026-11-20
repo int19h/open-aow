@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.Net;
 
 // the node that owns the players' settings
-public class PlayerCommunicationSettingsList(CustomNode owner) : OwningNode(owner), IChildList<PlayerCommunicationSettings>
+public sealed class PlayerCommunicationSettingsList(CustomNode owner) : OwningNode(owner), IChildList<PlayerCommunicationSettings>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a PlayerCommunicationSettings, so the read never fails.

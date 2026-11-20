@@ -17,7 +17,7 @@ namespace Aow.Game.World.Structures;
 
 // { ot=1 }
 // City
-public partial class CityProductionControl(CustomNode owner) : ProductionControl(owner)
+public sealed partial class CityProductionControl(CustomNode owner) : ProductionControl(owner)
 {
     public City City { get; init; }
 

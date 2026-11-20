@@ -8,7 +8,7 @@ namespace Aow.Game.Net;
 
 // FLocalSystemID, FPackageDataList, FOnSendData. The control of a network game: the transport
 // sends through OnSendData and hands what arrives to DataReceived
-public class RemotePlayerCommunicationControl(EngineObject creator) : PlayerCommunicationControl(creator)
+public sealed class RemotePlayerCommunicationControl(EngineObject creator) : PlayerCommunicationControl(creator)
 {
 
     private int _localSystemId;

@@ -4,7 +4,7 @@ using Aow.Game.Layout;
 
 namespace Aow.Game.UI.Controls;
 
-public partial class Gauge
+public sealed partial class Gauge
 {
     public LayoutStrings LayoutToolTipText
     {

@@ -6,7 +6,7 @@ using Aow.Game.World;
 
 namespace Aow.Game.Draw;
 
-public class CombatObstacleShadow(CustomNode owner) : HexSprite(owner)
+public sealed class CombatObstacleShadow(CustomNode owner) : HexSprite(owner)
 {
     public CombatObstacle Obstacle { get; init; }
 

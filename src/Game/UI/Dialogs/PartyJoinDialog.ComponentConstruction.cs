@@ -4,7 +4,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class PartyJoinDialog
+public sealed partial class PartyJoinDialog
 {
     public event NotifyEvent<PartyJoinDialog> LayoutOnCreate;
     public event NotifyEvent<PartyJoinDialog> LayoutOnDestroy;

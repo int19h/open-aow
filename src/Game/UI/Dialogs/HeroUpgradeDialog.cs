@@ -20,7 +20,7 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Game.UI.Dialogs;
 
 // close callback, referenced hero, list sort orders, live hero, editable copy
-public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
+public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Label HeaderLabel { get; private set; }

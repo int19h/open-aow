@@ -25,7 +25,7 @@ namespace Aow.Game.World.Map;
 
 // TNotifyEvent target passed directly
 // cheat text, mode, lock count
-public class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
+public sealed class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
 {
     private string _cheatText = "";
 
@@ -33,7 +33,7 @@ public class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
     public int LockCount { get; private set; }
 
     // AoWHSMap.PAS:946
-    public virtual void KeyDown(in ushort key, Set<ShiftState> shift)
+    public void KeyDown(in ushort key, Set<ShiftState> shift)
     {
         if (LockCount != 0)
         {

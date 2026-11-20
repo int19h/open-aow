@@ -5,7 +5,7 @@ using Aow.Game.Units;
 
 namespace Aow.Game.Session;
 
-public class TurnInfo(CustomNode owner) : OwningNode(owner), IChildList<TurnInfoItem>
+public sealed class TurnInfo(CustomNode owner) : OwningNode(owner), IChildList<TurnInfoItem>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a TurnInfoItem, so the cast never fails.

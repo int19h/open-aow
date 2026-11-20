@@ -29,7 +29,7 @@ namespace Aow.Game.UI.Dialogs;
 
 // star image, brightness, path animation, pawn timing, hover, context, completion event, book
 // action
-public partial class WorldMap(UIContext ui) : UIModule(ui)
+public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
 {
     public Memo LeftPageMemo { get; private set; }
     public Image RightPagePicture { get; private set; }

@@ -14,7 +14,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.UI.Dialogs;
 
 // hero scroll. unit scroll. item scroll. left selection kind/index. right selection kind/index
-public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
+public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
 {
     public CheckBox AvailableHero1CheckBox { get; private set; }
     public CheckBox AvailableHero2CheckBox { get; private set; }

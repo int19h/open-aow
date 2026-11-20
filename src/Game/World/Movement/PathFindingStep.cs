@@ -8,7 +8,7 @@ namespace Aow.Game.World.Movement;
 
 // { Interface declaration run owned by P5. }
 // location, origin, move point lines
-public class PathFindingStep(CustomNode owner) : EngineObject(owner)
+public sealed class PathFindingStep(CustomNode owner) : EngineObject(owner)
 {
 
     public MapCoordinate Location { get; internal set; } = MapCoordinate.None;

@@ -4,7 +4,7 @@ using Aow.Formats.Tree;
 
 namespace Aow.Game.Combat;
 
-public partial class CombatData
+public sealed partial class CombatData
 {
     public override void Clear()
     {

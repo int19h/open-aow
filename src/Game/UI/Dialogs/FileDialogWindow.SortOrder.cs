@@ -3,7 +3,7 @@ namespace Aow.Game.UI.Dialogs;
 // The original lists files by name each time the dialog fills its list, whichever sort button the
 // player pressed last. The port remembers the last button in the settings and applies it on every
 // fill, so the open and save dialogs keep the player's order between uses and between sessions.
-public partial class FileDialogWindow
+public sealed partial class FileDialogWindow
 {
     private void RememberSortByDate(bool byDate) => UI.Engine.Registry.SetFileDialogSortByDate(byDate);
 

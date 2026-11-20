@@ -4,7 +4,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class SpellBook
+public sealed partial class SpellBook
 {
     public event NotifyEvent<SpellBook> LayoutOnCreate;
     public event NotifyEvent<SpellBook> LayoutOnDestroy;

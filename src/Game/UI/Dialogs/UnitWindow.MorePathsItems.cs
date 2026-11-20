@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class UnitWindow
+public sealed partial class UnitWindow
 {
     // AoWUnitWindow.pas:773. The cursor belongs to the rewritten main form.
     public void Gnd1Change(CheckBox check)

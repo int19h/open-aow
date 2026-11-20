@@ -5,7 +5,7 @@ using Aow.Rtl;
 namespace Aow.Game.Combat;
 
 // source, source side, target side, combat, command list
-public class FastBattleCommandList : IDisposable
+public sealed class FastBattleCommandList : IDisposable
 {
     // AIGroup.pas:6716
     public FastBattleCommandList(CombatObject source, FastBattle combat, CombatSide side)
@@ -25,7 +25,7 @@ public class FastBattleCommandList : IDisposable
     private readonly DelphiList<FastBattleCommand> _commands;
 
     // AIGroup.pas:6727
-    public virtual void Dispose()
+    public void Dispose()
     {
         Clear();
         _commands?.Dispose();

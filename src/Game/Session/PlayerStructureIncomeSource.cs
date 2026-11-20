@@ -6,7 +6,7 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.Session;
 
-public class PlayerStructureIncomeSource(CustomNode owner) : IncomeSource(owner)
+public sealed class PlayerStructureIncomeSource(CustomNode owner) : IncomeSource(owner)
 {
     private PlayerStructure _structure;
 

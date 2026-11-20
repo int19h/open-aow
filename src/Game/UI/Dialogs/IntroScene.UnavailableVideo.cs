@@ -4,7 +4,7 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // No video decoder is installed. This follows the original missing-codec path.
-public partial class IntroScene
+public sealed partial class IntroScene
 {
     public void InitializeSound() { }
 

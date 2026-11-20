@@ -14,7 +14,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.UI.Dialogs;
 
 // done callback, new-turn event
-public partial class NewTurnDialog(UIContext ui) : UIModule(ui)
+public sealed partial class NewTurnDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Label ClickMessageLabel { get; private set; }

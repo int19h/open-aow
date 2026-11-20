@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Draw;
 
-public class TacticalBattleItemHexSprite(CustomNode owner) : ItemHexSprite(owner)
+public sealed class TacticalBattleItemHexSprite(CustomNode owner) : ItemHexSprite(owner)
 {
 
     // AoWTC.pas:2586

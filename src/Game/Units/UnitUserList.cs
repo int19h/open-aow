@@ -15,7 +15,7 @@ namespace Aow.Game.Units;
 // reads them through Units. AddUnit does not set the owner. A troop's owner stays where the
 // caller left it, including this list when the caller sets that owner. The members below that
 // carry a Unit.PAS line are TUnitList's part, with the reference writes TUnitUserList overrides.
-public class UnitUserList(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, IUnitHolder
+public sealed class UnitUserList(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, IUnitHolder
 {
     // The troop in slot index, without a range check.
     public Troop this[int index] => Units[index];
@@ -82,7 +82,7 @@ public class UnitUserList(CustomNode owner) : ObservableNode(owner), IChildList<
     }
 
     // Unit.PAS:2362
-    public virtual sbyte GetPlayer() => -1;
+    public sbyte GetPlayer() => -1;
 
     // Unit.PAS:2366
     public int GetStrength(DamageType damageType) => Units.GetStrength(damageType);
@@ -91,7 +91,7 @@ public class UnitUserList(CustomNode owner) : ObservableNode(owner), IChildList<
     public int GetStrengthMax(Set<DamageType> damageTypes) => Units.GetStrengthMax(damageTypes);
 
     // Unit.PAS:2356
-    public virtual MapCoordinate GetLocation() => MapCoordinate.None;
+    public MapCoordinate GetLocation() => MapCoordinate.None;
 
     // Unit.PAS:2338
     public void SortUnits() => Units.Sort();
@@ -100,13 +100,13 @@ public class UnitUserList(CustomNode owner) : ObservableNode(owner), IChildList<
     public void SortOnMoves() => Units.SortOnMoves();
 
     // Unit.PAS:2188
-    public virtual bool CanAddUnit(Troop troop) => troop.CanAddToList(Units);
+    public bool CanAddUnit(Troop troop) => troop.CanAddToList(Units);
 
     // Unit.PAS:2192
-    public virtual bool CanDeleteUnit(Troop troop) => true;
+    public bool CanDeleteUnit(Troop troop) => true;
 
     // Unit.PAS:2386
-    public virtual bool AddUnit(Troop troop)
+    public bool AddUnit(Troop troop)
     {
         if (CanAddUnit(troop))
         {
@@ -118,7 +118,7 @@ public class UnitUserList(CustomNode owner) : ObservableNode(owner), IChildList<
     }
 
     // Unit.PAS:2396
-    public virtual bool DeleteUnit(Troop troop)
+    public bool DeleteUnit(Troop troop)
     {
         if (CanDeleteUnit(troop))
         {
@@ -130,7 +130,7 @@ public class UnitUserList(CustomNode owner) : ObservableNode(owner), IChildList<
     }
 
     // Unit.PAS:2201
-    public virtual bool AddUnits(UnitCollection units)
+    public bool AddUnits(UnitCollection units)
     {
         for (int index = units.Count - 1; index >= 0; index--)
         {

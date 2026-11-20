@@ -12,7 +12,7 @@ using Aow.Rtl;
 namespace Aow.Game.Session;
 
 // behaviors, race, status, leader, player, behavior, email
-public class PlayerSetupSettings : EngineObject
+public sealed class PlayerSetupSettings : EngineObject
 {
     // AoWSetup.pas:312
     public new const int ClassId = 131_683;

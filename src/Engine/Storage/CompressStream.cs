@@ -9,7 +9,7 @@ using static Aow.Rtl.DelphiStreams;
 
 namespace Aow.Engine.Storage;
 
-public class CompressStream : MemoryStream
+public sealed class CompressStream : MemoryStream
 {
 
     // Engine.pas:1715

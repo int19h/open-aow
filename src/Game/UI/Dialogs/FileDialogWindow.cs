@@ -31,7 +31,7 @@ using static Aow.Rtl.DelphiTextCompare;
 namespace Aow.Game.UI.Dialogs;
 
 // directory, last filename, save event, done callback, dialog mode
-public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
+public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Button OpenButton { get; private set; }

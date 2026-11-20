@@ -13,7 +13,7 @@ using static Aow.Rtl.RtlHost;
 namespace Aow.Game.UI.Dialogs;
 
 // indicator frame/step, world/combat clock delays, chat flash countdown
-public partial class TaskBar(UIContext ui) : UIModule(ui)
+public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
 {
     public Window TaskWindow { get; private set; }
     public MenuBar WorldStartMenuBar { get; private set; }

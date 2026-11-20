@@ -4,7 +4,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Controls;
 
-public partial class WindowManager
+public sealed partial class WindowManager
 {
     // The topmost visible window at or above the overlay that contains the pointer gets the wheel.
     // A window under it does not, including when the upper window handles nothing.
