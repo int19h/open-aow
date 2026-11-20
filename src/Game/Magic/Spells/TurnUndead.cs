@@ -36,8 +36,7 @@ public partial class TurnUndead : CombatSpell
     // CombatSpells.pas:905
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        TurnUndeadSpellCombatAction action;
-        action = new TurnUndeadSpellCombatAction(null)
+        TurnUndeadSpellCombatAction action = new(null)
         {
             Holder = CreationHolder(),
             SpellId = SpellId,

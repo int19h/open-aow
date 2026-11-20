@@ -56,11 +56,10 @@ public partial class SuicidalAIGroupControl(CustomNode owner) : AIGroupControl(o
     // MainAG.pas:759
     public override void ProcessStates()
     {
-        AIGroupTargetFinder finder;
         switch (State)
         {
             case 0:
-                finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
+                AIGroupTargetFinder finder = new(null) { Holder = CreationHolder() };
                 _ = finder.Setup(this);
                 finder.Selector.MovePointsMax = 100;
                 ActivatePlugin(finder);

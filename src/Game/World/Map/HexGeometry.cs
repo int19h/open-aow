@@ -21,16 +21,14 @@ public static class HexGeometry
     internal static int InverseHexNumber(int hexNumber)
     {
         int result;
-        int r;
-        int n;
         if (hexNumber < 37)
         {
             result = InverseHexNumberTable[hexNumber];
         }
         else
         {
-            r = ((int)Math.Sqrt(((hexNumber - 1) * 12) + 9) + 3) / 6;
-            n = r * 6;
+            int r = ((int)Math.Sqrt(((hexNumber - 1) * 12) + 9) + 3) / 6;
+            int n = r * 6;
             result = ((hexNumber - ((r - 1) * r * 3) - 1 + (int)(((uint)n) >> 1)) % n) + ((r - 1) * r * 3) + 1;
         }
 
@@ -39,15 +37,12 @@ public static class HexGeometry
 
     internal static void CenterHexNumberToHex(int hexX, int hexY, int hexNumber, ref int newHexX, ref int newHexY)
     {
-        int r;
-        int side;
-        int position;
         if (hexNumber != 0)
         {
-            r = ((int)Math.Sqrt(((hexNumber - 1) * 12) + 9) + 3) / 6;
+            int r = ((int)Math.Sqrt(((hexNumber - 1) * 12) + 9) + 3) / 6;
             hexNumber = hexNumber - ((r - 1) * r * 3) - 1;
-            side = hexNumber / r;
-            position = hexNumber % r;
+            int side = hexNumber / r;
+            int position = hexNumber % r;
             switch (side)
             {
                 case 0:
@@ -87,10 +82,8 @@ public static class HexGeometry
 
     internal static void TranslateHex(int fromHexX, int fromHexY, int toHexX, int toHexY, int hexX, int hexY, out int newHexX, out int newHexY)
     {
-        int dX;
-        int dY;
-        dX = toHexX - fromHexX;
-        dY = toHexY - fromHexY;
+        int dX = toHexX - fromHexX;
+        int dY = toHexY - fromHexY;
         if ((dX & 1) != 0)
         {
             if ((fromHexX & 1) != 0)
@@ -122,17 +115,11 @@ public static class HexGeometry
 
     internal static void GenerateWalkAroundRoute(int hexX, int hexY, WalkAroundRouteCallBack callback)
     {
-        int nHexX;
         int nHexY = default;
-        int tHexX = default;
-        int tHexY = default;
-        int hexNumber;
-        bool found;
-        bool cancel;
-        cancel = false;
-        nHexX = 65535;
-        found = false;
-        hexNumber = 0;
+        bool cancel = false;
+        int nHexX = 65535;
+        bool found = false;
+        int hexNumber = 0;
         while (!found && hexNumber != 6 && !cancel)
         {
             hexNumber += 1;
@@ -144,6 +131,8 @@ public static class HexGeometry
         {
             hexX = nHexX;
             hexY = nHexY;
+            int tHexX = default;
+            int tHexY = default;
             while (!cancel)
             {
                 hexNumber += 2;
@@ -194,9 +183,6 @@ public static class HexGeometry
 
     internal static void HexNumberToHex(int hexNumber, ref int hexX, ref int hexY)
     {
-        int r;
-        int side;
-        int position;
         if (hexNumber < 37)
         {
             hexX = s_hexNumberToHexTable[hexNumber][0];
@@ -204,10 +190,10 @@ public static class HexGeometry
         }
         else
         {
-            r = ((int)Math.Sqrt(((hexNumber - 1) * 12) + 9) + 3) / 6;
+            int r = ((int)Math.Sqrt(((hexNumber - 1) * 12) + 9) + 3) / 6;
             hexNumber = hexNumber - ((r - 1) * r * 3) - 1;
-            side = hexNumber / r;
-            position = hexNumber % r;
+            int side = hexNumber / r;
+            int position = hexNumber % r;
             switch (side)
             {
                 case 0:
@@ -272,22 +258,18 @@ public static class HexGeometry
 
     internal static int DeltaHexToRadius(int x1, int y1, int x2, int y2)
     {
+        int dX = Math.Abs(x1 - x2);
+        int dY = Math.Abs(y1 - y2);
         int result;
-        int dX;
-        int dY;
-        int half;
-        bool up;
-        dX = Math.Abs(x1 - x2);
-        dY = Math.Abs(y1 - y2);
         if (dY >= dX)
         {
-            up = (dX & 1) != 0 && ((!((x1 & 1) != 0) && y1 < y2) || (!((x2 & 1) != 0) && y2 < y1));
+            bool up = (dX & 1) != 0 && ((!((x1 & 1) != 0) && y1 < y2) || (!((x2 & 1) != 0) && y2 < y1));
             result = up ? (int)(((uint)(dX + 1)) >> 1) + dY : (int)(((uint)dX) >> 1) + dY;
         }
         else
         {
             result = dX;
-            half = (int)(((uint)(dX + 1)) >> 1);
+            int half = (int)(((uint)(dX + 1)) >> 1);
             if ((dX & 1) != 0 && ((!((x1 & 1) != 0) && y1 < y2) || (!((x2 & 1) != 0) && y2 < y1)))
             {
                 dY += 1;
@@ -304,22 +286,18 @@ public static class HexGeometry
 
     internal static int HexToRadius(int hexX, int hexY)
     {
+        int dX = Math.Abs(hexX);
+        int dY = Math.Abs(hexY);
         int result;
-        int dX;
-        int dY;
-        int half;
-        bool up;
-        dX = Math.Abs(hexX);
-        dY = Math.Abs(hexY);
         if (dY >= dX)
         {
-            up = (dX & 1) != 0 && (hexY > 0 || (!((hexX & 1) != 0) && hexY < 0));
+            bool up = (dX & 1) != 0 && (hexY > 0 || (!((hexX & 1) != 0) && hexY < 0));
             result = up ? (int)(((uint)(dX + 1)) >> 1) + dY : (int)(((uint)dX) >> 1) + dY;
         }
         else
         {
             result = dX;
-            half = (int)(((uint)(dX + 1)) >> 1);
+            int half = (int)(((uint)(dX + 1)) >> 1);
             if ((dX & 1) != 0 && (hexY > 0 || (!((hexX & 1) != 0) && hexY < 0)))
             {
                 dY += 1;
@@ -342,14 +320,13 @@ public static class HexGeometry
 
     internal static int HexToHexNumber(int hexX, int hexY)
     {
+        int r = HexToRadius(hexX, hexY);
         int result;
-        int r;
-        int side;
-        int position;
-        r = HexToRadius(hexX, hexY);
         if (r != 0)
         {
             HexToHV(hexX, hexY, out int h, out int v);
+            int side;
+            int position;
             if (r == h)
             {
                 side = 0;
@@ -432,10 +409,8 @@ public static class HexGeometry
 
     internal static int HexToHexDirection(int hexX, int hexY)
     {
-        int result;
-        int h;
-        h = HexToH(hexX, hexY);
-        result = h > 0
+        int h = HexToH(hexX, hexY);
+        int result = h > 0
             ? hexX < 0 ? 6 : HexToV(hexX, hexY) < 0 ? 1 : 2
             : h < 0 ? hexX > 0 ? 3 : HexToV(hexX, hexY) > 0 ? 4 : 5 : hexX < 0 ? 6 : hexX > 0 ? 3 : 0;
 

@@ -65,10 +65,8 @@ public partial class SingleTargetCombatAction(CustomNode owner) : CombatAction(o
     // Combat2.pas:764
     public override void ShowFightingObjects(CombatViewer viewer, int frame, int X, int Y, in LockedSurface surface)
     {
-        CombatObject source;
-        CombatObject target;
-        source = viewer.Combat.CombatData.FindId(SourceId);
-        target = viewer.Combat.CombatData.FindId(TargetId);
+        CombatObject source = viewer.Combat.CombatData.FindId(SourceId);
+        CombatObject target = viewer.Combat.CombatData.FindId(TargetId);
         if (!Mode.Contains(SingleTargetModeElement.Defensive))
         {
             viewer.DefaultShowFightingObjects(source, target, frame, X, Y, surface);

@@ -17,11 +17,10 @@ public partial class SingleCombatHex(CustomNode owner) : AbstractHexagon(owner)
     // SingleCombatHex.pas:47
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        ImageSequence sequence;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
         x = x - pixelXSurface - 8;
         y -= pixelYSurface;
-        sequence = base.Resource.ImageSequenceList.GetImageSequence(0);
+        ImageSequence sequence = base.Resource.ImageSequenceList.GetImageSequence(0);
         sequence.ImageLibrary.Get(sequence.ImageIndex).Show(x, y, lockedSurface);
     }
 

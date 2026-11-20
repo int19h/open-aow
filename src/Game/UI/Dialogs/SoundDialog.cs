@@ -136,11 +136,10 @@ public partial class SoundDialog(UIContext ui) : UIModule(ui)
     // AoWSoundDlg.pas:179
     public void FindFiles()
     {
-        string directory;
         SongList.Items.Clear();
         s_songFiles.Clear();
         _ = SetCurrentDir($"{UI.Engine.StartupDirectory}\\Songs");
-        directory = GetCurrentDir();
+        string directory = GetCurrentDir();
         if (Copy(directory, directory.Length, 1) == "\\")
         {
             directory = Copy(directory, 1, directory.Length - 1);

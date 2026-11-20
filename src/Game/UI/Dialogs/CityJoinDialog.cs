@@ -28,10 +28,8 @@ public partial class CityJoinDialog(UIContext ui) : UIModule(ui)
     // AoWCityJoinDlg.pas:55
     public void FinishDialog()
     {
-        ExecuteDoneEvent done;
-        NegotiateRequestEventLog log;
-        done = Done;
-        log = _event;
+        ExecuteDoneEvent done = Done;
+        NegotiateRequestEventLog log = _event;
         Done = null;
         _event = null;
         done?.Invoke(log);
@@ -79,8 +77,7 @@ public partial class CityJoinDialog(UIContext ui) : UIModule(ui)
     // AoWCityJoinDlg.pas:93
     public void DlgDrawBack(LockedSurface surface)
     {
-        LibraryImage face;
-        face = GamePack.Current.RaceResources.GetRaceResource(_race).GetFace();
+        LibraryImage face = GamePack.Current.RaceResources.GetRaceResource(_race).GetFace();
         face?.ShowClipped(CelticFrame.WinLeft + 10, CelticFrame.WinTop + 28, surface);
     }
 
@@ -105,16 +102,14 @@ public partial class CityJoinDialog(UIContext ui) : UIModule(ui)
 
     internal static void ShowCityNegotiation(CityJoinDialog dialog, NegotiateRequestEventLog eventValue, ExecuteDoneEvent done)
     {
-        NegotiateRequestEventLog log;
-        City town;
         dialog.Done = done;
         dialog._event = eventValue;
         _ = dialog._event.AddRef();
-        log = dialog._event;
+        NegotiateRequestEventLog log = dialog._event;
         string text = log.JoinMessage.Text;
         dialog.Memo.Items.Text = text;
         dialog.ApproachLabel.Text = log.Text;
-        town = StrategicMap.Current.MapContainer.GetField(log.Hex.X, log.Hex.Y, log.Hex.MapLevel).FindNoneTransparentHexSprite<City>();
+        City town = StrategicMap.Current.MapContainer.GetField(log.Hex.X, log.Hex.Y, log.Hex.MapLevel).FindNoneTransparentHexSprite<City>();
         dialog._race = town.Race;
         LibraryImage topCityActionImage = town.GetTopCityActionImage(null);
         dialog.CityPictureLine.ImageTop = topCityActionImage;

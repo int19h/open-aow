@@ -165,9 +165,8 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     // Army.PAS:4232
     public override int Release()
     {
-        int count;
         RefCount -= 1;
-        count = RefCount;
+        int count = RefCount;
         int result = count;
         if (count == 0)
         {
@@ -261,10 +260,9 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     {
         bool result;
         string reason = "";
-        ItemTokenEvent eventValue;
         if (CanUse(hero, ref reason) && !StrategicMap.Current.Players.GetPlayers(hero.Player).GetBusy())
         {
-            eventValue = new ItemTokenEvent(null)
+            ItemTokenEvent eventValue = new(null)
             {
                 Holder = CreationHolder(),
                 ItemId = ItemId,
@@ -322,8 +320,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     // Army.PAS:4418
     public virtual void Show(int X, int Y, in LockedSurface surface)
     {
-        ItemGraphics graphics;
-        graphics = GamePack.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
+        ItemGraphics graphics = GamePack.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
         if (graphics is not null)
         {
             _ = graphics.AddRef();
@@ -364,9 +361,8 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     // Army.PAS:4356
     public LibraryImage GetImage()
     {
+        ItemGraphics graphics = GamePack.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
         LibraryImage result;
-        ItemGraphics graphics;
-        graphics = GamePack.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
         if (graphics is not null)
         {
             _ = graphics.AddRef();
@@ -403,14 +399,12 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     // Army.PAS:4381
     public void UpdateFromLibrary()
     {
-        int id;
-        Item item;
         if (LibraryId != -1)
         {
-            item = GamePack.Current.ItemLibraries.FindItem(LibraryName, LibraryId);
+            Item item = GamePack.Current.ItemLibraries.FindItem(LibraryName, LibraryId);
             if (item is not null)
             {
-                id = ItemId;
+                int id = ItemId;
                 Assign(item, GetEngine());
                 ItemId = id;
                 Changed();
@@ -435,12 +429,11 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     // Army.PAS:4430
     public void SetItemType(ItemType value)
     {
-        ItemType itemType;
         Attack = 0;
         Defense = 0;
         Resistance = 0;
         Damage = 0;
-        itemType = value;
+        ItemType itemType = value;
         ItemType = itemType;
         _itemGraphicsIndex = GamePack.Current.ItemGraphicsResources.FindItemTypeGraphics(itemType);
         base.Clear();
@@ -457,10 +450,9 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     public bool PlaceOnMap(GameMap map, sbyte x, sbyte y, sbyte level)
     {
         bool result;
-        ItemHexSprite hexSprite;
         if (x >= 0 && y >= 0 && level >= 0 && x < map.MapContainer.Width && y < map.MapContainer.Height && level < map.MapContainer.LevelCount && map.MapContainer.GetField(x, y, level).TerrainType != 15)
         {
-            hexSprite = map.MapContainer.GetField(x, y, level).FindOwnedChild<ItemHexSprite>(131697);
+            ItemHexSprite hexSprite = map.MapContainer.GetField(x, y, level).FindOwnedChild<ItemHexSprite>(131697);
             if (hexSprite is null)
             {
                 hexSprite = new ItemHexSprite(null) { Holder = CreationHolder() };

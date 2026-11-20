@@ -35,12 +35,11 @@ public partial class StoneSkin : UnitSpell
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
         bool result;
-        UnitEnchantment enchantment;
         if (ValidTargetUnit(source, target))
         {
             if (target.ExpandAbility(153))
             {
-                enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(153).Enchantment;
+                UnitEnchantment enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(153).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
                 enchantment.DispelResistance = (sbyte)UnitDispelResistance;

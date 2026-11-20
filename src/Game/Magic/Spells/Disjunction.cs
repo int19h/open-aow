@@ -26,10 +26,8 @@ public partial class Disjunction : Spell
     // GlobalSpells.pas:942
     public override bool CanActivate(Troop source, ref string messageText)
     {
-        bool result;
-        int count;
         string reason = "";
-        count = 0;
+        int count = 0;
         for (int i = 0, last = StrategicMap.Current.GlobalMagicControl.Enchantments.Count - 1; i <= last; i++)
         {
             if (StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(i).PlayerIndex != source.Player && StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(i).VisibleForPlayer(source.Player) && StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(i).CanDispel(source.Player, ref reason))
@@ -38,6 +36,7 @@ public partial class Disjunction : Spell
             }
         }
 
+        bool result;
         if (count == 0)
         {
             messageText = AbilityRules.TranslateResourceString(GetEngine(), s_noGlobalOpponentEnchantmentsActiveText);
@@ -56,10 +55,9 @@ public partial class Disjunction : Spell
     {
         bool result;
         string reason = "";
-        DisjunctionSpellCaster caster;
         if (CanActivate(source, ref reason))
         {
-            caster = new DisjunctionSpellCaster(null)
+            DisjunctionSpellCaster caster = new(null)
             {
                 Holder = CreationHolder(),
                 CasterSpellId = SpellId,

@@ -67,9 +67,9 @@ public partial class TitleWindow(UIContext ui) : UIModule(ui)
     // AOWTitleWindow.pas:42
     public void TitleWinDrawSurface(Surface surface, int X, int Y)
     {
-        LockedSurface lockedSurface = default;
         if (UI.FactionSelectionWindow.FactionPanel.Visible && UI.FactionSelectionWindow.Fade >= 0)
         {
+            LockedSurface lockedSurface = default;
             _ = surface.Lock(ref lockedSurface);
             if (UI.FactionSelectionWindow.FadeDirection == 0)
             {

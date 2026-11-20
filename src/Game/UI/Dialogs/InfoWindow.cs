@@ -154,10 +154,10 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
     // AoWInfoWin.pas:180
     public void RazeBtnClick()
     {
-        string reason = "";
         UI.General.PlayButtonSound(0);
         if (UI.General.Structure is not null)
         {
+            string reason = "";
             if (UI.General.Structure.CanRaze(StrategicMap.Current.SeatedPlayer, ref reason))
             {
                 _ = UI.General.Structure.Raze(StrategicMap.Current.SeatedPlayer);
@@ -172,7 +172,6 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
     // AoWInfoWin.pas:190
     public void MainBtnClick()
     {
-        ArmyHexSprite army;
         UI.General.PlayButtonSound(0);
         if (UI.General.Structure is not null)
         {
@@ -186,7 +185,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         {
             if (ItemBag is not null)
             {
-                army = ItemBag.Owner.GetArmyHexSprite();
+                ArmyHexSprite army = ItemBag.Owner.GetArmyHexSprite();
                 if (army is not null && army.Army.Player == StrategicMap.Current.SeatedPlayer)
                 {
                     if (army.Army.Hero(255, RosterTables.AllHeroTypes) is not null)
@@ -450,7 +449,6 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
 
     internal static void ShowCityInfo(InfoWindow dialog, City structure)
     {
-        string reason = "";
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         string enter = dialog.UI.Engine.TranslateResourceString(GameText.EnterText);
@@ -493,6 +491,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
                 if (structure.Production.Status == ProductionControlStatus.Waiting)
                 {
                     ProductionItem queue = structure.Production.Queue.GetItem(0);
+                    string reason = "";
                     _ = structure.Production.CanExecuteProduction(queue, ref reason);
                     dialog.ProductionWarningLabel.Text = reason;
                     dialog.ProductionWarningLabel.Visible = true;
@@ -513,7 +512,6 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
 
     internal static void ShowProductionInfo(InfoWindow dialog, ProductionPlace structure)
     {
-        string reason = "";
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         string enter = dialog.UI.Engine.TranslateResourceString(GameText.EnterText);
@@ -576,6 +574,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
                 if (structure.ProductionControl.Status == ProductionControlStatus.Waiting)
                 {
                     ProductionItem queue = structure.ProductionControl.Queue.GetItem(0);
+                    string reason = "";
                     _ = structure.ProductionControl.CanExecuteProduction(queue, ref reason);
                     dialog.CurrentActivityWarningLabel.Text = reason;
                     dialog.CurrentActivityWarningLabel.Visible = true;
@@ -621,10 +620,10 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
 
     internal static void ShowRazedInfo(InfoWindow dialog, Structure structure)
     {
-        string text;
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.SingleButtonPanel.Visible = true;
+        string text;
         if (structure is City)
         {
             string name = structure.GetName();
@@ -643,7 +642,6 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
 
     internal static void ShowOtherPlayerInfo(InfoWindow dialog, PlayerStructure structure)
     {
-        int raceIndex;
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.NotYoursPanel.Visible = true;
@@ -663,7 +661,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
 
         if (structure.Player != -1)
         {
-            raceIndex = StrategicMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
+            int raceIndex = StrategicMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
             if (raceIndex == -1)
             {
                 raceIndex = 12;

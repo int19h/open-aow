@@ -25,7 +25,6 @@ public partial class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : Comba
     // CombatTE.pas:454
     public override MoveStatus LastMove()
     {
-        TacticalBattleUnitHexSprite hexSprite;
         MoveStatus result = MoveStatus.Moving;
         try
         {
@@ -54,7 +53,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : Comba
 
                         PathStep pathY = Path[0];
                         PathStep pathX = Path[0];
-                        hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(pathX.Location.X, pathY.Location.Y).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+                        TacticalBattleUnitHexSprite hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(pathX.Location.X, pathY.Location.Y).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                         PreviousUnit = hexSprite?.Unit;
 
                         if (PreviousUnit is null)
@@ -259,8 +258,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : Comba
     // CombatTE.pas:577
     public void NextStrike()
     {
-        bool locked;
-        locked = true;
+        bool locked = true;
         while (locked && _strikeIndex < _meleeRound.Count)
         {
             _meleeRound.GetMeleeStrike(_strikeIndex, out MeleeRound.Strike strike);

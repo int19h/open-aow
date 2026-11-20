@@ -23,8 +23,7 @@ public partial class CombatObjectTurnDoneCombatAction(CustomNode owner) : Combat
     // Combat2.pas:1047
     public override void Execute(Battle combat)
     {
-        CombatObject objectValue;
-        objectValue = combat.CombatData.FindId(CombatObjectId);
+        CombatObject objectValue = combat.CombatData.FindId(CombatObjectId);
         objectValue.Status += Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.TurnDone);
     }
 

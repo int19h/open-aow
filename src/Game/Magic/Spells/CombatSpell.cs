@@ -38,8 +38,7 @@ public partial class CombatSpell : Spell
     // CombatSpells.pas:655
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        CombatSpellCombatAction action;
-        action = new CombatSpellCombatAction(null)
+        CombatSpellCombatAction action = new(null)
         {
             Holder = CreationHolder(),
             SpellId = SpellId
@@ -70,10 +69,8 @@ public partial class CombatSpell : Spell
     // CombatSpells.pas:668
     public override void GetCombatDamageValues(CombatObject source, CombatObject target, ref AbilityDamageValues values)
     {
-        Set<DamageType> protection;
-        Set<DamageType> immunity;
-        protection = target.GetProtectionTypes();
-        immunity = target.GetImmunityTypes();
+        Set<DamageType> protection = target.GetProtectionTypes();
+        Set<DamageType> immunity = target.GetImmunityTypes();
         values.DamageTypes = CombatInfo.DamageTypes;
         sbyte hitPoints = target.GetHitPoints();
         sbyte defense = target.GetDefense();
@@ -107,16 +104,11 @@ public partial class CombatSpell : Spell
     // CombatSpells.pas:754
     public override void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
     {
-        Troop hero;
-        int distance;
         string reason = "";
-        CombatObject target;
-        FastBattleSpellCommand command;
-        AbilityDamageValues values = default;
-        hero = commands.Source is CombatUnit sourceUnit ? sourceUnit.Troop : null;
+        Troop hero = commands.Source is CombatUnit sourceUnit ? sourceUnit.Troop : null;
         if (hero is not null && hero.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
         {
-            distance = commands.Combat.GetRoundDistance();
+            int distance = commands.Combat.GetRoundDistance();
             if (CombatInfo.Range == -1)
             {
                 distance += 8;
@@ -136,15 +128,16 @@ public partial class CombatSpell : Spell
                 }
             }
 
+            AbilityDamageValues values = default;
             for (int i = 0, last = commands.TargetSide.GetCount() - 1; i <= last; i++)
             {
-                target = commands.TargetSide.GetObjects(i);
+                CombatObject target = commands.TargetSide.GetObjects(i);
                 if (target.GetEnabled() && target.FastBattleRoundDistance() <= distance)
                 {
                     FastBattleGetDamageValues(wallSituation: commands.Source.Combat.GetWallSituation(commands.Source, target), source: commands.Source, target: target, values: ref values);
                     if (values.SourceDamage != 0)
                     {
-                        command = new FastBattleSpellCommand(52, creator: this)
+                        FastBattleSpellCommand command = new(52, creator: this)
                         {
                             Target = commands.TargetSide.GetObjects(i),
                             MoveCost = 1,
@@ -161,14 +154,8 @@ public partial class CombatSpell : Spell
     // CombatSpells.pas:791
     public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
-        int count;
+        CombatObject target = command.Target;
         CombatAction action;
-        CombatObject other;
-        int distance;
-        CombatObject target;
-        DelphiList<CombatObject> targets;
-        Battle combat;
-        target = command.Target;
         for (int i = 0, last = CombatInfo.RepeatCount - 1; i <= last; i++)
         {
             if (!target.Status.Contains(CombatObjectStatusElement.Destroyed))
@@ -181,9 +168,9 @@ public partial class CombatSpell : Spell
 
         if (CombatInfo.Radius > 1)
         {
-            combat = source.Combat;
-            targets = new DelphiList<CombatObject>();
-            distance = combat.GetRoundDistance();
+            Battle combat = source.Combat;
+            DelphiList<CombatObject> targets = new();
+            int distance = combat.GetRoundDistance();
             if (CombatInfo.Range == -1)
             {
                 distance += 8;
@@ -203,6 +190,7 @@ public partial class CombatSpell : Spell
                 }
             }
 
+            CombatObject other;
             for (int i = combat.Sides[(int)target.GetSide()].GetCount() - 1; i >= 0; i--)
             {
                 CombatSideIndex side = target.GetSide();
@@ -221,7 +209,7 @@ public partial class CombatSpell : Spell
             }
 
             // { Original shifts Random(4) by two, so this adds no random extra targets. }
-            count = (int)(((uint)StrategicMap.Current.Random(4)) >> 2) + CombatInfo.Radius;
+            int count = (int)(((uint)StrategicMap.Current.Random(4)) >> 2) + CombatInfo.Radius;
             while (count != 0 && targets.Count != 0)
             {
                 other = targets[StrategicMap.Current.Random(targets.Count)];
@@ -248,22 +236,13 @@ public partial class CombatSpell : Spell
     // CombatSpells.pas:693
     public override void FastBattleGetDamageValues(CombatObject source, CombatObject target, WallSituation wallSituation, ref AbilityDamageValues values)
     {
-        Set<DamageType> damageTypes;
-        Set<DamageType> protection;
-        Set<DamageType> immunity;
-        int count;
-        int distance;
-        CombatObject other;
-        Battle combat;
-        int damage;
-        int defense;
         if (wallSituation == WallSituation.None || CombatInfo.Range is -1 or >= 8)
         {
-            protection = target.GetProtectionTypes();
-            immunity = target.GetImmunityTypes();
-            damageTypes = CombatInfo.DamageTypes;
-            damage = CombatInfo.Damage;
-            defense = target.GetDefense();
+            Set<DamageType> protection = target.GetProtectionTypes();
+            Set<DamageType> immunity = target.GetImmunityTypes();
+            Set<DamageType> damageTypes = CombatInfo.DamageTypes;
+            int damage = CombatInfo.Damage;
+            int defense = target.GetDefense();
             if (wallSituation == WallSituation.Target && (Set<DamageType>.Of(DamageType.Magic, DamageType.Death, DamageType.Holy) & CombatInfo.DamageTypes) == Set<DamageType>.Of())
             {
                 defense += 2;
@@ -285,9 +264,9 @@ public partial class CombatSpell : Spell
             values.TargetCost = 0;
             if (values.SourceDamage != 0 && CombatInfo.Radius > 1)
             {
-                combat = source.Combat;
-                count = 0;
-                distance = combat.GetRoundDistance();
+                Battle combat = source.Combat;
+                int count = 0;
+                int distance = combat.GetRoundDistance();
                 if (CombatInfo.Range == -1)
                 {
                     distance += 8;
@@ -310,7 +289,7 @@ public partial class CombatSpell : Spell
                 for (int i = combat.Sides[(int)target.GetSide()].GetCount() - 1; i >= 0; i--)
                 {
                     CombatSideIndex side = target.GetSide();
-                    other = combat.Sides[(int)side].GetObjects(i);
+                    CombatObject other = combat.Sides[(int)side].GetObjects(i);
                     if (target != other && other.GetEnabled() && (int)(((uint)other.Position) >> 4) == (int)(((uint)target.Position) >> 4) && other.FastBattleRoundDistance() <= distance && damageTypes - other.GetImmunityTypes() != Set<DamageType>.Of())
                     {
                         count += 1;

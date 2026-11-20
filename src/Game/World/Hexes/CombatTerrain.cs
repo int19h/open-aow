@@ -51,8 +51,7 @@ public partial class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
     // CombatTerrain.pas:275
     public override void RemoveFromMap()
     {
-        MapLevel mapLevel;
-        mapLevel = Owner.Owner;
+        MapLevel mapLevel = Owner.Owner;
         base.RemoveFromMap();
         UpdateMapFields(mapLevel, StoredHexX, StoredHexY);
     }
@@ -60,13 +59,13 @@ public partial class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
     // CombatTerrain.pas:149
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        AbilityCombatInfo abilityInfo = default;
-        SpellCombatInfo spellInfo = default;
         base.MapFieldMessageProc(ref message);
         if (message.HexNumber == 0)
         {
             if (Set<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)base.Resource.DecorationType))
             {
+                AbilityCombatInfo abilityInfo = default;
+                SpellCombatInfo spellInfo = default;
                 switch (message.MessageId)
                 {
                     case 200704:

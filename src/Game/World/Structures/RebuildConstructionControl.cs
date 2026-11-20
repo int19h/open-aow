@@ -34,8 +34,7 @@ public partial class RebuildConstructionControl(CustomNode owner) : Construction
     // AoWAb.PAS:5413
     public override void GetInfo(Troop troop, out string text, out int gold, out int days)
     {
-        Structure structure;
-        structure = GetStructure(troop);
+        Structure structure = GetStructure(troop);
         if (structure is not null)
         {
             string editName = structure.EditName();
@@ -71,9 +70,8 @@ public partial class RebuildConstructionControl(CustomNode owner) : Construction
     // AoWAb.PAS:5439
     public override bool Construct(Troop troop)
     {
-        bool result;
         string reason = "";
-        result = CanConstruct(troop, ref reason) && GetStructure(troop).Rebuild(troop);
+        bool result = CanConstruct(troop, ref reason) && GetStructure(troop).Rebuild(troop);
 
         return result;
     }

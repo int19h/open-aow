@@ -62,17 +62,15 @@ public partial class AIGroupManager(CustomNode owner) : OwningNode(owner), IChil
     // AIGroup.pas:600
     public AIGroup CreateGroup(sbyte player, sbyte relation, GroupBehavior behavior)
     {
-        AIGroup result;
-        int i;
-        bool found;
-        found = false;
-        i = RegisteredClasses.Count;
+        bool found = false;
+        int i = RegisteredClasses.Count;
         while (!found && i != 0)
         {
             i -= 1;
             found = behavior == RegisteredClasses[i].Behavior;
         }
 
+        AIGroup result;
         if (found)
         {
             result = RegisteredClasses[i].CreateInstance(this, holder: CreationHolder());

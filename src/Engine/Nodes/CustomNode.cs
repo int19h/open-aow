@@ -35,9 +35,9 @@ public abstract partial class CustomNode : EngineObject, IOwner
     // Engine.pas:2626
     public override void Clear()
     {
-        EngineObject c;
         if (Count != 0)
         {
+            EngineObject c;
             for (int i = Count - 1; i >= 0; i--)
             {
                 c = Children[i];
@@ -200,12 +200,10 @@ public abstract partial class CustomNode : EngineObject, IOwner
     // { The original tests Result before the child-count call. }
     public virtual int DestroyChildren(int classId)
     {
-        EngineObject c;
-        int n;
-        n = 0;
+        int n = 0;
         for (int i = Count - 1; i >= 0; i--)
         {
-            c = Children[i];
+            EngineObject c = Children[i];
             if (c is not null && c.EngineClass.ClassId == classId)
             {
                 c.Dispose();
@@ -219,11 +217,10 @@ public abstract partial class CustomNode : EngineObject, IOwner
     // Engine.pas:2768
     public virtual EngineObject FindChildInTree(int classId)
     {
-        int i;
         EngineObject result = FindChild(classId);
         if (result is null)
         {
-            i = 0;
+            int i = 0;
             while (result is null && i < Count)
             {
                 if (Children[i] is CustomNode child)
@@ -241,13 +238,9 @@ public abstract partial class CustomNode : EngineObject, IOwner
     // Engine.pas:2726
     public virtual EngineObject FindChild(int classId)
     {
-        EngineObject result;
-        int i;
-        bool found;
-        EngineObject c;
-        i = 0;
-        found = false;
-        c = null;
+        int i = 0;
+        bool found = false;
+        EngineObject c = null;
         while (!found && i < Count)
         {
             c = Children[i];
@@ -255,7 +248,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
             i += 1;
         }
 
-        result = found ? c : null;
+        EngineObject result = found ? c : null;
 
         return result;
     }
@@ -266,13 +259,9 @@ public abstract partial class CustomNode : EngineObject, IOwner
     // Engine.pas:2744
     public virtual EngineObject FindOwnedChild(int classId)
     {
-        EngineObject result;
-        int i;
-        bool found;
-        EngineObject c;
-        i = 0;
-        found = false;
-        c = null;
+        int i = 0;
+        bool found = false;
+        EngineObject c = null;
         while (!found && i < Count)
         {
             c = Children[i];
@@ -280,7 +269,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
             i += 1;
         }
 
-        result = found ? c : null;
+        EngineObject result = found ? c : null;
 
         return result;
     }

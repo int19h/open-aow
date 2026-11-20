@@ -36,8 +36,7 @@ public partial class MindDecay : CombatSpell
     // CombatSpells.pas:1207
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        MindDecayCombatAction action;
-        action = new MindDecayCombatAction(null)
+        MindDecayCombatAction action = new(null)
         {
             Holder = CreationHolder(),
             SourceId = source.Id,

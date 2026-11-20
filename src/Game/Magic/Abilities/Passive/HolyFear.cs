@@ -22,10 +22,9 @@ public partial class HolyFear : DurationAbility
     // PassiveAb.pas:833
     public override string GetSourceName(AbilityOwner owner)
     {
-        string result;
         // { Original assumes the ability data exists. }
         DurationAbilityData durationAbilityData = GetData(owner);
-        result = durationAbilityData.Source == 1
+        string result = durationAbilityData.Source == 1
             ? AbilityRules.TranslateResourceString(GetEngine(), GameText.LifeMasteryText)
             : base.GetSourceName(owner);
 

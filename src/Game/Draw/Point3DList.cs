@@ -57,18 +57,13 @@ public partial class Point3DList : IDisposable
 
     internal static void ScatterPath(Point3DList list)
     {
-        int rx;
-        int ry;
-        int deltaX;
-        int deltaY;
-        Point3D xYZ;
-        deltaX = 0;
-        deltaY = 0;
+        int deltaX = 0;
+        int deltaY = 0;
         for (int i = 1, last = list.Count - 2; i <= last; i++)
         {
-            xYZ = list[i];
-            rx = Random(3);
-            ry = Random(3);
+            Point3D xYZ = list[i];
+            int rx = Random(3);
+            int ry = Random(3);
             if (rx - deltaX > 1)
             {
                 rx = deltaX + 1;

@@ -27,8 +27,7 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
     // Combat2.pas:405
     public override void Dispose()
     {
-        CombatLogbook l;
-        l = Logbook;
+        CombatLogbook l = Logbook;
         if (l is not null)
         {
             _ = l.Release();
@@ -51,9 +50,8 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
     // Combat2.pas:431
     public override int GetTextColor()
     {
+        CombatData data = Logbook.FinalData;
         int result;
-        CombatData data;
-        data = Logbook.FinalData;
         if (data.Players.GetPlayers(data.AttackerPlayer).Player != 0)
         {
             CombatPlayer players = data.Players.GetPlayers(data.AttackerPlayer);
@@ -71,9 +69,8 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
     // Combat2.pas:440
     public override int GetLeftIcon()
     {
+        CombatData data = Logbook.FinalData;
         int result;
-        CombatData data;
-        data = Logbook.FinalData;
         if (data.Players.GetPlayers(data.AttackerPlayer).Player != 0)
         {
             CombatPlayer players = data.Players.GetPlayers(data.AttackerPlayer);
@@ -93,9 +90,8 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
     // Combat2.pas:452
     public override int GetRightIcon()
     {
+        CombatData data = Logbook.FinalData;
         int result;
-        CombatData data;
-        data = Logbook.FinalData;
         if (data.Players.GetPlayers(data.DefenderPlayer).Player != 0)
         {
             CombatPlayer players = data.Players.GetPlayers(data.DefenderPlayer);
@@ -120,8 +116,6 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
     // Combat2.pas:474
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool showCombat = default;
-        CombatData data = default;
         bool result = false;
         switch (trigger)
         {
@@ -131,9 +125,10 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
                 break;
             case ExecuteTrigger.Event:
             case ExecuteTrigger.NewTurn:
+                bool showCombat;
                 if (Logbook.InitialData.Players.IndexOfPlayer((byte)StrategicMap.Current.SeatedPlayer) != -1)
                 {
-                    data = Logbook.InitialData;
+                    CombatData data = Logbook.InitialData;
                     showCombat = data.Players.GetPlayers(data.AttackerPlayer).Player == StrategicMap.Current.SeatedPlayer;
                     showCombat = showCombat || (StrategicMap.Current.RequestCombatType && StrategicMap.Current.ConnectionType == PlayerConnectionType.Email && Logbook.InitialData.Players.GetPlayers(Logbook.InitialData.DefenderPlayer).Player == StrategicMap.Current.SeatedPlayer);
                     showCombat = showCombat || (trigger == ExecuteTrigger.Event && StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Combat));
@@ -167,8 +162,7 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
     // Combat2.pas:416
     public void SetCombatLogbook(CombatLogbook logbook)
     {
-        CombatLogbook old;
-        old = Logbook;
+        CombatLogbook old = Logbook;
         if (old != logbook)
         {
             _ = (old?.Release());

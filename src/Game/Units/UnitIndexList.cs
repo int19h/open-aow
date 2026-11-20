@@ -23,10 +23,9 @@ public partial class UnitIndexList : Int32List
     // UnitRes.PAS:231
     public void VerifyUnits(bool showErrors)
     {
-        int u;
         for (int i = Count - 1; i >= 0; i--)
         {
-            u = List[i];
+            int u = List[i];
             if (u != -1 && GamePack.Current.UnitResources.GetUnitResource(u) is null)
             {
                 if (showErrors)

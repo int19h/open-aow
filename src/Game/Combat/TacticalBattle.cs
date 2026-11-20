@@ -112,11 +112,9 @@ public partial class TacticalBattle(CustomNode owner) : Battle(owner)
     // AoWTC.pas:5145
     public bool ValidateWallCombat()
     {
-        int i;
-        CombatSide side;
-        side = Sides[(int)CombatSideIndex.Attacker];
+        CombatSide side = Sides[(int)CombatSideIndex.Attacker];
         bool result = CombatData.Parties.GetParty(0).Wall == 0;
-        i = side.GetCount();
+        int i = side.GetCount();
         while (!result && i > 0)
         {
             i -= 1;
@@ -133,9 +131,7 @@ public partial class TacticalBattle(CustomNode owner) : Battle(owner)
             HostPlayer = 0;
             HeadlessHooks.TacticalExecutions++;
         }
-        CombatResult result = default;
-        RandomBattleMapGenerator generator = default;
-        int seated = default;
+        CombatResult result;
         if (!ValidateWallCombat())
         {
             SetLogCombatActions(1);
@@ -161,7 +157,7 @@ public partial class TacticalBattle(CustomNode owner) : Battle(owner)
                 else
                 {
                     StrategicMap.Current.TokenManager.TokenExecutor.HoldTacticalBattle = true;
-                    generator = new RandomBattleMapGenerator(this);
+                    RandomBattleMapGenerator generator = new(this);
                     _ = generator.RandomMap(this, CombatData.Location.X, CombatData.Location.Y, CombatData.Location.MapLevel);
                     generator?.Dispose();
                     bool condition = StrategicMap.Current.StartingGame || StrategicMap.Current.VisibleForPlayer(CombatData.Location.X, CombatData.Location.Y, CombatData.Location.MapLevel, StrategicMap.Current.SeatedPlayer);
@@ -183,7 +179,7 @@ public partial class TacticalBattle(CustomNode owner) : Battle(owner)
                     }
 
                     CombatMap.Current.DeselectEventsStore.Raise(this);
-                    seated = -1;
+                    int seated = -1;
                     for (int i = 0, last = CombatData.Players.GetCount() - 1; i <= last; i++)
                     {
                         if (seated == -1)

@@ -166,9 +166,9 @@ public partial class Palette
     public bool Compare(Palette palette)
     {
         bool result;
-        int i;
         if (palette.PixelFormatId == PixelFormatId)
         {
+            int i;
             switch ((int)PixelFormatId & 31)
             {
                 case 8:

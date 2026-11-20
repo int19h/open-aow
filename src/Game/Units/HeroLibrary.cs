@@ -77,8 +77,7 @@ public partial class HeroLibrary(CustomNode owner) : Engine.Nodes.ReferenceNode(
     // Hero.PAS:2602
     public Hero CreateHero()
     {
-        Hero hero;
-        hero = new Hero(null) { Holder = CreationHolder() };
+        Hero hero = new(null) { Holder = CreationHolder() };
         hero.SetHeroResourceIndex(0);
         hero.LibraryId = CreateUniqueLibraryId();
         hero.LibraryName = LibraryName;
@@ -102,8 +101,7 @@ public partial class HeroLibrary(CustomNode owner) : Engine.Nodes.ReferenceNode(
     // Hero.PAS:2620
     public Hero FindLibraryId(int id)
     {
-        int i;
-        i = Heroes.Count;
+        int i = Heroes.Count;
         while (i != 0)
         {
             i -= 1;

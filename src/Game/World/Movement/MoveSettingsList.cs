@@ -22,16 +22,14 @@ public partial class MoveSettingsList(CustomNode owner) : OwningNode(owner), ICh
     // Structur.PAS:4045
     public int GetNoneValidMove()
     {
-        int minPriority;
-        int priority;
         int result = -1;
-        minPriority = 16777215;
+        int minPriority = 16777215;
         for (int i = GetCount() - 1; i >= 0; i--)
         {
             MoveSettings moveSettings = this[i];
             if (!moveSettings.Valid)
             {
-                priority = moveSettings.GetMovePrio();
+                int priority = moveSettings.GetMovePrio();
                 if (priority <= minPriority)
                 {
                     result = i;
@@ -62,16 +60,14 @@ public partial class MoveSettingsList(CustomNode owner) : OwningNode(owner), ICh
     // Structur.PAS:4075
     public void CalculateMovePositions(ValidateMovePositionProc validate)
     {
-        int index;
-        MoveSettings settings;
         for (int i = GetCount() - 1; i >= 0; i--)
         {
-            settings = GetMoveSettings(i);
+            MoveSettings settings = GetMoveSettings(i);
             settings.MovePosition = settings.Path.MovePointsToPosition(settings.MovePoints);
             settings.Valid = settings.Path.Count == 0 || settings.MovePosition == settings.Path.Count - 1;
         }
 
-        index = GetNoneValidMove();
+        int index = GetNoneValidMove();
         while (!(index == -1))
         {
             if (validate(this, index))

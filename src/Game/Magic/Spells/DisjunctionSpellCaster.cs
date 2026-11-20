@@ -23,9 +23,8 @@ public partial class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owne
     public override bool CanCast(ref string reason)
     {
         // FPlayer is on TAbstractUnit. FCastingProgress is on THero, so only that read tests for a hero.
-        Troop source;
         bool result = base.CanCast(ref reason);
-        source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
+        Troop source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
         if (result && SelectedEnchantment() is not null)
         {
             if (!StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard) || SelectedEnchantment().EnchantmentType == GlobalEnchantmentType.SpellWard)
@@ -71,14 +70,12 @@ public partial class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owne
     {
         bool result;
         string reason = "";
-        Troop source;
-        DisjunctionTokenEvent eventValue;
         if (CanCast(ref reason))
         {
-            source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
+            Troop source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
             if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
             {
-                eventValue = new DisjunctionTokenEvent(null) { Holder = CreationHolder() };
+                DisjunctionTokenEvent eventValue = new(null) { Holder = CreationHolder() };
                 Spell spell = GamePack.Current.SpellControl.GetSpell(51);
                 eventValue.Initialize(CasterSpellId, (byte)source.Player, source.UnitId, spell.BaseManaCost);
                 eventValue.EnchantmentId = EnchantmentId;
@@ -107,10 +104,8 @@ public partial class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owne
     // GlobalSpells.pas:817
     public GlobalEnchantment SelectedEnchantment()
     {
-        GlobalEnchantment result;
-        int index;
-        index = StrategicMap.Current.GlobalMagicControl.IndexOfId(EnchantmentId);
-        result = index != -1 ? StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index) : null;
+        int index = StrategicMap.Current.GlobalMagicControl.IndexOfId(EnchantmentId);
+        GlobalEnchantment result = index != -1 ? StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index) : null;
 
         return result;
     }
@@ -118,10 +113,8 @@ public partial class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owne
     // GlobalSpells.pas:828
     public int GetMana()
     {
-        int result;
-        GlobalEnchantment enchantment;
-        enchantment = SelectedEnchantment();
-        result = enchantment is not null ? Round((double)(enchantment.DispelMana * 0.02) * DispelChance) : -1;
+        GlobalEnchantment enchantment = SelectedEnchantment();
+        int result = enchantment is not null ? Round((double)(enchantment.DispelMana * 0.02) * DispelChance) : -1;
 
         return result;
     }
@@ -148,17 +141,15 @@ public partial class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owne
     public bool GetEnoughMana()
     {
         // FPlayer is on TAbstractUnit. FCastingProgress is on THero, so only that read tests for a hero.
-        Troop source;
-        int mana2;
         bool result = false;
-        source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
+        Troop source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
         if (SelectedEnchantment() is not null)
         {
             if (!StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled())
             {
                 if (source is Hero hero)
                 {
-                    mana2 = StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + hero.CastingProgress;
+                    int mana2 = StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + hero.CastingProgress;
                     Spell spell = GamePack.Current.SpellControl.GetSpell(51);
                     int mana = GetMana();
                     if (mana2 >= spell.BaseManaCost + mana)

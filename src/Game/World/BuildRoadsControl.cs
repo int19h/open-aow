@@ -23,11 +23,11 @@ public partial class BuildRoadsControl(CustomNode owner) : ConstructionControl(o
     // AoWAb.PAS:5464
     public override bool CanConstruct(Troop troop, ref string reason)
     {
-        bool result;
         MapCoordinate coordinate29 = troop.GetLocation();
         _ = coordinate29.X;
         _ = coordinate29.Y;
         sbyte l = coordinate29.MapLevel;
+        bool result;
         if (l == 0)
         {
             result = base.CanConstruct(troop, ref reason);

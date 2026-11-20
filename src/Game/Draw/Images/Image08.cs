@@ -30,7 +30,6 @@ public partial class Image08(CustomImageLibrary owner) : LibraryImage(owner), IL
     // ImageLib.pas:7160
     public override void ReadImageData(Stream stream)
     {
-        int index = default;
         base.ReadImageData(stream);
         stream.ReadExactly(Bytes.Of(ref _ownPalette, 1));
         if (_ownPalette)
@@ -40,6 +39,7 @@ public partial class Image08(CustomImageLibrary owner) : LibraryImage(owner), IL
         }
         else
         {
+            int index = default;
             stream.ReadExactly(Bytes.Of(ref index, 4));
             _imagePalette = Owner.PaletteManager.LinkToPalette(index);
         }
@@ -67,10 +67,9 @@ public partial class Image08(CustomImageLibrary owner) : LibraryImage(owner), IL
     // ImageLib.pas:7189
     public virtual void RegisterPalette()
     {
-        LibraryImagePalette old;
         if (_ownPalette && _imagePalette is not null && Owner is not null)
         {
-            old = _imagePalette;
+            LibraryImagePalette old = _imagePalette;
             _imagePalette = Owner.PaletteManager.RegisterPalette(_imagePalette.Palette);
             old?.Dispose();
             RemapPaletteValue = _imagePalette.Palette;
@@ -81,10 +80,9 @@ public partial class Image08(CustomImageLibrary owner) : LibraryImage(owner), IL
     // ImageLib.pas:7203
     public virtual void UnregisterPalette()
     {
-        LibraryImagePalette p;
         if (!_ownPalette && _imagePalette is not null)
         {
-            p = new LibraryImagePalette();
+            LibraryImagePalette p = new();
             p.Assign(_imagePalette);
             Owner.PaletteManager.UnregisterPalette(_imagePalette.IndexValue);
             _imagePalette = p;
@@ -118,9 +116,8 @@ public partial class Image08(CustomImageLibrary owner) : LibraryImage(owner), IL
     // ImageLib.pas:7237
     public override GraphicsResult RemapToPixelFormat(PixelFormat pixelFormatId)
     {
+        Palette p = _imagePalette.RemapPalette(pixelFormatId);
         GraphicsResult result;
-        Palette p;
-        p = _imagePalette.RemapPalette(pixelFormatId);
         if (p is not null)
         {
             RemapPaletteValue = p;

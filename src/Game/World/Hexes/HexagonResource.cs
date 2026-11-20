@@ -42,8 +42,7 @@ public partial class HexagonResource : AbstractHexagonResource
     // Hexagon.pas:112
     public override MapObject PlaceResourceUser(GameMap map, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        MapField mapField;
-        mapField = map.MapContainer.GetField(hexX, hexY, hexLevel);
+        MapField mapField = map.MapContainer.GetField(hexX, hexY, hexLevel);
         // The resource user class (131410) registers only Hex.
         Hex found = mapField.FindOwnedChild<Hex>(ResourceUserClassId());
         MapObject result = found;
@@ -78,11 +77,10 @@ public partial class HexagonResource : AbstractHexagonResource
     // Hexagon.pas:141
     public void Show(int pixelX, int pixelY, in LockedSurface lockedSurface, Hex hex)
     {
-        byte sides;
         ImageLibrary[0].Show(pixelX, pixelY, lockedSurface);
         if ((hex.TransitionSides & 7) != 0)
         {
-            sides = hex.TransitionSides;
+            byte sides = hex.TransitionSides;
             if ((sides & 2) != 0)
             {
                 if ((sides & 16) != 0)

@@ -60,12 +60,10 @@ public partial class TransportAIGroupControl(CustomNode owner) : AIGroupControl(
     // MainAG.pas:849
     public override void ProcessStates()
     {
-        AIGroupTargetFinder finder;
-        AIGroupWanderControl wander;
         switch (State)
         {
             case 0:
-                finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
+                AIGroupTargetFinder finder = new(null) { Holder = CreationHolder() };
                 _ = finder.Setup(this);
                 finder.Selector.MovePointsMax = 100;
                 ActivatePlugin(finder);
@@ -90,7 +88,7 @@ public partial class TransportAIGroupControl(CustomNode owner) : AIGroupControl(
 
                 break;
             case 2:
-                wander = new AIGroupWanderControl(null) { Holder = CreationHolder() };
+                AIGroupWanderControl wander = new(null) { Holder = CreationHolder() };
                 _ = wander.Setup(this);
                 wander.MovePointsMax = 125;
                 ActivatePlugin(wander);
@@ -108,13 +106,11 @@ public partial class TransportAIGroupControl(CustomNode owner) : AIGroupControl(
     // MainAG.pas:831
     public override void SetupME()
     {
-        Troop transporter;
-        Army army;
         base.SetupME();
-        transporter = Group.Leader;
+        Troop transporter = Group.Leader;
         if (transporter is not null && transporter.Owner is Army)
         {
-            army = transporter.ArmyOwner;
+            Army army = transporter.ArmyOwner;
             for (int i = 0, last = army.Units.Count - 1; i <= last; i++)
             {
                 bool condition = transporter != army.Units.GetUnit(i);

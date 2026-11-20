@@ -27,8 +27,7 @@ internal static class HitChance
 
     internal static float HitRoleProbability(int attackDefense)
     {
-        int chance;
-        chance = (attackDefense * 10) + 50;
+        int chance = (attackDefense * 10) + 50;
         if (chance < 10)
         {
             chance = 10;

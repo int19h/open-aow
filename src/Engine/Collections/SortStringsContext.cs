@@ -14,17 +14,13 @@ public struct SortStringsContext
     internal static void QuickSortStrings(ref SortStringsContext context, int L, int R)
     {
         int i;
-        int j;
-        int m;
-        object po;
-        string p;
         do
         {
             i = L;
-            j = R;
-            m = (int)(((uint)(L + R)) >> 1);
-            p = context.Strings[m];
-            po = context.Strings.Objects[m];
+            int j = R;
+            int m = (int)(((uint)(L + R)) >> 1);
+            string p = context.Strings[m];
+            object po = context.Strings.Objects[m];
             do
             {
                 while (true)

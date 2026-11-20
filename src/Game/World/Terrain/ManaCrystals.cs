@@ -119,13 +119,12 @@ public partial class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObje
     // ManaCrystals.pas:100
     public void UpdateAITarget(in CrystalAIInfo info, ref int priority)
     {
-        int p;
         switch (info.Kind)
         {
             case 0:
                 if (info.Player != 0)
                 {
-                    p = (_amount / 5) + 15;
+                    int p = (_amount / 5) + 15;
                     if (priority < p)
                     {
                         priority = p;
@@ -141,7 +140,6 @@ public partial class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObje
     // ManaCrystals.pas:125
     public void ArmyEntered(ArmyHexSprite armyHexSprite)
     {
-        LocationTextEventLog log;
         if ((byte)armyHexSprite.Army.Player == 0)
         {
             return;
@@ -164,7 +162,7 @@ public partial class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObje
         Player player = StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
         player.MagicControl.SetMana(player.MagicControl.Mana + _amount);
 
-        log = new LocationTextEventLog(null)
+        LocationTextEventLog log = new(null)
         {
             Holder = CreationHolder(),
             Player = (sbyte)(byte)armyHexSprite.Army.Player,

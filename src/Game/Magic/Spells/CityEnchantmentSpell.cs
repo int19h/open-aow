@@ -26,10 +26,8 @@ public partial class CityEnchantmentSpell(CustomNode owner) : CityTargetSpell(ow
     // CitySpells.pas:576
     protected override bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        City targetCity;
-        CityEnchantment enchantment;
-        targetCity = eventValue.GetSelectedCity();
-        enchantment = new CityEnchantment(null)
+        City targetCity = eventValue.GetSelectedCity();
+        CityEnchantment enchantment = new(null)
         {
             Holder = CreationHolder(),
             CityEnchantmentId = EnchantmentId,
@@ -48,32 +46,29 @@ public partial class CityEnchantmentSpell(CustomNode owner) : CityTargetSpell(ow
     // CitySpells.pas:594
     public override void AIPrefetchCastSpellActions(Troop source, AICastSpellActionList actions)
     {
-        bool valid;
-        AICastSpellAction action;
-        string reason = "";
-        City targetCity;
         if (AIPriority != -1)
         {
             MapCoordinate coordinate56 = source.GetLocation();
             sbyte x = coordinate56.X;
             sbyte y = coordinate56.Y;
             sbyte l = coordinate56.MapLevel;
-            targetCity = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
+            City targetCity = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
             bool condition = targetCity is not null;
             if (condition)
             {
                 condition = AIRequestCastSpellExpense(upkeep: targetCity.AICityEnchantmentUpkeepPriority(EnchantmentId), source: source, budget: BaseManaCost, mana: ManaUpkeep);
             }
 
-            valid = condition;
+            bool valid = condition;
             // { Original uses mana upkeep for mana and city priority for upkeep. }
             valid = valid && ValidTargetCity(source, targetCity);
+            string reason = "";
             valid = valid && source.CanCastSpell(SpellId, ref reason);
             if (valid)
             {
                 if ((AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.LeaderInCity) && source is Leader) || (AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.Hex4City) && targetCity.GetSize() == 4) || (AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.Hex3City) && targetCity.GetSize() == 3))
                 {
-                    action = CreateCastSpellAction();
+                    AICastSpellAction action = CreateCastSpellAction();
                     SetupCastSpellAction(source, action);
                     action.Priority = AIPriority;
                     action.SetOwner(actions);
@@ -85,14 +80,13 @@ public partial class CityEnchantmentSpell(CustomNode owner) : CityTargetSpell(ow
     // CitySpells.pas:623
     public override bool AIExecuteCastSpellAction(Troop source)
     {
-        bool result;
         string reason = "";
-        City targetCity;
         MapCoordinate coordinate57 = source.GetLocation();
         sbyte x = coordinate57.X;
         sbyte y = coordinate57.Y;
         sbyte l = coordinate57.MapLevel;
-        targetCity = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
+        City targetCity = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
+        bool result;
         if (targetCity is not null && ValidTargetCity(source, targetCity) && source.CanCastSpell(SpellId, ref reason))
         {
             _ = AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, AIBudget);

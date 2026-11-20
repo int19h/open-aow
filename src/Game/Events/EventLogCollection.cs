@@ -38,8 +38,7 @@ public readonly struct EventLogCollection : IReadOnlyList<EventLog>
     // EventLog.pas:514
     public EventLog FindId(int id)
     {
-        int index;
-        index = Count;
+        int index = Count;
         EventLog result = null;
         while (index != 0 && result is null)
         {

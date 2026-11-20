@@ -31,14 +31,13 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     // Cave.pas:134
     public override void Dispose()
     {
-        CaveEntrance oldEntrance;
-        Cave partner;
-        oldEntrance = Entrance;
+        CaveEntrance oldEntrance = Entrance;
         Entrance = CaveEntrance.Idle;
         if (Status.Contains(MapObjectStatusElement.PlacedOnMap) && Owner is not null)
         {
             if (!GetEditMode())
             {
+                Cave partner;
                 if (oldEntrance == CaveEntrance.Up)
                 {
                     partner = StrategicMap.Current.MapContainer.GetField(StoredHexX, StoredHexY, Owner.HexLevel - 1).FindOwnedChild<Cave>(131966);
@@ -85,10 +84,9 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     // Cave.pas:257
     public override void MoveExclusive(in HexSpriteSenderInfo info)
     {
-        MapField field;
         if (info.HexNumber == 0)
         {
-            field = Entrance switch
+            MapField field = Entrance switch
             {
                 CaveEntrance.Up => StrategicMap.Current.MapContainer.GetField(StoredHexX, StoredHexY, Owner.HexLevel - 1),
                 CaveEntrance.Down => StrategicMap.Current.MapContainer.GetField(StoredHexX, StoredHexY, Owner.HexLevel + 1),
@@ -132,8 +130,6 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     // Cave.pas:211
     public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        Cave up;
-        Cave down;
         bool result = base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
         if (result)
         {
@@ -141,7 +137,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
             {
                 if (Entrance == CaveEntrance.Down)
                 {
-                    up = mapContainer.GetField(hexX, hexY, hexLevel + 1).FindOwnedChild<Cave>(131966);
+                    Cave up = mapContainer.GetField(hexX, hexY, hexLevel + 1).FindOwnedChild<Cave>(131966);
                     if (up is null)
                     {
                         up = base.Resource.CreateResourceUser<Cave>();
@@ -165,7 +161,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
                 }
                 else
                 {
-                    down = mapContainer.GetField(hexX, hexY, hexLevel - 1).FindOwnedChild<Cave>(131966);
+                    Cave down = mapContainer.GetField(hexX, hexY, hexLevel - 1).FindOwnedChild<Cave>(131966);
                     if (down is null)
                     {
                         down = base.Resource.CreateResourceUser<Cave>();
@@ -235,13 +231,11 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     // Cave.pas:412
     public override void ArmyPlaced(ArmyHexSprite placedArmy)
     {
-        int l;
-        ArmyHexSprite armyHexSprite;
         base.ArmyPlaced(placedArmy);
-        armyHexSprite = placedArmy;
+        ArmyHexSprite armyHexSprite = placedArmy;
         if (armyHexSprite is not null)
         {
-            l = Entrance == CaveEntrance.Down ? GetHexLevel() + 1 : GetHexLevel() - 1;
+            int l = Entrance == CaveEntrance.Down ? GetHexLevel() + 1 : GetHexLevel() - 1;
 
             byte visibilityRange = armyHexSprite.Army.VisibilityRange();
             sbyte hexY = armyHexSprite.GetHexY();
@@ -253,29 +247,25 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     // Cave.pas:292
     public sbyte EnterMovePoints(Army army, byte selection)
     {
-        MapField field;
         int l = Entrance == CaveEntrance.Down ? GetHexLevel() + 1 : GetHexLevel() - 1;
         sbyte hexY = GetHexY();
         sbyte hexX = GetHexX();
-        field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, l);
+        MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, l);
         return (sbyte)army.MoveOnMovePoints(selection, field.TerrainType, field.OverlayType);
     }
 
     // Cave.pas:300
     public byte CanEnterSelection(UnitCollection units)
     {
-        int l;
-        MapField field;
-        Troop troop;
-        l = Entrance == CaveEntrance.Down ? GetHexLevel() + 1 : GetHexLevel() - 1;
+        int l = Entrance == CaveEntrance.Down ? GetHexLevel() + 1 : GetHexLevel() - 1;
 
         sbyte hexY = GetHexY();
         sbyte hexX = GetHexX();
-        field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, l);
+        MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, l);
         byte result = 0;
         for (int i = 0, last = units.Count - 1; i <= last; i++)
         {
-            troop = units.GetUnit(i);
+            Troop troop = units.GetUnit(i);
             if (troop.MovePointCost(field.TerrainType, field.OverlayType) <= troop.GetMovePoints())
             {
                 result = (byte)(result + (1 << i));
@@ -288,28 +278,20 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     // Cave.pas:317
     public bool CanEnter(sbyte player)
     {
-        ArmyHexSprite armyHexSprite;
-        armyHexSprite = Owner.GetArmyHexSprite();
+        ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
         return armyHexSprite is not null && player == armyHexSprite.Army.Player && CanEnterSelection(armyHexSprite.Army.Units) != 0;
     }
 
     // Cave.pas:325
     public bool Enter()
     {
+        ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
         bool result;
-        byte selection;
-        MovePath path;
-        sbyte l;
-        string messageText;
-        ArmyHexSprite armyHexSprite;
-        MapField field;
-        TokenEvent eventValue;
-        armyHexSprite = Owner.GetArmyHexSprite();
         if (armyHexSprite is not null && CanEnter(armyHexSprite.Army.Player))
         {
-            selection = CanEnterSelection(armyHexSprite.Army.Units);
-            l = 0;
-            path = new MovePath();
+            byte selection = CanEnterSelection(armyHexSprite.Army.Units);
+            sbyte l = 0;
+            MovePath path = new();
             switch (Entrance)
             {
                 case CaveEntrance.Down:
@@ -328,7 +310,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
             _ = path.AddMapCoordinate(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX());
             sbyte hexY3 = GetHexY();
             sbyte hexX = GetHexX();
-            field = StrategicMap.Current.MapContainer.GetField(hexX, hexY3, l);
+            MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY3, l);
             bool condition = field.GetMoveAction(armyHexSprite.Army.Player) != MoveAction.Attack || field.GetPlayer() <= 0;
             if (!condition)
             {
@@ -344,7 +326,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
                     if (!StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).GetBusy())
                     {
                         // { Original passes action before mode. }
-                        eventValue = ArmyHexSprite.CreateArmyMoveTokenEvent(armyHexSprite, selection, path, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
+                        TokenEvent eventValue = ArmyHexSprite.CreateArmyMoveTokenEvent(armyHexSprite, selection, path, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
                         if (eventValue is not null)
                         {
                             StrategicMap.Current.TokenManager.GetTokenControl(armyHexSprite.Army.Player).AddEvent(eventValue);
@@ -380,7 +362,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
                     sbyte player = field.GetPlayer();
                     Player playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player);
                     string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
-                    messageText = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.NoWarDeclaredFormat), [raceNamesPlural]);
+                    string messageText = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.NoWarDeclaredFormat), [raceNamesPlural]);
                     StrategicMap.Current.ShowMessage(messageText);
                 }
 
@@ -401,15 +383,13 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     // Cave.pas:388
     public bool Enter(sbyte player)
     {
-        bool result = default;
-        ArmyHexSprite armyHexSprite;
-        EnterCaveEventLog log;
+        bool result;
         if (CanEnter(player))
         {
-            armyHexSprite = Owner.GetArmyHexSprite();
+            ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
             if (CanEnterSelection(armyHexSprite.Army.Units) != armyHexSprite.Army.ValidateSelection(255))
             {
-                log = new EnterCaveEventLog(null, holder: CreationHolder())
+                EnterCaveEventLog log = new(null, holder: CreationHolder())
                 {
                     Cave = this
                 };

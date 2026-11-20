@@ -43,12 +43,11 @@ public partial class ProductionQueue(CustomNode owner) : OwningNode(owner), IChi
     // Structur.PAS:100
     public int IndexOf(ProductionOrder order)
     {
-        ProductionItem item;
         int result = Count;
         while (result != 0)
         {
             result -= 1;
-            item = this[result];
+            ProductionItem item = this[result];
             if (item.Order == order)
             {
                 return result;

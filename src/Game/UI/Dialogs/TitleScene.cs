@@ -59,23 +59,18 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
     // AoWTitleScene.pas:103
     public void DrawCredits(ref readonly LockedSurface surface)
     {
-        int x;
-        int y;
-        int duration;
-        int alpha;
         ShowInfo info = default;
-        DelphiStringCollection lines;
         _creditFrame += 1;
         info.ShowMode = ShowMode.Blended;
         info.BlendMode = BlendMode.Alpha;
-        lines = _credits[_creditPage];
-        x = surface.Width / 2;
+        DelphiStringCollection lines = _credits[_creditPage];
+        int x = surface.Width / 2;
         int count = lines.Count;
-        y = (surface.Height / 2) - ((((count * 25) + _creditsFont.Height) / 2) + 35);
-        duration = (lines.Count * 30) + 20 + 50;
+        int y = (surface.Height / 2) - ((((count * 25) + _creditsFont.Height) / 2) + 35);
+        int duration = (lines.Count * 30) + 20 + 50;
         if (lines.Count > 0)
         {
-            alpha = _creditFrame;
+            int alpha = _creditFrame;
             alpha = alpha > duration ? 100 - ((alpha - duration) * 5) : alpha * 10;
 
             info.Blend = alpha;
@@ -132,17 +127,12 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
     // AoWTitleScene.pas:148
     public void DrawIntro(ref readonly LockedSurface surface)
     {
-        int page;
-        int x;
-        int y;
-        int frame;
         ShowInfo info = default;
-        string text = "";
         _introFrame += 1;
-        x = surface.Width / 2;
-        y = surface.Height / 2;
-        page = _introFrame / 130;
-        frame = _introFrame % 130;
+        int x = surface.Width / 2;
+        int y = surface.Height / 2;
+        int page = _introFrame / 130;
+        int frame = _introFrame % 130;
         int opacity = frame switch
         {
             >= 0 and <= 10 => frame * 10,
@@ -152,6 +142,7 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
         };
         if (opacity != 0)
         {
+            string text = "";
             switch (page)
             {
                 case 0:
@@ -256,11 +247,6 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
     // AoWTitleScene.pas:212
     public void DrawScene(ref readonly LockedSurface surface)
     {
-        int x;
-        int y;
-        int frame;
-        int spacing;
-        int image;
         Rect r;
         _sceneRectangle.Left = 0;
         _sceneRectangle.Right = surface.Width;
@@ -274,8 +260,8 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
             _ = PixelFormats.ColorFillSurfaceDescription(r, 0, surface);
         }
 
-        y = _sceneRectangle.Top;
-        frame = _frame - 25;
+        int y = _sceneRectangle.Top;
+        int frame = _frame - 25;
         if (frame < 0)
         {
             frame = 0;
@@ -285,6 +271,7 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
         TitleSceneImages[0].Show(frame, y, surface);
         LibraryImage titleSceneImageLibraryWidth = TitleSceneImages[0];
         TitleSceneImages[0].Show(frame + titleSceneImageLibraryWidth.Width, y, surface);
+        int x;
         if (!_showCredits && _frame > 25)
         {
             frame = _frame < 75 ? (_frame - 25) * 2 : _totalFrame <= 730 ? 100 : (750 - _totalFrame) * 5;
@@ -302,11 +289,11 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
             }
         }
 
-        spacing = 120;
+        int spacing = 120;
         x = ((TitleSceneImages[10].Width + _sceneRectangle.Left + _sceneRectangle.Right) / 2) - 320;
         for (int i = 0; i <= 4; i++)
         {
-            image = i == _pressedButton && i == HitTest() ? 2 : _pressedButton == -1 && i == _hoverButton ? 1 : 0;
+            int image = i == _pressedButton && i == HitTest() ? 2 : _pressedButton == -1 && i == _hoverButton ? 1 : 0;
 
             TitleSceneImages[(i * 3) + 10 + image].Show(x + (spacing * i), y + 355, surface);
             if (i == HitTest())
@@ -372,15 +359,12 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
     public int HitTest()
     {
         int result;
-        bool found;
-        int x;
-        int spacing;
         if (_sceneRectangle.Bottom - 125 < _mouseY && _mouseY < _sceneRectangle.Bottom)
         {
-            spacing = 120;
-            x = ((TitleSceneImages[10].Width + _sceneRectangle.Left + _sceneRectangle.Right) / 2) - 320;
+            int spacing = 120;
+            int x = ((TitleSceneImages[10].Width + _sceneRectangle.Left + _sceneRectangle.Right) / 2) - 320;
             result = 5;
-            found = false;
+            bool found = false;
             while (result != 0 && !found)
             {
                 result -= 1;
@@ -403,9 +387,9 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
     // AoWTitleScene.pas:315
     public void WindowDrawSurfaceEx(Surface surface, out bool drawn)
     {
-        LockedSurface lockedSurface = default;
         try
         {
+            LockedSurface lockedSurface = default;
             if (surface.Lock(ref lockedSurface).IsSuccess())
             {
                 DrawScene(in lockedSurface);
@@ -431,7 +415,6 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
     // AoWTitleScene.pas:338
     public void TitleSceneCreate()
     {
-        DelphiStringList lines;
         ResetScene();
         string registeredTo = UI.Engine.RegisteredTo();
         NameLabel.Text = registeredTo;
@@ -439,7 +422,7 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
         string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_versionFormat), [versionString]);
         VersionLabel.Text = format;
         _credits = [];
-        lines = new DelphiStringList();
+        DelphiStringList lines = new();
         _ = lines.Add(UI.Engine.TranslateResourceString(s_designerAndDirectorText));
         _ = lines.Add("Lennart Sas");
         _ = lines.Add("");

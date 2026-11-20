@@ -33,18 +33,13 @@ public partial class EnchantedRoads : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:613
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
-        Animation animation = default;
-        TwinkleAnimation twinkle = default;
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         MapCoordinate coordinate65 = source.GetLocation();
-        x = coordinate65.X;
-        y = coordinate65.Y;
-        l = coordinate65.MapLevel;
+        sbyte x = coordinate65.X;
+        sbyte y = coordinate65.Y;
+        sbyte l = coordinate65.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
-        animation = new Animation(null)
+        Animation animation = new(null)
         {
             Holder = CreationHolder(),
             AnimationLevel = 27
@@ -52,7 +47,7 @@ public partial class EnchantedRoads : GlobalEnchantmentSpell
         animation.OnShow += ShowAnimation;
         animation.AnimationMap = StrategicMap.Current;
         animation.Activate();
-        twinkle = new TwinkleAnimation(null) { Holder = CreationHolder() };
+        TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
         twinkle.Setup(GamePack.Current.SpellControl.GetSpell(44).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
         _ = StrategicMap.Current.PlaceHex(twinkle, x, y, l);
         _ = CastSounds.Play(0);

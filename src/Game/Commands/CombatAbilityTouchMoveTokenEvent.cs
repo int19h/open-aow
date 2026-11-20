@@ -41,15 +41,13 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
     // CombatTE.pas:633
     public override MoveStatus LastMove()
     {
-        Point3D point;
-        int x = default;
-        int y = default;
-        TacticalBattleUnitHexSprite hexSprite;
         MapFieldMessage message = default;
         MoveStatus result = MoveStatus.Moving;
         try
         {
             int i;
+            int x = default;
+            TacticalBattleUnitHexSprite hexSprite;
             switch (Step)
             {
                 case TokenStep.Start:
@@ -160,6 +158,7 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
                 case TokenStep.InitializeStrike:
                     try
                     {
+                        Point3D point;
                         if (PreviousUnit is not null)
                         {
                             if (Unit.UnitHexSprite.ActionDone)
@@ -221,6 +220,7 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
                 case TokenStep.ExecuteStrike:
                     try
                     {
+                        int y = default;
                         if (_effect is null)
                         {
                             if (!Unit.GetEnabled())

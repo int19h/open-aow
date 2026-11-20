@@ -17,15 +17,12 @@ public partial class RecallSpiritCombatAction(CustomNode owner) : ExclusiveComba
     // CombatSpells.pas:1953
     public override void Execute(Battle combat)
     {
-        CombatUnit source;
-        CombatUnit target;
-        Unit newUnit;
         base.Execute(combat);
         if (Succeeded)
         {
-            source = combat.CombatData.FindId<CombatUnit>(SourceId);
-            target = combat.CombatData.FindId<CombatUnit>(TargetId);
-            newUnit = new Unit(null) { Holder = CreationHolder() };
+            CombatUnit source = combat.CombatData.FindId<CombatUnit>(SourceId);
+            CombatUnit target = combat.CombatData.FindId<CombatUnit>(TargetId);
+            Unit newUnit = new(null) { Holder = CreationHolder() };
             newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(130));
             newUnit.SetPlayer(source.Troop.Player);
             _ = newUnit.ExpandAbility(130);

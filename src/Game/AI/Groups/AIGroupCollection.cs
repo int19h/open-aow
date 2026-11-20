@@ -64,10 +64,8 @@ public readonly struct AIGroupCollection : IReadOnlyList<AIGroup>
     // AIGroup.pas:544
     public AIGroup FindId(int id)
     {
-        AIGroup result;
-        int index;
-        index = IndexOfId(id);
-        result = index != -1 ? this[index] : null;
+        int index = IndexOfId(id);
+        AIGroup result = index != -1 ? this[index] : null;
 
         return result;
     }

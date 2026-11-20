@@ -51,9 +51,8 @@ public partial class EmailGameControl : EngineObject
     // Diplomacy.pas:2504
     public void Load()
     {
-        string fileName;
         _games.Clear();
-        fileName = $"{GetEngine().StartupDirectory}EmailIn\\egames.pfs";
+        string fileName = $"{GetEngine().StartupDirectory}EmailIn\\egames.pfs";
         if (FileExists(fileName))
         {
             if (GetFileCrc32(fileName) == GetEngine().Registry.GetEmailGamesCrc())
@@ -66,10 +65,9 @@ public partial class EmailGameControl : EngineObject
     // Diplomacy.pas:2514
     public void Save()
     {
-        string fileName;
         try
         {
-            fileName = $"{GetEngine().StartupDirectory}EmailIn\\egames.pfs";
+            string fileName = $"{GetEngine().StartupDirectory}EmailIn\\egames.pfs";
             GetEngine().WriteToFile($"{GetEngine().StartupDirectory}EmailIn\\egames.pfs", _games, null);
             int fileCrc = GetFileCrc32(fileName);
             GetEngine().Registry.SetEmailGamesCrc(fileCrc);
@@ -82,10 +80,8 @@ public partial class EmailGameControl : EngineObject
     // Diplomacy.pas:2525
     public EmailGame FindEmailGame(EmailGame game)
     {
-        EmailGame result;
-        int index;
-        index = _games.IndexOfUniqueLocalId(game.UniqueLocalId);
-        result = index != -1 && game.UniqueId != 0 && _games.GetEmailGames(index).UniqueId == game.UniqueId
+        int index = _games.IndexOfUniqueLocalId(game.UniqueLocalId);
+        EmailGame result = index != -1 && game.UniqueId != 0 && _games.GetEmailGames(index).UniqueId == game.UniqueId
             ? _games.GetEmailGames(index)
             : null;
 
@@ -96,10 +92,9 @@ public partial class EmailGameControl : EngineObject
     public bool EmailGameRestarted(EmailGame game)
     {
         bool result;
-        EmailGame localGame;
         if (game.SecurityId != 0)
         {
-            localGame = FindEmailGame(game);
+            EmailGame localGame = FindEmailGame(game);
             result = localGame is null || game.SecurityId != localGame.SecurityId;
         }
         else
@@ -116,9 +111,8 @@ public partial class EmailGameControl : EngineObject
     // Diplomacy.pas:2549
     public bool UpdateGame(EmailGame game)
     {
+        EmailGame localGame = FindEmailGame(game);
         bool result;
-        EmailGame localGame;
-        localGame = FindEmailGame(game);
         if (localGame is not null)
         {
             localGame.LastDay = game.LastDay;
@@ -155,18 +149,11 @@ public partial class EmailGameControl : EngineObject
     // Diplomacy.pas:2576
     public void ValidateIncomingGame(string fileName, ref string destination)
     {
-        StrategicMap map;
-        StrategicMap previousMap;
-        EmailGame localGame;
-        bool overwrite;
-        int i;
-        string name = "";
         // { Addressability survives elimination of this assignment. }
         try
         {
             destination = "";
-            overwrite = false;
-            map = GetEngine().CreatePreviewHsm<StrategicMap>(fileName, profile: GameProfile.WorldMap);
+            StrategicMap map = GetEngine().CreatePreviewHsm<StrategicMap>(fileName, profile: GameProfile.WorldMap);
             bool condition = map is not null && map.ConnectionType == PlayerConnectionType.Email && map.CurrentPlayer > 0;
             if (condition)
             {
@@ -178,7 +165,9 @@ public partial class EmailGameControl : EngineObject
             {
                 if (CompareText(b: GetEngine().Registry.GetLocalEmailAddress(), a: map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.EmailGame.EmailAddress) == 0)
                 {
-                    localGame = FindEmailGame(map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.EmailGame);
+                    EmailGame localGame = FindEmailGame(map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.EmailGame);
+                    string name = "";
+                    bool overwrite = false;
                     if (localGame is not null)
                     {
                         if (map.Day > localGame.LastDay)
@@ -186,7 +175,7 @@ public partial class EmailGameControl : EngineObject
                             name = map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.EmailGame.Name;
                             if (FileExists($"{GetEngine().StartupDirectory}EmailIn\\{name}.asg"))
                             {
-                                previousMap = GetEngine().CreatePreviewHsm<StrategicMap>($"{GetEngine().StartupDirectory}EmailIn\\{name}.asg", profile: GameProfile.WorldMap);
+                                StrategicMap previousMap = GetEngine().CreatePreviewHsm<StrategicMap>($"{GetEngine().StartupDirectory}EmailIn\\{name}.asg", profile: GameProfile.WorldMap);
                                 if (previousMap is not null)
                                 {
                                     // { Original bug: the previous map's player is checked against the new map's count. }
@@ -227,7 +216,7 @@ public partial class EmailGameControl : EngineObject
 
                     if (!IsEmpty(name))
                     {
-                        i = 0;
+                        int i = 0;
                         destination = $"{GetEngine().StartupDirectory}EmailIn\\{name}.asg";
                         while (!overwrite && FileExists(destination))
                         {
@@ -247,7 +236,7 @@ public partial class EmailGameControl : EngineObject
 
     private static int GetFileCrc32(string fileName)
     {
-        int result = 0;
+        int result;
         MemoryStream value = new();
         try
         {

@@ -31,8 +31,6 @@ public partial class NewTurnDialog(UIContext ui) : UIModule(ui)
     // AoWNewTurnDialog.pas:50
     public void FinishDialog()
     {
-        ExecuteDoneEvent done;
-        NewTurnEventLog eventValue;
         UI.General.Manager.OverlayPriority = 0;
         if (_newTurn is null)
         {
@@ -43,8 +41,8 @@ public partial class NewTurnDialog(UIContext ui) : UIModule(ui)
             }
         }
 
-        done = Done;
-        eventValue = _newTurn;
+        ExecuteDoneEvent done = Done;
+        NewTurnEventLog eventValue = _newTurn;
         Done = null;
         _newTurn = null;
         done?.Invoke(eventValue);
@@ -55,8 +53,6 @@ public partial class NewTurnDialog(UIContext ui) : UIModule(ui)
     // AoWNewTurnDialog.pas:69
     public void ShowNewTurn(NewTurnEventLog eventValue, ExecuteDoneEvent done)
     {
-        sbyte race;
-        int day2;
         switch (eventValue.Mode)
         {
             case NewTurnEventLogMode.Dialog:
@@ -80,11 +76,11 @@ public partial class NewTurnDialog(UIContext ui) : UIModule(ui)
                     PlayerRaceLabel.Text = "";
                 }
 
-                day2 = StrategicMap.Current.Day > 0 ? StrategicMap.Current.Day : 1;
+                int day2 = StrategicMap.Current.Day > 0 ? StrategicMap.Current.Day : 1;
 
                 string day = UI.Engine.TranslateResourceString(GameText.DayText);
                 TurnLabel.Text = $"{day} {IntToStr(day2)}";
-                race = StrategicMap.Current.Players.GetPlayers(eventValue.TurnPlayer).PlayerRace;
+                sbyte race = StrategicMap.Current.Players.GetPlayers(eventValue.TurnPlayer).PlayerRace;
                 if (race == -1)
                 {
                     race = 12;

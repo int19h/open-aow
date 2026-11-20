@@ -254,8 +254,6 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:315
     public override void Dispose()
     {
-        PlayerStructureList structures;
-        ArmyCollection armies;
         try
         {
             _incomeChangedEventsStore.Clear();
@@ -271,13 +269,13 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                 }
                 else
                 {
-                    structures = Structures;
+                    PlayerStructureList structures = Structures;
                     for (int i = structures.Count - 1; i >= 0; i--)
                     {
                         Structures.GetStructure(i).SetPlayer(0);
                     }
 
-                    armies = Armies;
+                    ArmyCollection armies = Armies;
                     for (int i = armies.Count - 1; i >= 0; i--)
                     {
                         Armies.GetArmy(i).SetPlayer(0);
@@ -407,9 +405,6 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:1023
     public override void PersistFields(IPersister persister)
     {
-        int x = default;
-        int y = default;
-        int l = default;
         base.PersistFields(persister);
         // The translate stream's mode is read and text only. The original ReadWrite leaves out the
         // settings there, visits and registers the leader, keeps the view, visits the leader setup
@@ -450,7 +445,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         {
             if (StrategicMap.Current.SeatedPlayer == PlayerIndex && StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
             {
-                StrategicMap.Current.GetViewCenter(out x, out y, out l);
+                StrategicMap.Current.GetViewCenter(out int x, out int y, out int l);
                 View = new MapCoordinate(unchecked((sbyte)(byte)x), unchecked((sbyte)(byte)y), unchecked((sbyte)(byte)l));
                 View = PersistSupport.Coordinate(persister, name: "View", value: View, width: CoordinateWidth.Byte);
             }
@@ -673,16 +668,13 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:425
     public void SetGameOverStatus(GameOverStatus value)
     {
-        GameOverEventLog eventValue;
-        PlayerStructureList structures;
-        ArmyCollection armies;
-        Campaign campaign;
         if (value != GameOverStatus && GameOverStatus == GameOverStatus.None)
         {
             GameOverStatus = value;
             StrategicMap.Current.AIExecutor.DeactivatePlayer(PlayerIndex);
             if (StrategicMap.Current.GameType == GameType.Campaign && PlayerType == PlayerType.Human)
             {
+                Campaign campaign;
                 if (GameOverStatus == GameOverStatus.Lost)
                 {
                     StrategicMap.Current.GameResult = StrategicMapGameResult.Failed;
@@ -704,13 +696,13 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             {
                 BeginUpdate();
                 MagicControl.RemoveEnchantments();
-                structures = Structures;
+                PlayerStructureList structures = Structures;
                 for (int i = structures.Count - 1; i >= 0; i--)
                 {
                     Structures.GetStructure(i).SetPlayer(0);
                 }
 
-                armies = Armies;
+                ArmyCollection armies = Armies;
                 for (int i = armies.Count - 1; i >= 0; i--)
                 {
                     Armies.GetArmy(i).SetPlayer(0);
@@ -722,7 +714,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                 StrategicMap.Current.Players.Update();
             }
 
-            eventValue = new GameOverEventLog(null)
+            GameOverEventLog eventValue = new(null)
             {
                 Holder = CreationHolder(),
                 Player = PlayerIndex
@@ -755,10 +747,9 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     public bool Surrender()
     {
         bool result;
-        GameOverTokenEvent tokenEvent;
         if (!GetBusy() && GameOverStatus == GameOverStatus.None)
         {
-            tokenEvent = new GameOverTokenEvent(null)
+            GameOverTokenEvent tokenEvent = new(null)
             {
                 Holder = CreationHolder(),
                 Player = PlayerIndex,
@@ -780,10 +771,9 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     public bool Win()
     {
         bool result;
-        GameOverTokenEvent tokenEvent;
         if (!GetBusy() && GameOverStatus == GameOverStatus.None)
         {
-            tokenEvent = new GameOverTokenEvent(null)
+            GameOverTokenEvent tokenEvent = new(null)
             {
                 Holder = CreationHolder(),
                 Player = PlayerIndex,
@@ -805,11 +795,11 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     public bool Validate(DelphiStringCollection errors)
     {
         bool result;
-        string s;
-        string leaderName;
         if (PlayerIndex > 0)
         {
             result = true;
+            string s;
+            string leaderName;
             if (Leader.GetSphereCount() != StrategicMap.Current.SphereCount)
             {
                 string raceNames = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNames[PlayerRace]);
@@ -1079,16 +1069,13 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:688
     public int GetHeroCountMax()
     {
-        int result;
-        int strength;
-        int maximum;
         int count = Statistics.TurnInfo.Count;
-        strength = Statistics.TurnInfo.GetTurnInfo(count - 1).ArmyStrength;
-        result = strength < 10
+        int strength = Statistics.TurnInfo.GetTurnInfo(count - 1).ArmyStrength;
+        int result = strength < 10
             ? 1
             : strength < 40 ? 2 : strength < 80 ? 3 : strength < 120 ? 4 : strength < 200 ? 5 : ((strength - 200) / 100) + 5;
 
-        maximum = StrategicMap.Current.HeroCountMax;
+        int maximum = StrategicMap.Current.HeroCountMax;
         if (maximum < result)
         {
             result = maximum;
@@ -1100,11 +1087,9 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:703
     public int GetIdealHeroJoinDay()
     {
-        int average;
-        int maximum;
         int result = _lastHeroJoinDay;
-        average = StrategicMap.Current.Players.GetAverageHeroCount();
-        maximum = StrategicMap.Current.Players.GetMaxHeroCount();
+        int average = StrategicMap.Current.Players.GetAverageHeroCount();
+        int maximum = StrategicMap.Current.Players.GetMaxHeroCount();
         if (maximum > average && Heroes.Count == maximum)
         {
             result += 15;
@@ -1127,12 +1112,9 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:717
     public int GetIdealHeroEmergeDay()
     {
-        int average;
-        int maximum;
-        int earliest;
         int result = GetIdealHeroJoinDay();
-        average = StrategicMap.Current.Players.GetAverageHeroCount();
-        maximum = StrategicMap.Current.Players.GetMaxHeroCount();
+        int average = StrategicMap.Current.Players.GetAverageHeroCount();
+        int maximum = StrategicMap.Current.Players.GetMaxHeroCount();
         if (maximum > average && Heroes.Count == maximum)
         {
             result += 15;
@@ -1149,7 +1131,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             }
         }
 
-        earliest = _lastHeroEmergeDay + 5;
+        int earliest = _lastHeroEmergeDay + 5;
         if (earliest > result)
         {
             result = earliest;
@@ -1164,15 +1146,9 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:738
     public void MakeHeroEmerge(HeroEmergeMode mode)
     {
-        int chance = default;
-        DoubleItemList<Hero> heroes;
-        HeroEmergeEventLog log;
-        MapCoordinateList locations;
-        Structure structure;
-        DoubleItem<Hero> doubleItem;
+        DoubleItemList<Hero> heroes = new();
         int i;
         Hero hero;
-        heroes = new DoubleItemList<Hero>();
         if (mode == HeroEmergeMode.Normal)
         {
             i = StrategicMap.Current.HeroControl.GetCount() - 1;
@@ -1181,7 +1157,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                 hero = StrategicMap.Current.HeroControl.GetHero(i);
                 if (!hero.HeroStatus.Contains(HeroStatusElement.Died) && hero.Player <= 0 && hero.Owner is null && hero.CanJoin(PlayerIndex))
                 {
-                    chance = GetHeroJoinChance(hero.GetLevel());
+                    int chance = GetHeroJoinChance(hero.GetLevel());
                     if (chance > 0 && hero.JoinAmount(PlayerIndex) < Gems)
                     {
                         _ = heroes.AddAbility(hero, chance * chance);
@@ -1212,8 +1188,9 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
 
         if (heroes.Count != 0)
         {
-            locations = new MapCoordinateList();
+            MapCoordinateList locations = new();
             i = Structures.Count - 1;
+            Structure structure;
             for (; i >= 0; i -= 1)
             {
                 structure = Structures.GetStructure(i);
@@ -1228,7 +1205,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                 _lastHeroEmergeDay = StrategicMap.Current.Day;
                 RandSeed = StrategicMap.Current.Random(1048575);
                 i = heroes.RandomChanceItemB(0);
-                doubleItem = heroes[i];
+                DoubleItem<Hero> doubleItem = heroes[i];
                 hero = doubleItem.First;
                 i = StrategicMap.Current.Random(locations.Count);
                 EmergingHeroId = hero.UnitId;
@@ -1240,7 +1217,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                 MapCoordinate item3 = locations[i];
                 MapCoordinate item4 = locations[i];
                 structure = StrategicMap.Current.MapContainer.GetField(item4.X, item3.Y, item2.MapLevel).FindNoneTransparentHexSprite<Structure>();
-                log = new HeroEmergeEventLog(null) { Holder = CreationHolder() };
+                HeroEmergeEventLog log = new(null) { Holder = CreationHolder() };
                 log.Setup(hero, PlayerIndex, HeroEmergeEventLog.HeroJoinMode.Emerged);
                 log.LocationName = structure is not null
                     ? structure.GetName()
@@ -1264,7 +1241,6 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:812
     public void UpdateHeroJoin()
     {
-        int days;
         for (int i = Heroes.Count - 1; i >= 0; i--)
         {
             if (Heroes.GetHero(i).GetLevel() > _highestHeroLevel)
@@ -1290,7 +1266,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         }
 
         EmergingHeroId = 0;
-        days = GetIdealHeroEmergeDay() - StrategicMap.Current.Day;
+        int days = GetIdealHeroEmergeDay() - StrategicMap.Current.Day;
         if (StrategicMap.Current.Day == 1 && Heroes.Count == 1 && !StrategicMap.Current.FixedLeaders)
         {
             MakeHeroEmerge(HeroEmergeMode.FirstHero);
@@ -1309,9 +1285,8 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:836
     public int GetHeroJoinChance(int level)
     {
+        int maximum = GetHeroJoinLevelMax();
         int result;
-        int maximum;
-        maximum = GetHeroJoinLevelMax();
         if (level <= maximum)
         {
             result = Round((double)((double)(maximum + 2) / (level + 2)) * 20);
@@ -1331,10 +1306,9 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:849
     public int GetHeroJoinLevelMax()
     {
-        int days;
         int result = BaseHeroJoinLevel;
         int idealHeroJoinDay = GetIdealHeroJoinDay();
-        days = StrategicMap.Current.Day - idealHeroJoinDay;
+        int days = StrategicMap.Current.Day - idealHeroJoinDay;
         if (days > 0)
         {
             result += days / 5;
@@ -1360,17 +1334,14 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:865
     public void ValidateLeader()
     {
-        int faceIndex;
-        int resourceIndex;
-        HeroType heroType;
-        string name;
         if (StrategicMap.Current is not null && PlayerIndex != 0)
         {
-            heroType = HeroType.HeroLeader;
+            HeroType heroType = HeroType.HeroLeader;
+            int resourceIndex;
             if (Leader is not null && Leader.GetHeroType() != heroType)
             {
-                name = Leader.HeroName;
-                faceIndex = Leader.FaceIndex;
+                string name = Leader.HeroName;
+                int faceIndex = Leader.FaceIndex;
                 Leader.Deactivate();
                 resourceIndex = GamePack.Current.HeroResources.Find(PlayerRace, heroType);
                 Leader.SetHeroResourceIndex(resourceIndex);
@@ -1443,10 +1414,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:928
     public void UpdateTurnInfo()
     {
-        TurnInfoItem info;
-        Army army;
-        Troop troop;
-        info = new TurnInfoItem(Statistics.TurnInfo);
+        TurnInfoItem info = new(Statistics.TurnInfo);
         if (GameOverStatus != GameOverStatus.Lost)
         {
             info.Gold = Gems;
@@ -1455,10 +1423,10 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             info.Heroes = (byte)Heroes.Count;
             for (int i = 0, last = Armies.Count - 1; i <= last; i++)
             {
-                army = Armies.GetArmy(i);
+                Army army = Armies.GetArmy(i);
                 for (int j = army.Units.Count - 1; j >= 0; j--)
                 {
-                    troop = army.Units.GetUnit(j);
+                    Troop troop = army.Units.GetUnit(j);
                     if (info.ArmyStrength < 1073741823)
                     {
                         int strengthMax = troop.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
@@ -1545,9 +1513,8 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:1146
     public bool GetLocal()
     {
+        PlayerCommunicationControl control = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl;
         bool result;
-        PlayerCommunicationControl control;
-        control = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl;
         if (control is not null)
         {
             PlayerCommunicationSettings players = control.GetPlayers(PlayerIndex);
@@ -1631,12 +1598,9 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:1203
     public bool DiplomaticActionAlreadySend(byte kind, sbyte target, sbyte other)
     {
-        EventLogbook logbook;
-        int i;
-        DiplomaticAction item;
-        logbook = StrategicMap.Current.Players.GetPlayers(target).EventLogbook;
+        EventLogbook logbook = StrategicMap.Current.Players.GetPlayers(target).EventLogbook;
         bool result = false;
-        i = logbook.GetCount();
+        int i = logbook.GetCount();
         while (!result && i != 0)
         {
             i -= 1;
@@ -1644,7 +1608,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             {
                 if (logbook.GetLogs(i) is DiplomaticActionEventLog diplomatic)
                 {
-                    item = diplomatic.Action;
+                    DiplomaticAction item = diplomatic.Action;
                     result = item.Proposal.ToFields().Kind == kind && item.Source == PlayerIndex && item.Target == target && (other == -1 || item.OtherPlayer == other);
                 }
             }
@@ -1657,12 +1621,11 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     public int ListDiplomaticActions(sbyte player, DiplomaticActionList actions)
     {
         int count;
-        DiplomaticRelation relation;
-        DiplomaticAction action;
         if (player != PlayerIndex && GetFirstDaySeen(player) != -1)
         {
             count = actions.Count;
-            relation = StrategicMap.Current.Players.GetDiplomaticRelation(player, PlayerIndex);
+            DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation(player, PlayerIndex);
+            DiplomaticAction action;
             if (PlayerType == PlayerType.Human && StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
             {
                 action = CreateDiplomaticAction(new SendMessage(), player, -1);
@@ -1801,8 +1764,8 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:1348
     public bool ValidAttackRelation(sbyte player, sbyte independentRelation)
     {
-        bool result;
         Assert(PlayerIndex != 0, "", "Player.PAS", 1390);
+        bool result;
         if (Set<PlayerType>.Of(PlayerType.Cpu1, PlayerType.Cpu2, PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(PlayerType))
         {
             result = AIValidAttackPlayers[player];
@@ -1820,10 +1783,9 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     public bool ChangePlayerSettings(string settings, string error)
     {
         bool result;
-        ChangePlayerSettingsTokenEvent eventValue;
         if (!GetBusy())
         {
-            eventValue = new ChangePlayerSettingsTokenEvent(null)
+            ChangePlayerSettingsTokenEvent eventValue = new(null)
             {
                 Holder = CreationHolder(),
                 Player = PlayerIndex,

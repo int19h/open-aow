@@ -39,16 +39,14 @@ public partial class SummonSpell : Spell
     // SummonSpells.pas:288
     public override void AIPrefetchCastSpellActions(Troop source, AICastSpellActionList actions)
     {
-        bool canCast;
-        AICastSpellAction action;
-        string reason = "";
         if (AIBasePriority != -1)
         {
-            canCast = AIRequestCastSpellExpense(upkeep: GetAIUpkeepPriority(), source: source, budget: BaseManaCost, mana: ManaUpkeep);
+            bool canCast = AIRequestCastSpellExpense(upkeep: GetAIUpkeepPriority(), source: source, budget: BaseManaCost, mana: ManaUpkeep);
+            string reason = "";
             canCast = canCast && source.CanCastSpell(SpellId, ref reason);
             if (canCast)
             {
-                action = CreateCastSpellAction();
+                AICastSpellAction action = CreateCastSpellAction();
                 SetupCastSpellAction(source, action);
                 action.Priority = AIBasePriority;
                 action.SetOwner(actions);
@@ -93,11 +91,10 @@ public partial class SummonSpell : Spell
     public override bool Activate(Troop source)
     {
         bool result;
-        SummonSpellTokenEvent eventValue;
         string reason = "";
         if (CanActivate(source, ref reason))
         {
-            eventValue = new SummonSpellTokenEvent(null) { Holder = CreationHolder() };
+            SummonSpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             SetupSummonSpellTokenEvent(eventValue);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);

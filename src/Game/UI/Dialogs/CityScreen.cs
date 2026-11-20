@@ -149,8 +149,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
     // AoWCityScreen.pas:766
     public void LoadUnitImages(int index)
     {
-        int graphics;
-        graphics = GamePack.Current.UnitResources.GetUnitResource(index).UnitGraphicsResourceIndex;
+        int graphics = GamePack.Current.UnitResources.GetUnitResource(index).UnitGraphicsResourceIndex;
         _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(graphics).AddRef();
         _ = _images.Add(graphics);
     }
@@ -345,8 +344,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
     // AoWCityScreen.pas:926
     public void SelectProduction(int index)
     {
-        UnitProduction p;
-        p = _city.Production.UnitProductions.GetItem(index);
+        UnitProduction p = _city.Production.UnitProductions.GetItem(index);
         if (p is not null)
         {
             _productionIndex = index;
@@ -365,10 +363,9 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
     // AoWCityScreen.pas:943
     public void SelectMigration(int index)
     {
-        MigrationItem item;
         if (index >= 0 && index < MigrationRaceList.Items.Count)
         {
-            item = MigrationRaceList.Items.Objects[index];
+            MigrationItem item = MigrationRaceList.Items.Objects[index];
             MigrationRaceList.Selected = index;
             MigrationTurnsList.Selected = index;
             MigrationRelationList.Selected = index;
@@ -399,7 +396,6 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
     // AoWCityScreen.pas:972
     public void SelectAction(CityAction action)
     {
-        Unit u;
         if (_mode != 1)
         {
             SetMode(1);
@@ -520,7 +516,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                 break;
             case CityAction.Research:
             case CityAction.Produce:
-                u = _city.Production.CreateUnitProduction(_productionIndex);
+                Unit u = _city.Production.CreateUnitProduction(_productionIndex);
                 UnitPanel.Visible = true;
                 sbyte attack = u.GetAttack();
                 UnitAttackLabel.Text = IntToStr(attack);
@@ -603,7 +599,6 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
     // AoWCityScreen.pas:1099
     public void UpdateInfo()
     {
-        string reason;
         string name = _city.GetName();
         StructureNameLabel.Text = name;
         PopulationHeader.Items.Clear();
@@ -726,7 +721,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
             }
             else
             {
-                reason = "";
+                string reason = "";
                 string nameProgressive = _city.Production.Queue.GetItem(0).GetNameProgressive();
                 ActiveActionLabel.Text = nameProgressive;
                 ProductionItem queue = _city.Production.Queue.GetItem(0);
@@ -774,10 +769,6 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
     // AoWCityScreen.pas:245
     public void ShowCity(City city)
     {
-        int direction;
-        ArmyHexSprite army;
-        ArmyHSList armies;
-        RandomBattleMapGenerator generator;
         Reset();
         _city = city;
         UpdateInfo();
@@ -788,20 +779,20 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
             LoadUnitImages(_city.Production.UnitProductions.GetItem(i).UnitIndex);
         }
 
-        generator = new RandomBattleMapGenerator(UI.Engine);
+        RandomBattleMapGenerator generator = new(UI.Engine);
         sbyte hexLevel = _city.GetHexLevel();
         sbyte hexY = _city.GetHexY();
         _preview = generator.RandomMap(null, _city.GetHexX(), hexY, hexLevel);
         generator?.Dispose();
-        armies = new ArmyHSList(null) { Holder = UI.Engine };
+        ArmyHSList armies = new(null) { Holder = UI.Engine };
         _ = _city.ListArmies(armies);
         for (int i = 0, last = armies.GetCount() - 1; i <= last; i++)
         {
-            army = armies.GetArmyHexSprite(i);
+            ArmyHexSprite army = armies.GetArmyHexSprite(i);
             sbyte armyHexY = army.GetHexY();
             sbyte hexX = army.GetHexX();
             sbyte fCityHexY = _city.GetHexY();
-            direction = HexGeometry.DeltaHexToHexNumber(_city.GetHexX(), fCityHexY, hexX, armyHexY);
+            int direction = HexGeometry.DeltaHexToHexNumber(_city.GetHexX(), fCityHexY, hexX, armyHexY);
             for (int j = 0, lastJ = army.Army.Units.Count - 1; j <= lastJ; j++)
             {
                 CombatMap.PlaceOverviewUnit(unit: army.Army.Units.GetUnit(j), map: _preview, position: direction, index: j);
@@ -889,16 +880,13 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
     // AoWCityScreen.pas:348
     public void ActivityPreDraw(CheckBox sender, LockedSurface lockedSurface, int slot)
     {
-        int image;
-        image = ActivityImage((CityAction)((byte)slot + 1));
+        int image = ActivityImage((CityAction)((byte)slot + 1));
         UI.Graphics.CityWindow[image].Show(ActivityPanel2.AbsoluteLeft + sender.WinLeft + 2, ActivityPanel2.AbsoluteTop + sender.WinTop + 2, lockedSurface);
     }
 
     // AoWCityScreen.pas:354
     public void CityBtn1Click()
     {
-        string reason = "";
-        sbyte race;
         switch (_mode)
         {
             case 0:
@@ -907,6 +895,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                 StrategicMap.Current.TutorialControl.ShowMessage(57, true, true);
                 break;
             case 1:
+                string reason = "";
                 switch (_action)
                 {
                     case CityAction.Trade:
@@ -995,7 +984,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
 
                         break;
                     case CityAction.Migrate:
-                        race = MigrationRaceList.Items.Objects[MigrationRaceList.Selected].Race;
+                        sbyte race = MigrationRaceList.Items.Objects[MigrationRaceList.Selected].Race;
                         if (_city.CanMigrate(race, reason))
                         {
                             StrategicMap.Current.TutorialControl.ShowMessage(66, true, true);
@@ -1133,16 +1122,13 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
     // AoWCityScreen.pas:472
     public void PreDrawProductions(CheckBox sender, LockedSurface lockedSurface, int slot)
     {
-        Rect r;
         UnitShowInfo info = default;
-        Unit u;
-        UnitProduction p;
-        r = new Rect(ActivityPanel.AbsoluteLeft + sender.WinLeft, ActivityPanel.AbsoluteTop + sender.WinTop, ActivityPanel2.AbsoluteLeft + sender.WinLeft + sender.WinWidth, ActivityPanel.AbsoluteTop + sender.WinTop + sender.WinHeight);
+        Rect r = new(ActivityPanel.AbsoluteLeft + sender.WinLeft, ActivityPanel.AbsoluteTop + sender.WinTop, ActivityPanel2.AbsoluteLeft + sender.WinLeft + sender.WinWidth, ActivityPanel.AbsoluteTop + sender.WinTop + sender.WinHeight);
         // { Original uses two different panels. }
-        p = _city.Production.UnitProductions.GetItem(slot);
+        UnitProduction p = _city.Production.UnitProductions.GetItem(slot);
         if (p is not null)
         {
-            u = _city.Production.CreateUnitProduction(slot);
+            Unit u = _city.Production.CreateUnitProduction(slot);
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of();
             info.Animation = 0;
@@ -1215,12 +1201,10 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
     // AoWCityScreen.pas:541
     public void UFaceDraw(UserDrawBox sender, LockedSurface lockedSurface)
     {
-        Unit u;
-        Rect r;
-        u = _city.Production.CreateUnitProduction(_productionIndex);
+        Unit u = _city.Production.CreateUnitProduction(_productionIndex);
         if (u is not null)
         {
-            r = new Rect(UnitPictureFramePanel.AbsoluteLeft + sender.WinLeft + 2, UnitPictureFramePanel.AbsoluteTop + sender.WinTop + 2, UnitPictureFramePanel.AbsoluteLeft + sender.WinLeft + sender.WinWidth - 4, UnitPictureFramePanel.AbsoluteTop + sender.WinTop + sender.WinHeight - 2);
+            Rect r = new(UnitPictureFramePanel.AbsoluteLeft + sender.WinLeft + 2, UnitPictureFramePanel.AbsoluteTop + sender.WinTop + 2, UnitPictureFramePanel.AbsoluteLeft + sender.WinLeft + sender.WinWidth - 4, UnitPictureFramePanel.AbsoluteTop + sender.WinTop + sender.WinHeight - 2);
             u.ShowFace(r, lockedSurface);
             _ = u.Release();
         }
@@ -1229,7 +1213,6 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
     // AoWCityScreen.pas:558
     public void QueueLBChange(ListBox sender)
     {
-        CityAction action;
         int count = _city.Production.Queue.GetCount();
         if (QueueList.Selected < count && _mode != 0)
         {
@@ -1237,7 +1220,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
             {
                 _queueIndex = QueueList.Selected;
                 ProductionOrder order = _city.Production.Queue.GetItem(_queueIndex).Order;
-                action = order.CityAction;
+                CityAction action = order.CityAction;
                 if (order is ProduceUnit produce)
                 {
                     _productionIndex = produce.Index;
@@ -1290,14 +1273,12 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
     public void CurrentActionImageDraw(Image sender, LockedSurface lockedSurface)
     {
         UnitShowInfo info = default;
-        Rect r;
-        Unit u;
         if (_city.Production.Queue.GetCount() != 0)
         {
             if (_city.Production.Queue.GetItem(0).Order.UnitProductionIndex is int index)
             {
-                r = new Rect(ActiveActionPanel.AbsoluteLeft + sender.WinLeft, ActiveActionPanel.AbsoluteTop + sender.WinTop, ActiveActionPanel.AbsoluteLeft + sender.WinLeft + sender.WinWidth, ActiveActionPanel.AbsoluteTop + sender.WinTop + sender.WinHeight);
-                u = _city.Production.CreateUnitProduction(index);
+                Rect r = new(ActiveActionPanel.AbsoluteLeft + sender.WinLeft, ActiveActionPanel.AbsoluteTop + sender.WinTop, ActiveActionPanel.AbsoluteLeft + sender.WinLeft + sender.WinWidth, ActiveActionPanel.AbsoluteTop + sender.WinTop + sender.WinHeight);
+                Unit u = _city.Production.CreateUnitProduction(index);
                 if (u is not null)
                 {
                     info.Direction = 3;
@@ -1323,24 +1304,19 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
     // AoWCityScreen.pas:631
     public void RacePortraitDraw(Image sender, LockedSurface lockedSurface)
     {
-        Rect r;
-        r = new Rect(PopulationPanel.AbsoluteLeft + sender.WinLeft, PopulationPanel.AbsoluteTop + sender.WinTop, PopulationPanel.AbsoluteLeft + sender.WinLeft + sender.WinWidth, PopulationPanel.AbsoluteTop + sender.WinTop + sender.WinHeight);
+        Rect r = new(PopulationPanel.AbsoluteLeft + sender.WinLeft, PopulationPanel.AbsoluteTop + sender.WinTop, PopulationPanel.AbsoluteLeft + sender.WinLeft + sender.WinWidth, PopulationPanel.AbsoluteTop + sender.WinTop + sender.WinHeight);
         GamePack.Current.RaceResources.GetRaceResource(_city.Race).GetFace().ShowStretched(r, lockedSurface);
     }
 
     // AoWCityScreen.pas:641
     public void MapViewDraw(UserDrawBox sender, LockedSurface lockedSurface)
     {
-        Rect r;
-        int w;
-        int h;
-        int width;
         if (_preview is not null)
         {
-            r = new Rect(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth, Window.WinTop + sender.WinTop + sender.WinHeight);
-            width = r.Right - r.Left;
-            w = width;
-            h = r.Bottom - r.Top;
+            Rect r = new(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth, Window.WinTop + sender.WinTop + sender.WinHeight);
+            int width = r.Right - r.Left;
+            int w = width;
+            int h = r.Bottom - r.Top;
             int maxPixelX = _preview.GetMaxPixelX();
             if (_viewX + w + 16 > maxPixelX)
             {
@@ -1406,8 +1382,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
     // AoWCityScreen.pas:679
     public void MapViewUpdate()
     {
-        CombatMap preview;
-        preview = _preview;
+        CombatMap preview = _preview;
         preview?.NewFrame();
 
         MapView.Drawn = MapView.Drawn && (StrategicMap.Current.Frame & 1) != 0;
@@ -1419,11 +1394,10 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
     // AoWCityScreen.pas:693
     public void UAbilitiesLBMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        Ability a;
         if (button == MouseButton.Right && UnitAbilitiesList.Selected > -1)
         {
             object objectValue = UnitAbilitiesList.Items.Objects[UnitAbilitiesList.Selected];
-            a = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+            Ability a = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (a is not null)
             {
                 InfoBanner.SetInfoBanner(caption: a.GetName(null), banner: UI.InfoBanner, description: a.Description);
@@ -1434,11 +1408,8 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
     // AoWCityScreen.pas:704
     public void PPrevClick()
     {
-        int start;
-        int index;
-        PlayerStructure s;
-        start = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.FindChildIndex(_city);
-        index = start;
+        int start = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.FindChildIndex(_city);
+        int index = start;
         index -= 1;
         if (index < 0)
         {
@@ -1447,7 +1418,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
 
         while (index != start)
         {
-            s = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(index);
+            PlayerStructure s = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(index);
             if (s is City city)
             {
                 index = start + 1;
@@ -1465,11 +1436,8 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
     // AoWCityScreen.pas:726
     public void PNextClick()
     {
-        int start;
-        int index;
-        PlayerStructure s;
-        start = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.FindChildIndex(_city);
-        index = start + 1;
+        int start = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.FindChildIndex(_city);
+        int index = start + 1;
         if (index >= StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetCount())
         {
             index = 0;
@@ -1477,7 +1445,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
 
         while (index != start)
         {
-            s = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(index);
+            PlayerStructure s = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(index);
             if (s is City city)
             {
                 index = start - 1;

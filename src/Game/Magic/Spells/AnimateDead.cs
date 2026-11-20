@@ -33,8 +33,7 @@ public partial class AnimateDead : CombatSpell
     // CombatSpells.pas:2079
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        AnimateDeadCombatAction action;
-        action = new AnimateDeadCombatAction(null)
+        AnimateDeadCombatAction action = new(null)
         {
             Holder = CreationHolder(),
             SourceId = source.Id,

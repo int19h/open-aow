@@ -63,7 +63,6 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
     // AoWResultsWin.pas:93
     public void UpdateSelection()
     {
-        PlayerStatistics stats;
         _maxTurns = 1;
         _maxGold = 1;
         _maxMana = 1;
@@ -74,7 +73,7 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
         for (int i = 0, last = Players.Count - 1; i <= last; i++)
         {
             byte player = Players[i];
-            stats = StrategicMap.Current.Players.GetPlayers(player).Statistics;
+            PlayerStatistics stats = StrategicMap.Current.Players.GetPlayers(player).Statistics;
             int count = stats.TurnInfo.GetCount();
             if (_maxTurns < count)
             {
@@ -170,24 +169,19 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
     // AoWResultsWin.pas:123
     public void DrawGraph(LibraryImage image, Int32List values, int turns, int maximum, in Rect R, in LockedSurface surface)
     {
-        int width;
-        int lastY;
-        int y1;
-        int x2;
-        float xStep;
-        float yStep;
-        int nextY;
-        int x1;
-        int y2;
-        int height;
         if (values.Count != 0)
         {
-            width = R.Right - R.Left;
-            height = R.Bottom - R.Top;
-            xStep = turns >= 2 ? (float)((double)width / (turns - 1)) : width;
+            int width = R.Right - R.Left;
+            int height = R.Bottom - R.Top;
+            float xStep = turns >= 2 ? (float)((double)width / (turns - 1)) : width;
 
-            yStep = (float)((double)height / maximum);
-            lastY = values[0];
+            float yStep = (float)((double)height / maximum);
+            int lastY = values[0];
+            int y1;
+            int x2;
+            int nextY;
+            int x1;
+            int y2;
             for (int i = 1, last = values.Count - 1; i <= last; i++)
             {
                 nextY = values[i];
@@ -217,10 +211,8 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
     // AoWResultsWin.pas:160
     public void DrawGold(sbyte player, in Rect R, in LockedSurface surface)
     {
-        Int32List values;
-        TurnInfo info;
-        values = new Int32List();
-        info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
+        Int32List values = new();
+        TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
             _ = values.Add(info.GetTurnInfo(i).Gold);
@@ -235,10 +227,8 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
     // AoWResultsWin.pas:175
     public void DrawMana(sbyte player, in Rect R, in LockedSurface surface)
     {
-        Int32List values;
-        TurnInfo info;
-        values = new Int32List();
-        info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
+        Int32List values = new();
+        TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
             _ = values.Add(info.GetTurnInfo(i).Mana);
@@ -253,10 +243,8 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
     // AoWResultsWin.pas:190
     public void DrawHeroes(sbyte player, in Rect R, in LockedSurface surface)
     {
-        Int32List values;
-        TurnInfo info;
-        values = new Int32List();
-        info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
+        Int32List values = new();
+        TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
             _ = values.Add(info.GetTurnInfo(i).Heroes);
@@ -271,10 +259,8 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
     // AoWResultsWin.pas:205
     public void DrawArmies(sbyte player, in Rect R, in LockedSurface surface)
     {
-        Int32List values;
-        TurnInfo info;
-        values = new Int32List();
-        info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
+        Int32List values = new();
+        TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
             _ = values.Add(info.GetTurnInfo(i).ArmyStrength);
@@ -289,10 +275,8 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
     // AoWResultsWin.pas:220
     public void DrawStructures(sbyte player, in Rect R, in LockedSurface surface)
     {
-        Int32List values;
-        TurnInfo info;
-        values = new Int32List();
-        info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
+        Int32List values = new();
+        TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
             _ = values.Add(info.GetTurnInfo(i).Structures);
@@ -307,10 +291,8 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
     // AoWResultsWin.pas:235
     public void DrawStrength(sbyte player, in Rect R, in LockedSurface surface)
     {
-        Int32List values;
-        TurnInfo info;
-        values = new Int32List();
-        info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
+        Int32List values = new();
+        TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
             _ = values.Add(info.GetTurnInfo(i).GetSuperiority());
@@ -399,11 +381,10 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
     // AoWResultsWin.pas:339
     public void P1CBPreDraw(CheckBox sender, LockedSurface surface, int slot)
     {
-        Rect r;
         CheckBox component = sender;
         if (slot < Players.Count)
         {
-            r = new Rect(component.WinLeft + ResultsPanel.AbsoluteLeft + 1, component.WinTop + ResultsPanel.AbsoluteTop + 1, component.WinLeft + component.WinWidth + ResultsPanel.AbsoluteLeft - 1, component.WinTop + component.WinHeight + ResultsPanel.AbsoluteTop - 1);
+            Rect r = new(component.WinLeft + ResultsPanel.AbsoluteLeft + 1, component.WinTop + ResultsPanel.AbsoluteTop + 1, component.WinLeft + component.WinWidth + ResultsPanel.AbsoluteLeft - 1, component.WinTop + component.WinHeight + ResultsPanel.AbsoluteTop - 1);
             byte player = Players[slot];
             if (StrategicMap.Current.Players.GetPlayers(player).GetFace() is not null)
             {
@@ -420,8 +401,7 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
     // AoWResultsWin.pas:355
     public void P1CBChange(CheckBox sender, int slot)
     {
-        CheckBox control;
-        control = sender;
+        CheckBox control = sender;
         if (control.Checked)
         {
             if (Players.Count > slot)

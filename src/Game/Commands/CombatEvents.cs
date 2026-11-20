@@ -17,21 +17,15 @@ internal static class CombatEvents
     {
         void MakeEffect(BattleEffectType effectType)
         {
-            BattleEffectSprite effect;
-            int count;
-            float z = default;
-            float speed;
-            float vz = default;
-            float gravity;
-            count = Random(5) + 8;
+            int count = Random(5) + 8;
             for (int i = 1; i <= count - 1; i++)
             {
-                effect = CombatMap.Current.AddEffect(effectType);
-                speed = (float)((Random(10) + 10) * 0.1);
-                gravity = (float)0.5;
-                vz = resisted || effectType == BattleEffectType.DamMagic ? (float)((Random(50) + 50) * 0.1) : (float)((Random(25) + 25) * 0.1);
+                BattleEffectSprite effect = CombatMap.Current.AddEffect(effectType);
+                float speed = (float)((Random(10) + 10) * 0.1);
+                float gravity = (float)0.5;
+                float vz = resisted || effectType == BattleEffectType.DamMagic ? (float)((Random(50) + 50) * 0.1) : (float)((Random(25) + 25) * 0.1);
 
-                z = 0;
+                float z = 0;
                 Point3DList path = effect.Path;
                 EffectPaths.MakeArcPath(X, Y, i * 360 / count, ref z, speed, ref vz, gravity, path);
                 effect.Path = path;

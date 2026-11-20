@@ -30,10 +30,9 @@ public partial class CampaignJoinDialog(UIContext ui) : UIModule(ui)
     // AoWCampaignJoin.pas:160
     public void CustomizeLeader()
     {
-        LeaderSetupControl control = default;
         Stage = 2;
         CharacterGenerationPanel.Visible = false;
-        control = new LeaderSetupControl(null) { Holder = UI.Engine };
+        LeaderSetupControl control = new(null) { Holder = UI.Engine };
         control.Leader.Assign(Leader, UI.Engine);
         control.OriginalLeader.Assign(Leader, UI.Engine);
         control.Mode += Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Campaign);
@@ -69,11 +68,10 @@ public partial class CampaignJoinDialog(UIContext ui) : UIModule(ui)
     // AoWCampaignJoin.pas:145
     public void LeaderCustomized(LeaderSetupControl sender)
     {
-        Leader leader;
         LeaderSetupControl leaderSetupControl = sender;
         if (leaderSetupControl.Status == LeaderSetupControl.LeaderSetupStatus.Done)
         {
-            leader = leaderSetupControl.OriginalLeader.Copy<Leader>(UI.Engine);
+            Leader leader = leaderSetupControl.OriginalLeader.Copy<Leader>(UI.Engine);
             UI.WorldMap.GetCampaign().TransferSettings.SetLeader(leader);
             _ = leader.Release();
             FinishSelection();
@@ -138,8 +136,7 @@ public partial class CampaignJoinDialog(UIContext ui) : UIModule(ui)
     // AoWCampaignJoin.pas:77
     public void DefaultFacePnlDraw(LockedSurface lockedSurface)
     {
-        Rect r;
-        r = new Rect(DefaultFacePanel.AbsoluteLeft + 1, DefaultFacePanel.AbsoluteTop + 1, DefaultFacePanel.AbsoluteLeft + DefaultFacePanel.WinWidth - 2, DefaultFacePanel.AbsoluteTop + DefaultFacePanel.WinHeight - 2);
+        Rect r = new(DefaultFacePanel.AbsoluteLeft + 1, DefaultFacePanel.AbsoluteTop + 1, DefaultFacePanel.AbsoluteLeft + DefaultFacePanel.WinWidth - 2, DefaultFacePanel.AbsoluteTop + DefaultFacePanel.WinHeight - 2);
         Leader.ShowFace(r, lockedSurface);
     }
 
@@ -179,8 +176,6 @@ public partial class CampaignJoinDialog(UIContext ui) : UIModule(ui)
     // AoWCampaignJoin.pas:114
     public void ScrollTextDBDraw(LockedSurface lockedSurface)
     {
-        int x;
-        int y;
         Rect clipRectangle = lockedSurface.ClipRectangle;
         clipRectangle.Left = CharacterGenerationPanel.AbsoluteLeft + ScrollTextView.WinLeft;
         lockedSurface.ClipRectangle = clipRectangle;
@@ -193,8 +188,8 @@ public partial class CampaignJoinDialog(UIContext ui) : UIModule(ui)
         Rect clipRectangle4 = lockedSurface.ClipRectangle;
         clipRectangle4.Bottom = clipRectangle4.Top + ScrollTextView.WinHeight;
         lockedSurface.ClipRectangle = clipRectangle4;
-        x = CharacterGenerationPanel.AbsoluteLeft + ScrollTextView.WinLeft + (ScrollTextView.WinWidth / 2);
-        y = lockedSurface.ClipRectangle.Top + ScrollTextView.WinHeight - _scrollPosition;
+        int x = CharacterGenerationPanel.AbsoluteLeft + ScrollTextView.WinLeft + (ScrollTextView.WinWidth / 2);
+        int y = lockedSurface.ClipRectangle.Top + ScrollTextView.WinHeight - _scrollPosition;
         for (int i = 0, last = ScrollText.Count - 1; i <= last; i++)
         {
             string scrollText = ScrollText[i];

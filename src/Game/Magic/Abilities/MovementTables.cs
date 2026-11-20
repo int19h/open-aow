@@ -17,9 +17,7 @@ internal static class MovementTables
 
     internal static MoveArmyTokenEvent MoveArmyMapCoordinate(sbyte player, ArmyHexSprite army, byte selection, sbyte X, sbyte Y, sbyte L, MoveAction action, bool force)
     {
-        MoveArmyTokenEvent result;
-        MoveControlSettings settings;
-        settings = new MoveControlSettings(null) { Holder = army };
+        MoveControlSettings settings = new(null) { Holder = army };
         sbyte hexLevel = army.GetHexLevel();
         sbyte hexY = army.GetHexY();
         settings.SetSourcePosition(army.GetHexX(), hexY, hexLevel);
@@ -31,6 +29,7 @@ internal static class MovementTables
         army.Army.CreateMovePointTable(selection, out MovePointTable movePointTable);
         settings.MovePointTable = movePointTable;
         StrategicMap.Current.MoveControl.ProcessMove(settings);
+        MoveArmyTokenEvent result;
         if (settings.Path.Count != 0)
         {
             if ((force || StrategicMap.Current.TokenManager.PlayerReady(player)) && settings.Path.Count > 1)

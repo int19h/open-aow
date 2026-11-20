@@ -41,11 +41,9 @@ public partial class MultiMoveTokenEvent : TokenEvent
     // MoveT.PAS:3309
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        TokenEventList events;
+        TokenEventList events = Events;
         bool valid;
-        ExecuteResult moveResult;
         int i;
-        events = Events;
         if (tokenEvent.ExecuteCount == 0)
         {
             i = events.Count;
@@ -62,6 +60,7 @@ public partial class MultiMoveTokenEvent : TokenEvent
             valid = true;
         }
 
+        ExecuteResult moveResult;
         if (valid)
         {
             if (Simultaneous)

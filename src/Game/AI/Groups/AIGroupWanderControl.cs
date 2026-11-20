@@ -40,18 +40,11 @@ public partial class AIGroupWanderControl : AIGroupTask
     // AGCPlugins.pas:329
     public override bool Process()
     {
-        bool result = default;
-        AIGroupControl control = default;
-        MoveControlSettings settings = default;
-        DoubleItemList<MapField> fields = default;
-        MapField field = default;
-        int i = default;
-        int targetWeight = default;
-        MapCoordinate location = default;
+        bool result;
         switch (State)
         {
             case 0:
-                control = _control;
+                AIGroupControl control = _control;
                 _moveSettings.Reset();
                 {
                     _moveSettings.Player = control.Group.Player;
@@ -81,8 +74,10 @@ public partial class AIGroupWanderControl : AIGroupTask
                 result = false;
                 break;
             case 1:
-                settings = _moveSettings;
-                fields = new DoubleItemList<MapField>();
+                MoveControlSettings settings = _moveSettings;
+                DoubleItemList<MapField> fields = new();
+                MapField field;
+                int i;
                 if (settings.ProcessedMapFields.Count > 40)
                 {
                     i = settings.ProcessedMapFields.Count - 1;
@@ -130,8 +125,8 @@ public partial class AIGroupWanderControl : AIGroupTask
                     if (field is not null)
                     {
                         // { Original reads the list item before GetXYL. }
-                        targetWeight = fields[i].Second;
-                        location = field.GetMapCoordinate();
+                        int targetWeight = fields[i].Second;
+                        MapCoordinate location = field.GetMapCoordinate();
                         _ = _control.Group.SetupTarget(location, targetWeight, AIGroupTargetStatus.Execute, 1, -1, 0, 0);
                         State += 1;
                     }

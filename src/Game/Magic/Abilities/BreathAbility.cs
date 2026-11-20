@@ -27,18 +27,13 @@ public partial class BreathAbility : RangedAttackAbility
     // AoWAb.PAS:4894
     public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
-        Battle combat;
-        DelphiList<CombatObject> targets;
-        CombatObject target;
-        CombatObject other;
-        int count;
-        RangedAttackCombatAction action;
         bool result = base.FastBattleExecuteCombatCommand(source, command);
         if (result)
         {
-            combat = source.Combat;
-            targets = new DelphiList<CombatObject>();
-            target = command.Target;
+            Battle combat = source.Combat;
+            DelphiList<CombatObject> targets = new();
+            CombatObject target = command.Target;
+            CombatObject other;
             for (int i = combat.Sides[(int)target.GetSide()].GetCount() - 1; i >= 0; i--)
             {
                 CombatSideIndex side = target.GetSide();
@@ -56,11 +51,11 @@ public partial class BreathAbility : RangedAttackAbility
                 }
             }
 
-            count = StrategicMap.Current.Random(2) + 1;
+            int count = StrategicMap.Current.Random(2) + 1;
             while (count != 0 && targets.Count != 0)
             {
                 other = targets[StrategicMap.Current.Random(targets.Count)];
-                action = CreateRangedAttackCombatAction(source, other, 2);
+                RangedAttackCombatAction action = CreateRangedAttackCombatAction(source, other, 2);
                 source.Combat.ExecuteCombatAction(action);
                 _ = action.Release();
                 _ = targets.Remove(other);
@@ -86,18 +81,15 @@ public partial class BreathAbility : RangedAttackAbility
     // AoWAb.PAS:4866
     public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        int count;
-        Battle combat;
-        CombatObject target;
         base.FastBattleGetDamageValues(attacker, defender, wallSituation, ref damageValues);
         if (damageValues.SourceDamage != 0)
         {
-            combat = attacker.Combat;
-            count = 0;
+            Battle combat = attacker.Combat;
+            int count = 0;
             for (int i = combat.Sides[(int)defender.GetSide()].GetCount() - 1; i >= 0; i--)
             {
                 CombatSideIndex side = defender.GetSide();
-                target = combat.Sides[(int)side].GetObjects(i);
+                CombatObject target = combat.Sides[(int)side].GetObjects(i);
                 bool condition = target != defender && target.GetEnabled() && (int)(((uint)target.Position) >> 4) == (int)(((uint)defender.Position) >> 4) && target.FastBattleRoundDistance() <= combat.GetRoundDistance();
                 if (condition)
                 {

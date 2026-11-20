@@ -29,15 +29,12 @@ public partial class EntangleCombatAction(CustomNode owner) : SingleTargetCombat
     // AoWAb.PAS:2938
     public override void Execute(Battle combat)
     {
-        CombatUnit source;
-        CombatUnit target;
-        UnitEnchantmentAbilityData data;
         if (Successful)
         {
-            source = combat.CombatData.FindId<CombatUnit>(SourceId);
-            target = combat.CombatData.FindId<CombatUnit>(TargetId);
+            CombatUnit source = combat.CombatData.FindId<CombatUnit>(SourceId);
+            CombatUnit target = combat.CombatData.FindId<CombatUnit>(TargetId);
             _ = GamePack.Current.AbilityControl.GetAbility(94).Expand(target.Troop);
-            data = target.Troop.GetAbilityData<UnitEnchantmentAbilityData>(94);
+            UnitEnchantmentAbilityData data = target.Troop.GetAbilityData<UnitEnchantmentAbilityData>(94);
             data?.EnchantmentPlayerIndex = source.CombatPlayer;
         }
     }

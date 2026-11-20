@@ -107,8 +107,7 @@ public partial class ArmyInfoEventLog : EventLog
     // Army.PAS:290
     public override void ViewLocation()
     {
-        ArmyView army;
-        army = ArmyView;
+        ArmyView army = ArmyView;
         if (army is not null && army.Location.X != -1)
         {
             CenterViewTo(army.Location.X, army.Location.Y, army.Location.MapLevel);

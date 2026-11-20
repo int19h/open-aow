@@ -30,8 +30,8 @@ public partial class EndTurnTokenEvent(CustomNode owner) : TokenEvent(owner)
     // MoveT.PAS:1915
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult result;
         _ = base.Execute(tokenEvent);
+        ExecuteResult result;
         if (StrategicMap.Current.Day == Day)
         {
             if (Mode == EndTurnTokenEventMode.EndTurn && !StrategicMap.Current.Players.GetPlayers(Player).SingleProcessCycle)

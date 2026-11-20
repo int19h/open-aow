@@ -85,18 +85,15 @@ public partial class AIRecruitmentGroupFinder : AIGroupTask
     // AIGroup.pas:1998
     public void RecruitGroupFoundEvent(MoveTarget target, ref bool searchDone)
     {
-        ArmyHexSprite armyHexSprite;
-        Troop troop;
-        AIRecruitmentGroup group;
-        armyHexSprite = StrategicMap.Current.MapContainer.GetField(target.Location.X, target.Location.Y, target.Location.MapLevel).GetArmyHexSprite();
+        ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(target.Location.X, target.Location.Y, target.Location.MapLevel).GetArmyHexSprite();
         if (armyHexSprite is not null)
         {
             for (int i = armyHexSprite.Army.Units.Count - 1; i >= 0; i--)
             {
-                troop = armyHexSprite.Army.Units.GetUnit(i);
+                Troop troop = armyHexSprite.Army.Units.GetUnit(i);
                 if (troop.Group is not null && troop.Group.Leader == troop && troop.Group != _control.Group)
                 {
-                    group = new AIRecruitmentGroup(null) { Holder = CreationHolder() };
+                    AIRecruitmentGroup group = new(null) { Holder = CreationHolder() };
                     group.SetGroup(troop.Group);
                     group.Location = target.Location;
                     group.MovePoints = target.MovePoints;

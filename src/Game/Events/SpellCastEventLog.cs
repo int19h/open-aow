@@ -36,9 +36,7 @@ public partial class SpellCastEventLog(CustomNode owner) : EventLog(owner)
     // Spells.PAS:818
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool show;
-        string reason = "";
-        show = trigger == ExecuteTrigger.User;
+        bool show = trigger == ExecuteTrigger.User;
         show = show || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.SpellReady));
         show = show || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.SpellReady));
         if (show)
@@ -46,6 +44,7 @@ public partial class SpellCastEventLog(CustomNode owner) : EventLog(owner)
             Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
             if (hero is not null && hero.CastingSpellId == SpellId && hero.CastingReady())
             {
+                string reason = "";
                 _ = GamePack.Current.AbilityControl.GetAbility(52).Activate(hero, ref reason);
             }
         }
@@ -56,8 +55,7 @@ public partial class SpellCastEventLog(CustomNode owner) : EventLog(owner)
     // Spells.PAS:843
     public override void ViewLocation()
     {
-        Troop troop;
-        troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        Troop troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (troop is not null)
         {
             MapCoordinate coordinate21 = troop.GetLocation();

@@ -413,16 +413,10 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
     //   covers on one side is trimmed or emptied. }
     public virtual void AddBlitRectangle(ref Rect rectangle, UIComponent sender)
     {
-        DirtyRectangle n;
-        int i;
-        int count;
-        bool add;
-        DirtyRectangle r;
         if (Valid && _visible)
         {
-            i = 0;
-            count = BlitCount;
-            add = true;
+            int count = BlitCount;
+            bool add = true;
             if (rectangle.Left < 0)
             {
                 rectangle.Left = 0;
@@ -433,17 +427,20 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
                 rectangle.Top = 0;
             }
 
+            DirtyRectangle r;
             if (rectangle.Right < rectangle.Left || rectangle.Bottom < rectangle.Top)
             {
                 add = false;
             }
             else
             {
+                int i = 0;
                 while (i < count && add)
                 {
                     r = BlitList[i];
                     if (rectangle.Right >= r.Rectangle.Left && rectangle.Left <= r.Rectangle.Right && rectangle.Bottom >= r.Rectangle.Top && rectangle.Top <= r.Rectangle.Bottom)
                     {
+                        DirtyRectangle n;
                         if (r.Rectangle.Left <= rectangle.Left)
                         {
                             if (rectangle.Right <= r.Rectangle.Right)
@@ -637,16 +634,10 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
     // { AddDrawRect: the same for the rectangles to redraw; the rectangle added last records Sender }
     public virtual void AddDrawRectangle(ref Rect rectangle, UIComponent sender)
     {
-        DirtyRectangle n;
-        int i;
-        int count;
-        bool add;
-        DirtyRectangle r;
         if (Valid && _visible)
         {
-            i = 0;
-            count = DrawCount;
-            add = true;
+            int count = DrawCount;
+            bool add = true;
             if (rectangle.Left < 0)
             {
                 rectangle.Left = 0;
@@ -657,17 +648,20 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
                 rectangle.Top = 0;
             }
 
+            DirtyRectangle r;
             if (rectangle.Right < rectangle.Left || rectangle.Bottom < rectangle.Top)
             {
                 add = false;
             }
             else
             {
+                int i = 0;
                 while (i < count && add)
                 {
                     r = DrawList[i];
                     if (rectangle.Right >= r.Rectangle.Left && rectangle.Left <= r.Rectangle.Right && rectangle.Bottom >= r.Rectangle.Top && rectangle.Top <= r.Rectangle.Bottom)
                     {
+                        DirtyRectangle n;
                         if (r.Rectangle.Left <= rectangle.Left)
                         {
                             if (rectangle.Right <= r.Rectangle.Right)
@@ -861,8 +855,6 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
     // AoWComp.pas:262
     public virtual void SetOwner(UIComponent value)
     {
-        int i;
-        int newIndex;
         int oldIndex;
         if (_ownerComponent is not null)
         {
@@ -880,10 +872,10 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
         }
 
         _ownerComponent = value;
-        newIndex = -1;
+        int newIndex = -1;
         if (_ownerComponent is not null)
         {
-            i = 0;
+            int i = 0;
             while (i < _ownerComponent.Children.Count)
             {
                 if (_ownerComponent.Children[i]._priority > _priority)

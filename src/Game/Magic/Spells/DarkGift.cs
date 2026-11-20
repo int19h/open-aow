@@ -35,12 +35,11 @@ public partial class DarkGift : UnitSpell
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
         bool result;
-        UnitEnchantment enchantment;
         if (ValidTargetUnit(source, target))
         {
             if (target.ExpandAbility(169))
             {
-                enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(169).Enchantment;
+                UnitEnchantment enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(169).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
                 enchantment.DispelResistance = (sbyte)UnitDispelResistance;

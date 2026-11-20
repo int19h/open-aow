@@ -18,8 +18,7 @@ public partial class SetupPackage(CustomNode owner) : EngineObject(owner)
     // AoWSetup.pas:245
     public override void Dispose()
     {
-        EngineObject data;
-        data = Data;
+        EngineObject data = Data;
         data?.Dispose();
 
         base.Dispose();

@@ -51,10 +51,8 @@ public partial class EngineResource(CustomNode owner) : EngineObject(owner)
     // Engine.pas:8555
     public virtual EngineObject CreateResourceUser()
     {
-        EngineObject result;
-        int userClassId;
-        userClassId = ResourceUserClassId();
-        result = userClassId != 0 ? GetEngine().CreateEngineObject(userClassId, null) : null;
+        int userClassId = ResourceUserClassId();
+        EngineObject result = userClassId != 0 ? GetEngine().CreateEngineObject(userClassId, null) : null;
 
         return result;
     }

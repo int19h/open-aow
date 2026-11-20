@@ -32,9 +32,7 @@ public partial class HeroUpdateTokenEvent(CustomNode owner) : TokenEvent(owner)
     // Hero.PAS:2291
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult result;
-        bool success;
-        success = false;
+        bool success = false;
         Troop troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (troop is null)
         {
@@ -65,7 +63,7 @@ public partial class HeroUpdateTokenEvent(CustomNode owner) : TokenEvent(owner)
             }
         }
 
-        result = success ? ExecuteResult.Done : ExecuteResult.DoneHalt;
+        ExecuteResult result = success ? ExecuteResult.Done : ExecuteResult.DoneHalt;
 
         return result;
     }

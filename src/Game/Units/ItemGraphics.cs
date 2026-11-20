@@ -70,9 +70,8 @@ public partial class ItemGraphics(CustomNode owner) : EngineResource(owner)
     // Army.PAS:5152
     public override LibraryImage GetCellImage()
     {
-        LibraryImage image;
         _ = AddRef();
-        image = _imageLibrary[ImageIndex];
+        LibraryImage image = _imageLibrary[ImageIndex];
         _ = Release();
         return image;
     }

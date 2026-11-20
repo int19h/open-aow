@@ -51,9 +51,7 @@ public partial class CityTargetSpell : Spell
     // CitySpells.pas:288
     public virtual void OnTargetSelectionChange(TargetSelectionControl targetSelection)
     {
-        Troop source = default;
-        bool valid = default;
-        source = StrategicMap.Current.UnitControl.FindUnit(_sourceId);
+        Troop source = StrategicMap.Current.UnitControl.FindUnit(_sourceId);
         if (source is not null)
         {
             switch (targetSelection.Change)
@@ -63,6 +61,7 @@ public partial class CityTargetSpell : Spell
                     targetSelection.Deactivate();
                     break;
                 case TargetSelectionChange.Selected:
+                    bool valid = default;
                     ValidateTarget(targetSelection, targetSelection.Target.X, targetSelection.Target.Y, targetSelection.Target.MapLevel, ref valid);
                     if (valid)
                     {
@@ -90,12 +89,9 @@ public partial class CityTargetSpell : Spell
     // CitySpells.pas:215
     public virtual void PlayDefaultCityEffects(Troop source, City targetCity)
     {
-        MapLevel level;
-        ImageSequenceAnimation a;
-        bool playSound;
-        playSound = false;
+        bool playSound = false;
         sbyte hexLevel = targetCity.GetHexLevel();
-        level = StrategicMap.Current.MapContainer.GetMapLevel(hexLevel);
+        MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(hexLevel);
         sbyte hexY = targetCity.GetHexY();
         sbyte hexX = targetCity.GetHexX();
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
@@ -113,7 +109,7 @@ public partial class CityTargetSpell : Spell
                 if (condition)
                 {
                     // { Original passes the city layer before the radius. }
-                    a = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+                    ImageSequenceAnimation a = new(null) { Holder = CreationHolder() };
                     a.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
                     a.FrameCounter = Random(5);
                     a.AnimationLevel = 27;
@@ -145,9 +141,6 @@ public partial class CityTargetSpell : Spell
     // CitySpells.pas:323
     public virtual void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         targetSelection.Initialize(source);
         targetSelection.TargetMode += Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
         string format = Format(AbilityRules.TranslateResourceString(GetEngine(), s_selectTargetCityForOnMapFormat), [SpellName]);
@@ -158,9 +151,9 @@ public partial class CityTargetSpell : Spell
         targetSelection.ValidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[21].GetPreviewImage();
         targetSelection.InvalidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[22].GetPreviewImage();
         MapCoordinate coordinate58 = source.GetLocation();
-        x = coordinate58.X;
-        y = coordinate58.Y;
-        l = coordinate58.MapLevel;
+        sbyte x = coordinate58.X;
+        sbyte y = coordinate58.Y;
+        sbyte l = coordinate58.MapLevel;
         targetSelection.SourceLocation = new MapCoordinate(x, y, l);
         targetSelection.Range = 12;
         if (targetSelection.OnChangeStore.Count > 1)
@@ -177,10 +170,9 @@ public partial class CityTargetSpell : Spell
     public virtual bool TargetSelected(Troop source, int X, int Y, int L)
     {
         bool result;
-        CityTargetSpellTokenEvent eventValue;
         if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            eventValue = CreateTokenEvent();
+            CityTargetSpellTokenEvent eventValue = CreateTokenEvent();
             if (SetupTokenEvent(eventValue, source, X, Y, L))
             {
                 StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
@@ -204,7 +196,6 @@ public partial class CityTargetSpell : Spell
     // CitySpells.pas:248
     public virtual bool ValidTargetCity(Troop source, City targetCity)
     {
-        City found;
         bool result = (CityTargetMode.Contains(CityTargetModeElement.Own) && targetCity.Player == source.Player) || (CityTargetMode.Contains(CityTargetModeElement.Enemy) && targetCity.Player != source.Player);
         result = result && (!targetCity.GetRazed() || CityTargetMode.Contains(CityTargetModeElement.Razed));
         if (result && CityTargetMode.Contains(CityTargetModeElement.SkipSource))
@@ -213,7 +204,7 @@ public partial class CityTargetSpell : Spell
             sbyte x = coordinate59.X;
             sbyte y = coordinate59.Y;
             sbyte l = coordinate59.MapLevel;
-            found = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
+            City found = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
             result = targetCity != found;
         }
 
@@ -241,19 +232,15 @@ public partial class CityTargetSpell : Spell
     // CitySpells.pas:262
     public void ValidateTarget(TargetSelectionControl targetSelection, sbyte X, sbyte Y, sbyte L, ref bool valid)
     {
-        Troop source;
-        MapLevel level;
-        MapField field;
-        City targetCity;
-        level = StrategicMap.Current.MapContainer.GetMapLevel(L);
-        source = StrategicMap.Current.UnitControl.FindUnit(_sourceId);
+        MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(L);
+        Troop source = StrategicMap.Current.UnitControl.FindUnit(_sourceId);
         if (source is not null && X >= 0 && Y >= 0 && X < level.Width && Y < level.Height)
         {
-            field = level.GetField(X, Y);
+            MapField field = level.GetField(X, Y);
             valid = !StrategicMap.Current.ExplorationEnabled || field.GetExplored(source.Player);
             if (valid)
             {
-                targetCity = field.FindNoneTransparentHexSprite<City>();
+                City targetCity = field.FindNoneTransparentHexSprite<City>();
                 valid = targetCity is not null && ValidTargetCity(source, targetCity);
             }
         }

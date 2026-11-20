@@ -32,8 +32,7 @@ public partial class LevelTerrain : GlobalTargetSpell
     // GlobalTargetSpells.pas:1010
     public override void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
-        TargetSelectionControl target;
-        target = targetSelection;
+        TargetSelectionControl target = targetSelection;
         base.SetupTargetSelection(source, target);
         target.HexNumbers.Clear();
         for (int i = 0, last = HexGeometry.RadiusToHexNumber(2) - 1; i <= last; i++)
@@ -45,8 +44,7 @@ public partial class LevelTerrain : GlobalTargetSpell
     // GlobalTargetSpells.pas:1022
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
-        LevelTerrainTokenEvent eventValue;
-        eventValue = new LevelTerrainTokenEvent(null) { Holder = CreationHolder() };
+        LevelTerrainTokenEvent eventValue = new(null) { Holder = CreationHolder() };
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
@@ -57,11 +55,10 @@ public partial class LevelTerrain : GlobalTargetSpell
     // GlobalTargetSpells.pas:996
     public override bool ValidTargetSelectionMapField(MapField field)
     {
-        ArmyHexSprite army;
         bool result = base.ValidTargetSelectionMapField(field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(8).With(10).With(13).Contains((byte)field.TerrainType) && field.FindNoneTransparentHexSprite(typeof(Structure)) is null;
         if (result)
         {
-            army = field.GetArmyHexSprite();
+            ArmyHexSprite army = field.GetArmyHexSprite();
             if (army is not null)
             {
                 result = !army.VisibleForSeatedPlayer();

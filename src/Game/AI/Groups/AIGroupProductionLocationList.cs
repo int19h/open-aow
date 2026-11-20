@@ -40,11 +40,10 @@ public partial class AIGroupProductionLocationList(CustomNode owner) : Reference
     // AIGroup.pas:956
     public bool Validate(AIGroupControl control)
     {
-        AIGroupProductionLocation location;
         bool result = true;
         for (int i = Count - 1; i >= 0; i--)
         {
-            location = this[i];
+            AIGroupProductionLocation location = this[i];
             if (!location.Validate(control))
             {
                 _ = RemoveChild(location);

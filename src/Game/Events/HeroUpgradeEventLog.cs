@@ -34,8 +34,7 @@ public partial class HeroUpgradeEventLog(CustomNode owner) : EventLog(owner)
     public override string GetText()
     {
         string result = "";
-        Hero hero;
-        hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
+        Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
         if (hero is not null)
         {
             if (NewLevel - OldLevel == 1)
@@ -56,16 +55,14 @@ public partial class HeroUpgradeEventLog(CustomNode owner) : EventLog(owner)
     // Hero.PAS:76
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool result = default;
-        Hero hero;
-        bool executeNow;
         UnitControl unitControl = StrategicMap.Current.UnitControl;
-        hero = unitControl.FindUnit<Hero>(UnitId);
+        Hero hero = unitControl.FindUnit<Hero>(UnitId);
+        bool result;
         if (hero is not null && StrategicMap.Current.SeatedPlayer == hero.Player)
         {
             if (hero.UpgradePending)
             {
-                executeNow = trigger == ExecuteTrigger.User;
+                bool executeNow = trigger == ExecuteTrigger.User;
                 executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroUpgrade));
                 executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.HeroUpgrade));
                 result = executeNow && base.Execute(mode, trigger, done);
@@ -97,8 +94,7 @@ public partial class HeroUpgradeEventLog(CustomNode owner) : EventLog(owner)
     // Hero.PAS:102
     public override void ViewLocation()
     {
-        Troop u;
-        u = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        Troop u = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (u is not null)
         {
             MapCoordinate coordinate19 = u.GetLocation();

@@ -27,10 +27,8 @@ public partial class SfxLibrary(CustomNode owner) : OwningNode(owner), IChildLis
     // Sound.pas:1096
     public Sample Play(int id)
     {
-        Sample result;
-        SfxSequence s;
-        s = Find(id);
-        result = s?.Play();
+        SfxSequence s = Find(id);
+        Sample result = s?.Play();
 
         return result;
     }
@@ -38,10 +36,8 @@ public partial class SfxLibrary(CustomNode owner) : OwningNode(owner), IChildLis
     // Sound.pas:1107
     public Sample Play(int id, int volume, bool looped, int delay, SamplePanning panning, SampleCallBack callback)
     {
-        Sample result = default;
-        SfxSequence s;
-        s = Find(id);
-        result = s?.Play(volume, looped, delay, panning, callback);
+        SfxSequence s = Find(id);
+        Sample result = s?.Play(volume, looped, delay, panning, callback);
 
         return result;
     }
@@ -49,8 +45,7 @@ public partial class SfxLibrary(CustomNode owner) : OwningNode(owner), IChildLis
     // Sound.pas:1119
     public SfxSequence Find(int id)
     {
-        int i;
-        i = 0;
+        int i = 0;
         SfxSequence result = null;
         while (i != Count && result is null)
         {
@@ -69,13 +64,11 @@ public partial class SfxLibrary(CustomNode owner) : OwningNode(owner), IChildLis
     // { The first ID that two sequences share, -1 when the IDs are unique. }
     public int DoubleId()
     {
-        int i;
-        int id;
-        i = 0;
+        int i = 0;
         int result = -1;
         while (result == -1 && i != Count)
         {
-            id = this[i].Id;
+            int id = this[i].Id;
             for (int j = i + 1, last = Count - 1; j <= last; j++)
             {
                 if (id == this[j].Id)

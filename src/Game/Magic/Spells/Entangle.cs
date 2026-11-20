@@ -34,8 +34,7 @@ public partial class Entangle : CombatSpell
     // CombatSpells.pas:1368
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        EntangleSpellCombatAction action;
-        action = new EntangleSpellCombatAction(null)
+        EntangleSpellCombatAction action = new(null)
         {
             Holder = CreationHolder(),
             SourceId = source.Id,

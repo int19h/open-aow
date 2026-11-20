@@ -17,10 +17,9 @@ public partial class FireProtectionEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1062
     public override string GetSourceName(AbilityOwner owner)
     {
-        string result;
         // { Original assumes the ability data and enchantment exist. }
         UnitEnchantmentAbilityData unitEnchantmentAbilityData = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
-        result = unitEnchantmentAbilityData.Enchantment.Source == -2
+        string result = unitEnchantmentAbilityData.Enchantment.Source == -2
             ? AbilityRules.TranslateResourceString(GetEngine(), GameText.FireMasteryText)
             : base.GetSourceName(owner);
 

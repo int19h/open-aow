@@ -67,9 +67,8 @@ public partial class CombatData : EngineObject
     // Combat2.pas:212
     public bool GetSideLeaderInvolved(byte side)
     {
-        int i;
         bool result = false;
-        i = InvolvedLeaders.Count;
+        int i = InvolvedLeaders.Count;
         while (!result && i != 0)
         {
             i -= 1;
@@ -106,8 +105,7 @@ public partial class CombatData : EngineObject
     // Combat2.pas:253
     public CombatObject FindId(int id)
     {
-        int i;
-        i = CombatObjects.Count;
+        int i = CombatObjects.Count;
         while (i != 0)
         {
             i -= 1;
@@ -126,9 +124,8 @@ public partial class CombatData : EngineObject
     // Combat2.pas:269
     public CombatObject FindPosition(byte position)
     {
-        int i;
         CombatObject result = null;
-        i = CombatObjects.Count;
+        int i = CombatObjects.Count;
         while (i != 0 && result is null)
         {
             i -= 1;

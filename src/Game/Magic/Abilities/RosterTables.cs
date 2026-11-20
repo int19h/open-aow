@@ -15,14 +15,11 @@ internal static class RosterTables
 
     internal static int GetUnitIndexAIPriority(int unitIndex, sbyte player, sbyte relation, GameEngine engine)
     {
+        UnitResource resource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
         int result;
-        UnitResource resource;
-        int value;
-        Unit unit;
-        HypotheticalUnit defaultUnit;
-        resource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
         if (resource is not null && resource.GetTransportCapacity() == 0)
         {
+            int value;
             if (player != 0)
             {
                 if (resource.Race != -1)
@@ -44,9 +41,9 @@ internal static class RosterTables
 
             if (value >= 50)
             {
-                unit = new Unit(null) { Holder = engine };
+                Unit unit = new(null) { Holder = engine };
                 unit.SetUnitResource(resource);
-                defaultUnit = new HypotheticalUnit(null) { Holder = engine };
+                HypotheticalUnit defaultUnit = new(null) { Holder = engine };
                 defaultUnit.MakeDefaultLevelUnit(1);
                 if (unit.GetCombatValue(defaultUnit, 0) > 0)
                 {

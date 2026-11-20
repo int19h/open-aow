@@ -98,13 +98,12 @@ public partial class PowerNode : PlayerStructure
     // PowerNode.pas:96
     public override void UpdateAITarget(in AITargetInfo info, ref AITargetData data)
     {
-        int p;
         switch (info.Mode)
         {
             case AITargetMode.Attack:
                 if (info.Player != Player && !GetRazed())
                 {
-                    p = data.Priority;
+                    int p = data.Priority;
                     if (Player == 0)
                     {
                         p = 50;

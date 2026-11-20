@@ -108,14 +108,6 @@ public partial class Memo : Control
     //   not fit starts a new line) and sets up the scroll bar }
     public override void SetSize()
     {
-        int length;
-        int w;
-        ReadOnlySpan<byte> text;
-        string s;
-        int j;
-        int start;
-        int tw;
-        ColorChange cc;
         if (ItemHeight < 1)
         {
             ItemHeight = 10;
@@ -169,16 +161,16 @@ public partial class Memo : Control
             _ = Lines.Add("");
             ColorChange colorChange = new();
             ColorList.Add(colorChange);
-            j = 0;
-            start = 0;
-            w = !NoFrame ? _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width + _scrollWidth + (BorderWidth * 2) : BorderWidth * 2;
+            int j = 0;
+            int start = 0;
+            int w = !NoFrame ? _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width + _scrollWidth + (BorderWidth * 2) : BorderWidth * 2;
 
             string item = NullTerminatedText(_items[i]);
-            text = Cp1252.Encode(item);
-            length = text.Length;
+            ReadOnlySpan<byte> text = Cp1252.Encode(item);
+            int length = text.Length;
             if (length > 6 && text[0] == ColorChangeChar)
             {
-                cc = ColorList[^1];
+                ColorChange cc = ColorList[^1];
                 cc.HasColor = true;
                 try
                 {
@@ -196,8 +188,8 @@ public partial class Memo : Control
             {
                 if (text[j] == 32 || j == length - 1)
                 {
-                    s = Copy(item, start + 1, j + 1 - start);
-                    tw = base.Font.GetTextWidth(s);
+                    string s = Copy(item, start + 1, j + 1 - start);
+                    int tw = base.Font.GetTextWidth(s);
                     if (w + tw > WinWidth)
                     {
                         _ = Lines.Add(s);
@@ -276,7 +268,6 @@ public partial class Memo : Control
     // { Update follows the scroll bar and blinks the cursor }
     public override void Update()
     {
-        int p;
         base.Update();
         if (Visible)
         {
@@ -284,7 +275,7 @@ public partial class Memo : Control
             {
                 if (_verticalScrollBar.Position != _topItem)
                 {
-                    p = _verticalScrollBar.Position;
+                    int p = _verticalScrollBar.Position;
                     _topItem = p;
                     if (Lines.Count < p + _numberVisible)
                     {
@@ -489,13 +480,10 @@ public partial class Memo : Control
     //   characters }
     public override void CheckKeyPress(ref byte key)
     {
-        bool changed;
-        bool moved;
         Handled = Redraw;
-        changed = false;
-        moved = false;
         if (Editable && Redraw && Valid && Visible)
         {
+            bool changed = false;
             switch (key)
             {
                 case 8:
@@ -572,6 +560,7 @@ public partial class Memo : Control
                     break;
             }
 
+            bool moved = false;
             if (moved)
             {
                 CurrentToReal();
@@ -597,13 +586,11 @@ public partial class Memo : Control
     // { CheckKeyDown moves the cursor with the arrow keys and deletes with Delete }
     public override void CheckKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        bool changed;
-        bool moved;
         Handled = Redraw;
-        changed = false;
-        moved = false;
         if (Editable && Redraw && Valid && Visible)
         {
+            bool changed = false;
+            bool moved = false;
             switch (key)
             {
                 case 37:
@@ -826,12 +813,10 @@ public partial class Memo : Control
     //   cursor's line for every line up to it, not of each line (original bug) }
     public void CurrentToReal()
     {
-        int length;
-        int i;
-        length = _items[0].Length;
+        int length = _items[0].Length;
         _realColumn = 0;
         _realLine = 0;
-        i = 0;
+        int i = 0;
         while (i <= _currentLine)
         {
             string line = Lines[_currentLine];
@@ -853,13 +838,11 @@ public partial class Memo : Control
     // { RealToCur wraps the text again and finds the cursor in FLines from the cursor in FItems }
     public void RealToCurrent()
     {
-        int length;
-        int i;
         SetSize();
-        length = _items[0].Length;
+        int length = _items[0].Length;
         _currentColumn = 0;
         _currentLine = 0;
-        i = 0;
+        int i = 0;
         while (i < _realLine)
         {
             string line = Lines[_currentLine];

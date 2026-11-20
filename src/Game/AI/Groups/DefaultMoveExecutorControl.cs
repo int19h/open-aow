@@ -15,11 +15,8 @@ public partial class DefaultMoveExecutorControl(CustomNode owner) : AIMoveExecut
     // AIGroup.pas:4978
     public override void CalculateMoves()
     {
-        int i;
         AIMoveExecutorArmyList armies;
         AIMoveExecutorMove move;
-        Set<CreateMoveModeElement> mode;
-        bool cannotMove;
         byte moveResult;
         switch (State)
         {
@@ -27,7 +24,7 @@ public partial class DefaultMoveExecutorControl(CustomNode owner) : AIMoveExecut
                 armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready));
                 if (armies.Count != 0)
                 {
-                    mode = Executor.Mode.Contains(AIMoveExecutorModeElement.Attack)
+                    Set<CreateMoveModeElement> mode = Executor.Mode.Contains(AIMoveExecutorModeElement.Attack)
                         ? Set<CreateMoveModeElement>.Of(CreateMoveModeElement.Surround)
                         : Set<CreateMoveModeElement>.Of();
 
@@ -68,8 +65,8 @@ public partial class DefaultMoveExecutorControl(CustomNode owner) : AIMoveExecut
                 armies?.Dispose();
                 break;
             case 1:
-                i = 0;
-                cannotMove = true;
+                int i = 0;
+                bool cannotMove = true;
                 armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
                 while (cannotMove && i != armies.Count)
                 {

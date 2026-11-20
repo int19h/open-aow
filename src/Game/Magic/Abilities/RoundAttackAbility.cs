@@ -27,25 +27,17 @@ public partial class RoundAttackAbility : TouchAbility
     // AoWAb.PAS:2404
     public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
-        Set<DamageType> damageTypes;
-        int count;
-        StrikeCombatAction action;
-        Battle combat;
-        DelphiList<CombatObject> targets;
-        CombatObject target;
-        CombatObject other;
-        MoveWallCombatAction moveAction;
-        combat = source.Combat;
-        targets = new DelphiList<CombatObject>();
-        damageTypes = CombatObject.MeleeDamageTypes(source);
-        target = command.Target;
+        Battle combat = source.Combat;
+        DelphiList<CombatObject> targets = new();
+        Set<DamageType> damageTypes = CombatObject.MeleeDamageTypes(source);
+        CombatObject target = command.Target;
         FastBattleValidateMoveOutsideWall(source, target);
         if (source is FastBattleUnit fastUnit)
         {
             fastUnit.RoundDistance = 0;
             if (source.FastBattleBehindWall() && source.FastBattleWallInBetween(target.Position) && !target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing))
             {
-                moveAction = new MoveWallCombatAction(null)
+                MoveWallCombatAction moveAction = new(null)
                 {
                     Holder = CreationHolder(),
                     CombatObjectId = source.Id,
@@ -56,13 +48,14 @@ public partial class RoundAttackAbility : TouchAbility
             }
         }
 
-        action = CombatObject.CreateStrikeCombatAction(source, target, false);
+        StrikeCombatAction action = CombatObject.CreateStrikeCombatAction(source, target, false);
         if (action is not null)
         {
             combat.ExecuteCombatAction(action);
             _ = action.Release();
         }
 
+        CombatObject other;
         for (int i = combat.Sides[(int)target.GetSide()].GetCount() - 1; i >= 0; i--)
         {
             CombatSideIndex side = target.GetSide();
@@ -73,7 +66,7 @@ public partial class RoundAttackAbility : TouchAbility
             }
         }
 
-        count = StrategicMap.Current.Random(2) + 1;
+        int count = StrategicMap.Current.Random(2) + 1;
         while (count != 0 && targets.Count != 0)
         {
             other = targets[StrategicMap.Current.Random(targets.Count)];
@@ -127,12 +120,10 @@ public partial class RoundAttackAbility : TouchAbility
     // AoWAb.PAS:2270
     public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref Set<DamageType> types)
     {
-        int attack;
-        int damage;
         if (owner is Troop troop)
         {
-            attack = troop.GetAttack();
-            damage = troop.GetDamage();
+            int attack = troop.GetAttack();
+            int damage = troop.GetDamage();
 
             strength = AbilityRules.LimitedDamage(attack, damage, 1) * 3;
             types = GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(owner);
@@ -142,13 +133,9 @@ public partial class RoundAttackAbility : TouchAbility
     // AoWAb.PAS:2338
     public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        int count;
-        Set<DamageType> damageTypes;
-        Battle combat;
-        CombatObject target;
         if (wallSituation == WallSituation.None && CanTouch(attacker, defender))
         {
-            damageTypes = CombatObject.MeleeDamageTypes(attacker);
+            Set<DamageType> damageTypes = CombatObject.MeleeDamageTypes(attacker);
             int strikeDamageValue = CombatObject.StrikeDamageValue(attacker, defender);
             damageValues.SourceDamage = strikeDamageValue;
             sbyte damage = attacker.GetDamage();
@@ -159,13 +146,13 @@ public partial class RoundAttackAbility : TouchAbility
             damageValues.TargetCost = defenderDamage;
             Set<DamageType> immunityTypes = defender.GetImmunityTypes();
             damageValues.DamageTypes = damageTypes - immunityTypes;
-            combat = attacker.Combat;
-            count = 0;
+            Battle combat = attacker.Combat;
+            int count = 0;
             for (int i = combat.Sides[(int)defender.GetSide()].GetCount() - 1; i >= 0; i--)
             {
                 // { Preserve the original saved registers. }
                 CombatSideIndex side = defender.GetSide();
-                target = combat.Sides[(int)side].GetObjects(i);
+                CombatObject target = combat.Sides[(int)side].GetObjects(i);
                 // { Original tests Defender's flying ability here, rather than Target's. }
                 if (target != defender && target.GetEnabled() && (int)(((uint)target.Position) >> 4) == (int)(((uint)defender.Position) >> 4) && (!defender.GetAbilityEnabled(1) || attacker.GetAbilityEnabled(1)) && !attacker.FastBattleWallInBetween(target.Position) && target.FastBattleRoundDistance() <= combat.GetRoundDistance() && damageTypes - target.GetImmunityTypes() != Set<DamageType>.Of())
                 {

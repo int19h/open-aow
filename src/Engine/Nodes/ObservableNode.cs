@@ -32,9 +32,8 @@ public partial class ObservableNode(CustomNode owner) : CustomNode(owner)
     // Engine.pas:7220
     public override void Clear()
     {
-        int i;
+        int i = Count - 1;
         EngineObject c;
-        i = Count - 1;
         for (; i >= 0; i -= 1)
         {
             c = _children.List[i];
@@ -1016,13 +1015,9 @@ public partial class ObservableNode(CustomNode owner) : CustomNode(owner)
     // Engine.pas:8099
     public override EngineObject FindChild(int classId)
     {
-        EngineObject result;
-        int i;
-        bool found;
-        EngineObject c;
-        i = 0;
-        found = false;
-        c = null;
+        int i = 0;
+        bool found = false;
+        EngineObject c = null;
         while (!found && i < _children.Count)
         {
             c = _children.List[i];
@@ -1030,7 +1025,7 @@ public partial class ObservableNode(CustomNode owner) : CustomNode(owner)
             i += 1;
         }
 
-        result = found ? c : null;
+        EngineObject result = found ? c : null;
 
         return result;
     }

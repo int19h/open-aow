@@ -104,7 +104,6 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
     // AoWUnitWindow.pas:985
     public void UpdateGround(int offset)
     {
-        Troop u;
         Ground1CheckBox.Tag = -1;
         Ground2CheckBox.Tag = -1;
         Ground3CheckBox.Tag = -1;
@@ -115,7 +114,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
         Ground3CheckBox.Checked = false;
         Ground4CheckBox.Checked = false;
         Ground5CheckBox.Checked = false;
-        u = UI.General.SelectedUnit;
+        Troop u = UI.General.SelectedUnit;
         if (u is not null)
         {
             if (u is Hero hero)
@@ -179,10 +178,9 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
     // AoWUnitWindow.pas:472
     public void PreDrawAbilityItem(UIComponent sender, in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
     {
-        bool enabled;
-        Ability a;
         object objectValue = AbilityAbilityList.Items.Objects[drawItem];
-        a = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+        Ability a = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+        bool enabled;
         if (StrategicMap.Current.CombatMap is null)
         {
             enabled = a is not null && UI.General.SelectedUnit is not null && UI.General.SelectedUnit.Player == StrategicMap.Current.SeatedPlayer && a.GetControlType(UI.General.SelectedUnit).Contains(AbilityControlTypeElement.Action);
@@ -216,7 +214,6 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
     // AoWUnitWindow.pas:507
     public void T1AbilityLBChange(ListBox sender)
     {
-        Ability a;
         AbilityAbilityList.Selected = sender.Selected;
         AbilityTypeList.Selected = sender.Selected;
         AbilitySourceList.Selected = sender.Selected;
@@ -225,7 +222,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
             if (UI.General.SelectedUnit.Player == StrategicMap.Current.SeatedPlayer && AbilityAbilityList.Selected > -1)
             {
                 object objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
-                a = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+                Ability a = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
                 if (a is not null && a.GetEnabled(UI.General.SelectedUnit))
                 {
                     if (StrategicMap.Current.CombatMap is null)
@@ -305,8 +302,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
     // AoWUnitWindow.pas:568
     public void ItemRHMouseDown(CheckBox sender, MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        CheckBox check;
-        check = sender;
+        CheckBox check = sender;
         ItemBanner.ItemId = check.Tag;
     }
 
@@ -373,9 +369,8 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
     // AoWUnitWindow.pas:620
     public void T1SortNameClick(int button)
     {
-        DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
-        lists = new DelphiList<ListBox>();
+        DelphiList<ListBox> lists = new();
         _ = lists.Add(AbilityAbilityList);
         _ = lists.Add(AbilityTypeList);
         _ = lists.Add(AbilitySourceList);
@@ -386,9 +381,8 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
     // AoWUnitWindow.pas:631
     public void T1SortTypeClick(int button)
     {
-        DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
-        lists = new DelphiList<ListBox>();
+        DelphiList<ListBox> lists = new();
         _ = lists.Add(AbilityTypeList);
         _ = lists.Add(AbilityAbilityList);
         _ = lists.Add(AbilitySourceList);
@@ -399,9 +393,8 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
     // AoWUnitWindow.pas:642
     public void T1SortSourceClick(int button)
     {
-        DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
-        lists = new DelphiList<ListBox>();
+        DelphiList<ListBox> lists = new();
         _ = lists.Add(AbilitySourceList);
         _ = lists.Add(AbilityAbilityList);
         _ = lists.Add(AbilityTypeList);
@@ -412,17 +405,16 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
     // AoWUnitWindow.pas:653
     public void UseAbility()
     {
-        Ability a;
-        string reason = "";
         UI.General.PlayButtonSound(0);
         object objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
-        a = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+        Ability a = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
         if (a is not null && a.GetEnabled(UI.General.SelectedUnit))
         {
             if (StrategicMap.Current.CombatMap is null)
             {
                 if (UI.General.SelectedUnit.Player == StrategicMap.Current.SeatedPlayer)
                 {
+                    string reason = "";
                     if (a.Activate(UI.General.SelectedUnit, ref reason))
                     {
                         MainWindow.Visible = false;
@@ -453,10 +445,10 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
     // AoWUnitWindow.pas:676
     public void UseItemClick()
     {
-        string reason = "";
         UI.General.PlayButtonSound(0);
         if (s_selectedItem is not null && UI.General.SelectedUnit is Hero hero)
         {
+            string reason = "";
             if (hero.CanUseItem(s_selectedItem.Tag, ref reason))
             {
                 _ = hero.UseItem(s_selectedItem.Tag);
@@ -496,14 +488,11 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
     // AoWUnitWindow.pas:730
     public void Gnd1Draw(UIComponent sender, LockedSurface lockedSurface)
     {
-        Hero u;
-        Item item;
-        UIComponent component;
-        component = sender;
+        UIComponent component = sender;
         if (component.Tag != -1 && UI.General.SelectedUnit is Hero heroUnit)
         {
-            u = heroUnit;
-            item = u.Inventory.Items.FindItem(component.Tag) ?? u.HeroItems.Items.FindItem(component.Tag);
+            Hero u = heroUnit;
+            Item item = u.Inventory.Items.FindItem(component.Tag) ?? u.HeroItems.Items.FindItem(component.Tag);
             if (item is null)
             {
                 if (u.GetItemsOnGround() is not null)
@@ -523,13 +512,12 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
     // AoWUnitWindow.pas:750
     public void FrLShPreDraw(UIComponent sender, LockedSurface lockedSurface)
     {
-        Rect r;
         if (UI.General.SelectedUnit is not null)
         {
             if (UI.General.SelectedUnit.GetFace() is not null)
             {
                 UIComponent image = sender;
-                r = new Rect(image.WinLeft + 29, image.WinTop + 28, image.WinLeft + 132, image.WinTop + 156);
+                Rect r = new(image.WinLeft + 29, image.WinTop + 28, image.WinLeft + 132, image.WinTop + 156);
 
                 UI.General.SelectedUnit.ShowFace(r, lockedSurface);
             }
@@ -641,9 +629,9 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
     // AOWDialogWin.pas:73, action 7.
     private void DisbandSelectedUnit()
     {
-        string reason = "";
         if (UI.General.SelectedUnit is not null)
         {
+            string reason = "";
             if (UI.General.SelectedUnit.CanDisband(reason))
             {
                 if (UI.General.SelectedUnit.Disband())
@@ -661,11 +649,10 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
     // AoWUnitWindow.pas:926
     public void T1AbilityLBMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        Ability a;
         if (button == MouseButton.Right && UI.General.SelectedUnit is not null && AbilityAbilityList.Selected != -1)
         {
             object objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
-            a = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+            Ability a = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (a is not null)
             {
                 InfoBanner.SetInfoBanner(caption: a.GetName(null), banner: UI.InfoBanner, description: a.Description);
@@ -685,11 +672,10 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
     // AoWUnitWindow.pas:944
     public void PPrevClick()
     {
-        int i;
         UI.General.PlayButtonSound(0);
         if (UI.General.UnitList is not null)
         {
-            i = UI.General.IndexOfUnit(UI.General.SelectedUnit);
+            int i = UI.General.IndexOfUnit(UI.General.SelectedUnit);
             if (i > -1 && UI.General.SelectedUnits[0] > -1)
             {
                 i -= 1;
@@ -712,11 +698,10 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
     // AoWUnitWindow.pas:966
     public void PNextClick()
     {
-        int i;
         UI.General.PlayButtonSound(0);
         if (UI.General.UnitList is not null)
         {
-            i = UI.General.IndexOfUnit(UI.General.SelectedUnit);
+            int i = UI.General.IndexOfUnit(UI.General.SelectedUnit);
             if (i > -1)
             {
                 i += 1;

@@ -96,7 +96,6 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:295
     public virtual void ExecuteCancelProduction()
     {
-        sbyte player;
         if (Status == ProductionControlStatus.Producing)
         {
             Queue.GetItem(0).Order.Cancel(this);
@@ -105,7 +104,7 @@ public partial class ProductionControl : EngineObject
                 UnregisterGroupProduction();
             }
 
-            player = GetPlayer();
+            sbyte player = GetPlayer();
             if (player > -1)
             {
                 Player players = StrategicMap.Current.Players.GetPlayers(player);
@@ -125,9 +124,8 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:483
     public virtual bool ExecuteAIProduction(int index, int groupId)
     {
-        ProductionItem item;
         ExecuteDeleteProductions();
-        item = new ProductionItem(null)
+        ProductionItem item = new(null)
         {
             Holder = CreationHolder(),
             Order = new ProduceUnit(index, groupId)
@@ -141,11 +139,10 @@ public partial class ProductionControl : EngineObject
     public virtual bool ExecuteAIResearch(int index)
     {
         bool result;
-        ProductionItem item;
         if (!UnitProductions.GetItem(index).Researched)
         {
             ExecuteDeleteProductions();
-            item = new ProductionItem(null)
+            ProductionItem item = new(null)
             {
                 Holder = CreationHolder(),
                 Order = new ResearchSpell(index)
@@ -189,9 +186,8 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:450
     public virtual void ExecuteAddProduction(ProductionItem item)
     {
-        ProductionItem newItem;
         BeginUpdate();
-        newItem = item.Copy<ProductionItem>(GetEngine());
+        ProductionItem newItem = item.Copy<ProductionItem>(GetEngine());
         newItem.SetOwner(Queue);
         if (Queue.Count == 1)
         {
@@ -284,8 +280,7 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:551
     public virtual ProductionTokenEvent CreateProductionTokenEvent()
     {
-        ProductionTokenEvent eventValue;
-        eventValue = new ProductionTokenEvent(null) { Holder = CreationHolder() };
+        ProductionTokenEvent eventValue = new(null) { Holder = CreationHolder() };
         _ = eventValue.Location.X;
         _ = eventValue.Location.Y;
         _ = eventValue.Location.MapLevel;
@@ -310,8 +305,7 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:282
     public virtual bool GetQueueLocked()
     {
-        int i;
-        i = Queue.Count;
+        int i = Queue.Count;
         bool result = i >= GetQueueSizeMax();
         while (!result && i != 0)
         {
@@ -347,10 +341,9 @@ public partial class ProductionControl : EngineObject
     public virtual Unit CreateUnitProduction(int index)
     {
         Unit result;
-        Unit unit;
         if (UnitProductions.GetItem(index) is not null)
         {
-            unit = new Unit(null) { Holder = CreationHolder() };
+            Unit unit = new(null) { Holder = CreationHolder() };
             UnitProduction unitProduction = UnitProductions.GetItem(index);
             unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex));
             result = unit;
@@ -429,8 +422,6 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:710
     public virtual bool DeleteProduction(int index)
     {
-        bool result;
-        ProductionTokenEvent eventValue;
         bool condition = index >= 0 && index < Queue.Count;
         if (condition)
         {
@@ -438,9 +429,10 @@ public partial class ProductionControl : EngineObject
             condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
 
+        bool result;
         if (condition)
         {
-            eventValue = CreateProductionTokenEvent();
+            ProductionTokenEvent eventValue = CreateProductionTokenEvent();
             eventValue.Command = 1;
             eventValue.Index = index;
             sbyte player = GetPlayer();
@@ -459,8 +451,6 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:726
     public virtual bool DeleteProductions()
     {
-        bool result;
-        ProductionTokenEvent eventValue;
         bool condition = Queue.Count != 0;
         if (condition)
         {
@@ -468,9 +458,10 @@ public partial class ProductionControl : EngineObject
             condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
 
+        bool result;
         if (condition)
         {
-            eventValue = CreateProductionTokenEvent();
+            ProductionTokenEvent eventValue = CreateProductionTokenEvent();
             eventValue.Command = 2;
             sbyte player = GetPlayer();
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
@@ -494,8 +485,7 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:577
     public virtual int UnitProductionGold(int index)
     {
-        int unitIndex;
-        unitIndex = UnitProductions.GetItem(index).UnitIndex;
+        int unitIndex = UnitProductions.GetItem(index).UnitIndex;
         return GamePack.Current.UnitResources.GetUnitResource(unitIndex).ObtainValue;
     }
 
@@ -515,8 +505,7 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:596
     public virtual int UnitProductionTime(int index)
     {
-        int unitIndex;
-        unitIndex = UnitProductions.GetItem(index).UnitIndex;
+        int unitIndex = UnitProductions.GetItem(index).UnitIndex;
         return GamePack.Current.UnitResources.GetUnitResource(unitIndex).Level;
     }
 
@@ -526,8 +515,6 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:607
     public virtual bool ProduceUnit(int index, int groupId, bool queue)
     {
-        bool result;
-        ProductionTokenEvent eventValue;
         string reason = "";
         bool condition = CanProduceUnit(index, queue, reason);
         if (condition)
@@ -536,9 +523,10 @@ public partial class ProductionControl : EngineObject
             condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
 
+        bool result;
         if (condition)
         {
-            eventValue = CreateProductionTokenEvent();
+            ProductionTokenEvent eventValue = CreateProductionTokenEvent();
             eventValue.Command = 0;
             eventValue.Queue = queue;
             eventValue.Item = new ProductionItem(null)
@@ -566,8 +554,7 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:641
     public virtual int UnitResearchGold(int index)
     {
-        int unitIndex;
-        unitIndex = UnitProductions.GetItem(index).UnitIndex;
+        int unitIndex = UnitProductions.GetItem(index).UnitIndex;
         return GamePack.Current.UnitResources.GetUnitResource(unitIndex).ObtainValue;
     }
 
@@ -577,8 +564,7 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:652
     public virtual int UnitResearchTime(int index)
     {
-        int unitIndex;
-        unitIndex = UnitProductions.GetItem(index).UnitIndex;
+        int unitIndex = UnitProductions.GetItem(index).UnitIndex;
         return GamePack.Current.UnitResources.GetUnitResource(unitIndex).Level;
     }
 
@@ -602,8 +588,6 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:670
     public virtual bool ResearchUnit(int index, bool queue)
     {
-        bool result;
-        ProductionTokenEvent eventValue;
         string reason = "";
         bool condition = CanResearchUnit(index, queue, ref reason);
         if (condition)
@@ -612,9 +596,10 @@ public partial class ProductionControl : EngineObject
             condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
 
+        bool result;
         if (condition)
         {
-            eventValue = CreateProductionTokenEvent();
+            ProductionTokenEvent eventValue = CreateProductionTokenEvent();
             eventValue.Command = 0;
             eventValue.Queue = queue;
             eventValue.Item = new ProductionItem(null)
@@ -653,10 +638,9 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:316
     public void RegisterGroupProduction()
     {
-        AIGroup group;
         if (Status == ProductionControlStatus.Producing && Settings.GroupId != 0)
         {
-            group = StrategicMap.Current.AIGroupManager.Groups.FindId(Settings.GroupId);
+            AIGroup group = StrategicMap.Current.AIGroupManager.Groups.FindId(Settings.GroupId);
             group?.Productions.Add(this, Settings.Unit);
         }
     }
@@ -664,10 +648,9 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:327
     public void UnregisterGroupProduction()
     {
-        AIGroup group;
         if (Status == ProductionControlStatus.Producing && Settings.GroupId != 0)
         {
-            group = StrategicMap.Current.AIGroupManager.Groups.FindId(Settings.GroupId);
+            AIGroup group = StrategicMap.Current.AIGroupManager.Groups.FindId(Settings.GroupId);
             group?.Productions.DeleteUnit(Settings.Unit);
 
             Settings.GroupId = 0;
@@ -677,9 +660,8 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:339
     public void GroupProductionProduced(Troop troop, int groupId)
     {
-        AIGroup group;
         sbyte player = GetPlayer();
-        group = StrategicMap.Current.Players.GetPlayers(player).AIGroups.FindId(groupId);
+        AIGroup group = StrategicMap.Current.Players.GetPlayers(player).AIGroups.FindId(groupId);
         group?.UnitProduced(this, troop);
     }
 
@@ -687,11 +669,10 @@ public partial class ProductionControl : EngineObject
     public bool Produce(ProductionItem item, bool queue)
     {
         bool result;
-        ProductionTokenEvent eventValue;
         sbyte player = GetPlayer();
         if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy())
         {
-            eventValue = CreateProductionTokenEvent();
+            ProductionTokenEvent eventValue = CreateProductionTokenEvent();
             eventValue.Command = 0;
             eventValue.Queue = queue;
             eventValue.Item = item.Copy<ProductionItem>(GetEngine());
@@ -712,8 +693,6 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:741
     public bool RetryProductionExecution(ref string reason)
     {
-        bool result;
-        ProductionTokenEvent eventValue;
         bool condition = Queue.Count != 0 && Status == ProductionControlStatus.Waiting;
         if (condition)
         {
@@ -721,11 +700,12 @@ public partial class ProductionControl : EngineObject
             condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
 
+        bool result;
         if (condition)
         {
             if (CanExecuteProduction(Queue.GetItem(0), ref reason))
             {
-                eventValue = CreateProductionTokenEvent();
+                ProductionTokenEvent eventValue = CreateProductionTokenEvent();
                 eventValue.Command = 3;
                 sbyte player = GetPlayer();
                 StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
@@ -748,8 +728,6 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:760
     public bool SetLoopQueueTo(bool value)
     {
-        bool result;
-        ProductionTokenEvent eventValue;
         bool condition = value != LoopQueue;
         if (condition)
         {
@@ -757,9 +735,10 @@ public partial class ProductionControl : EngineObject
             condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
 
+        bool result;
         if (condition)
         {
-            eventValue = CreateProductionTokenEvent();
+            ProductionTokenEvent eventValue = CreateProductionTokenEvent();
             eventValue.Command = 4;
             eventValue.Index = value ? 1 : 0;
 
@@ -805,22 +784,16 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:890
     public int FindOptimalResearchProduction(CombatPredictor predictor, int gold)
     {
-        int result;
-        Player playerPlayer;
-        Unit unit;
-        DoubleItemList productions;
-        int priority;
-        int minimum;
-        bool include;
         sbyte player = GetPlayer();
-        playerPlayer = StrategicMap.Current.Players.GetPlayers(player);
-        unit = new Unit(null) { Holder = CreationHolder() };
-        productions = new DoubleItemList();
+        Player playerPlayer = StrategicMap.Current.Players.GetPlayers(player);
+        Unit unit = new(null) { Holder = CreationHolder() };
+        DoubleItemList productions = new();
         for (int i = UnitProductions.Count - 1; i >= 0; i--)
         {
             if (!UnitProductions.GetItem(i).Researched)
             {
-                include = UnitResearchGold(i) <= gold;
+                bool include = UnitResearchGold(i) <= gold;
+                int priority;
                 if (predictor is not null)
                 {
                     UnitProduction unitProduction = UnitProductions.GetItem(i);
@@ -841,11 +814,12 @@ public partial class ProductionControl : EngineObject
             }
         }
 
+        int result;
         if (productions.Count != 0)
         {
             productions.SortDescendingItemB();
             result = 0;
-            minimum = Round(productions[0].Second * 0.8);
+            int minimum = Round(productions[0].Second * 0.8);
             while (result + 1 < productions.Count && productions[result + 1].Second >= minimum)
             {
                 result += 1;

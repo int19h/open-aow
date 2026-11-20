@@ -152,7 +152,6 @@ public partial class QuadItemList : Persistent
     // Engine.pas:5516
     public void Exchange(int index1, int index2)
     {
-        QuadInteger item;
         if (index1 < 0 || index1 >= _count)
         {
             Error("List index out of bounds (%d)", index1);
@@ -163,9 +162,7 @@ public partial class QuadItemList : Persistent
             Error("List index out of bounds (%d)", index2);
         }
 
-        item = _list[index1];
-        _list[index1] = _list[index2];
-        _list[index2] = item;
+        (_list[index2], _list[index1]) = (_list[index1], _list[index2]);
     }
 
     // Engine.pas:5527
@@ -295,7 +292,6 @@ public partial class QuadItemList : Persistent
     // Engine.pas:5608
     public void Move(int currentIndex, int newIndex)
     {
-        QuadInteger item;
         if (currentIndex != newIndex)
         {
             if (newIndex < 0 || newIndex >= _count)
@@ -303,7 +299,7 @@ public partial class QuadItemList : Persistent
                 Error("List index out of bounds (%d)", newIndex);
             }
 
-            item = Get(currentIndex);
+            QuadInteger item = Get(currentIndex);
             Delete(currentIndex);
             Insert(newIndex, item);
         }
@@ -382,7 +378,6 @@ public partial class QuadItemList : Persistent
 
     private static void QuickSortQuadItem(Span<QuadInteger> sortList, int L, int R, QuadItemSortCompare sCompare)
     {
-        QuadInteger quadInteger = default;
         int number;
         do
         {
@@ -402,9 +397,7 @@ public partial class QuadItemList : Persistent
                 }
                 if (number <= number2)
                 {
-                    quadInteger = sortList[number];
-                    sortList[number] = sortList[number2];
-                    sortList[number2] = quadInteger;
+                    (sortList[number2], sortList[number]) = (sortList[number], sortList[number2]);
                     number++;
                     number2--;
                 }

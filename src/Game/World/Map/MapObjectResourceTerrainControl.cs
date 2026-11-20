@@ -65,18 +65,14 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
     // HSEngine.pas:4585
     public virtual MapObject CreateMapObject(sbyte terrainType)
     {
+        int i = terrainType;
+        DelphiList<MapObjectResource> list = Resources[i];
+        int count = list.Count;
         MapObject result;
-        int i;
-        DelphiList<MapObjectResource> list;
-        int count;
-        MapObjectResource r;
-        i = terrainType;
-        list = Resources[i];
-        count = list.Count;
         if (count != 0)
         {
             int random = Random(count);
-            r = list.List[random];
+            MapObjectResource r = list.List[random];
             result = r.CreateResourceUser();
         }
         else
@@ -90,17 +86,13 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
     // HSEngine.pas:4604
     public virtual MapObject Place(MapContainer container, sbyte X, sbyte Y, sbyte L, sbyte terrainType)
     {
-        DelphiList<MapObjectResource> list;
-        MapObjectResource r;
-        MapField mapField;
-        MapObject mapObject;
         MapObject result = null;
-        list = Resources[terrainType];
+        DelphiList<MapObjectResource> list = Resources[terrainType];
         if (list.Count != 0)
         {
-            r = null;
-            mapField = container.GetField(X, Y, L);
-            mapObject = mapField.FindOwnedHexSprite<MapObject>(MapObjectClass);
+            MapObjectResource r = null;
+            MapField mapField = container.GetField(X, Y, L);
+            MapObject mapObject = mapField.FindOwnedHexSprite<MapObject>(MapObjectClass);
             if (mapObject is not null)
             {
                 r = GetRandomResource(terrainType, mapObject.Resource.EngineClass.ClassId);
@@ -129,15 +121,12 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
     // HSEngine.pas:4637
     public virtual MapObject PlaceClass(MapContainer container, sbyte X, sbyte Y, sbyte L, sbyte terrainType, int classId)
     {
-        MapObjectResource r;
-        MapField mapField;
-        MapObject mapObject;
         MapObject result = null;
         if (Resources[terrainType].Count != 0)
         {
-            r = null;
-            mapField = container.GetField(X, Y, L);
-            mapObject = mapField.FindOwnedHexSprite<MapObject>(MapObjectClass);
+            MapObjectResource r = null;
+            MapField mapField = container.GetField(X, Y, L);
+            MapObject mapObject = mapField.FindOwnedHexSprite<MapObject>(MapObjectClass);
             if (mapObject is not null && mapObject.Resource.EngineClass.ClassId == classId)
             {
                 r = GetRandomResource(terrainType, mapObject.Resource.EngineClass.ClassId);
@@ -165,13 +154,11 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
     // HSEngine.pas:4541
     public MapObjectResource GetRandomResource(int terrainType, int classId)
     {
+        DelphiList<MapObjectResource> list = Resources[terrainType];
         MapObjectResource result;
-        DelphiList<MapObjectResource> list;
-        int i;
-        list = Resources[terrainType];
         if (list.Count != 0)
         {
-            i = 0;
+            int i = 0;
             result = null;
             while (i != Tries && result is null)
             {
@@ -211,8 +198,7 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
     // HSEngine.pas:4572
     public void RegisterResource(MapObjectResource resource)
     {
-        sbyte terrainType;
-        terrainType = resource.TerrainList.GetTerrain(0);
+        sbyte terrainType = resource.TerrainList.GetTerrain(0);
         if (terrainType >= 0 && terrainType < Resources.Count)
         {
             if (Resources[terrainType].IndexOf(resource) != -1 || resource is null)

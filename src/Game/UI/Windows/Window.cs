@@ -533,12 +533,10 @@ public partial class Window : GenericWindow
     //   resize cursors over the borders }
     public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        bool resized;
         Handled = false;
         OldCursor = Cursor;
         Cursor = WindowCursor;
         InResizeArea = true;
-        resized = false;
         if (Visible)
         {
             int i;
@@ -580,6 +578,7 @@ public partial class Window : GenericWindow
                     SurfaceValid = false;
                     break;
                 case 2:
+                    bool resized = false;
                     switch (ResizingX)
                     {
                         case 1:

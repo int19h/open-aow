@@ -52,8 +52,7 @@ public partial class EnterArenaEventLog(CustomNode owner) : EventLog(owner)
     // Arena.pas:284
     public bool Train(out string errorText)
     {
-        Int32List units;
-        units = new Int32List();
+        Int32List units = new();
         for (int i = 0, last = UnitIds.Count - 1; i <= last; i++)
         {
             if (((1 << i) & Selection) != 0)
@@ -70,8 +69,7 @@ public partial class EnterArenaEventLog(CustomNode owner) : EventLog(owner)
     // Arena.pas:294
     public bool CanTrain(ref string errorText)
     {
-        Int32List units;
-        units = new Int32List();
+        Int32List units = new();
         for (int i = 0, last = UnitIds.Count - 1; i <= last; i++)
         {
             if (((1 << i) & Selection) != 0)
@@ -88,16 +86,13 @@ public partial class EnterArenaEventLog(CustomNode owner) : EventLog(owner)
     // Arena.pas:304
     public string GetSelectionInfo()
     {
-        string result;
-        int total;
-        Troop troop;
-        total = 0;
+        int total = 0;
         for (int i = 0, last = UnitIds.Count - 1; i <= last; i++)
         {
             if (((1 << i) & Selection) != 0)
             {
                 int unitId = UnitIds[i];
-                troop = StrategicMap.Current.UnitControl.FindUnit(unitId);
+                Troop troop = StrategicMap.Current.UnitControl.FindUnit(unitId);
                 if (troop is not null)
                 {
                     total += Arena.UnitTrainCost(troop);
@@ -105,7 +100,7 @@ public partial class EnterArenaEventLog(CustomNode owner) : EventLog(owner)
             }
         }
 
-        result = total != 0 ? Format(AbilityRules.TranslateResourceString(GetEngine(), s_totalCostFormat), [IntToStr(total)]) : "";
+        string result = total != 0 ? Format(AbilityRules.TranslateResourceString(GetEngine(), s_totalCostFormat), [IntToStr(total)]) : "";
 
         return result;
     }

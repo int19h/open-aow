@@ -24,17 +24,13 @@ public partial class HealingUnitSelector(EngineObject creator) : UnitSelector(cr
     // AoWAb.PAS:3904
     public override bool Select()
     {
-        bool result;
-        Troop source;
-        Troop target;
         string error = "";
-        int i;
-        HealingTokenEvent eventValue;
-        source = StrategicMap.Current.UnitControl.FindUnit(SourceUnitId);
+        Troop source = StrategicMap.Current.UnitControl.FindUnit(SourceUnitId);
+        bool result;
         if (CanSelect(ref error) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            i = 0;
-            target = null;
+            int i = 0;
+            Troop target = null;
             while (target is null && i != Units.GetCount())
             {
                 if ((Selection & (1 << i)) != 0)
@@ -47,7 +43,7 @@ public partial class HealingUnitSelector(EngineObject creator) : UnitSelector(cr
 
             if (target is not null)
             {
-                eventValue = new HealingTokenEvent(null)
+                HealingTokenEvent eventValue = new(null)
                 {
                     Holder = Creator.CreationHolder(),
                     SourceId = source.UnitId,

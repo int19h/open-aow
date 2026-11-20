@@ -50,8 +50,7 @@ public readonly struct HeroCollection : IReadOnlyList<Hero>
     // Hero.PAS:2395
     public Hero FindHero(int id)
     {
-        int i;
-        i = 0;
+        int i = 0;
         Hero result = null;
         while (i != Count && result is null)
         {

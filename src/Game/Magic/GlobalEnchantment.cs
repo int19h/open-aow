@@ -54,9 +54,8 @@ public partial class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
     // Spells.PAS:2482
     public override int Release()
     {
-        int count;
         _refCount -= 1;
-        count = _refCount;
+        int count = _refCount;
         int result = count;
         if (count == 0)
         {
@@ -159,13 +158,12 @@ public partial class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
     {
         bool result;
         string reason = "";
-        GlobalEnchantmentEventLog log;
         if (CanCast(player, ref reason))
         {
             result = Activate(player);
             if (result)
             {
-                log = new GlobalEnchantmentEventLog(null)
+                GlobalEnchantmentEventLog log = new(null)
                 {
                     Holder = CreationHolder(),
                     EnchantmentPlayer = player,
@@ -192,17 +190,15 @@ public partial class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
     {
         bool result;
         string reason = "";
-        MapCoordinate location;
-        GlobalEnchantmentEventLog log;
         if (CanDispel((sbyte)player, ref reason))
         {
             _ = AddRef();
-            location = GetLocation();
+            MapCoordinate location = GetLocation();
             for (int i = 1, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
             {
                 if (VisibleForPlayer((sbyte)i))
                 {
-                    log = new GlobalEnchantmentEventLog(null)
+                    GlobalEnchantmentEventLog log = new(null)
                     {
                         Holder = CreationHolder(),
                         Player = (sbyte)player,
@@ -239,17 +235,15 @@ public partial class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
     {
         bool result;
         string reason = "";
-        MapCoordinate location;
-        GlobalEnchantmentEventLog log;
         if (CanRemove((sbyte)player, ref reason))
         {
             _ = AddRef();
-            location = GetLocation();
+            MapCoordinate location = GetLocation();
             for (int i = 1, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
             {
                 if (VisibleForPlayer((sbyte)i))
                 {
-                    log = new GlobalEnchantmentEventLog(null)
+                    GlobalEnchantmentEventLog log = new(null)
                     {
                         Holder = CreationHolder(),
                         Player = PlayerIndex,
@@ -278,10 +272,9 @@ public partial class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
     public virtual bool VisibleForPlayer(sbyte player)
     {
         bool result;
-        MapCoordinate location;
         if (!EnchantmentMode.Contains(GlobalEnchantmentModeElement.TrueGlobal) && player != PlayerIndex)
         {
-            location = GetLocation();
+            MapCoordinate location = GetLocation();
             result = location.X != -1 && StrategicMap.Current.VisibleForPlayer(location.X, location.Y, location.MapLevel, player);
         }
         else
@@ -295,8 +288,7 @@ public partial class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
     // Spells.PAS:2492
     public virtual void CenterToLocation()
     {
-        MapCoordinate location;
-        location = GetLocation();
+        MapCoordinate location = GetLocation();
         if (location.X != -1)
         {
             StrategicMap.Current.CenterViewTo(location.X, location.Y, location.MapLevel);

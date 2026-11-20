@@ -134,7 +134,6 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         DataSurface s8 = new(w, h, PixelFormat.Pal8, palette);
         DataSurface s24 = new(w, h, PixelFormat.Rgb24, null!);
         Fnv hash = new();
-        int grabs = 0;
         try
         {
             LockedSurface d555 = default, d565 = default, d8 = default, d24 = default;
@@ -169,6 +168,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                 () => new Picture08(null!), () => new RleSprite08(null!), () => new Picture16(null!),
                 () => new Sprite16(null!), () => new RleSprite16(null!), () => new BitMask(null!), () => new Shadow(null!),
             ];
+            int grabs = 0;
             foreach ((string? name, LockedSurface lockedSurface, int key) in sources)
             {
                 foreach (Rect rectangle in rects)

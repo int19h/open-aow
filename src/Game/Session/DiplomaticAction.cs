@@ -109,16 +109,14 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
     // Diplomacy.pas:613
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        bool ignore;
-        EventLog log;
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001986 && message.Payload.Int == Source && Reaction == DiplomaticActionReaction.None)
         {
-            ignore = Proposal.LapsesUnanswered(this);
+            bool ignore = Proposal.LapsesUnanswered(this);
             if (ignore && (StrategicMap.Current.PlayMode != PlayMode.Simultaneous || StrategicMap.Current.Day > Day + 1))
             {
                 Reaction = DiplomaticActionReaction.Ignore;
-                log = StrategicMap.Current.Players.GetPlayers(Target).EventLogbook.FindId(EventLogId);
+                EventLog log = StrategicMap.Current.Players.GetPlayers(Target).EventLogbook.FindId(EventLogId);
                 Assert(log is DiplomaticActionEventLog, "", "Diplomacy.pas", 697);
                 StrategicMap.Current.Players.GetPlayers(Source).EventLogbook.AddEvent(log);
                 Player players = StrategicMap.Current.Players.GetPlayers(Source);
@@ -165,7 +163,6 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
     // Diplomacy.pas:950
     public virtual void ExecuteReject(DiplomaticActionTokenEvent tokenEvent)
     {
-        DiplomaticActionEventLog log;
         Reaction = Proposal.RejectReaction(this);
         Player players = StrategicMap.Current.Players.GetPlayers(Source);
         StrategicMap.Current.Players.GetPlayers(Source).SetGems(players.Gems + EscrowGold);
@@ -174,7 +171,7 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
         StrategicMap.Current.Players.GetPlayers(Source).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana + EscrowMana);
         EscrowMana = 0;
         RetrieveDefaultMessage(Source, Target, OtherPlayer, Reaction);
-        log = StrategicMap.Current.Players.GetPlayers(Target).EventLogbook.FindId<DiplomaticActionEventLog>(EventLogId);
+        DiplomaticActionEventLog log = StrategicMap.Current.Players.GetPlayers(Target).EventLogbook.FindId<DiplomaticActionEventLog>(EventLogId);
         log.SetDiplomaticAction(this);
         StrategicMap.Current.Players.GetPlayers(Source).EventLogbook.AddEvent(log);
     }
@@ -182,22 +179,15 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
     // Diplomacy.pas:722
     public virtual void ExecuteAI(sbyte player)
     {
-        ByteList peace;
-        ByteList war;
-        ByteList unknown;
-        ByteList idealPeace;
-        ByteList idealWar;
-        DiplomaticRelation relation;
-        DiplomaticActionReaction reaction;
-        reaction = Reaction;
+        DiplomaticActionReaction reaction = Reaction;
         if (reaction == DiplomaticActionReaction.None)
         {
-            relation = StrategicMap.Current.Players.GetDiplomaticRelation((sbyte)(byte)Source, (sbyte)(byte)Target);
-            idealPeace = new ByteList();
-            idealWar = new ByteList();
-            peace = new ByteList();
-            war = new ByteList();
-            unknown = new ByteList();
+            DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation((sbyte)(byte)Source, (sbyte)(byte)Target);
+            ByteList idealPeace = new();
+            ByteList idealWar = new();
+            ByteList peace = new();
+            ByteList war = new();
+            ByteList unknown = new();
             StrategicMap.Current.Players.GetPlayers(Target).AIControl.ListPeaceWarUnknownPlayers(peace, war, unknown);
             StrategicMap.Current.Players.GetPlayers(Target).AIControl.ListIdealPeaceWarPlayers(idealPeace, idealWar);
             Proposal.AnswerAI(this, player, relation, idealPeace, idealWar);
@@ -219,8 +209,8 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
     // Diplomacy.pas:1055
     public virtual bool CanSend(ref string errorText)
     {
-        bool result;
         (byte _, int gold, int mana) = Proposal.ToFields();
+        bool result;
         if (StrategicMap.Current.Players.GetPlayers(Source).Gems >= gold)
         {
             if (StrategicMap.Current.Players.GetPlayers(Source).MagicControl.Mana >= mana)
@@ -246,11 +236,10 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
     public virtual bool Send(ref string errorText)
     {
         bool result;
-        DiplomaticActionTokenEvent tokenEvent;
         if (CanSend(ref errorText) && !StrategicMap.Current.Players.GetPlayers(Source).GetBusy())
         {
             Day = StrategicMap.Current.Day;
-            tokenEvent = new DiplomaticActionTokenEvent(null) { Holder = CreationHolder() };
+            DiplomaticActionTokenEvent tokenEvent = new(null) { Holder = CreationHolder() };
             tokenEvent.SetDiplomaticAction(this);
             tokenEvent.Operation = 0;
             StrategicMap.Current.TokenManager.TokenControls[Source].AddEvent(tokenEvent);
@@ -272,10 +261,9 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
     public virtual bool Accept(string errorText)
     {
         bool result;
-        DiplomaticActionTokenEvent tokenEvent;
         if (CanAccept(errorText) && !StrategicMap.Current.Players.GetPlayers(Target).GetBusy())
         {
-            tokenEvent = new DiplomaticActionTokenEvent(null) { Holder = CreationHolder() };
+            DiplomaticActionTokenEvent tokenEvent = new(null) { Holder = CreationHolder() };
             tokenEvent.SetDiplomaticAction(this);
             tokenEvent.Operation = 1;
             StrategicMap.Current.TokenManager.TokenControls[Target].AddEvent(tokenEvent);
@@ -297,10 +285,9 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
     public virtual bool Reject(string errorText)
     {
         bool result;
-        DiplomaticActionTokenEvent tokenEvent;
         if (CanReject(errorText) && !StrategicMap.Current.Players.GetPlayers(Target).GetBusy())
         {
-            tokenEvent = new DiplomaticActionTokenEvent(null) { Holder = CreationHolder() };
+            DiplomaticActionTokenEvent tokenEvent = new(null) { Holder = CreationHolder() };
             tokenEvent.SetDiplomaticAction(this);
             tokenEvent.Operation = 2;
             StrategicMap.Current.TokenManager.TokenControls[Target].AddEvent(tokenEvent);
@@ -324,8 +311,7 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
     // Diplomacy.pas:707
     public DiplomaticActionEventLog CreateEventLog()
     {
-        DiplomaticActionEventLog log;
-        log = new DiplomaticActionEventLog(null)
+        DiplomaticActionEventLog log = new(null)
         {
             Holder = CreationHolder(),
             Day = StrategicMap.Current.Day
@@ -337,11 +323,10 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
     // Diplomacy.pas:938
     public void UpdateAIDiplomaticActionsLog(sbyte player)
     {
-        DiplomaticAction action;
         Player players = StrategicMap.Current.Players.GetPlayers(player);
         if (Set<PlayerType>.Of().WithRange(PlayerType.Cpu1, PlayerType.Cpu3).WithRange(PlayerType.Cpu4, PlayerType.Cpu5).Contains(players.PlayerType))
         {
-            action = Copy<DiplomaticAction>(GetEngine());
+            DiplomaticAction action = Copy<DiplomaticAction>(GetEngine());
             action.Proposal = action.Proposal with { Message = [] };
             _ = StrategicMap.Current.Players.GetPlayers(player).DiplomaticActions.AddChild(action);
             _ = action.Release();

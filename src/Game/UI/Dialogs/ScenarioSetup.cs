@@ -134,7 +134,6 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
     // AoWScenSetup.pas:526
     public void Execute(SetupControl control)
     {
-        byte availability;
         SetupControl = control;
         UI.TitleWindow.MainWindow.Visible = true;
         ScenarioSetupPanel.Visible = true;
@@ -158,7 +157,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
             TacticalCombatComboBox.Items.Clear();
             for (int availabilityOrdinal = 0; availabilityOrdinal <= 2; availabilityOrdinal++)
             {
-                availability = (byte)availabilityOrdinal;
+                byte availability = (byte)availabilityOrdinal;
                 string tacticalBattleAvailability = UI.Engine.TranslateResourceString(TacticalCombatAvailabilityTexts[availability]);
                 _ = TacticalCombatComboBox.Items.AddObject(tacticalBattleAvailability, IntToObject(availability));
             }
@@ -222,8 +221,6 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
     // AoWScenSetup.pas:257
     public void ExitGameClick()
     {
-        int i;
-        SetupSettings settings;
         try
         {
             UI.General.PlayButtonSound(0);
@@ -231,8 +228,8 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
             {
                 if (SetupControl.GetHost())
                 {
-                    settings = SetupControl.Settings;
-                    i = 0;
+                    SetupSettings settings = SetupControl.Settings;
+                    int i = 0;
                     while (i != settings.RemotePlayers.Count && settings.RemotePlayers.GetPlayers(i).RemoteId == settings.HostRemoteId)
                     {
                         i++;
@@ -274,11 +271,10 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
     // AoWScenSetup.pas:295
     public void PlayerListDrawItem(in Rect drawRectangle, int drawItem, ref readonly LockedSurface lockedSurface)
     {
-        int i;
         if (drawItem < PlayerList.Items.Count)
         {
             object objectValue = PlayerList.Items.Objects[drawItem];
-            i = SetupControl.Settings.RemotePlayers.IndexOfRemoteId(ObjectToInt(objectValue));
+            int i = SetupControl.Settings.RemotePlayers.IndexOfRemoteId(ObjectToInt(objectValue));
             if (i != -1)
             {
                 if (SetupControl.Settings.RemotePlayers.GetPlayers(i).MapValidation == MapValidationInfo.Invalid)
@@ -410,8 +406,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
     public void SidePlayerComboBoxChange(ComboBox sender, int slot)
     {
         SetupPlayerBehavior behavior = default;
-        ComboBox combo;
-        combo = sender;
+        ComboBox combo = sender;
         string item = combo.Items[combo.Selected];
         if (SetupControl.PlayerNameToPlayerId(item, ref behavior))
         {
@@ -425,8 +420,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
     // AoWScenSetup.pas:437
     public void SideBehaviorComboBoxChange(ComboBox sender, int slot)
     {
-        ComboBox control;
-        control = sender;
+        ComboBox control = sender;
         int indexOfRace = SetupControl.Settings.IndexOfRace((byte)slot);
         SetupControl.SetPlayerBehavior(indexOfRace, (byte)control.Selected);
         UI.TitleWindow.MainWindow.Drawn = false;
@@ -585,7 +579,6 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
 
     internal static void InitializeScenarioSetup(ScenarioSetup setup, SetupControl control)
     {
-        byte b;
         setup.SetupControl = control;
         setup.UI.TitleWindow.MainWindow.Visible = true;
         setup.ScenarioSetupPanel.Visible = true;
@@ -609,7 +602,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
             setup.TacticalCombatComboBox.Items.Clear();
             for (int bOrdinal = 0; bOrdinal <= 2; bOrdinal++)
             {
-                b = (byte)bOrdinal;
+                byte b = (byte)bOrdinal;
                 string tacticalBattleAvailability = setup.UI.Engine.TranslateResourceString(TacticalCombatAvailabilityTexts[b]);
                 _ = setup.TacticalCombatComboBox.Items.AddObject(tacticalBattleAvailability, IntToObject(b));
             }
@@ -658,20 +651,15 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
 
     internal static void UpdateScenarioSetup(ScenarioSetup setup)
     {
-        int hostIndex;
-        string hostName;
-        string connection;
-        RemotePlayer player;
-        SetupControl control;
         if (setup.SetupControl is not null)
         {
-            control = setup.SetupControl;
+            SetupControl control = setup.SetupControl;
             setup.PlayerList.Items.Clear();
             setup.PingList.Items.Clear();
             setup.PreferredRaceList.Items.Clear();
             for (int i = 0, last = control.Settings.RemotePlayers.Count - 1; i <= last; i++)
             {
-                player = control.Settings.RemotePlayers.GetPlayers(i);
+                RemotePlayer player = control.Settings.RemotePlayers.GetPlayers(i);
                 _ = setup.PlayerList.Items.AddObject(player.Name, IntToObject(player.RemoteId));
                 if (player.PreferredRace != 255)
                 {
@@ -765,7 +753,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
             UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace11), setup.Side12PlayerComboBox, setup.Side12BehaviorComboBox, setup.Side12PlayerIcon, setup.Side12PlayerLabel, setup.Side12InfoLabel, setup.Side12FogPanel);
             if (setup.SetupControl.GetRemote())
             {
-                connection = setup.UI.SetupEvents.DirectPlay.ConnectionType switch
+                string connection = setup.UI.SetupEvents.DirectPlay.ConnectionType switch
                 {
                     ConnectionType.TCP => setup.UI.Engine.TranslateResourceString(GameText.TcpIpLabel),
                     ConnectionType.IPX => setup.UI.Engine.TranslateResourceString(GameText.IpxText),
@@ -774,9 +762,9 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
                     ConnectionType.None or ConnectionType.Unknown or _ => "",
                 };
                 SetupSettings setupSettings = setup.SetupControl.Settings;
-                hostIndex = setupSettings.RemotePlayers.IndexOfRemoteId(setupSettings.HostRemoteId);
+                int hostIndex = setupSettings.RemotePlayers.IndexOfRemoteId(setupSettings.HostRemoteId);
 
-                hostName = hostIndex != -1 ? setup.SetupControl.Settings.RemotePlayers.GetPlayers(hostIndex).Name : "?";
+                string hostName = hostIndex != -1 ? setup.SetupControl.Settings.RemotePlayers.GetPlayers(hostIndex).Name : "?";
 
                 setup.HostNameLabel.Visible = true;
                 setup.FileNameLabel.Visible = true;
@@ -804,27 +792,24 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
 
     internal static void UpdateScenarioRow(ScenarioSetup setup, PlayerSetupSettings settings, ComboBox playerBox, ComboBox behaviorBox, Image icon, Label playerName, Label info, Panel fog)
     {
-        SetupPlayerBehavior behavior = default;
-        byte b;
-        int i;
-        bool visible;
-        bool found;
         if (settings is not null)
         {
-            visible = setup.SetupControl.GetHost() && !settings.Status.Contains(PlayerSetupStatusElement.Fixed);
+            bool visible = setup.SetupControl.GetHost() && !settings.Status.Contains(PlayerSetupStatusElement.Fixed);
             if (visible != playerBox.Visible)
             {
                 playerBox.Visible = visible;
             }
 
+            int i;
             if (playerBox.Visible)
             {
                 playerBox.Items.BeginUpdate();
                 playerBox.Items.Clear();
                 setup.SetupControl.ListAvailablePlayers(playerBox.Items);
                 playerBox.Items.EndUpdate();
-                found = false;
+                bool found = false;
                 i = playerBox.Items.Count;
+                SetupPlayerBehavior behavior = default;
                 while (!found && i != 0)
                 {
                     i -= 1;
@@ -900,7 +885,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
                 behaviorBox.Items.Clear();
                 for (int bOrdinal = 0; bOrdinal <= 5; bOrdinal++)
                 {
-                    b = (byte)bOrdinal;
+                    byte b = (byte)bOrdinal;
                     string playerBehavior = setup.UI.Engine.TranslateResourceString(GameTables.PlayerBehaviorTexts[(int)(PlayerBehavior)b]);
                     _ = behaviorBox.Items.AddObject(playerBehavior, IntToObject(b));
                 }

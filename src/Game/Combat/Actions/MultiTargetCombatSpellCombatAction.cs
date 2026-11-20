@@ -46,10 +46,9 @@ public partial class MultiTargetCombatSpellCombatAction(CustomNode owner) : Comb
     // CombatSpells.pas:579
     public override void Execute(Battle combat)
     {
-        CombatObject source;
         if (ManaCost != 0 && combat.Status.Contains(CombatStatusElement.Executing))
         {
-            source = combat.CombatData.FindId(SourceId);
+            CombatObject source = combat.CombatData.FindId(SourceId);
             GamePack.Current.SpellControl.GetSpell(SpellId).CombatCastingDone(source, ManaCost);
         }
     }
@@ -118,8 +117,7 @@ public partial class MultiTargetCombatSpellCombatAction(CustomNode owner) : Comb
     // CombatSpells.pas:624
     public override void ShowFightingObjects(CombatViewer viewer, int frame, int X, int Y, in LockedSurface surface)
     {
-        CombatObject source;
-        source = viewer.Combat.CombatData.FindId(SourceId);
+        CombatObject source = viewer.Combat.CombatData.FindId(SourceId);
         viewer.DefaultShowFightingObjects(null, source, frame, X, Y, surface);
     }
 

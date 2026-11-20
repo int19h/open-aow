@@ -37,9 +37,9 @@ public partial class Control : UIComponent
     //   manager's direct child... of a window placed in the manager) }
     public override void Update()
     {
-        Rect r = default;
         if (Valid)
         {
+            Rect r;
             if (Visible)
             {
                 base.Update();

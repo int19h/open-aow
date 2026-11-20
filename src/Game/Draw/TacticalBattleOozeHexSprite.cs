@@ -28,7 +28,6 @@ public partial class TacticalBattleOozeHexSprite(CustomNode owner) : SingleHexSp
     // AoWTC.pas:4102
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int frame;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
         pixelXSurface = x - pixelXSurface - 16;
         pixelYSurface = y - 48 - pixelYSurface;
@@ -40,7 +39,7 @@ public partial class TacticalBattleOozeHexSprite(CustomNode owner) : SingleHexSp
         };
         while (sequence is not null)
         {
-            frame = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(divisor: sequence.GetTotalSequenceFrames(), instance: this));
+            int frame = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(divisor: sequence.GetTotalSequenceFrames(), instance: this));
             if (frame != -1)
             {
                 sequence.ImageLibrary[frame].Show(pixelXSurface, pixelYSurface, lockedSurface);

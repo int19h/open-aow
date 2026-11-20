@@ -17,9 +17,6 @@ public partial class CompressStream : MemoryStream
     {
         bool compressed = default;
         Span<byte> magic = stackalloc byte[4];
-        ZLibStream d;
-        byte[] buffer;
-        int count;
         stream.ReadExactly(magic);
         stream.ReadExactly(Bytes.Of(ref compressed, 1));
         if (!magic.SequenceEqual(CompressMagic))
@@ -30,12 +27,12 @@ public partial class CompressStream : MemoryStream
 
         if (compressed)
         {
-            buffer = default;
-            count = -1;
+            byte[] buffer = default;
             Array.Resize(ref buffer, 8096);
-            d = new ZLibStream(stream, CompressionMode.Decompress, true);
+            ZLibStream d = new(stream, CompressionMode.Decompress, true);
             try
             {
+                int count = -1;
                 while (count != 0)
                 {
                     count = d.Read(buffer.AsSpan(0, 8096));
@@ -62,16 +59,14 @@ public partial class CompressStream : MemoryStream
     // Engine.pas:1752
     public int SaveToStream(Stream stream, Level level)
     {
-        ZLibStream c;
-        int startSize;
         Position = 0;
         int result = 100;
-        startSize = (int)stream.Length;
+        int startSize = (int)stream.Length;
         stream.Write(CompressMagic);
         stream.Write(Bytes.Of(ref level, 1));
         if (level != Level.None)
         {
-            c = new ZLibStream(stream, ZLibLevels.ForByte((byte)level), true);
+            ZLibStream c = new(stream, ZLibLevels.ForByte((byte)level), true);
             try
             {
                 _ = c.CopyFrom(this, 0);
@@ -96,9 +91,8 @@ public partial class CompressStream : MemoryStream
     // Engine.pas:1781
     public int SaveToFile(string fileName, Level level)
     {
-        int result = default;
-        Stream f;
-        f = OpenFile(fileName, 65535);
+        Stream f = OpenFile(fileName, 65535);
+        int result;
         try
         {
             result = SaveToStream(f, level);
@@ -114,8 +108,7 @@ public partial class CompressStream : MemoryStream
     // Engine.pas:1793
     public void SaveToFile(string fileName)
     {
-        Stream f;
-        f = OpenFile(fileName, 65535);
+        Stream f = OpenFile(fileName, 65535);
         try
         {
             _ = SaveToStream(f, Level.Default);
@@ -129,8 +122,7 @@ public partial class CompressStream : MemoryStream
     // Engine.pas:1805
     public void LoadFromFile(string fileName)
     {
-        Stream f;
-        f = OpenFile(fileName, 0 | 32);
+        Stream f = OpenFile(fileName, 0 | 32);
         try
         {
             LoadFromStream(f);

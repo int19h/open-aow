@@ -73,10 +73,10 @@ public partial class UnitList(CustomNode owner) : ObservableNode(owner), IChildL
     // Unit.PAS:2167
     public override int AddChild(EngineObject child)
     {
-        int result;
         // The check refuses a child that is not a troop before the troop is read.
         CheckChild(child);
         EngineObject unit = child;
+        int result;
         if (CanAddUnit((Troop)child))
         {
             _ = unit.AddRef();
@@ -195,23 +195,13 @@ public partial class UnitList(CustomNode owner) : ObservableNode(owner), IChildL
 
     internal static sbyte UnitsToIndependentRelation(UnitUserList units, sbyte defaultRelation)
     {
-        sbyte result;
-        bool sameRace;
-        bool evil;
-        bool good;
-        bool neutral;
-        int i;
-        int race;
-        Troop troop;
-        Alignment alignmentAlignment;
-        sbyte relation;
-        relation = -1;
-        sameRace = true;
-        i = units.Count;
+        sbyte relation = -1;
+        bool sameRace = true;
+        int i = units.Count;
         while (sameRace && i != 0)
         {
             i -= 1;
-            race = units[i].GetRace();
+            int race = units[i].GetRace();
             if (race != -1 && race != relation)
             {
                 if (relation == -1)
@@ -249,17 +239,18 @@ public partial class UnitList(CustomNode owner) : ObservableNode(owner), IChildL
             sameRace = condition;
         }
 
+        sbyte result;
         if (!sameRace)
         {
-            evil = true;
-            good = true;
-            neutral = true;
+            bool evil = true;
+            bool good = true;
+            bool neutral = true;
             i = 0;
             int last = units.Count - 1;
             for (; i <= last; i += 1)
             {
-                troop = units[i];
-                alignmentAlignment = troop.GetAlignment();
+                Troop troop = units[i];
+                Alignment alignmentAlignment = troop.GetAlignment();
                 evil = evil && AlignmentTables.EvilAlignments.Contains(alignmentAlignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(alignmentAlignment));
                 good = good && AlignmentTables.GoodAlignments.Contains(alignmentAlignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(alignmentAlignment));
                 neutral = neutral && AlignmentTables.NeutralAlignments.Contains(alignmentAlignment);

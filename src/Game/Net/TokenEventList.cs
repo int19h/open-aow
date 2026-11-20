@@ -62,9 +62,8 @@ public partial class TokenEventList : EngineObject
     // NetworkE.pas:1024
     public int FindTokenEvent(int classId)
     {
-        int c;
         int result = 0;
-        c = List.Events.Count;
+        int c = List.Events.Count;
         while (result != c && List.Events[result].EngineClass.ClassId != classId)
         {
             result += 1;

@@ -15,18 +15,15 @@ public partial class EngineObjectClassList : DelphiList<EngineClass>
     // Engine.pas:8301
     public EngineClass FindClass(int classId)
     {
-        EngineClass result;
-        int i;
-        bool found;
-        i = 0;
-        found = false;
+        int i = 0;
+        bool found = false;
         while (!found && i < Count)
         {
             found = classId == this[i].ClassId;
             i += 1;
         }
 
-        result = found ? this[i - 1] : null;
+        EngineClass result = found ? this[i - 1] : null;
 
         return result;
     }
@@ -34,18 +31,15 @@ public partial class EngineObjectClassList : DelphiList<EngineClass>
     // Engine.pas:8316
     public int FindClassIndex(int classId)
     {
-        int result;
-        int i;
-        bool found;
-        i = 0;
-        found = false;
+        int i = 0;
+        bool found = false;
         while (!found && i < Count)
         {
             found = classId == this[i].ClassId;
             i += 1;
         }
 
-        result = found ? i - 1 : -1;
+        int result = found ? i - 1 : -1;
 
         return result;
     }
@@ -68,8 +62,7 @@ public partial class EngineObjectClassList : DelphiList<EngineClass>
     // Engine.pas:8346
     public void UnregisterClass(EngineClass classValue)
     {
-        int i;
-        i = FindClassIndex(classValue.ClassId);
+        int i = FindClassIndex(classValue.ClassId);
         if (i != -1)
         {
             Delete(i);

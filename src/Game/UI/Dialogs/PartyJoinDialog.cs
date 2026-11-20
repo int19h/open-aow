@@ -48,8 +48,6 @@ public partial class PartyJoinDialog(UIContext ui) : UIModule(ui)
     // AoWPartyJoin.pas:79
     public void FinishDialog()
     {
-        EventLog eventValue;
-        ExecuteDoneEvent done;
         _units.Clear();
         if (_detailsOpen)
         {
@@ -58,8 +56,8 @@ public partial class PartyJoinDialog(UIContext ui) : UIModule(ui)
             UI.UnitWindow.MainWindow.Visible = false;
         }
 
-        done = Done;
-        eventValue = _joinEvent;
+        ExecuteDoneEvent done = Done;
+        EventLog eventValue = _joinEvent;
         Done = null;
         _joinEvent = null;
         done?.Invoke(eventValue);
@@ -70,18 +68,14 @@ public partial class PartyJoinDialog(UIContext ui) : UIModule(ui)
     // AoWPartyJoin.pas:99
     public void DrawUnit(int index, in Rect R, ref LockedSurface surface)
     {
-        Units.Alignment alignment;
-        int x;
-        int y;
-        Rect oldClip;
         UnitShowInfo info;
         if (index < _units.GetCount())
         {
-            oldClip = surface.ClipRectangle;
+            Rect oldClip = surface.ClipRectangle;
             surface.ClipRectangle = R;
-            x = (R.Right + R.Left) / 2;
-            y = (R.Top + R.Bottom) / 2;
-            alignment = _units.GetUnit(index).GetAlignment();
+            int x = (R.Right + R.Left) / 2;
+            int y = (R.Top + R.Bottom) / 2;
+            Units.Alignment alignment = _units.GetUnit(index).GetAlignment();
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 LibraryImage image = UI.Graphics.UnitBackgrounds[(int)alignment];
@@ -111,10 +105,10 @@ public partial class PartyJoinDialog(UIContext ui) : UIModule(ui)
     // AoWPartyJoin.pas:137
     public void LeftBtnClick()
     {
-        string reason = "";
         if (ValidateJoin())
         {
             UI.General.PlayButtonSound(0);
+            string reason = "";
             if (!_joinEvent.Accept(ref reason))
             {
                 StrategicMap.Current.ShowWarning(reason);
@@ -129,10 +123,10 @@ public partial class PartyJoinDialog(UIContext ui) : UIModule(ui)
     // AoWPartyJoin.pas:149
     public void MiddleBtnClick()
     {
-        string reason = "";
         if (ValidateJoin())
         {
             UI.General.PlayButtonSound(0);
+            string reason = "";
             if (!_joinEvent.Reject(ref reason))
             {
                 StrategicMap.Current.ShowWarning(reason);

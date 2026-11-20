@@ -25,7 +25,6 @@ internal static class StringSorting
 
     internal static void SortStrings(DelphiStringCollection strings, StringsSortCompare compare, ReadOnlySpan<DelphiStringCollection> linkedStrings)
     {
-        DelphiList<DelphiStringCollection> lists = default;
         SortStringsContext context = default;
         if (strings.Count != 0)
         {
@@ -33,6 +32,7 @@ internal static class StringSorting
             context.Strings = strings;
             context.Compare = compare;
             // { Original unsigned test also takes an empty array. }
+            DelphiList<DelphiStringCollection> lists;
             if ((uint)(linkedStrings.Length - 1) >= 0)
             {
                 lists = new DelphiList<DelphiStringCollection>();
@@ -98,19 +98,15 @@ internal static class StringSorting
 
     internal static int CompareNumericalAscending(string s1, string s2, object o1, object o2)
     {
-        int v1;
-        int v2;
-        v1 = StrToIntDef(s1, -1);
-        v2 = StrToIntDef(s2, -1);
+        int v1 = StrToIntDef(s1, -1);
+        int v2 = StrToIntDef(s2, -1);
         return v1 - v2;
     }
 
     internal static int CompareNumericalDescending(string s1, string s2, object o1, object o2)
     {
-        int v1;
-        int v2;
-        v1 = StrToIntDef(s1, -1);
-        v2 = StrToIntDef(s2, -1);
+        int v1 = StrToIntDef(s1, -1);
+        int v2 = StrToIntDef(s2, -1);
         return v2 - v1;
     }
 

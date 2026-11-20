@@ -187,8 +187,7 @@ public partial class GameEngine : OwningNode
     // Engine.pas:8887
     public virtual EngineObject CreateEngineObject(int classId, CustomNode owner)
     {
-        EngineClass c;
-        c = GetEngineClass(classId);
+        EngineClass c = GetEngineClass(classId);
         return c.CreateInstance(owner, holder: this);
     }
 
@@ -280,8 +279,7 @@ public partial class GameEngine : OwningNode
     // Engine.pas:8867
     public EngineObjectClassList GetDescendantClasses(Type classValue)
     {
-        EngineObjectClassList l;
-        l = new EngineObjectClassList();
+        EngineObjectClassList l = new();
         for (int i = 0, last = EngineClasses.Count - 1; i <= last; i++)
         {
             if (classValue.IsAssignableFrom(EngineClasses[i].Type))
@@ -404,10 +402,8 @@ public partial class GameEngine : OwningNode
     // Engine.pas:9017
     public void ReadFromFile(string fileName, EngineObject objectValue, Engine.ProgressEvent progress)
     {
-        MemoryStream m;
-        Stream f;
-        m = new MemoryStream();
-        f = OpenFile(fileName, 0 | 32);
+        MemoryStream m = new();
+        Stream f = OpenFile(fileName, 0 | 32);
         try
         {
             m.LoadFromStream(f);
@@ -432,18 +428,14 @@ public partial class GameEngine : OwningNode
     // of the classes the file holds ("tactical" for the combat resources).
     public void WriteToFileCrc(string fileName, EngineObject objectValue, Engine.ProgressEvent progress, string classTable = "game")
     {
-        int crc1 = default;
-        int crc2 = default;
-        MemoryStream m;
-        Stream f = default;
-        m = new MemoryStream();
+        MemoryStream m = new();
         try
         {
             m.Write(WriteObjectImage(objectValue, progress: progress, classTable: classTable));
-            crc1 = EngineServices.GetCrc32(size: (int)m.Length, buffer: m.GetBuffer());
+            int crc1 = EngineServices.GetCrc32(size: (int)m.Length, buffer: m.GetBuffer());
             m.Write(Bytes.Of(ref crc1, 4));
-            crc2 = EngineServices.GetCrc32(size: (int)m.Length, buffer: m.GetBuffer());
-            f = OpenFile(fileName, 65535);
+            int crc2 = EngineServices.GetCrc32(size: (int)m.Length, buffer: m.GetBuffer());
+            Stream f = OpenFile(fileName, 65535);
             try
             {
                 f.Write(Bytes.Of(ref crc2, 4));
@@ -463,22 +455,18 @@ public partial class GameEngine : OwningNode
     // Engine.pas:9061
     public bool ReadFromFileCrc(string fileName, EngineObject objectValue, Engine.ProgressEvent progress, string classTable = "game")
     {
-        MemoryStream m;
-        Stream f;
-        int crc2;
-        int crc1;
         bool result = false;
-        m = new MemoryStream();
-        f = OpenFile(fileName, 0 | 32);
+        MemoryStream m = new();
+        Stream f = OpenFile(fileName, 0 | 32);
         try
         {
             m.LoadFromStream(f);
             m.Position = 0;
             if (m.Length > 8)
             {
-                crc1 = MemoryMarshal.Read<int>(m.GetBuffer().AsSpan(0, 4));
+                int crc1 = MemoryMarshal.Read<int>(m.GetBuffer().AsSpan(0, 4));
                 int size = (int)m.Length;
-                crc2 = MemoryMarshal.Read<int>(m.GetBuffer().AsSpan(size - 4, 4));
+                int crc2 = MemoryMarshal.Read<int>(m.GetBuffer().AsSpan(size - 4, 4));
                 int mSize = (int)m.Length;
                 bool condition = crc1 == EngineServices.GetCrc32(m.GetBuffer().AsSpan(4), mSize - 4);
                 if (condition)
@@ -560,8 +548,7 @@ public partial class GameEngine : OwningNode
 
     internal static void UnregisterStorms(GameEngine engine)
     {
-        SpellControl spells;
-        spells = engine.GameSet.SpellControl;
+        SpellControl spells = engine.GameSet.SpellControl;
         spells.UnregisterSpellId(3);
         spells.UnregisterSpellId(5);
         spells.UnregisterSpellId(6);

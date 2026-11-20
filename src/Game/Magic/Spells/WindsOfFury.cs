@@ -33,8 +33,7 @@ public partial class WindsOfFury : CombatSpell
     // CombatSpells.pas:1904
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        CombatSpellCombatAction action;
-        action = new CombatSpellCombatAction(null)
+        CombatSpellCombatAction action = new(null)
         {
             Holder = CreationHolder(),
             SpellId = SpellId

@@ -27,10 +27,9 @@ public partial class WebCombatAction(CustomNode owner) : SingleTargetCombatActio
     // AoWAb.PAS:2778
     public override void Execute(Battle combat)
     {
-        CombatUnit target;
         if (Successful)
         {
-            target = combat.CombatData.FindId<CombatUnit>(TargetId);
+            CombatUnit target = combat.CombatData.FindId<CombatUnit>(TargetId);
             _ = GamePack.Current.AbilityControl.GetAbility(97).Expand(target.Troop);
         }
     }

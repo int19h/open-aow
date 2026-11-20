@@ -31,10 +31,9 @@ public partial class Hex(CustomNode owner) : AbstractHexagon(owner)
     // Hexagon.pas:74
     public override void UpdateTransitions()
     {
-        byte side;
         for (int sideOrdinal = 0; sideOrdinal <= 2; sideOrdinal++)
         {
-            side = (byte)sideOrdinal;
+            byte side = (byte)sideOrdinal;
             UpdateTransition(side);
         }
     }
@@ -42,11 +41,10 @@ public partial class Hex(CustomNode owner) : AbstractHexagon(owner)
     // AoWHex.pas:119
     public override void ChangeTerrain(in HexSpriteTerrainInfo message)
     {
-        MapObjectResource r;
         if (message.HexNumber == 0 && GetTerrain(0) != message.TerrainType)
         {
             int classId = base.Resource.EngineClass.ClassId;
-            r = GamePack.Current.HexControl.GetRandomResource(message.TerrainType, classId);
+            MapObjectResource r = GamePack.Current.HexControl.GetRandomResource(message.TerrainType, classId);
             if (r is not null)
             {
                 SetResource(r);
@@ -110,24 +108,18 @@ public partial class Hex(CustomNode owner) : AbstractHexagon(owner)
     // AoWHex.pas:150 (Hexagon.pas:70 is empty)
     public virtual void UpdateTransition(byte side)
     {
-        bool shifted;
         int nHexX = default;
         int nHexY = default;
-        MapLevel mapLevel;
-        int neighbourTerrain;
-        int ownTerrain;
-        CustomImageLibrary imageLibrary;
-        int image;
-        shifted = false;
+        bool shifted = false;
         Transitions[side] = 255;
         TransitionSides = (byte)(TransitionSides & SideClear[side]);
-        mapLevel = Owner.Owner;
+        MapLevel mapLevel = Owner.Owner;
         HexGeometry.HexNumberToHex(SideHexNumber[side], ref nHexX, ref nHexY);
         HexGeometry.TranslateHex(0, 0, Owner.HexX, Owner.HexY, nHexX, nHexY, out nHexX, out nHexY);
         if (nHexX >= 0 && nHexY >= 0 && mapLevel.Width > nHexX && mapLevel.Height > nHexY)
         {
-            neighbourTerrain = mapLevel.GetField(nHexX, nHexY).TerrainType;
-            ownTerrain = GetTerrain(0);
+            int neighbourTerrain = mapLevel.GetField(nHexX, nHexY).TerrainType;
+            int ownTerrain = GetTerrain(0);
             if (ownTerrain != neighbourTerrain && ownTerrain >= 0 && neighbourTerrain is >= 0 and not 8 and not 7 and not 15 && ownTerrain != 15)
             {
                 if (ownTerrain == 9)
@@ -246,8 +238,8 @@ public partial class Hex(CustomNode owner) : AbstractHexagon(owner)
 
         if (Transitions[side] != 255)
         {
-            imageLibrary = GetResource<HexagonResource>().TransitionLibrary;
-            image = Transitions[side];
+            CustomImageLibrary imageLibrary = GetResource<HexagonResource>().TransitionLibrary;
+            int image = Transitions[side];
             if (image < imageLibrary.Count)
             {
                 if (imageLibrary[image] is not null)

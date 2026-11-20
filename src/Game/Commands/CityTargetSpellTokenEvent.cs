@@ -32,11 +32,10 @@ public partial class CityTargetSpellTokenEvent(CustomNode owner) : SpellTokenEve
     // CitySpells.pas:189
     public override bool Validate(Hero source)
     {
-        City targetCity;
         bool result = base.Validate(source);
         if (result)
         {
-            targetCity = GetSelectedCity();
+            City targetCity = GetSelectedCity();
             result = targetCity is not null && targetCity.Player == TargetPlayer;
         }
 

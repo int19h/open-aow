@@ -43,9 +43,8 @@ public partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
     // AoWDisjunctionDlg.pas:189
     public void UpdateEnchantments()
     {
-        GlobalMagicControl magic;
         string reason = "";
-        magic = StrategicMap.Current.GlobalMagicControl;
+        GlobalMagicControl magic = StrategicMap.Current.GlobalMagicControl;
         EnchantmentList.Items.Clear();
         OwnerList.Items.Clear();
         for (int i = 0, last = magic.Enchantments.Count - 1; i <= last; i++)
@@ -113,18 +112,16 @@ public partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
     // AoWDisjunctionDlg.pas:233
     public void SelectEnchantment(int index)
     {
-        GlobalEnchantment enchantment;
-        MapCoordinate location;
         if (index >= 0 && index < EnchantmentList.Items.Count)
         {
             EnchantmentList.Selected = index;
             OwnerList.Selected = index;
             object objectValue = EnchantmentList.Items.Objects[index];
             _caster.SetEnchantmentId(ObjectToInt(objectValue));
-            enchantment = _caster.SelectedEnchantment();
+            GlobalEnchantment enchantment = _caster.SelectedEnchantment();
             if (enchantment is not null)
             {
-                location = enchantment.GetLocation();
+                MapCoordinate location = enchantment.GetLocation();
                 Location = new MapCoordinate(location.X, location.Y, location.MapLevel);
             }
             else
@@ -238,12 +235,9 @@ public partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
     // AoWDisjunctionDlg.pas:148
     public void MapViewDraw(UIComponent sender, LockedSurface lockedSurface)
     {
-        Rect r;
-        int w;
-        int h;
-        r = new Rect(Window.WinLeft + sender.WinLeft + 1, Window.WinTop + sender.WinTop + 1, Window.WinLeft + sender.WinLeft + sender.WinWidth - 2, Window.WinTop + sender.WinTop + sender.WinHeight - 2);
-        w = r.Right - r.Left;
-        h = r.Bottom - r.Top;
+        Rect r = new(Window.WinLeft + sender.WinLeft + 1, Window.WinTop + sender.WinTop + 1, Window.WinLeft + sender.WinLeft + sender.WinWidth - 2, Window.WinTop + sender.WinTop + sender.WinHeight - 2);
+        int w = r.Right - r.Left;
+        int h = r.Bottom - r.Top;
         HexGeometry.HexToPixel(Location.X, Location.Y, out int x, out int y);
         x = x + 16 - (int)(((uint)w) >> 1);
         y = y + 16 - (int)(((uint)h) >> 1);

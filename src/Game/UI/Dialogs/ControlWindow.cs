@@ -267,12 +267,10 @@ public partial class ControlWindow(UIContext ui) : UIModule(ui)
     // AOWControlWin.pas:422
     public void Unit1FramePreDraw(Frame sender, LockedSurface lockedSurface, int slot)
     {
-        Rect saveRectangle;
-        UIComponent component;
         if (UI.General.UnitList is not null)
         {
-            component = sender;
-            saveRectangle = lockedSurface.ClipRectangle;
+            UIComponent component = sender;
+            Rect saveRectangle = lockedSurface.ClipRectangle;
             Rect rectangle = new(component.OwnerComponent.WinLeft + component.WinLeft + 4, component.OwnerComponent.WinTop + component.WinTop + 3, component.OwnerComponent.WinLeft + component.WinLeft + component.WinWidth - 3, component.OwnerComponent.WinTop + component.WinTop + component.WinHeight - 7);
             DrawUnit(slot, rectangle, ref lockedSurface);
             lockedSurface.ClipRectangle = saveRectangle;

@@ -142,7 +142,6 @@ public partial class SByteList : Persistent
     // Engine.pas:4003
     public void Exchange(int index1, int index2)
     {
-        sbyte item;
         if (index1 < 0 || index1 >= _count)
         {
             Error("List index out of bounds (%d)", index1);
@@ -153,9 +152,7 @@ public partial class SByteList : Persistent
             Error("List index out of bounds (%d)", index2);
         }
 
-        item = _list[index1];
-        _list[index1] = _list[index2];
-        _list[index2] = item;
+        (_list[index2], _list[index1]) = (_list[index1], _list[index2]);
     }
 
     // Engine.pas:4014
@@ -217,7 +214,6 @@ public partial class SByteList : Persistent
     // Engine.pas:4066
     public void Move(int currentIndex, int newIndex)
     {
-        sbyte item;
         if (currentIndex != newIndex)
         {
             if (newIndex < 0 || newIndex >= _count)
@@ -225,7 +221,7 @@ public partial class SByteList : Persistent
                 Error("List index out of bounds (%d)", newIndex);
             }
 
-            item = Get(currentIndex);
+            sbyte item = Get(currentIndex);
             Delete(currentIndex);
             Insert(newIndex, item);
         }
@@ -296,13 +292,10 @@ public partial class SByteList : Persistent
     public void SaveToStream(Stream stream)
     {
         int i;
-        int run;
-        byte b = default;
         int DefaultRun()
         {
-            int j;
             int result = 0;
-            j = i;
+            int j = i;
             while (j < _count && _list[j] == _default)
             {
                 result += 1;
@@ -317,9 +310,10 @@ public partial class SByteList : Persistent
         stream.Write(Bytes.Of(ref _count, 4));
         while (_count != i)
         {
-            run = DefaultRun();
+            int run = DefaultRun();
             if (run > 0)
             {
+                byte b;
                 while (run > 255)
                 {
                     b = 255;
@@ -346,12 +340,10 @@ public partial class SByteList : Persistent
     public int RandomChanceItem(int bonus)
     {
         int result;
-        int total;
-        int chance;
-        int r;
         if (_count != 0)
         {
-            total = 0;
+            int total = 0;
+            int chance;
             for (int i = _count - 1; i >= 0; i--)
             {
                 chance = _list[i] + bonus;
@@ -363,7 +355,7 @@ public partial class SByteList : Persistent
                 total += chance;
             }
 
-            r = Random(total);
+            int r = Random(total);
             total = 0;
             result = 0;
             while (total < r)
@@ -399,7 +391,6 @@ public partial class SByteList : Persistent
 
     private static void QuickSortShortInteger(Span<sbyte> sortList, int L, int R, ShortIntSortCompare sCompare)
     {
-        sbyte b = 0;
         int number;
         do
         {
@@ -419,9 +410,7 @@ public partial class SByteList : Persistent
                 }
                 if (number <= number2)
                 {
-                    b = sortList[number];
-                    sortList[number] = sortList[number2];
-                    sortList[number2] = b;
+                    (sortList[number2], sortList[number]) = (sortList[number], sortList[number2]);
                     number++;
                     number2--;
                 }

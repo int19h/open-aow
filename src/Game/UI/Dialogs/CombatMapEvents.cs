@@ -120,7 +120,6 @@ public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
     // aowTCMapEvents.pas:174
     public void CombatMapMouseOverTarget(HexSprite hexSprite)
     {
-        Troop u;
         if (UI.CombatUnitInfo.MainWindow.Visible)
         {
             UI.CombatUnitInfo.TargetSelectPanel.Visible = hexSprite is not null;
@@ -129,7 +128,7 @@ public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
             {
                 if (hexSprite is TacticalBattleUnitHexSprite unitHexSprite)
                 {
-                    u = unitHexSprite.Unit.Troop;
+                    Troop u = unitHexSprite.Unit.Troop;
                     string name = u.GetName();
                     UI.CombatUnitInfo.TargetUnitLabel.Text = name;
                     sbyte hitPoints = u.GetHitPoints();
@@ -244,8 +243,6 @@ public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
 
     private static void RefreshCombatUnit(CombatUnitInfo window)
     {
-        AbilityCombatInfo abilityCombatInfo = default;
-        SpellCombatInfo info = default;
         if (window.UI.General.CombatUnit is not null)
         {
             Troop fTroop = window.UI.General.CombatUnit.Unit.Troop;
@@ -309,6 +306,7 @@ public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                     window.CombatUnitPanel.Visible = false;
                     window.CombatAbilityPanel.Visible = true;
                     window.TargetSelectPanel.Visible = false;
+                    SpellCombatInfo info = default;
                     GamePack.Current.SpellControl.GetSpell(window.UI.General.CombatUnit.SelectedSpell).GetCombatInfo(window.UI.General.CombatUnit.Unit.Troop, ref info);
                     Spell spell = GamePack.Current.SpellControl.GetSpell(window.UI.General.CombatUnit.SelectedSpell);
                     window.AbilityNameLabel.Text = spell.SpellName;
@@ -375,6 +373,7 @@ public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                     window.CombatUnitPanel.Visible = false;
                     window.CombatAbilityPanel.Visible = true;
                     window.TargetSelectPanel.Visible = false;
+                    AbilityCombatInfo abilityCombatInfo = default;
                     GamePack.Current.AbilityControl.GetAbility(window.UI.General.CombatUnit.SelectedAbility).GetCombatInfo(window.UI.General.CombatUnit.Unit.Troop, ref abilityCombatInfo);
                     string name = GamePack.Current.AbilityControl.GetAbility(window.UI.General.CombatUnit.SelectedAbility).GetName(window.UI.General.CombatUnit.Unit.Troop);
                     window.AbilityNameLabel.Text = name;

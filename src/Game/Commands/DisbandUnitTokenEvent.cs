@@ -33,13 +33,7 @@ public partial class DisbandUnitTokenEvent(CustomNode owner) : TokenEvent(owner)
     // MoveT.PAS:3539
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        Troop troop;
-        PlayerStructure structure;
-        ArmyHexSprite armyHexSprite;
-        GroupBehavior behavior;
-        int i;
-        int n;
-        troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        Troop troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (troop is not null && troop.Player == Player)
         {
             _ = troop.AddRef();
@@ -54,7 +48,8 @@ public partial class DisbandUnitTokenEvent(CustomNode owner) : TokenEvent(owner)
                 sbyte x = coordinate5.X;
                 sbyte y = coordinate5.Y;
                 sbyte l = coordinate5.MapLevel;
-                structure = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
+                PlayerStructure structure = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
+                ArmyHexSprite armyHexSprite;
                 if (troop.Owner is not Army || troop.Owner.Count > 1 || (structure is not null && structure.Player > 0))
                 {
                     MapCoordinate coordinate6 = troop.GetLocation();
@@ -72,10 +67,10 @@ public partial class DisbandUnitTokenEvent(CustomNode owner) : TokenEvent(owner)
 
                 if (armyHexSprite is not null)
                 {
-                    n = StrategicMap.Current.Random(10);
-                    behavior = n == 0 ? GroupBehavior.GuardArea : n < 7 ? GroupBehavior.Scout : GroupBehavior.Raid;
+                    int n = StrategicMap.Current.Random(10);
+                    GroupBehavior behavior = n == 0 ? GroupBehavior.GuardArea : n < 7 ? GroupBehavior.Scout : GroupBehavior.Raid;
 
-                    i = armyHexSprite.Army.Units.IndexOfBehavior(behavior);
+                    int i = armyHexSprite.Army.Units.IndexOfBehavior(behavior);
                     if (i == -1)
                     {
                         int indexOf = armyHexSprite.Army.Units.IndexOf(troop);

@@ -30,11 +30,10 @@ public partial class CombatRoad(CustomNode owner) : AbstractRoad(owner)
     // CombatRoad.pas:113
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        CustomImageLibrary images;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
         x = x - pixelXSurface - 8;
         y -= pixelYSurface;
-        images = base.Resource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
+        CustomImageLibrary images = base.Resource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
         images.Get(_images[0]).Show(x, y, lockedSurface);
         for (int i = 1; i <= 6; i++)
         {
@@ -66,10 +65,8 @@ public partial class CombatRoad(CustomNode owner) : AbstractRoad(owner)
     // CombatRoad.pas:66
     public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        HexSprite oldRoad;
-        MapField mapField;
-        mapField = mapContainer.GetField(hexX, hexY, hexLevel);
-        oldRoad = mapField.FindHexSprite(typeof(AbstractRoad));
+        MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
+        HexSprite oldRoad = mapField.FindHexSprite(typeof(AbstractRoad));
         oldRoad?.Dispose();
 
         return base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
@@ -87,15 +84,13 @@ public partial class CombatRoad(CustomNode owner) : AbstractRoad(owner)
     // CombatRoad.pas:77
     public void UpdateTransition(byte hexNumber)
     {
-        MapLevel mapLevel;
-        sbyte overlay;
         int x = default;
         int y = default;
-        mapLevel = Owner.Owner;
+        MapLevel mapLevel = Owner.Owner;
         HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, hexNumber, ref x, ref y);
         if (x >= 0 && y >= 0 && x < mapLevel.Width && y < mapLevel.Height)
         {
-            overlay = mapLevel.GetField(x, y).OverlayType;
+            sbyte overlay = mapLevel.GetField(x, y).OverlayType;
             if (overlay != 4)
             {
                 switch (hexNumber)

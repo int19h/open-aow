@@ -23,8 +23,7 @@ public partial class BurningAbility : DurationAbility
     // PassiveAb.pas:773
     public override void NewCombatTurn(CombatObject combatObject, sbyte player)
     {
-        DurationAbilityData data;
-        data = GetData(combatObject.GetAbilityOwner());
+        DurationAbilityData data = GetData(combatObject.GetAbilityOwner());
         if (data is not null)
         {
             if (data.Duration != 0 && data.PlayerIndex == player)

@@ -62,10 +62,8 @@ public readonly struct AIGroupProductionLocationCollection : IReadOnlyList<AIGro
     // AIGroup.pas:945
     public AIGroupProductionLocation FindPC(ProductionControl control)
     {
-        AIGroupProductionLocation result;
-        int index;
-        index = IndexOfPC(control);
-        result = index != -1 ? this[index] : null;
+        int index = IndexOfPC(control);
+        AIGroupProductionLocation result = index != -1 ? this[index] : null;
 
         return result;
     }

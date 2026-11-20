@@ -49,13 +49,13 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
     // Ability.PAS:343
     public override void PersistFields(IPersister persister)
     {
-        bool enabled = default;
         base.PersistFields(persister);
         RaceIndex = PersistSupport.UnsignedByte(persister, name: "RaceIndex", value: RaceIndex);
         PersistSupport.Int32List(persister, name: "PlayerRelations", list: _playerRelations);
         if (persister.Loading)
         {
             // { Original leaves this local uninitialized if property 4 is absent. }
+            bool enabled = default;
             enabled = persister.Boolean("Enabled", value: enabled);
             SetEnabled(enabled);
         }
@@ -86,10 +86,8 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
     // Ability.PAS:229
     public int GetRelationValue(sbyte race)
     {
-        int result;
-        int player;
-        player = StrategicMap.Current.Players.RaceToPlayer(race);
-        result = player == -1 ? StatusToStatusValue((Status)DefaultRelations[race]) : _playerRelations[player - 1];
+        int player = StrategicMap.Current.Players.RaceToPlayer(race);
+        int result = player == -1 ? StatusToStatusValue((Status)DefaultRelations[race]) : _playerRelations[player - 1];
 
         return result + Owner.RelationOffset;
     }
@@ -97,10 +95,8 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
     // Ability.PAS:239
     public Status GetRelation(sbyte race)
     {
-        Status result;
-        int player;
-        player = StrategicMap.Current.Players.RaceToPlayer(race);
-        result = player == -1
+        int player = StrategicMap.Current.Players.RaceToPlayer(race);
+        Status result = player == -1
             ? StatusValueToStatus(StatusToStatusValue((Status)DefaultRelations[race]) + StrategicMap.Current.Races.RelationOffset)
             : StatusValueToStatus(_playerRelations[player - 1] + StrategicMap.Current.Races.RelationOffset);
 
@@ -135,7 +131,6 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
     // Ability.PAS:271
     public void NewDay()
     {
-        int defaultValue;
         if (StrategicMap.Current.Day != 1)
         {
             if ((StrategicMap.Current.GlobalMagicControl.ActiveEnchantments & Set<GlobalEnchantmentType>.Of(GlobalEnchantmentType.Hatred, GlobalEnchantmentType.Harmony)) == Set<GlobalEnchantmentType>.Of())
@@ -143,7 +138,7 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
                 for (int i = 0, last = _playerRelations.Count - 1; i <= last; i++)
                 {
                     Player players = StrategicMap.Current.Players.GetPlayers(i + 1);
-                    defaultValue = StatusToStatusValue((Status)DefaultRelations[players.PlayerRace]);
+                    int defaultValue = StatusToStatusValue((Status)DefaultRelations[players.PlayerRace]);
                     if (_playerRelations[i] > defaultValue)
                     {
                         int item = _playerRelations[i];

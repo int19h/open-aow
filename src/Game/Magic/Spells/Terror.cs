@@ -34,8 +34,7 @@ public partial class Terror : CombatSpell
     // CombatSpells.pas:1775
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        TacticalBattleTerrorCombatAction action;
-        action = new TacticalBattleTerrorCombatAction(null) { Holder = CreationHolder() };
+        TacticalBattleTerrorCombatAction action = new(null) { Holder = CreationHolder() };
         action.Generate(source, target);
         if (chargeMana && source is CombatUnit sourceUnit)
         {
@@ -72,16 +71,12 @@ public partial class Terror : CombatSpell
     // CombatSpells.pas:1786
     public override void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
     {
-        CombatSide side;
-        CombatObject target;
-        int value;
-        FastBattleSpellCommand command;
-        value = 0;
+        int value = 0;
         CombatSideIndex opponentSide = commands.Source.GetOpponentSide();
-        side = commands.Combat.Sides[(int)opponentSide];
+        CombatSide side = commands.Combat.Sides[(int)opponentSide];
         for (int i = side.GetCount() - 1; i >= 0; i--)
         {
-            target = side.GetObjects(i);
+            CombatObject target = side.GetObjects(i);
             if (!target.GetAbilityEnabled(108) && target.CombatValue != 0 && target is CombatUnit && !target.GetImmunityTypes().Contains(DamageType.Death))
             {
                 value += target.GetTargetPriority();
@@ -90,7 +85,7 @@ public partial class Terror : CombatSpell
 
         if (value != 0)
         {
-            command = new FastBattleSpellCommand(52, creator: this)
+            FastBattleSpellCommand command = new(52, creator: this)
             {
                 Target = null,
                 MoveCost = 1,
@@ -104,8 +99,7 @@ public partial class Terror : CombatSpell
     // CombatSpells.pas:1815
     public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
-        FastBattleTerrorCombatAction action;
-        action = new FastBattleTerrorCombatAction(null) { Holder = CreationHolder() };
+        FastBattleTerrorCombatAction action = new(null) { Holder = CreationHolder() };
         action.Generate(source);
         if (source is CombatUnit sourceUnit)
         {
@@ -120,15 +114,12 @@ public partial class Terror : CombatSpell
     // CombatSpells.pas:1828
     public override void FastBattleGetDamageValues(CombatObject source, CombatObject target, WallSituation wallSituation, ref AbilityDamageValues values)
     {
-        int value;
-        CombatSide side;
-        CombatObject opponent;
-        value = 0;
+        int value = 0;
         CombatSideIndex opponentSide = source.GetOpponentSide();
-        side = source.Combat.Sides[(int)opponentSide];
+        CombatSide side = source.Combat.Sides[(int)opponentSide];
         for (int i = side.GetCount() - 1; i >= 0; i--)
         {
-            opponent = side.GetObjects(i);
+            CombatObject opponent = side.GetObjects(i);
             if (!opponent.GetAbilityEnabled(108) && opponent.CombatValue != 0 && opponent is CombatUnit && !opponent.GetImmunityTypes().Contains(DamageType.Death))
             {
                 value += Round((double)HitChance.HitRoleProbability(6 - opponent.GetResistance()) * 100);

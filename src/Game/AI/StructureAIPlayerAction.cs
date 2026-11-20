@@ -26,8 +26,8 @@ public partial class StructureAIPlayerAction(CustomNode owner) : AIPlayerAction(
     // Structur.PAS:3330
     public override bool Activate()
     {
-        bool result;
         _ = base.Activate();
+        bool result;
         if (Control.Player.PlayerIndex > 0)
         {
             for (int i = 0, last = StrategicMap.Current.StructureControl.GetCount() - 1; i <= last; i++)
@@ -49,13 +49,11 @@ public partial class StructureAIPlayerAction(CustomNode owner) : AIPlayerAction(
     // Structur.PAS:3344
     public override bool Process()
     {
-        bool waiting;
-        Structure structure;
-        waiting = false;
+        bool waiting = false;
         while (!waiting && _structureIds.Count != 0 && StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0 && !Control.Player.GetBusy())
         {
             int item = _structureIds[^1];
-            structure = StrategicMap.Current.StructureControl.FindId(item);
+            Structure structure = StrategicMap.Current.StructureControl.FindId(item);
             if (structure is not null)
             {
                 waiting = structure.ExecuteAI(Control.Player.PlayerIndex, Phase);

@@ -59,14 +59,13 @@ public partial class ArmyView(CustomNode owner) : Army(owner)
     // Army.PAS:100
     public virtual void Setup(Army army, byte selection)
     {
-        Troop troop;
         AssignSettings(army);
         Location = new MapCoordinate(army.Location.X, army.Location.Y, army.Location.MapLevel);
         for (int i = 0, last = army.Units.Count - 1; i <= last; i++)
         {
             if ((selection & 1) != 0)
             {
-                troop = army.Units.GetUnit(i).Copy<Troop>(GetEngine());
+                Troop troop = army.Units.GetUnit(i).Copy<Troop>(GetEngine());
                 troop.SetOwner(this);
                 _ = troop.Release();
                 Troop unit = army.Units.GetUnit(i);
@@ -85,16 +84,14 @@ public partial class ArmyView(CustomNode owner) : Army(owner)
     // Army.PAS:81
     public void SetConcealedForPlayer(sbyte player, bool value)
     {
-        int mask;
-        mask = 1 << (player - 1);
+        int mask = 1 << (player - 1);
         ConcealedForPlayers = value ? (ushort)(ConcealedForPlayers | (ushort)mask) : (ushort)(ConcealedForPlayers & ~(ushort)mask);
     }
 
     // Army.PAS:92
     public void SetUnitConcealedForPlayer(int index, sbyte player, bool value)
     {
-        int mask;
-        mask = 1 << (player - 1);
+        int mask = 1 << (player - 1);
         UnitConcealment[index] = value ? (ushort)(UnitConcealment[index] | (ushort)mask) : (ushort)(UnitConcealment[index] & ~(ushort)mask);
     }
 

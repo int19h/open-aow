@@ -35,12 +35,11 @@ public partial class Bless : UnitSpell
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
         bool result;
-        UnitEnchantment enchantment;
         if (ValidTargetUnit(source, target))
         {
             if (target.ExpandAbility(158))
             {
-                enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(158).Enchantment;
+                UnitEnchantment enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(158).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
                 enchantment.DispelResistance = (sbyte)UnitDispelResistance;

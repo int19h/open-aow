@@ -30,10 +30,8 @@ public partial class Road(CustomNode owner) : AbstractRoad(owner)
     // Road.pas:60
     public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        MapField mapField;
-        HexSprite oldRoad;
-        mapField = mapContainer.GetField(hexX, hexY, hexLevel);
-        oldRoad = mapField.FindOwnedHexSprite(typeof(AbstractRoad));
+        MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
+        HexSprite oldRoad = mapField.FindOwnedHexSprite(typeof(AbstractRoad));
         oldRoad?.Dispose();
 
         Owner = mapField;
@@ -48,18 +46,15 @@ public partial class Road(CustomNode owner) : AbstractRoad(owner)
     {
         int hexX = default;
         int hexY = default;
-        MapLevel level;
-        MapField mapField;
-        AbstractRoad road;
-        level = Owner.Owner;
+        MapLevel level = Owner.Owner;
         for (int hexNumber = 1; hexNumber <= 6; hexNumber++)
         {
             HexGeometry.HexNumberToHex(hexNumber, ref hexX, ref hexY);
             HexGeometry.TranslateHex(0, 0, Owner.HexX, Owner.HexY, hexX, hexY, out hexX, out hexY);
             if (hexX >= 0 && hexY >= 0 && hexX < level.Width && hexY < level.Height)
             {
-                mapField = level.GetField(hexX, hexY);
-                road = mapField.FindChild<AbstractRoad>(131428);
+                MapField mapField = level.GetField(hexX, hexY);
+                AbstractRoad road = mapField.FindChild<AbstractRoad>(131428);
                 road?.UpdateTransitions();
             }
         }
@@ -77,10 +72,8 @@ public partial class Road(CustomNode owner) : AbstractRoad(owner)
         // Road.pas:141
         public void Show(int pixelX, int pixelY, in LockedSurface lockedSurface, Road road)
         {
-            byte transitions;
-            byte baseValue;
-            transitions = road.Transitions;
-            baseValue = 1;
+            byte transitions = road.Transitions;
+            byte baseValue = 1;
             if (transitions != 0)
             {
                 if ((transitions & 64) == 0)
@@ -149,15 +142,11 @@ public partial class Road(CustomNode owner) : AbstractRoad(owner)
     // AoWRoad.pas:35 (Road.pas:74 counts only the neighbours' road sprites)
     public override void UpdateTransitions()
     {
-        byte oldTransitions;
         int hexX = default;
         int hexY = default;
         MapFieldMessage message = default;
-        MapLevel level;
-        MapField mapField;
-        bool hasRoad;
-        oldTransitions = Transitions;
-        level = Owner.Owner;
+        byte oldTransitions = Transitions;
+        MapLevel level = Owner.Owner;
         Transitions = 0;
         message.MessageId = 4401;
         MapFieldMessageParameters param = message.Param;
@@ -169,7 +158,8 @@ public partial class Road(CustomNode owner) : AbstractRoad(owner)
             HexGeometry.TranslateHex(0, 0, Owner.HexX, Owner.HexY, hexX, hexY, out hexX, out hexY);
             if (hexX >= 0 && hexY >= 0 && level.Width > hexX && level.Height > hexY)
             {
-                mapField = level.GetField(hexX, hexY);
+                MapField mapField = level.GetField(hexX, hexY);
+                bool hasRoad;
                 if (mapField.FindOwnedHexSprite(typeof(AbstractRoad)) is null)
                 {
                     // { Original message stores its response in Param[1], rather than Result. }

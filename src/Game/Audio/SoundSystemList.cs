@@ -11,15 +11,13 @@ public partial class SoundSystemList : DelphiList<SoundSystemClass>
     // Sound.pas:1293
     public SoundSystemClass Find(string name)
     {
-        SoundSystemClass result;
-        int i;
-        i = 0;
+        int i = 0;
         while (i != Count && CompareText(name, List[i].Name) != 0)
         {
             i += 1;
         }
 
-        result = i != Count ? List[i] : null;
+        SoundSystemClass result = i != Count ? List[i] : null;
 
         return result;
     }

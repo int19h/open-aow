@@ -112,11 +112,10 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     // Hero.PAS:2921
     public override bool CanActivate()
     {
-        Leader leader;
         bool result = base.CanActivate();
         if (result)
         {
-            leader = StrategicMap.Current.Players.GetPlayers(Player).Leader;
+            Leader leader = StrategicMap.Current.Players.GetPlayers(Player).Leader;
             if (leader is not null && !CompatibleHero(leader))
             {
                 result = false;
@@ -129,7 +128,6 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     // Hero.PAS:2932
     public override void Activate()
     {
-        Leader leader;
         LibraryId = -1;
         if (Player == 0)
         {
@@ -139,7 +137,7 @@ public partial class Leader(CustomNode owner) : Hero(owner)
         base.Activate();
         if (StrategicMap.Current.Players.GetPlayers(Player) is not null)
         {
-            leader = StrategicMap.Current.Players.GetPlayers(Player).Leader;
+            Leader leader = StrategicMap.Current.Players.GetPlayers(Player).Leader;
             if (leader != this)
             {
                 if (leader is not null && leader.Owner is not null)
@@ -231,13 +229,10 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     // Hero.PAS:2960
     public override void EditDropMessage(ref EngineMessage message)
     {
-        MapLevel level;
-        int l;
-        bool placed;
-        level = message.Param[0].As<MapLevel>();
-        l = message.Data[1];
+        MapLevel level = message.Param[0].As<MapLevel>();
+        int l = message.Data[1];
         HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out int x, out int y);
-        placed = x >= 0 && y >= 0 && x < level.Width && y < level.Height && Place(x, y, l, Player, Set<UnitPlaceModeElement>.Of()) is not null;
+        bool placed = x >= 0 && y >= 0 && x < level.Width && y < level.Height && Place(x, y, l, Player, Set<UnitPlaceModeElement>.Of()) is not null;
 
         message.Result = placed ? 0 : -1;
     }
@@ -320,8 +315,7 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     // Hero.PAS:2870
     public bool DeleteSphere(MagicSphere sphere)
     {
-        int i;
-        i = _spheres.Count;
+        int i = _spheres.Count;
         bool result = false;
         while (!result && i != 0)
         {

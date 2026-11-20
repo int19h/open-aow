@@ -45,7 +45,7 @@ internal static class Program
         int turns = 0, seed = 123456789, firstDay = 0, day = 0;
         long frames = 0;
         bool tactical = false, ended = false, complete = false;
-        bool traceMovement = false, exerciseItems = false;
+        bool exerciseItems = false;
         int tacticalBattles = 0, globalSpell = 0;
         DirectedInputs? directed = null;
         int viewportWidth = 1600, viewportHeight = 937, animationFps = 30;
@@ -60,6 +60,7 @@ internal static class Program
             string? settings = null;
             string? randomTracePath = null;
             string? fileLogPath = null;
+            bool traceMovement = false;
             for (int i = 0; i < arguments.Length; i++)
             {
                 string Value() => ++i < arguments.Length ? arguments[i] : throw new ArgumentException("missing option value");

@@ -49,14 +49,12 @@ public partial class VideoDialog(UIContext ui) : UIModule(ui)
     // AoWVideoDlg.pas:172
     public void UpdateModes()
     {
-        DisplayModeItem mode;
-        string s;
         DisplayModesList.Items.Clear();
         string desktopWindow = UI.Engine.TranslateResourceString(s_desktopWindowText);
         _ = DisplayModesList.Items.AddObject(desktopWindow, IntToObject(-1));
         for (int i = 0, last = _displayModes.Count - 1; i <= last; i++)
         {
-            mode = _displayModes.Items[i];
+            DisplayModeItem mode = _displayModes.Items[i];
             if (mode.Width >= 640 && mode.Height >= 480)
             {
                 string fullScreen = UI.Engine.TranslateResourceString(s_fullScreenText);
@@ -68,7 +66,7 @@ public partial class VideoDialog(UIContext ui) : UIModule(ui)
         DisplayModesList.Selected = currentMode;
         if (DisplayModesList.Selected != -1)
         {
-            s = DisplayModesList.Items[DisplayModesList.Selected];
+            string s = DisplayModesList.Items[DisplayModesList.Selected];
             s = $"{s} ({LowerCase(UI.Engine.TranslateResourceString(s_currentText))})";
             DisplayModesList.Items[DisplayModesList.Selected] = s;
         }
@@ -94,11 +92,10 @@ public partial class VideoDialog(UIContext ui) : UIModule(ui)
     // AoWVideoDlg.pas:212
     public void ApplyBtnClick()
     {
-        int i;
         UI.General.PlayButtonSound(0);
         if (DisplayModesList.Selected != -1)
         {
-            i = ObjectToInt(DisplayModesList.Items.Objects[DisplayModesList.Selected]);
+            int i = ObjectToInt(DisplayModesList.Items.Objects[DisplayModesList.Selected]);
             if (i != -1)
             {
                 DisplayWidth = _displayModes.Items[i].Width;

@@ -36,10 +36,9 @@ public partial class Watcher : GlobalTargetSpell
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
         bool result;
-        WatcherTokenEvent eventValue;
         if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            eventValue = new WatcherTokenEvent(null) { Holder = CreationHolder() };
+            WatcherTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);

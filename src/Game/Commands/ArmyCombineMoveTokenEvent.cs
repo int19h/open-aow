@@ -20,18 +20,14 @@ public partial class ArmyCombineMoveTokenEvent(CustomNode owner) : MoveArmyToken
     // MoveT.PAS:2471
     public override bool CanMoveNext()
     {
-        ArmyHexSprite armyHexSprite;
-        Army sourceArmy;
-        Army targetArmy;
-        AddUnitsResult combineResult;
         if (MoveIndex == 1 && Path[0].Location.X == Target.X && Path[0].Location.Y == Target.Y && Path[0].Location.MapLevel == Target.MapLevel && ArmyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)
         {
-            armyHexSprite = GetMapField(Path[0].Location).GetArmyHexSprite();
+            ArmyHexSprite armyHexSprite = GetMapField(Path[0].Location).GetArmyHexSprite();
             if (armyHexSprite is not null && armyHexSprite.Army.Player == ArmyHexSprite.Army.Player)
             {
-                sourceArmy = ArmyHexSprite.Army;
-                targetArmy = armyHexSprite.Army;
-                combineResult = targetArmy.CanAddUnitSelection(sourceArmy.Units, 255);
+                Army sourceArmy = ArmyHexSprite.Army;
+                Army targetArmy = armyHexSprite.Army;
+                AddUnitsResult combineResult = targetArmy.CanAddUnitSelection(sourceArmy.Units, 255);
                 if (combineResult != AddUnitsResult.Ok)
                 {
                     ShowCombineFailure(combineResult);

@@ -147,10 +147,9 @@ public partial class AIMoveTargetSelector : EngineObject
     // AIGroup.pas:6445
     public void TriggerTargetFound(MoveTarget target)
     {
-        bool searchDone;
         if (OnTargetFound is not null)
         {
-            searchDone = false;
+            bool searchDone = false;
             OnTargetFound(target, ref searchDone);
             if (searchDone)
             {
@@ -177,19 +176,16 @@ public partial class AIMoveTargetSelector : EngineObject
     // AIGroup.pas:6467
     public bool ProcessBufferedTransportTargets()
     {
-        Int32List gaps;
-        MoveTarget target;
-        bool valid;
-        int i;
         if (_bufferedTargets.Count != 0)
         {
-            gaps = new Int32List();
-            target = _bufferedTargets.GetTarget(0);
+            Int32List gaps = new();
+            MoveTarget target = _bufferedTargets.GetTarget(0);
             MapCoordinate coordinate106 = _transporter.GetLocation();
             sbyte locationX = coordinate106.X;
             sbyte locationY = coordinate106.Y;
             sbyte locationMapLevel = coordinate106.MapLevel;
             MapCoordinate location = new(locationX, locationY, locationMapLevel);
+            bool valid;
             if (ListMovementGaps(StrategicMap.Current, target.MovePath, MovePointTable, gaps, null) != 0)
             {
                 _settings.Reset();
@@ -199,7 +195,7 @@ public partial class AIMoveTargetSelector : EngineObject
 
                 _settings.MovePointsMax = MovePointsMax;
                 _settings.MovePointTable = _transportMovePointTable;
-                i = gaps.Count;
+                int i = gaps.Count;
                 valid = true;
                 while (i != 0 && valid)
                 {
@@ -236,15 +232,13 @@ public partial class AIMoveTargetSelector : EngineObject
     // AIGroup.pas:6514
     public bool ProcessStates()
     {
-        bool yield;
-        bool processing;
+        bool yield = false;
+        AITargetData data;
         bool found;
         int i;
         MoveControlSettings settings;
         MapField field;
         MoveTarget target;
-        yield = false;
-        AITargetData data;
         switch (_state)
         {
             case 0:
@@ -270,7 +264,7 @@ public partial class AIMoveTargetSelector : EngineObject
                 break;
             case 1:
                 _ = StrategicMap.Current.MoveControl.Activate(_settings);
-                processing = true;
+                bool processing = true;
                 while (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0 && processing)
                 {
                     processing = StrategicMap.Current.MoveControl.Process();
@@ -449,10 +443,9 @@ public partial class AIMoveTargetSelector : EngineObject
     // AIGroup.pas:6677
     public bool Process()
     {
-        bool yield;
         try
         {
-            yield = false;
+            bool yield = false;
             while (!yield && _state != -1 && StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0)
             {
                 yield = ProcessStates();

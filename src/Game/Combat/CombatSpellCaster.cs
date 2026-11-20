@@ -21,11 +21,9 @@ public partial class CombatSpellCaster(CustomNode owner) : EngineObject(owner)
     // Spells.PAS:803
     public override int Release()
     {
-        int count;
-        int releasedCount;
         _combatCasterRefCount -= 1;
-        count = _combatCasterRefCount;
-        releasedCount = count;
+        int count = _combatCasterRefCount;
+        int releasedCount = count;
         if (count == 0)
         {
             Dispose();

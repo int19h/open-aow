@@ -10,17 +10,16 @@ public partial class InverseSortedNode(CustomNode owner) : SortedNode(owner)
     // Engine.pas:1635
     public override int AddSortChild(EngineObject child, int sortValue)
     {
-        int result;
-        int i;
         CheckChild(child);
         if (StoredCount >= Capacity)
         {
             Grow();
         }
 
+        int result;
         if (Sorted)
         {
-            i = StoredCount;
+            int i = StoredCount;
             while (i > 0 && sortValue < Items[i - 1].SortValue)
             {
                 i -= 1;

@@ -42,7 +42,6 @@ public partial class ItemLibraryManager : EngineObject
     // Army.PAS:4981
     public override void PersistFields(IPersister persister)
     {
-        string directory;
         base.PersistFields(persister);
         // Under the text-only mode of the translate stream the original visits the system library
         // in place and touches no file.
@@ -52,7 +51,7 @@ public partial class ItemLibraryManager : EngineObject
             return;
         }
 
-        directory = ExtractFilePath(GetEngine().HssFileName);
+        string directory = ExtractFilePath(GetEngine().HssFileName);
         if (persister.Loading)
         {
             ReadUserLibraries();
@@ -74,14 +73,13 @@ public partial class ItemLibraryManager : EngineObject
     // Army.PAS:5012
     public void ReadUserLibraries()
     {
-        ItemLibrary itemLibrary;
         Libraries.Clear();
         _ = Libraries.AddChild(SystemLibrary);
         // Both extensions list, and a list present in both forms loads its own document once
         // (own-formats.md 4.2).
         foreach (string listed in FileBoundary.FindDocuments($"{GetEngine().StartupDirectory}User\\", DocumentKind.ItemList))
         {
-            itemLibrary = new ItemLibrary(null) { Holder = CreationHolder() };
+            ItemLibrary itemLibrary = new(null) { Holder = CreationHolder() };
             try
             {
                 itemLibrary.LoadFromFile($"{GetEngine().StartupDirectory}User\\{listed}");
@@ -97,10 +95,9 @@ public partial class ItemLibraryManager : EngineObject
     // Army.PAS:5033
     public void WriteUserLibraries()
     {
-        ItemLibrary itemLibrary;
         for (int i = 1, last = Libraries.Count - 1; i <= last; i++)
         {
-            itemLibrary = GetLibrary(i);
+            ItemLibrary itemLibrary = GetLibrary(i);
             string name = itemLibrary.GetName();
             itemLibrary.SaveToFile($"{GetEngine().StartupDirectory}User\\{name}{FileBoundary.WriteExtension(DocumentKind.ItemList)}");
         }
@@ -128,10 +125,8 @@ public partial class ItemLibraryManager : EngineObject
     // Army.PAS:5059
     public Item FindItem(string libraryName, int libraryId)
     {
-        Item result;
-        int index;
-        index = IndexOfLibraryName(libraryName);
-        result = index != -1 ? Libraries.GetChild<ItemLibrary>(index).FindLibraryId(libraryId) : null;
+        int index = IndexOfLibraryName(libraryName);
+        Item result = index != -1 ? Libraries.GetChild<ItemLibrary>(index).FindLibraryId(libraryId) : null;
 
         return result;
     }
@@ -139,15 +134,14 @@ public partial class ItemLibraryManager : EngineObject
     // Army.PAS:5068
     public ItemLibrary CreateLibrary(string name)
     {
-        ItemLibrary result;
-        string libraryName;
-        libraryName = name;
+        string libraryName = name;
         // { Original retains the period when stripping the extension. }
         if (Pos(".", libraryName) != 0)
         {
             libraryName = DelphiStrings.Copy(libraryName, 1, Pos(".", libraryName));
         }
 
+        ItemLibrary result;
         if (!IsEmpty(libraryName) && IndexOfLibraryName(libraryName) == -1)
         {
             result = new ItemLibrary(Libraries)

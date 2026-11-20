@@ -33,10 +33,8 @@ public partial class Bridge(CustomNode owner) : AbstractRoad(owner)
     //   is updated. }
     public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        MapField mapField;
-        HexSprite oldRoad;
-        mapField = mapContainer.GetField(hexX, hexY, hexLevel);
-        oldRoad = mapField.FindHexSprite(typeof(AbstractRoad));
+        MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
+        HexSprite oldRoad = mapField.FindHexSprite(typeof(AbstractRoad));
         oldRoad?.Dispose();
 
         _ = Owner;
@@ -54,34 +52,22 @@ public partial class Bridge(CustomNode owner) : AbstractRoad(owner)
     public override void UpdateTransitions()
     {
         Span<byte> sides = stackalloc byte[6];
-        int transitions;
-        int maxDistance;
-        int maxSide;
-        bool hasRoad;
-        bool inShore;
         int hexX = default;
         int hexY = default;
-        int shores;
-        sbyte terrainType;
-        MapLevel level;
-        int start;
-        int distance;
-        MapField mapField;
-        bool isShore;
-        transitions = 0;
-        level = Owner.Owner;
-        shores = 0;
-        inShore = false;
+        int transitions = 0;
+        MapLevel level = Owner.Owner;
+        int shores = 0;
+        bool inShore = false;
         for (int hexNumber = 1; hexNumber <= 6; hexNumber++)
         {
             HexGeometry.HexNumberToHex(hexNumber, ref hexX, ref hexY);
             HexGeometry.TranslateHex(0, 0, Owner.HexX, Owner.HexY, hexX, hexY, out hexX, out hexY);
             if (hexX >= 0 && hexY >= 0 && level.Width > hexX && level.Height > hexY)
             {
-                mapField = level.GetField(hexX, hexY);
-                terrainType = mapField.TerrainType;
-                hasRoad = mapField.FindHexSprite(typeof(AbstractRoad)) is not null;
-                isShore = terrainType != 0 && base.Resource.TerrainList.GetTerrain(0) != terrainType && mapField.FindHexSprite(typeof(BorderHex)) is null;
+                MapField mapField = level.GetField(hexX, hexY);
+                sbyte terrainType = mapField.TerrainType;
+                bool hasRoad = mapField.FindHexSprite(typeof(AbstractRoad)) is not null;
+                bool isShore = terrainType != 0 && base.Resource.TerrainList.GetTerrain(0) != terrainType && mapField.FindHexSprite(typeof(BorderHex)) is null;
                 if (hasRoad)
                 {
                     sides[hexNumber - 1] = 1;
@@ -127,7 +113,7 @@ public partial class Bridge(CustomNode owner) : AbstractRoad(owner)
         }
 
         // { the side the bridge starts from: a road, else the first side without water }
-        start = 1;
+        int start = 1;
         while (start <= 6 && sides[start - 1] != 1)
         {
             start += 1;
@@ -177,15 +163,15 @@ public partial class Bridge(CustomNode owner) : AbstractRoad(owner)
             // { of every shore keep the side farthest from the start }
             for (int shore = 3; shore <= shores + 2; shore++)
             {
-                maxDistance = 0;
-                maxSide = 0;
+                int maxSide = 0;
                 if (shore != sides[start - 1] || shores == 1)
                 {
+                    int maxDistance = 0;
                     for (int hexNumber = 1; hexNumber <= 6; hexNumber++)
                     {
                         if (shore == sides[hexNumber - 1])
                         {
-                            distance = Math.Abs(hexNumber - start);
+                            int distance = Math.Abs(hexNumber - start);
                             if (distance > 3)
                             {
                                 distance = Math.Abs(distance - 6);
@@ -237,10 +223,8 @@ public partial class Bridge(CustomNode owner) : AbstractRoad(owner)
         // Bridge.pas:210
         public void Show(int pixelX, int pixelY, in LockedSurface lockedSurface, Bridge bridge)
         {
-            int transitions;
-            int baseValue;
-            transitions = bridge._transitions;
-            baseValue = 1;
+            int transitions = bridge._transitions;
+            int baseValue = 1;
             ImageLibrary[baseValue + 18].Show(pixelX, pixelY, lockedSurface);
             if ((transitions & 3) != 0)
             {

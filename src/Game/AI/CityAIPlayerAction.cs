@@ -24,17 +24,12 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
     // City.pas:3130
     public override bool Process()
     {
-        Player player;
-        AIBudgetManager manager;
-        AIBudget upgradeBudget;
-        AIBudget researchBudget;
-        AIBudget fortifyBudget;
         UpdateStatistics();
-        player = Control.Player;
+        Player player = Control.Player;
         if (player.PlayerIndex != 0)
         {
-            manager = player.AIBudget;
-            upgradeBudget = manager.Budgets.FindChild<AIBudget>(131349);
+            AIBudgetManager manager = player.AIBudget;
+            AIBudget upgradeBudget = manager.Budgets.FindChild<AIBudget>(131349);
             upgradeBudget ??= new AICityUpgradeBudget(null)
             {
                 Holder = CreationHolder(),
@@ -43,7 +38,7 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
                 Days = 7
             };
 
-            researchBudget = manager.Budgets.FindChild<AIBudget>(131350);
+            AIBudget researchBudget = manager.Budgets.FindChild<AIBudget>(131350);
             if (researchBudget is not null)
             {
                 if (researchBudget.Gold + upgradeBudget.Gold > 125)
@@ -77,7 +72,7 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
             }
 
             ValidateUpgradeBudget(upgradeBudget);
-            fortifyBudget = manager.Budgets.FindChild<AIBudget>(131351);
+            AIBudget fortifyBudget = manager.Budgets.FindChild<AIBudget>(131351);
             if (fortifyBudget is not null)
             {
                 if (fortifyBudget.GetReady())
@@ -139,17 +134,12 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
     // City.pas:2807
     public void ValidateResearchBudget(AIBudget budget)
     {
-        Player player;
-        int count;
-        int total;
-        int priority;
-        PlayerStructure structure;
-        player = Control.Player;
-        count = 0;
-        total = 0;
+        Player player = Control.Player;
+        int count = 0;
+        int total = 0;
         for (int i = player.Structures.Count - 1; i >= 0; i--)
         {
-            structure = player.Structures.GetStructure(i);
+            PlayerStructure structure = player.Structures.GetStructure(i);
             if (structure is City city)
             {
                 total += 1;
@@ -172,7 +162,7 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
         else
         {
             budget.RequiredGold = 125;
-            priority = 7 - (count * total / 3);
+            int priority = 7 - (count * total / 3);
             if (priority < 3)
             {
                 priority = 3;
@@ -188,29 +178,20 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
     // City.pas:2842
     public bool ResearchProduction(AIBudget researchBudget, AIBudget upgradeBudget)
     {
-        DoubleItemList<City> cities;
-        bool valid;
-        Player player;
-        int unitIndex;
-        int index;
-        int value;
-        int priority;
-        PlayerStructure structure;
-        City city;
-        ProductionItem production;
         bool result = false;
-        player = Control.Player;
-        cities = new DoubleItemList<City>();
+        Player player = Control.Player;
+        DoubleItemList<City> cities = new();
+        City city;
         for (int i = player.Structures.Count - 1; i >= 0; i--)
         {
-            structure = player.Structures.GetStructure(i);
+            PlayerStructure structure = player.Structures.GetStructure(i);
             if (structure is City found && ValidResearchCity(found))
             {
                 city = found;
-                valid = false;
+                bool valid = false;
                 for (int j = city.Production.UnitProductions.Count - 1; j >= 0; j--)
                 {
-                    unitIndex = city.Production.UnitProductions.GetItem(j).UnitIndex;
+                    int unitIndex = city.Production.UnitProductions.GetItem(j).UnitIndex;
                     if (unitIndex != -1)
                     {
                         valid = valid || (GamePack.Current.UnitResources.GetUnitResource(unitIndex).Level == city.UpgradeLevel && !city.Production.UnitProductions.GetItem(j).Researched && city.ResearchCost(j) <= researchBudget.Gold + upgradeBudget.Gold);
@@ -219,7 +200,7 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
 
                 if (valid)
                 {
-                    priority = (city.GetSize() * 2) + city.ProductionPriority + (city.WallType * 3);
+                    int priority = (city.GetSize() * 2) + city.ProductionPriority + (city.WallType * 3);
                     _ = cities.AddAbility(city, priority);
                 }
             }
@@ -228,8 +209,8 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
         cities.SortDescendingItemB();
         if (cities.Count != 0)
         {
-            index = 0;
-            value = Round(cities[0].Second * 0.75);
+            int index = 0;
+            int value = Round(cities[0].Second * 0.75);
             while (index + 1 < cities.Count && value <= cities[index + 1].Second)
             {
                 index += 1;
@@ -242,7 +223,7 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
             if (index != -1)
             {
                 city.Production.ExecuteDeleteProductions();
-                production = new ProductionItem(null)
+                ProductionItem production = new(null)
                 {
                     Holder = CreationHolder(),
                     Order = new ResearchSpell(index)
@@ -273,8 +254,7 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
     public bool ValidUpgradeCity(City city)
     {
         string reason = "";
-        int level;
-        level = city.Production.GetProduceUnitLevelMax();
+        int level = city.Production.GetProduceUnitLevelMax();
         bool result2 = city.CanUpgrade(false, ref reason);
         result2 = result2 && city.GetSize() > city.UpgradeLevel && !(level == _maxProductionLevel && _productionLevelCounts[level - 1] == 1) && level == city.UpgradeLevel;
         bool result = result2;
@@ -297,10 +277,8 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
     // City.pas:2921
     public bool ValidUpgradeBudgetCity(City city)
     {
-        bool result;
-        int level;
-        level = city.Production.GetProduceUnitLevelMax();
-        result = city.GetSize() > city.UpgradeLevel && level == city.UpgradeLevel;
+        int level = city.Production.GetProduceUnitLevelMax();
+        bool result = city.GetSize() > city.UpgradeLevel && level == city.UpgradeLevel;
 
         return result;
     }
@@ -308,33 +286,28 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
     // City.pas:2928
     public bool UpgradeCity(AIBudget budget)
     {
-        bool result;
-        Player player;
-        DoubleItemList<City> cities;
-        int priority;
-        PlayerStructure structure;
+        Player player = Control.Player;
+        DoubleItemList<City> cities = new();
         City city;
-        ProductionItem production;
-        player = Control.Player;
-        cities = new DoubleItemList<City>();
         for (int i = player.Structures.Count - 1; i >= 0; i--)
         {
             // { Preserve the original runtime class check. }
-            structure = player.Structures.GetStructure(i);
+            PlayerStructure structure = player.Structures.GetStructure(i);
             if (structure is City found && ValidUpgradeCity(found))
             {
                 city = found;
-                priority = (city.GetSize() * 2) + city.ProductionPriority + (city.WallType * 3);
+                int priority = (city.GetSize() * 2) + city.ProductionPriority + (city.WallType * 3);
                 _ = cities.AddAbility(city, priority);
             }
         }
 
         cities.SortDescendingItemB();
+        bool result;
         if (cities.Count != 0)
         {
             city = cities[0].First;
             city.Production.ExecuteDeleteProductions();
-            production = new ProductionItem(null)
+            ProductionItem production = new(null)
             {
                 Holder = CreationHolder(),
                 Order = new Upgrade()
@@ -357,15 +330,11 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
     // City.pas:2964
     public void ValidateUpgradeBudget(AIBudget budget)
     {
-        Player player;
-        int count;
-        int priority;
-        PlayerStructure structure;
-        player = Control.Player;
-        count = 0;
+        Player player = Control.Player;
+        int count = 0;
         for (int i = player.Structures.Count - 1; i >= 0; i--)
         {
-            structure = player.Structures.GetStructure(i);
+            PlayerStructure structure = player.Structures.GetStructure(i);
             if (structure is City city)
             {
                 if (ValidUpgradeBudgetCity(city))
@@ -387,7 +356,7 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
         else
         {
             budget.RequiredGold = 250;
-            priority = 8 - (count / 2);
+            int priority = 8 - (count / 2);
             if (priority < 5)
             {
                 priority = 5;
@@ -429,23 +398,17 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
     // City.pas:3015
     public bool FortifyCity(AIBudget budget)
     {
-        bool result;
-        Player player;
-        DoubleItemList<City> cities;
-        int priority;
-        PlayerStructure structure;
+        Player player = Control.Player;
+        DoubleItemList<City> cities = new();
         City city;
-        ProductionItem production;
-        player = Control.Player;
-        cities = new DoubleItemList<City>();
         for (int i = player.Structures.Count - 1; i >= 0; i--)
         {
             // { Preserve the original runtime class check. }
-            structure = player.Structures.GetStructure(i);
+            PlayerStructure structure = player.Structures.GetStructure(i);
             if (structure is City found && ValidFortifyCity(found))
             {
                 city = found;
-                priority = (city.GetSize() * 2) + city.ProductionPriority;
+                int priority = (city.GetSize() * 2) + city.ProductionPriority;
                 if (city.WallType == 0)
                 {
                     priority += 3;
@@ -456,13 +419,14 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
         }
 
         cities.SortDescendingItemB();
+        bool result;
         if (cities.Count != 0)
         {
             city = cities[0].First;
             city.Production.ExecuteDeleteProductions();
             int fortifyCost = city.FortifyCost();
             _ = player.AIBudget.BudgetExpenseMade(fortifyCost, 0, budget, AIBudgetManager.ExpenseMode.Budget);
-            production = new ProductionItem(null)
+            ProductionItem production = new(null)
             {
                 Holder = CreationHolder(),
                 Order = new Fortify()
@@ -484,15 +448,11 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
     // City.pas:3052
     public void ValidateFortifyBudget(AIBudget budget)
     {
-        Player player;
-        int count;
-        int priority;
-        PlayerStructure structure;
-        player = Control.Player;
-        count = 0;
+        Player player = Control.Player;
+        int count = 0;
         for (int i = player.Structures.Count - 1; i >= 0; i--)
         {
-            structure = player.Structures.GetStructure(i);
+            PlayerStructure structure = player.Structures.GetStructure(i);
             if (structure is City city)
             {
                 if (ValidFortifyBudgetCity(city))
@@ -514,7 +474,7 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
         else
         {
             budget.RequiredGold = 80;
-            priority = 8 - (count / 2);
+            int priority = 8 - (count / 2);
             if (priority < 4)
             {
                 priority = 4;
@@ -530,12 +490,10 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
     // City.pas:3087
     public int UpgradeableCities()
     {
-        int count;
-        PlayerStructure structure;
-        count = 0;
+        int count = 0;
         for (int i = Control.Player.Structures.Count - 1; i >= 0; i--)
         {
-            structure = Control.Player.Structures.GetStructure(i);
+            PlayerStructure structure = Control.Player.Structures.GetStructure(i);
             if (structure is City city)
             {
                 if (city.GetSize() > city.UpgradeLevel)
@@ -551,25 +509,21 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
     // City.pas:3102
     public void UpdateStatistics()
     {
-        int level;
-        int available;
-        int busy;
-        City city;
         _cityCount = 0;
         _maxProductionLevel = 0;
-        available = 0;
-        busy = 0;
+        int available = 0;
+        int busy = 0;
         Array.Clear(_productionLevelCounts);
         for (int i = Control.Player.Structures.Count - 1; i >= 0; i--)
         {
             if (Control.Player.Structures.GetStructure(i) is City found)
             {
                 _cityCount += 1;
-                city = found;
+                City city = found;
                 if (Set<CityAction>.Of(CityAction.None, CityAction.Trade, CityAction.Produce).Contains(city.GetActiveAction()))
                 {
                     available += (city.GetSize() + 1) / 2;
-                    level = city.Production.GetProduceUnitLevelMax();
+                    int level = city.Production.GetProduceUnitLevelMax();
                     if (level > 0)
                     {
                         _productionLevelCounts[level - 1] += 1;

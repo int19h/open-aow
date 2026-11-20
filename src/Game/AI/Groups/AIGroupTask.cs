@@ -76,14 +76,12 @@ public partial class AIGroupTask(CustomNode owner) : EngineObject(owner)
     // AIGroup.pas:1408
     public bool MainProcess()
     {
-        bool busy;
-        int i;
         try
         {
             _processCycles += 1;
             Validate();
-            busy = false;
-            i = 0;
+            bool busy = false;
+            int i = 0;
             while (!busy && State != -1 && (i == 0 || StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0))
             {
                 i += 1;

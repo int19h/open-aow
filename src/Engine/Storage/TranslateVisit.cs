@@ -29,13 +29,13 @@ public partial class TranslateVisit(GameEngine engine) : IDisposable
     // A failure reports "Error reading object" and rethrows unless the handler continues.
     public virtual void Object(EngineObject objectValue, int id)
     {
-        bool canContinue = false;
         try
         {
             objectValue.MainPersist(new TranslatePersister(this, node: objectValue));
         }
         catch
         {
+            bool canContinue = false;
             if (_onError is not null)
             {
                 int classId = objectValue.EngineClass.ClassId;

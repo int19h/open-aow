@@ -228,18 +228,15 @@ public partial class General(UIContext ui) : UIModule(ui)
     // AoWWinMan.pas:123
     public void SortLists(DelphiList<ListBox> lists, byte order)
     {
-        ListBox l;
-        int j;
-        int insertAt;
-        int valueI;
-        int valueJ;
-        l = lists[0];
+        ListBox l = lists[0];
         for (int i = 1, last = l.Items.Count - 1; i <= last; i++)
         {
-            j = i - 1;
-            insertAt = -1;
+            int j = i - 1;
+            int insertAt = -1;
             while (j > -1)
             {
+                int valueI;
+                int valueJ;
                 switch (order)
                 {
                     case 0:
@@ -369,7 +366,6 @@ public partial class General(UIContext ui) : UIModule(ui)
     // AoWWinMan.pas:100
     public void BuildAbilities()
     {
-        CombatAbilityRef a;
         ActiveAbilityCount = 0;
         for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {
@@ -381,7 +377,7 @@ public partial class General(UIContext ui) : UIModule(ui)
         {
             if (SelectedUnit.GetAbilityEnabled(i))
             {
-                a = new CombatAbilityRef
+                CombatAbilityRef a = new()
                 {
                     Ability = i
                 };
@@ -646,13 +642,12 @@ public partial class General(UIContext ui) : UIModule(ui)
     // AoWWinMan.pas:351
     public void ManagerKeyDown(in ushort key, Set<ShiftState> shift)
     {
-        Player player;
-        string s;
         if (UI.Engine.Debug)
         {
+            string s;
             if (StrategicMap.Current is not null && (StrategicMap.Current.PlayMode != PlayMode.Simultaneous || StrategicMap.Current.Players.LocalPlayers.Count == 1) && Set<byte>.WithBounds(0, 255).WithRange(49, 57).Contains((byte)key) && CombatMap.Current is null && StrategicMap.Current.Players.GetCount() > key - 48 && UI.Engine.Registry.GetDebugMode())
             {
-                player = StrategicMap.Current.Players.GetPlayers(key - 48);
+                Player player = StrategicMap.Current.Players.GetPlayers(key - 48);
                 player.PlayerType = player.PlayerType == PlayerType.Cpu5 ? PlayerType.Human : (PlayerType)((int)player.PlayerType + 1);
 
                 string playerType = UI.Engine.TranslateResourceString(GameTables.PlayerTypeTexts[(int)player.PlayerType]);

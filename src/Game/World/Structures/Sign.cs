@@ -79,8 +79,7 @@ public partial class Sign(CustomNode owner) : Structure(owner)
     // Sign.pas:125
     public bool CanChangeText()
     {
-        ArmyHexSprite armyHexSprite;
-        armyHexSprite = Owner.GetArmyHexSprite();
+        ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
         return armyHexSprite is not null && (byte)armyHexSprite.Army.Player == (byte)StrategicMap.Current.SeatedPlayer;
     }
 
@@ -88,10 +87,9 @@ public partial class Sign(CustomNode owner) : Structure(owner)
     public bool ChangeText(int player, DelphiStringCollection text)
     {
         bool result;
-        UpdateSignTokenEvent eventValue;
         if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy() && CanChangeText())
         {
-            eventValue = new UpdateSignTokenEvent(null)
+            UpdateSignTokenEvent eventValue = new(null)
             {
                 Holder = CreationHolder(),
                 Location = new MapCoordinate(GetHexX(), GetHexY(), GetHexLevel())
@@ -128,22 +126,17 @@ public partial class Sign(CustomNode owner) : Structure(owner)
         // Sign.pas:168
         public override void Show(int X, int Y, in LockedSurface lockedSurface, Structure structure)
         {
-            ImageSequence sequence;
-            int index;
-            int offset;
-            int image;
-            bool animate;
             if (ImageSequenceList is not null)
             {
-                index = structure.ImageIndex;
-                offset = structure.Owner.HexX + (structure.Owner.HexY * 16);
+                int index = structure.ImageIndex;
+                int offset = structure.Owner.HexX + (structure.Owner.HexY * 16);
                 // Show takes every structure. This resource draws a sign, and another kind fails here.
-                animate = StrategicMap.Current.SeatedPlayer < 0 || !((Sign)structure).GetTextSeen(StrategicMap.Current.SeatedPlayer);
-                sequence = index < ImageSequenceList.Count ? ImageSequenceList.List[index] : null;
+                bool animate = StrategicMap.Current.SeatedPlayer < 0 || !((Sign)structure).GetTextSeen(StrategicMap.Current.SeatedPlayer);
+                ImageSequence sequence = index < ImageSequenceList.Count ? ImageSequenceList.List[index] : null;
 
                 while (sequence is not null)
                 {
-                    image = animate ? sequence.GetFrameIndex(StrategicMap.Current.Frame, offset) : sequence.GetUnloopedFrameIndex(0);
+                    int image = animate ? sequence.GetFrameIndex(StrategicMap.Current.Frame, offset) : sequence.GetUnloopedFrameIndex(0);
 
                     if (image != -1)
                     {

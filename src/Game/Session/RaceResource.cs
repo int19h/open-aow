@@ -118,12 +118,11 @@ public partial class RaceResource(CustomNode owner) : EngineResource(owner)
     // PlayerC.PAS:1818
     public override LibraryImage GetCellImage()
     {
-        int i;
         _ = AddRef();
         LibraryImage result = null;
         if (ImageLibrary is not null)
         {
-            i = 0;
+            int i = 0;
             while (i < ImageLibrary.Count && result is null)
             {
                 result = ImageLibrary[i];
@@ -143,11 +142,9 @@ public partial class RaceResource(CustomNode owner) : EngineResource(owner)
     // PlayerC.PAS:1752
     public LibraryImage GetFace()
     {
-        LibraryImage result;
-        CustomImageLibrary images;
         _ = AddRef();
-        images = _faceLibrary;
-        result = images?.GetSafe(GetRaceIndex());
+        CustomImageLibrary images = _faceLibrary;
+        LibraryImage result = images?.GetSafe(GetRaceIndex());
 
         _ = Release();
         return result;
@@ -204,10 +201,9 @@ public partial class RaceResource(CustomNode owner) : EngineResource(owner)
     // PlayerC.PAS:1839
     public LibraryImage GetCityImage(int size, int terrain, int level)
     {
-        LibraryImage result;
         int index = terrain == 5 ? size + 60 - 1 : (terrain * 10) + 70 + (size - 1);
 
-        result = ImageLibrary.ImageExist(index) ? ImageLibrary[index] : null;
+        LibraryImage result = ImageLibrary.ImageExist(index) ? ImageLibrary[index] : null;
 
         if (result is null)
         {
@@ -225,13 +221,12 @@ public partial class RaceResource(CustomNode owner) : EngineResource(owner)
     // PlayerC.PAS:1875
     public Alignment GetAlignment()
     {
-        Alignment result;
         if (Alignments == AlignmentTables.PureGoodAlignments)
         {
             return Alignment.PureGood;
         }
 
-        result = Alignments == AlignmentTables.GoodAlignments
+        Alignment result = Alignments == AlignmentTables.GoodAlignments
             ? Alignment.Good
             : Alignments == AlignmentTables.NeutralAlignments
                 ? Alignment.Neutral

@@ -95,12 +95,10 @@ public partial class AIProductionLocationFinder : AIGroupTask
     // AIGroup.pas:2320
     public void ProductionLocationFoundEvent(MoveTarget target, ref bool searchDone)
     {
-        AIGroupProductionLocation location;
-        ProductionControl control;
-        control = StrategicMap.Current.MapContainer.GetField(target.Location.X, target.Location.Y, target.Location.MapLevel).GetProductionControl();
+        ProductionControl control = StrategicMap.Current.MapContainer.GetField(target.Location.X, target.Location.Y, target.Location.MapLevel).GetProductionControl();
         if (_control.ProductionLocations.IndexOfPC(control) == -1)
         {
-            location = new AIGroupProductionLocation(null)
+            AIGroupProductionLocation location = new(null)
             {
                 Holder = CreationHolder(),
                 ProductionControl = control,

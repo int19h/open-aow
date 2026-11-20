@@ -139,12 +139,8 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
     // AOWPyreScrn.pas:77
     public void PyreAnimationDraw(LockedSurface lockedSurface)
     {
-        int x;
-        int y;
-        int frame;
-        string text;
-        x = PyreAnimationView.WinWidth / 2;
-        y = PyreAnimationView.WinHeight + 20 - (_animationFrame / 2);
+        int x = PyreAnimationView.WinWidth / 2;
+        int y = PyreAnimationView.WinHeight + 20 - (_animationFrame / 2);
         if (y < 400)
         {
             y = 400;
@@ -152,10 +148,11 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
 
         y += DeadPanel.AbsoluteTop;
         x += DeadPanel.AbsoluteLeft;
+        string text;
         switch (StrategicMap.Current.Players.GetPlayers(GameOverEvent.Player).GameOverStatus)
         {
             case GameOverStatus.Lost:
-                frame = _animationFrame / 3 % 9;
+                int frame = _animationFrame / 3 % 9;
                 if (UI.Engine.Demo)
                 {
                     frame = 0;

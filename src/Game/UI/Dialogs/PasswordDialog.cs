@@ -20,11 +20,9 @@ public partial class PasswordDialog(UIContext ui) : UIModule(ui)
     // AoWPasswordDlg.pas:43
     public void Finish()
     {
-        ExecuteDoneEvent done;
-        PasswordEventLog eventValue;
         Window.Visible = false;
-        done = Done;
-        eventValue = _passwordEvent;
+        ExecuteDoneEvent done = Done;
+        PasswordEventLog eventValue = _passwordEvent;
         Done = null;
         _passwordEvent = null;
         done?.Invoke(eventValue);
@@ -67,12 +65,11 @@ public partial class PasswordDialog(UIContext ui) : UIModule(ui)
 
     internal static void ShowPasswordEvent(PasswordDialog dialog, PasswordEventLog eventValue, ExecuteDoneEvent done)
     {
-        PasswordEventLog log;
         dialog.Reset();
         dialog.Done = done;
         dialog._passwordEvent = eventValue;
         _ = dialog._passwordEvent.AddRef();
-        log = dialog._passwordEvent;
+        PasswordEventLog log = dialog._passwordEvent;
         dialog.TitleLabel.Text = log.Title;
         dialog.PasswordLabel.Text = log.Prompt;
         dialog.PasswordEdit.Text = log.Password;

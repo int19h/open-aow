@@ -48,10 +48,9 @@ public partial class CosmeticSurgery : UnitSpell
     public override bool CastSpell(Troop source, UnitUserList targets)
     {
         bool result;
-        CosmeticSurgerySpellCaster caster;
         if (targets.GetCount() == 1)
         {
-            caster = new CosmeticSurgerySpellCaster(null)
+            CosmeticSurgerySpellCaster caster = new(null)
             {
                 Holder = CreationHolder(),
                 CasterSourceId = source.UnitId,
@@ -76,17 +75,15 @@ public partial class CosmeticSurgery : UnitSpell
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
         bool result;
-        CosmeticSurgeryEnchantment enchantment;
-        bool expanded;
         if (ValidTargetUnit(source, target))
         {
-            expanded = target.GetAbilityEnabled(126) || target.ExpandAbility(126);
+            bool expanded = target.GetAbilityEnabled(126) || target.ExpandAbility(126);
 
             if (expanded)
             {
                 // Ability 126 stores the enchantment its ability builds. Another enchantment fails.
                 // Null stays null and the upkeep write fails on it.
-                enchantment = (CosmeticSurgeryEnchantment)target.GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment;
+                CosmeticSurgeryEnchantment enchantment = (CosmeticSurgeryEnchantment)target.GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.FaceIndex = data[0];
                 enchantment.SetSource(source.Player);

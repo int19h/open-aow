@@ -50,17 +50,16 @@ public partial class SpellControl(CustomNode owner) : EngineObject(owner)
     // Spells.PAS:601
     public Spell GetSpell(int index)
     {
-        Spell result;
-        Spell p;
         if (index < 0)
         {
             // { Preserve the original assertion diagnostic. }
             Assert(false, "Invalid SpellID", "D:\\AoWDev\\AoWE\\inc\\Spells.PAS", 54989);
         }
 
+        Spell result;
         if (index < RegisteredSpells.Count)
         {
-            p = RegisteredSpells[index];
+            Spell p = RegisteredSpells[index];
             result = p;
         }
         else
@@ -79,8 +78,7 @@ public partial class SpellControl(CustomNode owner) : EngineObject(owner)
     // Spells.PAS:610
     public void RegisterSpell(Spell spell)
     {
-        int id;
-        id = spell.SpellId;
+        int id = spell.SpellId;
         if (id != 0)
         {
             if (id < RegisteredSpells.Count && RegisteredSpells[id] is not null)
@@ -105,8 +103,7 @@ public partial class SpellControl(CustomNode owner) : EngineObject(owner)
     // Spells.PAS:627
     public void UnregisterSpell(Spell spell)
     {
-        int id;
-        id = spell.SpellId;
+        int id = spell.SpellId;
         if (id != 0)
         {
             if (id < 0 || id >= RegisteredSpells.Count || RegisteredSpells[id] != spell)
@@ -164,20 +161,17 @@ public partial class SpellControl(CustomNode owner) : EngineObject(owner)
     // Spells.PAS:674
     public int GetRandomSpell(int minLevel, int maxLevel, Set<MagicSphere> spheres)
     {
-        int result;
-        Int32List candidates;
-        Spell spell;
-        candidates = new Int32List();
+        Int32List candidates = new();
         for (int i = RegisteredSpells.Count - 1; i >= 0; i--)
         {
-            spell = RegisteredSpells[i];
+            Spell spell = RegisteredSpells[i];
             if (spell is not null && spheres.Contains(spell.MagicSphere) && spell.SpellLevel >= minLevel && spell.SpellLevel <= maxLevel)
             {
                 _ = candidates.Add(i);
             }
         }
 
-        result = candidates.Count != 0 ? candidates[StrategicMap.Current.Random(candidates.Count)] : 0;
+        int result = candidates.Count != 0 ? candidates[StrategicMap.Current.Random(candidates.Count)] : 0;
 
         candidates?.Dispose();
         return result;

@@ -50,10 +50,9 @@ public partial class CombatFire(CustomNode owner) : SingleHexSprite(owner)
     // CombatFire.pas:146
     public override void CanMoveOn(in HexSpriteMoveOnInfo info, ref HexSpriteMoveOnResult moveResult)
     {
-        int penalty;
         if (info.HexNumber == 0)
         {
-            penalty = ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(7)
+            int penalty = ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(7)
                 ? 0
                 : ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(71) ? 10 : 20;
 
@@ -87,8 +86,6 @@ public partial class CombatFire(CustomNode owner) : SingleHexSprite(owner)
     // CombatFire.pas:98
     public void NewTurn()
     {
-        int hexX = default;
-        int hexY = default;
         MapFieldMessage message = default;
         if (_firstTurn)
         {
@@ -106,6 +103,8 @@ public partial class CombatFire(CustomNode owner) : SingleHexSprite(owner)
                 sbyte yhx = GetHexY();
                 sbyte xhx = GetHexX();
                 CombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).SendMapFieldMessage(ref message);
+                int hexX = default;
+                int hexY = default;
                 for (int i = 1; i <= 6; i++)
                 {
                     sbyte hexY2 = GetHexY();
@@ -124,17 +123,15 @@ public partial class CombatFire(CustomNode owner) : SingleHexSprite(owner)
     // CombatFire.pas:26
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        ImageSequence sequence;
-        int imageIndex;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
-        sequence = GamePack.Current.ImageSequences.GetImageSequence(60);
+        ImageSequence sequence = GamePack.Current.ImageSequences.GetImageSequence(60);
         if (sequence is not null)
         {
             do
             {
-                imageIndex = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                int imageIndex = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                 if (imageIndex != -1)
                 {
                     sequence.ImageLibrary.Get(imageIndex).Show(pixelXSurface + sequence.OffsetX + _xShift, pixelYSurface + sequence.OffsetY + _yShift, lockedSurface);

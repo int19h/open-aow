@@ -33,11 +33,11 @@ public partial class PlayerCommunicator(CustomNode owner) : EngineObject(owner)
     // NetworkE.pas:629
     public virtual bool ActivatePlayerCommunicationControl(PlayerCommunicationControl playerCommunicationControl)
     {
-        bool result;
         PlayerCommunicationControl?.Release();
         PlayerCommunicationControl = null;
 
         PlayerCommunicationControl = playerCommunicationControl;
+        bool result;
         if (PlayerCommunicationControl is not null)
         {
             PlayerCommunicationControl.AddRef();
@@ -82,15 +82,14 @@ public partial class PlayerCommunicator(CustomNode owner) : EngineObject(owner)
     // NetworkE.pas:658
     public bool ReceiveDataPackage()
     {
-        bool result = default;
-        EngineObject objectValue = default;
         ReceiveStream.Clear();
         ReceiveStream.Position = 0;
+        bool result;
         if (PlayerCommunicationControl.ReceivePackageData(ReceiveStream))
         {
             try
             {
-                objectValue = Engine.RetrieveEngineObject(ReceiveStream, null);
+                EngineObject objectValue = Engine.RetrieveEngineObject(ReceiveStream, null);
                 if (objectValue is DataPackage received)
                 {
                     ReceivedPackage = received;

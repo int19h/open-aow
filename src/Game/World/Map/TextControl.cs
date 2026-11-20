@@ -39,8 +39,7 @@ public partial class TextControl(CustomNode owner) : OwningNode(owner), IChildLi
     // Structur.PAS:4436
     public TextControlItem FindId(int id)
     {
-        int i;
-        i = Count;
+        int i = Count;
         TextControlItem result = null;
         while (result is null && i != 0)
         {
@@ -63,9 +62,8 @@ public partial class TextControl(CustomNode owner) : OwningNode(owner), IChildLi
     // Structur.PAS:4468
     public void RetrieveText(int id, DelphiStringCollection text)
     {
-        TextControlItem item;
         text.Clear();
-        item = FindId(id);
+        TextControlItem item = FindId(id);
         if (item is not null)
         {
             text.Text = item.Text.Text;

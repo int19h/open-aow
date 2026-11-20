@@ -23,8 +23,7 @@ public partial class UnitEnchantmentAbilityData(CustomNode owner) : AbilityData(
     // AoWAb.PAS:567
     public override void Dispose()
     {
-        UnitEnchantment enchantment;
-        enchantment = Enchantment;
+        UnitEnchantment enchantment = Enchantment;
         enchantment?.Dispose();
 
         base.Dispose();
@@ -46,8 +45,7 @@ public partial class UnitEnchantmentAbilityData(CustomNode owner) : AbilityData(
     // AoWAb.PAS:582
     public void SetEnchantment(UnitEnchantment enchantment)
     {
-        UnitEnchantment oldEnchantment;
-        oldEnchantment = Enchantment;
+        UnitEnchantment oldEnchantment = Enchantment;
         oldEnchantment?.Dispose();
 
         Enchantment = enchantment;

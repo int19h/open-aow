@@ -99,10 +99,9 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Structur.PAS:3517
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int frame;
         if (_explosionFrame != 0)
         {
-            frame = StrategicMap.Current.Frame - _explosionFrame;
+            int frame = StrategicMap.Current.Frame - _explosionFrame;
             if (frame >= 0 && frame < base.Resource.ImageSequenceList.GetImageSequence(20).GetTotalSequenceFrames())
             {
                 HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
@@ -138,8 +137,7 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Structur.PAS:3484
     public override void RemoveFromMap()
     {
-        MapField mapField;
-        mapField = Owner;
+        MapField mapField = Owner;
         if (mapField is not null)
         {
             base.RemoveFromMap();
@@ -237,11 +235,9 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Structur.PAS:3441
     public override sbyte GetMostFrequentMapFieldTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY, sbyte defaultValue)
     {
-        TerrainList terrains;
         Span<byte> counts = stackalloc byte[128];
-        sbyte terrainType;
         sbyte result = defaultValue;
-        terrains = base.Resource.TerrainList;
+        TerrainList terrains = base.Resource.TerrainList;
         if (result < 0)
         {
             result = 0;
@@ -253,7 +249,7 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         {
             if (base.Resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                terrainType = mapLevel.GetField(walk.X, walk.Y).TerrainType;
+                sbyte terrainType = mapLevel.GetField(walk.X, walk.Y).TerrainType;
                 if (terrainType >= 0)
                 {
                     counts[terrainType] = (byte)(counts[terrainType] + 1);
@@ -281,9 +277,8 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Structur.PAS:3422
     public void CalculateShowPriority(MapField mapField)
     {
-        HexSprite hexSprite;
         HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out int x, out int y);
-        hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
+        HexSprite hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
         _showPriority = 1744830464 + ((y + 36) << 13) + x + 16;
         if (hexSprite != this && hexSprite is not null)
         {
@@ -318,14 +313,12 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Structur.PAS:3549
     public bool CanDoDamage(UnitUserList units)
     {
-        int i;
-        Troop troop;
         bool result = false;
-        i = units.GetCount();
+        int i = units.GetCount();
         while (!result && i != 0)
         {
             i -= 1;
-            troop = units.GetUnit(i);
+            Troop troop = units.GetUnit(i);
             result = !troop.GetImmunityTypes().Contains(DamageType.Fire);
         }
 
@@ -353,12 +346,9 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Structur.PAS:3627
     public void NewTurnDone()
     {
-        MapLevel mapLevel;
-        int chance;
-        Fire fire;
         if (Age > 0)
         {
-            mapLevel = Owner.Owner;
+            MapLevel mapLevel = Owner.Owner;
             sbyte hexY = GetHexY();
             sbyte hexX = GetHexX();
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 1);
@@ -367,12 +357,12 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
                 // { Original excludes the top row when spreading fire. }
                 if (walk.X >= 0 && walk.X < mapLevel.Width && walk.Y > 0 && walk.Y < mapLevel.Height)
                 {
-                    chance = MapField.IgnitionChance(mapLevel.GetField(walk.X, walk.Y));
+                    int chance = MapField.IgnitionChance(mapLevel.GetField(walk.X, walk.Y));
                     if (chance > StrategicMap.Current.Random(1000))
                     {
                         RandSeed = StrategicMap.Current.Random(16777215);
                         sbyte hexLevel = GetHexLevel();
-                        fire = GamePack.Current.FireControl.PlaceFire(walk.X, walk.Y, hexLevel, FireType.Large);
+                        Fire fire = GamePack.Current.FireControl.PlaceFire(walk.X, walk.Y, hexLevel, FireType.Large);
                         if (fire is not null)
                         {
                             fire.Player = Player;

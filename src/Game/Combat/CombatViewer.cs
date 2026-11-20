@@ -148,10 +148,9 @@ public partial class CombatViewer : IDisposable
     // Combat2.pas:635
     public void Update()
     {
-        bool playing;
         if ((Status & Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Initialized, CombatViewerStatusElement.Playing, CombatViewerStatusElement.Paused)) == Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Initialized, CombatViewerStatusElement.Playing) && GetEndPosition() != Position)
         {
-            playing = false;
+            bool playing = false;
             if (Position == 0)
             {
                 Time += 1;

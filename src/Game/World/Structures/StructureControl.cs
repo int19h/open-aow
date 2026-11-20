@@ -90,10 +90,8 @@ public partial class StructureControl : EngineObject
     // Structur.PAS:3272
     public Structure FindId(int id)
     {
-        Structure result;
-        int index;
-        index = IndexOfId(id);
-        result = index != -1 ? _structures.GetChild<Structure>(index) : null;
+        int index = IndexOfId(id);
+        Structure result = index != -1 ? _structures.GetChild<Structure>(index) : null;
 
         return result;
     }

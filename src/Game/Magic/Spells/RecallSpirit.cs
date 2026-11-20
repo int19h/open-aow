@@ -33,8 +33,7 @@ public partial class RecallSpirit : CombatSpell
     // CombatSpells.pas:2008
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        RecallSpiritCombatAction action;
-        action = new RecallSpiritCombatAction(null)
+        RecallSpiritCombatAction action = new(null)
         {
             Holder = CreationHolder(),
             SourceId = source.Id,

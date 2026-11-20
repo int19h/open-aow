@@ -31,17 +31,15 @@ public partial class UnitSpellCaster : SpellCaster
     // Spells.PAS:947
     public override bool CanCast(ref string reason)
     {
+        Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(CasterSourceId);
         bool result;
-        Hero hero;
-        int mana;
-        hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(CasterSourceId);
         if (hero is not null && !hero.UnitStatus.Contains(UnitStatusElement.Killed))
         {
             if (SelectionMask != 0)
             {
                 if (!StrategicMap.Current.Players.GetPlayers(hero.Player).MagicControl.GetCheatEnabled())
                 {
-                    mana = GetRequiredMana();
+                    int mana = GetRequiredMana();
                     if (hero.CastingReady() && hero.CastingSpellId == CasterSpellId)
                     {
                         mana -= GamePack.Current.SpellControl.GetSpell(CasterSpellId).BaseManaCost;
@@ -88,15 +86,13 @@ public partial class UnitSpellCaster : SpellCaster
     public override bool Cast()
     {
         bool result;
-        UnitUserList targets;
         string reason = "";
-        Troop source;
         if (CanCast(ref reason))
         {
-            source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
+            Troop source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
             if (source is not null)
             {
-                targets = new UnitUserList(null) { Holder = CreationHolder() };
+                UnitUserList targets = new(null) { Holder = CreationHolder() };
                 for (int i = 0, last = TargetUnits.Count - 1; i <= last; i++)
                 {
                     if (((1 << i) & SelectionMask) != 0)
@@ -124,9 +120,8 @@ public partial class UnitSpellCaster : SpellCaster
     // Spells.PAS:896
     public int GetSelectionCount()
     {
-        int bits;
         int result = 0;
-        bits = SelectionMask;
+        int bits = SelectionMask;
         while (bits != 0)
         {
             if ((bits & 1) != 0)
@@ -143,10 +138,8 @@ public partial class UnitSpellCaster : SpellCaster
     // Spells.PAS:1085
     public bool Valid()
     {
-        bool result;
-        Troop source;
-        source = StrategicMap.Current.UnitControl.FindUnit<Troop>(CasterSourceId);
-        result = source is not null && (((byte)source.UnitStatus.Image) & 16) == 0;
+        Troop source = StrategicMap.Current.UnitControl.FindUnit<Troop>(CasterSourceId);
+        bool result = source is not null && (((byte)source.UnitStatus.Image) & 16) == 0;
 
         return result;
     }

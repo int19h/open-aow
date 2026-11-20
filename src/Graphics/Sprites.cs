@@ -229,7 +229,7 @@ public static partial class Blit
         uint pair1 = rgb565 ? 0x7BEF7BEFu : 0x3DEF3DEFu, pair2 = rgb565 ? 0xE79CE79Cu : 0x739C739Cu;
         for (int ry = first; ry < last; ry++)
         {
-            int p = (ry * sourcePitch) + (skip * 4), d = ((y + ry) * pitch) + (x * 2), offset = left * 2, next = 64, remaining = words;
+            int p = (ry * sourcePitch) + (skip * 4), d = ((y + ry) * pitch) + (x * 2), offset = left * 2, remaining = words;
             uint bits = Dword(data, p);
             if (left != 0) { bits <<= left; p += 4; }
             else if (!shadow)
@@ -240,6 +240,7 @@ public static partial class Blit
             bool partial = clipped && left != 0 && remaining == 0;
             if (!partial)
             {
+                int next = 64;
                 do
                 {
                     while (true)

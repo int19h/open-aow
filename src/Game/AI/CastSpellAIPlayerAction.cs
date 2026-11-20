@@ -46,16 +46,14 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
     // Spells.PAS:1561
     public override bool Activate()
     {
-        Player player;
-        Hero hero;
         bool result = base.Activate();
-        player = Control.Player;
+        Player player = Control.Player;
         if (player.PlayerIndex != 0)
         {
             _state = 0;
             for (int i = 0, last = player.Heroes.GetCount() - 1; i <= last; i++)
             {
-                hero = player.Heroes.GetHero(i);
+                Hero hero = player.Heroes.GetHero(i);
                 if (hero.GetAbilityEnabled(52) && hero.Owner is not null)
                 {
                     _ = hero.CastingSpellId == 0 ? _idleHeroes.Add(hero.UnitId) : _castingHeroes.Add(hero.UnitId);
@@ -69,9 +67,8 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
     // Spells.PAS:1678
     public override bool Process()
     {
+        Player player = Control.Player;
         bool result;
-        Player player;
-        player = Control.Player;
         if (player.PlayerIndex != 0)
         {
             while (_state != -1 && StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0 && !player.GetBusy())
@@ -92,8 +89,7 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
     // Spells.PAS:1581
     public void PrefetchCastSpellActions(Hero hero)
     {
-        SpellList spells;
-        spells = new SpellList();
+        SpellList spells = new();
         Control.Player.MagicControl.ListSpells(spells, Set<SpellType>.Of(SpellType.Unit, SpellType.Global));
         for (int i = 0, last = spells.GetCount() - 1; i <= last; i++)
         {
@@ -109,8 +105,7 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
     // Spells.PAS:1593
     public int CastingHeroesMax()
     {
-        Player player;
-        player = Control.Player;
+        Player player = Control.Player;
         return (player.MagicControl.Mana / 250) + 1;
     }
 
@@ -119,8 +114,6 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
     {
         Hero hero;
         bool done;
-        int i;
-        int index;
         switch (_state)
         {
             case 0:
@@ -203,7 +196,7 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                     done = false;
                     while (!done && _castSpellActions.GetCount() != 0)
                     {
-                        i = 0;
+                        int i = 0;
                         while (true)
                         {
                             bool condition = i < _castSpellActions.GetCount();
@@ -222,7 +215,7 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                             i += 1;
                         }
 
-                        index = StrategicMap.Current.Random(i);
+                        int index = StrategicMap.Current.Random(i);
                         AICastSpellAction castSpellActions2 = _castSpellActions.GetCastSpellActions(index);
                         hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(castSpellActions2.SourceUnitId);
                         if (hero is not null && (((byte)hero.UnitStatus.Image) & 16) == 0)

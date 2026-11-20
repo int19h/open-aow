@@ -48,12 +48,11 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     // WizardsTower.pas:196
     public override ExecuteResult ExecuteTokenEvent(StructureTokenEvent tokenEvent, TokenExecutor executor)
     {
-        Player player;
         string reason = "";
         ExecuteResult result = base.ExecuteTokenEvent(tokenEvent, executor);
         if (tokenEvent.Action == 1 && CanBuy((sbyte)tokenEvent.Param, ref reason))
         {
-            player = StrategicMap.Current.Players.GetPlayers(tokenEvent.Param);
+            Player player = StrategicMap.Current.Players.GetPlayers(tokenEvent.Param);
             int buyCost = BuyCost();
             player.SetGems(player.Gems - buyCost);
             _ = player.MagicControl.Spells.Add(SpellId);
@@ -81,23 +80,16 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     // WizardsTower.pas:126
     public override void ArmyPlaced(ArmyHexSprite placedArmy)
     {
-        Army army;
-        AIGroup group;
-        int i;
-        string reason = "";
-        int cost;
-        bool found;
-        MapCoordinate location;
         base.ArmyPlaced(placedArmy);
         Player player = StrategicMap.Current.Players.GetPlayers(placedArmy.Army.Player);
         if (Set<PlayerType>.Of(PlayerType.Cpu1, PlayerType.Cpu2, PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(player.PlayerType) && ValidAITarget(placedArmy.Army.Player))
         {
-            army = placedArmy.Army;
-            group = null;
-            i = 0;
-            cost = BuyCost();
-            found = false;
-            location = HexGeometry.PackMapCoordinate(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX());
+            Army army = placedArmy.Army;
+            AIGroup group = null;
+            int i = 0;
+            int cost = BuyCost();
+            bool found = false;
+            MapCoordinate location = HexGeometry.PackMapCoordinate(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX());
             while (!found && i != army.Units.Count)
             {
                 group = army.Units.GetUnit(i).Group;
@@ -105,6 +97,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
                 i += 1;
             }
 
+            string reason = "";
             if (found && CanBuy(army.Player, ref reason))
             {
                 group.ReturnTargetExpense();
@@ -118,13 +111,12 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     // WizardsTower.pas:107
     public override void UpdateAITarget(in AITargetInfo info, ref AITargetData data)
     {
-        sbyte player;
         if (!GetRazed() || GetBuilding())
         {
             switch (info.Mode)
             {
                 case AITargetMode.Attack:
-                    player = Owner.GetPlayer();
+                    sbyte player = Owner.GetPlayer();
                     if (player != info.Player && (player <= 0 || AbilityRules.ValidAttackRelation(info.Player, 0, player, 0)) && ValidAITarget(info.Player))
                     {
                         if (data.Priority < 10)
@@ -167,10 +159,8 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     // WizardsTower.pas:174
     public bool CanEnter(sbyte player)
     {
-        bool result;
-        ArmyHexSprite armyHexSprite;
-        armyHexSprite = Owner.GetArmyHexSprite();
-        result = armyHexSprite is not null && armyHexSprite.Army.Player == player;
+        ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
+        bool result = armyHexSprite is not null && armyHexSprite.Army.Player == player;
 
         return result;
     }
@@ -178,11 +168,10 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     // WizardsTower.pas:182
     public bool Enter()
     {
-        bool result = default;
-        EnterWizardsTowerEventLog log;
+        bool result;
         if (CanEnter(StrategicMap.Current.SeatedPlayer))
         {
-            log = new EnterWizardsTowerEventLog(null)
+            EnterWizardsTowerEventLog log = new(null)
             {
                 Holder = CreationHolder(),
                 Tower = this
@@ -243,12 +232,11 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     // WizardsTower.pas:243
     public bool Buy(sbyte player, out string reason)
     {
-        bool result;
-        StructureTokenEvent tokenEvent;
         reason = "";
+        bool result;
         if (CanBuy(player, ref reason) && !StrategicMap.Current.Players.GetPlayers(player).GetBusy())
         {
-            tokenEvent = CreateTokenEvent();
+            StructureTokenEvent tokenEvent = CreateTokenEvent();
             SetupTokenEvent(tokenEvent);
             tokenEvent.Action = 1;
             tokenEvent.Param = player;

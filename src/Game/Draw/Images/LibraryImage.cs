@@ -144,8 +144,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:1727
     public virtual void WriteImageData(Stream stream)
     {
-        byte v;
-        v = ClassVersion();
+        byte v = ClassVersion();
         stream.Write(Bytes.Of(ref v, 1));
         LibraryDrawing.WriteStringToStream(_fileName, stream);
         stream.Write(Bytes.Of(ref _dataWidth, 4));
@@ -177,10 +176,9 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:1761
     public virtual void LoadDiscardableImageData()
     {
-        Stream stream;
         if (!DataLoaded)
         {
-            stream = new FastLoadFileStream(_owner.LoadedFileName);
+            Stream stream = new FastLoadFileStream(_owner.LoadedFileName);
             try
             {
                 _ = stream.Seek(_dataPosition + _owner.DataOffset, SeekOrigin.Begin);
@@ -197,8 +195,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:1859
     public virtual void SaveToStream(Stream stream, Stream dataStream)
     {
-        int p;
-        p = _dataPosition;
+        int p = _dataPosition;
         _dataPosition = (int)dataStream.Position;
         WriteImageData(stream);
         _dataPosition = p;
@@ -299,9 +296,8 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:1670
     public virtual LibraryImage Copy()
     {
-        LibraryImage result = default;
-        MemoryStream stream;
-        stream = new MemoryStream();
+        MemoryStream stream = new();
+        LibraryImage result;
         try
         {
             WriteImageToStream(this, stream);
@@ -320,8 +316,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:1778
     public virtual void SaveToStream(Stream stream)
     {
-        int p;
-        p = _dataPosition;
+        int p = _dataPosition;
         _dataPosition = -1;
         WriteImageData(stream);
         _dataPosition = p;
@@ -343,7 +338,6 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:1796
     public virtual void LoadFromStream(Stream stream)
     {
-        int p;
         Clear();
         ReadImageData(stream);
         if (_version < 2)
@@ -366,7 +360,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
             {
                 if (_dataPosition != -1)
                 {
-                    p = (int)stream.Position;
+                    int p = (int)stream.Position;
                     stream.Position = _owner.DataOffset + _dataPosition;
                     ReadDiscardableImageData(stream);
                     stream.Position = p;
@@ -610,7 +604,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
 
     public static void WriteImageToStream(LibraryImage image, Stream stream)
     {
-        int id = default;
+        int id;
         if (image is not null)
         {
             id = image.ImageClass.ClassId;
@@ -626,7 +620,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
 
     internal static void WriteImageToStream(LibraryImage image, Stream stream, Stream dataStream)
     {
-        int id = default;
+        int id;
         if (image is not null)
         {
             id = image.ImageClass.ClassId;

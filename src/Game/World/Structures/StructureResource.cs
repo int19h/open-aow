@@ -90,20 +90,16 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
     // Structur.PAS:1940
     public virtual void Show(int X, int Y, in LockedSurface lockedSurface, Structure structure)
     {
-        int index;
-        int offset;
-        int frameIndex;
-        ImageSequence sequence;
         if (structure.GetSelected() && (StrategicMap.Current.Frame & 6) == 6)
         {
-            index = structure.ImageIndex;
-            offset = structure.Owner.HexX + (structure.Owner.HexY * 16);
+            int index = structure.ImageIndex;
+            int offset = structure.Owner.HexX + (structure.Owner.HexY * 16);
             if (ImageSequenceList is not null)
             {
-                sequence = ImageSequenceList.List[index];
+                ImageSequence sequence = ImageSequenceList.List[index];
                 while (sequence is not null)
                 {
-                    frameIndex = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset);
+                    int frameIndex = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset);
                     if (frameIndex != -1)
                     {
                         if (sequence.ImageLibrary[frameIndex].ShowInfo.ShowMode == ShowMode.Opaque)

@@ -37,10 +37,6 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
     // AI.pas:1532
     public override bool Process()
     {
-        int i = default;
-        int priority = default;
-        AIBudget budget = default;
-        ProductionControlList controls = default;
         switch (_state)
         {
             case 0:
@@ -50,7 +46,7 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
                     {
                         if (FindAvailableTransporter() is null && !ProducingTransporter() && StrategicMap.Current.Day > 5)
                         {
-                            budget = player.AIBudget.Budgets.FindChild<AIBudget>(131742);
+                            AIBudget budget = player.AIBudget.Budgets.FindChild<AIBudget>(131742);
                             if (budget is null)
                             {
                                 budget = new AITransporterBudget(null) { Holder = CreationHolder() };
@@ -106,7 +102,7 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
                 while (_state == 1)
                 {
                     _productionIndex += 1;
-                    controls = Control.Player.ProductionControls;
+                    ProductionControlList controls = Control.Player.ProductionControls;
                     if (_productionIndex < controls.Count)
                     {
                         UpdateProductions(controls.GetPC(_productionIndex));
@@ -129,8 +125,8 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
             case 2:
                 while (_state == 2 && !Control.Player.GetBusy())
                 {
-                    i = 0;
-                    priority = Round(_productions[0].Fourth * 0.8);
+                    int i = 0;
+                    int priority = Round(_productions[0].Fourth * 0.8);
                     while (i + 1 < _productions.Count && _productions[i + 1].Fourth >= priority)
                     {
                         i += 1;
@@ -157,20 +153,17 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
     // AI.pas:1222
     public void UpdateProductions(ProductionControl control)
     {
-        int unitIndex;
-        int priority;
-        int bonus;
         if (control.Status == ProductionControlStatus.Idle)
         {
-            bonus = 0;
+            int bonus = 0;
             for (int i = 0, last = control.UnitProductions.Count - 1; i <= last; i++)
             {
                 if (control.UnitProductions.GetItem(i).Researched)
                 {
-                    unitIndex = control.UnitProductions.GetItem(i).UnitIndex;
+                    int unitIndex = control.UnitProductions.GetItem(i).UnitIndex;
                     if (unitIndex != -1)
                     {
-                        priority = Control.UnitIndexToPriority(unitIndex);
+                        int priority = Control.UnitIndexToPriority(unitIndex);
                         if (priority != -1)
                         {
                             _ = _productions.AddABCD(control, i, 0, priority + bonus);
@@ -184,17 +177,13 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
     // AI.pas:1243
     public bool ExecuteProduce(ProductionControl control, int index)
     {
-        int gold;
-        int mana;
-        int goldUpkeep;
-        int manaUpkeep;
         bool result = false;
         if (Control.Player.ProductionControls.IndexOf(control) != -1 && control.Status == ProductionControlStatus.Idle)
         {
-            gold = control.UnitProductionGold(index);
-            mana = control.UnitProductionMana(index);
-            goldUpkeep = control.UnitProductionGoldUpkeep(index);
-            manaUpkeep = control.UnitProductionManaUpkeep(index);
+            int gold = control.UnitProductionGold(index);
+            int mana = control.UnitProductionMana(index);
+            int goldUpkeep = control.UnitProductionGoldUpkeep(index);
+            int manaUpkeep = control.UnitProductionManaUpkeep(index);
             if (goldUpkeep <= _goldUpkeep && manaUpkeep <= _manaUpkeep)
             {
                 if (Control.Player.AIBudget.RequestProductionExpense(gold, goldUpkeep, mana, manaUpkeep))
@@ -220,14 +209,12 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
     // AI.pas:1269
     public bool ExecuteResearch(ProductionControl control, int index)
     {
-        int gold;
-        int mana;
         bool result = false;
         if (Control.Player.ProductionControls.IndexOf(control) != -1 && control.Status == ProductionControlStatus.Idle)
         {
             // { Original behavior: affordability uses production prices for research. }
-            gold = control.UnitProductionGold(index);
-            mana = control.UnitProductionMana(index);
+            int gold = control.UnitProductionGold(index);
+            int mana = control.UnitProductionMana(index);
             if (Control.Player.AIBudget.RequestProductionExpense(gold, 0, mana, 0))
             {
                 if (control.ResearchUnit(index, false))
@@ -246,13 +233,11 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
     // AI.pas:1290
     public int TransporterPriority(int unitIndex)
     {
+        UnitResource resource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
         int result;
-        UnitResource resource;
-        Unit unit;
-        resource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
         if (resource is not null && resource.GetTransportCapacity() != 0)
         {
-            unit = new Unit(null) { Holder = CreationHolder() };
+            Unit unit = new(null) { Holder = CreationHolder() };
             unit.SetUnitResource(resource);
             unit.UpdateOffensiveStrength();
             result = unit.MaxOffensiveStrength;
@@ -273,25 +258,15 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
     // AI.pas:1308
     public bool ResearchTransporter(AIBudget budget)
     {
-        QuadItemList<ProductionControl> candidates = default;
-        PlayerStructure structure = default;
-        int i = default;
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
-        Player player = default;
-        ProductionControl control = default;
-        UnitResource resource = default;
-        int priority = default;
-        player = Control.Player;
+        Player player = Control.Player;
         if (budget.Gold > 50)
         {
-            candidates = new QuadItemList<ProductionControl>();
-            i = player.ProductionControls.Count;
+            QuadItemList<ProductionControl> candidates = new();
+            int i = player.ProductionControls.Count;
             while (i != 0)
             {
                 i -= 1;
-                control = player.ProductionControls.GetPC(i);
+                ProductionControl control = player.ProductionControls.GetPC(i);
                 if (control.Status == ProductionControlStatus.Idle)
                 {
                     for (int j = 0, last = control.UnitProductions.Count - 1; j <= last; j++)
@@ -299,7 +274,7 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
                         if (control.UnitProductions.GetItem(j).UnitIndex != -1 && !control.UnitProductions.GetItem(j).Researched)
                         {
                             UnitProduction unitProduction = control.UnitProductions.GetItem(j);
-                            resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
+                            UnitResource resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
                             if (resource.GetTransportCapacity() != 0)
                             {
                                 int unitResearchMana = control.UnitResearchMana(j);
@@ -307,11 +282,11 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
                                 if (player.AIBudget.RequestBudgetExpense(unitResearchGold, unitResearchMana, budget, false))
                                 {
                                     MapCoordinate coordinate2 = control.GetLocation();
-                                    x = coordinate2.X;
-                                    y = coordinate2.Y;
-                                    l = coordinate2.MapLevel;
-                                    structure = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
-                                    priority = TransporterPriority(control.UnitProductions.GetItem(j).UnitIndex);
+                                    sbyte x = coordinate2.X;
+                                    sbyte y = coordinate2.Y;
+                                    sbyte l = coordinate2.MapLevel;
+                                    PlayerStructure structure = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
+                                    int priority = TransporterPriority(control.UnitProductions.GetItem(j).UnitIndex);
                                     if (priority != -1)
                                     {
                                         if (structure is not null && structure.ProductionPriority > 0)
@@ -358,25 +333,15 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
     // AI.pas:1374
     public bool ProduceTransporter(AIBudget budget)
     {
-        QuadItemList<ProductionControl> candidates = default;
-        PlayerStructure structure = default;
-        int i = default;
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
-        Player player = default;
-        ProductionControl control = default;
-        UnitResource resource = default;
-        int priority = default;
-        player = Control.Player;
+        Player player = Control.Player;
         if (budget.Gold > 50)
         {
-            candidates = new QuadItemList<ProductionControl>();
-            i = player.ProductionControls.Count;
+            QuadItemList<ProductionControl> candidates = new();
+            int i = player.ProductionControls.Count;
             while (i != 0)
             {
                 i -= 1;
-                control = player.ProductionControls.GetPC(i);
+                ProductionControl control = player.ProductionControls.GetPC(i);
                 if (control.Status == ProductionControlStatus.Idle)
                 {
                     for (int j = 0, last = control.UnitProductions.Count - 1; j <= last; j++)
@@ -384,7 +349,7 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
                         if (control.UnitProductions.GetItem(j).UnitIndex != -1 && control.UnitProductions.GetItem(j).Researched)
                         {
                             UnitProduction unitProduction = control.UnitProductions.GetItem(j);
-                            resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
+                            UnitResource resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
                             if (resource.GetTransportCapacity() != 0)
                             {
                                 int unitProductionMana = control.UnitProductionMana(j);
@@ -398,11 +363,11 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
                                     if (player.AIBudget.RequestProductionExpense(controlUnitProductionGold, unitProductionGoldUpkeep, controlUnitProductionMana, unitProductionManaUpkeep, budget))
                                     {
                                         MapCoordinate coordinate3 = control.GetLocation();
-                                        x = coordinate3.X;
-                                        y = coordinate3.Y;
-                                        l = coordinate3.MapLevel;
-                                        structure = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
-                                        priority = TransporterPriority(control.UnitProductions.GetItem(j).UnitIndex);
+                                        sbyte x = coordinate3.X;
+                                        sbyte y = coordinate3.Y;
+                                        sbyte l = coordinate3.MapLevel;
+                                        PlayerStructure structure = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
+                                        int priority = TransporterPriority(control.UnitProductions.GetItem(j).UnitIndex);
                                         if (priority != -1)
                                         {
                                             if (structure is not null && structure.ProductionPriority > 0)
@@ -462,10 +427,9 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
     // AI.pas:1444
     public Troop FindAvailableTransporter()
     {
-        int i;
         Player player = Control.Player;
         Troop result = null;
-        i = player.Armies.Count;
+        int i = player.Armies.Count;
         while (i != 0 && result is null)
         {
             i -= 1;
@@ -482,23 +446,20 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
     // AI.pas:1461
     public bool TransporterProductionControlExists()
     {
-        UnitResource resource;
-        int i;
-        ProductionControl control;
         // { locals follow the original stack order }
         Player player = Control.Player;
         bool result = false;
-        i = player.ProductionControls.Count;
+        int i = player.ProductionControls.Count;
         while (i != 0 && !result)
         {
             i -= 1;
-            control = player.ProductionControls.GetPC(i);
+            ProductionControl control = player.ProductionControls.GetPC(i);
             for (int j = 0, last = control.UnitProductions.Count - 1; j <= last; j++)
             {
                 if (control.UnitProductions.GetItem(j).UnitIndex != -1 && control.UnitProductions.GetItem(j).Researched)
                 {
                     UnitProduction unitProduction = control.UnitProductions.GetItem(j);
-                    resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
+                    UnitResource resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
                     result = result || resource.GetTransportCapacity() != 0;
                 }
             }
@@ -510,15 +471,13 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
     // AI.pas:1487
     public bool ProducingTransporter()
     {
-        int i;
-        ProductionControl control;
         Player player = Control.Player;
         bool result = false;
-        i = player.ProductionControls.Count;
+        int i = player.ProductionControls.Count;
         while (i != 0 && !result)
         {
             i -= 1;
-            control = player.ProductionControls.GetPC(i);
+            ProductionControl control = player.ProductionControls.GetPC(i);
             if (control.Status == ProductionControlStatus.Producing)
             {
                 if (control.Queue.GetItem(0).Order is ProduceUnit)
@@ -534,22 +493,19 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
     // AI.pas:1507
     public bool ResearchingTransporter()
     {
-        int i;
-        ProductionControl control;
-        UnitResource resource;
         Player player = Control.Player;
         bool result = false;
-        i = player.ProductionControls.Count;
+        int i = player.ProductionControls.Count;
         while (i != 0 && !result)
         {
             i -= 1;
-            control = player.ProductionControls.GetPC(i);
+            ProductionControl control = player.ProductionControls.GetPC(i);
             if (control.Status == ProductionControlStatus.Producing)
             {
                 if (control.Queue.GetItem(0).Order is ResearchSpell)
                 {
                     UnitProduction unitProduction = control.UnitProductions.GetItem(control.Settings.UnitProductionIndex);
-                    resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
+                    UnitResource resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
                     if (resource is not null)
                     {
                         result = resource.GetTransportCapacity() != 0;

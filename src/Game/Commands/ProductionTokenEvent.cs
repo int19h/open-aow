@@ -52,10 +52,8 @@ public partial class ProductionTokenEvent(CustomNode owner) : TokenEvent(owner)
     // Structur.PAS:182
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult result;
-        ProductionControl control;
-        control = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetProductionControl();
-        result = control is not null ? control.ExecuteProductionTokenEvent(this) : ExecuteResult.DoneHalt;
+        ProductionControl control = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetProductionControl();
+        ExecuteResult result = control is not null ? control.ExecuteProductionTokenEvent(this) : ExecuteResult.DoneHalt;
 
         return result;
     }

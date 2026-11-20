@@ -26,12 +26,9 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
     // PlayerC.PAS:589
     public override void NewTurn(sbyte player)
     {
-        NewTurnEventLog log = default;
-        ShowBookEventLog bookLog = default;
-        SpellList spells = default;
-        PlayerMagicEventLog magicLog = default;
         StrategicMap.Current.LockMapChangedEvent();
         StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(player);
+        NewTurnEventLog log;
         if (StrategicMap.Current.RequestCombatType)
         {
             if (StrategicMap.Current.SeatedPlayer != -1)
@@ -135,18 +132,18 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
             {
                 if (Set<GameType>.Of(GameType.Custom, GameType.Tutorial).Contains(StrategicMap.Current.GameType))
                 {
-                    bookLog = new ShowBookEventLog(null) { Holder = CreationHolder() };
+                    ShowBookEventLog bookLog = new(null) { Holder = CreationHolder() };
                     StrategicMap.Current.TriggerExecuteEventLog(bookLog, false, null);
                     _ = bookLog.Release();
                 }
 
                 if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId == 0)
                 {
-                    spells = new SpellList();
+                    SpellList spells = new();
                     StrategicMap.Current.Players.GetPlayers(player).MagicControl.ListResearchSpells(spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
                     if (spells.GetCount() > 0)
                     {
-                        magicLog = new PlayerMagicEventLog(null)
+                        PlayerMagicEventLog magicLog = new(null)
                         {
                             Holder = CreationHolder(),
                             Mode = PlayerMagicEventLog.EventMode.StartResearch
@@ -274,10 +271,6 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
     // PlayerC.PAS:715
     public override void EndTurn(sbyte player)
     {
-        EndTurnEventLog log;
-        int index;
-        bool found;
-        sbyte nextPlayer;
         base.EndTurn(player);
         if (player == StrategicMap.Current.SeatedPlayer)
         {
@@ -297,11 +290,11 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
                 StrategicMap.Current.AIExecutor.DeactivatePlayer(player);
             }
 
-            log = new EndTurnEventLog(null) { Holder = CreationHolder() };
+            EndTurnEventLog log = new(null) { Holder = CreationHolder() };
             StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).EventLogbook.AddEvent(log);
             _ = log.Release();
-            index = StrategicMap.Current.TurnOrder.IndexOf((byte)StrategicMap.Current.CurrentPlayer);
-            found = false;
+            int index = StrategicMap.Current.TurnOrder.IndexOf((byte)StrategicMap.Current.CurrentPlayer);
+            bool found = false;
             while (!found)
             {
                 index += 1;
@@ -311,7 +304,7 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
                     index = 0;
                 }
 
-                nextPlayer = (sbyte)StrategicMap.Current.TurnOrder[index];
+                sbyte nextPlayer = (sbyte)StrategicMap.Current.TurnOrder[index];
                 found = StrategicMap.Current.Players.GetPlayers(nextPlayer).Status == PlayerStatus.Playing;
                 if (!found)
                 {
@@ -343,9 +336,9 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
     // PlayerC.PAS:779
     public virtual void ContinueLoadedMap()
     {
-        NewTurnEventLog log = default;
         DefaultStartMap();
         StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(StrategicMap.Current.CurrentPlayer);
+        NewTurnEventLog log;
         if (StrategicMap.Current.RequestCombatType)
         {
             StrategicMap.Current.SetSeatedPlayer(-1);
@@ -416,10 +409,8 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
     // PlayerC.PAS:683
     public void ReplayLogbook()
     {
-        EventLogbook book;
-        int index;
-        book = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).EventLogbook;
-        index = book.FindFirstLog(131811, StrategicMap.Current.CurrentPlayer, StrategicMap.Current.Day - 1);
+        EventLogbook book = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).EventLogbook;
+        int index = book.FindFirstLog(131811, StrategicMap.Current.CurrentPlayer, StrategicMap.Current.Day - 1);
         for (int i = index + 1, last = book.GetCount() - 1; i <= last; i++)
         {
             _ = book.GetLogs(i).Execute(false, ExecuteTrigger.NewTurn, null);

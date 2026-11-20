@@ -30,8 +30,7 @@ public partial class FreezeWater : GlobalTargetSpell
     // { Original Boolean-return ABI; foreign P7 overrides remain procedures. }
     public override void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
-        TargetSelectionControl target;
-        target = targetSelection;
+        TargetSelectionControl target = targetSelection;
         base.SetupTargetSelection(source, target);
         target.HexNumbers.Clear();
         for (int i = 0, last = HexGeometry.RadiusToHexNumber(2) - 1; i <= last; i++)
@@ -43,8 +42,7 @@ public partial class FreezeWater : GlobalTargetSpell
     // GlobalTargetSpells.pas:823
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
-        FreezeWaterTokenEvent eventValue;
-        eventValue = new FreezeWaterTokenEvent(null) { Holder = CreationHolder() };
+        FreezeWaterTokenEvent eventValue = new(null) { Holder = CreationHolder() };
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);

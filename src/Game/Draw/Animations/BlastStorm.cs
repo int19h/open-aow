@@ -24,8 +24,7 @@ public partial class BlastStorm(CustomNode owner) : Storm(owner)
     // Storms.pas:338
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int frame;
-        frame = FrameCounter % _stormImages.Count;
+        int frame = FrameCounter % _stormImages.Count;
         sbyte hexY = GetHexY();
         HexGeometry.HexToPixel(GetHexX(), hexY, out int x, out int y);
         LibraryImage stormImageWidth = _stormImages[frame];
@@ -78,7 +77,6 @@ public partial class BlastStorm(CustomNode owner) : Storm(owner)
     // Storms.pas:312
     public override bool UpdateStorm()
     {
-        bool result = default;
         NewFrame();
         if (FrameCounter == 8)
         {
@@ -118,6 +116,7 @@ public partial class BlastStorm(CustomNode owner) : Storm(owner)
             }
         }
 
+        bool result;
         if (_stormImages.Count == FrameCounter)
         {
             AbilityRules.TriggerStormDamage(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX(), storm: StormType(), innerRadius: 0, outerRadius: 4, player: StrategicMap.Current.CurrentPlayer);

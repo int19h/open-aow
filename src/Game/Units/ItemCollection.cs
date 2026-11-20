@@ -84,10 +84,9 @@ public readonly struct ItemCollection : IReadOnlyList<Item>
     // Army.PAS:4622
     public void RegisterItems()
     {
-        Item item;
         for (int i = Count - 1; i >= 0; i--)
         {
-            item = this[i];
+            Item item = this[i];
             if (item is not null && !item.Status.Contains(ItemStatusElement.Registered))
             {
                 StrategicMap.Current.ItemControl.RegisterItem(item);

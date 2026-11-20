@@ -40,13 +40,12 @@ public partial class AIGroupControlTargetList(CustomNode owner) : ReferenceNode(
     // AIGroup.pas:721
     public bool Validate()
     {
-        AIGroupControlTarget target;
         bool result = true;
         int count = Count;
         StrategicMap.Current.AIExecutor.UseProcessTime(count * 20);
         for (int i = Count - 1; i >= 0; i--)
         {
-            target = this[i];
+            AIGroupControlTarget target = this[i];
             if (!target.Validate(Control))
             {
                 _ = RemoveChild(target);

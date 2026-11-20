@@ -33,12 +33,11 @@ public partial class Concealment : UnitSpell
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
         bool result;
-        UnitEnchantment enchantment;
         if (ValidTargetUnit(source, target))
         {
             if (target.ExpandAbility(162))
             {
-                enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(162).Enchantment;
+                UnitEnchantment enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(162).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
                 enchantment.DispelResistance = (sbyte)UnitDispelResistance;

@@ -28,9 +28,8 @@ public static class EngineServices
 
     internal static string ReplaceText(string S, string old, string newValue)
     {
-        int p;
         string result = "";
-        p = Pos(old, S);
+        int p = Pos(old, S);
         while (p != 0)
         {
             result = result + Copy(S, 1, p - 1) + newValue;
@@ -57,8 +56,7 @@ public static class EngineServices
 
     internal static void StringToStream(string S, Stream stream)
     {
-        int length;
-        length = S.Length;
+        int length = S.Length;
         stream.Write(Bytes.Of(ref length, 4));
         stream.Write(Cp1252.Encode(S).AsSpan()[..length]);
     }

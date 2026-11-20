@@ -23,10 +23,9 @@ public partial class CrusaderAbility : DurationAbility
     // PassiveAb.pas:724
     public override void NewTurn(AbilityOwner owner, sbyte player)
     {
-        DurationAbilityData data;
         if (DurationMode == DurationMode.Day)
         {
-            data = GetData(owner);
+            DurationAbilityData data = GetData(owner);
             if (data is not null && data.Duration != 0 && data.PlayerIndex == player)
             {
                 data.Duration = (byte)(data.Duration - 1);

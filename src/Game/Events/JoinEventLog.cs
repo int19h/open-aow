@@ -63,15 +63,13 @@ public partial class JoinEventLog(CustomNode owner) : EventLog(owner)
     // Diplomacy.pas:58
     public virtual bool Validate()
     {
-        int i;
-        Troop troop;
         bool result = true;
-        i = UnitIds.Count;
+        int i = UnitIds.Count;
         while (result && i != 0)
         {
             i -= 1;
             int item = UnitIds[i];
-            troop = StrategicMap.Current.UnitControl.FindUnit(item);
+            Troop troop = StrategicMap.Current.UnitControl.FindUnit(item);
             // { Original behavior: missing and dead units do not invalidate the offer. }
             if (troop is not null && troop.Player == 0)
             {
@@ -90,11 +88,10 @@ public partial class JoinEventLog(CustomNode owner) : EventLog(owner)
     // Diplomacy.pas:80
     public virtual void ListJoinUnits(UnitUserList units, out byte selection)
     {
-        Troop troop;
         for (int i = 0, last = UnitIds.Count - 1; i <= last; i++)
         {
             int item = UnitIds[i];
-            troop = StrategicMap.Current.UnitControl.FindUnit(item);
+            Troop troop = StrategicMap.Current.UnitControl.FindUnit(item);
             _ = units.AddUnit(troop);
         }
 

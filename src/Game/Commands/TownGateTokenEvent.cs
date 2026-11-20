@@ -40,11 +40,11 @@ public partial class TownGateTokenEvent(CustomNode owner) : CityTargetSpellToken
     // CitySpells.pas:407
     public override bool Validate(Hero source)
     {
-        byte selection = default;
-        ArmyHexSprite army = default;
         bool result = base.Validate(source) && ArmyId.Valid();
         if (result)
         {
+            byte selection = default;
+            ArmyHexSprite army = default;
             _ = ArmyId.RetrieveArmy(ref army, ref selection);
             result = GamePack.Current.SpellControl.GetSpell<TownGate>(EventSpellId).ValidTeleportLocation(army, selection, TeleportLocation.X, TeleportLocation.Y, TeleportLocation.MapLevel);
         }

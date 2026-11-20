@@ -27,15 +27,6 @@ public partial class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSp
     // GlobalTargetSpells.pas:2190
     public override bool Process(Troop source, int value)
     {
-        bool result = default;
-        Troop troopObject = default;
-        HexNumberWalkData walk = default;
-        ArmyHexSprite army = default;
-        MapLevel level = default;
-        ImageSequenceAnimation animation = default;
-        bool healed2 = default;
-        bool playSound = default;
-        HexSprite cloud = default;
         _ = base.Process(source, value);
         if (value == 0)
         {
@@ -60,23 +51,23 @@ public partial class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSp
 
         if (value == 50)
         {
-            playSound = false;
+            bool playSound = false;
             _ = StrategicMap.Current.ChangeTerrain(null, Location.X, Location.Y, Location.MapLevel, 1, ChangeTerrain, null);
-            level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
-            HexNumberWalkData.InitializeHexNumberWalk(out walk, Location.X, Location.Y, 0);
+            MapLevel level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
+            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Location.X, Location.Y, 0);
             while (walk.Radius <= 1)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && level.Height > walk.Y)
                 {
                     if (!level.GetField(walk.X, walk.Y).GetMagicShieldActive())
                     {
-                        healed2 = false;
-                        army = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
+                        ArmyHexSprite army = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
                         if (army is not null)
                         {
+                            bool healed2 = false;
                             for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
                             {
-                                troopObject = army.Army.Units.GetUnit(i);
+                                Troop troopObject = army.Army.Units.GetUnit(i);
                                 if (troopObject.GetHitPoints() < troopObject.GetHits())
                                 {
                                     troopObject.SetHitPoints((sbyte)(troopObject.GetHitPoints() + 5));
@@ -110,7 +101,7 @@ public partial class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSp
                                 }
 
                                 playSound = condition;
-                                animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+                                ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                                 animation.SetImageSequence(GamePack.Current.AbilityControl.GetAbility(47).ImageSequences.ImageSequences[0]);
                                 animation.AnimationLevel = 27;
                                 sbyte armyHexY = army.HexY;
@@ -119,7 +110,7 @@ public partial class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSp
                             }
                         }
 
-                        cloud = level.GetField(walk.X, walk.Y).FindOwnedChild<HexSprite>(132990);
+                        HexSprite cloud = level.GetField(walk.X, walk.Y).FindOwnedChild<HexSprite>(132990);
                         cloud?.Dispose();
                     }
                 }
@@ -133,6 +124,7 @@ public partial class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSp
             }
         }
 
+        bool result;
         if (value == 80)
         {
             _animation?.Dispose();
@@ -149,19 +141,12 @@ public partial class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSp
     // GlobalTargetSpells.pas:2141
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int x;
-        int y;
-        int xShift;
-        int yShift;
-        int speed;
-        int count;
-        int frame;
         if (StrategicMap.Current.ViewMapLevel == Location.MapLevel)
         {
             HexGeometry.HexToPixel(Location.X, Location.Y, out int pixelX, out int pixelY);
             pixelX -= pixelXSurface;
             pixelY -= pixelYSurface;
-            count = GetEngine().Registry.GetDetailLevel() switch
+            int count = GetEngine().Registry.GetDetailLevel() switch
             {
                 DetailLevel.Low => 50,
                 DetailLevel.High => 160,
@@ -170,11 +155,11 @@ public partial class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSp
             RandSeed = StrategicMap.Current.InitialRandomSeed;
             for (int i = 0; i <= count; i++)
             {
-                x = Random(100) - 50;
-                y = Random(100) - 50;
-                speed = Random(5) + 5;
+                int x = Random(100) - 50;
+                int y = Random(100) - 50;
+                int speed = Random(5) + 5;
                 int random = Random(30);
-                frame = animation.FrameCounter - random;
+                int frame = animation.FrameCounter - random;
                 if (frame is >= 0 and < 50)
                 {
                     frame %= 30;
@@ -184,8 +169,8 @@ public partial class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSp
                     {
                         for (int j = 0; j <= 10; j++)
                         {
-                            xShift = x - Round(j * 2 * 0.1);
-                            yShift = y + Round(j * 10 * 0.1);
+                            int xShift = x - Round(j * 2 * 0.1);
+                            int yShift = y + Round(j * 10 * 0.1);
                             _ = GamePack.Current.SpellControl.GetSpell(73).CastImages.Show(0, pixelX + xShift + 120, pixelY + yShift - 500 + 30, 0, lockedSurface);
                         }
                     }

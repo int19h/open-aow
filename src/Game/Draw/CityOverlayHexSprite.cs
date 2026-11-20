@@ -25,15 +25,14 @@ public partial class CityOverlayHexSprite(CustomNode owner) : SingleHexSprite(ow
     // City.pas:733
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int intensity;
-        int index;
-        int frame;
-        ImageSequence sequence;
         HexGeometry.HexToPixel(City.StoredHexX, City.StoredHexY, out int pixelX, out int pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
         if (City.EnchantmentsVisible)
         {
+            int intensity;
+            int index;
+            ImageSequence sequence;
             if (City.Enchantments.Contains(CityEnchantmentId.Warmonger))
             {
                 intensity = Math.Abs(((int)(((uint)StrategicMap.Current.Frame) >> 1) % 20) - 10) + 50;
@@ -90,6 +89,7 @@ public partial class CityOverlayHexSprite(CustomNode owner) : SingleHexSprite(ow
                     index = sequence.GetFrameIndex(0, 0);
                     if (_shellEndFrame != -1 && StrategicMap.Current.Frame < _shellEndFrame)
                     {
+                        int frame;
                         switch (_shellAnimation)
                         {
                             case ShellAnimationPhase.Setup:

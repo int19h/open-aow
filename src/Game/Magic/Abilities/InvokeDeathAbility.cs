@@ -30,16 +30,13 @@ public partial class InvokeDeathAbility : TouchAbility
     // AoWAb.PAS:3532
     public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
-        CombatObject target;
-        InvokeDeathCombatAction action;
-        StrikeCombatAction strike;
-        target = command.Target;
+        CombatObject target = command.Target;
         FastBattleValidateMoveOutsideWall(source, target);
-        action = CreateCombatAction(source, target);
+        InvokeDeathCombatAction action = CreateCombatAction(source, target);
         source.Combat.ExecuteCombatAction(action);
         if (target.GetEnabled())
         {
-            strike = CombatObject.CreateStrikeCombatAction(target, source, true);
+            StrikeCombatAction strike = CombatObject.CreateStrikeCombatAction(target, source, true);
             if (strike is not null)
             {
                 source.Combat.ExecuteCombatAction(strike);
@@ -55,10 +52,9 @@ public partial class InvokeDeathAbility : TouchAbility
     public override int GetDamageValue(Troop attacker, Troop defender)
     {
         int result;
-        float probability;
         if ((!defender.GetAbilityEnabled(1) || attacker.GetAbilityEnabled(1)) && !defender.GetImmunityTypes().Contains(DamageType.None))
         {
-            probability = TouchRoleProbability(attacker, defender);
+            float probability = TouchRoleProbability(attacker, defender);
             result = Round((double)((double)defender.GetHitPoints() * probability) * 100);
         }
         else
@@ -72,12 +68,10 @@ public partial class InvokeDeathAbility : TouchAbility
     // AoWAb.PAS:3476
     public override void GetDamageValues(Troop attacker, Troop defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        float probability;
-        int hitPoints;
         if (wallSituation == WallSituation.None && (!defender.GetAbilityEnabled(1) || attacker.GetAbilityEnabled(1)) && !defender.GetImmunityTypes().Contains(DamageType.None))
         {
-            probability = TouchRoleProbability(attacker, defender);
-            hitPoints = defender.GetHitPoints();
+            float probability = TouchRoleProbability(attacker, defender);
+            int hitPoints = defender.GetHitPoints();
             damageValues.SourceCost = hitPoints;
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
             int unitStrikeDamageValue = Troop.UnitStrikeDamageValue(defender, attacker);
@@ -109,12 +103,10 @@ public partial class InvokeDeathAbility : TouchAbility
     // AoWAb.PAS:3502
     public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        float probability;
-        int hitPoints;
         if (wallSituation == WallSituation.None && CanTouch(attacker, defender) && attacker is CombatUnit attackerUnit)
         {
-            probability = CombatTouchRoleProbability(attackerUnit, defender);
-            hitPoints = defender.GetHitPoints();
+            float probability = CombatTouchRoleProbability(attackerUnit, defender);
+            int hitPoints = defender.GetHitPoints();
             damageValues.SourceCost = hitPoints;
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
             int strikeDamageValue = CombatObject.StrikeDamageValue(defender, attacker);

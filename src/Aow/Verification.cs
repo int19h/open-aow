@@ -431,7 +431,6 @@ internal static class Verification
                 Equal(new FileInfo(path).Length, stream.Length, $"install open {relative}");
             }
         }
-        int literals = 0;
         if (sourceRoot is not null)
         {
             HashSet<string> candidates = [with(StringComparer.OrdinalIgnoreCase)];
@@ -447,6 +446,7 @@ internal static class Verification
                 }
             }
 
+            int literals = 0;
             foreach (string literal in candidates.Order(StringComparer.Ordinal))
             {
                 string part = literal.Trim('\\', '/').Replace('\\', Path.DirectorySeparatorChar);

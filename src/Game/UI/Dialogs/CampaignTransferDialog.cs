@@ -82,8 +82,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
     // AoWCampaignTransferDlg.pas:683
     public void UpdateControls()
     {
-        CampaignTransferSettings s;
-        s = UI.Engine.Campaign.TransferSettings;
+        CampaignTransferSettings s = UI.Engine.Campaign.TransferSettings;
         TransferPointsLabel.Text = $"{IntToStr(s.TransferPointsLeft)}/{IntToStr(s.TransferPointsMax)}";
         TransferManaLabel.Text = IntToStr(s.SelectedTransferMana);
         TransferGoldLabel.Text = IntToStr(s.SelectedTransferGold);
@@ -345,11 +344,9 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
     // AoWCampaignTransferDlg.pas:288
     public void LHeroesDraw(CheckBox sender, LockedSurface lockedSurface, int slot)
     {
-        Hero objectValue;
-        CampaignTransferSettings s;
         Rect r;
-        s = UI.Engine.Campaign.TransferSettings;
-        objectValue = s.Heroes.GetHero(_leftHero + slot);
+        CampaignTransferSettings s = UI.Engine.Campaign.TransferSettings;
+        Hero objectValue = s.Heroes.GetHero(_leftHero + slot);
         if (objectValue is not null)
         {
             CheckBox checkBox = sender;
@@ -378,14 +375,12 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
     // AoWCampaignTransferDlg.pas:316
     public void RHeroesDraw(CheckBox sender, LockedSurface lockedSurface, int slot)
     {
-        Hero objectValue;
-        CampaignTransferSettings s;
         Rect r;
-        s = UI.Engine.Campaign.TransferSettings;
+        CampaignTransferSettings s = UI.Engine.Campaign.TransferSettings;
         if (_rightHero + slot < s.SelectedHeroes.Count)
         {
             int selectedHero = s.SelectedHeroes[_rightHero + slot];
-            objectValue = s.Heroes.GetHero(selectedHero);
+            Hero objectValue = s.Heroes.GetHero(selectedHero);
             if (objectValue is not null)
             {
                 CheckBox checkBox = sender;
@@ -410,19 +405,16 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
     // AoWCampaignTransferDlg.pas:345
     public void LUnitsDraw(CheckBox sender, LockedSurface lockedSurface, int slot)
     {
-        Troop objectValue;
-        CampaignTransferSettings s;
         UnitShowInfo info = default;
-        Rect r;
-        s = UI.Engine.Campaign.TransferSettings;
+        CampaignTransferSettings s = UI.Engine.Campaign.TransferSettings;
         int count = s.Units.Count;
         if (_leftUnit + slot < count)
         {
-            objectValue = s.Units.GetUnit(_leftUnit + slot);
+            Troop objectValue = s.Units.GetUnit(_leftUnit + slot);
             if (objectValue is not null)
             {
                 CheckBox checkBox = sender;
-                r = new Rect(AvailableUnitPanel.AbsoluteLeft + checkBox.WinLeft + 1, AvailableUnitPanel.AbsoluteTop + checkBox.WinTop + 2, AvailableUnitPanel.AbsoluteLeft + checkBox.WinLeft + checkBox.WinWidth - 2, AvailableUnitPanel.AbsoluteTop + checkBox.WinTop + checkBox.WinHeight - 2);
+                Rect r = new(AvailableUnitPanel.AbsoluteLeft + checkBox.WinLeft + 1, AvailableUnitPanel.AbsoluteTop + checkBox.WinTop + 2, AvailableUnitPanel.AbsoluteLeft + checkBox.WinLeft + checkBox.WinWidth - 2, AvailableUnitPanel.AbsoluteTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
                 UI.Graphics.CityWindow[4].Show(r.Left + 1, r.Top, lockedSurface);
                 info.Direction = 3;
@@ -452,19 +444,16 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
     // AoWCampaignTransferDlg.pas:381
     public void RUnitsDraw(CheckBox sender, LockedSurface lockedSurface, int slot)
     {
-        Troop objectValue;
-        CampaignTransferSettings s;
         UnitShowInfo info = default;
-        Rect r;
-        s = UI.Engine.Campaign.TransferSettings;
+        CampaignTransferSettings s = UI.Engine.Campaign.TransferSettings;
         if (_rightUnit + slot < s.SelectedUnits.Count)
         {
             int selectedUnit = s.SelectedUnits[_rightUnit + slot];
-            objectValue = s.Units.GetUnit(selectedUnit);
+            Troop objectValue = s.Units.GetUnit(selectedUnit);
             if (objectValue is not null)
             {
                 CheckBox checkBox = sender;
-                r = new Rect(TransferUnitPanel.AbsoluteLeft + checkBox.WinLeft + 1, TransferUnitPanel.AbsoluteTop + checkBox.WinTop + 2, TransferUnitPanel.AbsoluteLeft + checkBox.WinLeft + checkBox.WinWidth - 2, TransferUnitPanel.AbsoluteTop + checkBox.WinTop + checkBox.WinHeight - 2);
+                Rect r = new(TransferUnitPanel.AbsoluteLeft + checkBox.WinLeft + 1, TransferUnitPanel.AbsoluteTop + checkBox.WinTop + 2, TransferUnitPanel.AbsoluteLeft + checkBox.WinLeft + checkBox.WinWidth - 2, TransferUnitPanel.AbsoluteTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
                 UI.Graphics.CityWindow[4].Show(r.Left + 1, r.Top, lockedSurface);
                 info.Direction = 3;
@@ -489,15 +478,12 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
     // AoWCampaignTransferDlg.pas:415
     public void LItemsDraw(CheckBox sender, LockedSurface lockedSurface, int slot)
     {
-        Item objectValue;
-        CampaignTransferSettings s;
-        Rect r;
-        s = UI.Engine.Campaign.TransferSettings;
-        objectValue = s.Items.GetItem(_leftItem + slot);
+        CampaignTransferSettings s = UI.Engine.Campaign.TransferSettings;
+        Item objectValue = s.Items.GetItem(_leftItem + slot);
         if (objectValue is not null)
         {
             CheckBox checkBox = sender;
-            r = new Rect(AvailableItemPanel.AbsoluteLeft + checkBox.WinLeft + 2, AvailableItemPanel.AbsoluteTop + checkBox.WinTop + 2, AvailableItemPanel.AbsoluteLeft + checkBox.WinLeft + checkBox.WinWidth - 4, AvailableItemPanel.AbsoluteTop + checkBox.WinTop + checkBox.WinHeight - 2);
+            Rect r = new(AvailableItemPanel.AbsoluteLeft + checkBox.WinLeft + 2, AvailableItemPanel.AbsoluteTop + checkBox.WinTop + 2, AvailableItemPanel.AbsoluteLeft + checkBox.WinLeft + checkBox.WinWidth - 4, AvailableItemPanel.AbsoluteTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
             UI.Graphics.CityWindow[4].Show(r.Left, r.Top, lockedSurface);
             objectValue.Show(r.Left + 5, r.Top + 10, lockedSurface);
@@ -521,18 +507,15 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
     // AoWCampaignTransferDlg.pas:442
     public void RItemsDraw(CheckBox sender, LockedSurface lockedSurface, int slot)
     {
-        Item objectValue;
-        CampaignTransferSettings s;
-        Rect r;
-        s = UI.Engine.Campaign.TransferSettings;
+        CampaignTransferSettings s = UI.Engine.Campaign.TransferSettings;
         if (_rightItem + slot < s.SelectedItems.Count)
         {
             int selectedItem = s.SelectedItems[_rightItem + slot];
-            objectValue = s.Items.GetItem(selectedItem);
+            Item objectValue = s.Items.GetItem(selectedItem);
             if (objectValue is not null)
             {
                 CheckBox checkBox = sender;
-                r = new Rect(TransferItemPanel.AbsoluteLeft + checkBox.WinLeft + 2, TransferItemPanel.AbsoluteTop + checkBox.WinTop + 2, TransferItemPanel.AbsoluteLeft + checkBox.WinLeft + checkBox.WinWidth - 4, TransferItemPanel.AbsoluteTop + checkBox.WinTop + checkBox.WinHeight - 2);
+                Rect r = new(TransferItemPanel.AbsoluteLeft + checkBox.WinLeft + 2, TransferItemPanel.AbsoluteTop + checkBox.WinTop + 2, TransferItemPanel.AbsoluteLeft + checkBox.WinLeft + checkBox.WinWidth - 4, TransferItemPanel.AbsoluteTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
                 UI.Graphics.CityWindow[4].Show(r.Left, r.Top, lockedSurface);
                 objectValue.Show(r.Left + 5, r.Top + 10, lockedSurface);
@@ -615,8 +598,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
     // AoWCampaignTransferDlg.pas:539
     public void AddBtnClick()
     {
-        CampaignTransferSettings s;
-        s = UI.Engine.Campaign.TransferSettings;
+        CampaignTransferSettings s = UI.Engine.Campaign.TransferSettings;
         switch (_leftKind)
         {
             case 1:
@@ -657,8 +639,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
     // AoWCampaignTransferDlg.pas:569
     public void RemoveBtnClick()
     {
-        CampaignTransferSettings s;
-        s = UI.Engine.Campaign.TransferSettings;
+        CampaignTransferSettings s = UI.Engine.Campaign.TransferSettings;
         switch (_rightKind)
         {
             case 1:
@@ -705,8 +686,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
     // AoWCampaignTransferDlg.pas:605
     public void LHeroesUpdate(CheckBox sender, int slot)
     {
-        CampaignTransferSettings s;
-        s = UI.Engine.Campaign.TransferSettings;
+        CampaignTransferSettings s = UI.Engine.Campaign.TransferSettings;
         sender.Checked = _leftKind == 1 && slot + _leftHero == _leftSelection;
         CheckBox checkBox = sender;
         checkBox.CaptureInput = !checkBox.Checked && s.Heroes.Count > slot + _leftHero && s.SelectedHeroes.IndexOf(slot + _leftHero) == -1;
@@ -715,8 +695,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
     // AoWCampaignTransferDlg.pas:617
     public void LItemsUpdate(CheckBox sender, int slot)
     {
-        CampaignTransferSettings s;
-        s = UI.Engine.Campaign.TransferSettings;
+        CampaignTransferSettings s = UI.Engine.Campaign.TransferSettings;
         sender.Checked = _leftKind == 2 && slot + _leftItem == _leftSelection;
         CheckBox checkBox = sender;
         checkBox.CaptureInput = !checkBox.Checked && s.Items.Count > slot + _leftItem && s.SelectedItems.IndexOf(slot + _leftItem) == -1;
@@ -725,8 +704,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
     // AoWCampaignTransferDlg.pas:629
     public void LUnitsUpdate(CheckBox sender, int slot)
     {
-        CampaignTransferSettings s;
-        s = UI.Engine.Campaign.TransferSettings;
+        CampaignTransferSettings s = UI.Engine.Campaign.TransferSettings;
         sender.Checked = _leftKind == 3 && slot + _leftUnit == _leftSelection;
         CheckBox checkBox = sender;
         checkBox.CaptureInput = !checkBox.Checked && s.Units.Count > slot + _leftUnit && s.SelectedUnits.IndexOf(slot + _leftUnit) == -1;
@@ -735,8 +713,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
     // AoWCampaignTransferDlg.pas:641
     public void RHeroesUpdate(CheckBox sender, int slot)
     {
-        CampaignTransferSettings s;
-        s = UI.Engine.Campaign.TransferSettings;
+        CampaignTransferSettings s = UI.Engine.Campaign.TransferSettings;
         sender.Checked = _rightKind == 1 && slot + _rightHero == _rightSelection;
         CheckBox checkBox = sender;
         checkBox.CaptureInput = !checkBox.Checked && slot + _rightHero < s.SelectedHeroes.Count;
@@ -745,8 +722,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
     // AoWCampaignTransferDlg.pas:652
     public void RItemsUpdate(CheckBox sender, int slot)
     {
-        CampaignTransferSettings s;
-        s = UI.Engine.Campaign.TransferSettings;
+        CampaignTransferSettings s = UI.Engine.Campaign.TransferSettings;
         sender.Checked = _rightKind == 2 && slot + _rightItem == _rightSelection;
         CheckBox checkBox = sender;
         checkBox.CaptureInput = !checkBox.Checked && slot + _rightItem < s.SelectedItems.Count;
@@ -755,8 +731,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
     // AoWCampaignTransferDlg.pas:663
     public void RUnitsUpdate(CheckBox sender, int slot)
     {
-        CampaignTransferSettings s;
-        s = UI.Engine.Campaign.TransferSettings;
+        CampaignTransferSettings s = UI.Engine.Campaign.TransferSettings;
         sender.Checked = _rightKind == 3 && slot + _rightUnit == _rightSelection;
         CheckBox checkBox = sender;
         checkBox.CaptureInput = !checkBox.Checked && slot + _rightUnit < s.SelectedUnits.Count;

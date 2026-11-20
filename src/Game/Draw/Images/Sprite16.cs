@@ -33,11 +33,10 @@ public partial class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibra
     // ImageLib.pas:4302
     internal void AllocateDiscardableImageData(int width, int height)
     {
-        int size;
         _pitch = width < 32 ? ((width << 1) + 3) & ~3 : ((width << 1) + 7) & ~7;
 
         // The rows start at the first byte of FBuffer, as TPicture08's (graphics.md 6.8).
-        size = (_pitch * height) + 7;
+        int size = (_pitch * height) + 7;
         _buffer = MemorySurfaces.Reallocate(_buffer, size);
     }
 
@@ -68,8 +67,7 @@ public partial class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibra
     // ImageLib.pas:4276
     public override void SetWidth(int value)
     {
-        int w;
-        w = Xshift + _spriteX + _spriteWidth;
+        int w = Xshift + _spriteX + _spriteWidth;
         if (value < w)
         {
             value = w;
@@ -81,8 +79,7 @@ public partial class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibra
     // ImageLib.pas:4285
     public override void SetHeight(int value)
     {
-        int w;
-        w = Yshift + _spriteY + _spriteHeight;
+        int w = Yshift + _spriteY + _spriteHeight;
         if (value < w)
         {
             value = w;
@@ -194,20 +191,11 @@ public partial class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibra
     // ImageLib.pas:4392
     public override void ShowOpaque(int X, int Y, in LockedSurface lockedSurface)
     {
-        int destinationX;
-        int right;
-        int w;
-        int h;
-        int sx;
-        int sy;
-        int destinationY;
-        int bottom;
-        SurfaceView source;
-        SurfaceView destination;
         X += _spriteX;
-        destinationX = Xshift + X;
-        w = _spriteWidth;
-        right = _spriteWidth + destinationX;
+        int destinationX = Xshift + X;
+        int w = _spriteWidth;
+        int right = _spriteWidth + destinationX;
+        int sx;
         if (destinationX < lockedSurface.ClipRectangle.Left)
         {
             sx = lockedSurface.ClipRectangle.Left - X;
@@ -227,9 +215,10 @@ public partial class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibra
         if (w > 0)
         {
             Y += _spriteY;
-            destinationY = Y + Yshift;
-            h = _spriteHeight;
-            bottom = destinationY + _spriteHeight;
+            int destinationY = Y + Yshift;
+            int h = _spriteHeight;
+            int bottom = destinationY + _spriteHeight;
+            int sy;
             if (destinationY < lockedSurface.ClipRectangle.Top)
             {
                 sy = lockedSurface.ClipRectangle.Top - Y;
@@ -248,6 +237,8 @@ public partial class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibra
 
             if (h > 0)
             {
+                SurfaceView source;
+                SurfaceView destination;
                 if (!DataLoaded)
                 {
                     LoadDiscardableImageData();
@@ -297,20 +288,11 @@ public partial class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibra
     // ImageLib.pas:4457
     public override void ShowBlended(int X, int Y, in LockedSurface lockedSurface, BlendTable table)
     {
-        int destinationX;
-        int right;
-        int w;
-        int h;
-        int sx;
-        int sy;
-        int destinationY;
-        int bottom;
-        SurfaceView source;
-        SurfaceView destination;
         X += _spriteX;
-        destinationX = Xshift + X;
-        w = _spriteWidth;
-        right = _spriteWidth + destinationX;
+        int destinationX = Xshift + X;
+        int w = _spriteWidth;
+        int right = _spriteWidth + destinationX;
+        int sx;
         if (destinationX < lockedSurface.ClipRectangle.Left)
         {
             sx = lockedSurface.ClipRectangle.Left - X;
@@ -330,9 +312,10 @@ public partial class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibra
         if (w > 0)
         {
             Y += _spriteY;
-            destinationY = Y + Yshift;
-            h = _spriteHeight;
-            bottom = destinationY + _spriteHeight;
+            int destinationY = Y + Yshift;
+            int h = _spriteHeight;
+            int bottom = destinationY + _spriteHeight;
+            int sy;
             if (destinationY < lockedSurface.ClipRectangle.Top)
             {
                 sy = lockedSurface.ClipRectangle.Top - Y;
@@ -351,6 +334,8 @@ public partial class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibra
 
             if (h > 0)
             {
+                SurfaceView source;
+                SurfaceView destination;
                 if (!DataLoaded)
                 {
                     LoadDiscardableImageData();
@@ -476,20 +461,15 @@ public partial class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibra
     // { GrabImage locks the conversion surface and never unlocks it (an original bug) }
     public override bool GrabImage(in LockedSurface lockedSurface, in Rect R, GrabInfo grabInfo)
     {
-        DataSurface surface;
-        LockedSurface lSD = default;
         Rect gr = default;
-        Rect mr = default;
-        int left;
-        int top;
-        int bottom;
         // { Absolute views preserve frame slots and the separate GR coordinate reads. }
         bool result = true;
         try
         {
-            surface = null;
+            DataSurface surface = null;
             try
             {
+                LockedSurface lSD = default;
                 if (lockedSurface.BitCount != 16)
                 {
                     surface = new DataSurface(R.Right - R.Left, R.Bottom - R.Top, PixelFormat.Rgb565, null);
@@ -525,13 +505,13 @@ public partial class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibra
                 StoredPixelFormatId = lSD.PixelFormatId;
                 PixelFormatId = StoredPixelFormatId;
                 _colorKey = _transparentColor;
-                LockedSurface.MinimizeTransparentRectangle(lSD, gr, _transparentColor, out mr);
-                left = mr.Left;
+                LockedSurface.MinimizeTransparentRectangle(lSD, gr, _transparentColor, out Rect mr);
+                int left = mr.Left;
                 _spriteX = left - gr.Left;
-                top = mr.Top;
+                int top = mr.Top;
                 _spriteY = top - gr.Top;
                 _spriteWidth = mr.Right - left;
-                bottom = mr.Bottom;
+                int bottom = mr.Bottom;
                 _spriteHeight = bottom - top;
                 DataSize = _spriteWidth * _spriteHeight * 2;
                 AllocateDiscardableImageData(_spriteWidth, _spriteHeight);

@@ -36,27 +36,19 @@ public partial class RaiseTerrainTokenEvent(CustomNode owner) : GlobalTargetSpel
     // Mountain.pas:261
     public void RaiseTerrain(Troop caster)
     {
-        MapObjectResourceList resources = default;
-        MapLevel level = default;
-        MapField field = default;
-        RaisedMountain mountain = default;
-        MapObjectResource resource = default;
-        int i = default;
-        bool found = default;
-        ImageSequenceAnimation animation = default;
-        resources = GamePack.Current.MapObjectResourceList;
-        level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
+        MapObjectResourceList resources = GamePack.Current.MapObjectResourceList;
+        MapLevel level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Location.X, Location.Y, 0);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                field = level.Field[walk.X, walk.Y];
-                resource = null;
+                MapField field = level.Field[walk.X, walk.Y];
                 if (GamePack.Current.SpellControl.GetSpell<GlobalTargetSpell>(19).ValidTargetMapField(field))
                 {
-                    found = false;
-                    i = resources.Count;
+                    bool found = false;
+                    int i = resources.Count;
+                    MapObjectResource resource = null;
                     while (!found && i != 0)
                     {
                         i -= 1;
@@ -67,7 +59,7 @@ public partial class RaiseTerrainTokenEvent(CustomNode owner) : GlobalTargetSpel
                     if (found)
                     {
                         field.RestoreTerrain();
-                        mountain = resource.CreateResourceUser<RaisedMountain>();
+                        RaisedMountain mountain = resource.CreateResourceUser<RaisedMountain>();
                         mountain.Duration = (sbyte)(((StrategicMap.Current.Random(11) - 5) / 5) + 3);
                         mountain.Player = caster.Player;
                         mountain.OriginalOverlay = field.OverlayType;
@@ -75,7 +67,7 @@ public partial class RaiseTerrainTokenEvent(CustomNode owner) : GlobalTargetSpel
                         if (StrategicMap.Current.PlaceHex(mountain, walk.X, walk.Y, Location.MapLevel))
                         {
                             mountain.Mode += Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);
-                            animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+                            ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                             animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(19).CastImages.ImageSequences[0]);
                             animation.OnShow += mountain.ShowRaiseTerrainAnimation;
                             animation.OnNewFrame += mountain.NewFrameRaiseTerrainAnimation;

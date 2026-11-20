@@ -68,8 +68,7 @@ public partial class Scanner(Component owner) : Control(owner)
     // Scanner.pas:398
     public override void Validate()
     {
-        InterfaceImageLibrary frame;
-        frame = _imageLibraryFrame;
+        InterfaceImageLibrary frame = _imageLibraryFrame;
         if (frame is not null)
         {
             _imageLibraryFrame = frame.CheckImageLibrary(_imageLibraryIndexFrame, 8, this);
@@ -86,7 +85,6 @@ public partial class Scanner(Component owner) : Control(owner)
     // Scanner.pas:409
     public override void SetSize()
     {
-        LockedSurface lockedSurface = default;
         if ((WinWidth != PreviousWidth || WinHeight != _previousHeight) && WinWidth > 0 && WinHeight > 0)
         {
             _halfRowInset = WinHeight / _mapHeight / 2;
@@ -96,6 +94,7 @@ public partial class Scanner(Component owner) : Control(owner)
                 _ = _objectSurface.Resize(WinWidth, WinHeight);
                 _ = _objectSurface.Clear(65280);
                 _ = _mapSurface.Resize(WinWidth, WinHeight);
+                LockedSurface lockedSurface = default;
                 _ = _mapSurface.Lock(ref lockedSurface);
                 for (int x = 0, last = WinWidth / _fogImageLibrary[0].Width; x <= last; x++)
                 {
@@ -227,16 +226,13 @@ public partial class Scanner(Component owner) : Control(owner)
     // Scanner.pas:449
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        int mapY;
-        int oldLeft;
-        int oldTop;
         if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             MouseDown = true;
             X = (X - Window.AbsoluteLeft - WinLeft) * _mapWidth / WinWidth;
-            mapY = (Y - Window.AbsoluteTop - WinTop) * _mapHeight / _drawableHeight;
-            oldLeft = TLeft;
-            oldTop = TTop;
+            int mapY = (Y - Window.AbsoluteTop - WinTop) * _mapHeight / _drawableHeight;
+            int oldLeft = TLeft;
+            int oldTop = TTop;
             TLeft = X - (_tWidth / 2);
             TTop = mapY - (_tHeight / 2);
             if (TTop != oldTop || oldLeft != TLeft)
@@ -423,12 +419,11 @@ public partial class Scanner(Component owner) : Control(owner)
     // Scanner.pas:246
     public byte GetExplored(int X, int Y)
     {
-        byte result;
         _ = StrategicMap.Current.CombatMap is not null ? Level.GetField(X + 8, Y + 6) : Level.GetField(X + 6, Y + 6);
 
         MapField field = StrategicMap.Current.CombatMap is not null ? Level.GetField(X + 8, Y + 6) : Level.GetField(X + 6, Y + 6);
 
-        result = _map.ExplorationEnabled
+        byte result = _map.ExplorationEnabled
             ? field.GetExplored(_map.SeatedPlayer) ? _map.FogEnabled ? field.FogCount == 0 ? (byte)2 : (byte)1 : (byte)1 : (byte)0
             : _map.FogEnabled ? field.FogCount == 0 ? (byte)2 : (byte)1 : (byte)1;
 
@@ -564,12 +559,6 @@ public partial class Scanner(Component owner) : Control(owner)
     // Scanner.pas:440
     public void DrawMap(int X, int Y, int width, int height)
     {
-        int imageIndex;
-        int overlay;
-        int explored;
-        int yOffset;
-        int terrain;
-        int overlayIndex;
         LockedSurface lockedSurface = default;
         try
         {
@@ -587,7 +576,7 @@ public partial class Scanner(Component owner) : Control(owner)
                     Y = 0;
                 }
 
-                yOffset = X == X / 2 * 2 ? 0 : _halfRowInset;
+                int yOffset = X == X / 2 * 2 ? 0 : _halfRowInset;
 
                 if (_mapSurface.Lock(ref lockedSurface) >= 0)
                 {
@@ -607,7 +596,7 @@ public partial class Scanner(Component owner) : Control(owner)
                         {
                             Rect rectangle = new(WinWidth * mapX / _mapWidth, (_drawableHeight * mapY / _mapHeight) + yOffset, (mapX + 1) * WinWidth / _mapWidth, ((mapY + 1) * _drawableHeight / _mapHeight) + yOffset);
                             lockedSurface.ClipRectangle = rectangle;
-                            explored = GetExplored(mapX, mapY);
+                            int explored = GetExplored(mapX, mapY);
                             if (explored == 0)
                             {
                                 for (int tileX = WinWidth * mapX / _mapWidth / _fogImageLibrary[0].Width, last = (mapX + 1) * WinWidth / _mapWidth / _fogImageLibrary[0].Width; tileX <= last; tileX++)
@@ -622,11 +611,11 @@ public partial class Scanner(Component owner) : Control(owner)
                             }
                             else
                             {
-                                terrain = GetTerrain(mapX, mapY);
-                                overlay = GetOverlay(mapX, mapY);
-                                overlayIndex = overlay is > 11 or 7 ? 0 : overlay + 1;
+                                int terrain = GetTerrain(mapX, mapY);
+                                int overlay = GetOverlay(mapX, mapY);
+                                int overlayIndex = overlay is > 11 or 7 ? 0 : overlay + 1;
 
-                                imageIndex = (overlayIndex * 16) + terrain;
+                                int imageIndex = (overlayIndex * 16) + terrain;
                                 if (terrain == 15)
                                 {
                                     for (int tileX = WinWidth * mapX / _mapWidth / _fogImageLibrary[0].Width, last = (mapX + 1) * WinWidth / _mapWidth / _fogImageLibrary[0].Width; tileX <= last; tileX++)
@@ -698,31 +687,26 @@ public partial class Scanner(Component owner) : Control(owner)
     // Scanner.pas:443
     public void DrawObjects()
     {
-        int imageIndex;
-        int yOffset;
-        int army;
-        int natural;
-        int building;
-        int objectValue;
-        LockedSurface lockedSurface = default;
         if (_objectSurface is not null)
         {
             _ = _objectSurface.Clear(65280);
-            yOffset = 0;
+            LockedSurface lockedSurface = default;
             if (_objectSurface.Lock(ref lockedSurface) >= 0)
             {
+                int yOffset = 0;
                 for (int x = 0, last = _mapWidth - 1; x <= last; x++)
                 {
                     for (int y = 0, lastY = _mapHeight - 1; y <= lastY; y++)
                     {
                         if (GetExplored(x, y) == 1)
                         {
-                            objectValue = GetObject(x, y);
+                            int objectValue = GetObject(x, y);
                             if (objectValue != 0)
                             {
-                                army = objectValue & 255;
-                                natural = objectValue & 65280;
-                                building = objectValue & 16711680;
+                                int army = objectValue & 255;
+                                int natural = objectValue & 65280;
+                                int building = objectValue & 16711680;
+                                int imageIndex;
                                 if (building > 0 && _buildings)
                                 {
                                     imageIndex = 7 - (((int)(((uint)building) >> 22)) & 3) + ((((int)(((uint)building) >> 16)) & 63) * 6);

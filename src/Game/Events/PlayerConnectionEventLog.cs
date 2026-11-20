@@ -22,8 +22,7 @@ public partial class PlayerConnectionEventLog(CustomNode owner, EngineObject hol
     // PlayerC.PAS:1714
     public override bool Yes()
     {
-        SaveGameEventLog log = default;
-        log = new SaveGameEventLog(null, holder: CreationHolder())
+        SaveGameEventLog log = new(null, holder: CreationHolder())
         {
             DefaultName = "",
             Directory = $"{GetEngine().StartupDirectory}Save\\"

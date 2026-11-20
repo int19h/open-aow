@@ -51,11 +51,10 @@ public partial class AIExecutor(CustomNode owner) : EngineObject(owner)
     public bool RequestProcessTime(int time)
     {
         bool result;
-        int used;
         switch (_processTimeMode)
         {
             case AIExecutorProcessTimeMode.Static:
-                used = _processTimeUsed;
+                int used = _processTimeUsed;
                 result = used == 0 || time <= _processTime - used;
 
                 break;
@@ -188,9 +187,6 @@ public partial class AIExecutor(CustomNode owner) : EngineObject(owner)
     // AI.pas:952
     public void Process()
     {
-        bool done;
-        int i;
-        int index;
         if (Status.Contains(AIExecutorStatusElement.Enabled) && LockCount == 0)
         {
             Status += Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Executing);
@@ -215,8 +211,8 @@ public partial class AIExecutor(CustomNode owner) : EngineObject(owner)
                         if (Status.Contains(AIExecutorStatusElement.TokenLocked))
                         {
                             ProcessCycles += 1;
-                            done = false;
-                            i = 0;
+                            bool done = false;
+                            int i = 0;
                             while (!done && GetProcessTimeLeft() > 0 && Status.Contains(AIExecutorStatusElement.Enabled) && i < _players.Count)
                             {
                                 done = StrategicMap.Current.Players.GetPlayers(Player).AIControl.Process(this, _tokenControlDone);
@@ -233,7 +229,7 @@ public partial class AIExecutor(CustomNode owner) : EngineObject(owner)
                                 _tokenControlDone = false;
                                 if (!done || StrategicMap.Current.Players.GetPlayers(Player).AIControl.GetProcessCyclesMax() <= _playerProcessCycles)
                                 {
-                                    index = _players.IndexOf((byte)Player);
+                                    int index = _players.IndexOf((byte)Player);
                                     index += 1;
                                     _playerProcessCycles = 0;
                                     // { Original behavior: Index = Count is not wrapped here. }

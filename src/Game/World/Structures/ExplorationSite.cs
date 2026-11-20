@@ -93,14 +93,13 @@ public partial class ExplorationSite : Structure
     public override int GetTerrainTypeImage(int terrainType)
     {
         int result;
-        int image;
         if (!GetExplored() || StrategicMap.Current.Day == 0)
         {
             result = terrainType;
         }
         else
         {
-            image = terrainType + 100;
+            int image = terrainType + 100;
             result = Resource.ImageSequenceList.ImageSequences[image << 0] is not null ? image : terrainType;
         }
 
@@ -166,21 +165,19 @@ public partial class ExplorationSite : Structure
     // ExploreS.pas:148
     public virtual bool ExecuteSearch(CombatType combatType)
     {
-        bool result = default;
-        ArmyHexSprite armyHexSprite;
-        Battle combat;
-        sbyte player;
-        CombatEventLog eventValue;
-        armyHexSprite = Owner.GetArmyHexSprite();
+        ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
+        bool result;
         if (armyHexSprite is not null && CanSearch(armyHexSprite.Army.Player))
         {
-            player = armyHexSprite.Army.Player;
+            sbyte player = armyHexSprite.Army.Player;
             if (_defenders.Units.Count == 0)
             {
                 ExecuteSearchDone(CombatType.Fast, CombatResult.Victory);
             }
             else
             {
+                Battle combat;
+                CombatEventLog eventValue;
                 if (combatType == CombatType.Fast)
                 {
                     StrategicMap.Current.LockGameOverEvent();
@@ -246,17 +243,14 @@ public partial class ExplorationSite : Structure
     // ExploreS.pas:258
     public virtual bool Search()
     {
-        bool result = default;
-        ArmyHexSprite armyHexSprite = default;
-        CombatTypeRequestEventLog request = default;
-        StructureTokenEvent tokenEvent = default;
-        armyHexSprite = Owner.GetArmyHexSprite();
+        ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
+        bool result;
         if (armyHexSprite is not null && CanSearch(armyHexSprite.Army.Player))
         {
             PlayerCollection playerList = StrategicMap.Current.Players;
             if (playerList.LocalPlayers.Count == 1 || StrategicMap.Current.RequestCombatType)
             {
-                request = new CombatTypeRequestEventLog(null) { Holder = CreationHolder() };
+                CombatTypeRequestEventLog request = new(null) { Holder = CreationHolder() };
                 sbyte hexLevel = GetHexLevel();
                 sbyte hexY = GetHexY();
                 request.SetCenterLocation((byte)GetHexX(), (byte)hexY, hexLevel);
@@ -270,7 +264,7 @@ public partial class ExplorationSite : Structure
             {
                 if (!playerList.GetPlayers(armyHexSprite.Army.Player).GetBusy())
                 {
-                    tokenEvent = CreateTokenEvent();
+                    StructureTokenEvent tokenEvent = CreateTokenEvent();
                     SetupTokenEvent(tokenEvent);
                     tokenEvent.Action = 0;
                     tokenEvent.Param = 1;
@@ -295,16 +289,13 @@ public partial class ExplorationSite : Structure
     // ExploreS.pas:113
     public void CombatExecuted(Battle combat)
     {
-        CombatData data;
-        CombatObject objectValue;
-        Troop troop;
-        data = combat.CombatData;
+        CombatData data = combat.CombatData;
         for (int i = 0, last = data.GetCount() - 1; i <= last; i++)
         {
-            objectValue = data.GetObjects(i);
+            CombatObject objectValue = data.GetObjects(i);
             if (objectValue is CombatUnit combatUnit && objectValue.GetPlayer() == 0)
             {
-                troop = combatUnit.Troop;
+                Troop troop = combatUnit.Troop;
                 _ = troop.AddRef();
                 combatUnit.SetUnit(null);
                 _ = _defenders.AddUnit(troop);
@@ -325,10 +316,9 @@ public partial class ExplorationSite : Structure
     // ExploreS.pas:230
     public void RequestCombatTypeCallback(CombatTypeRequestEventLog log)
     {
-        StructureTokenEvent tokenEvent;
         if (log.CombatType != CombatType.None)
         {
-            tokenEvent = CreateTokenEvent();
+            StructureTokenEvent tokenEvent = CreateTokenEvent();
             SetupTokenEvent(tokenEvent);
             tokenEvent.Action = 0;
             tokenEvent.Param = (int)log.CombatType;
@@ -341,10 +331,9 @@ public partial class ExplorationSite : Structure
     public bool CanSearch(sbyte player)
     {
         bool result;
-        ArmyHexSprite armyHexSprite;
         if (!GetExplored())
         {
-            armyHexSprite = Owner.GetArmyHexSprite();
+            ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
             if (armyHexSprite is null || armyHexSprite.Army.Player != player)
             {
                 result = false;
@@ -365,9 +354,6 @@ public partial class ExplorationSite : Structure
     // ExploreS.pas:300
     public void GenerateDefenders()
     {
-        int collection;
-        UnitIndexList list;
-        UnitIndexListCollection collections;
         RandSeed = StrategicMap.Current.DefendersSeed;
         if (_defendersMode == ExplorationSiteDefendersMode.Random)
         {
@@ -376,11 +362,11 @@ public partial class ExplorationSite : Structure
 
         // Defender lists live on the exploration resource. Another resource throws, as the old cast did.
         ExplorationSiteResource siteResource = GetResource<ExplorationSiteResource>();
-        collection = siteResource.DefenderCollections.GetRandomCollection();
+        int collection = siteResource.DefenderCollections.GetRandomCollection();
         if (collection != -1)
         {
-            list = new UnitIndexList();
-            collections = siteResource.DefenderCollections;
+            UnitIndexList list = new();
+            UnitIndexListCollection collections = siteResource.DefenderCollections;
             for (int i = collections.GetCollectionCount(collection) - 1; i >= 0; i--)
             {
                 _ = list.Add(collections.GetU(collection, i));

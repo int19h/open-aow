@@ -47,8 +47,7 @@ public partial class AIMoveControl : EngineObject
     // AIGroup.pas:3925
     public override void Clear()
     {
-        AIMoveControlSettings settings;
-        settings = Settings;
+        AIMoveControlSettings settings = Settings;
         if (settings is not null)
         {
             _ = settings.Release();
@@ -75,12 +74,11 @@ public partial class AIMoveControl : EngineObject
     // AIGroup.pas:3951
     public void ProcessCanMove()
     {
-        int points;
         switch (_state)
         {
             case 0:
                 _pathSettings.MovePointsMax = Settings.QuickMovePointsMax;
-                points = StrategicMap.Current.MoveControl.CanMove(_pathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
+                int points = StrategicMap.Current.MoveControl.CanMove(_pathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
                 Settings.MovePoints = points;
                 if (points != -1)
                 {
@@ -111,12 +109,11 @@ public partial class AIMoveControl : EngineObject
     // AIGroup.pas:3978
     public void SelectCombinedTransporterArmyMpT()
     {
-        sbyte points;
         for (int terrain = 0; terrain <= 15; terrain++)
         {
             for (int overlay = -1; overlay <= 11; overlay++)
             {
-                points = _movePointTable[terrain][overlay - MovementTables.FirstOverlay];
+                sbyte points = _movePointTable[terrain][overlay - MovementTables.FirstOverlay];
                 if (points == -1)
                 {
                     points = _transportMovePointTable[terrain][overlay - MovementTables.FirstOverlay];
@@ -136,25 +133,18 @@ public partial class AIMoveControl : EngineObject
     // AIGroup.pas:3993
     public bool CalculateTransportGaps(MovePath path, MovePointTable table)
     {
-        bool result;
-        int i;
-        int firstGap;
-        int lastGap;
-        int gaps;
-        bool inGap;
-        MapField mapField;
-        gaps = 0;
-        firstGap = -1;
-        lastGap = -1;
-        i = path.Count - 1;
-        inGap = false;
+        int gaps = 0;
+        int firstGap = -1;
+        int lastGap = -1;
+        int i = path.Count - 1;
+        bool inGap = false;
         while (i > 1)
         {
             i -= 1;
             PathStep item = path[i];
             PathStep pathItem = path[i];
             PathStep item2 = path[i];
-            mapField = StrategicMap.Current.MapContainer.GetField(item2.Location.X, pathItem.Location.Y, item.Location.MapLevel);
+            MapField mapField = StrategicMap.Current.MapContainer.GetField(item2.Location.X, pathItem.Location.Y, item.Location.MapLevel);
             if (table[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay] == -1)
             {
                 if (!inGap)
@@ -183,6 +173,7 @@ public partial class AIMoveControl : EngineObject
             lastGap = 1;
         }
 
+        bool result;
         if (gaps != 0)
         {
             PathStep item = path[firstGap + 1];
@@ -343,9 +334,7 @@ public partial class AIMoveControl : EngineObject
     // AIGroup.pas:4128
     public void Initialize(AIMoveControlSettings settings)
     {
-        AIMoveControlSettings oldSettings;
-        Troop transporter;
-        oldSettings = Settings;
+        AIMoveControlSettings oldSettings = Settings;
         _ = (oldSettings?.Release());
 
         Settings = settings;
@@ -359,7 +348,7 @@ public partial class AIMoveControl : EngineObject
             Settings.ArrivalPoint = Settings.ArrivalPoint with { X = -1 };
             Settings.Status = AIMoveControlStatus.Processing;
             _movePointTable = Settings.MovePointTable;
-            transporter = Settings.Transporter;
+            Troop transporter = Settings.Transporter;
             if (transporter is not null)
             {
                 int moveTypesToInt32 = MovementTables.MoveTypesToInt32(transporter.GetMoveTypes());
@@ -371,7 +360,6 @@ public partial class AIMoveControl : EngineObject
     // AIGroup.pas:4152
     public bool CanMove(AIMoveControlSettings settings)
     {
-        bool result;
         Reset();
         Initialize(settings);
         Status = AIMoveControlStatus.Processing;
@@ -384,6 +372,7 @@ public partial class AIMoveControl : EngineObject
         _pathSettings.ArmyHexSprite = Settings.ArmyHexSprite;
         _pathSettings.Selection = Settings.Selection;
         _pathSettings.Mode = Settings.MoveMode;
+        bool result;
         if (Settings.Transporter is null)
         {
             _mode = AIMoveControlMode.CanMove;

@@ -36,7 +36,6 @@ public partial class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Crops.pas:203
     public override void TerrainChanged(in HexSpriteTerrainInfo info)
     {
-        HexSprite hexSprite;
         if (info.HexNumber != 0)
         {
             return;
@@ -48,7 +47,7 @@ public partial class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner
             {
                 TerrainType = info.TerrainType;
                 ImageIndex = GetTerrainTypeImage(info.TerrainType);
-                hexSprite = info.MapField.GetMaxLevelNoneTransparentHexSprite();
+                HexSprite hexSprite = info.MapField.GetMaxLevelNoneTransparentHexSprite();
                 if ((hexSprite is not null && hexSprite.GetLevel() > GetLevel() && hexSprite is not AbstractRoad) || (info.OverlayType is >= 0 and not 4))
                 {
                     Dispose();
@@ -105,10 +104,8 @@ public partial class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Crops.pas:234
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        MapField field;
-        HexSprite hexSprite;
-        field = mapContainer.GetField(hexX, hexY, hexLevel);
-        hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
+        MapField field = mapContainer.GetField(hexX, hexY, hexLevel);
+        HexSprite hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
         return field.FindOwnedHexSprite(typeof(Fire)) is null && (hexSprite is null || hexSprite.GetLevel() < 10 || hexSprite is AbstractRoad);
     }
 
@@ -134,8 +131,7 @@ public partial class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Crops.pas:128
     public void UpdateSettings()
     {
-        int index;
-        index = GetTerrainTypeImage(TerrainType);
+        int index = GetTerrainTypeImage(TerrainType);
         ImageIndex = index;
         if (!base.Resource.ImageLibrary.ImageExist(index))
         {
@@ -146,10 +142,8 @@ public partial class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Crops.pas:136
     public void EndTurn(sbyte player)
     {
-        sbyte playerIndex;
-        ArmyHexSprite army;
-        army = Owner.GetArmyHexSprite();
-        playerIndex = player;
+        ArmyHexSprite army = Owner.GetArmyHexSprite();
+        sbyte playerIndex = player;
         if (army is not null && army.Army.Player == playerIndex && CropOwner.Player > 0 && playerIndex != CropOwner.Player)
         {
             if (StrategicMap.Current.Players.GetDiplomaticRelation(CropOwner.Player, playerIndex) == DiplomaticRelation.War)
@@ -163,10 +157,8 @@ public partial class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Crops.pas:163
     public void LinkToCropOwner()
     {
-        PlayerCropStructure found;
-        MapLevel mapLevel;
-        found = null;
-        mapLevel = Owner.Owner;
+        PlayerCropStructure found = null;
+        MapLevel mapLevel = Owner.Owner;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, 1);
         while (walk.Radius <= 1 && found is null)
         {

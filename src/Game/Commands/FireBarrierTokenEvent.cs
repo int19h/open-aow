@@ -30,20 +30,17 @@ public partial class FireBarrierTokenEvent(CustomNode owner) : GlobalTargetSpell
     // GlobalTargetSpells.pas:842
     public void CreateFireBarrier()
     {
-        MapLevel level;
-        MapField mapField;
-        Fire fire;
         RandSeed = StrategicMap.Current.Random(16777215);
-        level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
+        MapLevel level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Location.X, Location.Y, 0);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                mapField = level.Field[walk.X, walk.Y];
+                MapField mapField = level.Field[walk.X, walk.Y];
                 if (((GlobalTargetSpell)(object)GamePack.Current.SpellControl.GetSpell(11)).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() is null)
                 {
-                    fire = GamePack.Current.FireControl.PlaceFire(walk.X, walk.Y, Location.MapLevel, FireType.Large);
+                    Fire fire = GamePack.Current.FireControl.PlaceFire(walk.X, walk.Y, Location.MapLevel, FireType.Large);
                     if (fire is not null)
                     {
                         fire.SetupExplosion(Random(35));

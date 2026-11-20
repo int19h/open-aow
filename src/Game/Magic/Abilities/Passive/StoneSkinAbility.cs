@@ -20,10 +20,9 @@ public partial class StoneSkinAbility : UnitEnchantmentAbility
     // PassiveAb.pas:1037
     public override string GetSourceName(AbilityOwner owner)
     {
-        string result;
         // { Original assumes the ability data and enchantment exist. }
         UnitEnchantmentAbilityData unitEnchantmentAbilityData = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
-        result = unitEnchantmentAbilityData.Enchantment.Source == -2
+        string result = unitEnchantmentAbilityData.Enchantment.Source == -2
             ? AbilityRules.TranslateResourceString(GetEngine(), GameText.EarthMasteryText)
             : base.GetSourceName(owner);
 

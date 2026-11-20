@@ -261,7 +261,6 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
     // aowSetupEvents.pas:299
     public void DPlayDestroyPlayer(int id, int numberPlayers)
     {
-        sbyte player;
         if (UI.ScenarioSetup.SetupControl is not null)
         {
             if (UI.ScenarioSetup.SetupControl.GetHost())
@@ -272,7 +271,7 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
 
         if (StrategicMap.Current is not null && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is not null)
         {
-            player = (sbyte)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.IndexOfSystemId(id);
+            sbyte player = (sbyte)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.IndexOfSystemId(id);
             if (player != -1)
             {
                 if (StrategicMap.Current.Players.GetPlayers(player) is not null)

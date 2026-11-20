@@ -27,11 +27,9 @@ public static class PixelFormats
 
     internal static Surface CreateSurfaceFromImageFile(string fileName)
     {
-        Surface result;
-        ImageFileClass c;
         string extractFileExt = ExtractFileExt(fileName);
-        c = GraphicsState.ImageFileClassList.FindClass(extractFileExt);
-        result = c?.CreateSurface(fileName);
+        ImageFileClass c = GraphicsState.ImageFileClassList.FindClass(extractFileExt);
+        Surface result = c?.CreateSurface(fileName);
 
         return result;
     }
@@ -39,10 +37,7 @@ public static class PixelFormats
     internal static PixelFormat MaskToPixelFormatId(int bitCount, int rMask, int gMask, int bMask, int mask)
     {
         Span<byte> order = stackalloc byte[4];
-        bool swapped;
         Span<int> masks = stackalloc int[4];
-        int bits;
-        int t;
         int result = bitCount;
         masks[0] = mask;
         order[3] = 3;
@@ -52,6 +47,7 @@ public static class PixelFormats
         order[1] = 1;
         masks[3] = rMask;
         order[2] = 2;
+        bool swapped;
         do
         {
             swapped = false;
@@ -59,7 +55,7 @@ public static class PixelFormats
             {
                 if (((masks[order[i]] < 0 || masks[order[i + 1]] < masks[order[i]]) && masks[order[i + 1]] > 0) || (masks[order[i]] == 0 && masks[order[i + 1]] != 0))
                 {
-                    t = order[i];
+                    int t = order[i];
                     order[i] = order[i + 1];
                     order[i + 1] = (byte)t;
                     swapped = true;
@@ -74,7 +70,7 @@ public static class PixelFormats
 
         for (int i = 0; i <= 3; i++)
         {
-            bits = 0;
+            int bits = 0;
             while (masks[i] != 0)
             {
                 if ((masks[i] & 1) != 0)

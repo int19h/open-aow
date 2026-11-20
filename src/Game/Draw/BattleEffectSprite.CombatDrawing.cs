@@ -20,8 +20,6 @@ public partial class BattleEffectSprite
     {
         LockedSurface lockedSurfaceValue = lockedSurface;
         ImageSequence sequence;
-        int index;
-        ImageSequence firstSequence;
         void SelectSequence(int number)
         {
             sequence = AbilityIndex == 52
@@ -29,6 +27,8 @@ public partial class BattleEffectSprite
                 : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[number];
         }
 
+        int index;
+        ImageSequence firstSequence;
         void SelectFrame()
         {
             if (sequence is not null)
@@ -41,8 +41,7 @@ public partial class BattleEffectSprite
 
         void SelectDamageSequence()
         {
-            int n = default;
-            n = EffectType switch
+            int n = EffectType switch
             {
                 BattleEffectType.DamLightning => 40,
                 BattleEffectType.DamFire => 41,
@@ -91,14 +90,12 @@ public partial class BattleEffectSprite
 
         void ShowTrail()
         {
-            int lastFrame = default;
-            int half = default;
             if (sequence is not null)
             {
-                lastFrame = sequence.GetTotalSequenceFrames() - 1;
+                int lastFrame = sequence.GetTotalSequenceFrames() - 1;
                 for (int n = 0; n <= lastFrame; n++)
                 {
-                    half = n / 2;
+                    int half = n / 2;
                     bool condition = Frame - 9 + half + 5 > -1;
                     if (condition)
                     {
@@ -155,8 +152,6 @@ public partial class BattleEffectSprite
 
         void ShowFrostBeam()
         {
-            int n = default;
-            int alpha = default;
             switch (Frame)
             {
                 case >= 0 and <= 1999:
@@ -169,9 +164,10 @@ public partial class BattleEffectSprite
 
             if (sequence is not null)
             {
-                n = 0;
+                int n = 0;
                 while (n <= Frame && n < Path.Count)
                 {
+                    int alpha;
                     switch (Frame)
                     {
                         case >= 0 and <= 1999:
@@ -273,8 +269,7 @@ public partial class BattleEffectSprite
 
         void ShowScreenSwarm()
         {
-            int alpha = default;
-            alpha = ((100 - Path[Frame].Z) / 2) - FrameFixtureInputs.ShimmerOffset(this, Frame);
+            int alpha = ((100 - Path[Frame].Z) / 2) - FrameFixtureInputs.ShimmerOffset(this, Frame);
             if (alpha < 0)
             {
                 alpha = 0;
@@ -301,9 +296,8 @@ public partial class BattleEffectSprite
 
         void ShowParticle(bool shadow)
         {
-            int alpha = default;
             int count = Path.Count;
-            alpha = 100 - (Frame * 100 / count) - FrameFixtureInputs.ShimmerOffset(this, Frame);
+            int alpha = 100 - (Frame * 100 / count) - FrameFixtureInputs.ShimmerOffset(this, Frame);
             if (alpha < 0)
             {
                 alpha = 0;

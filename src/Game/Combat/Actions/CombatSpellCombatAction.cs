@@ -28,11 +28,10 @@ public partial class CombatSpellCombatAction(CustomNode owner) : DamageCombatAct
     // CombatSpells.pas:459
     public override void Execute(Battle combat)
     {
-        CombatObject source;
         base.Execute(combat);
         if (ManaCost != 0 && combat.Status.Contains(CombatStatusElement.Executing))
         {
-            source = combat.CombatData.FindId(SourceId);
+            CombatObject source = combat.CombatData.FindId(SourceId);
             GamePack.Current.SpellControl.GetSpell(SpellId).CombatCastingDone(source, ManaCost);
         }
     }

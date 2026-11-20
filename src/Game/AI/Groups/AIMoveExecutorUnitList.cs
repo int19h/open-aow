@@ -71,8 +71,7 @@ public partial class AIMoveExecutorUnitList(CustomNode owner) : OwningNode(owner
     // AIGroup.pas:4366
     public byte ValidateSelection(byte selection)
     {
-        int n;
-        n = Count;
+        int n = Count;
         if (n > 8)
         {
             n = 8;

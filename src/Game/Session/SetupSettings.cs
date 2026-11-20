@@ -113,9 +113,8 @@ public partial class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
     // AoWSetup.pas:366
     public int IndexOfPlayer(byte player)
     {
-        int i;
         int result = -1;
-        i = 0;
+        int i = 0;
         while (result == -1 && i != Count)
         {
             if (this[i].PlayerId == player)
@@ -132,9 +131,8 @@ public partial class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
     // AoWSetup.pas:378
     public int IndexOfRemoteId(int remoteId)
     {
-        int i;
         int result = -1;
-        i = 0;
+        int i = 0;
         while (result == -1 && i != Count)
         {
             if (this[i].Behavior.Flags == remoteId)
@@ -151,9 +149,8 @@ public partial class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
     // AoWSetup.pas:390
     public int IndexOfRace(byte race)
     {
-        int i;
         int result = -1;
-        i = 0;
+        int i = 0;
         while (result == -1 && i != Count)
         {
             if (race == (byte)this[i].Race)

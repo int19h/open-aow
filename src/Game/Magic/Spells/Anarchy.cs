@@ -35,14 +35,12 @@ public partial class Anarchy : CityTargetSpell
     // CitySpells.pas:875
     protected override bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        bool result = default;
-        City targetCity = default;
-        LocationTextEventLog log = default;
-        ImageSequenceAnimation a = default;
+        bool result;
+        City targetCity;
         if (executeCount == 0)
         {
             targetCity = eventValue.GetSelectedCity();
-            log = new LocationTextEventLog(null)
+            LocationTextEventLog log = new(null)
             {
                 Holder = CreationHolder(),
                 Player = source.Player,
@@ -55,7 +53,7 @@ public partial class Anarchy : CityTargetSpell
             _ = targetCity.ValidateObservation(source.Player);
             if (targetCity.Resource.ImageSequenceList.ImageSequences[16] is not null)
             {
-                a = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+                ImageSequenceAnimation a = new(null) { Holder = CreationHolder() };
                 a.SetImageSequence(targetCity.Resource.ImageSequenceList.ImageSequences[16]);
                 a.SetPixelXOffset(a.PixelXOffset - 16);
                 a.SetPixelYOffset(a.PixelYOffset - 16);

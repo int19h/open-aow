@@ -23,7 +23,6 @@ public partial class CityWallDoor(CustomNode owner) : CityWall(owner)
     // CityWall.pas:431
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        TacticalBattleUnitHexSprite combatUnit;
         if (CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || CombatMap.Current.Combat is null)
         {
             base.Show(pixelXSurface, pixelYSurface, lockedSurface);
@@ -32,7 +31,7 @@ public partial class CityWallDoor(CustomNode owner) : CityWall(owner)
         {
             sbyte hexY = GetHexY();
             sbyte hexX = GetHexX();
-            combatUnit = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+            TacticalBattleUnitHexSprite combatUnit = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
             if (combatUnit is not null)
             {
                 if (combatUnit.Unit.GetSide() != CombatSideIndex.Defender)

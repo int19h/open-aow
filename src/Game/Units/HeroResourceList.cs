@@ -33,12 +33,10 @@ public partial class HeroResourceList : ResourceCollection, IChildList<HeroResou
     // Hero.PAS:2369
     public DelphiStringList CreateHeroResourceStrings(Set<HeroType> heroTypes)
     {
-        HeroResource resource;
-        DelphiStringList list;
-        list = new DelphiStringList();
+        DelphiStringList list = new();
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            resource = this[i];
+            HeroResource resource = this[i];
             if (resource is not null && (GetEngine().User.Contains(EngineUserElement.Designer) || !resource.Hidden) && heroTypes.Contains(resource.HeroType))
             {
                 _ = list.AddObject(resource.Name, IntToObject(i));
@@ -51,13 +49,11 @@ public partial class HeroResourceList : ResourceCollection, IChildList<HeroResou
     // Hero.PAS:2382
     public int Find(int race, HeroType heroType)
     {
-        int i;
-        HeroResource resource;
-        i = 0;
+        int i = 0;
         int result = -1;
         while (i < Count && result == -1)
         {
-            resource = this[i];
+            HeroResource resource = this[i];
             if (resource is not null && race == resource.Race && heroType == resource.HeroType)
             {
                 result = i;

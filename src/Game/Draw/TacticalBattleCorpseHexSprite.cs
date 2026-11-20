@@ -39,11 +39,11 @@ public partial class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHex
     // AoWTC.pas:3985
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int frame;
-        ImageSequence sequence;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
         pixelXSurface = x - pixelXSurface - 15;
         pixelYSurface = y - pixelYSurface - 25;
+        int frame;
+        ImageSequence sequence;
         if (SequenceIndex > -1)
         {
             sequence = GamePack.Current.ImageSequences.ImageSequences[SequenceIndex];
@@ -75,22 +75,13 @@ public partial class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHex
     // AoWTC.pas:4025
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        CombatAction animateAction;
-        CombatAction raiseAction;
-        int n;
-        int deltaX;
-        int deltaY;
-        BattleEffectSprite effect;
-        float z = default;
-        float speed;
-        float vz = default;
-        float gravity;
-        TacticalBattleUnitHexSprite unitHexSprite;
         base.MapFieldMessageProc(ref message);
         if (Unit is not null)
         {
             int x;
             int y;
+            int n;
+            BattleEffectSprite effect;
             if (message.MessageId == 200712 && message.HexNumber == 0)
             {
                 sbyte hexY = GetHexY();
@@ -105,8 +96,8 @@ public partial class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHex
                     for (int ring = 1; ring <= 3; ring++)
                     {
                         n = Random(5);
-                        deltaX = Random(20) + (ring * 30);
-                        deltaY = Random(20) + (ring * 30);
+                        int deltaX = Random(20) + (ring * 30);
+                        int deltaY = Random(20) + (ring * 30);
                         for (int i = 0; i <= 17; i++)
                         {
                             effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
@@ -146,10 +137,10 @@ public partial class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHex
                         effect.AbilityIndex = 52;
                         effect.SpellIndex = message.Param[1].Int;
                         // { Original uses this smaller value for horizontal speed. }
-                        speed = (float)((Random(10) + 10) * 0.05);
-                        gravity = (float)0.5;
-                        vz = (float)((Random(50) + 50) * 0.05);
-                        z = 0;
+                        float speed = (float)((Random(10) + 10) * 0.05);
+                        float gravity = (float)0.5;
+                        float vz = (float)((Random(50) + 50) * 0.05);
+                        float z = 0;
                         Point3DList path2 = effect.Path;
                         EffectPaths.MakeArcPath(x + 16, y + 16, i * 360 / n, ref z, speed, ref vz, gravity, path2);
                         effect.Path = path2;
@@ -159,13 +150,13 @@ public partial class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHex
                     {
                         case 130:
                             RandSeed = StrategicMap.Current.Random(16777215);
-                            animateAction = GamePack.Current.SpellControl.GetSpell(130).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                            CombatAction animateAction = GamePack.Current.SpellControl.GetSpell(130).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
                             CombatMap.Current.Combat.ExecuteCombatAction(animateAction);
                             _ = animateAction.Release();
                             break;
                         case 129:
                             RandSeed = StrategicMap.Current.Random(16777215);
-                            raiseAction = GamePack.Current.SpellControl.GetSpell(129).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                            CombatAction raiseAction = GamePack.Current.SpellControl.GetSpell(129).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
                             CombatMap.Current.Combat.ExecuteCombatAction(raiseAction);
                             _ = raiseAction.Release();
                             break;
@@ -175,7 +166,7 @@ public partial class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHex
 
                     if (Unit.GetEnabled())
                     {
-                        unitHexSprite = new TacticalBattleUnitHexSprite(null) { Holder = CreationHolder() };
+                        TacticalBattleUnitHexSprite unitHexSprite = new(null) { Holder = CreationHolder() };
                         unitHexSprite.Initialize(Unit);
                         unitHexSprite.SetDirection((byte)(Random(6) + 1));
                         sbyte hexY3 = GetHexY();
@@ -213,8 +204,7 @@ public partial class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHex
     // AoWTC.pas:3978
     public void NewFrame(object sender)
     {
-        ImageSequence sequence;
-        sequence = GamePack.Current.ImageSequences.ImageSequences[SequenceIndex];
+        ImageSequence sequence = GamePack.Current.ImageSequences.ImageSequences[SequenceIndex];
         int totalSequenceFrames = sequence.GetTotalSequenceFrames();
         if (_sequenceFrame + 1 < totalSequenceFrames)
         {

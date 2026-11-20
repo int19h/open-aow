@@ -31,21 +31,19 @@ public partial class ProductionPlaceControl(CustomNode owner) : ProductionContro
     // PrdPlace.pas:179
     public override bool UnitProduced()
     {
-        UnitEnchantment enchantment;
-        ProductionPlaceEventLog log;
         ProductionPlace productionPlace = ProductionPlace;
         sbyte hexY = productionPlace.HexY;
         sbyte hexX = productionPlace.HexX;
         bool result = Settings.Unit.Place(hexX, hexY, productionPlace.HexLevel, productionPlace.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea)) is not null;
         if (result && ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None && Settings.Unit.ExpandAbility(155))
         {
-            enchantment = Settings.Unit.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
+            UnitEnchantment enchantment = Settings.Unit.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
             enchantment.SetUpkeep((Settings.Unit.GetUnitLevel() + 1) * 2);
             enchantment.SetSource(ProductionPlace.Player);
             enchantment.DispelResistance = (sbyte)(Settings.Unit.GetUnitLevel() + 3);
         }
 
-        log = new ProductionPlaceEventLog(null)
+        ProductionPlaceEventLog log = new(null)
         {
             Holder = CreationHolder(),
             Player = productionPlace.Player
@@ -63,10 +61,9 @@ public partial class ProductionPlaceControl(CustomNode owner) : ProductionContro
     // PrdPlace.pas:203
     public override void UnitResearched()
     {
-        ProductionPlaceEventLog log;
         base.UnitResearched();
         ProductionPlace productionPlace = ProductionPlace;
-        log = new ProductionPlaceEventLog(null)
+        ProductionPlaceEventLog log = new(null)
         {
             Holder = CreationHolder(),
             Player = productionPlace.Player
@@ -135,13 +132,12 @@ public partial class ProductionPlaceControl(CustomNode owner) : ProductionContro
     // PrdPlace.pas:121
     public override int UnitProductionTime(int index)
     {
-        sbyte player;
-        int picks;
         index = UnitProductions.GetItem(index).UnitIndex;
         int result = GamePack.Current.UnitResources.GetUnitResource(index).Level * 2;
         if (ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None)
         {
-            player = ProductionPlace.Player;
+            sbyte player = ProductionPlace.Player;
+            int picks;
             if (player > 0)
             {
                 MagicSphere magicSphere = ProductionPlace.GetMagicSphere();

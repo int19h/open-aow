@@ -79,7 +79,6 @@ public partial class UnitControl(CustomNode owner) : EngineObject(owner)
     // Unit.PAS:48
     public void RegisterUnit(Troop troop)
     {
-        Troop existingUnit;
         if (!troop.UnitStatus.Contains(UnitStatusElement.Registered))
         {
             if (troop.UnitId == -1)
@@ -91,7 +90,7 @@ public partial class UnitControl(CustomNode owner) : EngineObject(owner)
             }
             else
             {
-                existingUnit = UnitTable.TryGetValue(troop.UnitId, out Troop found) ? found : null;
+                Troop existingUnit = UnitTable.TryGetValue(troop.UnitId, out Troop found) ? found : null;
                 if (existingUnit != troop)
                 {
                     Units.Add(troop);

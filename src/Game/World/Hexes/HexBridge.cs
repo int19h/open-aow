@@ -47,11 +47,9 @@ public partial class HexBridge(CustomNode owner) : AbstractRoad(owner)
     // HxBridge.pas:105
     public override int GetShowPriority()
     {
-        int pixelX;
-        int pixelY;
         MapField mapField = Owner;
-        pixelX = (mapField.HexX * 32) + 8;
-        pixelY = ((mapField.HexX & 1) * 16) + (mapField.HexY * 32);
+        int pixelX = (mapField.HexX * 32) + 8;
+        int pixelY = ((mapField.HexX & 1) * 16) + (mapField.HexY * 32);
 
         return 1744830464 + (pixelY << 13) + pixelX + 8;
     }
@@ -59,8 +57,7 @@ public partial class HexBridge(CustomNode owner) : AbstractRoad(owner)
     // HxBridge.pas:117
     public override void Connect()
     {
-        MapLevel level;
-        level = Owner.Owner;
+        MapLevel level = Owner.Owner;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Owner.HexX, Owner.HexY, 1);
         while (walk.Radius <= 1)
         {
@@ -78,8 +75,7 @@ public partial class HexBridge(CustomNode owner) : AbstractRoad(owner)
     // HxBridge.pas:135
     public override void Disconnect()
     {
-        MapLevel level;
-        level = Owner.Owner;
+        MapLevel level = Owner.Owner;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Owner.HexX, Owner.HexY, 1);
         while (walk.Radius <= 1)
         {
@@ -117,11 +113,11 @@ public partial class HexBridge(CustomNode owner) : AbstractRoad(owner)
     // HxBridge.pas:160
     public override void MoveExclusive(in HexSpriteSenderInfo info)
     {
-        int hexX = default;
-        int hexY = default;
-        MapField mapField;
         if (info.HexNumber != 0)
         {
+            int hexX = default;
+            int hexY = default;
+            MapField mapField;
             if (_sideA.IndexOf((byte)info.HexNumber) != -1)
             {
                 for (int i = 0, last = _sideB.Count - 1; i <= last; i++)
@@ -175,18 +171,15 @@ public partial class HexBridge(CustomNode owner) : AbstractRoad(owner)
     // HxBridge.pas:200
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        MapField mapField;
-        mapField = mapContainer.GetField(hexX, hexY, hexLevel);
+        MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
         return base.CanPlace(mapContainer, hexX, hexY, hexLevel) && (DirectionValid(mapField, 0) || DirectionValid(mapField, 1) || DirectionValid(mapField, 2));
     }
 
     // HxBridge.pas:209
     public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        HexSprite road;
-        MapField mapField;
-        mapField = mapContainer.GetField(hexX, hexY, hexLevel);
-        road = mapField.FindHexSprite(typeof(AbstractRoad));
+        MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
+        HexSprite road = mapField.FindHexSprite(typeof(AbstractRoad));
         road?.Dispose();
 
         CustomNode previous = Owner;
@@ -244,11 +237,10 @@ public partial class HexBridge(CustomNode owner) : AbstractRoad(owner)
     // HxBridge.pas:229
     public bool DirectionValid(MapField mapField, sbyte direction)
     {
-        MapLevel level;
         int hexX = default;
         int hexY = default;
         bool result = false;
-        level = mapField.Owner;
+        MapLevel level = mapField.Owner;
         HexGeometry.CenterHexNumberToHex(mapField.HexX, mapField.HexY, direction + 1, ref hexX, ref hexY);
         if (hexX >= 0 && hexY >= 0 && hexX < level.Width && hexY < level.Height)
         {
@@ -268,19 +260,16 @@ public partial class HexBridge(CustomNode owner) : AbstractRoad(owner)
     // HxBridge.pas:246
     public void UpdateExclusiveMoves()
     {
-        int hexX;
-        int hexY;
-        int x = default;
-        int y = default;
-        MapLevel level;
         _sideB.Clear();
         _sideA.Clear();
         if (Direction != -1)
         {
-            level = Owner.Owner;
-            hexX = Owner.HexX;
-            hexY = Owner.HexY;
+            MapLevel level = Owner.Owner;
+            int hexX = Owner.HexX;
+            int hexY = Owner.HexY;
             // { Original bug: the neighbour lookups here have no bounds checks. }
+            int x = default;
+            int y = default;
             switch (Direction)
             {
                 case 0:

@@ -426,7 +426,6 @@ public partial class ComboBox : Control
     // { CheckMouseUp selects the item under the mouse in the open list and closes the list }
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        int i = default;
         Handled = false;
         MouseDown = false;
         Redraw = false;
@@ -458,7 +457,7 @@ public partial class ComboBox : Control
                     if (X < Window.AbsoluteLeft + WinLeft + WinWidth - _scrollBarWidth)
                     {
                         LibraryImage imageLibraryEdit = _imageLibraryEdit[_ileIndex];
-                        i = ((Y - Window.AbsoluteTop - WinTop - BorderHeight - imageLibraryEdit.Height) / ItemHeight) + _firstShownItem;
+                        int i = ((Y - Window.AbsoluteTop - WinTop - BorderHeight - imageLibraryEdit.Height) / ItemHeight) + _firstShownItem;
                         if (i < _items.Count)
                         {
                             _selected = i;
@@ -492,10 +491,9 @@ public partial class ComboBox : Control
     // { CheckMouseMove tracks the item under the mouse in the open list }
     public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        int oldItem;
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
-        oldItem = _hoverItem;
+        int oldItem = _hoverItem;
         _hoverItem = -1;
         if (X >= Window.AbsoluteLeft + WinLeft && X < Window.AbsoluteLeft + WinLeft + WinWidth - _scrollBarWidth && Y >= Window.AbsoluteTop + WinTop && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {

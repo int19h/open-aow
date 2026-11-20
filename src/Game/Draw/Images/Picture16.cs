@@ -27,11 +27,10 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
     // ImageLib.pas:2206
     internal void AllocateDiscardableImageData(int width, int height)
     {
-        int size;
         _pitch = width < 32 ? ((width << 1) + 3) & ~3 : ((width << 1) + 7) & ~7;
 
         // The rows start at the first byte of FBuffer, as TPicture08's (graphics.md 6.8).
-        size = (_pitch * height) + 7;
+        int size = (_pitch * height) + 7;
         _buffer = MemorySurfaces.Reallocate(_buffer, size);
     }
 
@@ -235,19 +234,10 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
     // ImageLib.pas:2349
     public override void ShowOpaque(int X, int Y, in LockedSurface lockedSurface)
     {
-        int destinationX;
-        int right;
-        int w;
-        int h;
+        int destinationX = X + Xshift;
+        int w = DataWidth;
+        int right = DataWidth + destinationX;
         int sx;
-        int sy;
-        int destinationY;
-        int bottom;
-        SurfaceView source;
-        SurfaceView destination;
-        destinationX = X + Xshift;
-        w = DataWidth;
-        right = DataWidth + destinationX;
         if (destinationX < lockedSurface.ClipRectangle.Left)
         {
             sx = lockedSurface.ClipRectangle.Left - X;
@@ -266,9 +256,10 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
 
         if (w > 0)
         {
-            destinationY = Y + Yshift;
-            h = DataHeight;
-            bottom = destinationY + DataHeight;
+            int destinationY = Y + Yshift;
+            int h = DataHeight;
+            int bottom = destinationY + DataHeight;
+            int sy;
             if (destinationY < lockedSurface.ClipRectangle.Top)
             {
                 sy = lockedSurface.ClipRectangle.Top - Y;
@@ -287,6 +278,8 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
 
             if (h > 0)
             {
+                SurfaceView source;
+                SurfaceView destination;
                 if (!DataLoaded)
                 {
                     LoadDiscardableImageData();
@@ -336,19 +329,10 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
     // ImageLib.pas:2412
     public override void ShowBlended(int X, int Y, in LockedSurface lockedSurface, BlendTable table)
     {
-        int destinationX;
-        int right;
-        int w;
-        int h;
+        int destinationX = X + Xshift;
+        int w = DataWidth;
+        int right = DataWidth + destinationX;
         int sx;
-        int sy;
-        int destinationY;
-        int bottom;
-        SurfaceView source;
-        SurfaceView destination;
-        destinationX = X + Xshift;
-        w = DataWidth;
-        right = DataWidth + destinationX;
         if (destinationX < lockedSurface.ClipRectangle.Left)
         {
             sx = lockedSurface.ClipRectangle.Left - X;
@@ -367,9 +351,10 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
 
         if (w > 0)
         {
-            destinationY = Y + Yshift;
-            h = DataHeight;
-            bottom = destinationY + DataHeight;
+            int destinationY = Y + Yshift;
+            int h = DataHeight;
+            int bottom = destinationY + DataHeight;
+            int sy;
             if (destinationY < lockedSurface.ClipRectangle.Top)
             {
                 sy = lockedSurface.ClipRectangle.Top - Y;
@@ -388,6 +373,8 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
 
             if (h > 0)
             {
+                SurfaceView source;
+                SurfaceView destination;
                 if (!DataLoaded)
                 {
                     LoadDiscardableImageData();
@@ -533,19 +520,10 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
     // ImageLib.pas:2511
     public override void ShowTransparent(int X, int Y, in LockedSurface lockedSurface)
     {
-        int destinationX;
-        int right;
-        int w;
-        int h;
+        int destinationX = X + Xshift;
+        int w = DataWidth;
+        int right = DataWidth + destinationX;
         int sx;
-        int sy;
-        int destinationY;
-        int bottom;
-        SurfaceView source;
-        SurfaceView destination;
-        destinationX = X + Xshift;
-        w = DataWidth;
-        right = DataWidth + destinationX;
         if (destinationX < lockedSurface.ClipRectangle.Left)
         {
             sx = lockedSurface.ClipRectangle.Left - X;
@@ -564,9 +542,10 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
 
         if (w > 0)
         {
-            destinationY = Y + Yshift;
-            h = DataHeight;
-            bottom = destinationY + DataHeight;
+            int destinationY = Y + Yshift;
+            int h = DataHeight;
+            int bottom = destinationY + DataHeight;
+            int sy;
             if (destinationY < lockedSurface.ClipRectangle.Top)
             {
                 sy = lockedSurface.ClipRectangle.Top - Y;
@@ -585,6 +564,8 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
 
             if (h > 0)
             {
+                SurfaceView source;
+                SurfaceView destination;
                 if (!DataLoaded)
                 {
                     LoadDiscardableImageData();

@@ -17,10 +17,9 @@ public partial class EndTurnAIPlayerAction(CustomNode owner) : AIPlayerAction(ow
     public override bool Process()
     {
         bool result;
-        EndTurnTokenEvent eventValue;
         if (!Control.Player.SingleProcessCycle)
         {
-            eventValue = new EndTurnTokenEvent(null)
+            EndTurnTokenEvent eventValue = new(null)
             {
                 Holder = CreationHolder(),
                 Player = Control.Player.PlayerIndex,

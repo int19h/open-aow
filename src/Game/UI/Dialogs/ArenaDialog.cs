@@ -38,18 +38,15 @@ public partial class ArenaDialog(UIContext ui) : UIModule(ui)
     // AoWArenaDlg.pas:104
     public void DrawUnit(int index, int X, int Y, ref LockedSurface lockedSurface)
     {
-        Rect saveRectangle;
         UnitShowInfo info;
-        LibraryImage image;
-        Troop u;
-        Units.Alignment alignment;
         if (index < _event.GetCount())
         {
-            u = _event.GetUnit(index);
-            saveRectangle = lockedSurface.ClipRectangle;
+            Troop u = _event.GetUnit(index);
+            Rect saveRectangle = lockedSurface.ClipRectangle;
             Rect rectangle = new(X + 5, Y + 4, X + 46, Y + 56);
             lockedSurface.ClipRectangle = rectangle;
-            alignment = u.GetAlignment();
+            Units.Alignment alignment = u.GetAlignment();
+            LibraryImage image;
             if ((byte)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 image = UI.Graphics.UnitBackgrounds[(int)alignment];
@@ -79,11 +76,9 @@ public partial class ArenaDialog(UIContext ui) : UIModule(ui)
     // AoWArenaDlg.pas:140
     public void ClearEvent()
     {
-        EnterArenaEventLog eventValue;
-        ExecuteDoneEvent notify;
         UI.General.Manager.OverlayPriority = 0;
-        notify = OnClose;
-        eventValue = _event;
+        ExecuteDoneEvent notify = OnClose;
+        EnterArenaEventLog eventValue = _event;
         OnClose = null;
         _event = null;
         notify?.Invoke(eventValue);
@@ -115,7 +110,6 @@ public partial class ArenaDialog(UIContext ui) : UIModule(ui)
     // AoWArenaDlg.pas:170
     public void U1Change(CheckBox sender, int slot)
     {
-        string reason = "";
         if (sender.Checked)
         {
             _event.SetSelection((byte)(_event.Selection | (1 << slot)));
@@ -147,6 +141,7 @@ public partial class ArenaDialog(UIContext ui) : UIModule(ui)
 
         if (_event.Selection != 0)
         {
+            string reason = "";
             SelectionInfoLabel.TextColor = _event.CanTrain(ref reason) ? 0 : 149;
 
             string selectionInfo = _event.GetSelectionInfo();
@@ -167,12 +162,9 @@ public partial class ArenaDialog(UIContext ui) : UIModule(ui)
     // AoWArenaDlg.pas:206
     public void MapViewDraw(UIComponent sender, LockedSurface lockedSurface)
     {
-        Rect r;
-        int w;
-        int h;
-        r = new Rect(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth, Window.WinTop + sender.WinTop + sender.WinHeight);
-        w = r.Right - r.Left;
-        h = r.Bottom - r.Top;
+        Rect r = new(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth, Window.WinTop + sender.WinTop + sender.WinHeight);
+        int w = r.Right - r.Left;
+        int h = r.Bottom - r.Top;
         sbyte hexY = _event.Arena.GetHexY();
         HexGeometry.HexToPixel(_event.Arena.GetHexX(), hexY, out int x, out int y);
         x = x + 16 - (int)(((uint)w) >> 1);

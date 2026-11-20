@@ -42,11 +42,11 @@ public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owne
     // CityWall.pas:230
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        AbilityCombatInfo abilityInfo = default;
-        SpellCombatInfo spellInfo = default;
         base.MapFieldMessageProc(ref message);
         if (message.HexNumber == 0)
         {
+            AbilityCombatInfo abilityInfo = default;
+            SpellCombatInfo spellInfo = default;
             switch (message.MessageId)
             {
                 case 200704:
@@ -199,11 +199,10 @@ public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owne
     // CityWall.pas:81
     public override void Activate()
     {
-        bool razed;
         base.Activate();
         if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            razed = false;
+            bool razed = false;
             _playSound = true;
             MapField field = StrategicMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation);
             City city = field.FindNoneTransparentHexSprite<City>();
@@ -291,8 +290,6 @@ public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owne
     // CityWall.pas:200
     public void SetHitPoints(int value)
     {
-        BattleEffectSprite effect;
-        Point3D point;
         if (value < 0)
         {
             value = 0;
@@ -308,8 +305,8 @@ public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owne
                     _ = AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODLG.WAV");
                 }
 
-                effect = CombatMap.Current.AddEffect(BattleEffectType.WallSmoke);
-                point = new Point3D();
+                BattleEffectSprite effect = CombatMap.Current.AddEffect(BattleEffectType.WallSmoke);
+                Point3D point = new();
                 effect.Path.Add(point);
                 _ = point.X;
                 _ = point.Y;
@@ -338,8 +335,6 @@ public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owne
 
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        ImageSequence sequence;
-        int imageIndex;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
@@ -351,11 +346,12 @@ public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owne
             5 or 7 or 12 => 20,
             _ => 0,
         };
-        sequence = base.Resource.ImageSequenceList.GetImageSequence(WallIsIndex[WallType - 1] + terrainOffset + _damageImage);
+        ImageSequence sequence = base.Resource.ImageSequenceList.GetImageSequence(WallIsIndex[WallType - 1] + terrainOffset + _damageImage);
         if (sequence is not null)
         {
             do
             {
+                int imageIndex;
                 switch (sequence.Layer)
                 {
                     case 7:

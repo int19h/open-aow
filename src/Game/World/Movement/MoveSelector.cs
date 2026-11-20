@@ -47,10 +47,8 @@ public partial class MoveSelector : IDisposable
     // Structur.PAS:4214
     public virtual void MouseDownEvent(object sender)
     {
-        object capture;
-        HexSpriteMapMouse mouse;
-        mouse = Map.Mouse;
-        capture = mouse.Capture;
+        HexSpriteMapMouse mouse = Map.Mouse;
+        object capture = mouse.Capture;
         if ((capture != this && capture != StrategicMap.Current.TargetSelection) || mouse.Button == MouseButton.Right)
         {
             Unselect();
@@ -162,44 +160,34 @@ public partial class MoveSelector : IDisposable
     // Structur.PAS:4253
     public virtual void ShowMovePaths(in LockedSurface surface)
     {
-        int x1;
-        int y1;
-        int x2;
-        int y2;
-        int j;
-        int imageIndex;
-        int maxX;
-        int maxY;
-        int pointsLeft;
-        int direction;
-        MoveSettings settings;
-        MapField mapField;
         if (Status.Contains(MoveSelectorStatusElement.Activated) && MoveSettingsList.Count != 0)
         {
-            maxX = Map.ViewHexX + Map.ViewWidthHex - 1;
-            maxY = Map.ViewHexY + Map.ViewHeightHex - 1;
+            int maxX = Map.ViewHexX + Map.ViewWidthHex - 1;
+            int maxY = Map.ViewHexY + Map.ViewHeightHex - 1;
 
             for (int i = 0, last = MoveSettingsList.Count - 1; i <= last; i++)
             {
-                settings = MoveSettingsList.GetMoveSettings(i);
-                pointsLeft = settings.PathMovePoints;
+                MoveSettings settings = MoveSettingsList.GetMoveSettings(i);
+                int pointsLeft = settings.PathMovePoints;
                 int pixelX;
                 int pixelY;
+                MapField mapField;
                 if (settings.Path.Count > 1)
                 {
-                    j = 0;
+                    int j = 0;
                     int limit = settings.Path.Count - 2;
+                    int imageIndex;
                     for (; j <= limit; j += 1)
                     {
                         if (settings.Path[j].Location.X >= Map.ViewHexX && settings.Path[j].Location.X <= maxX && settings.Path[j].Location.Y >= Map.ViewHexY && settings.Path[j].Location.Y <= maxY && settings.Path[j].Location.MapLevel == Map.ViewMapLevel)
                         {
-                            x1 = settings.Path[j].Location.X;
-                            y1 = settings.Path[j].Location.Y;
-                            x2 = settings.Path[j + 1].Location.X;
-                            y2 = settings.Path[j + 1].Location.Y;
+                            int x1 = settings.Path[j].Location.X;
+                            int y1 = settings.Path[j].Location.Y;
+                            int x2 = settings.Path[j + 1].Location.X;
+                            int y2 = settings.Path[j + 1].Location.Y;
                             if (HexGeometry.DeltaHexToRadius(x1, y1, x2, y2) == 1)
                             {
-                                direction = HexGeometry.DeltaHexToHexNumberFast(x1, y1, x2, y2);
+                                int direction = HexGeometry.DeltaHexToHexNumberFast(x1, y1, x2, y2);
                                 if (direction != 0)
                                 {
                                     imageIndex = pointsLeft <= settings.MovePoints ? direction + 34 : direction + 41;
@@ -332,8 +320,7 @@ public partial class MoveSelector : IDisposable
     // Structur.PAS:4157
     public int AddMoveObject(HexSprite objectValue)
     {
-        MoveSettings settings;
-        settings = new MoveSettings(null)
+        MoveSettings settings = new(null)
         {
             Holder = Creator.CreationHolder(),
             MoveObject = objectValue

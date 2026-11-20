@@ -65,7 +65,6 @@ public partial class PlayerMagicEventLog(CustomNode owner) : EventLog(owner)
     // Spells.PAS:1874
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool result = default;
         bool show = Mode switch
         {
             EventMode.OutOfMana => trigger == ExecuteTrigger.User,
@@ -75,7 +74,7 @@ public partial class PlayerMagicEventLog(CustomNode owner) : EventLog(owner)
             EventMode.StartResearch => true,
             _ => false,
         };
-        result = show && base.Execute(mode, trigger, done);
+        bool result = show && base.Execute(mode, trigger, done);
 
         return result;
     }
@@ -83,8 +82,7 @@ public partial class PlayerMagicEventLog(CustomNode owner) : EventLog(owner)
     // Spells.PAS:1863
     public override void ViewLocation()
     {
-        sbyte x;
-        x = Location.X;
+        sbyte x = Location.X;
         if (x != -1)
         {
             StrategicMap.Current.CenterViewTo(x, Location.Y, Location.MapLevel);

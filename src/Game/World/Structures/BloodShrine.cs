@@ -39,12 +39,9 @@ public partial class BloodShrine(CustomNode owner) : Structure(owner)
     // BloodShrine.pas:77
     public void ExecuteBloodlust(ArmyHexSprite armyHexSprite)
     {
-        Troop troop = default;
-        Rect r = default;
-        BloodShrineAnimation animation = default;
         for (int i = 0, last = armyHexSprite.Army.Units.Count - 1; i <= last; i++)
         {
-            troop = armyHexSprite.Army.Units.GetUnit(i);
+            Troop troop = armyHexSprite.Army.Units.GetUnit(i);
             _ = GamePack.Current.AbilityControl.GetAbility(168).Expand(troop);
         }
 
@@ -67,8 +64,8 @@ public partial class BloodShrine(CustomNode owner) : Structure(owner)
         sbyte hexX2 = GetHexX();
         if (StrategicMap.Current.Visible(hexX2, hexY2, hexLevel2, 0))
         {
-            animation = new BloodShrineAnimation(null) { Holder = CreationHolder() };
-            r = new Rect(-16, -8, 32, 40);
+            BloodShrineAnimation animation = new(null) { Holder = CreationHolder() };
+            Rect r = new(-16, -8, 32, 40);
             animation.SetDimensions(r);
             animation.AnimationLevel = 27;
             animation.OnShow += ShowBlessingAnimation;

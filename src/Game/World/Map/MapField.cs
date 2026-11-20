@@ -102,15 +102,13 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     // HSEngine.pas:2154
     public override EngineObject FindChild(int classId)
     {
-        EngineObject result;
-        int i;
-        i = 0;
+        int i = 0;
         while (i < StoredCount && _hexSpriteList[i].EngineClass.ClassId != classId)
         {
             i += 1;
         }
 
-        result = i < StoredCount ? _hexSpriteList[i] : (EngineObject)null;
+        EngineObject result = i < StoredCount ? _hexSpriteList[i] : (EngineObject)null;
 
         return result;
     }
@@ -118,15 +116,13 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     // HSEngine.pas:2211
     public override EngineObject FindOwnedChild(int classId)
     {
-        EngineObject result;
-        int i;
-        i = 0;
+        int i = 0;
         while (i < StoredCount && !(_hexSpriteList[i].EngineClass.ClassId == classId && _hexSpriteList[i].Owner == this))
         {
             i += 1;
         }
 
-        result = i < StoredCount ? _hexSpriteList[i] : (EngineObject)null;
+        EngineObject result = i < StoredCount ? _hexSpriteList[i] : (EngineObject)null;
 
         return result;
     }
@@ -140,15 +136,13 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     // HSEngine.pas:2163
     public HexSprite FindHexSprite(Type classValue)
     {
-        HexSprite result;
-        int i;
-        i = 0;
+        int i = 0;
         while (i < StoredCount && !classValue.IsInstanceOfType(_hexSpriteList[i]))
         {
             i += 1;
         }
 
-        result = i < StoredCount ? _hexSpriteList[i] : null;
+        HexSprite result = i < StoredCount ? _hexSpriteList[i] : null;
 
         return result;
     }
@@ -165,13 +159,11 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     // HSEngine.pas:2172
     public HexSprite FindOwnedHexSprite(Type classValue)
     {
-        int i;
-        HexSprite hexSprite;
-        i = 0;
+        int i = 0;
         HexSprite result = null;
         while (i < StoredCount && result is null)
         {
-            hexSprite = _hexSpriteList[i];
+            HexSprite hexSprite = _hexSpriteList[i];
             if (classValue.IsInstanceOfType(hexSprite) && hexSprite.Owner == this)
             {
                 result = hexSprite;
@@ -227,16 +219,13 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     //   never used. }
     public void DestroyLevelHexSprite(int minLevel, int maxLevel)
     {
-        bool done;
-        int i;
-        int level;
         HexGeometry.HexToPixel(Location.X, Location.Y, out _, out _);
-        i = StoredCount - 1;
+        int i = StoredCount - 1;
         // { Preserve the original stack slot. }
-        done = false;
+        bool done = false;
         while (!done && i >= 0)
         {
-            level = _hexSpriteList[i].GetLevel();
+            int level = _hexSpriteList[i].GetLevel();
             if (level <= maxLevel)
             {
                 if (level >= minLevel)

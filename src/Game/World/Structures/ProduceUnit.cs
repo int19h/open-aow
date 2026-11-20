@@ -47,9 +47,9 @@ public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder
 
     public override bool CanExecute(ProductionControl control, ref string reason)
     {
-        bool result;
         Waiting(control, ref reason);
         Player players = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
+        bool result;
         if (control.UnitProductionGold(Index) <= players.Gems)
         {
             Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());

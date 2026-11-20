@@ -28,8 +28,6 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
     // GlobalTargetSpells.pas:2373
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        EngineResource resource;
-        SmokeCloud cloud;
         // SmokeCloudSpell.TargetSelected constructs the GlobalTargetSpellTokenEvent this spell executes.
         GlobalTargetSpellTokenEvent targetEvent = (GlobalTargetSpellTokenEvent)eventValue;
         Troop sourceLocal = targetEvent.GetSource();
@@ -39,10 +37,10 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
             _ = GamePack.Current.SpellControl.GetSpell(targetEvent.EventSpellId).CastSounds.Play(0);
         }
 
-        resource = ((CustomNode)(object)GamePack.Current.MapObjectResourceList).FindChild<EngineResource>(135747);
+        EngineResource resource = ((CustomNode)(object)GamePack.Current.MapObjectResourceList).FindChild<EngineResource>(135747);
         if (resource is not null)
         {
-            cloud = resource.CreateResourceUser<SmokeCloud>();
+            SmokeCloud cloud = resource.CreateResourceUser<SmokeCloud>();
             cloud.Player = source.Player;
             cloud.TurnsRemaining = -1;
             cloud.Enchantment.PlayerIndex = source.Player;
@@ -62,8 +60,7 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
     // GlobalTargetSpells.pas:2343
     public override void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
-        TargetSelectionControl target;
-        target = targetSelection;
+        TargetSelectionControl target = targetSelection;
         base.SetupTargetSelection(source, target);
         target.HexNumbers.Clear();
         for (int i = 0, last = HexGeometry.RadiusToHexNumber(4) - 1; i <= last; i++)
@@ -75,8 +72,7 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
     // GlobalTargetSpells.pas:2356
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
-        GlobalTargetSpellTokenEvent eventValue;
-        eventValue = new GlobalTargetSpellTokenEvent(null) { Holder = CreationHolder() };
+        GlobalTargetSpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);

@@ -27,10 +27,9 @@ public partial class AdjacentArmy(CustomNode owner) : EngineObject(owner)
     public float GetMovementDays()
     {
         float result;
-        int points;
         if (Moves != 0)
         {
-            points = Path.GetMovePoints();
+            int points = Path.GetMovePoints();
             result = points > MovePoints
                 ? (float)((double)((double)(points - MovePoints) / Moves) + 1)
                 : points != 0 ? (float)((double)points / MovePoints) : 0;

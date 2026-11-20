@@ -104,12 +104,10 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:692
     public override void Connect()
     {
-        MapField field;
-        MapLevel level;
         CalculateShowPriority();
-        field = Owner;
+        MapField field = Owner;
         _ = field.RemoveChild(this);
-        level = field.Owner;
+        MapLevel level = field.Owner;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, field.HexX, field.HexY, 0);
         while (walk.Radius <= 1)
         {
@@ -126,12 +124,10 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:716
     public override void Disconnect()
     {
-        MapField field;
-        MapLevel level;
         if (Owner is not null)
         {
-            field = Owner;
-            level = field.Owner;
+            MapField field = Owner;
+            MapLevel level = field.Owner;
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, field.HexX, field.HexY, 0);
             while (walk.Radius <= 1)
             {
@@ -166,10 +162,9 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:751
     public override void RemoveFromMap()
     {
-        MapField field;
         if (Owner is not null)
         {
-            field = Owner;
+            MapField field = Owner;
             if (Moving())
             {
                 CancelMove();
@@ -191,8 +186,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:779
     public override void Remove()
     {
-        MapField field;
-        field = Owner;
+        MapField field = Owner;
         RemoveFromMap();
         if (GetVisible())
         {
@@ -283,11 +277,9 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:627
     public virtual void CalculateShowPriority()
     {
-        MapField field;
-        HexSprite hexSprite;
         int x = default;
         int y = default;
-        field = Owner;
+        MapField field = Owner;
         if (Moving() && Set<byte>.WithBounds(0, 255).WithRange(3, 5).Contains(Direction))
         {
             HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, Direction, ref x, ref y);
@@ -299,7 +291,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
             HexGeometry.HexToPixel(field.HexX, field.HexY, out x, out y);
         }
 
-        hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
+        HexSprite hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
         _showPriority = 1744830464 + ((y + 34 + 6) << 13) + x + 16;
         if (hexSprite != this && hexSprite is not null && hexSprite.GetShowPriority() >= _showPriority)
         {
@@ -330,12 +322,10 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:793
     public virtual bool PlaceHex(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        MapField field;
-        bool success;
-        field = map.GetField(hexX, hexY, hexLevel);
+        MapField field = map.GetField(hexX, hexY, hexLevel);
         SetOwnerWithoutNotify(field);
         CalculateShowPriority();
-        success = PlaceOnMap();
+        bool success = PlaceOnMap();
         _ = field.RemoveChild(this);
         SetOwnerWithoutNotify(null);
         SetOwner(field);
@@ -426,13 +416,11 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:594
     public void SetUnitGraphicsResourceIndex(int value)
     {
-        UnitGraphicsResource resource;
-        UnitGraphicsResource old;
         // { This eliminated copy preserves the original saved registers. }
-        resource = UnitGraphicsResource;
+        UnitGraphicsResource resource = UnitGraphicsResource;
         if (resource is null || value != resource.GetIndex())
         {
-            old = UnitGraphicsResource;
+            UnitGraphicsResource old = UnitGraphicsResource;
             _ = (old?.Release());
 
             resource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(value);

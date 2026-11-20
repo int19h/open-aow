@@ -28,10 +28,7 @@ public partial class ItemBanner(UIContext ui) : UIModule(ui)
     // AoWItemBanner.pas:46
     public void IBannerPopupShow()
     {
-        Item item;
-        int x;
-        int y;
-        item = StrategicMap.Current.ItemControl.FindItem(ItemId);
+        Item item = StrategicMap.Current.ItemControl.FindItem(ItemId);
         if (item is not null)
         {
             ItemNameLabel.Text = item.OwnerName;
@@ -43,8 +40,8 @@ public partial class ItemBanner(UIContext ui) : UIModule(ui)
             DamageLabel.Visible = false;
             DefenseLabel.Visible = false;
             ResistanceLabel.Visible = false;
-            x = 30;
-            y = 100;
+            int x = 30;
+            int y = 100;
             if (item.Attack != 0)
             {
                 AttackLabel.Text = IntToStr(item.Attack);
@@ -151,8 +148,7 @@ public partial class ItemBanner(UIContext ui) : UIModule(ui)
     // AoWItemBanner.pas:145
     public void DrawBoxPreDraw(LockedSurface lockedSurface)
     {
-        Item item;
-        item = StrategicMap.Current.ItemControl.FindItem(ItemId);
+        Item item = StrategicMap.Current.ItemControl.FindItem(ItemId);
         item?.Show(ItemView.WinLeft, ItemView.WinTop, lockedSurface);
     }
 

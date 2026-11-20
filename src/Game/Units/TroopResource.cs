@@ -45,16 +45,14 @@ public partial class TroopResource(CustomNode owner) : EngineResource(owner)
     // UnitRes.PAS:19
     public virtual LibraryImage GetPreviewImage()
     {
-        UnitGraphicsResource resource;
-        resource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitGraphicsResourceIndex);
+        UnitGraphicsResource resource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitGraphicsResourceIndex);
         return resource?.GetCellImage();
     }
 
     // UnitRes.PAS:9
     public virtual LibraryImage GetFace()
     {
-        UnitGraphicsResource resource;
-        resource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitGraphicsResourceIndex);
+        UnitGraphicsResource resource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitGraphicsResourceIndex);
         return resource?.GetFaceImage();
     }
 
@@ -67,10 +65,8 @@ public partial class TroopResource(CustomNode owner) : EngineResource(owner)
     // UnitRes.PAS:48
     public void EditDropMessage(ref EngineMessage message)
     {
-        MapContainer map;
-        int hexLevel;
-        map = message.Param[0].As<MapContainer>();
-        hexLevel = message.Data[1];
+        MapContainer map = message.Param[0].As<MapContainer>();
+        int hexLevel = message.Data[1];
         HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out int hexX, out int hexY);
         message.Result = hexX >= 0 && hexY >= 0 && hexX < map.Width && hexY < map.Height && DropUnit(hexX, hexY, hexLevel) ? 0 : -1;
     }

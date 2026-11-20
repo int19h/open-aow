@@ -22,10 +22,6 @@ public partial class DisplayController(Component owner) : Component(owner)
     public virtual DisplayControllerError BlitInvalidatedSurface(int index)
     {
         DisplayControllerError result;
-        Matrix m;
-        int bw = default;
-        int bh = default;
-        int v;
         Rect clipR = default;
         Rect sourceR = default;
         Rect destinationR = default;
@@ -33,7 +29,7 @@ public partial class DisplayController(Component owner) : Component(owner)
         {
             result = DisplayControllerError.Ok;
             Matrix inverseMatrix = GetInverseMatrix();
-            m = new Matrix(GetInverseMatrix().Width, inverseMatrix.Height);
+            Matrix m = new(GetInverseMatrix().Width, inverseMatrix.Height);
             for (int i = 0, last = GetInverseMatrix().Width - 1; i <= last; i++)
             {
                 for (int j = 0, lastJ = GetInverseMatrix().Height - 1; j <= lastJ; j++)
@@ -49,13 +45,15 @@ public partial class DisplayController(Component owner) : Component(owner)
             clipR.Right = GetSurface(1).Width;
             clipR.Top = 0;
             clipR.Bottom = GetSurface(1).Height;
+            int bw = default;
+            int bh = default;
             for (int j = 0, lastJ = m.Height - 1; j <= lastJ; j++)
             {
                 for (int i = 0, last = m.Width - 1; i <= last; i++)
                 {
                     if (result >= 0)
                     {
-                        v = GetInverseMatrix().GetValue((byte)i, (byte)j);
+                        int v = GetInverseMatrix().GetValue((byte)i, (byte)j);
                         if (v != 0)
                         {
                             GetInverseMatrix().SetValue((byte)i, (byte)j, (byte)(v - 1));
@@ -330,27 +328,18 @@ public partial class DisplayController(Component owner) : Component(owner)
     //   height); BW and BH get its size in blocks, the result is its area. }
     public virtual int GetInverseBlockSize(int X, int Y, Matrix matrix, ref int bw, ref int bh)
     {
-        int result;
-        int size1;
-        int size2;
-        int w1;
-        int h2;
-        int w2;
-        int h1;
         // P and Q are indexes into Matrix.FData.
-        int p;
-        int q;
-        int n;
-        int l;
-        int off;
-        bool ok;
-        p = X + (matrix.Width * Y);
+        int p = X + (matrix.Width * Y);
+        int result;
         if (matrix.Data[p] != 0)
         {
-            h1 = 0;
-            q = p;
-            w1 = matrix.Width - X;
-            size1 = 0;
+            int h1 = 0;
+            int q = p;
+            int w1 = matrix.Width - X;
+            int size1 = 0;
+            int n;
+            int l;
+            bool ok;
             do
             {
                 n = w1;
@@ -373,15 +362,15 @@ public partial class DisplayController(Component owner) : Component(owner)
             while (!(!ok || h1 + Y == matrix.Height));
             bh = h1;
             bw = w1;
-            w2 = 0;
+            int w2 = 0;
             q = p;
-            h2 = matrix.Height - Y;
-            size2 = 0;
+            int h2 = matrix.Height - Y;
+            int size2 = 0;
             do
             {
                 n = h2;
                 l = 0;
-                off = 0;
+                int off = 0;
                 while (n != 0 && matrix.Data[q + off] != 0)
                 {
                     l += 1;
@@ -421,10 +410,8 @@ public partial class DisplayController(Component owner) : Component(owner)
     // DisplayC.pas:964
     public virtual void GetPixelPositionOfBlock(int bx, int by, Rect R, out int pixelX, out int pixelY, out int bw, out int bh)
     {
-        int w;
-        int h;
-        w = (R.Right - R.Left + _inverseMatrix.Width - 1) / _inverseMatrix.Width;
-        h = (R.Bottom - R.Top + _inverseMatrix.Height - 1) / _inverseMatrix.Height;
+        int w = (R.Right - R.Left + _inverseMatrix.Width - 1) / _inverseMatrix.Width;
+        int h = (R.Bottom - R.Top + _inverseMatrix.Height - 1) / _inverseMatrix.Height;
         pixelX = w * bx;
         pixelY = h * by;
         bw = w;
@@ -434,10 +421,8 @@ public partial class DisplayController(Component owner) : Component(owner)
     // DisplayC.pas:976
     public virtual void GetBlockPositionOfPixel(int pixelX, int pixelY, Rect R, out int bx, out int by)
     {
-        int w;
-        int h;
-        w = (R.Right - R.Left + 1 + _inverseMatrix.Width - 1) / _inverseMatrix.Width;
-        h = (R.Bottom - R.Top + 1 + _inverseMatrix.Height - 1) / _inverseMatrix.Height;
+        int w = (R.Right - R.Left + 1 + _inverseMatrix.Width - 1) / _inverseMatrix.Width;
+        int h = (R.Bottom - R.Top + 1 + _inverseMatrix.Height - 1) / _inverseMatrix.Height;
         bx = (pixelX - R.Left) / w;
         by = (pixelY - R.Top) / h;
     }
@@ -447,11 +432,10 @@ public partial class DisplayController(Component owner) : Component(owner)
     //   the range test checks BY2 >= 0 where BX2 >= 0 was meant (and BY1 twice). }
     public void InverseWndwithValue(int X, int Y, int W, int H, byte value)
     {
-        Matrix m;
         Rect r = default;
         if (_inverseMatrix is not null)
         {
-            m = _inverseMatrix;
+            Matrix m = _inverseMatrix;
             r.Left = 0;
             r.Right = GetSurface(1).Width;
             r.Top = 0;
@@ -505,10 +489,9 @@ public partial class DisplayController(Component owner) : Component(owner)
     // { Counts frames; every 5 frames the frame rate is measured. }
     public virtual void NewFrame()
     {
-        int t;
         if (_frameCount >= 5)
         {
-            t = PixelFormats.GetElapsedMilliseconds();
+            int t = PixelFormats.GetElapsedMilliseconds();
             _display.CurrentFrameRate = Round((double)5000 / (t - _lastFrameTime + 1));
             _frameCount = 0;
             _lastFrameTime = t;

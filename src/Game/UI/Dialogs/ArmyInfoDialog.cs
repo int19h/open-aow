@@ -30,19 +30,15 @@ public partial class ArmyInfoDialog(UIContext ui) : UIModule(ui)
     // AoWArmyInfoDlg.pas:63
     public void DrawUnit(int index, in Rect R, ref LockedSurface lockedSurface)
     {
-        Rect saveRectangle;
         UnitShowInfo info;
-        LibraryImage image;
-        Units.Alignment alignment;
-        int x;
-        int y;
         if (index < _event.ArmyView.Units.Count)
         {
-            saveRectangle = lockedSurface.ClipRectangle;
+            Rect saveRectangle = lockedSurface.ClipRectangle;
             lockedSurface.ClipRectangle = R;
-            x = (R.Right + R.Left) / 2;
-            y = (R.Top + R.Bottom) / 2;
-            alignment = _event.ArmyView.Units.GetUnit(index).GetAlignment();
+            int x = (R.Right + R.Left) / 2;
+            int y = (R.Top + R.Bottom) / 2;
+            Units.Alignment alignment = _event.ArmyView.Units.GetUnit(index).GetAlignment();
+            LibraryImage image;
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 // { D3 masks the enum index after the original full-byte guard. }
@@ -67,8 +63,6 @@ public partial class ArmyInfoDialog(UIContext ui) : UIModule(ui)
     // AoWArmyInfoDlg.pas:92
     public void ClearEvent()
     {
-        ArmyInfoEventLog eventValue;
-        ExecuteDoneEvent notify;
         if (_unitInfoShown)
         {
             _unitInfoShown = false;
@@ -76,8 +70,8 @@ public partial class ArmyInfoDialog(UIContext ui) : UIModule(ui)
             UI.UnitWindow.MainWindow.Visible = false;
         }
 
-        notify = OnClose;
-        eventValue = _event;
+        ExecuteDoneEvent notify = OnClose;
+        ArmyInfoEventLog eventValue = _event;
         OnClose = null;
         _event = null;
         notify?.Invoke(eventValue);
@@ -131,13 +125,12 @@ public partial class ArmyInfoDialog(UIContext ui) : UIModule(ui)
     public void FaceFramePreDraw(LockedSurface lockedSurface)
     {
         Rect r = default;
-        int i;
         r.Left = FaceFrame.WinLeft + Window.WinLeft;
         r.Right = FaceFrame.WinWidth + r.Left;
         r.Top = FaceFrame.WinTop + Window.WinTop;
         r.Bottom = FaceFrame.WinHeight + r.Top;
 
-        i = 0;
+        int i = 0;
         while ((_event.Selection & (1 << i)) == 0 && i != _event.ArmyView.Units.Count)
         {
             i += 1;

@@ -30,7 +30,6 @@ public partial class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(own
     // PlayerC.PAS:984
     public override void NewTurn(sbyte player)
     {
-        SendEmailGameEventLog log = default;
         if (StrategicMap.Current.Players.GetPlayers(player).PbemSettings.Status.Contains(PbemPlayerStatusElement.NewTurn) || StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human || StrategicMap.Current.Players.GetPlayers(player).Status == PlayerStatus.Terminated)
         {
             base.NewTurn(player);
@@ -44,7 +43,7 @@ public partial class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(own
                 StrategicMap.Current.SetCurrentPlayer(player);
                 Player players = StrategicMap.Current.Players.GetPlayers(player);
                 StrategicMap.Current.Players.GetPlayers(player).PbemSettings.Status = players.PbemSettings.Status + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.NewTurn);
-                log = new SendEmailGameEventLog(null)
+                SendEmailGameEventLog log = new(null)
                 {
                     Holder = CreationHolder(),
                     Mode = 2,
@@ -65,11 +64,9 @@ public partial class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(own
     // PlayerC.PAS:1194
     public override void StartNewMap()
     {
-        int i;
-        int player;
         DefaultStartMap();
         NewDay();
-        i = 0;
+        int i = 0;
         int last = StrategicMap.Current.Players.Count - 1;
         for (; i <= last; i += 1)
         {
@@ -97,7 +94,7 @@ public partial class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(own
             i += 1;
         }
 
-        player = StrategicMap.Current.TurnOrder[i];
+        int player = StrategicMap.Current.TurnOrder[i];
         Player players = StrategicMap.Current.Players.GetPlayers(player);
         bool test = GetEngine().EmailGames.FindEmailGame(players.PbemSettings.EmailGame) is not null;
         if (test)
@@ -138,12 +135,11 @@ public partial class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(own
     // PlayerC.PAS:1230
     public override void ExitGame(ExitGameMode mode, ExitGameCallBack done)
     {
-        SaveGameEventLog log = default;
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.Status.Contains(PbemPlayerStatusElement.Playing))
         {
             if (DocumentKind.Map.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))
             {
-                log = new SaveGameEventLog(null, holder: CreationHolder())
+                SaveGameEventLog log = new(null, holder: CreationHolder())
                 {
                     Title = AbilityRules.TranslateResourceString(GetEngine(), s_saveEmailGameText)
                 };
@@ -173,14 +169,11 @@ public partial class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(own
     // PlayerC.PAS:1053
     public override void EndTurn(sbyte player)
     {
-        SaveGameEventLog saveLog = default;
-        MessageEventLog messageLog = default;
-        bool saved = default;
         if (StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human && StrategicMap.Current.Players.GetPlayers(player).Status == PlayerStatus.Playing)
         {
             if (DocumentKind.Map.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))
             {
-                saveLog = new SaveGameEventLog(null, holder: CreationHolder())
+                SaveGameEventLog saveLog = new(null, holder: CreationHolder())
                 {
                     Title = AbilityRules.TranslateResourceString(GetEngine(), s_saveEmailGameText)
                 };
@@ -199,6 +192,7 @@ public partial class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(own
                 StrategicMap.Current.Players.GetPlayers(player).PbemSettings.Status = players.PbemSettings.Status + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.TurnDone) - Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.Playing);
                 // A game file outside EmailIn takes the name the host writes (own-formats.md 4.2).
                 StrategicMap.Current.FileName = FileBoundary.WriteName(StrategicMap.Current.FileName);
+                bool saved;
                 try
                 {
                     GetEngine().SaveHsm(StrategicMap.Current.FileName, null, GameProfile.WorldMap);
@@ -215,7 +209,7 @@ public partial class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(own
                 }
                 else
                 {
-                    messageLog = new MessageEventLog(null, holder: CreationHolder());
+                    MessageEventLog messageLog = new(null, holder: CreationHolder());
                     string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CouldNotSaveFormat) + ".", [StrategicMap.Current.FileName]);
                     messageLog.Message.Text = format;
                     StrategicMap.Current.TriggerExecuteEventLog(messageLog, false, TerminateEmailGameCallback);
@@ -239,11 +233,10 @@ public partial class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(own
     // PlayerC.PAS:893
     public void SendEmailGameAutomatedCallback(SmtpEventLog log)
     {
-        SendEmailGameEventLog sendLog = default;
         _ = DeleteFile(log.FileName);
         if (!log.Success)
         {
-            sendLog = new SendEmailGameEventLog(null)
+            SendEmailGameEventLog sendLog = new(null)
             {
                 Holder = CreationHolder(),
                 Mode = 1,
@@ -261,8 +254,7 @@ public partial class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(own
     // PlayerC.PAS:909
     public void SendEmailGameManualCallback(SaveGameEventLog log)
     {
-        bool failed = default;
-        MessageEventLog messageLog = default;
+        bool failed;
         if (!IsEmpty(log.FileName))
         {
             try
@@ -282,6 +274,7 @@ public partial class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(own
             failed = true;
         }
 
+        MessageEventLog messageLog;
         if (failed)
         {
             messageLog = new MessageEventLog(null, holder: CreationHolder());
@@ -308,9 +301,8 @@ public partial class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(own
     // PlayerC.PAS:1018
     public void TriggerGameRestartedEvents(sbyte player)
     {
-        RestartGameEventLog log;
         StrategicMap.Current.SynchronizeBegin();
-        log = new RestartGameEventLog(null, holder: CreationHolder())
+        RestartGameEventLog log = new(null, holder: CreationHolder())
         {
             Player = player
         };
@@ -325,7 +317,7 @@ public partial class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(own
     // PlayerC.PAS:1031
     public void EndTurnGameSavedCallback(SaveGameEventLog log)
     {
-        bool failed = default;
+        bool failed;
         if (!IsEmpty(log.FileName))
         {
             try
@@ -416,14 +408,12 @@ public partial class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(own
     // PlayerC.PAS:1136
     public void ValidateLoadedMap()
     {
-        bool restarted = default;
-        MessageEventLog log = default;
         _localPlayer = StrategicMap.Current.CurrentPlayer;
         Player players = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer);
         if (GetEngine().EmailGames.FindEmailGame(players.PbemSettings.EmailGame) is null)
         {
             Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer);
-            restarted = GetEngine().EmailGames.EmailGameRestarted(fPlayersPlayers.PbemSettings.EmailGame);
+            bool restarted = GetEngine().EmailGames.EmailGameRestarted(fPlayersPlayers.PbemSettings.EmailGame);
             Player players2 = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer);
             Player players3 = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer);
             EmailGame emailGame = GetEngine().EmailGames.CreateEmailGame(players3.PbemSettings.EmailGame.Name, players2.PbemSettings.EmailGame.EmailAddress);
@@ -438,6 +428,7 @@ public partial class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(own
         else
         {
             Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer);
+            MessageEventLog log;
             if (GetEngine().EmailGames.EmailGameRestarted(fPlayersPlayers.PbemSettings.EmailGame))
             {
                 SetSeatedPlayer(-1);

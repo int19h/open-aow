@@ -14,13 +14,11 @@ public partial class SkirmishAIGroupControl(CustomNode owner) : BehaviorAIGroupC
     // BehaviorAG.pas:738
     public override void ProcessStates()
     {
-        AIGroupTargetFinder finder;
-        AIGroup group;
         switch (State)
         {
             case 0:
                 Targets.Clear();
-                finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
+                AIGroupTargetFinder finder = new(null) { Holder = CreationHolder() };
                 _ = finder.Setup(this);
                 if (Group.Transporter is null)
                 {
@@ -89,7 +87,7 @@ public partial class SkirmishAIGroupControl(CustomNode owner) : BehaviorAIGroupC
                 }
 
                 GroupBehavior randomGroupBehavior = StrategicMap.Current.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
-                group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, 0, randomGroupBehavior);
+                AIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, 0, randomGroupBehavior);
                 _ = group.AddUnits(Group.Units);
                 _ = group.Release();
                 Done();

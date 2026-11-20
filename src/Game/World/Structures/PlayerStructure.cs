@@ -494,20 +494,19 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
     // Structur.PAS:2249
     public virtual void UpdateUnfog()
     {
-        int range;
-        int x = default;
-        int y = default;
         if (!Status.Contains(MapObjectStatusElement.PlacedOnMap))
         {
             return;
         }
 
-        range = Status.Contains(MapObjectStatusElement.Activated) && Player != -1 && StrategicMap.Current.SeatedPlayer != -1 && (StrategicMap.Current.SeatedPlayer == Player || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(StrategicMap.Current.SeatedPlayer) == DiplomaticRelation.Alliance)
+        int range = Status.Contains(MapObjectStatusElement.Activated) && Player != -1 && StrategicMap.Current.SeatedPlayer != -1 && (StrategicMap.Current.SeatedPlayer == Player || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(StrategicMap.Current.SeatedPlayer) == DiplomaticRelation.Alliance)
             ? VisibilityRange()
             : 0;
 
         if (range != UnfogRange)
         {
+            int x = default;
+            int y = default;
             if (UnfogRange != 0)
             {
                 for (int i = 0, last = Resource.TerrainList.Count - 1; i <= last; i++)
@@ -538,10 +537,10 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
     // Structur.PAS:2233
     public virtual void UpdateExploration()
     {
-        int x = default;
-        int y = default;
         if (Status.Contains(MapObjectStatusElement.PlacedOnMap) && Player > 0)
         {
+            int x = default;
+            int y = default;
             for (int player = 1, last = StrategicMap.Current.Players.Count - 1; player <= last; player++)
             {
                 if (player == Player || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation((sbyte)player) == DiplomaticRelation.Alliance)
@@ -593,10 +592,9 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
     // Structur.PAS:2094
     public virtual void StructureCaptured(sbyte oldPlayer, sbyte newPlayer)
     {
-        LocationTextEventLog log;
         if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !Resource.Claimed)
         {
-            log = new LocationTextEventLog(null)
+            LocationTextEventLog log = new(null)
             {
                 Holder = CreationHolder(),
                 Player = newPlayer
@@ -624,21 +622,16 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
     // Structur.PAS:2047
     public virtual bool UpdatePlayer()
     {
-        sbyte player;
-        bool different;
-        int count;
-        MapLevel level;
-        ArmyHexSprite army;
-        player = -1;
-        different = false;
-        count = GetTerrainCount();
-        level = Owner.Owner;
+        sbyte player = -1;
+        bool different = false;
+        int count = GetTerrainCount();
+        MapLevel level = Owner.Owner;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, 0);
         while (walk.HexNumber < count && !different)
         {
             if (Resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                army = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
+                ArmyHexSprite army = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
                 if (army is not null)
                 {
                     if (player != -1)
@@ -729,10 +722,10 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
     // Structur.PAS:2220
     public void UpdatePlayerSeen()
     {
-        int x = default;
-        int y = default;
         if (Status.Contains(MapObjectStatusElement.PlacedOnMap) && Player > 0)
         {
+            int x = default;
+            int y = default;
             for (int i = 0, last = Resource.TerrainList.Count - 1; i <= last; i++)
             {
                 if (Resource.TerrainList.Terrain[i] >= 0)

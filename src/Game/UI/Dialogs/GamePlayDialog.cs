@@ -46,13 +46,12 @@ public partial class GamePlayDialog(UIContext ui) : UIModule(ui)
     // AoWGamePlayDlg.pas:200
     public void PasswordEntered(PasswordEventLog log)
     {
-        PasswordEventLog password = default;
         if (log.PressedButton == PressedEventLogButton.Ok)
         {
             if (!IsEmpty(log.Password))
             {
                 _newPassword = log.Password;
-                password = new PasswordEventLog(null, holder: UI.Engine)
+                PasswordEventLog password = new(null, holder: UI.Engine)
                 {
                     Title = UI.Engine.TranslateResourceString(s_passwordConfirmationText),
                     Prompt = UI.Engine.TranslateResourceString(s_reenterNewPasswordText)
@@ -102,8 +101,6 @@ public partial class GamePlayDialog(UIContext ui) : UIModule(ui)
     // AoWGamePlayDlg.pas:100
     public void WindowShow()
     {
-        GameSettings.CombatResolveMode mode;
-        Set<WindowPopupEvent> events;
         bool autoSave = UI.Engine.Registry.GetAutoSave();
         AutoSaveCheckBox.Checked = autoSave;
         bool skipIntro = UI.Engine.Registry.GetSkipIntro();
@@ -113,7 +110,7 @@ public partial class GamePlayDialog(UIContext ui) : UIModule(ui)
         CombatResolveModeComboBox.Items.Clear();
         for (int modeOrdinal = (int)(GameSettings.CombatResolveMode)0; modeOrdinal <= (int)(GameSettings.CombatResolveMode)2; modeOrdinal++)
         {
-            mode = (GameSettings.CombatResolveMode)modeOrdinal;
+            GameSettings.CombatResolveMode mode = (GameSettings.CombatResolveMode)modeOrdinal;
             string combatResolveMode = UI.Engine.TranslateResourceString(s_combatResolveModeTexts[(int)mode]);
             _ = CombatResolveModeComboBox.Items.AddObject(combatResolveMode, IntToObject((int)mode));
         }
@@ -121,7 +118,7 @@ public partial class GamePlayDialog(UIContext ui) : UIModule(ui)
         GameSettings.CombatResolveMode fRegistryCombatResolveMode = UI.Engine.Registry.GetCombatResolveMode();
         int indexOfObject = CombatResolveModeComboBox.Items.IndexOfObject(IntToObject((int)fRegistryCombatResolveMode));
         CombatResolveModeComboBox.Selected = indexOfObject;
-        events = UI.Engine.Registry.GetClassicWindowPopupEvents();
+        Set<WindowPopupEvent> events = UI.Engine.Registry.GetClassicWindowPopupEvents();
         Classic1CheckBox.Checked = events.Contains(WindowPopupEvent.Combat);
         Classic2CheckBox.Checked = events.Contains(WindowPopupEvent.Diplomacy);
         Classic3CheckBox.Checked = events.Contains(WindowPopupEvent.SpellResearched);
@@ -146,10 +143,9 @@ public partial class GamePlayDialog(UIContext ui) : UIModule(ui)
     // AoWGamePlayDlg.pas:133
     public void ChangePasswordBtnClick()
     {
-        PasswordEventLog log = default;
         if (StrategicMap.Current.PlayMode != PlayMode.Turn || StrategicMap.Current.ConnectionType != PlayerConnectionType.Network || StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer)
         {
-            log = new PasswordEventLog(null, holder: UI.Engine)
+            PasswordEventLog log = new(null, holder: UI.Engine)
             {
                 Prompt = UI.Engine.TranslateResourceString(s_enterNewPasswordText)
             };
@@ -161,8 +157,6 @@ public partial class GamePlayDialog(UIContext ui) : UIModule(ui)
     // AoWGamePlayDlg.pas:147
     public void OKBtnClick()
     {
-        string error = "";
-        Set<WindowPopupEvent> events;
         UI.General.PlayButtonSound(0);
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Settings != PasswordEdit.Text)
         {
@@ -172,6 +166,7 @@ public partial class GamePlayDialog(UIContext ui) : UIModule(ui)
             }
             else
             {
+                string error = "";
                 if (!StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).ChangePlayerSettings(PasswordEdit.Text, error))
                 {
                     MessageDialog.ResetMessageDialog(UI.MessageDialog);
@@ -189,7 +184,7 @@ public partial class GamePlayDialog(UIContext ui) : UIModule(ui)
         UI.Engine.Registry.SetMovementSpeed((GameSettings.MovementSpeed)MovementSpeedComboBox.Selected);
         object objectValue = CombatResolveModeComboBox.Items.Objects[CombatResolveModeComboBox.Selected];
         UI.Engine.Registry.SetCombatResolveMode((GameSettings.CombatResolveMode)ObjectToInt(objectValue));
-        events = Set<WindowPopupEvent>.Of();
+        Set<WindowPopupEvent> events = Set<WindowPopupEvent>.Of();
         if (Classic1CheckBox.Checked)
         {
             events += Set<WindowPopupEvent>.Of(WindowPopupEvent.Combat);

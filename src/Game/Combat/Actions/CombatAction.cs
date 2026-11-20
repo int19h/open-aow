@@ -28,9 +28,8 @@ public partial class CombatAction(CustomNode owner) : EngineObject(owner), IOwne
     // Combat2.pas:704
     public override int Release()
     {
-        int n;
         RefCount -= 1;
-        n = RefCount;
+        int n = RefCount;
         int result = n;
         if (n == 0)
         {

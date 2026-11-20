@@ -14,8 +14,7 @@ public partial class UnitSelectionActivation(CustomNode owner) : AbilityActivati
     // Ability.PAS:696
     public override void Dispose()
     {
-        UnitSelector selector;
-        selector = UnitSelector;
+        UnitSelector selector = UnitSelector;
         if (selector is not null)
         {
             _ = selector.Release();
@@ -28,8 +27,7 @@ public partial class UnitSelectionActivation(CustomNode owner) : AbilityActivati
     // Ability.PAS:709
     public void SetUnitSelector(UnitSelector value)
     {
-        UnitSelector old;
-        old = UnitSelector;
+        UnitSelector old = UnitSelector;
         if (old != value)
         {
             _ = (old?.Release());

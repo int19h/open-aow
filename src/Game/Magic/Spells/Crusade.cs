@@ -34,10 +34,6 @@ public partial class Crusade : Spell
     // GlobalSpells.pas:1340
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        int count;
-        int unitIndex;
-        ArmyHexSprite party;
-        Unit newUnit;
         if (executeCount == 0)
         {
             MapCoordinate coordinate61 = source.GetLocation();
@@ -51,6 +47,10 @@ public partial class Crusade : Spell
             worldEffectHexSprite.Y = pixelY + 16;
             worldEffectHexSprite.Layer = layer;
 
+            int count;
+            int unitIndex;
+            ArmyHexSprite party;
+            Unit newUnit;
             if (StrategicMap.Current.Random(100) < 20)
             {
                 party = new ArmyHexSprite(null) { Holder = CreationHolder() };
@@ -128,13 +128,12 @@ public partial class Crusade : Spell
     // GlobalSpells.pas:1417
     public override bool Activate(Troop source)
     {
-        bool result;
         string reason = "";
-        SpellTokenEvent eventValue;
         _ = base.Activate(source);
+        bool result;
         if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            eventValue = new SpellTokenEvent(null) { Holder = CreationHolder() };
+            SpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
@@ -151,16 +150,15 @@ public partial class Crusade : Spell
     // GlobalSpells.pas:1313
     public bool PlaceParty(Troop source, ArmyHexSprite party)
     {
-        bool result;
         int targetX = default;
         int targetY = default;
-        ImageSequenceAnimation animation;
         MapCoordinate coordinate62 = source.GetLocation();
         sbyte x = coordinate62.X;
         sbyte y = coordinate62.Y;
         sbyte layer = coordinate62.MapLevel;
         int radiusToHexNumber = HexGeometry.RadiusToHexNumber(5);
         HexGeometry.CenterHexNumberToHex(hexNumber: StrategicMap.Current.Random(radiusToHexNumber), hexX: x, hexY: y, newHexX: ref targetX, newHexY: ref targetY);
+        bool result;
         if (party.Place((sbyte)targetX, (sbyte)targetY, layer, Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea)))
         {
             party.Activate();
@@ -173,7 +171,7 @@ public partial class Crusade : Spell
                 if (GamePack.Current.SpellControl.GetSpell(34).CastImages.GetImageSequence(0) is not null)
                 {
                     // { Original uses Warp Party's images for Crusade parties. }
-                    animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+                    ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(34).CastImages.GetImageSequence(0));
                     animation.AnimationLevel = 28;
                     sbyte partyHexLevel = party.GetHexLevel();

@@ -21,9 +21,7 @@ public partial class FireControl : IDisposable
     // Structur.PAS:3732
     public Fire.Resource GetRandomFireResource(FireType fireType)
     {
-        Fire.Resource result;
-        List<Fire.Resource> resources;
-        resources = [];
+        List<Fire.Resource> resources = [];
         for (int i = 0, last = _resources.Count - 1; i <= last; i++)
         {
             if (_resources[i].FireType == fireType)
@@ -32,7 +30,7 @@ public partial class FireControl : IDisposable
             }
         }
 
-        result = resources.Count != 0 ? resources[Random(resources.Count)] : null;
+        Fire.Resource result = resources.Count != 0 ? resources[Random(resources.Count)] : null;
 
         resources?.Clear();
         return result;
@@ -41,13 +39,11 @@ public partial class FireControl : IDisposable
     // Structur.PAS:3747
     public Fire PlaceFire(int X, int Y, int L, FireType fireType)
     {
+        Fire.Resource resource = GetRandomFireResource(fireType);
         Fire result;
-        Fire.Resource resource;
-        Fire fire;
-        resource = GetRandomFireResource(fireType);
         if (resource is not null)
         {
-            fire = resource.CreateResourceUser<Fire>();
+            Fire fire = resource.CreateResourceUser<Fire>();
             fire.Player = StrategicMap.Current.CurrentPlayer;
             if (!StrategicMap.Current.PlaceHex(fire, X, Y, L))
             {

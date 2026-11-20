@@ -229,10 +229,9 @@ public partial class WindowControl(Component owner) : UIComponent(owner)
     // AoWWinControl.pas:208
     public virtual void Blit(Surface surface)
     {
-        Rect r = default;
         OnPreDrawSurface?.Invoke(this, surface, WinLeft, WinTop);
 
-        r = new Rect(0, 0, WinWidth, WinHeight);
+        Rect r = new(0, 0, WinWidth, WinHeight);
         if (!Masked)
         {
             _ = BackSurface.BlitAreaClipped(surface, r, WinLeft, WinTop);
@@ -253,10 +252,9 @@ public partial class WindowControl(Component owner) : UIComponent(owner)
     // { RadioChange unchecks the other children of the radio group of Sender }
     public void RadioChange(UIComponent sender)
     {
-        UIComponent c;
         for (int i = 0, last = Children.Count - 1; i <= last; i++)
         {
-            c = Children[i];
+            UIComponent c = Children[i];
             if (sender.RadioIndex == c.RadioIndex && c != sender && c.Checked)
             {
                 c.Checked = false;

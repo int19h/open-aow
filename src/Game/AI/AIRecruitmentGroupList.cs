@@ -31,12 +31,10 @@ public partial class AIRecruitmentGroupList(CustomNode owner) : ReferenceNode(ow
     // AIGroup.pas:816
     public void OutputDebugInfo()
     {
-        string text;
-        AIRecruitmentGroup group;
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            group = GetRecruitmentGroups(i);
-            text = $"{group.Group.GetType().Name}(ID:{IntToStr(group.Group.GroupId)})";
+            AIRecruitmentGroup group = GetRecruitmentGroups(i);
+            string text = $"{group.Group.GetType().Name}(ID:{IntToStr(group.Group.GroupId)})";
             text = $"{text}/Loc:({IntToStr(group.Location.X)},{IntToStr(group.Location.Y)},{IntToStr(group.Location.MapLevel)})";
             text = $"{text}/MP:{IntToStr(group.MovePoints)}";
             text = $"{text}/MPBFS:{IntToStr(group.PathStrength)}";
@@ -53,11 +51,10 @@ public partial class AIRecruitmentGroupList(CustomNode owner) : ReferenceNode(ow
     // AIGroup.pas:844
     public bool Validate(AIGroupControl control)
     {
-        AIRecruitmentGroup group;
         bool result = true;
         for (int i = Count - 1; i >= 0; i--)
         {
-            group = this[i];
+            AIRecruitmentGroup group = this[i];
             if (!group.Validate(control))
             {
                 _ = RemoveChild(group);

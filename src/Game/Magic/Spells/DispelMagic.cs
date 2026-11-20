@@ -36,8 +36,7 @@ public partial class DispelMagic : UnitSpell
     // UnitSpells.pas:1023
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        DispelMagicSpellCombatAction action;
-        action = new DispelMagicSpellCombatAction(null)
+        DispelMagicSpellCombatAction action = new(null)
         {
             Holder = CreationHolder(),
             SpellId = SpellId,
@@ -77,18 +76,15 @@ public partial class DispelMagic : UnitSpell
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
         bool result;
-        int count;
-        EnchantmentList enchantments;
-        int chance;
         if (ValidTargetUnit(source, target))
         {
-            count = 0;
-            enchantments = new EnchantmentList(null) { Holder = CreationHolder() };
+            int count = 0;
+            EnchantmentList enchantments = new(null) { Holder = CreationHolder() };
             target.ListEnchantments(enchantments);
             for (int i = enchantments.GetCount() - 1; i >= 0; i--)
             {
                 int dispelMana = GetDispelMana(source);
-                chance = enchantments.GetEnchantments(i).DispelChance(dispelMana);
+                int chance = enchantments.GetEnchantments(i).DispelChance(dispelMana);
                 if (chance > StrategicMap.Current.Random(100))
                 {
                     count += 1;

@@ -43,9 +43,8 @@ public partial class Storm(CustomNode owner) : Animation(owner)
     // Storms.pas:226
     public void ShowTargetSelection(TargetSelectionControl selection, int hexNumber, int xs, int ys, in LockedSurface lockedSurface)
     {
-        int intensity;
         hexNumber = HexGeometry.HexNumberToRadius(hexNumber);
-        intensity = (Math.Abs(((StrategicMap.Current.Frame + hexNumber) % 9) - 4) * 20) + 20;
+        int intensity = (Math.Abs(((StrategicMap.Current.Frame + hexNumber) % 9) - 4) * 20) + 20;
         BlendTable lookupTable = GraphicsState.IntensityBlendTable.GetLookupTables(intensity);
         selection.ImageLibrary[0].ShowBlended(xs - 8, ys, lockedSurface, lookupTable);
     }
@@ -53,20 +52,17 @@ public partial class Storm(CustomNode owner) : Animation(owner)
     // Storms.pas:242
     public bool GetBestTarget(sbyte player, int X, int Y, int L, int range, out MapCoordinate target, out StormDamageInfo info)
     {
-        StormDamageInfo candidate;
-        MapLevel level;
-        ArmyHexSprite armyHexSprite;
-        level = StrategicMap.Current.MapContainer.MapLevels[L];
+        MapLevel level = StrategicMap.Current.MapContainer.MapLevels[L];
         target = MapCoordinate.None;
         bool result = false;
         info = default;
-        candidate = default;
+        StormDamageInfo candidate = default;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
         while (walk.Radius <= range)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                armyHexSprite = level.Field[walk.X, walk.Y].GetArmyHexSprite();
+                ArmyHexSprite armyHexSprite = level.Field[walk.X, walk.Y].GetArmyHexSprite();
                 if (armyHexSprite is not null && armyHexSprite.Army.Player != 0 && AbilityRules.ValidAttackRelation(player, 0, armyHexSprite.Army.Player, 0))
                 {
                     GetTargetDamageInfo(player, (sbyte)walk.X, (sbyte)walk.Y, (sbyte)L, ref candidate);

@@ -37,14 +37,11 @@ public sealed class LibraryImageClass
 
     public GraphicsResult GrabImages(in LockedSurface lockedSurface, GrabInfo grabInfo, CustomImageLibrary imageLibrary, GrabProgressEvent onProgress)
     {
-        GraphicsResult result = default;
-        LibraryImageClass imageClass;
-        LibraryImage image = default;
-        RectangleList rects = default;
         void Progress(int percent, string message) => onProgress?.Invoke(null, percent, message);
 
         Progress(10, "Analyzing Image..");
-        imageClass = LibraryCatalog.FindLibraryImageClass(ClassId);
+        LibraryImageClass imageClass = LibraryCatalog.FindLibraryImageClass(ClassId);
+        RectangleList rects;
         if (grabInfo.FindRectangles)
         {
             rects = GetSurfaceRectangles(lockedSurface, grabInfo.TransparentColor, null);
@@ -55,6 +52,7 @@ public sealed class LibraryImageClass
             _ = rects.Add(new Rectangle(0, 0, lockedSurface.Width, lockedSurface.Height));
         }
 
+        GraphicsResult result;
         if (rects is not null && imageClass is not null)
         {
             for (int i = 0, last = rects.Count - 1; i <= last; i++)
@@ -68,7 +66,7 @@ public sealed class LibraryImageClass
                     Progress(100, "Grabbing Image");
                 }
 
-                image = imageClass.CreateInstance(null);
+                LibraryImage image = imageClass.CreateInstance(null);
                 grabInfo.FileIndex = i;
                 Rectangle rectangle = rects.Rectangles[i];
                 if (image.GrabImage(lockedSurface, rectangle.Bounds, grabInfo))
@@ -127,12 +125,12 @@ public sealed class LibraryImageClass
         {
             Rectangle result = null;
             int k = 1;
-            int l = 1;
             for (; GetPixel(X + k, Y) == transparentColor && GetPixel(X + k, Y + 1) != transparentColor && X + k < lockedSurface.Width - 1; k++)
             {
             }
             if (GetPixel(X + k, Y) == transparentColor && GetPixel(X + k, Y + 1) == transparentColor && X + k < lockedSurface.Width - 1 && k > 1)
             {
+                int l = 1;
                 for (; GetPixel(X, Y + l) == transparentColor && GetPixel(X + k, Y + l) == transparentColor && GetPixel(X + 1, Y + l) != transparentColor && GetPixel(X + k - 1, Y + l) != transparentColor && Y + l < lockedSurface.Height; l++)
                 {
                 }

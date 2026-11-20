@@ -14,16 +14,10 @@ public partial class AggressorAIGroupControl(CustomNode owner) : BehaviorAIGroup
     // BehaviorAG.pas:399
     public override void ProcessStates()
     {
-        AIGroupDefenseControl defense;
-        AIGroupTargetFinder finder;
-        AIRecruitmentGroupFinder recruitment;
-        AIProductionLocationFinder production;
-        AIGroupRazeControl raze;
-        AIGroupWanderControl wander;
         switch (State)
         {
             case 0:
-                defense = new AIGroupDefenseControl(null)
+                AIGroupDefenseControl defense = new(null)
                 {
                     Holder = CreationHolder(),
                     DefendMode = AIGroupDefenseControl.GroupDefendMode.Split
@@ -34,7 +28,7 @@ public partial class AggressorAIGroupControl(CustomNode owner) : BehaviorAIGroup
                 break;
             case 1:
                 Targets.Clear();
-                finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
+                AIGroupTargetFinder finder = new(null) { Holder = CreationHolder() };
                 _ = finder.Setup(this);
                 if (Group.Transporter is null)
                 {
@@ -53,7 +47,7 @@ public partial class AggressorAIGroupControl(CustomNode owner) : BehaviorAIGroup
             case 2:
                 if (Targets.Count != 0)
                 {
-                    recruitment = new AIRecruitmentGroupFinder(null) { Holder = CreationHolder() };
+                    AIRecruitmentGroupFinder recruitment = new(null) { Holder = CreationHolder() };
                     _ = recruitment.Setup(this);
                     ActivatePlugin(recruitment);
                     _ = recruitment.Release();
@@ -69,7 +63,7 @@ public partial class AggressorAIGroupControl(CustomNode owner) : BehaviorAIGroup
                 if (Targets.Count != 0)
                 {
                     ProductionLocations.Clear();
-                    production = new AIProductionLocationFinder(null) { Holder = CreationHolder() };
+                    AIProductionLocationFinder production = new(null) { Holder = CreationHolder() };
                     _ = production.Setup(this);
                     ActivatePlugin(production);
                     _ = production.Release();
@@ -101,7 +95,7 @@ public partial class AggressorAIGroupControl(CustomNode owner) : BehaviorAIGroup
             case 5:
                 if (TargetSelector.TargetStatus == AIGroupTargetingStatus.TargetConquered)
                 {
-                    raze = new AIGroupRazeControl(null) { Holder = CreationHolder() };
+                    AIGroupRazeControl raze = new(null) { Holder = CreationHolder() };
                     _ = raze.Setup(this);
                     ActivatePlugin(raze);
                     _ = raze.Release();
@@ -133,7 +127,7 @@ public partial class AggressorAIGroupControl(CustomNode owner) : BehaviorAIGroup
 
                 break;
             case 10:
-                wander = new AIGroupWanderControl(null) { Holder = CreationHolder() };
+                AIGroupWanderControl wander = new(null) { Holder = CreationHolder() };
                 _ = wander.Setup(this);
                 wander.MovePointsMax = 100;
                 ActivatePlugin(wander);

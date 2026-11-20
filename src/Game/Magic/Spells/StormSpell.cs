@@ -27,14 +27,12 @@ public partial class StormSpell : Spell
     // Storms.pas:888
     public override void AIPrefetchCastSpellActions(Troop source, AICastSpellActionList actions)
     {
-        int priority;
-        AICastSpellAction action;
         if (AIRequestCastSpellExpense(source, BaseManaCost, 0, 0))
         {
-            priority = AICastSpellPriority(source);
+            int priority = AICastSpellPriority(source);
             if (priority != -1)
             {
-                action = CreateCastSpellAction();
+                AICastSpellAction action = CreateCastSpellAction();
                 SetupCastSpellAction(source, action);
                 action.Priority = priority;
                 action.SetOwner(actions);
@@ -46,18 +44,17 @@ public partial class StormSpell : Spell
     public override bool AIExecuteCastSpellAction(Troop source)
     {
         bool result;
-        string reason = "";
-        Storm storm;
         if (AICastSpellPriority(source) != -1)
         {
             _ = AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, 0);
+            string reason = "";
             if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
                 MapCoordinate coordinate80 = source.GetLocation();
                 sbyte x = coordinate80.X;
                 sbyte y = coordinate80.Y;
                 sbyte l = coordinate80.MapLevel;
-                storm = CreateStorm();
+                Storm storm = CreateStorm();
                 if (storm.GetBestTarget(source.Player, x, y, l, 12, out MapCoordinate target, out _))
                 {
                     _ = ExecuteStormSpell(source, target.X, target.Y, target.MapLevel);
@@ -114,21 +111,17 @@ public partial class StormSpell : Spell
     // Storms.pas:825
     public override bool Activate(Troop source)
     {
-        bool result = default;
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         string reason = "";
-        TargetSelectionControl selection = default;
         _ = base.Activate(source);
+        bool result;
         if (CanActivate(source, ref reason))
         {
             _source = source;
             MapCoordinate coordinate82 = source.GetLocation();
-            x = coordinate82.X;
-            y = coordinate82.Y;
-            l = coordinate82.MapLevel;
-            selection = StrategicMap.Current.TargetSelection;
+            sbyte x = coordinate82.X;
+            sbyte y = coordinate82.Y;
+            sbyte l = coordinate82.MapLevel;
+            TargetSelectionControl selection = StrategicMap.Current.TargetSelection;
             _targetStorm = CreateStorm();
             selection.Initialize(this);
             selection.TargetMode += Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
@@ -163,10 +156,9 @@ public partial class StormSpell : Spell
     public virtual bool ExecuteStormSpell(Troop source, sbyte X, sbyte Y, sbyte L)
     {
         bool result;
-        StormSpellTokenEvent tokenEvent;
         if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            tokenEvent = new StormSpellTokenEvent(null) { Holder = CreationHolder() };
+            StormSpellTokenEvent tokenEvent = new(null) { Holder = CreationHolder() };
             tokenEvent.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             tokenEvent.Location = new MapCoordinate(X, Y, L);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(tokenEvent);
@@ -186,8 +178,6 @@ public partial class StormSpell : Spell
     {
         int result;
         string reason = "";
-        Storm storm;
-        int damage;
         if (CanActivate(source, ref reason))
         {
             result = -1;
@@ -197,10 +187,10 @@ public partial class StormSpell : Spell
             sbyte l = coordinate83.MapLevel;
             if (l == 0)
             {
-                storm = CreateStorm();
+                Storm storm = CreateStorm();
                 if (storm.GetBestTarget(source.Player, x, y, l, 12, out _, out StormDamageInfo info))
                 {
-                    damage = info.EnemyDamage - info.FriendlyDamage;
+                    int damage = info.EnemyDamage - info.FriendlyDamage;
                     if ((double)(BaseManaCost * 0.75) < damage)
                     {
                         result = (damage * 5) + 750;

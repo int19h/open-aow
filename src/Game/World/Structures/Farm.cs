@@ -69,7 +69,6 @@ public partial class Farm(CustomNode owner) : PlayerCropStructure(owner)
     // Farm.pas:111
     public override void UpdateAITarget(in AITargetInfo info, ref AITargetData data)
     {
-        int priority;
         if (!GetRazed() || GetBuilding())
         {
             switch (info.Mode)
@@ -77,7 +76,7 @@ public partial class Farm(CustomNode owner) : PlayerCropStructure(owner)
                 case AITargetMode.Attack:
                     if (info.Player != Player && !GetRazed())
                     {
-                        priority = data.Priority;
+                        int priority = data.Priority;
                         if (Player == 0)
                         {
                             priority = 50;
@@ -129,10 +128,9 @@ public partial class Farm(CustomNode owner) : PlayerCropStructure(owner)
     // Farm.pas:97
     public override void UpdateCrops()
     {
-        int count;
         if (!GetEditMode() && Status.Contains(MapObjectStatusElement.Activated))
         {
-            count = GetRazed() || TerrainType == 5
+            int count = GetRazed() || TerrainType == 5
                 ? 0
                 : StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting)
                     ? base.Resource.CropLocations.Count

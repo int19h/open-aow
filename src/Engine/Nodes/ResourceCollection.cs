@@ -32,18 +32,15 @@ public partial class ResourceCollection(CustomNode owner) : EngineNode(owner), I
     // Engine.pas:8582
     public EngineResource FindResource(int id)
     {
-        EngineResource result;
-        int i;
-        bool found;
-        found = false;
-        i = 0;
+        bool found = false;
+        int i = 0;
         while (!found && i != Count)
         {
             found = GetChild(i) is not null && id == this[i].ResourceId;
             i += 1;
         }
 
-        result = found ? this[i - 1] : null;
+        EngineResource result = found ? this[i - 1] : null;
 
         return result;
     }
@@ -54,21 +51,17 @@ public partial class ResourceCollection(CustomNode owner) : EngineNode(owner), I
     // Engine.pas:8600
     public void ValidateResourceId(int index)
     {
-        int id;
-        int newId;
-        int tries;
-        bool found;
         if (index < Count)
         {
-            id = GetResource(index).ResourceId;
+            int id = GetResource(index).ResourceId;
             EngineResource resource = GetResource(index);
             resource.ResourceId ^= 65535;
 
             if (FindResource(id) is not null)
             {
-                tries = 10;
-                found = false;
-                newId = 0;
+                int tries = 10;
+                bool found = false;
+                int newId = 0;
                 while (tries > 0 && !found)
                 {
                     newId = Random(268435455);

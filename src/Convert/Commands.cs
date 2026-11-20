@@ -294,7 +294,7 @@ internal static class Commands
             Formats.Json.JsonObject document;
             string format;
             IReadOnlyDictionary<string, int> legacyRules;
-            double importMilliseconds, writeMilliseconds, parseMilliseconds = 0;
+            double importMilliseconds, writeMilliseconds, parseMilliseconds;
             byte[] text;
             if (GameFiles.IsGzip(bytes) || GameFiles.IsJsonCandidate(bytes))
             {

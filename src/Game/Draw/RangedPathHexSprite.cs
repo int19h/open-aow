@@ -34,27 +34,23 @@ public partial class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSpri
     // AoWTC.pas:4859
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int count8;
-        int first;
-        int last2;
-        int hexX = default;
-        int hexY = default;
-        BattleEffectType effectType;
         if (Selection is not null)
         {
             int pixelX;
             int pixelY;
+            int hexX = default;
+            int hexY = default;
             if (Range < 100)
             {
-                count8 = 6;
-                first = 1;
+                int count8 = 6;
+                int first = 1;
                 for (int i = 0, last = Range - 2; i <= last; i++)
                 {
                     first += count8;
                     count8 += 6;
                 }
 
-                last2 = first + count8;
+                int last2 = first + count8;
                 for (int i = first; i <= last2 - 1; i++)
                 {
                     sbyte yhx = Selection.GetTacticalBattleUnitHexSprite().GetHexY();
@@ -78,6 +74,7 @@ public partial class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSpri
                     _frame = 0;
                 }
 
+                BattleEffectType effectType;
                 if (Selection.GetTacticalBattleUnitHexSprite().SelectedAbility == 52)
                 {
                     TacticalBattleUnitHexSprite tacticalBattleUnitHexSprite = Selection.GetTacticalBattleUnitHexSprite();

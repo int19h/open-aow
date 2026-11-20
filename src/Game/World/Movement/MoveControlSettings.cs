@@ -174,8 +174,6 @@ public partial class MoveControlSettings : EngineObject
     // MoveT.PAS:184
     public void SetupMovePointData(int width, int height, int levelCount)
     {
-        int rowSize;
-        int offset;
         if (width != _width || height != _height || levelCount != _levelCount)
         {
             Clear();
@@ -183,8 +181,8 @@ public partial class MoveControlSettings : EngineObject
             _height = height;
             _levelCount = levelCount;
             _movePointsClear = true;
-            offset = 0;
-            rowSize = width * 4;
+            int offset = 0;
+            int rowSize = width * 4;
             Array.Resize(ref _rowOffsets, height);
             for (int i = 0; i <= height - 1; i++)
             {

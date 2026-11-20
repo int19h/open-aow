@@ -82,14 +82,10 @@ public partial class GlobalMagicControl : EngineObject
     // Spells.PAS:2685
     public void OutOfMana(sbyte player, int mana)
     {
-        int index;
-        int i;
-        GlobalEnchantment enchantment;
-        PlayerMagicEventLog log;
-        index = 0;
+        int index = 0;
         while (index != -1 && mana > 0 && Enchantments.GetCount() != 0)
         {
-            i = Enchantments.GetCount();
+            int i = Enchantments.GetCount();
             // { Original may select the last enchantment of another player. }
             index = i - 1;
             while (i != 0)
@@ -103,9 +99,9 @@ public partial class GlobalMagicControl : EngineObject
 
             if (index != -1)
             {
-                enchantment = Enchantments.GetEnchantments(index);
+                GlobalEnchantment enchantment = Enchantments.GetEnchantments(index);
                 mana -= enchantment.GetUpkeep();
-                log = new PlayerMagicEventLog(null)
+                PlayerMagicEventLog log = new(null)
                 {
                     Holder = CreationHolder(),
                     Player = player,
@@ -191,8 +187,7 @@ public partial class GlobalMagicControl : EngineObject
     // Spells.PAS:2704
     public int IndexOfId(int id)
     {
-        int i;
-        i = Enchantments.GetCount();
+        int i = Enchantments.GetCount();
         while (i != 0)
         {
             i -= 1;
@@ -208,8 +203,7 @@ public partial class GlobalMagicControl : EngineObject
     // Spells.PAS:2706
     public bool ValidateEnchantmentId(GlobalEnchantment enchantment)
     {
-        int id;
-        id = enchantment.EnchantmentId;
+        int id = enchantment.EnchantmentId;
         if (id > 0)
         {
             enchantment.EnchantmentId = 0;
@@ -249,10 +243,8 @@ public partial class GlobalMagicControl : EngineObject
     // Spells.PAS:2710
     public bool ExecuteDispelEnchantment(sbyte player, int enchantmentId)
     {
-        bool result;
-        int index;
-        index = IndexOfId(enchantmentId);
-        result = index != -1 && Enchantments.GetEnchantments(index).Dispel((byte)player);
+        int index = IndexOfId(enchantmentId);
+        bool result = index != -1 && Enchantments.GetEnchantments(index).Dispel((byte)player);
 
         return result;
     }
@@ -261,13 +253,12 @@ public partial class GlobalMagicControl : EngineObject
     public bool DispelEnchantment(sbyte player, GlobalEnchantment enchantment)
     {
         bool result;
-        ChangeGlobalMagicTokenEvent eventValue;
-        string reason = "";
         if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy() && IndexOfId(enchantment.EnchantmentId) != -1)
         {
+            string reason = "";
             if (enchantment.CanDispel(player, ref reason))
             {
-                eventValue = CreateChangeMagicTokenEvent();
+                ChangeGlobalMagicTokenEvent eventValue = CreateChangeMagicTokenEvent();
                 eventValue.Mode = ChangeGlobalMagicTokenEventMode.DispelEnchantment;
                 eventValue.EnchantmentId = enchantment.EnchantmentId;
                 eventValue.PlayerIndex = (byte)player;
@@ -296,10 +287,8 @@ public partial class GlobalMagicControl : EngineObject
     // Spells.PAS:2714
     public bool ExecuteRemoveEnchantment(sbyte player, int enchantmentId)
     {
-        bool result;
-        int index;
-        index = IndexOfId(enchantmentId);
-        result = index != -1 && Enchantments.GetEnchantments(index).Remove((byte)player);
+        int index = IndexOfId(enchantmentId);
+        bool result = index != -1 && Enchantments.GetEnchantments(index).Remove((byte)player);
 
         return result;
     }
@@ -308,13 +297,12 @@ public partial class GlobalMagicControl : EngineObject
     public bool RemoveEnchantment(sbyte player, GlobalEnchantment enchantment)
     {
         bool result;
-        ChangeGlobalMagicTokenEvent eventValue;
-        string reason = "";
         if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy() && IndexOfId(enchantment.EnchantmentId) != -1)
         {
+            string reason = "";
             if (enchantment.CanRemove(player, ref reason))
             {
-                eventValue = CreateChangeMagicTokenEvent();
+                ChangeGlobalMagicTokenEvent eventValue = CreateChangeMagicTokenEvent();
                 eventValue.Mode = ChangeGlobalMagicTokenEventMode.RemoveEnchantment;
                 eventValue.EnchantmentId = enchantment.EnchantmentId;
                 eventValue.PlayerIndex = (byte)player;

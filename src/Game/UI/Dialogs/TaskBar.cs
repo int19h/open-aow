@@ -157,16 +157,14 @@ public partial class TaskBar(UIContext ui) : UIModule(ui)
     // AoWTBWindow.pas:195
     public void PIndDraw(LockedSurface surface)
     {
-        int position;
-        int race;
-        position = 0;
         if (StrategicMap.Current is not null)
         {
+            int position = 0;
             for (int i = 0, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
             {
                 if (StrategicMap.Current.Players.GetPlayers(i).Status == PlayerStatus.Playing)
                 {
-                    race = StrategicMap.Current.Players.GetPlayers(i).PlayerRace;
+                    int race = StrategicMap.Current.Players.GetPlayers(i).PlayerRace;
                     if (race == -1)
                     {
                         race = 12;
@@ -238,14 +236,12 @@ public partial class TaskBar(UIContext ui) : UIModule(ui)
     // AoWTBWindow.pas:244
     public void TCPIndDraw(LockedSurface surface)
     {
-        int position;
-        int race;
-        position = 0;
+        int position = 0;
         for (int i = 0, last = CombatMap.Current.Combat.CombatData.TurnOrder.Count - 1; i <= last; i++)
         {
             byte turnOrder = CombatMap.Current.Combat.CombatData.TurnOrder[i];
             TacticalBattlePlayer player = CombatMap.Current.Players.GetPlayers((sbyte)turnOrder);
-            race = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
+            int race = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
             if (race == -1)
             {
                 race = 12;
@@ -303,12 +299,11 @@ public partial class TaskBar(UIContext ui) : UIModule(ui)
             if (WorldClockDelay < 0)
             {
                 ushort minute;
-                ushort second;
                 if (StrategicMap.Current.TurnTime != 0)
                 {
                     WorldClockDelay = 10;
                     minute = (ushort)(StrategicMap.Current.GetTurnTimeLeft() / 60000);
-                    second = (ushort)(StrategicMap.Current.GetTurnTimeLeft() % 60000 / 1000);
+                    ushort second = (ushort)(StrategicMap.Current.GetTurnTimeLeft() % 60000 / 1000);
                     WorldTimeLabel.TextColor = minute == 0 && second is > 0 and <= 10 ? 255 : 0;
 
                     WorldTimeLabel.Text = $"{IntToStr(minute)}:";

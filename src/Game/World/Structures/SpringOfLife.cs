@@ -42,8 +42,6 @@ public partial class SpringOfLife(CustomNode owner) : Structure(owner)
     // Spring.pas:86
     public void ExecuteNaturesBlessing(ArmyHexSprite armyHexSprite)
     {
-        SpringOfLifeAnimation animation = default;
-        Rect r = default;
         // { Keep the parameter in its original stack slot. }
         for (int i = 0, last = armyHexSprite.Army.Units.Count - 1; i <= last; i++)
         {
@@ -69,8 +67,8 @@ public partial class SpringOfLife(CustomNode owner) : Structure(owner)
         sbyte hexX2 = GetHexX();
         if (StrategicMap.Current.Visible(hexX2, hexY2, hexLevel2, 0))
         {
-            animation = new SpringOfLifeAnimation(null) { Holder = CreationHolder() };
-            r = new Rect(-16, -8, 32, 40);
+            SpringOfLifeAnimation animation = new(null) { Holder = CreationHolder() };
+            Rect r = new(-16, -8, 32, 40);
             animation.SetDimensions(r);
             animation.AnimationLevel = 27;
             animation.OnShow += ShowBlessingAnimation;

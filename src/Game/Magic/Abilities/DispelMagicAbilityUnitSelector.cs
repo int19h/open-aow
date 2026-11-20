@@ -18,17 +18,13 @@ public partial class DispelMagicAbilityUnitSelector(EngineObject creator) : Unit
     // AoWAb.PAS:4407
     public override bool Select()
     {
-        bool result;
-        Troop source;
-        Troop target;
         string error = "";
-        int i;
-        DispelMagicAbilityTokenEvent eventValue;
-        source = StrategicMap.Current.UnitControl.FindUnit(SourceUnitId);
+        Troop source = StrategicMap.Current.UnitControl.FindUnit(SourceUnitId);
+        bool result;
         if (CanSelect(ref error) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            i = 0;
-            target = null;
+            int i = 0;
+            Troop target = null;
             while (target is null && i != Units.GetCount())
             {
                 if ((Selection & (1 << i)) != 0)
@@ -41,7 +37,7 @@ public partial class DispelMagicAbilityUnitSelector(EngineObject creator) : Unit
 
             if (target is not null)
             {
-                eventValue = new DispelMagicAbilityTokenEvent(null)
+                DispelMagicAbilityTokenEvent eventValue = new(null)
                 {
                     Holder = Creator.CreationHolder(),
                     SourceId = source.UnitId,

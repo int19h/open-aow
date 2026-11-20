@@ -20,9 +20,8 @@ public partial class DiplomaticActionTokenEvent(CustomNode owner) : TokenEvent(o
     // Diplomacy.pas:1117
     public override void Dispose()
     {
-        DiplomaticAction action;
         base.Dispose();
-        action = Action;
+        DiplomaticAction action = Action;
         _ = (action?.Release());
     }
 
@@ -74,8 +73,7 @@ public partial class DiplomaticActionTokenEvent(CustomNode owner) : TokenEvent(o
     // Diplomacy.pas:1128
     public void SetDiplomaticAction(DiplomaticAction action)
     {
-        DiplomaticAction old;
-        old = Action;
+        DiplomaticAction old = Action;
         if (old != action)
         {
             _ = (old?.Release());

@@ -54,8 +54,7 @@ public partial class BitMask(CustomImageLibrary owner) : LibraryImage(owner), IL
     // ImageLib.pas:4676
     public override void SetWidth(int value)
     {
-        int w;
-        w = Xshift + MaskLeft + MaskWidth;
+        int w = Xshift + MaskLeft + MaskWidth;
         if (value < w)
         {
             value = w;
@@ -67,8 +66,7 @@ public partial class BitMask(CustomImageLibrary owner) : LibraryImage(owner), IL
     // ImageLib.pas:4685
     public override void SetHeight(int value)
     {
-        int h;
-        h = Yshift + MaskTop + MaskHeight;
+        int h = Yshift + MaskTop + MaskHeight;
         if (value < h)
         {
             value = h;
@@ -149,10 +147,6 @@ public partial class BitMask(CustomImageLibrary owner) : LibraryImage(owner), IL
         int bits;
         int bitCount;
         int offset;
-        int transparentColor;
-        int left;
-        int top;
-        int bottom;
         void AddBit(bool bit)
         {
             bits <<= 1;
@@ -191,7 +185,7 @@ public partial class BitMask(CustomImageLibrary owner) : LibraryImage(owner), IL
         SetHeightWithoutOverrides(DataHeight);
         FileName = ExtractFileName(grabInfo.FileName);
         FileIndex = grabInfo.FileIndex;
-        transparentColor = grabInfo.TransparentPixel;
+        int transparentColor = grabInfo.TransparentPixel;
         // CreateGrabInfo builds the nested grab info. Another grab info fails. Null stays null.
         GrabInfo maskGrab = (GrabInfo)grabInfo;
         Rect minRectangle;
@@ -204,12 +198,12 @@ public partial class BitMask(CustomImageLibrary owner) : LibraryImage(owner), IL
             MinimizeInverseTransparentRectangle(lockedSurface, R, transparentColor, out minRectangle);
         }
 
-        left = minRectangle.Left;
+        int left = minRectangle.Left;
         MaskLeft = left - R.Left;
-        top = minRectangle.Top;
+        int top = minRectangle.Top;
         MaskTop = top - R.Top;
         MaskWidth = minRectangle.Right - left;
-        bottom = minRectangle.Bottom;
+        int bottom = minRectangle.Bottom;
         MaskHeight = bottom - top;
         AllocateMaskData(MaskWidth, MaskHeight);
         for (int y = top; y <= bottom - 1; y++)

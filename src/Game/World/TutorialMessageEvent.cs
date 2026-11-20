@@ -40,10 +40,9 @@ public partial class TutorialMessageEvent(CustomNode owner) : FlagEvent(owner)
     // FlagEvents.pas:256
     public override bool Trigger(sbyte player)
     {
-        TutorialMessageEventLog log;
         if (StrategicMap.Current.SeatedPlayer == player)
         {
-            log = new TutorialMessageEventLog(null, holder: CreationHolder());
+            TutorialMessageEventLog log = new(null, holder: CreationHolder());
             string text = _message.Text;
             log.Message.Text = text;
             StrategicMap.Current.TriggerExecuteEventLog(log, TriggerMode == FlagEventTriggerMode.Instant, null);

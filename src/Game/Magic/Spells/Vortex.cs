@@ -38,14 +38,12 @@ public partial class Vortex : GlobalTargetSpell
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
         bool result;
-        VortexTokenEvent eventValue;
-        ArmyHexSprite army;
         if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            eventValue = new VortexTokenEvent(null) { Holder = CreationHolder() };
+            VortexTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-            army = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
+            ArmyHexSprite army = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
             if (army is not null)
             {
                 eventValue.ArmyId = army.Army.CreateId(255);
@@ -68,10 +66,9 @@ public partial class Vortex : GlobalTargetSpell
     public override bool ValidTargetSelection(TargetSelectionControl targetSelection)
     {
         bool result;
-        MapField mapField;
         if (targetSelection.Target.X != -1)
         {
-            mapField = StrategicMap.Current.MapContainer.MapLevels[targetSelection.Target.MapLevel].GetField(targetSelection.Target.X, targetSelection.Target.Y);
+            MapField mapField = StrategicMap.Current.MapContainer.MapLevels[targetSelection.Target.MapLevel].GetField(targetSelection.Target.X, targetSelection.Target.Y);
             result = Set<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)mapField.TerrainType);
         }
         else
@@ -85,10 +82,9 @@ public partial class Vortex : GlobalTargetSpell
     // GlobalTargetSpells.pas:2088
     public void ValidateTargetEvent(TargetSelectionControl target, sbyte X, sbyte Y, sbyte layer, ref bool valid)
     {
-        MapLevel mapLevel;
         if (X != -1)
         {
-            mapLevel = StrategicMap.Current.MapContainer.MapLevels[layer];
+            MapLevel mapLevel = StrategicMap.Current.MapContainer.MapLevels[layer];
             MapField fieldValue = mapLevel.GetField(X, Y);
             valid = Set<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)fieldValue.TerrainType);
         }

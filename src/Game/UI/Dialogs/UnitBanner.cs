@@ -27,7 +27,6 @@ public partial class UnitBanner(UIContext ui) : UIModule(ui)
     // AoWUnitBanner.pas:53
     public void BannerPopupShow()
     {
-        CombatAbilityRef a;
         if (UI.General.SelectedUnit is not null)
         {
             string name = UI.General.SelectedUnit.GetName();
@@ -54,7 +53,7 @@ public partial class UnitBanner(UIContext ui) : UIModule(ui)
             UI.General.BuildAbilities();
             for (int i = 0, last = UI.General.Abilities.Count - 1; i <= last; i++)
             {
-                a = UI.General.Abilities[i];
+                CombatAbilityRef a = UI.General.Abilities[i];
                 string name2 = GamePack.Current.AbilityControl.GetAbility(a.Ability).GetName(UI.General.SelectedUnit);
                 _ = AbilityList.Items.Add(name2);
             }
@@ -95,12 +94,12 @@ public partial class UnitBanner(UIContext ui) : UIModule(ui)
     // AoWUnitBanner.pas:95
     public void AbLBMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        string reason = "";
         if (UI.General.SelectedUnit is not null)
         {
             if (AbilityList.Selected > -1 && AbilityList.Selected < UI.General.ActiveAbilityCount)
             {
                 CombatAbilityRef ability = UI.General.Abilities[AbilityList.Selected];
+                string reason = "";
                 _ = GamePack.Current.AbilityControl.GetAbility(ability.Ability).Activate(UI.General.SelectedUnit, ref reason);
                 BannerMenu.Visible = false;
             }

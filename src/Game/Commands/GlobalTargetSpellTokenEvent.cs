@@ -34,10 +34,9 @@ public partial class GlobalTargetSpellTokenEvent(CustomNode owner) : SpellTokenE
     // GlobalTargetSpells.pas:419
     public void PlayDefaultEffects(sbyte X, sbyte Y, sbyte layer)
     {
-        ImageSequenceAnimation animation;
         if (GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] is not null)
         {
-            animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+            ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
             animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
             _ = StrategicMap.Current.PlaceHex(animation, X, Y, layer);
         }

@@ -15,16 +15,13 @@ public partial class EntangleSpellCombatAction(CustomNode owner) : ExclusiveComb
     // CombatSpells.pas:1334
     public override void Execute(Battle combat)
     {
-        CombatObject source;
-        CombatUnit target;
-        UnitEnchantmentAbilityData data;
         base.Execute(combat);
         if (Succeeded)
         {
-            source = combat.CombatData.FindId(SourceId);
-            target = combat.CombatData.FindId<CombatUnit>(TargetId);
+            CombatObject source = combat.CombatData.FindId(SourceId);
+            CombatUnit target = combat.CombatData.FindId<CombatUnit>(TargetId);
             _ = GamePack.Current.AbilityControl.GetAbility(94).Expand(target.Troop);
-            data = target.Troop.GetAbilityData<UnitEnchantmentAbilityData>(94);
+            UnitEnchantmentAbilityData data = target.Troop.GetAbilityData<UnitEnchantmentAbilityData>(94);
             data?.EnchantmentPlayerIndex = source.CombatPlayer;
         }
     }

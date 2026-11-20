@@ -25,20 +25,16 @@ public partial class MagicSanctuaryOverlayHexSprite(CustomNode owner) : SingleHe
     // MagicSanctuary.pas:78
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        ImageSequence sequence;
-        int frameIndex;
-        int blend;
-        int framesLeft;
         HexGeometry.HexToPixel(Structure.StoredHexX, Structure.StoredHexY, out int pixelX, out int pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
-        sequence = ((World.MapObject)Structure).Resource.ImageSequenceList.GetImageSequence(19);
+        ImageSequence sequence = ((World.MapObject)Structure).Resource.ImageSequenceList.GetImageSequence(19);
         if (sequence is not null)
         {
-            blend = 50;
+            int blend = 50;
             if (_fadeEndFrame != -1 && _fadeEndFrame > StrategicMap.Current.Frame)
             {
-                framesLeft = _fadeEndFrame - StrategicMap.Current.Frame;
+                int framesLeft = _fadeEndFrame - StrategicMap.Current.Frame;
                 if (framesLeft <= 20)
                 {
                     blend += (10 - Math.Abs(framesLeft - 10)) * 3;
@@ -53,7 +49,7 @@ public partial class MagicSanctuaryOverlayHexSprite(CustomNode owner) : SingleHe
                 _fadeEndFrame = -1;
             }
 
-            frameIndex = sequence.GetFrameIndex(0, 0);
+            int frameIndex = sequence.GetFrameIndex(0, 0);
             sequence.ImageLibrary[frameIndex].ShowBlended(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[blend]);
         }
     }

@@ -11,15 +11,11 @@ public partial class LowerIsometricHex
 {
     public override void ShowDynamic(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        CustomImageLibrary imageLibrary;
-        int variant;
-        int x;
-        int y;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelX = pixelX - pixelXSurface - 8;
         pixelY -= pixelYSurface;
-        imageLibrary = base.Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
-        variant = FrameFixtureInputs.TextureVariant(this);
+        CustomImageLibrary imageLibrary = base.Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
+        int variant = FrameFixtureInputs.TextureVariant(this);
         if (variant == 3)
         {
             variant = 0;
@@ -27,8 +23,8 @@ public partial class LowerIsometricHex
 
         if (OpenSides != 0)
         {
-            x = pixelX - 19;
-            y = pixelY - 32;
+            int x = pixelX - 19;
+            int y = pixelY - 32;
             if ((OpenSides & 1) != 0)
             {
                 if ((OpenSides & 35) == 35)

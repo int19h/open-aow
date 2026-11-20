@@ -353,8 +353,7 @@ public partial class ProductionPlace : PlayerStructure
     // PrdPlace.pas:375
     public override int GetIncome()
     {
-        int income;
-        income = GetBaseIncome();
+        int income = GetBaseIncome();
         if (GetMagicSphere() == MagicSphere.None)
         {
             if (ProductionControl.Status != ProductionControlStatus.Producing || ProductionControl.Queue.GetItem(0).Order is Trade)
@@ -388,10 +387,9 @@ public partial class ProductionPlace : PlayerStructure
     // PrdPlace.pas:543
     public override void StructureCaptured(sbyte oldPlayer, sbyte newPlayer)
     {
-        ProductionPlaceEventLog log;
         if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !Resource.Claimed)
         {
-            log = new ProductionPlaceEventLog(null)
+            ProductionPlaceEventLog log = new(null)
             {
                 Holder = CreationHolder(),
                 Player = newPlayer
@@ -410,10 +408,6 @@ public partial class ProductionPlace : PlayerStructure
     // PrdPlace.pas:625
     public virtual void GenerateDefenders()
     {
-        ArmyHexSprite armyHexSprite;
-        int budget;
-        int collection;
-        UnitIndexList units;
         if (_defenderLevel != 0)
         {
             if (_defenderLevel == 4)
@@ -421,8 +415,8 @@ public partial class ProductionPlace : PlayerStructure
                 _defenderLevel = (byte)(StrategicMap.Current.Random(3) + 1);
             }
 
-            budget = ((_defenderLevel - 2) * 25) + 25;
-            armyHexSprite = Owner.GetArmyHexSprite();
+            int budget = ((_defenderLevel - 2) * 25) + 25;
+            ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
             if (armyHexSprite is not null)
             {
                 budget -= armyHexSprite.Army.ObtainValue(255);
@@ -431,10 +425,10 @@ public partial class ProductionPlace : PlayerStructure
             if (budget > 0)
             {
                 RandSeed = StrategicMap.Current.Random(1048575);
-                collection = Resource.Defenders.GetRandomCollection();
+                int collection = Resource.Defenders.GetRandomCollection();
                 if (collection != -1)
                 {
-                    units = new UnitIndexList();
+                    UnitIndexList units = new();
                     UnitIndexListCollection unitIndexListCollection = Resource.Defenders;
                     for (int i = unitIndexListCollection.GetCollectionCount(collection) - 1; i >= 0; i--)
                     {
@@ -468,7 +462,6 @@ public partial class ProductionPlace : PlayerStructure
     // PrdPlace.pas:403
     public virtual void ListIncomeInfo(DelphiStringCollection names, DelphiStringCollection values)
     {
-        int picks;
         if (GetMagicSphere() == MagicSphere.None)
         {
             if (GetBaseIncome() > 0)
@@ -487,7 +480,7 @@ public partial class ProductionPlace : PlayerStructure
             if (Player > 0)
             {
                 MagicSphere magicSphere = GetMagicSphere();
-                picks = StrategicMap.Current.Players.GetPlayers(Player).Leader.GetSpherePicks(magicSphere);
+                int picks = StrategicMap.Current.Players.GetPlayers(Player).Leader.GetSpherePicks(magicSphere);
                 MagicSphere magicSphere2 = GetMagicSphere();
                 string magicSphereText = AbilityRules.TranslateResourceString(GetEngine(), GameTables.MagicSphereTexts[(int)magicSphere2]);
                 _ = names.Add(Format(AbilityRules.TranslateResourceString(GetEngine(), s_sphereCountFormat), [IntToStr(picks), LowerCase(magicSphereText)]));
@@ -504,14 +497,9 @@ public partial class ProductionPlace : PlayerStructure
     // PrdPlace.pas:306
     public void MasterySpellCast(sbyte player, MagicSphere sphere)
     {
-        int unitIndex;
-        Unit unit;
-        ArmyHexSprite armyHexSprite;
-        UnitEnchantment enchantment;
-        ImageSequenceAnimation animation;
         if (sphere == GetMagicSphere() && Player > 0)
         {
-            unitIndex = sphere switch
+            int unitIndex = sphere switch
             {
                 MagicSphere.Life => 216,
                 MagicSphere.Death => 217,
@@ -523,16 +511,16 @@ public partial class ProductionPlace : PlayerStructure
             };
             if (unitIndex != -1)
             {
-                unit = new Unit(null) { Holder = CreationHolder() };
+                Unit unit = new(null) { Holder = CreationHolder() };
                 unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitIndex));
                 unit.SetPlayer(Player);
                 sbyte hexY = HexY;
-                armyHexSprite = unit.Place(HexX, hexY, HexLevel, Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                ArmyHexSprite armyHexSprite = unit.Place(HexX, hexY, HexLevel, Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                 if (armyHexSprite is not null)
                 {
                     if (unit.ExpandAbility(155))
                     {
-                        enchantment = unit.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
+                        UnitEnchantment enchantment = unit.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
                         enchantment.SetUpkeep(SummonedAbility.GetDefaultManaUpkeep(unit));
                         enchantment.SetSource(Player);
                         enchantment.DispelResistance = (sbyte)SummonedAbility.GetDefaultDispelResistance(unit);
@@ -542,7 +530,7 @@ public partial class ProductionPlace : PlayerStructure
                     sbyte hexX = armyHexSprite.HexX;
                     if (StrategicMap.Current.Visible(hexX, armyHexSpriteHexY, armyHexSprite.HexLevel, 0))
                     {
-                        animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+                        ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                         animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(29).CastImages.GetImageSequence(0));
                         sbyte hexY2 = HexY;
                         sbyte hexX2 = HexX;
@@ -614,11 +602,10 @@ public partial class ProductionPlace : PlayerStructure
     public bool Trade(bool queue)
     {
         bool result;
-        ProductionItem item;
         string reason = "";
         if (CanTrade(queue, ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            item = new ProductionItem(null)
+            ProductionItem item = new(null)
             {
                 Holder = CreationHolder(),
                 Order = queue ? new Trade(1) : new Trade(-1)
@@ -639,12 +626,11 @@ public partial class ProductionPlace : PlayerStructure
     // PrdPlace.pas:671
     public void ResetProductions()
     {
-        ProductionPlaceResource r;
         ProductionControl.UnitProductions.Clear();
         if (GetMagicSphere() == MagicSphere.None)
         {
             // Unit lists live on the production resource. Another resource throws, as the old cast did.
-            r = GetResource<ProductionPlaceResource>();
+            ProductionPlaceResource r = GetResource<ProductionPlaceResource>();
             for (int i = 0, last = r.Units.Count - 1; i <= last; i++)
             {
                 int unit = r.Units[i];

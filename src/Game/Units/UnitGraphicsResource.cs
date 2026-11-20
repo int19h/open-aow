@@ -131,9 +131,8 @@ public partial class UnitGraphicsResource : EngineResource
     // UnitHS.PAS:88
     public override LibraryImage GetCellImage()
     {
-        LibraryImage result;
         _ = AddRef();
-        result = Sequences.GetImageSequence(2)?.GetPreviewImage() ?? Sequences.GetPreviewImage();
+        LibraryImage result = Sequences.GetImageSequence(2)?.GetPreviewImage() ?? Sequences.GetPreviewImage();
         _ = Release();
         return result;
     }
@@ -185,9 +184,8 @@ public partial class UnitGraphicsResource : EngineResource
     // UnitHS.PAS:80
     public LibraryImage GetFaceImage()
     {
-        LibraryImage result;
         _ = AddRef();
-        result = _faceImageLibrary?.GetSafe(_faceIndex);
+        LibraryImage result = _faceImageLibrary?.GetSafe(_faceIndex);
 
         _ = Release();
         return result;
@@ -196,13 +194,11 @@ public partial class UnitGraphicsResource : EngineResource
     // UnitHS.PAS:97
     public void Show(int direction, int X, int Y, in LockedSurface lockedSurface)
     {
-        ImageSequence sequence;
-        int index;
         _ = AddRef();
-        sequence = Sequences.List[direction - 1];
+        ImageSequence sequence = Sequences.List[direction - 1];
         while (sequence is not null)
         {
-            index = sequence.GetFrameIndex(1, 0);
+            int index = sequence.GetFrameIndex(1, 0);
             if (index != -1)
             {
                 sequence.ImageLibrary[index].Show(X, Y, lockedSurface);

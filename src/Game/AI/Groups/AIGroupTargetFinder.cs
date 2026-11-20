@@ -104,8 +104,7 @@ public partial class AIGroupTargetFinder : AIGroupTask
     // AIGroup.pas:1901
     public void TargetFoundEvent(MoveTarget target, ref bool searchDone)
     {
-        AIGroupControlTarget newTarget;
-        newTarget = new AIGroupControlTarget(null)
+        AIGroupControlTarget newTarget = new(null)
         {
             Holder = CreationHolder(),
             Info = Selector.TargetInfo,

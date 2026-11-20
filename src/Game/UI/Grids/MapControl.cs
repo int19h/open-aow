@@ -335,10 +335,9 @@ public partial class MapControl : Component
     // MapCtrl.pas:324
     public void SelectHexSprite(object sender)
     {
-        HexSpriteSelection selection;
         try
         {
-            selection = StrategicMap.Current.Selection;
+            HexSpriteSelection selection = StrategicMap.Current.Selection;
             if (OnArmySelected is not null && selection.EventHexSprite is ArmyHexSprite armyHexSprite && StrategicMap.Current.SelectedArmy.GetArmyHexSprite() is not null)
             {
                 OnArmySelected(armyHexSprite.Army);
@@ -363,10 +362,9 @@ public partial class MapControl : Component
     // MapCtrl.pas:337
     public void DeselectHexSprite(object sender)
     {
-        HexSpriteSelection selection;
         try
         {
-            selection = StrategicMap.Current.Selection;
+            HexSpriteSelection selection = StrategicMap.Current.Selection;
             if (OnArmyDeselected is not null && selection.EventHexSprite is ArmyHexSprite armyHexSprite)
             {
                 OnArmyDeselected(armyHexSprite.Army);

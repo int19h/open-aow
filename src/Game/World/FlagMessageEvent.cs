@@ -42,10 +42,9 @@ public partial class FlagMessageEvent(CustomNode owner) : FlagEvent(owner)
     // FlagEvents.pas:204
     public override bool Trigger(sbyte player)
     {
-        FlagMessageEventLog log;
         if (StrategicMap.Current.SeatedPlayer == player)
         {
-            log = new FlagMessageEventLog(null, holder: CreationHolder())
+            FlagMessageEventLog log = new(null, holder: CreationHolder())
             {
                 HelpFileName = _helpFileName
             };

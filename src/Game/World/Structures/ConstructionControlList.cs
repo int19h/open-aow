@@ -20,9 +20,8 @@ public partial class ConstructionControlList(CustomNode owner) : OwningNode(owne
     // AoWAb.PAS:5523
     public ConstructionControl FindId(int id)
     {
-        int i;
         ConstructionControl result = null;
-        i = GetCount();
+        int i = GetCount();
         while (result is null && i != 0)
         {
             i -= 1;

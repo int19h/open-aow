@@ -215,17 +215,8 @@ internal static class TacticalTables
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps unusedHeight on purpose.")]
     internal static void MakeRangedPath(CombatSideIndex side, short speed, short arc, short unusedHeight, short x1, short y1, short x2, short y2, short offsetX, short offsetY, bool includeUnits, Point3DList path, DelphiList<RangedObstacle> obstacles)
     {
-        int i;
-        int a;
-        int b;
         int hexX = default;
         int hexY = default;
-        int steps;
-        Point3D point;
-        float height;
-        RangedObstacle obstacle;
-        TacticalBattleUnitHexSprite unitHexSprite;
-        CityWall wall;
         path.Clear();
         obstacles.Clear();
         HexGeometry.HexToPixel(x1, y1, out int x, out int y);
@@ -234,15 +225,16 @@ internal static class TacticalTables
         y += 13;
         lastX = lastX + 13 + offsetX;
         lastY = lastY + 13 + offsetY;
-        i = 0;
-        a = Math.Abs(x2 - x1);
-        b = Math.Abs(y2 - y1);
-        steps = (a + b) * 100 / speed;
+        int i = 0;
+        int a = Math.Abs(x2 - x1);
+        int b = Math.Abs(y2 - y1);
+        int steps = (a + b) * 100 / speed;
         if (steps < 2)
         {
             steps = 2;
         }
 
+        Point3D point;
         while (i <= steps)
         {
             point = new Point3D();
@@ -258,7 +250,7 @@ internal static class TacticalTables
             }
             else
             {
-                height = a * steps * arc / 10;
+                float height = a * steps * arc / 10;
                 point.Z = Round(Math.Sqrt(height)) - (steps * 10 / arc);
             }
 
@@ -294,11 +286,11 @@ internal static class TacticalTables
                     else
                     {
                         a = HexGeometry.DeltaHexToRadius(x, y, startX, startY);
-                        unitHexSprite = !includeUnits
+                        TacticalBattleUnitHexSprite unitHexSprite = !includeUnits
                             ? null
                             : CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
 
-                        wall = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<CityWall>(2229508);
+                        CityWall wall = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<CityWall>(2229508);
                         if (wall is null && side == CombatSideIndex.Attacker)
                         {
                             wall = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild(2229510) as CityWall;
@@ -398,6 +390,7 @@ internal static class TacticalTables
 
                     if (a > 0)
                     {
+                        RangedObstacle obstacle;
                         if (x != lastX || y != lastY)
                         {
                             obstacle = new RangedObstacle

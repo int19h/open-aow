@@ -26,10 +26,9 @@ public partial class ImageLibraryManagerList(ImageLibraryManager owner) : Delphi
     // ImageLib.pas:8113
     public void UnloadImageLibrary()
     {
-        ImageLibraryManagerObject objectValue;
         for (int i = Count - 1; i >= 0; i--)
         {
-            objectValue = Objects[i];
+            ImageLibraryManagerObject objectValue = Objects[i];
             if (objectValue is not null && objectValue.ImageLibrary is not null)
             {
                 objectValue.ImageLibrary.ReleaseDiscardableImageData();
@@ -40,8 +39,7 @@ public partial class ImageLibraryManagerList(ImageLibraryManager owner) : Delphi
     // ImageLib.pas:8126
     public ImageLibraryManagerObject AddImageLibraryFile(string fileName)
     {
-        ImageLibraryManagerObject objectValue;
-        objectValue = new ImageLibraryManagerObject();
+        ImageLibraryManagerObject objectValue = new();
         fileName = UpperCase(fileName);
         _ = AddObject(fileName, objectValue);
         HashTables.Add(HashTable, key: fileName, value: objectValue);
@@ -53,10 +51,8 @@ public partial class ImageLibraryManagerList(ImageLibraryManager owner) : Delphi
     //   finds the owned libraries. }
     public ImageLibraryManagerObject AddImageLibraryManagerObject(string name, CustomImageLibrary imageLibrary)
     {
-        string s;
-        ImageLibraryManagerObject objectValue;
-        s = UpperCase(name);
-        objectValue = new ImageLibraryManagerObject
+        string s = UpperCase(name);
+        ImageLibraryManagerObject objectValue = new()
         {
             ImageLibrary = imageLibrary
         };
@@ -68,8 +64,7 @@ public partial class ImageLibraryManagerList(ImageLibraryManager owner) : Delphi
     // ImageLib.pas:8153
     public override void Delete(int index)
     {
-        ImageLibraryManagerObject objectValue;
-        objectValue = Objects[index];
+        ImageLibraryManagerObject objectValue = Objects[index];
         objectValue?.ImageLibrary?.Dispose();
 
         string item = Strings[index];
@@ -80,11 +75,10 @@ public partial class ImageLibraryManagerList(ImageLibraryManager owner) : Delphi
     // ImageLib.pas:8167
     public override void Clear()
     {
-        ImageLibraryManagerObject objectValue;
         HashTable.Clear();
         for (int i = Count - 1; i >= 0; i--)
         {
-            objectValue = Objects[i];
+            ImageLibraryManagerObject objectValue = Objects[i];
             objectValue?.ImageLibrary?.Dispose();
         }
 
@@ -96,9 +90,9 @@ public partial class ImageLibraryManagerList(ImageLibraryManager owner) : Delphi
     //   The original clears FileName at the end (a second @LStrClr of the parameter). }
     public CustomImageLibrary LinkToImageLibrary(string fileName)
     {
-        CustomImageLibrary result;
         fileName = UpperCase(fileName);
         _ = HashTable.TryGetValue(fileName, out ImageLibraryManagerObject objectValue);
+        CustomImageLibrary result;
         if (objectValue is not null)
         {
             objectValue.RefCount += 1;
@@ -131,9 +125,9 @@ public partial class ImageLibraryManagerList(ImageLibraryManager owner) : Delphi
     // ImageLib.pas:8213
     public bool ReleaseImageLibrary(string fileName)
     {
-        bool result;
         fileName = UpperCase(fileName);
         _ = HashTable.TryGetValue(fileName, out ImageLibraryManagerObject objectValue);
+        bool result;
         if (objectValue is not null)
         {
             objectValue.RefCount -= 1;
@@ -157,12 +151,11 @@ public partial class ImageLibraryManagerList(ImageLibraryManager owner) : Delphi
     {
         int n = default;
         string name = "";
-        CustomImageLibrary imageLibrary;
         stream.ReadExactly(Bytes.Of(ref n, 4));
         for (int i = 0, last = n - 1; i <= last; i++)
         {
             LibraryDrawing.ReadStringFromStream(ref name, stream);
-            imageLibrary = new ImageLibrary(null);
+            CustomImageLibrary imageLibrary = new ImageLibrary(null);
             imageLibrary.LoadFromStream(stream);
             _ = AddImageLibraryManagerObject(name, imageLibrary);
         }
@@ -171,8 +164,7 @@ public partial class ImageLibraryManagerList(ImageLibraryManager owner) : Delphi
     // ImageLib.pas:8245
     public override void SaveToStream(Stream stream)
     {
-        int i;
-        i = Count;
+        int i = Count;
         stream.Write(Bytes.Of(ref i, 4));
         i = 0;
         int last = Count - 1;

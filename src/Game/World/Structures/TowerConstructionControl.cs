@@ -23,11 +23,11 @@ public partial class TowerConstructionControl(CustomNode owner) : StructureConst
     // Tower.pas:146
     public override bool CanConstruct(Troop troop, ref string reason)
     {
-        bool result;
         MapCoordinate coordinate40 = troop.GetLocation();
         _ = coordinate40.X;
         _ = coordinate40.Y;
         sbyte hexLevel = coordinate40.MapLevel;
+        bool result;
         if (hexLevel == 0)
         {
             result = base.CanConstruct(troop, ref reason);

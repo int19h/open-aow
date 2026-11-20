@@ -27,9 +27,8 @@ public partial class CombatTypeRequestEventLog(CustomNode owner) : EventLog(owne
     // Combat2.pas:1
     public override void Dispose()
     {
-        object objectValue;
         SetTokenEvent(null);
-        objectValue = ArmyId;
+        object objectValue = ArmyId;
         (objectValue as IDisposable)?.Dispose();
 
         base.Dispose();

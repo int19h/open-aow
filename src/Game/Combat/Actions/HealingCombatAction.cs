@@ -18,10 +18,8 @@ public partial class HealingCombatAction(CustomNode owner) : SingleTargetCombatA
     // AoWAb.PAS:3579
     public override void Execute(Battle combat)
     {
-        CombatUnit source;
-        CombatUnit target;
-        source = combat.CombatData.FindId<CombatUnit>(SourceId);
-        target = combat.CombatData.FindId<CombatUnit>(TargetId);
+        CombatUnit source = combat.CombatData.FindId<CombatUnit>(SourceId);
+        CombatUnit target = combat.CombatData.FindId<CombatUnit>(TargetId);
         GamePack.Current.AbilityControl.GetAbility<HealingAbility>(47).SetEnabled(source.Troop, false);
         _ = GamePack.Current.AbilityControl.GetAbility<HealingAbility>(47).HealUnit(target.Troop);
     }

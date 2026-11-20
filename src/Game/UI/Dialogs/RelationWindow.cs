@@ -178,7 +178,6 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     // AoWRelations.pas:241
     public void ShowRelations(int player)
     {
-        int index;
         ClearActions();
         ResetChecks();
         UI.General.Manager.OverlayPriority = 49;
@@ -218,7 +217,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
             playerCheck.Checked = true;
         }
 
-        index = Players.IndexOf(StrategicMap.Current.SeatedPlayer);
+        int index = Players.IndexOf(StrategicMap.Current.SeatedPlayer);
         UIComponent seated = ControlAt(index + 24);
         if (seated is CheckBox seatedCheck)
         {
@@ -254,11 +253,10 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     // AoWRelations.pas:293
     public virtual void ShowPlayerActions(sbyte player)
     {
-        int selected;
         ClearActions();
         HighlightPlayer(player);
         ShowPlayerInformation(player);
-        selected = ActionsList.Selected;
+        int selected = ActionsList.Selected;
         _ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).ListDiplomaticActions(player, _actions);
         for (int i = 0, last = _actions.GetCount() - 1; i <= last; i++)
         {
@@ -275,7 +273,6 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     // AoWRelations.pas:309
     public void ShowPlayerInformation(sbyte player)
     {
-        DiplomaticRelation relation;
         InfoPlayer = player;
         InfoRace = -1;
         FaceShadow.Visible = true;
@@ -299,7 +296,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         {
             if (player != StrategicMap.Current.SeatedPlayer)
             {
-                relation = StrategicMap.Current.Players.GetDiplomaticRelation(player, StrategicMap.Current.SeatedPlayer);
+                DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation(player, StrategicMap.Current.SeatedPlayer);
                 string diplomaticRelation = UI.Engine.TranslateResourceString(GameTables.DiplomaticRelationTexts[(int)relation]);
                 PlayerStatusValueLabel.Text = diplomaticRelation;
                 PlayerStatusIcon.CurrentImage = relation != DiplomaticRelation.Unknown ? (int)relation + 8 : 50;
@@ -484,11 +481,10 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     // AoWRelations.pas:456
     public void HighlightRace(sbyte race)
     {
-        int index;
         ResetChecks();
         SelectedPlayer = -1;
         SelectedRace = race;
-        index = Races.IndexOf(race);
+        int index = Races.IndexOf(race);
         // A missing race yields -1, and check 11 is P12CB, the old slot 35.
         CheckBox check = FChecks[index + 12];
         check.Alignment.TopOffset = 175;
@@ -544,14 +540,11 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     // AoWRelations.pas:500
     public void FinishEvent()
     {
-        ExecuteDoneEvent done;
-        DiplomaticActionEventLog pending;
-        DiplomaticActionEventLog eventValue;
-        pending = _event;
+        DiplomaticActionEventLog pending = _event;
         if (pending is not null)
         {
-            done = Done;
-            eventValue = pending;
+            ExecuteDoneEvent done = Done;
+            DiplomaticActionEventLog eventValue = pending;
             Done = null;
             _event = null;
             done?.Invoke(eventValue);
@@ -652,8 +645,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     // AoWRelations.pas:623
     public void R1CBChange(CheckBox sender, int slot)
     {
-        CheckBox check;
-        check = sender;
+        CheckBox check = sender;
         if (check.Checked)
         {
             UI.General.PlayButtonSound(1);
@@ -679,20 +671,17 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     // AoWRelations.pas:639
     public void P1CBPreDraw(CheckBox sender, LockedSurface surface, int slot)
     {
-        sbyte player2;
-        Rect r;
-        UIComponent component;
-        component = sender;
+        UIComponent component = sender;
         if (slot < Players.Count)
         {
-            player2 = (sbyte)Players[slot];
+            sbyte player2 = (sbyte)Players[slot];
             if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen(player2) == -1)
             {
                 UI.Graphics.RelationWindow[28].ShowClipped(component.WinLeft, component.WinTop, surface);
             }
             else
             {
-                r = new Rect(component.WinLeft + 1, component.WinTop + 1, component.WinLeft + component.WinWidth - 1, component.WinTop + component.WinHeight - 1);
+                Rect r = new(component.WinLeft + 1, component.WinTop + 1, component.WinLeft + component.WinWidth - 1, component.WinTop + component.WinHeight - 1);
                 StrategicMap.Current.Players.GetPlayers(player2).GetFace()?.ShowStretched(r, surface);
             }
 
@@ -704,18 +693,13 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     // AoWRelations.pas:659
     public void R1CBPreDraw(CheckBox sender, LockedSurface surface, int slot)
     {
-        UIComponent control;
-        sbyte race;
-        Rect r;
-        DiplomaticAction action;
-        int modifier;
-        control = sender;
+        UIComponent control = sender;
         if (slot - 20 < Races.Count)
         {
-            race = (sbyte)Races[slot - 20];
-            r = new Rect(control.WinLeft + 1, control.WinTop + 1, control.WinLeft + control.WinWidth - 1, control.WinTop + control.WinHeight - 1);
+            sbyte race = (sbyte)Races[slot - 20];
+            Rect r = new(control.WinLeft + 1, control.WinTop + 1, control.WinLeft + control.WinWidth - 1, control.WinTop + control.WinHeight - 1);
             GamePack.Current.RaceResources.GetRaceResource(race).GetFace().ShowStretched(r, surface);
-            action = _action;
+            DiplomaticAction action = _action;
             if (action is null && NewActionPanel.Visible && ActionsList.Selected != -1)
             {
                 action = ActionsList.Items.Objects[ActionsList.Selected];
@@ -723,7 +707,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
 
             if (action is not null)
             {
-                modifier = action.GetRelationModifier(StrategicMap.Current.SeatedPlayer, race);
+                int modifier = action.GetRelationModifier(StrategicMap.Current.SeatedPlayer, race);
                 if (modifier != 0)
                 {
                     UI.Fonts.Age10.Color = 16777215;
@@ -736,13 +720,10 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     // AoWRelations.pas:689
     public void P1IDraw(Image sender, LockedSurface surface, int slot)
     {
-        int player;
-        DiplomaticRelation relation;
-        int image;
         Image component = sender;
         if (Players.Count > slot && slot != SelectedIndex)
         {
-            player = Players[slot];
+            int player = Players[slot];
             if (SelectedPlayer != -1)
             {
                 if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen(SelectedPlayer) != -1)
@@ -751,8 +732,8 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
                     {
                         if (StrategicMap.Current.Players.GetPlayers(SelectedPlayer).GetFirstDaySeen((sbyte)player) != -1)
                         {
-                            relation = StrategicMap.Current.Players.GetDiplomaticRelation(SelectedPlayer, (sbyte)player);
-                            image = relation != DiplomaticRelation.Unknown ? (int)relation + 8 : 50;
+                            DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation(SelectedPlayer, (sbyte)player);
+                            int image = relation != DiplomaticRelation.Unknown ? (int)relation + 8 : 50;
 
                             UI.Graphics.RelationWindow[image].Show(component.WinLeft, component.WinTop + 8, surface);
                         }
@@ -773,14 +754,12 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     // AoWRelations.pas:715
     public void R1IDraw(Image sender, LockedSurface surface, int slot)
     {
-        int raceIndex;
-        UIComponent s;
-        s = sender;
+        UIComponent s = sender;
         if (SelectedPlayer != -1 && slot - 20 < Races.Count)
         {
             if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen(SelectedPlayer) != -1)
             {
-                raceIndex = Races[slot - 20];
+                int raceIndex = Races[slot - 20];
                 Status playerRelation = StrategicMap.Current.Races.GetRace(raceIndex).GetPlayerRelation(SelectedPlayer);
                 UI.Graphics.RelationWindow[(int)playerRelation + 11].ShowClipped(s.WinLeft, s.WinTop + 15, surface);
             }
@@ -790,12 +769,11 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     // AoWRelations.pas:723
     public void MAcceptBtnClick()
     {
-        string reason = "";
-        DiplomaticAction action;
         UI.General.PlayButtonSound(0);
-        action = _action;
+        DiplomaticAction action = _action;
         if (action is not null)
         {
+            string reason = "";
             if (action.Accept(reason))
             {
                 FinishEvent();
@@ -811,12 +789,11 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     // AoWRelations.pas:739
     public void MRejectBtnClick()
     {
-        string reason = "";
-        DiplomaticAction action;
         UI.General.PlayButtonSound(0);
-        action = _action;
+        DiplomaticAction action = _action;
         if (action is not null)
         {
+            string reason = "";
             if (action.Reject(reason))
             {
                 FinishEvent();
@@ -862,8 +839,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     // AoWRelations.pas:768
     public void FaceFrPreDraw(LockedSurface surface)
     {
-        Rect r;
-        r = new Rect(FaceFrame.WinLeft + 1, FaceFrame.WinTop, FaceFrame.WinLeft + FaceFrame.WinWidth, FaceFrame.WinTop + FaceFrame.WinHeight);
+        Rect r = new(FaceFrame.WinLeft + 1, FaceFrame.WinTop, FaceFrame.WinLeft + FaceFrame.WinWidth, FaceFrame.WinTop + FaceFrame.WinHeight);
         if (_action is null)
         {
             if (SelectedPlayer != -1)
@@ -917,13 +893,13 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     // AoWRelations.pas:811
     public void ASelectClick()
     {
-        string reason = "";
         if (ActionsList.Selected != -1)
         {
             SetAction(ActionsList.Items.Objects[ActionsList.Selected]);
             ProposalView view = _action.Proposal.View;
             if (view == ProposalView.Notice || view == ProposalView.Threat)
             {
+                string reason = "";
                 if (!_action.Send(ref reason))
                 {
                     StrategicMap.Current.ShowMessage(reason);
@@ -1006,16 +982,14 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     // AoWRelations.pas:882
     public void SendActionButtonClick()
     {
-        string reason = "";
-        sbyte player;
-        DiplomaticAction action;
-        action = _action;
+        DiplomaticAction action = _action;
         if (action is not null)
         {
             action.Proposal = action.Proposal.WithOffer(BribeGoldSlider.Position, BribeManaSlider.Position);
+            string reason = "";
             if (action.Send(ref reason))
             {
-                player = _action.Target;
+                sbyte player = _action.Target;
                 if (_event is not null && _event.Action.Proposal.SignedAsOtherPlayer)
                 {
                     player = _event.Action.OtherPlayer;
@@ -1034,8 +1008,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     // AoWRelations.pas:901
     public void ReplyButtonClick()
     {
-        DiplomaticAction action;
-        action = StrategicMap.Current.Players.GetPlayers(_action.Target).CreateDiplomaticAction(new SendMessage(), _action.Source, -1);
+        DiplomaticAction action = StrategicMap.Current.Players.GetPlayers(_action.Target).CreateDiplomaticAction(new SendMessage(), _action.Source, -1);
         ClearActions();
         SetAction(action);
         NewActionPanel.Visible = false;

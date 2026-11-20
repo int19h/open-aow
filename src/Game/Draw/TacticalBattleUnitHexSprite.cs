@@ -59,9 +59,6 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
     // AoWTC.pas:3461
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        SelfDestructCombatAction selfDestruct;
-        DamageCombatAction spellDamage;
-        RangedAttackCombatAction rangedDamage;
         base.MapFieldMessageProc(ref message);
         if (message.MessageId == 4364)
         {
@@ -95,7 +92,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
                 if (message.MessageId == 200704 && message.HexNumber == 0)
                 {
                     RandSeed = StrategicMap.Current.Random(16777215);
-                    selfDestruct = GamePack.Current.AbilityControl.GetAbility<SelfDestructAbility>(65).CreateSelfDestructCombatAction(message.Param[0].As<CombatObject>(), Unit);
+                    SelfDestructCombatAction selfDestruct = GamePack.Current.AbilityControl.GetAbility<SelfDestructAbility>(65).CreateSelfDestructCombatAction(message.Param[0].As<CombatObject>(), Unit);
                     if (selfDestruct.Damage > 0)
                     {
                         SetAction(SpriteAction.Hit);
@@ -107,6 +104,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
                 else
                 {
                     // The spell factory returns the base action type by design. Each spell id in this cascade builds a damage action.
+                    DamageCombatAction spellDamage;
                     if (message.MessageId == 200707 && message.HexNumber == 0)
                     {
                         RandSeed = StrategicMap.Current.Random(16777215);
@@ -135,6 +133,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
                         }
                         else
                         {
+                            RangedAttackCombatAction rangedDamage;
                             if (message.MessageId == 200714 && message.HexNumber == 0)
                             {
                                 RandSeed = StrategicMap.Current.Random(16777215);
@@ -564,12 +563,11 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
     // AoWTC.pas:3804
     public bool MeleeMoveTacticalBattle(MovePath path)
     {
-        TacticalBattleMeleeMoveTokenEvent tokenEvent;
         bool result = false;
         sbyte player = Unit.GetPlayer();
         if (StrategicMap.Current.TokenManager.PlayerReady(player) && path.Count > 1)
         {
-            tokenEvent = CreateTacticalBattleMeleeMoveTokenEvent(Unit, path);
+            TacticalBattleMeleeMoveTokenEvent tokenEvent = CreateTacticalBattleMeleeMoveTokenEvent(Unit, path);
             if (tokenEvent is not null)
             {
                 sbyte fUnitPlayer = Unit.GetPlayer();
@@ -585,13 +583,12 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
     // AoWTC.pas:3836
     public int SelectAbility(int abilityId)
     {
-        int index;
         CombatMap.Current.UnitSelection.DeactivateRangedPath();
         SelectedAbility = -1;
         int result = -1;
-        index = -1;
         if (CombatMap.Current.CurrentCombatPlayer == CombatMap.Current.SeatedCombatPlayer)
         {
+            int index = -1;
             for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
             {
                 if (Abilities[i].Ability == abilityId)
@@ -743,7 +740,6 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
     // AoWTC.pas:3895
     public void CreateTacticalBattleAbilityList()
     {
-        CombatAbilityRef ability;
         for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {
             (Abilities[i] as IDisposable)?.Dispose();
@@ -755,7 +751,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
         {
             if (Unit.GetAbilityEnabled(i))
             {
-                ability = new CombatAbilityRef
+                CombatAbilityRef ability = new()
                 {
                     Ability = i
                 };
@@ -837,15 +833,13 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
     // AoWTC.pas:3935
     public bool AbilityTouchMoveTacticalBattle(MovePath path)
     {
-        TokenEvent tokenEvent;
-        AbilityCombatInfo buffer = default;
         bool result = false;
         sbyte player = Unit.GetPlayer();
         if (StrategicMap.Current.TokenManager.PlayerReady(player) && path.Count > 0)
         {
             if (path.Count > 1)
             {
-                tokenEvent = CreateTacticalBattleAbilityTouchMoveTokenEvent(Unit, path, SelectedAbility);
+                TokenEvent tokenEvent = CreateTacticalBattleAbilityTouchMoveTokenEvent(Unit, path, SelectedAbility);
                 if (tokenEvent is not null)
                 {
                     sbyte fUnitPlayer = Unit.GetPlayer();
@@ -856,6 +850,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
             }
             else
             {
+                AbilityCombatInfo buffer = default;
                 GamePack.Current.AbilityControl.GetAbility(SelectedAbility).GetCombatInfo(Unit.Troop, ref buffer);
                 if (buffer.TargetTypes.Contains(CombatTargetTypeElement.Friend))
                 {
@@ -871,12 +866,11 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
     // AoWTC.pas:3952
     public bool AbilityRangedTacticalBattle(ushort X, ushort Y)
     {
-        CombatAbilityRangedTokenEvent tokenEvent;
         bool result = false;
         sbyte player = Unit.GetPlayer();
         if (StrategicMap.Current.TokenManager.PlayerReady(player))
         {
-            tokenEvent = CreateTacticalBattleAbilityRangedTokenEvent(Unit, X, Y, SelectedAbility, SelectedSpell);
+            CombatAbilityRangedTokenEvent tokenEvent = CreateTacticalBattleAbilityRangedTokenEvent(Unit, X, Y, SelectedAbility, SelectedSpell);
             if (tokenEvent is not null)
             {
                 sbyte fUnitPlayer = Unit.GetPlayer();

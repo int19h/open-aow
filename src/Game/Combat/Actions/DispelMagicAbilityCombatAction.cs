@@ -16,9 +16,8 @@ public partial class DispelMagicAbilityCombatAction(CustomNode owner) : DispelMa
     // AoWAb.PAS:4018
     public override void Execute(Battle combat)
     {
-        CombatUnit source;
         base.Execute(combat);
-        source = combat.CombatData.FindId<CombatUnit>(SourceId);
+        CombatUnit source = combat.CombatData.FindId<CombatUnit>(SourceId);
         GamePack.Current.AbilityControl.GetAbility<DispelMagicAbility>(60).SetEnabled(source.Troop, false);
     }
 

@@ -59,7 +59,7 @@ public partial class GameOverEventLog(CustomNode owner) : EventLog(owner)
     // EventLog.pas:794
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool result = default;
+        bool result;
         switch (trigger)
         {
             case ExecuteTrigger.User:

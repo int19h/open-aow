@@ -52,19 +52,17 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
     // Spells.PAS:1159
     public override bool Validate(Hero source)
     {
-        int i;
-        Troop target;
         bool result = base.Validate(source);
         MapCoordinate coordinate12 = source.GetLocation();
         sbyte x = coordinate12.X;
         sbyte y = coordinate12.Y;
         _ = coordinate12.MapLevel;
-        i = TargetUnitIds.Count;
+        int i = TargetUnitIds.Count;
         while (result && i != 0)
         {
             i -= 1;
             int item = TargetUnitIds[i];
-            target = StrategicMap.Current.UnitControl.FindUnit(item);
+            Troop target = StrategicMap.Current.UnitControl.FindUnit(item);
             if (target is not null)
             {
                 MapCoordinate coordinate13 = target.GetLocation();
@@ -94,7 +92,6 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
     // Spells.PAS:1185
     public override bool Process(Troop source, int value)
     {
-        Troop target;
         _ = base.Process(source, value);
         if (_targetUnits.GetCount() != 0)
         {
@@ -105,7 +102,7 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
             GamePack.Current.SpellControl.GetSpell(EventSpellId).PlayDefaultCastEffects(source.Player, x, y, l);
             for (int i = 0, last = _targetUnits.GetCount() - 1; i <= last; i++)
             {
-                target = _targetUnits.GetUnit(i);
+                Troop target = _targetUnits.GetUnit(i);
                 _ = target.AddRef();
                 if (GamePack.Current.SpellControl.GetSpell<UnitSpell>(EventSpellId).ExecuteSpell(source, target, EventMana, SpellData))
                 {

@@ -35,17 +35,12 @@ public partial class CallHero : Spell
     // GlobalSpells.pas:1250
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        bool showSource;
-        bool showTarget;
-        Hero hero;
-        ArmyHexSprite army;
-        ImageSequenceAnimation animation;
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         MapCoordinate coordinate55 = source.GetLocation();
         sbyte x = coordinate55.X;
         sbyte y = coordinate55.Y;
         sbyte layer = coordinate55.MapLevel;
-        hero = FindCallHero(source);
+        Hero hero = FindCallHero(source);
         if (hero is not null)
         {
             if (hero.Owner is null)
@@ -53,8 +48,8 @@ public partial class CallHero : Spell
                 hero.SetHitPoints(hero.GetHits());
             }
 
-            army = hero.Place(x, y, layer, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
-            showSource = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(x, y, layer, StrategicMap.Current.SeatedPlayer);
+            ArmyHexSprite army = hero.Place(x, y, layer, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
+            bool showSource = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(x, y, layer, StrategicMap.Current.SeatedPlayer);
             bool condition = StrategicMap.Current.SeatedPlayer == source.Player;
             if (!condition)
             {
@@ -64,7 +59,8 @@ public partial class CallHero : Spell
                 condition = StrategicMap.Current.VisibleForPlayer(hexX, hexY, hexLevel, StrategicMap.Current.SeatedPlayer);
             }
 
-            showTarget = condition;
+            bool showTarget = condition;
+            ImageSequenceAnimation animation;
             if (showSource)
             {
                 if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0) is not null)
@@ -137,10 +133,9 @@ public partial class CallHero : Spell
     {
         bool result;
         string reason = "";
-        SpellTokenEvent eventValue;
         if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            eventValue = new SpellTokenEvent(null) { Holder = CreationHolder() };
+            SpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
@@ -157,11 +152,8 @@ public partial class CallHero : Spell
     // GlobalSpells.pas:1212
     public Hero FindCallHero(Troop source)
     {
-        Hero result;
+        DoubleItemList<Hero> heroes = new();
         Hero hero;
-        DoubleItemList<Hero> heroes;
-        int index;
-        heroes = new DoubleItemList<Hero>();
         for (int i = StrategicMap.Current.HeroControl.GetCount() - 1; i >= 0; i--)
         {
             hero = StrategicMap.Current.HeroControl.GetHero(i);
@@ -183,10 +175,11 @@ public partial class CallHero : Spell
             }
         }
 
+        Hero result;
         if (heroes.Count != 0)
         {
             RandSeed = StrategicMap.Current.Random(16777215);
-            index = heroes.RandomChanceItemB(0);
+            int index = heroes.RandomChanceItemB(0);
             result = heroes[index].First;
         }
         else

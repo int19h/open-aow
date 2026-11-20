@@ -24,15 +24,12 @@ public partial class RemotePlayerCommunicationControl(EngineObject creator) : Pl
     // { The number of different system IDs among the players }
     public override int GetSystemCount()
     {
-        int j;
-        int id;
-        bool unique;
         int result = 0;
         for (int i = 0, last = PlayerCommunicationSettingsList.Count - 1; i <= last; i++)
         {
-            id = PlayerCommunicationSettingsList.Players[i].SystemId;
-            unique = true;
-            j = 0;
+            int id = PlayerCommunicationSettingsList.Players[i].SystemId;
+            bool unique = true;
+            int j = 0;
             while (j != i && unique)
             {
                 unique = id != PlayerCommunicationSettingsList.Players[j].SystemId;
@@ -76,10 +73,9 @@ public partial class RemotePlayerCommunicationControl(EngineObject creator) : Pl
     //   for every player or for a player on this system is also received here. }
     public override bool SendPackageData(int player, MemoryStream stream)
     {
-        bool result;
         int systemId = player == NetworkSession.AllPlayers ? 0 : PlayerCommunicationSettingsList.Players[player].SystemId;
 
-        result = systemId == _localSystemId || SendData(size: (int)stream.Length, data: stream.GetBuffer(), systemId: systemId);
+        bool result = systemId == _localSystemId || SendData(size: (int)stream.Length, data: stream.GetBuffer(), systemId: systemId);
 
         if (player == NetworkSession.AllPlayers || systemId == _localSystemId)
         {

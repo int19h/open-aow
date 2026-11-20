@@ -16,10 +16,8 @@ public partial class SelfDestructCombatAction(CustomNode owner) : DamageCombatAc
     // AoWAb.PAS:2116
     public override void Execute(Battle combat)
     {
-        CombatObject source;
-        CombatObject target;
-        source = combat.CombatData.FindId(SourceId);
-        target = combat.CombatData.FindId(TargetId);
+        CombatObject source = combat.CombatData.FindId(SourceId);
+        CombatObject target = combat.CombatData.FindId(TargetId);
         DamageDone = (byte)source.DoDamage(target, Damage);
         if (Effects != Set<DamageType>.Of())
         {

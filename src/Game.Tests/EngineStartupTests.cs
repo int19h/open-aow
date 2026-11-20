@@ -109,8 +109,6 @@ public sealed class EngineStartupTests
             using EngineFixture.RecordingHost fixture = new(route);
             RtlHost.InstallHost(fixture);
             List<EngineFixture.Entry> events = fixture.Events;
-            GameEngine? value = null;
-            Exception? caught = null;
             void Thrown(object? sender, FirstChanceExceptionEventArgs arguments)
             {
                 if (arguments.Exception is XunitException)
@@ -126,6 +124,8 @@ public sealed class EngineStartupTests
             AppDomain.CurrentDomain.FirstChanceException += Thrown;
             try
             {
+                GameEngine? value = null;
+                Exception? caught = null;
                 try
                 {
                     value = route switch

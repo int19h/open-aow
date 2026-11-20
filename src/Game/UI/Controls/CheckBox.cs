@@ -93,10 +93,9 @@ public partial class CheckBox(Component owner) : BaseButton(owner)
     // AoWCheckBox.pas:119
     public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        bool oldLit;
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
-        oldLit = Lit;
+        bool oldLit = Lit;
         if (X < Window.AbsoluteLeft + WinLeft || X > Window.AbsoluteLeft + WinLeft + WinWidth - 1 || Y < Window.AbsoluteTop + WinTop || Y > Window.AbsoluteTop + WinTop + WinHeight - 1)
         {
             Lit = false;

@@ -150,8 +150,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
     // aowMapEvents.pas:150
     public void TheMapArmySelected(Army army)
     {
-        int count;
-        count = 0;
+        int count = 0;
         for (int i = 0; i <= 7; i++)
         {
             UI.General.SelectedUnits[i] = -1;
@@ -234,8 +233,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
     // aowMapEvents.pas:290
     public void TheMapGemsChanged(sbyte player)
     {
-        bool update;
-        update = false;
+        bool update = false;
         if (StrategicMap.Current.SeatedPlayer == player)
         {
             update = true;
@@ -294,9 +292,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
     // aowMapEvents.pas:323
     public void TheMapIncomeChanged(sbyte player)
     {
-        bool update;
-        int netIncome;
-        update = false;
+        bool update = false;
         if (StrategicMap.Current.SeatedPlayer == player)
         {
             update = true;
@@ -333,7 +329,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
             else
             {
                 int upkeep = StrategicMap.Current.Players.GetPlayers(player).GetUpkeep();
-                netIncome = StrategicMap.Current.Players.GetPlayers(player).Income - upkeep;
+                int netIncome = StrategicMap.Current.Players.GetPlayers(player).Income - upkeep;
                 if (netIncome >= 0)
                 {
                     UI.TaskBar.WorldGoldSignLabel.Text = "+";
@@ -382,11 +378,9 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
     // aowMapEvents.pas:375
     public void TheMapPlayerMagicChanged(sbyte player)
     {
-        bool update;
-        int netIncome;
         MagicPlayerChanged(UI.MagicWindow, player);
         UI.SpellBook.PlayerChanged(player);
-        update = false;
+        bool update = false;
         if (StrategicMap.Current.SeatedPlayer == player)
         {
             update = true;
@@ -425,7 +419,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
             {
                 Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
                 UI.TaskBar.WorldManaTotalLabel.Text = IntToStr(playerLocal.MagicControl.Mana);
-                netIncome = StrategicMap.Current.Players.GetPlayers(player).MagicControl.GetManaIncome() - StrategicMap.Current.Players.GetPlayers(player).MagicControl.GetManaUpkeep();
+                int netIncome = StrategicMap.Current.Players.GetPlayers(player).MagicControl.GetManaIncome() - StrategicMap.Current.Players.GetPlayers(player).MagicControl.GetManaUpkeep();
                 if (netIncome >= 0)
                 {
                     UI.TaskBar.WorldManaSignLabel.Text = "+";

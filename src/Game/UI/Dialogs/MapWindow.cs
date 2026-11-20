@@ -172,14 +172,13 @@ public partial class MapWindow(UIContext ui) : UIModule(ui)
     // AOWMWindow.pas:163
     public void MapWindowKeyDown(UIComponent sender, ref ushort key, Set<ShiftState> shift)
     {
-        ushort k;
         if (StrategicMap.Current is not null && CombatMap.Current is null)
         {
             StrategicMap.Current.Keyboard.KeyDown(key, shift);
             PressEndTurnShortcut(key, shift);
         }
 
-        k = key;
+        ushort k = key;
         switch (UI.Engine.Language)
         {
             case 4:

@@ -23,10 +23,9 @@ public partial class BlessedEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1231
     public override string GetSourceName(AbilityOwner owner)
     {
-        string result;
         // { Original assumes the ability data and enchantment exist. }
         UnitEnchantmentAbilityData unitEnchantmentAbilityData = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
-        result = unitEnchantmentAbilityData.Enchantment.Source == -2
+        string result = unitEnchantmentAbilityData.Enchantment.Source == -2
             ? AbilityRules.TranslateResourceString(GetEngine(), GameText.LifeMasteryText)
             : base.GetSourceName(owner);
 

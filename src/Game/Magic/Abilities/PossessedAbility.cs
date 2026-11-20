@@ -28,9 +28,8 @@ public partial class PossessedAbility : PossessAbility
     // AoWAb.PAS:2597
     public override bool Expand(AbilityOwner owner)
     {
-        PossessedAbilityData data;
         bool result = false;
-        data = GetData(owner);
+        PossessedAbilityData data = GetData(owner);
         if (data is null)
         {
             data = new PossessedAbilityData(null) { Holder = CreationHolder() };
@@ -45,9 +44,8 @@ public partial class PossessedAbility : PossessAbility
     // AoWAb.PAS:2612
     public override bool Remove(AbilityOwner owner)
     {
-        PossessedAbilityData data;
         bool result = true;
-        data = GetData(owner);
+        PossessedAbilityData data = GetData(owner);
         if (data is not null)
         {
             SetAbility(owner, AbilityId, 0);
@@ -64,14 +62,12 @@ public partial class PossessedAbility : PossessAbility
     // AoWAb.PAS:2571
     public override void CombatObjectDestroyed(CombatObject combatObject)
     {
-        Unit newUnit;
-        PossessedAbilityData data;
         if (combatObject is CombatUnit combatUnit)
         {
             combatUnit.SetStatus(combatUnit.Status - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed));
-            newUnit = new Unit(null) { Holder = CreationHolder() };
+            Unit newUnit = new(null) { Holder = CreationHolder() };
             newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(152));
-            data = GetData(combatUnit.Troop);
+            PossessedAbilityData data = GetData(combatUnit.Troop);
             if (data is not null)
             {
                 newUnit.SetExperience(data.SourceExperience);

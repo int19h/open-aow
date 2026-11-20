@@ -68,10 +68,8 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
     // 0 load, 1 save, 2 select map
     public void FinishDialog()
     {
-        ExecuteDoneEvent done;
-        SaveGameEventLog eventValue;
-        done = Done;
-        eventValue = _saveEvent;
+        ExecuteDoneEvent done = Done;
+        SaveGameEventLog eventValue = _saveEvent;
         Done = null;
         _saveEvent = null;
         done?.Invoke(eventValue);
@@ -176,10 +174,6 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
     // AoWFileDialog.pas:233
     public void FindFiles()
     {
-        bool includeFile;
-        string extension;
-        string directory;
-        FileTime stamp;
         for (int i = 0, last = DateList.Items.Count - 1; i <= last; i++)
         {
             if (DateList.Items.Objects[i] != null)
@@ -197,7 +191,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
         SavedSizeLabel.Text = "";
         SavedTownsLabel.Text = "";
         SavedTurnsLabel.Text = "";
-        directory = GetCurrentDir();
+        string directory = GetCurrentDir();
         if (Copy(directory, directory.Length, 1) == "\\")
         {
             directory = Copy(directory, 1, directory.Length - 1);
@@ -213,11 +207,11 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                 }
                 else
                 {
-                    extension = LowerCase(ExtractFileExt(entry.Name));
-                    includeFile = ListsFile(Mode, UI.Engine.Campaign is not null, extension);
+                    string extension = LowerCase(ExtractFileExt(entry.Name));
+                    bool includeFile = ListsFile(Mode, UI.Engine.Campaign is not null, extension);
                     if (includeFile)
                     {
-                        stamp = new FileTime
+                        FileTime stamp = new()
                         {
                             Time = FileDateToDateTime(entry.FileDate)
                         };
@@ -286,13 +280,11 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
     // AoWFileDialog.pas:316
     public void OpenbutClick()
     {
-        string path = "";
-        string directory = "";
         UI.General.PlayButtonSound(0);
         int count = Directories.Count;
         if (FileList.Selected < count && FileList.Selected > -1)
         {
-            directory = GetCurrentDir();
+            string directory = GetCurrentDir();
             if (Copy(directory, directory.Length, 1) == "\\")
             {
                 directory = Copy(directory, 1, directory.Length - 1);
@@ -308,7 +300,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
         }
         else
         {
-            path = GetCurrentDir();
+            string path = GetCurrentDir();
             if (path.Length > 0 && path[^1] != 92)
             {
                 path += "\\";
@@ -441,9 +433,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
     // AoWFileDialog.pas:406
     public void FileLBChange(ListBox sender)
     {
-        StrategicMap map;
-        ListBox list;
-        list = sender;
+        ListBox list = sender;
         FileList.Selected = list.Selected;
         SaveList.Selected = list.Selected;
         DateList.Selected = list.Selected;
@@ -453,7 +443,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
             SaveFileNameEdit.Text = item;
             if (!DocumentKind.CampaignSave.HasExtension(ExtractFileExt(SaveFileNameEdit.Text)))
             {
-                map = UI.Engine.CreatePreviewHsm<StrategicMap>(SaveFileNameEdit.Text, profile: GameProfile.WorldMap);
+                StrategicMap map = UI.Engine.CreatePreviewHsm<StrategicMap>(SaveFileNameEdit.Text, profile: GameProfile.WorldMap);
                 if (map is not null)
                 {
                     int count = map.Players.GetCount();
@@ -599,8 +589,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
     // AoWFileDialog.pas:502
     public void MSBarChange(VerticalScrollBar sender)
     {
-        VerticalScrollBar bar;
-        bar = sender;
+        VerticalScrollBar bar = sender;
         FileList.ListOffset = bar.Position;
         SaveList.ListOffset = bar.Position;
         DateList.ListOffset = bar.Position;

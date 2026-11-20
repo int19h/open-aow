@@ -40,24 +40,18 @@ public partial class SummonSpellTokenEvent(CustomNode owner) : SpellTokenEvent(o
     // SummonSpells.pas:182
     public override bool Process(Troop source, int value)
     {
-        bool done;
-        Unit u;
-        ArmyHexSprite army;
-        UnitEnchantment enchantment;
-        AIGroup group;
-        ImageSequenceAnimation animation;
         _ = base.Process(source, value);
-        done = false;
+        bool done = false;
         MapCoordinate coordinate11 = source.GetLocation();
         sbyte x = coordinate11.X;
         sbyte y = coordinate11.Y;
         sbyte l = coordinate11.MapLevel;
         for (int i = 0, last = UnitIndices.Count - 1; i <= last; i++)
         {
-            u = new Unit(null) { Holder = CreationHolder() };
+            Unit u = new(null) { Holder = CreationHolder() };
             int unitIndex = UnitIndices[i];
             u.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitIndex));
-            army = u.Place(x, y, l, source.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+            ArmyHexSprite army = u.Place(x, y, l, source.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
             if (army is not null)
             {
                 sbyte hexY = army.GetHexY();
@@ -66,11 +60,11 @@ public partial class SummonSpellTokenEvent(CustomNode owner) : SpellTokenEvent(o
                 {
                     if (u.ExpandAbility(155))
                     {
-                        enchantment = u.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
+                        UnitEnchantment enchantment = u.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
                         enchantment.SetUpkeep(GamePack.Current.SpellControl.GetSpell(EventSpellId).ManaUpkeep);
                         enchantment.SetSource(source.Player);
                         enchantment.DispelResistance = (sbyte)GamePack.Current.SpellControl.GetSpell<SummonSpell>(EventSpellId).GetDispelResistance(u);
-                        group = source.Group;
+                        AIGroup group = source.Group;
                         _ = (group?.AddUnit(u));
                     }
 
@@ -97,7 +91,7 @@ public partial class SummonSpellTokenEvent(CustomNode owner) : SpellTokenEvent(o
             {
                 if (GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] is not null)
                 {
-                    animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+                    ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
                     _ = StrategicMap.Current.PlaceHex(animation, x, y, l);
                 }

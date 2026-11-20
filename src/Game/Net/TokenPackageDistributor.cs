@@ -49,8 +49,7 @@ public partial class TokenPackageDistributor(TokenManager manager)
     // NetworkE.pas:1157
     public virtual void SendTokenEvents(int player, int receiver, TokenEventList events)
     {
-        TokenPackage tp;
-        tp = new TokenPackage(null) { Holder = Pc };
+        TokenPackage tp = new(null) { Holder = Pc };
         tp.TokenEvents.Assign(events, null);
         _ = Pc.SendDataPackage(tp, player, receiver);
         _ = tp.Release();

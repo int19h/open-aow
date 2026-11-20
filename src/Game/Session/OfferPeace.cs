@@ -89,13 +89,13 @@ public sealed partial record OfferPeace(int Gold = 0, int Mana = 0) : OfferPropo
 
     public override void RefusedAI(DiplomaticAction action)
     {
-        string errorText = "";
         DiplomaticRelation diplomaticRelation = Relation(action.Source, action.Target);
         if (!Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.War).Contains(diplomaticRelation))
         {
             DiplomaticAction last = StrategicMap.Current.Players.GetPlayers(action.Source).CreateDiplomaticAction(new DeclareWar(), action.Target, -1);
             if (last is not null)
             {
+                string errorText = "";
                 _ = last.Send(ref errorText);
                 _ = last.Release();
             }

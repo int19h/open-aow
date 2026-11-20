@@ -51,9 +51,7 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
     // Ability.PAS:394
     public sbyte GetRandomRace()
     {
-        sbyte result;
-        DelphiList<Race> races;
-        races = new DelphiList<Race>();
+        DelphiList<Race> races = new();
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
             if (GetChild(i) is not null && this[i].Enabled)
@@ -62,6 +60,7 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
             }
         }
 
+        sbyte result;
         if (races.Count != 0)
         {
             int random = Random(races.Count);
@@ -103,14 +102,13 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
     // Ability.PAS:423
     public void Update()
     {
-        Race race;
         for (int i = 0, last = GamePack.Current.RaceResources.GetCount() - 1; i <= last; i++)
         {
             if (GamePack.Current.RaceResources.GetRaceResource(i) is not null)
             {
                 if (GetRace(i) is null)
                 {
-                    race = new Race(null)
+                    Race race = new(null)
                     {
                         Holder = CreationHolder(),
                         RaceIndex = (sbyte)i

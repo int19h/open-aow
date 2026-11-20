@@ -17,18 +17,16 @@ public partial class UnitWindow
 {
     public void ShowUnit()
     {
-        Hero h = default;
-        Troop u = default;
         if (UI.General.SelectedUnit is not null)
         {
             UI.General.BuildAbilities();
-            u = UI.General.SelectedUnit;
+            Troop u = UI.General.SelectedUnit;
             if (u is not null && StrategicMap.Current.SeatedPlayer == u.Player)
             {
                 StrategicMap.Current.TutorialControl.ShowMessage(64, true, true);
             }
 
-            h = u is Hero heroUnit ? heroUnit : null;
+            Hero h = u is Hero heroUnit ? heroUnit : null;
 
             if (CombatMap.Current is null && UI.General.UnitList is not null && UI.General.IndexOfUnit(u) > -1 && UI.General.SelectedUnits[1] > -1)
             {

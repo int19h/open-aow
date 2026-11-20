@@ -34,8 +34,7 @@ public partial class DisplayModeList : IDisposable
     // GFXE.pas:12639
     public void Add(int width, int height, PixelFormat pixelFormatId)
     {
-        DisplayModeItem item;
-        item = new DisplayModeItem
+        DisplayModeItem item = new()
         {
             Width = width,
             Height = height,

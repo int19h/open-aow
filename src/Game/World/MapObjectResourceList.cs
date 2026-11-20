@@ -23,7 +23,6 @@ public partial class MapObjectResourceList(CustomNode owner) : ResourceCollectio
     // MAPOBJ.PAS:646
     public bool FindMapObjectResource(int classId, TerrainList terrainList, Set<TerrainCompareModeElement> mode, DelphiList<MapObjectResource> list)
     {
-        MapObjectResource r;
         int[] iCell = new int[1];
         ref int i = ref iCell[0];
         // { Preserve the original stack locals. }
@@ -32,7 +31,7 @@ public partial class MapObjectResourceList(CustomNode owner) : ResourceCollectio
         int last = Count - 1;
         for (; i <= last; i += 1)
         {
-            r = this[i];
+            MapObjectResource r = this[i];
             if (r.EngineClass.ClassId == classId)
             {
                 if (terrainList is null || r.TerrainList.CompareTerrain(terrainList, mode))

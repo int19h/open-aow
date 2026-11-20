@@ -34,16 +34,12 @@ public partial class FireMastery : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1792
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        bool result = default;
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         if (executeCount == 0)
         {
             MapCoordinate coordinate66 = source.GetLocation();
-            x = coordinate66.X;
-            y = coordinate66.Y;
-            l = coordinate66.MapLevel;
+            sbyte x = coordinate66.X;
+            sbyte y = coordinate66.Y;
+            sbyte l = coordinate66.MapLevel;
             SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Fire);
             _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
             Animation animation = new(null)
@@ -60,6 +56,7 @@ public partial class FireMastery : GlobalEnchantmentSpell
             CastingDone(source, eventValue.EventMana);
         }
 
+        bool result;
         if (executeCount == 20)
         {
             _ = base.ExecuteTokenEvent(eventValue, source, 0);

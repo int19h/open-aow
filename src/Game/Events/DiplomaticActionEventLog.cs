@@ -25,8 +25,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
     // Diplomacy.pas:1170
     public override void Dispose()
     {
-        DiplomaticAction action;
-        action = Action;
+        DiplomaticAction action = Action;
         if (action is not null)
         {
             _ = action.Release();
@@ -123,9 +122,8 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
     // Diplomacy.pas:1333
     public override int GetLeftIcon()
     {
+        DiplomaticAction action = Action;
         int result;
-        DiplomaticAction action;
-        action = Action;
         if (!action.Proposal.SignedAsOtherPlayer)
         {
             bool condition = action.Source > 0;
@@ -156,9 +154,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
     // { DCC32 folds JMP-to-RET; keep the original branch over the 11-byte arms. }
     public override int GetRightIcon()
     {
-        int result;
-        DiplomaticAction action;
-        action = Action;
+        DiplomaticAction action = Action;
         bool condition = action.Target > 0;
         if (condition)
         {
@@ -166,7 +162,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
             condition = action.Target < count;
         }
 
-        result = condition ? StrategicMap.Current.Players.GetPlayers(action.Target).PlayerRace : -1;
+        int result = condition ? StrategicMap.Current.Players.GetPlayers(action.Target).PlayerRace : -1;
 
         return result;
     }
@@ -180,18 +176,15 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
     // Diplomacy.pas:1217
     public override void NotifyLogged(EventLogbook logbook)
     {
-        DiplomaticAction action;
         base.NotifyLogged(logbook);
-        action = Action;
+        DiplomaticAction action = Action;
         action?.EventLogId = Id;
     }
 
     // Diplomacy.pas:1414
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool result = default;
-        bool show;
-        show = trigger == ExecuteTrigger.User;
+        bool show = trigger == ExecuteTrigger.User;
         if (StrategicMap.Current.SeatedPlayer == Action.Target || StrategicMap.Current.SeatedPlayer == Action.Source)
         {
             show = show || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy) && trigger == ExecuteTrigger.NewTurn);
@@ -199,6 +192,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
         }
 
         show = show && (trigger == ExecuteTrigger.User || Action.Reaction != DiplomaticActionReaction.Ignore);
+        bool result;
         if (show)
         {
             StrategicMap.Current.TriggerExecuteEventLog(this, mode, done);
@@ -215,8 +209,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
     // Diplomacy.pas:1188
     public void SetDiplomaticAction(DiplomaticAction action)
     {
-        DiplomaticAction old;
-        old = Action;
+        DiplomaticAction old = Action;
         if (old != action)
         {
             _ = (old?.Release());

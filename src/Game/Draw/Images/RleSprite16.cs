@@ -54,8 +54,7 @@ public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILi
     // ImageLib.pas:2910
     public override void SetWidth(int value)
     {
-        int w;
-        w = Xshift + _spriteX + _spriteWidth;
+        int w = Xshift + _spriteX + _spriteWidth;
         if (value < w)
         {
             value = w;
@@ -67,8 +66,7 @@ public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILi
     // ImageLib.pas:2919
     public override void SetHeight(int value)
     {
-        int w;
-        w = Yshift + _spriteY + _spriteHeight;
+        int w = Yshift + _spriteY + _spriteHeight;
         if (value < w)
         {
             value = w;
@@ -291,12 +289,7 @@ public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILi
     public override bool GrabImage(in LockedSurface lockedSurface, in Rect R, GrabInfo grabInfo)
     {
         int position;
-        int rowStart;
-        int skip;
-        DataSurface surface;
-        LockedSurface lSD = default;
         Rect gr = default;
-        int c;
         void AddWord(ushort W)
         {
             if (DataSize <= position)
@@ -308,6 +301,7 @@ public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILi
             position += 2;
         }
 
+        int rowStart;
         void StartRow()
         {
             rowStart = position;
@@ -315,6 +309,7 @@ public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILi
             AddWord(0);
         }
 
+        int skip;
         void FlushSkip()
         {
             if (skip != 0)
@@ -344,9 +339,10 @@ public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILi
         bool result = true;
         try
         {
-            surface = null;
+            DataSurface surface = null;
             try
             {
+                LockedSurface lSD = default;
                 if (lockedSurface.BitCount != 16)
                 {
                     surface = new DataSurface(R.Right - R.Left, R.Bottom - R.Top, PixelFormat.Rgb565, null);
@@ -394,7 +390,7 @@ public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILi
                     StartRow();
                     for (int x = mr.Left, lastX = mr.Right - 1; x <= lastX; x++)
                     {
-                        c = lSD.View().UInt16(row + x + x);
+                        int c = lSD.View().UInt16(row + x + x);
                         if (c != _colorKey)
                         {
                             FlushSkip();

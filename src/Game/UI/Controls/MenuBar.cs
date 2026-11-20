@@ -40,10 +40,9 @@ public partial class MenuBar : Control
     // AOWMenuBar.pas:74
     public override void Dispose()
     {
-        WindowControl m;
         for (int i = 0, last = Menus.Count - 1; i <= last; i++)
         {
-            m = Menus[i];
+            WindowControl m = Menus[i];
             m.DetachMenuBar();
         }
 

@@ -62,11 +62,10 @@ public partial class LifeMasteryEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1412
     public override bool Activate(sbyte player)
     {
-        Player playerLocal;
         _ = base.Activate(player);
         // { Original doubles Death. }
         StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Death);
-        playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
+        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         PlayerMagicControl playerMagicControl = playerLocal.MagicControl;
         playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.LifeMastery));
 

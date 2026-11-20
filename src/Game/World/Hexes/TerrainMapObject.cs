@@ -29,20 +29,16 @@ public partial class TerrainMapObject(CustomNode owner) : MultiHexMapObject(owne
     // Terrain.pas:195
     public override void ChangeTerrain(in HexSpriteTerrainInfo info)
     {
-        sbyte terrainType;
-        sbyte newTerrainType;
-        TerrainMapObjectResource r;
-        MapField oldOwner;
-        terrainType = Resource.TerrainList.GetTerrain(info.HexNumber);
+        sbyte terrainType = Resource.TerrainList.GetTerrain(info.HexNumber);
         if (terrainType >= 0 && terrainType != info.TerrainType)
         {
-            newTerrainType = GetMostFrequentMapFieldTerrainType(defaultValue: Resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: StoredHexX, hexY: StoredHexY);
+            sbyte newTerrainType = GetMostFrequentMapFieldTerrainType(defaultValue: Resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: StoredHexX, hexY: StoredHexY);
             if (newTerrainType != terrainType)
             {
-                r = FindTerrainResource((byte)newTerrainType);
+                TerrainMapObjectResource r = FindTerrainResource((byte)newTerrainType);
                 if (r is not null)
                 {
-                    oldOwner = Owner;
+                    MapField oldOwner = Owner;
                     RemoveFromMap();
                     SetResource(r);
                     Owner = oldOwner;
@@ -108,23 +104,12 @@ public partial class TerrainMapObject(CustomNode owner) : MultiHexMapObject(owne
     // Terrain.pas:226
     public virtual void ClearTerrain(MapField mapField, int hexNumber)
     {
-        int hexX;
-        int hexY;
-        int hexLevel;
-        int x = default;
-        int y = default;
-        TerrainList terrainList;
-        GameMap map;
-        TerrainMapObjectResource r;
-        MapObjectResourceList resources;
-        int i;
-        bool found;
         if (Resource.TerrainList.UsedTerrain() > 1)
         {
-            r = null;
-            resources = GetResourceList(Resource.Engine);
-            i = resources.Count;
-            found = false;
+            TerrainMapObjectResource r = null;
+            MapObjectResourceList resources = GetResourceList(Resource.Engine);
+            int i = resources.Count;
+            bool found = false;
             while (!found && i != 0)
             {
                 i -= 1;
@@ -137,14 +122,16 @@ public partial class TerrainMapObject(CustomNode owner) : MultiHexMapObject(owne
 
             if (found)
             {
-                hexX = GetHexX();
-                hexY = GetHexY();
-                hexLevel = GetHexLevel();
-                map = Owner.Owner.Map;
-                terrainList = Resource.TerrainList;
+                int hexX = GetHexX();
+                int hexY = GetHexY();
+                int hexLevel = GetHexLevel();
+                GameMap map = Owner.Owner.Map;
+                TerrainList terrainList = Resource.TerrainList;
                 Dispose();
                 i = 0;
                 int last = terrainList.Count - 1;
+                int x = default;
+                int y = default;
                 for (; i <= last; i += 1)
                 {
                     if (terrainList.GetTerrain(i) >= 0 && i != hexNumber)
@@ -168,17 +155,13 @@ public partial class TerrainMapObject(CustomNode owner) : MultiHexMapObject(owne
     // Terrain.pas:70
     public virtual TerrainMapObjectResource FindDecorationResource(byte decorationType)
     {
-        TerrainMapObjectResource result;
-        DelphiList<TerrainMapObjectResource> candidates;
-        MapObjectResourceList resources;
-        TerrainMapObjectResource r;
-        candidates = new DelphiList<TerrainMapObjectResource>();
-        resources = GetResourceList(Resource.Engine);
+        DelphiList<TerrainMapObjectResource> candidates = new();
+        MapObjectResourceList resources = GetResourceList(Resource.Engine);
         for (int i = 0, last = resources.Count - 1; i <= last; i++)
         {
             if (resources[i] is TerrainMapObjectResource terrain)
             {
-                r = terrain;
+                TerrainMapObjectResource r = terrain;
                 if (r.EngineClass.ClassId == Resource.EngineClass.ClassId && r.TerrainType == Resource.TerrainType && r.DecorationType == decorationType && r != Resource && r.TerrainList.CompareTerrain(Resource.TerrainList, Set<TerrainCompareModeElement>.Of(TerrainCompareModeElement.SameOverlayType)))
                 {
                     _ = candidates.Add(r);
@@ -186,6 +169,7 @@ public partial class TerrainMapObject(CustomNode owner) : MultiHexMapObject(owne
             }
         }
 
+        TerrainMapObjectResource result;
         if (candidates.Count != 0)
         {
             int random = Random(candidates.Count);
@@ -203,11 +187,9 @@ public partial class TerrainMapObject(CustomNode owner) : MultiHexMapObject(owne
     // Terrain.pas:160
     public bool CanChangeOwnTerrain(int hexNumber)
     {
-        MapLevel level;
-        int count;
         bool result = true;
-        level = Owner.Owner;
-        count = GetTerrainCount();
+        MapLevel level = Owner.Owner;
+        int count = GetTerrainCount();
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, 0);
         while (walk.HexNumber < count && result)
         {

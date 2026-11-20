@@ -55,7 +55,6 @@ public partial class BitList : Persistent
     // Engine.pas:4758
     internal void SetCount(int newCount)
     {
-        int oldCount;
         if (newCount is < 0 or > EngineServices.MaxListSize)
         {
             Error("List count out of bounds (%d)", newCount);
@@ -68,7 +67,7 @@ public partial class BitList : Persistent
 
         if (newCount > _count)
         {
-            oldCount = _count;
+            int oldCount = _count;
             _count = newCount;
             for (int i = oldCount, last = _count - 1; i <= last; i++)
             {
@@ -104,12 +103,11 @@ public partial class BitList : Persistent
     // Engine.pas:4810
     internal void SetItemString(string S)
     {
-        string item;
-        int p;
         Clear();
-        p = Pos(",", S);
+        int p = Pos(",", S);
         while (!IsEmpty(S))
         {
+            string item;
             if (p != 0)
             {
                 item = Copy(S, 1, p - 1);
@@ -225,7 +223,6 @@ public partial class BitList : Persistent
     // Engine.pas:4624
     public void Exchange(int index1, int index2)
     {
-        bool item;
         if (index1 < 0 || index1 >= _count)
         {
             Error("List index out of bounds (%d)", index1);
@@ -236,7 +233,7 @@ public partial class BitList : Persistent
             Error("List index out of bounds (%d)", index2);
         }
 
-        item = Get(index1);
+        bool item = Get(index1);
         Put(index1, Get(index2));
         Put(index2, item);
     }
@@ -308,7 +305,6 @@ public partial class BitList : Persistent
     // Engine.pas:4717
     public void Move(int currentIndex, int newIndex)
     {
-        bool item;
         if (currentIndex != newIndex)
         {
             if (newIndex < 0 || newIndex >= _count)
@@ -316,7 +312,7 @@ public partial class BitList : Persistent
                 Error("List index out of bounds (%d)", newIndex);
             }
 
-            item = Get(currentIndex);
+            bool item = Get(currentIndex);
             Delete(currentIndex);
             Insert(newIndex, item);
         }

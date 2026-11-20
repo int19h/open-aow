@@ -12,8 +12,7 @@ public static class WindowActions
 {
     internal static void RestoreWindowLayout(General controller)
     {
-        Rect r;
-        r = controller.UI.Engine.Registry.GetRectangle(6);
+        Rect r = controller.UI.Engine.Registry.GetRectangle(6);
         Window scanner = controller.UI.ScannerWindow.MainWindow;
         if (r.Right != 0)
         {

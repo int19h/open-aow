@@ -111,13 +111,12 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     // Ability.PAS:2004
     public override void ListAbilities(DelphiStringCollection text, Set<AbilitySelectionType> types)
     {
-        Ability ability;
         text.Clear();
         for (int i = 0, last = AbilityCount - 1; i <= last; i++)
         {
             if (GetAbilitySetAt(i))
             {
-                ability = GamePack.Current.AbilityControl.GetAbility(i);
+                Ability ability = GamePack.Current.AbilityControl.GetAbility(i);
                 if ((ability.SelectionTypes & types) != Set<AbilitySelectionType>.Of())
                 {
                     _ = text.AddObject(ability.GetName(this), IntToObject(i));
@@ -197,8 +196,7 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     // Ability.PAS:1678
     public void ValidateOwnerTypeAbilities()
     {
-        Set<AbilitySelectionType> types;
-        types = GetAbilitySelectionTypes();
+        Set<AbilitySelectionType> types = GetAbilitySelectionTypes();
         for (int i = GetOwnAbilityCount() - 1; i >= 0; i--)
         {
             if (GetAbilitySetAt(i) && (GamePack.Current.AbilityControl.GetAbility(i).SelectionTypes & types) == Set<AbilitySelectionType>.Of())
@@ -211,8 +209,7 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     // Ability.PAS:1688
     public AbilityData GetAbilityData(int abilityId)
     {
-        AbilityData data;
-        data = AbilityData;
+        AbilityData data = AbilityData;
         while (data is not null && data.GetAbilityId() != abilityId)
         {
             data = data.Next;
@@ -228,7 +225,6 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     // Ability.PAS:1696
     public void AssignAbility(AbilityOwner source)
     {
-        AbilityData data;
         while (AbilityData is not null)
         {
             RemoveAbilityData(AbilityData);
@@ -243,7 +239,7 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
             }
         }
 
-        data = source.AbilityData;
+        AbilityData data = source.AbilityData;
         while (data is not null)
         {
             AddAbilityData(data.Copy<AbilityData>(GetEngine()));
@@ -261,10 +257,8 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     // Ability.PAS:1717
     public void RemoveAbilityData(AbilityData data)
     {
-        AbilityData current;
-        AbilityData previous;
-        current = AbilityData;
-        previous = null;
+        AbilityData current = AbilityData;
+        AbilityData previous = null;
         while (current is not null && current != data)
         {
             previous = current;
@@ -290,10 +284,8 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     // Ability.PAS:1736
     public void RemoveAbilityDataId(int abilityId)
     {
-        AbilityData current;
-        AbilityData previous;
-        current = AbilityData;
-        previous = null;
+        AbilityData current = AbilityData;
+        AbilityData previous = null;
         while (current is not null && current.GetAbilityId() != abilityId)
         {
             previous = current;
@@ -318,12 +310,11 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     // Ability.PAS:1818
     public void UpdateDefaultAbilities(AbilityOwner source)
     {
-        AbilityData data;
         for (int i = source.GetOwnAbilityCount() - 1; i >= 0; i--)
         {
             if (source.GetAbilitySetAt(i) && (!GetAbilitySetAt(i) || source.GetOwnAbilityLevel(i) > GetOwnAbilityLevel(i)))
             {
-                data = source.GetAbilityData(i);
+                AbilityData data = source.GetAbilityData(i);
                 if (data is not null)
                 {
                     RemoveAbilityDataId(i);
@@ -612,15 +603,13 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     // Ability.PAS:2018
     public void ListAbilities(DelphiStringCollection text)
     {
-        Ability ability;
-        string name;
         text.Clear();
         for (int i = 0, last = AbilityCount - 1; i <= last; i++)
         {
             if (GetAbilitySetAt(i))
             {
-                ability = GamePack.Current.AbilityControl.GetAbility(i);
-                name = ability.GetName(this);
+                Ability ability = GamePack.Current.AbilityControl.GetAbility(i);
+                string name = ability.GetName(this);
                 if (!IsEmpty(name))
                 {
                     _ = text.AddObject(name, IntToObject(i));

@@ -34,23 +34,19 @@ public partial class ConcealAreaHexSprite(CustomNode owner) : FixedVisibleHexSpr
     // GlobalSpells.pas:244
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int pixelX = default;
-        int pixelY = default;
-        int hex = default;
-        int hy = default;
-        int intensity;
-        int radius;
-        int direction;
-        int delay;
         if (StrategicMap.Current.ViewMapLevel == _layer)
         {
             _frame += 1;
+            int pixelX = default;
+            int pixelY = default;
             if (GetEngine().AnimationDetail == 2 && StrategicMap.Current.ViewMapLevel == _layer)
             {
-                intensity = 60 - Math.Abs((_frame * 3) - 60);
+                int intensity = 60 - Math.Abs((_frame * 3) - 60);
                 HexGeometry.HexToPixel(_x, _y, out pixelX, out pixelY);
                 pixelX = pixelX - pixelXSurface - 8;
                 pixelY -= pixelYSurface;
+                int hex = default;
+                int hy = default;
                 for (int i = _hexes.Count - 1; i >= 0; i--)
                 {
                     HexGeometry.HexNumberToPixel(_hexes[i], ref hex, ref hy);
@@ -64,9 +60,9 @@ public partial class ConcealAreaHexSprite(CustomNode owner) : FixedVisibleHexSpr
             RandSeed = StrategicMap.Current.InitialRandomSeed;
             for (int i = 0; i <= 200; i++)
             {
-                radius = Random(448);
-                direction = Random(360);
-                delay = Random(20);
+                int radius = Random(448);
+                int direction = Random(360);
+                int delay = Random(20);
                 if (_frame - delay >= 0)
                 {
                     AbilityRules.PolarToCartesian(direction, radius, out int x, out int y);
@@ -84,7 +80,6 @@ public partial class ConcealAreaHexSprite(CustomNode owner) : FixedVisibleHexSpr
     // GlobalSpells.pas:214
     public void StartAnimation(sbyte X, sbyte Y, sbyte layer, sbyte radius)
     {
-        MapLevel level;
         _x = X;
         _y = Y;
         _layer = layer;
@@ -92,7 +87,7 @@ public partial class ConcealAreaHexSprite(CustomNode owner) : FixedVisibleHexSpr
         _ = GamePack.Current.SpellControl.GetSpell(1).CastSounds.Play(0);
         _ = StrategicMap.Current.DynamicFixedVisibleHexSprite.AddChild(this);
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, _x, _y, 0);
-        level = StrategicMap.Current.MapContainer.MapLevels[_layer];
+        MapLevel level = StrategicMap.Current.MapContainer.MapLevels[_layer];
         while (walk.Radius <= radius)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

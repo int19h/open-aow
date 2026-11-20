@@ -46,12 +46,11 @@ public partial class DispelMagicAbility : TouchAbility
     public override int GetLevel(AbilityOwner owner)
     {
         int result;
-        DispelMagicAbilityData data;
         if (owner is not null)
         {
             if (owner.GetAbilitySetAt(60))
             {
-                data = GetData(owner);
+                DispelMagicAbilityData data = GetData(owner);
                 result = data is not null ? data.Level : 1;
             }
             else
@@ -70,11 +69,10 @@ public partial class DispelMagicAbility : TouchAbility
     // AoWAb.PAS:4064
     public override bool GetEnabled(AbilityOwner owner)
     {
-        DispelMagicAbilityData data;
         bool result = owner.GetAbilitySetAt(AbilityId);
         if (result)
         {
-            data = GetData(owner);
+            DispelMagicAbilityData data = GetData(owner);
             result = data is null || data.Enabled;
         }
 
@@ -94,18 +92,16 @@ public partial class DispelMagicAbility : TouchAbility
     // AoWAb.PAS:4275
     public override void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
     {
-        CombatObject target;
-        FastBattleCommand command;
         AbilityDamageValues values = default;
         for (int i = 0, last = commands.SourceSide.GetCount() - 1; i <= last; i++)
         {
-            target = commands.SourceSide.GetObjects(i);
+            CombatObject target = commands.SourceSide.GetObjects(i);
             if (target.GetEnabled() && CanTouch(commands.Source, target))
             {
                 FastBattleGetDamageValues(commands.Source, target, WallSituation.None, ref values);
                 if (values.SourceDamage != 0)
                 {
-                    command = new FastBattleCommand(AbilityId)
+                    FastBattleCommand command = new(AbilityId)
                     {
                         Target = target,
                         SourceDamageValue = values.SourceDamage,
@@ -122,13 +118,11 @@ public partial class DispelMagicAbility : TouchAbility
     // AoWAb.PAS:4262
     public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
-        CombatObject target;
-        DispelMagicAbilityCombatAction action;
-        target = command.Target;
+        CombatObject target = command.Target;
         FastBattleValidateMoveOutsideWall(source, target);
         if (source is CombatUnit sourceUnit)
         {
-            action = new DispelMagicAbilityCombatAction(null) { Holder = CreationHolder() };
+            DispelMagicAbilityCombatAction action = new(null) { Holder = CreationHolder() };
             action.Generate(source, target, GetDispelMana(sourceUnit.Troop));
             source.Combat.ExecuteCombatAction(action);
             _ = action.Release();
@@ -150,19 +144,17 @@ public partial class DispelMagicAbility : TouchAbility
     public override bool Activate(AbilityOwner owner, ref string reason)
     {
         bool result;
-        UnitSelectionActivation info;
-        DispelMagicAbilityUnitSelector selector;
         if (CanActivate(owner, ref reason))
         {
             Troop troop = owner as Troop;
-            info = new UnitSelectionActivation(null)
+            UnitSelectionActivation info = new(null)
             {
                 Holder = CreationHolder(),
                 AbilityId = AbilityId,
                 UnitId = troop is not null ? troop.UnitId : 0
             };
 
-            selector = new DispelMagicAbilityUnitSelector(this);
+            DispelMagicAbilityUnitSelector selector = new(this);
             string dispelMagic = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText);
             selector.Caption = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SelectUnitFormat), [dispelMagic]);
             if (troop is not null)
@@ -204,9 +196,8 @@ public partial class DispelMagicAbility : TouchAbility
     // AoWAb.PAS:4152
     public override bool Expand(AbilityOwner owner)
     {
-        DispelMagicAbilityData data;
         bool result = false;
-        data = GetData(owner);
+        DispelMagicAbilityData data = GetData(owner);
         if (data is null)
         {
             data = new DispelMagicAbilityData(null)
@@ -239,9 +230,8 @@ public partial class DispelMagicAbility : TouchAbility
     // AoWAb.PAS:4175
     public override bool Remove(AbilityOwner owner)
     {
-        DispelMagicAbilityData data;
         bool result = true;
-        data = GetData(owner);
+        DispelMagicAbilityData data = GetData(owner);
         if (data is not null)
         {
             if (data.Level == 1)
@@ -266,11 +256,10 @@ public partial class DispelMagicAbility : TouchAbility
     // AoWAb.PAS:4209
     public override int GetDamageValue(Troop attacker, Troop defender)
     {
-        int result;
         // { Original evaluates dispelling with the healing hit-point formula. }
         if (!defender.GetImmunityTypes().Contains(DamageType.None))
         {
-            result = defender.GetHits() - defender.GetHitPoints();
+            int result = defender.GetHits() - defender.GetHitPoints();
             if (result > 5)
             {
                 result = 5;
@@ -358,8 +347,7 @@ public partial class DispelMagicAbility : TouchAbility
     // AoWAb.PAS:4052
     public void SetEnabled(AbilityOwner owner, bool enabled)
     {
-        DispelMagicAbilityData data;
-        data = GetData(owner);
+        DispelMagicAbilityData data = GetData(owner);
         if (data is null)
         {
             data = new DispelMagicAbilityData(null) { Holder = CreationHolder() };
@@ -400,10 +388,9 @@ public partial class DispelMagicAbility : TouchAbility
 
     public DispelMagicAbilityCombatAction CreateCombatAction(CombatUnit source, CombatObject target)
     {
-        bool successful;
         DispelMagicAbilityCombatAction result = new(null) { Holder = CreationHolder() };
         result.Generate(source, target, GetDispelMana(source.Troop));
-        successful = source.GetSide() == target.GetSide() || CombatTouchRole(source, target);
+        bool successful = source.GetSide() == target.GetSide() || CombatTouchRole(source, target);
 
         if (!successful)
         {

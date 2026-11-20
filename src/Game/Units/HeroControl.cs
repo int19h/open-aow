@@ -152,12 +152,11 @@ public partial class HeroControl : EngineObject
     // Hero.PAS:2470
     public int IndexOfLibrary(string libraryName, int libraryId)
     {
-        Hero hero;
         int result = _heroes.GetCount();
         while (result != 0)
         {
             result -= 1;
-            hero = _heroes[result];
+            Hero hero = _heroes[result];
             if (hero.LibraryId == libraryId && CompareText(hero.GetLibraryName(), libraryName) == 0)
             {
                 return result;
@@ -170,10 +169,9 @@ public partial class HeroControl : EngineObject
     // Hero.PAS:2483
     public void ValidateLibraryHeroes()
     {
-        Hero hero;
         for (int i = _heroes.GetCount() - 1; i >= 0; i--)
         {
-            hero = _heroes[i];
+            Hero hero = _heroes[i];
             if (hero is not null && hero.LibraryId != -1 && GamePack.Current.HeroLibraries.FindHero(hero.LibraryName, hero.LibraryId) is null)
             {
                 if (hero.Owner is null)
@@ -191,10 +189,9 @@ public partial class HeroControl : EngineObject
     // Hero.PAS:2495
     public void Activate()
     {
-        Hero hero;
         for (int i = _heroes.GetCount() - 1; i >= 0; i--)
         {
-            hero = _heroes[i];
+            Hero hero = _heroes[i];
             if (!hero.UnitStatus.Contains(UnitStatusElement.Activated) && hero.Owner is null)
             {
                 hero.Activate();
@@ -205,10 +202,9 @@ public partial class HeroControl : EngineObject
     // Hero.PAS:2505
     public void Deactivate()
     {
-        Hero hero;
         for (int i = _heroes.GetCount() - 1; i >= 0; i--)
         {
-            hero = _heroes[i];
+            Hero hero = _heroes[i];
             if (hero.UnitStatus.Contains(UnitStatusElement.Activated) && hero.Owner is null)
             {
                 hero.Deactivate();
@@ -258,13 +254,11 @@ public partial class HeroControl : EngineObject
     // Hero.PAS:2531
     public int GetAverageFreeHeroLevel()
     {
-        int count;
-        Hero hero;
         int result = 0;
-        count = 0;
+        int count = 0;
         for (int i = _heroes.Count - 1; i >= 0; i--)
         {
-            hero = _heroes[i];
+            Hero hero = _heroes[i];
             if (!hero.HeroStatus.Contains(HeroStatusElement.Died) && hero.Player <= 0)
             {
                 result += hero.GetLevel();
@@ -280,11 +274,10 @@ public partial class HeroControl : EngineObject
     // Hero.PAS:2545
     public int GetMinFreeHeroLevel()
     {
-        Hero hero;
         int result = 30;
         for (int i = _heroes.Count - 1; i >= 0; i--)
         {
-            hero = _heroes[i];
+            Hero hero = _heroes[i];
             if (!hero.HeroStatus.Contains(HeroStatusElement.Died) && hero.Player <= 0 && result > hero.GetLevel())
             {
                 result = hero.GetLevel();
@@ -297,10 +290,9 @@ public partial class HeroControl : EngineObject
     // Hero.PAS:2557
     public void ListDeadHeroes(HeroList list)
     {
-        Hero hero;
         for (int i = _heroes.Count - 1; i >= 0; i--)
         {
-            hero = _heroes[i];
+            Hero hero = _heroes[i];
             if (hero.HeroStatus.Contains(HeroStatusElement.Died))
             {
                 _ = list.AddChild(hero);

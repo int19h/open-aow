@@ -81,12 +81,11 @@ public partial class ItemLibrary(CustomNode owner) : ObservableNode(owner), IChi
     // Army.PAS:4546
     public override void Clear()
     {
-        EngineObject child;
         for (int i = Count - 1; i >= 0; i--)
         {
             if (GetChild(i) is not null)
             {
-                child = Items[i];
+                EngineObject child = Items[i];
                 if (child is not null)
                 {
                     if (child.Owner != this)
@@ -168,8 +167,7 @@ public partial class ItemLibrary(CustomNode owner) : ObservableNode(owner), IChi
     // Army.PAS:4917
     public Item FindLibraryId(int libraryId)
     {
-        int i;
-        i = Items.Count;
+        int i = Items.Count;
         while (i != 0)
         {
             i -= 1;
@@ -185,8 +183,7 @@ public partial class ItemLibrary(CustomNode owner) : ObservableNode(owner), IChi
     // Army.PAS:4946
     public Item CreateItem()
     {
-        Item item;
-        item = new Item(null)
+        Item item = new(null)
         {
             Holder = CreationHolder(),
             LibraryId = CreateUniqueLibraryId(),

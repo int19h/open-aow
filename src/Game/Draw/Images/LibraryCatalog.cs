@@ -10,18 +10,15 @@ internal static class LibraryCatalog
 
     internal static LibraryImageClass FindLibraryImageClass(int classId)
     {
-        LibraryImageClass result;
-        int i;
-        bool found;
-        found = false;
-        i = 0;
+        bool found = false;
+        int i = 0;
         while (i < ImageLibraries.LibraryImageClasses.Count && !found)
         {
             found = classId == ImageLibraries.LibraryImageClasses[i].ClassId;
             i += 1;
         }
 
-        result = found ? ImageLibraries.LibraryImageClasses[i - 1] : null;
+        LibraryImageClass result = found ? ImageLibraries.LibraryImageClasses[i - 1] : null;
 
         return result;
     }

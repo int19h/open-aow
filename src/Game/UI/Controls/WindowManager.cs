@@ -98,20 +98,18 @@ public partial class WindowManager : UIComponent
     //   it to its draw list. The window itself is passed as the Sender. }
     public override void InvalidateRectangle(int index, ref Rect rectangle, UIComponent sender)
     {
-        UIComponent c;
-        Rect r = default;
         if (Valid && Visible)
         {
             if (sender is null || (sender is not null && sender is WindowControl && Children[index].Priority >= _overlayPriority))
             {
                 for (int i = index, last = Children.Count - 1; i <= last; i++)
                 {
-                    c = Children[i];
+                    UIComponent c = Children[i];
                     if (c.Valid && c.Visible && WinLeft + c.WinLeft <= rectangle.Right && WinLeft + c.WinLeft + c.WinWidth >= rectangle.Left && WinTop + c.WinTop <= rectangle.Bottom && WinTop + c.WinTop + c.WinHeight >= rectangle.Top && rectangle.Left <= rectangle.Right && rectangle.Top <= rectangle.Bottom)
                     {
                         if (c.DoubleBuffered)
                         {
-                            r = new Rect(rectangle.Left - c.WinLeft, rectangle.Top - c.WinTop, rectangle.Right - c.WinLeft, rectangle.Bottom - c.WinTop);
+                            Rect r = new(rectangle.Left - c.WinLeft, rectangle.Top - c.WinTop, rectangle.Right - c.WinLeft, rectangle.Bottom - c.WinTop);
                             c.AddBlitRectangle(ref r, c);
                         }
                         else
@@ -134,15 +132,13 @@ public partial class WindowManager : UIComponent
     //   Height). }
     public override void DrawSurface(Surface surface)
     {
-        WindowControl c;
-        DirtyRectangle d;
-        bool wasValid;
         LockedSurface lockedSurface = default;
-        Rect r = default;
         try
         {
             Setup();
             Update();
+            WindowControl c;
+            Rect r;
             if (Valid)
             {
                 {
@@ -258,6 +254,7 @@ public partial class WindowManager : UIComponent
                 }
             }
 
+            DirtyRectangle d;
             if (!Drawn)
             {
                 if (surface.Lock(ref lockedSurface) >= 0)
@@ -339,7 +336,7 @@ public partial class WindowManager : UIComponent
                 c.Hidden = false;
                 if (c.Valid && c.Visible)
                 {
-                    wasValid = c.SurfaceValid;
+                    bool wasValid = c.SurfaceValid;
                     if (!c.Drawn)
                     {
                         wasValid = false;
@@ -430,12 +427,11 @@ public partial class WindowManager : UIComponent
     // AOWWinManager.pas:157
     public override void Draw(LockedSurface lockedSurface)
     {
-        UIComponent c;
         if (_overlayPriority > _newOverlayPriority)
         {
             for (int i = 0, last = Children.Count - 1; i <= last; i++)
             {
-                c = Children[i];
+                UIComponent c = Children[i];
                 if (c.Priority >= _newOverlayPriority && c.Priority < _overlayPriority && c.Visible)
                 {
                     c.Drawn = false;
@@ -502,7 +498,6 @@ public partial class WindowManager : UIComponent
     // AOWWinManager.pas:494
     public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        WindowControl c = default;
         Handled = false;
         _oldCursor = base.Cursor;
         base.Cursor = _defaultCursor;
@@ -529,7 +524,7 @@ public partial class WindowManager : UIComponent
         for (int i = Children.Count - 1; i >= 0; i--)
         {
             // The child list is UIComponent. The manager shows windows, and the cast stays.
-            c = (WindowControl)Children[i];
+            WindowControl c = (WindowControl)Children[i];
             if (c.Priority >= _overlayPriority)
             {
                 if (!Handled || c.Redraw)

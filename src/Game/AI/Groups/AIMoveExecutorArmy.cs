@@ -46,7 +46,6 @@ public partial class AIMoveExecutorArmy(CustomNode owner) : AIMoveExecutorUnitLi
     // AIGroup.pas:4559
     public void RetrieveArmy(byte selection, out ArmyHexSprite army, out byte armySelection)
     {
-        int index;
         army = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetArmyHexSprite();
         if (army is not null)
         {
@@ -56,7 +55,7 @@ public partial class AIMoveExecutorArmy(CustomNode owner) : AIMoveExecutorUnitLi
                 if ((selection & 1) != 0)
                 {
                     AIMoveExecutorUnit units = GetUnits(i);
-                    index = army.Army.FindChildIndex(units.Troop);
+                    int index = army.Army.FindChildIndex(units.Troop);
                     armySelection = index != -1 ? (byte)(armySelection | (1 << index)) : throw new KeyNotFoundException("Unit missing!");
                 }
 
@@ -135,9 +134,8 @@ public partial class AIMoveExecutorArmy(CustomNode owner) : AIMoveExecutorUnitLi
     // AIGroup.pas:4627
     public byte ValidTerrain(byte selection, sbyte terrainType, sbyte overlayType)
     {
-        bool all;
         byte result = 0;
-        all = true;
+        bool all = true;
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
             if (((1 << i) & selection) != 0)

@@ -22,10 +22,8 @@ public partial class HelpWindow(UIContext ui) : UIModule(ui)
     // aowHelpWin.pas:53
     public void FinishDialog()
     {
-        ExecuteDoneEvent done;
-        HelpMessageEventLog eventValue;
-        done = Done;
-        eventValue = _helpEvent;
+        ExecuteDoneEvent done = Done;
+        HelpMessageEventLog eventValue = _helpEvent;
         Done = null;
         _helpEvent = null;
         done?.Invoke(eventValue);
@@ -87,13 +85,12 @@ public partial class HelpWindow(UIContext ui) : UIModule(ui)
 
     internal void ShowHelp(int helpId)
     {
-        DelphiStringList lines;
         if (UI.HelpWindow.MainWindow.Visible)
         {
             UI.HelpWindow.FinishDialog();
         }
 
-        lines = new DelphiStringList();
+        DelphiStringList lines = new();
         GamePack.Current.TextControl.RetrieveText(helpId, lines);
         UI.HelpWindow.HelpScrollBar.Position = 0;
         UI.HelpWindow.HeaderMemo.Items.Clear();

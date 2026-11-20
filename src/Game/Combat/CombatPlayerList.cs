@@ -38,12 +38,11 @@ public partial class CombatPlayerList(CustomNode owner) : OwningNode(owner), ICh
     // Combat2.pas:146
     public int IndexOf(byte player, byte relation)
     {
-        CombatPlayer p;
         int result = Count;
         while (result != 0)
         {
             result -= 1;
-            p = this[result];
+            CombatPlayer p = this[result];
             if ((sbyte)player == p.Player && p.IndependentRelation == relation)
             {
                 return result;

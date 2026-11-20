@@ -52,10 +52,9 @@ public partial class SingleHexSprite(CustomNode owner) : HexSprite(owner)
     // HXSPRITE.PAS:721
     public override void Remove()
     {
-        MapField mapField;
         if (Owner is not null)
         {
-            mapField = Owner;
+            MapField mapField = Owner;
             RemoveFromMap();
             if (GetVisible())
             {

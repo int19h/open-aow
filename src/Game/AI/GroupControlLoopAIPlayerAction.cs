@@ -42,22 +42,18 @@ public partial class GroupControlLoopAIPlayerAction(CustomNode owner) : AIPlayer
     // AI.pas:1166
     public override bool Process()
     {
-        bool result;
-        bool busy;
-        bool done;
-        int i;
-        AIGroupControl control;
         _groupProcessCycles += 1;
+        bool result;
         try
         {
-            busy = false;
-            done = false;
+            bool busy = false;
+            bool done = false;
             while (!done && !busy && StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0)
             {
                 if (_groupControl is null)
                 {
                     Control.Player.AIGroups.SortOnProcessPriority();
-                    i = 0;
+                    int i = 0;
                     while (i < Control.Player.AIGroups.Count && Control.Player.AIGroups.GetGroups(i).Status.Contains(AIGroupStatusElement.Done))
                     {
                         i += 1;
@@ -73,7 +69,7 @@ public partial class GroupControlLoopAIPlayerAction(CustomNode owner) : AIPlayer
                     }
                 }
 
-                control = _groupControl;
+                AIGroupControl control = _groupControl;
                 if (control is not null)
                 {
                     busy = control.Process(true);
@@ -109,8 +105,7 @@ public partial class GroupControlLoopAIPlayerAction(CustomNode owner) : AIPlayer
     // AI.pas:1143
     public void DeactivateGroupControl()
     {
-        AIGroupControl control;
-        control = _groupControl;
+        AIGroupControl control = _groupControl;
         if (control is not null)
         {
             control.Deactivate();

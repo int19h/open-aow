@@ -34,17 +34,15 @@ public partial class TacticalBattleTerrorCombatAction(CustomNode owner) : Combat
     // CombatSpells.pas:1723
     public override void Execute(Battle combat)
     {
-        CombatUnit target;
-        CombatUnit source;
         if (_succeeded)
         {
-            target = combat.CombatData.FindId<CombatUnit>(_targetId);
+            CombatUnit target = combat.CombatData.FindId<CombatUnit>(_targetId);
             _ = GamePack.Current.AbilityControl.GetAbility(108).Expand(target.Troop);
         }
 
         if (ManaCost != 0 && combat.Status.Contains(CombatStatusElement.Executing))
         {
-            source = combat.CombatData.FindId<CombatUnit>(_sourceId);
+            CombatUnit source = combat.CombatData.FindId<CombatUnit>(_sourceId);
             GamePack.Current.SpellControl.GetSpell(105).CastingDone(source.Troop, ManaCost);
         }
     }

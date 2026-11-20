@@ -75,12 +75,10 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
     public override string GetSourceName(AbilityOwner owner)
     {
         string result;
-        UnitEnchantmentAbilityData data;
-        Troop source;
         if (StrategicMap.Current is not null)
         {
-            data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
-            source = StrategicMap.Current.UnitControl.FindUnit(data.Enchantment.UnitId);
+            UnitEnchantmentAbilityData data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
+            Troop source = StrategicMap.Current.UnitControl.FindUnit(data.Enchantment.UnitId);
             // { Original also reports player zero as unknown. }
             result = data.Enchantment.Source <= 0
                 ? AbilityRules.TranslateResourceString(GetEngine(), GameTables.UnknownText)
@@ -99,10 +97,9 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
     // AoWAb.PAS:735
     public override void NewTurn(AbilityOwner owner, sbyte player)
     {
-        UnitEnchantmentAbilityData data;
         if (GetDurationMode() == DurationMode.Day)
         {
-            data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
+            UnitEnchantmentAbilityData data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
             if (data is not null)
             {
                 if (data.EnchantmentDuration > 0 && player == data.EnchantmentPlayerIndex)
@@ -124,8 +121,6 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
     // AoWAb.PAS:668
     public override bool Expand(AbilityOwner owner)
     {
-        UnitEnchantmentAbilityData data;
-        UnitEnchantment enchantment;
         if (owner is not Troop troop)
         {
             // { Preserve the original assertion diagnostic. }
@@ -134,7 +129,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
         }
 
         bool result = false;
-        data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
+        UnitEnchantmentAbilityData data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
         if (data is null)
         {
             if (troop.UnitId <= 0)
@@ -149,7 +144,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
                 EnchantmentAbilityId = (ushort)AbilityId,
                 EnchantmentDuration = GetTotalDuration()
             };
-            enchantment = CreateEnchantment();
+            UnitEnchantment enchantment = CreateEnchantment();
             data.Enchantment = enchantment;
             enchantment.EnchantmentAbilityId = AbilityId;
             enchantment.UnitId = troop.UnitId;
@@ -168,9 +163,8 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
     // AoWAb.PAS:694
     public override bool Remove(AbilityOwner owner)
     {
-        UnitEnchantmentAbilityData data;
         bool result = true;
-        data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
+        UnitEnchantmentAbilityData data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
         if (data is not null)
         {
             if (StrategicMap.Current is not null && data.Enchantment.Source > -1)
@@ -193,10 +187,9 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
     // AoWAb.PAS:756
     public override void NewCombatTurn(CombatObject combatObject, sbyte player)
     {
-        UnitEnchantmentAbilityData data;
         if (GetDurationMode() == DurationMode.CombatTurn)
         {
-            data = combatObject.GetAbilityOwner().GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
+            UnitEnchantmentAbilityData data = combatObject.GetAbilityOwner().GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
             if (data is not null)
             {
                 if (data.EnchantmentDuration > 0 && player == data.EnchantmentPlayerIndex)
@@ -237,10 +230,8 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
     // AoWAb.PAS:719
     public virtual byte GetDuration(AbilityOwner owner)
     {
-        byte result;
-        UnitEnchantmentAbilityData data;
-        data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
-        result = data is not null ? (byte)data.EnchantmentDuration : (byte)0;
+        UnitEnchantmentAbilityData data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
+        byte result = data is not null ? (byte)data.EnchantmentDuration : (byte)0;
 
         return result;
     }

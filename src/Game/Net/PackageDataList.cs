@@ -28,8 +28,7 @@ public partial class PackageDataList : IDisposable
     // NetworkE.pas:893
     public void Clear()
     {
-        List<MemoryStream> l;
-        l = _list;
+        List<MemoryStream> l = _list;
         while (l.Count != 0)
         {
             (l[^1] as IDisposable)?.Dispose();
@@ -40,8 +39,7 @@ public partial class PackageDataList : IDisposable
     // NetworkE.pas:905
     public void Add(MemoryStream stream)
     {
-        MemoryStream s;
-        s = new MemoryStream();
+        MemoryStream s = new();
         s.SetLength(stream.Length);
         int size = (int)s.Length;
         Move(stream.GetBuffer().AsSpan(0, size), s.GetBuffer().AsSpan(0, size), size);
@@ -51,8 +49,7 @@ public partial class PackageDataList : IDisposable
     // NetworkE.pas:915
     public void AddData(object data, int size)
     {
-        MemoryStream s;
-        s = new MemoryStream();
+        MemoryStream s = new();
         s.SetLength(size);
         Move(BufferBytes(data)[..size], s.GetBuffer().AsSpan(0, size), size);
         _list.Add(s);
@@ -61,8 +58,7 @@ public partial class PackageDataList : IDisposable
     // NetworkE.pas:925
     public void Insert(int index, MemoryStream stream)
     {
-        MemoryStream s;
-        s = new MemoryStream();
+        MemoryStream s = new();
         s.SetLength(stream.Length);
         int size = (int)s.Length;
         Move(stream.GetBuffer().AsSpan(0, size), s.GetBuffer().AsSpan(0, size), size);

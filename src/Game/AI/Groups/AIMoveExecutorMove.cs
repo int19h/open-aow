@@ -71,16 +71,15 @@ public partial class AIMoveExecutorMove(CustomNode owner) : AIMoveExecutorUnitLi
     // AIGroup.pas:4484
     public bool RetrieveArmy(out ArmyHexSprite army, out byte selection)
     {
-        bool result;
-        int index;
         army = StrategicMap.Current.MapContainer.GetField(Source.X, Source.Y, Source.MapLevel).GetArmyHexSprite();
+        bool result;
         if (army is not null)
         {
             selection = 0;
             for (int i = Count - 1; i >= 0; i--)
             {
                 AIMoveExecutorUnit units = GetUnits(i);
-                index = army.Army.FindChildIndex(units.Troop);
+                int index = army.Army.FindChildIndex(units.Troop);
                 selection = index != -1 ? (byte)(selection | (1 << index)) : throw new KeyNotFoundException("Unit missing!");
             }
 

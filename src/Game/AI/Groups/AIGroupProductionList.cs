@@ -54,8 +54,7 @@ public partial class AIGroupProductionList(CustomNode owner) : OwningNode(owner)
     // AIGroup.pas:29
     public void DeleteUnit(Troop troop)
     {
-        int i;
-        i = IndexOfU(troop);
+        int i = IndexOfU(troop);
         if (i != -1)
         {
             GetProductions(i)?.Dispose();

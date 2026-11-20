@@ -48,10 +48,8 @@ public partial class CityEnchantment : GlobalEnchantment
     // City.pas:2767
     public override int GetAIUpkeepPriority()
     {
-        int result;
-        City city;
-        city = GetCity();
-        result = city is not null ? city.AICityEnchantmentUpkeepPriority(CityEnchantmentId) : 0;
+        City city = GetCity();
+        int result = city is not null ? city.AICityEnchantmentUpkeepPriority(CityEnchantmentId) : 0;
 
         return result;
     }

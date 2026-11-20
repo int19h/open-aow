@@ -37,10 +37,8 @@ public partial class EnchantmentList(CustomNode owner) : OwningNode(owner), IChi
     // Spells.PAS:1774
     public Enchantment FindId(int id)
     {
-        Enchantment result;
-        int index;
-        index = IndexOfId(id);
-        result = index != -1 ? this[index] : null;
+        int index = IndexOfId(id);
+        Enchantment result = index != -1 ? this[index] : null;
 
         return result;
     }

@@ -23,8 +23,7 @@ public partial class FleeCombatAction(CustomNode owner) : CombatAction(owner)
     // Combat2.pas:1108
     public override void Execute(Battle combat)
     {
-        CombatObject objectValue;
-        objectValue = combat.CombatData.FindId(ObjectId);
+        CombatObject objectValue = combat.CombatData.FindId(ObjectId);
         objectValue.Status += Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Fled);
     }
 

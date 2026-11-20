@@ -15,8 +15,7 @@ public partial class UserWindow(Component owner) : Window(owner)
     // AowUserWindow.pas:29
     public override void DrawSurface(Surface surface)
     {
-        bool handled;
-        handled = false;
+        bool handled = false;
         OnCustomDrawSurface?.Invoke(surface, out handled);
 
         if (!handled)

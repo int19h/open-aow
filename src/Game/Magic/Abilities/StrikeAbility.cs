@@ -44,18 +44,16 @@ public partial class StrikeAbility : AdjustableAbility
     // AoWAb.PAS:1445
     public override void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
     {
-        CombatObject target;
-        FastBattleCommand command;
         AbilityDamageValues values = default;
         for (int i = 0, last = commands.TargetSide.GetCount() - 1; i <= last; i++)
         {
-            target = commands.TargetSide.GetObjects(i);
+            CombatObject target = commands.TargetSide.GetObjects(i);
             if (target.GetEnabled() && FastBattleValidRoundDistance(commands.Source, target) && CanExecuteMelee(commands.Source, target))
             {
                 FastBattleGetDamageValues(commands.Source, target, WallSituation.None, ref values);
                 if (values.SourceDamage != 0)
                 {
-                    command = new FastBattleCommand(AbilityId)
+                    FastBattleCommand command = new(AbilityId)
                     {
                         Target = target,
                         SourceDamageValue = values.SourceDamage,
@@ -74,23 +72,17 @@ public partial class StrikeAbility : AdjustableAbility
     // AoWAb.PAS:1399
     public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
-        MeleeRound round;
-        int i;
-        bool stop;
-        CombatObject target;
-        CombatAction action;
-        MoveWallCombatAction moveCombatAction;
-        target = command.Target;
-        round = new MeleeRound(this);
+        CombatObject target = command.Target;
+        MeleeRound round = new(this);
         round.Calculate(source, target);
-        stop = false;
-        i = 0;
+        bool stop = false;
+        int i = 0;
         if (source is FastBattleUnit fastUnit)
         {
             fastUnit.State += Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.Vulnerable);
             if (source.FastBattleBehindWall() && source.FastBattleWallInBetween(target.Position) && !target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing))
             {
-                moveCombatAction = new MoveWallCombatAction(null)
+                MoveWallCombatAction moveCombatAction = new(null)
                 {
                     Holder = CreationHolder(),
                     CombatObjectId = source.Id,
@@ -105,7 +97,7 @@ public partial class StrikeAbility : AdjustableAbility
 
         while (i < round.Count && !stop)
         {
-            action = round.CreateStrikeCombatAction(i);
+            CombatAction action = round.CreateStrikeCombatAction(i);
             if (action is not null)
             {
                 source.Combat.ExecuteCombatAction(action);
@@ -178,14 +170,11 @@ public partial class StrikeAbility : AdjustableAbility
     // AoWAb.PAS:1274
     public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref Set<DamageType> types)
     {
-        int attack;
-        int damage;
-        int repeats;
         if (owner is Troop troop)
         {
-            repeats = 2;
-            attack = troop.GetAttack();
-            damage = troop.GetDamage();
+            int repeats = 2;
+            int attack = troop.GetAttack();
+            int damage = troop.GetDamage();
             if (troop.GetAbilityEnabled(115))
             {
                 repeats += 1;

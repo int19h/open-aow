@@ -39,13 +39,10 @@ public partial class Resource : PlayerCropStructureResource
     // City.pas:2643
     public void ShowCity(int X, int Y, in LockedSurface lockedSurface, City city)
     {
-        int dX;
-        int dY;
-        LibraryImage image;
-        dX = ImageOffsetX + X;
-        dY = Y;
+        int dX = ImageOffsetX + X;
+        int dY = Y;
         dY += ImageOffsetY;
-        image = city.WallBackImage;
+        LibraryImage image = city.WallBackImage;
         image?.Show(dX, dY, lockedSurface);
 
         if (city.CityImage is not null)

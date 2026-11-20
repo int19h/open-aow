@@ -117,9 +117,9 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:227
     public void Rectangle(string key, string name, ref Rect value, ReadWriteMode mode)
     {
-        string text;
         if (OpenKey($"\\Software\\Triumph Studios\\Age of Wonders\\{key}", true))
         {
+            string text;
             switch (mode)
             {
                 case ReadWriteMode.Read:
@@ -145,7 +145,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:250
     public Rect GetRectangle(int index)
     {
-        Rect result = default;
+        Rect result;
         if (index >= 0)
         {
             result = default;
@@ -256,8 +256,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:329
     public bool GetSkipIntro()
     {
-        bool result;
-        result = false;
+        bool result = false;
         Boolean("General", "Skip Intro", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -268,8 +267,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:340
     public int GetDisplayMode()
     {
-        int result;
-        result = 1;
+        int result = 1;
         Int32("Video", "Display Mode", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -280,8 +278,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:351
     public int GetDisplayWidth()
     {
-        int result;
-        result = 640;
+        int result = 640;
         Int32("Video", "Display Width", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -292,8 +289,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:362
     public int GetDisplayHeight()
     {
-        int result;
-        result = 480;
+        int result = 480;
         Int32("Video", "Display Height", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -304,8 +300,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:373
     public bool GetSurfaceInVideoMemory()
     {
-        bool result;
-        result = false;
+        bool result = false;
         Boolean("Video", "Surface In VMem", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -316,8 +311,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:384
     public bool GetAllowResolutionSwitches()
     {
-        bool result;
-        result = false;
+        bool result = false;
         Boolean("Video", "Allow Resolution Switches", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -328,8 +322,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:395
     public bool GetDebugMode()
     {
-        bool result;
-        result = false;
+        bool result = false;
         Boolean("General", "Debug Mode", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -340,8 +333,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:406
     public string GetRootDirectory()
     {
-        string result;
-        result = "";
+        string result = "";
         String("General", "Root Directory", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -352,16 +344,14 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:428
     public void SetLanguage(Language value)
     {
-        int i;
-        i = (int)value;
+        int i = (int)value;
         Int32("General", "Language", ref i, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:436
     public int GetSoundQuality()
     {
-        int result;
-        result = 3;
+        int result = 3;
         Int32("Sound", "Sound Quality", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -372,8 +362,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:447
     public int GetMusicVolume()
     {
-        int result;
-        result = 50;
+        int result = 50;
         Int32("Sound", "Music Volume", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -384,8 +373,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:458
     public int GetSfxVolume()
     {
-        int result;
-        result = 50;
+        int result = 50;
         Int32("Sound", "SFX Volume", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -396,8 +384,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:469
     public Rect GetMainWindowPosition()
     {
-        Rect result;
-        result = default;
+        Rect result = default;
         Rectangle("Workspace", "Main Window Position", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -408,8 +395,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:480
     public WindowState GetMainWindowState()
     {
-        int value;
-        value = 0;
+        int value = 0;
         Int32("Workspace", "Main Window State", ref value, ReadWriteMode.Read);
         return (WindowState)value;
     }
@@ -417,16 +403,14 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:489
     public void SetMainWindowState(WindowState value)
     {
-        int i;
-        i = (int)value;
+        int i = (int)value;
         Int32("Workspace", "Main Window State", ref i, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:497
     public Rect GetMapWindowPosition()
     {
-        Rect result;
-        result = default;
+        Rect result = default;
         Rectangle("Workspace", "Map Window Position", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -437,8 +421,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:508
     public bool GetShadowsEnabled()
     {
-        bool result;
-        result = true;
+        bool result = true;
         Boolean("Video", "Shadows Enabled", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -449,8 +432,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:519
     public bool GetSfxEnabled()
     {
-        bool result;
-        result = true;
+        bool result = true;
         Boolean("Sound", "Sound Effects Enabled", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -461,8 +443,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:530
     public bool GetMusicEnabled()
     {
-        bool result;
-        result = true;
+        bool result = true;
         Boolean("Sound", "Music Enabled", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -473,8 +454,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:541
     public bool GetUseDirectSound()
     {
-        bool result;
-        result = false;
+        bool result = false;
         Boolean("Sound", "Use DirectSound", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -485,8 +465,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:552
     public DetailLevel GetDetailLevel()
     {
-        int value;
-        value = 2;
+        int value = 2;
         Int32("Workspace", "Detail Level", ref value, ReadWriteMode.Read);
         return (DetailLevel)value;
     }
@@ -494,16 +473,14 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:561
     public void SetDetailLevel(DetailLevel value)
     {
-        int i;
-        i = (int)value;
+        int i = (int)value;
         Int32("Workspace", "Detail Level", ref i, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:569
     public string GetStartupDirectory()
     {
-        string result;
-        result = "";
+        string result = "";
         String("General", "Startup Directory", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -514,8 +491,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:580
     public bool GetLogTokenEvents()
     {
-        bool result;
-        result = false;
+        bool result = false;
         Boolean("General", "Log Token Events", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -526,8 +502,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:591
     public bool GetAutoSave()
     {
-        bool result;
-        result = true;
+        bool result = true;
         Boolean("General", "Auto Save", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -538,8 +513,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:602
     public bool GetAutoDebugSave()
     {
-        bool result;
-        result = false;
+        bool result = false;
         Boolean("General", "Auto Debug Save", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -550,8 +524,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:613
     public bool GetFastMovementEnabled()
     {
-        bool result;
-        result = false;
+        bool result = false;
         Boolean("General", "Fast Movement Enabled", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -562,8 +535,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:646
     public CombatResolveMode GetCombatResolveMode()
     {
-        CombatResolveMode result;
-        result = CombatResolveMode.Choose;
+        CombatResolveMode result = CombatResolveMode.Choose;
         Bytes("General", "Combat Resolve Mode", Rtl.Bytes.Of(ref result), 1, ReadWriteMode.Read);
         return result;
     }
@@ -574,8 +546,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:657
     public MovementSpeed GetMovementSpeed()
     {
-        MovementSpeed result;
-        result = MovementSpeed.Normal;
+        MovementSpeed result = MovementSpeed.Normal;
         Bytes("General", "Movement Speed", Rtl.Bytes.Of(ref result), 1, ReadWriteMode.Read);
         return result;
     }
@@ -586,8 +557,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:668
     public string GetLocalEmailAddress()
     {
-        string result;
-        result = "";
+        string result = "";
         String("Email", "Local Email Address", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -598,8 +568,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:679
     public string GetSmtpServer()
     {
-        string result;
-        result = "";
+        string result = "";
         String("Email", "SMTP Server", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -610,8 +579,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:690
     public string GetPop3Server()
     {
-        string result;
-        result = "";
+        string result = "";
         String("Email", "POP3 Server", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -622,8 +590,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:710
     public string GetPop3UserName()
     {
-        string result;
-        result = "";
+        string result = "";
         String("Email", "POP3 UserName", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -634,8 +601,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:721
     public string GetPop3Password()
     {
-        string result;
-        result = "";
+        string result = "";
         String("Email", "POP3 Password", ref result, ReadWriteMode.Read);
         result = TransformPassword(result);
         return result;
@@ -651,8 +617,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:734
     public string GetAttachmentDirectory()
     {
-        string result;
-        result = "";
+        string result = "";
         String("Email", "Attachment Directory", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -671,8 +636,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:747
     public int GetCheckEmailFrequency()
     {
-        int result;
-        result = 1;
+        int result = 1;
         Int32("Email", "Check Email Frequency", ref result, ReadWriteMode.Read);
         return result;
     }
@@ -684,12 +648,11 @@ public partial class GameSettings : DelphiRegistry
     public int GetEmailGamesCrc()
     {
         string s = "";
-        int p;
         int result = 0;
         String("General", "Serial number", ref s, ReadWriteMode.Read);
         try
         {
-            p = Pos("-", s);
+            int p = Pos("-", s);
             // { Original tests against -1 although Pos returns 0 when absent. }
             if (p != -1)
             {
@@ -716,8 +679,7 @@ public partial class GameSettings : DelphiRegistry
     // AoWReg.pas:783
     public void SetEmailGamesCrc(int value)
     {
-        string s;
-        s = $"4G5F6JHH-{IntToHex(value, 8)}-6AG66554-98LK0FG3";
+        string s = $"4G5F6JHH-{IntToHex(value, 8)}-6AG66554-98LK0FG3";
         String("General", "Serial number", ref s, ReadWriteMode.Write);
     }
 

@@ -29,8 +29,7 @@ public partial class MoveTargetList(CustomNode owner) : ReferenceNode(owner), IC
     // AIGroup.pas:4256
     public void AddTarget(MapCoordinate location, int movePoints, int transporterId, in AITargetData data)
     {
-        MoveTarget target;
-        target = new MoveTarget(null)
+        MoveTarget target = new(null)
         {
             Holder = CreationHolder(),
             Location = location,

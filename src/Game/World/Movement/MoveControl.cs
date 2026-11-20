@@ -70,8 +70,6 @@ public partial class MoveControl(GameMap owner) : IDisposable
     // MoveT.PAS:474
     public virtual bool SetupMove()
     {
-        MapField field;
-        PathFindingStep pathFindingStep;
         _processedCount = 0;
         Settings.ClearMovePoints();
         Settings.SubMoves.Clear();
@@ -110,13 +108,13 @@ public partial class MoveControl(GameMap owner) : IDisposable
             }
 
             Settings.SetMovePoints(Source.X, Source.Y, Source.MapLevel, 0);
-            field = MapLevel.GetField(Source.X, Source.Y);
+            MapField field = MapLevel.GetField(Source.X, Source.Y);
             if (Mode.Contains(MoveModeElement.LogProcessedMapFields))
             {
                 _ = _processedMapFields.Add(field);
             }
 
-            pathFindingStep = SetupSubMove(field, null);
+            PathFindingStep pathFindingStep = SetupSubMove(field, null);
             if ((field.FieldFlags & MapField.MoveExclusiveFlag) != 0)
             {
                 field.MoveExclusive(this);
@@ -183,10 +181,8 @@ public partial class MoveControl(GameMap owner) : IDisposable
     // MoveT.PAS:299
     public int DefaultMoveOnMovePointProc(MapField mapField, int moveOverCode)
     {
-        int overlay;
-        int points;
-        overlay = mapField.OverlayType;
-        points = MovePointTable[mapField.TerrainType][overlay - MovementTables.FirstOverlay];
+        int overlay = mapField.OverlayType;
+        int points = MovePointTable[mapField.TerrainType][overlay - MovementTables.FirstOverlay];
         if ((mapField.FieldFlags & MapField.MoveOnFlag) != 0)
         {
             points = mapField.CanMoveOn(this, points, moveOverCode);
@@ -198,21 +194,16 @@ public partial class MoveControl(GameMap owner) : IDisposable
     // MoveT.PAS:308
     public MapField FindSubMoveOrigin(MapField mapField)
     {
-        int best;
-        int points;
-        int i;
-        PathFindingStep pathFindingStep;
-        MoveControlSettings settings;
-        best = 16777215;
+        int best = 16777215;
         MapField result = null;
-        i = 0;
-        settings = Settings;
+        int i = 0;
+        MoveControlSettings settings = Settings;
         while (i < settings.SubMoves.Count)
         {
-            pathFindingStep = settings.SubMoves.GetSubMove(i);
+            PathFindingStep pathFindingStep = settings.SubMoves.GetSubMove(i);
             if (mapField.HexX == pathFindingStep.Location.X && mapField.HexY == pathFindingStep.Location.Y && mapField.HexLevel == pathFindingStep.Location.MapLevel)
             {
-                points = settings.GetMovePoints(pathFindingStep.Origin.X, pathFindingStep.Origin.Y, pathFindingStep.Origin.MapLevel);
+                int points = settings.GetMovePoints(pathFindingStep.Origin.X, pathFindingStep.Origin.Y, pathFindingStep.Origin.MapLevel);
                 if (points <= best)
                 {
                     // { After pushing L, the original stack slot holds Self, not Result. }
@@ -230,20 +221,15 @@ public partial class MoveControl(GameMap owner) : IDisposable
     // MoveT.PAS:430
     public bool ValidLocation(int X, int Y, int L)
     {
-        MapField field;
-        field = Map.MapContainer.GetField(X, Y, L);
+        MapField field = Map.MapContainer.GetField(X, Y, L);
         return OnMovePoint(field, 1) >= 0;
     }
 
     // MoveT.PAS:437
     public void ExecuteExternalMove(MapField source, MapField target, int movePoints)
     {
-        int points = default;
-        int previous = default;
-        int index = default;
-        PathFindingStep pathFindingStep = default;
         int canMoveOver = source.CanMoveOver(this);
-        points = OnMovePoint(target, canMoveOver);
+        int points = OnMovePoint(target, canMoveOver);
         if (points >= 0)
         {
             Settings.SetupLevel(target.HexLevel);
@@ -256,11 +242,11 @@ public partial class MoveControl(GameMap owner) : IDisposable
                 points = Settings.GetMovePoints(source.HexX, source.HexY, source.HexLevel) + movePoints;
             }
 
-            previous = Settings.GetMovePoints(target.HexX, target.HexY, target.HexLevel);
+            int previous = Settings.GetMovePoints(target.HexX, target.HexY, target.HexLevel);
             if (points < previous && points <= MovePointsLimit)
             {
                 MapCoordinate mapCoordinate = target.GetMapCoordinate();
-                index = Settings.SubMoves.IndexOfMapCoordinate(mapCoordinate);
+                int index = Settings.SubMoves.IndexOfMapCoordinate(mapCoordinate);
                 if (index > Settings.SubMoveIndex)
                 {
                     Settings.SubMoves.Delete(index);
@@ -277,6 +263,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
                     MovePointsLimit = points;
                 }
 
+                PathFindingStep pathFindingStep;
                 if ((target.FieldFlags & MapField.MoveOverFlag) == 0 || target.CanMoveOver(this) != 0)
                 {
                     pathFindingStep = SetupSubMove(target, source);
@@ -303,14 +290,10 @@ public partial class MoveControl(GameMap owner) : IDisposable
     // MoveT.PAS:1257
     public PathFindingStep SetupSubMove(MapField mapField, MapField origin)
     {
-        PathFindingStep pathFindingStep;
-        int overCode;
-        int direction;
-        int count;
-        int hexDirection;
-        pathFindingStep = new PathFindingStep(null) { Holder = Map };
+        PathFindingStep pathFindingStep = new(null) { Holder = Map };
         MapCoordinate mapCoordinate = mapField.GetMapCoordinate();
         pathFindingStep.Location = mapCoordinate;
+        int overCode;
         if (origin is not null)
         {
             MapCoordinate originMapCoordinate = origin.GetMapCoordinate();
@@ -324,6 +307,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
 
         if (overCode != 0)
         {
+            int direction;
             if (Settings.Destination.X != -1)
             {
                 direction = HexGeometry.DeltaHexToHexDirection(mapField.HexX, mapField.HexY, Settings.Destination.X, Settings.Destination.Y);
@@ -337,6 +321,8 @@ public partial class MoveControl(GameMap owner) : IDisposable
                 direction = 1;
             }
 
+            int count;
+            int hexDirection;
             for (int i = 0; i <= 2; i++)
             {
                 hexDirection = s_oddDirections[direction - 1][i];
@@ -364,20 +350,17 @@ public partial class MoveControl(GameMap owner) : IDisposable
     // MoveT.PAS:1295
     public bool ProcessSubMove(PathFindingStep pathFindingStep)
     {
-        int x = default;
-        int y = default;
-        int count;
-        int direction;
-        int processed;
         if (pathFindingStep.MovePointLines.Count != 0)
         {
             Settings.SetupLevel(pathFindingStep.Location.MapLevel);
             SetMapL(Map.MapContainer.GetMapLevel(pathFindingStep.Location.MapLevel));
-            direction = pathFindingStep.MovePointLines[0].First;
-            count = pathFindingStep.MovePointLines[0].Second;
+            int direction = pathFindingStep.MovePointLines[0].First;
+            int count = pathFindingStep.MovePointLines[0].Second;
+            int x = default;
+            int y = default;
             HexGeometry.CenterHexNumberToHex(pathFindingStep.Location.X, pathFindingStep.Location.Y, direction, ref x, ref y);
             pathFindingStep.MovePointLines.Delete(0);
-            processed = _processedCount;
+            int processed = _processedCount;
             ProcessHex(MapLevel.GetField(x, y), direction, count - 1);
             processed = _processedCount - processed;
             StrategicMap.Current.AIExecutor.UseProcessTime(Round((double)((double)processed / 430) * 1000));
@@ -515,12 +498,9 @@ public partial class MoveControl(GameMap owner) : IDisposable
     // MoveT.PAS:1589
     public bool ValidPath(MoveControlSettings settings, MovePath path)
     {
-        bool valid;
-        int i;
-        int points;
-        valid = true;
-        i = path.Count - 2;
-        points = 0;
+        bool valid = true;
+        int i = path.Count - 2;
+        int points = 0;
         settings.MovePointsMax = path.PositionToMovePoints(0);
         ProcessMove(settings);
         while (i > 0 && valid)
@@ -538,22 +518,15 @@ public partial class MoveControl(GameMap owner) : IDisposable
     // MoveT.PAS:1608
     public void CalculateGaps(int sourceX, int sourceY, int destinationX, int destinationY)
     {
-        int x;
-        int y;
-        int direction;
-        int overCode;
-        MapField field;
-        bool clear;
-        int points = default;
-        clear = true;
+        bool clear = true;
         GapStarts.Count = 0;
         GapEnds.Count = 0;
         _directRoute.Count = 0;
-        overCode = 1;
+        int overCode = 1;
         _ = _directRoute.AddMapCoordinate((sbyte)sourceX, (sbyte)sourceY, 0);
-        x = 0;
-        y = 0;
-        direction = 0;
+        int x = 0;
+        int y = 0;
+        int direction = 0;
         while (sourceX != destinationX || sourceY != destinationY)
         {
             if (sourceX == destinationX)
@@ -644,8 +617,8 @@ public partial class MoveControl(GameMap owner) : IDisposable
                 }
             }
 
-            field = MapLevel.GetField(x, y);
-            points = OnMovePoint(field, overCode);
+            MapField field = MapLevel.GetField(x, y);
+            int points = OnMovePoint(field, overCode);
             if (points >= 0)
             {
                 if ((field.FieldFlags & MapField.MoveOverFlag) != 0 && (x != destinationX || y != destinationY))
@@ -695,22 +668,17 @@ public partial class MoveControl(GameMap owner) : IDisposable
     // MoveT.PAS:1815
     public int GetMovePointsCostFast(int sourceX, int sourceY, int destinationX, int destinationY)
     {
-        int i;
-        int points;
-        int gapIndex;
-        int cost;
-        i = 1;
-        gapIndex = 0;
-        points = 0;
+        int i = 1;
+        int points = 0;
         CalculateGaps(sourceX, sourceY, destinationX, destinationY);
         while (i < _directRoute.Count && points != -1)
         {
-            cost = _directRoute[i].MapLevel;
+            int cost = _directRoute[i].MapLevel;
             if (cost < 0)
             {
                 MapCoordinate item = _directRoute[i - 1];
                 MapCoordinate fDirectRouteItem = _directRoute[i - 1];
-                gapIndex = GapStarts.IndexOfXY(fDirectRouteItem.X, item.Y);
+                int gapIndex = GapStarts.IndexOfXY(fDirectRouteItem.X, item.Y);
                 cost = CalculateTurnAroundMovePoints(ref gapIndex);
                 if (cost != -1)
                 {

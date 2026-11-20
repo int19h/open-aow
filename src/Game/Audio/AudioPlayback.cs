@@ -12,10 +12,9 @@ public static class AudioPlayback
 {
     public static void LockSampleData(string name)
     {
-        SampleData d;
         if (AudioHost.SoundSystem is not null)
         {
-            d = AudioHost.SampleDataList.Find(name);
+            SampleData d = AudioHost.SampleDataList.Find(name);
             if (d is null)
             {
                 _ = AudioHost.SoundSystem.SampleDataClass().CreateInstance(name);
@@ -29,8 +28,7 @@ public static class AudioPlayback
 
     public static void UnlockSampleData(string name)
     {
-        SampleData d;
-        d = AudioHost.SampleDataList.Find(name);
+        SampleData d = AudioHost.SampleDataList.Find(name);
         d?.Release();
     }
 
@@ -40,9 +38,8 @@ public static class AudioPlayback
 
     public static bool InitializeSoundSystem(string name, in SoundSettings settings)
     {
-        SoundSystemClass c;
         bool result = true;
-        c = IsEmpty(name) ? AudioHost.SoundSystems.Count != 0 ? AudioHost.SoundSystems[0] : null : AudioHost.SoundSystems.Find(name);
+        SoundSystemClass c = IsEmpty(name) ? AudioHost.SoundSystems.Count != 0 ? AudioHost.SoundSystems[0] : null : AudioHost.SoundSystems.Find(name);
 
         if (c is not null)
         {
@@ -110,15 +107,12 @@ public static class AudioPlayback
 
     internal static string GetSongName(string fileName)
     {
-        string result = "";
-        Stream stream;
-        string ext;
         Span<byte> title = stackalloc byte[28];
-        int p;
-        stream = OpenFile(AudioHost.BaseSoundEnginePath + fileName, 0 | 32);
+        Stream stream = OpenFile(AudioHost.BaseSoundEnginePath + fileName, 0 | 32);
+        string result;
         try
         {
-            ext = UpperCase(ExtractFileExt(fileName));
+            string ext = UpperCase(ExtractFileExt(fileName));
             title.Clear();
             if (ext == ".IT")
             {
@@ -136,7 +130,7 @@ public static class AudioPlayback
                 else
                 {
                     result = ExtractFileName(fileName);
-                    p = Pos(".", result);
+                    int p = Pos(".", result);
                     if (p != 0)
                     {
                         result = Copy(result, 1, p - 1);
@@ -184,12 +178,11 @@ public static class AudioPlayback
     internal static Sample PlaySample(string name)
     {
         Sample result;
-        SampleData d;
         if (AudioHost.SoundSystem is not null && AudioHost.SoundSystem.SfxEnabled)
         {
             try
             {
-                d = AudioHost.SampleDataList.Find(name);
+                SampleData d = AudioHost.SampleDataList.Find(name);
                 if (d is null)
                 {
                     d = AudioHost.SoundSystem.SampleDataClass().CreateInstance(name);
@@ -219,12 +212,11 @@ public static class AudioPlayback
     public static Sample PlaySample(string name, int volume, bool looped, int delay, SamplePanning panning, SampleCallBack callback)
     {
         Sample result;
-        SampleData d;
         if (AudioHost.SoundSystem is not null && AudioHost.SoundSystem.SfxEnabled)
         {
             try
             {
-                d = AudioHost.SampleDataList.Find(name);
+                SampleData d = AudioHost.SampleDataList.Find(name);
                 if (d is null)
                 {
                     d = AudioHost.SoundSystem.SampleDataClass().CreateInstance(name);

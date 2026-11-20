@@ -20,9 +20,8 @@ public partial class AbilityActivation(CustomNode owner) : EngineObject(owner)
     // Ability.PAS:932
     public override int Release()
     {
-        int count;
         _references -= 1;
-        count = _references;
+        int count = _references;
         int result = count;
         if (count == 0)
         {

@@ -109,13 +109,12 @@ public partial class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Gems.pas:74
     public void UpdateAITarget(ref readonly AITargetInfo info, ref int priority)
     {
-        int value;
         switch (info.Mode)
         {
             case AITargetMode.Attack:
                 if (info.Player != 0)
                 {
-                    value = (_amount / 5) + 15;
+                    int value = (_amount / 5) + 15;
                     if (value > priority)
                     {
                         priority = value;
@@ -139,7 +138,6 @@ public partial class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Gems.pas:99
     public void ArmyEntered(ArmyHexSprite armyHexSprite)
     {
-        LocationTextEventLog eventValue;
         if (armyHexSprite.Army.Player != 0)
         {
             bool condition = StrategicMap.Current.SeatedPlayer == armyHexSprite.Army.Player;
@@ -159,7 +157,7 @@ public partial class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner
             Player player = StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
             player.SetGems(player.Gems + _amount);
 
-            eventValue = new LocationTextEventLog(null)
+            LocationTextEventLog eventValue = new(null)
             {
                 Holder = CreationHolder(),
                 Player = armyHexSprite.Army.Player,

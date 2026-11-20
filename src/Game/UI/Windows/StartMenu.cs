@@ -15,10 +15,9 @@ public partial class StartMenu(Component owner) : Menu(owner)
     // StartMenu.pas:30
     public override void SetSize()
     {
-        WindowManager m;
         base.SetSize();
         SetWinHeightWithoutInvalidate(377);
-        m = WindowManager;
+        WindowManager m = WindowManager;
         if (m is not null && OwnerMenuBar is not null)
         {
             SetWinTopWithoutInvalidate(m.WinHeight - 393);

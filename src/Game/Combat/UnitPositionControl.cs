@@ -27,16 +27,14 @@ public partial class UnitPositionControl : EngineObject
     // AoWTC.pas:4990
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        UnitPositionHexSprite hexSprite;
-        int l;
         base.MessageProc(ref message, sender);
         if (message.MessageId == 65541)
         {
-            l = message.Data[1];
+            int l = message.Data[1];
             HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out int x, out int y);
             if (CombatMap.Current.MapContainer.GetField(x, y, l).TerrainType != 15)
             {
-                hexSprite = CombatMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild<UnitPositionHexSprite>(2228483);
+                UnitPositionHexSprite hexSprite = CombatMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild<UnitPositionHexSprite>(2228483);
                 if (hexSprite is null)
                 {
                     hexSprite = new UnitPositionHexSprite(null) { Holder = CreationHolder() };

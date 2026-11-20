@@ -18,12 +18,10 @@ public partial class AbilityControl : EngineObject
     // Ability.PAS:2035
     public AbilityControl(CustomNode owner) : base(owner)
     {
-        AbilityType kind;
-
         Abilities = [];
         for (int kindOrdinal = (int)(AbilityType)0; kindOrdinal <= (int)(AbilityType)4; kindOrdinal++)
         {
-            kind = (AbilityType)kindOrdinal;
+            AbilityType kind = (AbilityType)kindOrdinal;
             AbilityTypeList abilityTypeList = new();
             AbilitiesByType[(int)kind] = abilityTypeList;
         }
@@ -36,11 +34,10 @@ public partial class AbilityControl : EngineObject
     // Ability.PAS:2044
     public override void Dispose()
     {
-        AbilityType kind;
         UnregisterAll();
         for (int kindOrdinal = (int)(AbilityType)0; kindOrdinal <= (int)(AbilityType)4; kindOrdinal++)
         {
-            kind = (AbilityType)kindOrdinal;
+            AbilityType kind = (AbilityType)kindOrdinal;
             AbilitiesByType[(int)kind]?.Dispose();
         }
 
@@ -70,8 +67,7 @@ public partial class AbilityControl : EngineObject
     // Ability.PAS:2078
     public void RegisterAbility(Ability ability)
     {
-        int id;
-        id = ability.AbilityId;
+        int id = ability.AbilityId;
         if (id != -1)
         {
             if (id < Abilities.Count && Abilities[id] is not null)
@@ -98,8 +94,7 @@ public partial class AbilityControl : EngineObject
     // Ability.PAS:2096
     public void UnregisterAbility(Ability ability)
     {
-        int id;
-        id = ability.AbilityId;
+        int id = ability.AbilityId;
         if (id != -1)
         {
             if (id < 0 || id >= Abilities.Count || Abilities[id] != ability)
@@ -153,8 +148,7 @@ public partial class AbilityControl : EngineObject
     // Ability.PAS:2148
     public void ListAbilityInfo(DelphiStringCollection text, bool sortByName, Set<AbilityInfoModeElement> mode)
     {
-        DelphiList<Ability> list = default;
-        list = new DelphiList<Ability>();
+        DelphiList<Ability> list = new();
         for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {
             if (Abilities[i] is not null)

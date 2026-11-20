@@ -25,13 +25,11 @@ public partial class TacticalBattleBloodHexSprite(CustomNode owner) : SingleHexS
     // AoWTC.pas:6403
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int frame;
-        ImageSequence sequence;
-        sequence = GamePack.Current.ImageSequences.ImageSequences[4];
+        ImageSequence sequence = GamePack.Current.ImageSequences.ImageSequences[4];
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
         if (sequence is not null)
         {
-            frame = sequence.GetUnloopedFrameIndex(Frame);
+            int frame = sequence.GetUnloopedFrameIndex(Frame);
             sequence.ImageLibrary[frame].ShowClipped(x - pixelXSurface + OffsetX, y - pixelYSurface + OffsetY, lockedSurface);
         }
     }

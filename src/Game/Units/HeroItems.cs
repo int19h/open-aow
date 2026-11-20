@@ -61,12 +61,11 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
     // Army.PAS:4546
     public override void Clear()
     {
-        EngineObject child;
         for (int i = Count - 1; i >= 0; i--)
         {
             if (GetChild(i) is not null)
             {
-                child = Items[i];
+                EngineObject child = Items[i];
                 if (child is not null)
                 {
                     if (child.Owner != this)
@@ -126,11 +125,10 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
     // Hero.PAS:410
     public sbyte GetAttack()
     {
-        Item item;
         sbyte result = 0;
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
-            item = Items[i];
+            Item item = Items[i];
             if (item is not null)
             {
                 result = (sbyte)(result + item.Attack);
@@ -143,11 +141,10 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
     // Hero.PAS:421
     public sbyte GetDefense()
     {
-        Item item;
         sbyte result = 0;
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
-            item = Items[i];
+            Item item = Items[i];
             if (item is not null)
             {
                 result = (sbyte)(result + item.Defense);
@@ -160,11 +157,10 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
     // Hero.PAS:432
     public sbyte GetDamage()
     {
-        Item item;
         sbyte result = 0;
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
-            item = Items[i];
+            Item item = Items[i];
             if (item is not null)
             {
                 result = (sbyte)(result + item.Damage);
@@ -177,11 +173,10 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
     // Hero.PAS:443
     public sbyte GetResistance()
     {
-        Item item;
         sbyte result = 0;
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
-            item = Items[i];
+            Item item = Items[i];
             if (item is not null)
             {
                 result = (sbyte)(result + item.Resistance);
@@ -194,11 +189,10 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
     // Hero.PAS:454
     public Set<MoveType> GetMoveTypes()
     {
-        Item item;
         Set<MoveType> result = Set<MoveType>.Of();
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
-            item = Items[i];
+            Item item = Items[i];
             if (item is not null)
             {
                 result += item.GetAbilityMoveTypesAll();
@@ -211,11 +205,10 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
     // Hero.PAS:465
     public Set<DamageType> GetImmunityTypes()
     {
-        Item item;
         Set<DamageType> result = Set<DamageType>.Of();
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
-            item = Items[i];
+            Item item = Items[i];
             if (item is not null)
             {
                 result += item.GetAbilityImmunityTypesAll();
@@ -228,11 +221,10 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
     // Hero.PAS:476
     public Set<DamageType> GetProtectionTypes()
     {
-        Item item;
         Set<DamageType> result = Set<DamageType>.Of();
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
-            item = Items[i];
+            Item item = Items[i];
             if (item is not null)
             {
                 result += item.GetAbilityProtectionTypesAll();
@@ -245,11 +237,10 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
     // Hero.PAS:487
     public int GetAbilityCount()
     {
-        Item item;
         int result = 0;
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
-            item = Items[i];
+            Item item = Items[i];
             if (item is not null && result < item.GetOwnAbilityCount())
             {
                 result = item.GetOwnAbilityCount();
@@ -262,11 +253,10 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
     // Hero.PAS:498
     public AbilityOwner GetSuperlativeEnabledAbilityOwner(int abilityId)
     {
-        Item item;
         AbilityOwner result = null;
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
-            item = Items[i];
+            Item item = Items[i];
             if (item is not null && item.GetOwnAbilityEnabled(abilityId))
             {
                 if (result is null || item.GetOwnAbilityLevel(abilityId) > result.GetOwnAbilityLevel(abilityId))
@@ -282,11 +272,10 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
     // Hero.PAS:511
     public AbilityOwner GetSuperlativeAbilityOwner(int abilityId)
     {
-        Item item;
         AbilityOwner result = null;
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
-            item = Items[i];
+            Item item = Items[i];
             if (item is not null && item.GetAbilitySetAt(abilityId))
             {
                 if (result is null || item.GetOwnAbilityLevel(abilityId) > result.GetOwnAbilityLevel(abilityId))
@@ -302,13 +291,11 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
     // Hero.PAS:524
     public bool GetAbilityEnabled(int abilityId)
     {
-        int i;
-        Item item;
         bool result = false;
-        i = 0;
+        int i = 0;
         while (!result && i < Items.Count)
         {
-            item = Items[i];
+            Item item = Items[i];
             result = item is not null && item.GetOwnAbilityEnabled(abilityId);
             i += 1;
         }
@@ -319,13 +306,11 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
     // Hero.PAS:537
     public bool GetAbilitySet(int abilityId)
     {
-        int i;
-        Item item;
         bool result = false;
-        i = 0;
+        int i = 0;
         while (!result && i < Items.Count)
         {
-            item = Items[i];
+            Item item = Items[i];
             result = item is not null && item.GetAbilitySetAt(abilityId);
             i += 1;
         }
@@ -336,10 +321,8 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
     // Hero.PAS:550
     public Item GetPositionItem(HeroItemPosition position)
     {
-        Item result;
-        int index;
-        index = ((int)position) & 127;
-        result = index < Items.Count ? Items[index] : null;
+        int index = ((int)position) & 127;
+        Item result = index < Items.Count ? Items[index] : null;
 
         return result;
     }

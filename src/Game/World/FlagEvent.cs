@@ -76,8 +76,7 @@ public partial class FlagEvent(CustomNode owner) : MapObject(owner)
     // FlagEvents.pas:134
     public void UpdateInstantTrigger()
     {
-        sbyte player;
-        player = Owner.GetPlayer();
+        sbyte player = Owner.GetPlayer();
         if (player != -1 && GetTriggerPlayer(player) && Trigger(player))
         {
             SetTriggerPlayer(player, false);

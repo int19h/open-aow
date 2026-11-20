@@ -34,7 +34,6 @@ public partial class LifeMastery : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1457
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        TwinkleAnimation twinkle;
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Life);
         MapCoordinate coordinate73 = source.GetLocation();
@@ -42,7 +41,7 @@ public partial class LifeMastery : GlobalEnchantmentSpell
         sbyte y = coordinate73.Y;
         sbyte l = coordinate73.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
-        twinkle = new TwinkleAnimation(null) { Holder = CreationHolder() };
+        TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
         twinkle.Setup(GamePack.Current.SpellControl.GetSpell(61).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 100, 64, 50, 30);
         _ = StrategicMap.Current.PlaceHex(twinkle, x, y, l);
         _ = CastSounds.Play(0);

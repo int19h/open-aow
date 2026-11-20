@@ -35,11 +35,6 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
     // AoWHSMap.PAS:946
     public virtual void KeyDown(in ushort key, Set<ShiftState> shift)
     {
-        ushort translatedKey;
-        int i;
-        bool prefix;
-        bool complete;
-        CheatTokenEvent cheat;
         if (LockCount != 0)
         {
             return;
@@ -50,7 +45,7 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
         switch (Mode)
         {
             case HexSpriteMapKeyboardMode.Default:
-                translatedKey = key;
+                ushort translatedKey = key;
                 switch (GetEngine().Language)
                 {
                     case 3:
@@ -202,9 +197,9 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
                 break;
             case HexSpriteMapKeyboardMode.Cheat:
                 _cheatText += Cp1252.Text((byte)key);
-                i = 10;
-                complete = false;
-                prefix = false;
+                int i = 10;
+                bool complete = false;
+                bool prefix = false;
                 while (i != 0 && !complete)
                 {
                     i -= 1;
@@ -214,7 +209,7 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
 
                 if (complete && StrategicMap.Current.SeatedPlayer != -1 && !StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetBusy())
                 {
-                    cheat = new CheatTokenEvent(null)
+                    CheatTokenEvent cheat = new(null)
                     {
                         Holder = CreationHolder(),
                         Player = StrategicMap.Current.SeatedPlayer,
@@ -257,8 +252,7 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
     // AoWHSMap.PAS:938
     public void RunDefaultTest()
     {
-        string fileName;
-        fileName = $"autosave{FileBoundary.WriteExtension(DocumentKind.Save)}";
+        string fileName = $"autosave{FileBoundary.WriteExtension(DocumentKind.Save)}";
         // { Original saves the autosave file. }
         GetEngine().SaveHsm($"{GetEngine().StartupDirectory}Save\\{fileName}", null, GameProfile.WorldMap);
     }

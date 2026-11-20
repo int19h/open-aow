@@ -54,12 +54,9 @@ public partial class StructureTokenEvent(CustomNode owner) : TokenEvent(owner)
     // Structur.PAS:3065
     public override bool Validate()
     {
-        bool result;
-        Structure structure;
-        MapField mapField;
-        mapField = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
-        structure = mapField.FindOwnedChild<Structure>(_structureClassId);
-        result = structure is not null && structure.EngineClass.ClassId == _structureClassId && mapField.GetPlayer() == Player;
+        MapField mapField = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
+        Structure structure = mapField.FindOwnedChild<Structure>(_structureClassId);
+        bool result = structure is not null && structure.EngineClass.ClassId == _structureClassId && mapField.GetPlayer() == Player;
 
         return result;
     }
@@ -67,15 +64,13 @@ public partial class StructureTokenEvent(CustomNode owner) : TokenEvent(owner)
     // Structur.PAS:2537
     public void Initialize(int classId, sbyte x, sbyte y, sbyte mapLevel)
     {
-        MapField mapField;
-        Structure structure;
         {
             Location = Location with { X = x };
             Location = Location with { Y = y };
         }
         Location = Location with { MapLevel = mapLevel };
-        mapField = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
-        structure = mapField.FindOwnedChild<Structure>(classId);
+        MapField mapField = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
+        Structure structure = mapField.FindOwnedChild<Structure>(classId);
         Assert(classId == structure.EngineClass.ClassId, "Invalid position (StructureTE)", "Structur.PAS", 3045);
         _structureClassId = classId;
         _razed = structure.GetRazed();

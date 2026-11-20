@@ -35,14 +35,6 @@ public partial class ResurrectHero : Spell
     // GlobalSpells.pas:991
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        bool result = default;
-        TwinkleAnimation animation = default;
-        HeroList heroes;
-        Hero hero;
-        ArmyHexSprite army;
-        LocationTextEventLog log;
-        HeroEmergeEventLog emergeLog = default;
-        ArmyInfoEventLog infoLog = default;
         sbyte x;
         sbyte y;
         sbyte layer;
@@ -53,7 +45,7 @@ public partial class ResurrectHero : Spell
             y = coordinate75.Y;
             layer = coordinate75.MapLevel;
             _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, layer, 0);
-            animation = new TwinkleAnimation(null) { Holder = CreationHolder() };
+            TwinkleAnimation animation = new(null) { Holder = CreationHolder() };
             animation.Setup(CastImages.GetImageSequence(0), Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
             _ = StrategicMap.Current.PlaceHex(animation, x, y, layer);
             if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(x, y, layer, 0))
@@ -62,9 +54,10 @@ public partial class ResurrectHero : Spell
             }
         }
 
+        bool result;
         if (executeCount == 20)
         {
-            heroes = new HeroList(null) { Holder = CreationHolder() };
+            HeroList heroes = new(null) { Holder = CreationHolder() };
             StrategicMap.Current.HeroControl.ListDeadHeroes(heroes);
             for (int i = heroes.Count - 1; i >= 0; i--)
             {
@@ -81,10 +74,10 @@ public partial class ResurrectHero : Spell
                 y = coordinate76.Y;
                 layer = coordinate76.MapLevel;
                 int count = heroes.Count;
-                hero = heroes.GetHero(StrategicMap.Current.Random(count));
+                Hero hero = heroes.GetHero(StrategicMap.Current.Random(count));
                 hero.Resurrect();
-                army = hero.Place(x, y, layer, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
-                log = new LocationTextEventLog(null)
+                ArmyHexSprite army = hero.Place(x, y, layer, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
+                LocationTextEventLog log = new(null)
                 {
                     Holder = CreationHolder(),
                     Player = source.Player,
@@ -95,14 +88,14 @@ public partial class ResurrectHero : Spell
                 _ = log.Release();
                 if (hero.OfferToJoin(source.Player))
                 {
-                    emergeLog = new HeroEmergeEventLog(null) { Holder = CreationHolder() };
+                    HeroEmergeEventLog emergeLog = new(null) { Holder = CreationHolder() };
                     emergeLog.Setup(hero, source.Player, HeroEmergeEventLog.HeroJoinMode.Resurrected);
                     _ = emergeLog.Execute(true, ExecuteTrigger.Event, null);
                     _ = emergeLog.Release();
                 }
                 else
                 {
-                    infoLog = new ArmyInfoEventLog(null) { Holder = CreationHolder() };
+                    ArmyInfoEventLog infoLog = new(null) { Holder = CreationHolder() };
                     int indexOf = army.Army.Units.IndexOf(hero);
                     infoLog.ArmyView.Setup(army.Army, (byte)(1 << indexOf));
                     infoLog.Selection = 255;
@@ -135,13 +128,12 @@ public partial class ResurrectHero : Spell
     // GlobalSpells.pas:1062
     public override bool Activate(Troop source)
     {
-        bool result;
         string reason = "";
-        SpellTokenEvent eventValue;
         _ = base.Activate(source);
+        bool result;
         if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            eventValue = new SpellTokenEvent(null) { Holder = CreationHolder() };
+            SpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();

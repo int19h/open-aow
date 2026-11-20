@@ -89,10 +89,9 @@ public partial class AIGroupTargetSelector : AIGroupTask
     // AIGroup.pas:3421
     public override void Validate()
     {
-        Troop troop;
         for (int i = _spareUnits.Count - 1; i >= 0; i--)
         {
-            troop = _spareUnits.GetUnit(i);
+            Troop troop = _spareUnits.GetUnit(i);
             if (GroupControl.Group.Units.IndexOf(troop) == -1)
             {
                 _ = _spareUnits.DeleteUnit(troop);
@@ -124,8 +123,6 @@ public partial class AIGroupTargetSelector : AIGroupTask
     // AIGroup.pas:3228
     public override bool Activate(AIGroupControl control)
     {
-        AIGroupControlTarget target = default;
-        bool valid = default;
         GroupControl = control;
         _ = GroupControl.Targets.Validate();
         _movesMin = 50;
@@ -139,8 +136,8 @@ public partial class AIGroupTargetSelector : AIGroupTask
 
         for (int i = GroupControl.Targets.Count - 1; i >= 0; i--)
         {
-            target = GroupControl.Targets.GetTargets(i);
-            valid = ValidateTargetOverlap(GroupControl.Group, target);
+            AIGroupControlTarget target = GroupControl.Targets.GetTargets(i);
+            bool valid = ValidateTargetOverlap(GroupControl.Group, target);
             bool condition = valid;
             if (condition)
             {
@@ -211,18 +208,8 @@ public partial class AIGroupTargetSelector : AIGroupTask
     // AIGroup.pas:3487
     public override bool Process()
     {
-        bool result = default;
-        int i = default;
-        int strength = default;
-        int superiority = default;
-        int time = default;
-        bool busy = default;
-        AIGroupTask aiGroupTask = default;
-        UnitUserList optional = default;
-        UnitUserList required = default;
-        AIGroup aiGroup = default;
-        MapCoordinate location = default;
-        aiGroupTask = _aiGroupTask;
+        AIGroupTask aiGroupTask = _aiGroupTask;
+        bool busy;
         if (aiGroupTask is not null)
         {
             busy = aiGroupTask.MainProcess();
@@ -236,9 +223,11 @@ public partial class AIGroupTargetSelector : AIGroupTask
             busy = false;
         }
 
+        bool result;
         if (!busy)
         {
             result = false;
+            int i;
             switch (State)
             {
                 case 0:
@@ -252,8 +241,8 @@ public partial class AIGroupTargetSelector : AIGroupTask
                     {
                         _target = GroupControl.Targets.GetTargets(i);
                         _priority = _target.DataA;
-                        strength = GetRequiredStrength(_target);
-                        superiority = GetRequiredCombatPredictorSuperiority(_target);
+                        int strength = GetRequiredStrength(_target);
+                        int superiority = GetRequiredCombatPredictorSuperiority(_target);
                         StrategicMap.Current.AIExecutor.UseProcessTime(100);
                         busy = GroupControl.StrengthMax < strength;
                         if (!busy)
@@ -431,6 +420,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
                     State = 5;
                     break;
                 case 5:
+                    int time;
                     if (_production.Complete)
                     {
                         _target.Status += Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid, AIGroupTargetFlags.Produce);
@@ -588,7 +578,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
                             sbyte locationX = coordinate101.X;
                             sbyte locationY = coordinate101.Y;
                             sbyte locationMapLevel = coordinate101.MapLevel;
-                            location = new MapCoordinate(locationX, locationY, locationMapLevel);
+                            MapCoordinate location = new(locationX, locationY, locationMapLevel);
                             GroupControl.SetupME();
                             GroupControl.ExecuteME(location.X, location.Y, location.MapLevel);
                             result = true;
@@ -660,14 +650,14 @@ public partial class AIGroupTargetSelector : AIGroupTask
 
                     if (i < GroupControl.Targets.Count)
                     {
-                        required = new UnitUserList(null) { Holder = CreationHolder() };
-                        optional = new UnitUserList(null) { Holder = CreationHolder() };
+                        UnitUserList required = new(null) { Holder = CreationHolder() };
+                        UnitUserList optional = new(null) { Holder = CreationHolder() };
                         _nextTarget = GroupControl.Targets.GetTargets(i);
                         if (ValidMultiTarget(_spareUnits, _nextTarget, required, optional))
                         {
                             AIGroup group = GroupControl.Group;
                             GroupBehavior behavior = group.GroupClass.Behavior;
-                            aiGroup = StrategicMap.Current.AIGroupManager.CreateGroup(group.Player, group.IndependentRelation, behavior);
+                            AIGroup aiGroup = StrategicMap.Current.AIGroupManager.CreateGroup(group.Player, group.IndependentRelation, behavior);
 
                             _ = aiGroup.AddUnits(required.Units);
                             _ = aiGroup.SetupTarget(_nextTarget, AIGroupTargetStatus.Execute, 0);
@@ -716,16 +706,13 @@ public partial class AIGroupTargetSelector : AIGroupTask
     // AIGroup.pas:3067
     public bool TargetOverlapFound(AIGroupControlTarget target, AIGroup ignoreGroup)
     {
-        Player player;
-        int i;
-        AIGroup group;
-        player = StrategicMap.Current.Players.GetPlayers(GroupControl.Group.Player);
-        i = player.AIGroups.Count;
+        Player player = StrategicMap.Current.Players.GetPlayers(GroupControl.Group.Player);
+        int i = player.AIGroups.Count;
         bool result = false;
         while (i != 0 && !result)
         {
             i -= 1;
-            group = player.AIGroups.GetGroups(i);
+            AIGroup group = player.AIGroups.GetGroups(i);
             MapCoordinate aimed = group.TargetLocation ?? MapCoordinate.None;
             result = group != ignoreGroup && group.TargetType == AIGroupTargetStatus.Execute && target.Location.MapLevel == aimed.MapLevel && HexGeometry.DeltaHexToRadius(aimed.X, aimed.Y, target.Location.X, target.Location.Y) <= 1;
         }
@@ -736,31 +723,24 @@ public partial class AIGroupTargetSelector : AIGroupTask
     // AIGroup.pas:3088
     public bool ValidateTargetOverlap(AIGroup group, AIGroupControlTarget target)
     {
-        int i;
-        int moves;
-        int points;
-        int otherDays;
-        int days;
-        Player player;
-        AIGroup other;
-        player = StrategicMap.Current.Players.GetPlayers(GroupControl.Group.Player);
-        i = player.AIGroups.Count;
+        Player player = StrategicMap.Current.Players.GetPlayers(GroupControl.Group.Player);
+        int i = player.AIGroups.Count;
         bool result = true;
         while (i != 0 && result)
         {
             i -= 1;
-            other = player.AIGroups.GetGroups(i);
+            AIGroup other = player.AIGroups.GetGroups(i);
             MapCoordinate aimed = other.TargetLocation ?? MapCoordinate.None;
             if (other != group && other.TargetType == AIGroupTargetStatus.Execute && aimed.MapLevel == target.Location.MapLevel && HexGeometry.DeltaHexToRadius(aimed.X, aimed.Y, target.Location.X, target.Location.Y) <= 1)
             {
-                moves = other.GetMovesMin();
-                points = other.TargetMovePoints;
+                int moves = other.GetMovesMin();
+                int points = other.TargetMovePoints;
                 if (!other.Status.Contains(AIGroupStatusElement.Done))
                 {
                     points -= other.GetMovePointsMin();
                 }
 
-                otherDays = points / moves;
+                int otherDays = points / moves;
                 if (points % moves != 0)
                 {
                     otherDays += 1;
@@ -769,6 +749,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
                 moves = group.GetMovesMin();
                 int movePointsMin = group.GetMovePointsMin();
                 points = target.MovePoints - movePointsMin;
+                int days;
                 if (points > 0)
                 {
                     days = points / moves;
@@ -859,12 +840,9 @@ public partial class AIGroupTargetSelector : AIGroupTask
     // AIGroup.pas:3190
     public int GetTargetSetupPriority(AIGroupControlTarget target)
     {
-        AIGroup group;
-        int days;
-        int priority;
-        priority = Round((double)target.Data.Priority * Priorities.TargetFactor);
+        int priority = Round((double)target.Data.Priority * Priorities.TargetFactor);
         int movesMin = GroupControl.Group.GetMovesMin();
-        days = (target.MovePoints - 1) / movesMin;
+        int days = (target.MovePoints - 1) / movesMin;
         if (days > 0)
         {
             priority += Round(Priorities.MoveDayPenalty * days);
@@ -875,7 +853,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
             priority += Priorities.TransportPenalty;
         }
 
-        group = GroupControl.Group;
+        AIGroup group = GroupControl.Group;
         if (group.TargetLocation == target.Location)
         {
             if (group.TargetType == AIGroupTargetStatus.Execute)
@@ -933,7 +911,6 @@ public partial class AIGroupTargetSelector : AIGroupTask
     public float GetRequiredSuperiority(AIGroupControlTarget target)
     {
         float result;
-        int days;
         if (target.Data.TargetType != AITargetType.Negotiate)
         {
             AIGroup group = GroupControl.Group;
@@ -944,7 +921,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
             if (GroupControl.Group.GetMovesMin() > 0)
             {
                 int movesMin = GroupControl.Group.GetMovesMin();
-                days = (target.MovePoints - 1) / movesMin;
+                int days = (target.MovePoints - 1) / movesMin;
                 result = (float)((double)result + Round((double)days * MoveDayFactor));
             }
         }
@@ -994,7 +971,6 @@ public partial class AIGroupTargetSelector : AIGroupTask
     public int GetRequiredBattleFieldStrength(AIGroupControlTarget target)
     {
         int result;
-        int pathStrength;
         if (((double)BattleFieldFactor > 0 || (double)CurrentBattleFieldFactor > 0) && target.Data.TargetType != AITargetType.Negotiate)
         {
             BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, GroupControl.Group.Player, GroupControl.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), _damageTypes);
@@ -1009,7 +985,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         }
 
         AIGroup group = GroupControl.Group;
-        pathStrength = group.TargetLocation == target.Location && group.TargetType == AIGroupTargetStatus.Execute
+        int pathStrength = group.TargetLocation == target.Location && group.TargetType == AIGroupTargetStatus.Execute
             ? Round((double)target.PathStrength * CurrentPathStrengthFactor)
             : Round((double)target.PathStrength * PathStrengthFactor);
 
@@ -1024,9 +1000,8 @@ public partial class AIGroupTargetSelector : AIGroupTask
     // AIGroup.pas:3349
     public int GetRequiredStrength(AIGroupControlTarget target)
     {
-        int battleFieldStrength;
         int result = GetRequiredTargetStrength(target);
-        battleFieldStrength = GetRequiredBattleFieldStrength(target);
+        int battleFieldStrength = GetRequiredBattleFieldStrength(target);
         if (battleFieldStrength > result)
         {
             result = battleFieldStrength;
@@ -1039,22 +1014,16 @@ public partial class AIGroupTargetSelector : AIGroupTask
     // AIGroup.pas:3359
     public bool ValidateTargetRequirements(UnitCollection units, AIGroupControlTarget target, UnitUserList required, UnitUserList optional, int minimumStrength)
     {
-        int strength;
-        CombatPredictor predictor;
-        UnitUserList requiredUnits;
-        UnitUserList optionalUnits;
-        int superiority;
-        Troop troop;
-        predictor = new CombatPredictor(this);
-        requiredUnits = new UnitUserList(null) { Holder = CreationHolder() };
-        optionalUnits = new UnitUserList(null) { Holder = CreationHolder() };
+        CombatPredictor predictor = new(this);
+        UnitUserList requiredUnits = new(null) { Holder = CreationHolder() };
+        UnitUserList optionalUnits = new(null) { Holder = CreationHolder() };
         predictor.AddUnits(units);
         if (StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location).GetMoveAction(GroupControl.Group.Player) != MoveAction.Negotiate)
         {
             predictor.InitializeAdjacentOpponents((byte)GroupControl.Group.Player, (byte)GroupControl.Group.IndependentRelation, target.Location.X, target.Location.Y, target.Location.MapLevel);
         }
 
-        superiority = GetRequiredCombatPredictorSuperiority(target);
+        int superiority = GetRequiredCombatPredictorSuperiority(target);
         _ = predictor.Execute();
         bool result = predictor.GetSuperiority() > superiority;
         predictor.ListRequiredUnits(requiredUnits, superiority);
@@ -1071,7 +1040,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
 
         if (optionalUnits.Count != 0 || result)
         {
-            strength = GetRequiredStrength(target);
+            int strength = GetRequiredStrength(target);
             if (strength < minimumStrength)
             {
                 strength = minimumStrength;
@@ -1080,7 +1049,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
             strength -= requiredUnits.GetStrengthMax(_damageTypes);
             while (strength > 0 && optionalUnits.Count != 0)
             {
-                troop = optionalUnits.GetUnit(optionalUnits.Count - 1);
+                Troop troop = optionalUnits.GetUnit(optionalUnits.Count - 1);
                 strength -= troop.GetStrengthMax(_damageTypes);
                 _ = requiredUnits.AddUnit(troop);
                 _ = optionalUnits.DeleteUnit(troop);
@@ -1129,11 +1098,10 @@ public partial class AIGroupTargetSelector : AIGroupTask
     // AIGroup.pas:3441
     public void ShowTargetInfo()
     {
-        AIGroupControlTarget target;
         GetEngine().OutputDebugMessage(DebugChannel.AI, $"Targets for Group (ID:{IntToStr(GroupControl.Group.GroupId)})");
         for (int i = 0, last = GroupControl.Targets.Count - 1; i <= last; i++)
         {
-            target = GroupControl.Targets.GetTargets(i);
+            AIGroupControlTarget target = GroupControl.Targets.GetTargets(i);
             target.GetDebugInfo(out string text);
             text = $"{text}/TS_Prio:{IntToStr(target.DataA)}";
             text = $"{text}/MPBFS:{IntToStr(target.PathStrength)}";

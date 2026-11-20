@@ -17,23 +17,20 @@ public partial class PassiveAIGroupControl(CustomNode owner) : AIGroupControl(ow
     // MainAG.pas:199
     public override void ProcessStates()
     {
-        GroupDefenseSelector selector;
-        AIGroup group;
-        Troop troop;
         switch (State)
         {
             case 0:
                 CombinePassiveGroups();
                 MapCoordinate location = Group.GetLocation();
-                selector = new GroupDefenseSelector(this);
+                GroupDefenseSelector selector = new(this);
                 _ = selector.Execute(Group, location.X, location.Y, location.MapLevel, null);
                 if (selector.Defenders.Count != Group.Units.Count && Group.Player != 0)
                 {
                     GroupBehavior randomGroupBehavior = StrategicMap.Current.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
-                    group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, randomGroupBehavior);
+                    AIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, randomGroupBehavior);
                     for (int i = Group.Units.Count - 1; i >= 0; i--)
                     {
-                        troop = Group.Units.GetUnit(i);
+                        Troop troop = Group.Units.GetUnit(i);
                         if (selector.Defenders.IndexOf(troop) == -1)
                         {
                             _ = group.AddUnit(troop);
@@ -67,13 +64,11 @@ public partial class PassiveAIGroupControl(CustomNode owner) : AIGroupControl(ow
     // MainAG.pas:176
     public void CombinePassiveGroups()
     {
-        Player player;
-        AIGroup group;
-        player = StrategicMap.Current.Players.GetPlayers(Group.Player);
+        Player player = StrategicMap.Current.Players.GetPlayers(Group.Player);
         MapCoordinate location = Group.GetLocation();
         for (int i = player.AIGroups.Count - 1; i >= 0; i--)
         {
-            group = player.AIGroups.GetGroups(i);
+            AIGroup group = player.AIGroups.GetGroups(i);
             if (Group.GroupId != group.GroupId && group.EngineClass.ClassId == 136280 && Group.IndependentRelation == group.IndependentRelation)
             {
                 MapCoordinate otherLocation = group.GetLocation();

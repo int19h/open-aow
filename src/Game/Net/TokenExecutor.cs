@@ -62,10 +62,10 @@ public partial class TokenExecutor : IDisposable
     // NetworkE.pas:1429
     public virtual ExecuteResult ExecuteTokenEvent(TokenEvent tokenEvent)
     {
-        ExecuteResult result = default;
         Executing = true;
         OnExecuteTokenEvent?.Invoke(tokenEvent);
 
+        ExecuteResult result;
         try
         {
             result = tokenEvent.Execute(this);
@@ -215,8 +215,7 @@ public partial class TokenExecutor : IDisposable
     // { The next active token control after the current one; a wrap starts the next round }
     public void ActivateNextTacticalBattle()
     {
-        int n;
-        n = 0;
+        int n = 0;
         while (true)
         {
             ActiveTacticalBattleIndex += 1;
@@ -253,7 +252,6 @@ public partial class TokenExecutor : IDisposable
     public bool ProcessSystemTokenEvents()
     {
         bool result;
-        ExecuteResult r;
         if (!State.Contains(TokenExecutorState.Executing) && SystemEvents.Count > 0 && _lockCount == 0)
         {
             if (SystemEvents[0].TokenCounter == -1)
@@ -262,7 +260,7 @@ public partial class TokenExecutor : IDisposable
                 SystemEvents[0].TokenCounter = TokenCounter;
             }
 
-            r = ExecuteTokenEvent(SystemEvents[0]);
+            ExecuteResult r = ExecuteTokenEvent(SystemEvents[0]);
             if (r is ExecuteResult.Done or ExecuteResult.DoneHalt)
             {
                 SystemEvents.Delete(0);
@@ -288,14 +286,11 @@ public partial class TokenExecutor : IDisposable
     //   control, for at most one round of token controls }
     public void Process()
     {
-        int i;
-        bool prefetched;
-        ExecuteResult r;
         if (ActiveTacticalBattle is not null && !ProcessSystemTokenEvents())
         {
-            i = 0;
-            prefetched = true;
-            r = ExecuteResult.Done;
+            int i = 0;
+            bool prefetched = true;
+            ExecuteResult r = ExecuteResult.Done;
             while (_lockCount == 0 && prefetched && r == ExecuteResult.Done && i < TacticalBattleList.Count)
             {
                 if (!State.Contains(TokenExecutorState.Executing))

@@ -25,14 +25,14 @@ public partial class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
     // Animation.pas:493
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        ImageSequence sequence;
-        int index;
         base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         if (GetHexLevel() == AnimationMap.ViewMapLevel)
         {
             HexGeometry.HexToPixel(Location.X, Location.Y, out int x, out int y);
             pixelXSurface = x - pixelXSurface + 16 + PixelXOffset;
             pixelYSurface = y - pixelYSurface + 16 + PixelYOffset;
+            ImageSequence sequence;
+            int index;
             if (!Looped)
             {
                 sequence = ImageSequence;
@@ -80,7 +80,6 @@ public partial class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
     // Animation.pas:432
     public void UpdateDimensions()
     {
-        ImageSequence sequence;
         Rect dimensions = Dimensions;
         dimensions.Left = 0;
         Dimensions = dimensions;
@@ -93,7 +92,7 @@ public partial class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
         Rect dimensions4 = Dimensions;
         dimensions4.Bottom = 0;
         Dimensions = dimensions4;
-        sequence = ImageSequence;
+        ImageSequence sequence = ImageSequence;
         while (sequence is not null)
         {
             sequence.GetDimensions(out Rect r);
@@ -120,17 +119,15 @@ public partial class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
     // Animation.pas:454
     public void SetImageSequence(ImageSequence sequence)
     {
-        ImageSequence current;
-        int frames;
         ImageSequence = sequence;
         UpdateDimensions();
         if (!Looped)
         {
-            current = ImageSequence;
+            ImageSequence current = ImageSequence;
             FrameCount = -1;
             while (current is not null)
             {
-                frames = current.GetTotalSequenceFrames();
+                int frames = current.GetTotalSequenceFrames();
                 if (frames > FrameCount)
                 {
                     FrameCount = frames;

@@ -59,9 +59,8 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
     // ImageLib.pas:8567
     public ImageSequence Copy(ImageSequenceList owner)
     {
-        ImageSequence result = default;
-        MemoryStream stream;
-        stream = new MemoryStream();
+        MemoryStream stream = new();
+        ImageSequence result;
         try
         {
             result = new ImageSequence(owner);
@@ -81,7 +80,6 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
     public LibraryImage GetPreviewImage()
     {
         LibraryImage result;
-        int i;
         if (this is not null)
         {
             result = null;
@@ -97,7 +95,7 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
 
             if (result is null)
             {
-                i = 0;
+                int i = 0;
                 while (i != ImageLibrary.Count && result is null)
                 {
                     result = ImageLibrary[i];
@@ -116,12 +114,12 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
     // ImageLib.pas:8620
     public void GetDimensions(out Rect R)
     {
-        LibraryImage image;
         // The out value is assigned before its members are written.
         R = default;
         if (ImageLibrary is not null)
         {
             Rect ir;
+            LibraryImage image;
             switch (_sequenceMode)
             {
                 case SequenceMode.FrameTable:
@@ -380,7 +378,6 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
     // ImageLib.pas:8822
     public void SaveToStream(Stream stream)
     {
-        bool hasNext;
         LibraryDrawing.WriteStringToStream(_imageLibraryName, stream);
         stream.Write(Bytes.Of(ref _layer, 1));
         stream.Write(Bytes.Of(ref _sequenceSpeed, 1));
@@ -393,7 +390,7 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
             FrameTable.SaveToStream(stream);
         }
 
-        hasNext = Next is not null;
+        bool hasNext = Next is not null;
         stream.Write(Bytes.Of(ref hasNext, 1));
         if (hasNext)
         {
@@ -514,14 +511,12 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
     internal static void BlitImageSequence(ImageSequence sequence, int X, int Y, in Rect R, int frame, int bkColor)
     {
         LockedSurface lockedSurface = default;
-        Dib16Surface surface;
-        int index;
-        surface = new Dib16Surface(R.Right - R.Left, R.Bottom - R.Top, PixelFormat.Rgb565);
+        Dib16Surface surface = new(R.Right - R.Left, R.Bottom - R.Top, PixelFormat.Rgb565);
         _ = surface.Clear(bkColor);
         _ = surface.Lock(ref lockedSurface);
         while (sequence is not null)
         {
-            index = sequence.GetUnloopedFrameIndex(frame);
+            int index = sequence.GetUnloopedFrameIndex(frame);
             if (index != -1 && sequence.ImageLibrary is not null && sequence.ImageLibrary.GetSafe(index) is not null)
             {
                 sequence.ImageLibrary[index].Show(X + sequence._offsetX, Y + sequence._offsetY, lockedSurface);

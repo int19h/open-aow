@@ -26,8 +26,7 @@ public partial class LightningStorm(CustomNode owner) : Storm(owner)
     // Storms.pas:429
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int frame;
-        frame = FrameCounter % _stormImages.Count;
+        int frame = FrameCounter % _stormImages.Count;
         if (_stormImages[frame] is not null)
         {
             sbyte hexY = GetHexY();
@@ -77,13 +76,13 @@ public partial class LightningStorm(CustomNode owner) : Storm(owner)
     // Storms.pas:466
     public override bool UpdateStorm()
     {
-        bool result;
         NewFrame();
         if (_stormImages.GetSafe(FrameCounter) is not null)
         {
             _ = AudioPlayback.PlaySample("SFX\\ATTACK\\LIGHTNG.WAV");
         }
 
+        bool result;
         if (_stormImages.Count == FrameCounter)
         {
             AbilityRules.TriggerStormDamage(mapLevel: GetHexLevel(), y: GetHexY(), storm: StormType.Lightning, x: GetHexX(), innerRadius: 0, outerRadius: 1, player: StrategicMap.Current.CurrentPlayer);

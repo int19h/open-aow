@@ -117,10 +117,8 @@ public partial class FaceResource(CustomNode owner) : EngineResource(owner)
     // Ability.PAS:503
     public LibraryImage GetFaceImage()
     {
-        LibraryImage result;
-        CustomImageLibrary images;
-        images = _imageLibrary;
-        result = images?[_imageIndex];
+        CustomImageLibrary images = _imageLibrary;
+        LibraryImage result = images?[_imageIndex];
 
         return result;
     }

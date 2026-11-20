@@ -31,19 +31,15 @@ public partial class ItemTokenEvent(CustomNode owner) : TokenEvent(owner)
     // Army.PAS:4193
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult result;
-        bool done;
-        Item item;
-        Hero hero;
         _ = base.Execute(tokenEvent);
-        done = false;
-        item = StrategicMap.Current.ItemControl.FindItem(ItemId);
+        bool done = false;
+        Item item = StrategicMap.Current.ItemControl.FindItem(ItemId);
         if (item is not null)
         {
             switch (_action)
             {
                 case 0:
-                    hero = StrategicMap.Current.HeroControl.FindId(HeroId);
+                    Hero hero = StrategicMap.Current.HeroControl.FindId(HeroId);
                     done = hero is not null && item.ExecuteUse(hero);
 
                     break;
@@ -52,7 +48,7 @@ public partial class ItemTokenEvent(CustomNode owner) : TokenEvent(owner)
             }
         }
 
-        result = done ? ExecuteResult.Done : ExecuteResult.DoneHalt;
+        ExecuteResult result = done ? ExecuteResult.Done : ExecuteResult.DoneHalt;
 
         return result;
     }

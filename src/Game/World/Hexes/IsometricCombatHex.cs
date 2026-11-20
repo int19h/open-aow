@@ -21,13 +21,11 @@ public partial class IsometricCombatHex(CustomNode owner) : UpperIsometricHex(ow
     // IsoCombatHex.pas:46
     public override void ShowDynamic(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        CustomImageLibrary imageLibrary;
-        int variant;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelX = pixelX - pixelXSurface - 8;
         pixelY -= pixelYSurface;
-        imageLibrary = ((MapObject)this).Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
-        variant = FrameFixtureInputs.CombatTextureVariant(this);
+        CustomImageLibrary imageLibrary = ((MapObject)this).Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
+        int variant = FrameFixtureInputs.CombatTextureVariant(this);
         if (variant == 3)
         {
             variant = 0;

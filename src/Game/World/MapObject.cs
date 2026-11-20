@@ -178,12 +178,11 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     // MAPOBJ.PAS:266
     public override void RemoveFromMap()
     {
-        MapField mapField;
         if (Status.Contains(MapObjectStatusElement.PlacedOnMap))
         {
             if (Owner is not null)
             {
-                mapField = Owner;
+                MapField mapField = Owner;
                 Disconnect();
                 if (!mapField.Owner.Map.Status.Contains(HexSpriteMapStatusElement.Destroying))
                 {
@@ -269,8 +268,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     // MAPOBJ.PAS:291
     public override void Remove()
     {
-        MapField mapField;
-        mapField = Owner;
+        MapField mapField = Owner;
         RemoveFromMap();
         if (GetVisible())
         {
@@ -352,12 +350,10 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     public virtual bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         bool result;
-        HexSprite hexSprite;
-        MapField mapField;
         if (hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer.Width && hexY < mapContainer.Height && hexLevel < mapContainer.LevelCount)
         {
-            mapField = mapContainer.GetField(hexX, hexY, hexLevel);
-            hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
+            MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
+            HexSprite hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
             bool condition = hexSprite is null || hexSprite.GetLevel() < 10;
             if (condition)
             {

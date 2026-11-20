@@ -80,7 +80,6 @@ public partial class ArmyEventLog : EventLog
     // Army.PAS:218
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool showEvent = default;
         bool result = false;
         switch (trigger)
         {
@@ -90,7 +89,7 @@ public partial class ArmyEventLog : EventLog
                 break;
             case ExecuteTrigger.Event:
             case ExecuteTrigger.NewTurn:
-                showEvent = false;
+                bool showEvent = false;
                 if (StrategicMap.Current.SeatedPlayer == Player || StrategicMap.Current.SeatedPlayer == ArmyView.Player)
                 {
                     showEvent = showEvent || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage));
@@ -115,8 +114,7 @@ public partial class ArmyEventLog : EventLog
     // Army.PAS:248
     public override void ViewLocation()
     {
-        ArmyView army;
-        army = ArmyView;
+        ArmyView army = ArmyView;
         if (army is not null && army.Location.X != -1)
         {
             CenterViewTo(army.Location.X, army.Location.Y, army.Location.MapLevel);
@@ -129,9 +127,8 @@ public partial class ArmyEventLog : EventLog
     // Army.PAS:187
     public bool LeaderKilled()
     {
-        int i;
         bool result = false;
-        i = ArmyView.Units.Count;
+        int i = ArmyView.Units.Count;
         while (!result && i != 0)
         {
             i -= 1;
@@ -144,9 +141,8 @@ public partial class ArmyEventLog : EventLog
     // Army.PAS:200
     public bool PartyDestroyed()
     {
-        int i;
         bool result = true;
-        i = ArmyView.Units.Count;
+        int i = ArmyView.Units.Count;
         while (result && i != 0)
         {
             i -= 1;

@@ -33,10 +33,9 @@ public partial class ImageLibraryFont(Component owner) : CustomImageLibrary(owne
     // ImageLib.pas:6291
     public override void LoadFromStream(Stream stream)
     {
-        int i;
         base.LoadFromStream(stream);
         Height = 0;
-        i = 0;
+        int i = 0;
         while (i < Count)
         {
             if (this[i] is not null)
@@ -67,18 +66,16 @@ public partial class ImageLibraryFont(Component owner) : CustomImageLibrary(owne
     // ImageLib.pas:6378
     public int GetTextHeight(string text)
     {
-        int h;
-        int c;
         string s = CharCase switch
         {
             EditCharCase.LowerCase => LowerCase(text),
             EditCharCase.UpperCase => UpperCase(text),
             EditCharCase.Normal or _ => text,
         };
-        h = 0;
+        int h = 0;
         for (int i = 1; i <= s.Length; i++)
         {
-            c = Cp1252.Byte(s[i - 1]);
+            int c = Cp1252.Byte(s[i - 1]);
             if (c < Count && this[c] is not null && this[c].Height > h)
             {
                 h = this[c].Height;
@@ -135,7 +132,6 @@ public partial class ImageLibraryFont(Component owner) : CustomImageLibrary(owne
     // ImageLib.pas:6433
     public void SetText(int X, int Y, string text, in LockedSurface lockedSurface, Set<SetTextModeElement> mode, in ShowInfo showInfo)
     {
-        int c;
         string s = CharCase switch
         {
             EditCharCase.LowerCase => LowerCase(text),
@@ -149,7 +145,7 @@ public partial class ImageLibraryFont(Component owner) : CustomImageLibrary(owne
 
         for (int i = 1; i <= s.Length; i++)
         {
-            c = Cp1252.Byte(s[i - 1]);
+            int c = Cp1252.Byte(s[i - 1]);
             if (c < Count && this[c] is not null)
             {
                 this[c].Show(X, Y, lockedSurface, showInfo);

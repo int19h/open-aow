@@ -32,14 +32,12 @@ public partial class ArmyId(CustomNode owner) : EngineObject(owner)
     public bool Valid()
     {
         bool result;
-        ArmyHexSprite armyHexSprite;
-        int i;
         if (Location.X != -1)
         {
-            armyHexSprite = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetArmyHexSprite();
+            ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetArmyHexSprite();
             if (armyHexSprite is not null && armyHexSprite.Army.Player == Player)
             {
-                i = UnitIds.Count;
+                int i = UnitIds.Count;
                 result = true;
                 while (result && i != 0)
                 {
@@ -65,21 +63,19 @@ public partial class ArmyId(CustomNode owner) : EngineObject(owner)
     public bool RetrieveArmy(ref ArmyHexSprite armyHexSprite, ref byte selection)
     {
         bool result;
-        int i;
-        int index;
         if (Location.X != -1)
         {
             selection = 0;
             armyHexSprite = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetArmyHexSprite();
             if (armyHexSprite is not null && armyHexSprite.Army.Player == Player)
             {
-                i = UnitIds.Count;
+                int i = UnitIds.Count;
                 result = true;
                 while (result && i != 0)
                 {
                     i -= 1;
                     int item = UnitIds[i];
-                    index = armyHexSprite.Army.Units.IndexOfId(item);
+                    int index = armyHexSprite.Army.Units.IndexOfId(item);
                     // { Original shifts by the missing unit index before reporting failure. }
                     selection = (byte)(selection | (1 << index));
                     result = index != -1;

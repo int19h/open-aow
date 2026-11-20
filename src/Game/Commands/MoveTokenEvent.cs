@@ -60,7 +60,6 @@ public partial class MoveTokenEvent(CustomNode owner) : TokenEvent(owner)
     // MoveT.PAS:2027
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult result;
         _ = base.Execute(tokenEvent);
         if (_status == MoveStatus.Idle)
         {
@@ -89,6 +88,7 @@ public partial class MoveTokenEvent(CustomNode owner) : TokenEvent(owner)
             }
         }
 
+        ExecuteResult result;
         if (_status == MoveStatus.Done)
         {
             FinishMove();
@@ -129,9 +129,8 @@ public partial class MoveTokenEvent(CustomNode owner) : TokenEvent(owner)
     // MoveT.PAS:1997
     public virtual MoveStatus Move()
     {
-        MoveStatus result;
         MoveIndex -= 1;
-        result = MoveIndex == 0 ? MoveStatus.Done : MoveStatus.Moving;
+        MoveStatus result = MoveIndex == 0 ? MoveStatus.Done : MoveStatus.Moving;
 
         return result;
     }

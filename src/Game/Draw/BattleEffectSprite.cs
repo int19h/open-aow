@@ -76,15 +76,6 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
     {
         BattleEffectSprite effect;
         int j = default;
-        ImageSequence sequence;
-        Point3DList newPath;
-        int k = default;
-        float z = default;
-        float speed;
-        float vz = default;
-        float gravity;
-        BattleEffectSprite effect2;
-        TacticalBattleUnitHexSprite unitHexSprite;
         MapFieldMessage message = default;
         void MakeCloud(int count, int radius)
         {
@@ -157,6 +148,12 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                 Frame += 1;
                 int x;
                 int y;
+                ImageSequence sequence;
+                int k = default;
+                float z;
+                float speed;
+                float vz;
+                float gravity;
                 switch (EffectType)
                 {
                     case BattleEffectType.Arrow:
@@ -726,7 +723,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                             k = 1;
                                             for (; k <= 10; k += 1)
                                             {
-                                                effect2 = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
+                                                BattleEffectSprite effect2 = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
                                                 effect2.AbilityIndex = AbilityIndex;
                                                 effect2.SpellIndex = SpellIndex;
                                                 int count7 = effect.Path.Count;
@@ -1152,7 +1149,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                     HexGeometry.CenterHexNumberToHex(TargetX, TargetY, (Frame - 50) / 5, ref j, ref k);
                                     // { Original swaps the converted hex coordinates. }
                                     HexGeometry.HexToPixel(j, k, out x, out y);
-                                    unitHexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[j, k].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+                                    TacticalBattleUnitHexSprite unitHexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[j, k].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                                     effect.Target = unitHexSprite is not null && unitHexSprite.Unit.GetSide() != Target.GetSide()
                                         ? unitHexSprite.Unit
                                         : null;
@@ -1215,7 +1212,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
 
                         break;
                     case BattleEffectType.Chain:
-                        newPath = new Point3DList();
+                        Point3DList newPath = new();
                         i = 0;
                         j = 0;
                         k = 0;

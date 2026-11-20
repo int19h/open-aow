@@ -77,12 +77,10 @@ public partial class FleeLocation(CustomNode owner) : MapObject(owner)
     // FleeLoc.pas:93
     public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        EngineObject oldHex;
-        MapField mapField;
         if (!GetEditMode())
         {
-            mapField = mapContainer.GetField(hexX, hexY, hexLevel);
-            oldHex = mapField.FindOwnedChild(132439);
+            MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
+            EngineObject oldHex = mapField.FindOwnedChild(132439);
             if (oldHex is not null)
             {
                 oldHex?.Dispose();
@@ -96,8 +94,7 @@ public partial class FleeLocation(CustomNode owner) : MapObject(owner)
     // FleeLoc.pas:132
     public void NewFrame(object sender)
     {
-        bool highlight;
-        highlight = false;
+        bool highlight = false;
         if (CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             highlight = true;

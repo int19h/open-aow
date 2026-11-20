@@ -168,8 +168,7 @@ public partial class HexSpriteMapViewer : Component
     // HSEngine.pas:4770
     public void SetSceneWidth(int value)
     {
-        GameMap m;
-        m = _hexSpriteMap;
+        GameMap m = _hexSpriteMap;
         if (m is not null && value > 0)
         {
             _sceneWidth = value;
@@ -180,8 +179,7 @@ public partial class HexSpriteMapViewer : Component
     // HSEngine.pas:4782
     public void SetSceneHeight(int value)
     {
-        GameMap m;
-        m = _hexSpriteMap;
+        GameMap m = _hexSpriteMap;
         if (m is not null && value > 0)
         {
             _sceneHeight = value;
@@ -199,20 +197,17 @@ public partial class HexSpriteMapViewer : Component
     // HSEngine.pas:4843
     public void ShowScene(int X, int Y, Surface surface)
     {
-        GameMap m;
-        object mp;
-        LockedSurface lockedSurface = default;
         Rect r = default;
         Surface target = surface;
         int targetX = X;
         int targetY = Y;
         try
         {
-            mp = _hexSpriteMap;
+            object mp = _hexSpriteMap;
             if (mp is not null)
             {
                 // The field holds the map. The object-typed copy belongs to #150.
-                m = (GameMap)mp;
+                GameMap m = (GameMap)mp;
                 if (m.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged is not null)
                 {
                     OnSceneChanged(this);
@@ -237,6 +232,7 @@ public partial class HexSpriteMapViewer : Component
                 r.Right = _sceneWidth + X;
                 r.Top = Y;
                 r.Bottom = _sceneHeight + Y;
+                LockedSurface lockedSurface = default;
                 if (m.StaticSceneInvalid)
                 {
                     m.UpdateStaticScene();
@@ -334,20 +330,18 @@ public partial class HexSpriteMapViewer : Component
     // which the map mouse takes. A point outside the centered map gives false.
     public bool SceneToMapMouse(ref int X, ref int Y)
     {
-        Rect shown;
-        Rect source;
         if (!GetSceneExceedsMap())
         {
             return true;
         }
 
-        shown = GetMapDisplayRectangle();
+        Rect shown = GetMapDisplayRectangle();
         if (X < shown.Left || X >= shown.Right || Y < shown.Top || Y >= shown.Bottom)
         {
             return false;
         }
 
-        source = GetMapSceneRectangle();
+        Rect source = GetMapSceneRectangle();
         X += source.Left - shown.Left;
         Y += source.Top - shown.Top;
         return true;

@@ -172,19 +172,15 @@ public partial class AIGroupControl : EngineObject
     // AIGroup.pas:1170
     public virtual bool Split()
     {
-        int i;
-        AIGroup group;
         sbyte x = default;
         sbyte y = default;
         sbyte l = default;
-        bool finished;
-        bool found;
         bool result = false;
-        finished = false;
+        bool finished = false;
         while (!finished)
         {
-            i = Group.Units.Count;
-            found = false;
+            int i = Group.Units.Count;
+            bool found = false;
             while (!found && i != 0)
             {
                 i -= 1;
@@ -198,7 +194,7 @@ public partial class AIGroupControl : EngineObject
             if (found)
             {
                 GroupBehavior behavior = Group.GroupClass.Behavior;
-                group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, behavior);
+                AIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, behavior);
                 group.Status += Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Split);
                 i = Group.Units.Count - 1;
                 for (; i >= 0; i -= 1)
@@ -256,9 +252,8 @@ public partial class AIGroupControl : EngineObject
     // AIGroup.pas:1107
     public virtual void SetupME()
     {
-        Troop troop;
         ResetME();
-        troop = Group.Leader;
+        Troop troop = Group.Leader;
         if (troop is not null)
         {
             _ = MoveExecutor.AddUnit(troop);
@@ -288,8 +283,7 @@ public partial class AIGroupControl : EngineObject
     // AIGroup.pas:1124
     public virtual void ExecuteME(sbyte X, sbyte Y, sbyte L)
     {
-        MapField field;
-        field = StrategicMap.Current.MapContainer.GetField(X, Y, L);
+        MapField field = StrategicMap.Current.MapContainer.GetField(X, Y, L);
         if (field.GetPlayer() != -1 && field.GetPlayer() != Group.Player)
         {
             MoveExecutor.Mode = MoveExecutor.Mode + Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent, AIMoveExecutorModeElement.Attack);
@@ -308,11 +302,10 @@ public partial class AIGroupControl : EngineObject
     // AIGroup.pas:1000
     public int GetStrengthMax(Set<DamageType> damageTypes)
     {
-        DamageType damageType;
         int result = 0;
         for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
         {
-            damageType = (DamageType)damageTypeOrdinal;
+            DamageType damageType = (DamageType)damageTypeOrdinal;
             if (damageTypes.Contains(damageType) && result < _strength[(int)damageType])
             {
                 result = _strength[(int)damageType];
@@ -325,8 +318,6 @@ public partial class AIGroupControl : EngineObject
     // AIGroup.pas:1010
     public void UpdateGroupChanges()
     {
-        DamageType damageType;
-        Troop troop;
         if (Group.Status.Contains(AIGroupStatusElement.Changed) || _processCycles == 1)
         {
             _immunityTypes = AbilityRules.AllDamageTypes;
@@ -347,7 +338,7 @@ public partial class AIGroupControl : EngineObject
 
             for (int i = Group.Units.Count - 1; i >= 0; i--)
             {
-                troop = Group.Units.GetUnit(i);
+                Troop troop = Group.Units.GetUnit(i);
                 _immunityTypes = troop.GetImmunityTypes() & _immunityTypes;
                 troop.CreateMovePointTable(out MovePointTable movePointTable);
                 MovePointTable movePointTable4 = MovePointTable;
@@ -355,7 +346,7 @@ public partial class AIGroupControl : EngineObject
                 MovePointTable = movePointTable4;
                 for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
                 {
-                    damageType = (DamageType)damageTypeOrdinal;
+                    DamageType damageType = (DamageType)damageTypeOrdinal;
                     int strength = troop.GetStrength(damageType);
                     _strength[(int)damageType] += strength;
                 }
@@ -371,9 +362,8 @@ public partial class AIGroupControl : EngineObject
     // AIGroup.pas:1040
     public bool RetrieveGroupArmy(sbyte X, sbyte Y, sbyte L, out Army army, out byte selection)
     {
+        ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
         bool result;
-        ArmyHexSprite armyHexSprite;
-        armyHexSprite = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
         if (armyHexSprite is not null)
         {
             army = armyHexSprite.Army;
@@ -393,12 +383,10 @@ public partial class AIGroupControl : EngineObject
     // AIGroup.pas:1059
     public void CombineIdleGroups()
     {
-        Player player;
-        AIGroup group;
-        player = StrategicMap.Current.Players.GetPlayers(Group.Player);
+        Player player = StrategicMap.Current.Players.GetPlayers(Group.Player);
         for (int i = player.AIGroups.Count - 1; i >= 0; i--)
         {
-            group = player.AIGroups.GetGroups(i);
+            AIGroup group = player.AIGroups.GetGroups(i);
             if (group != Group && group.EngineClass.ClassId == Group.EngineClass.ClassId && group.Status.Contains(AIGroupStatusElement.Done))
             {
                 switch (group.TargetType)
@@ -496,14 +484,13 @@ public partial class AIGroupControl : EngineObject
     // AIGroup.pas:1285
     public bool Process(bool looped)
     {
-        bool result;
-        bool busy;
         _processCycles += 1;
+        bool result;
         if (Validate())
         {
             try
             {
-                busy = false;
+                bool busy = false;
                 while (!busy && !Group.Status.Contains(AIGroupStatusElement.Done) && StrategicMap.Current.AIExecutor.GetProcessTimeLeft() >= 0 && MoveExecutor.Status != AIMoveExecutorStatus.Busy)
                 {
                     if (_aiGroupTask is not null)
@@ -543,16 +530,11 @@ public partial class AIGroupControl : EngineObject
     // AIGroup.pas:1323
     public Troop FindAvailableTransporter()
     {
-        Troop result;
-        int distance;
-        Troop troop;
-        DoubleItemList<Troop> list;
-        Player player;
-        list = new DoubleItemList<Troop>();
-        player = StrategicMap.Current.Players.GetPlayers(Group.Player);
+        DoubleItemList<Troop> list = new();
+        Player player = StrategicMap.Current.Players.GetPlayers(Group.Player);
         for (int i = 0, last = player.Armies.Count - 1; i <= last; i++)
         {
-            troop = player.Armies.GetArmy(i).Transporter(255);
+            Troop troop = player.Armies.GetArmy(i).Transporter(255);
             if (troop is not null && (troop.Group is null || troop.Group.EngineClass.ClassId == 136295))
             {
                 MapCoordinate coordinate100 = troop.GetLocation();
@@ -560,7 +542,7 @@ public partial class AIGroupControl : EngineObject
                 sbyte locationY = coordinate100.Y;
                 sbyte locationMapLevel = coordinate100.MapLevel;
                 MapCoordinate location = new(locationX, locationY, locationMapLevel);
-                distance = HexGeometry.DeltaHexToRadius(location.X, location.Y, Location.X, Location.Y);
+                int distance = HexGeometry.DeltaHexToRadius(location.X, location.Y, Location.X, Location.Y);
                 if (Location.MapLevel == location.MapLevel && distance < 30)
                 {
                     _ = list.AddAbility(troop, distance);
@@ -568,6 +550,7 @@ public partial class AIGroupControl : EngineObject
             }
         }
 
+        Troop result;
         if (list.Count != 0)
         {
             list.SortAscendingItemB();

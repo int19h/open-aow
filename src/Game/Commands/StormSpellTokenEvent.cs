@@ -31,7 +31,6 @@ public partial class StormSpellTokenEvent(CustomNode owner) : SpellTokenEvent(ow
     // Storms.pas:743
     public override bool Process(Troop source, int value)
     {
-        bool result;
         _ = base.Process(source, value);
         if (value == 0)
         {
@@ -40,6 +39,7 @@ public partial class StormSpellTokenEvent(CustomNode owner) : SpellTokenEvent(ow
             GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
         }
 
+        bool result;
         if (!_storm.UpdateStorm())
         {
             _storm.FinalizeStorm();

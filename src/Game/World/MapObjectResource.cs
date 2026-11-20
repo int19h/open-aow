@@ -115,8 +115,7 @@ public partial class MapObjectResource : EngineResource
     // MAPOBJ.PAS:450
     public override LibraryImage GetCellImage()
     {
-        int i;
-        i = 0;
+        int i = 0;
         LibraryImage result = null;
         while (i != ImageLibrary.Count && result is null)
         {
@@ -158,12 +157,9 @@ public partial class MapObjectResource : EngineResource
     // MAPOBJ.PAS:420
     public override void Draw(Canvas canvas, Rect rectangle, BlitMode mode, int scaleX, int scaleY, int bkColor, int color)
     {
-        int i;
-        LibraryImage image;
-        ImageSequence sequence;
         Rect drawRectangle = default;
-        i = 0;
-        image = null;
+        int i = 0;
+        LibraryImage image = null;
         while (i != ImageLibrary.Count && image is null)
         {
             image = ImageLibrary.Get(i);
@@ -173,7 +169,7 @@ public partial class MapObjectResource : EngineResource
         if (image is null && ImageSequenceList is not null)
         {
             i = 0;
-            sequence = null;
+            ImageSequence sequence = null;
             while (i != ImageSequenceList.Count && sequence is null)
             {
                 sequence = ImageSequenceList.GetImageSequence(i);
@@ -239,13 +235,11 @@ public partial class MapObjectResource : EngineResource
     // MAPOBJ.PAS:507
     public void ShowComplexImage(int X, int Y, in LockedSurface lockedSurface, int index, uint offset)
     {
-        ImageSequence sequence;
-        int frame;
-        sequence = index < ImageSequenceList.Count ? ImageSequenceList.List[index] : null;
+        ImageSequence sequence = index < ImageSequenceList.Count ? ImageSequenceList.List[index] : null;
 
         while (sequence is not null)
         {
-            frame = sequence.GetFrameIndex(Engine.HexSpriteMap.Frame, (int)offset);
+            int frame = sequence.GetFrameIndex(Engine.HexSpriteMap.Frame, (int)offset);
             if (frame != -1)
             {
                 sequence.ImageLibrary.Get(frame).Show(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
@@ -275,17 +269,12 @@ public partial class MapObjectResource : EngineResource
     //   the drop point with its users, clearing the terrain first when Param[2] = 1 }
     public void EditDropMessage(ref EngineMessage message)
     {
-        MapLevel mapLevel;
-        int hexLevel;
-        int radius;
-        bool clear;
-        bool placed;
-        placed = true;
-        mapLevel = message.Param[0].As<MapLevel>();
-        hexLevel = message.Data[1];
-        radius = message.Param[1].Int;
+        bool placed = true;
+        MapLevel mapLevel = message.Param[0].As<MapLevel>();
+        int hexLevel = message.Data[1];
+        int radius = message.Param[1].Int;
         HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out int hexX, out int hexY);
-        clear = message.Param[2].Int == 1;
+        bool clear = message.Param[2].Int == 1;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
         while (walk.Radius <= radius)
         {

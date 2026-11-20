@@ -22,10 +22,8 @@ public partial class TutorialWindow(UIContext ui) : UIModule(ui)
     // AoWTutorialWin.pas:51
     public void FinishDialog()
     {
-        ExecuteDoneEvent done;
-        EventLog log;
-        done = Done;
-        log = _event;
+        ExecuteDoneEvent done = Done;
+        EventLog log = _event;
         Done = null;
         _event = null;
         done?.Invoke(log);

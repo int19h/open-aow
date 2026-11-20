@@ -59,10 +59,10 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     // Altar.pas:78
     public override ExecuteResult ExecuteTokenEvent(StructureTokenEvent tokenEvent, TokenExecutor executor)
     {
-        string reason = "";
         ExecuteResult result = base.ExecuteTokenEvent(tokenEvent, executor);
         if (tokenEvent.Action == 0)
         {
+            string reason = "";
             if (executor.ExecuteCount == 0 && CanTarget(ref reason))
             {
                 _storm = CreateStorm();
@@ -127,16 +127,14 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     // Altar.pas:259
     public override bool ExecuteAI(sbyte player, int phase)
     {
-        Storm storm;
-        int value;
         if (player == Player && (phase is 1 or 2))
         {
-            storm = CreateStorm();
+            Storm storm = CreateStorm();
             sbyte hexLevel = GetHexLevel();
             sbyte hexY = GetHexY();
             if (storm.GetBestTarget(player, GetHexX(), hexY, hexLevel, 12, out MapCoordinate target, out StormDamageInfo damage))
             {
-                value = damage.EnemyDamage - damage.FriendlyDamage;
+                int value = damage.EnemyDamage - damage.FriendlyDamage;
                 if (value > TargetMana() * 0.75)
                 {
                     Player playerAIBudget = StrategicMap.Current.Players.GetPlayers(player);
@@ -197,10 +195,9 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     {
         bool result;
         string reason = "";
-        StructureTokenEvent eventValue;
         if (CanTarget(ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            eventValue = CreateTokenEvent();
+            StructureTokenEvent eventValue = CreateTokenEvent();
             SetupTokenEvent(eventValue);
             eventValue.Param = X + (Y << 8) + (L << 16);
             eventValue.Action = 0;
@@ -239,10 +236,9 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     // Altar.pas:164
     public virtual bool Target()
     {
-        bool result = default;
-        TargetSelectionControl selection = default;
         string reason = "";
-        selection = StrategicMap.Current.TargetSelection;
+        TargetSelectionControl selection = StrategicMap.Current.TargetSelection;
+        bool result;
         if (!GetRazed() && Player >= 0 && TargetMana() <= StrategicMap.Current.Players.GetPlayers(Player).MagicControl.Mana && CanTarget(ref reason) && _storm is null)
         {
             selection.Initialize(this);

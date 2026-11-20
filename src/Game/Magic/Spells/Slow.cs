@@ -33,8 +33,7 @@ public partial class Slow : CombatSpell
     // CombatSpells.pas:1313
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        SlowCombatAction action;
-        action = new SlowCombatAction(null)
+        SlowCombatAction action = new(null)
         {
             Holder = CreationHolder(),
             SourceId = source.Id,

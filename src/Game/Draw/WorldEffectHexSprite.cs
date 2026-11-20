@@ -47,9 +47,8 @@ public partial class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSpr
         int frame;
         void ShowGlobal(bool shadow, bool inverse)
         {
-            int brightness = default;
             int count = Path.Count;
-            brightness = 100 - (Frame * 100 / count) - FrameFixtureInputs.ShimmerOffset(this, Frame);
+            int brightness = 100 - (Frame * 100 / count) - FrameFixtureInputs.ShimmerOffset(this, Frame);
             if (brightness < 0)
             {
                 brightness = 0;
@@ -112,9 +111,8 @@ public partial class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSpr
 
         void ShowLocal(bool shadow)
         {
-            int brightness = default;
             int count = Path.Count;
-            brightness = 100 - (Frame * 100 / count) - FrameFixtureInputs.ShimmerOffset(this, Frame);
+            int brightness = 100 - (Frame * 100 / count) - FrameFixtureInputs.ShimmerOffset(this, Frame);
             if (brightness < 0)
             {
                 brightness = 0;
@@ -234,17 +232,17 @@ public partial class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSpr
     // Army.PAS:5358
     public void NewFrame(object sender)
     {
-        WorldEffectHexSprite effect;
-        int count2;
-        int radiusX;
-        int radiusY;
-        float gravity;
-        float vz = default;
-        float speed;
-        float z = default;
         try
         {
             Frame += 1;
+            WorldEffectHexSprite effect;
+            int count2;
+            int radiusX;
+            int radiusY;
+            float gravity;
+            float vz;
+            float speed;
+            float z;
             switch (EffectType)
             {
                 case WorldEffectType.Hatred:

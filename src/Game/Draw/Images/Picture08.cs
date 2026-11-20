@@ -74,13 +74,12 @@ public partial class Picture08(CustomImageLibrary owner) : Image08(owner), ILibr
     // ImageLib.pas:7337
     public void AllocateDiscardableImageData(int width, int height)
     {
-        int size;
         _pitch = width < 32 ? (width + 3) & ~3 : (width + 7) & ~7;
 
         // The original allocates 7 bytes more than the rows and aligns its pixel pointer to 8 for
         // MMX. The alignment has no effect on pixels, so the rows start at the first byte and the
         // 7 bytes stay after the last row (graphics.md 6.8).
-        size = (_pitch * height) + 7;
+        int size = (_pitch * height) + 7;
         _buffer = MemorySurfaces.Reallocate(_buffer, size);
     }
 

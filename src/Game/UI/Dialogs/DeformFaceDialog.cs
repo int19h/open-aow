@@ -22,10 +22,9 @@ public partial class DeformFaceDialog(UIContext ui) : UIModule(ui)
     // AoWDeformFaceDlg.pas:127
     public void Execute(CosmeticSurgerySpellCaster caster)
     {
-        Troop u;
         _caster = caster;
         _ = _caster.AddRef();
-        u = StrategicMap.Current.UnitControl.FindUnit(_caster.TargetUnitId);
+        Troop u = StrategicMap.Current.UnitControl.FindUnit(_caster.TargetUnitId);
         if (u is not null)
         {
             string name = u.GetName();
@@ -71,10 +70,7 @@ public partial class DeformFaceDialog(UIContext ui) : UIModule(ui)
     // AoWDeformFaceDlg.pas:73
     public void DrawFace(Frame sender, LockedSurface lockedSurface, int offset)
     {
-        Rect r;
-        int face;
-        FaceResource resource;
-        face = _caster.FaceIndex;
+        int face = _caster.FaceIndex;
         while (offset < 0)
         {
             offset += 1;
@@ -87,10 +83,10 @@ public partial class DeformFaceDialog(UIContext ui) : UIModule(ui)
             face = GamePack.Current.FaceResources.NextFace(face);
         }
 
-        r = new Rect(Window.WinLeft + sender.WinLeft + 2, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth - 2, Window.WinTop + sender.WinTop + sender.WinHeight - 2);
+        Rect r = new(Window.WinLeft + sender.WinLeft + 2, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth - 2, Window.WinTop + sender.WinTop + sender.WinHeight - 2);
         if (face != -1)
         {
-            resource = GamePack.Current.FaceResources.GetFaceResource(face);
+            FaceResource resource = GamePack.Current.FaceResources.GetFaceResource(face);
             _ = resource.AddRef();
             resource.GetFaceImage().ShowStretched(r, lockedSurface);
             _ = resource.Release();

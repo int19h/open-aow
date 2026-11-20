@@ -27,12 +27,10 @@ public partial class InvokeDeathCombatAction(CustomNode owner) : SingleTargetCom
     // AoWAb.PAS:3420
     public override void Execute(Battle combat)
     {
-        CombatObject source;
-        CombatObject target;
         if (Successful)
         {
-            source = combat.CombatData.FindId(SourceId);
-            target = combat.CombatData.FindId(TargetId);
+            CombatObject source = combat.CombatData.FindId(SourceId);
+            CombatObject target = combat.CombatData.FindId(TargetId);
             _ = source.DoDamage(target, target.GetHitPoints());
         }
     }

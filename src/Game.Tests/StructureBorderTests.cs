@@ -24,10 +24,10 @@ public sealed class StructureBorderTests
     {
         Dib16Surface surface = new(Width, height, PixelFormat.Rgb565);
         GrabInfo grab = new() { FileName = "border.bmp", FindRectangles = false };
-        LockedSurface lockedSurface = default;
         try
         {
             Assert.Equal(GraphicsResult.Ok, surface.Clear(color));
+            LockedSurface lockedSurface = default;
             Assert.Equal(GraphicsResult.Ok, surface.Lock(ref lockedSurface));
             Assert.Equal(GraphicsResult.Ok, LibraryImageClass.Of<Picture16>().GrabImages(lockedSurface, grab, library, null));
             return library[^1];

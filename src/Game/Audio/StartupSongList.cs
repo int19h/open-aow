@@ -14,10 +14,10 @@ public partial class StartupSongList : SongList
     // AoWHSMap.PAS:1221
     public void OriginalSongsChanged(object sender)
     {
-        string name;
         SongNames.Clear();
         for (int i = Songs.Count - 1; i >= 0; i--)
         {
+            string name;
             try
             {
                 name = AudioPlayback.GetSongName(Songs[i]);

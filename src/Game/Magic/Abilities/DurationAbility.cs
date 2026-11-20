@@ -73,10 +73,9 @@ public partial class DurationAbility(CustomNode owner) : AdjustableAbility(owner
     // AoWAb.PAS:46
     public override void NewTurn(AbilityOwner owner, sbyte player)
     {
-        DurationAbilityData data;
         if (DurationMode == DurationMode.Day)
         {
-            data = GetData(owner);
+            DurationAbilityData data = GetData(owner);
             if (data is not null)
             {
                 if (data.Duration != 0 && data.PlayerIndex == player)
@@ -98,9 +97,8 @@ public partial class DurationAbility(CustomNode owner) : AdjustableAbility(owner
     // AoWAb.PAS:131
     public override bool Expand(AbilityOwner owner)
     {
-        DurationAbilityData data;
         bool result = false;
-        data = GetData(owner);
+        DurationAbilityData data = GetData(owner);
         if (data is null)
         {
             data = new DurationAbilityData(null)
@@ -128,10 +126,9 @@ public partial class DurationAbility(CustomNode owner) : AdjustableAbility(owner
     // AoWAb.PAS:67
     public override void NewCombatTurn(CombatObject combatObject, sbyte player)
     {
-        DurationAbilityData data;
         if (DurationMode == DurationMode.CombatTurn)
         {
-            data = GetData(combatObject.GetAbilityOwner());
+            DurationAbilityData data = GetData(combatObject.GetAbilityOwner());
             if (data is not null)
             {
                 if (data.Duration != 0 && data.PlayerIndex == player)
@@ -169,10 +166,8 @@ public partial class DurationAbility(CustomNode owner) : AdjustableAbility(owner
     // AoWAb.PAS:120
     public virtual byte GetDuration(AbilityOwner abilityOwner)
     {
-        byte result;
-        DurationAbilityData data;
-        data = GetData(abilityOwner);
-        result = data is not null ? data.Duration : (byte)0;
+        DurationAbilityData data = GetData(abilityOwner);
+        byte result = data is not null ? data.Duration : (byte)0;
 
         return result;
     }

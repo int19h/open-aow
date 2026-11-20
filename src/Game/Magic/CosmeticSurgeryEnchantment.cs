@@ -27,8 +27,7 @@ public partial class CosmeticSurgeryEnchantment(CustomNode owner) : UnitEnchantm
     // AoWAb.PAS:901
     public override string GetName()
     {
-        Troop source;
-        source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         // { Original supplies an argument to the unformatted 'Cosmagic Surgery' text. }
         string name = source.GetName();
         return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CosmeticSurgeryText), [name]);

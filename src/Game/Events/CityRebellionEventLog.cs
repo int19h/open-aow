@@ -37,12 +37,10 @@ public partial class CityRebellionEventLog(CustomNode owner) : EventLog(owner)
     // City.pas:2699
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool result = default;
-        bool showEvent;
-        showEvent = trigger == ExecuteTrigger.User;
+        bool showEvent = trigger == ExecuteTrigger.User;
         showEvent = showEvent || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Rebellion));
         showEvent = showEvent || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Rebellion));
-        result = showEvent && base.Execute(mode, trigger, done);
+        bool result = showEvent && base.Execute(mode, trigger, done);
 
         return result;
     }

@@ -39,10 +39,9 @@ public partial class UnitEnchantment : Enchantment
     public override string GetName()
     {
         string result;
-        Troop source;
         if (StrategicMap.Current is not null)
         {
-            source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+            Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
             result = source is not null
                 ? GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(source)
                 : GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(null);
@@ -58,10 +57,8 @@ public partial class UnitEnchantment : Enchantment
     // AoWAb.PAS:831
     public override string GetBinding()
     {
-        string result;
-        Troop source;
-        source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        result = source is not null ? source.GetName() : "";
+        Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        string result = source is not null ? source.GetName() : "";
 
         return result;
     }
@@ -69,10 +66,8 @@ public partial class UnitEnchantment : Enchantment
     // AoWAb.PAS:820
     public override int GetAIUpkeepPriority()
     {
-        int result;
-        Troop source;
-        source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        result = source is not null
+        Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        int result = source is not null
             ? GamePack.Current.AbilityControl.GetAbility<UnitEnchantmentAbility>(EnchantmentAbilityId).GetAIUpkeepPriority(source)
             : 0;
 
@@ -89,10 +84,8 @@ public partial class UnitEnchantment : Enchantment
     // AoWAb.PAS:874
     public override bool Dispel()
     {
-        bool result;
-        Troop source;
-        source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        result = source is not null && source.RemoveAbility(EnchantmentAbilityId);
+        Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        bool result = source is not null && source.RemoveAbility(EnchantmentAbilityId);
 
         return result;
     }
@@ -100,7 +93,6 @@ public partial class UnitEnchantment : Enchantment
     // AoWAb.PAS:842
     public override void Select()
     {
-        ArmyHexSprite armyHexSprite;
         MapCoordinate coordinate28 = GetLocation();
         sbyte hexX = coordinate28.X;
         sbyte hexY = coordinate28.Y;
@@ -109,7 +101,7 @@ public partial class UnitEnchantment : Enchantment
         {
             if (StrategicMap.Current.Visible(hexX, hexY, hexLevel, 0))
             {
-                armyHexSprite = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel).GetArmyHexSprite();
+                ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel).GetArmyHexSprite();
                 if (armyHexSprite is not null)
                 {
                     StrategicMap.Current.Select(armyHexSprite, true);

@@ -41,11 +41,9 @@ public partial class CombatWall : CombatObject
     // Combat.pas:1673
     public override int GetTargetPriority()
     {
-        int count;
-        CombatObject objectValue;
         if (TargetPriorityInvalid)
         {
-            count = 0;
+            int count = 0;
             for (int i = TargetedBy.Count - 1; i >= 0; i--)
             {
                 if (TargetedBy.List[i].Second == 0)
@@ -57,7 +55,7 @@ public partial class CombatWall : CombatObject
             TargetPriority = 0;
             for (int i = Combat.Sides[(int)CombatSideIndex.Defender].Count - 1; i >= 0; i--)
             {
-                objectValue = Combat.Sides[(int)CombatSideIndex.Defender].GetObjects(i);
+                CombatObject objectValue = Combat.Sides[(int)CombatSideIndex.Defender].GetObjects(i);
                 TargetPriority += objectValue.IncomingCombatValue - objectValue.IncomingWallCombatValue;
             }
 

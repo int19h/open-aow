@@ -52,19 +52,15 @@ public partial class EarthMastery : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1890
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int maxX;
-        int maxY;
-        MapLevel mapLevel;
-        MapField mapField;
-        mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(StrategicMap.Current.ViewMapLevel);
-        maxX = StrategicMap.Current.ViewHexX + StrategicMap.Current.ViewWidthHex - 1;
-        maxY = StrategicMap.Current.ViewHexY + StrategicMap.Current.ViewHeightHex - 1;
+        MapLevel mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(StrategicMap.Current.ViewMapLevel);
+        int maxX = StrategicMap.Current.ViewHexX + StrategicMap.Current.ViewWidthHex - 1;
+        int maxY = StrategicMap.Current.ViewHexY + StrategicMap.Current.ViewHeightHex - 1;
         for (int x = StrategicMap.Current.ViewHexX; x <= maxX; x++)
         {
             HexGeometry.HexToPixel(x, StrategicMap.Current.ViewHexY, out int pixelX, out int pixelY);
             pixelX = pixelX - pixelXSurface + 16;
             pixelY = pixelY - pixelYSurface + 16;
-            mapField = mapLevel.GetField(x, StrategicMap.Current.ViewHexY);
+            MapField mapField = mapLevel.GetField(x, StrategicMap.Current.ViewHexY);
             for (int y = StrategicMap.Current.ViewHexY; y <= maxY; y++)
             {
                 // The original frame offset uses the field address.

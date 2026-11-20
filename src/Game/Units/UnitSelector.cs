@@ -94,9 +94,8 @@ public partial class UnitSelector : IDisposable
     // Ability.PAS:595
     public int Release()
     {
-        int count;
         _references -= 1;
-        count = _references;
+        int count = _references;
         int result = count;
         if (count == 0)
         {
@@ -109,9 +108,8 @@ public partial class UnitSelector : IDisposable
     // Ability.PAS:610
     public int GetSelectionCount()
     {
-        uint bits;
         int result = 0;
-        bits = Selection;
+        uint bits = Selection;
         while ((int)bits != 0)
         {
             if ((((int)bits) & 1) != 0)

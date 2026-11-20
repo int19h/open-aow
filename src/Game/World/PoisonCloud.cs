@@ -78,8 +78,7 @@ public partial class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     // PoisonC.pas:111
     public override void RemoveFromMap()
     {
-        MapLevel level;
-        level = Owner.Owner;
+        MapLevel level = Owner.Owner;
         base.RemoveFromMap();
         UpdateMapFields(level, StoredHexX, StoredHexY);
     }
@@ -167,11 +166,10 @@ public partial class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     public override bool CanSelect(int pixelX, int pixelY)
     {
         bool result;
-        int hexNumber;
         if (base.Resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             HexGeometry.PixelToHex(pixelX, pixelY, out int hexX, out int hexY);
-            hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, hexX, hexY);
+            int hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, hexX, hexY);
             result = hexNumber < base.Resource.TerrainList.Count && base.Resource.TerrainList.Terrain[hexNumber] >= -1;
         }
         else
@@ -185,8 +183,7 @@ public partial class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     // PoisonC.pas:95
     public new void UpdateMapFields(MapLevel level, int hexX, int hexY)
     {
-        int count;
-        count = base.Resource.TerrainList.Count;
+        int count = base.Resource.TerrainList.Count;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
         while (walk.HexNumber != count)
         {
@@ -202,14 +199,12 @@ public partial class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     // PoisonC.pas:129
     public bool CanDoDamage(UnitUserList units)
     {
-        int i;
-        Troop troop;
         bool result = false;
-        i = units.GetCount();
+        int i = units.GetCount();
         while (!result && i != 0)
         {
             i -= 1;
-            troop = units.GetUnit(i);
+            Troop troop = units.GetUnit(i);
             result = !troop.GetImmunityTypes().Contains(DamageType.Poison) && !troop.GetAbilityEnabled(1);
         }
 
@@ -229,8 +224,7 @@ public partial class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     public void TriggerDamage()
     {
         MapFieldMessage message = default;
-        MapLevel level;
-        level = Owner.Owner;
+        MapLevel level = Owner.Owner;
         sbyte hexY = GetHexY();
         sbyte hexX = GetHexX();
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData hexNumberWalkData, hexX, hexY, 0);
@@ -261,8 +255,7 @@ public partial class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     {
         int hexX = default;
         int hexY = default;
-        MapLevel level;
-        level = Owner.Owner;
+        MapLevel level = Owner.Owner;
         sbyte yhx = GetHexY();
         HexGeometry.CenterHexNumberToHex(GetHexX(), yhx, direction, ref hexX, ref hexY);
         HexGeometry.CenterHexNumberToHex(hexX, hexY, direction, ref hexX, ref hexY);
@@ -272,15 +265,6 @@ public partial class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     // PoisonC.pas:216
     public void UpdateCloud()
     {
-        int hexX = default;
-        int hexY = default;
-        ByteList directions;
-        bool valid;
-        int direction;
-        int tries;
-        int hexLevel;
-        int oldHexX;
-        int oldHexY;
         if (TurnsRemaining != 1)
         {
             _updated = true;
@@ -291,9 +275,9 @@ public partial class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
 
             if (_drifting)
             {
-                direction = 0;
-                directions = new ByteList();
-                valid = false;
+                int direction = 0;
+                ByteList directions = new();
+                bool valid = false;
                 _ = directions.Add(_direction);
                 _ = _direction != 1 ? directions.Add((byte)(_direction - 1)) : directions.Add(6);
 
@@ -312,7 +296,7 @@ public partial class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
                 directions?.Dispose();
                 if (!valid)
                 {
-                    tries = 20;
+                    int tries = 20;
                     while (!valid && tries != 0)
                     {
                         direction = StrategicMap.Current.Random(6) + 1;
@@ -323,11 +307,13 @@ public partial class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
 
                 if (valid)
                 {
-                    oldHexX = GetHexX();
-                    oldHexY = GetHexY();
+                    int oldHexX = GetHexX();
+                    int oldHexY = GetHexY();
                     _direction = (byte)direction;
-                    hexLevel = GetHexLevel();
+                    int hexLevel = GetHexLevel();
                     sbyte yhx = GetHexY();
+                    int hexX = default;
+                    int hexY = default;
                     HexGeometry.CenterHexNumberToHex(GetHexX(), yhx, direction, ref hexX, ref hexY);
                     HexGeometry.CenterHexNumberToHex(hexX, hexY, direction, ref hexX, ref hexY);
                     Disconnect();

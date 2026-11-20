@@ -12,11 +12,6 @@ public partial class ArmyHexSprite
 {
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        ImageSequence sequence;
-        int frame;
-        int deltaX = default;
-        int deltaY = default;
-        double part;
         if (Owner.FogCount != 0 || !StrategicMap.Current.FogEnabled)
         {
             if (Direction >= UnitGraphicsResource.Sequences.Count)
@@ -28,12 +23,15 @@ public partial class ArmyHexSprite
             HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
             pixelXSurface = pixelX - pixelXSurface;
             pixelYSurface = pixelY - pixelYSurface;
+            ImageSequence sequence;
             if (MoveStep != -1)
             {
+                int deltaX = default;
+                int deltaY = default;
                 HexGeometry.HexNumberToPixel(Direction, ref deltaX, ref deltaY);
                 if ((Status & 16) == 0)
                 {
-                    part = (double)MoveStep / MoveSteps;
+                    double part = (double)MoveStep / MoveSteps;
                     pixelXSurface += Round((double)part * deltaX);
                     pixelYSurface += Round((double)part * deltaY);
                 }
@@ -47,6 +45,7 @@ public partial class ArmyHexSprite
                 sequence = Direction == 0 ? UnitGraphicsResource.Sequences.List[3] : UnitGraphicsResource.Sequences.List[Direction - 1];
             }
 
+            int frame;
             if (!Army.Status.Contains(ArmyStatusElement.Concealed))
             {
                 if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || StrategicMap.Current.SeatedPlayer != Army.Player || Army.Units.Count != Army.ConcealedUnitsCount())
@@ -175,11 +174,6 @@ public partial class ArmyHexSprite
 
     public override void ShowShadow(int X, int Y, in LockedSurface lockedSurface)
     {
-        ImageSequence sequence;
-        float part;
-        int deltaX = default;
-        int deltaY = default;
-        int frame;
         if ((Owner.FogCount != 0 || !StrategicMap.Current.FogEnabled) && !Army.Status.Contains(ArmyStatusElement.FullyConcealed))
         {
             HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
@@ -187,23 +181,25 @@ public partial class ArmyHexSprite
             Y = pixelY - Y;
             if (MoveStep != -1)
             {
+                int deltaX = default;
+                int deltaY = default;
                 HexGeometry.HexNumberToPixel(Direction, ref deltaX, ref deltaY);
                 if ((Status & 16) == 0)
                 {
                     int moveSteps = GetMoveSteps();
-                    part = (float)((double)MoveStep / moveSteps);
+                    float part = (float)((double)MoveStep / moveSteps);
                     X += Round((double)part * deltaX);
                     Y += Round((double)part * deltaY);
                 }
             }
 
-            sequence = Direction == 0
+            ImageSequence sequence = Direction == 0
                 ? UnitGraphicsResource.Sequences.GetImageSequence(27)
                 : UnitGraphicsResource.Sequences.GetImageSequence(Direction + 23);
 
             while (sequence is not null)
             {
-                frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                int frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                 sequence.ImageLibrary[frame].Show(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
                 sequence = sequence.Next;
             }
@@ -212,15 +208,13 @@ public partial class ArmyHexSprite
 
     public void PlayMoveSfx()
     {
-        ImageSequence sequence;
-        int frame;
         if (MoveStep != -1 && (Status & 8) == 0)
         {
-            sequence = Direction == 0 ? UnitGraphicsResource.Sequences.List[9] : UnitGraphicsResource.Sequences.List[Direction + 5];
+            ImageSequence sequence = Direction == 0 ? UnitGraphicsResource.Sequences.List[9] : UnitGraphicsResource.Sequences.List[Direction + 5];
 
             if (sequence is not null)
             {
-                frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                int frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                 if (sequence.SpeedCount == sequence.SequenceSpeed)
                 {
                     _ = UnitGraphicsResource.SfxLibraries[1].Play(frame % 100);

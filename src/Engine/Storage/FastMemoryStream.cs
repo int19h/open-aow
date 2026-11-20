@@ -145,10 +145,9 @@ public partial class FastMemoryStream : Stream
     public override void Write(ReadOnlySpan<byte> buffer)
     {
         int count = buffer.Length;
-        int position;
         if (_position >= 0 && count >= 0)
         {
-            position = _position + count;
+            int position = _position + count;
             if (position > 0)
             {
                 if (position > _size)
@@ -234,9 +233,8 @@ public partial class FastMemoryStream : Stream
     // FMemStr.pas:103
     public void LoadFromStream(Stream stream)
     {
-        int count;
         stream.Position = 0;
-        count = (int)stream.Length;
+        int count = (int)stream.Length;
         SetLength(count);
         if (count != 0)
         {
@@ -247,8 +245,7 @@ public partial class FastMemoryStream : Stream
     // FMemStr.pas:113
     public void LoadFromFile(string fileName)
     {
-        Stream stream;
-        stream = OpenFile(fileName, 0);
+        Stream stream = OpenFile(fileName, 0);
         try
         {
             LoadFromStream(stream);
@@ -271,8 +268,7 @@ public partial class FastMemoryStream : Stream
     // FMemStr.pas:78
     public void SaveToFile(string fileName)
     {
-        Stream stream;
-        stream = OpenFile(fileName, 65535);
+        Stream stream = OpenFile(fileName, 65535);
         try
         {
             SaveToStream(stream);

@@ -30,8 +30,7 @@ public partial class Tornado : GlobalTargetSpell
     // GlobalTargetSpells.pas:1885
     public override void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
-        TargetSelectionControl target;
-        target = targetSelection;
+        TargetSelectionControl target = targetSelection;
         base.SetupTargetSelection(source, target);
         target.HexNumbers.Clear();
     }
@@ -40,14 +39,12 @@ public partial class Tornado : GlobalTargetSpell
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
         bool result;
-        TornadoTokenEvent eventValue;
-        ArmyHexSprite army;
         if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            eventValue = new TornadoTokenEvent(null) { Holder = CreationHolder() };
+            TornadoTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-            army = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
+            ArmyHexSprite army = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
             if (army is not null)
             {
                 eventValue.ArmyId = army.Army.CreateId(255);
@@ -69,9 +66,8 @@ public partial class Tornado : GlobalTargetSpell
     // GlobalTargetSpells.pas:1806
     public bool ValidWarpLocation(ArmyHexSprite army, sbyte X, sbyte Y, sbyte layer)
     {
-        MapField mapField;
         MapFieldMessage message = default;
-        mapField = StrategicMap.Current.MapContainer.GetField(X, Y, layer);
+        MapField mapField = StrategicMap.Current.MapContainer.GetField(X, Y, layer);
         bool result = mapField.GetArmyHexSprite() is null && mapField.GetPlayer() == -1;
         if (result)
         {
@@ -90,21 +86,16 @@ public partial class Tornado : GlobalTargetSpell
     // GlobalTargetSpells.pas:1823
     public MapCoordinate CalculateWarpLocation(ArmyHexSprite army, byte selection)
     {
-        MapLevel mapLevel;
-        MapField mapField;
-        DelphiList<MapField> locations;
-        bool found;
-        int index;
-        int x;
-        locations = new DelphiList<MapField>();
+        DelphiList<MapField> locations = new();
         army.Army.CreateMovePointTable(selection, out MovePointTable table);
         sbyte hexY = army.HexY;
         sbyte hexX = army.HexX;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 10);
-        mapLevel = StrategicMap.Current.MapContainer.MapLevels[army.HexLevel];
+        MapLevel mapLevel = StrategicMap.Current.MapContainer.MapLevels[army.HexLevel];
+        MapField mapField;
         while (walk.Radius < 15)
         {
-            x = walk.X;
+            int x = walk.X;
             if (x >= 0 && walk.Y >= 0 && x < mapLevel.Width && walk.Y < mapLevel.Height)
             {
                 mapField = mapLevel.GetField(x, walk.Y);
@@ -117,11 +108,11 @@ public partial class Tornado : GlobalTargetSpell
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
 
-        found = false;
+        bool found = false;
         MapCoordinate result = MapCoordinate.None;
         while (locations.Count != 0 && !found)
         {
-            index = Random(locations.Count);
+            int index = Random(locations.Count);
             mapField = locations[index];
             if (ValidWarpLocation(army, mapField.HexX, mapField.HexY, mapField.HexLevel))
             {

@@ -95,10 +95,9 @@ public partial class Mine : PlayerStructure
     // Mine.pas:99
     public override void UpdateAITarget(in AITargetInfo info, ref AITargetData data)
     {
-        int candidatePriority;
         if (!GetRazed() || GetBuilding())
         {
-            candidatePriority = data.Priority;
+            int candidatePriority = data.Priority;
             switch (info.Mode)
             {
                 case AITargetMode.Attack:

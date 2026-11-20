@@ -53,9 +53,8 @@ public partial class HeroUpgradeTokenEvent : TokenEvent
     // Hero.PAS:30
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        Hero hero;
         ExecuteResult result = base.Execute(tokenEvent);
-        hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
+        Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
         if (hero is not null && hero.GetHitPoints() != 0 && hero.Player == Player)
         {
             hero.SetUnitAttack((sbyte)(hero.UnitAttack + Attack));

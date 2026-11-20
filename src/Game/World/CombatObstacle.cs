@@ -45,8 +45,7 @@ public partial class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
     // CombatObstacle.pas:116
     public override void RemoveFromMap()
     {
-        MapLevel mapLevel;
-        mapLevel = Owner.Owner;
+        MapLevel mapLevel = Owner.Owner;
         base.RemoveFromMap();
         UpdateMapFields(mapLevel, StoredHexX, StoredHexY);
     }

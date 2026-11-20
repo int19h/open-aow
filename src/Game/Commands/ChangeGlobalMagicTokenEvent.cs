@@ -29,16 +29,15 @@ public partial class ChangeGlobalMagicTokenEvent(CustomNode owner) : TokenEvent(
     // Spells.PAS:2722
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult result;
-        bool success;
         _ = base.Execute(tokenEvent);
-        success = Mode switch
+        bool success = Mode switch
         {
             ChangeGlobalMagicTokenEventMode.DispelEnchantment => StrategicMap.Current.GlobalMagicControl.ExecuteDispelEnchantment((sbyte)PlayerIndex, EnchantmentId),
             ChangeGlobalMagicTokenEventMode.RemoveEnchantment => StrategicMap.Current.GlobalMagicControl.ExecuteRemoveEnchantment((sbyte)PlayerIndex, EnchantmentId),
             _ => false,
         };
 
+        ExecuteResult result;
         if (success)
         {
             result = ExecuteResult.Done;

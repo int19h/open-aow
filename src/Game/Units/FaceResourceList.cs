@@ -24,12 +24,11 @@ public partial class FaceResourceList : ResourceCollection, IChildList<FaceResou
     // Ability.PAS:526
     public int IndexOfFaceImage(LibraryImage image)
     {
-        FaceResource face;
         int result = GetCount();
         while (result != 0)
         {
             result -= 1;
-            face = this[result];
+            FaceResource face = this[result];
             if (face is not null && face.GetFaceImage() == image)
             {
                 return result;
@@ -49,9 +48,8 @@ public partial class FaceResourceList : ResourceCollection, IChildList<FaceResou
     // Ability.PAS:547
     public int PreviousFace(int index)
     {
-        bool developer;
         int result = index;
-        developer = GetEngine().Registry.GetDeveloper();
+        bool developer = GetEngine().Registry.GetDeveloper();
         // { Original assumes the list contains a selectable face. }
         do
         {
@@ -68,9 +66,8 @@ public partial class FaceResourceList : ResourceCollection, IChildList<FaceResou
     // Ability.PAS:561
     public int NextFace(int index)
     {
-        bool developer;
         int result = index;
-        developer = GetEngine().Registry.GetDeveloper();
+        bool developer = GetEngine().Registry.GetDeveloper();
         // { Original assumes the list contains a selectable face. }
         do
         {

@@ -35,12 +35,11 @@ public partial class EnchantWeapon : UnitSpell
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
         bool result;
-        UnitEnchantment enchantment;
         if (ValidTargetUnit(source, target))
         {
             if (target.ExpandAbility(154))
             {
-                enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(154).Enchantment;
+                UnitEnchantment enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(154).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
                 enchantment.DispelResistance = (sbyte)UnitDispelResistance;

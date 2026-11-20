@@ -64,13 +64,12 @@ public partial class AIGroupCooperationControl : AIGroupTask
     // AIGroup.pas:3017
     public override bool Process()
     {
-        int i;
         switch (State)
         {
             case 0:
                 StrategicMap.Current.AIExecutor.UseProcessTime(500);
                 _ = _control.RecruitmentGroups.Validate(_control);
-                i = 0;
+                int i = 0;
                 while (!Complete && i != _control.RecruitmentGroups.Count)
                 {
                     if (ValidCooperationGroup(_control.RecruitmentGroups.GetRecruitmentGroups(i)))
@@ -106,16 +105,14 @@ public partial class AIGroupCooperationControl : AIGroupTask
     // AIGroup.pas:2851
     public int GetCooperateMoveDays()
     {
-        int moves;
-        int days;
         int result = -1;
         // { Original bug: the first cooperation group is skipped. }
         for (int i = 1, last = Groups.Count - 1; i <= last; i++)
         {
-            moves = Groups.GetRecruitmentGroups(i).Group.GetMovesMin();
+            int moves = Groups.GetRecruitmentGroups(i).Group.GetMovesMin();
             if (moves > 0)
             {
-                days = (Groups.GetRecruitmentGroups(i).MovePoints - 1) / moves;
+                int days = (Groups.GetRecruitmentGroups(i).MovePoints - 1) / moves;
                 if (result < days)
                 {
                     result = days;
@@ -138,13 +135,12 @@ public partial class AIGroupCooperationControl : AIGroupTask
     // AIGroup.pas:2883
     public void UpdateCompletion()
     {
-        DamageType d;
         Complete = _remainingStrength <= 0;
         if (Complete)
         {
             for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
             {
-                d = (DamageType)dOrdinal;
+                DamageType d = (DamageType)dOrdinal;
                 if (_remainingStrengths[(int)d] > 0)
                 {
                     Complete = false;
@@ -181,17 +177,15 @@ public partial class AIGroupCooperationControl : AIGroupTask
     // AIGroup.pas:2940
     public void AddCooperationGroup(AIRecruitmentGroup group)
     {
-        Troop troop;
-        DamageType d;
         _ = Groups.AddChild(group);
         for (int i = group.Group.Units.Count - 1; i >= 0; i--)
         {
-            troop = group.Group.Units.GetUnit(i);
+            Troop troop = group.Group.Units.GetUnit(i);
             int strengthMax = troop.GetStrengthMax(_damageTypes);
             _remainingStrength -= strengthMax;
             for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
             {
-                d = (DamageType)dOrdinal;
+                DamageType d = (DamageType)dOrdinal;
                 int strength = troop.GetStrength(d);
                 _remainingStrengths[(int)d] -= strength;
             }
@@ -209,33 +203,23 @@ public partial class AIGroupCooperationControl : AIGroupTask
     public bool ValidCooperationGroup(AIRecruitmentGroup group)
     {
         bool result;
-        int strength1;
-        int strength2;
-        int strength;
         MapCoordinate[] locationCell = new MapCoordinate[1];
         ref MapCoordinate location = ref locationCell[0];
-        int advantage1;
-        int advantage2;
-        int moves;
-        int otherMoves;
-        int threshold;
-        AIGroup group1;
-        AIGroup group2;
         if (group.Group.TransporterId == -1 && ((group.Group.TargetLocation == _target.Location && group.Group.TargetType == AIGroupTargetStatus.Setup) || Set<AIGroupTargetStatus>.Of(AIGroupTargetStatus.None, AIGroupTargetStatus.Idle).Contains(group.Group.TargetType)) && group.Group.CooperateWithGroup(_control.Group, _target))
         {
             if (group.PathStrength != 0)
             {
                 location = group.Group.GetLocation();
-                strength1 = group.Group.Units.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
-                group1 = group.Group;
-                advantage1 = -GetBattleFieldStrengthAdvantage(location, group1.Player, group1.IndependentRelation, group1.Units, 1, 10, AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                int strength1 = group.Group.Units.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                AIGroup group1 = group.Group;
+                int advantage1 = -GetBattleFieldStrengthAdvantage(location, group1.Player, group1.IndependentRelation, group1.Units, 1, 10, AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
 
                 location = _control.Group.GetLocation();
-                strength2 = _control.Group.Units.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
-                group2 = _control.Group;
-                advantage2 = -GetBattleFieldStrengthAdvantage(location, group2.Player, group2.IndependentRelation, group2.Units, 1, 10, AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                int strength2 = _control.Group.Units.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                AIGroup group2 = _control.Group;
+                int advantage2 = -GetBattleFieldStrengthAdvantage(location, group2.Player, group2.IndependentRelation, group2.Units, 1, 10, AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
 
-                strength = strength1 < strength2 ? strength1 : strength2;
+                int strength = strength1 < strength2 ? strength1 : strength2;
 
                 // { Original bug: compares the first advantage with itself. }
                 if (advantage1 > advantage1 + 0)
@@ -246,11 +230,11 @@ public partial class AIGroupCooperationControl : AIGroupTask
                     advantage1 = advantage2;
                 }
 
-                threshold = Round((double)group.PathStrength * _pathStrengthFactor);
+                int threshold = Round((double)group.PathStrength * _pathStrengthFactor);
                 if (strength < threshold && strength >= advantage1)
                 {
-                    moves = group.Group.GetMovePointsMin();
-                    otherMoves = _control.Group.GetMovePointsMin();
+                    int moves = group.Group.GetMovePointsMin();
+                    int otherMoves = _control.Group.GetMovePointsMin();
                     if (otherMoves < moves)
                     {
                         moves = otherMoves;
@@ -279,12 +263,10 @@ public partial class AIGroupCooperationControl : AIGroupTask
     // AIGroup.pas:2998
     public void ExecuteCooperation()
     {
-        AIGroup group;
-        Troop leader;
         for (int i = Groups.Count - 1; i >= 0; i--)
         {
-            group = Groups.GetRecruitmentGroups(i).Group;
-            leader = group.TargetType == AIGroupTargetStatus.Setup && _target.MovePoints > group.TargetMovePoints
+            AIGroup group = Groups.GetRecruitmentGroups(i).Group;
+            Troop leader = group.TargetType == AIGroupTargetStatus.Setup && _target.MovePoints > group.TargetMovePoints
                 ? group.Leader
                 : _control.Group.Leader;
 

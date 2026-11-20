@@ -49,12 +49,11 @@ public partial class ItemList(CustomNode owner) : ObservableNode(owner), IChildL
     // Army.PAS:4546
     public override void Clear()
     {
-        EngineObject child;
         for (int i = Count - 1; i >= 0; i--)
         {
             if (GetChild(i) is not null)
             {
-                child = this[i];
+                EngineObject child = this[i];
                 if (child is not null)
                 {
                     if (child.Owner != this)

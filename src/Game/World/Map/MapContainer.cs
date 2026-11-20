@@ -42,9 +42,6 @@ public partial class MapContainer(CustomNode owner) : OwningNode(owner), IChildL
     // HSEngine.pas:3173
     public override void PersistFields(IPersister persister)
     {
-        byte w;
-        byte h;
-        byte l;
         base.PersistFields(persister);
         if (persister.Loading)
         {
@@ -53,13 +50,13 @@ public partial class MapContainer(CustomNode owner) : OwningNode(owner), IChildL
             Map.MapContainer = this;
         }
 
-        w = (byte)Width;
+        byte w = (byte)Width;
         w = persister.Byte("Width", value: w);
         Width = w;
-        h = (byte)Height;
+        byte h = (byte)Height;
         h = persister.Byte("Height", value: h);
         Height = h;
-        l = (byte)LevelCount;
+        byte l = (byte)LevelCount;
         l = persister.Byte("LevelCount", value: l);
         LevelCount = l;
     }
@@ -119,13 +116,11 @@ public partial class MapContainer(CustomNode owner) : OwningNode(owner), IChildL
     // HSEngine.pas:3259
     public virtual bool AddLevel(int classId)
     {
+        EngineClass levelClass = _engine.GetEngineClass(classId);
         bool result;
-        EngineClass levelClass;
-        MapLevel level;
-        levelClass = _engine.GetEngineClass(classId);
         if (levelClass is not null)
         {
-            level = levelClass.Create<MapLevel>(this, holder: CreationHolder());
+            MapLevel level = levelClass.Create<MapLevel>(this, holder: CreationHolder());
             level.HexLevel = LevelCount;
             _engine.ActivateEngineObject(level);
             level.CreateMapFieldList(Width, Height);
@@ -143,15 +138,13 @@ public partial class MapContainer(CustomNode owner) : OwningNode(owner), IChildL
     // HSEngine.pas:3277
     public virtual void New(NewHexSpriteMapSettings settings)
     {
-        EngineClass levelClass;
-        MapLevel level;
         Clear();
         try
         {
-            levelClass = _engine.GetEngineClass(settings.MapLevelClassId);
+            EngineClass levelClass = _engine.GetEngineClass(settings.MapLevelClassId);
             for (int i = 0, last = settings.Levels - 1; i <= last; i++)
             {
-                level = levelClass.Create<MapLevel>(this, holder: CreationHolder());
+                MapLevel level = levelClass.Create<MapLevel>(this, holder: CreationHolder());
                 level.HexLevel = i;
                 _engine.ActivateEngineObject(level);
                 level.New(settings);

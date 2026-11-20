@@ -53,9 +53,9 @@ public partial class GlobalTargetSpell : Spell
     // GlobalTargetSpells.pas:618
     public override bool Activate(Troop source)
     {
-        bool result;
         string messageText = "";
         _ = base.Activate(source);
+        bool result;
         if (CanActivate(source, ref messageText))
         {
             _casterId = source.UnitId;
@@ -75,22 +75,18 @@ public partial class GlobalTargetSpell : Spell
     // GlobalTargetSpells.pas:445
     public virtual void ShowTargetSelection(TargetSelectionControl target, int hexNumber, int xs, int ys, in LockedSurface lockedSurface)
     {
-        MapLevel level;
-        MapField mapField;
         int x = default;
         int y = default;
-        int intensity;
-        int radius;
-        level = StrategicMap.Current.MapContainer.MapLevels[target.Target.MapLevel];
+        MapLevel level = StrategicMap.Current.MapContainer.MapLevels[target.Target.MapLevel];
         HexGeometry.CenterHexNumberToHex(target.Target.X, target.Target.Y, hexNumber, ref x, ref y);
         // { Original accepts Width/Height themselves (strict > bounds test). }
         if (x >= 0 && y >= 0 && x <= level.Width && y <= level.Height)
         {
-            mapField = level.Field[x, y];
+            MapField mapField = level.Field[x, y];
             if (ValidTargetSelectionMapField(mapField))
             {
-                radius = HexGeometry.HexNumberToRadius(hexNumber);
-                intensity = (Math.Abs(((StrategicMap.Current.Frame + radius) % 9) - 4) * 20) + 20;
+                int radius = HexGeometry.HexNumberToRadius(hexNumber);
+                int intensity = (Math.Abs(((StrategicMap.Current.Frame + radius) % 9) - 4) * 20) + 20;
                 target.ImageLibrary[0].ShowBlended(xs - 8, ys, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
             }
             else
@@ -103,15 +99,12 @@ public partial class GlobalTargetSpell : Spell
     // GlobalTargetSpells.pas:521
     public virtual void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
-        sbyte unitX = default;
-        sbyte unitY = default;
-        sbyte unitLayer = default;
         targetSelection.Initialize(source);
         targetSelection.TargetMode += Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.OwnerDraw, TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
         MapCoordinate coordinate69 = source.GetLocation();
-        unitX = coordinate69.X;
-        unitY = coordinate69.Y;
-        unitLayer = coordinate69.MapLevel;
+        sbyte unitX = coordinate69.X;
+        sbyte unitY = coordinate69.Y;
+        sbyte unitLayer = coordinate69.MapLevel;
         targetSelection.SourceLocation = new MapCoordinate(unitX, unitY, unitLayer);
         targetSelection.Range = 12;
         targetSelection.Changed += OnTargetSelectionChange;
@@ -185,9 +178,9 @@ public partial class GlobalTargetSpell : Spell
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps unused on purpose.")]
     internal static bool GlobalTargetActivate(GlobalTargetSpell spell, Troop caster, int unused)
     {
-        bool result;
         string messageText = "";
         _ = spell.ActivateStatic(caster);
+        bool result;
         if (spell.CanActivate(caster, ref messageText))
         {
             spell._casterId = caster.UnitId;

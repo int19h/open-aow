@@ -33,15 +33,10 @@ public partial class CityProductionControl(CustomNode owner) : ProductionControl
     // City.pas:675
     public override bool UnitProduced()
     {
-        City city;
-        bool valid;
-        int count;
-        MapLevel level;
-        CityProductionEventLog log;
-        city = City;
-        valid = false;
-        count = city.GetTerrainCount();
-        level = city.Owner.Owner;
+        City city = City;
+        bool valid = false;
+        int count = city.GetTerrainCount();
+        MapLevel level = city.Owner.Owner;
         sbyte hexY = city.GetHexY();
         sbyte hexX = city.GetHexX();
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
@@ -64,7 +59,7 @@ public partial class CityProductionControl(CustomNode owner) : ProductionControl
             valid = Settings.Unit.Place(cityHexX, cityHexY, hexLevel, city.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea)) is not null;
         }
 
-        log = new CityProductionEventLog(null)
+        CityProductionEventLog log = new(null)
         {
             Holder = CreationHolder(),
             Player = city.Player
@@ -81,11 +76,9 @@ public partial class CityProductionControl(CustomNode owner) : ProductionControl
     // City.pas:658
     public override void UnitResearched()
     {
-        City city;
-        CityProductionEventLog log;
         base.UnitResearched();
-        city = City;
-        log = new CityProductionEventLog(null)
+        City city = City;
+        CityProductionEventLog log = new(null)
         {
             Holder = CreationHolder(),
             Player = city.Player
@@ -124,8 +117,7 @@ public partial class CityProductionControl(CustomNode owner) : ProductionControl
     // City.pas:710
     public override int UnitProductionTime(int index)
     {
-        int unitIndex;
-        unitIndex = UnitProductions.GetItem(index).UnitIndex;
+        int unitIndex = UnitProductions.GetItem(index).UnitIndex;
         UnitResource unitResource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
         int size = City.GetSize();
         int result = unitResource.Level - (size / 2) + 1;

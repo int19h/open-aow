@@ -28,15 +28,13 @@ public partial class EngineObjectEditorList
     // Engine.pas:8364
     public EditorClass FindEditor(int classId)
     {
-        EditorClass result;
-        int i;
-        i = 0;
+        int i = 0;
         while (i != Count && classId != _list[i].EditorClassId)
         {
             i += 1;
         }
 
-        result = i != Count ? _list[i] : null;
+        EditorClass result = i != Count ? _list[i] : null;
 
         return result;
     }

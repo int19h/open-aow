@@ -19,9 +19,8 @@ public partial class RemotePlayerList(CustomNode owner) : OwningNode(owner), ICh
     // AoWSetup.pas:284
     public int IndexOfRemoteId(int remoteId)
     {
-        int i;
         int result = -1;
-        i = 0;
+        int i = 0;
         while (result == -1 && i != Count)
         {
             if (this[i].RemoteId == remoteId)

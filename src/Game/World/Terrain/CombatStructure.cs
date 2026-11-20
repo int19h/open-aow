@@ -40,11 +40,11 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
     // CombatStructure.pas:104
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        AbilityCombatInfo abilityInfo = default;
-        SpellCombatInfo spellInfo = default;
         base.MapFieldMessageProc(ref message);
         if (message.HexNumber == 0)
         {
+            AbilityCombatInfo abilityInfo = default;
+            SpellCombatInfo spellInfo = default;
             switch (message.MessageId)
             {
                 case 200704:
@@ -173,14 +173,12 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
     // CombatStructure.pas:60
     public override void Activate()
     {
-        PlayerStructure structure;
-        bool razed;
         base.Activate();
         if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             _playSound = true;
-            razed = false;
-            structure = StrategicMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation).FindNoneTransparentHexSprite<PlayerStructure>();
+            bool razed = false;
+            PlayerStructure structure = StrategicMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation).FindNoneTransparentHexSprite<PlayerStructure>();
             if (structure is not null)
             {
                 razed = structure.GetRazed();
@@ -235,8 +233,6 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
     // CombatStructure.pas:79
     public void SetHitPoints(int value)
     {
-        BattleEffectSprite effect;
-        Point3D point;
         if (value < 0)
         {
             value = 0;
@@ -251,8 +247,8 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
                     _ = AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODLG.WAV");
                 }
 
-                effect = CombatMap.Current.AddEffect(BattleEffectType.WallSmoke);
-                point = new Point3D();
+                BattleEffectSprite effect = CombatMap.Current.AddEffect(BattleEffectType.WallSmoke);
+                Point3D point = new();
                 effect.Path.Add(point);
                 _ = point.X;
                 _ = point.Y;

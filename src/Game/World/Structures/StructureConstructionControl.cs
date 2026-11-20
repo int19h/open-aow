@@ -24,11 +24,10 @@ public partial class StructureConstructionControl(CustomNode owner) : Constructi
     public override bool Construct(Troop troop)
     {
         bool result;
-        ConstructStructureTokenEvent eventValue;
         string reason = "";
         if (CanConstruct(troop, ref reason) && !StrategicMap.Current.Players.GetPlayers(troop.Player).GetBusy())
         {
-            eventValue = new ConstructStructureTokenEvent(null)
+            ConstructStructureTokenEvent eventValue = new(null)
             {
                 Holder = CreationHolder(),
                 UnitId = troop.UnitId,
@@ -50,16 +49,13 @@ public partial class StructureConstructionControl(CustomNode owner) : Constructi
     // Structur.PAS:3162
     public virtual bool ValidateLocation(Troop troop, ref string reason)
     {
-        StructureResource resource;
-        MapLevel level;
-        MapField mapField;
         bool result = true;
-        resource = StructureResource(troop);
+        StructureResource resource = StructureResource(troop);
         MapCoordinate coordinate39 = troop.GetLocation();
         sbyte x = coordinate39.X;
         sbyte y = coordinate39.Y;
         sbyte l = coordinate39.MapLevel;
-        level = StrategicMap.Current.MapContainer.GetMapLevel(l);
+        MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(l);
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, 0);
         while (resource.TerrainList.Count > walk.HexNumber && result)
         {
@@ -67,7 +63,7 @@ public partial class StructureConstructionControl(CustomNode owner) : Constructi
             {
                 if (resource.TerrainList.GetUsed(walk.HexNumber))
                 {
-                    mapField = level.GetField(walk.X, walk.Y);
+                    MapField mapField = level.GetField(walk.X, walk.Y);
                     result = mapField.GetPlayer() == -1 || mapField.GetPlayer() == troop.Player;
                     result = result && mapField.FindNoneTransparentHexSprite(typeof(Structure)) is null;
                     result = result && !Set<byte>.WithBounds(0, 255).With(0).With(2).Contains((byte)mapField.OverlayType);

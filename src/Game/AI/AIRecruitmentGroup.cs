@@ -72,8 +72,7 @@ public partial class AIRecruitmentGroup(CustomNode owner) : EngineObject(owner),
     // AIGroup.pas:775
     public void SetGroup(AIGroup group)
     {
-        AIGroup oldGroup;
-        oldGroup = Group;
+        AIGroup oldGroup = Group;
         if (oldGroup != group)
         {
             _ = (oldGroup?.Release());

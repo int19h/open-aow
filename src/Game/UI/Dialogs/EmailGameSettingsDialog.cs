@@ -51,8 +51,7 @@ public partial class EmailGameSettingsDialog(UIContext ui) : UIModule(ui)
     // AoWEmailGameSettingsDlg.pas:100
     public void EmailAddressEdit1Change(Edit sender, int slot)
     {
-        int i;
-        i = slot + PlayerScrollBar.Position;
+        int i = slot + PlayerScrollBar.Position;
         if (i < EmailAddresses.Count)
         {
             EmailAddresses[i] = sender.Text;
@@ -62,7 +61,6 @@ public partial class EmailGameSettingsDialog(UIContext ui) : UIModule(ui)
     // AoWEmailGameSettingsDlg.pas:108
     public void OKBtnClick()
     {
-        int index;
         if (SettingsComplete())
         {
             if (_setupControl is not null)
@@ -70,7 +68,7 @@ public partial class EmailGameSettingsDialog(UIContext ui) : UIModule(ui)
                 for (int i = 0, last = EmailAddresses.Count - 1; i <= last; i++)
                 {
                     object objectValue = EmailAddresses.Objects[i];
-                    index = _setupControl.Settings.IndexOfRace((byte)ObjectToInt(objectValue));
+                    int index = _setupControl.Settings.IndexOfRace((byte)ObjectToInt(objectValue));
                     string emailAddress = EmailAddresses[i];
                     _setupControl.Settings.GetSettings(index).EmailAddress = emailAddress;
                 }
@@ -110,14 +108,12 @@ public partial class EmailGameSettingsDialog(UIContext ui) : UIModule(ui)
     // AoWEmailGameSettingsDlg.pas:152
     public void Player6PnlDrawBack(Panel sender, LockedSurface lockedSurface, int slot)
     {
-        RaceResource r;
-        int i;
         Panel panel = sender;
-        i = slot + PlayerScrollBar.Position;
+        int i = slot + PlayerScrollBar.Position;
         if (i < EmailAddresses.Count)
         {
             object objectValue = EmailAddresses.Objects[i];
-            r = GamePack.Current.RaceResources.GetRaceResource(ObjectToInt(objectValue));
+            RaceResource r = GamePack.Current.RaceResources.GetRaceResource(ObjectToInt(objectValue));
             _ = r.AddRef();
             r.ImageLibrary[38].Show(panel.AbsoluteLeft, panel.AbsoluteTop, lockedSurface);
             _ = r.Release();
@@ -170,8 +166,7 @@ public partial class EmailGameSettingsDialog(UIContext ui) : UIModule(ui)
     // AoWEmailGameSettingsDlg.pas:199
     public bool SettingsComplete()
     {
-        int i;
-        i = EmailAddresses.Count;
+        int i = EmailAddresses.Count;
         bool result = !IsEmpty(LocalEmailAddressEdit.Text) && !IsEmpty(EmailGameNameEdit.Text);
         while (result && i != 0)
         {
@@ -196,10 +191,9 @@ public partial class EmailGameSettingsDialog(UIContext ui) : UIModule(ui)
     // AoWEmailGameSettingsDlg.pas:220
     public void Execute(SetupControl control)
     {
-        SetupControl c;
         ResetSettings();
         _setupControl = control;
-        c = _setupControl;
+        SetupControl c = _setupControl;
         for (int i = 0, last = c.Settings.Count - 1; i <= last; i++)
         {
             if (c.Settings.GetSettings(i).Behavior.PlayerType == 0)

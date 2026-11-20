@@ -27,11 +27,9 @@ public partial class SendEmailGameDialog(UIContext ui) : UIModule(ui)
     // AoWSendEmailGameDlg.pas:63
     public void FinishDialog()
     {
-        ExecuteDoneEvent done;
-        EventLog eventValue;
         Window.Visible = false;
-        done = Done;
-        eventValue = _sendEvent;
+        ExecuteDoneEvent done = Done;
+        EventLog eventValue = _sendEvent;
         Done = null;
         _sendEvent = null;
         done?.Invoke(eventValue);

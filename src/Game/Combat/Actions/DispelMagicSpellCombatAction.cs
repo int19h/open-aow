@@ -26,13 +26,12 @@ public partial class DispelMagicSpellCombatAction(CustomNode owner) : DispelMagi
     // UnitSpells.pas:987
     public override void Execute(Battle combat)
     {
-        CombatUnit source;
         base.Execute(combat);
         if (ManaCost != 0 && combat.Status.Contains(CombatStatusElement.Executing))
         {
             if (GamePack.Current.SpellControl.GetSpell(SpellId) is not null)
             {
-                source = combat.CombatData.FindId<CombatUnit>(SourceId);
+                CombatUnit source = combat.CombatData.FindId<CombatUnit>(SourceId);
                 GamePack.Current.SpellControl.GetSpell(SpellId).CastingDone(source.Troop, ManaCost);
             }
         }

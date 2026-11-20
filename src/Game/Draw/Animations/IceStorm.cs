@@ -20,7 +20,6 @@ public partial class IceStorm(CustomNode owner) : BlastStorm(owner)
     // Storms.pas:390
     public override void ChangeStormTerrain(MapField mapField, ref sbyte terrainType, in sbyte overlayType)
     {
-        FrozenWaterHexSprite ice;
         // { Original sends terrain 13 to the default branch before the ice refresh test. }
         if (terrainType == 0)
         {
@@ -36,7 +35,7 @@ public partial class IceStorm(CustomNode owner) : BlastStorm(owner)
             {
                 if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)terrainType))
                 {
-                    ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
+                    FrozenWaterHexSprite ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
                     if (ice is not null)
                     {
                         ice.DaysRemaining = (sbyte)(3 + ((StrategicMap.Current.Random(11) - 5) / 5));
@@ -50,10 +49,9 @@ public partial class IceStorm(CustomNode owner) : BlastStorm(owner)
     // Storms.pas:373
     public override void StormTerrainChanged(MapField mapField, sbyte originalTerrainType, sbyte originalOverlayType)
     {
-        FrozenWaterHexSprite ice;
         if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)mapField.TerrainType) && !Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)originalTerrainType))
         {
-            ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
+            FrozenWaterHexSprite ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
             if (ice is null)
             {
                 ice = new FrozenWaterHexSprite(null) { Holder = CreationHolder() };

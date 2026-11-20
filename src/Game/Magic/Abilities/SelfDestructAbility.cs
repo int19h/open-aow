@@ -27,11 +27,9 @@ public partial class SelfDestructAbility : TouchAbility
     // AoWAb.PAS:2222
     public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
-        CombatObject target;
-        SelfDestructCombatAction action;
-        target = command.Target;
+        CombatObject target = command.Target;
         FastBattleValidateMoveOutsideWall(source, target);
-        action = CreateSelfDestructCombatAction(source, target);
+        SelfDestructCombatAction action = CreateSelfDestructCombatAction(source, target);
         source.Combat.ExecuteCombatAction(action);
         _ = action.Release();
         return true;

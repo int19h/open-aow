@@ -37,14 +37,12 @@ public partial class HuntAIGroup(CustomNode owner) : AIGroup(owner), IAIGroupCla
     // AIGroup.pas:1457
     public override bool HuntingPlayer(sbyte player)
     {
-        int i;
-        Troop troop;
         bool result = false;
-        i = TargetUnitIds.Count;
+        int i = TargetUnitIds.Count;
         while (i != 0)
         {
             i -= 1;
-            troop = StrategicMap.Current.UnitControl.FindUnit(TargetUnitIds.List[i]);
+            Troop troop = StrategicMap.Current.UnitControl.FindUnit(TargetUnitIds.List[i]);
             // { Original bug: each entry overwrites the result, including earlier matches. }
             result = troop is not null && player == troop.Player;
         }

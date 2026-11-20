@@ -26,16 +26,14 @@ public partial class FireStorm(CustomNode owner) : Storm(owner)
     // Storms.pas:527
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int frame;
-        ImageSequence sequence;
         sbyte hexY = GetHexY();
         HexGeometry.HexToPixel(GetHexX(), hexY, out int x, out int y);
         x = x - pixelXSurface + 8;
         y -= pixelYSurface;
-        sequence = GamePack.Current.ImageSequences.ImageSequences[0];
+        ImageSequence sequence = GamePack.Current.ImageSequences.ImageSequences[0];
         while (sequence is not null)
         {
-            frame = sequence.GetUnloopedFrameIndex(FrameCounter);
+            int frame = sequence.GetUnloopedFrameIndex(FrameCounter);
             if (frame != -1 && sequence.ImageLibrary.ImageExist(frame))
             {
                 sequence.ImageLibrary[frame].Show(x + sequence.OffsetX, y + sequence.OffsetY, lockedSurface);
@@ -76,9 +74,6 @@ public partial class FireStorm(CustomNode owner) : Storm(owner)
     // Storms.pas:569
     public override bool UpdateStorm()
     {
-        bool result = default;
-        ImageSequence sequence = default;
-        int frame = default;
         NewFrame();
         if (FrameCounter == 20)
         {
@@ -89,8 +84,8 @@ public partial class FireStorm(CustomNode owner) : Storm(owner)
             _ = StrategicMap.Current.ChangeTerrain(this, hexX, hexY2, hexLevel2, 2, ChangeStormTerrain, null);
         }
 
-        sequence = GamePack.Current.ImageSequences.ImageSequences[0];
-        frame = -1;
+        ImageSequence sequence = GamePack.Current.ImageSequences.ImageSequences[0];
+        int frame = -1;
         while (sequence is not null && frame == -1)
         {
             frame = sequence.GetUnloopedFrameIndex(FrameCounter);
@@ -115,7 +110,7 @@ public partial class FireStorm(CustomNode owner) : Storm(owner)
             }
         }
 
-        result = frame != -1;
+        bool result = frame != -1;
 
         return result;
     }

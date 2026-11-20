@@ -41,17 +41,15 @@ public partial class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
     // AIGroup.pas:6862
     public override void GetTargetCombatValueDamageValue(CombatObject target, out int combatValue, out int damageValue)
     {
-        Troop troop;
-        AbilityTypeList abilities;
-        AbilityDamageValues values = default;
-        int value;
-        Ability ability;
         if (!Status.Contains(CombatObjectStatusElement.Destroyed))
         {
-            troop = Troop;
+            Troop troop = Troop;
             combatValue = 0;
             damageValue = 0;
-            abilities = GamePack.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
+            AbilityTypeList abilities = GamePack.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
+            AbilityDamageValues values = default;
+            int value;
+            Ability ability;
             for (int i = abilities.Count - 1; i >= 0; i--)
             {
                 ability = abilities.GetAbility(i);
@@ -113,27 +111,21 @@ public partial class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
     // AIGroup.pas:6913
     public override int GetTargetWallCombatValue(CombatObject target)
     {
-        int best;
-        WallSituation wall;
-        Troop troop;
-        AbilityTypeList abilities;
-        int value;
-        Ability ability;
         AbilityDamageValues values = default;
-        troop = Troop;
-        best = 0;
-        wall = Combat.CombatData.Players.GetPlayers(CombatPlayer).SideIndex == 1 ? WallSituation.Source : WallSituation.Target;
+        Troop troop = Troop;
+        int best = 0;
+        WallSituation wall = Combat.CombatData.Players.GetPlayers(CombatPlayer).SideIndex == 1 ? WallSituation.Source : WallSituation.Target;
 
-        abilities = GamePack.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
+        AbilityTypeList abilities = GamePack.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
         for (int i = abilities.Count - 1; i >= 0; i--)
         {
-            ability = abilities.GetAbility(i);
+            Ability ability = abilities.GetAbility(i);
             if (troop.GetAbilityEnabled(ability.AbilityId))
             {
                 ability.FastBattleGetDamageValues(this, target, wall, ref values);
                 if (values.SourceDamage > 0)
                 {
-                    value = values.SourceDamage * values.SourceDamage / (values.TargetDamage + values.SourceDamage);
+                    int value = values.SourceDamage * values.SourceDamage / (values.TargetDamage + values.SourceDamage);
                     if (value <= 0)
                     {
                         value = 1;
@@ -153,14 +145,14 @@ public partial class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
     // AIGroup.pas:6946
     public override int GetTargetPriority()
     {
-        int i;
-        int combatValue;
-        CombatObject target;
-        int count;
         if (TargetPriorityInvalid)
         {
             try
             {
+                int i;
+                int combatValue;
+                CombatObject target;
+                int count;
                 if (Combat.CombatData.WallType == 0 || Combat.CombatData.WallBreached)
                 {
                     TargetPriority = 0;
@@ -263,9 +255,8 @@ public partial class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
     // AIGroup.pas:7002
     public override void Initialize(Battle combat)
     {
-        Troop troop;
         base.Initialize(combat);
-        troop = Troop;
+        Troop troop = Troop;
         RoundDistance = troop is Leader or Hero ? 8 : 4;
     }
 
@@ -284,15 +275,10 @@ public partial class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
     // AIGroup.pas:7048
     public override bool FastBattleExecute(int moveCost)
     {
-        FastBattle combat;
-        FastBattleCommandList fastBattleCommandList;
-        Troop troop;
-        FleeCombatAction action;
-        bool executed;
-        combat = FastCombat;
+        FastBattle combat = FastCombat;
         CombatSideIndex side = GetSide();
-        fastBattleCommandList = new FastBattleCommandList(this, combat, combat.Sides[(int)side]);
-        troop = Troop;
+        FastBattleCommandList fastBattleCommandList = new(this, combat, combat.Sides[(int)side]);
+        Troop troop = Troop;
         for (int i = troop.GetAbilityCount() - 1; i >= 0; i--)
         {
             if (troop.GetAbilityEnabled(i))
@@ -337,6 +323,7 @@ public partial class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
             }
         }
 
+        bool executed;
         if (fastBattleCommandList.GetCount() != 0)
         {
             fastBattleCommandList.Sort();
@@ -363,7 +350,7 @@ public partial class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
             {
                 if (CombatValue == 0 && IncomingCombatValue != 0 && GetSide() == CombatSideIndex.Attacker && !GetLocked())
                 {
-                    action = new FleeCombatAction(null)
+                    FleeCombatAction action = new(null)
                     {
                         Holder = CreationHolder(),
                         ObjectId = Id
@@ -390,13 +377,11 @@ public partial class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
     // AIGroup.pas:7035
     public override bool FastBattleBehindWall()
     {
-        bool result;
-        byte position;
         // { Inner failure shares the validated-position return. }
         if (GetSide() == CombatSideIndex.Defender && !State.Contains(FastBattleUnitStateElement.OutsideWall))
         {
-            position = Position;
-            result = (position & 15) <= 7 && (int)(((uint)position) >> 4) <= 7 && Combat.CombatData.Parties.GetParty((byte)(int)(((uint)position) >> 4)).Wall != 0 && !Combat.CombatData.Wall.Status.Contains(CombatObjectStatusElement.Destroyed);
+            byte position = Position;
+            bool result = (position & 15) <= 7 && (int)(((uint)position) >> 4) <= 7 && Combat.CombatData.Parties.GetParty((byte)(int)(((uint)position) >> 4)).Wall != 0 && !Combat.CombatData.Wall.Status.Contains(CombatObjectStatusElement.Destroyed);
 
             return result;
         }
@@ -457,8 +442,7 @@ public partial class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
     // AIGroup.pas:6783
     public override void KillUnit()
     {
-        Troop troop;
-        troop = Troop;
+        Troop troop = Troop;
         if (troop is Hero hero && Combat.Status.Contains(CombatStatusElement.Executing))
         {
             CombatData combatData = Combat.CombatData;
@@ -474,8 +458,7 @@ public partial class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
     // AIGroup.pas:6809
     public void UpdateWallSiegeObjectRegistration()
     {
-        bool registered;
-        registered = Status.Contains(CombatObjectStatusElement.Activated) && GetSide() == CombatSideIndex.Attacker && !Status.Contains(CombatObjectStatusElement.Destroyed) && ((WallCombatFeaturesValue & Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.WallPassing)) != Set<WallCombatFeaturesElement>.Of() || CanCastWallSiegeSpell());
+        bool registered = Status.Contains(CombatObjectStatusElement.Activated) && GetSide() == CombatSideIndex.Attacker && !Status.Contains(CombatObjectStatusElement.Destroyed) && ((WallCombatFeaturesValue & Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.WallPassing)) != Set<WallCombatFeaturesElement>.Of() || CanCastWallSiegeSpell());
         if (registered)
         {
             if (!State.Contains(FastBattleUnitStateElement.WallSiegeObjectRegistered))

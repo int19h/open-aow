@@ -42,31 +42,24 @@ public partial class AIMoveExecutorControl : EngineObject
     // AIGroup.pas:4738
     public virtual AIMoveExecutorMove CreateMove(AIMoveExecutorArmy army, byte selection, sbyte x, sbyte y, sbyte mapLevel, Set<CreateMoveModeElement> mode, out byte moveResult)
     {
-        MoveControlSettings settings;
-        AIMoveExecutorMove move;
-        RecordList<SurroundCandidate> candidates;
-        int position;
-        int points;
-        MapField mapField;
-        MapLevel level;
-        HexNumberWalkData walk = default;
-        move = null;
+        AIMoveExecutorMove move = null;
         army.RetrieveArmy(selection, out ArmyHexSprite armyHexSprite, out byte armySelection);
-        settings = new MoveControlSettings(null) { Holder = CreationHolder() };
+        MoveControlSettings settings = new(null) { Holder = CreationHolder() };
+        int points;
         if (mode.Contains(CreateMoveModeElement.SurroundNearest))
         {
             settings.MovePointsMax = army.MovePoints(255);
             settings.SetupArmy(armyHexSprite, armySelection);
             StrategicMap.Current.MoveControl.ProcessMove(settings);
-            level = StrategicMap.Current.MapContainer.GetMapLevel(mapLevel);
-            candidates = new RecordList<SurroundCandidate>();
-            HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 1);
+            MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(mapLevel);
+            RecordList<SurroundCandidate> candidates = new();
+            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, 1);
             while (walk.Radius <= 1)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
                     points = settings.GetMovePoints(walk.X, walk.Y, mapLevel);
-                    mapField = StrategicMap.Current.MapContainer.GetField(walk.X, walk.Y, mapLevel);
+                    MapField mapField = StrategicMap.Current.MapContainer.GetField(walk.X, walk.Y, mapLevel);
                     if (points != 16777215 && (mapField.GetPlayer() == -1 || mapField.GetPlayer() == army.Player))
                     {
                         if (CanMoveTo(army, selection, (sbyte)walk.X, (sbyte)walk.Y, mapLevel) == selection)
@@ -102,7 +95,7 @@ public partial class AIMoveExecutorControl : EngineObject
         if (settings.Path.Count != 0)
         {
             points = armyHexSprite.Army.MovePoints(armySelection);
-            position = settings.Path.MovePointsToPosition(points);
+            int position = settings.Path.MovePointsToPosition(points);
             if (!mode.Contains(CreateMoveModeElement.Surround) && settings.Path[position].Location.X == Executor.Destination.X && settings.Path[position].Location.Y == Executor.Destination.Y && settings.Path[position].Location.MapLevel == Executor.Destination.MapLevel)
             {
                 army.SetMoveResult(selection, 2);
@@ -179,35 +172,23 @@ public partial class AIMoveExecutorControl : EngineObject
     // AIGroup.pas:4854
     public virtual byte CanMoveTo(AIMoveExecutorArmy army, byte selection, sbyte x, sbyte y, sbyte mapLevel)
     {
-        int transporterCount;
-        int unitCount;
-        int capacity;
-        int i;
-        int index;
-        int excess;
-        Troop troop;
-        bool allowed;
-        ArmyHexSprite armyHexSprite;
-        MapField mapField;
-        AIMoveExecutorMove move;
-        Army existingArmy;
-        AIMoveExecutorUnit transporter;
-        unitCount = 0;
-        transporterCount = 0;
-        capacity = 8;
-        allowed = true;
-        mapField = StrategicMap.Current.MapContainer.GetField(x, y, mapLevel);
-        armyHexSprite = mapField.GetArmyHexSprite();
+        int unitCount = 0;
+        int transporterCount = 0;
+        int capacity = 8;
+        bool allowed = true;
+        MapField mapField = StrategicMap.Current.MapContainer.GetField(x, y, mapLevel);
+        ArmyHexSprite armyHexSprite = mapField.GetArmyHexSprite();
         byte result = 0;
+        int i;
         if (armyHexSprite is not null && armyHexSprite.Army.Player == army.Player)
         {
-            existingArmy = armyHexSprite.Army;
+            Army existingArmy = armyHexSprite.Army;
             i = 0;
             int last = existingArmy.Units.Count - 1;
             for (; i <= last; i += 1)
             {
-                troop = armyHexSprite.Army.Units.GetUnit(i);
-                index = Executor.Units.IndexOfUnitId(troop.UnitId);
+                Troop troop = armyHexSprite.Army.Units.GetUnit(i);
+                int index = Executor.Units.IndexOfUnitId(troop.UnitId);
                 if (index == -1 || Executor.Units.GetUnits(index).Status != AIMoveExecutorUnitStatus.Queued)
                 {
                     unitCount += 1;
@@ -234,9 +215,10 @@ public partial class AIMoveExecutorControl : EngineObject
         {
             i = 0;
             int last = Executor.Moves.Count - 1;
+            AIMoveExecutorUnit transporter;
             for (; i <= last; i += 1)
             {
-                move = Executor.Moves.GetMoves(i);
+                AIMoveExecutorMove move = Executor.Moves.GetMoves(i);
                 if (move.Path[0].Location.X == x && move.Path[0].Location.Y == y && move.Path[0].Location.MapLevel == mapLevel)
                 {
                     unitCount += move.Count;
@@ -263,7 +245,7 @@ public partial class AIMoveExecutorControl : EngineObject
                     }
                 }
 
-                excess = army.SelectionCount(selection) + unitCount - capacity;
+                int excess = army.SelectionCount(selection) + unitCount - capacity;
                 if (excess > 0)
                 {
                     if (transporter is null)
@@ -328,8 +310,7 @@ public partial class AIMoveExecutorControl : EngineObject
     // AIGroup.pas:4962
     public virtual bool Process()
     {
-        int timeLeft;
-        timeLeft = 5;
+        int timeLeft = 5;
         if (MoveControl.Status == AIMoveControlStatus.Processing)
         {
             _ = MoveControl.Process();

@@ -13,12 +13,11 @@ public partial class FastBattleHighPrayerCombatAction(CustomNode owner) : MultiT
     // CombatSpells.pas:943
     public override void Execute(Battle combat)
     {
-        CombatUnit target;
         base.Execute(combat);
         for (int i = TargetIds.Count - 1; i >= 0; i--)
         {
             byte targetId = TargetIds[i];
-            target = combat.CombatData.FindId<CombatUnit>(targetId);
+            CombatUnit target = combat.CombatData.FindId<CombatUnit>(targetId);
             target.SetHitPoints((byte)(target.GetHitPoints() + 5));
             _ = GamePack.Current.AbilityControl.GetAbility(100).Expand(target.Troop);
         }
@@ -27,17 +26,15 @@ public partial class FastBattleHighPrayerCombatAction(CustomNode owner) : MultiT
     // CombatSpells.pas:958
     public void Generate(CombatObject source)
     {
-        CombatSide combatSide;
-        CombatObject target;
         SpellId = 102;
         SourceId = source.Id;
         Battle combat = source.Combat;
         CombatSideIndex side = source.GetSide();
-        combatSide = combat.Sides[(int)side];
+        CombatSide combatSide = combat.Sides[(int)side];
 
         for (int i = combatSide.GetCount() - 1; i >= 0; i--)
         {
-            target = combatSide.GetObjects(i);
+            CombatObject target = combatSide.GetObjects(i);
             if (target is CombatUnit && !target.Status.Contains(CombatObjectStatusElement.Destroyed))
             {
                 _ = TargetIds.Add(target.Id);

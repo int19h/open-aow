@@ -131,8 +131,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1376
     public void Remove(LibraryImage image)
     {
-        int i;
-        i = Count;
+        int i = Count;
         while (i >= 0 && image != Images[i])
         {
             i -= 1;
@@ -202,9 +201,8 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1424
     public override void LoadFromStream(Stream stream)
     {
-        LibraryImage image;
         Clear();
-        image = ImageStreams.ReadImageFromStream(stream, Owner);
+        LibraryImage image = ImageStreams.ReadImageFromStream(stream, Owner);
         while (image is not null)
         {
             _ = Add(image);
@@ -215,8 +213,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1437
     public override void LoadFromStream(Stream stream, Stream dataStream)
     {
-        LibraryImage image;
-        image = ImageStreams.ReadImageFromStream(stream, dataStream, Owner);
+        LibraryImage image = ImageStreams.ReadImageFromStream(stream, dataStream, Owner);
         while (image is not null)
         {
             _ = Add(image);
@@ -259,9 +256,8 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1473
     public override GraphicsResult RemapToPixelFormat(PixelFormat pixelFormatId)
     {
-        int i;
         GraphicsResult result = GraphicsResult.Ok;
-        i = Count;
+        int i = Count;
         while (i != 0 && result == GraphicsResult.Ok)
         {
             i -= 1;
@@ -324,8 +320,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1557
     public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId)
     {
-        int i;
-        i = Count;
+        int i = Count;
         bool result = true;
         while (result && i != 0)
         {

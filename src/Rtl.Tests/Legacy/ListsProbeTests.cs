@@ -67,7 +67,7 @@ public sealed class ListsProbeTests
         }
         void Lookup(string tag, string s)
         {
-            int at = -99; p.Fact($"{tag}_found", Ord(sl.Find(s, out at))); p.Fact($"{tag}_insertion_index", at); p.Fact($"{tag}_indexof", sl.IndexOf(s));
+            p.Fact($"{tag}_found", Ord(sl.Find(s, out int at))); p.Fact($"{tag}_insertion_index", at); p.Fact($"{tag}_indexof", sl.IndexOf(s));
         }
         p.Fact("default_sorted", Ord(sl.Sorted)); p.Fact("default_duplicates", (int)sl.Duplicates);
         for (int d = 0; d < 3; d++)
@@ -79,6 +79,6 @@ public sealed class ListsProbeTests
             Lookup($"sorted_{d}_lookup", "Alpha"); Lookup($"sorted_{d}_before", "!"); Lookup($"sorted_{d}_between", "delta"); Lookup($"sorted_{d}_after", "zzzz"); Lookup($"sorted_{d}_empty_lookup", "");
             p.Fact($"sorted_{d}_insert_error", p.Thrown(() => sl.Insert(0, "illegal")));
         }
-        sl.Clear(); int index = -99; p.Fact("empty_find", Ord(sl.Find("absent", out index))); p.Fact("empty_find_index", index); p.Fact("empty_indexof", sl.IndexOf("absent")); p.End();
+        sl.Clear(); p.Fact("empty_find", Ord(sl.Find("absent", out int index))); p.Fact("empty_find_index", index); p.Fact("empty_indexof", sl.IndexOf("absent")); p.End();
     }
 }

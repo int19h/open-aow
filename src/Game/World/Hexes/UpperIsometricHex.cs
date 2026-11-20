@@ -14,13 +14,12 @@ public partial class UpperIsometricHex(CustomNode owner) : IsometricHex(owner)
     // IsoHex.pas:355
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        CustomImageLibrary imageLibrary;
         if (Dynamic is null)
         {
             HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
             pixelX = pixelX - pixelXSurface - 8;
             pixelY -= pixelYSurface;
-            imageLibrary = base.Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
+            CustomImageLibrary imageLibrary = base.Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
             imageLibrary[(int)(((uint)Sides) >> 6) + 40].Show(pixelX, pixelY, lockedSurface);
             pixelX -= 6;
             pixelY -= 9;

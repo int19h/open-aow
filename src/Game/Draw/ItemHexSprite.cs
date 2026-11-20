@@ -61,10 +61,9 @@ public partial class ItemHexSprite : SingleHexSprite
     // Army.PAS:5240
     public override int GetShowPriority()
     {
-        HexSprite hexSprite;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         int result = 1744830464 + ((pixelY + 33) << 13) + pixelX + 16;
-        hexSprite = Owner.GetMaxLevelNoneTransparentHexSprite();
+        HexSprite hexSprite = Owner.GetMaxLevelNoneTransparentHexSprite();
         if (hexSprite != this && hexSprite is not null)
         {
             if (result <= hexSprite.GetShowPriority())
@@ -125,8 +124,6 @@ public partial class ItemHexSprite : SingleHexSprite
     // Army.PAS:5302
     public void GenerateItems()
     {
-        byte i = default;
-        Item item = default;
         if (_generateMode != ItemHexSpriteGenerateMode.UserDefined)
         {
             RandSeed = StrategicMap.Current.Random(16777215);
@@ -139,8 +136,8 @@ public partial class ItemHexSprite : SingleHexSprite
             Items.Clear();
             for (int iOrdinal = 1, last = (int)_generateMode; iOrdinal <= last; iOrdinal++)
             {
-                i = (byte)iOrdinal;
-                item = StrategicMap.Current.ItemControl.GenerateItem(Set<ItemType>.Of(ItemType.Head, ItemType.Torso, ItemType.Attack, ItemType.Defense, ItemType.Ring, ItemType.Use), 0, 65535);
+                byte i = (byte)iOrdinal;
+                Item item = StrategicMap.Current.ItemControl.GenerateItem(Set<ItemType>.Of(ItemType.Head, ItemType.Torso, ItemType.Attack, ItemType.Defense, ItemType.Ring, ItemType.Use), 0, 65535);
                 item?.SetOwner(Items);
             }
 

@@ -51,9 +51,6 @@ public partial class AIGroupDefenseControl : AIGroupTask
     // AIGroup.pas:1834
     public override bool Process()
     {
-        UnitUserList units;
-        int index;
-        AIGroup group;
         switch (State)
         {
             case 0:
@@ -67,13 +64,14 @@ public partial class AIGroupDefenseControl : AIGroupTask
                     switch (DefendMode)
                     {
                         case GroupDefendMode.Split:
-                            units = new UnitUserList(null) { Holder = CreationHolder() };
+                            UnitUserList units = new(null) { Holder = CreationHolder() };
                             {
                                 AIGroupControl aiGroupControl = GroupControl;
                                 _ = _selector.GetDefenders(aiGroupControl.Group.Player, aiGroupControl.Location.X, aiGroupControl.Location.Y, aiGroupControl.Location.MapLevel, units);
                             }
 
-                            index = units.IndexOfBehavior(GroupBehavior.Passive);
+                            int index = units.IndexOfBehavior(GroupBehavior.Passive);
+                            AIGroup group;
                             if (index == -1)
                             {
                                 group = StrategicMap.Current.AIGroupManager.CreateGroup(GroupControl.Group.Player, GroupControl.Group.IndependentRelation, GroupBehavior.Passive);

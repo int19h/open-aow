@@ -50,7 +50,6 @@ public partial class ProductionSettings(CustomNode owner) : EngineObject(owner)
     // Structur.PAS:135
     public override void Clear()
     {
-        Troop u;
         TurnsLeft = 0;
         Gold = 0;
         Mana = 0;
@@ -58,7 +57,7 @@ public partial class ProductionSettings(CustomNode owner) : EngineObject(owner)
         Player = 0;
         GroupId = 0;
         UnitProductionIndex = -1;
-        u = Unit;
+        Troop u = Unit;
         if (u is not null)
         {
             _ = u.Release();

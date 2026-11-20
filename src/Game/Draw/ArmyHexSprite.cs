@@ -135,9 +135,8 @@ public partial class ArmyHexSprite : UnitHexSprite
     // Army.PAS:2707
     public override void RemoveFromMap()
     {
-        MapField field;
         MapFieldMessage message = default;
-        field = Owner;
+        MapField field = Owner;
         if (Owner is not null)
         {
             Army.TurnUnFogOff();
@@ -349,10 +348,9 @@ public partial class ArmyHexSprite : UnitHexSprite
     // Army.PAS:3114
     public override void CanMoveOn(in HexSpriteMoveOnInfo info, ref HexSpriteMoveOnResult moveResult)
     {
-        MoveControl control;
         if (info.HexNumber == 0)
         {
-            control = (MoveControl)info.Sender;
+            MoveControl control = (MoveControl)info.Sender;
             if (Army.Player == control.Player)
             {
                 if (!(control.Mode.Contains(MoveModeElement.Surround) && info.MoveOverCode != 1 && Owner.HexX == control.Destination.X && Owner.HexY == control.Destination.Y && Owner.HexLevel == control.Destination.MapLevel && !Army.CanCombine(control.ArmyHexSprite.Army, (byte)control.Selection)))
@@ -513,11 +511,10 @@ public partial class ArmyHexSprite : UnitHexSprite
     public override bool MoveTo(MapField field, int moveCost)
     {
         bool result;
-        MapField oldField;
         MapFieldMessage message = default;
         using (Army.BeginUpdate())
         {
-            oldField = Owner;
+            MapField oldField = Owner;
             if (oldField is not null)
             {
                 message.MessageId = 4416;
@@ -593,12 +590,10 @@ public partial class ArmyHexSprite : UnitHexSprite
     public override bool PlaceHex(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         bool result;
-        MapField field;
-        EngineObject army;
         if (Army.CanPlace(hexX, hexY, hexLevel))
         {
-            field = map.GetField(hexX, hexY, hexLevel);
-            army = field.FindOwnedChild(131607);
+            MapField field = map.GetField(hexX, hexY, hexLevel);
+            EngineObject army = field.FindOwnedChild(131607);
             result = (army is null || GetEditMode()) && base.PlaceHex(map, hexX, hexY, hexLevel);
         }
         else
@@ -626,12 +621,6 @@ public partial class ArmyHexSprite : UnitHexSprite
     {
         sbyte[] resultCell = new sbyte[1];
         ref sbyte result = ref resultCell[0];
-        MapLevel level;
-        int x = default;
-        int y = default;
-        int deltaX = default;
-        int deltaY = default;
-        ImageSequenceAnimation animation;
         result = base.MoveFirst(direction, instant);
         switch (GetEngine().Registry.GetMovementSpeed())
         {
@@ -672,8 +661,10 @@ public partial class ArmyHexSprite : UnitHexSprite
 
         if (GetHexLevel() > 0)
         {
-            level = Owner.Owner;
+            MapLevel level = Owner.Owner;
             sbyte hexY = GetHexY();
+            int x = default;
+            int y = default;
             HexGeometry.CenterHexNumberToHex(GetHexX(), hexY, direction, ref x, ref y);
             if (x >= 0 && y >= 0 && x < level.Width && y < level.Height)
             {
@@ -681,9 +672,11 @@ public partial class ArmyHexSprite : UnitHexSprite
                 {
                     if (GamePack.Current.AbilityControl.GetAbility(42).ImageSequences.GetImageSequence(0) is not null)
                     {
-                        animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+                        ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                         animation.SetImageSequence(GamePack.Current.AbilityControl.GetAbility(42).ImageSequences.GetImageSequence(0));
                         animation.AnimationLevel = 27;
+                        int deltaX = default;
+                        int deltaY = default;
                         HexGeometry.HexNumberToPixel(direction, ref deltaX, ref deltaY);
                         animation.SetPixelXOffset(deltaX / 2);
                         animation.SetPixelYOffset(deltaY / 2);
@@ -789,21 +782,18 @@ public partial class ArmyHexSprite : UnitHexSprite
     // Army.PAS:3490
     public bool Place(sbyte x, sbyte y, sbyte mapLevel, Set<ArmyPlaceModeElement> mode)
     {
-        MapLevel level;
-        MapField field;
         MapFieldMessage message = default;
-        int player;
         bool result = false;
-        level = StrategicMap.Current.MapContainer.GetMapLevel(mapLevel);
+        MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(mapLevel);
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, 0);
         while (!result && (walk.Radius == 0 || mode.Contains(ArmyPlaceModeElement.ScanArea)) && walk.Radius < 30)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                field = level.GetField(walk.X, walk.Y);
+                MapField field = level.GetField(walk.X, walk.Y);
                 if (field.FindOwnedChild(131607) is null)
                 {
-                    player = field.GetPlayer();
+                    int player = field.GetPlayer();
                     if (player == -1 || (player == Army.Player && mode.Contains(ArmyPlaceModeElement.EnableOwnPlayerLocation)))
                     {
                         message.MessageId = 4384;
@@ -880,16 +870,13 @@ public partial class ArmyHexSprite : UnitHexSprite
 
     internal static bool MoveArmy(ArmyHexSprite army, byte selection, MovePath path, Set<ArmyMoveModeElement> mode, bool force)
     {
-        int position;
-        MoveArmyTokenEvent move;
-        MoveAction action;
-        bool moved;
-        moved = false;
+        bool moved = false;
         if (force || !StrategicMap.Current.Players.GetPlayers(army.Army.Player).GetBusy())
         {
             if (path.Count > 1)
             {
-                position = path.MovePointsToPosition(army.Army.MovePoints(selection));
+                int position = path.MovePointsToPosition(army.Army.MovePoints(selection));
+                MoveAction action;
                 if (position == 0)
                 {
                     PathStep item = path[position];
@@ -916,7 +903,7 @@ public partial class ArmyHexSprite : UnitHexSprite
                     action = MoveAction.Normal;
                 }
 
-                move = CreateArmyMoveTokenEvent(army, selection, path, action, mode);
+                MoveArmyTokenEvent move = CreateArmyMoveTokenEvent(army, selection, path, action, mode);
                 if (move is not null)
                 {
                     StrategicMap.Current.TokenManager.GetTokenControl(army.Army.Player).AddEvent(move);
@@ -933,9 +920,7 @@ public partial class ArmyHexSprite : UnitHexSprite
 
     internal static bool MoveArmyMapCoordinate(ArmyHexSprite army, byte selection, sbyte X, sbyte Y, sbyte L, bool force)
     {
-        bool result;
-        MoveControlSettings settings;
-        settings = new MoveControlSettings(null) { Holder = army };
+        MoveControlSettings settings = new(null) { Holder = army };
         sbyte hexLevel = army.GetHexLevel();
         sbyte hexY = army.GetHexY();
         settings.SetSourcePosition(army.GetHexX(), hexY, hexLevel);
@@ -947,7 +932,7 @@ public partial class ArmyHexSprite : UnitHexSprite
         army.Army.CreateMovePointTable(selection, out MovePointTable movePointTable);
         settings.MovePointTable = movePointTable;
         StrategicMap.Current.MoveControl.ProcessMove(settings);
-        result = settings.Path.Count != 0 && MoveArmy(army, selection, settings.Path, Set<ArmyMoveModeElement>.Of(), force);
+        bool result = settings.Path.Count != 0 && MoveArmy(army, selection, settings.Path, Set<ArmyMoveModeElement>.Of(), force);
 
         _ = settings.Release();
         return result;

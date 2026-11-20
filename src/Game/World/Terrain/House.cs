@@ -20,11 +20,10 @@ public partial class House(CustomNode owner) : CombatStructure(owner)
     // House.pas:45
     public override void Activate()
     {
-        PlayerStructure structure;
         base.Activate();
         if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            structure = StrategicMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation).FindNoneTransparentHexSprite<PlayerStructure>();
+            PlayerStructure structure = StrategicMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation).FindNoneTransparentHexSprite<PlayerStructure>();
             if (structure is not null)
             {
                 _race = structure is City city ? city.Race : 0;
@@ -41,12 +40,12 @@ public partial class House(CustomNode owner) : CombatStructure(owner)
 
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        ImageSequence sequence;
-        int imageIndex;
-        int terrainOffset;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
+        ImageSequence sequence;
+        int imageIndex;
+        int terrainOffset;
         if (HitPoints == 0)
         {
             sequence = GamePack.Current.ImageSequences.GetImageSequence(50);
@@ -124,19 +123,17 @@ public partial class House(CustomNode owner) : CombatStructure(owner)
 
     public override void ShowShadow(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        ImageSequence sequence;
-        int imageIndex;
         if (HitPoints > 0)
         {
             HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
             pixelXSurface = pixelX - pixelXSurface;
             pixelYSurface = pixelY - pixelYSurface;
-            sequence = ((MapObject)this).Resource.ImageSequenceList.GetImageSequence(_race + 60);
+            ImageSequence sequence = ((MapObject)this).Resource.ImageSequenceList.GetImageSequence(_race + 60);
             if (sequence is not null)
             {
                 do
                 {
-                    imageIndex = sequence.GetFrameIndex(CombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                    int imageIndex = sequence.GetFrameIndex(CombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                     if (imageIndex != -1)
                     {
                         sequence.ImageLibrary[imageIndex].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface);

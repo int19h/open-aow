@@ -103,7 +103,6 @@ public partial class TargetSelectionControl : IDisposable
     // Structur.PAS:3821
     public void MouseDownEvent(object sender)
     {
-        HexSpriteMapMouse mouse;
         if (Status.Contains(TargetSelectionStatusElement.Activated))
         {
             if (StrategicMap.Current.Mouse.Capture != this || StrategicMap.Current.Mouse.Button == MouseButton.Right)
@@ -113,7 +112,7 @@ public partial class TargetSelectionControl : IDisposable
             }
             else
             {
-                mouse = StrategicMap.Current.Mouse;
+                HexSpriteMapMouse mouse = StrategicMap.Current.Mouse;
                 if (mouse.Capture == this && mouse.Button == MouseButton.Left)
                 {
                     if (ValidTarget(Target.X, Target.Y, Target.MapLevel))
@@ -132,8 +131,7 @@ public partial class TargetSelectionControl : IDisposable
     // Structur.PAS:3845
     public bool ValidTarget(sbyte X, sbyte Y, sbyte L)
     {
-        bool result = default;
-        MapField mapField;
+        bool result;
         if (X != -1 && Y != -1)
         {
             result = !TargetMode.Contains(TargetSelectionModeElement.ValidateDistance) || HexGeometry.DeltaHexToRadius(SourceLocation.X, SourceLocation.Y, X, Y) <= Range;
@@ -143,7 +141,7 @@ public partial class TargetSelectionControl : IDisposable
                 result = result && L == SourceLocation.MapLevel;
             }
 
-            mapField = StrategicMap.Current.MapContainer.GetField(X, Y, L);
+            MapField mapField = StrategicMap.Current.MapContainer.GetField(X, Y, L);
             result = result && mapField.TerrainType != 15;
             if (result && OnValidateTarget is not null)
             {
@@ -198,22 +196,20 @@ public partial class TargetSelectionControl : IDisposable
     // Structur.PAS:3891
     public void ShowSelection(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int deltaX = default;
-        int deltaY = default;
-        int xs;
-        int ys;
         if (Status.Contains(TargetSelectionStatusElement.Activated) && Target.X != -1 && Status.Contains(TargetSelectionStatusElement.Visible))
         {
             HexGeometry.HexToPixel(Target.X, Target.Y, out int x, out int y);
             x -= pixelXSurface;
             y -= pixelYSurface;
+            int deltaX = default;
+            int deltaY = default;
             for (int i = 0, last = HexNumbers.Count - 1; i <= last; i++)
             {
                 if (HexNumbers[i] >= 0)
                 {
                     HexGeometry.HexNumberToPixel(i, ref deltaX, ref deltaY);
-                    xs = x + deltaX;
-                    ys = y + deltaY;
+                    int xs = x + deltaX;
+                    int ys = y + deltaY;
                     if (TargetMode.Contains(TargetSelectionModeElement.OwnerDraw))
                     {
                         OnShow?.Invoke(this, i, xs, ys, lockedSurface);
@@ -270,7 +266,6 @@ public partial class TargetSelectionControl : IDisposable
     // Structur.PAS:3946
     public void Deactivate()
     {
-        ArmyHexSprite armyHexSprite = default;
         if (Status.Contains(TargetSelectionStatusElement.Activated))
         {
             Status -= Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Activated);
@@ -282,7 +277,7 @@ public partial class TargetSelectionControl : IDisposable
             {
                 if (StrategicMap.Current.SelectedArmy.GetArmyHexSprite() is not null)
                 {
-                    armyHexSprite = StrategicMap.Current.SelectedArmy.GetArmyHexSprite();
+                    ArmyHexSprite armyHexSprite = StrategicMap.Current.SelectedArmy.GetArmyHexSprite();
                     StrategicMap.Current.Mouse.SetCapture(null);
                     StrategicMap.Current.Selection.UnselectLocation();
                     StrategicMap.Current.Selection.SelectLocationHexSprite(armyHexSprite);

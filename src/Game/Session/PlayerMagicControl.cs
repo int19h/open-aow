@@ -36,13 +36,11 @@ public partial class PlayerMagicControl : EngineObject
     // power sources, active/enemy enchantments, change events
     public PlayerMagicControl(CustomNode owner) : base(owner)
     {
-        ExternalPowerSource source;
-
         Spells = new Int32List();
         _changedEventsStore = new();
         Enchantments = new EnchantmentList(null) { Holder = CreationHolder() };
         PowerSources = new PowerSourceList(null) { Holder = CreationHolder() };
-        source = new ExternalPowerSource(null) { Holder = CreationHolder() };
+        ExternalPowerSource source = new(null) { Holder = CreationHolder() };
         _externalPowerSource = source;
         source.ExternalPowerControl = this;
         _ = PowerSources.AddChild(source);
@@ -171,7 +169,6 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:1976
     public void UpdateEnemyEnchantments()
     {
-        PlayerMagicControl magic;
         EnemyEnchantments = Set<PlayerEnchantmentType>.Of();
         for (int i = StrategicMap.Current.Players.GetCount() - 1; i >= 1; i--)
         {
@@ -179,7 +176,7 @@ public partial class PlayerMagicControl : EngineObject
             {
                 if (StrategicMap.Current.Players.GetPlayers(i).DiplomaticRelations.GetDiplomaticRelation(Player.PlayerIndex) == DiplomaticRelation.War)
                 {
-                    magic = StrategicMap.Current.Players.GetPlayers(i).MagicControl;
+                    PlayerMagicControl magic = StrategicMap.Current.Players.GetPlayers(i).MagicControl;
                     if (magic.ActiveEnchantments.Contains(PlayerEnchantmentType.WaterMastery))
                     {
                         EnemyEnchantments += Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.WaterMastery);
@@ -255,13 +252,10 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2023
     public void OutOfMana(int mana)
     {
-        int i;
-        int index;
-        PlayerMagicEventLog log;
         while (mana > 0 && Enchantments.GetCount() != 0)
         {
-            i = Enchantments.GetCount();
-            index = i - 1;
+            int i = Enchantments.GetCount();
+            int index = i - 1;
             while (i != 0)
             {
                 i -= 1;
@@ -276,7 +270,7 @@ public partial class PlayerMagicControl : EngineObject
             if (index != -1)
             {
                 mana -= Enchantments.GetEnchantments(index).Upkeep;
-                log = new PlayerMagicEventLog(null)
+                PlayerMagicEventLog log = new(null)
                 {
                     Holder = CreationHolder(),
                     Player = Player.PlayerIndex,
@@ -312,12 +306,10 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2056
     public bool ValidateEnchantmentsUpkeep()
     {
-        bool result;
-        int balance;
         int manaIncome = GetManaIncome();
         int manaUpkeep = GetManaUpkeep();
-        balance = Mana + manaIncome - manaUpkeep;
-        result = balance >= 0 || GetManaUpkeep() == 0;
+        int balance = Mana + manaIncome - manaUpkeep;
+        bool result = balance >= 0 || GetManaUpkeep() == 0;
 
         return result;
     }
@@ -342,21 +334,16 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2074
     public void NewTurn()
     {
-        SpellType kind = default;
-        Int32List candidates = default;
-        int index = default;
-        Spell spell = default;
-        PlayerMagicEventLog log;
         if (StrategicMap.Current.Day == 1 && Player.PlayerIndex != 0 && (StrategicMap.Current.GameType != GameType.Campaign || Spells.Count == 0))
         {
-            candidates = new Int32List();
+            Int32List candidates = new();
             for (int kindOrdinal = (int)(SpellType)0; kindOrdinal <= (int)(SpellType)2; kindOrdinal++)
             {
-                kind = (SpellType)kindOrdinal;
+                SpellType kind = (SpellType)kindOrdinal;
                 candidates.Clear();
                 for (int i = 0, last = GamePack.Current.SpellControl.GetCount() - 1; i <= last; i++)
                 {
-                    spell = GamePack.Current.SpellControl.GetSpell(i);
+                    Spell spell = GamePack.Current.SpellControl.GetSpell(i);
                     if (spell is not null && Spells.IndexOf(i) == -1 && spell.SpellType == kind && (spell.MagicSphere == MagicSphere.Cosmos || Player.Leader.GetSpherePicks(spell.MagicSphere) > 0) && spell.SpellLevel == 1)
                     {
                         _ = candidates.Add(i);
@@ -365,7 +352,7 @@ public partial class PlayerMagicControl : EngineObject
 
                 if (candidates.Count > 0)
                 {
-                    index = StrategicMap.Current.Random(candidates.Count);
+                    int index = StrategicMap.Current.Random(candidates.Count);
                     int item = candidates[index];
                     _ = Spells.Add(item);
                 }
@@ -387,7 +374,7 @@ public partial class PlayerMagicControl : EngineObject
                         Mana += Math.Abs(ResearchPointsLeft);
                     }
 
-                    log = new PlayerMagicEventLog(null)
+                    PlayerMagicEventLog log = new(null)
                     {
                         Holder = CreationHolder(),
                         Player = Player.PlayerIndex,
@@ -511,22 +498,20 @@ public partial class PlayerMagicControl : EngineObject
     {
         bool result;
         Span<int> counts = stackalloc int[4];
-        int level;
-        Spell known;
         if (Player.Leader.GetSpherePicks(spell.MagicSphere) >= spell.SpellLevel && Spells.IndexOf(spell.SpellId) == -1)
         {
             counts.Clear();
             for (int i = Spells.Count - 1; i >= 0; i--)
             {
                 int item = Spells[i];
-                known = GamePack.Current.SpellControl.GetSpell(item);
+                Spell known = GamePack.Current.SpellControl.GetSpell(item);
                 if (known.SpellLevel > 0 && known.GetEnabled() && spell.MagicSphere == known.MagicSphere)
                 {
                     counts[known.SpellLevel - 1] += 1;
                 }
             }
 
-            level = 1;
+            int level = 1;
             while (counts[level - 1] >= 2 && level < 4)
             {
                 level += 1;
@@ -550,10 +535,9 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2199
     public void ListResearchSpells(SpellList list, Set<SpellType> spellTypes)
     {
-        Spell spell;
         for (int i = 0, last = GamePack.Current.SpellControl.GetCount() - 1; i <= last; i++)
         {
-            spell = GamePack.Current.SpellControl.GetSpell(i);
+            Spell spell = GamePack.Current.SpellControl.GetSpell(i);
             if (spell is not null && spellTypes.Contains(spell.SpellType) && ValidResearchSpell(spell))
             {
                 list.Add(spell);
@@ -742,13 +726,11 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2316
     public bool DispelEnchantment(Enchantment enchantment)
     {
+        int index = Enchantments.IndexOfChild(enchantment);
         bool result;
-        int index;
-        ChangePlayerMagicTokenEvent eventValue;
-        index = Enchantments.IndexOfChild(enchantment);
         if (!Player.GetBusy() && index != -1)
         {
-            eventValue = CreateChangeMagicTokenEvent();
+            ChangePlayerMagicTokenEvent eventValue = CreateChangeMagicTokenEvent();
             eventValue.Mode = ChangePlayerMagicTokenEventMode.DispelEnchantment;
             eventValue.Value = index;
             StrategicMap.Current.TokenManager.GetTokenControl(Player.PlayerIndex).AddEvent(eventValue);
@@ -775,12 +757,11 @@ public partial class PlayerMagicControl : EngineObject
     public bool ChangePowerSettings(int percentage)
     {
         bool result;
-        ChangePlayerMagicTokenEvent eventValue;
         if (!Player.GetBusy())
         {
             if (percentage != ResearchPercentage)
             {
-                eventValue = CreateChangeMagicTokenEvent();
+                ChangePlayerMagicTokenEvent eventValue = CreateChangeMagicTokenEvent();
                 eventValue.Mode = ChangePlayerMagicTokenEventMode.ChangePowerSettings;
                 eventValue.Value = percentage;
                 StrategicMap.Current.TokenManager.GetTokenControl(Player.PlayerIndex).AddEvent(eventValue);
@@ -821,10 +802,9 @@ public partial class PlayerMagicControl : EngineObject
     public bool ResearchSpell(int spellId)
     {
         bool result;
-        ChangePlayerMagicTokenEvent eventValue;
         if (!Player.GetBusy())
         {
-            eventValue = CreateChangeMagicTokenEvent();
+            ChangePlayerMagicTokenEvent eventValue = CreateChangeMagicTokenEvent();
             eventValue.Mode = ChangePlayerMagicTokenEventMode.ResearchSpell;
             eventValue.Value = spellId;
             StrategicMap.Current.TokenManager.GetTokenControl(Player.PlayerIndex).AddEvent(eventValue);
@@ -842,8 +822,6 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2384
     public int AIRequestOverrideUpkeep(int priority)
     {
-        GlobalEnchantment enchantment;
-        GlobalMagicControl globalControl;
         int result = 0;
         for (int i = 0, last = Enchantments.GetCount() - 1; i <= last; i++)
         {
@@ -854,10 +832,10 @@ public partial class PlayerMagicControl : EngineObject
         }
 
         // { Original bug: this estimate also counts global enchantments owned by other players. }
-        globalControl = StrategicMap.Current.GlobalMagicControl;
+        GlobalMagicControl globalControl = StrategicMap.Current.GlobalMagicControl;
         for (int i = globalControl.Enchantments.GetCount() - 1; i >= 0; i--)
         {
-            enchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(i);
+            GlobalEnchantment enchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(i);
             if (priority >= enchantment.GetAIUpkeepPriority())
             {
                 result += enchantment.GetUpkeep();

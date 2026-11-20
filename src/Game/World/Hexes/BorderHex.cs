@@ -55,10 +55,8 @@ public partial class BorderHex(CustomNode owner) : AbstractBorderHexagon(owner)
     // BorderHx.pas:82
     public override int GetShowPriority()
     {
-        int pixelX;
-        int pixelY;
-        pixelX = (Owner.HexX * 32) + 8;
-        pixelY = ((Owner.HexX & 1) * 16) + (Owner.HexY * 32);
+        int pixelX = (Owner.HexX * 32) + 8;
+        int pixelY = ((Owner.HexX & 1) * 16) + (Owner.HexY * 32);
         return ((pixelY + 32) << 13) + (11 << 26) + pixelX + 8;
     }
 

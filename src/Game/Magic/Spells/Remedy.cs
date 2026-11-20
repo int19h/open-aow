@@ -31,10 +31,9 @@ public partial class Remedy : UnitSpell
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
         bool result;
-        int hitPoints;
         if (ValidTargetUnit(source, target))
         {
-            hitPoints = target.GetHitPoints() + 5;
+            int hitPoints = target.GetHitPoints() + 5;
             if (hitPoints > target.GetHits())
             {
                 hitPoints = target.GetHits();

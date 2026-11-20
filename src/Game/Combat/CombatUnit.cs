@@ -53,10 +53,10 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1382
     public override void PersistFields(IPersister persister)
     {
-        Troop u = default;
         base.PersistFields(persister);
         if (persister.Loading)
         {
+            Troop u = default;
             u = persister.Created("Troop", objectValue: u);
             SetUnit(u);
             _ = (u?.Release());
@@ -72,17 +72,15 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1408
     public override void GetTargetCombatValueDamageValue(CombatObject target, out int combatValue, out int damageValue)
     {
-        Troop u;
-        AbilityTypeList abilities;
-        AbilityDamageValues values = default;
-        int v;
-        Ability ability;
         if (!Status.Contains(CombatObjectStatusElement.Destroyed))
         {
-            u = Troop;
+            Troop u = Troop;
             combatValue = 0;
             damageValue = 0;
-            abilities = GamePack.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
+            AbilityTypeList abilities = GamePack.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
+            AbilityDamageValues values = default;
+            int v;
+            Ability ability;
             for (int i = abilities.Count - 1; i >= 0; i--)
             {
                 ability = abilities.GetAbility(i);
@@ -248,13 +246,11 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1095
     public override int GetVisibilityRange()
     {
+        Troop u = Troop;
         int result;
-        int level;
-        Troop u;
-        u = Troop;
         if (u is not null)
         {
-            level = u.GetAbilityLevel(64);
+            int level = u.GetAbilityLevel(64);
             result = level != 0 ? (level * 2) + 4 : 4;
 
             if (Combat.ExplorationSite == 1 && !Troop.GetAbilityEnabled(39))
@@ -313,11 +309,10 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1396
     public override void ObjectDestroyed(CombatObject objectValue)
     {
-        Troop u;
         base.ObjectDestroyed(objectValue);
         if (Disabled && objectValue is CombatUnit combatUnit)
         {
-            u = combatUnit.Troop;
+            Troop u = combatUnit.Troop;
             if (u is not null && u.GetTransporter() && (int)(((uint)combatUnit.Position) >> 4) == (int)(((uint)Position) >> 4))
             {
                 DestroyObject();
@@ -338,10 +333,9 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1200
     public override void Finalize(FinalizeMode mode)
     {
-        CombatParty party;
-        ArmyHexSprite placed;
         if (!Status.Contains(CombatObjectStatusElement.Destroyed) && !Troop.GetAbilityEnabled(130) && !Troop.GetAbilityEnabled(131))
         {
+            CombatParty party;
             if (mode != FinalizeMode.All)
             {
                 if ((Position & 15) <= 7)
@@ -350,6 +344,7 @@ public partial class CombatUnit : CombatObject
                     if (party is not null && (sbyte)party.PlayerIndex == CombatPlayer)
                     {
                         sbyte player = GetPlayer();
+                        ArmyHexSprite placed;
                         if (StrategicMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.Lost)
                         {
                             placed = Troop.Place(party.Location.X, party.Location.Y, party.Location.MapLevel, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.NeglectEmptyPlayerLocation));
@@ -405,14 +400,12 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1494
     public override bool SupportCombatMode(Set<CombatMode> modes)
     {
+        Troop u = Troop;
         bool result;
-        Troop u;
-        int i;
-        u = Troop;
         if (u is not null && u.GetHitPoints() > 0)
         {
             result = false;
-            i = Troop.GetAbilityCount();
+            int i = Troop.GetAbilityCount();
             while (i != 0 && !result)
             {
                 i -= 1;
@@ -463,9 +456,8 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1115
     public override void NewTurn(byte combatPlayer)
     {
-        Troop u;
         base.NewTurn(combatPlayer);
-        u = Troop;
+        Troop u = Troop;
         u?.TriggerNewCombatTurn(this, (sbyte)combatPlayer);
     }
 
@@ -475,18 +467,16 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1127
     public override void CombatDone()
     {
-        Troop u;
         base.CombatDone();
-        u = Troop;
+        Troop u = Troop;
         u?.TriggerCombatDone(this);
     }
 
     // Combat.pas:1604
     public override void Show(int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        Troop u;
         UnitShowInfo info = default;
-        u = Troop;
+        Troop u = Troop;
         if (u is not null)
         {
             info.Direction = (byte)direction;
@@ -585,14 +575,13 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1525
     public override void DestroyObject()
     {
-        Troop u;
         if (GetHitPoints() != 0)
         {
             SetHitPoints(0);
         }
 
         Status += Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
-        u = Troop;
+        Troop u = Troop;
         if (u is not null)
         {
             for (int i = u.GetAbilityCount() - 1; i >= 0; i--)
@@ -643,11 +632,10 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1358
     public virtual void SetUnit(Troop troop)
     {
-        Troop u;
-        CombatParty party;
-        u = Troop;
+        Troop u = Troop;
         if (u != troop)
         {
+            CombatParty party;
             if (u is not null)
             {
                 party = _party;
@@ -693,8 +681,7 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1164
     public void UpdateWallCombatFeatures()
     {
-        Troop u;
-        u = Troop;
+        Troop u = Troop;
         if (u is not null && !Status.Contains(CombatObjectStatusElement.Destroyed))
         {
             WallCombatFeaturesValue = u.GetWallCombatFeatures();
@@ -712,7 +699,6 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1303
     public void SetParty(CombatParty party)
     {
-        CombatParty p;
         if (party != _party)
         {
             if (_party is not null && Troop is not null)
@@ -721,7 +707,7 @@ public partial class CombatUnit : CombatObject
             }
 
             _party = party;
-            p = _party;
+            CombatParty p = _party;
             if (p is not null && Troop is not null)
             {
                 Troop.SetOwner(p.Army);
@@ -753,10 +739,8 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1331
     public void UpdateUnitGraphicsResource()
     {
-        int index;
-        Troop u;
-        u = Troop;
-        index = u is not null ? u.GetUnitGraphicsResourceIndex() : -1;
+        Troop u = Troop;
+        int index = u is not null ? u.GetUnitGraphicsResourceIndex() : -1;
 
         if (index != _unitGraphicsResourceIndex)
         {
@@ -772,8 +756,7 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1347
     public void ReleaseUnitGraphicsResource()
     {
-        int index;
-        index = _unitGraphicsResourceIndex;
+        int index = _unitGraphicsResourceIndex;
         if (index != -1)
         {
             _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index).Release();
@@ -798,13 +781,12 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1578
     public int CommandingTargetPriority()
     {
-        CommandAbilityData data;
         int result = 0;
         for (int i = 0; i <= 2; i++)
         {
             if (GetAbilityEnabled(CombatAbilityTables.CommandingPriorityAbilityIds[i]))
             {
-                data = GamePack.Current.AbilityControl.GetAbility<CommandAbility>(CombatAbilityTables.CommandingPriorityAbilityIds[i]).GetData(Troop);
+                CommandAbilityData data = GamePack.Current.AbilityControl.GetAbility<CommandAbility>(CombatAbilityTables.CommandingPriorityAbilityIds[i]).GetData(Troop);
                 if (data is not null)
                 {
                     result += data.CommandingTargetPriority(Combat);
@@ -818,13 +800,12 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1591
     public int CommandingTargetStrength()
     {
-        CommandAbilityData data;
         int result = 0;
         for (int i = 0; i <= 2; i++)
         {
             if (GetAbilityEnabled(CombatAbilityTables.CommandingStrengthAbilityIds[i]))
             {
-                data = GamePack.Current.AbilityControl.GetAbility<CommandAbility>(CombatAbilityTables.CommandingStrengthAbilityIds[i]).GetData(Troop);
+                CommandAbilityData data = GamePack.Current.AbilityControl.GetAbility<CommandAbility>(CombatAbilityTables.CommandingStrengthAbilityIds[i]).GetData(Troop);
                 if (data is not null)
                 {
                     result += data.CommandingTargetStrength(Combat);

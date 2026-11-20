@@ -63,16 +63,10 @@ public partial class FortifyAIGroupControl : AIGroupControl
     public override void ProcessStates()
     {
         AIGroupTargetFinder finder;
-        AIRecruitmentGroupFinder recruitment;
         AIProductionLocationFinder productionFinder;
         AIGroupRecruitControl recruit;
-        AIGroupProductionControl produce;
         AIGroupDefenseControl defense;
-        AIGroupControlTarget currentTarget;
-        AIGroupControlTarget newTarget;
         int i;
-        int excess;
-        ArmyHexSprite army;
         City city;
         switch (State)
         {
@@ -110,9 +104,9 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 break;
             case 2:
                 _ = Targets.Validate();
-                newTarget = null;
+                AIGroupControlTarget newTarget = null;
                 i = Targets.IndexOfMapCoordinate(Location);
-                currentTarget = i == -1 ? null : Targets.GetTargets(i);
+                AIGroupControlTarget currentTarget = i == -1 ? null : Targets.GetTargets(i);
 
                 {
                     i = 0;
@@ -122,7 +116,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                         AIGroupControlTarget targetData = Targets.GetTargets(i);
                         AIGroupControlTarget targetMovePoints = Targets.GetTargets(i);
                         Targets.GetTargets(i).DataB = (targetData.Data.Priority * 10) + (targetMovePoints.MovePoints * -2);
-                        excess = Targets.GetTargets(i).DataA - StrengthMax;
+                        int excess = Targets.GetTargets(i).DataA - StrengthMax;
                         if (excess > 0)
                         {
                             AIGroupControlTarget target = Targets.GetTargets(i);
@@ -139,7 +133,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                         if (Targets.GetTargets(i).Location != Location)
                         {
                             AIGroupControlTarget targetLocation = Targets.GetTargets(i);
-                            army = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(targetLocation.Location).GetArmyHexSprite();
+                            ArmyHexSprite army = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(targetLocation.Location).GetArmyHexSprite();
                             if (army is not null)
                             {
                                 int count = army.Army.Units.Count;
@@ -179,7 +173,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 State += 1;
                 break;
             case 4:
-                recruitment = new AIRecruitmentGroupFinder(null) { Holder = CreationHolder() };
+                AIRecruitmentGroupFinder recruitment = new(null) { Holder = CreationHolder() };
                 _ = recruitment.Setup(this);
                 ActivatePlugin(recruitment);
                 _ = recruitment.Release();
@@ -464,7 +458,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
             case 23:
                 if (ProductionLocations.Count > 0)
                 {
-                    produce = new AIGroupProductionControl(null) { Holder = CreationHolder() };
+                    AIGroupProductionControl produce = new(null) { Holder = CreationHolder() };
                     _ = produce.Setup(this);
                     int strengthMax = Group.Productions.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                     produce.ProduceStrength = _requiredStrength - (strengthMax + StrengthMax);
@@ -513,11 +507,10 @@ public partial class FortifyAIGroupControl : AIGroupControl
     // MainAG.pas:287
     public int GetSurroundingEnemyStrength(MapCoordinate location, int radius)
     {
-        MoveControlSettings settings;
         MapFieldMessage message = default;
         BattleFieldQuery query = new();
         _ = query.Info;
-        settings = new MoveControlSettings(null)
+        MoveControlSettings settings = new(null)
         {
             Holder = CreationHolder(),
             Player = Group.Player
@@ -556,9 +549,8 @@ public partial class FortifyAIGroupControl : AIGroupControl
     // MainAG.pas:315
     public void UpdateRequiredStrength()
     {
-        int strength;
-        PlayerStatistics statistics;
         _requiredStrength = _enemyStrength;
+        int strength;
         if (StrategicMap.Current.Day > 5)
         {
             strength = StrategicMap.Current.Day / 5 * 5000;
@@ -578,7 +570,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
             _requiredStrength = Round(_requiredStrength * StrategicMap.Current.Day * 0.1);
         }
 
-        statistics = StrategicMap.Current.Players.GetPlayers(Group.Player).Statistics;
+        PlayerStatistics statistics = StrategicMap.Current.Players.GetPlayers(Group.Player).Statistics;
         if (statistics.TurnInfo.Count > 0)
         {
             int count = statistics.TurnInfo.Count;
@@ -610,19 +602,14 @@ public partial class FortifyAIGroupControl : AIGroupControl
     // MainAG.pas:352
     public void MakeUselessUnitsPassive()
     {
-        int excess = default;
-        int i = default;
-        UnitUserList units = default;
-        UnitUserList passive = default;
-        AIGroup group = default;
-        excess = StrengthMax - _requiredStrength;
+        int excess = StrengthMax - _requiredStrength;
         if (excess > 0)
         {
-            units = new UnitUserList(null) { Holder = CreationHolder() };
-            passive = new UnitUserList(null) { Holder = CreationHolder() };
+            UnitUserList units = new(null) { Holder = CreationHolder() };
+            UnitUserList passive = new(null) { Holder = CreationHolder() };
             _ = units.AddUnits(Group.Units);
             units.SortChildren<Troop>(CompareFortifyUnits);
-            i = units.Count;
+            int i = units.Count;
             while (i != 0 && excess > 0)
             {
                 i -= 1;
@@ -639,7 +626,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
 
             if (passive.Count != 0)
             {
-                group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, GroupBehavior.Passive);
+                AIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, GroupBehavior.Passive);
                 _ = group.AddUnits(passive.Units);
                 _ = group.Release();
             }
@@ -652,14 +639,12 @@ public partial class FortifyAIGroupControl : AIGroupControl
     // MainAG.pas:391
     public bool CanBreachWall()
     {
-        int i;
-        Troop troop;
-        i = Group.Units.Count;
+        int i = Group.Units.Count;
         bool result = Group.Units.GetStrength(DamageType.Wall) != 0;
         while (!result && i != 0)
         {
             i -= 1;
-            troop = Group.Units.GetUnit(i);
+            Troop troop = Group.Units.GetUnit(i);
             result = troop.GetAbilityEnabled(52) && GamePack.Current.AbilityControl.GetAbility<SpellCastingAbility>(52).CanCastBreachWallSpell(troop);
         }
 

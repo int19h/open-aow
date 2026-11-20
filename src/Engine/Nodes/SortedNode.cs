@@ -94,17 +94,16 @@ public partial class SortedNode(CustomNode owner) : CustomNode(owner)
     // Engine.pas:1542
     public virtual int AddSortChild(EngineObject child, int sortValue)
     {
-        int result;
-        int i;
         CheckChild(child);
         if (StoredCount >= Capacity)
         {
             Grow();
         }
 
+        int result;
         if (Sorted)
         {
-            i = StoredCount;
+            int i = StoredCount;
             while (i > 0 && sortValue > Items[i - 1].SortValue)
             {
                 i -= 1;

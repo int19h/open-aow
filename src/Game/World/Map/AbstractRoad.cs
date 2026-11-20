@@ -16,21 +16,18 @@ public partial class AbstractRoad(CustomNode owner) : MapObject(owner)
     // MAPOBJ.PAS:808
     public override int GetShowPriority()
     {
-        int pixelX;
-        int pixelY;
-        pixelX = (Owner.HexX * 32) + 8;
-        pixelY = ((Owner.HexX & 1) * 16) + (Owner.HexY * 32);
+        int pixelX = (Owner.HexX * 32) + 8;
+        int pixelY = ((Owner.HexX & 1) * 16) + (Owner.HexY * 32);
         return pixelX + (pixelY << 13) + 671088640;
     }
 
     // MAPOBJ.PAS:848
     public override void ChangeTerrain(in HexSpriteTerrainInfo message)
     {
-        MapObjectResource r;
         if (message.HexNumber == 0 && GetTerrain(0) != message.TerrainType)
         {
             int classId = Resource.EngineClass.ClassId;
-            r = Resource.GetTerrainControl().GetRandomResource(message.TerrainType, classId);
+            MapObjectResource r = Resource.GetTerrainControl().GetRandomResource(message.TerrainType, classId);
             if (r is not null)
             {
                 SetResource(r);
@@ -62,8 +59,6 @@ public partial class AbstractRoad(CustomNode owner) : MapObject(owner)
     // MAPOBJ.PAS:828
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        bool result;
-        HexSprite hexSprite;
         bool condition = hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer.Width && hexY < mapContainer.Height && hexLevel < mapContainer.LevelCount;
         if (condition)
         {
@@ -72,9 +67,10 @@ public partial class AbstractRoad(CustomNode owner) : MapObject(owner)
             condition = fieldValue.TerrainType == terrain;
         }
 
+        bool result;
         if (condition)
         {
-            hexSprite = mapContainer.GetField(hexX, hexY, hexLevel).GetMaxLevelNoneTransparentHexSprite();
+            HexSprite hexSprite = mapContainer.GetField(hexX, hexY, hexLevel).GetMaxLevelNoneTransparentHexSprite();
             result = hexSprite is null || hexSprite.GetLevel() < 10 || hexSprite is AbstractRoad;
         }
         else

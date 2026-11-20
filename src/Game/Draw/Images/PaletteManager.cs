@@ -37,12 +37,11 @@ public partial class PaletteManager : IDisposable
     public void LoadFromStream(Stream stream)
     {
         int n = default;
-        LibraryImagePalette p;
         Clear();
         stream.ReadExactly(Bytes.Of(ref n, 4));
         for (int i = 0, last = n - 1; i <= last; i++)
         {
-            p = new LibraryImagePalette();
+            LibraryImagePalette p = new();
             p.LoadFromStream(stream);
             Palettes.Add(p);
             p.IndexValue = i;
@@ -81,21 +80,18 @@ public partial class PaletteManager : IDisposable
     // ImageLib.pas:7039
     public LibraryImagePalette RegisterPalette(Palette palette)
     {
-        LibraryImagePalette result;
-        int i;
-        bool found;
-        LibraryImagePalette p;
-        i = Palettes.Count;
-        found = false;
+        int i = Palettes.Count;
+        bool found = false;
         while (i != 0 && !found)
         {
             i -= 1;
             found = palette.Compare(Palettes[i].Palette);
         }
 
+        LibraryImagePalette result;
         if (!found)
         {
-            p = new LibraryImagePalette();
+            LibraryImagePalette p = new();
             p.Palette.Assign(palette);
             p.IndexValue = Palettes.Count;
             p.RefCount = 1;
@@ -115,8 +111,7 @@ public partial class PaletteManager : IDisposable
     // ImageLib.pas:7068
     public void UnregisterPalette(int index)
     {
-        LibraryImagePalette p;
-        p = Palettes[index];
+        LibraryImagePalette p = Palettes[index];
         p.RefCount -= 1;
         if (p.RefCount <= 0)
         {

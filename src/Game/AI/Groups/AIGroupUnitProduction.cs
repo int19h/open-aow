@@ -48,9 +48,8 @@ public partial class AIGroupUnitProduction(CustomNode owner) : EngineObject(owne
     // AIGroup.pas:2408
     public override int Release()
     {
-        int count;
         _refCount -= 1;
-        count = _refCount;
+        int count = _refCount;
         int result = count;
         if (count == 0)
         {

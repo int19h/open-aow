@@ -28,9 +28,8 @@ public partial class DiplomaticRelationHistoryList(CustomNode owner) : OwningNod
     // Player.PAS:56
     public DiplomaticRelation GetRelationOnDay(int day)
     {
-        int i;
         DiplomaticRelation result = DiplomaticRelation.Unknown;
-        i = 0;
+        int i = 0;
         while (i < Count && GetItems(i).Day <= day)
         {
             result = GetItems(i).Relation;

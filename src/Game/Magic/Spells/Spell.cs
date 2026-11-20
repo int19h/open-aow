@@ -80,13 +80,12 @@ public partial class Spell : EngineObject
     // Spells.PAS:224
     public virtual void PlayDefaultCastEffects(sbyte player, sbyte X, sbyte Y, sbyte layer)
     {
-        ImageSequenceAnimation animation;
         if (StrategicMap.Current.Visible(X, Y, layer, 0))
         {
             _ = StrategicMap.Current.ValidateObservation(player, X, Y, layer, 0);
             if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0) is not null)
             {
-                animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+                ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                 animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0));
                 _ = StrategicMap.Current.PlaceHex(animation, X, Y, layer);
             }
@@ -200,11 +199,10 @@ public partial class Spell : EngineObject
     public virtual bool ActivateCombat(Troop source)
     {
         bool result;
-        CombatSpellCaster caster;
         string reason = "";
         if (CanActivateCombat(source, ref reason))
         {
-            caster = new CombatSpellCaster(null)
+            CombatSpellCaster caster = new(null)
             {
                 Holder = CreationHolder(),
                 CombatCasterSpellId = SpellId,
@@ -287,8 +285,6 @@ public partial class Spell : EngineObject
     // Spells.PAS:371
     public bool AIRequestCastSpellExpense(Troop source, int budget, int mana, int upkeep)
     {
-        bool result;
-        AIBudgetManager manager;
         if (upkeep > 0)
         {
             mana -= StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.AIRequestOverrideUpkeep(Round(upkeep * 0.8));
@@ -298,8 +294,8 @@ public partial class Spell : EngineObject
             }
         }
 
-        manager = StrategicMap.Current.Players.GetPlayers(source.Player).AIBudget;
-        result = StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled() || manager.RequestBudgetExpense(0, budget, 0, mana, manager.DefaultBudget, 1 != 0);
+        AIBudgetManager manager = StrategicMap.Current.Players.GetPlayers(source.Player).AIBudget;
+        bool result = StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled() || manager.RequestBudgetExpense(0, budget, 0, mana, manager.DefaultBudget, 1 != 0);
 
         return result;
     }
@@ -308,10 +304,9 @@ public partial class Spell : EngineObject
     public bool AICastSpellExpenseMade(Troop source, int budget, int mana, int upkeep)
     {
         bool result;
-        AIBudgetManager manager;
         if (AIRequestCastSpellExpense(source, budget, mana, upkeep))
         {
-            manager = StrategicMap.Current.Players.GetPlayers(source.Player).AIBudget;
+            AIBudgetManager manager = StrategicMap.Current.Players.GetPlayers(source.Player).AIBudget;
             result = StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled() || manager.BudgetExpenseMade(0, budget, 0, mana, manager.DefaultBudget, (AIBudgetManager.ExpenseMode)2);
         }
         else

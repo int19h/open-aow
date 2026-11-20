@@ -18,10 +18,8 @@ public partial class AowHexSpriteMapMouse : GameMapMouse
     // AoWHSMap.PAS:1148
     public override int GetCursor()
     {
-        int result;
-        CombatMap combatMap;
-        combatMap = StrategicMap.Current.CombatMap;
-        result = combatMap is not null ? combatMap.Mouse.GetCursor() : base.GetCursor();
+        CombatMap combatMap = StrategicMap.Current.CombatMap;
+        int result = combatMap is not null ? combatMap.Mouse.GetCursor() : base.GetCursor();
 
         return result;
     }
@@ -62,8 +60,7 @@ public partial class AowHexSpriteMapMouse : GameMapMouse
     // AoWHSMap.PAS:1175
     public override void Move(Set<ShiftState> shift, int X, int Y)
     {
-        CombatMap combatMap;
-        combatMap = StrategicMap.Current.CombatMap;
+        CombatMap combatMap = StrategicMap.Current.CombatMap;
         if (combatMap is not null)
         {
             combatMap.Mouse.Move(shift, X, Y);
@@ -77,17 +74,14 @@ public partial class AowHexSpriteMapMouse : GameMapMouse
     // AoWHSMap.PAS:1184
     public override void DoubleClick()
     {
-        CombatMap combatMap;
-        bool selectStructure;
-        Structure structure;
-        combatMap = StrategicMap.Current.CombatMap;
+        CombatMap combatMap = StrategicMap.Current.CombatMap;
         if (combatMap is not null)
         {
             combatMap.Mouse.DoubleClick();
             return;
         }
 
-        selectStructure = Capture is null;
+        bool selectStructure = Capture is null;
         if (Capture == StrategicMap.Current.SelectedArmy)
         {
             selectStructure = StrategicMap.Current.SelectedArmy.GetArmyHexSprite() is not null && StrategicMap.Current.SelectedArmy.MoveSettingsList.Count == 1 && StrategicMap.Current.SelectedArmy.GetArmyHexSprite().HexX == HexX && StrategicMap.Current.SelectedArmy.GetArmyHexSprite().HexY == HexY && StrategicMap.Current.SelectedArmy.GetArmyHexSprite().HexLevel == StrategicMap.Current.ViewMapLevel;
@@ -97,7 +91,7 @@ public partial class AowHexSpriteMapMouse : GameMapMouse
         {
             int hexY = HexY;
             int hexX = HexX;
-            structure = StrategicMap.Current.MapContainer.GetField(hexX, hexY, StrategicMap.Current.ViewMapLevel).FindNoneTransparentHexSprite<Structure>();
+            Structure structure = StrategicMap.Current.MapContainer.GetField(hexX, hexY, StrategicMap.Current.ViewMapLevel).FindNoneTransparentHexSprite<Structure>();
             if (structure is not null && structure.CanDoubleClick())
             {
                 StrategicMap.Current.Selection.UnselectLocation();

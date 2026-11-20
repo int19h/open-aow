@@ -66,7 +66,6 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
         ImageLibraryManager = new ImageLibraryManager(null);
         SfxManager = new SfxManager(null);
 
-        BitList enabled;
         CombatResources = new MapObjectResourceList(this);
         CombatResources.SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild));
         CombatHexes = new HexControl(this)
@@ -145,7 +144,7 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
         string toadstools = AbilityRules.TranslateResourceString(GetEngine(), s_toadstoolsText);
         _ = DecorationTypes.Add(toadstools);
         PadControl = new PadControl(this);
-        enabled = PadControl.TerrainTypes;
+        BitList enabled = PadControl.TerrainTypes;
         enabled[1] = true;
         enabled[2] = true;
         enabled[3] = true;
@@ -396,11 +395,10 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
     // Ability.PAS:194
     public override void MainPersist(IPersister persister)
     {
-        string dictionaryFile;
         base.MainPersist(persister);
         if (persister.Loading)
         {
-            dictionaryFile = $"{GetEngine().StartupDirectory}Dict\\Release.mld";
+            string dictionaryFile = $"{GetEngine().StartupDirectory}Dict\\Release.mld";
             GetEngine().TranslateEngineObjectFromFile(this, dictionaryFile);
         }
     }
@@ -408,10 +406,8 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
     // Ability.PAS:91
     public int GetFileCrc(string fileName, bool atEnd)
     {
-        int result;
-        Stream fileStream;
-        result = 0;
-        fileStream = OpenFile(fileName, 0 | 32);
+        int result = 0;
+        Stream fileStream = OpenFile(fileName, 0 | 32);
         try
         {
             if (atEnd)
@@ -435,10 +431,8 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
     // Ability.PAS:109
     public int RetrieveHssCrc()
     {
-        Int32List crCs;
-        string path;
-        crCs = new Int32List();
-        path = ExtractFilePath(GetEngine().HssFileName);
+        Int32List crCs = new();
+        string path = ExtractFilePath(GetEngine().HssFileName);
         // { Original includes ABILITY.PFS twice and does not free CRCs on a read error. }
         _ = crCs.Add(GetFileCrc($"{path}ABILITY.PFS", false));
         _ = crCs.Add(GetFileCrc($"{path}ABILITY.PFS", false));

@@ -18,11 +18,10 @@ public partial class CampaignSettingsDialog(UIContext ui) : UIModule(ui)
     // AoWCampaignSettings.pas:45
     public void DlgShow()
     {
-        CampaignDifficultyLevel level;
         DifficultyLevelComboBox.Items.Clear();
         for (int levelOrdinal = (int)(CampaignDifficultyLevel)0; levelOrdinal <= (int)(CampaignDifficultyLevel)2; levelOrdinal++)
         {
-            level = (CampaignDifficultyLevel)levelOrdinal;
+            CampaignDifficultyLevel level = (CampaignDifficultyLevel)levelOrdinal;
             string campaignDifficultyLevel = UI.Engine.TranslateResourceString(s_campaignDifficultyLevelTexts[(int)level]);
             _ = DifficultyLevelComboBox.Items.AddObject(campaignDifficultyLevel, IntToObject((int)level));
         }

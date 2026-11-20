@@ -27,8 +27,8 @@ public partial class SaveGameTokenEvent(CustomNode owner) : TokenEvent(owner)
     // MoveT.PAS:1854
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult result = default;
         _ = base.Execute(tokenEvent);
+        ExecuteResult result;
         if (StrategicMap.Current.SeatedPlayer == tokenEvent.ActiveTacticalBattleIndex)
         {
             if (tokenEvent.ExecuteCount == 0)

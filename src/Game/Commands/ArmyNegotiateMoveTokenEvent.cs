@@ -76,14 +76,12 @@ public partial class ArmyNegotiateMoveTokenEvent(CustomNode owner) : MoveArmyTok
     public override MoveStatus ExecuteMove()
     {
         MoveStatus result;
-        MapField field;
-        int direction;
         if (MoveIndex == 1)
         {
-            field = GetMapField(Path[0].Location);
+            MapField field = GetMapField(Path[0].Location);
             if (field.GetMoveAction(ArmyHexSprite.Army.Player) == MoveAction.Negotiate)
             {
-                direction = GetDirection(1);
+                int direction = GetDirection(1);
                 if (direction == 0)
                 {
                     direction = GetHexDirection(1);
@@ -120,7 +118,6 @@ public partial class ArmyNegotiateMoveTokenEvent(CustomNode owner) : MoveArmyTok
 
     private static void NegotiateArmy(sbyte player, ArmyHexSprite armyHexSprite, byte selection, sbyte X, sbyte Y, sbyte L, int movePoints)
     {
-        string errorText = "";
         MapFieldMessage message = default;
         if (StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
         {
@@ -169,6 +166,7 @@ public partial class ArmyNegotiateMoveTokenEvent(CustomNode owner) : MoveArmyTok
             message.Param = param4;
             message.Result = (MsgArg)0;
             StrategicMap.Current.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
+            string errorText = "";
             _ = message.Param[1].Int != 0 && StrategicMap.Current.Players.GetPlayers(player).Gems >= negotiateRequestEventLog.Gold
                 ? negotiateRequestEventLog.Accept(ref errorText)
                 : negotiateRequestEventLog.Reject(ref errorText);

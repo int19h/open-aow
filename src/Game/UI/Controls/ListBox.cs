@@ -365,12 +365,12 @@ public partial class ListBox : Control
     //   back inside the window manager when it would stick out }
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        int i;
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
         if (!OwnerComponent.Handled && X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth - _scrollWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
+            int i;
             if (_textOnly == 0)
             {
                 LibraryImage imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame];

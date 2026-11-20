@@ -26,12 +26,10 @@ public partial class UnitResource : TroopResource
     // UnitRes.PAS:73
     public UnitResource(CustomNode owner) : base(owner)
     {
-        Unit.Rank rank;
-
         Description = new DelphiStringList();
         for (int rankOrdinal = (int)(Unit.Rank)0; rankOrdinal <= (int)(Unit.Rank)2; rankOrdinal++)
         {
-            rank = (Unit.Rank)rankOrdinal;
+            Unit.Rank rank = (Unit.Rank)rankOrdinal;
             UnitResourceAbilityOwner unitResourceAbilityOwner = new(null) { Holder = CreationHolder() };
             AbilityOwnerArray3 abilities = Abilities;
             abilities[(int)rank] = unitResourceAbilityOwner;
@@ -80,11 +78,10 @@ public partial class UnitResource : TroopResource
     // UnitRes.PAS:92
     public override void Dispose()
     {
-        Unit.Rank rank;
         Description?.Dispose();
         for (int rankOrdinal = (int)(Unit.Rank)0; rankOrdinal <= (int)(Unit.Rank)2; rankOrdinal++)
         {
-            rank = (Unit.Rank)rankOrdinal;
+            Unit.Rank rank = (Unit.Rank)rankOrdinal;
             Abilities[(int)rank]?.Dispose();
         }
 
@@ -94,7 +91,6 @@ public partial class UnitResource : TroopResource
     // UnitRes.PAS:156
     public override void PersistFields(IPersister persister)
     {
-        Unit.Rank rank;
         base.PersistFields(persister);
         _name = persister.String("Name", value: _name);
         _nickname = persister.String("Nickname", value: _nickname);
@@ -123,7 +119,7 @@ public partial class UnitResource : TroopResource
         {
             for (int rankOrdinal = (int)(Unit.Rank)0; rankOrdinal <= (int)(Unit.Rank)2; rankOrdinal++)
             {
-                rank = (Unit.Rank)rankOrdinal;
+                Unit.Rank rank = (Unit.Rank)rankOrdinal;
                 Abilities[(int)rank].ValidateOwnerTypeAbilities();
             }
         }
@@ -151,7 +147,6 @@ public partial class UnitResource : TroopResource
     public override bool DropUnit(int hexX, int hexY, int hexLevel)
     {
         sbyte player;
-        Unit unit;
         if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             player = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel).GetPlayer();
@@ -165,7 +160,7 @@ public partial class UnitResource : TroopResource
             player = -1;
         }
 
-        unit = new Unit(null) { Holder = CreationHolder() };
+        Unit unit = new(null) { Holder = CreationHolder() };
         unit.SetUnitResource(this);
         bool result = unit.Place(hexX, hexY, hexLevel, player, Set<UnitPlaceModeElement>.Of()) is not null;
         _ = unit.Release();

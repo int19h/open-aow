@@ -99,7 +99,6 @@ public partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
     // AoWTCUnit.pas:152
     public void UAbilLBMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        Ability ability;
         if (UnitAbilityList.Selected > -1)
         {
             if (button == MouseButton.Left)
@@ -113,7 +112,7 @@ public partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
                 if (button == MouseButton.Right && UI.General.CombatUnit is not null)
                 {
                     object objectValue = UnitAbilityList.Items.Objects[UnitAbilityList.Selected];
-                    ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+                    Ability ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
                     if (ability is not null)
                     {
                         InfoBanner.SetInfoBanner(caption: ability.GetName(UI.General.CombatUnit.Unit.Troop), banner: UI.InfoBanner, description: ability.Description);

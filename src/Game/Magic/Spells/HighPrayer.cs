@@ -34,8 +34,7 @@ public partial class HighPrayer : CombatSpell
     // CombatSpells.pas:1013
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        TacticalBattleHighPrayerCombatAction action;
-        action = new TacticalBattleHighPrayerCombatAction(null)
+        TacticalBattleHighPrayerCombatAction action = new(null)
         {
             Holder = CreationHolder(),
             Succeeded = true,
@@ -54,15 +53,13 @@ public partial class HighPrayer : CombatSpell
     // CombatSpells.pas:1104
     public override void TacticalBattleGetDamageValues(CombatObject source, CombatObject target, ref AbilityDamageValues values)
     {
-        int healing;
-        int value;
-        healing = target.GetHits() - target.GetHitPoints();
+        int healing = target.GetHits() - target.GetHitPoints();
         if (healing > 5)
         {
             healing = 5;
         }
 
-        value = healing * 100;
+        int value = healing * 100;
         if (value != 0)
         {
             values.SourceDamage = value;
@@ -84,16 +81,12 @@ public partial class HighPrayer : CombatSpell
     // CombatSpells.pas:1026
     public override void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
     {
-        CombatSide combatSide;
-        CombatObject target;
-        int value;
-        FastBattleSpellCommand command;
-        value = 0;
+        int value = 0;
         CombatSideIndex side = commands.Source.GetSide();
-        combatSide = commands.Combat.Sides[(int)side];
+        CombatSide combatSide = commands.Combat.Sides[(int)side];
         for (int i = combatSide.GetCount() - 1; i >= 0; i--)
         {
-            target = combatSide.GetObjects(i);
+            CombatObject target = combatSide.GetObjects(i);
             if (target.CombatValue != 0 && target is CombatUnit)
             {
                 value += AbilityRules.DamageValueToDamageEvaluation((target.GetHits() - target.GetHitPoints()) * 100, 0, commands.Source, target);
@@ -102,7 +95,7 @@ public partial class HighPrayer : CombatSpell
 
         if (value != 0)
         {
-            command = new FastBattleSpellCommand(52, creator: this)
+            FastBattleSpellCommand command = new(52, creator: this)
             {
                 Target = null,
                 MoveCost = 1,
@@ -116,8 +109,7 @@ public partial class HighPrayer : CombatSpell
     // CombatSpells.pas:1054
     public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
-        FastBattleHighPrayerCombatAction action;
-        action = new FastBattleHighPrayerCombatAction(null) { Holder = CreationHolder() };
+        FastBattleHighPrayerCombatAction action = new(null) { Holder = CreationHolder() };
         action.Generate(source);
         if (source is CombatUnit sourceUnit)
         {
@@ -132,19 +124,15 @@ public partial class HighPrayer : CombatSpell
     // CombatSpells.pas:1067
     public override void FastBattleGetDamageValues(CombatObject source, CombatObject target, WallSituation wallSituation, ref AbilityDamageValues values)
     {
-        int value;
-        int healing;
-        CombatSide combatSide;
-        CombatObject ally;
-        value = 0;
+        int value = 0;
         CombatSideIndex side = source.GetSide();
-        combatSide = source.Combat.Sides[(int)side];
+        CombatSide combatSide = source.Combat.Sides[(int)side];
         for (int i = combatSide.GetCount() - 1; i >= 0; i--)
         {
-            ally = combatSide.GetObjects(i);
+            CombatObject ally = combatSide.GetObjects(i);
             if (ally.CombatValue != 0 && ally is CombatUnit)
             {
-                healing = ally.GetHits() - ally.GetHitPoints();
+                int healing = ally.GetHits() - ally.GetHitPoints();
                 if (healing > 5)
                 {
                     healing = 5;

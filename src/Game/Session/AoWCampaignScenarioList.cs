@@ -55,10 +55,8 @@ public partial class AoWCampaignScenarioList(CustomNode owner) : OwningNode(owne
     // Diplomacy.pas:2238
     public CampaignScenario FindId(int id)
     {
-        CampaignScenario result;
-        int index;
-        index = IndexOfId(id);
-        result = index != -1 ? this[index] : null;
+        int index = IndexOfId(id);
+        CampaignScenario result = index != -1 ? this[index] : null;
 
         return result;
     }

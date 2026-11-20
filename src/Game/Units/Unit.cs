@@ -226,15 +226,13 @@ public partial class Unit(CustomNode owner) : Troop(owner)
     // Unit.PAS:1972
     public override LibraryImage GetFace()
     {
-        LibraryImage result;
-        int faceIndex;
         if (!GetAbilityEnabled(126))
         {
             return GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitResource.UnitGraphicsResourceIndex).GetFaceImage();
         }
 
-        faceIndex = ((CosmeticSurgeryEnchantment)(object)GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment).FaceIndex;
-        result = GamePack.Current.FaceResources.GetFaceResource(faceIndex)?.GetCellImage();
+        int faceIndex = ((CosmeticSurgeryEnchantment)(object)GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment).FaceIndex;
+        LibraryImage result = GamePack.Current.FaceResources.GetFaceResource(faceIndex)?.GetCellImage();
 
         return result;
     }
@@ -278,14 +276,13 @@ public partial class Unit(CustomNode owner) : Troop(owner)
     // Unit.PAS:2120
     public override void NewDay()
     {
-        Rank rank;
         base.NewDay();
         if (StrategicMap.Current.Day == 1)
         {
             SetAbilityCount(0);
             for (int rankOrdinal = (int)Rank.None, last = (int)GetRank(); rankOrdinal <= last; rankOrdinal++)
             {
-                rank = (Rank)rankOrdinal;
+                Rank rank = (Rank)rankOrdinal;
                 UpdateDefaultAbilities(UnitResource.Abilities[(int)rank]);
             }
         }
@@ -297,22 +294,19 @@ public partial class Unit(CustomNode owner) : Troop(owner)
     // Unit.PAS:1988
     public override void SetExperience(int value)
     {
-        Rank oldRank;
-        Rank newRank;
-        Rank rank;
-        oldRank = GetRank();
+        Rank oldRank = GetRank();
         if (value > 255)
         {
             value = 255;
         }
 
         _experience = (byte)value;
-        newRank = GetRank();
+        Rank newRank = GetRank();
         if (oldRank != newRank)
         {
             for (int rankOrdinal = (int)(Rank)((int)oldRank + 1); rankOrdinal <= (int)newRank; rankOrdinal++)
             {
-                rank = (Rank)rankOrdinal;
+                Rank rank = (Rank)rankOrdinal;
                 UpdateDefaultAbilities(UnitResource.Abilities[(int)rank]);
             }
         }
@@ -323,9 +317,8 @@ public partial class Unit(CustomNode owner) : Troop(owner)
     // Unit.PAS:2002
     public override int GetNextLevelExperience()
     {
+        int level = UnitResource.Level;
         int result;
-        int level;
-        level = UnitResource.Level;
         if (_experience >= level * 2)
         {
             if (_experience >= level * 6)
@@ -453,7 +446,6 @@ public partial class Unit(CustomNode owner) : Troop(owner)
     // Unit.PAS:2090
     public void SetUnitResource(UnitResource resource)
     {
-        Rank rank;
         if (resource != UnitResource)
         {
             base.Clear();
@@ -463,7 +455,7 @@ public partial class Unit(CustomNode owner) : Troop(owner)
                 _ = UpdateMoraleValue();
                 for (int rankOrdinal = (int)Rank.None, last = (int)GetRank(); rankOrdinal <= last; rankOrdinal++)
                 {
-                    rank = (Rank)rankOrdinal;
+                    Rank rank = (Rank)rankOrdinal;
                     UpdateDefaultAbilities(UnitResource.Abilities[(int)rank]);
                 }
 

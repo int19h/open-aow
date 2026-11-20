@@ -125,15 +125,13 @@ public partial class Ability : EngineObject
     // { Original leaves Reserved untouched. }
     public virtual bool FastBattleValidRoundDistance(CombatObject source, CombatObject target)
     {
-        int distance;
-        bool value;
-        distance = source.Combat.GetRoundDistance();
+        int distance = source.Combat.GetRoundDistance();
         if (source.GetMoves() >= 32)
         {
             distance += 2;
         }
 
-        value = distance >= target.FastBattleRoundDistance();
+        bool value = distance >= target.FastBattleRoundDistance();
         if (value && source is CombatUnit sourceUnit && sourceUnit.Troop is Hero)
         {
             value = value && ((((byte)source.Status.Image) & 16) != 0 || source.FastBattleRoundDistance() <= source.Combat.GetRoundDistance() + 2);
@@ -182,11 +180,10 @@ public partial class Ability : EngineObject
     public virtual bool Activate(AbilityOwner owner, ref string reason)
     {
         bool result;
-        AbilityActivation info;
         // { The original reports successful activation after releasing the notification. }
         if (CanActivate(owner, ref reason))
         {
-            info = new AbilityActivation(null)
+            AbilityActivation info = new(null)
             {
                 Holder = CreationHolder(),
                 AbilityId = AbilityId,
@@ -216,10 +213,9 @@ public partial class Ability : EngineObject
     public virtual bool ActivateCombat(AbilityOwner owner, out string reason)
     {
         bool result;
-        AbilityActivation info;
         if (CanActivateCombat(owner, out reason))
         {
-            info = new AbilityActivation(null)
+            AbilityActivation info = new(null)
             {
                 Holder = CreationHolder(),
                 AbilityId = AbilityId,
@@ -319,11 +315,6 @@ public partial class Ability : EngineObject
     // Ability.PAS:1492
     public virtual void ListInfo(DelphiStringCollection text, Set<AbilityInfoModeElement> mode)
     {
-        AbilityCombatInfo info = default;
-        Set<DamageType> types = default;
-        int strength = default;
-        string damageNames;
-        DamageType damageType;
         _ = text.Add($"Name: {GetName(null)}");
         _ = text.Add("-------------------------------------------------");
         if (mode.Contains(AbilityInfoModeElement.Id))
@@ -367,6 +358,7 @@ public partial class Ability : EngineObject
 
         if (mode.Contains(AbilityInfoModeElement.Statistics))
         {
+            AbilityCombatInfo info = default;
             GetCombatInfo(null, ref info);
             if (info.Attack != -1)
             {
@@ -385,10 +377,10 @@ public partial class Ability : EngineObject
 
             if (info.DamageTypes != Set<DamageType>.Of())
             {
-                damageNames = "";
+                string damageNames = "";
                 for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
                 {
-                    damageType = (DamageType)damageTypeOrdinal;
+                    DamageType damageType = (DamageType)damageTypeOrdinal;
                     if (info.DamageTypes.Contains(damageType))
                     {
                         if (!IsEmpty(damageNames))
@@ -406,6 +398,8 @@ public partial class Ability : EngineObject
 
         if (mode.Contains(AbilityInfoModeElement.Strength))
         {
+            Set<DamageType> types = default;
+            int strength = default;
             GetOffensiveStrength(null, ref strength, ref types);
             if (strength != 0)
             {

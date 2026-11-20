@@ -50,15 +50,13 @@ public partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
     // AoWCastUnitSpellDlg.pas:85
     public void DrawUnit(int index, int X, int Y, ref LockedSurface surface)
     {
-        Units.Alignment alignment;
         UnitShowInfo info;
-        Rect oldClip;
         if (index < Caster.TargetUnits.GetCount())
         {
-            oldClip = surface.ClipRectangle;
+            Rect oldClip = surface.ClipRectangle;
             Rect rectangle = new(X + 5, Y + 4, X + 46, Y + 56);
             surface.ClipRectangle = rectangle;
-            alignment = Caster.TargetUnits.GetUnit(index).GetAlignment();
+            Units.Alignment alignment = Caster.TargetUnits.GetUnit(index).GetAlignment();
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 LibraryImage image = UI.Graphics.UnitBackgrounds[(int)alignment];
@@ -105,9 +103,8 @@ public partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
     // AoWCastUnitSpellDlg.pas:163
     public void FaceFramePreDraw(LockedSurface surface)
     {
-        Troop u;
         Rect r = default;
-        u = StrategicMap.Current.UnitControl.FindUnit(Caster.CasterSourceId);
+        Troop u = StrategicMap.Current.UnitControl.FindUnit(Caster.CasterSourceId);
         if (u is not null)
         {
             if (u.GetFace() is not null)
@@ -130,11 +127,10 @@ public partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
     // AoWCastUnitSpellDlg.pas:191
     public void SpellFrPreDraw(LockedSurface surface)
     {
-        Spell spell;
         Rect r = default;
         if (Caster is not null)
         {
-            spell = GamePack.Current.SpellControl.GetSpell(Caster.CasterSpellId);
+            Spell spell = GamePack.Current.SpellControl.GetSpell(Caster.CasterSpellId);
             if (spell is not null)
             {
                 r.Left = SpellFrame.WinLeft + TopPanel.AbsoluteLeft;

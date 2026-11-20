@@ -71,13 +71,12 @@ public partial class BirdsView : Spell
     // GlobalSpells.pas:534
     public override bool Activate(Troop source)
     {
-        bool result;
         string reason = "";
-        SpellTokenEvent eventValue;
         _ = base.Activate(source);
+        bool result;
         if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            eventValue = new SpellTokenEvent(null) { Holder = CreationHolder() };
+            SpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();

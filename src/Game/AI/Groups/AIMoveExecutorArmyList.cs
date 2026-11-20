@@ -25,14 +25,12 @@ public partial class AIMoveExecutorArmyList(CustomNode owner) : OwningNode(owner
     // AIGroup.pas:4647
     public int IndexOf(ArmyHexSprite army, byte selection)
     {
-        int i;
-        AIMoveExecutorArmy entry;
         // { byte local precedes the pointer local }
-        i = Count;
+        int i = Count;
         while (i != 0)
         {
             i -= 1;
-            entry = this[i];
+            AIMoveExecutorArmy entry = this[i];
             if (army.GetHexX() == entry.Location.X && army.GetHexY() == entry.Location.Y && army.GetHexLevel() == entry.Location.MapLevel)
             {
                 entry.RetrieveArmy(255, out ArmyHexSprite foundArmy, out byte foundSelection);
@@ -49,13 +47,11 @@ public partial class AIMoveExecutorArmyList(CustomNode owner) : OwningNode(owner
     // AIGroup.pas:4673
     public int IndexOfMapCoordinate(sbyte X, sbyte Y, sbyte L)
     {
-        int i;
-        AIMoveExecutorArmy army;
-        i = Count;
+        int i = Count;
         while (i != 0)
         {
             i -= 1;
-            army = this[i];
+            AIMoveExecutorArmy army = this[i];
             if (X == army.Location.X && army.Location.Y == Y && army.Location.MapLevel == L)
             {
                 return i;

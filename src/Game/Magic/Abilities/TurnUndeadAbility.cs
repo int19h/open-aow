@@ -37,10 +37,9 @@ public partial class TurnUndeadAbility : TouchAbility
     public override int GetLevel(AbilityOwner owner)
     {
         int result;
-        MultiLevelAbilityData data;
         if (owner is not null)
         {
-            data = GetData(owner);
+            MultiLevelAbilityData data = GetData(owner);
             if (data is not null)
             {
                 result = data.Level;
@@ -68,16 +67,13 @@ public partial class TurnUndeadAbility : TouchAbility
     // AoWAb.PAS:3374
     public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
-        CombatObject target;
-        TurnUndeadCombatAction action;
-        StrikeCombatAction strike;
-        target = command.Target;
+        CombatObject target = command.Target;
         FastBattleValidateMoveOutsideWall(source, target);
-        action = CreateTurnUndeadCombatAction(source, target);
+        TurnUndeadCombatAction action = CreateTurnUndeadCombatAction(source, target);
         source.Combat.ExecuteCombatAction(action);
         if (target.GetEnabled())
         {
-            strike = CombatObject.CreateStrikeCombatAction(target, source, true);
+            StrikeCombatAction strike = CombatObject.CreateStrikeCombatAction(target, source, true);
             if (strike is not null)
             {
                 source.Combat.ExecuteCombatAction(strike);
@@ -107,9 +103,8 @@ public partial class TurnUndeadAbility : TouchAbility
     // AoWAb.PAS:3217
     public override bool Expand(AbilityOwner owner)
     {
-        MultiLevelAbilityData data;
         bool result = false;
-        data = GetData(owner);
+        MultiLevelAbilityData data = GetData(owner);
         if (data is null)
         {
             data = new MultiLevelAbilityData(null)
@@ -137,9 +132,8 @@ public partial class TurnUndeadAbility : TouchAbility
     // AoWAb.PAS:3238
     public override bool Remove(AbilityOwner owner)
     {
-        MultiLevelAbilityData data;
         bool result = true;
-        data = GetData(owner);
+        MultiLevelAbilityData data = GetData(owner);
         if (data is not null)
         {
             if (data.Level == 1)
@@ -165,10 +159,9 @@ public partial class TurnUndeadAbility : TouchAbility
     public override int GetDamageValue(Troop attacker, Troop defender)
     {
         int result;
-        float probability;
         if (CanTouchUnit(attacker, defender) && !defender.GetImmunityTypes().Contains(DamageType.None))
         {
-            probability = TouchRoleProbability(attacker, defender);
+            float probability = TouchRoleProbability(attacker, defender);
             result = Round((double)((double)defender.GetHitPoints() * probability) * 100);
         }
         else
@@ -182,12 +175,10 @@ public partial class TurnUndeadAbility : TouchAbility
     // AoWAb.PAS:3305
     public override void GetDamageValues(Troop attacker, Troop defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        float probability;
-        int hitPoints;
         if (wallSituation == WallSituation.None && CanTouchUnit(attacker, defender) && !defender.GetImmunityTypes().Contains(DamageType.None))
         {
-            probability = TouchRoleProbability(attacker, defender);
-            hitPoints = defender.GetHitPoints();
+            float probability = TouchRoleProbability(attacker, defender);
+            int hitPoints = defender.GetHitPoints();
             damageValues.SourceCost = hitPoints;
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
             int unitStrikeDamageValue = Troop.UnitStrikeDamageValue(defender, attacker);
@@ -209,10 +200,9 @@ public partial class TurnUndeadAbility : TouchAbility
     // AoWAb.PAS:3168
     public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref Set<DamageType> types)
     {
-        int damage;
         if (owner is Troop troop)
         {
-            damage = GetTurnUndeadDamage(GetLevel(troop));
+            int damage = GetTurnUndeadDamage(GetLevel(troop));
             if (damage > 5)
             {
                 damage = 5;
@@ -227,12 +217,10 @@ public partial class TurnUndeadAbility : TouchAbility
     // AoWAb.PAS:3331
     public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        float probability;
-        int hitPoints;
         if (wallSituation == WallSituation.None && CanTouch(attacker, defender) && attacker is CombatUnit attackerUnit)
         {
-            probability = CombatTouchRoleProbability(attackerUnit, defender);
-            hitPoints = defender.GetHitPoints();
+            float probability = CombatTouchRoleProbability(attackerUnit, defender);
+            int hitPoints = defender.GetHitPoints();
             damageValues.SourceCost = hitPoints;
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
             int strikeDamageValue = CombatObject.StrikeDamageValue(defender, attacker);
@@ -254,8 +242,7 @@ public partial class TurnUndeadAbility : TouchAbility
     // AoWAb.PAS:3282
     public override void GetCombatInfo(AbilityOwner owner, ref AbilityCombatInfo info)
     {
-        int level;
-        level = GetLevel(owner);
+        int level = GetLevel(owner);
         sbyte touchAttack = GetTouchAttack(level);
         info.Attack = touchAttack;
         sbyte turnUndeadDamage = GetTurnUndeadDamage(level);
@@ -343,13 +330,11 @@ public partial class TurnUndeadAbility : TouchAbility
 
     public TurnUndeadCombatAction CreateTurnUndeadCombatAction(CombatObject source, CombatObject target)
     {
-        TurnUndeadCombatAction action;
-        int level;
         // { These eliminated copies preserve the original saved registers. }
-        action = new TurnUndeadCombatAction(null) { Holder = CreationHolder() };
+        TurnUndeadCombatAction action = new(null) { Holder = CreationHolder() };
         if (HitChance.HitRole(source.GetAttack() - target.GetDefense()))
         {
-            level = source.GetAbilityLevel(AbilityId);
+            int level = source.GetAbilityLevel(AbilityId);
             action.Generate(damage: GetTurnUndeadDamage(level), source: source, target: target, attack: GetTouchAttack(level), damageTypes: Set<DamageType>.Of(DamageType.Holy), damageMode: 1);
         }
         else
