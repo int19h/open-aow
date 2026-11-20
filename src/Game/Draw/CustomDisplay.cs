@@ -274,7 +274,7 @@ public partial class CustomDisplay : Component
         return DisplayControllerError.Ok;
     }
 
-    public int Cursor { get => GetCursor(); set => SetCursor(value); }
+    public int Cursor => GetCursor();
     public DisplayController ActiveDisplayController { get; private set; }
     protected internal Set<OptionsElement> Options { get; }
     protected internal BufferingScheme BufferingScheme { get => _bufferingScheme; set => SetBufferingScheme(value); }

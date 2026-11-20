@@ -133,7 +133,7 @@ public partial class DisplayController(Component owner) : Component(owner)
     private int _lastFrameTime;
     private ushort _frameCount;
 
-    internal Set<DisplayControllerStatusElement> Status { get; set; }
+    internal Set<DisplayControllerStatusElement> Status { get; private protected set; }
 
     private CustomDisplay _display;
 

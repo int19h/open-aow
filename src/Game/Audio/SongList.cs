@@ -18,33 +18,31 @@ public class SongList : EngineObject
 
     public SongList(CustomNode owner) : base(owner)
     {
-        _songs = new DelphiStringList
+        Songs = new DelphiStringList
         {
             OnChange = SongsChanged
         };
         SongNames = new DelphiStringList();
     }
 
-    private readonly DelphiStringList _songs;
-
     // Sound.pas:813
-    internal void SetSongs(DelphiStringList value) => _songs.Assign(value);
+    internal void SetSongs(DelphiStringList value) => Songs.Assign(value);
 
     // Sound.pas:819
     // { Reads the song titles; a file that cannot be read is dropped from the list. }
     internal void SongsChanged(object sender)
     {
         SongNames.Clear();
-        for (int i = _songs.Count - 1; i >= 0; i--)
+        for (int i = Songs.Count - 1; i >= 0; i--)
         {
             try
             {
-                string songName = AudioPlayback.GetSongName(_songs[i]);
+                string songName = AudioPlayback.GetSongName(Songs[i]);
                 SongNames.Insert(0, value: songName);
             }
             catch
             {
-                _songs.Delete(i);
+                Songs.Delete(i);
             }
         }
     }
@@ -56,14 +54,14 @@ public class SongList : EngineObject
         // The original ReadWrite leaves out the songs under text only (the translate stream).
         if (!PersistSupport.Translating(persister))
         {
-            PersistSupport.Lines(persister, name: "Songs", lines: _songs);
+            PersistSupport.Lines(persister, name: "Songs", lines: Songs);
         }
     }
 
     // Sound.pas:794
     public override void Dispose()
     {
-        _songs?.Dispose();
+        Songs?.Dispose();
         SongNames?.Dispose();
         base.Dispose();
     }
@@ -77,15 +75,15 @@ public class SongList : EngineObject
         }
 
         string fullPath = AudioHost.BaseSoundEnginePath + path;
-        _songs.BeginUpdate();
+        Songs.BeginUpdate();
         foreach (RtlFileEntry entry in Files.FindEntries($"{fullPath}*.{ext}", attributes: 63 & ~16))
         {
-            _ = _songs.Add(UpperCase(path + entry.Name));
+            _ = Songs.Add(UpperCase(path + entry.Name));
         }
 
-        _songs.EndUpdate();
+        Songs.EndUpdate();
     }
 
-    public DelphiStringList Songs { get => _songs; set => SetSongs(value); }
+    public DelphiStringList Songs { get; }
     public DelphiStringList SongNames { get; }
 }

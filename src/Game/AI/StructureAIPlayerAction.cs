@@ -12,7 +12,7 @@ namespace Aow.Game.AI;
 public class StructureAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
 {
 
-    public int Phase { get; protected set; }
+    public int Phase { get; protected init; }
 
     private readonly Int32List _structureIds = new();
 

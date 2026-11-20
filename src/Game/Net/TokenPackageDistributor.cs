@@ -73,5 +73,5 @@ public class TokenPackageDistributor(TokenManager manager)
         }
     }
 
-    public PlayerCommunicator PC { get => Pc; set => SetPC(value); }
+    public PlayerCommunicator PC => Pc;
 }

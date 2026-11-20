@@ -65,7 +65,7 @@ public class SfxManager(Component owner) : Component(owner)
     }
 
     [Published]
-    public string SearchPath { get; set; } = "";
+    public string SearchPath { get; private set; } = "";
 
     [Published]
     public SfxList Sfx { get; } = new SfxList();

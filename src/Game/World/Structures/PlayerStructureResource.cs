@@ -13,7 +13,7 @@ public class PlayerStructureResource(CustomNode owner) : StructureResource(owner
 
     public new const int ClassId = 131917;
 
-    public bool Claimed { get; protected set; } = true;
+    public bool Claimed { get; protected init; } = true;
     public int FlagX { get; private set; } = 20;
     public int FlagY { get; private set; } = -35;
     public FlagControl FlagControl { get; private set; }

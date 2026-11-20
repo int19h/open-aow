@@ -595,9 +595,9 @@ public class LibraryImage : Persistent, ILibraryImageClass
 
     public int Xshift { get => _xshift; set => SetXshift(value); }
     public int Yshift { get => _yshift; set => SetYshift(value); }
-    public string FileName { get => _fileName; set => _fileName = value; }
-    public int FileIndex { get => _fileIndex; set => _fileIndex = value; }
-    public ShowInfo ShowInfo { get => ShowInfoValue; set => SetDefaultShowInfo(value); }
+    public string FileName { get => _fileName; protected set => _fileName = value; }
+    public int FileIndex { get => _fileIndex; protected set => _fileIndex = value; }
+    public ShowInfo ShowInfo { get => ShowInfoValue; internal set => SetDefaultShowInfo(value); }
     public Palette Palette => GetPalette();
 
     public static void WriteImageToStream(LibraryImage image, Stream stream)

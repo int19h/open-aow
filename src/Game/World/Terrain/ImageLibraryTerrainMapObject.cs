@@ -217,6 +217,6 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
         return result;
     }
 
-    public int ImageIndex { get; set; }
+    public int ImageIndex { get; protected set; }
     public sbyte TerrainType { get; protected set; } = -1;
 }

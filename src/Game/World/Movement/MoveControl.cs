@@ -36,7 +36,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
 
     public int MovePointsLimit { get; set; }
 
-    public MovePointTable MovePointTable { get; internal set; }
+    public MovePointTable MovePointTable { get; private set; }
 
     private DelphiList<MapField> _processedMapFields;
 

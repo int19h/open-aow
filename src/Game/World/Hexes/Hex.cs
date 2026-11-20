@@ -19,7 +19,7 @@ public class Hex(CustomNode owner) : AbstractHexagon(owner)
 
     protected internal byte[] Transitions { get; } = new byte[3];
 
-    protected internal byte TransitionSides { get; protected set; }
+    protected internal byte TransitionSides { get; private set; }
 
     // Hexagon.pas:52
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)

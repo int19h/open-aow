@@ -83,7 +83,7 @@ public partial class StrategicMap : GameMap
     public CombatMap CombatMap { get; set; }
     public Battle Combat { get; private set; }
     public TutorialControl TutorialControl { get; }
-    public AIExecutor AIExecutor { get; set; }
+    public AIExecutor AIExecutor { get; internal set; }
     public AIPlayerActionManager AIPlayerActionManager { get; }
     public AIGroupManager AIGroupManager { get; private set; }
     public HexSpriteMapKeyboard Keyboard { get; }
@@ -95,8 +95,8 @@ public partial class StrategicMap : GameMap
     public PlayerConnectionType ConnectionType { get; set; }
 
     public TextControl TextControl { get; }
-    public PlayerCollection Players { get; set; }
-    public RaceList Races { get; set; }
+    public PlayerCollection Players { get; internal set; }
+    public RaceList Races { get; internal set; }
 
     public bool FixedLeaders { get; set; }
     public bool LeadersFixed { get; set; }

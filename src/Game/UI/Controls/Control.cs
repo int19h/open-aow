@@ -11,21 +11,20 @@ namespace Aow.Game.UI.Controls;
 // _toolTip
 public partial class Control : UIComponent
 {
-    private readonly DelphiStringList _toolTipText;
     private int _toolTipShown;
     private BaseWindow _window;
 
     // AoWControl.pas:46
     public Control(Component owner) : base(owner)
     {
-        _toolTipText = new DelphiStringList();
+        ToolTipText = new DelphiStringList();
         CaptureInput = true;
     }
 
     // AoWControl.pas:53
     public override void Dispose()
     {
-        _toolTipText.Dispose();
+        ToolTipText.Dispose();
         base.Dispose();
     }
 
@@ -70,9 +69,9 @@ public partial class Control : UIComponent
                         }
                         else
                         {
-                            if (_toolTipText.Count > 0 && !MouseIn)
+                            if (ToolTipText.Count > 0 && !MouseIn)
                             {
-                                ToolTip.SetFStrings(_toolTipText);
+                                ToolTip.SetFStrings(ToolTipText);
                                 if (!ToolTip.ToolTipStatic)
                                 {
                                     ToolTip.SetVisible(true);
@@ -193,11 +192,11 @@ public partial class Control : UIComponent
     // AoWControl.pas:70
     public void SetToolStrings(DelphiStringList value)
     {
-        _toolTipText.Clear();
+        ToolTipText.Clear();
         for (int i = 0, last = value.Count - 1; i <= last; i++)
         {
             string valueValue = value[i];
-            _ = _toolTipText.Add(valueValue);
+            _ = ToolTipText.Add(valueValue);
         }
     }
 
@@ -208,7 +207,7 @@ public partial class Control : UIComponent
     public ToolTip ToolTip { get; set; }
 
     [Published]
-    public DelphiStringList ToolTipText { get => _toolTipText; set => SetToolStrings(value); }
+    public DelphiStringList ToolTipText { get; }
 
     public new event NotifyEvent<Control> OnChange
     {

@@ -346,7 +346,7 @@ public class ByteList : Persistent
 
     public byte this[int index] { get => Get(index); set => Put(index, item: value); }
 
-    public string ItemString { get => GetItemString(); set => SetItemString(value); }
+    public string ItemString => GetItemString();
     public byte[] List => _list;
 
     // Engine.pas:3645

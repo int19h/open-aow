@@ -151,6 +151,6 @@ public class ImageLibraryManager : Component
     public ImageLibraryManagerList OwnedList { get; }
 
     [Published]
-    public string SearchPath { get; set; } = "";
+    public string SearchPath { get; private set; } = "";
 
 }

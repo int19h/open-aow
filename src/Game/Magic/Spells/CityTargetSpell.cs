@@ -23,7 +23,7 @@ public class CityTargetSpell : Spell
 {
     private int _sourceId;
 
-    public Set<CityTargetModeElement> CityTargetMode { get; protected set; }
+    public Set<CityTargetModeElement> CityTargetMode { get; protected init; }
 
     // CitySpells.pas:209
     public CityTargetSpell(CustomNode owner) : base(owner) => SpellType = SpellType.Global;

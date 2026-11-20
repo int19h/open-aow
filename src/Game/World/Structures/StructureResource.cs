@@ -34,8 +34,8 @@ public class StructureResource : FixedImageLibraryTerrainMapObjectResource
 
     public new const int ClassId = 131915;
 
-    public bool TerrainBound { get; protected set; }
-    public bool ConnectRoads { get; protected set; }
+    public bool TerrainBound { get; protected init; }
+    public bool ConnectRoads { get; protected init; }
     public byte FlagType { get; private set; }
 
     public string SelectSfx { get; private set; } = "";
@@ -46,12 +46,12 @@ public class StructureResource : FixedImageLibraryTerrainMapObjectResource
 
     public int ScannerIcon { get; private set; }
 
-    public bool Razeable { get; protected set; }
-    public bool CastsShadow { get; protected set; }
-    public byte RebuildGold { get; protected set; }
-    public byte RebuildDays { get; protected set; }
+    public bool Razeable { get; protected init; }
+    public bool CastsShadow { get; protected init; }
+    public byte RebuildGold { get; protected init; }
+    public byte RebuildDays { get; protected init; }
     public UnitIndexListCollection Defenders { get; }
-    public int RazeDefenderBudget { get; protected set; }
+    public int RazeDefenderBudget { get; protected init; }
 
     // Structur.PAS:1904
     public override void Dispose()

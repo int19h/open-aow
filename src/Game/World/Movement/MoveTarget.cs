@@ -11,7 +11,7 @@ public class MoveTarget(CustomNode owner) : EngineObject(owner), IOwned<MoveTarg
 {
     // A reference list holds the target and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
-    public new MoveTargetList Owner { get => GetOwner<MoveTargetList>(); set => SetOwner(value); }
+    public new MoveTargetList Owner => GetOwner<MoveTargetList>();
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is MoveTargetList;
 

@@ -37,8 +37,8 @@ public class Ability : EngineObject
         ImageSequences = new ImageSequenceList(GamePack.Current.ImageLibraryManager, imageLibrary: null);
     }
 
-    public string AbilityName { get; set; } = "";
-    public int AbilityId { get; set; }
+    public string AbilityName { get; init; } = "";
+    public int AbilityId { get; internal set; }
     public DelphiStringList Description { get; }
 
     public int SkillPointCost { get; protected set; }

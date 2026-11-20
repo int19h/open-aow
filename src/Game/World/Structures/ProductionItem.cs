@@ -11,7 +11,7 @@ namespace Aow.Game.World.Structures;
 public class ProductionItem(CustomNode owner) : EngineObject(owner), IOwned<ProductionQueue>, IOwnedSink<ProductionQueue>
 {
     // The queue the item waits in. AcceptsOwner admits only a ProductionQueue, so the cast never fails.
-    public new ProductionQueue Owner { get => GetOwner<ProductionQueue>(); set => SetOwner(value); }
+    public new ProductionQueue Owner => GetOwner<ProductionQueue>();
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is ProductionQueue;
 

@@ -1071,8 +1071,8 @@ public partial class GameMap : OwningNode
     public VisibilityList StaticFixedVisibleHexSprite { get; }
     public VisibilityList DynamicFixedVisibleHexSprite { get; }
     public bool StaticSceneInvalid { get; set; }
-    public bool DynamicSceneInvalid { get; set; }
-    public int Version { get; set; }
+    public bool DynamicSceneInvalid { get; protected set; }
+    public int Version { get; private set; }
     public string HssFileName { get => _hssFileName; set => SetHssFileName(value); }
     public Set<HexSpriteMapStatusElement> Status { get; set; }
     public int Frame { get; private set; }

@@ -246,12 +246,7 @@ public partial class GameSettings : DelphiRegistry
     }
 
     // AoWReg.pas:307
-    public bool Developer
-    {
-        get => false;
-        // AoWReg.pas:312
-        set => throw new NotImplementedException();
-    }
+    public bool Developer => false;
 
     // AoWReg.pas:329
     public bool GetSkipIntro()

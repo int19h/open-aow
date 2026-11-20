@@ -20,7 +20,7 @@ public partial class HelpMessageEventLog : EventLog
     }
 
     public DelphiStringList Message { get; }
-    public string HelpFileName { get; set; } = "";
+    public string HelpFileName { get; init; } = "";
     public byte Mode { get; }
 
     // EventLog.pas:868

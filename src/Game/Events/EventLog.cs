@@ -20,7 +20,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     public EventLog(CustomNode owner) : base(owner) => RefCount = 1;
 
     // The list that holds the log. AcceptsOwner admits only that list, so the read never fails.
-    public new EventLogList Owner { get => GetOwner<EventLogList>(); set => SetOwner(value); }
+    public new EventLogList Owner => GetOwner<EventLogList>();
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is EventLogList;
 

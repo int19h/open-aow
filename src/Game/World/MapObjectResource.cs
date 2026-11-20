@@ -288,12 +288,12 @@ public class MapObjectResource : EngineResource
     }
 
     public GameEngine Engine { get; private set; }
-    public int ShowPriorityOffset { get; set; }
+    public int ShowPriorityOffset { get; private set; }
     public ImageLibrary ImageLibrary { get; }
     public ImageSequenceList ImageSequenceList { get; set; }
     public TerrainList TerrainList { get; }
-    public byte Level { get => _level; set => SetLevel(value); }
-    public string Name { get; set; } = "";
+    public byte Level { get => _level; init => SetLevel(value); }
+    public string Name { get; private set; } = "";
 
     // MAPOBJ.PAS:415
     public override string ResourceEditName() => "";

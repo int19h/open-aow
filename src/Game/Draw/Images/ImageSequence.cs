@@ -485,7 +485,7 @@ public class ImageSequence(ImageSequenceList owner) : IDisposable
     public string ImageLibraryName { get => _imageLibraryName; set => SetImageLibraryName(value); }
     public byte SequenceSpeed { get => _sequenceSpeed; set => _sequenceSpeed = value; }
     public byte SpeedCount { get; private set; }
-    public SequenceMode SequenceMode { get => _sequenceMode; set => SetSequenceMode(value); }
+    public SequenceMode SequenceMode { get => _sequenceMode; internal set => SetSequenceMode(value); }
     public FrameTableList FrameTable { get; private set; }
     public int ImageIndex { get => _imageIndex; set => _imageIndex = value; }
     public int OffsetX { get => _offsetX; set => _offsetX = value; }

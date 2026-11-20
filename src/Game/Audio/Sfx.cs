@@ -27,6 +27,6 @@ public class Sfx(CustomNode owner) : EngineObject(owner)
     // Sound.pas:1039
     public Sample Play(int volume, bool looped, int delay, SamplePanning panning, SampleCallBack callback) => AudioPlayback.PlaySample(FileName, volume, looped, delay, panning, callback);
 
-    public string FileName { get; set; } = "";
+    public string FileName { get; private set; } = "";
 
 }

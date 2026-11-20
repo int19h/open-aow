@@ -66,11 +66,11 @@ public class EngineResource(CustomNode owner) : EngineObject(owner)
         LibraryDrawing.BlitLibraryImage(canvas, image: GetCellImage(), rectangle, mode, scaleX, scaleY, bkColor, color, selected: false, drawRectangle: in r);
     }
 
-    public CustomNode ResourceList { get; set; }
+    public CustomNode ResourceList { get; private set; }
     public int EditId { get; set; }
     public int EditIndex { get; set; }
     public int ResourceId { get; set; }
-    public LibraryImage CellImage { get => GetCellImage(); set => SetCellImage(value); }
+    public LibraryImage CellImage => GetCellImage();
 
     // Engine.pas:8508
     public virtual string ResourceEditName() => GetType().Name;

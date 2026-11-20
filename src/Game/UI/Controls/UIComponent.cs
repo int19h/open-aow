@@ -132,8 +132,6 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
 
     public DelphiList<UIComponent> Children { get; init; } = new DelphiList<UIComponent>();
 
-    private readonly Alignment _alignment = new();
-
     public List<DirtyRectangle> BlitList { get; } = [];
     public List<DirtyRectangle> DrawList { get; } = [];
     public int BlitCount { get; protected set; }
@@ -159,7 +157,7 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
         }
 
         Children?.Dispose();
-        _alignment?.Dispose();
+        Alignment?.Dispose();
         for (int i = 0, last = DrawList.Count - 1; i <= last; i++)
         {
         }
@@ -203,29 +201,29 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
     // AoWComp.pas:690
     public virtual void ReAlign()
     {
-        if (_ownerComponent is not null && (_alignment.AlignWidth != AlignWidth.None || _alignment.AlignHeight != AlignHeight.None))
+        if (_ownerComponent is not null && (Alignment.AlignWidth != AlignWidth.None || Alignment.AlignHeight != AlignHeight.None))
         {
-            switch (_alignment.AlignWidth)
+            switch (Alignment.AlignWidth)
             {
                 case AlignWidth.Left:
-                    _winLeft = (_ownerComponent._winWidth * _alignment.LeftOffsetPercent / 100) + _alignment.LeftOffset;
-                    if (_alignment.WidthPercent > 0)
+                    _winLeft = (_ownerComponent._winWidth * Alignment.LeftOffsetPercent / 100) + Alignment.LeftOffset;
+                    if (Alignment.WidthPercent > 0)
                     {
-                        _winWidth = _ownerComponent._winWidth * _alignment.WidthPercent / 100;
+                        _winWidth = _ownerComponent._winWidth * Alignment.WidthPercent / 100;
                     }
 
                     break;
                 case AlignWidth.Right:
-                    if (_alignment.WidthPercent > 0)
+                    if (Alignment.WidthPercent > 0)
                     {
-                        _winWidth = _ownerComponent._winWidth * _alignment.WidthPercent / 100;
+                        _winWidth = _ownerComponent._winWidth * Alignment.WidthPercent / 100;
                     }
 
-                    _winLeft = _ownerComponent._winWidth - _alignment.RightOffset - _winWidth - (_ownerComponent._winWidth * _alignment.RightOffsetPercent / 100);
+                    _winLeft = _ownerComponent._winWidth - Alignment.RightOffset - _winWidth - (_ownerComponent._winWidth * Alignment.RightOffsetPercent / 100);
                     break;
                 case AlignWidth.Both:
-                    _winLeft = (_ownerComponent._winWidth * _alignment.LeftOffsetPercent / 100) + _alignment.LeftOffset;
-                    _winWidth = _ownerComponent._winWidth - _winLeft - _alignment.RightOffset - (_ownerComponent._winWidth * _alignment.RightOffsetPercent / 100);
+                    _winLeft = (_ownerComponent._winWidth * Alignment.LeftOffsetPercent / 100) + Alignment.LeftOffset;
+                    _winWidth = _ownerComponent._winWidth - _winLeft - Alignment.RightOffset - (_ownerComponent._winWidth * Alignment.RightOffsetPercent / 100);
                     break;
                 case AlignWidth.Center:
                     _winLeft = (_ownerComponent._winWidth / 2) - (_winWidth / 2);
@@ -235,27 +233,27 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
                     break;
             }
 
-            switch (_alignment.AlignHeight)
+            switch (Alignment.AlignHeight)
             {
                 case AlignHeight.Top:
-                    _winTop = (_ownerComponent._winHeight * _alignment.TopOffsetPercent / 100) + _alignment.TopOffset;
-                    if (_alignment.HeightPercent > 0)
+                    _winTop = (_ownerComponent._winHeight * Alignment.TopOffsetPercent / 100) + Alignment.TopOffset;
+                    if (Alignment.HeightPercent > 0)
                     {
-                        _winHeight = _ownerComponent._winHeight * _alignment.HeightPercent / 100;
+                        _winHeight = _ownerComponent._winHeight * Alignment.HeightPercent / 100;
                     }
 
                     break;
                 case AlignHeight.Bottom:
-                    if (_alignment.HeightPercent > 0)
+                    if (Alignment.HeightPercent > 0)
                     {
-                        _winHeight = _ownerComponent._winHeight * _alignment.HeightPercent / 100;
+                        _winHeight = _ownerComponent._winHeight * Alignment.HeightPercent / 100;
                     }
 
-                    _winTop = _ownerComponent._winHeight - _alignment.BottomOffset - _winHeight - (_ownerComponent._winHeight * _alignment.BottomOffsetPercent / 100);
+                    _winTop = _ownerComponent._winHeight - Alignment.BottomOffset - _winHeight - (_ownerComponent._winHeight * Alignment.BottomOffsetPercent / 100);
                     break;
                 case AlignHeight.Both:
-                    _winTop = (_ownerComponent._winHeight * _alignment.TopOffsetPercent / 100) + _alignment.TopOffset;
-                    _winHeight = _ownerComponent._winHeight - _winTop - _alignment.BottomOffset - (_ownerComponent._winHeight * _alignment.BottomOffsetPercent / 100);
+                    _winTop = (_ownerComponent._winHeight * Alignment.TopOffsetPercent / 100) + Alignment.TopOffset;
+                    _winHeight = _ownerComponent._winHeight - _winTop - Alignment.BottomOffset - (_ownerComponent._winHeight * Alignment.BottomOffsetPercent / 100);
                     break;
                 case AlignHeight.Center:
                     _winTop = (_ownerComponent._winHeight / 2) - (_winHeight / 2);
@@ -1018,7 +1016,7 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
     // AoWComp.pas:256
     public void SetAlign(Alignment value)
     {
-        _alignment.Assign(value);
+        Alignment.Assign(value);
         Aligned = false;
     }
 
@@ -1053,7 +1051,7 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
     public int TextColor { get => Color; set => SetColor(value); }
     public int TextSelectedColor { get => SelectedColor; set => SetSelectedColor(value); }
     public UIComponent OwnerComponent { get => _ownerComponent; set => SetOwner(value); }
-    public Alignment Alignment { get => _alignment; set => SetAlign(value); }
+    public Alignment Alignment { get; } = new();
     public bool Masked { get; set; }
     public bool CaptureInput { get; set; }
 

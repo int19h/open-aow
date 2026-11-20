@@ -24,7 +24,6 @@ public partial class HtmlMemo : BaseWindow
     public List<ChangeInfo> Changes { get; }
 
     private readonly DelphiStringList _lines;
-    private readonly DelphiStringList _items;
     private VerticalScrollBar _verticalScrollBar;
     private string _fileName = "";
     private int _scrollWidth;
@@ -40,7 +39,7 @@ public partial class HtmlMemo : BaseWindow
     public HtmlMemo(Component owner) : base(owner)
     {
         _lines = new DelphiStringList();
-        _items = new DelphiStringList
+        Items = new DelphiStringList
         {
             OnChange = OnChangeText
         };
@@ -53,7 +52,7 @@ public partial class HtmlMemo : BaseWindow
     public override void Dispose()
     {
         _lines.Dispose();
-        _items.Dispose();
+        Items.Dispose();
         for (int i = 0, last = Changes.Count - 1; i <= last; i++)
         {
         }
@@ -241,7 +240,7 @@ public partial class HtmlMemo : BaseWindow
         h = _textHeight;
         _lines.Clear();
         state = IntegerParseMode.None;
-        if (_items.Count > 0 && UpperCase(Copy(_items[0], index: 1, count: 5)) == "<INT>")
+        if (Items.Count > 0 && UpperCase(Copy(Items[0], index: 1, count: 5)) == "<INT>")
         {
             _ = _lines.Add("");
             h = BorderHeight * 2;
@@ -263,9 +262,9 @@ public partial class HtmlMemo : BaseWindow
             };
             Changes.Add(ci);
             lineIndex = 0;
-            for (int i = 0, last = _items.Count - 1; i <= last; i++)
+            for (int i = 0, last = Items.Count - 1; i <= last; i++)
             {
-                string item = NullTerminatedText(_items[i]);
+                string item = NullTerminatedText(Items[i]);
                 ReadOnlySpan<byte> text = Cp1252.Encode(item);
                 int last2 = text.Length - 1;
                 int textStart = 0;
@@ -874,8 +873,8 @@ public partial class HtmlMemo : BaseWindow
     // AoWHTMLMemo.pas:139
     public void SetFStrings(DelphiStringList value)
     {
-        _items.Clear();
-        _items.AddStrings(value);
+        Items.Clear();
+        Items.AddStrings(value);
     }
 
     // AoWHTMLMemo.pas:145
@@ -906,7 +905,7 @@ public partial class HtmlMemo : BaseWindow
         if (value != _fileName && FileExists(value))
         {
             _fileName = value;
-            _items.LoadFromFile(_fileName);
+            Items.LoadFromFile(_fileName);
         }
     }
 
@@ -946,7 +945,7 @@ public partial class HtmlMemo : BaseWindow
         return font is not null;
     }
 
-    public DelphiStringList Items { get => _items; set => SetFStrings(value); }
+    public DelphiStringList Items { get; }
     public int ListOffset { get => _topItem; set => SetListOff(value); }
 
     [Published]

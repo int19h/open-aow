@@ -16,9 +16,9 @@ namespace Aow.Game.Magic.Spells;
 // combat statistics (attack, damage, types, repeats, range, radius, targets). damage mode
 public class CombatSpell : Spell
 {
-    public SpellCombatInfo CombatInfo { get; protected set; }
+    public SpellCombatInfo CombatInfo { get; protected init; }
 
-    public byte DamageMode { get; protected set; }
+    public byte DamageMode { get; protected init; }
 
     // CombatSpells.pas:632
     public CombatSpell(CustomNode owner) : base(owner)

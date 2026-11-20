@@ -38,7 +38,7 @@ internal struct SamplePacked
     public Set<SampleRank> Value
     {
         readonly get => Set<SampleRank>.FromMask(ValueImage);
-        set => ValueImage = (byte)value.Image;
+        init => ValueImage = (byte)value.Image;
     }
 }
 

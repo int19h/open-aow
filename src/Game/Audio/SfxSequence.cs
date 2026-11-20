@@ -36,5 +36,5 @@ public class SfxSequence(CustomNode owner) : OwningNode(owner), IChildList<Sfx>
     // Sound.pas:1071
     public Sample Play(int volume, bool looped, int delay, SamplePanning panning, SampleCallBack callback) => Count != 0 ? this[Random(Count)].Play(volume, looped, delay, panning, callback) : null;
 
-    public int Id { get; set; }
+    public int Id { get; private set; }
 }

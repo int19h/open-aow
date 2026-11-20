@@ -521,7 +521,7 @@ public partial class GameEngine : OwningNode
     }
 
     public string StartupDirectory { get => _startupDirectory; set => SetStartupDirectory(value); }
-    public Set<EngineModeElement> Options { get; set; }
+    public Set<EngineModeElement> Options { get; internal set; }
 
     // Engine.pas:1126
     public bool VerifyEngineObjectClass(EngineClass type)

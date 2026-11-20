@@ -14,7 +14,7 @@ namespace Aow.Game.Magic.Spells;
 public class GlobalEnchantmentSpell(CustomNode owner) : Spell(owner)
 {
 
-    public int AIBasePriority { get; protected set; } = -1;
+    public int AIBasePriority { get; protected init; } = -1;
 
     // GlobalEnchantmentSpells.pas:429
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)

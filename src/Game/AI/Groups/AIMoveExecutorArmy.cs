@@ -20,9 +20,9 @@ public class AIMoveExecutorArmy(CustomNode owner) : AIMoveExecutorUnitList(owner
 
     public MapCoordinate BoardingPoint { get; private set; }
     // A path step with its cost, see AIMoveExecutorUnit.ArrivalPoint.
-    public PathStep ArrivalPoint { get; internal set; }
+    public PathStep ArrivalPoint { get; private set; }
     public MapCoordinate TransportSource { get; private set; }
-    public MapCoordinate TransportDestination { get; internal set; }
+    public MapCoordinate TransportDestination { get; private set; }
 
     public sbyte Player { get; private set; }
 

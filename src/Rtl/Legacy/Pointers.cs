@@ -12,10 +12,10 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
 
     private PointerElement<T>? view;
 
-    private object? Storage { readonly get => field ?? Array; set; }
-    private int StorageBytes { readonly get => Array is null ? field : checked(Array.Length * Unsafe.SizeOf<T>()); set; }
+    private object? Storage { readonly get => field ?? Array; init; }
+    private int StorageBytes { readonly get => Array is null ? field : checked(Array.Length * Unsafe.SizeOf<T>()); init; }
     public readonly object? StorageIdentity => Storage;
-    public int ByteIndex { readonly get => field + (Index * Unsafe.SizeOf<T>()); private set; }
+    public int ByteIndex { readonly get => field + (Index * Unsafe.SizeOf<T>()); private init; }
     public readonly ref T Value => ref this[0];
 
     private readonly ref T RawReference(int index) => ref view is null

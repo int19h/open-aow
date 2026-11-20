@@ -364,7 +364,7 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
     public ImageLibraryManager ImageLibraryManager { get; private set; }
     public SfxManager SfxManager { get; private set; }
     public PluginControl PluginControl { get; }
-    public string Name { get; set; } = "";
+    public string Name { get; private set; } = "";
     public DelphiStringList TerrainTypes { get; private set; }
     public DelphiStringList OverlayTypes { get; private set; }
     public DelphiStringList DecorationTypes { get; private set; }
@@ -374,22 +374,22 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
     public CustomImageLibrary CombatImages { get; }
     public RaceResourceList RaceResources { get; }
     public PadControl PadControl { get; }
-    public UnitResourceList UnitResources { get; set; }
-    public UnitGFXResourceList UnitGraphicsResources { get; set; }
-    public HeroResourceList HeroResources { get; set; }
+    public UnitResourceList UnitResources { get; internal set; }
+    public UnitGFXResourceList UnitGraphicsResources { get; internal set; }
+    public HeroResourceList HeroResources { get; internal set; }
     public ItemGFXList ItemGraphicsResources { get; }
     public ItemLibraryManager ItemLibraries { get; }
     public HeroLibraryManager HeroLibraries { get; }
     public FaceResourceList FaceResources { get; }
     public FlagControl FlagControl { get; }
     public FireControl FireControl { get; }
-    public AbilityControl AbilityControl { get; set; }
+    public AbilityControl AbilityControl { get; internal set; }
     public SpellControl SpellControl { get; }
-    public MapObjectResourceList CombatResources { get; set; }
+    public MapObjectResourceList CombatResources { get; internal set; }
     public HexControl CombatHexes { get; }
     public RoadControl CombatRoads { get; }
     public ImageSequenceList ImageSequences { get; }
-    public TextControl TextControl { get; set; }
+    public TextControl TextControl { get; internal set; }
     public int HssCrc { get; private set; }
 
     // Ability.PAS:194

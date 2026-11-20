@@ -48,7 +48,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     public override void SetOwner(CustomNode owner) => SetOwnerWithoutNotify(owner);
 
     // The level the field belongs to. AcceptsOwner admits only a level, so the cast never fails.
-    public new MapLevel Owner { get => GetOwner<MapLevel>(); set => SetOwner(value); }
+    public new MapLevel Owner => GetOwner<MapLevel>();
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is MapLevel;
 
@@ -300,7 +300,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     public HexSprite[] HexSpriteList { get => _hexSpriteList; internal set => _hexSpriteList = value; }
     public byte Capacity { get; private set; }
     public byte StaticCount { get; private set; }
-    public Set<MapFieldStatusElement> Status { get; set; }
+    public Set<MapFieldStatusElement> Status { get; private set; }
     public sbyte HexX { get => Location.X; set => Location = Location with { X = value }; }
     public sbyte HexY { get => Location.Y; set => Location = Location with { Y = value }; }
     public sbyte HexLevel { get => Location.MapLevel; set => Location = Location with { MapLevel = value }; }

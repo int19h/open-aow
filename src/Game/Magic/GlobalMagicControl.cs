@@ -33,7 +33,7 @@ public class GlobalMagicControl : EngineObject
     private int _updateCount;
 
     public Set<GlobalEnchantmentType> ActiveEnchantments { get; set; }
-    public GlobalEnchantmentList Enchantments { get; set; }
+    public GlobalEnchantmentList Enchantments { get; internal set; }
 
     public int[] DoubleSphereManaCount { get; } = new int[9];
 

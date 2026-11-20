@@ -31,10 +31,10 @@ public class UnitSpell : Spell
         TargetRange = 0;
     }
 
-    public bool AllowMultipleTargets { get; protected set; }
-    public int TargetRange { get; protected set; }
-    public byte UnitDispelResistance { get; protected set; }
-    public int AIValue { get; protected set; }
+    public bool AllowMultipleTargets { get; protected init; }
+    public int TargetRange { get; protected init; }
+    public byte UnitDispelResistance { get; protected init; }
+    public int AIValue { get; protected init; }
 
     // Spells.PAS:1444
     public override void AIPrefetchCastSpellActions(Troop source, AICastSpellActionList actions)

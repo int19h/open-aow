@@ -347,13 +347,13 @@ public class FrameTableList : Persistent
     }
 
     public int Capacity { get => _capacity; set => SetCapacity(value); }
-    public int Count { get => _count; set => SetCount(value); }
+    public int Count { get => _count; internal set => SetCount(value); }
 
     public int this[int index] { get => Get(index); set => Put(index, item: value); }
 
     public int[] List { get; private set; }
-    public int DefaultValue { get => _defaultValue; set => _defaultValue = value; }
-    public string ItemString { get => GetItemString(); set => SetItemString(value); }
+    public int DefaultValue { get => _defaultValue; init => _defaultValue = value; }
+    public string ItemString => GetItemString();
 
     // ImageLib.pas:9401
     public static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, message: Format(message, args: [data]));

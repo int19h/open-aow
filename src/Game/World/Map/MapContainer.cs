@@ -19,7 +19,7 @@ public partial class MapContainer(CustomNode owner) : OwningNode(owner), IChildL
     int IChildSink<MapLevel>.AddChild(MapLevel child) => AddChild(child);
 
     // The map the container belongs to. AcceptsOwner admits only a map, so the cast never fails.
-    public new GameMap Owner { get => GetOwner<GameMap>(); set => SetOwner(value); }
+    public new GameMap Owner => GetOwner<GameMap>();
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is GameMap;
 

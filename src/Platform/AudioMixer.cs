@@ -59,7 +59,7 @@ public sealed class AudioMixer : IDisposable
     public long RenderedFrames { get; private set; }
     public bool MusicEnabled { get; set; } = true;
     public bool SfxEnabled { get; set; } = true;
-    public TrackerSong? Song { get; set; }
+    public TrackerSong? Song { get; private set; }
     public bool SongEnded { get; private set; }
 
     public void ReplaceSong(TrackerSong? song)

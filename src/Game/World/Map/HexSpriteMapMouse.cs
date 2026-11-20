@@ -362,7 +362,7 @@ public class HexSpriteMapMouse : IDisposable
     public object Capture { get => _capture; set => SetCapture(value); }
     public int Cursor { get => GetCursor(); set => SetCursor(value); }
     public int CursorMode { get; set; }
-    public bool IgnoreDown { get; set; }
+    public bool IgnoreDown { get; private set; }
     public bool CursorVisible { get; set; }
 
     public enum StatusElement : byte

@@ -43,8 +43,8 @@ public class MultiHexMapObjectResource : MapObjectResource
         CalculateShowPriorityOffset(_mainPointOffsetX, _mainPointOffsetY, Level);
     }
 
-    public int ImageOffsetX { get; set; }
-    public int ImageOffsetY { get; set; }
+    public int ImageOffsetX { get; private set; }
+    public int ImageOffsetY { get; private set; }
     public int MainPointOffsetX { get => _mainPointOffsetX; set => SetMainPointOffsetX(value); }
     public int MainPointOffsetY { get => _mainPointOffsetY; set => SetMainPointOffsetY(value); }
 }

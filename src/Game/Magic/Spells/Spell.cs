@@ -37,9 +37,9 @@ public class Spell : EngineObject
         SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global);
     }
 
-    public string SpellName { get; protected set; } = "";
-    public Set<SpellControlTypeElement> SpellControlTypes { get; protected set; }
-    public int SpellId { get; protected set; }
+    public string SpellName { get; protected init; } = "";
+    public Set<SpellControlTypeElement> SpellControlTypes { get; protected init; }
+    public int SpellId { get; protected init; }
 
     public int BaseManaCost { get; protected set; }
     public int ResearchCost { get; private set; }
@@ -47,12 +47,12 @@ public class Spell : EngineObject
     public MagicSphere MagicSphere { get; protected set; }
     public byte SpellLevel { get; protected set; }
 
-    public SpellType SpellType { get; protected set; }
+    public SpellType SpellType { get; protected init; }
     // stGlobal guard
     public DelphiStringList SpellText { get; }
     public SfxLibrary CastSounds { get; }
-    public ImageSequenceList CastImages { get; set; }
-    public int CastDuration { get; protected set; }
+    public ImageSequenceList CastImages { get; internal set; }
+    public int CastDuration { get; protected init; }
 
     // Spells.PAS:20
     public override void Dispose()

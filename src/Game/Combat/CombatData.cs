@@ -34,13 +34,13 @@ public partial class CombatData : EngineObject
     public sbyte AttackerPlayer { get; set; }
     public sbyte DefenderPlayer { get; set; }
 
-    public ByteList InvolvedLeaders { get; set; }
-    public ByteList DefeatedLeaders { get; set; }
+    public ByteList InvolvedLeaders { get; internal set; }
+    public ByteList DefeatedLeaders { get; internal set; }
 
     public byte CombatResult { get; set; }
 
     public byte CurrentPlayer { get; set; }
-    public OwningNode CombatObjects { get; set; }
+    public OwningNode CombatObjects { get; internal set; }
     public CombatPlayerList Players { get; }
     public CombatPartyList Parties { get; }
     public ByteList TurnOrder { get; }

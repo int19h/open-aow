@@ -13,7 +13,7 @@ public class AIGroupProductionLocation(CustomNode owner) : EngineObject(owner), 
 {
     // A reference list holds the location and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list.
-    public new AIGroupProductionLocationList Owner { get => GetOwner<AIGroupProductionLocationList>(); set => SetOwner(value); }
+    public new AIGroupProductionLocationList Owner => GetOwner<AIGroupProductionLocationList>();
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is AIGroupProductionLocationList;
 

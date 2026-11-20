@@ -10,7 +10,7 @@ namespace Aow.Engine.Storage;
 
 public class TranslateTextStream(GameEngine engine) : TranslateVisit(engine)
 {
-    public IvDictionary FDictionary { get; set; }
+    public IvDictionary FDictionary { get; internal set; }
 
     // Army.PAS:5614
     public override void TranslateStrings(DelphiStringCollection lines)

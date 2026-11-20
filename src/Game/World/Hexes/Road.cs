@@ -16,7 +16,7 @@ public class Road(CustomNode owner) : AbstractRoad(owner)
     // Road.pas:47
     public new const int ClassId = 131428;
 
-    protected internal byte Transitions { get; protected set; }
+    protected internal byte Transitions { get; private set; }
 
     // Road.pas:52
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)

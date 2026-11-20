@@ -353,12 +353,12 @@ public partial class BitList : Persistent
     }
 
     public int Capacity { get => _capacity; set => SetCapacity(value); }
-    public int Count { get => _count; set => SetCount(value); }
-    public bool Default { get => _default != 0; set => _default = DefaultByte(value); }
+    public int Count { get => _count; internal set => SetCount(value); }
+    public bool Default { get => _default != 0; internal set => _default = DefaultByte(value); }
 
     public bool this[int index] { get => Get(index); set => Put(index, item: value); }
 
-    public string ItemString { get => GetItemString(); set => SetItemString(value); }
+    public string ItemString => GetItemString();
     public int BitsSet => GetBitsSet();
     public int BitsCleared => GetBitsCleared();
 

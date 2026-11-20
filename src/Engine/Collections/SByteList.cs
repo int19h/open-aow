@@ -370,8 +370,8 @@ public class SByteList : Persistent
     }
 
     public int Capacity { get => _capacity; set => SetCapacity(value); }
-    public int Count { get => _count; set => SetCount(value); }
-    public sbyte Default { get => _default; set => _default = value; }
+    public int Count { get => _count; internal set => SetCount(value); }
+    public sbyte Default { get => _default; init => _default = value; }
 
     public sbyte this[int index] { get => Get(index); set => Put(index, item: value); }
 

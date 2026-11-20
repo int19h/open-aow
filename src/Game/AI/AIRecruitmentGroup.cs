@@ -11,7 +11,7 @@ public class AIRecruitmentGroup(CustomNode owner) : EngineObject(owner), IOwned<
 {
     // A reference list holds the recruitment group and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list.
-    public new AIRecruitmentGroupList Owner { get => GetOwner<AIRecruitmentGroupList>(); set => SetOwner(value); }
+    public new AIRecruitmentGroupList Owner => GetOwner<AIRecruitmentGroupList>();
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is AIRecruitmentGroupList;
 
