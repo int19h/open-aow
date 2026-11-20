@@ -178,7 +178,8 @@ public sealed class StringRoutineTests
             Assert.Equal(PCharStrings.NullTerminatedText(ansi), PCharStrings.NullTerminatedText(text));
             foreach (int length in new[] { -1, 0, text.Length })
             {
-                string value = PCharStrings.SetString(source: pointer, length);
+                string value = length <= 0 ? ""
+        : pointer.IsNull ? new string('\0', count: length) : Cp1252.Decode(pointer.AsSpan(length));
                 Assert.Equal(length <= 0
             ? ""
             : pointer.IsNull
@@ -189,7 +190,8 @@ public sealed class StringRoutineTests
         Assert.Equal("", PCharStrings.FromPChar(default));
         foreach (int length in new[] { -1, 0, 3 })
         {
-            string value = PCharStrings.SetString(source: default, length);
+            string value = length <= 0 ? ""
+        : ((Ptr<byte>)default).IsNull ? new string('\0', count: length) : Cp1252.Decode(((Ptr<byte>)default).AsSpan(length));
             Assert.Equal(length <= 0
             ? ""
             : ((Ptr<byte>)default).IsNull

@@ -6,7 +6,6 @@ namespace Aow.Rtl;
 
 public static class DelphiConversions
 {
-    public static string IntToStr(int value) => value.ToString(CultureInfo.InvariantCulture);
     // SYSUTILS.PAS IntToHex uses FormatBuf, which ignores precision outside 0..15.
     public static string IntToHex(int value, int digits) => ((uint)value).ToString("X", provider: CultureInfo.InvariantCulture).PadLeft(digits is > 0 and < 16 ? digits : 0, paddingChar: '0');
 
