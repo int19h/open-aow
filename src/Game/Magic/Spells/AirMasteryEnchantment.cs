@@ -14,7 +14,7 @@ namespace Aow.Game.Magic.Spells;
 public class AirMasteryEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:649
-    public new const int ClassId = 135966;
+    public new const int ClassId = 135_966;
 
     // GlobalEnchantmentSpells.pas:641
     public AirMasteryEnchantment(CustomNode owner, EngineObject holder) : base(owner)
@@ -26,7 +26,7 @@ public class AirMasteryEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:654
-    public override int GetAIUpkeepPriority() => 1250;
+    public override int GetAIUpkeepPriority() => 1_250;
 
     // GlobalEnchantmentSpells.pas:679
     public override bool Deactivate(byte player)

@@ -706,7 +706,7 @@ internal static class ClassRegistry
         _ = EngineClass.Register(WatcherTokenEvent.ClassId, static owner => new WatcherTokenEvent(owner));
         _ = EngineClass.Register(AbstractBorderHexagon.ClassId, static owner => new AbstractBorderHexagon(owner));
         _ = EngineClass.Register(MapObjectResource.ClassId, static owner => new AbstractBorderHexagon.Resource(owner));
-        _ = EngineClass.Alias(65537, static owner => new GameEngine(owner));
+        _ = EngineClass.Alias(65_537, static owner => new GameEngine(owner));
         _ = EngineClass.Register(ControlStyleNode.ClassId, static owner => new HexSpriteSelection(owner));
         _ = EngineClass.Register(HexagonResource.ClassId, static owner => new HexagonResource(owner));
         _ = EngineClass.Register(HolyGroundSpellTokenEvent.ClassId, static owner => new HolyGroundSpellTokenEvent(owner));

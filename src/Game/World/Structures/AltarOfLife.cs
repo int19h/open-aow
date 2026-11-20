@@ -10,7 +10,7 @@ public class AltarOfLife(CustomNode owner) : Altar(owner)
 {
 
     // AltLife.pas:36
-    public new const int ClassId = 131635;
+    public new const int ClassId = 131_635;
 
     // AltLife.pas:39
     public override Storm CreateStorm() => new DivineStorm(null) { Holder = CreationHolder() };
@@ -19,10 +19,10 @@ public class AltarOfLife(CustomNode owner) : Altar(owner)
     {
 
         // AltLife.pas:52
-        public new const int ClassId = 131636;
+        public new const int ClassId = 131_636;
 
         // AltLife.pas:55
-        public override int ResourceUserClassId() => 131635;
+        public override int ResourceUserClassId() => AltarOfLife.ClassId;
 
         // AltLife.pas:49
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_altarOfLifeText);

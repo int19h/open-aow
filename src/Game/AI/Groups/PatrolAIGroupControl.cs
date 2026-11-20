@@ -231,7 +231,7 @@ public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
         for (int i = fields.Count - 1; i >= 0; i--)
         {
             // { Original samples every fourth processed field. }
-            if ((i & 3) == 3)
+            if ((i & 0b0011) == 0b0011)
             {
                 mapField = fields.List[i];
                 heading = HexGeometry.DeltaHexToHexDirection(x, y, mapField.HexX, mapField.HexY);

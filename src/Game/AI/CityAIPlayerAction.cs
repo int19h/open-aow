@@ -29,7 +29,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
         if (player.PlayerIndex != 0)
         {
             AIBudgetManager manager = player.AIBudget;
-            AIBudget upgradeBudget = manager.Budgets.FindChild<AIBudget>(131349);
+            AIBudget upgradeBudget = manager.Budgets.FindChild<AIBudget>(AICityUpgradeBudget.ClassId);
             upgradeBudget ??= new AICityUpgradeBudget(null)
             {
                 Holder = CreationHolder(),
@@ -38,7 +38,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
                 Days = 7
             };
 
-            AIBudget researchBudget = manager.Budgets.FindChild<AIBudget>(131350);
+            AIBudget researchBudget = manager.Budgets.FindChild<AIBudget>(AICityResearchBudget.ClassId);
             if (researchBudget is not null)
             {
                 if (researchBudget.Gold + upgradeBudget.Gold > 125)
@@ -72,7 +72,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
             }
 
             ValidateUpgradeBudget(upgradeBudget);
-            AIBudget fortifyBudget = manager.Budgets.FindChild<AIBudget>(131351);
+            AIBudget fortifyBudget = manager.Budgets.FindChild<AIBudget>(AICityFortifyBudget.ClassId);
             if (fortifyBudget is not null)
             {
                 if (fortifyBudget.Ready)

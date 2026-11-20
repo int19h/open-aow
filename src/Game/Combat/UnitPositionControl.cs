@@ -34,7 +34,7 @@ public class UnitPositionControl : EngineObject
             HexGeometry.PixelToHex(message.Payload.Int, vertical: message.Data[0], out int x, out int y);
             if (CombatMap.Current.MapContainer.GetField(x, y, l).TerrainType != 15)
             {
-                UnitPositionHexSprite hexSprite = CombatMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild<UnitPositionHexSprite>(2228483);
+                UnitPositionHexSprite hexSprite = CombatMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild<UnitPositionHexSprite>(UnitPositionHexSprite.ClassId);
                 if (hexSprite is null)
                 {
                     hexSprite = new UnitPositionHexSprite(null) { Holder = CreationHolder() };

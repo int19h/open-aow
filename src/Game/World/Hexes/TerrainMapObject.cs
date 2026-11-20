@@ -13,7 +13,7 @@ public partial class TerrainMapObject(CustomNode owner) : MultiHexMapObject(owne
 {
 
     // Terrain.pas:65
-    public new const int ClassId = 131430;
+    public new const int ClassId = 131_430;
 
     public override TerrainMapObjectResource Resource => GetResource<TerrainMapObjectResource>();
 

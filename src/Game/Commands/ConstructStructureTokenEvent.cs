@@ -15,7 +15,7 @@ namespace Aow.Game.Commands;
 
 public class ConstructStructureTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public new const int ClassId = 135962;
+    public new const int ClassId = 135_962;
 
     public int UnitId { get; set; }
     public sbyte Player { get; set; }

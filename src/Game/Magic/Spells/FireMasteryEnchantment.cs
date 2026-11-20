@@ -17,7 +17,7 @@ namespace Aow.Game.Magic.Spells;
 public class FireMasteryEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:1647
-    public new const int ClassId = 135969;
+    public new const int ClassId = 135_969;
 
     // GlobalEnchantmentSpells.pas:1639
     public FireMasteryEnchantment(CustomNode owner, EngineObject holder) : base(owner)
@@ -45,7 +45,7 @@ public class FireMasteryEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:1650
-    public override int GetAIUpkeepPriority() => 1250;
+    public override int GetAIUpkeepPriority() => 1_250;
 
     // GlobalEnchantmentSpells.pas:1680
     public override bool Deactivate(byte player)
@@ -120,7 +120,7 @@ public class FireMasteryEnchantment : GlobalEnchantment
                     int chance = MapField.IgnitionChance(mapLevel.GetField(x, y));
                     if (chance > 0)
                     {
-                        if (StrategicMap.Current.Random(10000) < chance * factor)
+                        if (StrategicMap.Current.Random(10_000) < chance * factor)
                         {
                             Fire fire = GamePack.Current.FireControl.PlaceFire(x, y, l, fireType: FireType.Large);
                             if (fire is not null)

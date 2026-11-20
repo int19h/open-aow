@@ -17,7 +17,7 @@ namespace Aow.Game.Events;
 // { Interface declaration run owned by P2. }
 public partial class HeroJoinEventLog(CustomNode owner) : JoinEventLog(owner)
 {
-    public new const int ClassId = 131828;
+    public new const int ClassId = 131_828;
 
     // Hero.PAS:116
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)

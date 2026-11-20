@@ -459,7 +459,7 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
             if (i < Leader.SphereCount)
             {
                 button.Visible = true;
-                switch ((int)Leader.GetSpheres(i) & 127)
+                switch ((int)Leader.GetSpheres(i) & 0b0111_1111)
                 {
                     case 1:
                         button.ImageLibraryIndexDown = 28;

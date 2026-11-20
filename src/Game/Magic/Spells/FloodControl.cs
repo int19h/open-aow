@@ -181,7 +181,7 @@ public class FloodControl(CustomNode owner) : EngineObject(owner)
                         for (int i = 0, lastI = resources.Count - 1; i <= lastI; i++)
                         {
                             MapObjectResource resource = resources[i];
-                            if (resource.EngineClass.ClassId == 131431 && resource.TerrainList.UsedTerrain() == 1 && resource.TerrainList.Terrain[0] == mapField.TerrainType && overlay == resource.TerrainList.Overlay[0])
+                            if (resource.EngineClass.ClassId == World.Hexes.TerrainMapObjectResource.ClassId && resource.TerrainList.UsedTerrain() == 1 && resource.TerrainList.Terrain[0] == mapField.TerrainType && overlay == resource.TerrainList.Overlay[0])
                             {
                                 _ = candidates.Add(resource);
                             }

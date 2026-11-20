@@ -277,12 +277,12 @@ internal static class TacticalTables
                         a = HexGeometry.DeltaHexToRadius(x, y, startX, startY);
                         TacticalBattleUnitHexSprite unitHexSprite = !includeUnits
                             ? null
-                            : CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+                            : CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
 
-                        CityWall wall = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<CityWall>(2229508);
+                        CityWall wall = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<CityWall>(CityWall.ClassId);
                         if (wall is null && side == CombatSideIndex.Attacker)
                         {
-                            wall = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild(2229510) as CityWall;
+                            wall = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild(2_229_510) as CityWall;
                         }
 
                         if (a == 1)
@@ -328,7 +328,7 @@ internal static class TacticalTables
                                             while (wall is null && b < 7)
                                             {
                                                 HexGeometry.CenterHexNumberToHex(startX, startY, hexNumber: b, ref hexX, ref hexY);
-                                                wall = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<CityWall>(2229508) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229510) as CityWall;
+                                                wall = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<CityWall>(CityWall.ClassId) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2_229_510) as CityWall;
                                                 b += 1;
                                             }
 

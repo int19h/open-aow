@@ -9,7 +9,7 @@ public class MovementHexSprite(CustomNode owner) : SingleHexSprite(owner)
 {
 
     // FleeLoc.pas:172
-    public new const int ClassId = 2228490;
+    public new const int ClassId = 2_228_490;
 
     public bool Enabled { get; set; }
 

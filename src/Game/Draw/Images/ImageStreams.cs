@@ -10,7 +10,7 @@ public static class ImageStreams
     public static LibraryImage ReadImageFromStream(Stream stream, CustomImageLibrary owner)
     {
         int id = default;
-        stream.ReadExactly(Bytes.Of(ref id, count: 4));
+        stream.ReadExactly(Bytes.Of(ref id));
         LibraryImageClass imageClass = LibraryCatalog.FindLibraryImageClass(id);
         LibraryImage result;
         if (imageClass is not null)
@@ -29,7 +29,7 @@ public static class ImageStreams
     internal static LibraryImage ReadImageFromStream(Stream stream, Stream dataStream, CustomImageLibrary owner)
     {
         int id = default;
-        stream.ReadExactly(Bytes.Of(ref id, count: 4));
+        stream.ReadExactly(Bytes.Of(ref id));
         LibraryImageClass imageClass = LibraryCatalog.FindLibraryImageClass(id);
         LibraryImage result;
         if (imageClass is not null)

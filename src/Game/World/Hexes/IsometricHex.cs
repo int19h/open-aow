@@ -16,7 +16,7 @@ public partial class IsometricHex(CustomNode owner) : AbstractHexagon(owner)
 {
 
     // IsoHex.pas:214
-    public new const int ClassId = 131437;
+    public new const int ClassId = 131_437;
 
     protected internal DynamicIsometricHex Dynamic { get; set; }
     protected internal byte OpenSides { get; private set; }
@@ -64,12 +64,12 @@ public partial class IsometricHex(CustomNode owner) : AbstractHexagon(owner)
             imageLibrary[31].Show(pixelX, pixelY, lockedSurface);
         }
 
-        if ((Sides & 2) != 0)
+        if ((Sides & 0b0010) != 0)
         {
             imageLibrary[32].Show(pixelX, pixelY, lockedSurface);
         }
 
-        if ((Sides & 32) != 0)
+        if ((Sides & 0b0010_0000) != 0)
         {
             imageLibrary[30].Show(pixelX, pixelY, lockedSurface);
         }

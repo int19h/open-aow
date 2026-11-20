@@ -102,7 +102,7 @@ public class RandomBattleMapGenerator : IDisposable
         CombatPlacement.CombatXLocation = X;
         CombatPlacement.CombatYLocation = Y;
         CombatPlacement.CombatLLocation = L;
-        RandSeed = (Y * 128) + X + (L * 16384) + StrategicMap.Current.InitialRandomSeed;
+        RandSeed = (Y * 128) + X + (L * 16_384) + StrategicMap.Current.InitialRandomSeed;
         int i = 0;
         for (; i <= 6; i += 1)
         {
@@ -215,8 +215,8 @@ public class RandomBattleMapGenerator : IDisposable
         if (randomTerrain)
         {
             CombatMap.Current.LockMapChangedEvent();
-            shapeBuffer = new byte[3770];
-            terrainBuffer = new byte[3770];
+            shapeBuffer = new byte[3_770];
+            terrainBuffer = new byte[3_770];
             int hexX = default;
             byte shape;
             for (int row = 6; row <= 52; row++)
@@ -294,7 +294,7 @@ public class RandomBattleMapGenerator : IDisposable
                         if (j > -1)
                         {
                             HexGeometry.CenterHexNumberToHex(X, Y, hexNumber: j, ref k, ref hexX);
-                            if (StrategicMap.Current.MapContainer.MapLevels[L].Field[k, hexX].FindOwnedChild(131946) is null)
+                            if (StrategicMap.Current.MapContainer.MapLevels[L].Field[k, hexX].FindOwnedChild(World.Terrain.Crop.ClassId) is null)
                             {
                                 CombatMap.Current.ClearTerrain(column, row, L: 0, radius: 0, terrainType: -1);
                             }
@@ -418,7 +418,7 @@ public class RandomBattleMapGenerator : IDisposable
                             }
                         }
 
-                        hasUnit = CombatMap.Current.MapContainer.MapLevels[0].Field[column * 2, row].FindChild(2228484) is not null;
+                        hasUnit = CombatMap.Current.MapContainer.MapLevels[0].Field[column * 2, row].FindChild(TacticalBattleUnitHexSprite.ClassId) is not null;
                         if (hasUnit || Blocked(column * 2, row, first: 0, last: 2))
                         {
                             if ((hasUnit || Blocked(column * 2, row, first: 4, last: 8)) && (hasUnit || Blocked(column * 2, row, first: 9, last: 17)))
@@ -544,7 +544,7 @@ public class RandomBattleMapGenerator : IDisposable
                             }
                         }
 
-                        hasUnit = CombatMap.Current.MapContainer.MapLevels[0].Field[(column * 2) + 1, row].FindChild(2228484) is not null;
+                        hasUnit = CombatMap.Current.MapContainer.MapLevels[0].Field[(column * 2) + 1, row].FindChild(TacticalBattleUnitHexSprite.ClassId) is not null;
                         if (hasUnit || Blocked((column * 2) + 1, row, first: 0, last: 2))
                         {
                             if ((hasUnit || Blocked((column * 2) + 1, row, first: 4, last: 8)) && (hasUnit || Blocked((column * 2) + 1, row, first: 9, last: 17)))
@@ -690,7 +690,7 @@ public class RandomBattleMapGenerator : IDisposable
                         {
                             _ = units.Add(CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i));
                             u = units[^1];
-                            u.PositionIndex = (byte)(u.Position & 15);
+                            u.PositionIndex = (byte)(u.Position & 0xF);
                             u.PositionGroup = (byte)(u.Position >>> 4);
                             if (u.PositionGroup == 7)
                             {
@@ -964,7 +964,7 @@ public class RandomBattleMapGenerator : IDisposable
         {
             HexGeometry.CenterHexNumberToHex(x, y, hexNumber, ref hexX, ref hexY);
             slot = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].OverlayType;
-            targetHexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+            targetHexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
             hexNumber += 1;
         }
         while (!(slot != 8 && targetHexSprite is null));
@@ -983,13 +983,13 @@ public class RandomBattleMapGenerator : IDisposable
     {
         _neighborWeights[1] = 500;
         _neighborWeights[2] = 500;
-        _neighborWeights[4] = 1500;
+        _neighborWeights[4] = 1_500;
         _neighborWeights[5] = 200;
-        _neighborWeights[10] = 1500;
+        _neighborWeights[10] = 1_500;
         _neighborWeights[11] = 500;
-        _neighborWeights[17] = 2000;
-        _neighborWeights[18] = 1500;
-        _terrainWeights[19] = 2500;
+        _neighborWeights[17] = 2_000;
+        _neighborWeights[18] = 1_500;
+        _terrainWeights[19] = 2_500;
         _terrainWeights[20] = 0;
         _terrainWeights[21] = 35;
         _terrainWeights[22] = 0;
@@ -1005,7 +1005,7 @@ public class RandomBattleMapGenerator : IDisposable
         _terrainWeights[33] = 10;
         _terrainWeights[34] = 0;
         _terrainWeights[35] = 3;
-        _terrainWeights[38] = 2500;
+        _terrainWeights[38] = 2_500;
         _terrainWeights[39] = 5;
         _terrainWeights[40] = 0;
         _terrainWeights[41] = 0;
@@ -1021,7 +1021,7 @@ public class RandomBattleMapGenerator : IDisposable
         _terrainWeights[52] = 5;
         _terrainWeights[53] = 2;
         _terrainWeights[54] = 1;
-        _terrainWeights[57] = 2500;
+        _terrainWeights[57] = 2_500;
         _terrainWeights[58] = 8;
         _terrainWeights[59] = 0;
         _terrainWeights[60] = 0;
@@ -1037,7 +1037,7 @@ public class RandomBattleMapGenerator : IDisposable
         _terrainWeights[71] = 5;
         _terrainWeights[72] = 1;
         _terrainWeights[73] = 1;
-        _terrainWeights[76] = 2500;
+        _terrainWeights[76] = 2_500;
         _terrainWeights[77] = 8;
         _terrainWeights[78] = 0;
         _terrainWeights[79] = 0;
@@ -1053,7 +1053,7 @@ public class RandomBattleMapGenerator : IDisposable
         _terrainWeights[90] = 5;
         _terrainWeights[91] = 1;
         _terrainWeights[92] = 1;
-        _terrainWeights[95] = 2500;
+        _terrainWeights[95] = 2_500;
         _terrainWeights[96] = 5;
         _terrainWeights[97] = 0;
         _terrainWeights[98] = 1;
@@ -1069,7 +1069,7 @@ public class RandomBattleMapGenerator : IDisposable
         _terrainWeights[109] = 10;
         _terrainWeights[110] = 4;
         _terrainWeights[111] = 3;
-        _terrainWeights[114] = 2500;
+        _terrainWeights[114] = 2_500;
         _terrainWeights[115] = 0;
         _terrainWeights[116] = 0;
         _terrainWeights[117] = 0;
@@ -1085,7 +1085,7 @@ public class RandomBattleMapGenerator : IDisposable
         _terrainWeights[128] = 0;
         _terrainWeights[129] = 0;
         _terrainWeights[130] = 0;
-        _terrainWeights[228] = 2500;
+        _terrainWeights[228] = 2_500;
         _terrainWeights[229] = 0;
         _terrainWeights[230] = 0;
         _terrainWeights[231] = 0;

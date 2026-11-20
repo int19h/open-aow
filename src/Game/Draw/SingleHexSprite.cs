@@ -17,18 +17,18 @@ public class SingleHexSprite(CustomNode owner) : HexSprite(owner)
     {
         get => (_status & 1) != 0;
         // HXSPRITE.PAS:640
-        set => _status = value ? (byte)(_status | 1) : (byte)(_status & 254);
+        set => _status = value ? (byte)(_status | 1) : (byte)(_status & 0b1111_1110);
     }
 
     // HXSPRITE.PAS:683
-    public override bool GetSelected() => (_status & 4) != 0;
+    public override bool GetSelected() => (_status & 0b0100) != 0;
 
     // HXSPRITE.PAS:660
     public override bool EditMode
     {
-        get => (_status & 2) != 0;
+        get => (_status & 0b0010) != 0;
         // HXSPRITE.PAS:665
-        set => _status = value ? (byte)(_status | 2) : (byte)(_status & 253);
+        set => _status = value ? (byte)(_status | 0b0010) : (byte)(_status & 0b1111_1101);
     }
 
     // HXSPRITE.PAS:713
@@ -78,13 +78,13 @@ public class SingleHexSprite(CustomNode owner) : HexSprite(owner)
     }
 
     // HXSPRITE.PAS:688
-    public override void Activate() => _status = (byte)(_status | 8);
+    public override void Activate() => _status = (byte)(_status | 0b1000);
 
     // HXSPRITE.PAS:693
     public override void Deactivate()
     {
         base.Deactivate();
-        _status = (byte)(_status & 247);
+        _status = (byte)(_status & 0b1111_0111);
     }
 
     // HXSPRITE.PAS:651
@@ -101,14 +101,14 @@ public class SingleHexSprite(CustomNode owner) : HexSprite(owner)
     public override void Select()
     {
         base.Select();
-        _status = (byte)(_status | 4);
+        _status = (byte)(_status | 0b0100);
     }
 
     // HXSPRITE.PAS:677
     public override void Unselect()
     {
         base.Unselect();
-        _status = (byte)(_status & 251);
+        _status = (byte)(_status & 0b1111_1011);
     }
 
     // HXSPRITE.PAS:743
@@ -130,5 +130,5 @@ public class SingleHexSprite(CustomNode owner) : HexSprite(owner)
     }
 
     // HXSPRITE.PAS:699
-    public bool Activated() => (_status & 8) != 0;
+    public bool Activated() => (_status & 0b1000) != 0;
 }

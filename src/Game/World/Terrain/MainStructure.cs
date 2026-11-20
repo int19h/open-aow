@@ -7,7 +7,7 @@ public class MainStructure(CustomNode owner) : CombatStructure(owner)
 {
 
     // MainStructure.pas:37
-    public new const int ClassId = 2229532;
+    public new const int ClassId = 2_229_532;
 
     // MainStructure.pas:40
     public override int GetTerrainTypeImage(int terrainType) => terrainType;
@@ -16,10 +16,10 @@ public class MainStructure(CustomNode owner) : CombatStructure(owner)
     {
 
         // MainStructure.pas:43
-        public new const int ClassId = 2229533;
+        public new const int ClassId = 2_229_533;
 
         // MainStructure.pas:49
-        public override int ResourceUserClassId() => 2229532;
+        public override int ResourceUserClassId() => MainStructure.ClassId;
 
         // MainStructure.pas:46
         public override string ResourceEditName() => "Combat Main Structure";

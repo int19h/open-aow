@@ -12,7 +12,7 @@ namespace Aow.Game.Magic.Spells;
 public class HarmonyEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:921
-    public new const int ClassId = 135958;
+    public new const int ClassId = 135_958;
 
     public int DaysActive { get; set; }
 

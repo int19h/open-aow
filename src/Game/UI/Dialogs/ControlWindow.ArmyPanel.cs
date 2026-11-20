@@ -38,7 +38,7 @@ public partial class ControlWindow
             readOnly = true;
             PartyActionLabel1.Visible = PartyActionLabel2.Visible = true;
             PartyActionLabel1.Text = UI.Engine.TranslateResourceString(s_partyActionText);
-            PartyActionLabel2.Text = UI.Engine.TranslateResourceString(((int)army.GetBehavior(255) & 127) switch
+            PartyActionLabel2.Text = UI.Engine.TranslateResourceString(((int)army.GetBehavior(255) & 0b0111_1111) switch
             {
                 1 => s_patrollingText,
                 2 or 3 => s_guardingText,

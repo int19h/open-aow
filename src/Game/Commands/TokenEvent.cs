@@ -56,6 +56,6 @@ public class TokenEvent(CustomNode owner) : EngineObject(owner), IOwned<TokenEve
 
     public int TokenCounter { get; set; } = -1;
 
-    private const short ClassIdTokenEvent = 1361;
+    private const short ClassIdTokenEvent = 1_361;
 
 }

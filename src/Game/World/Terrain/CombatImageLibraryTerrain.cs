@@ -12,7 +12,7 @@ public class CombatImageLibraryTerrain(CustomNode owner) : ImageLibraryTerrainMa
 {
 
     // CombatILTer.pas:105
-    public new const int ClassId = 2228534;
+    public new const int ClassId = 2_228_534;
 
     private CombatImageLibraryTerrainShadow _shadow;
 

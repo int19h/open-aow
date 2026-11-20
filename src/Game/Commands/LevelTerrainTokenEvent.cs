@@ -14,7 +14,7 @@ public class LevelTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEv
 {
 
     // GlobalTargetSpells.pas:940
-    public new const int ClassId = 135945;
+    public new const int ClassId = 135_945;
 
     // GlobalTargetSpells.pas:968
     public override bool Process(Troop source, int value)

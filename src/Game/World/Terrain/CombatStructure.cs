@@ -22,7 +22,7 @@ public class CombatStructure : CombatFixedImageLibraryTerrain
     public CombatStructure(CustomNode owner) : base(owner) => SetHitPoints(5);
 
     // CombatStructure.pas:57
-    public new const int ClassId = 2229510;
+    public new const int ClassId = 2_229_510;
 
     public int HitPoints { get; private set; }
 

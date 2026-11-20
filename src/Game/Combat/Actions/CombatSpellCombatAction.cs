@@ -12,7 +12,7 @@ namespace Aow.Game.Combat.Actions;
 public class CombatSpellCombatAction(CustomNode owner) : DamageCombatAction(owner)
 {
     // CombatSpells.pas:447
-    public new const int ClassId = 131778;
+    public new const int ClassId = 131_778;
 
     public int SpellId { get; set; }
     public int ManaCost { get; set; }

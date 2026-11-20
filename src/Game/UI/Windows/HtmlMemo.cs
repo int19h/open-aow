@@ -253,7 +253,7 @@ public partial class HtmlMemo : BaseWindow
             ci = new ChangeInfo
             {
                 Height = 10,
-                Color = 16777215,
+                Color = 0xFF_FF_FF,
                 Font = "",
                 Align = TextAlignment.Left,
                 Position = 0,

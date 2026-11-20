@@ -372,7 +372,7 @@ public class Ability : EngineObject
             if (info.DamageTypes != Set<DamageType>.Of())
             {
                 string damageNames = "";
-                for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
+                for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.None; damageTypeOrdinal++)
                 {
                     DamageType damageType = (DamageType)damageTypeOrdinal;
                     if (info.DamageTypes.Contains(damageType))

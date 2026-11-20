@@ -11,7 +11,7 @@ namespace Aow.Game.World.Structures;
 public class PlayerStructureResource(CustomNode owner) : StructureResource(owner)
 {
 
-    public new const int ClassId = 131917;
+    public new const int ClassId = 131_917;
 
     public bool Claimed { get; protected init; } = true;
     public int FlagX { get; private set; } = 20;
@@ -43,7 +43,7 @@ public class PlayerStructureResource(CustomNode owner) : StructureResource(owner
     }
 
     // Structur.PAS:2440
-    public override int ResourceUserClassId() => 131916;
+    public override int ResourceUserClassId() => PlayerStructure.ClassId;
 
     // Structur.PAS:2473
     public override PlayerStructure PlaceResourceUser(GameMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)

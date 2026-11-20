@@ -13,7 +13,7 @@ public class BorderHex(CustomNode owner) : AbstractBorderHexagon(owner)
 {
 
     // BorderHx.pas:59
-    public new const int ClassId = 132439;
+    public new const int ClassId = 132_439;
 
     // BorderHx.pas:39
     public override void SetOwner(CustomNode owner)
@@ -65,10 +65,10 @@ public class BorderHex(CustomNode owner) : AbstractBorderHexagon(owner)
 
     public new class Resource(CustomNode owner) : AbstractBorderHexagon.Resource(owner)
     {
-        public new const int ClassId = 132440;
+        public new const int ClassId = 132_440;
 
         // BorderHx.pas:112
-        public override int ResourceUserClassId() => 132439;
+        public override int ResourceUserClassId() => BorderHex.ClassId;
 
         // BorderHx.pas:107
         public override string ResourceEditName() => "Border Hexagon";

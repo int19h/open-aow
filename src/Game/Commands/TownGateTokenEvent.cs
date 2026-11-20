@@ -15,7 +15,7 @@ public class TownGateTokenEvent(CustomNode owner) : CityTargetSpellTokenEvent(ow
 {
 
     // CitySpells.pas:397
-    public new const int ClassId = 135950;
+    public new const int ClassId = 135_950;
 
     public ArmyId ArmyId { get; set; }
 

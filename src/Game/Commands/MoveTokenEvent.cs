@@ -67,7 +67,7 @@ public partial class MoveTokenEvent(CustomNode owner) : TokenEvent(owner)
             {
                 _status = MoveStatus.Moving;
                 InitializeMove();
-                _ = StrategicMap.Current.Random(1048575);
+                _ = StrategicMap.Current.Random(1_048_575);
                 _status = Path.Count switch
                 {
                     >= 0 and <= 1 => MoveStatus.Done,

@@ -84,7 +84,7 @@ public class AIMoveExecutorArmy(CustomNode owner) : AIMoveExecutorUnitList(owner
     // AIGroup.pas:4599
     public int Moves(byte selection)
     {
-        int result = 65535;
+        int result = 65_535;
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
             if ((selection & 1) != 0)
@@ -98,13 +98,13 @@ public class AIMoveExecutorArmy(CustomNode owner) : AIMoveExecutorUnitList(owner
             selection = (byte)(selection >>> 1);
         }
 
-        return result == 65535 ? -1 : result;
+        return result == 65_535 ? -1 : result;
     }
 
     // AIGroup.pas:4613
     public int MovePoints(byte selection)
     {
-        int result = 65535;
+        int result = 65_535;
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
             if ((selection & 1) != 0)
@@ -118,7 +118,7 @@ public class AIMoveExecutorArmy(CustomNode owner) : AIMoveExecutorUnitList(owner
             selection = (byte)(selection >>> 1);
         }
 
-        return result == 65535 ? -1 : result;
+        return result == 65_535 ? -1 : result;
     }
 
     // AIGroup.pas:4627

@@ -21,7 +21,7 @@ public class RaiseTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEv
 {
 
     // Mountain.pas:258
-    public new const int ClassId = 135946;
+    public new const int ClassId = 135_946;
 
     // Mountain.pas:317
     public override bool Process(Troop source, int value)
@@ -53,7 +53,7 @@ public class RaiseTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEv
                     {
                         i -= 1;
                         resource = resources[i];
-                        found = resource.EngineClass.ClassId == 131435 && resource.TerrainList.UsedTerrain() == 1;
+                        found = resource.EngineClass.ClassId == RaisedMountain.Resource.ClassId && resource.TerrainList.UsedTerrain() == 1;
                     }
 
                     if (found)

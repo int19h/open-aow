@@ -83,7 +83,7 @@ public partial class ChatWindow(UIContext ui) : UIModule(ui)
         }
         else
         {
-            PlayerList.TextColor = 9415072;
+            PlayerList.TextColor = 0x8F_A9_A0;
         }
     }
 }

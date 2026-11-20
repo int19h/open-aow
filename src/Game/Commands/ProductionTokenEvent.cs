@@ -12,7 +12,7 @@ namespace Aow.Game.Commands;
 // location/player, command, item, queue, index
 public class ProductionTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public new const int ClassId = 131736;
+    public new const int ClassId = 131_736;
 
     public MapCoordinate Location { get; internal set; }
 

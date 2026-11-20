@@ -17,7 +17,7 @@ namespace Aow.Game.Combat;
 public class CombatWall : CombatObject
 {
     // Combat.pas:1670
-    public new const int ClassId = 131759;
+    public new const int ClassId = 131_759;
 
     // Combat.pas:1660
     public CombatWall(CustomNode owner) : base(owner)

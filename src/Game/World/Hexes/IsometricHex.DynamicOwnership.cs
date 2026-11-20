@@ -11,7 +11,7 @@ public partial class IsometricHex
     protected void UpdateTransitionCore(Type peer, bool water, Action<int, int> shore = null)
     {
         OpenSides = 0;
-        Sides &= 0xC0;
+        Sides &= 0b1100_0000;
         MapField field = Owner;
         MapLevel level = field.Owner;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, field.HexX, field.HexY, radius: 1);

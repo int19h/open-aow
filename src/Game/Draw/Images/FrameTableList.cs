@@ -54,7 +54,7 @@ public class FrameTableList : Persistent
     // ImageLib.pas:9506
     protected internal void SetCapacity(int newCapacity)
     {
-        if (newCapacity < _count || newCapacity > 134217727)
+        if (newCapacity < _count || newCapacity > 134_217_727)
         {
             Error("List capacity out of bounds (%d)", data: newCapacity);
         }
@@ -69,7 +69,7 @@ public class FrameTableList : Persistent
     // ImageLib.pas:9517
     protected internal void SetCount(int newCount)
     {
-        if (newCount is < 0 or > 134217727)
+        if (newCount is < 0 or > 134_217_727)
         {
             Error("List count out of bounds (%d)", data: newCount);
         }
@@ -82,7 +82,7 @@ public class FrameTableList : Persistent
         if (newCount > _count)
         {
             // FillChar: each byte of a new item is the low byte of the default.
-            List.AsSpan(_count, length: newCount - _count).Fill(unchecked((byte)_defaultValue * 0x01010101));
+            List.AsSpan(_count, length: newCount - _count).Fill(unchecked((byte)_defaultValue * 0x0101_0101));
         }
 
         _count = newCount;
@@ -267,8 +267,8 @@ public class FrameTableList : Persistent
     {
         int n = default;
         Clear();
-        stream.ReadExactly(Bytes.Of(ref _defaultValue, count: 4));
-        stream.ReadExactly(Bytes.Of(ref n, count: 4));
+        stream.ReadExactly(Bytes.Of(ref _defaultValue));
+        stream.ReadExactly(Bytes.Of(ref n));
         SetCapacity(n);
         stream.ReadExactly(MemoryMarshal.AsBytes(List.AsSpan(0, length: n)));
         _count = n;
@@ -291,8 +291,8 @@ public class FrameTableList : Persistent
     // ImageLib.pas:9578
     public void SaveToStream(Stream stream)
     {
-        stream.Write(Bytes.Of(ref _defaultValue, count: 4));
-        stream.Write(Bytes.Of(ref _count, count: 4));
+        stream.Write(Bytes.Of(ref _defaultValue));
+        stream.Write(Bytes.Of(ref _count));
         stream.Write(MemoryMarshal.AsBytes(List.AsSpan(0, length: _count)));
     }
 

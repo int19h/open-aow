@@ -22,7 +22,7 @@ public partial class Sign(CustomNode owner) : Structure(owner)
 {
 
     // Sign.pas:99
-    public new const int ClassId = 131330;
+    public new const int ClassId = 131_330;
 
     public DelphiStringList Text { get; } = new DelphiStringList();
     public BitList TextSeen { get; } = new BitList();
@@ -40,7 +40,7 @@ public partial class Sign(CustomNode owner) : Structure(owner)
     {
         base.PersistFields(persister);
         PersistSupport.Lines(persister, name: "Text", lines: Text);
-        if (StrategicMap.Current is not null && StrategicMap.Current.ConnectionType != (PlayerConnectionType)1)
+        if (StrategicMap.Current is not null && StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
         {
             _ = PersistSupport.BitList(persister, name: "TextSeen", list: TextSeen);
         }
@@ -111,10 +111,10 @@ public partial class Sign(CustomNode owner) : Structure(owner)
         }
 
         // Sign.pas:159
-        public new const int ClassId = 131331;
+        public new const int ClassId = 131_331;
 
         // Sign.pas:165
-        public override int ResourceUserClassId() => 131330;
+        public override int ResourceUserClassId() => Sign.ClassId;
 
         // Sign.pas:168
         public override void Show(int X, int Y, in LockedSurface lockedSurface, Structure structure)
@@ -133,7 +133,7 @@ public partial class Sign(CustomNode owner) : Structure(owner)
 
                     if (image != -1)
                     {
-                        if (structure.GetSelected() && (StrategicMap.Current.Frame & 6) == 6)
+                        if (structure.GetSelected() && (StrategicMap.Current.Frame & 0b0110) == 0b0110)
                         {
                             sequence.ImageLibrary[image].ShowTransparent(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
                         }

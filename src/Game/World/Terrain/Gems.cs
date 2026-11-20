@@ -20,7 +20,7 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
 
     // Gems.pas:53
-    public new const int ClassId = 132014;
+    public new const int ClassId = 132_014;
 
     private int _amount;
     private GemsGenerateMode _generateMode = GemsGenerateMode.Normal;
@@ -174,10 +174,10 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     {
 
         // Gems.pas:137
-        public new const int ClassId = 132015;
+        public new const int ClassId = 132_015;
 
         // Gems.pas:140
-        public override int ResourceUserClassId() => 132014;
+        public override int ResourceUserClassId() => Gems.ClassId;
 
         // Gems.pas:134
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_goldText);

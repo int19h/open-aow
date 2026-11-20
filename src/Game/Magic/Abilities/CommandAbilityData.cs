@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Abilities;
 public class CommandAbilityData(CustomNode owner) : AbilityData(owner)
 {
 
-    public new const int ClassId = 131755;
+    public new const int ClassId = 131_755;
 
     public int AbilityId { get; set; }
 

@@ -8,7 +8,7 @@ namespace Aow.Game.Audio;
 // _fileName. One wave file of a sequence
 public class Sfx(CustomNode owner) : EngineObject(owner)
 {
-    public new const int ClassId = 2162689;
+    public new const int ClassId = 2_162_689;
 
     // Sound.pas:1027
     public override void PersistFields(IPersister persister)

@@ -9,7 +9,7 @@ public class ImageLibraryTerrainMapObjectResource(CustomNode owner) : MultiHexMa
 {
 
     // ILTer.pas:269
-    public new const int ClassId = 131463;
+    public new const int ClassId = 131_463;
 
     // ILTer.pas:279
     public override void SetCellImage(LibraryImage value)
@@ -17,7 +17,7 @@ public class ImageLibraryTerrainMapObjectResource(CustomNode owner) : MultiHexMa
     }
 
     // ILTer.pas:274
-    public override int ResourceUserClassId() => 131462;
+    public override int ResourceUserClassId() => ImageLibraryTerrainMapObject.ClassId;
 
     // ILTer.pas:264
     public override string ResourceEditName() => "ImageLibrary Terrain";

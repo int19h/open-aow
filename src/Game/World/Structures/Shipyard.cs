@@ -9,7 +9,7 @@ public partial class Shipyard(CustomNode owner) : ProductionPlace(owner)
 {
 
     // Shipyard.pas:49
-    public new const int ClassId = 132286;
+    public new const int ClassId = 132_286;
 
     // Shipyard.pas:55
     public override void UpdateAITarget(in AITargetInfo info, ref AITargetData data) => base.UpdateAITarget(info, ref data);
@@ -28,10 +28,10 @@ public partial class Shipyard(CustomNode owner) : ProductionPlace(owner)
         }
 
         // Shipyard.pas:72
-        public new const int ClassId = 132287;
+        public new const int ClassId = 132_287;
 
         // Shipyard.pas:75
-        public override int ResourceUserClassId() => 132286;
+        public override int ResourceUserClassId() => Shipyard.ClassId;
 
         // Shipyard.pas:69
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: GameText.ShipyardText);

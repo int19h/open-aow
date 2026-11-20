@@ -32,7 +32,7 @@ public class StructureResource : FixedImageLibraryTerrainMapObjectResource
         Razeable = false;
     }
 
-    public new const int ClassId = 131915;
+    public new const int ClassId = 131_915;
 
     public bool TerrainBound { get; protected init; }
     public bool ConnectRoads { get; protected init; }
@@ -83,12 +83,12 @@ public class StructureResource : FixedImageLibraryTerrainMapObjectResource
     }
 
     // Structur.PAS:1917
-    public override int ResourceUserClassId() => 131914;
+    public override int ResourceUserClassId() => Structure.ClassId;
 
     // Structur.PAS:1940
     public virtual void Show(int X, int Y, in LockedSurface lockedSurface, Structure structure)
     {
-        if (structure.GetSelected() && (StrategicMap.Current.Frame & 6) == 6)
+        if (structure.GetSelected() && (StrategicMap.Current.Frame & 0b0110) == 0b0110)
         {
             int index = structure.ImageIndex;
             int offset = structure.Owner.HexX + (structure.Owner.HexY * 16);

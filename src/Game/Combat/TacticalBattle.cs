@@ -19,7 +19,7 @@ namespace Aow.Game.Combat;
 public partial class TacticalBattle(CustomNode owner) : Battle(owner)
 {
     // AoWTC.pas:5081
-    public new const int ClassId = 2228496;
+    public new const int ClassId = 2_228_496;
 
     public sbyte HostPlayer { get; private set; }
 

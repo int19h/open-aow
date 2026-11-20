@@ -46,7 +46,7 @@ public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
                     {
                         if (FindAvailableTransporter() is null && !ProducingTransporter() && StrategicMap.Current.Day > 5)
                         {
-                            AIBudget budget = player.AIBudget.Budgets.FindChild<AIBudget>(131742);
+                            AIBudget budget = player.AIBudget.Budgets.FindChild<AIBudget>(AITransporterBudget.ClassId);
                             if (budget is null)
                             {
                                 budget = new AITransporterBudget(null) { Holder = CreationHolder() };

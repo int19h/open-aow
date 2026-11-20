@@ -19,7 +19,7 @@ namespace Aow.Game.Draw;
 // Unit. UnitGraphics. Frame. OffsetX. OffsetY. SequenceIndex. SequenceFrame
 public class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexSprite(owner)
 {
-    public new const int ClassId = 2228488;
+    public new const int ClassId = 2_228_488;
 
     public TacticalBattleUnit Unit { get; set; }
     public UnitGraphicsResource UnitGraphics { get; init; }
@@ -34,7 +34,7 @@ public class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexSprite(o
     public override byte Level => 26;
 
     // AoWTC.pas:4012
-    public override int GetShowPriority() => 1744830464 + (OffsetY << 13) + OffsetX;
+    public override int GetShowPriority() => 1_744_830_464 + (OffsetY << 13) + OffsetX;
 
     // AoWTC.pas:3985
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -86,7 +86,7 @@ public class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexSprite(o
             {
                 sbyte hexY = HexY;
                 sbyte hexX = HexX;
-                if (CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2228484) is null)
+                if (CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(TacticalBattleUnitHexSprite.ClassId) is null)
                 {
                     sbyte hexY2 = HexY;
                     sbyte hexX2 = HexX;
@@ -126,7 +126,7 @@ public class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexSprite(o
             {
                 sbyte hexY = HexY;
                 sbyte hexX = HexX;
-                if (CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2228484) is null)
+                if (CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(TacticalBattleUnitHexSprite.ClassId) is null)
                 {
                     sbyte hexY2 = HexY;
                     HexGeometry.HexToPixel(HexX, hexY2, out x, out y);

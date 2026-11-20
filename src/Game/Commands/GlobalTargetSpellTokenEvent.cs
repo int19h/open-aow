@@ -12,7 +12,7 @@ public class GlobalTargetSpellTokenEvent(CustomNode owner) : SpellTokenEvent(own
 {
 
     // GlobalTargetSpells.pas:401
-    public new const int ClassId = 135976;
+    public new const int ClassId = 135_976;
 
     public MapCoordinate Location { get; private set; }
 

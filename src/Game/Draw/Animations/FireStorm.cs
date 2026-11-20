@@ -21,7 +21,7 @@ public class FireStorm(CustomNode owner) : Storm(owner)
 {
 
     // Storms.pas:517
-    public new const int ClassId = 135742;
+    public new const int ClassId = 135_742;
 
     // Storms.pas:527
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)

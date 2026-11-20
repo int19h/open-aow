@@ -78,7 +78,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
         if (Mode.Contains(MoveModeElement.LogProcessedMapFields))
         {
             Settings.ProcessedMapFields.Count = 0;
-            Settings.ProcessedMapFields.Capacity = 4096;
+            Settings.ProcessedMapFields.Capacity = 4_096;
         }
 
         // { Original bug: the Y bound also uses the map width. }
@@ -194,7 +194,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
     // MoveT.PAS:308
     public MapField FindSubMoveOrigin(MapField mapField)
     {
-        int best = 16777215;
+        int best = 16_777_215;
         MapField result = null;
         int i = 0;
         MoveControlSettings settings = Settings;
@@ -252,7 +252,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
                     Settings.SubMoves.Delete(index);
                 }
 
-                if (Mode.Contains(MoveModeElement.LogProcessedMapFields) && previous == 16777215)
+                if (Mode.Contains(MoveModeElement.LogProcessedMapFields) && previous == 16_777_215)
                 {
                     _ = _processedMapFields.Add(target);
                 }
@@ -363,7 +363,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
             int processed = _processedCount;
             ProcessHex(MapLevel.GetField(x, y), direction, count: count - 1);
             processed = _processedCount - processed;
-            StrategicMap.Current.AIExecutor.UseProcessTime(Round((double)((double)processed / 430) * 1000));
+            StrategicMap.Current.AIExecutor.UseProcessTime(Round((double)((double)processed / 430) * 1_000));
         }
 
         return pathFindingStep.MovePointLines.Count == 0;

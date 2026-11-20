@@ -39,7 +39,7 @@ public class CombatMap : GameMap
     }
 
     // AoWTC.pas:2183
-    public new const int ClassId = 2228480;
+    public new const int ClassId = 2_228_480;
 
     public TacticalBattlePlayerList Players { get; }
     public TacticalBattle Combat { get; private set; }
@@ -338,7 +338,7 @@ public class CombatMap : GameMap
 
         if (x > -1)
         {
-            ItemHexSprite hexSprite = MapContainer.GetField(x, y, l).FindOwnedChild<ItemHexSprite>(131697);
+            ItemHexSprite hexSprite = MapContainer.GetField(x, y, l).FindOwnedChild<ItemHexSprite>(ItemHexSprite.ClassId);
             if (hexSprite is null)
             {
                 hexSprite = new TacticalBattleItemHexSprite(null) { Holder = CreationHolder() };
@@ -363,7 +363,7 @@ public class CombatMap : GameMap
         GetUnitLocation(hero, out sbyte x, ref y, ref l);
         if (x > -1)
         {
-            ItemHexSprite hexSprite = MapContainer.GetField(x, y, l).FindOwnedChild<ItemHexSprite>(131697);
+            ItemHexSprite hexSprite = MapContainer.GetField(x, y, l).FindOwnedChild<ItemHexSprite>(ItemHexSprite.ClassId);
             if (hexSprite is not null)
             {
                 return hexSprite.Items;
@@ -391,7 +391,7 @@ public class CombatMap : GameMap
             Mouse.CursorMode = 0;
             int hexY = Mouse.HexY;
             int hexX = Mouse.HexX;
-            TacticalBattleUnitHexSprite hexSprite = MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+            TacticalBattleUnitHexSprite hexSprite = MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
             if (hexSprite is not null)
             {
                 Mouse.CursorMode = 257;
@@ -746,7 +746,7 @@ public class CombatMap : GameMap
         {
             HexGeometry.CenterHexNumberToHex(x0, y0, hexNumber: i, ref x, ref y);
             overlay = Current.MapContainer.MapLevels[0].Field[x, y].OverlayType;
-            occupant = Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+            occupant = Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
             i += 1;
         }
         while (!(overlay != 8 && occupant is null));

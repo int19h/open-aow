@@ -18,7 +18,7 @@ public partial class CityRebellionEventLog(CustomNode owner) : EventLog(owner)
 {
 
     // City.pas:2675
-    public new const int ClassId = 131346;
+    public new const int ClassId = 131_346;
 
     public MapCoordinate Location { get; set; }
     public string CityName { get; set; } = "";

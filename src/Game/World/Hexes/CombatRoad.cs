@@ -13,7 +13,7 @@ public class CombatRoad(CustomNode owner) : AbstractRoad(owner)
 {
 
     // CombatRoad.pas:51
-    public new const int ClassId = 2229506;
+    public new const int ClassId = 2_229_506;
 
     private readonly byte[] _images = new byte[7];
 
@@ -127,7 +127,7 @@ public class CombatRoad(CustomNode owner) : AbstractRoad(owner)
     {
 
         // CombatRoad.pas:133
-        public new const int ClassId = 2229507;
+        public new const int ClassId = 2_229_507;
 
         // CombatRoad.pas:144
         public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -154,7 +154,7 @@ public class CombatRoad(CustomNode owner) : AbstractRoad(owner)
         }
 
         // CombatRoad.pas:150
-        public override int ResourceUserClassId() => 2229506;
+        public override int ResourceUserClassId() => CombatRoad.ClassId;
 
         // CombatRoad.pas:139
         public override RoadControl RoadControl => Engine.HexSpriteSet.CombatRoads;

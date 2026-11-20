@@ -161,7 +161,7 @@ public partial class CustomDisplay : Component
     public virtual void SetFrameRate(int value)
     {
         _frameRate = value;
-        FrameTime = _frameRate != 0 ? Round((double)1000 / _frameRate) : 0;
+        FrameTime = _frameRate != 0 ? Round((double)1_000 / _frameRate) : 0;
     }
 
     // DisplayC.pas:1492

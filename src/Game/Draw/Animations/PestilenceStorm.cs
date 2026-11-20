@@ -18,7 +18,7 @@ namespace Aow.Game.Draw.Animations;
 // poison cloud resource
 public class PestilenceStorm(CustomNode owner) : Storm(owner)
 {
-    public new const int ClassId = 135745;
+    public new const int ClassId = 135_745;
 
     private PoisonCloud.Resource _cloudResource;
 
@@ -63,7 +63,7 @@ public class PestilenceStorm(CustomNode owner) : Storm(owner)
     public override void InitializeStorm(sbyte player, sbyte X, sbyte Y, sbyte L)
     {
         Rect r = default;
-        _cloudResource = GamePack.Current.MapObjectResourceList.FindChild<PoisonCloud.Resource>(135744);
+        _cloudResource = GamePack.Current.MapObjectResourceList.FindChild<PoisonCloud.Resource>(PoisonCloud.Resource.ClassId);
         base.InitializeStorm(player, X, Y, L);
         r.Left = -80;
         r.Right = 96;

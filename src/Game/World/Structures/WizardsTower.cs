@@ -25,7 +25,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
 {
 
     // WizardsTower.pas:84
-    public new const int ClassId = 133278;
+    public new const int ClassId = 133_278;
 
     private bool _generateSpell = true;
     private Set<MagicSphere> _magicSpheres = s_allMagicSpheres;
@@ -242,10 +242,10 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     {
 
         // WizardsTower.pas:263
-        public new const int ClassId = 133279;
+        public new const int ClassId = 133_279;
 
         // WizardsTower.pas:266
-        public override int ResourceUserClassId() => 133278;
+        public override int ResourceUserClassId() => WizardsTower.ClassId;
 
         // WizardsTower.pas:260
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_wizardsTowerText);

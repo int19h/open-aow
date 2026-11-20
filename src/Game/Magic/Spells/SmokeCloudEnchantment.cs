@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Spells;
 public class SmokeCloudEnchantment : GlobalEnchantment
 {
     // SmokeCloud.pas:99
-    public new const int ClassId = 135748;
+    public new const int ClassId = 135_748;
 
     public SmokeCloud Cloud { get; init; }
 

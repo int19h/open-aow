@@ -26,7 +26,7 @@ public partial class MapContainer(CustomNode owner) : OwningNode(owner), IChildL
     void IOwnedSink<GameMap>.SetOwner(GameMap owner) => SetOwner(owner);
 
     // HSEngine.pas:3208
-    public new const int ClassId = 65795;
+    public new const int ClassId = 65_795;
     private GameEngine _engine;
 
     // HSEngine.pas:3167

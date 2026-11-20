@@ -6,5 +6,5 @@ namespace Aow.Game.AI;
 public class AICityUpgradeBudget(CustomNode owner) : AIBudget(owner)
 {
     // City.pas:2775
-    public new const int ClassId = 131349;
+    public new const int ClassId = 131_349;
 }

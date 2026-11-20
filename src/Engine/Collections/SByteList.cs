@@ -261,15 +261,15 @@ public class SByteList : Persistent
         sbyte item = default;
         int count = default;
         Clear();
-        stream.ReadExactly(Bytes.Of(ref _default, count: 1));
-        stream.ReadExactly(Bytes.Of(ref count, count: 4));
+        stream.ReadExactly(Bytes.Of(ref _default));
+        stream.ReadExactly(Bytes.Of(ref count));
         SetCapacity(count);
         while (_count < count)
         {
-            stream.ReadExactly(Bytes.Of(ref item, count: 1));
+            stream.ReadExactly(Bytes.Of(ref item));
             if (item == _default)
             {
-                stream.ReadExactly(Bytes.Of(ref run, count: 1));
+                stream.ReadExactly(Bytes.Of(ref run));
                 SetCount(_count + run);
             }
             else
@@ -297,8 +297,8 @@ public class SByteList : Persistent
         }
 
         i = 0;
-        stream.Write(Bytes.Of(ref _default, count: 1));
-        stream.Write(Bytes.Of(ref _count, count: 4));
+        stream.Write(Bytes.Of(ref _default));
+        stream.Write(Bytes.Of(ref _count));
         while (_count != i)
         {
             int run = DefaultRun();
@@ -308,15 +308,15 @@ public class SByteList : Persistent
                 while (run > 255)
                 {
                     b = 255;
-                    stream.Write(Bytes.Of(ref _default, count: 1));
-                    stream.Write(Bytes.Of(ref b, count: 1));
+                    stream.Write(Bytes.Of(ref _default));
+                    stream.Write(Bytes.Of(ref b));
                     run -= 255;
                     i += 255;
                 }
 
                 b = (byte)run;
-                stream.Write(Bytes.Of(ref _default, count: 1));
-                stream.Write(Bytes.Of(ref b, count: 1));
+                stream.Write(Bytes.Of(ref _default));
+                stream.Write(Bytes.Of(ref b));
                 i += run;
             }
             else

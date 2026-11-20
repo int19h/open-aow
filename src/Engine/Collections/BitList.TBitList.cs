@@ -6,7 +6,7 @@ public partial class BitList
 {
     // Engine.pas:4646. The unsigned comparison sends negative indices to the default.
     internal bool Get(int index) => (uint)index < (uint)_count
-        ? (List.Span[index >> 3] & (1 << (index & 7))) != 0
+        ? (List.Span[index >> 3] & (1 << (index & 0b0111))) != 0
         : (_default & 1) != 0;
 
     // Engine.pas:4660. The write is relative to the buffer, including negative indices.
@@ -28,7 +28,7 @@ public partial class BitList
         }
 
         ref byte value = ref storage.Array![storage.Offset + (index >> 3)];
-        byte mask = (byte)(1 << (index & 7));
+        byte mask = (byte)(1 << (index & 0b0111));
         if (item)
         {
             value |= mask;

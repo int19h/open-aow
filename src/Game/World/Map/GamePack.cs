@@ -31,7 +31,7 @@ namespace Aow.Game.World.Map;
 public class GamePack : EngineNode, IChildList<GamePackChild>
 {
     // Ability.PAS (TAoWHSSet). HSEngine.pas:3394 gives the engine set 66049.
-    public new const int ClassId = 131088;
+    public new const int ClassId = 131_088;
 
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only the kinds of HSSetChild, so the read never fails.
@@ -407,17 +407,17 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
     public int GetFileCrc(string fileName, bool atEnd)
     {
         int result = 0;
-        Stream fileStream = OpenFile(fileName, mode: 0 | 32);
+        Stream fileStream = OpenFile(fileName, mode: 0 | 0b0010_0000);
         try
         {
             if (atEnd)
             {
                 fileStream.Position = fileStream.Length - 4;
-                fileStream.ReadExactly(Bytes.Of(ref result, count: 4));
+                fileStream.ReadExactly(Bytes.Of(ref result));
             }
             else
             {
-                fileStream.ReadExactly(Bytes.Of(ref result, count: 4));
+                fileStream.ReadExactly(Bytes.Of(ref result));
             }
         }
         finally

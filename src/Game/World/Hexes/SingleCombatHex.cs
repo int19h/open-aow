@@ -12,7 +12,7 @@ public class SingleCombatHex(CustomNode owner) : AbstractHexagon(owner)
 {
 
     // SingleCombatHex.pas:41
-    public new const int ClassId = 2229534;
+    public new const int ClassId = 2_229_534;
 
     // SingleCombatHex.pas:47
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -31,7 +31,7 @@ public class SingleCombatHex(CustomNode owner) : AbstractHexagon(owner)
     {
 
         // SingleCombatHex.pas:59
-        public new const int ClassId = 2229535;
+        public new const int ClassId = 2_229_535;
 
         // SingleCombatHex.pas:73
         public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -44,7 +44,7 @@ public class SingleCombatHex(CustomNode owner) : AbstractHexagon(owner)
         }
 
         // SingleCombatHex.pas:79
-        public override int ResourceUserClassId() => 2229534;
+        public override int ResourceUserClassId() => SingleCombatHex.ClassId;
 
         // SingleCombatHex.pas:65
         public override void SetLevel(byte value) => base.SetLevel(0);

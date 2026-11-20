@@ -22,7 +22,7 @@ public class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(ow
 {
 
     // GlobalTargetSpells.pas:1905
-    public new const int ClassId = 135973;
+    public new const int ClassId = 135_973;
 
     private int _angle;
     private Animation _animation;
@@ -62,7 +62,7 @@ public class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(ow
             animation.AnimationLevel = 27;
             animation.OnShow += ShowAnimation;
             animation.AnimationMap = StrategicMap.Current;
-            animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
+            animation.Tag = (StrategicMap.Current.ViewWidth & 0xFFFF) | (StrategicMap.Current.ViewHeight << 16);
             animation.Activate();
         }
         if (value == 80)

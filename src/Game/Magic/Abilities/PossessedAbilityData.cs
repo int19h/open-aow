@@ -8,7 +8,7 @@ namespace Aow.Game.Magic.Abilities;
 // (source experience)
 public class PossessedAbilityData(CustomNode owner) : AbilityData(owner)
 {
-    public new const int ClassId = 131797;
+    public new const int ClassId = 131_797;
 
     public int SourceExperience { get; set; }
 

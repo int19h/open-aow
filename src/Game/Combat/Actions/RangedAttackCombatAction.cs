@@ -12,7 +12,7 @@ namespace Aow.Game.Combat.Actions;
 // (ability ID)
 public class RangedAttackCombatAction(CustomNode owner) : DamageCombatAction(owner)
 {
-    public new const int ClassId = 131753;
+    public new const int ClassId = 131_753;
 
     public int AbilityId { get; set; }
 

@@ -13,7 +13,7 @@ namespace Aow.Game.Events;
 // (unit ID, spell ID)
 public class SpellCastEventLog(CustomNode owner) : EventLog(owner)
 {
-    public new const int ClassId = 131823;
+    public new const int ClassId = 131_823;
 
     public int UnitId { get; set; }
     public int SpellId { get; set; }

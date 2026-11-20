@@ -403,7 +403,7 @@ public partial class GameEngine : OwningNode
     public void ReadFromFile(string fileName, EngineObject objectValue, Engine.ProgressEvent progress)
     {
         MemoryStream m = new();
-        Stream f = OpenFile(fileName, mode: 0 | 32);
+        Stream f = OpenFile(fileName, mode: 0 | 0b0010_0000);
         try
         {
             m.LoadFromStream(f);
@@ -433,12 +433,12 @@ public partial class GameEngine : OwningNode
         {
             m.Write(WriteObjectImage(objectValue, progress: progress, classTable: classTable));
             int crc1 = EngineServices.GetCrc32(size: (int)m.Length, buffer: m.GetBuffer());
-            m.Write(Bytes.Of(ref crc1, count: 4));
+            m.Write(Bytes.Of(ref crc1));
             int crc2 = EngineServices.GetCrc32(size: (int)m.Length, buffer: m.GetBuffer());
             Stream f = OpenFile(fileName, mode: 65535);
             try
             {
-                f.Write(Bytes.Of(ref crc2, count: 4));
+                f.Write(Bytes.Of(ref crc2));
                 f.Write(m.GetBuffer().AsSpan(length: (int)m.Length, start: 0));
             }
             finally
@@ -456,7 +456,7 @@ public partial class GameEngine : OwningNode
     public bool ReadFromFileCrc(string fileName, EngineObject objectValue, Engine.ProgressEvent progress, string classTable = "game")
     {
         MemoryStream m = new();
-        Stream f = OpenFile(fileName, mode: 0 | 32);
+        Stream f = OpenFile(fileName, mode: 0 | 0b0010_0000);
         try
         {
             m.LoadFromStream(f);

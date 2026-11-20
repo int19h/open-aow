@@ -15,7 +15,7 @@ namespace Aow.Game.Magic.Spells;
 public class FloodEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:1240
-    public new const int ClassId = 135960;
+    public new const int ClassId = 135_960;
 
     public bool Removed { get; set; }
     public sbyte RestoreDays { get; set; }

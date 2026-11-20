@@ -12,7 +12,7 @@ public class AnimationTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
 
     // Animation.pas:388
-    public new const int ClassId = 135433;
+    public new const int ClassId = 135_433;
 
     private AnimationTokenEventState _state;
     private Animation _animation;

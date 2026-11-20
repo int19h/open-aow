@@ -12,7 +12,7 @@ namespace Aow.Game.AI.Groups;
 public class GuardAreaAIGroup : AIGroup, IAIGroupClass
 {
     // IndependentAG.pas:161
-    public new const int ClassId = 136273;
+    public new const int ClassId = 136_273;
 
     public MapCoordinate GuardLocation { get; internal set; }
 

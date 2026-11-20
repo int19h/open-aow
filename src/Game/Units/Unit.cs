@@ -21,7 +21,7 @@ namespace Aow.Game.Units;
 
 public class Unit(CustomNode owner) : Troop(owner)
 {
-    public new const int ClassId = 131603;
+    public new const int ClassId = 131_603;
     private byte _experience;
     private sbyte _movePoints;
     private sbyte _hitPoints;

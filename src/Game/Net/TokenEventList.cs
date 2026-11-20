@@ -113,7 +113,7 @@ public class TokenEventList : EngineObject
 
     public TokenEvent this[int index] => GetEvent(index);
 
-    private const short ClassIdTokenEventList = 1362;
+    private const short ClassIdTokenEventList = 1_362;
 
     private static int CompareTokenCounter(TokenEvent item1, TokenEvent item2) => item1.TokenCounter - item2.TokenCounter;
 

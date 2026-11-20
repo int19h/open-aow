@@ -25,7 +25,7 @@ namespace Aow.Game.Commands;
 public class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
 {
 
-    public new const int ClassId = 135424;
+    public new const int ClassId = 135_424;
 
     public Set<ArmyMoveModeElement> Mode { get; protected set; }
 

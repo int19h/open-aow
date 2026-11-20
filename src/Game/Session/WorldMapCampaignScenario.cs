@@ -12,7 +12,7 @@ namespace Aow.Game.Session;
 public class WorldMapCampaignScenario : CampaignScenario
 {
     // AoWVideoDlg.pas:304
-    public new const int ClassId = 2248705;
+    public new const int ClassId = 2_248_705;
 
     public string ImageLibrary { get; private set; } = "";
     public string PathDescription { get; private set; } = "";

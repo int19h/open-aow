@@ -40,7 +40,7 @@ public class FastMemoryStream : Stream
     {
         if (newCapacity > 0)
         {
-            newCapacity = _capacity > 32 ? (newCapacity + 127) & ~127 : (newCapacity + 31) & ~31;
+            newCapacity = _capacity > 32 ? (newCapacity + 127) & ~0b0111_1111 : (newCapacity + 31) & ~0b0001_1111;
         }
 
         if (newCapacity != _capacity)

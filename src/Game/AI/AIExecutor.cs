@@ -32,7 +32,7 @@ public partial class AIExecutor(CustomNode owner) : EngineObject(owner)
 
     private bool _tokenControlDone;
     private readonly AIExecutorProcessTimeMode _processTimeMode = AIExecutorProcessTimeMode.Static;
-    private readonly int _processTime = 5000;
+    private readonly int _processTime = 5_000;
     private int _processTimeUsed;
     private int _processStarted;
     private int _tokenCycles = 5;
@@ -74,7 +74,7 @@ public partial class AIExecutor(CustomNode owner) : EngineObject(owner)
                 case AIExecutorProcessTimeMode.Dynamic:
                     // { Original behavior: the millisecond delta is multiplied by 1000. }
                     int elapsedMilliseconds = PixelFormats.ElapsedMilliseconds;
-                    return _processTime - ((elapsedMilliseconds - _processStarted) * 1000);
+                    return _processTime - ((elapsedMilliseconds - _processStarted) * 1_000);
                 default:
                     return -1;
             }
@@ -85,7 +85,7 @@ public partial class AIExecutor(CustomNode owner) : EngineObject(owner)
     public int ProcessTimeElapsed => _processTimeMode switch
     {
         AIExecutorProcessTimeMode.Static => _processTimeUsed,
-        AIExecutorProcessTimeMode.Dynamic => (PixelFormats.ElapsedMilliseconds - _processStarted) * 1000,
+        AIExecutorProcessTimeMode.Dynamic => (PixelFormats.ElapsedMilliseconds - _processStarted) * 1_000,
         _ => -1,
     };
 

@@ -14,7 +14,7 @@ namespace Aow.Game.Combat.Actions;
 // (spell ID, source/target IDs, spell data, mana)
 public class UnitSpellCombatAction(CustomNode owner) : CombatAction(owner)
 {
-    public new const int ClassId = 131779;
+    public new const int ClassId = 131_779;
 
     public int SpellId { get; set; }
     public byte SourceId { get; set; }

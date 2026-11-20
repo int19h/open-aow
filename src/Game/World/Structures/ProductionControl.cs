@@ -753,7 +753,7 @@ public partial class ProductionControl : EngineObject
                     unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex));
                     priority = predictor.Usefullness(unit);
                     // { Original replaces the affordability check here. }
-                    include = (priority & 8388608) != 0;
+                    include = (priority & 0b1000_0000_0000_0000_0000_0000) != 0;
                 }
                 else
                 {

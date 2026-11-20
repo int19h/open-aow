@@ -295,7 +295,7 @@ public class Spell : EngineObject
         if (AIRequestCastSpellExpense(source, budget, mana, upkeep))
         {
             AIBudgetManager manager = StrategicMap.Current.Players.GetPlayers(source.Player).AIBudget;
-            return StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled() || manager.BudgetExpenseMade(0, mana: budget, goldUpkeep: 0, manaUpkeep: mana, budget: manager.DefaultBudget, mode: (AIBudgetManager.ExpenseMode)2);
+            return StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled() || manager.BudgetExpenseMade(0, mana: budget, goldUpkeep: 0, manaUpkeep: mana, budget: manager.DefaultBudget, mode: AIBudgetManager.ExpenseMode.PoolThenBudget);
         }
         else
         {

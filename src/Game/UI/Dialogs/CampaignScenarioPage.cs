@@ -12,7 +12,7 @@ public class CampaignScenarioPage(CustomNode owner) : EngineObject(owner)
 {
 
     // AoWVideoDlg.pas:264
-    public new const int ClassId = 2248706;
+    public new const int ClassId = 2_248_706;
 
     public string ImageLibrary { get; private set; } = "";
     public int ImageIndex { get; private set; }

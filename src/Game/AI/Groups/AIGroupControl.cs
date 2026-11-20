@@ -300,7 +300,7 @@ public class AIGroupControl : EngineObject
     public int GetStrengthMax(Set<DamageType> damageTypes)
     {
         int result = 0;
-        for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
+        for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.None; damageTypeOrdinal++)
         {
             DamageType damageType = (DamageType)damageTypeOrdinal;
             if (damageTypes.Contains(damageType) && result < _strength[(int)damageType])
@@ -341,7 +341,7 @@ public class AIGroupControl : EngineObject
                 MovePointTable movePointTable4 = MovePointTable;
                 movePointTable4.Maximize(movePointTable);
                 MovePointTable = movePointTable4;
-                for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
+                for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.None; damageTypeOrdinal++)
                 {
                     DamageType damageType = (DamageType)damageTypeOrdinal;
                     int strength = troop.GetStrength(damageType);
@@ -526,7 +526,7 @@ public class AIGroupControl : EngineObject
         for (int i = 0, last = player.Armies.Count - 1; i <= last; i++)
         {
             Troop troop = player.Armies.GetArmy(i).Transporter(255);
-            if (troop is not null && (troop.Group is null || troop.Group.EngineClass.ClassId == 136295))
+            if (troop is not null && (troop.Group is null || troop.Group.EngineClass.ClassId == TransportAIGroup.ClassId))
             {
                 MapCoordinate coordinate100 = troop.GetLocation();
                 sbyte locationX = coordinate100.X;

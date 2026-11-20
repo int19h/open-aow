@@ -93,7 +93,7 @@ public partial class MapWindow(UIContext ui) : UIModule(ui)
             }
 
             StrategicMap.Current.Mouse.Move(shift, X, Y);
-            MainWindow.Cursor = 9999;
+            MainWindow.Cursor = 9_999;
         }
     }
 

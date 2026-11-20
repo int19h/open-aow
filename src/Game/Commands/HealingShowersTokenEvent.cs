@@ -20,7 +20,7 @@ public class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSpellToken
 {
 
     // GlobalTargetSpells.pas:2138
-    public new const int ClassId = 135975;
+    public new const int ClassId = 135_975;
 
     private Animation _animation;
 
@@ -44,7 +44,7 @@ public class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSpellToken
             };
             _animation.SetShowHandler(ShowAnimation);
             _animation.AnimationMap = StrategicMap.Current;
-            _animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
+            _animation.Tag = (StrategicMap.Current.ViewWidth & 0xFFFF) | (StrategicMap.Current.ViewHeight << 16);
             _animation.Activate();
             GamePack.Current.SpellControl[EventSpellId].CastingDone(source, mana: EventMana);
         }
@@ -110,7 +110,7 @@ public class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSpellToken
                             }
                         }
 
-                        HexSprite cloud = level.GetField(walk.X, walk.Y).FindOwnedChild<HexSprite>(132990);
+                        HexSprite cloud = level.GetField(walk.X, walk.Y).FindOwnedChild<HexSprite>(World.Terrain.Fire.ClassId);
                         cloud?.Dispose();
                     }
                 }

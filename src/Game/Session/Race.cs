@@ -26,7 +26,7 @@ public class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceList>, IOw
 
     void IOwnedSink<RaceList>.SetOwner(RaceList owner) => SetOwner(owner);
 
-    public new const int ClassId = 131586;
+    public new const int ClassId = 131_586;
 
     public sbyte RaceIndex { get; set; } = -1;
 

@@ -13,7 +13,7 @@ namespace Aow.Game.Commands;
 // save filename
 public class SaveGameTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public new const int ClassId = 135444;
+    public new const int ClassId = 135_444;
 
     public string FileName { get; set; } = "";
 

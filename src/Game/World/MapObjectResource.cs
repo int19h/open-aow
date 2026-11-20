@@ -18,7 +18,7 @@ namespace Aow.Game.World;
 // images. ids 9, 10), _terrainList (id 7), _level (id 5), _name (id 6)
 public class MapObjectResource : EngineResource
 {
-    public new const int ClassId = 65876;
+    public new const int ClassId = 65_876;
 
     public MapObjectResource(CustomNode owner) : base(owner)
     {

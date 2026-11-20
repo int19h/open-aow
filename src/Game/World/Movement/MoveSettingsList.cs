@@ -23,7 +23,7 @@ public class MoveSettingsList(CustomNode owner) : OwningNode(owner), IChildList<
     public int GetNoneValidMove()
     {
         int result = -1;
-        int minPriority = 16777215;
+        int minPriority = 16_777_215;
         for (int i = GetCount() - 1; i >= 0; i--)
         {
             MoveSettings moveSettings = this[i];

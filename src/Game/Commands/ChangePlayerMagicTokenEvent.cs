@@ -10,7 +10,7 @@ namespace Aow.Game.Commands;
 // (mode, player, values)
 public class ChangePlayerMagicTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public new const int ClassId = 135445;
+    public new const int ClassId = 135_445;
 
     public ChangePlayerMagicTokenEventMode Mode { get; set; }
     public byte PlayerIndex { get; set; }

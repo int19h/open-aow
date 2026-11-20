@@ -146,7 +146,7 @@ public class AIGroupRecruitControl : AIGroupTask
             result = _remainingStrength > 0 && troop.GetStrengthMax(_damageTypes) > 0;
             if (!result)
             {
-                for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
+                for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
                 {
                     DamageType d = (DamageType)dOrdinal;
                     result = _remainingStrengths[(int)d] > 0 && troop.GetStrength(d) > 0;
@@ -158,7 +158,7 @@ public class AIGroupRecruitControl : AIGroupTask
 
                 if (!result && Superiority != -1)
                 {
-                    return (_control.CombatPredictor.Usefullness(troop) & 8388608) != 0;
+                    return (_control.CombatPredictor.Usefullness(troop) & 0b1000_0000_0000_0000_0000_0000) != 0;
                 }
             }
         }
@@ -172,7 +172,7 @@ public class AIGroupRecruitControl : AIGroupTask
         Complete = _remainingStrength <= 0;
         if (Complete)
         {
-            for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
+            for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
             {
                 DamageType d = (DamageType)dOrdinal;
                 if (_remainingStrengths[(int)d] > 0)
@@ -197,7 +197,7 @@ public class AIGroupRecruitControl : AIGroupTask
     public void AddRecruitUnit(Troop troop)
     {
         _ = Units.AddUnit(troop);
-        for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
+        for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
         {
             DamageType d = (DamageType)dOrdinal;
             int strength = troop.GetStrength(d);
@@ -219,7 +219,7 @@ public class AIGroupRecruitControl : AIGroupTask
     {
         if (Units.IndexOf(troop) != -1)
         {
-            for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
+            for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
             {
                 DamageType d = (DamageType)dOrdinal;
                 int strength = troop.GetStrength(d);

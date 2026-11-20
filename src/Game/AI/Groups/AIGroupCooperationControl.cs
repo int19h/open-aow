@@ -138,7 +138,7 @@ public class AIGroupCooperationControl : AIGroupTask
         Complete = _remainingStrength <= 0;
         if (Complete)
         {
-            for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
+            for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
             {
                 DamageType d = (DamageType)dOrdinal;
                 if (_remainingStrengths[(int)d] > 0)
@@ -183,7 +183,7 @@ public class AIGroupCooperationControl : AIGroupTask
             Troop troop = group.Group.Units.GetUnit(i);
             int strengthMax = troop.GetStrengthMax(_damageTypes);
             _remainingStrength -= strengthMax;
-            for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
+            for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
             {
                 DamageType d = (DamageType)dOrdinal;
                 int strength = troop.GetStrength(d);

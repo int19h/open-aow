@@ -11,7 +11,7 @@ namespace Aow.Game.World.Map;
 public class TextControlItem(CustomNode owner) : EngineObject(owner)
 {
 
-    public new const int ClassId = 131738;
+    public new const int ClassId = 131_738;
 
     public int Id { get; set; }
 

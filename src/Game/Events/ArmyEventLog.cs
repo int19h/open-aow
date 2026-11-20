@@ -29,7 +29,7 @@ public partial class ArmyEventLog : EventLog
         DamageTypes = new ByteList();
     }
 
-    public new const int ClassId = 131608;
+    public new const int ClassId = 131_608;
 
     public ArmyView ArmyView { get; }
 

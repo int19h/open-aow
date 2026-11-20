@@ -12,7 +12,7 @@ namespace Aow.Game.Commands;
 // player, day, end-turn mode
 public class EndTurnTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public new const int ClassId = 135425;
+    public new const int ClassId = 135_425;
 
     public sbyte Player { get; set; }
     public int Day { get; set; }

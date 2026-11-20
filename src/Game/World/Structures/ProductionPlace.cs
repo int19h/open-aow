@@ -47,7 +47,7 @@ public partial class ProductionPlace : PlayerStructure
     }
 
     // PrdPlace.pas:291
-    public new const int ClassId = 132026;
+    public new const int ClassId = 132_026;
 
     private readonly PlayerStructurePowerSource _powerSource;
     private readonly PlayerStructureIncomeSource _incomeSource;
@@ -256,7 +256,7 @@ public partial class ProductionPlace : PlayerStructure
                 case AITargetMode.Produce:
                     if (info.Player == Player)
                     {
-                        data.Priority |= 2;
+                        data.Priority |= 0b0010;
                     }
 
                     break;
@@ -413,7 +413,7 @@ public partial class ProductionPlace : PlayerStructure
 
             if (budget > 0)
             {
-                RandSeed = StrategicMap.Current.Random(1048575);
+                RandSeed = StrategicMap.Current.Random(1_048_575);
                 int collection = Resource.Defenders.GetRandomCollection();
                 if (collection != -1)
                 {

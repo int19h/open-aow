@@ -17,7 +17,7 @@ public class FlagMessageEvent(CustomNode owner) : FlagEvent(owner)
 {
 
     // FlagEvents.pas:192
-    public new const int ClassId = 132461;
+    public new const int ClassId = 132_461;
 
     private string _helpFileName = "";
     private readonly DelphiStringList _message = new();
@@ -59,10 +59,10 @@ public class FlagMessageEvent(CustomNode owner) : FlagEvent(owner)
     {
 
         // FlagEvents.pas:218
-        public new const int ClassId = 132462;
+        public new const int ClassId = 132_462;
 
         // FlagEvents.pas:228
-        public override int ResourceUserClassId() => 132461;
+        public override int ResourceUserClassId() => FlagMessageEvent.ClassId;
 
         // FlagEvents.pas:223
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_flagMessageEventText);

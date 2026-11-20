@@ -8,7 +8,7 @@ namespace Aow.Game.Magic.Abilities;
 // (duration, player index, ability ID, unresolved Integer)
 public class DurationAbilityData(CustomNode owner) : AbilityData(owner)
 {
-    public new const int ClassId = 139266;
+    public new const int ClassId = 139_266;
 
     public byte Duration { get; set; }
     public byte PlayerIndex { get; set; }

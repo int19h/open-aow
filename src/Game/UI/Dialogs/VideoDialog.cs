@@ -149,11 +149,11 @@ public partial class VideoDialog(UIContext ui) : UIModule(ui)
 
     private static readonly string s_fullScreenText = "Full Screen";
 
-    internal static Func<(int Width, int Height)> DesktopSize { get; set; } = () => (1280, 1024);
+    internal static Func<(int Width, int Height)> DesktopSize { get; set; } = () => (1_280, 1_024);
 
     internal static Func<IReadOnlyList<(int Width, int Height)>> FullscreenSizes { get; set; } = () => null;
 
-    private static readonly (int Width, int Height)[] s_fixedSizes = [(640, 480), (800, 600), (1024, 768), (1280, 1024)];
+    private static readonly (int Width, int Height)[] s_fixedSizes = [(640, 480), (800, 600), (1_024, 768), (1_280, 1_024)];
 
     private static void ListDisplayModes(DisplayModeList list, int width, int height, int pixelFormatId)
     {

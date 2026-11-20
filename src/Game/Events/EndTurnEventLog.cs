@@ -7,7 +7,7 @@ public class EndTurnEventLog(CustomNode owner) : EventLog(owner)
 {
 
     // EventLog.pas:753
-    public new const int ClassId = 131811;
+    public new const int ClassId = 131_811;
 
     // EventLog.pas:750
     public override bool Visible => false;

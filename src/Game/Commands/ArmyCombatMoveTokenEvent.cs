@@ -18,7 +18,7 @@ namespace Aow.Game.Commands;
 // combat mode, combat type, ignore defenders
 public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenEvent(owner)
 {
-    public new const int ClassId = 135426;
+    public new const int ClassId = 135_426;
 
     private ArmyCombatMoveTokenEventMode _combatMode;
     private CombatType _combatType;
@@ -763,7 +763,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
     // MoveT.PAS:3019
     public MoveStatus ExecuteLastMove()
     {
-        if (GetMapField(Path[MoveIndex - 1].Location).FindOwnedChild(131607) is null)
+        if (GetMapField(Path[MoveIndex - 1].Location).FindOwnedChild(ArmyHexSprite.ClassId) is null)
         {
             MapField mapField = GetMapField(Path[MoveIndex - 1].Location);
             PathStep item = Path[MoveIndex - 1];

@@ -71,7 +71,7 @@ public partial class StrategicMap
 
     public void OnExecuteTokenEvent(TokenEvent token)
     {
-        if (token.EngineClass.ClassId != 0x554)
+        if (token.EngineClass.ClassId != PassTokenTokenEvent.ClassId)
         {
             SetModified();
         }

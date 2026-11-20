@@ -22,7 +22,7 @@ public partial class PrisonersJoinEventLog(CustomNode owner) : JoinEventLog(owne
     // Dungeon.pas:292
     public override bool Accept(ref string errorText)
     {
-        Dungeon dungeon = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild<Dungeon>(131882);
+        Dungeon dungeon = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild<Dungeon>(Dungeon.ClassId);
         if (dungeon is not null && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
             StructureTokenEvent tokenEvent = dungeon.CreateTokenEvent();
@@ -42,7 +42,7 @@ public partial class PrisonersJoinEventLog(CustomNode owner) : JoinEventLog(owne
     // Dungeon.pas:311
     public override bool Cancel()
     {
-        Dungeon dungeon = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild<Dungeon>(131882);
+        Dungeon dungeon = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild<Dungeon>(Dungeon.ClassId);
         if (dungeon is not null)
         {
             for (int i = 0, last = dungeon.Prisoners.Units.Count - 1; i <= last; i++)

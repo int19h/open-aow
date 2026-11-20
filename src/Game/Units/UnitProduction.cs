@@ -7,7 +7,7 @@ namespace Aow.Game.Units;
 // unit index, researched
 public class UnitProduction(CustomNode owner) : EngineObject(owner)
 {
-    public new const int ClassId = 131737;
+    public new const int ClassId = 131_737;
 
     public int UnitIndex { get; set; }
     public bool Researched { get; set; }

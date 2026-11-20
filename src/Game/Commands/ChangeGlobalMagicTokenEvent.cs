@@ -9,7 +9,7 @@ namespace Aow.Game.Commands;
 // mode, player, enchantment ID, value
 public class ChangeGlobalMagicTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public new const int ClassId = 135446;
+    public new const int ClassId = 135_446;
 
     public ChangeGlobalMagicTokenEventMode Mode { get; set; }
     public byte PlayerIndex { get; set; }

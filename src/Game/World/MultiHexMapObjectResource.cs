@@ -8,7 +8,7 @@ namespace Aow.Game.World;
 // 14 and 15, part of the show priority offset)
 public class MultiHexMapObjectResource : MapObjectResource
 {
-    public new const int ClassId = 65877;
+    public new const int ClassId = 65_877;
 
     public MultiHexMapObjectResource(CustomNode owner) : base(owner)
     {

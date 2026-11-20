@@ -461,7 +461,7 @@ public class Battle : EngineObject
     // AIGroup.pas:7180
     public bool GetWallInBetween(byte source, byte target)
     {
-        if ((source & 15) <= 7 && (target & 15) <= 7 && CombatData.Wall is not null && !CombatData.Wall.Status.Contains(CombatObjectStatusElement.Destroyed))
+        if ((source & 0xF) <= 7 && (target & 0xF) <= 7 && CombatData.Wall is not null && !CombatData.Wall.Status.Contains(CombatObjectStatusElement.Destroyed))
         {
             source = (byte)(source >>> 4);
             target = (byte)(target >>> 4);

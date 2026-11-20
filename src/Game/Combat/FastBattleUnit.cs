@@ -21,7 +21,7 @@ namespace Aow.Game.Combat;
 public class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
 {
     // AIGroup.pas:6778
-    public new const int ClassId = 131791;
+    public new const int ClassId = 131_791;
 
     public int RoundDistance { get; set; }
 
@@ -381,7 +381,7 @@ public class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
         if (Side == CombatSideIndex.Defender && !State.Contains(FastBattleUnitStateElement.OutsideWall))
         {
             byte position = Position;
-            return (position & 15) <= 7 && position >>> 4 <= 7 && Combat.CombatData.Parties.GetParty((byte)(position >>> 4)).Wall != 0 && !Combat.CombatData.Wall.Status.Contains(CombatObjectStatusElement.Destroyed);
+            return (position & 0xF) <= 7 && position >>> 4 <= 7 && Combat.CombatData.Parties.GetParty((byte)(position >>> 4)).Wall != 0 && !Combat.CombatData.Wall.Status.Contains(CombatObjectStatusElement.Destroyed);
         }
 
         return false;

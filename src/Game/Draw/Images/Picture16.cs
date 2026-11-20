@@ -27,7 +27,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
     // ImageLib.pas:2206
     internal void AllocateDiscardableImageData(int width, int height)
     {
-        _pitch = width < 32 ? ((width << 1) + 3) & ~3 : ((width << 1) + 7) & ~7;
+        _pitch = width < 32 ? ((width << 1) + 3) & ~0b0011 : ((width << 1) + 7) & ~0b0111;
 
         // The rows start at the first byte of FBuffer, as TPicture08's (graphics.md 6.8).
         int size = (_pitch * height) + 7;
@@ -145,7 +145,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                             for (int x = 0, lastX = Width - 1; x <= lastX; x++)
                             {
                                 Palette.Entry p = lockedSurface.Palette[s[x]];
-                                d[x] = (ushort)(((p.Red & 248) << 8) + ((p.Green & 252) << 3) + (p.Blue >>> 3));
+                                d[x] = (ushort)(((p.Red & 0b1111_1000) << 8) + ((p.Green & 0b1111_1100) << 3) + (p.Blue >>> 3));
                             }
                         }
                     }
@@ -171,7 +171,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                             Span<byte> s24 = lockedSurface.View().Bytes(((R.Top + y) * lockedSurface.Pitch) + (R.Left * 3), count: Width * 3);
                             for (int x = 0, lastX = Width - 1; x <= lastX; x++)
                             {
-                                d[x] = (ushort)(((s24[(x * 3) + 2] & 248) << 8) + ((s24[(x * 3) + 1] & 252) << 3) + (s24[x * 3] >>> 3));
+                                d[x] = (ushort)(((s24[(x * 3) + 2] & 0b1111_1000) << 8) + ((s24[(x * 3) + 1] & 0b1111_1100) << 3) + (s24[x * 3] >>> 3));
                             }
                         }
                     }

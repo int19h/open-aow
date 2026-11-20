@@ -15,7 +15,7 @@ public class StormSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
 {
 
     // Storms.pas:730
-    public new const int ClassId = 135937;
+    public new const int ClassId = 135_937;
 
     private Storm _storm;
 

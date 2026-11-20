@@ -24,10 +24,10 @@ public partial class Surface : IDisposable
                 {
                     case PixelFormat.Rgb555:
                         w = lockedSurface.View().UInt16(X + X + (Y * lockedSurface.Pitch));
-                        return ((w & 31744) >>> 7) + ((w & 992) << 6) + ((w & 31) << 19);
+                        return ((w & 0b0111_1100_0000_0000) >>> 7) + ((w & 0b0011_1110_0000) << 6) + ((w & 0b0001_1111) << 19);
                     case PixelFormat.Rgb565:
                         w = lockedSurface.View().UInt16(X + X + (Y * lockedSurface.Pitch));
-                        return ((w & 63488) >>> 8) + ((w & 2016) << 5) + ((w & 31) << 19);
+                        return ((w & 0b1111_1000_0000_0000) >>> 8) + ((w & 0b0111_1110_0000) << 5) + ((w & 0b0001_1111) << 19);
                     case PixelFormat.Pal8:
                         Assert(lockedSurface.Palette is not null, message: "Palette not found, cannot retrieve color (GetColor)", file: "GFXE.pas", line: 11986);
                         byte index = lockedSurface.View().Byte(X + (Y * lockedSurface.Pitch));
@@ -38,7 +38,7 @@ public partial class Surface : IDisposable
                         return p[2] + (p[1] << 8) + (p[0] << 16);
                     case PixelFormat.Rgb32:
                         int v = (int)lockedSurface.View().Dword((X << 2) + (Y * lockedSurface.Pitch));
-                        return ((v & 16711680) >>> 16) + (v & 65280) + ((v & 255) << 16);
+                        return ((v & 0xFF_00_00) >>> 16) + (v & 0xFF00) + ((v & 0xFF) << 16);
                     case PixelFormat.None:
                     case PixelFormat.Argb1555:
                     case PixelFormat.Bgr24:
@@ -79,7 +79,7 @@ public partial class Surface : IDisposable
                     case 24:
                         if (X + 1 < lockedSurface.Width)
                         {
-                            return (int)lockedSurface.View().Dword(X + X + X + (Y * lockedSurface.Pitch)) & 16777215;
+                            return (int)lockedSurface.View().Dword(X + X + X + (Y * lockedSurface.Pitch)) & 0xFF_FF_FF;
                         }
                         else
                         {

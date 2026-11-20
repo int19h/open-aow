@@ -18,7 +18,7 @@ namespace Aow.Game.Units;
 // library name, image index, item type, library, references, hidden
 public class ItemGraphics(CustomNode owner) : EngineResource(owner)
 {
-    public new const int ClassId = 131689;
+    public new const int ClassId = 131_689;
 
     public string ImageLibraryName { get; set; } = "";
     public int ImageIndex { get; set; }

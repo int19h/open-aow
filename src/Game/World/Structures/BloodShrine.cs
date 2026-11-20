@@ -16,7 +16,7 @@ public class BloodShrine(CustomNode owner) : Structure(owner)
 {
 
     // BloodShrine.pas:65
-    public new const int ClassId = 131376;
+    public new const int ClassId = 131_376;
 
     // BloodShrine.pas:103
     public override void ArmyPlaced(ArmyHexSprite placedArmy)
@@ -83,10 +83,10 @@ public class BloodShrine(CustomNode owner) : Structure(owner)
         }
 
         // BloodShrine.pas:116
-        public new const int ClassId = 131377;
+        public new const int ClassId = 131_377;
 
         // BloodShrine.pas:122
-        public override int ResourceUserClassId() => 131376;
+        public override int ResourceUserClassId() => BloodShrine.ClassId;
 
         // BloodShrine.pas:119
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_bloodShrineText);

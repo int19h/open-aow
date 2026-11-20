@@ -7,7 +7,7 @@ namespace Aow.Engine.Nodes;
 // resources with unique ids
 public class ResourceCollection(CustomNode owner) : EngineNode(owner), IChildList<EngineResource>
 {
-    public new const int ClassId = 1025;
+    public new const int ClassId = 1_025;
 
     // The resource in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a resource, so the read never fails.
@@ -53,7 +53,7 @@ public class ResourceCollection(CustomNode owner) : EngineNode(owner), IChildLis
         {
             int id = GetResource(index).ResourceId;
             EngineResource resource = GetResource(index);
-            resource.ResourceId ^= 65535;
+            resource.ResourceId ^= 0xFFFF;
 
             if (FindResource(id) is not null)
             {

@@ -14,7 +14,7 @@ namespace Aow.Game.Combat;
 public class FastBattle(CustomNode owner) : Battle(owner)
 {
     // AIGroup.pas:7128
-    public new const int ClassId = 131760;
+    public new const int ClassId = 131_760;
 
     public int WallSiegeObjectCount { get; set; }
 

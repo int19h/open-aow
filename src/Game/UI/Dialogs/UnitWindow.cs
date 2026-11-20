@@ -205,7 +205,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
             enabled = test;
         }
 
-        sender.TextColor = enabled ? 14679807 : 9415072;
+        sender.TextColor = enabled ? 14_679_807 : 9_415_072;
     }
 
     // AoWUnitWindow.pas:502
@@ -316,7 +316,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWUnitWindow.pas:586
-    public void UnitWindowCreate() => _itemType = (ItemType)6;
+    public void UnitWindowCreate() => _itemType = ItemType.Use;
 
     // AoWUnitWindow.pas:591
     public void UnitWinUpdate()
@@ -578,7 +578,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
     public void TorsoDraw(UIComponent sender, LockedSurface lockedSurface)
     {
         Gnd1Draw(sender, lockedSurface);
-        if (s_selectedItem is not null && sender != s_selectedItem && _itemType == (ItemType)1)
+        if (s_selectedItem is not null && sender != s_selectedItem && _itemType == ItemType.Torso)
         {
             UIComponent checkBox = sender;
             UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.AbsoluteLeft + checkBox.WinLeft, InventoryPanel.AbsoluteTop + checkBox.WinTop, lockedSurface, table: GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
@@ -589,7 +589,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
     public void AttackDraw(UIComponent sender, LockedSurface lockedSurface)
     {
         Gnd1Draw(sender, lockedSurface);
-        if (s_selectedItem is not null && sender != s_selectedItem && _itemType == (ItemType)2)
+        if (s_selectedItem is not null && sender != s_selectedItem && _itemType == ItemType.Attack)
         {
             UIComponent checkBox = sender;
             UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.AbsoluteLeft + checkBox.WinLeft, InventoryPanel.AbsoluteTop + checkBox.WinTop, lockedSurface, table: GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
@@ -600,7 +600,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
     public void DefendDraw(UIComponent sender, LockedSurface lockedSurface)
     {
         Gnd1Draw(sender, lockedSurface);
-        if (s_selectedItem is not null && sender != s_selectedItem && _itemType == (ItemType)3)
+        if (s_selectedItem is not null && sender != s_selectedItem && _itemType == ItemType.Defense)
         {
             UIComponent checkBox = sender;
             UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.AbsoluteLeft + checkBox.WinLeft, InventoryPanel.AbsoluteTop + checkBox.WinTop, lockedSurface, table: GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
@@ -611,7 +611,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
     public void RingLDraw(UIComponent sender, LockedSurface lockedSurface)
     {
         Gnd1Draw(sender, lockedSurface);
-        if (s_selectedItem is not null && sender != s_selectedItem && _itemType == (ItemType)4)
+        if (s_selectedItem is not null && sender != s_selectedItem && _itemType == ItemType.Ring)
         {
             UIComponent checkBox = sender;
             UI.Graphics.UnitWindow[24].ShowBlended(InventoryPanel.AbsoluteLeft + checkBox.WinLeft, InventoryPanel.AbsoluteTop + checkBox.WinTop, lockedSurface, table: GraphicsState.IntensityBlendTable.LookupTables[_highlight]);

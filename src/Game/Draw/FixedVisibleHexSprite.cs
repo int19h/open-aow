@@ -17,7 +17,7 @@ public class FixedVisibleHexSprite(CustomNode owner) : HexSprite(owner)
     {
         get => (_status & 1) != 0;
         // HXSPRITE.PAS:770
-        set => _status = value ? (byte)(_status | 1) : (byte)(_status & 254);
+        set => _status = value ? (byte)(_status | 1) : (byte)(_status & 0b1111_1110);
     }
 
     // HXSPRITE.PAS:787

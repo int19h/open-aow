@@ -19,7 +19,7 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
 {
 
     // Combat2.pas:413
-    public new const int ClassId = 131810;
+    public new const int ClassId = 131_810;
 
     public CombatLogbook Logbook { get; private set; }
 

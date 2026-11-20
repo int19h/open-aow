@@ -16,7 +16,7 @@ public class TacticalBattleEndTurnTokenEvent(CustomNode owner) : TokenEvent(owne
 {
 
     // CombatTE.pas:175
-    public new const int ClassId = 2236420;
+    public new const int ClassId = 2_236_420;
 
     // CombatTE.pas:178
     public override ExecuteResult Execute(TokenExecutor tokenEvent)

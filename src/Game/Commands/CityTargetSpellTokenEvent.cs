@@ -14,7 +14,7 @@ public class CityTargetSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner
 {
 
     // CitySpells.pas:170
-    public new const int ClassId = 135949;
+    public new const int ClassId = 135_949;
 
     private MapCoordinate _targetLocation;
 

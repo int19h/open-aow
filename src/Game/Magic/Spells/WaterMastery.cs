@@ -24,7 +24,7 @@ public class WaterMastery : GlobalEnchantmentSpell
         SpellLevel = 4;
         MagicSphere = MagicSphere.Water;
         CastDuration = 40;
-        AIBasePriority = 1000;
+        AIBasePriority = 1_000;
     }
 
     // GlobalEnchantmentSpells.pas:819

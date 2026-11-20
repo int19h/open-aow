@@ -5,14 +5,14 @@ namespace Aow.Game.World.Hexes;
 
 public partial class LowerIsometricHex(CustomNode owner) : IsometricHex(owner)
 {
-    public new const int ClassId = 131442;
+    public new const int ClassId = 131_442;
 
     public new class Resource(CustomNode owner) : IsometricHexResource(owner)
     {
-        public new const int ClassId = 131443;
+        public new const int ClassId = 131_443;
 
         // IsoHex.pas:581
-        public override int ResourceUserClassId() => 131442;
+        public override int ResourceUserClassId() => LowerIsometricHex.ClassId;
 
         // IsoHex.pas:576
         public override string ResourceEditName() => s_lowerIsometricHexText;

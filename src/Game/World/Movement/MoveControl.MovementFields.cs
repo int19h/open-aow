@@ -108,7 +108,7 @@ public partial class MoveControl
                 break;
             }
 
-            if (Mode.Contains(MoveModeElement.LogProcessedMapFields) && old == 0xffffff)
+            if (Mode.Contains(MoveModeElement.LogProcessedMapFields) && old == 0xff_ff_ff)
             {
                 _ = _processedMapFields.Add(field);
             }
@@ -138,7 +138,7 @@ public partial class MoveControl
         int left = s_sideDirections[direction][0], right = s_sideDirections[direction][1];
         int leftCount = CalculateMovePointLine(field, direction: left, moveOverCode: over);
         int rightCount = CalculateMovePointLine(field, direction: right, moveOverCode: over);
-        if ((count & 0xff) != 0)
+        if ((count & 0xFF) != 0)
         {
             ProcessHex(NeighborField(field, direction), direction, count: over == 2 ? count + 0xff : count - 1);
         }
@@ -153,7 +153,7 @@ public partial class MoveControl
             ProcessHex(NeighborField(field, direction: right), direction: right, count: over == 2 ? rightCount + 0xff : rightCount - 1);
         }
 
-        if ((count & 0x100) != 0)
+        if ((count & 0b0001_0000_0000) != 0)
         {
             int opposite = OppositeDirections[direction];
             left = s_sideDirections[opposite][0];

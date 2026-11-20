@@ -22,7 +22,7 @@ public class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owner)
 {
 
     // CityWall.pas:78
-    public new const int ClassId = 2229508;
+    public new const int ClassId = 2_229_508;
 
     public int HitPoints { get; private set; }
 
@@ -386,7 +386,7 @@ public class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owner)
     {
 
         // CityWall.pas:366
-        public new const int ClassId = 2229509;
+        public new const int ClassId = 2_229_509;
 
         public byte Direction { get; private set; }
 
@@ -398,7 +398,7 @@ public class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owner)
         }
 
         // CityWall.pas:378
-        public override int ResourceUserClassId() => 2229508;
+        public override int ResourceUserClassId() => CityWall.ClassId;
 
         // CityWall.pas:375
         public override string ResourceEditName() => "Combat City Wall";

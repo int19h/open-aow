@@ -15,7 +15,7 @@ public class HexagonResource : AbstractHexagonResource
     public HexagonResource(CustomNode owner) : base(owner) => SetLevel(0);
 
     // Hexagon.pas:89
-    public new const int ClassId = 131411;
+    public new const int ClassId = 131_411;
 
     protected internal CustomImageLibrary TransitionLibrary { get; private set; }
 
@@ -35,7 +35,7 @@ public class HexagonResource : AbstractHexagonResource
     }
 
     // Hexagon.pas:94
-    public override int ResourceUserClassId() => 131410;
+    public override int ResourceUserClassId() => Hex.ClassId;
 
     // Hexagon.pas:112
     public override MapObject PlaceResourceUser(GameMap map, sbyte hexX, sbyte hexY, sbyte hexLevel)
@@ -76,12 +76,12 @@ public class HexagonResource : AbstractHexagonResource
     public void Show(int pixelX, int pixelY, in LockedSurface lockedSurface, Hex hex)
     {
         ImageLibrary[0].Show(pixelX, pixelY, lockedSurface);
-        if ((hex.TransitionSides & 7) != 0)
+        if ((hex.TransitionSides & 0b0111) != 0)
         {
             byte sides = hex.TransitionSides;
-            if ((sides & 2) != 0)
+            if ((sides & 0b0010) != 0)
             {
-                if ((sides & 16) != 0)
+                if ((sides & 0b0001_0000) != 0)
                 {
                     TransitionLibrary[hex.Transitions[1]].Show(pixelX - 6, pixelY - 9 - 32, lockedSurface);
                 }
@@ -93,7 +93,7 @@ public class HexagonResource : AbstractHexagonResource
 
             if ((sides & 1) != 0)
             {
-                if ((sides & 8) != 0)
+                if ((sides & 0b1000) != 0)
                 {
                     TransitionLibrary[hex.Transitions[0]].Show(pixelX - 6 - 32, pixelY - 9 - 16, lockedSurface);
                 }
@@ -103,9 +103,9 @@ public class HexagonResource : AbstractHexagonResource
                 }
             }
 
-            if ((sides & 4) != 0)
+            if ((sides & 0b0100) != 0)
             {
-                if ((sides & 32) != 0)
+                if ((sides & 0b0010_0000) != 0)
                 {
                     TransitionLibrary[hex.Transitions[2]].Show(pixelX - 6 + 32, pixelY - 9 - 16, lockedSurface);
                 }

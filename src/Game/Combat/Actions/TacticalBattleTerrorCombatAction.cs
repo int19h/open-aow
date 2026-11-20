@@ -13,7 +13,7 @@ namespace Aow.Game.Combat.Actions;
 public class TacticalBattleTerrorCombatAction(CustomNode owner) : CombatAction(owner)
 {
     // CombatSpells.pas:1707
-    public new const int ClassId = 131785;
+    public new const int ClassId = 131_785;
     private byte _sourceId;
     private byte _targetId;
 

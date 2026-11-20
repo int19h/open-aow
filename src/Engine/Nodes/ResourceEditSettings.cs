@@ -14,7 +14,7 @@ public class ResourceEditSettings(CustomNode owner) : ControlStyleObject(owner)
 {
 
     // Engine.pas:8662
-    public new const int ClassId = 1026;
+    public new const int ClassId = 1_026;
 
     // Engine.pas:8677
     internal int GetUniqueEditId()

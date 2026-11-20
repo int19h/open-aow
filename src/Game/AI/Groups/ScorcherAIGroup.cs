@@ -7,7 +7,7 @@ namespace Aow.Game.AI.Groups;
 public class ScorcherAIGroup : BehaviorAIGroup, IAIGroupClass
 {
     // BehaviorAG.pas:616
-    public new const int ClassId = 136291;
+    public new const int ClassId = 136_291;
 
     // BehaviorAG.pas:609
     public ScorcherAIGroup(CustomNode owner) : base(owner)

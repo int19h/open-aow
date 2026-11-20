@@ -9,7 +9,7 @@ namespace Aow.Game.Magic.Abilities;
 // (external level, source name)
 public class LeadershipAbilityData(CustomNode owner) : MultiLevelAbilityData(owner)
 {
-    public new const int ClassId = 131790;
+    public new const int ClassId = 131_790;
 
     public byte ExternalLevel { get; set; }
     public string ExternalSource { get; set; } = "";

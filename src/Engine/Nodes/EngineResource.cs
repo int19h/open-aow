@@ -12,7 +12,7 @@ namespace Aow.Engine.Nodes;
 // FEditIndex (its cell in that grid). all three integers are persisted (ids 1.3)
 public class EngineResource(CustomNode owner) : EngineObject(owner)
 {
-    public new const int ClassId = 1024;
+    public new const int ClassId = 1_024;
 
     // Engine.pas:8513
     public override void SetOwner(CustomNode owner)

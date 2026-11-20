@@ -14,7 +14,7 @@ namespace Aow.Game.Audio;
 public class SongList : EngineObject
 {
     // Sound.pas:801
-    public new const int ClassId = 2162692;
+    public new const int ClassId = 2_162_692;
 
     public SongList(CustomNode owner) : base(owner)
     {
@@ -76,7 +76,7 @@ public class SongList : EngineObject
 
         string fullPath = AudioHost.BaseSoundEnginePath + path;
         Songs.BeginUpdate();
-        foreach (RtlFileEntry entry in Files.FindEntries($"{fullPath}*.{ext}", attributes: 63 & ~16))
+        foreach (RtlFileEntry entry in Files.FindEntries($"{fullPath}*.{ext}", attributes: 0b0011_1111 & ~0b0001_0000))
         {
             _ = Songs.Add(UpperCase(path + entry.Name));
         }

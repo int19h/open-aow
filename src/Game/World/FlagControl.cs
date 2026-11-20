@@ -47,7 +47,7 @@ public class FlagControl : ControlStyleObject
     {
         Flags[4].Show(X, Y, lockedSurface);
         frameOffset = (frameOffset >>> 2) % 12;
-        if ((flagId & 32) != 0)
+        if ((flagId & 0b0010_0000) != 0)
         {
             Flags[frameOffset + 22].Show(X - 21, Y - 16, lockedSurface);
         }
@@ -66,7 +66,7 @@ public class FlagControl : ControlStyleObject
         }
 
         frameOffset = (frameOffset >>> 2) % 12;
-        if ((flagId & 32) != 0)
+        if ((flagId & 0b0010_0000) != 0)
         {
             Flags[frameOffset + 22].Show(X - 21, Y - 16, lockedSurface);
         }
@@ -81,7 +81,7 @@ public class FlagControl : ControlStyleObject
     {
         Flags[flagId >>> 6].Show(X, Y, lockedSurface);
         frameOffset = (frameOffset >>> 1) % 12;
-        if ((flagId & 32) != 0)
+        if ((flagId & 0b0010_0000) != 0)
         {
             Flags[frameOffset + 10].Show(X - 21, Y - 16, lockedSurface);
         }
@@ -100,7 +100,7 @@ public class FlagControl : ControlStyleObject
         }
 
         frameOffset = (frameOffset >>> 1) % 12;
-        if ((flagId & 32) != 0)
+        if ((flagId & 0b0010_0000) != 0)
         {
             Flags[frameOffset + 10].Show(X - 21, Y - 16, lockedSurface);
         }

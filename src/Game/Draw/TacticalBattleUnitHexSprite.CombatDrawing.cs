@@ -24,7 +24,7 @@ public partial class TacticalBattleUnitHexSprite
         {
             if (!(Direction < UnitGraphicsResource.Sequences.Count))
             {
-                OriginalUnitAssert("Invalid Unit Index", fileName: "D:\\AoWDev\\AoWTC\\inc\\TCUnitHS.pas", lineNumber: 4262);
+                OriginalUnitAssert("Invalid Unit Index", fileName: "D:\\AoWDev\\AoWTC\\inc\\TCUnitHS.pas", lineNumber: 4_262);
             }
 
             HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
@@ -46,7 +46,7 @@ public partial class TacticalBattleUnitHexSprite
             int hexX = default;
             if (Unit.GetAbilityEnabled(36))
             {
-                CityWall wall = Owner.FindOwnedChild<CityWall>(2229508) ?? Owner.FindOwnedChild(2229510) as CityWall;
+                CityWall wall = Owner.FindOwnedChild<CityWall>(CityWall.ClassId) ?? Owner.FindOwnedChild(2_229_510) as CityWall;
                 if (MoveStep == -1)
                 {
                     if (wall is not null && wall.HitPoints > 0)
@@ -59,7 +59,7 @@ public partial class TacticalBattleUnitHexSprite
                     sbyte yhx = HexY;
                     int hexY = default;
                     HexGeometry.CenterHexNumberToHex(HexX, yhx, hexNumber: Direction, ref hexX, ref hexY);
-                    CityWall nextWall = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<CityWall>(2229508) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229510) as CityWall;
+                    CityWall nextWall = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<CityWall>(CityWall.ClassId) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2_229_510) as CityWall;
                     int moveSteps = GetMoveSteps();
                     if (MoveStep < moveSteps / 2)
                     {
@@ -244,7 +244,7 @@ public partial class TacticalBattleUnitHexSprite
                 }
             }
 
-            if (!GetSelected() || (CombatMap.Current.Frame & 6) != 6)
+            if (!GetSelected() || (CombatMap.Current.Frame & 0b0110) != 0b0110)
             {
                 if (race == 32)
                 {

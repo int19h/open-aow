@@ -154,7 +154,7 @@ public partial class BattleEffectSprite
         {
             switch (Frame)
             {
-                case >= 0 and <= 1999:
+                case >= 0 and <= 1_999:
                     SelectSequence(0);
                     break;
                 default:
@@ -170,22 +170,22 @@ public partial class BattleEffectSprite
                     int alpha;
                     switch (Frame)
                     {
-                        case >= 0 and <= 1999:
+                        case >= 0 and <= 1_999:
                             alpha = 25;
                             // { Original uses the object address as the animation phase. }
                             int totalSequenceFrames = sequence.TotalSequenceFrames;
                             index = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, divisor: totalSequenceFrames));
                             break;
-                        case >= 2000 and <= 2998:
-                            if (n <= Frame - 2000)
+                        case >= 2_000 and <= 2_998:
+                            if (n <= Frame - 2_000)
                             {
                                 int count = Path.Count;
-                                alpha = ((Frame - 2000) * 75 / (count - 1)) + 25;
+                                alpha = ((Frame - 2_000) * 75 / (count - 1)) + 25;
                                 index = sequence.GetUnloopedFrameIndex(0);
                             }
                             else
                             {
-                                if (n == Frame - 1999)
+                                if (n == Frame - 1_999)
                                 {
                                     SelectSequence(0);
                                 }

@@ -331,7 +331,7 @@ public class PlayerMagicControl : EngineObject
         if (StrategicMap.Current.Day == 1 && Player.PlayerIndex != 0 && (StrategicMap.Current.GameType != GameType.Campaign || Spells.Count == 0))
         {
             Int32List candidates = new();
-            for (int kindOrdinal = (int)(SpellType)0; kindOrdinal <= (int)(SpellType)2; kindOrdinal++)
+            for (int kindOrdinal = (int)SpellType.Combat; kindOrdinal <= (int)SpellType.Global; kindOrdinal++)
             {
                 SpellType kind = (SpellType)kindOrdinal;
                 candidates.Clear();

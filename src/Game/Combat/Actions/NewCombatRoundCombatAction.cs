@@ -6,7 +6,7 @@ namespace Aow.Game.Combat.Actions;
 public class NewCombatRoundCombatAction(CustomNode owner) : CombatAction(owner)
 {
     // Combat2.pas:1009
-    public new const int ClassId = 131771;
+    public new const int ClassId = 131_771;
 
     // Combat2.pas:1012
     public override void Execute(Battle combat)

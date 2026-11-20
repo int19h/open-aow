@@ -7,7 +7,7 @@ namespace Aow.Game.AI.Groups;
 public class SkirmishAIGroup : BehaviorAIGroup, IAIGroupClass
 {
     // BehaviorAG.pas:729
-    public new const int ClassId = 136294;
+    public new const int ClassId = 136_294;
 
     // BehaviorAG.pas:722
     public SkirmishAIGroup(CustomNode owner) : base(owner)

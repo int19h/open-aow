@@ -28,7 +28,7 @@ public class SfxManager(Component owner) : Component(owner)
     {
         void Search(string directory)
         {
-            foreach (RtlFileEntry entry in Files.FindEntries($"{SearchPath}{directory}*.{s_sfxExtension}", attributes: 63 & ~16))
+            foreach (RtlFileEntry entry in Files.FindEntries($"{SearchPath}{directory}*.{s_sfxExtension}", attributes: 0b0011_1111 & ~0b0001_0000))
             {
                 _ = Sfx.Add(UpperCase(directory + entry.Name));
             }
@@ -36,7 +36,7 @@ public class SfxManager(Component owner) : Component(owner)
             DelphiStringList directories = new();
             foreach (RtlFileEntry entry in Files.FindEntries($"{directory}*.*", attributes: 16))
             {
-                if ((entry.Attribute & 16) != 0 && entry.Name != "." && entry.Name != "..")
+                if ((entry.Attribute & 0b0001_0000) != 0 && entry.Name != "." && entry.Name != "..")
                 {
                     _ = directories.Add($"{directory}{UpperCase(entry.Name)}\\");
                 }

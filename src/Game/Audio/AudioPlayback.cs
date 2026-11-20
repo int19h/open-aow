@@ -91,7 +91,7 @@ public static class AudioPlayback
     internal static string GetSongName(string fileName)
     {
         Span<byte> title = stackalloc byte[28];
-        Stream stream = OpenFile(AudioHost.BaseSoundEnginePath + fileName, mode: 0 | 32);
+        Stream stream = OpenFile(AudioHost.BaseSoundEnginePath + fileName, mode: 0 | 0b0010_0000);
         string result;
         try
         {

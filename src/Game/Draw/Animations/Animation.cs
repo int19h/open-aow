@@ -17,7 +17,7 @@ public class Animation(CustomNode owner) : HexSprite(owner)
 {
 
     // Animation.pas:143
-    public new const int ClassId = 131815;
+    public new const int ClassId = 131_815;
 
     // The stored hex. GetHexX, GetHexY and GetHexLevel read it, and HexSprite.Location returns that.
     public override MapCoordinate Location { get; set; }

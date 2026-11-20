@@ -108,7 +108,7 @@ public partial class GamePlayDialog(UIContext ui) : UIModule(ui)
         GameSettings.MovementSpeed movementSpeed = UI.Engine.Registry.GetMovementSpeed();
         MovementSpeedComboBox.Selected = (int)movementSpeed;
         CombatResolveModeComboBox.Items.Clear();
-        for (int modeOrdinal = (int)(GameSettings.CombatResolveMode)0; modeOrdinal <= (int)(GameSettings.CombatResolveMode)2; modeOrdinal++)
+        for (int modeOrdinal = (int)GameSettings.CombatResolveMode.Choose; modeOrdinal <= (int)GameSettings.CombatResolveMode.AlwaysTacticalBattle; modeOrdinal++)
         {
             GameSettings.CombatResolveMode mode = (GameSettings.CombatResolveMode)modeOrdinal;
             string combatResolveMode = UI.Engine.TranslateResourceString(s_combatResolveModeTexts[(int)mode]);

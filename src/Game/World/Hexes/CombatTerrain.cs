@@ -20,7 +20,7 @@ public class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
 {
 
     // CombatTerrain.pas:82
-    public new const int ClassId = 2228582;
+    public new const int ClassId = 2_228_582;
 
     private CombatTerrainShadow _shadow;
     private int _hitPoints;
@@ -291,7 +291,7 @@ public class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
     {
 
         // CombatTerrain.pas:301
-        public new const int ClassId = 2228583;
+        public new const int ClassId = 2_228_583;
 
         private sbyte _burnValue;
 
@@ -311,7 +311,7 @@ public class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
         }
 
         // CombatTerrain.pas:304
-        public override int ResourceUserClassId() => 2228582;
+        public override int ResourceUserClassId() => CombatTerrain.ClassId;
 
         // CombatTerrain.pas:307
         public override string ResourceEditName() => "Combat Terrain";

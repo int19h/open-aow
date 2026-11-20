@@ -10,7 +10,7 @@ public class AltarOfIce(CustomNode owner) : Altar(owner)
 {
 
     // AltIce.pas:36
-    public new const int ClassId = 131659;
+    public new const int ClassId = 131_659;
 
     // AltIce.pas:39
     public override Storm CreateStorm() => new IceStorm(null) { Holder = CreationHolder() };
@@ -19,10 +19,10 @@ public class AltarOfIce(CustomNode owner) : Altar(owner)
     {
 
         // AltIce.pas:52
-        public new const int ClassId = 131660;
+        public new const int ClassId = 131_660;
 
         // AltIce.pas:55
-        public override int ResourceUserClassId() => 131659;
+        public override int ResourceUserClassId() => AltarOfIce.ClassId;
 
         // AltIce.pas:49
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_altarOfIceText);

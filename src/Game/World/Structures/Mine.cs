@@ -26,7 +26,7 @@ public partial class Mine : PlayerStructure
     }
 
     // Mine.pas:82
-    public new const int ClassId = 131962;
+    public new const int ClassId = 131_962;
 
     public byte State { get; set; }
 
@@ -204,10 +204,10 @@ public partial class Mine : PlayerStructure
         }
 
         // Mine.pas:200
-        public new const int ClassId = 131963;
+        public new const int ClassId = 131_963;
 
         // Mine.pas:203
-        public override int ResourceUserClassId() => 131962;
+        public override int ResourceUserClassId() => Mine.ClassId;
 
         // Mine.pas:197
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_mineText);

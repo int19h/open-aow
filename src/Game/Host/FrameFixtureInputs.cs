@@ -24,20 +24,20 @@ public static class FrameFixtureInputs
     public static int Address(object? instance) => instance is null ? 0 : PinnedAddress ?? IdentityHash.Of(instance);
 
     // The capture replaces the shifted offset. Ordinary play uses the identity hash, which stays fixed for one object.
-    public static int AnimationOffset(object instance) => AddressAnimationPhase ?? ((RuntimeHelpers.GetHashCode(instance) >>> 2) & 65535);
+    public static int AnimationOffset(object instance) => AddressAnimationPhase ?? ((RuntimeHelpers.GetHashCode(instance) >>> 2) & 0xFFFF);
 
     public static int WaterBasePhase(object? owner) => WaterVariantPhase ?? (Address(owner) >>> 3);
 
-    public static int TextureVariant(object instance) => WaterVariantPhase ?? ((Address(instance) >>> 8) & 3);
+    public static int TextureVariant(object instance) => WaterVariantPhase ?? ((Address(instance) >>> 8) & 0b0011);
 
     // Combat edges stay on the address. The water capture does not cover them.
-    public static int CombatTextureVariant(object instance) => (Address(instance) >>> 8) & 3;
+    public static int CombatTextureVariant(object instance) => (Address(instance) >>> 8) & 0b0011;
 
     public static int PhaseModulo(object instance, int divisor) => Address(instance) % divisor;
 
     public static int ShimmerOffset(object instance, int frame) => ((frame % 10 * 2) + Address(instance)) % 20;
 
-    public static int ArmyStagger(object? unit) => (Address(unit) >>> 3) & 7;
+    public static int ArmyStagger(object? unit) => (Address(unit) >>> 3) & 0b0111;
 
-    public static int FieldFrameOffset(object field) => (Address(field) >>> 8) & 15;
+    public static int FieldFrameOffset(object field) => (Address(field) >>> 8) & 0xF;
 }

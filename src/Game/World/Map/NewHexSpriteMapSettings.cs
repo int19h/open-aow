@@ -13,11 +13,11 @@ public class NewHexSpriteMapSettings
         Levels = 1;
         HssFileName = "";
         // { THSMap.ClassID }
-        HexSpriteMapClassId = 66048;
+        HexSpriteMapClassId = GameMap.ClassId;
         // { TMapContainer.ClassID }
-        MapContainerClassId = 65795;
+        MapContainerClassId = MapContainer.ClassId;
         // { TMapLevel.ClassID }
-        MapLevelClassId = 65794;
+        MapLevelClassId = 65_794;
     }
 
     public int Width { get; }

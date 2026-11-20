@@ -32,6 +32,6 @@ public class SyncTokenEvent(CustomNode owner) : TokenEvent(owner)
 
     public int SyncValue { get; set; }
 
-    private const short ClassIdSyncTokenEvent = 1365;
+    private const short ClassIdSyncTokenEvent = 1_365;
 
 }

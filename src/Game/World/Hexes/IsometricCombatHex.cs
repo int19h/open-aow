@@ -13,7 +13,7 @@ public class IsometricCombatHex(CustomNode owner) : UpperIsometricHex(owner)
 {
 
     // IsoCombatHex.pas:40
-    public new const int ClassId = 2229514;
+    public new const int ClassId = 2_229_514;
 
     // IsoCombatHex.pas:43
     public override MapObjectResourceList GetResourceList(GameEngine engine) => GamePack.Current.CombatResources;
@@ -37,34 +37,34 @@ public class IsometricCombatHex(CustomNode owner) : UpperIsometricHex(owner)
             pixelY -= 38;
             if ((OpenSides & 1) != 0)
             {
-                if ((OpenSides & 32) == 0)
+                if ((OpenSides & 0b0010_0000) == 0)
                 {
                     imageLibrary[18].Show(pixelX - 19, pixelY - 48 - 16, lockedSurface);
                 }
 
-                if ((OpenSides & 2) == 0)
+                if ((OpenSides & 0b0010) == 0)
                 {
                     imageLibrary[19].Show(pixelX - 19, pixelY - 48 - 16, lockedSurface);
                 }
 
-                if ((OpenSides & 34) == 34)
+                if ((OpenSides & 0b0010_0010) == 0b0010_0010)
                 {
                     imageLibrary[23].Show(pixelX - 20, pixelY - 48 - 16, lockedSurface);
                 }
                 else
                 {
-                    if ((OpenSides & 34) == 0)
+                    if ((OpenSides & 0b0010_0010) == 0)
                     {
                         imageLibrary[20].Show(pixelX - 20, pixelY - 50 - 16, lockedSurface);
                     }
                 }
             }
 
-            if ((OpenSides & 8) != 0)
+            if ((OpenSides & 0b1000) != 0)
             {
-                if ((OpenSides & 16) != 0)
+                if ((OpenSides & 0b0001_0000) != 0)
                 {
-                    if ((OpenSides & 32) != 0)
+                    if ((OpenSides & 0b0010_0000) != 0)
                     {
                         imageLibrary[17].Show(pixelX - 19 - 32, pixelY - 16, lockedSurface);
                     }
@@ -74,9 +74,9 @@ public class IsometricCombatHex(CustomNode owner) : UpperIsometricHex(owner)
                     }
                 }
 
-                if ((OpenSides & 4) != 0)
+                if ((OpenSides & 0b0100) != 0)
                 {
-                    if ((OpenSides & 2) != 0)
+                    if ((OpenSides & 0b0010) != 0)
                     {
                         imageLibrary[16].Show(pixelX - 19 + 16 + 16, pixelY - 16, lockedSurface);
                     }
@@ -86,13 +86,13 @@ public class IsometricCombatHex(CustomNode owner) : UpperIsometricHex(owner)
                     }
                 }
 
-                if ((OpenSides & 20) == 20)
+                if ((OpenSides & 0b0001_0100) == 0b0001_0100)
                 {
                     imageLibrary[13].Show(pixelX - 19, pixelY, lockedSurface);
                 }
                 else
                 {
-                    if ((OpenSides & 20) == 0)
+                    if ((OpenSides & 0b0001_0100) == 0)
                     {
                         imageLibrary[6].Show(pixelX - 19, pixelY, lockedSurface);
                     }
@@ -100,9 +100,9 @@ public class IsometricCombatHex(CustomNode owner) : UpperIsometricHex(owner)
             }
             else
             {
-                if ((OpenSides & 16) != 0)
+                if ((OpenSides & 0b0001_0000) != 0)
                 {
-                    if ((OpenSides & 32) == 0)
+                    if ((OpenSides & 0b0010_0000) == 0)
                     {
                         imageLibrary[25].Show(pixelX - 19 - 32, pixelY - 16, lockedSurface);
                     }
@@ -119,9 +119,9 @@ public class IsometricCombatHex(CustomNode owner) : UpperIsometricHex(owner)
                     }
                 }
 
-                if ((OpenSides & 4) != 0)
+                if ((OpenSides & 0b0100) != 0)
                 {
-                    if ((OpenSides & 2) == 0)
+                    if ((OpenSides & 0b0010) == 0)
                     {
                         imageLibrary[24].Show(pixelX - 19 + 32, pixelY - 16, lockedSurface);
                     }
@@ -145,10 +145,10 @@ public class IsometricCombatHex(CustomNode owner) : UpperIsometricHex(owner)
     {
 
         // IsoCombatHex.pas:108
-        public new const int ClassId = 2229515;
+        public new const int ClassId = 2_229_515;
 
         // IsoCombatHex.pas:114
-        public override int ResourceUserClassId() => 2229514;
+        public override int ResourceUserClassId() => IsometricCombatHex.ClassId;
 
         // IsoCombatHex.pas:117
         public override HexControl HexControl => Engine.HexSpriteSet.CombatHexes;

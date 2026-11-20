@@ -33,7 +33,7 @@ public class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibraryImageC
     // ImageLib.pas:4302
     internal void AllocateDiscardableImageData(int width, int height)
     {
-        _pitch = width < 32 ? ((width << 1) + 3) & ~3 : ((width << 1) + 7) & ~7;
+        _pitch = width < 32 ? ((width << 1) + 3) & ~0b0011 : ((width << 1) + 7) & ~0b0111;
 
         // The rows start at the first byte of FBuffer, as TPicture08's (graphics.md 6.8).
         int size = (_pitch * height) + 7;
@@ -110,22 +110,22 @@ public class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibraryImageC
     public override void ReadImageData(Stream stream)
     {
         base.ReadImageData(stream);
-        stream.ReadExactly(Bytes.Of(ref _spriteWidth, count: 4));
-        stream.ReadExactly(Bytes.Of(ref _spriteHeight, count: 4));
-        stream.ReadExactly(Bytes.Of(ref _spriteX, count: 4));
-        stream.ReadExactly(Bytes.Of(ref _spriteY, count: 4));
-        stream.ReadExactly(Bytes.Of(ref _transparentColor, count: 4));
+        stream.ReadExactly(Bytes.Of(ref _spriteWidth));
+        stream.ReadExactly(Bytes.Of(ref _spriteHeight));
+        stream.ReadExactly(Bytes.Of(ref _spriteX));
+        stream.ReadExactly(Bytes.Of(ref _spriteY));
+        stream.ReadExactly(Bytes.Of(ref _transparentColor));
     }
 
     // ImageLib.pas:4334
     public override void WriteImageData(Stream stream)
     {
         base.WriteImageData(stream);
-        stream.Write(Bytes.Of(ref _spriteWidth, count: 4));
-        stream.Write(Bytes.Of(ref _spriteHeight, count: 4));
-        stream.Write(Bytes.Of(ref _spriteX, count: 4));
-        stream.Write(Bytes.Of(ref _spriteY, count: 4));
-        stream.Write(Bytes.Of(ref _transparentColor, count: 4));
+        stream.Write(Bytes.Of(ref _spriteWidth));
+        stream.Write(Bytes.Of(ref _spriteHeight));
+        stream.Write(Bytes.Of(ref _spriteX));
+        stream.Write(Bytes.Of(ref _spriteY));
+        stream.Write(Bytes.Of(ref _transparentColor));
     }
 
     // ImageLib.pas:4344

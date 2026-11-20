@@ -18,7 +18,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
 {
 
     // Diplomacy.pas:1199
-    public new const int ClassId = 131347;
+    public new const int ClassId = 131_347;
 
     public DiplomaticAction Action { get; set; }
 
@@ -215,7 +215,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
 
     public override int MiddleIcon => Action.Proposal.MiddleIcon(Action);
 
-    private static ReadOnlySpan<int> RaceColors => [14693424, 6726911, 11520812, 16702087, 6352705, 1441277, 10863076, 16252925, 11759804, 5263593, 4351675, 7960728, 11053224];
+    private static ReadOnlySpan<int> RaceColors => [14_693_424, 6_726_911, 11_520_812, 16_702_087, 6_352_705, 1_441_277, 10_863_076, 16_252_925, 11_759_804, 5_263_593, 4_351_675, 7_960_728, 11_053_224];
 
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi P5DiplomaticExecute signature keeps data.")]
     internal static bool DiplomaticExecute(DiplomaticActionEventLog log, bool immediate, ExecuteTrigger trigger, object data, ExecuteDoneEvent done)

@@ -48,7 +48,7 @@ public class AirMastery : GlobalEnchantmentSpell
         };
         animation.OnShow += ShowAnimation;
         animation.AnimationMap = StrategicMap.Current;
-        animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
+        animation.Tag = (StrategicMap.Current.ViewWidth & 0xFFFF) | (StrategicMap.Current.ViewHeight << 16);
         animation.Activate();
         _ = GamePack.Current.SpellControl[60].CastSounds.Play(0);
         CastingDone(source, mana: eventValue.EventMana);
@@ -72,7 +72,7 @@ public class AirMastery : GlobalEnchantmentSpell
             };
             for (int i = 0; i <= count - 1; i++)
             {
-                int x = Random(animation.Tag & 65535);
+                int x = Random(animation.Tag & 0xFFFF);
                 int y = Random((int)(uint)animation.Tag >>> 16);
                 int speed = Random(15) + 5;
                 int image = Random(3);

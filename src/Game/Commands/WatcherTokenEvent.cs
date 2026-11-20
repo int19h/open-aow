@@ -14,7 +14,7 @@ public class WatcherTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(o
 {
 
     // GlobalTargetSpells.pas:1476
-    public new const int ClassId = 135963;
+    public new const int ClassId = 135_963;
 
     // GlobalTargetSpells.pas:1479
     public override bool Process(Troop source, int value)

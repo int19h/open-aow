@@ -11,7 +11,7 @@ namespace Aow.Game.Combat.Actions;
 
 public class SelfDestructCombatAction(CustomNode owner) : DamageCombatAction(owner)
 {
-    public new const int ClassId = 131764;
+    public new const int ClassId = 131_764;
 
     // AoWAb.PAS:2116
     public override void Execute(Battle combat)

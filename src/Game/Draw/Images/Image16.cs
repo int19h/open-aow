@@ -19,7 +19,7 @@ public class Image16(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
     {
         base.ReadImageData(stream);
         int storedPixelFormatId = (int)StoredPixelFormatId;
-        stream.ReadExactly(Bytes.Of(ref storedPixelFormatId, count: 4));
+        stream.ReadExactly(Bytes.Of(ref storedPixelFormatId));
         StoredPixelFormatId = (PixelFormat)storedPixelFormatId;
         PixelFormatId = StoredPixelFormatId;
     }
@@ -30,7 +30,7 @@ public class Image16(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
         base.WriteImageData(stream);
         _ = RemapToPixelFormat(StoredPixelFormatId);
         int storedPixelFormatId = (int)StoredPixelFormatId;
-        stream.Write(Bytes.Of(ref storedPixelFormatId, count: 4));
+        stream.Write(Bytes.Of(ref storedPixelFormatId));
         StoredPixelFormatId = (PixelFormat)storedPixelFormatId;
     }
 

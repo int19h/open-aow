@@ -8,7 +8,7 @@ namespace Aow.Game.Magic.Abilities;
 // (ability ID, commander ID, command ability ID, original combat player)
 public class CommandedAbilityData(CustomNode owner) : AbilityData(owner)
 {
-    public new const int ClassId = 131757;
+    public new const int ClassId = 131_757;
 
     public int AbilityId { get; set; }
     public byte SourceId { get; set; }

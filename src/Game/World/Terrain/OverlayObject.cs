@@ -10,14 +10,14 @@ public class OverlayObject(CustomNode owner) : FixedImageLibraryTerrainMapObject
 {
 
     // OverlayObject.pas:36
-    public new const int ClassId = 131228;
+    public new const int ClassId = 131_228;
 
     // OverlayType
     public new class Resource(CustomNode owner) : FixedImageLibraryTerrainMapObjectResource(owner)
     {
 
         // OverlayObject.pas:42
-        public new const int ClassId = 131229;
+        public new const int ClassId = 131_229;
 
         private int _overlayType;
 
@@ -29,7 +29,7 @@ public class OverlayObject(CustomNode owner) : FixedImageLibraryTerrainMapObject
         }
 
         // OverlayObject.pas:45
-        public override int ResourceUserClassId() => 131228;
+        public override int ResourceUserClassId() => OverlayObject.ClassId;
 
         // OverlayObject.pas:39
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_overlayObjectText);

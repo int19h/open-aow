@@ -12,7 +12,7 @@ public class GlobalEnchantmentSpellTokenEvent(CustomNode owner) : SpellTokenEven
 {
 
     // GlobalEnchantmentSpells.pas:389
-    public new const int ClassId = 135954;
+    public new const int ClassId = 135_954;
 
     public GlobalEnchantment Enchantment { get; set; }
 

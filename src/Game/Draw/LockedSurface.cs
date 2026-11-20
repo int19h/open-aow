@@ -215,7 +215,7 @@ public struct LockedSurface
             {
                 8 => lockedSurfaceValue.View().Byte(X + (lockedSurfaceValue.Pitch * Y)),
                 16 => lockedSurfaceValue.View().UInt16(X + X + (lockedSurfaceValue.Pitch * Y)),
-                24 => (int)lockedSurfaceValue.View().Dword((X * 3) + (lockedSurfaceValue.Pitch * Y)) & 16777215,// Four bytes at the last pixel of a row too, as GFXEUnit.GetPixelInfo.
+                24 => (int)lockedSurfaceValue.View().Dword((X * 3) + (lockedSurfaceValue.Pitch * Y)) & 0xFF_FF_FF,// Four bytes at the last pixel of a row too, as GFXEUnit.GetPixelInfo.
                 32 => (int)lockedSurfaceValue.View().Dword((X * 4) + (lockedSurfaceValue.Pitch * Y)),
                 _ => throw new NotSupportedException("PixelFormat is not supported"),
             };

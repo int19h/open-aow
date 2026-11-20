@@ -9,7 +9,7 @@ namespace Aow.Game.World.Hexes;
 
 public partial class UpperIsometricHex(CustomNode owner) : IsometricHex(owner)
 {
-    public new const int ClassId = 131440;
+    public new const int ClassId = 131_440;
 
     // IsoHex.pas:355
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -28,12 +28,12 @@ public partial class UpperIsometricHex(CustomNode owner) : IsometricHex(owner)
                 imageLibrary[31].Show(pixelX, pixelY, lockedSurface);
             }
 
-            if ((Sides & 2) != 0)
+            if ((Sides & 0b0010) != 0)
             {
                 imageLibrary[32].Show(pixelX, pixelY, lockedSurface);
             }
 
-            if ((Sides & 32) != 0)
+            if ((Sides & 0b0010_0000) != 0)
             {
                 imageLibrary[30].Show(pixelX, pixelY, lockedSurface);
             }
@@ -42,10 +42,10 @@ public partial class UpperIsometricHex(CustomNode owner) : IsometricHex(owner)
 
     public new class Resource(CustomNode owner) : IsometricHexResource(owner)
     {
-        public new const int ClassId = 131441;
+        public new const int ClassId = 131_441;
 
         // IsoHex.pas:443
-        public override int ResourceUserClassId() => 131440;
+        public override int ResourceUserClassId() => UpperIsometricHex.ClassId;
 
         // IsoHex.pas:448
         public override string ResourceEditName() => s_upperIsometricHexText;

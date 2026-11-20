@@ -22,7 +22,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
 
     // CombatTE.pas:917
-    public new const int ClassId = 2236419;
+    public new const int ClassId = 2_236_419;
 
     private TacticalBattleUnit _unit;
 
@@ -67,7 +67,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 case 0:
                     try
                     {
-                        hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(SourceX, SourceY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+                        hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(SourceX, SourceY).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
                         if (hexSprite is null)
                         {
                             result = ExecuteResult.Done;
@@ -328,7 +328,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                     {
                                         Point3D path = effect.Path[effect.Frame];
                                         HexGeometry.PixelToHex(effect.Path[effect.Frame].X, vertical: path.Y, out x, out y);
-                                        hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+                                        hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
                                         if (hexSprite is not null)
                                         {
                                             RandSeed = StrategicMap.Current.Random(16777215);
@@ -588,7 +588,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                                             {
                                                                 switch (effect.Frame)
                                                                 {
-                                                                    case 2999:
+                                                                    case 2_999:
                                                                         message.MessageId = 200716;
                                                                         MapFieldMessageParameters param14 = message.Param;
                                                                         param14[0] = _unit;
@@ -1207,7 +1207,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                     Y = y2 + 16
                 };
                 effect.Path.Add(point);
-                hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+                hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
                 if (hexSprite is not null)
                 {
                     effect.Target = hexSprite.Unit;
@@ -1222,7 +1222,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                     Y = y2 + 16
                 };
                 effect.Path.Add(point);
-                hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+                hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
                 if (hexSprite is not null)
                 {
                     effect.Target = hexSprite.Unit;
@@ -1233,7 +1233,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 while (!found)
                 {
                     HexGeometry.CenterHexNumberToHex(TargetX, TargetY, hexNumber: i, ref j, ref k);
-                    bool condition = j is > 5 and < 60 && k is > 5 and < 53 && CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild(2228484) is null;
+                    bool condition = j is > 5 and < 60 && k is > 5 and < 53 && CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild(TacticalBattleUnitHexSprite.ClassId) is null;
                     if (condition)
                     {
                         bool test = CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).OverlayType != 8;
@@ -1377,7 +1377,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                         break;
                     default:
                         {
-                            hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(deltaX, deltaY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+                            hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(deltaX, deltaY).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
                             if (hexSprite is not null)
                             {
                                 effect.Target = hexSprite.Unit;
@@ -1402,7 +1402,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 i = 3;
                 used = new DelphiList<TacticalBattleUnit>();
                 _ = used.Add(_unit);
-                hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+                hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
                 if (hexSprite is not null)
                 {
                     _ = used.Add(hexSprite.Unit);
@@ -1516,7 +1516,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 point3DList?.Dispose();
                 break;
             case BattleEffectType.ScreenSwarm:
-                hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+                hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
                 target = hexSprite?.Unit;
 
                 deltaX = TargetX;
@@ -1652,7 +1652,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
             case BattleEffectType.Ray:
             case BattleEffectType.Swarm:
             case BattleEffectType.AltArrow:
-                hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+                hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
                 if (hexSprite is not null)
                 {
                     effect.Target = hexSprite.Unit;
@@ -1668,13 +1668,13 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                         HexGeometry.PixelToHex(effect.Path[obstacle.PathIndex].X, vertical: path.Y, out j, out k);
                         HexSprite hitObject = effect.EffectType == BattleEffectType.Breath
                             ? null
-                            : CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild<HexSprite>(2228484);
+                            : CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild<HexSprite>(TacticalBattleUnitHexSprite.ClassId);
 
-                        hitObject ??= CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild<HexSprite>(2228582);
+                        hitObject ??= CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild<HexSprite>(World.Hexes.CombatTerrain.ClassId);
 
-                        hitObject ??= CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild<HexSprite>(2229508);
+                        hitObject ??= CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild<HexSprite>(World.Terrain.CityWall.ClassId);
 
-                        hitObject ??= CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild<HexSprite>(2229510);
+                        hitObject ??= CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild<HexSprite>(2_229_510);
 
                         if (hitObject is not null || CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).TerrainType == 15 || CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).TerrainType == 7 || CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).OverlayType == 8)
                         {

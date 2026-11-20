@@ -22,7 +22,7 @@ public class MagicSanctuary : Structure
     }
 
     // MagicSanctuary.pas:124
-    public new const int ClassId = 133274;
+    public new const int ClassId = 133_274;
 
     private readonly MagicSanctuaryOverlayHexSprite _overlayHexSprite;
 
@@ -76,10 +76,10 @@ public class MagicSanctuary : Structure
         }
 
         // MagicSanctuary.pas:160
-        public new const int ClassId = 133275;
+        public new const int ClassId = 133_275;
 
         // MagicSanctuary.pas:163
-        public override int ResourceUserClassId() => 133274;
+        public override int ResourceUserClassId() => MagicSanctuary.ClassId;
 
         // MagicSanctuary.pas:157
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_magicSanctuaryText);

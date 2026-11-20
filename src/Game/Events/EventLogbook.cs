@@ -14,7 +14,7 @@ namespace Aow.Game.Events;
 public class EventLogbook : EngineObject
 {
     // EventLog.pas:532
-    public new const int ClassId = 131808;
+    public new const int ClassId = 131_808;
 
     private readonly EventLogList _events;
 
@@ -80,7 +80,7 @@ public class EventLogbook : EngineObject
         while (FindId(_nextId) is not null)
         {
             _nextId += 1;
-            if (_nextId > 16777215)
+            if (_nextId > 16_777_215)
             {
                 _nextId = 1;
             }

@@ -24,7 +24,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
 {
 
     // Cave.pas:160
-    public new const int ClassId = 131966;
+    public new const int ClassId = 131_966;
 
     public CaveEntrance Entrance { get; private set; } = CaveEntrance.Down;
 
@@ -40,7 +40,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
                 Cave partner;
                 if (oldEntrance == CaveEntrance.Up)
                 {
-                    partner = StrategicMap.Current.MapContainer.GetField(StoredHexX, StoredHexY, Owner.HexLevel - 1).FindOwnedChild<Cave>(131966);
+                    partner = StrategicMap.Current.MapContainer.GetField(StoredHexX, StoredHexY, Owner.HexLevel - 1).FindOwnedChild<Cave>(ClassId);
                     if (partner is not null && partner.Entrance == CaveEntrance.Down)
                     {
                         partner.Dispose();
@@ -48,7 +48,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
                 }
                 else
                 {
-                    partner = StrategicMap.Current.MapContainer.GetField(StoredHexX, StoredHexY, Owner.HexLevel + 1).FindOwnedChild<Cave>(131966);
+                    partner = StrategicMap.Current.MapContainer.GetField(StoredHexX, StoredHexY, Owner.HexLevel + 1).FindOwnedChild<Cave>(ClassId);
                     if (partner is not null && partner.Entrance == CaveEntrance.Up)
                     {
                         partner.Dispose();
@@ -130,7 +130,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
             {
                 if (Entrance == CaveEntrance.Down)
                 {
-                    Cave up = mapContainer.GetField(hexX, hexY, hexLevel + 1).FindOwnedChild<Cave>(131966);
+                    Cave up = mapContainer.GetField(hexX, hexY, hexLevel + 1).FindOwnedChild<Cave>(ClassId);
                     if (up is null)
                     {
                         up = base.Resource.CreateResourceUser<Cave>();
@@ -154,7 +154,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
                 }
                 else
                 {
-                    Cave down = mapContainer.GetField(hexX, hexY, hexLevel - 1).FindOwnedChild<Cave>(131966);
+                    Cave down = mapContainer.GetField(hexX, hexY, hexLevel - 1).FindOwnedChild<Cave>(ClassId);
                     if (down is null)
                     {
                         down = base.Resource.CreateResourceUser<Cave>();
@@ -407,10 +407,10 @@ public partial class Cave(CustomNode owner) : Structure(owner)
         }
 
         // Cave.pas:436
-        public new const int ClassId = 131967;
+        public new const int ClassId = 131_967;
 
         // Cave.pas:439
-        public override int ResourceUserClassId() => 131966;
+        public override int ResourceUserClassId() => Cave.ClassId;
 
         // Cave.pas:433
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_caveText);

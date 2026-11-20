@@ -8,7 +8,7 @@ namespace Aow.Game.Combat;
 public class CombatPlayer(CustomNode owner) : EngineObject(owner)
 {
     // Combat2.pas:115
-    public new const int ClassId = 131744;
+    public new const int ClassId = 131_744;
 
     public sbyte Player { get; set; }
     public byte IndependentRelation { get; set; }

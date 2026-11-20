@@ -17,7 +17,7 @@ namespace Aow.Game.Commands;
 
 public class ArmyNegotiateMoveTokenEvent(CustomNode owner) : MoveArmyTokenEvent(owner)
 {
-    public new const int ClassId = 135430;
+    public new const int ClassId = 135_430;
 
     // MoveT.PAS:2400
     public override bool Validate()

@@ -19,7 +19,7 @@ public class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObject(owner
 {
 
     // ManaCrystals.pas:80
-    public new const int ClassId = 132030;
+    public new const int ClassId = 132_030;
 
     private int _amount;
     private byte _size = 2;
@@ -187,10 +187,10 @@ public class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     {
 
         // ManaCrystals.pas:168
-        public new const int ClassId = 132031;
+        public new const int ClassId = 132_031;
 
         // ManaCrystals.pas:171
-        public override int ResourceUserClassId() => 132030;
+        public override int ResourceUserClassId() => ManaCrystals.ClassId;
 
         // ManaCrystals.pas:165
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_manaCrystalsText);

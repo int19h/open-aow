@@ -17,7 +17,7 @@ public class Resource : PlayerCropStructureResource
     public Resource(CustomNode owner) : base(owner) => Razeable = true;
 
     // City.pas:2628
-    public new const int ClassId = 131337;
+    public new const int ClassId = 131_337;
 
     public byte Size { get; private set; }
 
@@ -32,7 +32,7 @@ public class Resource : PlayerCropStructureResource
     }
 
     // City.pas:2638
-    public override int ResourceUserClassId() => 131336;
+    public override int ResourceUserClassId() => City.ClassId;
 
     // City.pas:2643
     public void ShowCity(int X, int Y, in LockedSurface lockedSurface, City city)
@@ -46,7 +46,7 @@ public class Resource : PlayerCropStructureResource
         if (city.CityImage is not null)
         {
             // { Original blinks the selected city from frame bits. }
-            if (city.GetSelected() && (StrategicMap.Current.Frame & 6) == 6)
+            if (city.GetSelected() && (StrategicMap.Current.Frame & 0b0110) == 0b0110)
             {
                 city.CityImage.ShowTransparent(dX, dY, lockedSurface);
             }

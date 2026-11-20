@@ -10,7 +10,7 @@ namespace Aow.Game.Draw;
 // Frame. OffsetX. OffsetY
 public class TacticalBattleBloodHexSprite(CustomNode owner) : SingleHexSprite(owner)
 {
-    public new const int ClassId = 2228487;
+    public new const int ClassId = 2_228_487;
 
     public int Frame { get; set; }
     public int OffsetX { get; set; }
@@ -20,7 +20,7 @@ public class TacticalBattleBloodHexSprite(CustomNode owner) : SingleHexSprite(ow
     public override byte Level => 26;
 
     // AoWTC.pas:6398
-    public override int GetShowPriority() => 1744830464 + (OffsetY << 13) + OffsetX;
+    public override int GetShowPriority() => 1_744_830_464 + (OffsetY << 13) + OffsetX;
 
     // AoWTC.pas:6403
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)

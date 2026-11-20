@@ -18,7 +18,7 @@ public class DisjunctionTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
 {
 
     // GlobalSpells.pas:745
-    public new const int ClassId = 135961;
+    public new const int ClassId = 135_961;
 
     public int DispelChance { get; set; }
     public int EnchantmentId { get; set; }

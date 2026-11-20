@@ -19,7 +19,7 @@ namespace Aow.Game.Magic.Abilities;
 public class Leader(CustomNode owner) : Hero(owner)
 {
 
-    public new const int ClassId = 131634;
+    public new const int ClassId = 131_634;
 
     public byte SpherePicksMax { get; private set; } = 5;
 

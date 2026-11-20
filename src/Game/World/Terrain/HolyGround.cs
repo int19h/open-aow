@@ -26,7 +26,7 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
 
     // HolyG.pas:92
-    public new const int ClassId = 131987;
+    public new const int ClassId = 131_987;
 
     public Set<HolySummoning> Mode { get; set; }
 
@@ -267,7 +267,7 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         sbyte hexY = animation.HexY;
         sbyte hexX = animation.HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
-        if (this == field.FindOwnedChild(131987) && GetEngine().AnimationDetail != 0 && animation.FrameCounter == 0)
+        if (this == field.FindOwnedChild(ClassId) && GetEngine().AnimationDetail != 0 && animation.FrameCounter == 0)
         {
             bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
             if (!condition)
@@ -292,7 +292,7 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         sbyte hexY = animation.HexY;
         sbyte hexX = animation.HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
-        if (this == field.FindOwnedChild(131987) && frameCounter == 9)
+        if (this == field.FindOwnedChild(ClassId) && frameCounter == 9)
         {
             Mode -= Set<HolySummoning>.Of(HolySummoning.Summoning);
         }
@@ -304,10 +304,10 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     {
 
         // HolyG.pas:276
-        public new const int ClassId = 131988;
+        public new const int ClassId = 131_988;
 
         // HolyG.pas:279
-        public override int ResourceUserClassId() => 131987;
+        public override int ResourceUserClassId() => HolyGround.ClassId;
 
         // HolyG.pas:273
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_holyGroundText);

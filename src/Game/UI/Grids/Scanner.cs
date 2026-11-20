@@ -92,7 +92,7 @@ public class Scanner(Component owner) : Control(owner)
             if (_mapSurface is not null)
             {
                 _ = _objectSurface.Resize(WinWidth, WinHeight);
-                _ = _objectSurface.Clear(65280);
+                _ = _objectSurface.Clear(0x00_FF_00);
                 _ = _mapSurface.Resize(WinWidth, WinHeight);
                 LockedSurface lockedSurface = default;
                 _ = _mapSurface.Lock(ref lockedSurface);
@@ -168,7 +168,7 @@ public class Scanner(Component owner) : Control(owner)
                 if (_mapSurface is null)
                 {
                     _objectSurface = new DataSurface(WinWidth, WinHeight, lockedSurface.PixelFormatId, palette: null);
-                    _ = _objectSurface.Clear(65280);
+                    _ = _objectSurface.Clear(0x00_FF_00);
                     _mapSurface = new DataSurface(WinWidth, WinHeight, lockedSurface.PixelFormatId, palette: null);
                     _ = _mapSurface.Lock(ref surfaceDescription);
                     for (int x = 0, last = WinWidth / _fogImageLibrary[0].Width; x <= last; x++)
@@ -206,7 +206,7 @@ public class Scanner(Component owner) : Control(owner)
                 _ = LockedSurface.BlitSurfaceDescriptionRectangleClipped(lockedSurface, sourceRectangle: r, destination: surfaceDescription, Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop);
                 _ = _mapSurface.Unlock();
                 _ = _objectSurface.Lock(ref lockedSurface);
-                _ = LockedSurface.BlitSpriteClipped16(lockedSurface, sourceRectangle: r, destination: surfaceDescription, Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, colorKey: 65280);
+                _ = LockedSurface.BlitSpriteClipped16(lockedSurface, sourceRectangle: r, destination: surfaceDescription, Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, colorKey: 0x00_FF_00);
                 _ = _objectSurface.Unlock();
                 if (_mapWidth > 0 && _mapHeight > 0)
                 {
@@ -684,7 +684,7 @@ public class Scanner(Component owner) : Control(owner)
     {
         if (_objectSurface is not null)
         {
-            _ = _objectSurface.Clear(65280);
+            _ = _objectSurface.Clear(0x00_FF_00);
             LockedSurface lockedSurface = default;
             if (_objectSurface.Lock(ref lockedSurface) >= 0)
             {
@@ -698,13 +698,13 @@ public class Scanner(Component owner) : Control(owner)
                             int objectValue = GetObject(x, y);
                             if (objectValue != 0)
                             {
-                                int army = objectValue & 255;
-                                int natural = objectValue & 65280;
-                                int building = objectValue & 16711680;
+                                int army = objectValue & 0xFF;
+                                int natural = objectValue & 0xFF00;
+                                int building = objectValue & 0xFF_00_00;
                                 int imageIndex;
                                 if (building > 0 && _buildings)
                                 {
-                                    imageIndex = 7 - ((building >>> 22) & 3) + (((building >>> 16) & 63) * 6);
+                                    imageIndex = 7 - ((building >>> 22) & 0b0011) + (((building >>> 16) & 0b0011_1111) * 6);
                                     if (imageIndex < _objectsImageLibrary.Count && imageIndex > -1 && _objectsImageLibrary[imageIndex] is not null)
                                     {
                                         LibraryImage objectsImageLibraryHeight = _objectsImageLibrary[imageIndex];

@@ -10,7 +10,7 @@ namespace Aow.Game.Commands;
 
 public class GameOverTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public new const int ClassId = 135441;
+    public new const int ClassId = 135_441;
 
     public sbyte Player { get; set; }
     public GameOverStatus GameOverStatus { get; set; }

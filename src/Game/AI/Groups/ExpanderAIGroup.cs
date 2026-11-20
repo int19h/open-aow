@@ -7,7 +7,7 @@ namespace Aow.Game.AI.Groups;
 public class ExpanderAIGroup : BehaviorAIGroup, IAIGroupClass
 {
     // BehaviorAG.pas:502
-    public new const int ClassId = 136290;
+    public new const int ClassId = 136_290;
 
     // BehaviorAG.pas:495
     public ExpanderAIGroup(CustomNode owner) : base(owner)

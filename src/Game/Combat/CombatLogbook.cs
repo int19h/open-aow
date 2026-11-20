@@ -9,7 +9,7 @@ namespace Aow.Game.Combat;
 public class CombatLogbook : EngineObject
 {
     // Combat2.pas:381
-    public new const int ClassId = 131749;
+    public new const int ClassId = 131_749;
 
     // Combat2.pas:349
     public CombatLogbook(CustomNode owner) : base(owner)

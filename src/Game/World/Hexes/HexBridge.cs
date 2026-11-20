@@ -15,7 +15,7 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
 {
 
     // HxBridge.pas:84
-    public new const int ClassId = 133242;
+    public new const int ClassId = 133_242;
 
     private sbyte _terrain;
 
@@ -45,7 +45,7 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
         int pixelX = (mapField.HexX * 32) + 8;
         int pixelY = ((mapField.HexX & 1) * 16) + (mapField.HexY * 32);
 
-        return 1744830464 + (pixelY << 13) + pixelX + 8;
+        return 1_744_830_464 + (pixelY << 13) + pixelX + 8;
     }
 
     // HxBridge.pas:117
@@ -363,10 +363,10 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
         public Resource(CustomNode owner) : base(owner) => Level = 10;
 
         // HxBridge.pas:348
-        public new const int ClassId = 133243;
+        public new const int ClassId = 133_243;
 
         // HxBridge.pas:338
-        public override int ResourceUserClassId() => 133242;
+        public override int ResourceUserClassId() => HexBridge.ClassId;
 
         // HxBridge.pas:343
         public override string ResourceEditName() => HexText.BridgeText;

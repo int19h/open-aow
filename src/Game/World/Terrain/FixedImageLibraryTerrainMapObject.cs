@@ -7,7 +7,7 @@ namespace Aow.Game.World.Terrain;
 
 public class FixedImageLibraryTerrainMapObject(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
-    public new const int ClassId = 131464;
+    public new const int ClassId = 131_464;
 
     // ILTer.pas:295
     public override bool CanChangeTerrain(in HexSpriteSenderInfo info)

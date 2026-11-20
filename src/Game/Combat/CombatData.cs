@@ -12,7 +12,7 @@ namespace Aow.Game.Combat;
 public partial class CombatData : EngineObject
 {
     // Combat2.pas:184
-    public new const int ClassId = 131747;
+    public new const int ClassId = 131_747;
 
     // Combat2.pas:162
     public CombatData(CustomNode owner) : base(owner)

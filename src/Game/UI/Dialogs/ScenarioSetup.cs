@@ -170,7 +170,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
 
         if (SetupControl.Settings.ConnectionType == 2)
         {
-            CustomizeLeadersLabel.TextColor = 8421504;
+            CustomizeLeadersLabel.TextColor = 0x80_80_80;
             CustomizeLeadersCheckBox.CaptureInput = false;
             PlayModeComboBox.Items.Clear();
             string classic = UI.Engine.TranslateResourceString(s_classicText);
@@ -279,14 +279,14 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
             {
                 if (SetupControl.Settings.RemotePlayers.GetPlayers(i).MapValidation == MapValidationInfo.Invalid)
                 {
-                    UI.Fonts.Age8Shadow.Color = 255;
+                    UI.Fonts.Age8Shadow.Color = 0x00_00_FF;
                     UI.Fonts.Age8Shadow.SetText(drawRectangle.Right - 8, drawRectangle.Top + 4, text: "X", lockedSurface);
                 }
                 else
                 {
                     if (SetupControl.Settings.RemotePlayers.GetPlayers(i).MapValidation == MapValidationInfo.InvalidMap)
                     {
-                        UI.Fonts.Age8Shadow.Color = 32768;
+                        UI.Fonts.Age8Shadow.Color = 0x00_80_00;
                         UI.Fonts.Age8Shadow.SetText(drawRectangle.Right - 8, drawRectangle.Top + 4, text: "X", lockedSurface);
                     }
                 }
@@ -615,7 +615,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
 
         if (setup.SetupControl.Settings.ConnectionType == 2)
         {
-            setup.CustomizeLeadersLabel.TextColor = 8421504;
+            setup.CustomizeLeadersLabel.TextColor = 0x80_80_80;
             setup.CustomizeLeadersCheckBox.CaptureInput = false;
             setup.PlayModeComboBox.Items.Clear();
             string classic = setup.UI.Engine.TranslateResourceString(s_classicText);
@@ -775,7 +775,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
                 setup.PlayerNameLabel.Text = formattedText;
                 string format2 = AbilityRules.Format(setup.UI.Engine.TranslateResourceString(GameText.FileNameFormat), arguments: [setup.SetupControl.Settings.MapName]);
                 setup.FileNameLabel.Text = format2;
-                setup.FileNameLabel.TextColor = setup.SetupControl.RemotePlayer.MapValidation == MapValidationInfo.Invalid ? 255 : 10329501;
+                setup.FileNameLabel.TextColor = setup.SetupControl.RemotePlayer.MapValidation == MapValidationInfo.Invalid ? 255 : 10_329_501;
             }
             else
             {

@@ -7,5 +7,5 @@ public class CityEnchantmentSpellTokenEvent(CustomNode owner) : CityTargetSpellT
 {
 
     // CitySpells.pas:551
-    public new const int ClassId = 131821;
+    public new const int ClassId = 131_821;
 }

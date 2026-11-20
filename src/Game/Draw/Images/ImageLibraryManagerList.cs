@@ -145,7 +145,7 @@ public class ImageLibraryManagerList(ImageLibraryManager owner) : DelphiStringLi
     {
         int n = default;
         string name = "";
-        stream.ReadExactly(Bytes.Of(ref n, count: 4));
+        stream.ReadExactly(Bytes.Of(ref n));
         for (int i = 0, last = n - 1; i <= last; i++)
         {
             LibraryDrawing.ReadStringFromStream(ref name, stream);
@@ -159,7 +159,7 @@ public class ImageLibraryManagerList(ImageLibraryManager owner) : DelphiStringLi
     public override void SaveToStream(Stream stream)
     {
         int i = Count;
-        stream.Write(Bytes.Of(ref i, count: 4));
+        stream.Write(Bytes.Of(ref i));
         i = 0;
         int last = Count - 1;
         for (; i <= last; i += 1)

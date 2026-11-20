@@ -59,7 +59,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:849
-    public new const int ClassId = 131336;
+    public new const int ClassId = 131_336;
 
     public Set<ModeElement> Mode { get; set; }
     public sbyte Race { get; private set; }
@@ -151,7 +151,7 @@ public partial class City : PlayerCropStructure
         pixelYSurface = y - pixelYSurface;
         if (!Mode.Contains(ModeElement.Razed) || Building)
         {
-            if ((StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || !Fogged || !StrategicMap.Current.FogEnabled) && _flagId != 63 && (base.Resource.Claimed || (_flagId & 32) == 0))
+            if ((StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || !Fogged || !StrategicMap.Current.FogEnabled) && _flagId != 63 && (base.Resource.Claimed || (_flagId & 0b0010_0000) == 0))
             {
                 PlayerStructureResource cityResource = base.Resource;
                 if (cityResource.FlagType <= 1)
@@ -225,7 +225,7 @@ public partial class City : PlayerCropStructure
                     {
                         Player player = StrategicMap.Current.Players.GetPlayers(Player);
                         MapFieldMessageParameters param2 = message.Param;
-                        param2[0] = param2[0].Int + ((player.PlayerRace + 1) * 65536);
+                        param2[0] = param2[0].Int + ((player.PlayerRace + 1) * 65_536);
                         message.Param = param2;
                     }
                 }
@@ -237,7 +237,7 @@ public partial class City : PlayerCropStructure
                 }
 
                 MapFieldMessageParameters param4 = message.Param;
-                param4[0] = param4[0].Int + ((GetResource<Resource>().Size - 1) * 4194304);
+                param4[0] = param4[0].Int + ((GetResource<Resource>().Size - 1) * 4_194_304);
                 message.Param = param4;
             }
             else
@@ -496,14 +496,14 @@ public partial class City : PlayerCropStructure
             sbyte hexX = HexX;
             StrategicMap.Current.RetrieveBattleFieldInfo(hexX, hexY, hexLevel, radius: 10, ref info);
             requirements.Strength = info.Strength;
-            int maximum = Round(Size * 5000);
-            int minimum = Round((double)(Size * 5000) * StrategicMap.Current.Players.GetPlayers(player).AIControl.DefenseStrengthMultiplier);
+            int maximum = Round(Size * 5_000);
+            int minimum = Round((double)(Size * 5_000) * StrategicMap.Current.Players.GetPlayers(player).AIControl.DefenseStrengthMultiplier);
             Status relation = player != 0 ? StrategicMap.Current.Races.GetRace(Race).GetPlayerRelation(player) : Session.Status.Friendly;
 
             // { Original condition makes this neutral-player adjustment unreachable. }
             if (Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary, Session.Status.Neutral).Contains(relation) && player == Player && Player == 0)
             {
-                maximum = Round(maximum) + 7500;
+                maximum = Round(maximum) + 7_500;
                 minimum = maximum;
             }
 
@@ -759,7 +759,7 @@ public partial class City : PlayerCropStructure
                 case AITargetMode.Produce:
                     if (info.Player == Player)
                     {
-                        data.Priority |= 2;
+                        data.Priority |= 0b0010;
                     }
 
                     break;
@@ -1857,7 +1857,7 @@ public partial class City : PlayerCropStructure
 
             if (value > 0)
             {
-                RandSeed = StrategicMap.Current.Random(1048575);
+                RandSeed = StrategicMap.Current.Random(1_048_575);
                 RaceResource raceResource = GamePack.Current.RaceResources.GetRaceResource(Race);
                 sbyte hexLevel = HexLevel;
                 sbyte hexY = HexY;
@@ -2359,7 +2359,7 @@ public partial class City : PlayerCropStructure
     {
         if (info.Requests.Contains(BattleFieldInfoRequestsElement.EffectiveStrength) && Player > 0)
         {
-            int value = 5000;
+            int value = 5_000;
             Status playerRelation = StrategicMap.Current.Races.GetRace(Race).GetPlayerRelation(Player);
             if (Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary).Contains(playerRelation))
             {

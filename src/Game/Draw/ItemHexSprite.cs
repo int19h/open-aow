@@ -20,7 +20,7 @@ namespace Aow.Game.Draw;
 public partial class ItemHexSprite : SingleHexSprite
 {
 
-    public new const int ClassId = 131697;
+    public new const int ClassId = 131_697;
 
     public ItemHSList Items { get; private set; }
 
@@ -62,7 +62,7 @@ public partial class ItemHexSprite : SingleHexSprite
     public override int GetShowPriority()
     {
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
-        int result = 1744830464 + ((pixelY + 33) << 13) + pixelX + 16;
+        int result = 1_744_830_464 + ((pixelY + 33) << 13) + pixelX + 16;
         HexSprite hexSprite = Owner.GetMaxLevelNoneTransparentHexSprite();
         if (hexSprite != this && hexSprite is not null)
         {
@@ -78,7 +78,7 @@ public partial class ItemHexSprite : SingleHexSprite
     // Army.PAS:5287
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (!GetSelected() || (StrategicMap.Current.Frame & 6) != 6)
+        if (!GetSelected() || (StrategicMap.Current.Frame & 0b0110) != 0b0110)
         {
             HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
             GamePack.Current.GeneralImages[0].Show(pixelX - pixelXSurface, pixelY - pixelYSurface, lockedSurface);

@@ -21,7 +21,7 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
 
     void IOwnedSink<MapField>.SetOwner(MapField owner) => SetOwner(owner);
 
-    public new const int ClassId = 65872;
+    public new const int ClassId = 65_872;
 
     // HXSPRITE.PAS:6
     // { HXSPRITE.PAS: THexagonSprite, THPBasedHS, TSingleHS, TFixedVisibleHS, TCustomFixedVisibleHS
@@ -93,7 +93,7 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     }
 
     // HXSPRITE.PAS:162
-    public virtual int GetShowPriority() => 2130706432;
+    public virtual int GetShowPriority() => 2_130_706_432;
 
     // HXSPRITE.PAS:189
     public virtual void Connect()

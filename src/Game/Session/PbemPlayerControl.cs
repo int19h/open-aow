@@ -24,7 +24,7 @@ namespace Aow.Game.Session;
 // local player
 public class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owner)
 {
-    public new const int ClassId = 131667;
+    public new const int ClassId = 131_667;
     private sbyte _localPlayer;
 
     // PlayerC.PAS:984

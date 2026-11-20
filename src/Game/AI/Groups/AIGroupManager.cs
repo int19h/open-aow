@@ -99,7 +99,7 @@ public class AIGroupManager(CustomNode owner) : OwningNode(owner), IChildList<AI
         while (Groups.IndexOfId(result) != -1)
         {
             result += 1;
-            if (result > 268435455)
+            if (result > 268_435_455)
             {
                 result = 1;
             }

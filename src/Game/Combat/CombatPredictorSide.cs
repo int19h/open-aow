@@ -19,7 +19,7 @@ public class CombatPredictorSide : CombatPredictorUnitList
     public int GetStrengthMax(Set<DamageType> damageTypes)
     {
         int result = 0;
-        for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
+        for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
         {
             DamageType d = (DamageType)dOrdinal;
             if (damageTypes.Contains(d) && result < Strength[(int)d])

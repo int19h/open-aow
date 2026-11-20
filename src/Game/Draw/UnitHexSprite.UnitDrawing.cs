@@ -25,7 +25,7 @@ public partial class UnitHexSprite
             int deltaX = default;
             int deltaY = default;
             HexGeometry.HexNumberToPixel(Direction, ref deltaX, ref deltaY);
-            if ((Status & 16) == 0)
+            if ((Status & 0b0001_0000) == 0)
             {
                 int moveSteps = GetMoveSteps();
                 float progress = (float)((double)MoveStep / moveSteps);
@@ -33,7 +33,7 @@ public partial class UnitHexSprite
                 pixelYSurface += Round((double)deltaY * progress);
             }
 
-            if ((Status & 8) == 0)
+            if ((Status & 0b1000) == 0)
             {
                 sequence = UnitGraphicsResource.Sequences.List[Direction + 5];
                 if (sequence is not null && GetSelected())
@@ -56,7 +56,7 @@ public partial class UnitHexSprite
             sequence = UnitGraphicsResource.Sequences.List[Direction - 1];
         }
 
-        if (!GetSelected() || (StrategicMap.Current.Frame & 6) != 6)
+        if (!GetSelected() || (StrategicMap.Current.Frame & 0b0110) != 0b0110)
         {
             while (sequence is not null)
             {

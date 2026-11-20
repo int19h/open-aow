@@ -7,7 +7,7 @@ namespace Aow.Game.AI;
 public class AISavingsBudget : AIBudget
 {
     // AI.pas:2189
-    public new const int ClassId = 131741;
+    public new const int ClassId = 131_741;
 
     // AI.pas:2180
     public AISavingsBudget(CustomNode owner) : base(owner)

@@ -15,7 +15,7 @@ public class SfxLibrary(CustomNode owner) : OwningNode(owner), IChildList<SfxSeq
 
     int IChildSink<SfxSequence>.AddChild(SfxSequence child) => AddChild(child);
 
-    public new const int ClassId = 2162691;
+    public new const int ClassId = 2_162_691;
 
     // Sound.pas:1088
     public SfxSequence GetSfxSequence(int index) => index >= 0 && index < Count ? this[index] : null;

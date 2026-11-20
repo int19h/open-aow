@@ -12,7 +12,7 @@ namespace Aow.Game.Combat.Actions;
 public class RecallSpiritCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:1950
-    public new const int ClassId = 131781;
+    public new const int ClassId = 131_781;
 
     // CombatSpells.pas:1953
     public override void Execute(Battle combat)

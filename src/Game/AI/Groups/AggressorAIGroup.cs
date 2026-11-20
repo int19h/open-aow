@@ -7,7 +7,7 @@ namespace Aow.Game.AI.Groups;
 public class AggressorAIGroup : BehaviorAIGroup, IAIGroupClass
 {
     // BehaviorAG.pas:390
-    public new const int ClassId = 136279;
+    public new const int ClassId = 136_279;
 
     // BehaviorAG.pas:383
     public AggressorAIGroup(CustomNode owner) : base(owner)

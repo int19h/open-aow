@@ -1040,7 +1040,7 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
         switch (BookAction)
         {
             case 3:
-                Book.StartAnimation((PageTurnMode)1);
+                Book.StartAnimation(PageTurnMode.Right);
                 WorldMapCampaign campaign = Campaign;
                 campaign.Page -= 2;
                 UpdateCampaignState();

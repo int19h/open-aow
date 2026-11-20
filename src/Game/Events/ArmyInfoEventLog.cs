@@ -27,7 +27,7 @@ public partial class ArmyInfoEventLog : EventLog
         Triggers = Set<ExecuteTrigger>.Of(ExecuteTrigger.Event, ExecuteTrigger.User, ExecuteTrigger.NewTurn);
     }
 
-    public new const int ClassId = 131817;
+    public new const int ClassId = 131_817;
 
     public ArmyView ArmyView { get; }
 

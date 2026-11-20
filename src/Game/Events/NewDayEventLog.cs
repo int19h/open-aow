@@ -10,7 +10,7 @@ public class NewDayEventLog(CustomNode owner) : TextEventLog(owner)
 {
 
     // EventLog.pas:809
-    public new const int ClassId = 131813;
+    public new const int ClassId = 131_813;
 
     // EventLog.pas:812
     public override int LeftIcon => 18;

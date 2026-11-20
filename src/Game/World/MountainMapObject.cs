@@ -9,7 +9,7 @@ public class MountainMapObject(CustomNode owner) : Hexes.Terrain(owner)
 {
 
     // Mountain.pas:101
-    public new const int ClassId = 131432;
+    public new const int ClassId = 131_432;
 
     // Mountain.pas:104
     public override sbyte GetOverlay(int index)
@@ -38,7 +38,7 @@ public class MountainMapObject(CustomNode owner) : Hexes.Terrain(owner)
                 {
                     MapField mapField = mapContainer.GetField(x, y, hexLevel);
                     HexSprite hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
-                    valid = hexSprite is not null && hexSprite.EngineClass.ClassId == 131432
+                    valid = hexSprite is not null && hexSprite.EngineClass.ClassId == ClassId
                         ? ValidMountainOverlap(mapField, overlay: list.Overlay[i])
                         : hexSprite is null || hexSprite.Level < 10;
                 }
@@ -58,7 +58,7 @@ public class MountainMapObject(CustomNode owner) : Hexes.Terrain(owner)
         while (i != mapField.Count && valid)
         {
             MapObject hexSprite = mapField.GetChild<MapObject>(i);
-            if (hexSprite.EngineClass.ClassId == 131432)
+            if (hexSprite.EngineClass.ClassId == ClassId)
             {
                 int hexNumberOfHexSprite = mapField.GetHexNumberOfHexSprite(hexSprite);
                 sbyte otherOverlay = hexSprite.Resource.TerrainList.Overlay[hexNumberOfHexSprite];

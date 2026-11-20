@@ -19,7 +19,7 @@ public class UnholyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTo
 {
 
     // UnHolyG.pas:288
-    public new const int ClassId = 135943;
+    public new const int ClassId = 135_943;
 
     // UnHolyG.pas:340
     public override bool Process(Troop source, int value)
@@ -39,7 +39,7 @@ public class UnholyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTo
         HexNumberWalkData walk = hexNumberWalkData;
         MapLevel level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
         HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, Location.X, Location.Y, radius: 0);
-        UnholyGround.Resource resource = GamePack.Current.MapObjectResourceList.FindChild<UnholyGround.Resource>(131986);
+        UnholyGround.Resource resource = GamePack.Current.MapObjectResourceList.FindChild<UnholyGround.Resource>(UnholyGround.Resource.ClassId);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

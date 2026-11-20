@@ -17,7 +17,7 @@ public class ProductionItem(CustomNode owner) : EngineObject(owner), IOwned<Prod
 
     void IOwnedSink<ProductionQueue>.SetOwner(ProductionQueue owner) => SetOwner(owner);
 
-    public new const int ClassId = 131735;
+    public new const int ClassId = 131_735;
 
     public ProductionOrder Order { get; set; } = new UnknownOrder(0, Parameter: 0, GroupId: 0);
 

@@ -26,7 +26,7 @@ public class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
 
     // PoisonP.pas:87
-    public new const int ClassId = 131998;
+    public new const int ClassId = 131_998;
 
     public Set<PoisonPlantStatusElement> PlantStatus { get; set; } = Set<PoisonPlantStatusElement>.Of();
 
@@ -264,7 +264,7 @@ public class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         sbyte hexY = animation.HexY;
         sbyte hexX = animation.HexX;
         MapField mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
-        if (this == mapField.FindOwnedChild(131998) && GetEngine().AnimationDetail != 0 && animation.FrameCounter == 0)
+        if (this == mapField.FindOwnedChild(ClassId) && GetEngine().AnimationDetail != 0 && animation.FrameCounter == 0)
         {
             bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
             if (!condition)
@@ -289,7 +289,7 @@ public class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         sbyte hexY = animation.HexY;
         sbyte hexX = animation.HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
-        if (this == field.FindOwnedChild(131998) && frameCounter == 9)
+        if (this == field.FindOwnedChild(ClassId) && frameCounter == 9)
         {
             PlantStatus -= Set<PoisonPlantStatusElement>.Of(PoisonPlantStatusElement.Summoning);
         }
@@ -301,10 +301,10 @@ public class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     {
 
         // PoisonP.pas:293
-        public new const int ClassId = 131999;
+        public new const int ClassId = 131_999;
 
         // PoisonP.pas:298
-        public override int ResourceUserClassId() => 131998;
+        public override int ResourceUserClassId() => PoisonPlant.ClassId;
 
         // PoisonP.pas:288
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_poisonPlantText);

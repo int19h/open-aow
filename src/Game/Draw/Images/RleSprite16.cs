@@ -100,12 +100,12 @@ public class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryIma
     {
         int reserved = default;
         base.ReadImageData(stream);
-        stream.ReadExactly(Bytes.Of(ref _spriteWidth, count: 4));
-        stream.ReadExactly(Bytes.Of(ref _spriteHeight, count: 4));
-        stream.ReadExactly(Bytes.Of(ref _spriteX, count: 4));
-        stream.ReadExactly(Bytes.Of(ref _spriteY, count: 4));
-        stream.ReadExactly(Bytes.Of(ref _colorKey, count: 4));
-        stream.ReadExactly(Bytes.Of(ref reserved, count: 4));
+        stream.ReadExactly(Bytes.Of(ref _spriteWidth));
+        stream.ReadExactly(Bytes.Of(ref _spriteHeight));
+        stream.ReadExactly(Bytes.Of(ref _spriteX));
+        stream.ReadExactly(Bytes.Of(ref _spriteY));
+        stream.ReadExactly(Bytes.Of(ref _colorKey));
+        stream.ReadExactly(Bytes.Of(ref reserved));
     }
 
     // ImageLib.pas:2960
@@ -113,12 +113,12 @@ public class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryIma
     {
         int reserved = default;
         base.WriteImageData(stream);
-        stream.Write(Bytes.Of(ref _spriteWidth, count: 4));
-        stream.Write(Bytes.Of(ref _spriteHeight, count: 4));
-        stream.Write(Bytes.Of(ref _spriteX, count: 4));
-        stream.Write(Bytes.Of(ref _spriteY, count: 4));
-        stream.Write(Bytes.Of(ref _colorKey, count: 4));
-        stream.Write(Bytes.Of(ref reserved, count: 4));
+        stream.Write(Bytes.Of(ref _spriteWidth));
+        stream.Write(Bytes.Of(ref _spriteHeight));
+        stream.Write(Bytes.Of(ref _spriteX));
+        stream.Write(Bytes.Of(ref _spriteY));
+        stream.Write(Bytes.Of(ref _colorKey));
+        stream.Write(Bytes.Of(ref reserved));
     }
 
     // ImageLib.pas:2973
@@ -292,7 +292,7 @@ public class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryIma
         {
             if (DataSize <= position)
             {
-                _data = MemorySurfaces.Reallocate(_data, size: position + 4096);
+                _data = MemorySurfaces.Reallocate(_data, size: position + 4_096);
             }
 
             BinaryPrimitives.WriteUInt16LittleEndian(_data.AsSpan(position, length: 2), value: W);
@@ -323,12 +323,12 @@ public class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryIma
             FlushSkip();
             if (DataSize <= position)
             {
-                _data = MemorySurfaces.Reallocate(_data, size: position + 4096);
+                _data = MemorySurfaces.Reallocate(_data, size: position + 4_096);
             }
 
             BinaryPrimitives.WriteUInt16LittleEndian(_data.AsSpan(rowStart, length: 2), value: (ushort)(position - rowStart));
 
-            if ((position & 3) != 0)
+            if ((position & 0b0011) != 0)
             {
                 AddWord((ushort)_colorKey);
             }

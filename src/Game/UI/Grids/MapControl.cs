@@ -242,7 +242,7 @@ public class MapControl : Component
     // MapCtrl.pas:291
     public void ActivateHsm(GameMap map)
     {
-        if (map.EngineClass.ClassId == 131089)
+        if (map.EngineClass.ClassId == StrategicMap.ClassId)
         {
             LinkToHsm();
             OnActivateHsm?.Invoke(this);
@@ -252,7 +252,7 @@ public class MapControl : Component
     // MapCtrl.pas:300
     public void DeactivateHsm(GameMap map)
     {
-        if (map.EngineClass.ClassId == 131089)
+        if (map.EngineClass.ClassId == StrategicMap.ClassId)
         {
             OnDeactivateHsm?.Invoke(this);
 

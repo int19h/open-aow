@@ -16,7 +16,7 @@ public class WarpPartyTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
 {
 
     // GlobalSpells.pas:564
-    public new const int ClassId = 135948;
+    public new const int ClassId = 135_948;
 
     public ArmyId ArmyId { get; set; }
 

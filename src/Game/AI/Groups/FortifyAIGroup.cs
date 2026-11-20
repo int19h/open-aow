@@ -7,7 +7,7 @@ namespace Aow.Game.AI.Groups;
 public class FortifyAIGroup : AIGroup, IAIGroupClass
 {
     // MainAG.pas:247
-    public new const int ClassId = 136281;
+    public new const int ClassId = 136_281;
 
     // MainAG.pas:240
     public FortifyAIGroup(CustomNode owner) : base(owner)

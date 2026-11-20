@@ -17,7 +17,7 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
 {
 
     // ILTer.pas:79
-    public new const int ClassId = 131462;
+    public new const int ClassId = 131_462;
 
     // ILTer.pas:164
     public override sbyte GetTerrain(int index)

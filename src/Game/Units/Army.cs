@@ -40,7 +40,7 @@ namespace Aow.Game.Units;
 public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, IUnitHolder
 {
 
-    public new const int ClassId = 131606;
+    public new const int ClassId = 131_606;
 
     /// <summary>The troops of this army, in their stored order.</summary>
     public UnitCollection Units => new(this);
@@ -95,7 +95,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
         base.PersistFields(persister);
         Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
         Location = PersistSupport.Coordinate(persister, name: "Location", value: Location, width: CoordinateWidth.Byte);
-        if (persister.Loading || StrategicMap.Current is null || StrategicMap.Current.ConnectionType != (PlayerConnectionType)1)
+        if (persister.Loading || StrategicMap.Current is null || StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
         {
             Destination = PersistSupport.Coordinate(persister, name: "Destination", value: Destination, width: CoordinateWidth.Byte);
             UserMode = persister.Set("UserMode", value: UserMode);
@@ -1790,7 +1790,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
     }
 
     // Army.PAS:1667
-    public byte VisibilityRange() => (byte)(_visibilityRanges & 15);
+    public byte VisibilityRange() => (byte)(_visibilityRanges & 0xF);
 
     // Army.PAS:1670
     public byte TrueVisionRange() => (byte)(_visibilityRanges >>> 4);
@@ -3087,12 +3087,12 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
         int result = 0;
         if (Leader(255) is not null)
         {
-            result += 50000;
+            result += 50_000;
         }
 
         if (Hero(255, types: Set<HeroType>.Of(HeroType.Hero, HeroType.HeroLeader)) is not null)
         {
-            result += 10000;
+            result += 10_000;
         }
 
         result += ObtainValue(255);

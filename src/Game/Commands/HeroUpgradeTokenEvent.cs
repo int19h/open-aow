@@ -12,7 +12,7 @@ namespace Aow.Game.Commands;
 // UnitId. Player. statistic upgrades. Abilities
 public class HeroUpgradeTokenEvent : TokenEvent
 {
-    public new const int ClassId = 135965;
+    public new const int ClassId = 135_965;
 
     public int UnitId { get; set; }
     public sbyte Player { get; set; }

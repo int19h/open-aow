@@ -24,7 +24,7 @@ namespace Aow.Game.World.Structures;
 public partial class PlayerStructure(CustomNode owner) : Structure(owner)
 {
 
-    public new const int ClassId = 131916;
+    public new const int ClassId = 131_916;
 
     public override PlayerStructureResource Resource => GetResource<PlayerStructureResource>();
 
@@ -130,7 +130,7 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
                 if (StrategicMap.Current.VictoryCondition == StrategicMapVictoryCondition.CaptureLocations && _victoryLocations[StrategicMap.Current.SeatedPlayer])
                 {
                     MapFieldMessageParameters param4 = message.Param;
-                    param4[0] = param4[0].Int | 16777216;
+                    param4[0] = param4[0].Int | 0b0001_0000_0000_0000_0000_0000_0000;
                     message.Param = param4;
                 }
             }

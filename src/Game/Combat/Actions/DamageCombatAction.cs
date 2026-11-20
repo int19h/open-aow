@@ -20,7 +20,7 @@ namespace Aow.Game.Combat.Actions;
 public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
     // Combat2.pas:774
-    public new const int ClassId = 131761;
+    public new const int ClassId = 131_761;
 
     public byte Damage { get; set; }
     public Set<DamageType> DamageTypes { get; set; }

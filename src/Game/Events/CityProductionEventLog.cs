@@ -11,7 +11,7 @@ public partial class CityProductionEventLog(CustomNode owner) : ProductionEventL
 {
 
     // City.pas:3195
-    public new const int ClassId = 131834;
+    public new const int ClassId = 131_834;
 
     // City.pas:3205
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)

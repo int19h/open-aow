@@ -7,7 +7,7 @@ namespace Aow.Game.AI.Groups;
 public class SuicidalAIGroup : AIGroup, IAIGroupClass
 {
     // MainAG.pas:729
-    public new const int ClassId = 136276;
+    public new const int ClassId = 136_276;
 
     // MainAG.pas:722
     public SuicidalAIGroup(CustomNode owner) : base(owner)

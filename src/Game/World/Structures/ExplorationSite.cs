@@ -29,7 +29,7 @@ public partial class ExplorationSite : Structure
     }
 
     // ExploreS.pas:90
-    public new const int ClassId = 132033;
+    public new const int ClassId = 132_033;
 
     private ExplorationSiteDefendersMode _defendersMode;
     private readonly DefendersArmy _defenders;
@@ -167,7 +167,7 @@ public partial class ExplorationSite : Structure
                 if (combatType == CombatType.Fast)
                 {
                     StrategicMap.Current.LockGameOverEvent();
-                    combat = StrategicMap.Current.CreateCombat(131760);
+                    combat = StrategicMap.Current.CreateCombat(FastBattle.ClassId);
                     SetupCombat(combat, army: armyHexSprite);
                     combat.LockExecuted();
                     combat.Initialize();
@@ -192,7 +192,7 @@ public partial class ExplorationSite : Structure
                 }
                 else
                 {
-                    combat = StrategicMap.Current.CreateCombat(2228496);
+                    combat = StrategicMap.Current.CreateCombat(TacticalBattle.ClassId);
                     SetupCombat(combat, army: armyHexSprite);
                     combat.Initialize();
                     combat.Activate();

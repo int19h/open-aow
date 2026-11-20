@@ -26,7 +26,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
 {
 
     // AoWTC.pas:3348
-    public new const int ClassId = 2228484;
+    public new const int ClassId = 2_228_484;
 
     public TacticalBattleUnit Unit { get; set; }
 
@@ -50,7 +50,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
         base.MessageProc(ref message, sender);
-        if (message.MessageId != 536936471 && (message.MessageId & 1073741824) == 0 && Unit is not null)
+        if (message.MessageId != 536936471 && (message.MessageId & 0b0100_0000_0000_0000_0000_0000_0000_0000) == 0 && Unit is not null)
         {
             Unit.MessageProc(ref message, sender);
         }
@@ -75,7 +75,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
                 else
                 {
                     MapFieldMessageParameters param2 = message.Param;
-                    param2[0] = param2[0].Int | 13;
+                    param2[0] = param2[0].Int | 0b1101;
                     message.Param = param2;
                 }
             }
@@ -317,7 +317,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
             moveResult.Done = true;
             sbyte hexY = HexY;
             sbyte hexX = HexX;
-            movement = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<MovementHexSprite>(2228490);
+            movement = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<MovementHexSprite>(MovementHexSprite.ClassId);
             if (movement is not null && movement.Enabled)
             {
                 if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.Side == Unit.Side)
@@ -431,7 +431,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
 
             if (((MoveControl)info.Sender).Destination.X >= 0 && ((MoveControl)info.Sender).Destination.Y >= 0 && HexGeometry.DeltaHexToRadius(x, y, ((MoveControl)info.Sender).Destination.X, ((MoveControl)info.Sender).Destination.Y) <= 1)
             {
-                if (CombatMap.Current.MapContainer.MapLevels[0].Field[((MoveControl)info.Sender).Destination.X, ((MoveControl)info.Sender).Destination.Y].FindOwnedChild(2228484) is not null)
+                if (CombatMap.Current.MapContainer.MapLevels[0].Field[((MoveControl)info.Sender).Destination.X, ((MoveControl)info.Sender).Destination.Y].FindOwnedChild(ClassId) is not null)
                 {
                     return;
                 }

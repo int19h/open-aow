@@ -9,7 +9,7 @@ namespace Aow.Game.Combat.Actions;
 public class MoveWallCombatAction(CustomNode owner) : CombatAction(owner)
 {
     // Combat2.pas:1072
-    public new const int ClassId = 131767;
+    public new const int ClassId = 131_767;
 
     public byte CombatObjectId { get; set; }
     public byte InsideWall { get; set; }

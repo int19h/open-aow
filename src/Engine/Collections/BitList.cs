@@ -31,7 +31,7 @@ public partial class BitList : Persistent
             Error("List capacity out of bounds (%d)", data: newCapacity);
         }
 
-        newCapacity = (newCapacity + 31) & ~31;
+        newCapacity = (newCapacity + 31) & ~0b0001_1111;
         if (newCapacity != _capacity)
         {
             if (newCapacity == 0)

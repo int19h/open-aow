@@ -15,7 +15,7 @@ namespace Aow.Game.Commands;
 
 public class FireBarrierTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
-    public new const int ClassId = 135940;
+    public new const int ClassId = 135_940;
 
     // GlobalTargetSpells.pas:873
     public override bool Process(Troop source, int value)

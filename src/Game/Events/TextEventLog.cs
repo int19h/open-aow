@@ -9,7 +9,7 @@ public class TextEventLog(CustomNode owner) : EventLog(owner)
 {
 
     // EventLog.pas:713
-    public new const int ClassId = 131809;
+    public new const int ClassId = 131_809;
 
     public string Text { get; set; } = "";
 

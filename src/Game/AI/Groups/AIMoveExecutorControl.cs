@@ -256,13 +256,13 @@ public partial class AIMoveExecutorControl : EngineObject
                         while (excess != 0 && result != 0)
                         {
                             i -= 1;
-                            if ((selection & 128) != 0)
+                            if ((selection & 0b1000_0000) != 0)
                             {
                                 result = (byte)(result & ~(1 << i));
                                 excess -= 1;
                             }
 
-                            selection = (byte)((selection & 127) << 1);
+                            selection = (byte)((selection & 0b0111_1111) << 1);
                         }
                     }
                     else

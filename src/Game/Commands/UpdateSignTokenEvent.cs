@@ -14,7 +14,7 @@ public class UpdateSignTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
 
     // Sign.pas:202
-    public new const int ClassId = 131343;
+    public new const int ClassId = 131_343;
 
     public DelphiStringList Text { get; } = new DelphiStringList();
 
@@ -38,7 +38,7 @@ public class UpdateSignTokenEvent(CustomNode owner) : TokenEvent(owner)
     // Sign.pas:214
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        Sign sign = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild<Sign>(131330);
+        Sign sign = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild<Sign>(Sign.ClassId);
         if (sign is not null)
         {
             sign.SetText(Text);

@@ -17,7 +17,7 @@ namespace Aow.Game.Commands;
 // unit ID, player
 public class DisbandUnitTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public new const int ClassId = 135447;
+    public new const int ClassId = 135_447;
 
     public int UnitId { get; set; }
     public sbyte Player { get; set; }

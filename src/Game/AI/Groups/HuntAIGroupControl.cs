@@ -46,7 +46,7 @@ public class HuntAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                         if (CombatPredictor.GetEfficiency() != 0)
                         {
                             AITargetData data = target.Data;
-                            data.Priority = 1000 - target.MovePoints;
+                            data.Priority = 1_000 - target.MovePoints;
                             target.Data = data;
                             base.TargetFoundEvent(sender, target, ref searchDone);
                         }

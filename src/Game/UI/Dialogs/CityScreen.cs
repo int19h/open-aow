@@ -689,7 +689,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                 string formatTurnsLeftString = DurationText.FormatTurnsLeftString(UI.Engine, turns: _city.Production.Settings.TurnsLeft);
                 ActiveActionTurnsLabel.Text = formatTurnsLeftString;
                 ActiveActionTurnsLabel.Visible = true;
-                ActiveActionTurnsLabel.TextColor = 6783862;
+                ActiveActionTurnsLabel.TextColor = 0x67_83_76;
                 ActiveActionTurnsBar.Min = 0;
                 ActiveActionTurnsBar.Max = _city.Production.Settings.TurnsTotal;
                 ActiveActionTurnsBar.Position = _city.Production.Settings.TurnsTotal - _city.Production.Settings.TurnsLeft;
@@ -713,7 +713,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                 ActiveActionLabel.Text = producingMerchandise;
                 string defaultText = UI.Engine.TranslateResourceString(GameText.DefaultText);
                 ActiveActionTurnsLabel.Text = $"({LowerCase(defaultText)})";
-                ActiveActionTurnsLabel.TextColor = 6783862;
+                ActiveActionTurnsLabel.TextColor = 0x67_83_76;
                 ActiveActionTurnsBar.Visible = false;
                 int activityImage = ActivityImage(CityAction.None);
                 CurrentActionImage.CurrentImage = activityImage;
@@ -726,7 +726,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                 ProductionItem queue = _city.Production.Queue.GetItem(0);
                 _ = _city.Production.CanExecuteProduction(queue, ref reason);
                 ActiveActionTurnsLabel.Text = reason;
-                ActiveActionTurnsLabel.TextColor = 255;
+                ActiveActionTurnsLabel.TextColor = 0x00_00_FF;
                 ActiveActionTurnsBar.Visible = false;
                 int activityImage = _city.Production.Queue.GetItem(0).Order.ActivityImage(_city);
                 CurrentActionImage.CurrentImage = activityImage;

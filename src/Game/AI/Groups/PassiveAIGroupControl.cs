@@ -69,7 +69,7 @@ public class PassiveAIGroupControl(CustomNode owner) : AIGroupControl(owner)
         for (int i = player.AIGroups.Count - 1; i >= 0; i--)
         {
             AIGroup group = player.AIGroups.GetGroups(i);
-            if (Group.GroupId != group.GroupId && group.EngineClass.ClassId == 136280 && Group.IndependentRelation == group.IndependentRelation)
+            if (Group.GroupId != group.GroupId && group.EngineClass.ClassId == PassiveAIGroup.ClassId && Group.IndependentRelation == group.IndependentRelation)
             {
                 MapCoordinate otherLocation = group.GetLocation();
                 if (location.MapLevel == otherLocation.MapLevel && HexGeometry.DeltaHexToRadius(location.X, location.Y, otherLocation.X, otherLocation.Y) <= 1)

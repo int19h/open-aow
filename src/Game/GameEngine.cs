@@ -38,7 +38,7 @@ namespace Aow.Game;
 // Campaign, EmailGames, Dictionary, Language
 public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 {
-    public new const int ClassId = 131073;
+    public new const int ClassId = 131_073;
 
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only the kinds of GameEngineChild, so the read never fails.
@@ -222,14 +222,14 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     public string TranslateResourceString(string S) => Dictionary.Language > 0 ? Dictionary.Translate(S) : CompareText(S, s_undeadPluralText) == 0 ? s_undeadText : S;
 
     // Army.PAS:5915
-    public int MajorVersion => (Version >>> 24) & 255;
+    public int MajorVersion => (Version >>> 24) & 0xFF;
 
     // Army.PAS:5918
     public int MinorVersion
     {
         get
         {
-            int result = (Version >>> 16) & 255;
+            int result = (Version >>> 16) & 0xFF;
             return result > 99 ? 99 : result;
         }
     }
@@ -239,8 +239,8 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     {
         get
         {
-            int result = Version & 65535;
-            return result > 9999 ? 9999 : result;
+            int result = Version & 0xFFFF;
+            return result > 9_999 ? 9_999 : result;
         }
     }
 
@@ -272,9 +272,9 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
             build = 0;
         }
 
-        if (build > 9999)
+        if (build > 9_999)
         {
-            build = 9999;
+            build = 9_999;
         }
 
         Version = (major << 24) + (minor << 16) + build;
@@ -288,7 +288,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         result = version < 10 ? $"{result}0{IntToStr(version)}." : $"{result}{IntToStr(version)}.";
 
         version = BuildNumber;
-        if (version < 1000)
+        if (version < 1_000)
         {
             result += "0";
         }
@@ -313,7 +313,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         {
             MemoryStream memory = new();
             // { Original leaks Mem if opening or loading the file raises. }
-            Stream fileStream = OpenFile($"{StartupDirectory}RELEASE\\GENERAL.PFS", mode: 0 | 32);
+            Stream fileStream = OpenFile($"{StartupDirectory}RELEASE\\GENERAL.PFS", mode: 0 | 0b0010_0000);
             try
             {
                 memory.LoadFromStream(fileStream);
@@ -327,7 +327,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
             {
                 memory.Position = 0;
                 bool registered = default;
-                _ = memory.Read(Bytes.Of(ref registered, count: 1));
+                _ = memory.Read(Bytes.Of(ref registered));
                 string name = "";
                 StringFromStream(ref name, stream: memory);
                 return registered;
@@ -353,7 +353,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
             {
                 memory.LoadFromFile($"{StartupDirectory}RELEASE\\GENERAL.PFS");
                 bool registered = default;
-                _ = memory.Read(Bytes.Of(ref registered, count: 1));
+                _ = memory.Read(Bytes.Of(ref registered));
                 string name = "";
                 StringFromStream(ref name, stream: memory);
                 return AbilityRules.Encode(name);
@@ -860,7 +860,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     internal static void StringFromStream(ref string S, Stream stream)
     {
         int length = default;
-        stream.ReadExactly(Bytes.Of(ref length, count: 4));
+        stream.ReadExactly(Bytes.Of(ref length));
         if (length < 0)
         {
             throw new ArgumentOutOfRangeException(paramName: null, message: "Negative string length");

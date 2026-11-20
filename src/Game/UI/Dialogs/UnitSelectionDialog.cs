@@ -162,13 +162,13 @@ public partial class UnitSelectionDialog(UIContext ui) : UIModule(ui)
         }
 
         Unit1CheckBox.Checked = (Event.Selection & 1) != 0;
-        Unit2CheckBox.Checked = (Event.Selection & 2) != 0;
-        Unit3CheckBox.Checked = (Event.Selection & 4) != 0;
-        Unit4CheckBox.Checked = (Event.Selection & 8) != 0;
-        Unit5CheckBox.Checked = (Event.Selection & 16) != 0;
-        Unit6CheckBox.Checked = (Event.Selection & 32) != 0;
-        Unit7CheckBox.Checked = (Event.Selection & 64) != 0;
-        Unit8CheckBox.Checked = (Event.Selection & 128) != 0;
+        Unit2CheckBox.Checked = (Event.Selection & 0b0010) != 0;
+        Unit3CheckBox.Checked = (Event.Selection & 0b0100) != 0;
+        Unit4CheckBox.Checked = (Event.Selection & 0b1000) != 0;
+        Unit5CheckBox.Checked = (Event.Selection & 0b0001_0000) != 0;
+        Unit6CheckBox.Checked = (Event.Selection & 0b0010_0000) != 0;
+        Unit7CheckBox.Checked = (Event.Selection & 0b0100_0000) != 0;
+        Unit8CheckBox.Checked = (Event.Selection & 0b1000_0000) != 0;
         if ((Event.Selectable & (1 << slot)) != 0)
         {
             if (sender.Checked)

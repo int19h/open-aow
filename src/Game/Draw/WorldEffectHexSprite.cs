@@ -37,7 +37,7 @@ public class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
     }
 
     // Army.PAS:5353
-    public override int GetShowPriority() => 1811939328;
+    public override int GetShowPriority() => 1_811_939_328;
 
     // Army.PAS:5524
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)

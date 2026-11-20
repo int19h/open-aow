@@ -38,7 +38,7 @@ public class PaletteManager : IDisposable
     {
         int n = default;
         Clear();
-        stream.ReadExactly(Bytes.Of(ref n, count: 4));
+        stream.ReadExactly(Bytes.Of(ref n));
         for (int i = 0, last = n - 1; i <= last; i++)
         {
             LibraryImagePalette p = new();

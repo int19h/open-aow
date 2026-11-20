@@ -101,7 +101,7 @@ public class EmailGameControl : EngineObject
     }
 
     // Diplomacy.pas:2546
-    public int GenerateSecurityId() => Random(PixelFormats.ElapsedMilliseconds & 16777215) + 1;
+    public int GenerateSecurityId() => Random(PixelFormats.ElapsedMilliseconds & 0xFF_FF_FF) + 1;
 
     // Diplomacy.pas:2549
     public bool UpdateGame(EmailGame game)
@@ -129,7 +129,7 @@ public class EmailGameControl : EngineObject
             Holder = CreationHolder(),
             EmailAddress = emailAddress,
             UniqueLocalId = CreateUniqueLocalId(),
-            UniqueId = Random(PixelFormats.ElapsedMilliseconds & 16777215) + 1,
+            UniqueId = Random(PixelFormats.ElapsedMilliseconds & 0xFF_FF_FF) + 1,
             SecurityId = GenerateSecurityId(),
             Name = name
         };

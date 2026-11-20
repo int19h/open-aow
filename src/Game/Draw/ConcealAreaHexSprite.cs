@@ -29,7 +29,7 @@ public class ConcealAreaHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
     }
 
     // GlobalSpells.pas:211
-    public override int GetShowPriority() => 2013265920;
+    public override int GetShowPriority() => 2_013_265_920;
 
     // GlobalSpells.pas:244
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)

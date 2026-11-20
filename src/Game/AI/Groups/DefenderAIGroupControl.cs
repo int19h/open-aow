@@ -83,7 +83,7 @@ public class DefenderAIGroupControl(CustomNode owner) : BehaviorAIGroupControl(o
                     TargetSelector.CurrentBattleFieldFactor = (float)1.2;
                     TargetSelector.Superiority = 2;
                     TargetSelector.NearSuperiority = (float)1.5;
-                    TargetSelector.MinimumStrength = 10000;
+                    TargetSelector.MinimumStrength = 10_000;
                     TargetSelector.MultiTargetFactor = 2;
                     ActivatePlugin(TargetSelector);
                     State += 1;

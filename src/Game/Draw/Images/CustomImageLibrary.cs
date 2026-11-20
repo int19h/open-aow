@@ -33,7 +33,7 @@ public partial class CustomImageLibrary : Component
     {
         if (newCapacity != 0)
         {
-            newCapacity |= 7;
+            newCapacity |= 0b0111;
         }
 
         if (newCapacity != Capacity)
@@ -211,7 +211,7 @@ public partial class CustomImageLibrary : Component
         Clear();
         Reloading = Status.Contains(ImageLibraryStatusElement.LoadingFromFile) && _loadOnDemand;
         int startPosition = (int)stream.Position;
-        stream.ReadExactly(Bytes.Of(ref header, count: 24));
+        stream.ReadExactly(Bytes.Of(ref header));
         _ = stream.Seek(header.HeaderSize + startPosition, origin: SeekOrigin.Begin);
         if ((double)header.Version < 4)
         {
@@ -232,7 +232,7 @@ public partial class CustomImageLibrary : Component
             // without the terminator raises there too.
             if ((double)header.Version <= 2)
             {
-                stream.ReadBuffer(Bytes.Of(ref index, count: 4));
+                stream.ReadBuffer(Bytes.Of(ref index));
                 while (index != -1)
                 {
                     int subIndex = 0;
@@ -244,22 +244,22 @@ public partial class CustomImageLibrary : Component
                         image = ImageStreams.ReadImageFromStream(stream, owner: this);
                     }
 
-                    stream.ReadExactly(Bytes.Of(ref reference, count: 4));
+                    stream.ReadExactly(Bytes.Of(ref reference));
                     SetImageReference(index, value: reference);
-                    stream.ReadBuffer(Bytes.Of(ref index, count: 4));
+                    stream.ReadBuffer(Bytes.Of(ref index));
                 }
             }
             else
             {
                 if ((double)header.Version == 3)
                 {
-                    stream.ReadBuffer(Bytes.Of(ref index, count: 4));
+                    stream.ReadBuffer(Bytes.Of(ref index));
                     while (index != -1)
                     {
                         SetImage(image: ImageStreams.ReadImageFromStream(stream, owner: this), index: index);
-                        stream.ReadExactly(Bytes.Of(ref reference, count: 4));
+                        stream.ReadExactly(Bytes.Of(ref reference));
                         SetImageReference(index, value: reference);
-                        stream.ReadBuffer(Bytes.Of(ref index, count: 4));
+                        stream.ReadBuffer(Bytes.Of(ref index));
                     }
                 }
             }
@@ -273,13 +273,13 @@ public partial class CustomImageLibrary : Component
                 milliseconds.SetLength(header.IndexEnd - header.HeaderSize);
                 stream.ReadBuffer(milliseconds.GetBuffer().AsSpan(length: (int)milliseconds.Length, start: 0));
                 PaletteManager.LoadFromStream(milliseconds);
-                milliseconds.ReadBuffer(Bytes.Of(ref index, count: 4));
+                milliseconds.ReadBuffer(Bytes.Of(ref index));
                 while (index != -1)
                 {
                     SetImage(image: ImageStreams.ReadImageFromStream(milliseconds, dataStream: stream, owner: this), index: index);
-                    _ = milliseconds.Read(Bytes.Of(ref reference, count: 4));
+                    _ = milliseconds.Read(Bytes.Of(ref reference));
                     SetImageReference(index, value: reference);
-                    milliseconds.ReadBuffer(Bytes.Of(ref index, count: 4));
+                    milliseconds.ReadBuffer(Bytes.Of(ref index));
                 }
             }
             finally
@@ -315,7 +315,7 @@ public partial class CustomImageLibrary : Component
             header.HeaderSize = 24;
             header.Id = "ILB\0";
             header.Version = 4;
-            stream.Write(Bytes.Of(ref header, count: 24));
+            stream.Write(Bytes.Of(ref header));
             PaletteManager.SaveToStream(stream);
             int i = 0;
             int last = _count - 1;
@@ -323,16 +323,16 @@ public partial class CustomImageLibrary : Component
             {
                 if (Images[i].Image is not null || Images[i].Reference != -1)
                 {
-                    stream.Write(Bytes.Of(ref i, count: 4));
+                    stream.Write(Bytes.Of(ref i));
                     LibraryImage.WriteImageToStream(Images[i].Image, stream, dataStream: swap);
                     int reference = Images[i].Reference;
-                    stream.Write(Bytes.Of(ref reference, count: 4));
+                    stream.Write(Bytes.Of(ref reference));
                     Images[i].Reference = reference;
                 }
             }
 
             i = -1;
-            stream.Write(Bytes.Of(ref i, count: 4));
+            stream.Write(Bytes.Of(ref i));
             long position = stream.Position;
             header.IndexEnd = (int)position - startPosition;
             swap.Position = 0;
@@ -340,7 +340,7 @@ public partial class CustomImageLibrary : Component
             long streamPosition = stream.Position;
             header.Size = (int)streamPosition - startPosition;
             stream.Position = startPosition;
-            stream.Write(Bytes.Of(ref header, count: 24));
+            stream.Write(Bytes.Of(ref header));
             stream.Position = startPosition + header.Size;
         }
         finally
@@ -868,7 +868,7 @@ public partial class CustomImageLibrary : Component
         ImageNode node = (ImageNode)Images[index].Image;
         if (node is not null)
         {
-            if (node.ImageClass.ClassId != 256)
+            if (node.ImageClass.ClassId != Engine.Nodes.OwningNode.ClassId)
             {
                 node.GetImage(subIndex).Dispose();
                 node.Delete(subIndex);

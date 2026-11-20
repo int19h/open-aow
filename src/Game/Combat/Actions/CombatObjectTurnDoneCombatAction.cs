@@ -9,7 +9,7 @@ namespace Aow.Game.Combat.Actions;
 public class CombatObjectTurnDoneCombatAction(CustomNode owner) : CombatAction(owner)
 {
     // Combat2.pas:1038
-    public new const int ClassId = 131772;
+    public new const int ClassId = 131_772;
 
     public byte CombatObjectId { get; set; }
 

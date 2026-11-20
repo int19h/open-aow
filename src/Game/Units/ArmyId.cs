@@ -13,7 +13,7 @@ namespace Aow.Game.Units;
 public partial class ArmyId(CustomNode owner) : EngineObject(owner)
 {
 
-    public new const int ClassId = 131616;
+    public new const int ClassId = 131_616;
 
     public Int32List UnitIds { get; } = new Int32List();
 

@@ -13,7 +13,7 @@ public class DiplomaticRelationHistoryList(CustomNode owner) : OwningNode(owner)
 
     int IChildSink<DiplomaticRelationHistoryItem>.AddChild(DiplomaticRelationHistoryItem child) => AddChild(child);
 
-    public new const int ClassId = 131355;
+    public new const int ClassId = 131_355;
 
     // Player.PAS:45
     public DiplomaticRelationHistoryItem GetItems(int index) => GetChildInRange<DiplomaticRelationHistoryItem>(index);

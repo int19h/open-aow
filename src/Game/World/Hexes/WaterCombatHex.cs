@@ -9,7 +9,7 @@ public class WaterCombatHex(CustomNode owner) : WaterHex(owner)
 {
 
     // CombatHex.pas:219
-    public new const int ClassId = 2229655;
+    public new const int ClassId = 2_229_655;
 
     // CombatHex.pas:216
     public override MapObjectResourceList GetResourceList(GameEngine engine) => GamePack.Current.CombatResources;
@@ -18,10 +18,10 @@ public class WaterCombatHex(CustomNode owner) : WaterHex(owner)
     {
 
         // CombatHex.pas:222
-        public new const int ClassId = 2229656;
+        public new const int ClassId = 2_229_656;
 
         // CombatHex.pas:228
-        public override int ResourceUserClassId() => 2229655;
+        public override int ResourceUserClassId() => WaterCombatHex.ClassId;
 
         // CombatHex.pas:231
         public override HexControl HexControl => Engine.HexSpriteSet.CombatHexes;

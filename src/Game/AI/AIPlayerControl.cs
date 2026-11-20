@@ -96,7 +96,7 @@ public partial class AIPlayerControl : EngineObject
             if (troop is not null)
             {
                 AIGroup group = troop.Group;
-                if (group is null || group.EngineClass.ClassId == 136295)
+                if (group is null || group.EngineClass.ClassId == TransportAIGroup.ClassId)
                 {
                     _ = units.AddUnit(troop);
                     result += 1;
@@ -206,7 +206,7 @@ public partial class AIPlayerControl : EngineObject
         int skirmishCount = 0;
         for (int i = 0, last = Player.AIGroups.Count - 1; i <= last; i++)
         {
-            if (Player.AIGroups.GetGroups(i).EngineClass.ClassId == 136294)
+            if (Player.AIGroups.GetGroups(i).EngineClass.ClassId == SkirmishAIGroup.ClassId)
             {
                 skirmishCount += 1;
             }
@@ -221,7 +221,7 @@ public partial class AIPlayerControl : EngineObject
                 wantedCount = 4;
             }
 
-            if (wantedCount == 0 && (StrategicMap.Current.Day & 16) == 16)
+            if (wantedCount == 0 && (StrategicMap.Current.Day & 0b0001_0000) == 0b0001_0000)
             {
                 wantedCount = 1;
             }
@@ -238,7 +238,7 @@ public partial class AIPlayerControl : EngineObject
             for (int i = Player.AIGroups.Count - 1; i >= 0; i--)
             {
                 group = Player.AIGroups.GetGroups(i);
-                if (group.TargetType != AIGroupTargetStatus.Execute && group.EngineClass.ClassId != 136281 && group.EngineClass.ClassId != 136294 && group.EngineClass.ClassId != 136273 && group.EngineClass.ClassId != 136275 && group.EngineClass.ClassId != 136295)
+                if (group.TargetType != AIGroupTargetStatus.Execute && group.EngineClass.ClassId != FortifyAIGroup.ClassId && group.EngineClass.ClassId != SkirmishAIGroup.ClassId && group.EngineClass.ClassId != GuardAreaAIGroup.ClassId && group.EngineClass.ClassId != GuardAIGroup.ClassId && group.EngineClass.ClassId != TransportAIGroup.ClassId)
                 {
                     int groupPriority = group.GetProcessPriority() * -10;
                     for (int j = group.Units.Count - 1; j >= 0; j--)

@@ -38,7 +38,7 @@ public class StructureShadow(CustomNode owner) : HexSprite(owner)
     }
 
     // Structur.PAS:995
-    public override int GetShowPriority() => (Structure.GetShowPriority() & 67108863) + 805306368;
+    public override int GetShowPriority() => (Structure.GetShowPriority() & 0b0011_1111_1111_1111_1111_1111_1111) + 805_306_368;
 
     // Structur.PAS:951
     public override void Connect()

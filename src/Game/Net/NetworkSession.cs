@@ -3,8 +3,8 @@ namespace Aow.Game.Net;
 
 internal static class NetworkSession
 {
-    internal const int AllPlayers = 32768;
+    internal const int AllPlayers = 32_768;
 
-    internal const short ClassIdPassTokenTokenEvent = 1364;
+    internal const short ClassIdPassTokenTokenEvent = 1_364;
 
 }

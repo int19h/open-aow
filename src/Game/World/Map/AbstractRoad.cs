@@ -8,7 +8,7 @@ namespace Aow.Game.World.Map;
 // the base of roads and bridges
 public class AbstractRoad(CustomNode owner) : MapObject(owner)
 {
-    public new const int ClassId = 65906;
+    public new const int ClassId = 65_906;
 
     // MAPOBJ.PAS:803
     public override byte Level => 10;
@@ -18,7 +18,7 @@ public class AbstractRoad(CustomNode owner) : MapObject(owner)
     {
         int pixelX = (Owner.HexX * 32) + 8;
         int pixelY = ((Owner.HexX & 1) * 16) + (Owner.HexY * 32);
-        return pixelX + (pixelY << 13) + 671088640;
+        return pixelX + (pixelY << 13) + 671_088_640;
     }
 
     // MAPOBJ.PAS:848

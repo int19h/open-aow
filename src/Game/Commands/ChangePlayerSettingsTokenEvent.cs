@@ -10,7 +10,7 @@ namespace Aow.Game.Commands;
 // player, settings string
 public class ChangePlayerSettingsTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public new const int ClassId = 135974;
+    public new const int ClassId = 135_974;
 
     public sbyte Player { get; set; }
     public string Settings { get; set; } = "";

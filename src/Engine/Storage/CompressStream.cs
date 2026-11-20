@@ -18,7 +18,7 @@ public class CompressStream : MemoryStream
         bool compressed = default;
         Span<byte> magic = stackalloc byte[4];
         stream.ReadExactly(magic);
-        stream.ReadExactly(Bytes.Of(ref compressed, count: 1));
+        stream.ReadExactly(Bytes.Of(ref compressed));
         if (!magic.SequenceEqual(CompressMagic))
         {
             compressed = false;
@@ -28,14 +28,14 @@ public class CompressStream : MemoryStream
         if (compressed)
         {
             byte[] buffer = default;
-            Array.Resize(ref buffer, newSize: 8096);
+            Array.Resize(ref buffer, newSize: 8_096);
             ZLibStream d = new(stream, mode: CompressionMode.Decompress, leaveOpen: true);
             try
             {
                 int count = -1;
                 while (count != 0)
                 {
-                    count = d.Read(buffer.AsSpan(0, length: 8096));
+                    count = d.Read(buffer.AsSpan(0, length: 8_096));
                     if (count != 0)
                     {
                         this.WriteBuffer(buffer.AsSpan(0, length: count));
@@ -62,7 +62,7 @@ public class CompressStream : MemoryStream
         Position = 0;
         int startSize = (int)stream.Length;
         stream.Write(CompressMagic);
-        stream.Write(Bytes.Of(ref level, count: 1));
+        stream.Write(Bytes.Of(ref level));
         if (level != Level.None)
         {
             ZLibStream c = new(stream, compressionLevel: ZLibLevels.ForByte((byte)level), leaveOpen: true);
@@ -118,7 +118,7 @@ public class CompressStream : MemoryStream
     // Engine.pas:1805
     public void LoadFromFile(string fileName)
     {
-        Stream f = OpenFile(fileName, mode: 0 | 32);
+        Stream f = OpenFile(fileName, mode: 0 | 0b0010_0000);
         try
         {
             LoadFromStream(f);

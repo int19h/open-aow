@@ -201,7 +201,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
         {
             if (entry.Name is not "." and not "..")
             {
-                if ((entry.Attribute & 16) == 16)
+                if ((entry.Attribute & 0b0001_0000) == 0b0001_0000)
                 {
                     _ = Directories.Add(entry.Name);
                 }
@@ -788,7 +788,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                 controller.UI.ProgressDialog.Window.Visible = true;
                 if (!controller.UI.TitleScene.Window.Visible)
                 {
-                    controller.UI.General.Manager.OverlayPriority = 5000;
+                    controller.UI.General.Manager.OverlayPriority = 5_000;
                 }
 
                 _ = AudioHost.SongPlayer.Stop(false);

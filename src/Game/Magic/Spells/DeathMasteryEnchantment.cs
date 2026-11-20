@@ -15,7 +15,7 @@ namespace Aow.Game.Magic.Spells;
 public class DeathMasteryEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:1483
-    public new const int ClassId = 135968;
+    public new const int ClassId = 135_968;
 
     // GlobalEnchantmentSpells.pas:1475
     public DeathMasteryEnchantment(CustomNode owner, EngineObject holder) : base(owner)
@@ -43,7 +43,7 @@ public class DeathMasteryEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:1486
-    public override int GetAIUpkeepPriority() => 1250;
+    public override int GetAIUpkeepPriority() => 1_250;
 
     // GlobalEnchantmentSpells.pas:1509
     public override bool Deactivate(byte player)

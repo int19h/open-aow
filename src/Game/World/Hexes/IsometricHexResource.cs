@@ -11,7 +11,7 @@ public class IsometricHexResource(CustomNode owner) : AbstractHexagonResource(ow
 {
 
     // IsoHex.pas:268
-    public new const int ClassId = 131438;
+    public new const int ClassId = 131_438;
 
     protected internal byte DynamicLevel { get; protected init; } = 26;
 

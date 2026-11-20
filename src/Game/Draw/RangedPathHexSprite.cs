@@ -18,7 +18,7 @@ public class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner
 {
 
     // AoWTC.pas:4846
-    public new const int ClassId = 2228485;
+    public new const int ClassId = 2_228_485;
 
     private CustomImageLibrary _miscellaneousImages;
     private CustomImageLibrary _targetImages;
@@ -29,7 +29,7 @@ public class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner
     public ushort Range { get; set; }
 
     // AoWTC.pas:4849
-    public override int GetShowPriority() => 1811939328;
+    public override int GetShowPriority() => 1_811_939_328;
 
     // AoWTC.pas:4859
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)

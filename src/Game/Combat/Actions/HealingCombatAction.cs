@@ -11,7 +11,7 @@ namespace Aow.Game.Combat.Actions;
 
 public class HealingCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
-    public new const int ClassId = 131773;
+    public new const int ClassId = 131_773;
 
     public override bool TouchSucceeded => true;
 

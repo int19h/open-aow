@@ -10,7 +10,7 @@ namespace Aow.Game.Combat.Actions;
 public class SlowCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:1257
-    public new const int ClassId = 131792;
+    public new const int ClassId = 131_792;
 
     // CombatSpells.pas:1263
     public override void Execute(Battle combat)

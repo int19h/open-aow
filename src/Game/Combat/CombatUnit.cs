@@ -24,7 +24,7 @@ namespace Aow.Game.Combat;
 public class CombatUnit : CombatObject
 {
     // Combat.pas:1084
-    public new const int ClassId = 131745;
+    public new const int ClassId = 131_745;
 
     // Combat.pas:1071
     public CombatUnit(CustomNode owner) : base(owner)
@@ -315,7 +315,7 @@ public class CombatUnit : CombatObject
             CombatParty party;
             if (mode != FinalizeMode.All)
             {
-                if ((Position & 15) <= 7)
+                if ((Position & 0xF) <= 7)
                 {
                     party = Combat.CombatData.Parties.GetParty((byte)(Position >>> 4));
                     if (party is not null && (sbyte)party.PlayerIndex == CombatPlayer)
@@ -341,7 +341,7 @@ public class CombatUnit : CombatObject
             }
             else
             {
-                party = (Position & 15) <= 7 ? Combat.CombatData.Parties.GetParty((byte)(Position >>> 4)) : null;
+                party = (Position & 0xF) <= 7 ? Combat.CombatData.Parties.GetParty((byte)(Position >>> 4)) : null;
 
                 if (party is null || party.Location.X != -1)
                 {

@@ -73,7 +73,7 @@ public class EnchantedRoads : GlobalEnchantmentSpell
                 MapField field = level.GetField(x, y);
                 if (field.OverlayType == 4 && map.SeatedPlayer != -1 && field.GetExplored(map.SeatedPlayer))
                 {
-                    _ = CastImages.Show(0, pixelX, pixelY, frame: animation.FrameCounter - ((field.HexX + (field.HexY * 8) + field.FogCount) & 15), lockedSurface: surface);
+                    _ = CastImages.Show(0, pixelX, pixelY, frame: animation.FrameCounter - ((field.HexX + (field.HexY * 8) + field.FogCount) & 0xF), lockedSurface: surface);
                 }
             }
         }

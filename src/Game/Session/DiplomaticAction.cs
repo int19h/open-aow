@@ -34,7 +34,7 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
     void IOwnedSink<DiplomaticActionList>.SetOwner(DiplomaticActionList owner) => SetOwner(owner);
 
     // Diplomacy.pas:495
-    public new const int ClassId = 131666;
+    public new const int ClassId = 131_666;
     private int _refCount = 1;
 
     public int Day { get; set; }

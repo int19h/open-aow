@@ -16,7 +16,7 @@ namespace Aow.Game.Session;
 public class WorldMapCampaign(CustomNode owner) : Campaign(owner)
 {
     // AoWVideoDlg.pas:334
-    public new const int ClassId = 2248704;
+    public new const int ClassId = 2_248_704;
 
     public int Faction { get; private set; }
 

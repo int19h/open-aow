@@ -8,7 +8,7 @@ namespace Aow.Game.Combat.Actions;
 public class TacticalBattleHighPrayerCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:976
-    public new const int ClassId = 131786;
+    public new const int ClassId = 131_786;
 
     // CombatSpells.pas:982
     public override void Execute(Battle combat)

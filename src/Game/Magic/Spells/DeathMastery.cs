@@ -28,7 +28,7 @@ public class DeathMastery : GlobalEnchantmentSpell
         // { Original assigns Cosmos to Death Mastery. }
         MagicSphere = MagicSphere.Cosmos;
         CastDuration = 40;
-        AIBasePriority = 1000;
+        AIBasePriority = 1_000;
     }
 
     // GlobalEnchantmentSpells.pas:1618
@@ -48,7 +48,7 @@ public class DeathMastery : GlobalEnchantmentSpell
         };
         animation.OnShow += ShowAnimation;
         animation.AnimationMap = StrategicMap.Current;
-        animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
+        animation.Tag = (StrategicMap.Current.ViewWidth & 0xFFFF) | (StrategicMap.Current.ViewHeight << 16);
         animation.Activate();
 
         _ = CastSounds.Play(0);
@@ -71,7 +71,7 @@ public class DeathMastery : GlobalEnchantmentSpell
         };
         for (int i = 0; i <= count - 1; i++)
         {
-            int x = Random(animation.Tag & 65535);
+            int x = Random(animation.Tag & 0xFFFF);
             int y = Random((int)(uint)animation.Tag >>> 16);
             int speed = Random(15) + 5;
             int image = Random(3);
