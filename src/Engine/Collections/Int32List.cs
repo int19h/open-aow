@@ -324,15 +324,15 @@ public class Int32List : Persistent
         int item = default;
         int run = default;
         Clear();
-        stream.ReadExactly(Bytes.Of(ref _default, count: 4));
-        stream.ReadExactly(Bytes.Of(ref count, count: 4));
+        stream.ReadExactly(Bytes.Of(ref _default));
+        stream.ReadExactly(Bytes.Of(ref count));
         SetCapacity(count);
         while (count != _count)
         {
-            stream.ReadExactly(Bytes.Of(ref item, count: 4));
+            stream.ReadExactly(Bytes.Of(ref item));
             if (item == _default)
             {
-                stream.ReadExactly(Bytes.Of(ref run, count: 4));
+                stream.ReadExactly(Bytes.Of(ref run));
                 SetCount(_count + run);
             }
             else
@@ -360,15 +360,15 @@ public class Int32List : Persistent
         }
 
         i = 0;
-        stream.Write(Bytes.Of(ref _default, count: 4));
-        stream.Write(Bytes.Of(ref _count, count: 4));
+        stream.Write(Bytes.Of(ref _default));
+        stream.Write(Bytes.Of(ref _count));
         while (_count != i)
         {
             int run = DefaultRun();
             if (run > 0)
             {
-                stream.Write(Bytes.Of(ref _default, count: 4));
-                stream.Write(Bytes.Of(ref run, count: 4));
+                stream.Write(Bytes.Of(ref _default));
+                stream.Write(Bytes.Of(ref run));
                 i += run;
             }
             else
@@ -422,12 +422,12 @@ public class Int32List : Persistent
     }
 
     public int Capacity { get => _capacity; set => SetCapacity(value); }
-    public int Count { get => _count; set => SetCount(value); }
+    public int Count { get => _count; protected set => SetCount(value); }
     public int Default { get => _default; set => _default = value; }
 
     public int this[int index] { get => Get(index); set => Put(index, item: value); }
 
-    public string ItemString { get => GetItemString(); set => SetItemString(value); }
+    public string ItemString => GetItemString();
     public int[] List => _list;
 
     // Engine.pas:3310

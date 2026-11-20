@@ -24,7 +24,7 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
 {
 
     // Teleport.pas:105
-    public new const int ClassId = 131332;
+    public new const int ClassId = 131_332;
 
     private MapCoordinate Destination { get; set; }
 
@@ -261,10 +261,10 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
         }
 
         // Teleport.pas:299
-        public new const int ClassId = 131333;
+        public new const int ClassId = 131_333;
 
         // Teleport.pas:305
-        public override int ResourceUserClassId() => 131332;
+        public override int ResourceUserClassId() => Teleport.ClassId;
 
         // Teleport.pas:302
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: TeleportText);

@@ -50,7 +50,7 @@ namespace Aow.Game.World.Map;
 public partial class StrategicMap : GameMap
 {
 
-    public new const int ClassId = 131089;
+    public new const int ClassId = 131_089;
 
     public SelectedArmy SelectedArmy { get; }
     public bool IgnoreStreamErrors { get; private set; }
@@ -83,7 +83,7 @@ public partial class StrategicMap : GameMap
     public CombatMap CombatMap { get; set; }
     public Battle Combat { get; private set; }
     public TutorialControl TutorialControl { get; }
-    public AIExecutor AIExecutor { get; set; }
+    public AIExecutor AIExecutor { get; internal set; }
     public AIPlayerActionManager AIPlayerActionManager { get; }
     public AIGroupManager AIGroupManager { get; private set; }
     public HexSpriteMapKeyboard Keyboard { get; }
@@ -95,8 +95,8 @@ public partial class StrategicMap : GameMap
     public PlayerConnectionType ConnectionType { get; set; }
 
     public TextControl TextControl { get; }
-    public PlayerCollection Players { get; set; }
-    public RaceList Races { get; set; }
+    public PlayerCollection Players { get; internal set; }
+    public RaceList Races { get; internal set; }
 
     public bool FixedLeaders { get; set; }
     public bool LeadersFixed { get; set; }
@@ -676,8 +676,8 @@ public partial class StrategicMap : GameMap
         _author = "";
         _turnTimerStart = -1;
         SphereCount = 5;
-        VictoryGold = 5000;
-        VictoryMana = 5000;
+        VictoryGold = 5_000;
+        VictoryMana = 5_000;
         Description = new DelphiStringList();
         _objectives = new DelphiStringList();
         _independentAIMode = StrategicMapIndependentAIMode.Normal;
@@ -886,7 +886,7 @@ public partial class StrategicMap : GameMap
     // AoWHSMap.PAS:2315
     public override bool AddMapLevel()
     {
-        if (MapContainer.LevelCount < 3 && MapContainer.AddLevel(131091))
+        if (MapContainer.LevelCount < 3 && MapContainer.AddLevel(MapLevel.ClassId))
         {
             InitializeMapLevel((sbyte)(MapContainer.LevelCount - 1));
             return true;
@@ -2297,12 +2297,12 @@ public partial class StrategicMap : GameMap
             // The class id selects a battle class, and the factory returns the engine object it creates.
             result = GetEngine().CreateEngineObject<Battle>(classId, owner: null);
             Combat = result;
-            if (GameType == GameType.Tutorial && classId == 2228496)
+            if (GameType == GameType.Tutorial && classId == 2_228_496)
             {
                 TutorialControl.ShowMessage(53, immediate: false, onceOnly: true);
             }
 
-            if (classId == 2228496)
+            if (classId == 2_228_496)
             {
                 Current.Mouse.ResetRectangleSelection();
                 Current.Selection.UnselectLocation();
@@ -2363,7 +2363,7 @@ public partial class StrategicMap : GameMap
                 }
             }
 
-            if (RequestCombatType && Combat.EngineClass.ClassId != 131760 && Combat.CombatData.Round != 0 && Combat.ExplorationSite != 1 && Players.GetPlayers(CurrentPlayer).PlayerType == PlayerType.Human)
+            if (RequestCombatType && Combat.EngineClass.ClassId != FastBattle.ClassId && Combat.CombatData.Round != 0 && Combat.ExplorationSite != 1 && Players.GetPlayers(CurrentPlayer).PlayerType == PlayerType.Human)
             {
                 LockExecuteEventLog();
                 NewTurnEventLog log = new(null)
@@ -2382,7 +2382,7 @@ public partial class StrategicMap : GameMap
             }
             else
             {
-                if (Combat.EngineClass.ClassId == 2228496)
+                if (Combat.EngineClass.ClassId == TacticalBattle.ClassId)
                 {
                     EnableTurnTimer();
                 }
@@ -2422,7 +2422,7 @@ public partial class StrategicMap : GameMap
     {
         if (TurnTimerEnabled)
         {
-            int seconds = TurnTimeLeft / 1000;
+            int seconds = TurnTimeLeft / 1_000;
             if (_turnTimeBeep != 0 && seconds < _turnTimeBeep && CombatMap is null)
             {
                 _turnTimeBeep = seconds;
@@ -2434,7 +2434,7 @@ public partial class StrategicMap : GameMap
     // AoWHSMap.PAS:3078
     public void ResetTurnTimer()
     {
-        _turnTimeElapsed = TurnTime * 1000 * 60;
+        _turnTimeElapsed = TurnTime * 1_000 * 60;
         _turnTimeBeep = 11;
         _turnTimerStart = -1;
     }
@@ -2527,7 +2527,7 @@ public partial class StrategicMap : GameMap
             for (int i = 0, last = resources.Count - 1; i <= last; i++)
             {
                 MapObjectResource resource = resources[i];
-                if (resource.EngineClass.ClassId == 131431 && resource.TerrainList.UsedTerrain() == 1 && resource.TerrainList.Terrain[0] == terrainType && resource.TerrainList.Overlay[0] == overlayType)
+                if (resource.EngineClass.ClassId == Hexes.TerrainMapObjectResource.ClassId && resource.TerrainList.UsedTerrain() == 1 && resource.TerrainList.Terrain[0] == terrainType && resource.TerrainList.Overlay[0] == overlayType)
                 {
                     _ = candidates.Add(resource);
                 }
@@ -2667,7 +2667,7 @@ public partial class StrategicMap : GameMap
     {
 
         public bool AlliedVictory { get; private set; }
-        public int TransferPointsMax { get; private set; } = 1000;
+        public int TransferPointsMax { get; private set; } = 1_000;
         public int TransferGoldMax { get; private set; } = 100;
         public int TransferManaMax { get; private set; } = 100;
         public int HeroLevelMax { get; private set; } = -1;

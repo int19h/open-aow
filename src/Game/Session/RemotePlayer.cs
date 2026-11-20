@@ -8,7 +8,7 @@ namespace Aow.Game.Session;
 public class RemotePlayer(CustomNode owner) : EngineObject(owner)
 {
     // AoWSetup.pas:266
-    public new const int ClassId = 131682;
+    public new const int ClassId = 131_682;
 
     public string Name { get; set; } = "";
     public int RemoteId { get; set; }

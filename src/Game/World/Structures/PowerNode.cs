@@ -26,7 +26,7 @@ public partial class PowerNode : PlayerStructure
     }
 
     // PowerNode.pas:64
-    public new const int ClassId = 131482;
+    public new const int ClassId = 131_482;
 
     public Set<StateElement> State { get; set; }
 
@@ -200,10 +200,10 @@ public partial class PowerNode : PlayerStructure
         }
 
         // PowerNode.pas:166
-        public new const int ClassId = 131483;
+        public new const int ClassId = 131_483;
 
         // PowerNode.pas:169
-        public override int ResourceUserClassId() => 131482;
+        public override int ResourceUserClassId() => PowerNode.ClassId;
 
         // PowerNode.pas:163
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_powerNodeText);

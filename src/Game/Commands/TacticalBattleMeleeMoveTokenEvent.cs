@@ -17,7 +17,7 @@ namespace Aow.Game.Commands;
 
 public class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : CombatMoveTokenEvent(owner)
 {
-    public new const int ClassId = 2236417;
+    public new const int ClassId = 2_236_417;
 
     private MeleeRound _meleeRound;
     private int _strikeIndex;
@@ -53,7 +53,7 @@ public class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : CombatMoveTok
 
                         PathStep pathY = Path[0];
                         PathStep pathX = Path[0];
-                        TacticalBattleUnitHexSprite hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(pathX.Location.X, pathY.Location.Y).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+                        TacticalBattleUnitHexSprite hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(pathX.Location.X, pathY.Location.Y).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
                         PreviousUnit = hexSprite?.Unit;
 
                         if (PreviousUnit is null)

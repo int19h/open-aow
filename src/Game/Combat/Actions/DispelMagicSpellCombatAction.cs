@@ -10,7 +10,7 @@ namespace Aow.Game.Combat.Actions;
 public class DispelMagicSpellCombatAction(CustomNode owner) : DispelMagicCombatAction(owner)
 {
     // UnitSpells.pas:975
-    public new const int ClassId = 131793;
+    public new const int ClassId = 131_793;
 
     public int SpellId { get; set; }
     public int ManaCost { get; set; }

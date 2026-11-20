@@ -28,7 +28,7 @@ public class FireMastery : GlobalEnchantmentSpell
         SpellLevel = 4;
         MagicSphere = MagicSphere.Fire;
         CastDuration = 40;
-        AIBasePriority = 1000;
+        AIBasePriority = 1_000;
     }
 
     // GlobalEnchantmentSpells.pas:1792
@@ -49,7 +49,7 @@ public class FireMastery : GlobalEnchantmentSpell
             };
             animation.OnShow += ShowAnimation;
             animation.AnimationMap = StrategicMap.Current;
-            animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
+            animation.Tag = (StrategicMap.Current.ViewWidth & 0xFFFF) | (StrategicMap.Current.ViewHeight << 16);
             animation.Activate();
 
             _ = CastSounds.Play(0);
@@ -88,7 +88,7 @@ public class FireMastery : GlobalEnchantmentSpell
                     continue;
                 }
 
-                RandSeed = field.HexX + (field.HexY * 8) + (field.FogCount * 65536);
+                RandSeed = field.HexX + (field.HexY * 8) + (field.FogCount * 65_536);
                 if (Random(100) >= chance)
                 {
                     continue;

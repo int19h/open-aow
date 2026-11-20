@@ -164,7 +164,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
                     City.CivilStatus.Cheerful => CityMoraleList.Items.Add("4"),
                     City.CivilStatus.Unruly or City.CivilStatus.Oppressed or City.CivilStatus.Slavery or _ => CityMoraleList.Items.Add("-"),
                 };
-                _ = ((int)StrategicMap.Current.Races.GetRace(c.Race).GetPlayerRelation(StrategicMap.Current.SeatedPlayer) & 127) switch
+                _ = ((int)StrategicMap.Current.Races.GetRace(c.Race).GetPlayerRelation(StrategicMap.Current.SeatedPlayer) & 0b0111_1111) switch
                 {
                     0 => CityRelationList.Items.Add("0"),
                     1 => CityRelationList.Items.Add("1"),
@@ -970,7 +970,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
             for (int number2 = players.Structures.Count - 1; i <= number2; i++)
             {
                 PlayerStructure structure = players.Structures.GetStructure(i);
-                if (structure.EngineClass.ClassId == 133422 && structure.Player == player)
+                if (structure.EngineClass.ClassId == BuildersGuild.ClassId && structure.Player == player)
                 {
                     number += structure.GetIncome();
                 }
@@ -994,7 +994,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
             for (int number2 = players.Structures.Count - 1; i <= number2; i++)
             {
                 PlayerStructure structure = players.Structures.GetStructure(i);
-                if (structure.EngineClass.ClassId == 131336 && structure.Player == player)
+                if (structure.EngineClass.ClassId == City.ClassId && structure.Player == player)
                 {
                     number += structure.GetIncome();
                 }
@@ -1018,7 +1018,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
             for (int number2 = players.Structures.Count - 1; i <= number2; i++)
             {
                 PlayerStructure structure = players.Structures.GetStructure(i);
-                if (structure.EngineClass.ClassId == 131950 && structure.Player == player)
+                if (structure.EngineClass.ClassId == Farm.ClassId && structure.Player == player)
                 {
                     number += structure.GetIncome();
                 }
@@ -1042,7 +1042,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
             for (int number2 = players.Structures.Count - 1; i <= number2; i++)
             {
                 PlayerStructure structure = players.Structures.GetStructure(i);
-                if (structure.EngineClass.ClassId == 131962 && (sbyte)(byte)structure.Player == player)
+                if (structure.EngineClass.ClassId == Mine.ClassId && (sbyte)(byte)structure.Player == player)
                 {
                     number += structure.GetIncome();
                 }

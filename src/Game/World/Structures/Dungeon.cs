@@ -33,7 +33,7 @@ public partial class Dungeon : ExplorationSite
     }
 
     // Dungeon.pas:108
-    public new const int ClassId = 131882;
+    public new const int ClassId = 131_882;
 
     public PrisonersArmy Prisoners { get; }
 
@@ -252,7 +252,7 @@ public partial class Dungeon : ExplorationSite
     {
 
         // Dungeon.pas:280
-        public new const int ClassId = 131883;
+        public new const int ClassId = 131_883;
 
         public UnitIndexListCollection PrisonerCollections { get; } = new UnitIndexListCollection();
 
@@ -271,7 +271,7 @@ public partial class Dungeon : ExplorationSite
         }
 
         // Dungeon.pas:283
-        public override int ResourceUserClassId() => 131882;
+        public override int ResourceUserClassId() => Dungeon.ClassId;
 
         // Dungeon.pas:277
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_dungeonText);

@@ -10,7 +10,7 @@ public class TerrainMapObjectResource(CustomNode owner) : MultiHexMapObjectResou
 {
 
     // Terrain.pas:327
-    public new const int ClassId = 131431;
+    public new const int ClassId = 131_431;
 
     // Terrain.pas:310
     public override void PersistFields(IPersister persister)
@@ -21,7 +21,7 @@ public class TerrainMapObjectResource(CustomNode owner) : MultiHexMapObjectResou
     }
 
     // Terrain.pas:322
-    public override int ResourceUserClassId() => 131430;
+    public override int ResourceUserClassId() => TerrainMapObject.ClassId;
 
     public sbyte DecorationType { get; set; } = -1;
     public byte TerrainType { get; set; }

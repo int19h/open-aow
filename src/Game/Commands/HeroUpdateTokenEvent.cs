@@ -12,7 +12,7 @@ namespace Aow.Game.Commands;
 // UnitId. Mode. ItemId (also spell ID). Parameter
 public class HeroUpdateTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public new const int ClassId = 135429;
+    public new const int ClassId = 135_429;
 
     public int UnitId { get; set; }
     public HeroUpdateTokenEventMode Mode { get; set; }

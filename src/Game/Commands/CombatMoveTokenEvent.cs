@@ -22,7 +22,7 @@ public class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
 {
 
     // CombatTE.pas:206
-    public new const int ClassId = 2236416;
+    public new const int ClassId = 2_236_416;
 
     public TacticalBattleUnit Unit { get; private set; }
     public int Delay { get; protected set; }
@@ -54,7 +54,7 @@ public class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
         _ = base.Validate();
         int index = Path.Count - 1;
         MapField mapField = GetMapField(Path[index].Location);
-        TacticalBattleUnitHexSprite hexSprite = mapField.FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+        TacticalBattleUnitHexSprite hexSprite = mapField.FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
         if (hexSprite is not null)
         {
             _objects = [];
@@ -83,7 +83,7 @@ public class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
                 {
                     sbyte yhx = Unit.UnitHexSprite.HexY;
                     HexGeometry.CenterHexNumberToHex(Unit.UnitHexSprite.HexX, yhx, hexNumber, ref hexX, ref hexY);
-                    TacticalBattleUnitHexSprite hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(hexX, hexY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+                    TacticalBattleUnitHexSprite hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(hexX, hexY).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
                     if (hexSprite is not null && PreviousUnit != hexSprite.Unit && hexSprite.Unit.GetEnabled() && !hexSprite.Unit.GetLocked() && CombatObject.MeleeDamageTypes(hexSprite.Unit) != Set<DamageType>.Of() && hexSprite.Unit.Side != Unit.Side && hexSprite.Action == TacticalBattleUnitHexSprite.SpriteAction.Move && hexSprite.Unit.GetAbilityEnabled(1) == Unit.GetAbilityEnabled(1))
                     {
                         _neighbour = (sbyte)hexNumber;
@@ -393,7 +393,7 @@ public class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
             Unit.MovedTo(oldField, newField, path.MoveCost);
             Rect rectangle = new(oldField.HexX, oldField.HexY, oldField.HexX + 1, oldField.HexY + 1);
             CombatMap.Current.TriggerMapChangedEvent(rectangle, L: 0);
-            if (MoveIndex == 0 && newField.FindChild(2229544) is not null && Unit.CombatPlayer != CombatMap.Current.Combat.CombatData.DefenderPlayer)
+            if (MoveIndex == 0 && newField.FindChild(World.FleeLocation.ClassId) is not null && Unit.CombatPlayer != CombatMap.Current.Combat.CombatData.DefenderPlayer)
             {
                 Unit.SetStatus(Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Fled));
                 sbyte hexY = Unit.UnitHexSprite.HexY;

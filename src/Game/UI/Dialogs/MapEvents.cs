@@ -333,14 +333,14 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
                 if (netIncome >= 0)
                 {
                     UI.TaskBar.WorldGoldSignLabel.Text = "+";
-                    UI.TaskBar.WorldGoldSignLabel.TextColor = 7864183;
-                    UI.TaskBar.WorldGoldIncomeLabel.TextColor = 7864183;
+                    UI.TaskBar.WorldGoldSignLabel.TextColor = 0x77_FF_77;
+                    UI.TaskBar.WorldGoldIncomeLabel.TextColor = 0x77_FF_77;
                 }
                 else
                 {
                     UI.TaskBar.WorldGoldSignLabel.Text = "-";
-                    UI.TaskBar.WorldGoldSignLabel.TextColor = 119;
-                    UI.TaskBar.WorldGoldIncomeLabel.TextColor = 119;
+                    UI.TaskBar.WorldGoldSignLabel.TextColor = 0x00_00_77;
+                    UI.TaskBar.WorldGoldIncomeLabel.TextColor = 0x00_00_77;
                 }
 
                 UI.TaskBar.WorldGoldIncomeLabel.Text = IntToStr(Math.Abs(netIncome));
@@ -423,14 +423,14 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
                 if (netIncome >= 0)
                 {
                     UI.TaskBar.WorldManaSignLabel.Text = "+";
-                    UI.TaskBar.WorldManaSignLabel.TextColor = 7864183;
-                    UI.TaskBar.WorldManaIncomeLabel.TextColor = 7864183;
+                    UI.TaskBar.WorldManaSignLabel.TextColor = 0x77_FF_77;
+                    UI.TaskBar.WorldManaIncomeLabel.TextColor = 0x77_FF_77;
                 }
                 else
                 {
                     UI.TaskBar.WorldManaSignLabel.Text = "-";
-                    UI.TaskBar.WorldManaSignLabel.TextColor = 119;
-                    UI.TaskBar.WorldManaIncomeLabel.TextColor = 119;
+                    UI.TaskBar.WorldManaSignLabel.TextColor = 0x00_00_77;
+                    UI.TaskBar.WorldManaIncomeLabel.TextColor = 0x00_00_77;
                 }
 
                 UI.TaskBar.WorldManaIncomeLabel.Text = IntToStr(Math.Abs(netIncome));

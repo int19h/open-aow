@@ -9,16 +9,16 @@ public partial class Crypt(CustomNode owner) : ItemExplorationSite(owner)
 {
 
     // Crypt.pas:34
-    public new const int ClassId = 131850;
+    public new const int ClassId = 131_850;
 
     public new class Resource(CustomNode owner) : ItemExplorationSiteResource(owner)
     {
 
         // Crypt.pas:40
-        public new const int ClassId = 131851;
+        public new const int ClassId = 131_851;
 
         // Crypt.pas:43
-        public override int ResourceUserClassId() => 131850;
+        public override int ResourceUserClassId() => Crypt.ClassId;
 
         // Crypt.pas:37
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_cryptText);

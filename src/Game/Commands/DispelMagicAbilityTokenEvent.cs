@@ -14,7 +14,7 @@ namespace Aow.Game.Commands;
 // (source unit ID/player, target unit ID/player)
 public class DispelMagicAbilityTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public new const int ClassId = 131827;
+    public new const int ClassId = 131_827;
 
     public int SourceId { get; set; }
     public byte SourcePlayer { get; set; }

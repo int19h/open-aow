@@ -79,7 +79,7 @@ public class EngineObject : IDisposable, IPersistable, IOwned
     // Engine.pas:2502
     public virtual int LastMessage
     {
-        get => 2147483647;
+        get => 2_147_483_647;
         // Engine.pas:2507
         set
         {
@@ -181,7 +181,7 @@ public class EngineObject : IDisposable, IPersistable, IOwned
     {
         if (message.MessageId == 1)
         {
-            LastMessage = 2147483647;
+            LastMessage = 2_147_483_647;
         }
     }
 

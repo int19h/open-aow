@@ -15,7 +15,7 @@ namespace Aow.Game.Combat.Actions;
 // (strike mode)
 public class StrikeCombatAction(CustomNode owner) : DamageCombatAction(owner)
 {
-    public new const int ClassId = 131754;
+    public new const int ClassId = 131_754;
 
     public Set<StrikeModeElement> StrikeMode { get; set; }
 

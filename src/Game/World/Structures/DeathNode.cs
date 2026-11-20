@@ -10,7 +10,7 @@ public partial class DeathNode(CustomNode owner) : ProductionPlace(owner)
 {
 
     // DeathNode.pas:37
-    public new const int ClassId = 132270;
+    public new const int ClassId = 132_270;
 
     // DeathNode.pas:40
     public override MagicSphere GetMagicSphere() => MagicSphere.Death;
@@ -26,10 +26,10 @@ public partial class DeathNode(CustomNode owner) : ProductionPlace(owner)
         }
 
         // DeathNode.pas:55
-        public new const int ClassId = 132271;
+        public new const int ClassId = 132_271;
 
         // DeathNode.pas:58
-        public override int ResourceUserClassId() => 132270;
+        public override int ResourceUserClassId() => DeathNode.ClassId;
 
         // DeathNode.pas:52
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_deathNodeText);

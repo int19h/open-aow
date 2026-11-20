@@ -12,7 +12,7 @@ namespace Aow.Game.Combat;
 public partial class CombatData : EngineObject
 {
     // Combat2.pas:184
-    public new const int ClassId = 131747;
+    public new const int ClassId = 131_747;
 
     // Combat2.pas:162
     public CombatData(CustomNode owner) : base(owner)
@@ -34,13 +34,13 @@ public partial class CombatData : EngineObject
     public sbyte AttackerPlayer { get; set; }
     public sbyte DefenderPlayer { get; set; }
 
-    public ByteList InvolvedLeaders { get; set; }
-    public ByteList DefeatedLeaders { get; set; }
+    public ByteList InvolvedLeaders { get; internal set; }
+    public ByteList DefeatedLeaders { get; internal set; }
 
     public byte CombatResult { get; set; }
 
     public byte CurrentPlayer { get; set; }
-    public OwningNode CombatObjects { get; set; }
+    public OwningNode CombatObjects { get; internal set; }
     public CombatPlayerList Players { get; }
     public CombatPartyList Parties { get; }
     public ByteList TurnOrder { get; }

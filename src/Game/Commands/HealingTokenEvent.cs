@@ -12,7 +12,7 @@ namespace Aow.Game.Commands;
 // (unit IDs, players)
 public class HealingTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public new const int ClassId = 131826;
+    public new const int ClassId = 131_826;
 
     public int SourceId { get; set; }
     public byte SourcePlayer { get; set; }

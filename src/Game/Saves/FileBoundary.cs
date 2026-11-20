@@ -457,7 +457,7 @@ public static class FileBoundary
     private static List<string> FindNames(string mask)
     {
         List<string> names = [];
-        foreach (RtlFileEntry entry in RtlHost.Files.FindEntries(mask, attributes: 63 & ~16))
+        foreach (RtlFileEntry entry in RtlHost.Files.FindEntries(mask, attributes: 0b0011_1111 & ~0b0001_0000))
         {
             names.Add(entry.Name);
         }

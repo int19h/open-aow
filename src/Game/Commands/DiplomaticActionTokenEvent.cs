@@ -12,7 +12,7 @@ public class DiplomaticActionTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
 
     // Diplomacy.pas:1125
-    public new const int ClassId = 135432;
+    public new const int ClassId = 135_432;
 
     public int Operation { get; set; }
     public DiplomaticAction Action { get; set; }

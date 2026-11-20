@@ -20,13 +20,13 @@ public class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceList>, IOw
 {
 
     // The race list the race belongs to. AcceptsOwner admits only a RaceList, so the cast never fails.
-    public new RaceList Owner { get => GetOwner<RaceList>(); set => SetOwner(value); }
+    public new RaceList Owner => GetOwner<RaceList>();
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is RaceList;
 
     void IOwnedSink<RaceList>.SetOwner(RaceList owner) => SetOwner(owner);
 
-    public new const int ClassId = 131586;
+    public new const int ClassId = 131_586;
 
     public sbyte RaceIndex { get; set; } = -1;
 

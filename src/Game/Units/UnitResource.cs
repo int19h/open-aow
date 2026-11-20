@@ -21,13 +21,13 @@ namespace Aow.Game.Units;
 // Description. ObtainValue. size. blood
 public class UnitResource : TroopResource
 {
-    public new const int ClassId = 131602;
+    public new const int ClassId = 131_602;
 
     // UnitRes.PAS:73
     public UnitResource(CustomNode owner) : base(owner)
     {
         Description = new DelphiStringList();
-        for (int rankOrdinal = (int)(Unit.Rank)0; rankOrdinal <= (int)(Unit.Rank)2; rankOrdinal++)
+        for (int rankOrdinal = (int)Unit.Rank.None; rankOrdinal <= (int)Unit.Rank.Gold; rankOrdinal++)
         {
             Unit.Rank rank = (Unit.Rank)rankOrdinal;
             UnitResourceAbilityOwner unitResourceAbilityOwner = new(null) { Holder = CreationHolder() };
@@ -79,7 +79,7 @@ public class UnitResource : TroopResource
     public override void Dispose()
     {
         Description?.Dispose();
-        for (int rankOrdinal = (int)(Unit.Rank)0; rankOrdinal <= (int)(Unit.Rank)2; rankOrdinal++)
+        for (int rankOrdinal = (int)Unit.Rank.None; rankOrdinal <= (int)Unit.Rank.Gold; rankOrdinal++)
         {
             Unit.Rank rank = (Unit.Rank)rankOrdinal;
             Abilities[(int)rank]?.Dispose();
@@ -117,7 +117,7 @@ public class UnitResource : TroopResource
         // The translate stream's mode holds read, so the original validates the abilities there too.
         if (persister.Loading || PersistSupport.Translating(persister))
         {
-            for (int rankOrdinal = (int)(Unit.Rank)0; rankOrdinal <= (int)(Unit.Rank)2; rankOrdinal++)
+            for (int rankOrdinal = (int)Unit.Rank.None; rankOrdinal <= (int)Unit.Rank.Gold; rankOrdinal++)
             {
                 Unit.Rank rank = (Unit.Rank)rankOrdinal;
                 Abilities[(int)rank].ValidateOwnerTypeAbilities();
@@ -126,7 +126,7 @@ public class UnitResource : TroopResource
     }
 
     // UnitRes.PAS:130
-    public override int ResourceUserClassId() => 131604;
+    public override int ResourceUserClassId() => UnitHexSprite.ClassId;
 
     // UnitRes.PAS:134. The resource user class (131604) registers only UnitHexSprite, which the
     // factory builds. Another class fails. Null stays null.

@@ -21,7 +21,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
 {
 
     // PoisonC.pas:64
-    public new const int ClassId = 135743;
+    public new const int ClassId = 135_743;
 
     public sbyte Player { get; set; }
     public int TurnsRemaining { get; set; }
@@ -57,7 +57,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     }
 
     // PoisonC.pas:67
-    public override int GetShowPriority() => base.GetShowPriority() + 201326592;
+    public override int GetShowPriority() => base.GetShowPriority() + 201_326_592;
 
     // PoisonC.pas:89
     public override bool PlaceOnMap()
@@ -313,10 +313,10 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     {
 
         // PoisonC.pas:286
-        public new const int ClassId = 135744;
+        public new const int ClassId = 135_744;
 
         // PoisonC.pas:292
-        public override int ResourceUserClassId() => 135743;
+        public override int ResourceUserClassId() => PoisonCloud.ClassId;
 
         // PoisonC.pas:289
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_poisonCloudText);

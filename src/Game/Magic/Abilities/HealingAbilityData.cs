@@ -8,7 +8,7 @@ namespace Aow.Game.Magic.Abilities;
 // (enabled)
 public class HealingAbilityData(CustomNode owner) : AbilityData(owner)
 {
-    public new const int ClassId = 131758;
+    public new const int ClassId = 131_758;
 
     public bool Enabled { get; set; }
 

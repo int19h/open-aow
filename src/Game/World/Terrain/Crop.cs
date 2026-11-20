@@ -17,7 +17,7 @@ public class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
 
     // Crops.pas:119
-    public new const int ClassId = 131946;
+    public new const int ClassId = 131_946;
 
     public PlayerCropStructure CropOwner { get; private set; }
 
@@ -175,10 +175,10 @@ public class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     {
 
         // Crops.pas:245
-        public new const int ClassId = 131947;
+        public new const int ClassId = 131_947;
 
         // Crops.pas:251
-        public override int ResourceUserClassId() => 131946;
+        public override int ResourceUserClassId() => Crop.ClassId;
 
         // Crops.pas:248
         public override void SetLevel(byte value) => base.SetLevel(5);

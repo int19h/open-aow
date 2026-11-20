@@ -24,7 +24,7 @@ public class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
     private int _refCount = 1;
 
     public Set<GlobalEnchantmentStatusElement> EnchantmentStatus { get; private set; }
-    public Set<GlobalEnchantmentModeElement> EnchantmentMode { get; protected set; } = Set<GlobalEnchantmentModeElement>.Of(GlobalEnchantmentModeElement.TrueGlobal, GlobalEnchantmentModeElement.Owned);
+    public Set<GlobalEnchantmentModeElement> EnchantmentMode { get; protected init; } = Set<GlobalEnchantmentModeElement>.Of(GlobalEnchantmentModeElement.TrueGlobal, GlobalEnchantmentModeElement.Owned);
 
     public int DispelMana { get; set; }
     public GlobalEnchantmentType EnchantmentType { get; set; }

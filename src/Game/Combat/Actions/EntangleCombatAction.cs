@@ -13,7 +13,7 @@ namespace Aow.Game.Combat.Actions;
 // (successful)
 public class EntangleCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
-    public new const int ClassId = 131774;
+    public new const int ClassId = 131_774;
 
     public bool Successful { get; private set; }
 

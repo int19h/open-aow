@@ -10,7 +10,7 @@ public class AltarOfFire(CustomNode owner) : Altar(owner)
 {
 
     // AltFire.pas:42
-    public new const int ClassId = 131642;
+    public new const int ClassId = 131_642;
 
     // AltFire.pas:45
     public override Storm CreateStorm() => new FireStorm(null) { Holder = CreationHolder() };
@@ -19,10 +19,10 @@ public class AltarOfFire(CustomNode owner) : Altar(owner)
     {
 
         // AltFire.pas:58
-        public new const int ClassId = 131643;
+        public new const int ClassId = 131_643;
 
         // AltFire.pas:61
-        public override int ResourceUserClassId() => 131642;
+        public override int ResourceUserClassId() => AltarOfFire.ClassId;
 
         // AltFire.pas:55
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_altarOfFireText);

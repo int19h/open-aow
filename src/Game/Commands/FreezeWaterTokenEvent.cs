@@ -15,7 +15,7 @@ namespace Aow.Game.Commands;
 
 public class FreezeWaterTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
-    public new const int ClassId = 135939;
+    public new const int ClassId = 135_939;
 
     // GlobalTargetSpells.pas:679
     public override bool Process(Troop source, int value)

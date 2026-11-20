@@ -17,7 +17,7 @@ namespace Aow.Game.World.Structures;
 public class CityEnchantment : GlobalEnchantment
 {
     // City.pas:2722
-    public new const int ClassId = 131820;
+    public new const int ClassId = 131_820;
 
     public CityEnchantmentId CityEnchantmentId { get; set; }
 

@@ -21,7 +21,7 @@ namespace Aow.Game.Session;
 
 public class SimultaneousPlayerControl(CustomNode owner) : PlayerControl(owner)
 {
-    public new const int ClassId = 131665;
+    public new const int ClassId = 131_665;
 
     // PlayerC.PAS:1343
     public override void NewDay()

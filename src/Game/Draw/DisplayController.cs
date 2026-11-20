@@ -133,7 +133,7 @@ public partial class DisplayController(Component owner) : Component(owner)
     private int _lastFrameTime;
     private ushort _frameCount;
 
-    internal Set<DisplayControllerStatusElement> Status { get; set; }
+    internal Set<DisplayControllerStatusElement> Status { get; private protected set; }
 
     private CustomDisplay _display;
 
@@ -474,7 +474,7 @@ public partial class DisplayController(Component owner) : Component(owner)
         if (_frameCount >= 5)
         {
             int t = PixelFormats.ElapsedMilliseconds;
-            _display.CurrentFrameRate = Round((double)5000 / (t - _lastFrameTime + 1));
+            _display.CurrentFrameRate = Round((double)5_000 / (t - _lastFrameTime + 1));
             _frameCount = 0;
             _lastFrameTime = t;
         }

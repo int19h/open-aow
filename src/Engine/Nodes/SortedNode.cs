@@ -9,7 +9,7 @@ public class SortedNode(CustomNode owner) : CustomNode(owner)
     // Engine.pas:1478
     public new const int ClassId = 260;
 
-    protected internal int StoredCount { get; set; }
+    protected internal int StoredCount { get; protected set; }
 
     protected internal int Capacity { get; private set; }
 

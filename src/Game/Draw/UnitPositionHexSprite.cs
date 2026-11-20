@@ -19,7 +19,7 @@ public class UnitPositionHexSprite(CustomNode owner) : SingleHexSprite(owner)
 {
 
     // AoWTC.pas:5016
-    public new const int ClassId = 2228483;
+    public new const int ClassId = 2_228_483;
 
     private sbyte _position;
     private sbyte _index;
@@ -91,7 +91,7 @@ public class UnitPositionHexSprite(CustomNode owner) : SingleHexSprite(owner)
     }
 
     // AoWTC.pas:5068
-    public override bool CanPlace(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel) => map.GetField(hexX, hexY, hexLevel).FindOwnedChild(2228483) is null && CombatMap.Current.UnitPositions.ValidatePosition(ref _position, ref _index);
+    public override bool CanPlace(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel) => map.GetField(hexX, hexY, hexLevel).FindOwnedChild(ClassId) is null && CombatMap.Current.UnitPositions.ValidatePosition(ref _position, ref _index);
 
     // AoWTC.pas:5026
     public void UpdateImageIndex() => _imageIndex = (_position * 8) + _index;

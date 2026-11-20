@@ -16,7 +16,7 @@ namespace Aow.Game.Units;
 // (unit ID, ability ID)
 public class UnitEnchantment : Enchantment
 {
-    public new const int ClassId = 135951;
+    public new const int ClassId = 135_951;
 
     // AoWAb.PAS:785
     public UnitEnchantment(CustomNode owner) : base(null)

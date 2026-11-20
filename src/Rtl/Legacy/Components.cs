@@ -97,7 +97,7 @@ public class Component : Persistent
     public int ComponentIndex
     {
         get => Owner?.children.IndexOf(this) ?? -1;
-        set
+        internal set
         {
             if (Owner is null)
             {

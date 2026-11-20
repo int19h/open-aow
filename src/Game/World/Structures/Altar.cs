@@ -22,7 +22,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
 {
 
     // Altar.pas:59
-    public new const int ClassId = 132081;
+    public new const int ClassId = 132_081;
 
     private Storm _storm;
 
@@ -70,7 +70,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
                 int targetMana = TargetMana();
                 StrategicMap.Current.Players.GetPlayers(Player).MagicControl.SetMana(player.MagicControl.Mana - targetMana);
                 RechargeDays = 0;
-                _storm.InitializeStorm(Player, (sbyte)(tokenEvent.Param & 255), (sbyte)((tokenEvent.Param >>> 8) & 255), L: (sbyte)((tokenEvent.Param >>> 16) & 255));
+                _storm.InitializeStorm(Player, (sbyte)(tokenEvent.Param & 0xFF), (sbyte)((tokenEvent.Param >>> 8) & 0xFF), L: (sbyte)((tokenEvent.Param >>> 16) & 0xFF));
             }
 
             if (_storm is not null)

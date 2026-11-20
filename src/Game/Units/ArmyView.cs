@@ -14,7 +14,7 @@ namespace Aow.Game.Units;
 // UnitConcealment. ConcealedForPlayers. MoraleValues
 public class ArmyView(CustomNode owner) : Army(owner)
 {
-    public new const int ClassId = 131609;
+    public new const int ClassId = 131_609;
 
     public ushort[] UnitConcealment { get; } = new ushort[8];
 

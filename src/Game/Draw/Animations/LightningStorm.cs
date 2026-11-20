@@ -19,7 +19,7 @@ namespace Aow.Game.Draw.Animations;
 // storm image library
 public class LightningStorm(CustomNode owner) : Storm(owner)
 {
-    public new const int ClassId = 135739;
+    public new const int ClassId = 135_739;
 
     private CustomImageLibrary _stormImages;
 

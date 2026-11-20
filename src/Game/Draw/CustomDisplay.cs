@@ -161,7 +161,7 @@ public partial class CustomDisplay : Component
     public virtual void SetFrameRate(int value)
     {
         _frameRate = value;
-        FrameTime = _frameRate != 0 ? Round((double)1000 / _frameRate) : 0;
+        FrameTime = _frameRate != 0 ? Round((double)1_000 / _frameRate) : 0;
     }
 
     // DisplayC.pas:1492
@@ -274,7 +274,7 @@ public partial class CustomDisplay : Component
         return DisplayControllerError.Ok;
     }
 
-    public int Cursor { get => GetCursor(); set => SetCursor(value); }
+    public int Cursor => GetCursor();
     public DisplayController ActiveDisplayController { get; private set; }
     protected internal Set<OptionsElement> Options { get; }
     protected internal BufferingScheme BufferingScheme { get => _bufferingScheme; set => SetBufferingScheme(value); }

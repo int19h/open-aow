@@ -7,7 +7,7 @@ namespace Aow.Game.AI;
 public class AITransporterBudget : AIBudget
 {
     // AI.pas:2198
-    public new const int ClassId = 131742;
+    public new const int ClassId = 131_742;
 
     // AI.pas:2192
     public AITransporterBudget(CustomNode owner) : base(owner) => DayGoldMax = 15;

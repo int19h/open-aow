@@ -871,7 +871,7 @@ public partial class General(UIContext ui) : UIModule(ui)
         controller.UI.ProgressDialog.Window.Visible = true;
         if (!controller.UI.TitleScene.Window.Visible)
         {
-            controller.UI.General.Manager.OverlayPriority = 5000;
+            controller.UI.General.Manager.OverlayPriority = 5_000;
         }
 
         _ = AudioHost.SongPlayer.Stop(false);

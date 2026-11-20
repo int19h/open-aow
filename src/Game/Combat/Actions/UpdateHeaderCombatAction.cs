@@ -7,7 +7,7 @@ namespace Aow.Game.Combat.Actions;
 public class UpdateHeaderCombatAction(CustomNode owner) : CombatAction(owner)
 {
     // Combat2.pas:960
-    public new const int ClassId = 131766;
+    public new const int ClassId = 131_766;
 
     public string Header { get; set; } = "";
 

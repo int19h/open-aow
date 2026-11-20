@@ -28,7 +28,7 @@ public class LifeMastery : GlobalEnchantmentSpell
         // { Original assigns Cosmos to Life Mastery. }
         MagicSphere = MagicSphere.Cosmos;
         CastDuration = 40;
-        AIBasePriority = 1000;
+        AIBasePriority = 1_000;
     }
 
     // GlobalEnchantmentSpells.pas:1457

@@ -20,7 +20,7 @@ public class CityOverlayHexSprite(CustomNode owner) : SingleHexSprite(owner)
     private int _shellEndFrame;
 
     // City.pas:718
-    public override int GetShowPriority() => City.GetShowPriority() + 134217728;
+    public override int GetShowPriority() => City.GetShowPriority() + 134_217_728;
 
     // City.pas:733
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)

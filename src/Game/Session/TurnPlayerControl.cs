@@ -21,7 +21,7 @@ namespace Aow.Game.Session;
 
 public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
 {
-    public new const int ClassId = 131664;
+    public new const int ClassId = 131_664;
 
     // PlayerC.PAS:589
     public override void NewTurn(sbyte player)
@@ -410,7 +410,7 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
     public void ReplayLogbook()
     {
         EventLogbook book = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).EventLogbook;
-        int index = book.FindFirstLog(131811, player: StrategicMap.Current.CurrentPlayer, day: StrategicMap.Current.Day - 1);
+        int index = book.FindFirstLog(EndTurnEventLog.ClassId, player: StrategicMap.Current.CurrentPlayer, day: StrategicMap.Current.Day - 1);
         for (int i = index + 1, last = book.GetCount() - 1; i <= last; i++)
         {
             _ = book[i].Execute(false, trigger: ExecuteTrigger.NewTurn, done: null);

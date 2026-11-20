@@ -33,7 +33,7 @@ namespace Aow.Game.World.Map;
 // raised a timer event, and the stored children keep their original slots through ChildSlots
 public partial class GameMap : OwningNode
 {
-    public new const int ClassId = 66048;
+    public new const int ClassId = 66_048;
 
     public GameMap(CustomNode owner) : base(owner)
     {
@@ -356,7 +356,7 @@ public partial class GameMap : OwningNode
     }
 
     // HSMAP.PAS:96
-    public virtual bool AddMapLevel() => MapContainer.AddLevel(65794);
+    public virtual bool AddMapLevel() => MapContainer.AddLevel(65_794);
 
     // HSMAP.PAS:101
     public virtual void Activate()
@@ -773,7 +773,7 @@ public partial class GameMap : OwningNode
     public virtual void NewFrame()
     {
         Frame += 1;
-        if (Frame > 1048575)
+        if (Frame > 1_048_575)
         {
             Frame = 0;
         }
@@ -1071,8 +1071,8 @@ public partial class GameMap : OwningNode
     public VisibilityList StaticFixedVisibleHexSprite { get; }
     public VisibilityList DynamicFixedVisibleHexSprite { get; }
     public bool StaticSceneInvalid { get; set; }
-    public bool DynamicSceneInvalid { get; set; }
-    public int Version { get; set; }
+    public bool DynamicSceneInvalid { get; protected set; }
+    public int Version { get; private set; }
     public string HssFileName { get => _hssFileName; set => SetHssFileName(value); }
     public Set<HexSpriteMapStatusElement> Status { get; set; }
     public int Frame { get; private set; }
@@ -1206,22 +1206,22 @@ public partial class GameMap : OwningNode
                 HexSprite hexSprite = MapContainer.GetField(_selectorX, _selectorY, ViewMapLevel).GetMaxLevelNoneTransparentHexSprite();
                 if (hexSprite is not null)
                 {
-                    if (hexSprite.GetShowPriority() > 1744830464)
+                    if (hexSprite.GetShowPriority() > 1_744_830_464)
                     {
                         int showPriority = hexSprite.GetShowPriority();
                         _frontHexSelector.ShowPriority = showPriority + 100;
                     }
                     else
                     {
-                        _frontHexSelector.ShowPriority = 1744830464 + ((pixelY + 32 + 32) << 13) + pixelX;
+                        _frontHexSelector.ShowPriority = 1_744_830_464 + ((pixelY + 32 + 32) << 13) + pixelX;
                     }
                 }
                 else
                 {
-                    _frontHexSelector.ShowPriority = 1744830464 + ((pixelY + 32 + 32) << 13) + pixelX;
+                    _frontHexSelector.ShowPriority = 1_744_830_464 + ((pixelY + 32 + 32) << 13) + pixelX;
                 }
 
-                _backHexSelector.ShowPriority = 1744830464 + ((pixelY + 32 - 8) << 13) + pixelX;
+                _backHexSelector.ShowPriority = 1_744_830_464 + ((pixelY + 32 - 8) << 13) + pixelX;
             }
         }
         else
@@ -1276,7 +1276,7 @@ public partial class GameMap : OwningNode
         sbyte l = coordinate31.MapLevel;
         if (x != -1)
         {
-            ItemHexSprite items = StrategicMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild<ItemHexSprite>(131697);
+            ItemHexSprite items = StrategicMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild<ItemHexSprite>(ItemHexSprite.ClassId);
             if (items is not null)
             {
                 return items.Items;
@@ -1297,7 +1297,7 @@ public partial class GameMap : OwningNode
         }
 
         info.Text = text;
-        info.Color = 16777215;
+        info.Color = 0xFF_FF_FF;
         notification.Info = info;
         _showMessageEventsStore.Raise(notification);
         _messageText = text;
@@ -1315,7 +1315,7 @@ public partial class GameMap : OwningNode
         }
 
         info.Text = text;
-        info.Color = 16777215;
+        info.Color = 0xFF_FF_FF;
         notification.Info = info;
         _showMessageEventsStore.Raise(notification);
         _messageText = text;
@@ -1495,19 +1495,19 @@ public partial class GameMap : OwningNode
         if (_messageFrame != 0)
         {
             _messageFrame = (byte)(_messageFrame - 1);
-            if (((_messageFrame & 16) == 0 && (_messageFrame & 15) < 7) || ((_messageFrame & 16) == 16 && (_messageFrame & 15) < 11))
+            if (((_messageFrame & 0b0001_0000) == 0 && (_messageFrame & 0xF) < 7) || ((_messageFrame & 0b0001_0000) == 0b0001_0000 && (_messageFrame & 0xF) < 11))
             {
                 info.Text = _messageText;
-                _messageFrame = (byte)(_messageFrame & 240);
-                if ((_messageFrame & 16) == 0)
+                _messageFrame = (byte)(_messageFrame & 0xF0);
+                if ((_messageFrame & 0b0001_0000) == 0)
                 {
-                    info.Color = 3487029;
+                    info.Color = 0x35_35_35;
 
                     notification.Info = info;
                 }
                 else
                 {
-                    info.Color = 16777215;
+                    info.Color = 0xFF_FF_FF;
 
                     notification.Info = info;
                 }
@@ -1518,7 +1518,7 @@ public partial class GameMap : OwningNode
             if (_messageFrame == 0)
             {
                 info.Text = "";
-                info.Color = 16777215;
+                info.Color = 0xFF_FF_FF;
                 notification.Info = info;
                 _showMessageEventsStore.Raise(notification);
             }
@@ -1647,7 +1647,7 @@ public partial class GameMap : OwningNode
     {
         if (R.Left > 0 && R.Top > 0 && pixelXSurface < R.Right && pixelYSurface < R.Bottom && R.Right < ViewWidth + pixelXSurface && R.Bottom < ViewHeight + pixelYSurface)
         {
-            int color = 2134015;
+            int color = 2_134_015;
             DrawLine(R.Left - pixelXSurface, R.Top - pixelYSurface, R.Right - pixelXSurface, R.Top - pixelYSurface, color, lockedSurface);
             DrawLine(R.Right - pixelXSurface, R.Top - pixelYSurface, R.Right - pixelXSurface, R.Bottom - pixelYSurface, color, lockedSurface);
             DrawLine(R.Right - pixelXSurface, R.Bottom - pixelYSurface, R.Left - pixelXSurface, R.Bottom - pixelYSurface, color, lockedSurface);

@@ -213,7 +213,7 @@ public class AIGroupProductionControl : AIGroupTask
             useful = _remainingStrength > 0 && unit.GetStrengthMax(_damageTypes) > 0;
             if (!useful)
             {
-                for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
+                for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
                 {
                     DamageType d = (DamageType)dOrdinal;
                     useful = _remainingStrengths[(int)d] > 0 && unit.GetStrength(d) > 0;
@@ -226,7 +226,7 @@ public class AIGroupProductionControl : AIGroupTask
 
                 if (!useful && Superiority != -1)
                 {
-                    useful = (_control.CombatPredictor.Usefullness(unit) & 8388608) != 0;
+                    useful = (_control.CombatPredictor.Usefullness(unit) & 0b1000_0000_0000_0000_0000_0000) != 0;
                     if (useful)
                     {
                         result += 50;
@@ -281,7 +281,7 @@ public class AIGroupProductionControl : AIGroupTask
         Complete = _remainingStrength <= 0;
         if (Complete)
         {
-            for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
+            for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
             {
                 DamageType d = (DamageType)dOrdinal;
                 if (_remainingStrengths[(int)d] > 0)
@@ -344,7 +344,7 @@ public class AIGroupProductionControl : AIGroupTask
         // { Original bug: upkeep is based on total costs rather than accumulated upkeep. }
         _goldUpkeep = _gold + production.GoldUpkeep;
         _manaUpkeep = _mana + production.ManaUpkeep;
-        for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
+        for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
         {
             DamageType d = (DamageType)dOrdinal;
             int strength = production.Unit.GetStrength(d);
@@ -371,7 +371,7 @@ public class AIGroupProductionControl : AIGroupTask
             _mana -= production.Mana;
             _goldUpkeep -= production.GoldUpkeep;
             _manaUpkeep -= production.ManaUpkeep;
-            for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
+            for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
             {
                 DamageType d = (DamageType)dOrdinal;
                 int strength = production.Unit.GetStrength(d);

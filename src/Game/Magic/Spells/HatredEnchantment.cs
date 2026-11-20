@@ -12,7 +12,7 @@ namespace Aow.Game.Magic.Spells;
 public class HatredEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:841
-    public new const int ClassId = 135957;
+    public new const int ClassId = 135_957;
 
     public int DaysActive { get; set; }
 

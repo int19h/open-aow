@@ -12,7 +12,7 @@ namespace Aow.Game.Combat.Actions;
 public class AnimateDeadCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:2021
-    public new const int ClassId = 131782;
+    public new const int ClassId = 131_782;
 
     // CombatSpells.pas:2024
     public override void Execute(Battle combat)

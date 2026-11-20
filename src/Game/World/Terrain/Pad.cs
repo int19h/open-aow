@@ -10,7 +10,7 @@ public class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(owner)
 {
 
     // Pad.pas:52
-    public new const int ClassId = 131334;
+    public new const int ClassId = 131_334;
 
     // Pad.pas:55
     public override bool CanSelect(int pixelX, int pixelY) => false;
@@ -24,7 +24,7 @@ public class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(owner)
         public Resource(CustomNode owner) : base(owner) => SetLevel(10);
 
         // Pad.pas:76
-        public new const int ClassId = 131335;
+        public new const int ClassId = 131_335;
 
         private byte _padSize;
 
@@ -40,7 +40,7 @@ public class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(owner)
         }
 
         // Pad.pas:101
-        public override EditorClass Editor() => Engine.Editors.FindEditor(131335) ?? base.Editor();
+        public override EditorClass Editor() => Engine.Editors.FindEditor(ClassId) ?? base.Editor();
 
         // Pad.pas:95
         public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -53,7 +53,7 @@ public class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(owner)
         }
 
         // Pad.pas:82
-        public override int ResourceUserClassId() => 131334;
+        public override int ResourceUserClassId() => Pad.ClassId;
 
         // Pad.pas:85
         public void ActivateMessage()

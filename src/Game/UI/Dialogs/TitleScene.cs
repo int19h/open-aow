@@ -298,7 +298,7 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
             TitleSceneImages[(i * 3) + 10 + image].Show(x + (spacing * i), y + 355, lockedSurface: surface);
             if (i == HitTest())
             {
-                _font.Color = 16777215;
+                _font.Color = 0xFF_FF_FF;
                 string translatedText = UI.Engine.TranslateResourceString(TitleCaptions.TitleButtons[i]);
                 LibraryImage titleSceneImageLibrary = TitleSceneImages[10];
                 _font.SetTextCentered(x + (spacing * i) + (titleSceneImageLibrary.Width / 2), y + 445, text: translatedText, lockedSurface: surface);
@@ -672,7 +672,7 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
         controller.UI.ProgressDialog.Window.Visible = true;
         if (!controller.UI.TitleScene.Window.Visible)
         {
-            controller.Manager.OverlayPriority = 5000;
+            controller.Manager.OverlayPriority = 5_000;
         }
 
         _ = AudioHost.SongPlayer.Stop(false);
@@ -800,7 +800,7 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
         }
 
         controller.UI.TaskBar.WorldClockDelay = 0;
-        controller.UI.TaskBar.ChatButton.TextColor = 14;
+        controller.UI.TaskBar.ChatButton.TextColor = 0x00_00_0E;
         controller.UI.TaskBar.ChatFlash = 0;
         controller.UI.VideoDialog.ChangeResolution(controller.UI.VideoDialog.DisplayWidth, controller.UI.VideoDialog.DisplayHeight);
     }

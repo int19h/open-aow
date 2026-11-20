@@ -16,15 +16,15 @@ public static class EngineServices
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi clipboard stub keeps stream and format in its signature.")]
     internal static int PasteStreamFromClipboard(Stream stream, string format) => 0;
 
-    internal const int MaxListSize = 134217727;
+    internal const int MaxListSize = 134_217_727;
 
     internal const ControlStyleElement Stored = 0;
 
-    internal const ControlStyleElement Shared = (ControlStyleElement)1;
+    internal const ControlStyleElement Shared = ControlStyleElement.FixedChild;
 
-    internal const ControlStyleElement Reserved2 = (ControlStyleElement)2;
+    internal const ControlStyleElement Reserved2 = ControlStyleElement.VerifyFixedChildren;
 
-    internal const ControlStyleElement KeepIndex = (ControlStyleElement)3;
+    internal const ControlStyleElement KeepIndex = ControlStyleElement.ArrayMode;
 
     internal static string ReplaceText(string S, string old, string newValue)
     {
@@ -48,7 +48,7 @@ public static class EngineServices
         int crc = -1;
         foreach (byte value in buffer[..size])
         {
-            crc = s_crc32Table[(value ^ crc) & 255] ^ (crc >>> 8);
+            crc = s_crc32Table[(value ^ crc) & 0xFF] ^ (crc >>> 8);
         }
 
         return crc ^ -1;
@@ -57,7 +57,7 @@ public static class EngineServices
     internal static void StringToStream(string S, Stream stream)
     {
         int length = S.Length;
-        stream.Write(Bytes.Of(ref length, count: 4));
+        stream.Write(Bytes.Of(ref length));
         stream.Write(Cp1252.Encode(S).AsSpan()[..length]);
     }
 
@@ -71,7 +71,7 @@ public static class EngineServices
 
     private static ImmutableArray<int> BuildCrc32Table()
     {
-        const int polynomial = -306674912;
+        const int polynomial = -306_674_912;
         int[] table = new int[256];
         for (int i = 0; i <= 255; i++)
         {

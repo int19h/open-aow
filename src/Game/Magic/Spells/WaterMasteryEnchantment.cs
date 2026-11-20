@@ -14,7 +14,7 @@ namespace Aow.Game.Magic.Spells;
 public class WaterMasteryEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:760
-    public new const int ClassId = 135956;
+    public new const int ClassId = 135_956;
 
     // GlobalEnchantmentSpells.pas:752
     public WaterMasteryEnchantment(CustomNode owner, EngineObject holder) : base(owner)
@@ -26,7 +26,7 @@ public class WaterMasteryEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:765
-    public override int GetAIUpkeepPriority() => 1250;
+    public override int GetAIUpkeepPriority() => 1_250;
 
     // GlobalEnchantmentSpells.pas:791
     public override bool Deactivate(byte player)

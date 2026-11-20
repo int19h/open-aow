@@ -12,7 +12,7 @@ public class DivineStorm(CustomNode owner) : BlastStorm(owner)
 {
 
     // Storms.pas:608
-    public new const int ClassId = 135740;
+    public new const int ClassId = 135_740;
 
     // Storms.pas:618
     public override void ChangeStormTerrain(MapField mapField, ref sbyte terrainType, in sbyte overlayType)

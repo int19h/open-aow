@@ -23,7 +23,7 @@ public class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(o
 {
 
     // GlobalTargetSpells.pas:1559
-    public new const int ClassId = 135972;
+    public new const int ClassId = 135_972;
 
     private int _angle;
     private Animation _animation;
@@ -66,7 +66,7 @@ public class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(o
             };
             _animation.SetShowHandler(ShowAnimation);
             _animation.AnimationMap = StrategicMap.Current;
-            _animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
+            _animation.Tag = (StrategicMap.Current.ViewWidth & 0xFFFF) | (StrategicMap.Current.ViewHeight << 16);
             _animation.Activate();
         }
         if (value == 80)

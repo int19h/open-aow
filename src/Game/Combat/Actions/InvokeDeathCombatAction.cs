@@ -11,7 +11,7 @@ namespace Aow.Game.Combat.Actions;
 // (successful)
 public class InvokeDeathCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
-    public new const int ClassId = 131780;
+    public new const int ClassId = 131_780;
 
     public bool Successful { get; private set; }
 

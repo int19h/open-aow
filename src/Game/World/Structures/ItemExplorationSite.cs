@@ -26,7 +26,7 @@ public class ItemExplorationSite : ExplorationSite
     }
 
     // ItemExpS.pas:102
-    public new const int ClassId = 132083;
+    public new const int ClassId = 132_083;
 
     private byte _itemCount;
     // 0 user-defined, 4 random

@@ -115,13 +115,13 @@ public partial class MoveControlSettings : EngineObject
         Path.Clear();
         SubMoves.Clear();
         ProcessedMapFields.Clear();
-        MovePointsMax = 4095;
+        MovePointsMax = 4_095;
         MovePointTable movePointTable = MovePointTable;
         movePointTable.Fill(-1);
         MovePointTable = movePointTable;
         for (int i = 0, last = _levelCount - 1; i <= last; i++)
         {
-            _levelData[i]?.AsSpan(0, length: _width * _height).Fill(16777215);
+            _levelData[i]?.AsSpan(0, length: _width * _height).Fill(16_777_215);
         }
 
         Mode = Set<MoveModeElement>.Of();
@@ -167,7 +167,7 @@ public partial class MoveControlSettings : EngineObject
         if (_levelData[level] is null)
         {
             Array.Resize(ref _levelData[level], newSize: _width * _height);
-            _levelData[level].AsSpan(0, length: _width * _height).Fill(16777215);
+            _levelData[level].AsSpan(0, length: _width * _height).Fill(16_777_215);
         }
     }
 
@@ -211,7 +211,7 @@ public partial class MoveControlSettings : EngineObject
         {
             for (int i = 0, last = _levelCount - 1; i <= last; i++)
             {
-                _levelData[i]?.AsSpan(0, length: _width * _height).Fill(16777215);
+                _levelData[i]?.AsSpan(0, length: _width * _height).Fill(16_777_215);
             }
 
             _movePointsClear = true;

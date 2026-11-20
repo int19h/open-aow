@@ -11,9 +11,9 @@ public struct StormDamageInfo
     public sbyte Player { get; internal set; }
     public sbyte IndependentRelation { get; }
 
-    public Set<byte> FriendlyRelations { get; set => field = Set<byte>.FromMask((byte)value.Image); }
+    public readonly Set<byte> FriendlyRelations { get; init => field = Set<byte>.FromMask((byte)value.Image); }
 
-    public Set<byte> EnemyRelations { get; set => field = Set<byte>.FromMask((byte)value.Image); }
+    public readonly Set<byte> EnemyRelations { get; init => field = Set<byte>.FromMask((byte)value.Image); }
 
     public int FriendlyValue { get; internal set; }
     public int EnemyValue { get; internal set; }

@@ -13,7 +13,7 @@ namespace Aow.Game.Events;
 // UnitId. OldLevel. NewLevel. UpgradeDay
 public partial class HeroUpgradeEventLog(CustomNode owner) : EventLog(owner)
 {
-    public new const int ClassId = 131825;
+    public new const int ClassId = 131_825;
 
     public int UnitId { get; set; }
     public byte OldLevel { get; set; }

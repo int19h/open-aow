@@ -41,8 +41,8 @@ public class SummonedAbility : UnitEnchantmentAbility
                 1 => 250,
                 2 => 250,
                 3 => 500,
-                4 => 1000,
-                _ => 1000,
+                4 => 1_000,
+                _ => 1_000,
             };
     }
 
@@ -62,8 +62,8 @@ public class SummonedAbility : UnitEnchantmentAbility
             1 => 250,
             2 => 250,
             3 => 500,
-            4 => 1000,
-            _ => 1000,
+            4 => 1_000,
+            _ => 1_000,
         };
     }
 

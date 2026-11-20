@@ -15,7 +15,7 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
 {
 
     // ReflectingPool.pas:58
-    public new const int ClassId = 132670;
+    public new const int ClassId = 132_670;
 
     private int _centerFrame = -1;
 
@@ -298,10 +298,10 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
         }
 
         // ReflectingPool.pas:266
-        public new const int ClassId = 132671;
+        public new const int ClassId = 132_671;
 
         // ReflectingPool.pas:269
-        public override int ResourceUserClassId() => 132670;
+        public override int ResourceUserClassId() => ReflectingPool.ClassId;
 
         // ReflectingPool.pas:263
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_reflectingPoolText);

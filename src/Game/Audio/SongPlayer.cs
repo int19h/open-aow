@@ -8,8 +8,6 @@ namespace Aow.Game.Audio;
 // FPauseCount. Plays the songs in turn (Update starts the next one)
 public class SongPlayer : IDisposable
 {
-    private readonly DelphiStringList _songs;
-
     public event NotifyEvent<SongPlayer> OnSongChange;
 
     internal void SetSongChangeHandler(NotifyEvent<SongPlayer> handler) => OnSongChange = handler;
@@ -18,35 +16,35 @@ public class SongPlayer : IDisposable
     private int _pauseCount;
 
     // Sound.pas:870
-    internal void SetSongs(DelphiStringList value) => _songs.Assign(value);
+    internal void SetSongs(DelphiStringList value) => Songs.Assign(value);
 
     // Sound.pas:875
     internal void SongsChanged(object sender)
     {
         SongNames.Clear();
-        for (int i = _songs.Count - 1; i >= 0; i--)
+        for (int i = Songs.Count - 1; i >= 0; i--)
         {
             try
             {
-                string songName = AudioPlayback.GetSongName(_songs[i]);
+                string songName = AudioPlayback.GetSongName(Songs[i]);
                 SongNames.Insert(0, value: songName);
             }
             catch
             {
-                _songs.Delete(i);
+                Songs.Delete(i);
             }
         }
 
         if (Status.Contains(StatusElement.Playing))
         {
-            if (_songs.Count != 0)
+            if (Songs.Count != 0)
             {
                 if (CurrentIndex != -1)
                 {
-                    int count = _songs.Count;
-                    if (CurrentIndex >= count || _songs[CurrentIndex] != CurrentSong)
+                    int count = Songs.Count;
+                    if (CurrentIndex >= count || Songs[CurrentIndex] != CurrentSong)
                     {
-                        CurrentIndex = _songs.IndexOf(CurrentSong);
+                        CurrentIndex = Songs.IndexOf(CurrentSong);
                         if (CurrentIndex == -1)
                         {
                             CurrentSong = "";
@@ -72,7 +70,7 @@ public class SongPlayer : IDisposable
     // Sound.pas:854
     public SongPlayer()
     {
-        _songs = new DelphiStringList
+        Songs = new DelphiStringList
         {
             OnChange = SongsChanged
         };
@@ -83,7 +81,7 @@ public class SongPlayer : IDisposable
     // Sound.pas:863
     public virtual void Dispose()
     {
-        _songs?.Dispose();
+        Songs?.Dispose();
         SongNames?.Dispose();
     }
 
@@ -94,12 +92,12 @@ public class SongPlayer : IDisposable
         if (AudioHost.SoundSystem is not null && Status.Contains(StatusElement.Playing) && !Status.Contains(StatusElement.Paused) && !AudioHost.SoundSystem.PlayingSong && AudioHost.SoundSystem.MusicEnabled)
         {
             CurrentIndex += 1;
-            if (_songs.Count <= CurrentIndex)
+            if (Songs.Count <= CurrentIndex)
             {
                 CurrentIndex = 0;
             }
 
-            int count = _songs.Count;
+            int count = Songs.Count;
             if (CurrentIndex < count)
             {
                 _ = Play(CurrentIndex);
@@ -115,15 +113,15 @@ public class SongPlayer : IDisposable
     public bool Play(int index, int fadeOut, int fadeIn)
     {
         bool result;
-        if (AudioHost.SoundSystem is not null && index >= 0 && index < _songs.Count)
+        if (AudioHost.SoundSystem is not null && index >= 0 && index < Songs.Count)
         {
             Status += Set<StatusElement>.Of(StatusElement.Playing);
-            string item = _songs[index];
+            string item = Songs[index];
             result = AudioHost.SoundSystem.PlaySong(item, fadeOut, fadeIn, loop: false);
             if (result)
             {
                 CurrentIndex = index;
-                CurrentSong = _songs[index];
+                CurrentSong = Songs[index];
                 OnSongChange?.Invoke(this);
             }
             else
@@ -144,15 +142,15 @@ public class SongPlayer : IDisposable
     public bool Play(int index)
     {
         bool result;
-        if (AudioHost.SoundSystem is not null && index >= 0 && index < _songs.Count)
+        if (AudioHost.SoundSystem is not null && index >= 0 && index < Songs.Count)
         {
             Status += Set<StatusElement>.Of(StatusElement.Playing);
-            string item = _songs[index];
+            string item = Songs[index];
             result = AudioHost.SoundSystem.PlaySong(item, fadeOut: 2, fadeIn: 0, loop: false);
             if (result)
             {
                 CurrentIndex = index;
-                CurrentSong = _songs[index];
+                CurrentSong = Songs[index];
                 OnSongChange?.Invoke(this);
             }
             else
@@ -217,7 +215,7 @@ public class SongPlayer : IDisposable
         {
             if (_backup is not null)
             {
-                CurrentIndex = _songs.IndexOf(_backup.FileName);
+                CurrentIndex = Songs.IndexOf(_backup.FileName);
                 _ = CurrentIndex == -1 ? Play(0) : SongStatus.RestoreSongStatus(_backup);
                 _backup = null;
             }
@@ -230,7 +228,7 @@ public class SongPlayer : IDisposable
 
     public string CurrentSong { get; private set; } = "";
     public Set<StatusElement> Status { get; private set; }
-    public DelphiStringList Songs { get => _songs; set => SetSongs(value); }
+    public DelphiStringList Songs { get; }
     public DelphiStringList SongNames { get; }
     public int CurrentIndex { get; private set; }
 

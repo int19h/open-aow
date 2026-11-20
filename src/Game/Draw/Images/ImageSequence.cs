@@ -194,7 +194,7 @@ public class ImageSequence(ImageSequenceList owner) : IDisposable
                         {
                             if (SpeedCount == 0)
                             {
-                                _frameCounter = (_frameCounter + 1) & 16777215;
+                                _frameCounter = (_frameCounter + 1) & 0xFF_FF_FF;
                                 SpeedCount = _sequenceSpeed;
                             }
                             else
@@ -220,7 +220,7 @@ public class ImageSequence(ImageSequenceList owner) : IDisposable
                         {
                             if (SpeedCount == 0)
                             {
-                                _frameCounter = (_frameCounter + 1) & 16777215;
+                                _frameCounter = (_frameCounter + 1) & 0xFF_FF_FF;
                                 SpeedCount = _sequenceSpeed;
                             }
                             else
@@ -239,7 +239,7 @@ public class ImageSequence(ImageSequenceList owner) : IDisposable
                         {
                             if (SpeedCount == 0)
                             {
-                                _frameCounter = (_frameCounter + 1) & 16777215;
+                                _frameCounter = (_frameCounter + 1) & 0xFF_FF_FF;
                                 SpeedCount = _sequenceSpeed;
                             }
                             else
@@ -362,19 +362,19 @@ public class ImageSequence(ImageSequenceList owner) : IDisposable
     public void SaveToStream(Stream stream)
     {
         LibraryDrawing.WriteStringToStream(_imageLibraryName, stream);
-        stream.Write(Bytes.Of(ref _layer, count: 1));
-        stream.Write(Bytes.Of(ref _sequenceSpeed, count: 1));
-        stream.Write(Bytes.Of(ref _sequenceMode, count: 1));
-        stream.Write(Bytes.Of(ref _imageIndex, count: 4));
-        stream.Write(Bytes.Of(ref _offsetX, count: 4));
-        stream.Write(Bytes.Of(ref _offsetY, count: 4));
+        stream.Write(Bytes.Of(ref _layer));
+        stream.Write(Bytes.Of(ref _sequenceSpeed));
+        stream.Write(Bytes.Of(ref _sequenceMode));
+        stream.Write(Bytes.Of(ref _imageIndex));
+        stream.Write(Bytes.Of(ref _offsetX));
+        stream.Write(Bytes.Of(ref _offsetY));
         if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RandomFrameTable).Contains(_sequenceMode))
         {
             FrameTable.SaveToStream(stream);
         }
 
         bool hasNext = Next is not null;
-        stream.Write(Bytes.Of(ref hasNext, count: 1));
+        stream.Write(Bytes.Of(ref hasNext));
         if (hasNext)
         {
             Next.SaveToStream(stream);
@@ -387,12 +387,12 @@ public class ImageSequence(ImageSequenceList owner) : IDisposable
         bool hasNext = default;
         ReleaseImageLibrary();
         LibraryDrawing.ReadStringFromStream(ref _imageLibraryName, stream);
-        stream.ReadExactly(Bytes.Of(ref _layer, count: 1));
-        stream.ReadExactly(Bytes.Of(ref _sequenceSpeed, count: 1));
-        stream.ReadExactly(Bytes.Of(ref _sequenceMode, count: 1));
-        stream.ReadExactly(Bytes.Of(ref _imageIndex, count: 4));
-        stream.ReadExactly(Bytes.Of(ref _offsetX, count: 4));
-        stream.ReadExactly(Bytes.Of(ref _offsetY, count: 4));
+        stream.ReadExactly(Bytes.Of(ref _layer));
+        stream.ReadExactly(Bytes.Of(ref _sequenceSpeed));
+        stream.ReadExactly(Bytes.Of(ref _sequenceMode));
+        stream.ReadExactly(Bytes.Of(ref _imageIndex));
+        stream.ReadExactly(Bytes.Of(ref _offsetX));
+        stream.ReadExactly(Bytes.Of(ref _offsetY));
         if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RandomFrameTable).Contains(_sequenceMode))
         {
             FrameTable ??= new FrameTableList();
@@ -401,7 +401,7 @@ public class ImageSequence(ImageSequenceList owner) : IDisposable
             _imageIndex = Random(FrameTable.Count);
         }
 
-        stream.ReadExactly(Bytes.Of(ref hasNext, count: 1));
+        stream.ReadExactly(Bytes.Of(ref hasNext));
         if (hasNext)
         {
             Next = new ImageSequence(Owner);
@@ -485,7 +485,7 @@ public class ImageSequence(ImageSequenceList owner) : IDisposable
     public string ImageLibraryName { get => _imageLibraryName; set => SetImageLibraryName(value); }
     public byte SequenceSpeed { get => _sequenceSpeed; set => _sequenceSpeed = value; }
     public byte SpeedCount { get; private set; }
-    public SequenceMode SequenceMode { get => _sequenceMode; set => SetSequenceMode(value); }
+    public SequenceMode SequenceMode { get => _sequenceMode; internal set => SetSequenceMode(value); }
     public FrameTableList FrameTable { get; private set; }
     public int ImageIndex { get => _imageIndex; set => _imageIndex = value; }
     public int OffsetX { get => _offsetX; set => _offsetX = value; }

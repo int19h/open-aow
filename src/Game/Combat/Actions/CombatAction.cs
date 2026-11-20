@@ -10,7 +10,7 @@ public class CombatAction(CustomNode owner) : EngineObject(owner), IOwned<Combat
 {
     // A reference list holds the action and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
-    public new CombatActionList Owner { get => GetOwner<CombatActionList>(); set => SetOwner(value); }
+    public new CombatActionList Owner => GetOwner<CombatActionList>();
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is CombatActionList;
 

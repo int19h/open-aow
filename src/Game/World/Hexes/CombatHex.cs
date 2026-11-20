@@ -13,7 +13,7 @@ namespace Aow.Game.World.Hexes;
 
 public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
 {
-    public new const int ClassId = 2229504;
+    public new const int ClassId = 2_229_504;
 
     private byte _imageVariant;
     private readonly byte[] _transitions = new byte[3];
@@ -204,7 +204,7 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
 
     public new class Resource(CustomNode owner) : AbstractHexagonResource(owner)
     {
-        public new const int ClassId = 2229505;
+        public new const int ClassId = 2_229_505;
 
         public CustomImageLibrary TransitionLibrary { get; private set; }
 
@@ -249,7 +249,7 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
         }
 
         // CombatHex.pas:204
-        public override int ResourceUserClassId() => 2229504;
+        public override int ResourceUserClassId() => CombatHex.ClassId;
 
         // CombatHex.pas:191
         public override HexControl HexControl => Engine.HexSpriteSet.CombatHexes;

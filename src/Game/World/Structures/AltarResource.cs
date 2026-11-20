@@ -15,10 +15,10 @@ public class AltarResource : PlayerStructureResource
     }
 
     // Altar.pas:307
-    public new const int ClassId = 132082;
+    public new const int ClassId = 132_082;
 
     // Altar.pas:310
-    public override int ResourceUserClassId() => 132081;
+    public override int ResourceUserClassId() => Altar.ClassId;
 
     // Altar.pas:304
     public override string ResourceEditName() => "";

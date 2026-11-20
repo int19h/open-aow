@@ -9,7 +9,7 @@ public class CombatImageLibraryTerrainResource(CustomNode owner) : ImageLibraryT
 {
 
     // CombatILTer.pas:175
-    public new const int ClassId = 2228535;
+    public new const int ClassId = 2_228_535;
 
     public sbyte BurnValue { get; private set; }
     public sbyte Defense { get; private set; }
@@ -23,7 +23,7 @@ public class CombatImageLibraryTerrainResource(CustomNode owner) : ImageLibraryT
     }
 
     // CombatILTer.pas:188
-    public override int ResourceUserClassId() => 2228534;
+    public override int ResourceUserClassId() => CombatImageLibraryTerrain.ClassId;
 
     // CombatILTer.pas:178
     public override string ResourceEditName() => "Combat ILTerrain";

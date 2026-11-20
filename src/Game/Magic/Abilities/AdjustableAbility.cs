@@ -6,7 +6,7 @@ namespace Aow.Game.Magic.Abilities;
 // (ability type)
 public class AdjustableAbility(CustomNode owner) : Ability(owner)
 {
-    public AbilityType AbilityType { get; protected set; }
+    public AbilityType AbilityType { get; protected init; }
 
     // AoWAb.PAS:1
     public override AbilityType GetAbilityType() => AbilityType;

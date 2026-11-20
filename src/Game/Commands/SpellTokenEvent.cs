@@ -11,7 +11,7 @@ namespace Aow.Game.Commands;
 // (spell ID, source ID, player, mana)
 public class SpellTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public new const int ClassId = 135936;
+    public new const int ClassId = 135_936;
 
     public int EventSpellId { get; protected set; }
     public int EventSourceId { get; set; }

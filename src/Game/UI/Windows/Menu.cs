@@ -31,8 +31,7 @@ public partial class Menu : GenericWindow
     public int SelectedItem { get; set; }
 
     private InterfaceImageLibrary _imageLibraryTextureSelected;
-    private readonly DelphiStringList _items;
-    private readonly DelphiStringList _itemTypes;
+
     [Published]
     public event NotifyEvent<Menu> OnDrawItem;
 
@@ -58,7 +57,7 @@ public partial class Menu : GenericWindow
     // AOWMenu.pas:102
     public Menu(Component owner) : base(owner)
     {
-        _items = new DelphiStringList
+        Items = new DelphiStringList
         {
             OnChange = OnChangeText
         };
@@ -120,7 +119,7 @@ public partial class Menu : GenericWindow
             }
         }
 
-        _items.Dispose();
+        Items.Dispose();
         i = 0;
         int last = SubMenus.Count - 1;
         for (; i <= last; i += 1)
@@ -173,7 +172,7 @@ public partial class Menu : GenericWindow
         {
             LibraryImage imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame];
             LibraryImage imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame + 7];
-            int count = _items.Count;
+            int count = Items.Count;
             SetWinHeightWithoutInvalidate(imageLibraryFrame.Height + imageLibraryFrameHeight.Height + (count * ItemHeight));
         }
 
@@ -187,12 +186,12 @@ public partial class Menu : GenericWindow
         }
 
         LibraryImage imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame];
-        int fItemsCount = _items.Count;
+        int fItemsCount = Items.Count;
         LibraryImage imageLibraryFrame5 = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
         if (imageLibraryFrame4.Height + (fItemsCount * ItemHeight) + imageLibraryFrame5.Height > WinHeight)
         {
             LibraryImage imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame];
-            int count = _items.Count;
+            int count = Items.Count;
             LibraryImage imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
             SetWinHeightWithoutInvalidate(imageLibraryFrame.Height + (count * ItemHeight) + imageLibraryFrameHeight.Height);
         }
@@ -437,9 +436,9 @@ public partial class Menu : GenericWindow
                 ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, area: rectangle2, ref lockedSurface);
                 base.Font.Color = Color;
                 Rect oldClip = lockedSurface.ClipRectangle;
-                if (_items.Count > 0)
+                if (Items.Count > 0)
                 {
-                    for (int i = 0, last = _items.Count - 1; i <= last; i++)
+                    for (int i = 0, last = Items.Count - 1; i <= last; i++)
                     {
                         LibraryImage imageLibraryFrame5 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
                         if (WinLeft + WinWidth - imageLibraryFrame5.Width < oldClip.Right)
@@ -450,7 +449,7 @@ public partial class Menu : GenericWindow
                             lockedSurface.ClipRectangle = clipRectangle;
                         }
 
-                        if (i < _items.Count && _items.Count > 0)
+                        if (i < Items.Count && Items.Count > 0)
                         {
                             if (i == Highlighted)
                             {
@@ -467,7 +466,7 @@ public partial class Menu : GenericWindow
                                 base.Font.Color = Color;
                             }
 
-                            string item = _items[i];
+                            string item = Items[i];
                             LibraryImage filFrameItem = ImageLibraryFrame[ImageLibraryIndexFrame];
                             LibraryImage imageLibraryFrameWidth2 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
                             base.Font.SetText(WinLeft + BorderWidth + imageLibraryFrameWidth2.Width, WinTop + BorderHeight + filFrameItem.Height + (ItemHeight * i), text: item, lockedSurface);
@@ -679,7 +678,7 @@ public partial class Menu : GenericWindow
                 RaiseMouseMove(this, shift, X, Y);
             }
 
-            if (i > -2 && i < _items.Count)
+            if (i > -2 && i < Items.Count)
             {
                 Highlighted = i;
             }
@@ -885,22 +884,22 @@ public partial class Menu : GenericWindow
     // AOWMenu.pas:440
     public void SetFStrings(DelphiStringList value)
     {
-        _items.Clear();
+        Items.Clear();
         for (int i = 0, last = value.Count - 1; i <= last; i++)
         {
             string valueValue = value[i];
-            _ = _items.Add(valueValue);
+            _ = Items.Add(valueValue);
         }
     }
 
     // AOWMenu.pas:449
     public void SetITStrings(DelphiStringList value)
     {
-        _itemTypes.Clear();
+        ItemTypes.Clear();
         for (int i = 0, last = value.Count - 1; i <= last; i++)
         {
             string valueValue = value[i];
-            _ = _itemTypes.Add(valueValue);
+            _ = ItemTypes.Add(valueValue);
         }
     }
 
@@ -922,10 +921,10 @@ public partial class Menu : GenericWindow
     public int ImageLibraryIndexTSelected { get => _imageLibraryIndexTSelected; set => SetImageLibraryTsIndex(value); }
 
     [Published]
-    public DelphiStringList Items { get => _items; set => SetFStrings(value); }
+    public DelphiStringList Items { get; }
 
     [Published]
-    public DelphiStringList ItemTypes { get => _itemTypes; set => SetITStrings(value); }
+    public DelphiStringList ItemTypes { get; }
 
     [Published]
     public int ItemHeight { get; set; }

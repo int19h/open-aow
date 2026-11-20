@@ -15,7 +15,7 @@ namespace Aow.Game.Magic.Abilities;
 // (duration mode)
 public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
 {
-    public DurationMode DurationMode { get; protected set; }
+    public DurationMode DurationMode { get; protected init; }
 
     // AoWAb.PAS:96
     public override string GetName(AbilityOwner owner)

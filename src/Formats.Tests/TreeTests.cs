@@ -530,7 +530,7 @@ public sealed class TreeTests : FormatsTest
 
     private sealed class ReferenceProbe : IPersistable
     {
-        public int Key { get; set; }
+        public int Key { get; private set; }
 
         public void Persist(IPersister persister) => Key = persister.Reference("Upkeep", domain: "player-slot", Key);
     }

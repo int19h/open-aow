@@ -330,7 +330,7 @@ public class CombatPredictor : IDisposable
                 Sides[u.Side].Delete(j);
                 Sides[u.Side].UnitRemovedFlags[0] = 1;
                 // { Original adds strength when deleting a unit. }
-                for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
+                for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
                 {
                     DamageType d = (DamageType)dOrdinal;
                     int strength = troop.GetStrength(d);
@@ -353,7 +353,7 @@ public class CombatPredictor : IDisposable
         _ = _allUnits.Add(u);
         _ = Sides[side].Add(u);
         Sides[side].UnitRemovedFlags[0] = 1;
-        for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
+        for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
         {
             DamageType d = (DamageType)dOrdinal;
             int strength = troop.GetStrength(d);
@@ -665,7 +665,7 @@ public class CombatPredictor : IDisposable
             for (int i = Sides[0].Count - 1; i >= 0; i--)
             {
                 u = Sides[0].List[i];
-                int score = u.IncomingCombatValue != 0 ? u.CombatValueTotal * 100 / u.IncomingCombatValue : 9999;
+                int score = u.IncomingCombatValue != 0 ? u.CombatValueTotal * 100 / u.IncomingCombatValue : 9_999;
 
                 total += u.CombatValueTotal;
                 _ = list.AddAbility(u, score);
@@ -845,7 +845,7 @@ public class CombatPredictor : IDisposable
 
             if (useful)
             {
-                result |= 8388608;
+                result |= 0b1000_0000_0000_0000_0000_0000;
             }
         }
         else
@@ -874,7 +874,7 @@ public class CombatPredictor : IDisposable
 
             if (useful)
             {
-                result |= 8388608;
+                result |= 0b1000_0000_0000_0000_0000_0000;
             }
         }
 

@@ -22,7 +22,7 @@ namespace Aow.Game.Draw;
 public class WatcherHexSprite : SingleHexSprite
 {
     // GlobalTargetSpells.pas:1220
-    public new const int ClassId = 132989;
+    public new const int ClassId = 132_989;
 
     public byte WatcherState { get; private set; }
 
@@ -67,14 +67,14 @@ public class WatcherHexSprite : SingleHexSprite
     {
         base.MessageProc(ref message, sender);
         int id = message.MessageId;
-        if (id == 537001992)
+        if (id == 537_001_992)
         {
             UpdateExploration();
             UpdateUnfog();
             return;
         }
 
-        if (id == 537001990)
+        if (id == 537_001_990)
         {
             UpdateUnfog();
             UpdateVisibleForSeatedPlayer();

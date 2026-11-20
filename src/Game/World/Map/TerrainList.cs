@@ -64,7 +64,7 @@ public class TerrainList : IDisposable
     }
 
     // HSEngine.pas:1459. The pair as one word: the terrain byte low, the overlay byte high.
-    public ushort GetTandO(int index) => index < _count ? (ushort)((byte)_list[index].Terrain | ((byte)_list[index].Overlay << 8)) : (ushort)65278;
+    public ushort GetTandO(int index) => index < _count ? (ushort)((byte)_list[index].Terrain | ((byte)_list[index].Overlay << 8)) : (ushort)65_278;
 
     // HSEngine.pas:1467
     public void SetTandO(int index, ushort value)

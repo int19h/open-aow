@@ -36,7 +36,7 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
         RefCount = 1;
     }
 
-    public new const int ClassId = 131688;
+    public new const int ClassId = 131_688;
 
     // An item lies in an item list, a hero's inventory, the items a hero wears or an item
     // library. AcceptsOwner admits only those.
@@ -442,7 +442,7 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
     {
         if (x >= 0 && y >= 0 && level >= 0 && x < map.MapContainer.Width && y < map.MapContainer.Height && level < map.MapContainer.LevelCount && map.MapContainer.GetField(x, y, level).TerrainType != 15)
         {
-            ItemHexSprite hexSprite = map.MapContainer.GetField(x, y, level).FindOwnedChild<ItemHexSprite>(131697);
+            ItemHexSprite hexSprite = map.MapContainer.GetField(x, y, level).FindOwnedChild<ItemHexSprite>(ItemHexSprite.ClassId);
             if (hexSprite is null)
             {
                 hexSprite = new ItemHexSprite(null) { Holder = CreationHolder() };

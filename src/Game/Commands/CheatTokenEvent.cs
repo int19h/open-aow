@@ -12,7 +12,7 @@ namespace Aow.Game.Commands;
 
 public class CheatTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public new const int ClassId = 131829;
+    public new const int ClassId = 131_829;
 
     public sbyte Player { get; set; }
     public int CheatId { get; set; }
@@ -36,7 +36,7 @@ public class CheatTokenEvent(CustomNode owner) : TokenEvent(owner)
                     for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
                     {
                         Player players = StrategicMap.Current.Players.GetPlayers(i);
-                        StrategicMap.Current.Players.GetPlayers(i).SetGems(players.Gems + 1000);
+                        StrategicMap.Current.Players.GetPlayers(i).SetGems(players.Gems + 1_000);
                     }
                 }
 
@@ -46,7 +46,7 @@ public class CheatTokenEvent(CustomNode owner) : TokenEvent(owner)
                     for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
                     {
                         Player players = StrategicMap.Current.Players.GetPlayers(i);
-                        StrategicMap.Current.Players.GetPlayers(i).MagicControl.SetMana(players.MagicControl.Mana + 1000);
+                        StrategicMap.Current.Players.GetPlayers(i).MagicControl.SetMana(players.MagicControl.Mana + 1_000);
                     }
                 }
 
@@ -123,7 +123,7 @@ public class CheatTokenEvent(CustomNode owner) : TokenEvent(owner)
                 {
                     for (int i = StrategicMap.Current.Players.GetPlayers(0).Structures.Count - 1; i >= 0; i--)
                     {
-                        if (StrategicMap.Current.Players.GetPlayers(0).Structures.GetStructure(i).EngineClass.ClassId == 131336)
+                        if (StrategicMap.Current.Players.GetPlayers(0).Structures.GetStructure(i).EngineClass.ClassId == World.Structures.City.ClassId)
                         {
                             StrategicMap.Current.Players.GetPlayers(0).Structures.GetStructure(i).SetPlayer(Player);
                         }

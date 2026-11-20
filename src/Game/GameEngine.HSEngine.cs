@@ -199,7 +199,7 @@ public partial class GameEngine : OwningNode
         DelphiStringList files;
         void Search(string directory)
         {
-            foreach (RtlFileEntry entry in Files.FindEntries(directory + mask, attributes: 63 & ~16))
+            foreach (RtlFileEntry entry in Files.FindEntries(directory + mask, attributes: 0b0011_1111 & ~0b0001_0000))
             {
                 HssHeader header = default;
                 // An own scenario set lists the 52-byte header of its validated image, or the header
@@ -219,7 +219,7 @@ public partial class GameEngine : OwningNode
             DelphiStringList directories = new();
             foreach (RtlFileEntry entry in Files.FindEntries($"{directory}*.*", attributes: 16))
             {
-                if ((entry.Attribute & 16) != 0 && entry.Name != "." && entry.Name != "..")
+                if ((entry.Attribute & 0b0001_0000) != 0 && entry.Name != "." && entry.Name != "..")
                 {
                     _ = directories.Add($"{directory}{entry.Name}\\");
                 }

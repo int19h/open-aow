@@ -37,7 +37,7 @@ public class SmokeCloudSpell : GlobalTargetSpell
             _ = GamePack.Current.SpellControl[targetEvent.EventSpellId].CastSounds.Play(0);
         }
 
-        EngineResource resource = ((CustomNode)(object)GamePack.Current.MapObjectResourceList).FindChild<EngineResource>(135747);
+        EngineResource resource = ((CustomNode)(object)GamePack.Current.MapObjectResourceList).FindChild<EngineResource>(SmokeCloud.Resource.ClassId);
         if (resource is not null)
         {
             SmokeCloud cloud = resource.CreateResourceUser<SmokeCloud>();

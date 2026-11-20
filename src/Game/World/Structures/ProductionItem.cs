@@ -11,13 +11,13 @@ namespace Aow.Game.World.Structures;
 public class ProductionItem(CustomNode owner) : EngineObject(owner), IOwned<ProductionQueue>, IOwnedSink<ProductionQueue>
 {
     // The queue the item waits in. AcceptsOwner admits only a ProductionQueue, so the cast never fails.
-    public new ProductionQueue Owner { get => GetOwner<ProductionQueue>(); set => SetOwner(value); }
+    public new ProductionQueue Owner => GetOwner<ProductionQueue>();
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is ProductionQueue;
 
     void IOwnedSink<ProductionQueue>.SetOwner(ProductionQueue owner) => SetOwner(owner);
 
-    public new const int ClassId = 131735;
+    public new const int ClassId = 131_735;
 
     public ProductionOrder Order { get; set; } = new UnknownOrder(0, Parameter: 0, GroupId: 0);
 

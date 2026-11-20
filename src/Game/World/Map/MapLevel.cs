@@ -13,14 +13,14 @@ public partial class MapLevel(CustomNode owner) : CustomNode(owner), IOwned<MapC
 
     // The container the level belongs to. AcceptsOwner admits only a container, so the cast never
     // fails.
-    public new MapContainer Owner { get => GetOwner<MapContainer>(); set => SetOwner(value); }
+    public new MapContainer Owner => GetOwner<MapContainer>();
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is MapContainer;
 
     void IOwnedSink<MapContainer>.SetOwner(MapContainer owner) => SetOwner(owner);
 
     // AoWHSMap.PAS (TAoWMapLevel). HSEngine.pas:2837 gives the engine level 65794.
-    public new const int ClassId = 131091;
+    public new const int ClassId = 131_091;
     private int _count;
 
     protected internal GameEngine Engine { get; private set; }
@@ -89,7 +89,7 @@ public partial class MapLevel(CustomNode owner) : CustomNode(owner), IOwned<MapC
     public int Height { get; private set; }
     public MapContainer MapContainer { get; private set; }
     public GameMap Map { get; private set; }
-    public int MapFieldClassId { get; } = 65793;
+    public int MapFieldClassId { get; } = 65_793;
     public ReadOnlySpan<MapField> Fields => _fields;
 
     public sealed class FieldAccessor(MapLevel target)

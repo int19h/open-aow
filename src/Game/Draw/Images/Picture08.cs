@@ -74,7 +74,7 @@ public class Picture08(CustomImageLibrary owner) : Image08(owner), ILibraryImage
     // ImageLib.pas:7337
     public void AllocateDiscardableImageData(int width, int height)
     {
-        _pitch = width < 32 ? (width + 3) & ~3 : (width + 7) & ~7;
+        _pitch = width < 32 ? (width + 3) & ~0b0011 : (width + 7) & ~0b0111;
 
         // The original allocates 7 bytes more than the rows and aligns its pixel pointer to 8 for
         // MMX. The alignment has no effect on pixels, so the rows start at the first byte and the

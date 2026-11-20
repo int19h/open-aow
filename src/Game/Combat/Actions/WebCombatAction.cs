@@ -11,7 +11,7 @@ namespace Aow.Game.Combat.Actions;
 // (successful)
 public class WebCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
-    public new const int ClassId = 131768;
+    public new const int ClassId = 131_768;
 
     public bool Successful { get; private set; }
 

@@ -18,7 +18,7 @@ public class ProductionPlaceResource : PlayerStructureResource
     }
 
     // PrdPlace.pas:718
-    public new const int ClassId = 132027;
+    public new const int ClassId = 132_027;
 
     public UnitIndexList Units { get; }
 
@@ -37,10 +37,10 @@ public class ProductionPlaceResource : PlayerStructureResource
     }
 
     // PrdPlace.pas:724
-    public override EditorClass Editor() => Engine.Editors.FindEditor(132027) ?? base.Editor();
+    public override EditorClass Editor() => Engine.Editors.FindEditor(ClassId) ?? base.Editor();
 
     // PrdPlace.pas:721
-    public override int ResourceUserClassId() => 132026;
+    public override int ResourceUserClassId() => ProductionPlace.ClassId;
 
     // PrdPlace.pas:715
     public override string ResourceEditName() => "";

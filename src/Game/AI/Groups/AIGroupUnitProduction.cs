@@ -12,7 +12,7 @@ public class AIGroupUnitProduction(CustomNode owner) : EngineObject(owner), IOwn
 {
     // A reference list holds the production and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list.
-    public new AIGroupUnitProductionList Owner { get => GetOwner<AIGroupUnitProductionList>(); set => SetOwner(value); }
+    public new AIGroupUnitProductionList Owner => GetOwner<AIGroupUnitProductionList>();
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is AIGroupUnitProductionList;
 

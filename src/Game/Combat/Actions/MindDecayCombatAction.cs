@@ -10,7 +10,7 @@ namespace Aow.Game.Combat.Actions;
 public class MindDecayCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:1162
-    public new const int ClassId = 131787;
+    public new const int ClassId = 131_787;
 
     // CombatSpells.pas:1168
     public override void Execute(Battle combat)

@@ -110,7 +110,7 @@ public static class HexGeometry
     {
         int nHexY = default;
         bool cancel = false;
-        int nHexX = 65535;
+        int nHexX = 65_535;
         bool found = false;
         int hexNumber = 0;
         while (!found && hexNumber != 6 && !cancel)

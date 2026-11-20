@@ -10,7 +10,7 @@ namespace Aow.Game.Magic.Spells;
 public class PowerLeakEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:1001
-    public new const int ClassId = 135959;
+    public new const int ClassId = 135_959;
 
     // GlobalEnchantmentSpells.pas:993
     public PowerLeakEnchantment(CustomNode owner, EngineObject holder) : base(owner)

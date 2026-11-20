@@ -9,7 +9,7 @@ namespace Aow.Game.Combat.Actions;
 public class FleeCombatAction(CustomNode owner) : CombatAction(owner)
 {
     // Combat2.pas:1099
-    public new const int ClassId = 131776;
+    public new const int ClassId = 131_776;
 
     public byte ObjectId { get; set; }
 

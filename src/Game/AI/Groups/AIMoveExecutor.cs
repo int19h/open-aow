@@ -32,7 +32,7 @@ public class AIMoveExecutor : EngineObject
         Clear();
     }
 
-    public MapCoordinate Destination { get; internal set; }
+    public MapCoordinate Destination { get; private set; }
 
     public AIMoveExecutorControl Control { get; private set; }
     public Int32List ControlQueue { get; private set; }

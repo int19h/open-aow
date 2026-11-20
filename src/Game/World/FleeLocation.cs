@@ -13,14 +13,14 @@ public class FleeLocation(CustomNode owner) : MapObject(owner)
 {
 
     // FleeLoc.pas:76
-    public new const int ClassId = 2229544;
+    public new const int ClassId = 2_229_544;
 
     private bool _highlighted;
     private int _alpha;
     private int _alphaStep;
 
     // FleeLoc.pas:82
-    public override int GetShowPriority() => 1744830464 + (HexY << 13) + HexX;
+    public override int GetShowPriority() => 1_744_830_464 + (HexY << 13) + HexX;
 
     // FleeLoc.pas:151
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -78,7 +78,7 @@ public class FleeLocation(CustomNode owner) : MapObject(owner)
         if (!EditMode)
         {
             MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
-            EngineObject oldHex = mapField.FindOwnedChild(132439);
+            EngineObject oldHex = mapField.FindOwnedChild(Hexes.BorderHex.ClassId);
             if (oldHex is not null)
             {
                 oldHex?.Dispose();
@@ -123,10 +123,10 @@ public class FleeLocation(CustomNode owner) : MapObject(owner)
     {
 
         // FleeLoc.pas:163
-        public new const int ClassId = 2229545;
+        public new const int ClassId = 2_229_545;
 
         // FleeLoc.pas:169
-        public override int ResourceUserClassId() => 2229544;
+        public override int ResourceUserClassId() => FleeLocation.ClassId;
 
         // FleeLoc.pas:166
         public override string ResourceEditName() => "Combat Flee Location";

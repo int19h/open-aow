@@ -8,7 +8,7 @@ namespace Aow.Game.Session;
 public class SetupPackage(CustomNode owner) : EngineObject(owner)
 {
     // AoWSetup.pas:254
-    public new const int ClassId = 131681;
+    public new const int ClassId = 131_681;
 
     public int MessageId { get; set; }
     public int Param2 { get; set; }

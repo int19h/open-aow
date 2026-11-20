@@ -19,7 +19,7 @@ public class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
     int IChildSink<PlayerSetupSettings>.AddChild(PlayerSetupSettings child) => AddChild(child);
 
     // AoWSetup.pas:356
-    public new const int ClassId = 131680;
+    public new const int ClassId = 131_680;
 
     public int HostRemoteId { get; set; }
     public string FileName { get; set; } = "";

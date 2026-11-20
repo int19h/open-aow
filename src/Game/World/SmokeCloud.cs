@@ -31,7 +31,7 @@ public class SmokeCloud : MultiHexMapObject
     }
 
     // SmokeCloud.pas:187
-    public new const int ClassId = 135746;
+    public new const int ClassId = 135_746;
 
     public sbyte Player { get; set; }
     public int TurnsRemaining { get; set; }
@@ -85,7 +85,7 @@ public class SmokeCloud : MultiHexMapObject
     }
 
     // SmokeCloud.pas:190
-    public override int GetShowPriority() => base.GetShowPriority() + 201326592;
+    public override int GetShowPriority() => base.GetShowPriority() + 201_326_592;
 
     // SmokeCloud.pas:300
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -311,10 +311,10 @@ public class SmokeCloud : MultiHexMapObject
     {
 
         // SmokeCloud.pas:385
-        public new const int ClassId = 135747;
+        public new const int ClassId = 135_747;
 
         // SmokeCloud.pas:391
-        public override int ResourceUserClassId() => 135746;
+        public override int ResourceUserClassId() => SmokeCloud.ClassId;
 
         // SmokeCloud.pas:388
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SmokeCloudText);

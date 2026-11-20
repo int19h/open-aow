@@ -11,7 +11,7 @@ public class ArenaTokenEvent(CustomNode owner) : StructureTokenEvent(owner)
 {
 
     // Arena.pas:86
-    public new const int ClassId = 133294;
+    public new const int ClassId = 133_294;
 
     public Int32List UnitIds { get; } = new Int32List();
 

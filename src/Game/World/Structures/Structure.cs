@@ -42,7 +42,7 @@ namespace Aow.Game.World.Structures;
 public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapObject(owner)
 {
 
-    public new const int ClassId = 131914;
+    public new const int ClassId = 131_914;
 
     public override StructureResource Resource => GetResource<StructureResource>();
 
@@ -67,7 +67,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
 
         if (Owner is not null && Status.Contains(MapObjectStatusElement.ResourceLinked) && Resource.TerrainBound)
         {
-            _ = Owner.DestroyChildren(131334);
+            _ = Owner.DestroyChildren(Pad.ClassId);
         }
 
         base.Dispose();
@@ -897,7 +897,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
             {
                 if (Resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
-                    EngineObject army = level.GetField(walk.X, walk.Y).FindOwnedChild(131607);
+                    EngineObject army = level.GetField(walk.X, walk.Y).FindOwnedChild(ArmyHexSprite.ClassId);
                     if (army is not null)
                     {
                         _ = list.AddChild(army);

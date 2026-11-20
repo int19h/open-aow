@@ -12,7 +12,7 @@ namespace Aow.Engine.Nodes;
 // FEditIndex (its cell in that grid). all three integers are persisted (ids 1.3)
 public class EngineResource(CustomNode owner) : EngineObject(owner)
 {
-    public new const int ClassId = 1024;
+    public new const int ClassId = 1_024;
 
     // Engine.pas:8513
     public override void SetOwner(CustomNode owner)
@@ -66,11 +66,11 @@ public class EngineResource(CustomNode owner) : EngineObject(owner)
         LibraryDrawing.BlitLibraryImage(canvas, image: GetCellImage(), rectangle, mode, scaleX, scaleY, bkColor, color, selected: false, drawRectangle: in r);
     }
 
-    public CustomNode ResourceList { get; set; }
+    public CustomNode ResourceList { get; private set; }
     public int EditId { get; set; }
     public int EditIndex { get; set; }
     public int ResourceId { get; set; }
-    public LibraryImage CellImage { get => GetCellImage(); set => SetCellImage(value); }
+    public LibraryImage CellImage => GetCellImage();
 
     // Engine.pas:8508
     public virtual string ResourceEditName() => GetType().Name;

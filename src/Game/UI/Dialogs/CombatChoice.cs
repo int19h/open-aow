@@ -60,7 +60,7 @@ public partial class CombatChoice(UIContext ui) : UIModule(ui)
         CheckBox checkBox = sender;
         if (checkBox.Checked)
         {
-            _request.Select((CombatType)1);
+            _request.Select(CombatType.Fast);
         }
 
         if (checkBox.Checked)
@@ -79,7 +79,7 @@ public partial class CombatChoice(UIContext ui) : UIModule(ui)
         CheckBox checkBox = sender;
         if (checkBox.Checked)
         {
-            _request.Select((CombatType)2);
+            _request.Select(CombatType.Tactical);
         }
 
         if (checkBox.Checked)
@@ -130,7 +130,7 @@ public partial class CombatChoice(UIContext ui) : UIModule(ui)
     {
         if (sender.Checked)
         {
-            _request.Select((CombatType)2);
+            _request.Select(CombatType.Tactical);
         }
 
         Window.Visible = false;
@@ -141,7 +141,7 @@ public partial class CombatChoice(UIContext ui) : UIModule(ui)
     {
         if (sender.Checked)
         {
-            _request.Select((CombatType)1);
+            _request.Select(CombatType.Fast);
         }
 
         Window.Visible = false;
@@ -153,11 +153,11 @@ public partial class CombatChoice(UIContext ui) : UIModule(ui)
         {
             if (dialog.TacticalCombatCheckBox.Checked)
             {
-                eventValue.Select((CombatType)2);
+                eventValue.Select(CombatType.Tactical);
             }
             else
             {
-                eventValue.Select((CombatType)1);
+                eventValue.Select(CombatType.Fast);
             }
 
             done(eventValue);
@@ -170,11 +170,11 @@ public partial class CombatChoice(UIContext ui) : UIModule(ui)
             dialog.UI.General.Manager.OverlayPriority = 49;
             if (dialog.TacticalCombatCheckBox.Checked)
             {
-                eventValue.Select((CombatType)2);
+                eventValue.Select(CombatType.Tactical);
             }
             else
             {
-                eventValue.Select((CombatType)1);
+                eventValue.Select(CombatType.Fast);
             }
 
             if (StrategicMap.Current.Players.GetPlayers(dialog._request.AttackerPlayer).PlayerType == PlayerType.Human)

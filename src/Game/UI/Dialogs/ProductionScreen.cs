@@ -476,7 +476,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                 string formatTurnsLeftString = DurationText.FormatTurnsLeftString(UI.Engine, turns: _place.ProductionControl.Settings.TurnsLeft);
                 ActiveActionTurnsLabel.Text = formatTurnsLeftString;
                 ActiveActionTurnsLabel.Visible = true;
-                ActiveActionTurnsLabel.TextColor = 6783862;
+                ActiveActionTurnsLabel.TextColor = 0x67_83_76;
                 ActiveActionTurnsBar.Min = 0;
                 ActiveActionTurnsBar.Max = _place.ProductionControl.Settings.TurnsTotal;
                 ActiveActionTurnsBar.Position = _place.ProductionControl.Settings.TurnsTotal - _place.ProductionControl.Settings.TurnsLeft;
@@ -500,7 +500,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                 ActiveActionLabel.Text = currentActivityText;
                 string defaultText = UI.Engine.TranslateResourceString(GameText.DefaultText);
                 ActiveActionTurnsLabel.Text = $"({LowerCase(defaultText)})";
-                ActiveActionTurnsLabel.TextColor = 6783862;
+                ActiveActionTurnsLabel.TextColor = 0x67_83_76;
                 if (CompareText(b: UI.Engine.TranslateResourceString(GameTables.NoneText), a: ActiveActionLabel.Text) != 0)
                 {
                     ActiveActionTurnsLabel.Visible = true;
@@ -525,7 +525,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                     ProductionItem queue = _place.ProductionControl.Queue.GetItem(0);
                     _ = _place.ProductionControl.CanExecuteProduction(queue, ref reason);
                     ActiveActionTurnsLabel.Text = reason;
-                    ActiveActionTurnsLabel.TextColor = 255;
+                    ActiveActionTurnsLabel.TextColor = 0x00_00_FF;
                     ActiveActionTurnsLabel.Visible = true;
                     ActiveActionTurnsBar.Visible = false;
                     int activityImage = _place.ProductionControl.Queue.GetItem(0).Order.ActivityImage(_place);

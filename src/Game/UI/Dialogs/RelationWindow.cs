@@ -710,7 +710,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
                 int modifier = action.GetRelationModifier(StrategicMap.Current.SeatedPlayer, race);
                 if (modifier != 0)
                 {
-                    UI.Fonts.Age10.Color = 16777215;
+                    UI.Fonts.Age10.Color = 0xFF_FF_FF;
                     UI.Fonts.Age10.SetTextCentered(r.Left + ((r.Right - r.Left) / 2), r.Top + 50, text: IntToStr(modifier), lockedSurface: surface);
                 }
             }
@@ -1108,7 +1108,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
                 }
                 else
                 {
-                    if (StrategicMap.Current.SeatedPlayer == dialog._action.Source && dialog._action.Reaction != (DiplomaticActionReaction)3)
+                    if (StrategicMap.Current.SeatedPlayer == dialog._action.Source && dialog._action.Reaction != DiplomaticActionReaction.Ignore)
                     {
                         dialog.HighlightPlayer(dialog._action.Target);
                         dialog.ShowPlayerInformation(dialog._action.Target);
@@ -1124,7 +1124,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
                     else
                     {
                         dialog.FinishEvent();
-                        if (dialog._action.Reaction == (DiplomaticActionReaction)3)
+                        if (dialog._action.Reaction == DiplomaticActionReaction.Ignore)
                         {
                             dialog.ShowPlayerActions(dialog._action.Target);
                         }

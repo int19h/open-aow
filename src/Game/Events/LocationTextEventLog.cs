@@ -11,7 +11,7 @@ public class LocationTextEventLog(CustomNode owner) : TextEventLog(owner)
 {
 
     // EventLog.pas:728
-    public new const int ClassId = 131816;
+    public new const int ClassId = 131_816;
 
     public MapCoordinate Location { get; set; } = new MapCoordinate(-1, -1, -1);
 

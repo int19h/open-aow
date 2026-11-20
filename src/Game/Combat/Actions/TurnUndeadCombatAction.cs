@@ -11,7 +11,7 @@ namespace Aow.Game.Combat.Actions;
 
 public class TurnUndeadCombatAction(CustomNode owner) : DamageCombatAction(owner)
 {
-    public new const int ClassId = 131769;
+    public new const int ClassId = 131_769;
 
     // AoWAb.PAS:3088
     public override void Execute(Battle combat)

@@ -14,7 +14,7 @@ namespace Aow.Game.Events;
 public partial class PlayerMagicEventLog(CustomNode owner) : EventLog(owner)
 {
 
-    public new const int ClassId = 131824;
+    public new const int ClassId = 131_824;
 
     public EventMode Mode { get; set; }
 

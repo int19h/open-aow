@@ -10,7 +10,7 @@ namespace Aow.Game.Combat.Actions;
 public class EntangleSpellCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:1328
-    public new const int ClassId = 131784;
+    public new const int ClassId = 131_784;
 
     // CombatSpells.pas:1334
     public override void Execute(Battle combat)

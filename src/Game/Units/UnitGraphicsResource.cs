@@ -23,7 +23,7 @@ namespace Aow.Game.Units;
 // SfxLibraries
 public class UnitGraphicsResource : EngineResource
 {
-    public new const int ClassId = 131600;
+    public new const int ClassId = 131_600;
 
     // UnitHS.PAS:1
     public UnitGraphicsResource(CustomNode owner) : base(owner)

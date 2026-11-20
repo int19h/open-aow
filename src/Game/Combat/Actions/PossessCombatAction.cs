@@ -18,7 +18,7 @@ namespace Aow.Game.Combat.Actions;
 // (possession succeeded)
 public class PossessCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
-    public new const int ClassId = 131765;
+    public new const int ClassId = 131_765;
 
     public bool Successful { get; private set; }
 

@@ -12,7 +12,7 @@ namespace Aow.Game.Magic.Abilities;
 public class UnitEnchantmentAbilityData(CustomNode owner) : AbilityData(owner)
 {
 
-    public new const int ClassId = 131756;
+    public new const int ClassId = 131_756;
 
     public ushort EnchantmentAbilityId { get; set; }
     public sbyte EnchantmentDuration { get; set; } = -1;

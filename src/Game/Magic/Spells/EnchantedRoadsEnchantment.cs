@@ -14,7 +14,7 @@ namespace Aow.Game.Magic.Spells;
 public class EnchantedRoadsEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:535
-    public new const int ClassId = 135955;
+    public new const int ClassId = 135_955;
 
     // GlobalEnchantmentSpells.pas:527
     public EnchantedRoadsEnchantment(CustomNode owner, EngineObject holder) : base(owner)

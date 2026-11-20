@@ -71,7 +71,7 @@ public class AIBudgetManager : EngineObject
         base.MessageProc(ref message, sender);
         if (Player.PlayerType != PlayerType.Human && message.MessageId == 536870920)
         {
-            DefaultBudget = Budgets.FindChild<AIBudget>(131741);
+            DefaultBudget = Budgets.FindChild<AIBudget>(AISavingsBudget.ClassId);
             if (DefaultBudget is null)
             {
                 DefaultBudget = new AISavingsBudget(null) { Holder = CreationHolder() };

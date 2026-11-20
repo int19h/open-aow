@@ -19,7 +19,7 @@ public class PoisonPlantSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTok
 {
 
     // PoisonP.pas:303
-    public new const int ClassId = 135941;
+    public new const int ClassId = 135_941;
 
     // PoisonP.pas:361
     public override bool Process(Troop source, int value)
@@ -38,7 +38,7 @@ public class PoisonPlantSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTok
         ref HexNumberWalkData walk = ref hexNumberWalkData;
         MapLevel level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
         HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, Location.X, Location.Y, radius: 0);
-        PoisonPlant.Resource resource = GamePack.Current.MapObjectResourceList.FindChild<PoisonPlant.Resource>(131999);
+        PoisonPlant.Resource resource = GamePack.Current.MapObjectResourceList.FindChild<PoisonPlant.Resource>(PoisonPlant.Resource.ClassId);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

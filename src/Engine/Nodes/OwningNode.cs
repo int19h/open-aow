@@ -110,9 +110,9 @@ public class OwningNode : CustomNode
         EngineObjectList children = _children;
         if (GetControlStyle().Contains(EngineServices.KeepIndex))
         {
-            if ((message.MessageId & 268435456) != 0)
+            if ((message.MessageId & 0b0001_0000_0000_0000_0000_0000_0000_0000) != 0)
             {
-                if ((message.MessageId & 536870912) == 0)
+                if ((message.MessageId & 0b0010_0000_0000_0000_0000_0000_0000_0000) == 0)
                 {
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
@@ -145,7 +145,7 @@ public class OwningNode : CustomNode
             }
             else
             {
-                if ((message.MessageId & 536870912) == 0)
+                if ((message.MessageId & 0b0010_0000_0000_0000_0000_0000_0000_0000) == 0)
                 {
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
@@ -174,9 +174,9 @@ public class OwningNode : CustomNode
         }
         else
         {
-            if ((message.MessageId & 268435456) != 0)
+            if ((message.MessageId & 0b0001_0000_0000_0000_0000_0000_0000_0000) != 0)
             {
-                if ((message.MessageId & 536870912) == 0)
+                if ((message.MessageId & 0b0010_0000_0000_0000_0000_0000_0000_0000) == 0)
                 {
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
@@ -203,7 +203,7 @@ public class OwningNode : CustomNode
             }
             else
             {
-                if ((message.MessageId & 536870912) == 0)
+                if ((message.MessageId & 0b0010_0000_0000_0000_0000_0000_0000_0000) == 0)
                 {
                     for (int i = children.Count - 1; i >= 0; i--)
                     {

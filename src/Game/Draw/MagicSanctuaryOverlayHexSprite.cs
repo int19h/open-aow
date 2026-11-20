@@ -18,7 +18,7 @@ public class MagicSanctuaryOverlayHexSprite(CustomNode owner) : SingleHexSprite(
     private int _fadeEndFrame = -1;
 
     // MagicSanctuary.pas:73
-    public override int GetShowPriority() => Structure.GetShowPriority() + 134217728;
+    public override int GetShowPriority() => Structure.GetShowPriority() + 134_217_728;
 
     // MagicSanctuary.pas:78
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)

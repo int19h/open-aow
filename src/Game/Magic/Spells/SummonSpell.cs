@@ -18,7 +18,7 @@ namespace Aow.Game.Magic.Spells;
 public class SummonSpell : Spell
 {
 
-    public int AIBasePriority { get; protected set; }
+    public int AIBasePriority { get; protected init; }
     public UnitIndexList UnitIndices { get; }
 
     // SummonSpells.pas:249

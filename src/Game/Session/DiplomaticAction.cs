@@ -27,14 +27,14 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
 {
     // A reference list holds the action and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
-    public new DiplomaticActionList Owner { get => GetOwner<DiplomaticActionList>(); set => SetOwner(value); }
+    public new DiplomaticActionList Owner => GetOwner<DiplomaticActionList>();
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is DiplomaticActionList;
 
     void IOwnedSink<DiplomaticActionList>.SetOwner(DiplomaticActionList owner) => SetOwner(owner);
 
     // Diplomacy.pas:495
-    public new const int ClassId = 131666;
+    public new const int ClassId = 131_666;
     private int _refCount = 1;
 
     public int Day { get; set; }

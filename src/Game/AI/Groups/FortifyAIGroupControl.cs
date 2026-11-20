@@ -552,10 +552,10 @@ public class FortifyAIGroupControl : AIGroupControl
         int strength;
         if (StrategicMap.Current.Day > 5)
         {
-            strength = StrategicMap.Current.Day / 5 * 5000;
-            if (strength > 50000)
+            strength = StrategicMap.Current.Day / 5 * 5_000;
+            if (strength > 50_000)
             {
-                strength = 50000;
+                strength = 50_000;
             }
 
             if (strength > _enemyStrength)
@@ -581,9 +581,9 @@ public class FortifyAIGroupControl : AIGroupControl
 
             int fTurnInfoCount = statistics.TurnInfo.Count;
             strength = Round(statistics.TurnInfo.GetTurnInfo(fTurnInfoCount - 1).ArmyStrength * 0.1);
-            if (strength > 50000)
+            if (strength > 50_000)
             {
-                strength = 50000;
+                strength = 50_000;
             }
 
             if (StrategicMap.Current.Day < 10)
@@ -656,11 +656,11 @@ public class FortifyAIGroupControl : AIGroupControl
         int number2 = item2.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of([DamageType.Wall]));
         if (item1 is Leader)
         {
-            number = number2 + 16777215;
+            number = number2 + 16_777_215;
         }
         if (item2 is Leader)
         {
-            number2 += 16777215;
+            number2 += 16_777_215;
         }
         return number2 - number;
     }

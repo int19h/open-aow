@@ -15,7 +15,7 @@ namespace Aow.Game.Session;
 public class PlayerSetupSettings : EngineObject
 {
     // AoWSetup.pas:312
-    public new const int ClassId = 131683;
+    public new const int ClassId = 131_683;
 
     public SetupPlayerBehavior Behavior { get; set; }
     public SetupPlayerBehavior OriginalBehavior { get; set; }

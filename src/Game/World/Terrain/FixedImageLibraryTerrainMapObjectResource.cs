@@ -7,10 +7,10 @@ public class FixedImageLibraryTerrainMapObjectResource(CustomNode owner) : Image
 {
 
     // ILTer.pas:339
-    public new const int ClassId = 131465;
+    public new const int ClassId = 131_465;
 
     // ILTer.pas:344
-    public override int ResourceUserClassId() => 131464;
+    public override int ResourceUserClassId() => FixedImageLibraryTerrainMapObject.ClassId;
 
     // ILTer.pas:334
     public override string ResourceEditName() => "Fixed ImageLibrary Terrain";

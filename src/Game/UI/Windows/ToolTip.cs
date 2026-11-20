@@ -17,7 +17,6 @@ namespace Aow.Game.UI.Windows;
 // that fit)
 public class ToolTip : GenericWindow
 {
-    private readonly DelphiStringList _items;
     [Published]
     public event NotifyEvent<ToolTip> OnDrawItem;
 
@@ -29,7 +28,7 @@ public class ToolTip : GenericWindow
     public ToolTip(Component owner) : base(owner)
     {
         _lines = new DelphiStringList();
-        _items = new DelphiStringList
+        Items = new DelphiStringList
         {
             OnChange = OnChangeText
         };
@@ -41,7 +40,7 @@ public class ToolTip : GenericWindow
     public override void Dispose()
     {
         _lines.Dispose();
-        _items.Dispose();
+        Items.Dispose();
         base.Dispose();
     }
 
@@ -103,10 +102,10 @@ public class ToolTip : GenericWindow
 
         _lines.Clear();
         int i = 0;
-        int last = _items.Count - 1;
+        int last = Items.Count - 1;
         for (; i <= last; i += 1)
         {
-            string item = _items[i];
+            string item = Items[i];
             _ = _lines.Add(item);
         }
 
@@ -331,20 +330,20 @@ public class ToolTip : GenericWindow
     public void SetFStrings(DelphiStringList value)
     {
         _lines.Clear();
-        _items.Clear();
+        Items.Clear();
         for (int i = 0, last = value.Count - 1; i <= last; i++)
         {
             string valueValue = value[i];
             _ = _lines.Add(valueValue);
             string valueValue2 = value[i];
-            _ = _items.Add(valueValue2);
+            _ = Items.Add(valueValue2);
         }
 
         Sized = false;
     }
 
     [Published]
-    public DelphiStringList Items { get => _items; set => SetFStrings(value); }
+    public DelphiStringList Items { get; }
 
     [Published]
     public bool ToolTipStatic { get; set; }

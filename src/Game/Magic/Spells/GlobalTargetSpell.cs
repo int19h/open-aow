@@ -25,7 +25,7 @@ public class GlobalTargetSpell : Spell
     private int _casterId;
     private sbyte _casterPlayer;
 
-    public bool AboveGroundOnly { get; protected set; }
+    public bool AboveGroundOnly { get; protected init; }
 
     // GlobalTargetSpells.pas:439
     public GlobalTargetSpell(CustomNode owner) : base(owner) => SpellType = SpellType.Global;

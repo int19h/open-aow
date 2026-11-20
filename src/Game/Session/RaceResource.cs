@@ -24,7 +24,7 @@ namespace Aow.Game.Session;
 public class RaceResource(CustomNode owner) : EngineResource(owner)
 {
 
-    public new const int ClassId = 131585;
+    public new const int ClassId = 131_585;
     private CustomImageLibrary _faceLibrary;
 
     public CustomImageLibrary ImageLibrary { get; private set; }

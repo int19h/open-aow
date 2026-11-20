@@ -9,7 +9,7 @@ namespace Aow.Game.World.Map;
 // the base of the terrain hexagons
 public class AbstractHexagon(CustomNode owner) : MapObject(owner)
 {
-    public new const int ClassId = 65904;
+    public new const int ClassId = 65_904;
 
     // MAPOBJ.PAS:682
     public override byte Level => 0;

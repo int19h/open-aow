@@ -30,6 +30,6 @@ public class TokenPackage : DataPackage
 
     public TokenEventList TokenEvents { get; }
 
-    private const short ClassIdTokenPackage = 1360;
+    private const short ClassIdTokenPackage = 1_360;
 
 }

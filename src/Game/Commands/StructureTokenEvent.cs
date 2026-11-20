@@ -14,7 +14,7 @@ namespace Aow.Game.Commands;
 
 public class StructureTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public new const int ClassId = 135440;
+    public new const int ClassId = 135_440;
 
     private MapCoordinate Location { get; set; }
 

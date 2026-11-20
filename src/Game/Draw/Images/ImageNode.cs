@@ -7,7 +7,7 @@ namespace Aow.Game.Draw.Images;
 
 public class ImageNode : LibraryImage, ILibraryImageClass
 {
-    static int ILibraryImageClass.ClassId => 256;
+    static int ILibraryImageClass.ClassId => Engine.Nodes.OwningNode.ClassId;
     static string ILibraryImageClass.Name => "";
 
     static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new ImageNode(owner);

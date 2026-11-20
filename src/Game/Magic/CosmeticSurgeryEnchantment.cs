@@ -13,7 +13,7 @@ namespace Aow.Game.Magic;
 
 public class CosmeticSurgeryEnchantment(CustomNode owner) : UnitEnchantment(owner)
 {
-    public new const int ClassId = 135964;
+    public new const int ClassId = 135_964;
 
     public int FaceIndex { get; set; }
 

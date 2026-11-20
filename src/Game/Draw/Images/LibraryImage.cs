@@ -108,24 +108,24 @@ public class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:1702
     public virtual void ReadImageData(Stream stream)
     {
-        stream.ReadExactly(Bytes.Of(ref _version, count: 1));
+        stream.ReadExactly(Bytes.Of(ref _version));
         LibraryDrawing.ReadStringFromStream(ref _fileName, stream);
-        stream.ReadExactly(Bytes.Of(ref _dataWidth, count: 4));
-        stream.ReadExactly(Bytes.Of(ref _dataHeight, count: 4));
-        stream.ReadExactly(Bytes.Of(ref _xshift, count: 4));
-        stream.ReadExactly(Bytes.Of(ref _yshift, count: 4));
-        stream.ReadExactly(Bytes.Of(ref _fileIndex, count: 4));
-        stream.ReadExactly(Bytes.Of(ref _loadMode, count: 1));
-        stream.ReadExactly(Bytes.Of(ref _dataSize, count: 4));
+        stream.ReadExactly(Bytes.Of(ref _dataWidth));
+        stream.ReadExactly(Bytes.Of(ref _dataHeight));
+        stream.ReadExactly(Bytes.Of(ref _xshift));
+        stream.ReadExactly(Bytes.Of(ref _yshift));
+        stream.ReadExactly(Bytes.Of(ref _fileIndex));
+        stream.ReadExactly(Bytes.Of(ref _loadMode));
+        stream.ReadExactly(Bytes.Of(ref _dataSize));
         if (_version > 0)
         {
             if (_version >= 2)
             {
-                stream.ReadExactly(Bytes.Of(ref _dataPosition, count: 4));
+                stream.ReadExactly(Bytes.Of(ref _dataPosition));
             }
 
-            stream.ReadExactly(Bytes.Of(ref _width, count: 4));
-            stream.ReadExactly(Bytes.Of(ref _height, count: 4));
+            stream.ReadExactly(Bytes.Of(ref _width));
+            stream.ReadExactly(Bytes.Of(ref _height));
         }
         else
         {
@@ -145,18 +145,18 @@ public class LibraryImage : Persistent, ILibraryImageClass
     public virtual void WriteImageData(Stream stream)
     {
         byte v = ClassVersion();
-        stream.Write(Bytes.Of(ref v, count: 1));
+        stream.Write(Bytes.Of(ref v));
         LibraryDrawing.WriteStringToStream(_fileName, stream);
-        stream.Write(Bytes.Of(ref _dataWidth, count: 4));
-        stream.Write(Bytes.Of(ref _dataHeight, count: 4));
-        stream.Write(Bytes.Of(ref _xshift, count: 4));
-        stream.Write(Bytes.Of(ref _yshift, count: 4));
-        stream.Write(Bytes.Of(ref _fileIndex, count: 4));
-        stream.Write(Bytes.Of(ref _loadMode, count: 1));
-        stream.Write(Bytes.Of(ref _dataSize, count: 4));
-        stream.Write(Bytes.Of(ref _dataPosition, count: 4));
-        stream.Write(Bytes.Of(ref _width, count: 4));
-        stream.Write(Bytes.Of(ref _height, count: 4));
+        stream.Write(Bytes.Of(ref _dataWidth));
+        stream.Write(Bytes.Of(ref _dataHeight));
+        stream.Write(Bytes.Of(ref _xshift));
+        stream.Write(Bytes.Of(ref _yshift));
+        stream.Write(Bytes.Of(ref _fileIndex));
+        stream.Write(Bytes.Of(ref _loadMode));
+        stream.Write(Bytes.Of(ref _dataSize));
+        stream.Write(Bytes.Of(ref _dataPosition));
+        stream.Write(Bytes.Of(ref _width));
+        stream.Write(Bytes.Of(ref _height));
         ShowInfo showInfoValue = ShowInfoValue;
         _ = showInfoValue.WriteImage(stream, exact: false);
         ShowInfoValue = showInfoValue;
@@ -595,9 +595,9 @@ public class LibraryImage : Persistent, ILibraryImageClass
 
     public int Xshift { get => _xshift; set => SetXshift(value); }
     public int Yshift { get => _yshift; set => SetYshift(value); }
-    public string FileName { get => _fileName; set => _fileName = value; }
-    public int FileIndex { get => _fileIndex; set => _fileIndex = value; }
-    public ShowInfo ShowInfo { get => ShowInfoValue; set => SetDefaultShowInfo(value); }
+    public string FileName { get => _fileName; protected set => _fileName = value; }
+    public int FileIndex { get => _fileIndex; protected set => _fileIndex = value; }
+    public ShowInfo ShowInfo { get => ShowInfoValue; internal set => SetDefaultShowInfo(value); }
     public Palette Palette => GetPalette();
 
     public static void WriteImageToStream(LibraryImage image, Stream stream)
@@ -606,13 +606,13 @@ public class LibraryImage : Persistent, ILibraryImageClass
         if (image is not null)
         {
             id = image.ImageClass.ClassId;
-            stream.Write(Bytes.Of(ref id, count: 4));
+            stream.Write(Bytes.Of(ref id));
             image.SaveToStream(stream);
         }
         else
         {
             id = 0;
-            stream.Write(Bytes.Of(ref id, count: 4));
+            stream.Write(Bytes.Of(ref id));
         }
     }
 
@@ -622,13 +622,13 @@ public class LibraryImage : Persistent, ILibraryImageClass
         if (image is not null)
         {
             id = image.ImageClass.ClassId;
-            stream.Write(Bytes.Of(ref id, count: 4));
+            stream.Write(Bytes.Of(ref id));
             image.SaveToStream(stream, dataStream);
         }
         else
         {
             id = 0;
-            stream.Write(Bytes.Of(ref id, count: 4));
+            stream.Write(Bytes.Of(ref id));
         }
     }
 }

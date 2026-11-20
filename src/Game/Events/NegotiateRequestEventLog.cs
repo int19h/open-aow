@@ -19,7 +19,7 @@ public partial class NegotiateRequestEventLog(CustomNode owner) : JoinEventLog(o
 {
 
     // Diplomacy.pas:279
-    public new const int ClassId = 131814;
+    public new const int ClassId = 131_814;
 
     // JoinEventLog already stores a packed Location, so this hex is Hex.
     public MapCoordinate Hex { get; set; }

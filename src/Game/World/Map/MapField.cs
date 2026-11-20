@@ -20,7 +20,7 @@ namespace Aow.Game.World.Map;
 public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLevel>
 {
     // AoWHSMap.PAS (TAoWMapField). HSEngine.pas:1933 gives the engine field 65793.
-    public new const int ClassId = 131090;
+    public new const int ClassId = 131_090;
 
     public MapField(CustomNode owner) : base(owner)
     {
@@ -48,7 +48,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     public override void SetOwner(CustomNode owner) => SetOwnerWithoutNotify(owner);
 
     // The level the field belongs to. AcceptsOwner admits only a level, so the cast never fails.
-    public new MapLevel Owner { get => GetOwner<MapLevel>(); set => SetOwner(value); }
+    public new MapLevel Owner => GetOwner<MapLevel>();
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is MapLevel;
 
@@ -125,7 +125,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     public MapCoordinate MapCoordinate => Location;
 
     // HSEngine.pas:1955
-    public int HexSpriteListDataSize() => (Capacity << 2) + ((Capacity + 3) & 252);
+    public int HexSpriteListDataSize() => (Capacity << 2) + ((Capacity + 3) & 0b1111_1100);
 
     // HSEngine.pas:2163
     public HexSprite FindHexSprite(Type classValue)
@@ -300,7 +300,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     public HexSprite[] HexSpriteList { get => _hexSpriteList; internal set => _hexSpriteList = value; }
     public byte Capacity { get; private set; }
     public byte StaticCount { get; private set; }
-    public Set<MapFieldStatusElement> Status { get; set; }
+    public Set<MapFieldStatusElement> Status { get; private set; }
     public sbyte HexX { get => Location.X; set => Location = Location with { X = value }; }
     public sbyte HexY { get => Location.Y; set => Location = Location with { Y = value }; }
     public sbyte HexLevel { get => Location.MapLevel; set => Location = Location with { MapLevel = value }; }
@@ -310,7 +310,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
 
     public override void SendMessage(ref EngineMessage message, EngineObject sender)
     {
-        if ((message.MessageId & 0x10000000) != 0)
+        if ((message.MessageId & 0b0001_0000_0000_0000_0000_0000_0000_0000) != 0)
         {
             for (int i = StoredCount - 1; i >= 0; i--)
             {
@@ -320,7 +320,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
                     continue;
                 }
 
-                if ((message.MessageId & 0x20000000) != 0 && sprite.Owner != this)
+                if ((message.MessageId & 0b0010_0000_0000_0000_0000_0000_0000_0000) != 0 && sprite.Owner != this)
                 {
                     continue;
                 }
@@ -329,7 +329,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
                 sprite.MessageProc(ref message, sender: this);
             }
         }
-        else if ((message.MessageId & 0x20000000) == 0)
+        else if ((message.MessageId & 0b0010_0000_0000_0000_0000_0000_0000_0000) == 0)
         {
             for (int i = Count - 1; i >= 0; i--)
             {
@@ -367,49 +367,49 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
 
     // The explored bits of players 1 to 12. The border hexagon clears them on the first day
     // (AoWHex.pas:264, $FFFFF000).
-    public const int ExploredFlags = 0x00000FFF;
+    public const int ExploredFlags = 0x0000_0FFF;
 
     // A sprite answers the sight queries: $110A, visible for a player within a range
     // (AoWHSMap.PAS:2420 and 2457), and $110B, true sight (Army.PAS:1285).
-    public const int ViewerFlag = 0x00001000;
+    public const int ViewerFlag = 0x0000_1000;
 
     // A sprite answers CanMoveOver, the move over a field (MoveT.PAS:391).
-    public const int MoveOverFlag = 0x00002000;
+    public const int MoveOverFlag = 0x0000_2000;
 
     // A sprite answers CanMoveOn, the move onto a field (MoveT.PAS:304).
-    public const int MoveOnFlag = 0x00004000;
+    public const int MoveOnFlag = 0x0000_4000;
 
     // A sprite answers MoveExclusive, which the bridge, the cave and the teleport handle
     // (MoveT.PAS:427).
-    public const int MoveExclusiveFlag = 0x00008000;
+    public const int MoveExclusiveFlag = 0x0000_8000;
 
     // The three move bits, cleared by UpdateMapField before the sprites set them again
     // (AoWHSMap.PAS:87, $FFFF1FFF).
     public const int MoveFlags = MoveOverFlag | MoveOnFlag | MoveExclusiveFlag;
 
     // A sprite answers $110D, the notice that a player changed nearby (AoWHSMap.PAS:2348).
-    public const int PlayerChangeListenerFlag = 0x01000000;
+    public const int PlayerChangeListenerFlag = 0x0100_0000;
 
     // A sprite answers $1100, the owning player (AoWHSMap.PAS:94), and $1130, a player seen
     // (AoWHSMap.PAS:2376).
-    public const int OwnerFlag = 0x02000000;
+    public const int OwnerFlag = 0x0200_0000;
 
     // A sprite answers $1108, the battle field strengths (AoWHSMap.PAS:3012, MainAG.pas:310,
     // PlayerC.PAS:2672).
-    public const int BattleFieldInfoFlag = 0x04000000;
+    public const int BattleFieldInfoFlag = 0x0400_0000;
 
     // A sprite answers $1200, the AI target query (AIGroup.pas:6564 and 6643).
-    public const int AITargetFlag = 0x08000000;
+    public const int AITargetFlag = 0x0800_0000;
 
     // The explored bit of a player, as SetExplored shifts it (AoWHSMap.PAS:46).
-    public static int ExploredFlag(int player) => 1 << ((player - 1) & 31);
+    public static int ExploredFlag(int player) => 1 << ((player - 1) & 0b0001_1111);
 
     // Byte 2 of the flags: how many unfogged areas cover the field. FogArea counts it down and
     // UnFogArea up, and zero is fogged (AoWHSMap.PAS:247 and 265, WordRec(LongRec(FFieldFlags).Hi).Lo).
     public byte FogCount
     {
         get => (byte)(FieldFlags >> 16);
-        private set => FieldFlags = (FieldFlags & ~0x00FF0000) | (value << 16);
+        private set => FieldFlags = (FieldFlags & ~0xFF_00_00) | (value << 16);
     }
 
     // AoWHSMap.PAS:68
@@ -560,7 +560,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
 
     // AoWHSMap.PAS:214
     // Only ArmyHexSprite registers 131607, and the game has no subclass of it.
-    public ArmyHexSprite GetArmyHexSprite() => FindOwnedChild<ArmyHexSprite>(131607);
+    public ArmyHexSprite GetArmyHexSprite() => FindOwnedChild<ArmyHexSprite>(ArmyHexSprite.ClassId);
 
     // AoWHSMap.PAS:218
     public void RestoreTerrain()
@@ -599,7 +599,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     internal static int IgnitionChance(MapField mapField)
     {
         int result;
-        if (Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)mapField.TerrainType) && mapField.FindOwnedChild(132990) is null && !mapField.GetMagicShieldActive())
+        if (Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)mapField.TerrainType) && mapField.FindOwnedChild(Terrain.Fire.ClassId) is null && !mapField.GetMagicShieldActive())
         {
             result = mapField.OverlayType == 1
                 ? mapField.TerrainType == 3 ? 40 : mapField.TerrainType == 2 ? 80 : 60

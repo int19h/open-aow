@@ -10,7 +10,7 @@ public partial class ProductionPlaceEventLog(CustomNode owner) : ProductionEvent
 {
 
     // PrdPlace.pas:736
-    public new const int ClassId = 131835;
+    public new const int ClassId = 131_835;
 
     // PrdPlace.pas:744
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)

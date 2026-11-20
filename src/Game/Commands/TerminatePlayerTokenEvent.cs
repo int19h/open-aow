@@ -13,7 +13,7 @@ namespace Aow.Game.Commands;
 
 public class TerminatePlayerTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
-    public new const int ClassId = 131836;
+    public new const int ClassId = 131_836;
 
     public sbyte Player { get; set; }
 

@@ -321,7 +321,7 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
     // Hero.PAS:550
     public Item GetPositionItem(HeroItemPosition position)
     {
-        int index = ((int)position) & 127;
+        int index = ((int)position) & 0b0111_1111;
         return index < Items.Count ? Items[index] : null;
     }
 

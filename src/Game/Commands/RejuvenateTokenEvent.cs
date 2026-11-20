@@ -16,7 +16,7 @@ public class RejuvenateTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEven
 {
 
     // GlobalTargetSpells.pas:1036
-    public new const int ClassId = 135952;
+    public new const int ClassId = 135_952;
 
     // GlobalTargetSpells.pas:1044
     public override bool Process(Troop source, int value)

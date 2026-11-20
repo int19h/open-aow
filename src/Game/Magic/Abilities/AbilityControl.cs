@@ -19,7 +19,7 @@ public class AbilityControl : EngineObject
     public AbilityControl(CustomNode owner) : base(owner)
     {
         Abilities = [];
-        for (int kindOrdinal = (int)(AbilityType)0; kindOrdinal <= (int)(AbilityType)4; kindOrdinal++)
+        for (int kindOrdinal = (int)AbilityType.Enhancement; kindOrdinal <= (int)AbilityType.Enchantment; kindOrdinal++)
         {
             AbilityType kind = (AbilityType)kindOrdinal;
             AbilityTypeList abilityTypeList = new();
@@ -35,7 +35,7 @@ public class AbilityControl : EngineObject
     public override void Dispose()
     {
         UnregisterAll();
-        for (int kindOrdinal = (int)(AbilityType)0; kindOrdinal <= (int)(AbilityType)4; kindOrdinal++)
+        for (int kindOrdinal = (int)AbilityType.Enhancement; kindOrdinal <= (int)AbilityType.Enchantment; kindOrdinal++)
         {
             AbilityType kind = (AbilityType)kindOrdinal;
             AbilitiesByType[(int)kind]?.Dispose();

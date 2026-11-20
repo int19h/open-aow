@@ -15,7 +15,6 @@ namespace Aow.Game.UI.Controls;
 // tab), FILIndexUp, FILIndexDown, FPanels (the TAOWPanel objects of the tabs)
 public partial class TabPanel : Control
 {
-    private readonly DelphiStringList _items;
     private int _selected;
     private InterfaceImageLibrary _imageLibraryButton;
     private int _imageLibraryIndexUp;
@@ -26,7 +25,7 @@ public partial class TabPanel : Control
     // AoWTabPanel.pas:62
     public TabPanel(Component owner) : base(owner)
     {
-        _items = new DelphiStringList
+        Items = new DelphiStringList
         {
             OnChange = OnChangeText
         };
@@ -43,7 +42,7 @@ public partial class TabPanel : Control
         }
 
         Panels.Clear();
-        _items.Dispose();
+        Items.Dispose();
         base.Dispose();
     }
 
@@ -73,19 +72,19 @@ public partial class TabPanel : Control
     {
         LibraryImage imageLibraryButtonWidth = _imageLibraryButton[_imageLibraryIndexUp];
         LibraryImage imageLibraryButton = _imageLibraryButton[_imageLibraryIndexUp + 2];
-        int count = _items.Count;
+        int count = Items.Count;
         if ((imageLibraryButtonWidth.Width + imageLibraryButton.Width) * count > WinWidth)
         {
             LibraryImage imageLibraryButton2 = _imageLibraryButton[_imageLibraryIndexUp];
             LibraryImage imageLibraryButton3 = _imageLibraryButton[_imageLibraryIndexUp + 2];
-            int fItemsCount = _items.Count;
+            int fItemsCount = Items.Count;
             SetWinWidthWithoutInvalidate((imageLibraryButton2.Width + imageLibraryButton3.Width) * fItemsCount);
         }
 
         SetWinHeightWithoutInvalidate(_imageLibraryButton[_imageLibraryIndexUp].Height);
-        if (_items.Count <= _selected)
+        if (Items.Count <= _selected)
         {
-            _selected = _items.Count - 1;
+            _selected = Items.Count - 1;
         }
 
         base.SetSize();
@@ -103,37 +102,37 @@ public partial class TabPanel : Control
                 RaisePreDraw(this, surfDesc: lockedSurface);
 
                 Rect oldClip = lockedSurface.ClipRectangle;
-                for (int i = 0, last = _items.Count - 1; i <= last; i++)
+                for (int i = 0, last = Items.Count - 1; i <= last; i++)
                 {
                     if (i != _selected)
                     {
-                        int count = _items.Count;
-                        int fItemsCount = _items.Count;
+                        int count = Items.Count;
+                        int fItemsCount = Items.Count;
                         SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft + (WinWidth * i / fItemsCount), Window.AbsoluteTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexUp, area: rectangle, ref lockedSurface);
                         if (base.Font is not null)
                         {
                             base.Font.Color = SelectedColor;
-                            string item = _items[i];
+                            string item = Items[i];
                             int textWidth = base.Font.GetTextWidth(item);
-                            int count2 = _items.Count;
-                            string item2 = _items[i];
+                            int count2 = Items.Count;
+                            string item2 = Items[i];
                             base.Font.SetText(Window.AbsoluteLeft + WinLeft + (WinWidth * ((2 * i) + 1) / (2 * count2)) - (textWidth / 2), Window.AbsoluteTop + WinTop + BorderHeight, text: item2, lockedSurface);
                         }
                     }
                     else
                     {
-                        int count = _items.Count;
-                        int fItemsCount = _items.Count;
+                        int count = Items.Count;
+                        int fItemsCount = Items.Count;
                         SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft + (WinWidth * i / fItemsCount), Window.AbsoluteTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexDown, area: rectangle, ref lockedSurface);
                         if (base.Font is not null)
                         {
                             base.Font.Color = Color;
-                            string item = _items[i];
+                            string item = Items[i];
                             int textWidth = base.Font.GetTextWidth(item);
-                            int count2 = _items.Count;
-                            string item2 = _items[i];
+                            int count2 = Items.Count;
+                            string item2 = Items[i];
                             base.Font.SetText(Window.AbsoluteLeft + WinLeft + (WinWidth * ((2 * i) + 1) / (2 * count2)) - (textWidth / 2), Window.AbsoluteTop + WinTop + BorderHeightSelected, text: item2, lockedSurface);
                         }
                     }
@@ -159,7 +158,7 @@ public partial class TabPanel : Control
             Handled = true;
             if (button == MouseButton.Left)
             {
-                int count = _items.Count;
+                int count = Items.Count;
                 SetIndex((X - Window.AbsoluteLeft - WinLeft) / (WinWidth / count));
             }
 
@@ -226,11 +225,11 @@ public partial class TabPanel : Control
     // AoWTabPanel.pas:133
     public void SetFStrings(DelphiStringList value)
     {
-        _items.Clear();
+        Items.Clear();
         for (int i = 0, last = value.Count - 1; i <= last; i++)
         {
             string valueValue = value[i];
-            _ = _items.Add(valueValue);
+            _ = Items.Add(valueValue);
         }
     }
 
@@ -261,7 +260,7 @@ public partial class TabPanel : Control
     }
 
     [Published]
-    public DelphiStringList Items { get => _items; set => SetFStrings(value); }
+    public DelphiStringList Items { get; }
 
     [Published]
     public int Selected { get => _selected; set => SetIndex(value); }

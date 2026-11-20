@@ -16,7 +16,7 @@ public class CombatFire(CustomNode owner) : SingleHexSprite(owner)
 {
 
     // CombatFire.pas:80
-    public new const int ClassId = 2229578;
+    public new const int ClassId = 2_229_578;
 
     private int _xShift;
     private int _yShift;
@@ -46,7 +46,7 @@ public class CombatFire(CustomNode owner) : SingleHexSprite(owner)
     }
 
     // CombatFire.pas:86
-    public override int GetShowPriority() => 1811939328;
+    public override int GetShowPriority() => 1_811_939_328;
 
     // CombatFire.pas:146
     public override void CanMoveOn(in HexSpriteMoveOnInfo info, ref HexSpriteMoveOnResult moveResult)

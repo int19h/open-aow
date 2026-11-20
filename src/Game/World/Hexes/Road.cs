@@ -14,9 +14,9 @@ public class Road(CustomNode owner) : AbstractRoad(owner)
 {
 
     // Road.pas:47
-    public new const int ClassId = 131428;
+    public new const int ClassId = 131_428;
 
-    protected internal byte Transitions { get; protected set; }
+    protected internal byte Transitions { get; private set; }
 
     // Road.pas:52
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -52,7 +52,7 @@ public class Road(CustomNode owner) : AbstractRoad(owner)
             if (hexX >= 0 && hexY >= 0 && hexX < level.Width && hexY < level.Height)
             {
                 MapField mapField = level.GetField(hexX, hexY);
-                AbstractRoad road = mapField.FindChild<AbstractRoad>(131428);
+                AbstractRoad road = mapField.FindChild<AbstractRoad>(ClassId);
                 road?.UpdateTransitions();
             }
         }
@@ -62,10 +62,10 @@ public class Road(CustomNode owner) : AbstractRoad(owner)
     {
 
         // Road.pas:136
-        public new const int ClassId = 131429;
+        public new const int ClassId = 131_429;
 
         // Road.pas:126
-        public override int ResourceUserClassId() => 131428;
+        public override int ResourceUserClassId() => Road.ClassId;
 
         // Road.pas:141
         public void Show(int pixelX, int pixelY, in LockedSurface lockedSurface, Road road)
@@ -74,14 +74,14 @@ public class Road(CustomNode owner) : AbstractRoad(owner)
             byte baseValue = 1;
             if (transitions != 0)
             {
-                if ((transitions & 64) == 0)
+                if ((transitions & 0b0100_0000) == 0)
                 {
-                    if ((transitions & 16) != 0)
+                    if ((transitions & 0b0001_0000) != 0)
                     {
                         ImageLibrary[baseValue + 4].Show(pixelX, pixelY, lockedSurface);
                     }
 
-                    if ((transitions & 4) != 0)
+                    if ((transitions & 0b0100) != 0)
                     {
                         ImageLibrary[baseValue + 2].Show(pixelX, pixelY, lockedSurface);
                     }
@@ -91,14 +91,14 @@ public class Road(CustomNode owner) : AbstractRoad(owner)
                     ImageLibrary[baseValue + 6].Show(pixelX, pixelY, lockedSurface);
                 }
 
-                if ((transitions & 128) == 0)
+                if ((transitions & 0b1000_0000) == 0)
                 {
-                    if ((transitions & 2) != 0)
+                    if ((transitions & 0b0010) != 0)
                     {
                         ImageLibrary[baseValue + 1].Show(pixelX, pixelY, lockedSurface);
                     }
 
-                    if ((transitions & 32) != 0)
+                    if ((transitions & 0b0010_0000) != 0)
                     {
                         ImageLibrary[baseValue + 5].Show(pixelX, pixelY, lockedSurface);
                     }
@@ -113,7 +113,7 @@ public class Road(CustomNode owner) : AbstractRoad(owner)
                     ImageLibrary[baseValue].Show(pixelX, pixelY, lockedSurface);
                 }
 
-                if ((transitions & 8) != 0)
+                if ((transitions & 0b1000) != 0)
                 {
                     ImageLibrary[baseValue + 3].Show(pixelX, pixelY, lockedSurface);
                 }
@@ -125,7 +125,7 @@ public class Road(CustomNode owner) : AbstractRoad(owner)
         }
 
         // Road.pas:171
-        public override EditorClass Editor() => Engine.Editors.FindEditor(131429) ?? base.Editor();
+        public override EditorClass Editor() => Engine.Editors.FindEditor(ClassId) ?? base.Editor();
 
         // Road.pas:131
         public override string ResourceEditName() => "Road";
@@ -173,14 +173,14 @@ public class Road(CustomNode owner) : AbstractRoad(owner)
             }
         }
 
-        if ((Transitions & 34) == 34)
+        if ((Transitions & 0b0010_0010) == 0b0010_0010)
         {
-            Transitions = (byte)((Transitions & 221) + 128);
+            Transitions = (byte)((Transitions & 0b1101_1101) + 128);
         }
 
-        if ((Transitions & 20) == 20)
+        if ((Transitions & 0b0001_0100) == 0b0001_0100)
         {
-            Transitions = (byte)((Transitions & 235) + 64);
+            Transitions = (byte)((Transitions & 0b1110_1011) + 64);
         }
 
         if (oldTransitions != Transitions)

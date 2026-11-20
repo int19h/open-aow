@@ -100,7 +100,7 @@ public class StructureControl : EngineObject
         }
 
         _ = _structures.AddChild(structure);
-        if (structure.EngineClass.ClassId == 131336)
+        if (structure.EngineClass.ClassId == City.ClassId)
         {
             CityCount += 1;
         }
@@ -110,7 +110,7 @@ public class StructureControl : EngineObject
     public void Unregister(Structure structure)
     {
         _ = _structures.DropChild(structure);
-        if (structure.EngineClass.ClassId == 131336)
+        if (structure.EngineClass.ClassId == City.ClassId)
         {
             CityCount -= 1;
         }

@@ -10,7 +10,7 @@ public class AltarOfPestilence(CustomNode owner) : Altar(owner)
 {
 
     // AltPest.pas:36
-    public new const int ClassId = 131852;
+    public new const int ClassId = 131_852;
 
     // AltPest.pas:39
     public override Storm CreateStorm() => new PestilenceStorm(null) { Holder = CreationHolder() };
@@ -19,10 +19,10 @@ public class AltarOfPestilence(CustomNode owner) : Altar(owner)
     {
 
         // AltPest.pas:52
-        public new const int ClassId = 131853;
+        public new const int ClassId = 131_853;
 
         // AltPest.pas:55
-        public override int ResourceUserClassId() => 131852;
+        public override int ResourceUserClassId() => AltarOfPestilence.ClassId;
 
         // AltPest.pas:49
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_altarOfPestilenceText);

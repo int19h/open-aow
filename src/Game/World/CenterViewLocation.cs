@@ -12,7 +12,7 @@ public class CenterViewLocation(CustomNode owner) : MapObject(owner)
 {
 
     // CenterViewLoc.pas:46
-    public new const int ClassId = 2233640;
+    public new const int ClassId = 2_233_640;
 
     // CenterViewLoc.pas:80
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -65,10 +65,10 @@ public class CenterViewLocation(CustomNode owner) : MapObject(owner)
         public Resource(CustomNode owner) : base(owner) => SetLevel(27);
 
         // CenterViewLoc.pas:91
-        public new const int ClassId = 2233641;
+        public new const int ClassId = 2_233_641;
 
         // CenterViewLoc.pas:102
-        public override int ResourceUserClassId() => 2233640;
+        public override int ResourceUserClassId() => CenterViewLocation.ClassId;
 
         // CenterViewLoc.pas:94
         public override void SetLevel(byte value) => base.SetLevel(27);

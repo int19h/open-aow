@@ -15,7 +15,7 @@ public class CityWallDoor(CustomNode owner) : CityWall(owner)
 {
 
     // CityWall.pas:381
-    public new const int ClassId = 2229510;
+    public new const int ClassId = 2_229_510;
 
     // CityWall.pas:428
     public override sbyte GetOverlay(int index) => -1;
@@ -31,7 +31,7 @@ public class CityWallDoor(CustomNode owner) : CityWall(owner)
         {
             sbyte hexY = HexY;
             sbyte hexX = HexX;
-            TacticalBattleUnitHexSprite combatUnit = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+            TacticalBattleUnitHexSprite combatUnit = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
             if (combatUnit is not null)
             {
                 if (combatUnit.Unit.Side != CombatSideIndex.Defender)
@@ -102,10 +102,10 @@ public class CityWallDoor(CustomNode owner) : CityWall(owner)
     {
 
         // CityWall.pas:451
-        public new const int ClassId = 2229511;
+        public new const int ClassId = 2_229_511;
 
         // CityWall.pas:457
-        public override int ResourceUserClassId() => 2229510;
+        public override int ResourceUserClassId() => 2_229_510;
 
         // CityWall.pas:454
         public override string ResourceEditName() => "Combat City Door";

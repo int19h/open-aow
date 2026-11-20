@@ -11,9 +11,9 @@ public class IsometricHexResource(CustomNode owner) : AbstractHexagonResource(ow
 {
 
     // IsoHex.pas:268
-    public new const int ClassId = 131438;
+    public new const int ClassId = 131_438;
 
-    protected internal byte DynamicLevel { get; protected set; } = 26;
+    protected internal byte DynamicLevel { get; protected init; } = 26;
 
     // IsoHex.pas:302
     public override void MessageProc(ref EngineMessage message, EngineObject sender)

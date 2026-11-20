@@ -9,7 +9,7 @@ namespace Aow.Game.Combat.Actions;
 
 public class DispelMagicAbilityCombatAction(CustomNode owner) : DispelMagicCombatAction(owner)
 {
-    public new const int ClassId = 131775;
+    public new const int ClassId = 131_775;
 
     public override bool TouchSucceeded => EnchantmentIds.Count > 0;
 

@@ -28,14 +28,14 @@ namespace Aow.Game.World.Terrain;
 public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
 
-    public new const int ClassId = 132990;
+    public new const int ClassId = 132_990;
 
     private Set<ModeElement> _mode = Set<ModeElement>.Of(ModeElement.Expandable);
 
     public sbyte TurnsLeft { get; set; } = 3;
     public byte Age { get; set; }
 
-    private int _showPriority = 1744830464;
+    private int _showPriority = 1_744_830_464;
 
     public sbyte Player { get; set; }
 
@@ -104,7 +104,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
             }
             else
             {
-                if (frame is < -1000 or >= 0)
+                if (frame is < -1_000 or >= 0)
                 {
                     _explosionFrame = 0;
                     base.Show(pixelXSurface, pixelYSurface, lockedSurface);
@@ -259,7 +259,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     {
         HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out int x, out int y);
         HexSprite hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
-        _showPriority = 1744830464 + ((y + 36) << 13) + x + 16;
+        _showPriority = 1_744_830_464 + ((y + 36) << 13) + x + 16;
         if (hexSprite != this && hexSprite is not null)
         {
             if (hexSprite.GetShowPriority() >= _showPriority)
@@ -338,7 +338,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
                 if (walk.X >= 0 && walk.X < mapLevel.Width && walk.Y > 0 && walk.Y < mapLevel.Height)
                 {
                     int chance = MapField.IgnitionChance(mapLevel.GetField(walk.X, walk.Y));
-                    if (chance > StrategicMap.Current.Random(1000))
+                    if (chance > StrategicMap.Current.Random(1_000))
                     {
                         RandSeed = StrategicMap.Current.Random(16777215);
                         sbyte hexLevel = HexLevel;
@@ -390,7 +390,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     // FireType
     public new class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
     {
-        public new const int ClassId = 132991;
+        public new const int ClassId = 132_991;
 
         public FireType FireType { get; private set; }
 
@@ -424,7 +424,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         }
 
         // Structur.PAS:3702
-        public override int ResourceUserClassId() => 132990;
+        public override int ResourceUserClassId() => Fire.ClassId;
 
         // Structur.PAS:3692
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.FireText);

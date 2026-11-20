@@ -18,7 +18,7 @@ public class SfxSequence(CustomNode owner) : OwningNode(owner), IChildList<Sfx>
 
     int IChildSink<Sfx>.AddChild(Sfx child) => AddChild(child);
 
-    public new const int ClassId = 2162690;
+    public new const int ClassId = 2_162_690;
 
     // Sound.pas:1057
     public override void PersistFields(IPersister persister)
@@ -36,5 +36,5 @@ public class SfxSequence(CustomNode owner) : OwningNode(owner), IChildList<Sfx>
     // Sound.pas:1071
     public Sample Play(int volume, bool looped, int delay, SamplePanning panning, SampleCallBack callback) => Count != 0 ? this[Random(Count)].Play(volume, looped, delay, panning, callback) : null;
 
-    public int Id { get; set; }
+    public int Id { get; private set; }
 }

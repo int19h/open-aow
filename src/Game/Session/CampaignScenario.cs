@@ -9,7 +9,7 @@ namespace Aow.Game.Session;
 public class CampaignScenario(CustomNode owner) : EngineObject(owner)
 {
     // Diplomacy.pas:2200
-    public new const int ClassId = 131588;
+    public new const int ClassId = 131_588;
 
     public int Id { get; set; }
 

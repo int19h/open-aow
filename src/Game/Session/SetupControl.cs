@@ -201,8 +201,8 @@ public class SetupControl : Component
     // AoWSetup.pas:530
     public bool ValidateCompatibleVersion(int version)
     {
-        int major = (_engine.Version & -65536) >>> 16;
-        version = (version & -65536) >>> 16;
+        int major = (_engine.Version & -65_536) >>> 16;
+        version = (version & -65_536) >>> 16;
         return major == version;
     }
 
@@ -222,7 +222,7 @@ public class SetupControl : Component
         }
         else
         {
-            if (player.Version >>> 24 == 1 && ((player.Version >>> 16) & 255) <= 10)
+            if (player.Version >>> 24 == 1 && ((player.Version >>> 16) & 0xFF) <= 10)
             {
                 OnEjectPlayer?.Invoke(this, player.RemoteId);
             }
@@ -644,7 +644,7 @@ public class SetupControl : Component
 
             if (!Settings.LeadersOnMap)
             {
-                cLC.Mode = Set<LeaderSetupModeElement>.FromMask((cLC.Mode - Set<LeaderSetupModeElement>.Of((LeaderSetupModeElement)1)).Mask);
+                cLC.Mode = Set<LeaderSetupModeElement>.FromMask((cLC.Mode - Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Settings)).Mask);
             }
 
             if (OnCustomizeLeader is not null)

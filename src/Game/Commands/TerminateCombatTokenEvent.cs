@@ -11,7 +11,7 @@ public class TerminateCombatTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
 
     // CombatTE.pas:149
-    public new const int ClassId = 2236422;
+    public new const int ClassId = 2_236_422;
 
     // CombatTE.pas:152
     public override ExecuteResult Execute(TokenExecutor tokenEvent)

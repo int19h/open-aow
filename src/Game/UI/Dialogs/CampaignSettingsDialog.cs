@@ -19,7 +19,7 @@ public partial class CampaignSettingsDialog(UIContext ui) : UIModule(ui)
     public void DlgShow()
     {
         DifficultyLevelComboBox.Items.Clear();
-        for (int levelOrdinal = (int)(CampaignDifficultyLevel)0; levelOrdinal <= (int)(CampaignDifficultyLevel)2; levelOrdinal++)
+        for (int levelOrdinal = (int)CampaignDifficultyLevel.Easy; levelOrdinal <= (int)CampaignDifficultyLevel.Hard; levelOrdinal++)
         {
             CampaignDifficultyLevel level = (CampaignDifficultyLevel)levelOrdinal;
             string campaignDifficultyLevel = UI.Engine.TranslateResourceString(s_campaignDifficultyLevelTexts[(int)level]);

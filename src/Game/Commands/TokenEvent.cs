@@ -11,7 +11,7 @@ public class TokenEvent(CustomNode owner) : EngineObject(owner), IOwned<TokenEve
 {
     // A reference list holds the token event and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list, so the read never fails.
-    public new TokenEventReferenceList Owner { get => GetOwner<TokenEventReferenceList>(); set => SetOwner(value); }
+    public new TokenEventReferenceList Owner => GetOwner<TokenEventReferenceList>();
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is TokenEventReferenceList;
 
@@ -56,6 +56,6 @@ public class TokenEvent(CustomNode owner) : EngineObject(owner), IOwned<TokenEve
 
     public int TokenCounter { get; set; } = -1;
 
-    private const short ClassIdTokenEvent = 1361;
+    private const short ClassIdTokenEvent = 1_361;
 
 }

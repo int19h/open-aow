@@ -7,7 +7,7 @@ namespace Aow.Game.AI.Groups;
 public class TransportAIGroup : AIGroup, IAIGroupClass
 {
     // MainAG.pas:801
-    public new const int ClassId = 136295;
+    public new const int ClassId = 136_295;
 
     // MainAG.pas:789
     public TransportAIGroup(CustomNode owner) : base(owner)

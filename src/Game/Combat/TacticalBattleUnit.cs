@@ -159,7 +159,7 @@ public class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
                                     case BloodType.Green:
                                     default:
                                         {
-                                            corpse.SequenceIndex = ((int)Troop.UnitSize & 127) + 30;
+                                            corpse.SequenceIndex = ((int)Troop.UnitSize & 0b0111_1111) + 30;
                                             if (corpse.SequenceIndex > 32)
                                             {
                                                 corpse.SequenceIndex = 32;

@@ -44,13 +44,13 @@ namespace Aow.Game.Session;
 public class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<PlayerCollection>
 {
     // The list that holds the player. AcceptsOwner admits only that list, so the cast never fails.
-    public new PlayerCollection Owner { get => GetOwner<PlayerCollection>(); set => SetOwner(value); }
+    public new PlayerCollection Owner => GetOwner<PlayerCollection>();
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is PlayerCollection;
 
     void IOwnedSink<PlayerCollection>.SetOwner(PlayerCollection owner) => SetOwner(owner);
 
-    public new const int ClassId = 131104;
+    public new const int ClassId = 131_104;
 
     // Player.PAS:261
     public Player(CustomNode owner) : base(owner)
@@ -1159,7 +1159,7 @@ public class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<PlayerC
                         if (Set<Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(playerRelation) && hero.JoinAmount(PlayerIndex) < Gems)
                         {
                             sbyte level = hero.GetLevel();
-                            _ = heroes.AddAbility(hero, ((level - 2) * 1000) + 1);
+                            _ = heroes.AddAbility(hero, ((level - 2) * 1_000) + 1);
                         }
                     }
                 }
@@ -1174,7 +1174,7 @@ public class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<PlayerC
             for (; i >= 0; i -= 1)
             {
                 structure = Structures.GetStructure(i);
-                if (structure.EngineClass.ClassId == 131336)
+                if (structure.EngineClass.ClassId == City.ClassId)
                 {
                     _ = locations.AddMapCoordinate(mapLevel: structure.HexLevel, y: structure.HexY, x: structure.HexX);
                 }
@@ -1183,7 +1183,7 @@ public class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<PlayerC
             if (locations.Count != 0)
             {
                 _lastHeroEmergeDay = StrategicMap.Current.Day;
-                RandSeed = StrategicMap.Current.Random(1048575);
+                RandSeed = StrategicMap.Current.Random(1_048_575);
                 i = heroes.RandomChanceItemB(0);
                 DoubleItem<Hero> doubleItem = heroes[i];
                 hero = doubleItem.First;
@@ -1402,7 +1402,7 @@ public class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<PlayerC
                 for (int j = army.Units.Count - 1; j >= 0; j--)
                 {
                     Troop troop = army.Units.GetUnit(j);
-                    if (info.ArmyStrength < 1073741823)
+                    if (info.ArmyStrength < 1_073_741_823)
                     {
                         int strengthMax = troop.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                         info.ArmyStrength += strengthMax;

@@ -146,7 +146,7 @@ public partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
     // AoWArmyEventDlg.pas:187
     public void UnitPnlDrawBack(LockedSurface lockedSurface)
     {
-        if (_frame < 1000)
+        if (_frame < 1_000)
         {
             _frame += 1;
         }

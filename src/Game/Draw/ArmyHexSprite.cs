@@ -34,7 +34,7 @@ namespace Aow.Game.Draw;
 public partial class ArmyHexSprite : UnitHexSprite
 {
 
-    public new const int ClassId = 131607;
+    public new const int ClassId = 131_607;
 
     public Army Army { get; private set; }
 
@@ -73,7 +73,7 @@ public partial class ArmyHexSprite : UnitHexSprite
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
         base.MessageProc(ref message, sender);
-        if ((message.MessageId & 1073741824) == 0 && Army is not null)
+        if ((message.MessageId & 0b0100_0000_0000_0000_0000_0000_0000_0000) == 0 && Army is not null)
         {
             Army.MessageProc(ref message, sender);
         }
@@ -88,7 +88,7 @@ public partial class ArmyHexSprite : UnitHexSprite
     public override bool GetSelected() => Army.Status.Contains(ArmyStatusElement.Selected);
 
     // Army.PAS:3060
-    public override bool CanChangeTerrain(in HexSpriteSenderInfo info) => info.HexNumber != 0 || (info.MapField.TerrainType == 0 && info.Sender is not null && (((EngineObject)info.Sender).EngineClass.ClassId == 135742 || ((EngineObject)info.Sender).EngineClass.ClassId == 131436)) || Army.ValidTerrain(info.MapField.TerrainType, info.MapField.OverlayType);
+    public override bool CanChangeTerrain(in HexSpriteSenderInfo info) => info.HexNumber != 0 || (info.MapField.TerrainType == 0 && info.Sender is not null && (((EngineObject)info.Sender).EngineClass.ClassId == FireStorm.ClassId || ((EngineObject)info.Sender).EngineClass.ClassId == FrozenWaterHexSprite.ClassId)) || Army.ValidTerrain(info.MapField.TerrainType, info.MapField.OverlayType);
 
     // Army.PAS:3069
     public override void TerrainChanged(in HexSpriteTerrainInfo info)
@@ -169,7 +169,7 @@ public partial class ArmyHexSprite : UnitHexSprite
                     else
                     {
                         MapFieldMessageParameters param2 = message.Param;
-                        param2[0] = param2[0].Int | 13;
+                        param2[0] = param2[0].Int | 0b1101;
                         message.Param = param2;
                     }
                 }
@@ -552,7 +552,7 @@ public partial class ArmyHexSprite : UnitHexSprite
         if (Army.CanPlace(hexX, hexY, L: hexLevel))
         {
             MapField field = map.GetField(hexX, hexY, hexLevel);
-            EngineObject army = field.FindOwnedChild(131607);
+            EngineObject army = field.FindOwnedChild(ClassId);
             return (army is null || EditMode) && base.PlaceHex(map, hexX, hexY, hexLevel);
         }
         else
@@ -748,7 +748,7 @@ public partial class ArmyHexSprite : UnitHexSprite
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 MapField field = level.GetField(walk.X, walk.Y);
-                if (field.FindOwnedChild(131607) is null)
+                if (field.FindOwnedChild(ClassId) is null)
                 {
                     int player = field.GetPlayer();
                     if (player == -1 || (player == Army.Player && mode.Contains(ArmyPlaceModeElement.EnableOwnPlayerLocation)))

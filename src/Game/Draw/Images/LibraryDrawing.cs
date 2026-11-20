@@ -16,14 +16,14 @@ internal static class LibraryDrawing
     internal static void WriteStringToStream(string S, Stream stream)
     {
         int l = S.Length;
-        stream.Write(Bytes.Of(ref l, count: 4));
+        stream.Write(Bytes.Of(ref l));
         stream.Write(Cp1252.Encode(S).AsSpan()[..l]);
     }
 
     internal static void ReadStringFromStream(ref string S, Stream stream)
     {
         int l = default;
-        stream.ReadExactly(Bytes.Of(ref l, count: 4));
+        stream.ReadExactly(Bytes.Of(ref l));
         if (l < 0)
         {
             throw new ArgumentOutOfRangeException(paramName: null, message: "Negative string length");

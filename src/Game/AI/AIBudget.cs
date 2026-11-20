@@ -13,7 +13,7 @@ namespace Aow.Game.AI;
 public class AIBudget(CustomNode owner) : EngineObject(owner)
 {
     // AI.pas:1653
-    public new const int ClassId = 131740;
+    public new const int ClassId = 131_740;
 
     public int Priority { get; set; }
     public int RequiredGold { get; set; }

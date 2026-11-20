@@ -14,7 +14,7 @@ public class AIGroupControlTarget(CustomNode owner) : EngineObject(owner), IOwne
 {
     // A reference list holds the target and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list.
-    public new AIGroupControlTargetList Owner { get => GetOwner<AIGroupControlTargetList>(); set => SetOwner(value); }
+    public new AIGroupControlTargetList Owner => GetOwner<AIGroupControlTargetList>();
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is AIGroupControlTargetList;
 

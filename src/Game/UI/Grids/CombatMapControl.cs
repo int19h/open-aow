@@ -146,7 +146,7 @@ public class CombatMapControl : Component
     // CMapCtrl.pas:180
     public void ActivateHsm(GameMap sender)
     {
-        if (sender.EngineClass.ClassId == 2228480)
+        if (sender.EngineClass.ClassId == CombatMap.ClassId)
         {
             LinkToHsm();
             OnActivateHsm?.Invoke(this);
@@ -156,7 +156,7 @@ public class CombatMapControl : Component
     // CMapCtrl.pas:189
     public void DeactivateHsm(GameMap sender)
     {
-        if (sender.EngineClass.ClassId == 2228480)
+        if (sender.EngineClass.ClassId == CombatMap.ClassId)
         {
             OnDeactivateHsm?.Invoke(this);
 

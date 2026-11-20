@@ -10,7 +10,7 @@ namespace Aow.Game.Net;
 public class EmailGame(CustomNode owner) : EngineObject(owner)
 {
     // Diplomacy.pas:2462
-    public new const int ClassId = 136960;
+    public new const int ClassId = 136_960;
 
     public string Name { get; set; } = "";
     public int UniqueLocalId { get; set; }

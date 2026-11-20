@@ -19,7 +19,7 @@ public class SummonSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
 {
 
     // SummonSpells.pas:171
-    public new const int ClassId = 135947;
+    public new const int ClassId = 135_947;
 
     public UnitIndexList UnitIndices { get; } = new UnitIndexList();
 

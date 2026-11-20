@@ -261,15 +261,15 @@ public class UInt16List : Persistent
         ushort run = default;
         int count = default;
         Clear();
-        stream.ReadExactly(Bytes.Of(ref _default, count: 2));
-        stream.ReadExactly(Bytes.Of(ref count, count: 4));
+        stream.ReadExactly(Bytes.Of(ref _default));
+        stream.ReadExactly(Bytes.Of(ref count));
         SetCapacity(count);
         while (_count < count)
         {
-            stream.ReadExactly(Bytes.Of(ref item, count: 2));
+            stream.ReadExactly(Bytes.Of(ref item));
             if (item == _default)
             {
-                stream.ReadExactly(Bytes.Of(ref run, count: 2));
+                stream.ReadExactly(Bytes.Of(ref run));
                 SetCount(_count + run);
             }
             else
@@ -297,27 +297,27 @@ public class UInt16List : Persistent
         }
 
         i = 0;
-        stream.Write(Bytes.Of(ref _default, count: 2));
-        stream.Write(Bytes.Of(ref _count, count: 4));
+        stream.Write(Bytes.Of(ref _default));
+        stream.Write(Bytes.Of(ref _count));
         while (_count != i)
         {
             int run = DefaultRun();
             if (run > 0)
             {
                 ushort b;
-                while (run > 65535)
+                while (run > 65_535)
                 {
-                    b = 65535;
-                    stream.Write(Bytes.Of(ref _default, count: 2));
-                    stream.Write(Bytes.Of(ref b, count: 2));
+                    b = 65_535;
+                    stream.Write(Bytes.Of(ref _default));
+                    stream.Write(Bytes.Of(ref b));
                     // { sic: the original subtracts $FF here but advances I by $FFFF }
                     run -= 255;
-                    i += 65535;
+                    i += 65_535;
                 }
 
                 b = (ushort)run;
-                stream.Write(Bytes.Of(ref _default, count: 2));
-                stream.Write(Bytes.Of(ref b, count: 2));
+                stream.Write(Bytes.Of(ref _default));
+                stream.Write(Bytes.Of(ref b));
                 i += run;
             }
             else

@@ -12,7 +12,7 @@ public class PlayerCropStructureResource(CustomNode owner) : PlayerStructureReso
 {
 
     // Crops.pas:599
-    public new const int ClassId = 131919;
+    public new const int ClassId = 131_919;
 
     public UInt16List CropLocations { get; private set; }
 
@@ -37,6 +37,6 @@ public class PlayerCropStructureResource(CustomNode owner) : PlayerStructureReso
     }
 
     // Crops.pas:602
-    public override int ResourceUserClassId() => 131918;
+    public override int ResourceUserClassId() => PlayerCropStructure.ClassId;
 
 }

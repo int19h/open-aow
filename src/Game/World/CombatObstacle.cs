@@ -15,7 +15,7 @@ public class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
 {
 
     // CombatObstacle.pas:94
-    public new const int ClassId = 2229546;
+    public new const int ClassId = 2_229_546;
 
     private CombatObstacleShadow _shadow;
     private CombatObstacleOverlay _overlay;
@@ -210,10 +210,10 @@ public class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
     {
 
         // CombatObstacle.pas:239
-        public new const int ClassId = 2229547;
+        public new const int ClassId = 2_229_547;
 
         // CombatObstacle.pas:245
-        public override int ResourceUserClassId() => 2229546;
+        public override int ResourceUserClassId() => CombatObstacle.ClassId;
 
         // CombatObstacle.pas:242
         public override string ResourceEditName() => $"Combat {AbilityRules.TranslateResourceString(GetEngine(), S: GameText.ObstacleText)}";

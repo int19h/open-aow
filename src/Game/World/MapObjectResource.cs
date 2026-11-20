@@ -18,7 +18,7 @@ namespace Aow.Game.World;
 // images. ids 9, 10), _terrainList (id 7), _level (id 5), _name (id 6)
 public class MapObjectResource : EngineResource
 {
-    public new const int ClassId = 65876;
+    public new const int ClassId = 65_876;
 
     public MapObjectResource(CustomNode owner) : base(owner)
     {
@@ -288,12 +288,12 @@ public class MapObjectResource : EngineResource
     }
 
     public GameEngine Engine { get; private set; }
-    public int ShowPriorityOffset { get; set; }
+    public int ShowPriorityOffset { get; private set; }
     public ImageLibrary ImageLibrary { get; }
     public ImageSequenceList ImageSequenceList { get; set; }
     public TerrainList TerrainList { get; }
-    public byte Level { get => _level; set => SetLevel(value); }
-    public string Name { get; set; } = "";
+    public byte Level { get => _level; init => SetLevel(value); }
+    public string Name { get; private set; } = "";
 
     // MAPOBJ.PAS:415
     public override string ResourceEditName() => "";

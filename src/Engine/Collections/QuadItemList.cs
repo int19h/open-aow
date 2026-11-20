@@ -338,7 +338,7 @@ public class QuadItemList : Persistent
 
     public int Capacity { get => _capacity; set => SetCapacity(value); }
     public int Count { get => _count; set => SetCount(value); }
-    public QuadInteger Default { get; set; }
+    public QuadInteger Default { get; private set; }
 
     public QuadInteger this[int index] { get => Get(index); set => Put(index, item: value); }
 

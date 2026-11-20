@@ -7,7 +7,7 @@ namespace Aow.Game.Units;
 // gold, mana, structures, army strength, heroes
 public class TurnInfoItem(CustomNode owner) : EngineObject(owner)
 {
-    public new const int ClassId = 131739;
+    public new const int ClassId = 131_739;
 
     public int Gold { get; set; }
     public int Mana { get; set; }

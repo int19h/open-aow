@@ -81,7 +81,7 @@ public class AIGroupWanderControl : AIGroupTask
                     i = settings.ProcessedMapFields.Count - 1;
                     for (; i >= 0; i -= 1)
                     {
-                        if ((i & 3) == 3)
+                        if ((i & 0b0011) == 0b0011)
                         {
                             field = settings.ProcessedMapFields[i];
                             if (_moveSettings.GetMovePoints(field.HexX, field.HexY, field.HexLevel) != 16777215)

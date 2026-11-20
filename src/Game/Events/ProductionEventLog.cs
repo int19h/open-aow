@@ -5,6 +5,6 @@ namespace Aow.Game.Events;
 
 public class ProductionEventLog(CustomNode owner) : LocationTextEventLog(owner)
 {
-    public new const int ClassId = 131833;
+    public new const int ClassId = 131_833;
 
 }

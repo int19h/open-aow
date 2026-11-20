@@ -14,7 +14,7 @@ namespace Aow.Game.Commands;
 // (target IDs, target users, target player, spell data)
 public class UnitSpellTokenEvent : SpellTokenEvent
 {
-    public new const int ClassId = 135944;
+    public new const int ClassId = 135_944;
 
     public Int32List TargetUnitIds { get; }
 

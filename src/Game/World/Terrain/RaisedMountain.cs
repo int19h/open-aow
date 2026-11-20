@@ -19,7 +19,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
 {
 
     // Mountain.pas:178
-    public new const int ClassId = 131434;
+    public new const int ClassId = 131_434;
 
     public Set<RaisedMountainMode> Mode { get; set; }
 
@@ -101,7 +101,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
         sbyte hexX = animation.HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         // { Original tests the base mountain ID, although this object is raised terrain. }
-        if (this == field.FindOwnedChild(131432) && animation.FrameCounter == 0)
+        if (this == field.FindOwnedChild(MountainMapObject.ClassId) && animation.FrameCounter == 0)
         {
             bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
             if (!condition)
@@ -126,7 +126,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
         sbyte hexY = animation.HexY;
         sbyte hexX = animation.HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
-        if (field.FindOwnedChild(131434) == this && frameCounter == 9)
+        if (field.FindOwnedChild(ClassId) == this && frameCounter == 9)
         {
             Mode -= Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);
         }
@@ -136,10 +136,10 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
     {
 
         // Mountain.pas:249
-        public new const int ClassId = 131435;
+        public new const int ClassId = 131_435;
 
         // Mountain.pas:255
-        public override int ResourceUserClassId() => 131434;
+        public override int ResourceUserClassId() => RaisedMountain.ClassId;
 
         // Mountain.pas:252
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_raisedMountainText);

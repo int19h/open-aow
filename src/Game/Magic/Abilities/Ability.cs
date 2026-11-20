@@ -37,8 +37,8 @@ public class Ability : EngineObject
         ImageSequences = new ImageSequenceList(GamePack.Current.ImageLibraryManager, imageLibrary: null);
     }
 
-    public string AbilityName { get; set; } = "";
-    public int AbilityId { get; set; }
+    public string AbilityName { get; init; } = "";
+    public int AbilityId { get; internal set; }
     public DelphiStringList Description { get; }
 
     public int SkillPointCost { get; protected set; }
@@ -372,7 +372,7 @@ public class Ability : EngineObject
             if (info.DamageTypes != Set<DamageType>.Of())
             {
                 string damageNames = "";
-                for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
+                for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.None; damageTypeOrdinal++)
                 {
                     DamageType damageType = (DamageType)damageTypeOrdinal;
                     if (info.DamageTypes.Contains(damageType))

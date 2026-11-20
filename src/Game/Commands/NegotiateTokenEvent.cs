@@ -20,7 +20,7 @@ public class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
 
     // Diplomacy.pas:133
-    public new const int ClassId = 135431;
+    public new const int ClassId = 135_431;
 
     public int Gold { get; set; }
     public NegotiateOffer Offer { get; set; }
@@ -128,7 +128,7 @@ public class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
                 _ = path.AddMapCoordinate(Location.X, Location.Y, Location.MapLevel);
                 _ = path.AddMapCoordinate(y: ArmyHexSprite.HexY, x: ArmyHexSprite.HexX, mapLevel: ArmyHexSprite.HexLevel);
                 path.List[0] = path.List[0] with { MoveCost = (sbyte)MovePoints };
-                MoveArmyTokenEvent move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, action: (MoveAction)(byte)3, mode: Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation));
+                MoveArmyTokenEvent move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, action: MoveAction.Combine, mode: Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation));
                 _ = StrategicMap.Current.TokenManager.TokenExecutor.InsertExecuteEvent(move);
                 // { Original bug: no nil check after CreateArmyMoveTE can return nil. }
                 _ = move.Release();
@@ -146,7 +146,7 @@ public class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
             _ = path.AddMapCoordinate(Location.X, Location.Y, Location.MapLevel);
             _ = path.AddMapCoordinate(y: ArmyHexSprite.HexY, x: ArmyHexSprite.HexX, mapLevel: ArmyHexSprite.HexLevel);
             path.List[0] = path.List[0] with { MoveCost = (sbyte)MovePoints };
-            MoveArmyTokenEvent move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, action: (MoveAction)(byte)1, mode: Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation));
+            MoveArmyTokenEvent move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, action: MoveAction.Attack, mode: Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation));
             _ = StrategicMap.Current.TokenManager.TokenExecutor.InsertExecuteEvent(move);
             // { Original bug: no nil check after CreateArmyMoveTE can return nil. }
             _ = move.Release();

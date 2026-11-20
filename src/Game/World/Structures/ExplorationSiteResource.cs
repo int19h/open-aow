@@ -17,7 +17,7 @@ public class ExplorationSiteResource : StructureResource
     }
 
     // ExploreS.pas:373
-    public new const int ClassId = 132034;
+    public new const int ClassId = 132_034;
 
     public UnitIndexListCollection DefenderCollections { get; }
 
@@ -36,7 +36,7 @@ public class ExplorationSiteResource : StructureResource
     }
 
     // ExploreS.pas:382
-    public override int ResourceUserClassId() => 132033;
+    public override int ResourceUserClassId() => ExplorationSite.ClassId;
 
     // ExploreS.pas:370
     public override string ResourceEditName() => "";

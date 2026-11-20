@@ -27,7 +27,7 @@ namespace Aow.Game.AI.Groups;
 public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, IAIGroupClass
 {
     // AIGroup.pas:101
-    public new const int ClassId = 136272;
+    public new const int ClassId = 136_272;
 
     /// <summary>The troops of this group, in their stored order.</summary>
     public UnitCollection Units => new(this);

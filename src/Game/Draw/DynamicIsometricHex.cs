@@ -11,7 +11,7 @@ namespace Aow.Game.Draw;
 public partial class DynamicIsometricHex : HexSprite
 {
     // IsoHex.pas:126
-    public new const int ClassId = 131439;
+    public new const int ClassId = 131_439;
 
     // IsoHex.pas:136
     public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of();

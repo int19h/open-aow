@@ -19,7 +19,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
 {
 
     // Arena.pas:95
-    public new const int ClassId = 133276;
+    public new const int ClassId = 133_276;
 
     // Arena.pas:212
     public override ArenaTokenEvent CreateTokenEvent() => new(null) { Holder = CreationHolder() };
@@ -223,10 +223,10 @@ public partial class Arena(CustomNode owner) : Structure(owner)
         public Resource(CustomNode owner) : base(owner) => CastsShadow = true;
 
         // Arena.pas:253
-        public new const int ClassId = 133277;
+        public new const int ClassId = 133_277;
 
         // Arena.pas:256
-        public override int ResourceUserClassId() => 133276;
+        public override int ResourceUserClassId() => Arena.ClassId;
 
         // Arena.pas:250
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_arenaText);

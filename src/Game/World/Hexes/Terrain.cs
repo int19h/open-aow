@@ -58,7 +58,7 @@ public class Terrain(CustomNode owner) : TerrainMapObject(owner)
     // AoWTer.pas:67
     public void ValidateDeadTreeRegrow()
     {
-        if (Owner.FindOwnedChild(132990) is null)
+        if (Owner.FindOwnedChild(Fire.ClassId) is null)
         {
             if (StrategicMap.Current.Random(20) == 0)
             {

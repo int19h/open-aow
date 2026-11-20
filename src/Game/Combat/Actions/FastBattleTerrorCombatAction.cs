@@ -11,7 +11,7 @@ namespace Aow.Game.Combat.Actions;
 public class FastBattleTerrorCombatAction(CustomNode owner) : MultiTargetCombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:1666
-    public new const int ClassId = 131777;
+    public new const int ClassId = 131_777;
 
     // CombatSpells.pas:1672
     public override void Execute(Battle combat)

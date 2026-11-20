@@ -17,11 +17,11 @@ namespace Aow.Game.Magic.Spells;
 public class CityEnchantmentSpell(CustomNode owner) : CityTargetSpell(owner)
 {
 
-    public CityEnchantmentId EnchantmentId { get; protected set; }
-    public int EnchantmentSpellId { get; protected set; }
-    public int AIPriority { get; protected set; } = -1;
-    public int AIBudget { get; protected set; }
-    public Set<CityEnchantmentCastSpellSituationElement> AICastSituation { get; protected set; }
+    public CityEnchantmentId EnchantmentId { get; protected init; }
+    public int EnchantmentSpellId { get; protected init; }
+    public int AIPriority { get; protected init; } = -1;
+    public int AIBudget { get; protected init; }
+    public Set<CityEnchantmentCastSpellSituationElement> AICastSituation { get; protected init; }
 
     // CitySpells.pas:576
     protected override bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount)

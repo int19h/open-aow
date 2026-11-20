@@ -8,7 +8,7 @@ namespace Aow.Game.World;
 // 14 and 15, part of the show priority offset)
 public class MultiHexMapObjectResource : MapObjectResource
 {
-    public new const int ClassId = 65877;
+    public new const int ClassId = 65_877;
 
     public MultiHexMapObjectResource(CustomNode owner) : base(owner)
     {
@@ -43,8 +43,8 @@ public class MultiHexMapObjectResource : MapObjectResource
         CalculateShowPriorityOffset(_mainPointOffsetX, _mainPointOffsetY, Level);
     }
 
-    public int ImageOffsetX { get; set; }
-    public int ImageOffsetY { get; set; }
+    public int ImageOffsetX { get; private set; }
+    public int ImageOffsetY { get; private set; }
     public int MainPointOffsetX { get => _mainPointOffsetX; set => SetMainPointOffsetX(value); }
     public int MainPointOffsetY { get => _mainPointOffsetY; set => SetMainPointOffsetY(value); }
 }

@@ -19,7 +19,7 @@ public class HolyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetSpellToke
 {
 
     // HolyG.pas:282
-    public new const int ClassId = 135942;
+    public new const int ClassId = 135_942;
 
     // HolyG.pas:329
     public override bool Process(Troop source, int value)
@@ -36,7 +36,7 @@ public class HolyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetSpellToke
     {
         MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(Location.MapLevel);
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Location.X, Location.Y, radius: 0);
-        HolyGround.Resource resource = GamePack.Current.MapObjectResourceList.FindChild<HolyGround.Resource>(131988);
+        HolyGround.Resource resource = GamePack.Current.MapObjectResourceList.FindChild<HolyGround.Resource>(HolyGround.Resource.ClassId);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

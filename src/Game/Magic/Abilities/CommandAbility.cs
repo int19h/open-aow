@@ -24,7 +24,7 @@ public class CommandAbility : TouchAbility
     // AoWAb.PAS:5088
     public CommandAbility(CustomNode owner) : base(owner) => SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem);
 
-    public int CommandedAbilityId { get; protected set; }
+    public int CommandedAbilityId { get; protected init; }
 
     // AoWAb.PAS:5190
     public override AbilityType GetAbilityType() => AbilityType.Combat;

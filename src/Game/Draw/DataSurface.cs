@@ -120,7 +120,7 @@ public partial class DataSurface : Surface
         {
             _width = width;
             _height = height;
-            Pitch = ((((_bitCount + 7) >>> 3) * _width) + 7) & ~7;
+            Pitch = ((((_bitCount + 7) >>> 3) * _width) + 7) & ~0b0111;
             // The original allocates 7 bytes more and aligns FData to 8 for MMX. The alignment has
             // no effect on pixels, so the port's data is the array from its first byte. The 7
             // bytes stay after the last row: the 24-bit pixel readers read 4 bytes at the last

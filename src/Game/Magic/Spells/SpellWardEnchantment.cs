@@ -8,7 +8,7 @@ namespace Aow.Game.Magic.Spells;
 public class SpellWardEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:1943
-    public new const int ClassId = 135971;
+    public new const int ClassId = 135_971;
 
     // GlobalEnchantmentSpells.pas:1935
     public SpellWardEnchantment(CustomNode owner, EngineObject holder) : base(owner)

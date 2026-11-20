@@ -9,7 +9,7 @@ public class CombatFixedImageLibraryTerrain(CustomNode owner) : CombatImageLibra
 {
 
     // CombatILTer.pas:191
-    public new const int ClassId = 2228536;
+    public new const int ClassId = 2_228_536;
 
     // CombatILTer.pas:197
     public override bool CanChangeTerrain(in HexSpriteSenderInfo info)
@@ -67,10 +67,10 @@ public class CombatFixedImageLibraryTerrain(CustomNode owner) : CombatImageLibra
     {
 
         // CombatILTer.pas:227
-        public new const int ClassId = 2228537;
+        public new const int ClassId = 2_228_537;
 
         // CombatILTer.pas:233
-        public override int ResourceUserClassId() => 2228536;
+        public override int ResourceUserClassId() => CombatFixedImageLibraryTerrain.ClassId;
 
         // CombatILTer.pas:230
         public override string ResourceEditName() => "Combat FixedILTerrain";

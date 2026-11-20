@@ -10,7 +10,7 @@ namespace Aow.Game.Commands;
 // events, simultaneous
 public class MultiMoveTokenEvent : TokenEvent
 {
-    public new const int ClassId = 135442;
+    public new const int ClassId = 135_442;
 
     public TokenEventList Events { get; }
 

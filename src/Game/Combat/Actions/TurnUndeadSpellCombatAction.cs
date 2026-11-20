@@ -10,7 +10,7 @@ namespace Aow.Game.Combat.Actions;
 public class TurnUndeadSpellCombatAction(CustomNode owner) : CombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:861
-    public new const int ClassId = 131788;
+    public new const int ClassId = 131_788;
 
     // CombatSpells.pas:867
     public override void Execute(Battle combat)

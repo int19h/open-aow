@@ -20,7 +20,7 @@ public partial class WaterHex : LowerIsometricHex
     }
 
     // AoWHex.pas:275
-    public new const int ClassId = 132925;
+    public new const int ClassId = 132_925;
 
     private sbyte _animationFrame;
     private byte _animationIndex;
@@ -37,7 +37,7 @@ public partial class WaterHex : LowerIsometricHex
         y -= ySurface;
         CustomImageLibrary library = ((MapObject)this).Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
         int phase = FrameFixtureInputs.WaterBasePhase(Owner);
-        library[((phase + field.HexX + (field.HexY * 2) + (Sides >> 6)) & 15) + 140].Show(x, y, lockedSurface: surface);
+        library[((phase + field.HexX + (field.HexY * 2) + (Sides >> 6)) & 0xF) + 140].Show(x, y, lockedSurface: surface);
         x -= 6;
         y -= 9;
         if ((Sides & 1) != 0)
@@ -45,12 +45,12 @@ public partial class WaterHex : LowerIsometricHex
             library[36].Show(x, y, lockedSurface: surface);
         }
 
-        if ((Sides & 2) != 0)
+        if ((Sides & 0b0010) != 0)
         {
             library[37].Show(x, y, lockedSurface: surface);
         }
 
-        if ((Sides & 32) != 0)
+        if ((Sides & 0b0010_0000) != 0)
         {
             library[35].Show(x, y, lockedSurface: surface);
         }
@@ -64,10 +64,10 @@ public partial class WaterHex : LowerIsometricHex
         public Resource(CustomNode owner) : base(owner) => DynamicLevel = 23;
 
         // AoWHex.pas:452
-        public new const int ClassId = 132926;
+        public new const int ClassId = 132_926;
 
         // AoWHex.pas:458
-        public override int ResourceUserClassId() => 132925;
+        public override int ResourceUserClassId() => WaterHex.ClassId;
 
         // AoWHex.pas:455
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_waterHexText);

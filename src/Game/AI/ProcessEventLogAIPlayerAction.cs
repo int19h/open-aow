@@ -23,7 +23,7 @@ public class ProcessEventLogAIPlayerAction(CustomNode owner) : AIPlayerAction(ow
         {
             if (_logIndex == -1)
             {
-                _logIndex = Control.Player.EventLogbook.FindFirstLog(131811, player: Control.Player.PlayerIndex, day: StrategicMap.Current.Day - 1) + 1;
+                _logIndex = Control.Player.EventLogbook.FindFirstLog(EndTurnEventLog.ClassId, player: Control.Player.PlayerIndex, day: StrategicMap.Current.Day - 1) + 1;
             }
             else
             {

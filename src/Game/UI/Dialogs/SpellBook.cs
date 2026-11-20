@@ -349,7 +349,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                 if (i < leader.SphereCount)
                 {
                     button.Visible = true;
-                    switch ((int)leader.GetSpheres(i) & 127)
+                    switch ((int)leader.GetSpheres(i) & 0b0111_1111)
                     {
                         case 1:
                             button.ImageLibraryIndexDown = 28;
@@ -579,21 +579,21 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
             string reason = "";
             if ((Mode == 0 && (!spell.SpellControlTypes.Contains(SpellControlTypeElement.Global) || _hero.Casting())) || (Mode == 1 && (!spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat) || _hero.Casting() || !_hero.CanCastSpellInstantly(spell.SpellId, mana: spell.BaseManaCost, ref reason))) || (Mode == 2 && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchSpellId != 0))
             {
-                memo.TextColor = 5000268;
-                name.TextColor = 5000268;
-                spellClass.TextColor = 5000268;
-                cost.TextColor = 5000268;
+                memo.TextColor = 0x4C_4C_4C;
+                name.TextColor = 0x4C_4C_4C;
+                spellClass.TextColor = 0x4C_4C_4C;
+                cost.TextColor = 0x4C_4C_4C;
                 button.Visible = false;
-                icon.Tag |= 16;
+                icon.Tag |= 0b0001_0000;
             }
             else
             {
-                memo.TextColor = 1254460;
-                name.TextColor = 1254460;
-                spellClass.TextColor = 5908276;
-                cost.TextColor = 5908276;
+                memo.TextColor = 0x13_24_3C;
+                name.TextColor = 0x13_24_3C;
+                spellClass.TextColor = 0x5A_27_34;
+                cost.TextColor = 0x5A_27_34;
                 button.Visible = true;
-                icon.Tag &= 15;
+                icon.Tag &= 0xF;
             }
 
             if (spell.ManaUpkeep > 0)

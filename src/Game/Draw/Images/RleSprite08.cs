@@ -101,19 +101,19 @@ public class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILibraryIma
         int reserved = default;
         base.ReadImageData(stream);
         int rleWidth = RleWidth;
-        stream.ReadExactly(Bytes.Of(ref rleWidth, count: 4));
+        stream.ReadExactly(Bytes.Of(ref rleWidth));
         RleWidth = rleWidth;
         int rleHeight = RleHeight;
-        stream.ReadExactly(Bytes.Of(ref rleHeight, count: 4));
+        stream.ReadExactly(Bytes.Of(ref rleHeight));
         RleHeight = rleHeight;
         int rleLeft = RleLeft;
-        stream.ReadExactly(Bytes.Of(ref rleLeft, count: 4));
+        stream.ReadExactly(Bytes.Of(ref rleLeft));
         RleLeft = rleLeft;
         int rleTop = RleTop;
-        stream.ReadExactly(Bytes.Of(ref rleTop, count: 4));
+        stream.ReadExactly(Bytes.Of(ref rleTop));
         RleTop = rleTop;
-        stream.ReadExactly(Bytes.Of(ref _transparentColor, count: 4));
-        stream.ReadExactly(Bytes.Of(ref reserved, count: 4));
+        stream.ReadExactly(Bytes.Of(ref _transparentColor));
+        stream.ReadExactly(Bytes.Of(ref reserved));
     }
 
     // ImageLib.pas:7572
@@ -122,19 +122,19 @@ public class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILibraryIma
         int reserved = default;
         base.WriteImageData(stream);
         int rleWidth = RleWidth;
-        stream.Write(Bytes.Of(ref rleWidth, count: 4));
+        stream.Write(Bytes.Of(ref rleWidth));
         RleWidth = rleWidth;
         int rleHeight = RleHeight;
-        stream.Write(Bytes.Of(ref rleHeight, count: 4));
+        stream.Write(Bytes.Of(ref rleHeight));
         RleHeight = rleHeight;
         int rleLeft = RleLeft;
-        stream.Write(Bytes.Of(ref rleLeft, count: 4));
+        stream.Write(Bytes.Of(ref rleLeft));
         RleLeft = rleLeft;
         int rleTop = RleTop;
-        stream.Write(Bytes.Of(ref rleTop, count: 4));
+        stream.Write(Bytes.Of(ref rleTop));
         RleTop = rleTop;
-        stream.Write(Bytes.Of(ref _transparentColor, count: 4));
-        stream.Write(Bytes.Of(ref reserved, count: 4));
+        stream.Write(Bytes.Of(ref _transparentColor));
+        stream.Write(Bytes.Of(ref reserved));
     }
 
     // ImageLib.pas:7583
@@ -244,7 +244,7 @@ public class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILibraryIma
         {
             if (DataSize <= position)
             {
-                Data = MemorySurfaces.Reallocate(Data, size: position + 4096);
+                Data = MemorySurfaces.Reallocate(Data, size: position + 4_096);
             }
 
             Data[position] = B;
@@ -285,7 +285,7 @@ public class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILibraryIma
             FlushTransparent();
             if (DataSize <= position)
             {
-                Data = MemorySurfaces.Reallocate(Data, size: position + 4096);
+                Data = MemorySurfaces.Reallocate(Data, size: position + 4_096);
             }
 
             BinaryPrimitives.WriteUInt16LittleEndian(Data.AsSpan(lineStart, length: 2), value: (ushort)(position - lineStart));

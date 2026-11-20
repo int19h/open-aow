@@ -7,10 +7,10 @@ public class CombatStructureResource(CustomNode owner) : CombatFixedImageLibrary
 {
 
     // CombatStructure.pas:256
-    public new const int ClassId = 2229511;
+    public new const int ClassId = 2_229_511;
 
     // CombatStructure.pas:262
-    public override int ResourceUserClassId() => 2229510;
+    public override int ResourceUserClassId() => 2_229_510;
 
     // CombatStructure.pas:259
     public override string ResourceEditName() => "Combat Structure";

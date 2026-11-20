@@ -21,6 +21,6 @@ public class InitializeAIPlayerAction(CustomNode owner) : AIPlayerAction(owner),
     }
 
     // AI.pas:1014
-    public static new int Priority => 1000;
+    public static new int Priority => 1_000;
 
 }

@@ -98,7 +98,7 @@ public abstract class CustomNode : EngineObject, IOwner
     public virtual void PersistChildren(IPersister persister) => persister.Children("Children", children: new NodeChildren(this));
 
     // Engine.pas:2715
-    public virtual bool SendToChild(ref readonly EngineMessage message) => (message.MessageId & 1073741824) == 0;
+    public virtual bool SendToChild(ref readonly EngineMessage message) => (message.MessageId & 0b0100_0000_0000_0000_0000_0000_0000_0000) == 0;
 
     // Engine.pas:2608
     public virtual void DestroyAllChildren()
@@ -139,9 +139,9 @@ public abstract class CustomNode : EngineObject, IOwner
     public virtual void SendMessage(ref EngineMessage message, EngineObject sender)
     {
         EngineObject c;
-        if ((message.MessageId & 268435456) != 0)
+        if ((message.MessageId & 0b0001_0000_0000_0000_0000_0000_0000_0000) != 0)
         {
-            if ((message.MessageId & 536870912) == 0)
+            if ((message.MessageId & 0b0010_0000_0000_0000_0000_0000_0000_0000) == 0)
             {
                 for (int i = Count - 1; i >= 0; i--)
                 {
@@ -168,7 +168,7 @@ public abstract class CustomNode : EngineObject, IOwner
         }
         else
         {
-            if ((message.MessageId & 536870912) == 0)
+            if ((message.MessageId & 0b0010_0000_0000_0000_0000_0000_0000_0000) == 0)
             {
                 for (int i = Count - 1; i >= 0; i--)
                 {

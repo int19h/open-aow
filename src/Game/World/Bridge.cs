@@ -15,7 +15,7 @@ public class Bridge(CustomNode owner) : AbstractRoad(owner)
 {
 
     // Bridge.pas:48
-    public new const int ClassId = 131444;
+    public new const int ClassId = 131_444;
 
     private ushort _transitions;
 
@@ -211,10 +211,10 @@ public class Bridge(CustomNode owner) : AbstractRoad(owner)
         public Resource(CustomNode owner) : base(owner) => SetLevel(10);
 
         // Bridge.pas:205
-        public new const int ClassId = 131445;
+        public new const int ClassId = 131_445;
 
         // Bridge.pas:195
-        public override int ResourceUserClassId() => 131444;
+        public override int ResourceUserClassId() => Bridge.ClassId;
 
         // Bridge.pas:210
         public void Show(int pixelX, int pixelY, in LockedSurface lockedSurface, Bridge bridge)
@@ -222,9 +222,9 @@ public class Bridge(CustomNode owner) : AbstractRoad(owner)
             int transitions = bridge._transitions;
             int baseValue = 1;
             ImageLibrary[baseValue + 18].Show(pixelX, pixelY, lockedSurface);
-            if ((transitions & 3) != 0)
+            if ((transitions & 0b0011) != 0)
             {
-                if ((transitions & 3) == 1)
+                if ((transitions & 0b0011) == 1)
                 {
                     ImageLibrary[baseValue + 6].Show(pixelX, pixelY, lockedSurface);
                 }
@@ -232,9 +232,9 @@ public class Bridge(CustomNode owner) : AbstractRoad(owner)
                 ImageLibrary[baseValue + 12].Show(pixelX, pixelY, lockedSurface);
             }
 
-            if ((transitions & 12) != 0)
+            if ((transitions & 0b1100) != 0)
             {
-                if ((transitions & 12) == 4)
+                if ((transitions & 0b1100) == 0b0100)
                 {
                     ImageLibrary[baseValue + 7].Show(pixelX, pixelY, lockedSurface);
                 }
@@ -242,9 +242,9 @@ public class Bridge(CustomNode owner) : AbstractRoad(owner)
                 ImageLibrary[baseValue + 13].Show(pixelX, pixelY, lockedSurface);
             }
 
-            if ((transitions & 48) != 0)
+            if ((transitions & 0b0011_0000) != 0)
             {
-                if ((transitions & 48) == 16)
+                if ((transitions & 0b0011_0000) == 0b0001_0000)
                 {
                     ImageLibrary[baseValue + 8].Show(pixelX, pixelY, lockedSurface);
                 }
@@ -256,9 +256,9 @@ public class Bridge(CustomNode owner) : AbstractRoad(owner)
                 ImageLibrary[baseValue + 14].Show(pixelX, pixelY, lockedSurface);
             }
 
-            if ((transitions & 192) != 0)
+            if ((transitions & 0b1100_0000) != 0)
             {
-                if ((transitions & 192) == 64)
+                if ((transitions & 0b1100_0000) == 0b0100_0000)
                 {
                     ImageLibrary[baseValue + 9].Show(pixelX, pixelY, lockedSurface);
                 }
@@ -270,9 +270,9 @@ public class Bridge(CustomNode owner) : AbstractRoad(owner)
                 ImageLibrary[baseValue + 15].Show(pixelX, pixelY, lockedSurface);
             }
 
-            if ((transitions & 768) != 0)
+            if ((transitions & 0b0011_0000_0000) != 0)
             {
-                if ((transitions & 768) == 256)
+                if ((transitions & 0b0011_0000_0000) == 0b0001_0000_0000)
                 {
                     ImageLibrary[baseValue + 10].Show(pixelX, pixelY, lockedSurface);
                 }
@@ -284,9 +284,9 @@ public class Bridge(CustomNode owner) : AbstractRoad(owner)
                 ImageLibrary[baseValue + 16].Show(pixelX, pixelY, lockedSurface);
             }
 
-            if ((transitions & 3072) != 0)
+            if ((transitions & 0b1100_0000_0000) != 0)
             {
-                if ((transitions & 3072) == 1024)
+                if ((transitions & 0b1100_0000_0000) == 0b0100_0000_0000)
                 {
                     ImageLibrary[baseValue + 11].Show(pixelX, pixelY, lockedSurface);
                 }
@@ -296,7 +296,7 @@ public class Bridge(CustomNode owner) : AbstractRoad(owner)
         }
 
         // Bridge.pas:253
-        public override EditorClass Editor() => Engine.Editors.FindEditor(131445) ?? base.Editor();
+        public override EditorClass Editor() => Engine.Editors.FindEditor(ClassId) ?? base.Editor();
 
         // Bridge.pas:259
         public override void MessageProc(ref EngineMessage message, EngineObject sender)

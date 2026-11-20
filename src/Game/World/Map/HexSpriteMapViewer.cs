@@ -395,7 +395,7 @@ public class HexSpriteMapViewer : Component
 
     public GameMap HexSpriteMap { get => _hexSpriteMap; set => SetHexSpriteMap(value); }
     public Surface StaticSurface { get; private set; }
-    public bool StaticSurfaceValid { get; set; }
+    public bool StaticSurfaceValid { get; private set; }
     public int SceneX { get => _sceneX; set => SetSceneX(value); }
     public int SceneY { get => _sceneY; set => SetSceneY(value); }
     public int SceneL { get => _sceneL; set => SetSceneL(value); }

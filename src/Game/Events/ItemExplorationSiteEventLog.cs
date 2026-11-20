@@ -16,7 +16,7 @@ public partial class ItemExplorationSiteEventLog(CustomNode owner) : EventLog(ow
 {
 
     // ItemExpS.pas:201
-    public new const int ClassId = 132085;
+    public new const int ClassId = 132_085;
 
     public Int32List ItemIds { get; } = new Int32List();
     public DelphiStringList Messages { get; } = new DelphiStringList();

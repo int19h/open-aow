@@ -64,7 +64,7 @@ public class ImageLibraryManager : Component
             DelphiStringList list = new();
             foreach (RtlFileEntry entry in Files.FindEntries($"{subDirectory}*.*", attributes: 16))
             {
-                if ((entry.Attribute & 16) != 0 && entry.Name != "." && entry.Name != "..")
+                if ((entry.Attribute & 0b0001_0000) != 0 && entry.Name != "." && entry.Name != "..")
                 {
                     _ = list.Add($"{subDirectory}{UpperCase(entry.Name)}\\");
                 }
@@ -151,6 +151,6 @@ public class ImageLibraryManager : Component
     public ImageLibraryManagerList OwnedList { get; }
 
     [Published]
-    public string SearchPath { get; set; } = "";
+    public string SearchPath { get; private set; } = "";
 
 }

@@ -15,7 +15,7 @@ public partial class Tower(CustomNode owner) : PlayerStructure(owner)
 {
 
     // Tower.pas:55
-    public new const int ClassId = 132158;
+    public new const int ClassId = 132_158;
 
     public Set<StateElement> State { get; set; }
 
@@ -125,10 +125,10 @@ public partial class Tower(CustomNode owner) : PlayerStructure(owner)
         }
 
         // Tower.pas:124
-        public new const int ClassId = 132159;
+        public new const int ClassId = 132_159;
 
         // Tower.pas:127
-        public override int ResourceUserClassId() => 132158;
+        public override int ResourceUserClassId() => Tower.ClassId;
 
         // Tower.pas:121
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: GameText.TowerText);

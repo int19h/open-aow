@@ -8,7 +8,7 @@ namespace Aow.Game.Magic.Abilities;
 // (level, ability ID)
 public class MultiLevelAbilityData(CustomNode owner) : AbilityData(owner)
 {
-    public new const int ClassId = 139265;
+    public new const int ClassId = 139_265;
 
     public byte Level { get; set; }
     public ushort LevelAbilityId { get; set; }

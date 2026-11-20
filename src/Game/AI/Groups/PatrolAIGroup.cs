@@ -12,7 +12,7 @@ namespace Aow.Game.AI.Groups;
 public class PatrolAIGroup : AIGroup, IAIGroupClass
 {
     // IndependentAG.pas:295
-    public new const int ClassId = 136274;
+    public new const int ClassId = 136_274;
 
     public MapCoordinate PatrolFrom { get; internal set; }
     public MapCoordinate PatrolTo { get; internal set; }

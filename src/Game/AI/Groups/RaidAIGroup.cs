@@ -8,7 +8,7 @@ namespace Aow.Game.AI.Groups;
 public class RaidAIGroup : AIGroup, IAIGroupClass
 {
     // IndependentAG.pas:567
-    public new const int ClassId = 136293;
+    public new const int ClassId = 136_293;
 
     // IndependentAG.pas:560
     public RaidAIGroup(CustomNode owner) : base(owner)

@@ -24,7 +24,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
 {
 
     // AoWTC.pas:5227
-    public new const int ClassId = 2228486;
+    public new const int ClassId = 2_228_486;
 
     public bool Done { get; set; }
     public bool Cancelled { get; set; }
@@ -52,7 +52,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
     }
 
     // AoWTC.pas:5239
-    public override int GetShowPriority() => 1811939328;
+    public override int GetShowPriority() => 1_811_939_328;
 
     // AoWTC.pas:5232
     public override void Activate()
@@ -114,7 +114,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
             }
             else
             {
-                if (CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].OverlayType != 8 && CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].FindOwnedChild(2229508) is null && CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].FindOwnedChild(2229510) is null)
+                if (CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].OverlayType != 8 && CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].FindOwnedChild(World.Terrain.CityWall.ClassId) is null && CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].FindOwnedChild(2_229_510) is null)
                 {
                     effect = CombatMap.Current.AddEffect(BattleEffectType.HitGround);
                 }
@@ -432,7 +432,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                 }
 
                                 break;
-                            case >= 1000 and <= 1029:
+                            case >= 1_000 and <= 1_029:
                                 HexGeometry.HexToPixel(TargetX, TargetY, out k, out x);
                                 j = Random(5) + 5;
                                 {
@@ -497,15 +497,15 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                 }
 
                                 break;
-                            case 1030:
-                                Frame = 1999;
+                            case 1_030:
+                                Frame = 1_999;
                                 break;
-                            case >= 2000 and <= 2999:
+                            case >= 2_000 and <= 2_999:
                                 Frame += 1;
                                 int count11 = Path.Count;
-                                if (Frame >= count11 + 2000 - 1)
+                                if (Frame >= count11 + 2_000 - 1)
                                 {
-                                    Frame = 2999;
+                                    Frame = 2_999;
                                 }
 
                                 j = Random(5) + 5;
@@ -534,7 +534,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                 }
 
                                 break;
-                            case 3000:
+                            case 3_000:
                                 if (CombatMap.Current.PlaySounds)
                                 {
                                     _ = AbilityIndex == 52
@@ -818,7 +818,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                     case BattleEffectType.Winds:
                         switch (Frame)
                         {
-                            case >= 0 and <= 1999:
+                            case >= 0 and <= 1_999:
                                 int count7 = Path.Count;
                                 if (Frame >= count7 + 20)
                                 {
@@ -1147,7 +1147,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                     HexGeometry.CenterHexNumberToHex(TargetX, TargetY, hexNumber: (Frame - 50) / 5, ref j, ref k);
                                     // { Original swaps the converted hex coordinates. }
                                     HexGeometry.HexToPixel(j, k, out x, out y);
-                                    TacticalBattleUnitHexSprite unitHexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[j, k].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+                                    TacticalBattleUnitHexSprite unitHexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[j, k].FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
                                     effect.Target = unitHexSprite is not null && unitHexSprite.Unit.Side != Target.Side
                                         ? unitHexSprite.Unit
                                         : null;

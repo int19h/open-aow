@@ -40,7 +40,7 @@ namespace Aow.Game.Magic.Abilities;
 // CastingProgress. LibraryId. LibraryName. Registered
 public partial class Hero : Troop
 {
-    public new const int ClassId = 131632;
+    public new const int ClassId = 131_632;
 
     public int FaceIndex { get; private set; }
 
@@ -806,7 +806,7 @@ public partial class Hero : Troop
                 {
                     int chance = playerLocal.GetHeroJoinChance(GetLevel());
                     int seed = RandSeed;
-                    RandSeed = (StrategicMap.Current.InitialRandomSeed + StrategicMap.Current.Day + (UnitId * 16)) & 4088;
+                    RandSeed = (StrategicMap.Current.InitialRandomSeed + StrategicMap.Current.Day + (UnitId * 16)) & 0b1111_1111_1000;
                     result = Random(100) < chance;
                     RandSeed = seed;
                 }
@@ -834,7 +834,7 @@ public partial class Hero : Troop
         int result = base.Show(X, Y, lockedSurface, info);
         if (info.Overlays.Contains(UnitOverlayModesElement.Rank))
         {
-            GetEngine().CombatFont.Color = 16777215;
+            GetEngine().CombatFont.Color = 0xFF_FF_FF;
             sbyte level = GetLevel();
             GetEngine().CombatFont.SetTextCentered(X + 43, Y + 12, text: IntToStr(level), lockedSurface);
         }

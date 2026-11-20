@@ -80,7 +80,7 @@ public partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
                 condition = test;
             }
 
-            UnitAbilityList.TextColor = condition ? 16777215 : 12632256;
+            UnitAbilityList.TextColor = condition ? 16_777_215 : 12_632_256;
         }
     }
 

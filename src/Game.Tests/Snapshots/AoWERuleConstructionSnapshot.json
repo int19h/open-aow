@@ -18912,7 +18912,7 @@
               "DelphiStringList.count": 0,
               "DelphiStringList.items": "$ref:$.MoveControl.Map.StrategicMap.Description.DelphiStringList.items"
             },
-            "SongList._songs": {
+            "SongList.Songs": {
               "$type": "Aow.Rtl.DelphiStringList",
               "DelphiStringCollection.UpdateCount": 0,
               "DelphiStringList.Duplicates": 0,
@@ -21841,7 +21841,7 @@
               "DelphiStringList.count": 0,
               "DelphiStringList.items": "$ref:$.MoveControl.Map.StrategicMap.Description.DelphiStringList.items"
             },
-            "SongList._songs": {
+            "SongList.Songs": {
               "$type": "Aow.Rtl.DelphiStringList",
               "DelphiStringCollection.UpdateCount": 0,
               "DelphiStringList.Duplicates": 0,

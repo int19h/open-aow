@@ -135,7 +135,7 @@ public static class AbilityRules
         }
         else
         {
-            return sourceDamageValue + -99999 - (source.GetTargetPriority() * targetDamageValue);
+            return sourceDamageValue + -99_999 - (source.GetTargetPriority() * targetDamageValue);
         }
 
         return result;
@@ -220,7 +220,7 @@ public static class AbilityRules
             GamePack.Current.CombatImages[(int)damageType + 10].Show(x + 15, y + 10, lockedSurface: surface);
             engine.CombatFont.Color = Set<DamageType>.Of(DamageType.Cold, DamageType.Lightning, DamageType.Magic, DamageType.Holy).Contains(damageType)
                 ? 0
-                : 16777215;
+                : 16_777_215;
 
             engine.CombatFont.SetTextCentered(x + 34, y + 36, text: IntToStr(damage), lockedSurface: surface);
         }
@@ -228,7 +228,7 @@ public static class AbilityRules
 
     internal static int MoraleToMoraleValue(int value)
     {
-        switch (value & 127)
+        switch (value & 0b0111_1111)
         {
             case 0:
                 return 10;
@@ -436,7 +436,7 @@ public static class AbilityRules
         string result = "";
         for (int i = 1; i <= text.Length; i++)
         {
-            result += Cp1252.Text((byte)(Cp1252.Byte(text[i - 1]) ^ ((text.Length + i + 5) & 255)));
+            result += Cp1252.Text((byte)(Cp1252.Byte(text[i - 1]) ^ ((text.Length + i + 5) & 0xFF)));
         }
 
         return result;
@@ -445,7 +445,7 @@ public static class AbilityRules
     internal static Set<DamageType> InvertDamageTypes(Set<DamageType> types)
     {
         Set<DamageType> result = Set<DamageType>.Of();
-        for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
+        for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.None; damageTypeOrdinal++)
         {
             DamageType damageType = (DamageType)damageTypeOrdinal;
             if (!types.Contains(damageType))
@@ -587,7 +587,7 @@ public static class AbilityRules
 
     internal static ReadOnlySpan<int> CommandAbilityIds => [29, 28, 148];
 
-    internal static ReadOnlySpan<int> RaceColors => [14693424, 6726911, 11520812, 16702087, 6352705, 1441277, 10863076, 16252925, 11759804, 5263593, 4351675, 7960728, 11053224];
+    internal static ReadOnlySpan<int> RaceColors => [14_693_424, 6_726_911, 11_520_812, 16_702_087, 6_352_705, 1_441_277, 10_863_076, 16_252_925, 11_759_804, 5_263_593, 4_351_675, 7_960_728, 11_053_224];
 
     private static readonly Set<DamageType> s_allDamageTypes = Set<DamageType>.FromMask(1023UL);
 

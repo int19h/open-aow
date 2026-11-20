@@ -20,7 +20,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
 {
 
     // CombatTE.pas:624
-    public new const int ClassId = 2236418;
+    public new const int ClassId = 2_236_418;
 
     private BattleEffectSprite _effect;
 
@@ -94,7 +94,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                                 Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.StepUp);
                                 PathStep path = Path[0];
                                 PathStep path2 = Path[0];
-                                hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(path2.Location.X, path.Location.Y).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+                                hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(path2.Location.X, path.Location.Y).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
                                 PreviousUnit = hexSprite?.Unit;
 
                                 if (PreviousUnit is not null && AbilityId != 117)
@@ -111,12 +111,12 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                                     {
                                         PathStep path3 = Path[0];
                                         PathStep path4 = Path[0];
-                                        _wall = CombatMap.Current.MapContainer.MapLevels[0].GetField(path4.Location.X, path3.Location.Y).FindOwnedChild<CityWall>(2229508);
+                                        _wall = CombatMap.Current.MapContainer.MapLevels[0].GetField(path4.Location.X, path3.Location.Y).FindOwnedChild<CityWall>(CityWall.ClassId);
                                         if (_wall is null)
                                         {
                                             PathStep path5 = Path[0];
                                             PathStep path6 = Path[0];
-                                            _wall = CombatMap.Current.MapContainer.MapLevels[0].GetField(path6.Location.X, path5.Location.Y).FindOwnedChild(2229510) as CityWall;
+                                            _wall = CombatMap.Current.MapContainer.MapLevels[0].GetField(path6.Location.X, path5.Location.Y).FindOwnedChild(2_229_510) as CityWall;
                                         }
 
                                         if (_wall is null && AbilityId == 117)
@@ -243,7 +243,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                                                 i = ((TacticalTables.RangedAttackDirection[Unit.UnitHexSprite.ActionFrame] + Unit.UnitHexSprite.Direction) % 6) + 1;
                                                 PathStep path = Path[1];
                                                 HexGeometry.CenterHexNumberToHex(Path[1].Location.X, path.Location.Y, hexNumber: i, ref x, ref y);
-                                                hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+                                                hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
                                                 if (hexSprite is null || hexSprite == Unit.UnitHexSprite)
                                                 {
                                                     PreviousUnit = null;

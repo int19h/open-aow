@@ -19,7 +19,7 @@ public class VisibilityList(CustomNode owner) : ControlStyleInverseSortedNode(ow
     int IChildSink<HexSprite>.AddChild(HexSprite child) => AddChild(child);
 
     // The map the list belongs to. AcceptsOwner admits only a map, so the cast never fails.
-    public new GameMap Owner { get => GetOwner<GameMap>(); set => SetOwner(value); }
+    public new GameMap Owner => GetOwner<GameMap>();
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is GameMap;
 

@@ -27,7 +27,7 @@ public class EarthMastery : GlobalEnchantmentSpell
         SpellLevel = 3;
         MagicSphere = MagicSphere.Earth;
         CastDuration = 40;
-        AIBasePriority = 1000;
+        AIBasePriority = 1_000;
     }
 
     // GlobalEnchantmentSpells.pas:1918

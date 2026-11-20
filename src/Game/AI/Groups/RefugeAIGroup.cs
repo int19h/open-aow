@@ -8,7 +8,7 @@ namespace Aow.Game.AI.Groups;
 public class RefugeAIGroup : AIGroup, IAIGroupClass
 {
     // IndependentAG.pas:551
-    public new const int ClassId = 136289;
+    public new const int ClassId = 136_289;
 
     // IndependentAG.pas:544
     public RefugeAIGroup(CustomNode owner) : base(owner)

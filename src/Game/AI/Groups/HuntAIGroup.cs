@@ -16,7 +16,7 @@ public class HuntAIGroup(CustomNode owner) : AIGroup(owner), IAIGroupClass
 {
 
     // AIGroup.pas:1442
-    public new const int ClassId = 136288;
+    public new const int ClassId = 136_288;
 
     public Int32List TargetUnitIds { get; } = new Int32List();
 

@@ -8,7 +8,7 @@ namespace Aow.Game.Session;
 // day, relation
 public class DiplomaticRelationHistoryItem(CustomNode owner) : EngineObject(owner)
 {
-    public new const int ClassId = 131354;
+    public new const int ClassId = 131_354;
 
     public int Day { get; set; }
     public DiplomaticRelation Relation { get; set; }

@@ -29,14 +29,14 @@ public partial class ArmyHexSprite
                 int deltaX = default;
                 int deltaY = default;
                 HexGeometry.HexNumberToPixel(Direction, ref deltaX, ref deltaY);
-                if ((Status & 16) == 0)
+                if ((Status & 0b0001_0000) == 0)
                 {
                     double part = (double)MoveStep / MoveSteps;
                     pixelXSurface += Round((double)part * deltaX);
                     pixelYSurface += Round((double)part * deltaY);
                 }
 
-                sequence = (Status & 8) == 0
+                sequence = (Status & 0b1000) == 0
                     ? Direction == 0 ? UnitGraphicsResource.Sequences.List[9] : UnitGraphicsResource.Sequences.List[Direction + 5]
                     : Direction == 0 ? UnitGraphicsResource.Sequences.List[3] : UnitGraphicsResource.Sequences.List[Direction - 1];
             }
@@ -62,7 +62,7 @@ public partial class ArmyHexSprite
                     }
 
                     ShowEnchantments(pixelXSurface, pixelYSurface + _unitYOffset, lockedSurface);
-                    if (!Army.Status.Contains(ArmyStatusElement.Selected) || (StrategicMap.Current.Frame & 6) != 6)
+                    if (!Army.Status.Contains(ArmyStatusElement.Selected) || (StrategicMap.Current.Frame & 0b0110) != 0b0110)
                     {
                         if (FlagId == 32)
                         {
@@ -96,7 +96,7 @@ public partial class ArmyHexSprite
                     ShowEnchantments(pixelXSurface, pixelYSurface + _unitYOffset, lockedSurface);
                     if (Army.Status.Contains(ArmyStatusElement.Selected))
                     {
-                        if ((StrategicMap.Current.Frame & 6) != 6)
+                        if ((StrategicMap.Current.Frame & 0b0110) != 0b0110)
                         {
                             if (FlagId != 32)
                             {
@@ -148,7 +148,7 @@ public partial class ArmyHexSprite
                         sequence = sequence.Next;
                     }
 
-                    if (!Army.Status.Contains(ArmyStatusElement.Selected) || (StrategicMap.Current.Frame & 6) != 6)
+                    if (!Army.Status.Contains(ArmyStatusElement.Selected) || (StrategicMap.Current.Frame & 0b0110) != 0b0110)
                     {
                         if (FlagId == 32)
                         {
@@ -184,7 +184,7 @@ public partial class ArmyHexSprite
                 int deltaX = default;
                 int deltaY = default;
                 HexGeometry.HexNumberToPixel(Direction, ref deltaX, ref deltaY);
-                if ((Status & 16) == 0)
+                if ((Status & 0b0001_0000) == 0)
                 {
                     int moveSteps = GetMoveSteps();
                     float part = (float)((double)MoveStep / moveSteps);
@@ -208,7 +208,7 @@ public partial class ArmyHexSprite
 
     public void PlayMoveSfx()
     {
-        if (MoveStep != -1 && (Status & 8) == 0)
+        if (MoveStep != -1 && (Status & 0b1000) == 0)
         {
             ImageSequence sequence = Direction == 0 ? UnitGraphicsResource.Sequences.List[9] : UnitGraphicsResource.Sequences.List[Direction + 5];
 

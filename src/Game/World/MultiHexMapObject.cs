@@ -17,8 +17,8 @@ namespace Aow.Game.World;
 // (the main hexagon, ids 3 and 4)
 public class MultiHexMapObject(CustomNode owner) : MapObject(owner)
 {
-    protected internal sbyte StoredHexX { get; set; }
-    protected internal sbyte StoredHexY { get; set; }
+    protected internal sbyte StoredHexX { get; protected set; }
+    protected internal sbyte StoredHexY { get; protected set; }
 
     // MAPOBJ.PAS:923
     public override void PersistFields(IPersister persister)

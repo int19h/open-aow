@@ -26,7 +26,7 @@ public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner
 {
 
     // UnHolyG.pas:93
-    public new const int ClassId = 131985;
+    public new const int ClassId = 131_985;
 
     public Set<UnholySummoning> Mode { get; set; }
 
@@ -269,7 +269,7 @@ public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         sbyte hexY = animation.HexY;
         sbyte hexX = animation.HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
-        if (this == field.FindOwnedChild(131985) && GetEngine().AnimationDetail != 0 && animation.FrameCounter == 0)
+        if (this == field.FindOwnedChild(ClassId) && GetEngine().AnimationDetail != 0 && animation.FrameCounter == 0)
         {
             bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
             if (!condition)
@@ -294,7 +294,7 @@ public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         sbyte hexY = animation.HexY;
         sbyte hexX = animation.HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
-        if (this == field.FindOwnedChild(131985) && frameCounter == 9)
+        if (this == field.FindOwnedChild(ClassId) && frameCounter == 9)
         {
             Mode -= Set<UnholySummoning>.Of(UnholySummoning.Summoning);
         }
@@ -306,10 +306,10 @@ public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     {
 
         // UnHolyG.pas:278
-        public new const int ClassId = 131986;
+        public new const int ClassId = 131_986;
 
         // UnHolyG.pas:283
-        public override int ResourceUserClassId() => 131985;
+        public override int ResourceUserClassId() => UnholyGround.ClassId;
 
         // UnHolyG.pas:273
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_unholyGroundText);

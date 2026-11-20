@@ -12,7 +12,7 @@ namespace Aow.Game.AI.Groups;
 public class PassiveAIGroup : AIGroup, IAIGroupClass
 {
     // MainAG.pas:129
-    public new const int ClassId = 136280;
+    public new const int ClassId = 136_280;
 
     // MainAG.pas:122
     public PassiveAIGroup(CustomNode owner) : base(owner)

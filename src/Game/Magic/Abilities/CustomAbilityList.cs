@@ -197,7 +197,7 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
         }
 
         byte[] bits = AbilityBits;
-        byte mask = (byte)(1 << (index & 7));
+        byte mask = (byte)(1 << (index & 0b0111));
         if (value != 0)
         {
             bits[index >> 3] |= mask;

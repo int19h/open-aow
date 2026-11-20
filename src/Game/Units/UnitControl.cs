@@ -18,7 +18,7 @@ public class UnitControl(CustomNode owner) : EngineObject(owner)
 
     private int _nextUnitId = 1;
 
-    public Dictionary<int, Troop> UnitTable { get; set; } = [];
+    public Dictionary<int, Troop> UnitTable { get; internal set; } = [];
     public List<Troop> Units { get; } = [];
 
     // Unit.PAS:8

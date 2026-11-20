@@ -232,7 +232,7 @@ public partial class SoundDialog(UIContext ui) : UIModule(ui)
                 settings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Mono, SoundOutputModeElement.Bits8);
                 Settings = settings;
                 SoundSettings settings2 = Settings;
-                settings2.SampleRate = 22050;
+                settings2.SampleRate = 22_050;
                 Settings = settings2;
                 _ = SetSoundSettings(Settings);
             }
@@ -242,7 +242,7 @@ public partial class SoundDialog(UIContext ui) : UIModule(ui)
                 settings3.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Mono, SoundOutputModeElement.Bits8);
                 Settings = settings3;
                 SoundSettings settings4 = Settings;
-                settings4.SampleRate = 22050;
+                settings4.SampleRate = 22_050;
                 Settings = settings4;
                 _ = AudioPlayback.InitializeSoundSystem("Galaxy", Settings);
             }
@@ -270,7 +270,7 @@ public partial class SoundDialog(UIContext ui) : UIModule(ui)
                 settings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16);
                 Settings = settings;
                 SoundSettings settings2 = Settings;
-                settings2.SampleRate = 44100;
+                settings2.SampleRate = 44_100;
                 Settings = settings2;
                 _ = SetSoundSettings(Settings);
             }
@@ -280,7 +280,7 @@ public partial class SoundDialog(UIContext ui) : UIModule(ui)
                 settings3.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16);
                 Settings = settings3;
                 SoundSettings settings4 = Settings;
-                settings4.SampleRate = 44100;
+                settings4.SampleRate = 44_100;
                 Settings = settings4;
                 _ = AudioPlayback.InitializeSoundSystem("Galaxy", Settings);
             }
@@ -308,7 +308,7 @@ public partial class SoundDialog(UIContext ui) : UIModule(ui)
                 settings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16, SoundOutputModeElement.HighQuality);
                 Settings = settings;
                 SoundSettings settings2 = Settings;
-                settings2.SampleRate = 44100;
+                settings2.SampleRate = 44_100;
                 Settings = settings2;
                 _ = SetSoundSettings(Settings);
             }
@@ -318,7 +318,7 @@ public partial class SoundDialog(UIContext ui) : UIModule(ui)
                 settings3.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16, SoundOutputModeElement.HighQuality);
                 Settings = settings3;
                 SoundSettings settings4 = Settings;
-                settings4.SampleRate = 44100;
+                settings4.SampleRate = 44_100;
                 Settings = settings4;
                 _ = AudioPlayback.InitializeSoundSystem("Galaxy", Settings);
             }

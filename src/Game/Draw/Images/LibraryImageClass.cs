@@ -166,7 +166,7 @@ public sealed class LibraryImageClass
                         if (X + 1 < lockedSurface.Width)
                         {
                             value = lockedSurface.View();
-                            return (int)(value.Dword(X + X + X + (lockedSurface.Pitch * Y)) & 0xFFFFFF);
+                            return (int)(value.Dword(X + X + X + (lockedSurface.Pitch * Y)) & 0xFF_FF_FF);
                         }
                         int number4 = X + X + X + (lockedSurface.Pitch * Y);
                         value = lockedSurface.View();

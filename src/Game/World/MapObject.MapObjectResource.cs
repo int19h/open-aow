@@ -8,20 +8,7 @@ public partial class MapObject
 {
     private int _unlinkedResourceId;
 
-    public int ResourceId
-    {
-        get => ResourceLinked ? _resource.ResourceId : _unlinkedResourceId;
-        set
-        {
-            if (ResourceLinked)
-            {
-                throw new InvalidOperationException("Cannot set ResourceID when resource is linked!");
-            }
-
-            _unlinkedResourceId = value;
-            _resource = null;
-        }
-    }
+    public int ResourceId => ResourceLinked ? _resource.ResourceId : _unlinkedResourceId;
 
     public virtual bool LinkToResource(GameEngine engine)
     {

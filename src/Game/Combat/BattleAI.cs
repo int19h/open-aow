@@ -258,15 +258,15 @@ public class BattleAI(EngineObject creator) : IDisposable
                 int y = default;
                 for (int i = 0, last = path.Count - 1; i <= last; i++)
                 {
-                    TacticalBattleUnitHexSprite hexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[path.List[i].Location.X, path.List[i].Location.Y].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+                    TacticalBattleUnitHexSprite hexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[path.List[i].Location.X, path.List[i].Location.Y].FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
                     int j;
-                    if (freeStrikes && (hexSprite is null || (hexSprite == unit.UnitHexSprite && i - 1 >= 0 && CombatMap.Current.MapContainer.MapLevels[0].Field[path.List[i - 1].Location.X, path.List[i - 1].Location.Y].FindOwnedChild(2228484) is null)))
+                    if (freeStrikes && (hexSprite is null || (hexSprite == unit.UnitHexSprite && i - 1 >= 0 && CombatMap.Current.MapContainer.MapLevels[0].Field[path.List[i - 1].Location.X, path.List[i - 1].Location.Y].FindOwnedChild(TacticalBattleUnitHexSprite.ClassId) is null)))
                     {
                         j = 1;
                         for (; j <= 6; j += 1)
                         {
                             HexGeometry.CenterHexNumberToHex(path.List[i].Location.X, path.List[i].Location.Y, hexNumber: j, ref x, ref y);
-                            hexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+                            hexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
                             if (hexSprite is not null && hexSprite.Unit != ignore && hexSprite.Unit.Side != unit.Side && CombatObject.MeleeDamageTypes(hexSprite.Unit) != Set<DamageType>.Of() && !hexSprite.Unit.GetLocked() && hexSprite.Unit.GetAbilityEnabled(1) == unit.GetAbilityEnabled(1))
                             {
                                 int tacticalBattleDamageValueToDamageEvaluation2 = TacticalBattleDamageValueToDamageEvaluation(CombatObject.StrikeDamageValue(hexSprite.Unit, target: unit), 0, source: hexSprite.Unit, target: unit);
@@ -282,12 +282,12 @@ public class BattleAI(EngineObject creator) : IDisposable
                         {
                             PathStep pathY = path[i];
                             PathStep pathX = path[i];
-                            wall = CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.Location.X, pathY.Location.Y].FindOwnedChild<CityWall>(2229508);
+                            wall = CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.Location.X, pathY.Location.Y].FindOwnedChild<CityWall>(CityWall.ClassId);
                             if (wall is null)
                             {
                                 PathStep pathLocal = path[i];
                                 PathStep path2 = path[i];
-                                wall = CombatMap.Current.MapContainer.MapLevels[0].Field[path2.Location.X, pathLocal.Location.Y].FindOwnedChild(2229510) as CityWall;
+                                wall = CombatMap.Current.MapContainer.MapLevels[0].Field[path2.Location.X, pathLocal.Location.Y].FindOwnedChild(2_229_510) as CityWall;
                             }
                         }
                         else
@@ -352,7 +352,7 @@ public class BattleAI(EngineObject creator) : IDisposable
 
                         PathStep path7 = path[i];
                         PathStep path8 = path[i];
-                        if (CombatMap.Current.MapContainer.MapLevels[0].Field[path8.Location.X, path7.Location.Y].FindOwnedChild(2228484) is not null)
+                        if (CombatMap.Current.MapContainer.MapLevels[0].Field[path8.Location.X, path7.Location.Y].FindOwnedChild(TacticalBattleUnitHexSprite.ClassId) is not null)
                         {
                             PathStep pathY = path[i];
                             PathStep pathX = path[i];
@@ -407,7 +407,7 @@ public class BattleAI(EngineObject creator) : IDisposable
                 }
                 catch
                 {
-                    result = 1000000;
+                    result = 1_000_000;
                 }
             }
         }
@@ -441,17 +441,17 @@ public class BattleAI(EngineObject creator) : IDisposable
                 }
                 catch
                 {
-                    result = -1000000;
+                    result = -1_000_000;
                 }
             }
         }
 
-        if (result > 1000000)
+        if (result > 1_000_000)
         {
-            result = 1000000;
+            result = 1_000_000;
         }
 
-        return result < -1000000 ? -1000000 : result;
+        return result < -1_000_000 ? -1_000_000 : result;
     }
 
     // AoWTC.pas:980
@@ -508,7 +508,7 @@ public class BattleAI(EngineObject creator) : IDisposable
     public void EvalHex(CombatObject ignore, int ability, int spell, int X, int Y, ref int value, bool hitWalls, bool friendly, TacticalBattleUnit U, object ignoreWall)
     {
         AbilityDamageValues damageValue = default;
-        TacticalBattleUnitHexSprite hexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+        TacticalBattleUnitHexSprite hexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
         if (hexSprite is not null && hexSprite.Unit != ignore && (friendly || hexSprite.Unit.Side != U.Side))
         {
             if (ability == 52)
@@ -595,7 +595,7 @@ public class BattleAI(EngineObject creator) : IDisposable
 
         if (hitWalls && CombatMap.Current.Combat.CombatData.WallType != 0)
         {
-            CityWall wall = CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild<CityWall>(2229508) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229510) as CityWall;
+            CityWall wall = CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild<CityWall>(CityWall.ClassId) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2_229_510) as CityWall;
             if (!CombatMap.Current.Combat.CombatData.WallBreached && ignoreWall is not null && wall is not null && (ignore is null or not CombatWall || (ignore is CombatWall && ignoreWall != wall)))
             {
                 if (ability == 52)
@@ -856,7 +856,7 @@ public class BattleAI(EngineObject creator) : IDisposable
                         value = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue2: round.GetDefenderDamageValue(), damageValue1: round.GetAttackerDamageValue(), source: unit, target: target), multiplier: hitPoints, divider: hits) + terrainValue;
                         if (target.GetTargetStrength() <= 0 && _enemies.Count > 1)
                         {
-                            value -= 10000;
+                            value -= 10_000;
                         }
 
                         cost = (pathCost - unit.MovePoints) * 10;
@@ -1026,7 +1026,7 @@ public class BattleAI(EngineObject creator) : IDisposable
                                             };
                                             if (target.GetTargetStrength() <= 0 && _enemies.Count > 1)
                                             {
-                                                value -= 10000;
+                                                value -= 10_000;
                                             }
 
                                             if (unit.MovePoints > 0)
@@ -1226,7 +1226,7 @@ public class BattleAI(EngineObject creator) : IDisposable
                                                             case 112:
                                                                 if (_side == CombatSideIndex.Defender && CombatMap.Current.Combat.CombatData.WallType != 0)
                                                                 {
-                                                                    value = -9999;
+                                                                    value = -9_999;
                                                                 }
                                                                 else
                                                                 {
@@ -1271,12 +1271,12 @@ public class BattleAI(EngineObject creator) : IDisposable
                                                         {
                                                             PathStep path = pathStepList[i];
                                                             PathStep pathX = pathStepList[i];
-                                                            cityWall = CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.Location.X, path.Location.Y].FindOwnedChild<CityWall>(2229508);
+                                                            cityWall = CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.Location.X, path.Location.Y].FindOwnedChild<CityWall>(CityWall.ClassId);
                                                             if (cityWall is null && _side == CombatSideIndex.Attacker)
                                                             {
                                                                 PathStep path2 = pathStepList[i];
                                                                 PathStep path3 = pathStepList[i];
-                                                                cityWall = CombatMap.Current.MapContainer.MapLevels[0].Field[path3.Location.X, path2.Location.Y].FindOwnedChild(2229510) as CityWall;
+                                                                cityWall = CombatMap.Current.MapContainer.MapLevels[0].Field[path3.Location.X, path2.Location.Y].FindOwnedChild(2_229_510) as CityWall;
                                                             }
 
                                                             if (!(cityWall is null || cityWall.HitPoints <= 0 || unit.GetAbilityEnabled(1) || unit.GetAbilityEnabled(36) || unit.GetAbilityEnabled(66)))
@@ -1331,11 +1331,11 @@ public class BattleAI(EngineObject creator) : IDisposable
                                                         PathStep path = pathStepList[i];
                                                         if (HexGeometry.DeltaHexToRadius(x2, y2, pathStepList[i].Location.X, path.Location.Y) <= range && pathStepList.PositionToMovePoints(i) <= unit.MovePoints)
                                                         {
-                                                            cost = 1000;
+                                                            cost = 1_000;
                                                             PathStep pathX = pathStepList[i];
                                                             PathStep path2 = pathStepList[i];
                                                             v = EvalPath(ref cost, ignore: target, ability, spell, pathX.Location.X, path2.Location.Y, x2, y2, hitWalls: spell == 117, U: unit, ignoreWall: wall);
-                                                            if (v == 0 && cost == 1000)
+                                                            if (v == 0 && cost == 1_000)
                                                             {
                                                                 bestIndex = i;
                                                             }
@@ -1507,7 +1507,7 @@ public class BattleAI(EngineObject creator) : IDisposable
 
                                             if (target.GetTargetStrength() <= 0 && _enemies.Count > 1)
                                             {
-                                                value -= 10000;
+                                                value -= 10_000;
                                             }
 
                                             if (unit.MovePoints > 0 && pathStepList.MovePointsToPosition(unit.MovePoints) == 0)
@@ -1644,7 +1644,7 @@ public class BattleAI(EngineObject creator) : IDisposable
                                         value = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(cost, 0, source: unit, target), multiplier: hitPoints, divider: hits);
                                         if (target.GetTargetStrength() <= 0 && _enemies.Count > 1)
                                         {
-                                            value -= 10000;
+                                            value -= 10_000;
                                         }
 
                                         if (unit.MovePoints > 0)
@@ -1702,12 +1702,12 @@ public class BattleAI(EngineObject creator) : IDisposable
                                                     {
                                                         PathStep path = pathStepList[i];
                                                         PathStep pathX = pathStepList[i];
-                                                        cityWall = CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.Location.X, path.Location.Y].FindOwnedChild<CityWall>(2229508);
+                                                        cityWall = CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.Location.X, path.Location.Y].FindOwnedChild<CityWall>(CityWall.ClassId);
                                                         if (cityWall is null && _side == CombatSideIndex.Attacker)
                                                         {
                                                             PathStep path2 = pathStepList[i];
                                                             PathStep path3 = pathStepList[i];
-                                                            cityWall = CombatMap.Current.MapContainer.MapLevels[0].Field[path3.Location.X, path2.Location.Y].FindOwnedChild(2229510) as CityWall;
+                                                            cityWall = CombatMap.Current.MapContainer.MapLevels[0].Field[path3.Location.X, path2.Location.Y].FindOwnedChild(2_229_510) as CityWall;
                                                         }
 
                                                         if (!(cityWall is null || cityWall.HitPoints <= 0 || unit.GetAbilityEnabled(1) || unit.GetAbilityEnabled(36) || unit.GetAbilityEnabled(66)))
@@ -1762,11 +1762,11 @@ public class BattleAI(EngineObject creator) : IDisposable
                                                     PathStep path = pathStepList[i];
                                                     if (HexGeometry.DeltaHexToRadius(x2, y2, pathStepList[i].Location.X, path.Location.Y) <= range && pathStepList.PositionToMovePoints(i) <= unit.MovePoints)
                                                     {
-                                                        cost = 1000;
+                                                        cost = 1_000;
                                                         PathStep pathX = pathStepList[i];
                                                         PathStep path2 = pathStepList[i];
                                                         v = EvalPath(ref cost, ignore: target, ability, spell, pathX.Location.X, path2.Location.Y, x2, y2, hitWalls: spell == 117, U: unit, ignoreWall: wall);
-                                                        if (v == 0 && cost == 1000)
+                                                        if (v == 0 && cost == 1_000)
                                                         {
                                                             bestIndex = i;
                                                         }
@@ -2604,7 +2604,7 @@ public class BattleAI(EngineObject creator) : IDisposable
                                 int last3 = _units.Count - 1;
                                 for (; j <= last3; j += 1)
                                 {
-                                    if (move.GroupValue is > -1000000 and < 1000000)
+                                    if (move.GroupValue is > -1_000_000 and < 1_000_000)
                                     {
                                         int bonus = bonuses[j];
                                         move.GroupValue += bonus;
@@ -2711,7 +2711,7 @@ public class BattleAI(EngineObject creator) : IDisposable
                                         sbyte hexY2 = CombatMap.Current.FleeLocations[j].HexY;
                                         int deltaHexToRadius2 = HexGeometry.DeltaHexToRadius(CombatMap.Current.FleeLocations[j].HexX, hexY2, u.UnitHexSprite.HexX, hexY);
                                         sbyte hexY3 = CombatMap.Current.FleeLocations[j].HexY;
-                                        CreateMove(BattleAIMoveType.Move, CombatMap.Current.FleeLocations[j].HexX, hexY3, value: 110000000 - (deltaHexToRadius2 * 10), ability: 0, spell: 0, unit: u, target: null);
+                                        CreateMove(BattleAIMoveType.Move, CombatMap.Current.FleeLocations[j].HexX, hexY3, value: 110_000_000 - (deltaHexToRadius2 * 10), ability: 0, spell: 0, unit: u, target: null);
                                     }
                                 }
                             }
@@ -2735,7 +2735,7 @@ public class BattleAI(EngineObject creator) : IDisposable
                                 case BattleAIMoveType.WallRanged:
                                 default:
                                     {
-                                        if (move.Value is > -100000000 and < 100000000)
+                                        if (move.Value is > -100_000_000 and < 100_000_000)
                                         {
                                             move.Value += move.GroupValue / 4;
                                         }
@@ -2820,7 +2820,7 @@ public class BattleAI(EngineObject creator) : IDisposable
 
                                         if (CombatMap.Current.Combat.CombatData.WallType != 0)
                                         {
-                                            if (!(CombatMap.Current.Combat.CombatData.WallBreached && CombatMap.Current.MapContainer.MapLevels[0].Field[move.X, move.Y].FindOwnedChild(2229508) is null && CombatMap.Current.MapContainer.MapLevels[0].Field[move.X, move.Y].FindOwnedChild(2229510) is null))
+                                            if (!(CombatMap.Current.Combat.CombatData.WallBreached && CombatMap.Current.MapContainer.MapLevels[0].Field[move.X, move.Y].FindOwnedChild(CityWall.ClassId) is null && CombatMap.Current.MapContainer.MapLevels[0].Field[move.X, move.Y].FindOwnedChild(2_229_510) is null))
                                             {
                                                 if (!_ignoreWalls || !ChargeFromPosition(move.UnitHexSprite.Unit.Position >>> 4) || _side == CombatSideIndex.Attacker)
                                                 {
@@ -2840,7 +2840,7 @@ public class BattleAI(EngineObject creator) : IDisposable
                                             CombatMap.Current.MoveControl.ProcessMove(settings);
                                         }
 
-                                        cityWall = CombatMap.Current.MapContainer.MapLevels[0].Field[move.X, move.Y].FindOwnedChild<CityWall>(2229508) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[move.X, move.Y].FindOwnedChild(2229510) as CityWall;
+                                        cityWall = CombatMap.Current.MapContainer.MapLevels[0].Field[move.X, move.Y].FindOwnedChild<CityWall>(CityWall.ClassId) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[move.X, move.Y].FindOwnedChild(2_229_510) as CityWall;
                                         if (settings.Path.Count == 2 && move.MoveType == BattleAIMoveType.MoveRanged && cityWall is not null)
                                         {
                                             move.UnitHexSprite.Unit.MovePoints = 0;

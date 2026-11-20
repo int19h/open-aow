@@ -12,7 +12,7 @@ namespace Aow.Game.Combat;
 public class CombatParty : EngineObject
 {
     // Combat2.pas:47
-    public new const int ClassId = 131746;
+    public new const int ClassId = 131_746;
 
     // Combat2.pas:37
     public CombatParty(CustomNode owner) : base(owner) => Army = new Army(null) { Holder = CreationHolder() };

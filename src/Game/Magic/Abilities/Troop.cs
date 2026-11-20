@@ -1111,7 +1111,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         if (damageTypes != TroopConstants.AllDamageTypes)
         {
             result = 0;
-            for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
+            for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.None; damageTypeOrdinal++)
             {
                 DamageType damageType = (DamageType)damageTypeOrdinal;
                 if (damageTypes.Contains(damageType))

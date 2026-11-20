@@ -194,7 +194,7 @@ public class HexSpriteMapMouse : IDisposable
     // HSEngine.pas:3672
     public virtual void DoubleClick()
     {
-        if (PixelX != -2147483648)
+        if (PixelX != -2_147_483_648)
         {
             if (MouseDoubleClick())
             {
@@ -224,12 +224,12 @@ public class HexSpriteMapMouse : IDisposable
                 result = HexSpriteMap.ViewPixelX + X;
                 if (result > HexSpriteMap.MaxPixelX || result < 0)
                 {
-                    return -2147483648;
+                    return -2_147_483_648;
                 }
             }
             else
             {
-                return -2147483648;
+                return -2_147_483_648;
             }
 
             return result;
@@ -247,12 +247,12 @@ public class HexSpriteMapMouse : IDisposable
                 result = HexSpriteMap.ViewPixelY + Y;
                 if (result > HexSpriteMap.MaxPixelY || result < 0)
                 {
-                    return -2147483648;
+                    return -2_147_483_648;
                 }
             }
             else
             {
-                return -2147483648;
+                return -2_147_483_648;
             }
 
             return result;
@@ -362,7 +362,7 @@ public class HexSpriteMapMouse : IDisposable
     public object Capture { get => _capture; set => SetCapture(value); }
     public int Cursor { get => GetCursor(); set => SetCursor(value); }
     public int CursorMode { get; set; }
-    public bool IgnoreDown { get; set; }
+    public bool IgnoreDown { get; private set; }
     public bool CursorVisible { get; set; }
 
     public enum StatusElement : byte

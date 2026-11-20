@@ -80,16 +80,16 @@ public class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
     {
         base.ReadImageData(stream);
         int maskWidth = MaskWidth;
-        stream.ReadExactly(Bytes.Of(ref maskWidth, count: 4));
+        stream.ReadExactly(Bytes.Of(ref maskWidth));
         MaskWidth = maskWidth;
         int maskHeight = MaskHeight;
-        stream.ReadExactly(Bytes.Of(ref maskHeight, count: 4));
+        stream.ReadExactly(Bytes.Of(ref maskHeight));
         MaskHeight = maskHeight;
         int maskLeft = MaskLeft;
-        stream.ReadExactly(Bytes.Of(ref maskLeft, count: 4));
+        stream.ReadExactly(Bytes.Of(ref maskLeft));
         MaskLeft = maskLeft;
         int maskTop = MaskTop;
-        stream.ReadExactly(Bytes.Of(ref maskTop, count: 4));
+        stream.ReadExactly(Bytes.Of(ref maskTop));
         MaskTop = maskTop;
     }
 
@@ -98,16 +98,16 @@ public class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
     {
         base.WriteImageData(stream);
         int maskWidth = MaskWidth;
-        stream.Write(Bytes.Of(ref maskWidth, count: 4));
+        stream.Write(Bytes.Of(ref maskWidth));
         MaskWidth = maskWidth;
         int maskHeight = MaskHeight;
-        stream.Write(Bytes.Of(ref maskHeight, count: 4));
+        stream.Write(Bytes.Of(ref maskHeight));
         MaskHeight = maskHeight;
         int maskLeft = MaskLeft;
-        stream.Write(Bytes.Of(ref maskLeft, count: 4));
+        stream.Write(Bytes.Of(ref maskLeft));
         MaskLeft = maskLeft;
         int maskTop = MaskTop;
-        stream.Write(Bytes.Of(ref maskTop, count: 4));
+        stream.Write(Bytes.Of(ref maskTop));
         MaskTop = maskTop;
     }
 
@@ -260,7 +260,7 @@ public class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
                 return value.UInt16(X + X + (lockedSurface.Pitch * Y));
             case 24:
                 value = lockedSurface.View();
-                return (int)(value.Dword((X * 3) + (lockedSurface.Pitch * Y)) & 0xFFFFFF);
+                return (int)(value.Dword((X * 3) + (lockedSurface.Pitch * Y)) & 0xFF_FF_FF);
             case 32:
                 value = lockedSurface.View();
                 return (int)value.Dword((X * 4) + (lockedSurface.Pitch * Y));
@@ -343,7 +343,7 @@ public class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
                     return value2.UInt16(X + X + (lockedSurfaceValue.Pitch * Y));
                 case 24:
                     value2 = lockedSurfaceValue.View();
-                    return (int)(value2.Dword((X * 3) + (lockedSurfaceValue.Pitch * Y)) & 0xFFFFFF);
+                    return (int)(value2.Dword((X * 3) + (lockedSurfaceValue.Pitch * Y)) & 0xFF_FF_FF);
                 case 32:
                     value2 = lockedSurfaceValue.View();
                     return (int)value2.Dword((X * 4) + (lockedSurfaceValue.Pitch * Y));
@@ -367,7 +367,7 @@ public class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
         {
             base.LoadFromStream(stream);
             bool inverse = Inverse;
-            stream.ReadExactly(Bytes.Of(ref inverse, count: 1));
+            stream.ReadExactly(Bytes.Of(ref inverse));
             Inverse = inverse;
         }
 
@@ -376,7 +376,7 @@ public class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
         {
             base.SaveToStream(stream);
             bool inverse = Inverse;
-            stream.Write(Bytes.Of(ref inverse, count: 1));
+            stream.Write(Bytes.Of(ref inverse));
             Inverse = inverse;
         }
 

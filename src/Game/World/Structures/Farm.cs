@@ -18,7 +18,7 @@ public partial class Farm(CustomNode owner) : PlayerCropStructure(owner)
 {
 
     // Farm.pas:54
-    public new const int ClassId = 131950;
+    public new const int ClassId = 131_950;
 
     public Set<ModeElement> Mode { get; set; }
 
@@ -163,10 +163,10 @@ public partial class Farm(CustomNode owner) : PlayerCropStructure(owner)
         }
 
         // Farm.pas:151
-        public new const int ClassId = 131951;
+        public new const int ClassId = 131_951;
 
         // Farm.pas:156
-        public override int ResourceUserClassId() => 131950;
+        public override int ResourceUserClassId() => Farm.ClassId;
 
         // Farm.pas:146
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_farmText);

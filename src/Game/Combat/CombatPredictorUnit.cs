@@ -314,7 +314,7 @@ public partial class CombatPredictorUnit : IDisposable
         {
             CombatPredictorUnit u = RoundTargets.List[i].First;
             int v = RoundTargets.List[i].Second;
-            int priority = u.CombatValueTotal != 0 ? (v * 100 * 1000 / u.IncomingCombatValue) + (u._targetPriority * 100) + v : 0;
+            int priority = u.CombatValueTotal != 0 ? (v * 100 * 1_000 / u.IncomingCombatValue) + (u._targetPriority * 100) + v : 0;
 
             RoundTargets.List[i].Fourth = priority;
         }

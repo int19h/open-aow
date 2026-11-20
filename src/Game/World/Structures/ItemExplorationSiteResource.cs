@@ -7,6 +7,6 @@ public class ItemExplorationSiteResource(CustomNode owner) : ExplorationSiteReso
 {
 
     // ItemExpS.pas:212
-    public new const int ClassId = 132084;
+    public new const int ClassId = 132_084;
 
 }

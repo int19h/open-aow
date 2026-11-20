@@ -12,7 +12,7 @@ namespace Aow.Game.World.Terrain;
 
 public class House(CustomNode owner) : CombatStructure(owner)
 {
-    public new const int ClassId = 2229522;
+    public new const int ClassId = 2_229_522;
 
     private int _race;
     private int _flagId;
@@ -150,10 +150,10 @@ public class House(CustomNode owner) : CombatStructure(owner)
     {
 
         // House.pas:145
-        public new const int ClassId = 2229523;
+        public new const int ClassId = 2_229_523;
 
         // House.pas:151
-        public override int ResourceUserClassId() => 2229522;
+        public override int ResourceUserClassId() => House.ClassId;
 
         // House.pas:148
         public override string ResourceEditName() => "Combat House";

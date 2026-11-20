@@ -177,7 +177,7 @@ internal static class EffectPaths
     {
         if (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainType != 15)
         {
-            if (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild(2229578) is null)
+            if (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild(CombatFire.ClassId) is null)
             {
                 if (StrategicMap.Current.Random(100) < chance)
                 {
@@ -188,7 +188,7 @@ internal static class EffectPaths
                     }
                     else
                     {
-                        CombatImageLibraryTerrain terrain = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild<CombatImageLibraryTerrain>(2228534);
+                        CombatImageLibraryTerrain terrain = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild<CombatImageLibraryTerrain>(CombatImageLibraryTerrain.ClassId);
                         if (terrain is not null)
                         {
                             if (terrain.BurnValue > 0)
@@ -197,7 +197,7 @@ internal static class EffectPaths
                             }
                         }
 
-                        CityWall wall = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild<CityWall>(2229508);
+                        CityWall wall = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild<CityWall>(CityWall.ClassId);
                         if (wall is not null)
                         {
                             if (wall.WallType == 1)

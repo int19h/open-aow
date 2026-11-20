@@ -13,7 +13,7 @@ namespace Aow.Game.Combat.Actions;
 // (ability ID, success)
 public class CommandCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
-    public new const int ClassId = 131763;
+    public new const int ClassId = 131_763;
 
     public int AbilityId { get; set; }
     public bool Successful { get; private set; }

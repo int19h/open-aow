@@ -9,7 +9,7 @@ public partial class BuildersGuild(CustomNode owner) : ProductionPlace(owner)
 {
 
     // BldGuild.pas:37
-    public new const int ClassId = 133422;
+    public new const int ClassId = 133_422;
 
     public new class Resource : ProductionPlaceResource
     {
@@ -23,10 +23,10 @@ public partial class BuildersGuild(CustomNode owner) : ProductionPlace(owner)
         }
 
         // BldGuild.pas:53
-        public new const int ClassId = 133423;
+        public new const int ClassId = 133_423;
 
         // BldGuild.pas:56
-        public override int ResourceUserClassId() => 133422;
+        public override int ResourceUserClassId() => BuildersGuild.ClassId;
 
         // BldGuild.pas:50
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_buildersGuildText);

@@ -8,7 +8,7 @@ namespace Aow.Game.AI.Groups;
 public class ScoutAIGroup : AIGroup, IAIGroupClass
 {
     // IndependentAG.pas:650
-    public new const int ClassId = 136277;
+    public new const int ClassId = 136_277;
 
     // IndependentAG.pas:643
     public ScoutAIGroup(CustomNode owner) : base(owner)

@@ -26,34 +26,34 @@ public partial class UpperIsometricHex
         {
             if ((OpenSides & 1) != 0)
             {
-                if ((OpenSides & 32) == 0)
+                if ((OpenSides & 0b0010_0000) == 0)
                 {
                     imageLibrary[18].Show(pixelX - 19, pixelY - 48 - 16, lockedSurface);
                 }
 
-                if ((OpenSides & 2) == 0)
+                if ((OpenSides & 0b0010) == 0)
                 {
                     imageLibrary[19].Show(pixelX - 19, pixelY - 48 - 16, lockedSurface);
                 }
 
-                if ((OpenSides & 34) == 34)
+                if ((OpenSides & 0b0010_0010) == 0b0010_0010)
                 {
                     imageLibrary[23].Show(pixelX - 20, pixelY - 48 - 16, lockedSurface);
                 }
                 else
                 {
-                    if ((OpenSides & 34) == 0)
+                    if ((OpenSides & 0b0010_0010) == 0)
                     {
                         imageLibrary[20].Show(pixelX - 20, pixelY - 50 - 16, lockedSurface);
                     }
                 }
             }
 
-            if ((OpenSides & 8) != 0)
+            if ((OpenSides & 0b1000) != 0)
             {
-                if ((OpenSides & 16) != 0)
+                if ((OpenSides & 0b0001_0000) != 0)
                 {
-                    if ((OpenSides & 32) != 0)
+                    if ((OpenSides & 0b0010_0000) != 0)
                     {
                         imageLibrary[17].Show(pixelX - 19 - 32, pixelY - 16, lockedSurface);
                     }
@@ -63,9 +63,9 @@ public partial class UpperIsometricHex
                     }
                 }
 
-                if ((OpenSides & 4) != 0)
+                if ((OpenSides & 0b0100) != 0)
                 {
-                    if ((OpenSides & 2) != 0)
+                    if ((OpenSides & 0b0010) != 0)
                     {
                         imageLibrary[16].Show(pixelX - 19 + 16 + 16, pixelY - 16, lockedSurface);
                     }
@@ -75,13 +75,13 @@ public partial class UpperIsometricHex
                     }
                 }
 
-                if ((OpenSides & 20) == 20)
+                if ((OpenSides & 0b0001_0100) == 0b0001_0100)
                 {
                     imageLibrary[13].Show(pixelX - 19, pixelY, lockedSurface);
                 }
                 else
                 {
-                    if ((OpenSides & 20) == 0)
+                    if ((OpenSides & 0b0001_0100) == 0)
                     {
                         imageLibrary[6].Show(pixelX - 19, pixelY, lockedSurface);
                     }
@@ -89,9 +89,9 @@ public partial class UpperIsometricHex
             }
             else
             {
-                if ((OpenSides & 16) != 0)
+                if ((OpenSides & 0b0001_0000) != 0)
                 {
-                    if ((OpenSides & 32) == 0)
+                    if ((OpenSides & 0b0010_0000) == 0)
                     {
                         imageLibrary[25].Show(pixelX - 19 - 32, pixelY - 16, lockedSurface);
                     }
@@ -108,9 +108,9 @@ public partial class UpperIsometricHex
                     }
                 }
 
-                if ((OpenSides & 4) != 0)
+                if ((OpenSides & 0b0100) != 0)
                 {
-                    if ((OpenSides & 2) == 0)
+                    if ((OpenSides & 0b0010) == 0)
                     {
                         imageLibrary[24].Show(pixelX - 19 + 32, pixelY - 16, lockedSurface);
                     }

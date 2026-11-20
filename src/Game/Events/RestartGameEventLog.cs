@@ -9,7 +9,7 @@ public class RestartGameEventLog(CustomNode owner, EngineObject holder) : Messag
 {
 
     // Diplomacy.pas:2450
-    public new const int ClassId = 131831;
+    public new const int ClassId = 131_831;
 
     // Diplomacy.pas:2453
     public override string GetText() => AbilityRules.TranslateResourceString(GetEngine(), S: s_gameRestartedText);

@@ -13,7 +13,7 @@ namespace Aow.Game.Units;
 // Race. HeroType. Name. Alignment. Hidden. base statistics. Abilities. FaceIndex
 public class HeroResource : TroopResource
 {
-    public new const int ClassId = 131633;
+    public new const int ClassId = 131_633;
 
     // Hero.PAS:2308
     public HeroResource(CustomNode owner) : base(owner)
@@ -75,7 +75,7 @@ public class HeroResource : TroopResource
     }
 
     // Hero.PAS:2326
-    public override int ResourceUserClassId() => 131632;
+    public override int ResourceUserClassId() => Hero.ClassId;
 
     // Hero.PAS:2329
     public int HeroResourceIndex() => Owner.FindChildIndex(this);
