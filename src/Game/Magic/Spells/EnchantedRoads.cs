@@ -48,7 +48,7 @@ public class EnchantedRoads : GlobalEnchantmentSpell
         animation.AnimationMap = StrategicMap.Current;
         animation.Activate();
         TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
-        twinkle.Setup(GamePack.Current.SpellControl.GetSpell(44).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
+        twinkle.Setup(GamePack.Current.SpellControl[44].CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
         _ = StrategicMap.Current.PlaceHex(twinkle, x, y, l);
         _ = CastSounds.Play(0);
         CastingDone(source, eventValue.EventMana);

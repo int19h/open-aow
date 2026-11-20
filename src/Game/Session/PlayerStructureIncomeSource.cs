@@ -17,7 +17,7 @@ public class PlayerStructureIncomeSource(CustomNode owner) : IncomeSource(owner)
     public override int Income() => _structure.GetIncome();
 
     // Structur.PAS:2496
-    public override MapCoordinate GetLocation() => new(
+    public override MapCoordinate Location => new(
         _structure.HexX,
         _structure.HexY,
         _structure.HexLevel);

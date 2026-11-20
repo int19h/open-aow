@@ -20,5 +20,5 @@ public partial class Structure
     public virtual string CombatMapName(CombatMapSite site) => "Blank000";
 
     // A structure under construction or razed shows that state before its kind.
-    protected StructureView StatePanel() => GetBuilding() ? StructureView.Building : GetRazed() ? StructureView.Razed : null;
+    protected StructureView StatePanel() => Building ? StructureView.Building : GetRazed() ? StructureView.Razed : null;
 }

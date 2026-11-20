@@ -121,7 +121,7 @@ public abstract record ProductionOrder
             Player = control.GetPlayer(),
             Text = text
         };
-        eventValue.SetLocation(level: city.GetHexLevel(), y: city.GetHexY(), x: city.GetHexX());
+        eventValue.SetLocation(level: city.HexLevel, y: city.HexY, x: city.HexX);
         StrategicMap.Current.Players.GetPlayers(eventValue.Player).EventLogbook.AddEvent(eventValue);
         _ = eventValue.Release();
     }

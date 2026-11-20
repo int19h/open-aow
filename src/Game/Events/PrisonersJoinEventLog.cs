@@ -50,7 +50,7 @@ public partial class PrisonersJoinEventLog(CustomNode owner) : JoinEventLog(owne
                 UnitType unitType = dungeon.Prisoners.Units.GetUnit(i).GetUnitType();
                 if (Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType))
                 {
-                    int index = dungeon.Prisoners.Units.GetUnit(i).GetUnitGraphicsResourceIndex();
+                    int index = dungeon.Prisoners.Units.GetUnit(i).UnitGraphicsResourceIndex;
                     if (GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index) is not null)
                     {
                         int random = Random(15);

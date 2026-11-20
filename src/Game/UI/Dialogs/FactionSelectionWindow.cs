@@ -235,9 +235,9 @@ public partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
                 break;
         }
         ParseFontText(value.Text, (DelphiStringCollection)(object)dialog.ScrollText, dialog.UI.Fonts.Age15WhiteOnGrey, 300);
-        WorldMapCampaign campaign = dialog.UI.WorldMap.GetCampaign();
+        WorldMapCampaign campaign = dialog.UI.WorldMap.Campaign;
         int id = WorldMapCampaign.GetCampaignScenario(campaign, 0).Paths[0];
-        WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(index: campaign.Scenarios.IndexOfId(id), campaign: dialog.UI.WorldMap.GetCampaign());
+        WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(index: campaign.Scenarios.IndexOfId(id), campaign: dialog.UI.WorldMap.Campaign);
         StrategicMap hexSpriteMap = dialog.UI.Engine.CreatePreviewHsm<StrategicMap>(FileBoundary.ReadName($"{dialog.UI.Engine.StartupDirectory}Scenario\\Campaign\\{campaignScenario.FileName}"), profile: GameProfile.WorldMap);
         int i;
         for (i = 0; i < hexSpriteMap.Count && hexSpriteMap.Players.GetPlayers(i).PlayerType != PlayerType.Human; i++)

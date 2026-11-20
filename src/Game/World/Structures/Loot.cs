@@ -49,8 +49,8 @@ public sealed record Loot : ProductionOrder
             Player = control.GetPlayer(),
             Text = Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_cityLootingFormat), [city.GetName()])
         };
-        log.SetLocation(level: city.GetHexLevel(), y: city.GetHexY(), x: city.GetHexX());
-        EventLog.DistributeLocationEventLog(y: city.GetHexY(), level: city.GetHexLevel(), x: city.GetHexX(), log: log, player: control.GetPlayer(), execute: false);
+        log.SetLocation(level: city.HexLevel, y: city.HexY, x: city.HexX);
+        EventLog.DistributeLocationEventLog(y: city.HexY, level: city.HexLevel, x: city.HexX, log: log, player: control.GetPlayer(), execute: false);
         _ = log.Release();
         city.Overlay.SetMode(CityOverlayHexSprite.OverlayMode.Looting);
         control.Status = ProductionControlStatus.Producing;

@@ -12,10 +12,10 @@ public partial class Dib16Surface : Surface
     private PixelFormat _pixelFormatId;
 
     // GFXE.pas:6991
-    public override int GetWidth() => _width;
+    public override int Width => _width;
 
     // GFXE.pas:6996
-    public override int GetHeight() => _height;
+    public override int Height => _height;
 
     // GFXE.pas:7001
     public override PixelFormat GetPixelFormatId() => _pixelFormatId;

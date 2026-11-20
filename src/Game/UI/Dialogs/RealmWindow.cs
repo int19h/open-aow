@@ -173,11 +173,11 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
                     4 => CityRelationList.Items.Add("4"),
                     _ => CityRelationList.Items.Add("-"),
                 };
-                ProductionOrder activeOrder = c.GetActiveOrder();
+                ProductionOrder activeOrder = c.ActiveOrder;
                 _ = CityActionList.Items.Add(activeOrder != null ? activeOrder.RealmActivity(c) : "-");
 
                 _ = CityEnchantmentList.Items.Add("-");
-                int size = c.GetSize();
+                int size = c.Size;
                 _ = CitySizeList.Items.Add(IntToStr(size));
             }
         }
@@ -417,13 +417,13 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         if (button == MouseButton.Right && sender.Selected != -1)
         {
             HexSprite sprite = CityNameList.Items.Objects[sender.Selected];
-            sbyte hexLevel = sprite.GetHexLevel();
-            sbyte hexY = sprite.GetHexY();
-            sbyte hexX = sprite.GetHexX();
+            sbyte hexLevel = sprite.HexLevel;
+            sbyte hexY = sprite.HexY;
+            sbyte hexX = sprite.HexX;
             StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
-            sbyte spriteHexLevel = sprite.GetHexLevel();
-            sbyte spriteHexY = sprite.GetHexY();
-            sbyte spriteHexX = sprite.GetHexX();
+            sbyte spriteHexLevel = sprite.HexLevel;
+            sbyte spriteHexY = sprite.HexY;
+            sbyte spriteHexX = sprite.HexX;
             StrategicMap.Current.PlayCenterAnimation(spriteHexX, spriteHexY, spriteHexLevel);
         }
     }
@@ -477,13 +477,13 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         if (button == MouseButton.Right && sender.Selected != -1)
         {
             HexSprite sprite = PlaceNameList.Items.Objects[sender.Selected];
-            sbyte hexLevel = sprite.GetHexLevel();
-            sbyte hexY = sprite.GetHexY();
-            sbyte hexX = sprite.GetHexX();
+            sbyte hexLevel = sprite.HexLevel;
+            sbyte hexY = sprite.HexY;
+            sbyte hexX = sprite.HexX;
             StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
-            sbyte spriteHexLevel = sprite.GetHexLevel();
-            sbyte spriteHexY = sprite.GetHexY();
-            sbyte spriteHexX = sprite.GetHexX();
+            sbyte spriteHexLevel = sprite.HexLevel;
+            sbyte spriteHexY = sprite.HexY;
+            sbyte spriteHexX = sprite.HexX;
             StrategicMap.Current.PlayCenterAnimation(spriteHexX, spriteHexY, spriteHexLevel);
         }
     }
@@ -506,13 +506,13 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         if (list.Selected != -1)
         {
             HexSprite sprite = HeroNameList.Items.Objects[list.Selected].GetArmyHexSprite();
-            sbyte hexLevel = sprite.GetHexLevel();
-            sbyte hexY = sprite.GetHexY();
-            sbyte hexX = sprite.GetHexX();
+            sbyte hexLevel = sprite.HexLevel;
+            sbyte hexY = sprite.HexY;
+            sbyte hexX = sprite.HexX;
             StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
-            sbyte spriteHexLevel = sprite.GetHexLevel();
-            sbyte spriteHexY = sprite.GetHexY();
-            sbyte spriteHexX = sprite.GetHexX();
+            sbyte spriteHexLevel = sprite.HexLevel;
+            sbyte spriteHexY = sprite.HexY;
+            sbyte spriteHexX = sprite.HexX;
             StrategicMap.Current.PlayCenterAnimation(spriteHexX, spriteHexY, spriteHexLevel);
         }
     }
@@ -891,7 +891,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         {
             for (int j = 0, lastJ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.Count - 1; j <= lastJ; j++)
             {
-                int unitGraphicsResourceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.GetUnit(j).GetUnitGraphicsResourceIndex();
+                int unitGraphicsResourceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.GetUnit(j).UnitGraphicsResourceIndex;
                 _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex).AddRef();
             }
         }
@@ -904,7 +904,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         {
             for (int j = 0, lastJ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.Count - 1; j <= lastJ; j++)
             {
-                int unitGraphicsResourceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.GetUnit(j).GetUnitGraphicsResourceIndex();
+                int unitGraphicsResourceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.GetUnit(j).UnitGraphicsResourceIndex;
                 _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex).Release();
             }
         }

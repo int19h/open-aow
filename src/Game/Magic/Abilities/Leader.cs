@@ -240,7 +240,7 @@ public class Leader(CustomNode owner) : Hero(owner)
     public MagicSphere GetSpheres(int index) => (MagicSphere)_spheres.List[index];
 
     // Hero.PAS:2815
-    public int GetSphereCount() => _spheres.Count;
+    public int SphereCount => _spheres.Count;
 
     // Hero.PAS:2818
     public void SetSpherePicksMax(byte value)

@@ -626,20 +626,23 @@ public class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<PlayerC
         result = result || (StrategicMap.Current.Combat is null && StrategicMap.Current.PlayMode == PlayMode.Turn && StrategicMap.Current.CurrentPlayer != PlayerIndex);
         result = result || (StrategicMap.Current.Combat is not null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player != PlayerIndex);
         result = result || GameOverStatus != GameOverStatus.None || !GetLocal();
-        return result || (PlayerType == PlayerType.Human && StrategicMap.Current.GetTurnTimerEnabled() && StrategicMap.Current.GetTurnTimeLeft() <= 0);
+        return result || (PlayerType == PlayerType.Human && StrategicMap.Current.TurnTimerEnabled && StrategicMap.Current.TurnTimeLeft <= 0);
     }
 
     // Player.PAS:406
-    public int GetSuperiority()
+    public int Superiority
     {
-        if (Statistics.TurnInfo.Count != 0)
+        get
         {
-            int count = Statistics.TurnInfo.Count;
-            return Statistics.TurnInfo.GetTurnInfo(count - 1).GetSuperiority();
-        }
-        else
-        {
-            return 0;
+            if (Statistics.TurnInfo.Count != 0)
+            {
+                int count = Statistics.TurnInfo.Count;
+                return Statistics.TurnInfo.GetTurnInfo(count - 1).Superiority;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 
@@ -791,7 +794,7 @@ public class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<PlayerC
             result = true;
             string s;
             string leaderName;
-            if (Leader.GetSphereCount() != StrategicMap.Current.SphereCount)
+            if (Leader.SphereCount != StrategicMap.Current.SphereCount)
             {
                 string raceNames = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNames[PlayerRace]);
                 leaderName = AbilityRules.Format(s_leaderFormat, [raceNames]);
@@ -1051,16 +1054,19 @@ public class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<PlayerC
     public LibraryImage GetFace() => Leader?.GetFace();
 
     // Player.PAS:688
-    public int GetHeroCountMax()
+    public int HeroCountMax
     {
-        int count = Statistics.TurnInfo.Count;
-        int strength = Statistics.TurnInfo.GetTurnInfo(count - 1).ArmyStrength;
-        int result = strength < 10
-            ? 1
-            : strength < 40 ? 2 : strength < 80 ? 3 : strength < 120 ? 4 : strength < 200 ? 5 : ((strength - 200) / 100) + 5;
+        get
+        {
+            int count = Statistics.TurnInfo.Count;
+            int strength = Statistics.TurnInfo.GetTurnInfo(count - 1).ArmyStrength;
+            int result = strength < 10
+                ? 1
+                : strength < 40 ? 2 : strength < 80 ? 3 : strength < 120 ? 4 : strength < 200 ? 5 : ((strength - 200) / 100) + 5;
 
-        int maximum = StrategicMap.Current.HeroCountMax;
-        return maximum < result ? maximum : result;
+            int maximum = StrategicMap.Current.HeroCountMax;
+            return maximum < result ? maximum : result;
+        }
     }
 
     // Player.PAS:703
@@ -1128,7 +1134,7 @@ public class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<PlayerC
             i = StrategicMap.Current.HeroControl.GetCount() - 1;
             for (; i >= 0; i -= 1)
             {
-                hero = StrategicMap.Current.HeroControl.GetHero(i);
+                hero = StrategicMap.Current.HeroControl[i];
                 if (!hero.HeroStatus.Contains(HeroStatusElement.Died) && hero.Player <= 0 && hero.Owner is null && hero.CanJoin(PlayerIndex))
                 {
                     int chance = GetHeroJoinChance(hero.GetLevel());
@@ -1146,7 +1152,7 @@ public class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<PlayerC
                 i = StrategicMap.Current.HeroControl.GetCount() - 1;
                 for (; i >= 0; i -= 1)
                 {
-                    hero = StrategicMap.Current.HeroControl.GetHero(i);
+                    hero = StrategicMap.Current.HeroControl[i];
                     if (!hero.HeroStatus.Contains(HeroStatusElement.Died) && hero.Player <= 0 && hero.Owner is null && hero.GetAbilityEnabled(52) && hero.GetLevel() >= 2 && hero.GetLevel() <= 3)
                     {
                         Status playerRelation = StrategicMap.Current.Races.GetRace(hero.Race).GetPlayerRelation(PlayerIndex);
@@ -1170,7 +1176,7 @@ public class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<PlayerC
                 structure = Structures.GetStructure(i);
                 if (structure.EngineClass.ClassId == 131336)
                 {
-                    _ = locations.AddMapCoordinate(mapLevel: structure.GetHexLevel(), y: structure.GetHexY(), x: structure.GetHexX());
+                    _ = locations.AddMapCoordinate(mapLevel: structure.HexLevel, y: structure.HexY, x: structure.HexX);
                 }
             }
 
@@ -1234,7 +1240,7 @@ public class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<PlayerC
             BaseHeroJoinLevel = (BaseHeroJoinLevel + _highestHeroLevel + 1) / 2;
         }
 
-        if (Heroes.Count == GetHeroCountMax())
+        if (Heroes.Count == HeroCountMax)
         {
             ResetBaseHeroJoinDay();
         }
@@ -1307,7 +1313,7 @@ public class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<PlayerC
         {
             HeroType heroType = HeroType.HeroLeader;
             int resourceIndex;
-            if (Leader is not null && Leader.GetHeroType() != heroType)
+            if (Leader is not null && Leader.HeroType != heroType)
             {
                 string name = Leader.HeroName;
                 int faceIndex = Leader.FaceIndex;
@@ -1366,7 +1372,7 @@ public class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<PlayerC
             bool condition = EventLogbook.GetCount() != 0;
             if (condition)
             {
-                EventLog logs = EventLogbook.GetLogs(0);
+                EventLog logs = EventLogbook[0];
                 condition = StrategicMap.Current.Day - logs.Day >= 3;
             }
 
@@ -1375,7 +1381,7 @@ public class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<PlayerC
                 break;
             }
 
-            EventLog fEventLogbookLogs = EventLogbook.GetLogs(0);
+            EventLog fEventLogbookLogs = EventLogbook[0];
             EventLogbook.RemoveEvent(fEventLogbookLogs);
         }
     }
@@ -1562,9 +1568,9 @@ public class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<PlayerC
         while (!result && i != 0)
         {
             i -= 1;
-            if (logbook.GetLogs(i).Day == StrategicMap.Current.Day)
+            if (logbook[i].Day == StrategicMap.Current.Day)
             {
-                if (logbook.GetLogs(i) is DiplomaticActionEventLog diplomatic)
+                if (logbook[i] is DiplomaticActionEventLog diplomatic)
                 {
                     DiplomaticAction item = diplomatic.Action;
                     result = item.Proposal.ToFields().Kind == kind && item.Source == PlayerIndex && item.Target == target && (other == -1 || item.OtherPlayer == other);

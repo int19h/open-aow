@@ -23,7 +23,7 @@ public class PackageDataList : IDisposable
     public int GetCount() => _list.Count;
 
     // NetworkE.pas:888
-    public MemoryStream GetPackageData(int index) => _list[index];
+    public MemoryStream this[int index] => _list[index];
 
     // NetworkE.pas:893
     public void Clear()
@@ -76,7 +76,7 @@ public class PackageDataList : IDisposable
 
     public sealed class PackageDataAccessor(PackageDataList target)
     {
-        public MemoryStream this[int index] => target.GetPackageData(index);
+        public MemoryStream this[int index] => target[index];
     }
 
     public PackageDataAccessor PackageData => new(this);

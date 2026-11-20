@@ -49,8 +49,8 @@ public class House(CustomNode owner) : CombatStructure(owner)
         if (HitPoints == 0)
         {
             sequence = GamePack.Current.ImageSequences.GetImageSequence(50);
-            sbyte hexY = GetHexY();
-            sbyte hexX = GetHexX();
+            sbyte hexY = HexY;
+            sbyte hexX = HexX;
             terrainOffset = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainType switch
             {
                 3 => 1,
@@ -74,8 +74,8 @@ public class House(CustomNode owner) : CombatStructure(owner)
         }
         else
         {
-            sbyte hexY = GetHexY();
-            sbyte hexX = GetHexX();
+            sbyte hexY = HexY;
+            sbyte hexX = HexX;
             terrainOffset = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainType switch
             {
                 3 => 20,
@@ -95,8 +95,8 @@ public class House(CustomNode owner) : CombatStructure(owner)
                             {
                                 if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                                 {
-                                    sbyte hexX2 = GetHexX();
-                                    sbyte hexY2 = GetHexY();
+                                    sbyte hexX2 = HexX;
+                                    sbyte hexY2 = HexY;
                                     GamePack.Current.FlagControl.ShowStructureFlag(pixelXSurface + 21 + sequence.OffsetX, pixelYSurface + sequence.OffsetY + 16, hexX2 + StrategicMap.Current.Frame + (hexY2 * 100), (byte)_flagId, lockedSurface, false);
                                 }
                             }

@@ -53,8 +53,8 @@ public class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner
                 int last2 = first + count8;
                 for (int i = first; i <= last2 - 1; i++)
                 {
-                    sbyte yhx = Selection.GetTacticalBattleUnitHexSprite().GetHexY();
-                    HexGeometry.CenterHexNumberToHex(Selection.GetTacticalBattleUnitHexSprite().GetHexX(), yhx, i, ref hexX, ref hexY);
+                    sbyte yhx = Selection.TacticalBattleUnitHexSprite.HexY;
+                    HexGeometry.CenterHexNumberToHex(Selection.TacticalBattleUnitHexSprite.HexX, yhx, i, ref hexX, ref hexY);
                     HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
                     _targetImages[2].Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface + 2, lockedSurface);
                 }
@@ -75,14 +75,14 @@ public class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner
                 }
 
                 BattleEffectType effectType;
-                if (Selection.GetTacticalBattleUnitHexSprite().SelectedAbility == 52)
+                if (Selection.TacticalBattleUnitHexSprite.SelectedAbility == 52)
                 {
-                    TacticalBattleUnitHexSprite tacticalBattleUnitHexSprite = Selection.GetTacticalBattleUnitHexSprite();
+                    TacticalBattleUnitHexSprite tacticalBattleUnitHexSprite = Selection.TacticalBattleUnitHexSprite;
                     effectType = TacticalTables.SpellTypes[tacticalBattleUnitHexSprite.SelectedSpell];
                 }
                 else
                 {
-                    TacticalBattleUnitHexSprite tacticalBattleUnitHexSprite = Selection.GetTacticalBattleUnitHexSprite();
+                    TacticalBattleUnitHexSprite tacticalBattleUnitHexSprite = Selection.TacticalBattleUnitHexSprite;
                     effectType = TacticalTables.AbilityTypes[tacticalBattleUnitHexSprite.SelectedAbility];
                 }
 
@@ -98,10 +98,10 @@ public class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner
                         {
                             for (int i = 0; i <= 11; i++)
                             {
-                                sbyte yhx = Selection.GetTacticalBattleUnitHexSprite().GetHexY();
-                                int deltaHexToHexNumber2 = HexGeometry.DeltaHexToHexNumber(Selection.GetTacticalBattleUnitHexSprite().GetHexX(), yhx, x, y);
-                                sbyte hexY2 = Selection.GetTacticalBattleUnitHexSprite().GetHexY();
-                                HexGeometry.CenterHexNumberToHex(Selection.GetTacticalBattleUnitHexSprite().GetHexX(), hexY2, TacticalTables.BreathHexNumber[(deltaHexToHexNumber2 * 12) + i - 12], ref hexX, ref hexY);
+                                sbyte yhx = Selection.TacticalBattleUnitHexSprite.HexY;
+                                int deltaHexToHexNumber2 = HexGeometry.DeltaHexToHexNumber(Selection.TacticalBattleUnitHexSprite.HexX, yhx, x, y);
+                                sbyte hexY2 = Selection.TacticalBattleUnitHexSprite.HexY;
+                                HexGeometry.CenterHexNumberToHex(Selection.TacticalBattleUnitHexSprite.HexX, hexY2, TacticalTables.BreathHexNumber[(deltaHexToHexNumber2 * 12) + i - 12], ref hexX, ref hexY);
                                 HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
                                 _targetImages[0].ShowClipped(pixelX - 8 - pixelXSurface, pixelY + 2 - pixelYSurface, lockedSurface);
                             }
@@ -158,10 +158,10 @@ public class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner
                     case BattleEffectType.SacFire:
                     case BattleEffectType.BreathDam:
                     default:
-                        switch (Selection.GetTacticalBattleUnitHexSprite().SelectedAbility)
+                        switch (Selection.TacticalBattleUnitHexSprite.SelectedAbility)
                         {
                             case 52:
-                                switch (Selection.GetTacticalBattleUnitHexSprite().SelectedSpell)
+                                switch (Selection.TacticalBattleUnitHexSprite.SelectedSpell)
                                 {
                                     case 104:
                                     case 106:

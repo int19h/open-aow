@@ -66,7 +66,7 @@ public class HeroLibraryManager : EngineObject
     }
 
     // Hero.PAS:2677
-    public HeroLibrary GetLibrary(int index) => _libraries.GetChildInRange<HeroLibrary>(index);
+    public HeroLibrary this[int index] => _libraries.GetChildInRange<HeroLibrary>(index);
 
     // Hero.PAS:2680
     public int GetCount() => _libraries.GetCount();
@@ -98,7 +98,7 @@ public class HeroLibraryManager : EngineObject
     {
         for (int i = 1, last = _libraries.GetCount() - 1; i <= last; i++)
         {
-            HeroLibrary library = GetLibrary(i);
+            HeroLibrary library = this[i];
             string name = library.GetName();
             library.SaveToFile($"{GetEngine().StartupDirectory}User\\{name}{FileBoundary.WriteExtension(DocumentKind.HeroList)}");
         }
@@ -162,11 +162,11 @@ public class HeroLibraryManager : EngineObject
     {
         if (index < _libraries.GetCount() && index > 0)
         {
-            string name = GetLibrary(index).GetName();
+            string name = this[index].GetName();
             // The list goes in both forms, so an original of the same name does not return.
             _ = DeleteFile($"{GetEngine().StartupDirectory}User\\{name}{DocumentKind.HeroList.OriginalExtension}");
             _ = DeleteFile($"{GetEngine().StartupDirectory}User\\{name}{DocumentKind.HeroList.OwnExtension}");
-            GetLibrary(index)?.Dispose();
+            this[index]?.Dispose();
         }
     }
 }

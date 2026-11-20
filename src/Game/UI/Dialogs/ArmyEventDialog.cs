@@ -65,14 +65,14 @@ public partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
                 if (eventValue.ArmyView.Units.GetUnit(unit4).GetHitPoints() != 0)
                 {
                     byte unit5 = _units[index];
-                    int unitGraphicsResourceIndex = eventValue.ArmyView.Units.GetUnit(unit5).GetUnitGraphicsResourceIndex();
+                    int unitGraphicsResourceIndex = eventValue.ArmyView.Units.GetUnit(unit5).UnitGraphicsResourceIndex;
                     UnitGraphicsResource unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
                     _ = unitGraphicsResource.SfxLibraries[3].Play(0);
                 }
                 else
                 {
                     byte unit5 = _units[index];
-                    int unitGraphicsResourceIndex = eventValue.ArmyView.Units.GetUnit(unit5).GetUnitGraphicsResourceIndex();
+                    int unitGraphicsResourceIndex = eventValue.ArmyView.Units.GetUnit(unit5).UnitGraphicsResourceIndex;
                     UnitGraphicsResource unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
                     _ = unitGraphicsResource.SfxLibraries[4].Play(0);
                 }
@@ -114,7 +114,7 @@ public partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
         for (int i = 0, last = _units.Count - 1; i <= last; i++)
         {
             byte unit = _units[i];
-            int resource = _event.ArmyView.Units.GetUnit(unit).GetUnitGraphicsResourceIndex();
+            int resource = _event.ArmyView.Units.GetUnit(unit).UnitGraphicsResourceIndex;
             if (resource != -1)
             {
                 _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(resource).Release();
@@ -190,7 +190,7 @@ public partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
             if (!army.GetUnitConcealedForPlayer(i, StrategicMap.Current.SeatedPlayer) || log.DamageValues[i] != 0)
             {
                 _ = dialog._units.Add((byte)i);
-                int image = log.ArmyView.Units.GetUnit(i).GetUnitGraphicsResourceIndex();
+                int image = log.ArmyView.Units.GetUnit(i).UnitGraphicsResourceIndex;
                 if (image != -1)
                 {
                     _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(image).AddRef();

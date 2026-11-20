@@ -33,7 +33,7 @@ public class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSpellToken
             _ = StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 2);
             if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.WatchingTerrain(Location.X, Location.Y, Location.MapLevel, 2))
             {
-                _ = GamePack.Current.SpellControl.GetSpell(73).CastSounds.Play(0);
+                _ = GamePack.Current.SpellControl[73].CastSounds.Play(0);
             }
 
             // The original constructs a plain animation and stores it on the event. The later shower uses an image sequence.
@@ -46,7 +46,7 @@ public class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSpellToken
             _animation.AnimationMap = StrategicMap.Current;
             _animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
             _animation.Activate();
-            GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
+            GamePack.Current.SpellControl[EventSpellId].CastingDone(source, EventMana);
         }
 
         if (value == 50)
@@ -102,7 +102,7 @@ public class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSpellToken
 
                                 playSound = condition;
                                 ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
-                                animation.SetImageSequence(GamePack.Current.AbilityControl.GetAbility(47).ImageSequences.ImageSequences[0]);
+                                animation.SetImageSequence(GamePack.Current.AbilityControl[47].ImageSequences.ImageSequences[0]);
                                 animation.AnimationLevel = 27;
                                 sbyte armyHexY = army.HexY;
                                 sbyte armyHexX = army.HexX;
@@ -120,7 +120,7 @@ public class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSpellToken
 
             if (playSound)
             {
-                _ = GamePack.Current.AbilityControl.GetAbility(47).SfxLibrary.Play(0);
+                _ = GamePack.Current.AbilityControl[47].SfxLibrary.Play(0);
             }
         }
         if (value == 80)
@@ -167,7 +167,7 @@ public class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSpellToken
                         {
                             int xShift = x - Round(j * 2 * 0.1);
                             int yShift = y + Round(j * 10 * 0.1);
-                            _ = GamePack.Current.SpellControl.GetSpell(73).CastImages.Show(0, pixelX + xShift + 120, pixelY + yShift - 500 + 30, 0, lockedSurface);
+                            _ = GamePack.Current.SpellControl[73].CastImages.Show(0, pixelX + xShift + 120, pixelY + yShift - 500 + 30, 0, lockedSurface);
                         }
                     }
                 }

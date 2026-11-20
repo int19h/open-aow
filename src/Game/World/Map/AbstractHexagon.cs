@@ -12,7 +12,7 @@ public class AbstractHexagon(CustomNode owner) : MapObject(owner)
     public new const int ClassId = 65904;
 
     // MAPOBJ.PAS:682
-    public override byte GetLevel() => 0;
+    public override byte Level => 0;
 
     // MAPOBJ.PAS:671
     public override int GetShowPriority()
@@ -27,7 +27,7 @@ public class AbstractHexagon(CustomNode owner) : MapObject(owner)
     {
         if (message.HexNumber == 0 && GetTerrain(0) != message.TerrainType)
         {
-            MapObjectResourceTerrainControl control = Resource.GetTerrainControl();
+            MapObjectResourceTerrainControl control = Resource.TerrainControl;
             if (control is not null)
             {
                 MapObjectResource r = control.GetRandomResource(classId: Resource.EngineClass.ClassId, terrainType: message.TerrainType);
@@ -35,17 +35,17 @@ public class AbstractHexagon(CustomNode owner) : MapObject(owner)
                 {
                     SetResource(r);
                     UpdateTransitions();
-                    sbyte hexLevel = GetHexLevel();
-                    sbyte hexY = GetHexY();
-                    sbyte hexX = GetHexX();
+                    sbyte hexLevel = HexLevel;
+                    sbyte hexY = HexY;
+                    sbyte hexX = HexX;
                     Resource.Engine.HexSpriteMap.MapContainer.Map.InvalidateStaticScene(hexX, hexY, hexLevel);
                 }
                 else
                 {
-                    sbyte hexLevel = GetHexLevel();
-                    sbyte hexY = GetHexY();
-                    sbyte hexX = GetHexX();
-                    _ = Resource.GetTerrainControl().Place(Owner.Owner.Owner, hexX, hexY, hexLevel, message.TerrainType);
+                    sbyte hexLevel = HexLevel;
+                    sbyte hexY = HexY;
+                    sbyte hexX = HexX;
+                    _ = Resource.TerrainControl.Place(Owner.Owner.Owner, hexX, hexY, hexLevel, message.TerrainType);
                 }
             }
         }
@@ -90,7 +90,7 @@ public class AbstractHexagon(CustomNode owner) : MapObject(owner)
             bool condition = hexSprite is null;
             if (!condition)
             {
-                bool test = hexSprite.GetLevel() < 10;
+                bool test = hexSprite.Level < 10;
                 if (!test)
                 {
                     test = mapField.CanChangeTerrain(overlay: GetOverlay(0), sender: this, terrain: GetTerrain(0));

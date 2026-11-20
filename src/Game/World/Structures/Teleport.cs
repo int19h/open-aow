@@ -47,9 +47,9 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
             bool notFogEnabled = !StrategicMap.Current.FogEnabled;
             if (!notFogEnabled)
             {
-                sbyte hexLevel = GetHexLevel();
-                sbyte hexY = GetHexY();
-                sbyte hexX = GetHexX();
+                sbyte hexLevel = HexLevel;
+                sbyte hexY = HexY;
+                sbyte hexX = HexX;
                 notFogEnabled = StrategicMap.Current.VisibleForPlayer(hexX, hexY, hexLevel, StrategicMap.Current.SeatedPlayer);
             }
 
@@ -123,9 +123,9 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
     {
         ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
         animation.SetImageSequence(GamePack.Current.ImageSequences.ImageSequences[13]);
-        sbyte hexLevel = GetHexLevel();
-        sbyte hexY = GetHexY();
-        sbyte hexX = GetHexX();
+        sbyte hexLevel = HexLevel;
+        sbyte hexY = HexY;
+        sbyte hexX = HexX;
         _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
         animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
         animation.SetImageSequence(GamePack.Current.ImageSequences.ImageSequences[12]);
@@ -169,7 +169,7 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
                 armyHexSprite.Army.ResetDestinationPosition();
                 MovePath path = new();
                 _ = path.AddMapCoordinate(Destination.X, Destination.Y, Destination.MapLevel);
-                _ = path.AddMapCoordinate(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX());
+                _ = path.AddMapCoordinate(mapLevel: HexLevel, y: HexY, x: HexX);
                 MapField field = StrategicMap.Current.MapContainer.GetField(Destination.X, Destination.Y, Destination.MapLevel);
                 bool condition = field.GetMoveAction(armyHexSprite.Army.Player) != MoveAction.Attack || field.GetPlayer() <= 0;
                 if (!condition)

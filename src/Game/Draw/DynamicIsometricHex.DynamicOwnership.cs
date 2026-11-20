@@ -20,16 +20,17 @@ public partial class DynamicIsometricHex
     }
 
     public override GameEngine GetEngine() => _hex.GetEngine();
-    public override byte GetLevel() => ((IsometricHexResource)_hex.Resource).DynamicLevel;
-    public override sbyte GetHexX() => Field.HexX;
-    public override sbyte GetHexY() => Field.HexY;
-    public override sbyte GetHexLevel() => Field.HexLevel;
+
+    public override byte Level => ((IsometricHexResource)_hex.Resource).DynamicLevel;
+    public override sbyte HexX => Field.HexX;
+    public override sbyte HexY => Field.HexY;
+    public override sbyte HexLevel => Field.HexLevel;
 
     public override int GetShowPriority()
     {
         int x = (Field.HexX * 32) + 8;
         int y = ((Field.HexX & 1) * 16) + (Field.HexY * 32);
-        return (GetLevel() << 26) + ((y + 32) << 13) + x + 8;
+        return (Level << 26) + ((y + 32) << 13) + x + 8;
     }
 
     public override void Show(int x, int y, in LockedSurface surface) => _hex.ShowDynamic(x, y, surface);
@@ -38,7 +39,7 @@ public partial class DynamicIsometricHex
     {
         if (_hex is not null)
         {
-            if (_hex.GetVisible())
+            if (_hex.Visible)
             {
                 _ = Field.Owner.Map.DynamicVisibleHexSprite.RemoveChild(this);
             }

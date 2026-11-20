@@ -45,7 +45,7 @@ public class LiquidFormEnchantment : UnitEnchantmentAbility
             return 0;
         }
 
-        int result = troop.GetUnitLevel() + 300;
+        int result = troop.UnitLevel + 300;
         if (troop is Leader)
         {
             result += 50;

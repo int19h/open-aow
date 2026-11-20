@@ -25,16 +25,16 @@ public partial class DisplayController(Component owner) : Component(owner)
         Rect clipR = default;
         Rect sourceR = default;
         Rect destinationR = default;
-        if (GetInverseMatrix() is not null)
+        if (InverseMatrix is not null)
         {
             result = DisplayControllerError.Ok;
-            Matrix inverseMatrix = GetInverseMatrix();
-            Matrix m = new(GetInverseMatrix().Width, inverseMatrix.Height);
-            for (int i = 0, last = GetInverseMatrix().Width - 1; i <= last; i++)
+            Matrix inverseMatrix = InverseMatrix;
+            Matrix m = new(InverseMatrix.Width, inverseMatrix.Height);
+            for (int i = 0, last = InverseMatrix.Width - 1; i <= last; i++)
             {
-                for (int j = 0, lastJ = GetInverseMatrix().Height - 1; j <= lastJ; j++)
+                for (int j = 0, lastJ = InverseMatrix.Height - 1; j <= lastJ; j++)
                 {
-                    if (GetInverseMatrix().GetValue((byte)i, (byte)j) != 0)
+                    if (InverseMatrix.GetValue((byte)i, (byte)j) != 0)
                     {
                         m.SetValue((byte)i, (byte)j, 1);
                     }
@@ -53,10 +53,10 @@ public partial class DisplayController(Component owner) : Component(owner)
                 {
                     if (result >= 0)
                     {
-                        int v = GetInverseMatrix().GetValue((byte)i, (byte)j);
+                        int v = InverseMatrix.GetValue((byte)i, (byte)j);
                         if (v != 0)
                         {
-                            GetInverseMatrix().SetValue((byte)i, (byte)j, (byte)(v - 1));
+                            InverseMatrix.SetValue((byte)i, (byte)j, (byte)(v - 1));
                         }
 
                         if (m.GetValue((byte)i, (byte)j) != 0)
@@ -156,10 +156,10 @@ public partial class DisplayController(Component owner) : Component(owner)
     }
 
     // DisplayC.pas:634
-    public virtual Matrix GetInverseMatrix() => _inverseMatrix;
+    public virtual Matrix InverseMatrix => _inverseMatrix;
 
     // DisplayC.pas:639
-    public virtual int GetSurfaceCount() => GetDisplay() is null ? 0 : (int)GetDisplay().BufferingScheme;
+    public virtual int SurfaceCount => Display is null ? 0 : (int)Display.BufferingScheme;
 
     // DisplayC.pas:647
     public virtual DisplayControllerError BlitSurface(int index)
@@ -195,10 +195,10 @@ public partial class DisplayController(Component owner) : Component(owner)
     public virtual Set<DisplayControllerStatusElement> GetStatus() => Status;
 
     // DisplayC.pas:690
-    public virtual int GetHPalette() => 0;
+    public virtual int HPalette => 0;
 
     // DisplayC.pas:710
-    public virtual CustomDisplay GetDisplay() => _display;
+    public virtual CustomDisplay Display => _display;
 
     // DisplayC.pas:720
     public virtual void WindowRecreated()
@@ -465,7 +465,7 @@ public partial class DisplayController(Component owner) : Component(owner)
     public virtual void Invalidate(int X, int Y, int W, int H) => InverseWndwithValue(X, Y, W, H, 1);
 
     // DisplayC.pas:1043
-    public int GetCurrentFrameRate() => _display.CurrentFrameRate;
+    public int CurrentFrameRate => _display.CurrentFrameRate;
 
     // DisplayC.pas:1049
     // { Counts frames; every 5 frames the frame rate is measured. }
@@ -473,7 +473,7 @@ public partial class DisplayController(Component owner) : Component(owner)
     {
         if (_frameCount >= 5)
         {
-            int t = PixelFormats.GetElapsedMilliseconds();
+            int t = PixelFormats.ElapsedMilliseconds;
             _display.CurrentFrameRate = Round((double)5000 / (t - _lastFrameTime + 1));
             _frameCount = 0;
             _lastFrameTime = t;

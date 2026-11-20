@@ -106,7 +106,7 @@ public sealed class ObjectLifetimeTests
         WeakReference particle;
         try
         {
-            Assert.Null(control.GetSpell(64).CastImages.GetImageSequence(0));
+            Assert.Null(control[64].CastImages.GetImageSequence(0));
             particle = ShowParticle();
         }
         finally

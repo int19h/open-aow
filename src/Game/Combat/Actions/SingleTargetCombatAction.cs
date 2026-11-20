@@ -78,7 +78,7 @@ public class SingleTargetCombatAction(CustomNode owner) : CombatAction(owner)
     }
 
     // Combat2.pas:740
-    public bool GetDefensive() => Mode.Contains(SingleTargetModeElement.Defensive);
+    public bool Defensive => Mode.Contains(SingleTargetModeElement.Defensive);
 
     // Combat2.pas:743
     public void SetDefensive(bool defensive)

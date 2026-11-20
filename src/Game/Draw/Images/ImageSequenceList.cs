@@ -397,7 +397,7 @@ public class ImageSequenceList(ImageLibraryManager aILManager, CustomImageLibrar
             ImageSequence sequence = List[index];
             while (sequence is not null)
             {
-                int n = sequence.GetTotalSequenceFrames();
+                int n = sequence.TotalSequenceFrames;
                 if (n > result)
                 {
                     result = n;

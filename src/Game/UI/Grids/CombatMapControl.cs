@@ -210,7 +210,7 @@ public class CombatMapControl : Component
         {
             if (OnUnitChanged is not null)
             {
-                TacticalBattleUnitHexSprite tacticalBattleUnitHexSprite = CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite();
+                TacticalBattleUnitHexSprite tacticalBattleUnitHexSprite = CombatMap.Current.UnitSelection.TacticalBattleUnitHexSprite;
                 OnUnitChanged(tacticalBattleUnitHexSprite);
             }
         }

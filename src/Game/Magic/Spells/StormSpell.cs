@@ -133,9 +133,9 @@ public class StormSpell : Spell
             selection.CancelText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CancelText);
             selection.Range = 12;
             selection.Changed += OnTargetSelectionChange;
-            selection.SourceImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[20].GetPreviewImage();
-            selection.ValidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[21].GetPreviewImage();
-            selection.InvalidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[22].GetPreviewImage();
+            selection.SourceImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[20].GetPreviewImage();
+            selection.ValidTargetImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[21].GetPreviewImage();
+            selection.InvalidTargetImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[22].GetPreviewImage();
             selection.Activate();
             _targetStorm.UpdateTargetSelection(StrategicMap.Current.TargetSelection);
             return true;

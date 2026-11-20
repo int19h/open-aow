@@ -20,7 +20,7 @@ public class MindDecayCombatAction(CustomNode owner) : ExclusiveCombatSpellComba
         {
             CombatObject source = combat.CombatData.FindId(SourceId);
             CombatUnit target = combat.CombatData.FindId<CombatUnit>(TargetId);
-            source.SetExperience(source.GetExperience() + target.GetLevel());
+            source.SetExperience(source.Experience + target.Level);
             for (int i = 0; i <= 2; i++)
             {
                 GamePack.Current.AbilityControl.GetAbility<CommandAbility>(AbilityRules.CommandAbilityIds[i]).ResetCommandedUnits(target);
@@ -31,7 +31,7 @@ public class MindDecayCombatAction(CustomNode owner) : ExclusiveCombatSpellComba
                 GamePack.Current.AbilityControl.GetAbility<CommandAbility>(AbilityRules.CommandAbilityIds[i]).Uncommand(target);
             }
 
-            _ = GamePack.Current.AbilityControl.GetAbility(131).Expand(target.Troop);
+            _ = GamePack.Current.AbilityControl[131].Expand(target.Troop);
             target.SetCombatPlayer((byte)source.CombatPlayer);
         }
     }

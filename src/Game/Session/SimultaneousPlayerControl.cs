@@ -95,7 +95,7 @@ public class SimultaneousPlayerControl(CustomNode owner) : PlayerControl(owner)
     // PlayerC.PAS:1663
     public override void ValidateTurnTiming()
     {
-        if (StrategicMap.Current.GetTurnTimerEnabled() && StrategicMap.Current.GetTurnTimeLeft() <= 0)
+        if (StrategicMap.Current.TurnTimerEnabled && StrategicMap.Current.TurnTimeLeft <= 0)
         {
             if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.None && !StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).SingleProcessCycle)
             {

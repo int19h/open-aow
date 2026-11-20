@@ -224,10 +224,10 @@ public sealed class ClassFamilyTests
             Assert.NotNull(dynamic);
             Assert.Null(dynamic.Owner);
             Assert.Contains(dynamic, field.HexSpriteList.Take(field.StoredCount));
-            Assert.Equal(field.HexX, dynamic.GetHexX());
-            Assert.Equal(field.HexY, dynamic.GetHexY());
-            Assert.Equal(resource.DynamicLevel, dynamic.GetLevel());
-            Assert.Equal(26, dynamic.GetLevel());
+            Assert.Equal(field.HexX, dynamic.HexX);
+            Assert.Equal(field.HexY, dynamic.HexY);
+            Assert.Equal(resource.DynamicLevel, dynamic.Level);
+            Assert.Equal(26, dynamic.Level);
             hex.Dispose();
             hex = null!;
             Assert.DoesNotContain(dynamic, field.HexSpriteList.Take(field.StoredCount));

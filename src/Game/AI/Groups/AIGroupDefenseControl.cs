@@ -38,7 +38,7 @@ public class AIGroupDefenseControl : AIGroupTask
     }
 
     // AIGroup.pas:1822
-    public override bool GetBusy() => State != -1 && Status.Contains(AIGroupTaskStatusElement.Activated);
+    public override bool Busy => State != -1 && Status.Contains(AIGroupTaskStatusElement.Activated);
 
     // AIGroup.pas:1827
     public override bool Activate(AIGroupControl control)

@@ -27,7 +27,7 @@ public class PoisonPlantSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTok
         _ = base.Process(source, value);
         CreatePoisonPlant(source);
         _ = StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 1);
-        GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
+        GamePack.Current.SpellControl[EventSpellId].CastingDone(source, EventMana);
         return false;
     }
 
@@ -56,14 +56,14 @@ public class PoisonPlantSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTok
                     {
                         plant.PlantStatus = Set<PoisonPlantStatusElement>.Of(PoisonPlantStatusElement.Summoning);
                         ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
-                        animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(12).CastImages.ImageSequences[0]);
+                        animation.SetImageSequence(GamePack.Current.SpellControl[12].CastImages.ImageSequences[0]);
                         animation.OnShow += plant.ShowSummonAnimation;
                         animation.OnNewFrame += plant.NewFrameSummonAnimation;
                         animation.FrameCounter = -StrategicMap.Current.Random(15);
                         animation.AnimationLevel = 27;
                         _ = StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, Location.MapLevel);
                         TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
-                        twinkle.Setup(GamePack.Current.SpellControl.GetSpell(2).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(), 2, 6, Math.Abs(animation.FrameCounter + 5), Math.Abs(animation.FrameCounter + 5) / 2);
+                        twinkle.Setup(GamePack.Current.SpellControl[2].CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(), 2, 6, Math.Abs(animation.FrameCounter + 5), Math.Abs(animation.FrameCounter + 5) / 2);
                         _ = StrategicMap.Current.PlaceHex(twinkle, walk.X, walk.Y, Location.MapLevel);
                     }
                     else

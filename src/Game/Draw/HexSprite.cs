@@ -41,7 +41,7 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     }
 
     // HXSPRITE.PAS:125
-    public virtual int GetTerrainCount() => 0;
+    public virtual int TerrainCount => 0;
 
     // HXSPRITE.PAS:130
     public virtual sbyte GetOverlay(int hexNumber) => -2;
@@ -52,40 +52,44 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     }
 
     // HXSPRITE.PAS:139
-    public virtual int GetOverlayCount() => 0;
+    public virtual int OverlayCount => 0;
 
     // HXSPRITE.PAS:52
-    public virtual byte GetLevel() => throw new InvalidOperationException("No HexagonSprite Level defined");
-
-    // HXSPRITE.PAS:43
-    public virtual void SetVisible(bool value)
-    {
-    }
+    public virtual byte Level => throw new InvalidOperationException("No HexagonSprite Level defined");
 
     // HXSPRITE.PAS:47
-    public virtual bool GetVisible() => false;
+    public virtual bool Visible
+    {
+        get => false;
+        // HXSPRITE.PAS:43
+        set
+        {
+        }
+    }
 
     // HXSPRITE.PAS:72
     public virtual bool GetSelected() => false;
 
     // HXSPRITE.PAS:87
-    public virtual sbyte GetHexX() => Owner.HexX;
+    public virtual sbyte HexX => Owner.HexX;
 
     // HXSPRITE.PAS:92
-    public virtual sbyte GetHexY() => Owner.HexY;
+    public virtual sbyte HexY => Owner.HexY;
 
     // HXSPRITE.PAS:97
-    public virtual sbyte GetHexLevel() => (sbyte)Owner.Owner.HexLevel;
+    public virtual sbyte HexLevel => (sbyte)Owner.Owner.HexLevel;
 
     // HXSPRITE.PAS:102
-    public virtual MapCoordinate GetMapCoordinate() => HexGeometry.PackMapCoordinate(GetHexX(), GetHexY(), GetHexLevel());
+    public virtual MapCoordinate MapCoordinate => HexGeometry.PackMapCoordinate(HexX, HexY, HexLevel);
 
     // HXSPRITE.PAS:153
-    public virtual bool GetEditMode() => false;
-
-    // HXSPRITE.PAS:158
-    public virtual void SetEditMode(bool value)
+    public virtual bool EditMode
     {
+        get => false;
+        // HXSPRITE.PAS:158
+        set
+        {
+        }
     }
 
     // HXSPRITE.PAS:162
@@ -157,7 +161,7 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     {
         Deactivate();
         Remove();
-        Assert(!GetVisible(), "Hexagon Sprite Still Visible!", "HXSPRITE.PAS", 589);
+        Assert(!Visible, "Hexagon Sprite Still Visible!", "HXSPRITE.PAS", 589);
     }
 
     // HXSPRITE.PAS:592
@@ -223,9 +227,9 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     // HXSPRITE.PAS:144
     public virtual void MakeVisible(VisibilityList visibilityList)
     {
-        if (!GetVisible())
+        if (!Visible)
         {
-            SetVisible(true);
+            Visible = true;
             _ = visibilityList.AddSortChild(this, GetShowPriority());
         }
     }
@@ -784,23 +788,15 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
         }
     }
 
-    public int TerrainCount => GetTerrainCount();
-    public int OverlayCount => GetOverlayCount();
-    public byte Level => GetLevel();
-    public bool Visible { get => GetVisible(); set => SetVisible(value); }
     public bool Selected => GetSelected();
-    public sbyte HexX => GetHexX();
-    public sbyte HexY => GetHexY();
-    public sbyte HexLevel => GetHexLevel();
 
     // Computed from GetHexX, GetHexY and GetHexLevel. A sprite that stores the position overrides this.
     public virtual MapCoordinate Location
     {
-        get => GetMapCoordinate();
+        get => MapCoordinate;
         set => throw new InvalidOperationException("This sprite computes its location from its hex.");
     }
 
-    public bool EditMode { get => GetEditMode(); set => SetEditMode(value); }
     public int ShowPriority => GetShowPriority();
 
     // HXSPRITE.PAS:77

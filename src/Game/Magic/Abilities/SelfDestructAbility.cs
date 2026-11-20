@@ -96,7 +96,7 @@ public class SelfDestructAbility : TouchAbility
         if (wallSituation == WallSituation.None && CanTouch(attacker, defender))
         {
             damageValues.DamageTypes = Set<DamageType>.Of(DamageType.Fire, DamageType.Wall);
-            sbyte hitPoints = defender.GetHitPoints();
+            sbyte hitPoints = defender.HitPoints;
             sbyte defense = defender.GetDefense();
             sbyte resistance = defender.GetResistance();
             Set<DamageType> immunityTypes = defender.GetImmunityTypes();
@@ -105,9 +105,9 @@ public class SelfDestructAbility : TouchAbility
             damageValues.SourceDamage = statisticsToLimitedDamageValue;
             int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Fire, DamageType.Wall));
             damageValues.SourceCost = statisticsToMaxDamage;
-            sbyte attackerHitPoints = attacker.GetHitPoints();
+            sbyte attackerHitPoints = attacker.HitPoints;
             damageValues.TargetDamage = attackerHitPoints * 100;
-            sbyte hitPoints2 = attacker.GetHitPoints();
+            sbyte hitPoints2 = attacker.HitPoints;
             damageValues.TargetCost = hitPoints2;
         }
         else
@@ -133,7 +133,7 @@ public class SelfDestructAbility : TouchAbility
     // AoWAb.PAS:2235
     public override bool CanTouch(CombatObject source, CombatObject target)
     {
-        return source.GetSide() == CombatSideIndex.Defender
+        return source.Side == CombatSideIndex.Defender
             ? !source.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing)
             : !target.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || source.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
     }

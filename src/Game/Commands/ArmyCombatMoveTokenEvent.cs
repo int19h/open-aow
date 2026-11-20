@@ -523,14 +523,14 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
         if (_combatMode == ArmyCombatMoveTokenEventMode.RequestingCombatType || (_combatType == CombatType.Tactical && _combatMode == ArmyCombatMoveTokenEventMode.SetupReady))
         {
             Battle combat = new(null) { Holder = CreationHolder() };
-            sbyte hexY = ArmyHexSprite.GetHexY();
-            sbyte hexLevel = ArmyHexSprite.GetHexLevel();
+            sbyte hexY = ArmyHexSprite.HexY;
+            sbyte hexLevel = ArmyHexSprite.HexLevel;
             sbyte player = field.GetPlayer();
             byte independentRelation = field.GetIndependentRelation();
             PathStep item = Path[0];
             PathStep fPathItem = Path[0];
             PathStep item2 = Path[0];
-            sbyte hexX = ArmyHexSprite.GetHexX();
+            sbyte hexX = ArmyHexSprite.HexX;
             _ = combat.Setup((byte)ArmyHexSprite.Army.Player, (byte)ArmyHexSprite.Army.IndependentRelation, hexX, hexY, hexLevel, (byte)player, independentRelation, item.Location.X, fPathItem.Location.Y, item2.Location.MapLevel, false);
             message.MessageId = 4359;
             MapFieldMessageParameters param = message.Param;
@@ -543,9 +543,9 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
             field.SendMapFieldMessage(ref message);
             if (message.Result.Int == 0)
             {
-                sbyte fArmyHexSpriteHexLevel = ArmyHexSprite.GetHexLevel();
-                sbyte fArmyHexSpriteHexY = ArmyHexSprite.GetHexY();
-                sbyte fArmyHexSpriteHexX = ArmyHexSprite.GetHexX();
+                sbyte fArmyHexSpriteHexLevel = ArmyHexSprite.HexLevel;
+                sbyte fArmyHexSpriteHexY = ArmyHexSprite.HexY;
+                sbyte fArmyHexSpriteHexX = ArmyHexSprite.HexX;
                 combat.InitializeDefaultArmies(ArmyHexSprite.Army, fArmyHexSpriteHexX, fArmyHexSpriteHexY, fArmyHexSpriteHexLevel);
             }
 
@@ -591,9 +591,9 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                 {
                     if (StrategicMap.Current.SeatedPlayer != request.AttackerPlayer)
                     {
-                        sbyte hexLevel = ArmyHexSprite.GetHexLevel();
-                        sbyte hexY = ArmyHexSprite.GetHexY();
-                        sbyte hexX = ArmyHexSprite.GetHexX();
+                        sbyte hexLevel = ArmyHexSprite.HexLevel;
+                        sbyte hexY = ArmyHexSprite.HexY;
+                        sbyte hexX = ArmyHexSprite.HexX;
                         StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
                     }
 
@@ -672,9 +672,9 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
             };
             if (StrategicMap.Current.SeatedPlayer != request.AttackerPlayer)
             {
-                sbyte hexLevel = ArmyHexSprite.GetHexLevel();
-                sbyte hexY = ArmyHexSprite.GetHexY();
-                sbyte hexX = ArmyHexSprite.GetHexX();
+                sbyte hexLevel = ArmyHexSprite.HexLevel;
+                sbyte hexY = ArmyHexSprite.HexY;
+                sbyte hexX = ArmyHexSprite.HexX;
                 StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
             }
 
@@ -821,9 +821,9 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
     private static MoveControlSettings CreateMoveControlSettings(ArmyHexSprite army, byte selection, sbyte x, sbyte y, sbyte l)
     {
         MoveControlSettings moveControlSettings = new(null) { Holder = army };
-        sbyte hexLevel = army.GetHexLevel();
-        sbyte hexY = army.GetHexY();
-        moveControlSettings.SetSourcePosition(army.GetHexX(), hexY, hexLevel);
+        sbyte hexLevel = army.HexLevel;
+        sbyte hexY = army.HexY;
+        moveControlSettings.SetSourcePosition(army.HexX, hexY, hexLevel);
         moveControlSettings.Player = army.Army.Player;
         moveControlSettings.ArmyHexSprite = army;
         moveControlSettings.Selection = selection;

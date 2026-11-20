@@ -228,7 +228,7 @@ public class SetupControl : Component
             }
             else
             {
-                SendMessage(param1: _engine.GetMinorVersion(), messageId: 9, objectValue: null, param2: _engine.GetMajorVersion(), recipient: player.RemoteId);
+                SendMessage(param1: _engine.MinorVersion, messageId: 9, objectValue: null, param2: _engine.MajorVersion, recipient: player.RemoteId);
             }
         }
     }
@@ -964,7 +964,7 @@ public class SetupControl : Component
     public void Disconnect() => SendHostMessage(2, null, RemotePlayer.RemoteId, 0);
 
     // AoWSetup.pas:920
-    public string GetPlayerName() => RemotePlayer.Name;
+    public string PlayerName => RemotePlayer.Name;
 
     // AoWSetup.pas:924
     public void SetPlayerName(string value)
@@ -977,7 +977,7 @@ public class SetupControl : Component
     }
 
     // AoWSetup.pas:932
-    public sbyte GetPreferredRace() => (sbyte)RemotePlayer.PreferredRace;
+    public sbyte PreferredRace => (sbyte)RemotePlayer.PreferredRace;
 
     // AoWSetup.pas:936
     public void SetPreferredRace(byte value)

@@ -103,7 +103,7 @@ public class ItemControl(CustomNode owner) : EngineObject(owner)
     }
 
     // Army.PAS:4707
-    public Item GetItem(int index) => _items[index];
+    public Item this[int index] => _items[index];
 
     // Army.PAS:4712
     public int GetCount() => _items.Count;
@@ -237,7 +237,7 @@ public class ItemControl(CustomNode owner) : EngineObject(owner)
             Item item = _items[i];
             if (item.RefCount == 1 && types.Contains(item.ItemType))
             {
-                int value = item.GetObtainValue();
+                int value = item.ObtainValue;
                 if (value >= minValue && value <= maxValue)
                 {
                     _ = list.AddAbility(item, (int)item.Availability);
@@ -270,7 +270,7 @@ public class ItemControl(CustomNode owner) : EngineObject(owner)
         while (!done && list.Count != 0)
         {
             Item candidate = list[list.RandomChanceItemB(1)].First;
-            int itemValue = candidate.GetObtainValue();
+            int itemValue = candidate.ObtainValue;
             if (itemValue > value)
             {
                 int attempts = 10;
@@ -278,7 +278,7 @@ public class ItemControl(CustomNode owner) : EngineObject(owner)
                 do
                 {
                     item = list[list.RandomChanceItemB(1)].First;
-                    int distance = Math.Abs(item.GetObtainValue() - value);
+                    int distance = Math.Abs(item.ObtainValue - value);
                     if (distance < difference)
                     {
                         difference = distance;
@@ -299,7 +299,7 @@ public class ItemControl(CustomNode owner) : EngineObject(owner)
             {
                 candidate.SetOwner(owner);
                 list.Delete(list.IndexOfItemA(candidate));
-                value -= candidate.GetObtainValue();
+                value -= candidate.ObtainValue;
                 result += 1;
             }
         }

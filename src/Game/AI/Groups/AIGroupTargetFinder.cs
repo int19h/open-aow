@@ -30,7 +30,7 @@ public class AIGroupTargetFinder : AIGroupTask
     }
 
     // AIGroup.pas:1958
-    public override bool GetBusy() => Selector.Status == AIMoveTargetSelectorStatus.Searching;
+    public override bool Busy => Selector.Status == AIMoveTargetSelectorStatus.Searching;
 
     // AIGroup.pas:1948
     public override bool Activate(AIGroupControl control)

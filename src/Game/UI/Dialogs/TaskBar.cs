@@ -302,8 +302,8 @@ public partial class TaskBar(UIContext ui) : UIModule(ui)
                 if (StrategicMap.Current.TurnTime != 0)
                 {
                     WorldClockDelay = 10;
-                    minute = (ushort)(StrategicMap.Current.GetTurnTimeLeft() / 60000);
-                    ushort second = (ushort)(StrategicMap.Current.GetTurnTimeLeft() % 60000 / 1000);
+                    minute = (ushort)(StrategicMap.Current.TurnTimeLeft / 60000);
+                    ushort second = (ushort)(StrategicMap.Current.TurnTimeLeft % 60000 / 1000);
                     WorldTimeLabel.TextColor = minute == 0 && second is > 0 and <= 10 ? 255 : 0;
 
                     WorldTimeLabel.Text = $"{IntToStr(minute)}:";

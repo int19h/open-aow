@@ -21,12 +21,11 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     private MapObjectResource _resource;
 
     // MAPOBJ.PAS:88
-    protected internal bool GetResourceLinked() => Status.Contains(MapObjectStatusElement.ResourceLinked);
-
-    // MAPOBJ.PAS:93
-    protected internal void SetResourceLinked(bool value)
+    public bool ResourceLinked
     {
-        Status = value
+        get => Status.Contains(MapObjectStatusElement.ResourceLinked);
+        // MAPOBJ.PAS:93
+        set => Status = value
             ? Status + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.ResourceLinked)
             : Status - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.ResourceLinked);
     }
@@ -42,7 +41,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     public override void SetTerrain(int index, sbyte value) => _resource.TerrainList.SetTerrain(index, value);
 
     // MAPOBJ.PAS:150
-    public override int GetTerrainCount() => _resource.TerrainList.Count;
+    public override int TerrainCount => _resource.TerrainList.Count;
 
     // MAPOBJ.PAS:155
     public override sbyte GetOverlay(int index)
@@ -55,60 +54,73 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     public override void SetOverlay(int index, sbyte value) => _resource.TerrainList.SetOverlay(index, value);
 
     // MAPOBJ.PAS:167
-    public override int GetOverlayCount() => _resource.TerrainList.Count;
+    public override int OverlayCount => _resource.TerrainList.Count;
 
     // MAPOBJ.PAS:16
-    public override byte GetLevel() => _resource.Level;
+    public override byte Level => _resource.Level;
 
-    // MAPOBJ.PAS:8
-    public override void SetVisible(bool value)
+    // MAPOBJ.PAS:29
+    public override bool Visible
     {
-        if (value)
+        get => Status.Contains(MapObjectStatusElement.Visible);
+        // MAPOBJ.PAS:8
+        set
         {
-            Status += Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Visible);
-        }
-        else
-        {
-            if (Status.Contains(MapObjectStatusElement.Visible))
+            if (value)
             {
-                Status -= Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Visible);
+                Status += Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Visible);
+            }
+            else
+            {
+                if (Status.Contains(MapObjectStatusElement.Visible))
+                {
+                    Status -= Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Visible);
+                }
             }
         }
     }
-
-    // MAPOBJ.PAS:29
-    public override bool GetVisible() => Status.Contains(MapObjectStatusElement.Visible);
 
     // MAPOBJ.PAS:133
     public override bool GetSelected() => Status.Contains(MapObjectStatusElement.Selected);
 
     // MAPOBJ.PAS:45
-    public override sbyte GetHexX()
+    public override sbyte HexX
     {
-        Assert(Owner is not null, "Owner not set", "MAPOBJ.PAS", 47);
-        return Owner.HexX;
+        get
+        {
+            Assert(Owner is not null, "Owner not set", "MAPOBJ.PAS", 47);
+            return Owner.HexX;
+        }
     }
 
     // MAPOBJ.PAS:51
-    public override sbyte GetHexY()
+    public override sbyte HexY
     {
-        Assert(Owner is not null, "Owner not set", "MAPOBJ.PAS", 53);
-        return Owner.HexY;
+        get
+        {
+            Assert(Owner is not null, "Owner not set", "MAPOBJ.PAS", 53);
+            return Owner.HexY;
+        }
     }
 
     // MAPOBJ.PAS:57
-    public override sbyte GetHexLevel()
+    public override sbyte HexLevel
     {
-        Assert(Owner is not null, "Owner not set", "MAPOBJ.PAS", 59);
-        return Owner.HexLevel;
+        get
+        {
+            Assert(Owner is not null, "Owner not set", "MAPOBJ.PAS", 59);
+            return Owner.HexLevel;
+        }
     }
 
     // MAPOBJ.PAS:40
-    public override bool GetEditMode() => Status.Contains(MapObjectStatusElement.EditMode);
-
-    // MAPOBJ.PAS:35
-    // { Value is not used: the edit mode is only ever switched on }
-    public override void SetEditMode(bool value) => Status += Set<MapObjectStatusElement>.Of(MapObjectStatusElement.EditMode);
+    public override bool EditMode
+    {
+        get => Status.Contains(MapObjectStatusElement.EditMode);
+        // MAPOBJ.PAS:35
+        // { Value is not used: the edit mode is only ever switched on }
+        set => Status += Set<MapObjectStatusElement>.Of(MapObjectStatusElement.EditMode);
+    }
 
     // MAPOBJ.PAS:214
     public override int GetShowPriority()
@@ -150,13 +162,13 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
             Owner.UpdateTerrain();
         }
 
-        if (GetLevel() <= 15)
+        if (Level <= 15)
         {
             MapField mapField = Owner;
             mapField.Owner.Map.InvalidateStaticScene(mapField.HexX, mapField.HexY, mapField.HexLevel);
         }
 
-        if (!GetEditMode())
+        if (!EditMode)
         {
             MapField mapField = Owner;
             mapField.Owner.Map.TerrainChangedRadius(mapField.HexX, mapField.HexY, mapField.HexLevel, 0);
@@ -181,13 +193,13 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
                         mapField.UpdateTerrain();
                     }
 
-                    if (GetLevel() <= 15 && GetVisible())
+                    if (Level <= 15 && Visible)
                     {
                         mapField.Owner.Map.StaticSceneInvalid = true;
                     }
                 }
 
-                if (!GetEditMode())
+                if (!EditMode)
                 {
                     mapField.Owner.Map.TerrainChangedRadius(mapField.HexX, mapField.HexY, mapField.HexLevel, 0);
                 }
@@ -204,7 +216,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
         if (!Status.Contains(MapObjectStatusElement.PlacedOnMap))
         {
             HexGeometry.PixelToHex(pixelX, pixelY, out int hexX, out int hexY);
-            if (GetEditMode() || CanPlace(mapContainer, (sbyte)hexX, (sbyte)hexY, (sbyte)hexLevel))
+            if (EditMode || CanPlace(mapContainer, (sbyte)hexX, (sbyte)hexY, (sbyte)hexLevel))
             {
                 result = PlaceHex(mapContainer, (sbyte)hexX, (sbyte)hexY, (sbyte)hexLevel);
                 if (result)
@@ -260,13 +272,13 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     {
         MapField mapField = Owner;
         RemoveFromMap();
-        if (GetVisible())
+        if (Visible)
         {
-            _ = GetLevel() <= 15
+            _ = Level <= 15
                 ? mapField.Owner.MapContainer.Map.StaticVisibleHexSprite.RemoveChild(this)
                 : mapField.Owner.MapContainer.Map.DynamicVisibleHexSprite.RemoveChild(this);
 
-            SetVisible(false);
+            Visible = false;
         }
     }
 
@@ -339,7 +351,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
         {
             MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
             HexSprite hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
-            bool condition = hexSprite is null || hexSprite.GetLevel() < 10;
+            bool condition = hexSprite is null || hexSprite.Level < 10;
             if (condition)
             {
                 condition = mapField.CanChangeTerrain(overlay: GetOverlay(0), sender: this, terrain: GetTerrain(0));
@@ -366,7 +378,5 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
 
     internal void SetResourceWithoutOverrides(MapObjectResource value) => _resource = value;
 
-    public int ResourceId { get => GetResourceId(); set => SetResourceId(value); }
-    public bool ResourceLinked { get => GetResourceLinked(); set => SetResourceLinked(value); }
     public Set<MapObjectStatusElement> Status { get; protected set; }
 }

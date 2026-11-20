@@ -63,35 +63,41 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
     }
 
     // Combat2.pas:440
-    public override int GetLeftIcon()
+    public override int LeftIcon
     {
-        CombatData data = Logbook.FinalData;
-        if (data.Players.GetPlayers(data.AttackerPlayer).Player != 0)
+        get
         {
-            CombatPlayer players = data.Players.GetPlayers(data.AttackerPlayer);
-            return StrategicMap.Current.Players.GetPlayers(players.Player).PlayerRace;
-        }
-        else
-        {
-            return 12;
+            CombatData data = Logbook.FinalData;
+            if (data.Players.GetPlayers(data.AttackerPlayer).Player != 0)
+            {
+                CombatPlayer players = data.Players.GetPlayers(data.AttackerPlayer);
+                return StrategicMap.Current.Players.GetPlayers(players.Player).PlayerRace;
+            }
+            else
+            {
+                return 12;
+            }
         }
     }
 
     // Combat2.pas:449
-    public override int GetMiddleIcon() => 13;
+    public override int MiddleIcon => 13;
 
     // Combat2.pas:452
-    public override int GetRightIcon()
+    public override int RightIcon
     {
-        CombatData data = Logbook.FinalData;
-        if (data.Players.GetPlayers(data.DefenderPlayer).Player != 0)
+        get
         {
-            CombatPlayer players = data.Players.GetPlayers(data.DefenderPlayer);
-            return StrategicMap.Current.Players.GetPlayers(players.Player).PlayerRace;
-        }
-        else
-        {
-            return 12;
+            CombatData data = Logbook.FinalData;
+            if (data.Players.GetPlayers(data.DefenderPlayer).Player != 0)
+            {
+                CombatPlayer players = data.Players.GetPlayers(data.DefenderPlayer);
+                return StrategicMap.Current.Players.GetPlayers(players.Player).PlayerRace;
+            }
+            else
+            {
+                return 12;
+            }
         }
     }
 

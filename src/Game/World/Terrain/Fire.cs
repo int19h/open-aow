@@ -97,7 +97,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         if (_explosionFrame != 0)
         {
             int frame = StrategicMap.Current.Frame - _explosionFrame;
-            if (frame >= 0 && frame < base.Resource.ImageSequenceList.GetImageSequence(20).GetTotalSequenceFrames())
+            if (frame >= 0 && frame < base.Resource.ImageSequenceList.GetImageSequence(20).TotalSequenceFrames)
             {
                 HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
                 _ = base.Resource.ImageSequenceList.Show(20, x - pixelXSurface, y - pixelYSurface, frame, lockedSurface);
@@ -185,7 +185,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     {
         if (!Status.Contains(MapObjectStatusElement.Visible) && _explosionFrame != 0 && StrategicMap.Current.Frame == _explosionFrame)
         {
-            sbyte hexX = GetHexX();
+            sbyte hexX = HexX;
             _ = AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[(hexX + StrategicMap.Current.Frame) % 2]);
         }
 
@@ -329,8 +329,8 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         if (Age > 0)
         {
             MapLevel mapLevel = Owner.Owner;
-            sbyte hexY = GetHexY();
-            sbyte hexX = GetHexX();
+            sbyte hexY = HexY;
+            sbyte hexX = HexX;
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 1);
             while (walk.Radius == 1)
             {
@@ -341,7 +341,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
                     if (chance > StrategicMap.Current.Random(1000))
                     {
                         RandSeed = StrategicMap.Current.Random(16777215);
-                        sbyte hexLevel = GetHexLevel();
+                        sbyte hexLevel = HexLevel;
                         Fire fire = GamePack.Current.FireControl.PlaceFire(walk.X, walk.Y, hexLevel, FireType.Large);
                         if (fire is not null)
                         {

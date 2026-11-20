@@ -9,7 +9,7 @@ public partial class UnitSpellCaster
     public int GetRequiredMana()
     {
         Hero? hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(CasterSourceId);
-        return hero is null ? -1 : hero.CastingMana(GamePack.Current.SpellControl.GetSpell(CasterSpellId)) * GetSelectionCount();
+        return hero is null ? -1 : hero.CastingMana(GamePack.Current.SpellControl[CasterSpellId]) * GetSelectionCount();
     }
 
     // Spells.PAS:925. The remainder uses current points, as in the original.

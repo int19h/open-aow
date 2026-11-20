@@ -187,7 +187,7 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
             if (condition)
             {
                 CombatPlayer players = Combat.CombatData.Players.GetPlayers((sbyte)player);
-                CombatSideIndex side = GetSide();
+                CombatSideIndex side = Side;
                 condition = (CombatSideIndex)players.SideIndex != side;
             }
 
@@ -242,7 +242,7 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
     public virtual sbyte GetHits() => 0;
 
     // Combat.pas:5764
-    public virtual sbyte GetHitPoints() => 0;
+    public virtual sbyte HitPoints => 0;
 
     // Combat.pas:5761
     public virtual void SetHitPoints(byte value)
@@ -253,10 +253,10 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
     public virtual Alignment GetAlignment() => Alignment.None;
 
     // Combat.pas:5755
-    public virtual int GetMoves() => 0;
+    public virtual int Moves => 0;
 
     // Combat.pas:5767
-    public virtual int GetExperience() => 0;
+    public virtual int Experience => 0;
 
     // Combat.pas:5770
     public virtual void SetExperience(int value)
@@ -264,7 +264,7 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
     }
 
     // Combat.pas:5773
-    public virtual byte GetLevel() => 0;
+    public virtual byte Level => 0;
 
     // Combat.pas:5617
     public virtual int GetVisibilityRange() => 0;
@@ -284,7 +284,7 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
     public virtual int GetAbilityCount() => 0;
 
     // Combat.pas:5782
-    public virtual AbilityOwner GetAbilityOwner() => null;
+    public virtual AbilityOwner AbilityOwner => null;
 
     // Combat.pas:5672
     public virtual void Activate(Battle combat)
@@ -318,7 +318,7 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
     // Combat.pas:5813
     public virtual void ObjectDestroyed(CombatObject objectValue)
     {
-        if (objectValue.GetSide() != GetSide())
+        if (objectValue.Side != Side)
         {
             RemoveTarget(objectValue);
         }
@@ -327,7 +327,7 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
     // Combat.pas:5592
     public virtual void ObjectSideChanged(CombatObject objectValue)
     {
-        if (objectValue.GetSide() != GetSide())
+        if (objectValue.Side != Side)
         {
             GetTargetCombatValueDamageValue(objectValue, out int combatValue, out int damageValue);
             int wallCombatValue = Combat.CombatData.WallType != 0 ? GetTargetWallCombatValue(objectValue) : 0;
@@ -408,8 +408,8 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
             result = target.ExecuteDamage(damage);
             if (target.Status.Contains(CombatObjectStatusElement.Destroyed) && !target.GetAbilityEnabled(129) && !target.GetAbilityEnabled(128))
             {
-                damage = GetExperience();
-                damage += target.GetLevel();
+                damage = Experience;
+                damage += target.Level;
                 SetExperience(damage);
             }
         }
@@ -506,7 +506,7 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
         {
             if (GetAbilityEnabled(i))
             {
-                GamePack.Current.AbilityControl.GetAbility(i).CombatObjectDestroyed(this);
+                GamePack.Current.AbilityControl[i].CombatObjectDestroyed(this);
             }
         }
 
@@ -521,7 +521,7 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
     public virtual int ExecuteDamage(int damage)
     {
         Assert(damage is >= 0 and < 50, "Invalid Damage Value (TCombatUnit.ExecuteDamage)", "Combat.pas", 5982);
-        int hits = GetHitPoints();
+        int hits = HitPoints;
         int result = hits < damage ? hits : damage;
 
         SetHitPoints((byte)(hits - result));
@@ -530,7 +530,7 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
             Status += Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Damaged);
         }
 
-        if (result != 0 && GetHitPoints() == 0)
+        if (result != 0 && HitPoints == 0)
         {
             DestroyObject();
         }
@@ -640,7 +640,7 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
     // Combat.pas:5575
     public void SetupTargets()
     {
-        CombatSideIndex opponentSide = GetOpponentSide();
+        CombatSideIndex opponentSide = OpponentSide;
         CombatSide side = Combat.Sides[(int)opponentSide];
         for (int i = side.Count - 1; i >= 0; i--)
         {
@@ -656,17 +656,23 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
     }
 
     // Combat.pas:5636
-    public CombatSideIndex GetSide()
+    public CombatSideIndex Side
     {
-        sbyte player = CombatPlayer;
-        return player != -1 ? (CombatSideIndex)Combat.CombatData.Players.GetPlayers(player).SideIndex : CombatSideIndex.Neutral;
+        get
+        {
+            sbyte player = CombatPlayer;
+            return player != -1 ? (CombatSideIndex)Combat.CombatData.Players.GetPlayers(player).SideIndex : CombatSideIndex.Neutral;
+        }
     }
 
     // Combat.pas:5645
-    public CombatSideIndex GetOpponentSide()
+    public CombatSideIndex OpponentSide
     {
-        sbyte player = CombatPlayer;
-        return player != -1 ? (CombatSideIndex)(Combat.CombatData.Players.GetPlayers(player).SideIndex ^ 1) : CombatSideIndex.Neutral;
+        get
+        {
+            sbyte player = CombatPlayer;
+            return player != -1 ? (CombatSideIndex)(Combat.CombatData.Players.GetPlayers(player).SideIndex ^ 1) : CombatSideIndex.Neutral;
+        }
     }
 
     // Combat.pas:5797
@@ -677,10 +683,13 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
     }
 
     // Combat.pas:5805
-    public sbyte GetPlayerIndependentRelation()
+    public sbyte PlayerIndependentRelation
     {
-        byte player = (byte)CombatPlayer;
-        return player != 255 ? (sbyte)Combat.CombatData.Players.GetPlayers((sbyte)player).IndependentRelation : (sbyte)-1;
+        get
+        {
+            byte player = (byte)CombatPlayer;
+            return player != 255 ? (sbyte)Combat.CombatData.Players.GetPlayers((sbyte)player).IndependentRelation : (sbyte)-1;
+        }
     }
 
     internal static Set<DamageType> MeleeDamageTypes(CombatObject source)
@@ -729,7 +738,7 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
                 damage = (sbyte)(damage + 3);
             }
 
-            return AbilityRules.StatisticsToLimitedDamageValue(attack, damage, types, target.GetHitPoints(), target.GetDefense(), target.GetResistance(), target.GetImmunityTypes(), target.GetProtectionTypes());
+            return AbilityRules.StatisticsToLimitedDamageValue(attack, damage, types, target.HitPoints, target.GetDefense(), target.GetResistance(), target.GetImmunityTypes(), target.GetProtectionTypes());
         }
         else
         {

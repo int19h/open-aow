@@ -10,7 +10,7 @@ public class BlendTableList : IDisposable
     internal int GetCount() => _list.Count;
 
     // GFXE.pas:9656
-    internal BlendTable GetTables(int index) => _list[index];
+    internal BlendTable this[int index] => _list[index];
 
     // GFXE.pas:9629
     public BlendTableList() => _list = [];
@@ -41,7 +41,7 @@ public class BlendTableList : IDisposable
 
     public sealed class TablesAccessor(BlendTableList target)
     {
-        public BlendTable this[int index] => target.GetTables(index);
+        public BlendTable this[int index] => target[index];
     }
 
     public TablesAccessor Tables => new(this);

@@ -70,7 +70,7 @@ public class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         Player player = Control.Player;
         if (player.PlayerIndex != 0)
         {
-            while (_state != -1 && StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0 && !player.GetBusy())
+            while (_state != -1 && StrategicMap.Current.AIExecutor.ProcessTimeLeft > 0 && !player.GetBusy())
             {
                 ProcessStates();
             }
@@ -90,9 +90,9 @@ public class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         Control.Player.MagicControl.ListSpells(spells, Set<SpellType>.Of(SpellType.Unit, SpellType.Global));
         for (int i = 0, last = spells.GetCount() - 1; i <= last; i++)
         {
-            if (hero.CastingTurns(spells.GetSpell(i)) < 8)
+            if (hero.CastingTurns(spells[i]) < 8)
             {
-                spells.GetSpell(i).AIPrefetchCastSpellActions(hero, _castSpellActions);
+                spells[i].AIPrefetchCastSpellActions(hero, _castSpellActions);
             }
         }
 
@@ -135,7 +135,7 @@ public class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
                     {
                         if (hero.CastingSpellId != 0)
                         {
-                            done = GamePack.Current.SpellControl.GetSpell(hero.CastingSpellId).AIExecuteCastSpellAction(hero);
+                            done = GamePack.Current.SpellControl[hero.CastingSpellId].AIExecuteCastSpellAction(hero);
                         }
 
                         if (!done)
@@ -218,7 +218,7 @@ public class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
                         if (hero is not null && (((byte)hero.UnitStatus.Image) & 16) == 0)
                         {
                             AICastSpellAction castSpellActions = _castSpellActions.GetCastSpellActions(index);
-                            if (GamePack.Current.SpellControl.GetSpell(castSpellActions.SpellId).AIExecuteCastSpellAction(hero))
+                            if (GamePack.Current.SpellControl[castSpellActions.SpellId].AIExecuteCastSpellAction(hero))
                             {
                                 _ = _castingHeroes.Add(hero.UnitId);
                                 _ = _idleHeroes.Remove(hero.UnitId);

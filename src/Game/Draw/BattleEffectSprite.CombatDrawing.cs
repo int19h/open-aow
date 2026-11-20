@@ -23,8 +23,8 @@ public partial class BattleEffectSprite
         void SelectSequence(int number)
         {
             sequence = AbilityIndex == 52
-                ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[number]
-                : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[number];
+                ? GamePack.Current.SpellControl[SpellIndex].CastImages.ImageSequences[number]
+                : GamePack.Current.AbilityControl[AbilityIndex].ImageSequences.ImageSequences[number];
         }
 
         int index;
@@ -92,7 +92,7 @@ public partial class BattleEffectSprite
         {
             if (sequence is not null)
             {
-                int lastFrame = sequence.GetTotalSequenceFrames() - 1;
+                int lastFrame = sequence.TotalSequenceFrames - 1;
                 for (int n = 0; n <= lastFrame; n++)
                 {
                     int half = n / 2;
@@ -173,7 +173,7 @@ public partial class BattleEffectSprite
                         case >= 0 and <= 1999:
                             alpha = 25;
                             // { Original uses the object address as the animation phase. }
-                            int totalSequenceFrames = sequence.GetTotalSequenceFrames();
+                            int totalSequenceFrames = sequence.TotalSequenceFrames;
                             index = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, totalSequenceFrames));
                             break;
                         case >= 2000 and <= 2998:
@@ -191,7 +191,7 @@ public partial class BattleEffectSprite
                                 }
 
                                 alpha = 25;
-                                int sequenceTotalSequenceFrames = sequence.GetTotalSequenceFrames();
+                                int sequenceTotalSequenceFrames = sequence.TotalSequenceFrames;
                                 index = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, sequenceTotalSequenceFrames));
                             }
 
@@ -363,7 +363,7 @@ public partial class BattleEffectSprite
                 bool test = firstSequence is not null;
                 if (test)
                 {
-                    int totalSequenceFrames = firstSequence.GetTotalSequenceFrames();
+                    int totalSequenceFrames = firstSequence.TotalSequenceFrames;
                     test = Frame >= totalSequenceFrames - 1;
                 }
 
@@ -532,8 +532,8 @@ public partial class BattleEffectSprite
 
                         break;
                     case BattleEffectType.SWComet:
-                        sbyte hexY = Target.UnitHexSprite.GetHexY();
-                        HexGeometry.HexToPixel(Target.UnitHexSprite.GetHexX(), hexY, out i, out j);
+                        sbyte hexY = Target.UnitHexSprite.HexY;
+                        HexGeometry.HexToPixel(Target.UnitHexSprite.HexX, hexY, out i, out j);
                         Point3DList path5 = Path;
                         EffectPaths.MakeArcPathXY((short)((lockedSurfaceValue.Width / 2) + pixelXSurface), (short)((lockedSurfaceValue.Height / 2) + pixelYSurface), (short)i, (short)j, 25, 50, path5);
                         Path = path5;

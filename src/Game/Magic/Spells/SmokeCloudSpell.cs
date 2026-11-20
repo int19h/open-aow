@@ -30,11 +30,11 @@ public class SmokeCloudSpell : GlobalTargetSpell
     {
         // SmokeCloudSpell.TargetSelected constructs the GlobalTargetSpellTokenEvent this spell executes.
         GlobalTargetSpellTokenEvent targetEvent = (GlobalTargetSpellTokenEvent)eventValue;
-        Troop sourceLocal = targetEvent.GetSource();
+        Troop sourceLocal = targetEvent.Source;
         _ = StrategicMap.Current.ValidateObservation(sourceLocal.Player, targetEvent.Location.X, targetEvent.Location.Y, targetEvent.Location.MapLevel, 2);
-        if (targetEvent.GetSource().Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(targetEvent.Location.X, targetEvent.Location.Y, targetEvent.Location.MapLevel, 2))
+        if (targetEvent.Source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(targetEvent.Location.X, targetEvent.Location.Y, targetEvent.Location.MapLevel, 2))
         {
-            _ = GamePack.Current.SpellControl.GetSpell(targetEvent.EventSpellId).CastSounds.Play(0);
+            _ = GamePack.Current.SpellControl[targetEvent.EventSpellId].CastSounds.Play(0);
         }
 
         EngineResource resource = ((CustomNode)(object)GamePack.Current.MapObjectResourceList).FindChild<EngineResource>(135747);
@@ -51,7 +51,7 @@ public class SmokeCloudSpell : GlobalTargetSpell
                 cloud?.Dispose();
             }
 
-            GamePack.Current.SpellControl.GetSpell(SpellId).CastingDone(source, BaseManaCost);
+            GamePack.Current.SpellControl[SpellId].CastingDone(source, BaseManaCost);
         }
 
         return false;

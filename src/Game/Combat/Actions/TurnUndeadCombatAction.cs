@@ -23,7 +23,7 @@ public class TurnUndeadCombatAction(CustomNode owner) : DamageCombatAction(owner
             CombatUnit target = combat.CombatData.FindId<CombatUnit>(TargetId);
             if (!target.Status.Contains(CombatObjectStatusElement.Destroyed))
             {
-                _ = GamePack.Current.AbilityControl.GetAbility(34).Expand(target.Troop);
+                _ = GamePack.Current.AbilityControl[34].Expand(target.Troop);
                 UnitEnchantmentAbilityData data = target.Troop.GetAbilityData<UnitEnchantmentAbilityData>(34);
 
                 data?.EnchantmentPlayerIndex = source.CombatPlayer;
@@ -37,7 +37,7 @@ public class TurnUndeadCombatAction(CustomNode owner) : DamageCombatAction(owner
         bool result = base.Play(viewer);
         if (viewer.Time == 0)
         {
-            _ = GamePack.Current.AbilityControl.GetAbility(38).SfxLibrary.Play(0);
+            _ = GamePack.Current.AbilityControl[38].SfxLibrary.Play(0);
         }
 
         return result;
@@ -49,12 +49,12 @@ public class TurnUndeadCombatAction(CustomNode owner) : DamageCombatAction(owner
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == TargetId)
         {
-            _ = GamePack.Current.AbilityControl.GetAbility(38).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
+            _ = GamePack.Current.AbilityControl[38].ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
         }
     }
 
     // AoWAb.PAS:3084
-    public bool GetSuccessful() => Damage != 0;
+    public bool Successful => Damage != 0;
 
-    public override bool TouchSucceeded => GetSuccessful();
+    public override bool TouchSucceeded => Successful;
 }

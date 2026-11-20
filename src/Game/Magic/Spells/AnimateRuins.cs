@@ -47,8 +47,8 @@ public class AnimateRuins : CityTargetSpell
             };
             string animateRuins = AbilityRules.TranslateResourceString(GetEngine(), s_animateRuinsText);
             log.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [animateRuins]);
-            log.SetLocation(level: targetCity.GetHexLevel(), y: targetCity.GetHexY(), x: targetCity.GetHexX());
-            EventLog.DistributeLocationEventLog(y: targetCity.GetHexY(), level: targetCity.GetHexLevel(), x: targetCity.GetHexX(), log: log, player: source.Player, execute: false);
+            log.SetLocation(level: targetCity.HexLevel, y: targetCity.HexY, x: targetCity.HexX);
+            EventLog.DistributeLocationEventLog(y: targetCity.HexY, level: targetCity.HexLevel, x: targetCity.HexX, log: log, player: source.Player, execute: false);
             _ = log.Release();
             PlayDefaultCityEffects(source, targetCity);
             _ = targetCity.ValidateObservation(source.Player);
@@ -59,9 +59,9 @@ public class AnimateRuins : CityTargetSpell
                 a.SetPixelXOffset(a.PixelXOffset - 16);
                 a.SetPixelYOffset(a.PixelYOffset - 16);
                 a.OnShow += ShowAnimation;
-                sbyte hexLevel2 = targetCity.GetHexLevel();
-                sbyte hexY2 = targetCity.GetHexY();
-                sbyte targetCityHexX = targetCity.GetHexX();
+                sbyte hexLevel2 = targetCity.HexLevel;
+                sbyte hexY2 = targetCity.HexY;
+                sbyte targetCityHexX = targetCity.HexX;
                 _ = StrategicMap.Current.PlaceHex(a, targetCityHexX, hexY2, hexLevel2);
             }
 
@@ -74,16 +74,16 @@ public class AnimateRuins : CityTargetSpell
                 targetCity = eventValue.GetSelectedCity();
                 targetCity.SetRace(StrategicMap.Current.Players.GetPlayers(source.Player).PlayerRace);
                 targetCity.SetRazed(false);
-                int size = targetCity.GetSize();
+                int size = targetCity.Size;
                 int count = StrategicMap.Current.Random(size * 2) + 1;
                 for (int i = 0; i <= count; i++)
                 {
                     Unit unit = new(null) { Holder = CreationHolder() };
                     int random = StrategicMap.Current.Random(2);
                     unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(UndeadUnitResourceIds[random]));
-                    sbyte hexLevel = targetCity.GetHexLevel();
-                    sbyte hexY = targetCity.GetHexY();
-                    _ = unit.Place(targetCity.GetHexX(), hexY, hexLevel, source.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                    sbyte hexLevel = targetCity.HexLevel;
+                    sbyte hexY = targetCity.HexY;
+                    _ = unit.Place(targetCity.HexX, hexY, hexLevel, source.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                     _ = unit.Release();
                 }
 

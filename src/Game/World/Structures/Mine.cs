@@ -93,7 +93,7 @@ public partial class Mine : PlayerStructure
     // Mine.pas:99
     public override void UpdateAITarget(in AITargetInfo info, ref AITargetData data)
     {
-        if (!GetRazed() || GetBuilding())
+        if (!GetRazed() || Building)
         {
             int candidatePriority = data.Priority;
             switch (info.Mode)
@@ -176,7 +176,7 @@ public partial class Mine : PlayerStructure
     }
 
     // Mine.pas:85
-    public override int GetIncome() => !GetRazed() && !GetBuilding() ? 10 : 0;
+    public override int GetIncome() => !GetRazed() && !Building ? 10 : 0;
 
     // Mine.pas:178
     public override string GetCombatEventText(Battle combat)

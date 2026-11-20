@@ -45,7 +45,7 @@ public class Anarchy : CityTargetSpell
                 Player = source.Player,
                 Text = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [SpellName])
             };
-            log.SetLocation(level: targetCity.GetHexLevel(), y: targetCity.GetHexY(), x: targetCity.GetHexX());
+            log.SetLocation(level: targetCity.HexLevel, y: targetCity.HexY, x: targetCity.HexX);
             StrategicMap.Current.Players.GetPlayers(targetCity.Player).EventLogbook.AddEvent(log);
             _ = log.Release();
             PlayDefaultCityEffects(source, targetCity);
@@ -59,9 +59,9 @@ public class Anarchy : CityTargetSpell
                 a.OnShow += ShowAnimation;
                 a.Looped = true;
                 a.FrameCount = 120;
-                sbyte targetCityHexLevel = targetCity.GetHexLevel();
-                sbyte targetCityHexY = targetCity.GetHexY();
-                sbyte hexX = targetCity.GetHexX();
+                sbyte targetCityHexLevel = targetCity.HexLevel;
+                sbyte targetCityHexY = targetCity.HexY;
+                sbyte hexX = targetCity.HexX;
                 _ = StrategicMap.Current.PlaceHex(a, hexX, targetCityHexY, targetCityHexLevel);
             }
 

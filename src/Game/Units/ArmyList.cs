@@ -11,5 +11,5 @@ public class ArmyList(CustomNode owner) : ObservableEventList(owner)
     public Player Player { get; set; }
 
     // Player.PAS:6
-    public Army GetArmy(int index) => GetChild<Army>(index);
+    public Army this[int index] => GetChild<Army>(index);
 }

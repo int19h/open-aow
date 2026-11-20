@@ -12,26 +12,30 @@ public class SingleHexSprite(CustomNode owner) : HexSprite(owner)
 {
     private byte _status;
 
-    // HXSPRITE.PAS:640
-    public override void SetVisible(bool value) => _status = value ? (byte)(_status | 1) : (byte)(_status & 254);
-
     // HXSPRITE.PAS:646
-    public override bool GetVisible() => (_status & 1) != 0;
+    public override bool Visible
+    {
+        get => (_status & 1) != 0;
+        // HXSPRITE.PAS:640
+        set => _status = value ? (byte)(_status | 1) : (byte)(_status & 254);
+    }
 
     // HXSPRITE.PAS:683
     public override bool GetSelected() => (_status & 4) != 0;
 
     // HXSPRITE.PAS:660
-    public override bool GetEditMode() => (_status & 2) != 0;
-
-    // HXSPRITE.PAS:665
-    public override void SetEditMode(bool value) => _status = value ? (byte)(_status | 2) : (byte)(_status & 253);
+    public override bool EditMode
+    {
+        get => (_status & 2) != 0;
+        // HXSPRITE.PAS:665
+        set => _status = value ? (byte)(_status | 2) : (byte)(_status & 253);
+    }
 
     // HXSPRITE.PAS:713
     public override int GetShowPriority()
     {
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
-        return (GetLevel() << 26) + ((pixelY + 32) << 13) + pixelX + 16;
+        return (Level << 26) + ((pixelY + 32) << 13) + pixelX + 16;
     }
 
     // HXSPRITE.PAS:704
@@ -56,9 +60,9 @@ public class SingleHexSprite(CustomNode owner) : HexSprite(owner)
         {
             MapField mapField = Owner;
             RemoveFromMap();
-            if (GetVisible())
+            if (Visible)
             {
-                if (GetLevel() <= 15)
+                if (Level <= 15)
                 {
                     _ = mapField.Owner.MapContainer.Map.StaticVisibleHexSprite.RemoveChild(this);
                     mapField.Owner.MapContainer.Map.StaticSceneInvalid = true;
@@ -69,7 +73,7 @@ public class SingleHexSprite(CustomNode owner) : HexSprite(owner)
                 }
             }
 
-            SetVisible(false);
+            Visible = false;
         }
     }
 
@@ -113,7 +117,7 @@ public class SingleHexSprite(CustomNode owner) : HexSprite(owner)
     // HXSPRITE.PAS:757
     public virtual bool PlaceHex(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        if (GetEditMode() || CanPlace(map, hexX, hexY, hexLevel))
+        if (EditMode || CanPlace(map, hexX, hexY, hexLevel))
         {
             Remove();
             SetOwner(map.GetField(hexX, hexY, hexLevel));

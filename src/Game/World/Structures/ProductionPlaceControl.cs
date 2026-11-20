@@ -20,7 +20,7 @@ public partial class ProductionPlaceControl(CustomNode owner) : ProductionContro
     public ProductionPlace ProductionPlace { get; set; }
 
     // PrdPlace.pas:169
-    public override MapCoordinate GetLocation() => new(
+    public override MapCoordinate Location => new(
         ProductionPlace.HexX,
         ProductionPlace.HexY,
         ProductionPlace.HexLevel);
@@ -38,9 +38,9 @@ public partial class ProductionPlaceControl(CustomNode owner) : ProductionContro
         if (result && ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None && Settings.Unit.ExpandAbility(155))
         {
             UnitEnchantment enchantment = Settings.Unit.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
-            enchantment.SetUpkeep((Settings.Unit.GetUnitLevel() + 1) * 2);
+            enchantment.SetUpkeep((Settings.Unit.UnitLevel + 1) * 2);
             enchantment.SetSource(ProductionPlace.Player);
-            enchantment.DispelResistance = (sbyte)(Settings.Unit.GetUnitLevel() + 3);
+            enchantment.DispelResistance = (sbyte)(Settings.Unit.UnitLevel + 3);
         }
 
         ProductionPlaceEventLog log = new(null)

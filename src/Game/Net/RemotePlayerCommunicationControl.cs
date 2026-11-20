@@ -18,7 +18,7 @@ public class RemotePlayerCommunicationControl(EngineObject creator) : PlayerComm
     public event SendDataEvent OnSendData;
 
     // NetworkE.pas:819
-    public override int GetLocalSystemId() => _localSystemId;
+    public override int LocalSystemId => _localSystemId;
 
     // NetworkE.pas:782
     // { The number of different system IDs among the players }

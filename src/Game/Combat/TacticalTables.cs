@@ -287,7 +287,7 @@ internal static class TacticalTables
 
                         if (a == 1)
                         {
-                            if (unitHexSprite is not null && unitHexSprite.Unit.GetSide() != side)
+                            if (unitHexSprite is not null && unitHexSprite.Unit.Side != side)
                             {
                                 steps = 1;
                             }

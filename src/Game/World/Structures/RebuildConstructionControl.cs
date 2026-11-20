@@ -22,7 +22,7 @@ public class RebuildConstructionControl(CustomNode owner) : ConstructionControl(
         Structure result = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<Structure>();
         if (result is not null)
         {
-            if (!result.GetRazed() || result.GetBuilding())
+            if (!result.GetRazed() || result.Building)
             {
                 return null;
             }

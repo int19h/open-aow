@@ -87,7 +87,7 @@ public partial class ExplorationSite : Structure
     // ExploreS.pas:96
     public override int GetTerrainTypeImage(int terrainType)
     {
-        if (!GetExplored() || StrategicMap.Current.Day == 0)
+        if (!Explored || StrategicMap.Current.Day == 0)
         {
             return terrainType;
         }
@@ -123,22 +123,22 @@ public partial class ExplorationSite : Structure
     }
 
     // ExploreS.pas:93
-    public virtual bool GetExplored() => true;
+    public virtual bool Explored => true;
 
     // ExploreS.pas:138
     public virtual void SetupCombat(Battle combat, ArmyHexSprite army)
     {
         combat.SetExecutedHandler(CombatExecuted);
-        sbyte hexY = army.GetHexY();
-        sbyte hexLevel = army.GetHexLevel();
-        sbyte hexX = GetHexX();
-        sbyte hexY2 = GetHexY();
-        sbyte hexLevel2 = GetHexLevel();
-        sbyte armyHexX = army.GetHexX();
+        sbyte hexY = army.HexY;
+        sbyte hexLevel = army.HexLevel;
+        sbyte hexX = HexX;
+        sbyte hexY2 = HexY;
+        sbyte hexLevel2 = HexLevel;
+        sbyte armyHexX = army.HexX;
         _ = combat.Setup((byte)army.Army.Player, (byte)army.Army.IndependentRelation, armyHexX, hexY, hexLevel, (byte)_defenders.Player, (byte)_defenders.IndependentRelation, hexX, hexY2, hexLevel2, true);
-        sbyte hexY3 = GetHexY();
-        sbyte hexLevel3 = GetHexLevel();
-        sbyte hexX2 = GetHexX();
+        sbyte hexY3 = HexY;
+        sbyte hexLevel3 = HexLevel;
+        sbyte hexX2 = HexX;
         _ = combat.AddArmy(army.Army, CombatSideIndex.Attacker, hexX2, hexY3, hexLevel3);
         _ = combat.AddArmy(_defenders, CombatSideIndex.Defender, -1, -1, -1, 1);
         combat.ExplorationSite = 1;
@@ -234,9 +234,9 @@ public partial class ExplorationSite : Structure
             if (playerList.LocalPlayers.Count == 1 || StrategicMap.Current.RequestCombatType)
             {
                 CombatTypeRequestEventLog request = new(null) { Holder = CreationHolder() };
-                sbyte hexLevel = GetHexLevel();
-                sbyte hexY = GetHexY();
-                request.SetCenterLocation((byte)GetHexX(), (byte)hexY, hexLevel);
+                sbyte hexLevel = HexLevel;
+                sbyte hexY = HexY;
+                request.SetCenterLocation((byte)HexX, (byte)hexY, hexLevel);
                 request.AttackerPlayer = armyHexSprite.Army.Player;
                 request.DefenderPlayer = 0;
                 StrategicMap.Current.TriggerTypedExecuteEventLog(request, true, RequestCombatTypeCallback);
@@ -311,7 +311,7 @@ public partial class ExplorationSite : Structure
     // ExploreS.pas:246
     public bool CanSearch(sbyte player)
     {
-        if (!GetExplored())
+        if (!Explored)
         {
             ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
             return armyHexSprite is not null && armyHexSprite.Army.Player == player;

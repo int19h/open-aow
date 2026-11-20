@@ -462,9 +462,9 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         int result = 50;
         for (int i = Units.Count - 1; i >= 0; i--)
         {
-            if (result > Units.GetUnit(i).GetMoves())
+            if (result > Units.GetUnit(i).Moves)
             {
-                result = Units.GetUnit(i).GetMoves();
+                result = Units.GetUnit(i).Moves;
             }
         }
 
@@ -580,7 +580,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
                 int movePointsMin = GetMovePointsMin();
                 TargetMovePoints -= movePointsMin;
             }
-            result = MakeTargetExpense(mana: target.GetTargetMana(), gold: target.GetTargetGold());
+            result = MakeTargetExpense(mana: target.TargetMana, gold: target.TargetGold);
         }
         else
         {

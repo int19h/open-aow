@@ -29,7 +29,7 @@ public class HolyChampion : UnitSpell
     public override bool ValidTargetUnit(Troop source, Troop target)
     {
         bool result = base.ValidTargetUnit(source, target);
-        return result && !target.GetAbilityEnabled(146) && !target.GetAbilityEnabled(160) && GamePack.Current.AbilityControl.GetAbility(146).CanExpand(target);
+        return result && !target.GetAbilityEnabled(146) && !target.GetAbilityEnabled(160) && GamePack.Current.AbilityControl[146].CanExpand(target);
     }
 
     // UnitSpells.pas:510

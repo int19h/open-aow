@@ -163,11 +163,11 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
     // PlayerC.PAS:875
     public override void ValidateTurnTiming()
     {
-        if (StrategicMap.Current.GetTurnTimerEnabled())
+        if (StrategicMap.Current.TurnTimerEnabled)
         {
             if (StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer)
             {
-                if (StrategicMap.Current.GetTurnTimeLeft() <= 0)
+                if (StrategicMap.Current.TurnTimeLeft <= 0)
                 {
                     if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.None && !StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).SingleProcessCycle)
                     {
@@ -413,7 +413,7 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
         int index = book.FindFirstLog(131811, StrategicMap.Current.CurrentPlayer, StrategicMap.Current.Day - 1);
         for (int i = index + 1, last = book.GetCount() - 1; i <= last; i++)
         {
-            _ = book.GetLogs(i).Execute(false, ExecuteTrigger.NewTurn, null);
+            _ = book[i].Execute(false, ExecuteTrigger.NewTurn, null);
         }
     }
 

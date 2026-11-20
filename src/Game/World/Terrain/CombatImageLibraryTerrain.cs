@@ -89,14 +89,14 @@ public class CombatImageLibraryTerrain(CustomNode owner) : ImageLibraryTerrainMa
     public sbyte GetDefense() => GetResource<CombatImageLibraryTerrainResource>().Defense;
 
     // CombatILTer.pas:90
-    public sbyte GetBurnValue() => GetResource<CombatImageLibraryTerrainResource>().BurnValue;
+    public sbyte BurnValue => GetResource<CombatImageLibraryTerrainResource>().BurnValue;
 
     // CombatILTer.pas:118
     public void DestroyShadow()
     {
         if (_shadow is not null)
         {
-            if (GetVisible())
+            if (Visible)
             {
                 _ = Resource.Engine.HexSpriteMap.DynamicVisibleHexSprite.RemoveChild(_shadow);
             }

@@ -23,7 +23,7 @@ public class BurningAbility : DurationAbility
     // PassiveAb.pas:773
     public override void NewCombatTurn(CombatObject combatObject, sbyte player)
     {
-        DurationAbilityData data = GetData(combatObject.GetAbilityOwner());
+        DurationAbilityData data = GetData(combatObject.AbilityOwner);
         if (data is not null)
         {
             if (data.Duration != 0 && data.PlayerIndex == player)
@@ -31,10 +31,10 @@ public class BurningAbility : DurationAbility
                 data.Duration = (byte)(data.Duration - 1);
                 if (data.Duration == 0)
                 {
-                    _ = combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
+                    _ = combatObject.AbilityOwner.RemoveAbility(AbilityId);
                 }
 
-                if (combatObject.GetAbilityOwner() is Troop troop)
+                if (combatObject.AbilityOwner is Troop troop)
                 {
                     if (HitChance.HitRole(4 - troop.GetResistance()))
                     {
@@ -45,12 +45,12 @@ public class BurningAbility : DurationAbility
         }
         else
         {
-            _ = combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
+            _ = combatObject.AbilityOwner.RemoveAbility(AbilityId);
         }
     }
 
     // PassiveAb.pas:767
-    public override int GetTotalDuration() => 3;
+    public override int TotalDuration => 3;
 
     private static readonly string s_burningText = "Burning";
 }

@@ -37,13 +37,13 @@ public class TacticalBattleTerrorCombatAction(CustomNode owner) : CombatAction(o
         if (_succeeded)
         {
             CombatUnit target = combat.CombatData.FindId<CombatUnit>(_targetId);
-            _ = GamePack.Current.AbilityControl.GetAbility(108).Expand(target.Troop);
+            _ = GamePack.Current.AbilityControl[108].Expand(target.Troop);
         }
 
         if (ManaCost != 0 && combat.Status.Contains(CombatStatusElement.Executing))
         {
             CombatUnit source = combat.CombatData.FindId<CombatUnit>(_sourceId);
-            GamePack.Current.SpellControl.GetSpell(105).CastingDone(source.Troop, ManaCost);
+            GamePack.Current.SpellControl[105].CastingDone(source.Troop, ManaCost);
         }
     }
 

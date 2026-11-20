@@ -29,7 +29,7 @@ internal static class RosterTables
                 else
                 {
                     Player players = StrategicMap.Current.Players.GetPlayers(player);
-                    Alignment alignment = GamePack.Current.RaceResources.GetRaceResource(players.PlayerRace).GetAlignment();
+                    Alignment alignment = GamePack.Current.RaceResources.GetRaceResource(players.PlayerRace).Alignment;
                     value = AlignmentTables.AlignmentStatusValues[(int)resource.Alignment][(int)alignment];
                 }
             }

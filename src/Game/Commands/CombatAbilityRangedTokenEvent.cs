@@ -82,7 +82,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
 
                             if (AbilityId == 52)
                             {
-                                GamePack.Current.SpellControl.GetSpell(SpellId).CombatSpellCast(_unit);
+                                GamePack.Current.SpellControl[SpellId].CombatSpellCast(_unit);
                             }
 
                             bool notExplorationEnabled = !CombatMap.Current.ExplorationEnabled;
@@ -175,7 +175,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                     if (AbilityId == 52)
                                     {
                                         SpellCombatInfo info = default;
-                                        GamePack.Current.SpellControl.GetSpell(SpellId).GetCombatInfo(_unit.Troop, ref info);
+                                        GamePack.Current.SpellControl[SpellId].GetCombatInfo(_unit.Troop, ref info);
                                         _strikeCount = info.RepeatCount;
                                     }
                                     else
@@ -189,11 +189,11 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                             switch (_effectType)
                             {
                                 case BattleEffectType.Tremors:
-                                    _sound = GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0, 64, true, 0, SamplePanning.Center, null);
+                                    _sound = GamePack.Current.SpellControl[SpellId].CastSounds.Play(0, 64, true, 0, SamplePanning.Center, null);
                                     NextStrike();
                                     break;
                                 case BattleEffectType.ScreenSwarm:
-                                    _sound = GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(2, 64, true, 0, SamplePanning.Center, null);
+                                    _sound = GamePack.Current.SpellControl[SpellId].CastSounds.Play(2, 64, true, 0, SamplePanning.Center, null);
                                     {
                                         i = 0;
                                         int last = _strikeCount - 1;
@@ -333,7 +333,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                         {
                                             RandSeed = StrategicMap.Current.Random(16777215);
                                             // Spell 107 builds a damage action. Another action class fails in the typed create.
-                                            DamageCombatAction damage = GamePack.Current.SpellControl.GetSpell(effect.SpellIndex).CreateCombatAction<DamageCombatAction>(_unit, target: hexSprite.Unit, chargeMana: false);
+                                            DamageCombatAction damage = GamePack.Current.SpellControl[effect.SpellIndex].CreateCombatAction<DamageCombatAction>(_unit, target: hexSprite.Unit, chargeMana: false);
                                             effect.CombatAction = damage;
                                             sbyte hexY = hexSprite.HexY;
                                             HexGeometry.HexToPixel(hexSprite.HexX, hexY, out i, out x);
@@ -564,11 +564,11 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                                             int last = CombatMap.Current.Combat.CombatData.GetCount() - 1;
                                                             for (; i <= last; i += 1)
                                                             {
-                                                                if (CombatMap.Current.Combat.CombatData.GetObjects(i) is not null && CombatMap.Current.Combat.CombatData.GetObjects(i) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i).GetSide() != _unit.GetSide() && CombatMap.Current.Combat.CombatData.GetObjects(i).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite is not null)
+                                                                if (CombatMap.Current.Combat.CombatData.GetObjects(i) is not null && CombatMap.Current.Combat.CombatData.GetObjects(i) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i).Side != _unit.Side && CombatMap.Current.Combat.CombatData.GetObjects(i).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite is not null)
                                                                 {
                                                                     RandSeed = StrategicMap.Current.Random(16777215);
                                                                     CombatObject combatObject = CombatMap.Current.Combat.CombatData.GetObjects(i);
-                                                                    ExclusiveCombatSpellCombatAction exclusive = GamePack.Current.SpellControl.GetSpell(SpellId).CreateCombatAction<ExclusiveCombatSpellCombatAction>(_unit, target: combatObject, chargeMana: false);
+                                                                    ExclusiveCombatSpellCombatAction exclusive = GamePack.Current.SpellControl[SpellId].CreateCombatAction<ExclusiveCombatSpellCombatAction>(_unit, target: combatObject, chargeMana: false);
                                                                     CombatAction action = exclusive;
                                                                     if (exclusive.Succeeded)
                                                                     {
@@ -646,8 +646,8 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                                                         i = 0;
                                                                         RandSeed = StrategicMap.Current.Random(16777215);
                                                                         effect.CombatAction = AbilityId == 52
-                                                                            ? GamePack.Current.SpellControl.GetSpell(SpellId).CreateCombatAction(_unit, effect.Target, false)
-                                                                            : GamePack.Current.AbilityControl.GetAbility(AbilityId).CreateRangedCombatAction(_unit, target: effect.Target);
+                                                                            ? GamePack.Current.SpellControl[SpellId].CreateCombatAction(_unit, effect.Target, false)
+                                                                            : GamePack.Current.AbilityControl[AbilityId].CreateRangedCombatAction(_unit, target: effect.Target);
 
                                                                         if (effect.CombatAction is DamageCombatAction damage)
                                                                         {
@@ -974,7 +974,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
             int bestDistance = 6;
             for (int i2 = 0, last = CombatMap.Current.Combat.CombatData.GetCount() - 1; i2 <= last; i2++)
             {
-                if (CombatMap.Current.Combat.CombatData.GetObjects(i2) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i2).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects(i2).GetSide() != _unit.GetSide())
+                if (CombatMap.Current.Combat.CombatData.GetObjects(i2) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i2).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects(i2).Side != _unit.Side)
                 {
                     bool available = true;
                     for (int j2 = 0, lastJ = used.Count - 1; j2 <= lastJ; j2++)
@@ -1100,7 +1100,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 sbyte hexX = _unit.UnitHexSprite.HexX;
                 sbyte hexY3 = _unit.UnitHexSprite.HexY;
                 Point3DList path19 = effect.Path;
-                TacticalTables.MakeRangedPath(_unit.GetSide(), 50, 20, 50, hexX, hexY3, (short)j, (short)k, (short)deltaX, (short)deltaY, false, path19, obstacles);
+                TacticalTables.MakeRangedPath(_unit.Side, 50, 20, 50, hexX, hexY3, (short)j, (short)k, (short)deltaX, (short)deltaY, false, path19, obstacles);
                 effect.Path = path19;
                 if (_strikeIndex < 12)
                 {
@@ -1594,7 +1594,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 sbyte hexX3 = _unit.UnitHexSprite.HexX;
                 sbyte hexY8 = _unit.UnitHexSprite.HexY;
                 Point3DList path35 = effect.Path;
-                TacticalTables.MakeRangedPath(_unit.GetSide(), 10, 0, 50, hexX3, hexY8, (short)TargetX, (short)TargetY, 0, 0, true, path35, obstacles);
+                TacticalTables.MakeRangedPath(_unit.Side, 10, 0, 50, hexX3, hexY8, (short)TargetX, (short)TargetY, 0, 0, true, path35, obstacles);
                 effect.Path = path35;
                 break;
             case BattleEffectType.None:
@@ -1634,7 +1634,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 sbyte hexX4 = _unit.UnitHexSprite.HexX;
                 sbyte hexY9 = _unit.UnitHexSprite.HexY;
                 Point3DList path36 = effect.Path;
-                TacticalTables.MakeAbilityPath(_unit.GetSide(), (short)AbilityId, (short)SpellId, hexX4, hexY9, (short)TargetX, (short)TargetY, path36, obstacles);
+                TacticalTables.MakeAbilityPath(_unit.Side, (short)AbilityId, (short)SpellId, hexX4, hexY9, (short)TargetX, (short)TargetY, path36, obstacles);
                 effect.Path = path36;
                 break;
         }

@@ -191,7 +191,7 @@ internal static class EffectPaths
                         CombatImageLibraryTerrain terrain = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild<CombatImageLibraryTerrain>(2228534);
                         if (terrain is not null)
                         {
-                            if (terrain.GetBurnValue() > 0)
+                            if (terrain.BurnValue > 0)
                             {
                                 canBurn = true;
                             }

@@ -144,7 +144,7 @@ public partial class AIMoveExecutorControl : EngineObject
 
                     move.MovePoints = points;
                     move.Moves = armyHexSprite.Army.Moves(armySelection);
-                    move.Source = new MapCoordinate(armyHexSprite.GetHexX(), armyHexSprite.GetHexY(), armyHexSprite.GetHexLevel());
+                    move.Source = new MapCoordinate(armyHexSprite.HexX, armyHexSprite.HexY, armyHexSprite.HexLevel);
                     move.Destination = new MapCoordinate(x, y, mapLevel);
                     if (!mode.Contains(CreateMoveModeElement.DoNotQueue))
                     {
@@ -314,7 +314,7 @@ public partial class AIMoveExecutorControl : EngineObject
         while (MoveControl.Status != AIMoveControlStatus.Processing && timeLeft > 0 && Executor.Status == AIMoveExecutorStatus.Busy && Executor.State == 0 && State != -1)
         {
             CalculateMoves();
-            timeLeft = StrategicMap.Current.AIExecutor.GetProcessTimeLeft();
+            timeLeft = StrategicMap.Current.AIExecutor.ProcessTimeLeft;
         }
 
         return State != -1;

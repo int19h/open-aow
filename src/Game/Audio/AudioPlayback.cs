@@ -82,9 +82,9 @@ public static class AudioPlayback
 
     internal static int GetSfxVolume() => AudioHost.SoundSystem is not null ? AudioHost.SoundSystem.GetSfxVolume() : -1;
 
-    internal static bool GetSfxEnabled() => AudioHost.SoundSystem is not null && AudioHost.SoundSystem.GetSfxEnabled();
+    internal static bool SfxEnabled => AudioHost.SoundSystem is not null && AudioHost.SoundSystem.SfxEnabled;
 
-    internal static SoundSettings GetSoundSettings() => AudioHost.SoundSystem is not null ? AudioHost.SoundSystem.GetSoundSettings() : default;
+    internal static SoundSettings SoundSettings => AudioHost.SoundSystem is not null ? AudioHost.SoundSystem.SoundSettings : default;
 
     internal static SongStatus BackupSongStatus() => AudioHost.SoundSystem?.BackupSongStatus();
 
@@ -146,9 +146,9 @@ public static class AudioPlayback
 
     internal static void SetMusicVolume(int volume) => AudioHost.SoundSystem?.SetMusicVolume(volume);
 
-    internal static int GetMusicVolume() => AudioHost.SoundSystem is not null ? AudioHost.SoundSystem.GetMusicVolume() : -1;
+    internal static int MusicVolume => AudioHost.SoundSystem is not null ? AudioHost.SoundSystem.MusicVolume : -1;
 
-    internal static bool GetMusicEnabled() => AudioHost.SoundSystem is not null && AudioHost.SoundSystem.GetMusicEnabled();
+    internal static bool MusicEnabled => AudioHost.SoundSystem is not null && AudioHost.SoundSystem.MusicEnabled;
 
     internal static Sample PlaySample(string name)
     {

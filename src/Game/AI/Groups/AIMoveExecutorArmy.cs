@@ -89,9 +89,9 @@ public class AIMoveExecutorArmy(CustomNode owner) : AIMoveExecutorUnitList(owner
         {
             if ((selection & 1) != 0)
             {
-                if (result > GetUnits(i).Troop.GetMoves())
+                if (result > GetUnits(i).Troop.Moves)
                 {
-                    result = GetUnits(i).Troop.GetMoves();
+                    result = GetUnits(i).Troop.Moves;
                 }
             }
 

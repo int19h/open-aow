@@ -131,7 +131,7 @@ public sealed class ClassesTests
         _ = Assert.Throws<ArgumentOutOfRangeException>(() => owner.Components[2]);
         _ = Assert.Throws<ArgumentOutOfRangeException>(() => new Component(null).Components[0]);
         Assert.False(first.HasParent());
-        Assert.Null(first.GetParentComponent());
+        Assert.Null(first.ParentComponent);
         int calls = 0;
         owner.GetChildren(_ => calls++, owner);
         Assert.Equal(0, calls);

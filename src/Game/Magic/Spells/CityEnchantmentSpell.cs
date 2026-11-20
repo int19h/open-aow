@@ -33,12 +33,12 @@ public class CityEnchantmentSpell(CustomNode owner) : CityTargetSpell(owner)
             CityEnchantmentId = EnchantmentId,
             EnchantmentManaUpkeep = ManaUpkeep
         };
-        MapCoordinate mapCoordinate = targetCity.Owner.GetMapCoordinate();
+        MapCoordinate mapCoordinate = targetCity.Owner.MapCoordinate;
         enchantment.EnchantmentLocation = mapCoordinate;
         enchantment.DispelMana = EnchantmentSpellId;
         enchantment.PlayerIndex = source.Player;
         targetCity.ActivateEnchantment(enchantment);
-        PlayDefaultCityEffects(eventValue.GetSource(), targetCity);
+        PlayDefaultCityEffects(eventValue.Source, targetCity);
         CastingDone(source, eventValue.EventMana);
         return false;
     }
@@ -66,7 +66,7 @@ public class CityEnchantmentSpell(CustomNode owner) : CityTargetSpell(owner)
             valid = valid && source.CanCastSpell(SpellId, ref reason);
             if (valid)
             {
-                if ((AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.LeaderInCity) && source is Leader) || (AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.Hex4City) && targetCity.GetSize() == 4) || (AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.Hex3City) && targetCity.GetSize() == 3))
+                if ((AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.LeaderInCity) && source is Leader) || (AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.Hex4City) && targetCity.Size == 4) || (AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.Hex3City) && targetCity.Size == 3))
                 {
                     AICastSpellAction action = CreateCastSpellAction();
                     SetupCastSpellAction(source, action);

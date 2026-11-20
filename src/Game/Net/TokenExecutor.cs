@@ -163,7 +163,7 @@ public class TokenExecutor : IDisposable
     }
 
     // NetworkE.pas:1444
-    public TokenEvent GetExecutingTokenEvent() => State.Contains(TokenExecutorState.Executing) && Events.Count != 0 ? Events[0] : null;
+    public TokenEvent ExecutingTokenEvent => State.Contains(TokenExecutorState.Executing) && Events.Count != 0 ? Events[0] : null;
 
     // NetworkE.pas:1452
     public bool InsertExecuteEvent(TokenEvent tokenEvent)
@@ -238,7 +238,7 @@ public class TokenExecutor : IDisposable
     public void Unlock() => _lockCount -= 1;
 
     // NetworkE.pas:1513
-    public bool GetLocked() => _lockCount != 0;
+    public bool Locked => _lockCount != 0;
 
     // NetworkE.pas:1519
     // { The system events run between the token controls' events; True while some remain }
@@ -335,7 +335,6 @@ public class TokenExecutor : IDisposable
     public int Round { get; private set; }
     public int ExecuteCount { get; internal set; }
     public Set<TokenExecutorState> State { get; private set; }
-    public bool Locked => GetLocked();
     public bool HoldTacticalBattle { get; set; }
     public bool Executing { get; private set; }
 

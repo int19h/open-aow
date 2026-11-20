@@ -50,7 +50,7 @@ public class AirMastery : GlobalEnchantmentSpell
         animation.AnimationMap = StrategicMap.Current;
         animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
         animation.Activate();
-        _ = GamePack.Current.SpellControl.GetSpell(60).CastSounds.Play(0);
+        _ = GamePack.Current.SpellControl[60].CastSounds.Play(0);
         CastingDone(source, eventValue.EventMana);
         return false;
     }

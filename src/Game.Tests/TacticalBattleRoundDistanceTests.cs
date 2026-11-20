@@ -26,7 +26,7 @@ public sealed class TacticalBattleRoundDistanceTests
     public void ATacticalBattleAnswersTheRoundDistance(byte round, byte sideIndex, int distance)
     {
         Battle combat = Build(round, sideIndex);
-        Assert.Equal(distance, combat.GetRoundDistance());
+        Assert.Equal(distance, combat.RoundDistance);
     }
 
     [Fact]

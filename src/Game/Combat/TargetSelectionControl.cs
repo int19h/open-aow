@@ -179,12 +179,12 @@ public class TargetSelectionControl : IDisposable
     {
         if (Status.Contains(TargetSelectionStatusElement.Activated))
         {
-            Target = new MapCoordinate((sbyte)StrategicMap.Current.Mouse.GetHexX(), (sbyte)StrategicMap.Current.Mouse.GetHexY(), (sbyte)StrategicMap.Current.ViewMapLevel);
-            bool condition = StrategicMap.Current.Mouse.GetHexX() != -1 && StrategicMap.Current.Mouse.GetHexY() != -1;
+            Target = new MapCoordinate((sbyte)StrategicMap.Current.Mouse.HexX, (sbyte)StrategicMap.Current.Mouse.HexY, (sbyte)StrategicMap.Current.ViewMapLevel);
+            bool condition = StrategicMap.Current.Mouse.HexX != -1 && StrategicMap.Current.Mouse.HexY != -1;
             if (condition)
             {
-                int hexY = StrategicMap.Current.Mouse.GetHexY();
-                condition = ValidTarget((sbyte)StrategicMap.Current.Mouse.GetHexX(), (sbyte)hexY, (sbyte)StrategicMap.Current.ViewMapLevel);
+                int hexY = StrategicMap.Current.Mouse.HexY;
+                condition = ValidTarget((sbyte)StrategicMap.Current.Mouse.HexX, (sbyte)hexY, (sbyte)StrategicMap.Current.ViewMapLevel);
             }
 
             Status = condition
@@ -275,9 +275,9 @@ public class TargetSelectionControl : IDisposable
             StrategicMap.Current.Selection.OnDeselect -= DeselectHexSprite;
             if (StrategicMap.Current.Mouse.Capture == this)
             {
-                if (StrategicMap.Current.SelectedArmy.GetArmyHexSprite() is not null)
+                if (StrategicMap.Current.SelectedArmy.ArmyHexSprite is not null)
                 {
-                    ArmyHexSprite armyHexSprite = StrategicMap.Current.SelectedArmy.GetArmyHexSprite();
+                    ArmyHexSprite armyHexSprite = StrategicMap.Current.SelectedArmy.ArmyHexSprite;
                     StrategicMap.Current.Mouse.SetCapture(null);
                     StrategicMap.Current.Selection.UnselectLocation();
                     StrategicMap.Current.Selection.SelectLocationHexSprite(armyHexSprite);

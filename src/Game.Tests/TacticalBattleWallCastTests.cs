@@ -16,9 +16,9 @@ public sealed class TacticalBattleWallCastTests
 {
     private sealed class PlacedUnitHexSprite(CustomNode owner) : TacticalBattleUnitHexSprite(owner)
     {
-        public override sbyte GetHexX() => 4;
+        public override sbyte HexX => 4;
 
-        public override sbyte GetHexY() => 9;
+        public override sbyte HexY => 9;
     }
 
     [Fact]

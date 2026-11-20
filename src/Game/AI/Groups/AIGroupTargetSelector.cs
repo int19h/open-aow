@@ -118,7 +118,7 @@ public class AIGroupTargetSelector : AIGroupTask
     }
 
     // AIGroup.pas:3062
-    public override bool GetBusy() => State != -1;
+    public override bool Busy => State != -1;
 
     // AIGroup.pas:3228
     public override bool Activate(AIGroupControl control)
@@ -128,9 +128,9 @@ public class AIGroupTargetSelector : AIGroupTask
         _movesMin = 50;
         for (int i = GroupControl.Group.Units.Count - 1; i >= 0; i--)
         {
-            if (GroupControl.Group.Units.GetUnit(i).GetMoves() < _movesMin)
+            if (GroupControl.Group.Units.GetUnit(i).Moves < _movesMin)
             {
-                _movesMin = GroupControl.Group.Units.GetUnit(i).GetMoves();
+                _movesMin = GroupControl.Group.Units.GetUnit(i).Moves;
             }
         }
 
@@ -144,8 +144,8 @@ public class AIGroupTargetSelector : AIGroupTask
                 bool test = target.Data.TargetType != AITargetType.Negotiate;
                 if (!test)
                 {
-                    int targetMana = target.GetTargetMana();
-                    int targetGold = target.GetTargetGold();
+                    int targetMana = target.TargetMana;
+                    int targetGold = target.TargetGold;
                     test = GroupControl.Group.RequestTargetExpense(targetGold, targetMana);
                 }
 
@@ -156,11 +156,11 @@ public class AIGroupTargetSelector : AIGroupTask
             bool passed = valid;
             if (passed)
             {
-                bool test = target.GetTargetGold() <= 0;
+                bool test = target.TargetGold <= 0;
                 if (!test)
                 {
                     Player players = StrategicMap.Current.Players.GetPlayers(GroupControl.Group.Player);
-                    int targetGold = target.GetTargetGold();
+                    int targetGold = target.TargetGold;
                     test = players.Gems >= targetGold;
                 }
 
@@ -171,11 +171,11 @@ public class AIGroupTargetSelector : AIGroupTask
             bool condition2 = valid;
             if (condition2)
             {
-                bool test = target.GetTargetMana() <= 0;
+                bool test = target.TargetMana <= 0;
                 if (!test)
                 {
                     Player players = StrategicMap.Current.Players.GetPlayers(GroupControl.Group.Player);
-                    int targetMana = target.GetTargetMana();
+                    int targetMana = target.TargetMana;
                     test = players.MagicControl.Mana >= targetMana;
                 }
 
@@ -363,7 +363,7 @@ public class AIGroupTargetSelector : AIGroupTask
                     _recruitment.RecruitStrength = requiredStrength - GroupControl.StrengthMax;
                     if (_target.Status.Contains(AIGroupTargetFlags.Cooperate))
                     {
-                        int cooperatedStrength = _cooperation.GetCooperatedStrength();
+                        int cooperatedStrength = _cooperation.CooperatedStrength;
                         _recruitment.RecruitStrength -= cooperatedStrength;
                     }
 
@@ -405,13 +405,13 @@ public class AIGroupTargetSelector : AIGroupTask
                     _production.ProduceStrength = requiredStrength2 - GroupControl.StrengthMax;
                     if (_target.Status.Contains(AIGroupTargetFlags.Cooperate))
                     {
-                        int cooperatedStrength = _cooperation.GetCooperatedStrength();
+                        int cooperatedStrength = _cooperation.CooperatedStrength;
                         _production.ProduceStrength -= cooperatedStrength;
                     }
 
                     if (_target.Status.Contains(AIGroupTargetFlags.Recruit))
                     {
-                        int recruitedStrength = _recruitment.GetRecruitedStrength();
+                        int recruitedStrength = _recruitment.RecruitedStrength;
                         _production.ProduceStrength -= recruitedStrength;
                     }
 
@@ -574,7 +574,7 @@ public class AIGroupTargetSelector : AIGroupTask
                     {
                         if (GroupControl.Group.Productions.Count != 0)
                         {
-                            MapCoordinate coordinate101 = GroupControl.Group.Productions.GetProductions(0).Control.GetLocation();
+                            MapCoordinate coordinate101 = GroupControl.Group.Productions.GetProductions(0).Control.Location;
                             sbyte locationX = coordinate101.X;
                             sbyte locationY = coordinate101.Y;
                             sbyte locationMapLevel = coordinate101.MapLevel;
@@ -1072,10 +1072,10 @@ public class AIGroupTargetSelector : AIGroupTask
             bool condition = result;
             if (condition)
             {
-                int targetMana = _target.GetTargetMana();
-                int targetTargetMana = target.GetTargetMana();
-                int targetGold = _target.GetTargetGold();
-                int targetTargetGold = target.GetTargetGold();
+                int targetMana = _target.TargetMana;
+                int targetTargetMana = target.TargetMana;
+                int targetGold = _target.TargetGold;
+                int targetTargetGold = target.TargetGold;
                 condition = GroupControl.Group.RequestTargetExpense(targetGold + targetTargetGold, targetMana + targetTargetMana);
             }
 
@@ -1097,7 +1097,7 @@ public class AIGroupTargetSelector : AIGroupTask
             target.GetDebugInfo(out string text);
             text = $"{text}/TS_Prio:{IntToStr(target.DataA)}";
             text = $"{text}/MPBFS:{IntToStr(target.PathStrength)}";
-            text = $"{text}/TG:{IntToStr(target.GetTargetGold())}";
+            text = $"{text}/TG:{IntToStr(target.TargetGold)}";
             text = $"{text}/MP:{IntToStr(target.MovePoints)}";
             text += "/Status:";
             if (target.Status.Contains(AIGroupTargetFlags.Cooperate))

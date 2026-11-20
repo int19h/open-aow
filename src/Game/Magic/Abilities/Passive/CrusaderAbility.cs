@@ -46,7 +46,7 @@ public class CrusaderAbility : DurationAbility
     }
 
     // PassiveAb.pas:719
-    public override int GetTotalDuration() => 3;
+    public override int TotalDuration => 3;
 
     private static readonly string s_crusaderText = "Crusader";
 }

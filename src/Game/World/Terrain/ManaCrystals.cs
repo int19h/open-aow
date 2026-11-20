@@ -146,9 +146,9 @@ public class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         bool condition = (byte)StrategicMap.Current.SeatedPlayer == (byte)armyHexSprite.Army.Player;
         if (!condition)
         {
-            sbyte hexLevel = GetHexLevel();
-            sbyte hexY = GetHexY();
-            sbyte hexX = GetHexX();
+            sbyte hexLevel = HexLevel;
+            sbyte hexY = HexY;
+            sbyte hexX = HexX;
             condition = StrategicMap.Current.Watching(hexX, hexY, hexLevel, 0);
         }
 
@@ -166,7 +166,7 @@ public class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObject(owner
             Player = (sbyte)(byte)armyHexSprite.Army.Player,
             Text = Format(AbilityRules.TranslateResourceString(GetEngine(), s_manaCrystalsFoundFormat), [IntToStr(_amount)])
         };
-        log.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());
+        log.SetLocation(level: HexLevel, y: HexY, x: HexX);
         StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(log);
         _ = log.Release();
         Dispose();

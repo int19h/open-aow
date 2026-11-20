@@ -119,7 +119,7 @@ public partial class CustomImageLibrary : Component
         MoveElements(Images, index + 1, Images, index, _count - index - 1);
         ClearElements(Images, _count - 1, 1);
         _count -= 1;
-        SetModified(true);
+        Modified = true;
     }
 
     // ImageLib.pas:9783
@@ -168,12 +168,11 @@ public partial class CustomImageLibrary : Component
     }
 
     // ImageLib.pas:9686
-    public virtual bool GetModified() => Status.Contains(ImageLibraryStatusElement.Modified);
-
-    // ImageLib.pas:9691
-    public virtual void SetModified(bool value)
+    public virtual bool Modified
     {
-        Status = value
+        get => Status.Contains(ImageLibraryStatusElement.Modified);
+        // ImageLib.pas:9691
+        set => Status = value
             ? Status + Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Modified)
             : Status - Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Modified);
     }
@@ -545,7 +544,7 @@ public partial class CustomImageLibrary : Component
 
         Images[index].Reference = value;
         UpdateImageItemSettings(index);
-        SetModified(true);
+        Modified = true;
     }
 
     // ImageLib.pas:10115
@@ -657,7 +656,7 @@ public partial class CustomImageLibrary : Component
             result = Images[index].Image;
             result.SetOwner(null);
             Images[index].Image = null;
-            SetModified(true);
+            Modified = true;
             if (_changeLock == 0)
             {
                 CallOnChangeEvent();
@@ -686,7 +685,7 @@ public partial class CustomImageLibrary : Component
         UpdateImageItemSettings(index);
         image?.SetOwner(this);
 
-        SetModified(true);
+        Modified = true;
         if (_changeLock == 0)
         {
             CallOnChangeEvent();
@@ -790,7 +789,7 @@ public partial class CustomImageLibrary : Component
                     node?.Dispose();
                 }
 
-                SetModified(true);
+                Modified = true;
             }
             else
             {
@@ -803,7 +802,7 @@ public partial class CustomImageLibrary : Component
             {
                 result.SetOwner(null);
                 Images[index].Image = null;
-                SetModified(true);
+                Modified = true;
             }
             else
             {
@@ -828,13 +827,13 @@ public partial class CustomImageLibrary : Component
 
                 node.Images[subIndex] = image;
                 image.SetOwner(this);
-                SetModified(true);
+                Modified = true;
             }
             else
             {
                 _ = node.Add(image);
                 image.SetOwner(this);
-                SetModified(true);
+                Modified = true;
             }
         }
         else if (old is not null)
@@ -846,7 +845,7 @@ public partial class CustomImageLibrary : Component
                 _ = imageNode.Add(image);
                 Images[index].Image = imageNode;
                 image.SetOwner(this);
-                SetModified(true);
+                Modified = true;
             }
             else
             {
@@ -880,7 +879,7 @@ public partial class CustomImageLibrary : Component
                     node.Dispose();
                 }
 
-                SetModified(true);
+                Modified = true;
             }
             else
             {
@@ -912,7 +911,7 @@ public partial class CustomImageLibrary : Component
             {
                 old?.Dispose();
                 Images[index].Image = null;
-                SetModified(true);
+                Modified = true;
                 return 0;
             }
             else
@@ -943,7 +942,7 @@ public partial class CustomImageLibrary : Component
         {
             node.Insert(subIndex, image);
             image.SetOwner(this);
-            SetModified(true);
+            Modified = true;
         }
         else if (old is not null)
         {
@@ -952,7 +951,7 @@ public partial class CustomImageLibrary : Component
             Images[index].Image = imageNode;
             imageNode.Insert(subIndex, image);
             image.SetOwner(this);
-            SetModified(true);
+            Modified = true;
         }
         else
         {
@@ -968,7 +967,7 @@ public partial class CustomImageLibrary : Component
         {
             _ = node.Add(image);
             image.SetOwner(this);
-            SetModified(true);
+            Modified = true;
         }
         else if (old is not null)
         {
@@ -976,7 +975,7 @@ public partial class CustomImageLibrary : Component
             _ = imageNode.Add(old);
             Images[index].Image = imageNode;
             image.SetOwner(this);
-            SetModified(true);
+            Modified = true;
         }
         else
         {
@@ -994,8 +993,6 @@ public partial class CustomImageLibrary : Component
     public int Count { get => _count; set => SetCount(value); }
 
     public LibraryImage this[int index] => Get(index);
-
-    public bool Modified { get => GetModified(); set => SetModified(value); }
     public Set<ImageLibraryStatusElement> Status { get; private set; }
     public PaletteManager PaletteManager { get; }
     public string FullFileName => GetFullFileName();

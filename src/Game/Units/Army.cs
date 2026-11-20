@@ -638,7 +638,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
             GroupBehavior behavior = OldAIBehavior;
             if (behavior == GroupBehavior.None)
             {
-                behavior = Player == 0 && StrategicMap.Current.GetIndependentAIMode() != StrategicMapIndependentAIMode.Off
+                behavior = Player == 0 && StrategicMap.Current.IndependentAIMode != StrategicMapIndependentAIMode.Off
                     ? Location.X != -1 && StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindNoneTransparentHexSprite(typeof(PlayerStructure)) is null
                         ? IndependentRelation >= 0 ? GroupBehavior.Patrol : GroupBehavior.GuardArea
                         : GroupBehavior.Passive
@@ -672,7 +672,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
             }
             else
             {
-                if (Player == 0 && StrategicMap.Current.GetIndependentAIMode() != StrategicMapIndependentAIMode.Off && Location.X != -1)
+                if (Player == 0 && StrategicMap.Current.IndependentAIMode != StrategicMapIndependentAIMode.Off && Location.X != -1)
                 {
                     if (StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindNoneTransparentHexSprite(typeof(PlayerStructure)) is null)
                     {
@@ -752,7 +752,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
     }
 
     // Army.PAS:610
-    public bool GetFullyConcealed() => Status.Contains(ArmyStatusElement.FullyConcealed);
+    public bool FullyConcealed => Status.Contains(ArmyStatusElement.FullyConcealed);
 
     // Army.PAS:613
     public void UpdateConcealment()
@@ -787,7 +787,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
             }
 
             concealed = concealed && Units.Count == ConcealedUnitsCount();
-            if (concealed != GetFullyConcealed())
+            if (concealed != FullyConcealed)
             {
                 SetFullyConcealed(concealed);
                 changed = true;
@@ -1357,7 +1357,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
         sbyte result;
         if (transport is not null)
         {
-            return transport.GetMoves();
+            return transport.Moves;
         }
         else
         {
@@ -1369,9 +1369,9 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                     if ((selection & 1) != 0)
                     {
                         Troop troop = Units[i];
-                        if (troop.GetMoves() < result)
+                        if (troop.Moves < result)
                         {
-                            result = troop.GetMoves();
+                            result = troop.Moves;
                         }
                     }
 
@@ -1662,7 +1662,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
             if ((selection & 1) != 0)
             {
                 Troop troop = Units[i];
-                if (troop is Hero hero && types.Contains(hero.GetHeroType()))
+                if (troop is Hero hero && types.Contains(hero.HeroType))
                 {
                     result = hero;
                 }
@@ -2434,13 +2434,13 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
 
         for (int i = 0, last = armies.GetCount() - 1; i <= last; i++)
         {
-            if (AbilityRules.DiplomaticRelation(0, armies.GetArmyHexSprite(i).Army.IndependentRelation, player, 0) == DiplomaticRelation.War)
+            if (AbilityRules.DiplomaticRelation(0, armies[i].Army.IndependentRelation, player, 0) == DiplomaticRelation.War)
             {
-                armies.GetArmyHexSprite(i).Army.SetBehavior(255, GroupBehavior.Raid);
+                armies[i].Army.SetBehavior(255, GroupBehavior.Raid);
             }
             else
             {
-                armies.GetArmyHexSprite(i).Army.SetBehavior(255, GroupBehavior.Scout);
+                armies[i].Army.SetBehavior(255, GroupBehavior.Scout);
             }
         }
 
@@ -2771,8 +2771,8 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                             MapCoordinateList locations = new();
                             if (offer.ArmyHexSprite is not null)
                             {
-                                sbyte hexY = offer.ArmyHexSprite.GetHexY();
-                                sbyte hexX = offer.ArmyHexSprite.GetHexX();
+                                sbyte hexY = offer.ArmyHexSprite.HexY;
+                                sbyte hexX = offer.ArmyHexSprite.HexX;
                                 int direction = HexGeometry.DeltaHexToHexNumberFast(Location.X, Location.Y, hexX, hexY);
                                 if (direction is > 0 and <= 6)
                                 {

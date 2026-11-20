@@ -109,9 +109,9 @@ public class PossessAbility : TouchAbility
         if (wallSituation == WallSituation.None && CanTouch(attacker, defender) && attacker is CombatUnit attackerUnit)
         {
             float probability = CombatTouchRoleProbability(attackerUnit, defender);
-            sbyte hitPoints = defender.GetHitPoints();
+            sbyte hitPoints = defender.HitPoints;
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 200);
-            sbyte defenderHitPoints = defender.GetHitPoints();
+            sbyte defenderHitPoints = defender.HitPoints;
             damageValues.SourceCost = defenderHitPoints * 2;
             if (attacker.GetAbilityEnabled(106))
             {
@@ -119,7 +119,7 @@ public class PossessAbility : TouchAbility
             }
             else
             {
-                sbyte attackerHitPoints = attacker.GetHitPoints();
+                sbyte attackerHitPoints = attacker.HitPoints;
                 damageValues.TargetDamage = Round((double)((double)attackerHitPoints * probability) * 100);
             }
 

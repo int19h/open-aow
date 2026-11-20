@@ -16,13 +16,15 @@ public partial class DynamicIsometricHex : HexSprite
     // IsoHex.pas:136
     public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of();
 
-    // IsoHex.pas:161
-    public override void SetVisible(bool value)
-    {
-    }
-
     // IsoHex.pas:165
-    public override bool GetVisible() => false;
+    public override bool Visible
+    {
+        get => false;
+        // IsoHex.pas:161
+        set
+        {
+        }
+    }
 
     // IsoHex.pas:131
     public override bool CanSelect(int pixelX, int pixelY) => false;

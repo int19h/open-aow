@@ -130,7 +130,7 @@ public partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
         Rect r = default;
         if (Caster is not null)
         {
-            Spell spell = GamePack.Current.SpellControl.GetSpell(Caster.CasterSpellId);
+            Spell spell = GamePack.Current.SpellControl[Caster.CasterSpellId];
             if (spell is not null)
             {
                 r.Left = SpellFrame.WinLeft + TopPanel.AbsoluteLeft;

@@ -97,7 +97,7 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
     public override int VisibilityRange()
     {
         int result = 8;
-        return GetHexLevel() != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
+        return HexLevel != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
             ? (int)(((uint)(result + 1)) >> 1)
             : result;
     }
@@ -169,7 +169,7 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
     }
 
     // ReflectingPool.pas:77
-    public override int GetDefaultAITargetPriority() => 1;
+    public override int DefaultAITargetPriority => 1;
 
     // ReflectingPool.pas:61
     public void ListReflectingPools(PlayerStructureList list)
@@ -200,16 +200,16 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
                 if (_centerFrame / 8 < count)
                 {
                     PlayerStructure pool = list.GetStructure(_centerFrame / 8);
-                    sbyte hexLevel = pool.GetHexLevel();
-                    sbyte hexY = pool.GetHexY();
-                    sbyte hexX = pool.GetHexX();
+                    sbyte hexLevel = pool.HexLevel;
+                    sbyte hexY = pool.HexY;
+                    sbyte hexX = pool.HexX;
                     StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
                 }
                 else
                 {
-                    sbyte hexLevel = GetHexLevel();
-                    sbyte hexY = GetHexY();
-                    sbyte hexX = GetHexX();
+                    sbyte hexLevel = HexLevel;
+                    sbyte hexY = HexY;
+                    sbyte hexX = HexX;
                     StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
                     DeactivatePoolCentering();
                 }

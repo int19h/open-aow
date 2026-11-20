@@ -157,7 +157,7 @@ public class CombatRoad(CustomNode owner) : AbstractRoad(owner)
         public override int ResourceUserClassId() => 2229506;
 
         // CombatRoad.pas:139
-        public override RoadControl GetRoadControl() => Engine.HexSpriteSet.CombatRoads;
+        public override RoadControl RoadControl => Engine.HexSpriteSet.CombatRoads;
 
         // CombatRoad.pas:136
         public override string ResourceEditName() => "Combat Road";

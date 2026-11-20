@@ -25,7 +25,7 @@ public class SoundSystem : IDisposable
     protected internal virtual void Process() => throw AbstractErrorException.Create("Abstract Error");
 
     // Sound.pas:120
-    protected internal virtual int GetMusicVolume() => throw AbstractErrorException.Create("Abstract Error");
+    public virtual int MusicVolume => throw AbstractErrorException.Create("Abstract Error");
 
     // Sound.pas:121
     protected internal virtual int GetSfxVolume() => throw AbstractErrorException.Create("Abstract Error");
@@ -37,10 +37,10 @@ public class SoundSystem : IDisposable
     protected internal virtual string GetPlayingSongFileName() => throw AbstractErrorException.Create("Abstract Error");
 
     // Sound.pas:124
-    protected internal virtual bool GetSfxEnabled() => throw AbstractErrorException.Create("Abstract Error");
+    public virtual bool SfxEnabled => throw AbstractErrorException.Create("Abstract Error");
 
     // Sound.pas:125
-    protected internal virtual bool GetMusicEnabled() => throw AbstractErrorException.Create("Abstract Error");
+    public virtual bool MusicEnabled => throw AbstractErrorException.Create("Abstract Error");
 
     // Sound.pas:1152
     public SoundSystem() => RefCount = 1;
@@ -75,7 +75,7 @@ public class SoundSystem : IDisposable
     public virtual bool SetSoundSettings(in SoundSettings settings) => throw AbstractErrorException.Create("Abstract Error");
 
     // Sound.pas:133
-    public virtual SoundSettings GetSoundSettings() => throw AbstractErrorException.Create("Abstract Error");
+    public virtual SoundSettings SoundSettings => throw AbstractErrorException.Create("Abstract Error");
 
     // Sound.pas:134
     public virtual bool FadeMusicVolume(int volume, int speed) => throw AbstractErrorException.Create("Abstract Error");
@@ -114,11 +114,8 @@ public class SoundSystem : IDisposable
     }
 
     public Set<SoundSystemStatusElement> Status { get; protected set; }
-    public int MusicVolume => GetMusicVolume();
     public int SfxVolume => GetSfxVolume();
     public bool PlayingSong => GetPlayingSong();
     public string PlayingSongFileName => GetPlayingSongFileName();
-    public bool SfxEnabled => GetSfxEnabled();
-    public bool MusicEnabled => GetMusicEnabled();
 
 }

@@ -146,9 +146,9 @@ public abstract class CustomNode : EngineObject, IOwner
                 for (int i = Count - 1; i >= 0; i--)
                 {
                     c = Children[i];
-                    if (c is not null && c.GetLastMessage() != message.Sequence)
+                    if (c is not null && c.LastMessage != message.Sequence)
                     {
-                        c.SetLastMessage(message.Sequence);
+                        c.LastMessage = message.Sequence;
                         c.MessageProc(ref message, this);
                     }
                 }
@@ -158,9 +158,9 @@ public abstract class CustomNode : EngineObject, IOwner
                 for (int i = Count - 1; i >= 0; i--)
                 {
                     c = Children[i];
-                    if (c is not null && c.GetLastMessage() != message.Sequence && c.Owner == this)
+                    if (c is not null && c.LastMessage != message.Sequence && c.Owner == this)
                     {
-                        c.SetLastMessage(message.Sequence);
+                        c.LastMessage = message.Sequence;
                         c.MessageProc(ref message, this);
                     }
                 }

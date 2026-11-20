@@ -28,7 +28,7 @@ public class EnchantedWeaponAbility : UnitEnchantmentAbility
             return 0;
         }
 
-        int result = troop.GetUnitLevel() + 225;
+        int result = troop.UnitLevel + 225;
         if (troop is Leader)
         {
             result += 50;

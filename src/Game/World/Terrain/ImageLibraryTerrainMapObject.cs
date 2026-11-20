@@ -154,7 +154,7 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
                 ImageIndex = GetTerrainTypeImage(TerrainType);
                 if (ImageIndex != -1)
                 {
-                    if (!GetEditMode())
+                    if (!EditMode)
                     {
                         OverrideTerrain();
                     }
@@ -195,7 +195,7 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
         if (!ValidTerrainType(result))
         {
             result = ForceTerrainType(mapLevel, hexX, hexY);
-            if (GetEditMode() || result != -2)
+            if (EditMode || result != -2)
             {
                 if (!ValidTerrainType(result))
                 {

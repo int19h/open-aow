@@ -82,7 +82,7 @@ public class WatcherHexSprite : SingleHexSprite
     }
 
     // GlobalTargetSpells.pas:1223
-    public override byte GetLevel() => 27;
+    public override byte Level => 27;
 
     // GlobalTargetSpells.pas:1255
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -101,7 +101,7 @@ public class WatcherHexSprite : SingleHexSprite
             HexGeometry.HexToPixel(HexX, hexY, out int x, out int y);
             x = x - pixelXSurface + 16;
             y = y - pixelYSurface + 16;
-            GamePack.Current.SpellControl.GetSpell(57).CastImages?.ShowLooped(1, x, y, StrategicMap.Current.Frame, lockedSurface);
+            GamePack.Current.SpellControl[57].CastImages?.ShowLooped(1, x, y, StrategicMap.Current.Frame, lockedSurface);
 
             if (_animationFrame != -1)
             {
@@ -136,7 +136,7 @@ public class WatcherHexSprite : SingleHexSprite
                     if (_animationFrame - delay >= 0)
                     {
                         AbilityRules.PolarToCartesian(angle, radius, out int deltaX, out int deltaY);
-                        _ = GamePack.Current.SpellControl.GetSpell(57).CastImages.Show(0, x + deltaX, y + deltaY, _animationFrame - delay, lockedSurface);
+                        _ = GamePack.Current.SpellControl[57].CastImages.Show(0, x + deltaX, y + deltaY, _animationFrame - delay, lockedSurface);
                     }
                 }
 
@@ -259,7 +259,7 @@ public class WatcherHexSprite : SingleHexSprite
     {
         _animationFrame = 0;
         _ = StrategicMap.Current.DynamicFixedVisibleHexSprite.AddChild(this);
-        _ = GamePack.Current.SpellControl.GetSpell(57).CastSounds.Play(0);
+        _ = GamePack.Current.SpellControl[57].CastSounds.Play(0);
         _unexplored.Clear();
         if (StrategicMap.Current.ExplorationEnabled)
         {

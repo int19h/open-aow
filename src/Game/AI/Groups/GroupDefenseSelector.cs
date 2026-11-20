@@ -97,7 +97,7 @@ public class GroupDefenseSelector : IDisposable
     {
         if (DefenseLocation == MapCoordinate.None || mapField.FindOwnedHexSprite(typeof(Structure)) is not null)
         {
-            MapCoordinate mapCoordinate = mapField.GetMapCoordinate();
+            MapCoordinate mapCoordinate = mapField.MapCoordinate;
             DefenseLocation = mapCoordinate;
         }
     }

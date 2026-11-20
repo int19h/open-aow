@@ -24,7 +24,7 @@ public class WaterCombatHex(CustomNode owner) : WaterHex(owner)
         public override int ResourceUserClassId() => 2229655;
 
         // CombatHex.pas:231
-        public override HexControl GetHexControl() => Engine.HexSpriteSet.CombatHexes;
+        public override HexControl HexControl => Engine.HexSpriteSet.CombatHexes;
 
         // CombatHex.pas:225
         public override string ResourceEditName() => "Combat Water/Ice hex";

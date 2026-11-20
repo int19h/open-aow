@@ -47,7 +47,7 @@ public class AIBudget(CustomNode owner) : EngineObject(owner)
     }
 
     // AI.pas:1702
-    public virtual bool GetReady() => RequiredGold == Gold && RequiredMana == Mana;
+    public virtual bool Ready => RequiredGold == Gold && RequiredMana == Mana;
 
     // AI.pas:1678
     public virtual void OutputDebugInfo() => GetEngine().OutputDebugMessage(DebugChannel.Temporary, $"{GetType().Name} Gold:{IntToStr(Gold)}/{IntToStr(RequiredGold)} Mana:{IntToStr(Mana)}/{IntToStr(RequiredMana)}");

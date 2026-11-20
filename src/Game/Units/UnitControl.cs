@@ -52,7 +52,7 @@ public class UnitControl(CustomNode owner) : EngineObject(owner)
     }
 
     // Unit.PAS:31
-    public Troop GetUnit(int index) => Units[index];
+    public Troop this[int index] => Units[index];
 
     // Unit.PAS:35
     public Troop FindUnit(int id) => UnitTable.TryGetValue(id, out Troop found) ? found : null;

@@ -135,7 +135,7 @@ public partial class CustomDisplay
         }
     }
 
-    public virtual int GetMouseButton() => MouseButtons.Contains(ShiftState.Left) ? 1 : MouseButtons.Contains(ShiftState.Right) ? 2 : 0;
+    public virtual int MouseButton => MouseButtons.Contains(ShiftState.Left) ? 1 : MouseButtons.Contains(ShiftState.Right) ? 2 : 0;
 
     public virtual void UpdateFrame()
     {
@@ -146,7 +146,7 @@ public partial class CustomDisplay
 
         int x = -1, y = -1;
         GetMousePosition(ref x, ref y);
-        if (_mouseAboveSurface && x == -1 && GetMouseButton() == 0)
+        if (_mouseAboveSurface && x == -1 && MouseButton == 0)
         {
             EventSink.MouseMove(default, -1, -1);
         }

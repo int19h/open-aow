@@ -20,7 +20,7 @@ public sealed class UnitSelectorTests
             _hitPoints = hitPoints;
         }
 
-        public override int GetUnitGraphicsResourceIndex() => 0;
+        public override int UnitGraphicsResourceIndex => 0;
 
         public override sbyte GetHits() => _hits;
 

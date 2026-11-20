@@ -23,7 +23,7 @@ public class WebbedAbility : DurationAbility
     public override sbyte GetDefense(AbilityOwner owner) => -2;
 
     // PassiveAb.pas:746
-    public override int GetTotalDuration() => 3;
+    public override int TotalDuration => 3;
 
     private static readonly string s_webbedText = "Webbed";
 }

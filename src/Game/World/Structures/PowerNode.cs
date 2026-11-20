@@ -169,7 +169,7 @@ public partial class PowerNode : PlayerStructure
     }
 
     // PowerNode.pas:67
-    public override int GetPower() => !GetRazed() && !GetBuilding() ? 10 : 0;
+    public override int GetPower() => !GetRazed() && !Building ? 10 : 0;
 
     // PowerNode.pas:145
     public override string GetCombatEventText(Battle combat)

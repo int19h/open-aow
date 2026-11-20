@@ -106,10 +106,10 @@ public partial class Surface : IDisposable
     }
 
     // GFXE.pas:398
-    public virtual int GetWidth() => throw AbstractErrorException.Create("Abstract Error");
+    public virtual int Width => throw AbstractErrorException.Create("Abstract Error");
 
     // GFXE.pas:399
-    public virtual int GetHeight() => throw AbstractErrorException.Create("Abstract Error");
+    public virtual int Height => throw AbstractErrorException.Create("Abstract Error");
 
     // GFXE.pas:11954
     public virtual PixelFormat GetPixelFormatId()
@@ -184,19 +184,19 @@ public partial class Surface : IDisposable
         if (sourceRectangle is null)
         {
             r.Left = 0;
-            int width = GetWidth();
+            int width = Width;
             r.Right = width;
             r.Top = 0;
-            int height = GetHeight();
+            int height = Height;
             r.Bottom = height;
         }
         else
         {
             r = sourceRectangle.Value;
-            int width = GetWidth();
+            int width = Width;
             if (r.Right > width)
             {
-                int width2 = GetWidth();
+                int width2 = Width;
                 r.Right = width2;
             }
 
@@ -214,15 +214,15 @@ public partial class Surface : IDisposable
         }
 
         int w = r.Right - r.Left;
-        if (destination.GetWidth() < X + w)
+        if (destination.Width < X + w)
         {
-            w -= X + w - destination.GetWidth();
+            w -= X + w - destination.Width;
         }
 
-        int height2 = GetHeight();
+        int height2 = Height;
         if (r.Bottom > height2)
         {
-            int height = GetHeight();
+            int height = Height;
             r.Bottom = height;
         }
 
@@ -239,9 +239,9 @@ public partial class Surface : IDisposable
         }
 
         int h = r.Bottom - r.Top;
-        if (destination.GetHeight() < h + Y)
+        if (destination.Height < h + Y)
         {
-            h -= h + Y - destination.GetHeight();
+            h -= h + Y - destination.Height;
         }
         if (w > 0 && h > 0)
         {
@@ -310,19 +310,19 @@ public partial class Surface : IDisposable
         if (sourceRectangle is null)
         {
             r.Left = 0;
-            int width = GetWidth();
+            int width = Width;
             r.Right = width;
             r.Top = 0;
-            int height = GetHeight();
+            int height = Height;
             r.Bottom = height;
         }
         else
         {
             r = sourceRectangle.Value;
-            int width = GetWidth();
+            int width = Width;
             if (r.Right > width)
             {
-                int width2 = GetWidth();
+                int width2 = Width;
                 r.Right = width2;
             }
 
@@ -340,15 +340,15 @@ public partial class Surface : IDisposable
         }
 
         int w = r.Right - r.Left;
-        if (destination.GetWidth() < X + w)
+        if (destination.Width < X + w)
         {
-            w -= X + w - destination.GetWidth();
+            w -= X + w - destination.Width;
         }
 
-        int height2 = GetHeight();
+        int height2 = Height;
         if (r.Bottom > height2)
         {
-            int height = GetHeight();
+            int height = Height;
             r.Bottom = height;
         }
 
@@ -365,9 +365,9 @@ public partial class Surface : IDisposable
         }
 
         int h = r.Bottom - r.Top;
-        if (destination.GetHeight() < h + Y)
+        if (destination.Height < h + Y)
         {
-            h -= h + Y - destination.GetHeight();
+            h -= h + Y - destination.Height;
         }
         if (w > 0 && h > 0)
         {
@@ -389,10 +389,10 @@ public partial class Surface : IDisposable
         if (sourceRectangle is null)
         {
             r.Left = 0;
-            int width = GetWidth();
+            int width = Width;
             r.Right = width;
             r.Top = 0;
-            int height = GetHeight();
+            int height = Height;
             r.Bottom = height;
             sourceRectangle = r;
         }
@@ -400,10 +400,10 @@ public partial class Surface : IDisposable
         if (destinationRectangle is null)
         {
             dr.Left = 0;
-            int width = destination.GetWidth();
+            int width = destination.Width;
             dr.Right = width;
             dr.Top = 0;
-            int height = destination.GetHeight();
+            int height = destination.Height;
             dr.Bottom = height;
             destinationRectangle = dr;
         }
@@ -425,14 +425,14 @@ public partial class Surface : IDisposable
         bool condition = R.Left >= 0 && R.Top >= 0;
         if (condition)
         {
-            int height = GetHeight();
+            int height = Height;
             condition = R.Bottom <= height;
         }
 
         bool test = condition;
         if (test)
         {
-            int width = GetWidth();
+            int width = Width;
             test = R.Right <= width;
         }
 
@@ -470,8 +470,6 @@ public partial class Surface : IDisposable
     // GFXE.pas:12258
     public virtual GraphicsResult Resize(int width, int height) => GraphicsResult.NotSupported;
 
-    public int Width => GetWidth();
-    public int Height => GetHeight();
     public PixelFormat PixelFormatId => GetPixelFormatId();
 
     public virtual void Dispose()

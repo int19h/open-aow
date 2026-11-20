@@ -58,7 +58,7 @@ public class CombatSpell : Spell
     // CombatSpells.pas:648
     public override int GetCombatDamageValue(CombatObject source, CombatObject target)
     {
-        sbyte hitPoints = target.GetHitPoints();
+        sbyte hitPoints = target.HitPoints;
         sbyte defense = target.GetDefense();
         sbyte resistance = target.GetResistance();
         Set<DamageType> immunityTypes = target.GetImmunityTypes();
@@ -72,7 +72,7 @@ public class CombatSpell : Spell
         Set<DamageType> protection = target.GetProtectionTypes();
         Set<DamageType> immunity = target.GetImmunityTypes();
         values.DamageTypes = CombatInfo.DamageTypes;
-        sbyte hitPoints = target.GetHitPoints();
+        sbyte hitPoints = target.HitPoints;
         sbyte defense = target.GetDefense();
         sbyte resistance = target.GetResistance();
         int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(CombatInfo.Attack, CombatInfo.Damage, CombatInfo.DamageTypes, hitPoints, defense, resistance, immunity, protection);
@@ -80,7 +80,7 @@ public class CombatSpell : Spell
         // { Original recomputes the value, using resistance in place of defense for mode 1. }
         if (DamageMode == 1)
         {
-            sbyte targetHitPoints = target.GetHitPoints();
+            sbyte targetHitPoints = target.HitPoints;
             sbyte targetResistance = target.GetResistance();
             sbyte resistance2 = target.GetResistance();
             int statisticsToLimitedDamageValue2 = AbilityRules.StatisticsToLimitedDamageValue(CombatInfo.Attack, CombatInfo.Damage, CombatInfo.DamageTypes, targetHitPoints, targetResistance, resistance2, immunity, protection);
@@ -88,7 +88,7 @@ public class CombatSpell : Spell
         }
         else
         {
-            sbyte a2HitPoints = target.GetHitPoints();
+            sbyte a2HitPoints = target.HitPoints;
             sbyte targetDefense = target.GetDefense();
             sbyte a2Resistance = target.GetResistance();
             int statisticsToLimitedDamageValue2 = AbilityRules.StatisticsToLimitedDamageValue(CombatInfo.Attack, CombatInfo.Damage, CombatInfo.DamageTypes, a2HitPoints, targetDefense, a2Resistance, immunity, protection);
@@ -108,7 +108,7 @@ public class CombatSpell : Spell
         Troop hero = commands.Source is CombatUnit sourceUnit ? sourceUnit.Troop : null;
         if (hero is not null && hero.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
         {
-            int distance = commands.Combat.GetRoundDistance();
+            int distance = commands.Combat.RoundDistance;
             if (CombatInfo.Range == -1)
             {
                 distance += 8;
@@ -170,7 +170,7 @@ public class CombatSpell : Spell
         {
             Battle combat = source.Combat;
             DelphiList<CombatObject> targets = new();
-            int distance = combat.GetRoundDistance();
+            int distance = combat.RoundDistance;
             if (CombatInfo.Range == -1)
             {
                 distance += 8;
@@ -191,9 +191,9 @@ public class CombatSpell : Spell
             }
 
             CombatObject other;
-            for (int i = combat.Sides[(int)target.GetSide()].GetCount() - 1; i >= 0; i--)
+            for (int i = combat.Sides[(int)target.Side].GetCount() - 1; i >= 0; i--)
             {
-                CombatSideIndex side = target.GetSide();
+                CombatSideIndex side = target.Side;
                 other = combat.Sides[(int)side].GetObjects(i);
                 bool condition = other != target && other.GetEnabled() && (int)(((uint)other.Position) >> 4) == (int)(((uint)target.Position) >> 4) && distance >= other.FastBattleRoundDistance();
                 if (condition)
@@ -249,7 +249,7 @@ public class CombatSpell : Spell
             }
 
             values.DamageTypes = damageTypes;
-            sbyte hitPoints = target.GetHitPoints();
+            sbyte hitPoints = target.HitPoints;
             sbyte resistance = target.GetResistance();
             int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(CombatInfo.Attack, damage, damageTypes, hitPoints, defense, resistance, immunity, protection);
             values.SourceDamage = statisticsToLimitedDamageValue * CombatInfo.RepeatCount;
@@ -266,7 +266,7 @@ public class CombatSpell : Spell
             {
                 Battle combat = source.Combat;
                 int count = 0;
-                int distance = combat.GetRoundDistance();
+                int distance = combat.RoundDistance;
                 if (CombatInfo.Range == -1)
                 {
                     distance += 8;
@@ -286,9 +286,9 @@ public class CombatSpell : Spell
                     }
                 }
 
-                for (int i = combat.Sides[(int)target.GetSide()].GetCount() - 1; i >= 0; i--)
+                for (int i = combat.Sides[(int)target.Side].GetCount() - 1; i >= 0; i--)
                 {
-                    CombatSideIndex side = target.GetSide();
+                    CombatSideIndex side = target.Side;
                     CombatObject other = combat.Sides[(int)side].GetObjects(i);
                     if (target != other && other.GetEnabled() && (int)(((uint)other.Position) >> 4) == (int)(((uint)target.Position) >> 4) && other.FastBattleRoundDistance() <= distance && damageTypes - other.GetImmunityTypes() != Set<DamageType>.Of())
                     {

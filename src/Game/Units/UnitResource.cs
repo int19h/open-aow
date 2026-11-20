@@ -176,7 +176,7 @@ public class UnitResource : TroopResource
     // UnitRes.PAS:111
     public byte GetTransportCapacity()
     {
-        byte result = (byte)GamePack.Current.AbilityControl.GetAbility(50).GetLevel(Abilities[(int)Unit.Rank.None]);
+        byte result = (byte)GamePack.Current.AbilityControl[50].GetLevel(Abilities[(int)Unit.Rank.None]);
         return result < _transportCapacity ? _transportCapacity : result;
     }
 

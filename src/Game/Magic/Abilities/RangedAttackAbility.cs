@@ -44,8 +44,8 @@ public class RangedAttackAbility : AdjustableAbility
     // AoWAb.PAS:4832
     public override bool FastBattleValidRoundDistance(CombatObject source, CombatObject target)
     {
-        int distance = source.Combat.GetRoundDistance();
-        CombatRange range = GetRangeRangedAttack(source.GetAbilityOwner());
+        int distance = source.Combat.RoundDistance;
+        CombatRange range = GetRangeRangedAttack(source.AbilityOwner);
         if (range == CombatRange.Long)
         {
             distance += 4;
@@ -100,7 +100,7 @@ public class RangedAttackAbility : AdjustableAbility
 
         if (target.GetEnabled())
         {
-            for (int i = GetAttackRepeatRangedAttack(source.GetAbilityOwner()) - 1; i >= 0; i--)
+            for (int i = GetAttackRepeatRangedAttack(source.AbilityOwner) - 1; i >= 0; i--)
             {
                 RangedAttackCombatAction action = CreateRangedAttackCombatAction(source, target, penalty);
                 source.Combat.ExecuteCombatAction(action);
@@ -168,30 +168,30 @@ public class RangedAttackAbility : AdjustableAbility
     // { Original leaves both cost fields untouched. }
     public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        CombatRange range = GetRangeRangedAttack(attacker.GetAbilityOwner());
+        CombatRange range = GetRangeRangedAttack(attacker.AbilityOwner);
         if (wallSituation == WallSituation.None || Set<CombatRange>.Of(CombatRange.Medium, CombatRange.Long).Contains(range) || attacker.GetAbilityEnabled(1))
         {
             Set<DamageType> protectionTypes = defender.GetProtectionTypes();
             Set<DamageType> immunityTypes = defender.GetImmunityTypes();
-            Set<DamageType> damageTypes = GetDamageTypesRangedAttack(attacker.GetAbilityOwner());
-            int damage = GetDamageRangedAttack(attacker.GetAbilityOwner());
+            Set<DamageType> damageTypes = GetDamageTypesRangedAttack(attacker.AbilityOwner);
+            int damage = GetDamageRangedAttack(attacker.AbilityOwner);
             int defense = defender.GetDefense();
             if (wallSituation == WallSituation.Target)
             {
                 defense += 2;
             }
 
-            Set<DamageType> damageTypesRangedAttack = GetDamageTypesRangedAttack(attacker.GetAbilityOwner());
+            Set<DamageType> damageTypesRangedAttack = GetDamageTypesRangedAttack(attacker.AbilityOwner);
             damageValues.DamageTypes = damageTypesRangedAttack;
-            sbyte hitPoints = defender.GetHitPoints();
+            sbyte hitPoints = defender.HitPoints;
             sbyte resistance = defender.GetResistance();
-            int value = AbilityRules.StatisticsToLimitedDamageValue(GetAttackRangedAttack(attacker.GetAbilityOwner()), damage, damageTypes, hitPoints, defense, resistance, immunityTypes, protectionTypes);
-            int repeats = GetAttackRepeatRangedAttack(attacker.GetAbilityOwner());
+            int value = AbilityRules.StatisticsToLimitedDamageValue(GetAttackRangedAttack(attacker.AbilityOwner), damage, damageTypes, hitPoints, defense, resistance, immunityTypes, protectionTypes);
+            int repeats = GetAttackRepeatRangedAttack(attacker.AbilityOwner);
             value *= repeats;
             damageValues.SourceDamage = value;
             // { Original swaps protection and immunity for maximum damage. }
             value = AbilityRules.StatisticsToMaxDamage(damage, damageTypes, protectionTypes, immunityTypes);
-            repeats = GetAttackRepeatRangedAttack(attacker.GetAbilityOwner());
+            repeats = GetAttackRepeatRangedAttack(attacker.AbilityOwner);
             value *= repeats;
             damageValues.SourceCost = value;
             damageValues.TargetDamage = 0;
@@ -280,7 +280,7 @@ public class RangedAttackAbility : AdjustableAbility
     public RangedAttackCombatAction CreateRangedAttackCombatAction(CombatObject source, CombatObject target, int attackPenalty)
     {
         RangedAttackCombatAction action = new(null) { Holder = CreationHolder() };
-        action.Generate(damage: GetDamageRangedAttack(source.GetAbilityOwner()), damageTypes: GetDamageTypesRangedAttack(source.GetAbilityOwner()), source: source, target: target, attack: (sbyte)(GetAttackRangedAttack(source.GetAbilityOwner()) - attackPenalty));
+        action.Generate(damage: GetDamageRangedAttack(source.AbilityOwner), damageTypes: GetDamageTypesRangedAttack(source.AbilityOwner), source: source, target: target, attack: (sbyte)(GetAttackRangedAttack(source.AbilityOwner) - attackPenalty));
         action.AbilityId = AbilityId;
         return action;
     }

@@ -141,7 +141,7 @@ public class CheatTokenEvent(CustomNode owner) : TokenEvent(owner)
                         StrategicMap.Current.Players.GetPlayers(i).MagicControl.Spells.Clear();
                         for (int j = 1, lastJ = GamePack.Current.SpellControl.GetCount() - 1; j <= lastJ; j++)
                         {
-                            if (GamePack.Current.SpellControl.GetSpell(j) is not null)
+                            if (GamePack.Current.SpellControl[j] is not null)
                             {
                                 _ = StrategicMap.Current.Players.GetPlayers(i).MagicControl.Spells.Add(j);
                             }

@@ -97,9 +97,9 @@ public class SdlSoundSystem : SoundSystem
         return true;
     }
 
-    public override SoundSettings GetSoundSettings() => _settings;
-    protected internal override bool GetMusicEnabled() => _settings.MusicEnabled;
-    protected internal override bool GetSfxEnabled() => _settings.SfxEnabled;
+    public override SoundSettings SoundSettings => _settings;
+    public override bool MusicEnabled => _settings.MusicEnabled;
+    public override bool SfxEnabled => _settings.SfxEnabled;
 
     public override bool SetMusicEnabled(bool value)
     {
@@ -140,7 +140,8 @@ public class SdlSoundSystem : SoundSystem
         return true;
     }
 
-    protected internal override int GetMusicVolume() => (int)Math.Round(_volume * 100.0 / 127);
+    public override int MusicVolume => (int)Math.Round(_volume * 100.0 / 127);
+
     public override bool SetSfxVolume(int value) => FadeSfxVolume(value, 0);
 
     public override bool FadeSfxVolume(int value, int speed)
@@ -342,36 +343,42 @@ internal class SdlSample : Sample
         }
     }
 
-    protected internal override int GetVolume() => _volume;
-
-    protected internal override void SetVolume(int value)
+    public override int Volume
     {
-        lock (_mixer.Sync)
+        get => _volume;
+        set
         {
-            _volume = value;
-            Apply();
+            lock (_mixer.Sync)
+            {
+                _volume = value;
+                Apply();
+            }
         }
     }
 
-    protected internal override bool GetLooped() => _loop;
-
-    protected internal override void SetLooped(bool value)
+    public override bool Looped
     {
-        lock (_mixer.Sync)
+        get => _loop;
+        set
         {
-            _loop = value;
-            Apply();
+            lock (_mixer.Sync)
+            {
+                _loop = value;
+                Apply();
+            }
         }
     }
 
-    protected internal override SamplePanning GetPanning() => _pan;
-
-    protected internal override void SetPanning(SamplePanning value)
+    public override SamplePanning Panning
     {
-        lock (_mixer.Sync)
+        get => _pan;
+        set
         {
-            _pan = value;
-            Apply();
+            lock (_mixer.Sync)
+            {
+                _pan = value;
+                Apply();
+            }
         }
     }
 

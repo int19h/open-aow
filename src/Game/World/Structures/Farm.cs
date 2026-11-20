@@ -69,7 +69,7 @@ public partial class Farm(CustomNode owner) : PlayerCropStructure(owner)
     // Farm.pas:111
     public override void UpdateAITarget(in AITargetInfo info, ref AITargetData data)
     {
-        if (!GetRazed() || GetBuilding())
+        if (!GetRazed() || Building)
         {
             switch (info.Mode)
             {
@@ -128,7 +128,7 @@ public partial class Farm(CustomNode owner) : PlayerCropStructure(owner)
     // Farm.pas:97
     public override void UpdateCrops()
     {
-        if (!GetEditMode() && Status.Contains(MapObjectStatusElement.Activated))
+        if (!EditMode && Status.Contains(MapObjectStatusElement.Activated))
         {
             int count = GetRazed() || TerrainType == 5
                 ? 0

@@ -25,8 +25,8 @@ public class BlastStorm(CustomNode owner) : Storm(owner)
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         int frame = FrameCounter % _stormImages.Count;
-        sbyte hexY = GetHexY();
-        HexGeometry.HexToPixel(GetHexX(), hexY, out int x, out int y);
+        sbyte hexY = HexY;
+        HexGeometry.HexToPixel(HexX, hexY, out int x, out int y);
         LibraryImage stormImageWidth = _stormImages[frame];
         x = x - (int)(((uint)stormImageWidth.Width) >> 1) + 10;
         LibraryImage stormImageHeight = _stormImages[frame];
@@ -55,7 +55,7 @@ public class BlastStorm(CustomNode owner) : Storm(owner)
         base.InitializeStorm(player, X, Y, L);
         string stormFileName = StormFileName();
         _stormImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), stormFileName);
-        if (GetVisible())
+        if (Visible)
         {
             _stormImages.LoadDiscardableImageData();
         }
@@ -80,36 +80,36 @@ public class BlastStorm(CustomNode owner) : Storm(owner)
         NewFrame();
         if (FrameCounter == 8)
         {
-            sbyte hexLevel = GetHexLevel();
-            sbyte hexY = GetHexY();
-            sbyte hexX = GetHexX();
+            sbyte hexLevel = HexLevel;
+            sbyte hexY = HexY;
+            sbyte hexX = HexX;
             _ = StrategicMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 1, ChangeStormTerrain, StormTerrainChanged);
         }
         else
         {
             if (FrameCounter == 12)
             {
-                sbyte hexLevel = GetHexLevel();
-                sbyte hexY = GetHexY();
-                sbyte hexX = GetHexX();
+                sbyte hexLevel = HexLevel;
+                sbyte hexY = HexY;
+                sbyte hexX = HexX;
                 _ = StrategicMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 2, ChangeStormTerrain, StormTerrainChanged);
             }
             else
             {
                 if (FrameCounter == 18)
                 {
-                    sbyte hexLevel = GetHexLevel();
-                    sbyte hexY = GetHexY();
-                    sbyte hexX = GetHexX();
+                    sbyte hexLevel = HexLevel;
+                    sbyte hexY = HexY;
+                    sbyte hexX = HexX;
                     _ = StrategicMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 3, ChangeStormTerrain, StormTerrainChanged);
                 }
                 else
                 {
                     if (FrameCounter == 22)
                     {
-                        sbyte hexLevel = GetHexLevel();
-                        sbyte hexY = GetHexY();
-                        sbyte hexX = GetHexX();
+                        sbyte hexLevel = HexLevel;
+                        sbyte hexY = HexY;
+                        sbyte hexX = HexX;
                         _ = StrategicMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 4, ChangeStormTerrain, StormTerrainChanged);
                     }
                 }
@@ -117,7 +117,7 @@ public class BlastStorm(CustomNode owner) : Storm(owner)
         }
         if (_stormImages.Count == FrameCounter)
         {
-            AbilityRules.TriggerStormDamage(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX(), storm: StormType(), innerRadius: 0, outerRadius: 4, player: StrategicMap.Current.CurrentPlayer);
+            AbilityRules.TriggerStormDamage(mapLevel: HexLevel, y: HexY, x: HexX, storm: StormType(), innerRadius: 0, outerRadius: 4, player: StrategicMap.Current.CurrentPlayer);
             return false;
         }
         else

@@ -57,7 +57,7 @@ public class LocalPlayerCommunicationControl(EngineObject creator) : PlayerCommu
         _ = base.Setup(count);
         for (int i = PlayerCommunicationSettingsList.Count - 1; i >= 0; i--)
         {
-            int localSystemId = GetLocalSystemId();
+            int localSystemId = LocalSystemId;
             PlayerCommunicationSettingsList.Players[i].SystemId = localSystemId;
         }
     }

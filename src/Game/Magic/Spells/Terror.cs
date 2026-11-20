@@ -72,7 +72,7 @@ public class Terror : CombatSpell
     public override void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
     {
         int value = 0;
-        CombatSideIndex opponentSide = commands.Source.GetOpponentSide();
+        CombatSideIndex opponentSide = commands.Source.OpponentSide;
         CombatSide side = commands.Combat.Sides[(int)opponentSide];
         for (int i = side.GetCount() - 1; i >= 0; i--)
         {
@@ -115,7 +115,7 @@ public class Terror : CombatSpell
     public override void FastBattleGetDamageValues(CombatObject source, CombatObject target, WallSituation wallSituation, ref AbilityDamageValues values)
     {
         int value = 0;
-        CombatSideIndex opponentSide = source.GetOpponentSide();
+        CombatSideIndex opponentSide = source.OpponentSide;
         CombatSide side = source.Combat.Sides[(int)opponentSide];
         for (int i = side.GetCount() - 1; i >= 0; i--)
         {

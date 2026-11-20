@@ -245,7 +245,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
             int previous = Settings.GetMovePoints(target.HexX, target.HexY, target.HexLevel);
             if (points < previous && points <= MovePointsLimit)
             {
-                MapCoordinate mapCoordinate = target.GetMapCoordinate();
+                MapCoordinate mapCoordinate = target.MapCoordinate;
                 int index = Settings.SubMoves.IndexOfMapCoordinate(mapCoordinate);
                 if (index > Settings.SubMoveIndex)
                 {
@@ -277,9 +277,9 @@ public partial class MoveControl(GameMap owner) : IDisposable
                 else
                 {
                     pathFindingStep = new PathFindingStep(null) { Holder = Map };
-                    MapCoordinate targetMapCoordinate = target.GetMapCoordinate();
+                    MapCoordinate targetMapCoordinate = target.MapCoordinate;
                     pathFindingStep.Location = targetMapCoordinate;
-                    MapCoordinate sourceMapCoordinate = source.GetMapCoordinate();
+                    MapCoordinate sourceMapCoordinate = source.MapCoordinate;
                     pathFindingStep.Origin = sourceMapCoordinate;
                     pathFindingStep.Owner = Settings.SubMoves;
                 }
@@ -291,12 +291,12 @@ public partial class MoveControl(GameMap owner) : IDisposable
     public PathFindingStep SetupSubMove(MapField mapField, MapField origin)
     {
         PathFindingStep pathFindingStep = new(null) { Holder = Map };
-        MapCoordinate mapCoordinate = mapField.GetMapCoordinate();
+        MapCoordinate mapCoordinate = mapField.MapCoordinate;
         pathFindingStep.Location = mapCoordinate;
         int overCode;
         if (origin is not null)
         {
-            MapCoordinate originMapCoordinate = origin.GetMapCoordinate();
+            MapCoordinate originMapCoordinate = origin.MapCoordinate;
             pathFindingStep.Origin = originMapCoordinate;
             overCode = (mapField.FieldFlags & MapField.MoveOverFlag) == 0 ? 1 : mapField.CanMoveOver(this);
         }

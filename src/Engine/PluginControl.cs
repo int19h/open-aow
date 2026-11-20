@@ -15,11 +15,13 @@ public class PluginControl : EngineObject
     private const string AbilitiesPlugin = "Abilities";
     private readonly DelphiStringList _usedPlugins;
 
-    // Engine.pas:9279
-    internal void SetUsedPlugins(DelphiStringCollection value) => _usedPlugins.Assign(value);
-
     // Engine.pas:9284
-    internal DelphiStringCollection GetUsedPlugins() => _usedPlugins;
+    public DelphiStringCollection UsedPlugins
+    {
+        get => _usedPlugins;
+        // Engine.pas:9279
+        set => _usedPlugins.Assign(value);
+    }
 
     // Engine.pas:9289
     internal void OnChange(object sender) => InitializePlugins();
@@ -76,5 +78,4 @@ public class PluginControl : EngineObject
     }
 
     public GameEngine Engine { get; set; }
-    public DelphiStringCollection UsedPlugins { get => GetUsedPlugins(); set => SetUsedPlugins(value); }
 }

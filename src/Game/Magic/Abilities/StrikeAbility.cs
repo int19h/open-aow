@@ -238,7 +238,7 @@ public class StrikeAbility : AdjustableAbility
     // AoWAb.PAS:1248
     public bool CanExecuteMelee(CombatObject source, CombatObject target)
     {
-        bool result = source.GetSide() == CombatSideIndex.Defender
+        bool result = source.Side == CombatSideIndex.Defender
             ? !source.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing)
             : !target.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || source.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
         return result && (!target.GetAbilityEnabled(1) || source.GetAbilityEnabled(1));
@@ -302,11 +302,11 @@ public class StrikeAbility : AdjustableAbility
         }
 
         _ = base.Remove(owner);
-        for (int i = owner.GetOwnAbilityCount() - 1; i >= 0; --i)
+        for (int i = owner.OwnAbilityCount - 1; i >= 0; --i)
         {
-            if (owner.GetOwnAbilityEnabled(i) && GamePack.Current.AbilityControl.GetAbility(i) is StrikeEnhancementAbility)
+            if (owner.GetOwnAbilityEnabled(i) && GamePack.Current.AbilityControl[i] is StrikeEnhancementAbility)
             {
-                while (GamePack.Current.AbilityControl.GetAbility(i).Remove(owner))
+                while (GamePack.Current.AbilityControl[i].Remove(owner))
                 {
                 }
             }

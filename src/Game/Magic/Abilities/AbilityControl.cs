@@ -182,16 +182,19 @@ public class AbilityControl : EngineObject
         }
     }
 
-    public Ability GetAbility(int index)
+    public Ability this[int index]
     {
-        Assert(index >= 0, "Invalid AbilityID", "Ability.PAS", 2069);
-        return index < Abilities.Count ? Abilities[index] : null;
+        get
+        {
+            Assert(index >= 0, "Invalid AbilityID", "Ability.PAS", 2069);
+            return index < Abilities.Count ? Abilities[index] : null;
+        }
     }
 
     // RegisterAbility stores exactly one instance per id and refuses a second registration. The caller names
     // the kind registered at that id. Another class throws InvalidCastException. An id past the list returns
     // null, as GetAbility does.
-    public T GetAbility<T>(int id) where T : Ability => (T)GetAbility(id);
+    public T GetAbility<T>(int id) where T : Ability => (T)this[id];
 
     public static int CompareAbilityNames(Ability item1, Ability item2) => CompareStr(b: item2.GetName(null), a: item1.GetName(null));
 

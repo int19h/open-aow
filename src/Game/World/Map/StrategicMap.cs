@@ -786,7 +786,7 @@ public partial class StrategicMap : GameMap
         AIGroupManager.MessageProc(ref message, sender);
         if (message.MessageId == 537001986 && message.Payload.Int == Current.SeatedPlayer)
         {
-            if (SelectedArmy.GetArmyHexSprite() is not null)
+            if (SelectedArmy.ArmyHexSprite is not null)
             {
                 SelectedArmy.Update();
             }
@@ -1143,7 +1143,7 @@ public partial class StrategicMap : GameMap
     public void SynchronizeEnd() => _synchronizeCount -= 1;
 
     // AoWHSMap.PAS:1486
-    public bool GetSynchronized() => _synchronizeCount != 0 || TokenManager.TokenExecutor.Executing || Status.Contains(HexSpriteMapStatusElement.Editting);
+    public bool Synchronized => _synchronizeCount != 0 || TokenManager.TokenExecutor.Executing || Status.Contains(HexSpriteMapStatusElement.Editting);
 
     // AoWHSMap.PAS:1509
     public void PlayerDisconnected(sbyte player) => PlayerControl.PlayerDisconnected(player);
@@ -1152,12 +1152,15 @@ public partial class StrategicMap : GameMap
     public void PlayerConnectionLost() => PlayerControl.ConnectionLost();
 
     // AoWHSMap.PAS:1525
-    public StrategicMapIndependentAIMode GetIndependentAIMode()
+    public StrategicMapIndependentAIMode IndependentAIMode
     {
-        StrategicMapIndependentAIMode result = _independentAIMode;
-        return !Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.FireMastery)
-            ? result == StrategicMapIndependentAIMode.Off ? StrategicMapIndependentAIMode.Normal : StrategicMapIndependentAIMode.Aggressive
-            : result;
+        get
+        {
+            StrategicMapIndependentAIMode result = _independentAIMode;
+            return !Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.FireMastery)
+                ? result == StrategicMapIndependentAIMode.Off ? StrategicMapIndependentAIMode.Normal : StrategicMapIndependentAIMode.Aggressive
+                : result;
+        }
     }
 
     // AoWHSMap.PAS:1534
@@ -1995,7 +1998,7 @@ public partial class StrategicMap : GameMap
             {
                 int pixelY = Mouse.PixelY;
                 int pixelX = Mouse.PixelX;
-                Mouse.CursorMode = Selection.CanSelectLocation(pixelX, pixelY, ViewMapLevel) && !Mouse.GetSelectingRectangle()
+                Mouse.CursorMode = Selection.CanSelectLocation(pixelX, pixelY, ViewMapLevel) && !Mouse.SelectingRectangle
                     ? 257
                     : 0;
             }
@@ -2067,9 +2070,9 @@ public partial class StrategicMap : GameMap
         Selection.SelectLocationHexSprite(sprite);
         if (center)
         {
-            sbyte hexLevel = sprite.GetHexLevel();
-            sbyte hexY = sprite.GetHexY();
-            CenterViewTo(sprite.GetHexX(), hexY, hexLevel);
+            sbyte hexLevel = sprite.HexLevel;
+            sbyte hexY = sprite.HexY;
+            CenterViewTo(sprite.HexX, hexY, hexLevel);
         }
     }
 
@@ -2155,7 +2158,7 @@ public partial class StrategicMap : GameMap
         int result;
         if (!Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
-            if (GetSynchronized())
+            if (Synchronized)
             {
                 RandSeed = DefendersSeed;
                 result = DelphiRandom.Random(range);
@@ -2417,9 +2420,9 @@ public partial class StrategicMap : GameMap
     // AoWHSMap.PAS:3061
     public void UpdateTurnTimeBeep()
     {
-        if (GetTurnTimerEnabled())
+        if (TurnTimerEnabled)
         {
-            int seconds = GetTurnTimeLeft() / 1000;
+            int seconds = TurnTimeLeft / 1000;
             if (_turnTimeBeep != 0 && seconds < _turnTimeBeep && CombatMap is null)
             {
                 _turnTimeBeep = seconds;
@@ -2437,39 +2440,42 @@ public partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:3086
-    public int GetTurnTimeLeft()
+    public int TurnTimeLeft
     {
-        int left = _turnTimeElapsed;
-        if (_turnTimerStart != -1)
+        get
         {
-            int time = PixelFormats.GetElapsedMilliseconds();
-            left = time >= _turnTimerStart ? left - (time - _turnTimerStart) : 0;
-        }
+            int left = _turnTimeElapsed;
+            if (_turnTimerStart != -1)
+            {
+                int time = PixelFormats.ElapsedMilliseconds;
+                left = time >= _turnTimerStart ? left - (time - _turnTimerStart) : 0;
+            }
 
-        if (left < 0)
-        {
-            left = 0;
-        }
+            if (left < 0)
+            {
+                left = 0;
+            }
 
-        return left;
+            return left;
+        }
     }
 
     // AoWHSMap.PAS:3102
-    public bool GetTurnTimerEnabled() => TurnTime > 0 && _turnTimerStart != -1;
+    public bool TurnTimerEnabled => TurnTime > 0 && _turnTimerStart != -1;
 
     // AoWHSMap.PAS:3108
     public void EnableTurnTimer()
     {
         if (_turnTimerStart == -1 && TurnTime > 0)
         {
-            _turnTimerStart = PixelFormats.GetElapsedMilliseconds();
+            _turnTimerStart = PixelFormats.ElapsedMilliseconds;
         }
     }
 
     // AoWHSMap.PAS:3114
     public void DisableTurnTimer()
     {
-        int time = PixelFormats.GetElapsedMilliseconds() - _turnTimerStart;
+        int time = PixelFormats.ElapsedMilliseconds - _turnTimerStart;
         if (time > 0)
         {
             _turnTimeElapsed -= time;

@@ -127,7 +127,7 @@ public partial class MoveControl
                 count++;
             }
         }
-        HeadlessHooks.MoveLine?.Invoke(origin.GetMapCoordinate(), direction, initialOverCode, count);
+        HeadlessHooks.MoveLine?.Invoke(origin.MapCoordinate, direction, initialOverCode, count);
         return count;
     }
 

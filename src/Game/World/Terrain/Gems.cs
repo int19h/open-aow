@@ -141,9 +141,9 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
             bool condition = StrategicMap.Current.SeatedPlayer == armyHexSprite.Army.Player;
             if (!condition)
             {
-                sbyte hexLevel = GetHexLevel();
-                sbyte hexY = GetHexY();
-                sbyte hexX = GetHexX();
+                sbyte hexLevel = HexLevel;
+                sbyte hexY = HexY;
+                sbyte hexX = HexX;
                 condition = StrategicMap.Current.Watching(hexX, hexY, hexLevel, 0);
             }
 
@@ -161,7 +161,7 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
                 Player = armyHexSprite.Army.Player,
                 Text = Format(AbilityRules.TranslateResourceString(GetEngine(), s_goldFoundFormat), [IntToStr(_amount)])
             };
-            eventValue.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());
+            eventValue.SetLocation(level: HexLevel, y: HexY, x: HexX);
             StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(eventValue);
             _ = eventValue.Release();
             Dispose();

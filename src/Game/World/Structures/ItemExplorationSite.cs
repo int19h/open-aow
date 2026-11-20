@@ -69,7 +69,7 @@ public class ItemExplorationSite : ExplorationSite
     }
 
     // ItemExpS.pas:125
-    public override bool GetExplored() => _items.Count == 0;
+    public override bool Explored => _items.Count == 0;
 
     // ItemExpS.pas:146
     public override void SetupCombat(Battle combat, ArmyHexSprite army)
@@ -89,13 +89,13 @@ public class ItemExplorationSite : ExplorationSite
                 Holder = CreationHolder(),
                 Player = army.Army.Player,
                 Title = AbilityRules.TranslateResourceString(GetEngine(), s_itemsFoundText),
-                Location = new MapCoordinate(X: GetHexX(), Y: GetHexY(), MapLevel: GetHexLevel())
+                Location = new MapCoordinate(X: HexX, Y: HexY, MapLevel: HexLevel)
             };
             for (int i = _items.Count - 1; i >= 0; i--)
             {
                 Item item = _items.GetItem(i);
                 _ = log.ItemIds.Add(item.ItemId);
-                _ = item.PlaceOnMap(level: GetHexLevel(), y: GetHexY(), x: GetHexX(), map: StrategicMap.Current);
+                _ = item.PlaceOnMap(level: HexLevel, y: HexY, x: HexX, map: StrategicMap.Current);
             }
 
             // { Original parses the formatted text as CSV. }

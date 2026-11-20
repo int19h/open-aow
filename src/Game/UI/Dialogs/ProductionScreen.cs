@@ -286,7 +286,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                     UnitDamageLabel.Text = IntToStr(damage);
                     sbyte hits = u.GetHits();
                     UnitHitsLabel.Text = IntToStr(hits);
-                    sbyte moves = u.GetMoves();
+                    sbyte moves = u.Moves;
                     UnitMovesLabel.Text = IntToStr(moves);
                     Set<MoveType> moveTypes = u.GetMoveTypes();
                     int moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
@@ -295,7 +295,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                     string alignmentText = UI.Engine.TranslateResourceString(GameText.AlignmentTexts[(int)alignment]);
                     string format = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.AlignmentFormat), [alignmentText]);
                     UnitAlignmentLabel.Text = format;
-                    sbyte unitLevel = u.GetUnitLevel();
+                    sbyte unitLevel = u.UnitLevel;
                     string formattedText = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.LevelFormat), [IntToStr(unitLevel)]);
                     byte upkeep = u.GetUpkeep();
                     string format2 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.UpkeepFormat), [(int)upkeep]);
@@ -560,7 +560,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
         _place = place;
         UpdateInfo();
         SetMode(0);
-        string text = place.GetDescription().Text;
+        string text = place.Description.Text;
         PlaceInfoMemo.Items.Text = text;
         for (int i = 0, last = _place.ProductionControl.UnitProductions.GetCount() - 1; i <= last; i++)
         {
@@ -569,9 +569,9 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
 
         FreePreview();
         RandomBattleMapGenerator generator = new(UI.Engine);
-        sbyte hexLevel = _place.GetHexLevel();
-        sbyte hexY = _place.GetHexY();
-        _preview = generator.RandomMap(null, _place.GetHexX(), hexY, hexLevel);
+        sbyte hexLevel = _place.HexLevel;
+        sbyte hexY = _place.HexY;
+        _preview = generator.RandomMap(null, _place.HexX, hexY, hexLevel);
         generator?.Dispose();
         ArmyHexSprite army = _place.Owner.GetArmyHexSprite();
         if (army is not null)
@@ -582,13 +582,13 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
             }
         }
 
-        int baseIncome = _place.GetBaseIncome();
+        int baseIncome = _place.BaseIncome;
         Action5CheckBox.CaptureInput = baseIncome != 0;
         HexSprite center = _preview.CenterViewLocation;
         if (center is not null)
         {
-            sbyte fCenterViewLocationHexY = _preview.CenterViewLocation.GetHexY();
-            HexGeometry.HexToPixel(center.GetHexX(), fCenterViewLocationHexY, out _viewX, out _viewY);
+            sbyte fCenterViewLocationHexY = _preview.CenterViewLocation.HexY;
+            HexGeometry.HexToPixel(center.HexX, fCenterViewLocationHexY, out _viewX, out _viewY);
             _viewX = _viewX + 16 - (MapView.WinWidth / 2);
             _viewY = _viewY + 16 - (MapView.WinHeight / 2);
         }
@@ -669,7 +669,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
 
                 break;
             case 4:
-                if (_place.GetBaseIncome() != 0)
+                if (_place.BaseIncome != 0)
                 {
                     int activityImage = new Trade(0).ActivityImage(_place);
                     UI.Graphics.CityWindow[activityImage].Show(r.Left + 2, r.Top + 2, lockedSurface);
@@ -963,16 +963,16 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
             int width = r.Right - r.Left;
             int w = width;
             int h = r.Bottom - r.Top;
-            int maxPixelX = _preview.GetMaxPixelX();
+            int maxPixelX = _preview.MaxPixelX;
             if (_viewX + w + 16 > maxPixelX)
             {
-                _viewX = _preview.GetMaxPixelX() - w - 16;
+                _viewX = _preview.MaxPixelX - w - 16;
             }
 
-            int maxPixelY = _preview.GetMaxPixelY();
+            int maxPixelY = _preview.MaxPixelY;
             if (_viewY + h + 16 > maxPixelY)
             {
-                _viewY = _preview.GetMaxPixelY() - h - 16;
+                _viewY = _preview.MaxPixelY - h - 16;
             }
 
             if (_viewX < 16)
@@ -1043,7 +1043,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
         if (button == MouseButton.Right && UnitAbilitiesList.Selected > -1)
         {
             object objectValue = UnitAbilitiesList.Items.Objects[UnitAbilitiesList.Selected];
-            Ability a = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+            Ability a = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
             if (a is not null)
             {
                 InfoBanner.SetInfoBanner(caption: a.GetName(null), banner: UI.InfoBanner, description: a.Description);

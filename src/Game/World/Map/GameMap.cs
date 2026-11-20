@@ -852,29 +852,35 @@ public partial class GameMap : OwningNode
     public void ResetModified() => Status -= Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Modified);
 
     // HSMAP.PAS:208
-    public int GetMaxPixelX()
+    public int MaxPixelX
     {
-        HexGeometry.HexToPixel(MapContainer.Width - 1, MapContainer.Height - 1, out int x, out _);
+        get
+        {
+            HexGeometry.HexToPixel(MapContainer.Width - 1, MapContainer.Height - 1, out int x, out _);
 
-        x += 40;
-        return x;
+            x += 40;
+            return x;
+        }
     }
 
     // HSMAP.PAS:218
-    public int GetMaxPixelY()
+    public int MaxPixelY
     {
-        int y;
-        if (MapContainer.Height > 1)
+        get
         {
-            HexGeometry.HexToPixel(1, MapContainer.Height - 1, out _, out y);
-        }
-        else
-        {
-            HexGeometry.HexToPixel(0, MapContainer.Height - 1, out _, out y);
-        }
+            int y;
+            if (MapContainer.Height > 1)
+            {
+                HexGeometry.HexToPixel(1, MapContainer.Height - 1, out _, out y);
+            }
+            else
+            {
+                HexGeometry.HexToPixel(0, MapContainer.Height - 1, out _, out y);
+            }
 
-        y += 32;
-        return y;
+            y += 32;
+            return y;
+        }
     }
 
     // HSMAP.PAS:231
@@ -1022,7 +1028,7 @@ public partial class GameMap : OwningNode
         {
             for (int i = StaticVisibleHexSprite.StoredCount - 1; i >= 0; i--)
             {
-                StaticVisibleHexSprite[i].SetVisible(false);
+                StaticVisibleHexSprite[i].Visible = false;
             }
 
             StaticVisibleHexSprite.QuickClear();
@@ -1041,7 +1047,7 @@ public partial class GameMap : OwningNode
         {
             try
             {
-                DynamicVisibleHexSprite[i].SetVisible(false);
+                DynamicVisibleHexSprite[i].Visible = false;
             }
             catch
             {
@@ -1111,8 +1117,6 @@ public partial class GameMap : OwningNode
     public int ViewHexY { get; private set; }
     public int ViewWidthHex { get; private set; }
     public int ViewHeightHex { get; private set; }
-    public int MaxPixelX => GetMaxPixelX();
-    public int MaxPixelY => GetMaxPixelY();
 
     public delegate void CenterViewEvent(int Xhx, int Yhx, int Lhx);
     public delegate void ChangeViewEvent(int Xhp, int Yhp, int Lhp);

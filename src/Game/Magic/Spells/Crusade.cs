@@ -118,8 +118,8 @@ public class Crusade : Spell
                 }
             }
 
-            GamePack.Current.SpellControl.GetSpell(SpellId).CastingDone(source, BaseManaCost);
-            _ = GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
+            GamePack.Current.SpellControl[SpellId].CastingDone(source, BaseManaCost);
+            _ = GamePack.Current.SpellControl[SpellId].CastSounds.Play(0);
         }
 
         return false;
@@ -159,20 +159,20 @@ public class Crusade : Spell
         {
             party.Activate();
             party.Army.SetBehavior(255, GroupBehavior.Suicidal);
-            sbyte hexLevel = party.GetHexLevel();
-            sbyte hexY = party.GetHexY();
-            sbyte hexX = party.GetHexX();
+            sbyte hexLevel = party.HexLevel;
+            sbyte hexY = party.HexY;
+            sbyte hexX = party.HexX;
             if (StrategicMap.Current.Watching(hexX, hexY, hexLevel, 0))
             {
-                if (GamePack.Current.SpellControl.GetSpell(34).CastImages.GetImageSequence(0) is not null)
+                if (GamePack.Current.SpellControl[34].CastImages.GetImageSequence(0) is not null)
                 {
                     // { Original uses Warp Party's images for Crusade parties. }
                     ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
-                    animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(34).CastImages.GetImageSequence(0));
+                    animation.SetImageSequence(GamePack.Current.SpellControl[34].CastImages.GetImageSequence(0));
                     animation.AnimationLevel = 28;
-                    sbyte partyHexLevel = party.GetHexLevel();
-                    sbyte partyHexY = party.GetHexY();
-                    sbyte partyHexX = party.GetHexX();
+                    sbyte partyHexLevel = party.HexLevel;
+                    sbyte partyHexY = party.HexY;
+                    sbyte partyHexX = party.HexX;
                     _ = StrategicMap.Current.PlaceHex(animation, partyHexX, partyHexY, partyHexLevel);
                 }
             }

@@ -527,7 +527,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                 UnitDamageLabel.Text = IntToStr(damage);
                 sbyte hits = u.GetHits();
                 UnitHitsLabel.Text = IntToStr(hits);
-                sbyte moves = u.GetMoves();
+                sbyte moves = u.Moves;
                 UnitMovesLabel.Text = IntToStr(moves);
                 Set<MoveType> moveTypes = u.GetMoveTypes();
                 int moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
@@ -536,7 +536,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                 string alignmentText = UI.Engine.TranslateResourceString(GameText.AlignmentTexts[(int)alignment]);
                 string format4 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.AlignmentFormat), [alignmentText]);
                 UnitAlignmentLabel.Text = format4;
-                sbyte unitLevel = u.GetUnitLevel();
+                sbyte unitLevel = u.UnitLevel;
                 string format5 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.LevelFormat), [IntToStr(unitLevel)]);
                 byte upkeep = u.GetUpkeep();
                 string format6 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.UpkeepFormat), [(int)upkeep]);
@@ -680,7 +680,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
         }
 
         LoopQueueCheckBox.Checked = _city.Production.LoopQueue;
-        if (_city.GetActiveAction() != CityAction.None)
+        if (_city.ActiveAction != CityAction.None)
         {
             string nameProgressive = _city.Production.Queue.GetItem(0).GetNameProgressive();
             ActiveActionLabel.Text = nameProgressive;
@@ -702,7 +702,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
                 ActiveActionTurnsBar.Visible = false;
             }
 
-            int activityImage = _city.GetActiveOrder().ActivityImage(_city);
+            int activityImage = _city.ActiveOrder.ActivityImage(_city);
             CurrentActionImage.CurrentImage = activityImage;
         }
         else
@@ -779,19 +779,19 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
         }
 
         RandomBattleMapGenerator generator = new(UI.Engine);
-        sbyte hexLevel = _city.GetHexLevel();
-        sbyte hexY = _city.GetHexY();
-        _preview = generator.RandomMap(null, _city.GetHexX(), hexY, hexLevel);
+        sbyte hexLevel = _city.HexLevel;
+        sbyte hexY = _city.HexY;
+        _preview = generator.RandomMap(null, _city.HexX, hexY, hexLevel);
         generator?.Dispose();
         ArmyHSList armies = new(null) { Holder = UI.Engine };
         _ = _city.ListArmies(armies);
         for (int i = 0, last = armies.GetCount() - 1; i <= last; i++)
         {
-            ArmyHexSprite army = armies.GetArmyHexSprite(i);
-            sbyte armyHexY = army.GetHexY();
-            sbyte hexX = army.GetHexX();
-            sbyte fCityHexY = _city.GetHexY();
-            int direction = HexGeometry.DeltaHexToHexNumber(_city.GetHexX(), fCityHexY, hexX, armyHexY);
+            ArmyHexSprite army = armies[i];
+            sbyte armyHexY = army.HexY;
+            sbyte hexX = army.HexX;
+            sbyte fCityHexY = _city.HexY;
+            int direction = HexGeometry.DeltaHexToHexNumber(_city.HexX, fCityHexY, hexX, armyHexY);
             for (int j = 0, lastJ = army.Army.Units.Count - 1; j <= lastJ; j++)
             {
                 CombatMap.PlaceOverviewUnit(unit: army.Army.Units.GetUnit(j), map: _preview, position: direction, index: j);
@@ -802,8 +802,8 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
         MapObject mapObject = _preview.CenterViewLocation;
         if (_preview.CenterViewLocation is not null)
         {
-            sbyte mapObjectHexY = mapObject.GetHexY();
-            HexGeometry.HexToPixel(mapObject.GetHexX(), mapObjectHexY, out _viewX, out _viewY);
+            sbyte mapObjectHexY = mapObject.HexY;
+            HexGeometry.HexToPixel(mapObject.HexX, mapObjectHexY, out _viewX, out _viewY);
             _viewX = _viewX + 16 - (MapView.WinWidth / 2);
             _viewY = _viewY + 16 - (MapView.WinHeight / 2);
         }
@@ -1316,16 +1316,16 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
             int width = r.Right - r.Left;
             int w = width;
             int h = r.Bottom - r.Top;
-            int maxPixelX = _preview.GetMaxPixelX();
+            int maxPixelX = _preview.MaxPixelX;
             if (_viewX + w + 16 > maxPixelX)
             {
-                _viewX = _preview.GetMaxPixelX() - w - 16;
+                _viewX = _preview.MaxPixelX - w - 16;
             }
 
-            int maxPixelY = _preview.GetMaxPixelY();
+            int maxPixelY = _preview.MaxPixelY;
             if (_viewY + h + 16 > maxPixelY)
             {
-                _viewY = _preview.GetMaxPixelY() - h - 16;
+                _viewY = _preview.MaxPixelY - h - 16;
             }
 
             if (_viewX < 16)
@@ -1396,7 +1396,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
         if (button == MouseButton.Right && UnitAbilitiesList.Selected > -1)
         {
             object objectValue = UnitAbilitiesList.Items.Objects[UnitAbilitiesList.Selected];
-            Ability a = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+            Ability a = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
             if (a is not null)
             {
                 InfoBanner.SetInfoBanner(caption: a.GetName(null), banner: UI.InfoBanner, description: a.Description);

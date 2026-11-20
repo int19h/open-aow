@@ -50,7 +50,7 @@ public class AIGroupCooperationControl : AIGroupTask
     }
 
     // AIGroup.pas:2919
-    public override bool GetBusy() => State != -1;
+    public override bool Busy => State != -1;
 
     // AIGroup.pas:2932
     public override bool Activate(AIGroupControl control)
@@ -124,7 +124,7 @@ public class AIGroupCooperationControl : AIGroupTask
     }
 
     // AIGroup.pas:2868
-    public int GetCooperatedStrength() => CooperateStrength - _remainingStrength;
+    public int CooperatedStrength => CooperateStrength - _remainingStrength;
 
     // AIGroup.pas:2873
     public int GetCooperateStrength(DamageType damageType) => _cooperateStrengths[(int)damageType];

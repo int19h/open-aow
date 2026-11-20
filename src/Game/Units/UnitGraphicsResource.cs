@@ -211,5 +211,5 @@ public class UnitGraphicsResource : EngineResource
     }
 
     // UnitHS.PAS:112
-    public int GetIndex() => EditIndex;
+    public int Index => EditIndex;
 }

@@ -37,7 +37,7 @@ public class FleeLocation(CustomNode owner) : MapObject(owner)
     {
         if (info.HexNumber == 0)
         {
-            moveResult.Code = ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetSide() == CombatSideIndex.Attacker
+            moveResult.Code = ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.Side == CombatSideIndex.Attacker
                 ? 25
                 : ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][info.MapField.OverlayType - MovementTables.FirstOverlay];
 
@@ -75,7 +75,7 @@ public class FleeLocation(CustomNode owner) : MapObject(owner)
     // FleeLoc.pas:93
     public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        if (!GetEditMode())
+        if (!EditMode)
         {
             MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
             EngineObject oldHex = mapField.FindOwnedChild(132439);
@@ -99,7 +99,7 @@ public class FleeLocation(CustomNode owner) : MapObject(owner)
         }
         else
         {
-            if (CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite() is not null && CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite().Unit.CombatPlayer == CombatMap.Current.SeatedCombatPlayer && CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite().Unit.CombatPlayer != CombatMap.Current.Combat.CombatData.DefenderPlayer)
+            if (CombatMap.Current.UnitSelection.TacticalBattleUnitHexSprite is not null && CombatMap.Current.UnitSelection.TacticalBattleUnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedCombatPlayer && CombatMap.Current.UnitSelection.TacticalBattleUnitHexSprite.Unit.CombatPlayer != CombatMap.Current.Combat.CombatData.DefenderPlayer)
             {
                 highlight = true;
             }

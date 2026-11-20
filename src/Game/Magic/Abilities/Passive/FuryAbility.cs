@@ -28,7 +28,7 @@ public class FuryAbility : UnitEnchantmentAbility
             return 0;
         }
 
-        int result = troop.GetUnitLevel() + 200;
+        int result = troop.UnitLevel + 200;
         if (troop is Leader)
         {
             result -= 50;

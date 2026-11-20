@@ -27,7 +27,7 @@ public class FrozenAbility : UnitEnchantmentAbility
     public override DurationMode GetDurationMode() => DurationMode.CombatTurn;
 
     // PassiveAb.pas:663
-    public override sbyte GetTotalDuration() => 2;
+    public override sbyte TotalDuration => 2;
 
     // PassiveAb.pas:668
     public override UnitEnchantment CreateEnchantment()

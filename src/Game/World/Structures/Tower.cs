@@ -30,7 +30,7 @@ public partial class Tower(CustomNode owner) : PlayerStructure(owner)
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
         base.MapFieldMessageProc(ref message);
-        if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0 && message.MessageId == 4387 && message.Param[0].As<MapField>().FindNoneTransparentHexSprite(typeof(Tower)) == this && !GetBuilding() && !GetRazed())
+        if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0 && message.MessageId == 4387 && message.Param[0].As<MapField>().FindNoneTransparentHexSprite(typeof(Tower)) == this && !Building && !GetRazed())
         {
             message.Result = 2;
         }
@@ -88,10 +88,10 @@ public partial class Tower(CustomNode owner) : PlayerStructure(owner)
     public override int VisibilityRange()
     {
         int result;
-        if (!GetBuilding())
+        if (!Building)
         {
             result = 12;
-            if (GetHexLevel() != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0))
+            if (HexLevel != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0))
             {
                 return (int)(((uint)(result + 1)) >> 1);
             }
@@ -105,7 +105,7 @@ public partial class Tower(CustomNode owner) : PlayerStructure(owner)
     }
 
     // Tower.pas:70
-    public override int GetDefaultAITargetPriority() => 1;
+    public override int DefaultAITargetPriority => 1;
 
     public enum StateElement : byte
     {

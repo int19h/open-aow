@@ -66,7 +66,7 @@ public class ConcealAreaHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
                 if (_frame - delay >= 0)
                 {
                     AbilityRules.PolarToCartesian(direction, radius, out int x, out int y);
-                    _ = GamePack.Current.SpellControl.GetSpell(57).CastImages.Show(0, pixelX + x, pixelY + y, _frame - delay, lockedSurface);
+                    _ = GamePack.Current.SpellControl[57].CastImages.Show(0, pixelX + x, pixelY + y, _frame - delay, lockedSurface);
                 }
             }
 
@@ -84,7 +84,7 @@ public class ConcealAreaHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
         _y = Y;
         _layer = layer;
         _frame = 0;
-        _ = GamePack.Current.SpellControl.GetSpell(1).CastSounds.Play(0);
+        _ = GamePack.Current.SpellControl[1].CastSounds.Play(0);
         _ = StrategicMap.Current.DynamicFixedVisibleHexSprite.AddChild(this);
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, _x, _y, 0);
         MapLevel level = StrategicMap.Current.MapContainer.MapLevels[_layer];

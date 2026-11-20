@@ -38,7 +38,7 @@ public class StructureControl : EngineObject
     }
 
     // Structur.PAS:3233
-    public Structure GetStructure(int index) => index >= 0 && index < GetCount() ? _structures.GetChild<Structure>(index) : null;
+    public Structure this[int index] => index >= 0 && index < GetCount() ? _structures.GetChild<Structure>(index) : null;
 
     // Structur.PAS:3240
     public int GetCount() => _structures.GetCount();

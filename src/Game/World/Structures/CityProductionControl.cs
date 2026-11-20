@@ -22,10 +22,10 @@ public partial class CityProductionControl(CustomNode owner) : ProductionControl
     public City City { get; init; }
 
     // City.pas:645
-    public override MapCoordinate GetLocation() => new(
-        City.GetHexX(),
-        City.GetHexY(),
-        City.GetHexLevel());
+    public override MapCoordinate Location => new(
+        City.HexX,
+        City.HexY,
+        City.HexLevel);
 
     // City.pas:707
     public override sbyte GetPlayer() => City.Player;
@@ -35,16 +35,16 @@ public partial class CityProductionControl(CustomNode owner) : ProductionControl
     {
         City city = City;
         bool valid = false;
-        int count = city.GetTerrainCount();
+        int count = city.TerrainCount;
         MapLevel level = city.Owner.Owner;
-        sbyte hexY = city.GetHexY();
-        sbyte hexX = city.GetHexX();
+        sbyte hexY = city.HexY;
+        sbyte hexX = city.HexX;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
         while (walk.HexNumber < count && !valid)
         {
             if (city.Resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                sbyte hexLevel = city.GetHexLevel();
+                sbyte hexLevel = city.HexLevel;
                 valid = Settings.Unit.Place(walk.X, walk.Y, hexLevel, city.Player, Set<UnitPlaceModeElement>.Of()) is not null;
             }
 
@@ -53,9 +53,9 @@ public partial class CityProductionControl(CustomNode owner) : ProductionControl
 
         if (!valid)
         {
-            sbyte hexLevel = city.GetHexLevel();
-            sbyte cityHexY = city.GetHexY();
-            sbyte cityHexX = city.GetHexX();
+            sbyte hexLevel = city.HexLevel;
+            sbyte cityHexY = city.HexY;
+            sbyte cityHexX = city.HexX;
             valid = Settings.Unit.Place(cityHexX, cityHexY, hexLevel, city.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea)) is not null;
         }
 
@@ -67,7 +67,7 @@ public partial class CityProductionControl(CustomNode owner) : ProductionControl
         string name = Settings.Unit.GetName();
         string fCityName = City.GetName();
         log.Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducedFormat), [name, fCityName]);
-        log.SetLocation(level: city.GetHexLevel(), y: city.GetHexY(), x: city.GetHexX());
+        log.SetLocation(level: city.HexLevel, y: city.HexY, x: city.HexX);
         StrategicMap.Current.Players.GetPlayers(log.Player).EventLogbook.AddEvent(log);
         _ = log.Release();
         return valid;
@@ -87,7 +87,7 @@ public partial class CityProductionControl(CustomNode owner) : ProductionControl
         string unitName = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
         string name = City.GetName();
         log.Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.InstalledFormat), [unitName, name]);
-        log.SetLocation(level: city.GetHexLevel(), y: city.GetHexY(), x: city.GetHexX());
+        log.SetLocation(level: city.HexLevel, y: city.HexY, x: city.HexX);
         StrategicMap.Current.Players.GetPlayers(log.Player).EventLogbook.AddEvent(log);
         _ = log.Release();
     }
@@ -119,7 +119,7 @@ public partial class CityProductionControl(CustomNode owner) : ProductionControl
     {
         int unitIndex = UnitProductions.GetItem(index).UnitIndex;
         UnitResource unitResource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
-        int size = City.GetSize();
+        int size = City.Size;
         int result = unitResource.Level - (size / 2) + 1;
         return result < 1 ? 1 : result;
     }

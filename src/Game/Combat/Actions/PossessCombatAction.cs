@@ -62,7 +62,7 @@ public class PossessCombatAction(CustomNode owner) : SingleTargetCombatAction(ow
                 source.Troop.UnitStatus = source.Troop.UnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
             }
 
-            _ = GamePack.Current.AbilityControl.GetAbility(107).Expand(source.Troop);
+            _ = GamePack.Current.AbilityControl[107].Expand(source.Troop);
             PossessedAbilityData data;
             int experience;
             if (oldUnit.GetAbilityEnabled(107))
@@ -76,7 +76,7 @@ public class PossessCombatAction(CustomNode owner) : SingleTargetCombatAction(ow
             }
 
             data = GamePack.Current.AbilityControl.GetAbility<PossessedAbility>(107).GetData(source.Troop);
-            data?.SourceExperience = source.Troop.GetUnitLevel() + experience;
+            data?.SourceExperience = source.Troop.UnitLevel + experience;
 
             _ = newUnit.Release();
             _ = oldUnit.Release();
@@ -88,7 +88,7 @@ public class PossessCombatAction(CustomNode owner) : SingleTargetCombatAction(ow
     {
         if (viewer.Time == 0)
         {
-            _ = GamePack.Current.AbilityControl.GetAbility(106).SfxLibrary.Play(0);
+            _ = GamePack.Current.AbilityControl[106].SfxLibrary.Play(0);
         }
 
         if (viewer.Delay == viewer.Time)
@@ -105,7 +105,7 @@ public class PossessCombatAction(CustomNode owner) : SingleTargetCombatAction(ow
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == SourceId || objectValue.Id == TargetId)
         {
-            _ = GamePack.Current.AbilityControl.GetAbility(106).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
+            _ = GamePack.Current.AbilityControl[106].ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
         }
     }
 

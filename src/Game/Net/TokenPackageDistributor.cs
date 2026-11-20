@@ -19,7 +19,7 @@ public class TokenPackageDistributor(TokenManager manager)
     {
         if (TokenManager is not null)
         {
-            if (Pc.PlayerCommunicationControl.GetLocalSystemId() != Pc.PlayerCommunicationControl.GetPlayers(tp.Sender).SystemId)
+            if (Pc.PlayerCommunicationControl.LocalSystemId != Pc.PlayerCommunicationControl.GetPlayers(tp.Sender).SystemId)
             {
                 for (int i = 0, last = tp.TokenEvents.Count - 1; i <= last; i++)
                 {

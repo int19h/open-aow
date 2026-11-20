@@ -41,7 +41,7 @@ public partial class ArenaDialog(UIContext ui) : UIModule(ui)
         UnitShowInfo info;
         if (index < _event.GetCount())
         {
-            Troop u = _event.GetUnit(index);
+            Troop u = _event[index];
             Rect saveRectangle = lockedSurface.ClipRectangle;
             Rect rectangle = new(X + 5, Y + 4, X + 46, Y + 56);
             lockedSurface.ClipRectangle = rectangle;
@@ -165,8 +165,8 @@ public partial class ArenaDialog(UIContext ui) : UIModule(ui)
         Rect r = new(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth, Window.WinTop + sender.WinTop + sender.WinHeight);
         int w = r.Right - r.Left;
         int h = r.Bottom - r.Top;
-        sbyte hexY = _event.Arena.GetHexY();
-        HexGeometry.HexToPixel(_event.Arena.GetHexX(), hexY, out int x, out int y);
+        sbyte hexY = _event.Arena.HexY;
+        HexGeometry.HexToPixel(_event.Arena.HexX, hexY, out int x, out int y);
         x = x + 16 - (int)(((uint)w) >> 1);
         y = y + 16 - (int)(((uint)h) >> 1);
         if (x < 16)
@@ -180,7 +180,7 @@ public partial class ArenaDialog(UIContext ui) : UIModule(ui)
         }
 
         LockedSurface.CreateFrom(lockedSurface, r, out LockedSurface mapSurfaceDescription);
-        sbyte hexLevel = _event.Arena.GetHexLevel();
+        sbyte hexLevel = _event.Arena.HexLevel;
         _ = StrategicMap.Current.SetViewPort(x, y, hexLevel, r.Right - r.Left, r.Bottom - r.Top);
         StrategicMap.Current.UpdateStaticScene();
         StrategicMap.Current.UpdateDynamicScene();

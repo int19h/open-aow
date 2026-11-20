@@ -77,7 +77,7 @@ public partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     public void EventListDoubleClick()
     {
         object objectValue = EventList.Items.Objects[EventList.Selected];
-        _ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue)).Execute(true, ExecuteTrigger.User, null);
+        _ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook[ObjectToInt(objectValue)].Execute(true, ExecuteTrigger.User, null);
     }
 
     // AoWPInfoWin.pas:78
@@ -86,7 +86,7 @@ public partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
         if (drawItem != EventList.Selected)
         {
             object objectValue = EventList.Items.Objects[drawItem];
-            int textColor = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue)).GetTextColor();
+            int textColor = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook[ObjectToInt(objectValue)].GetTextColor();
             EventList.TextColor = textColor;
         }
     }
@@ -95,11 +95,11 @@ public partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     public void EventListDrawItem(in Rect drawRectangle, int drawItem, ref readonly LockedSurface lockedSurface)
     {
         object objectValue = EventList.Items.Objects[drawItem];
-        int leftIcon = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue)).GetLeftIcon();
+        int leftIcon = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook[ObjectToInt(objectValue)].LeftIcon;
         object objectValue2 = EventList.Items.Objects[drawItem];
-        int middleIcon = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue2)).GetMiddleIcon();
+        int middleIcon = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook[ObjectToInt(objectValue2)].MiddleIcon;
         object objectValue3 = EventList.Items.Objects[drawItem];
-        int rightIcon = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue3)).GetRightIcon();
+        int rightIcon = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook[ObjectToInt(objectValue3)].RightIcon;
         if (leftIcon > -1)
         {
             if (middleIcon == -1)
@@ -137,7 +137,7 @@ public partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
         if (EventList.Selected > -1 && button == MouseButton.Right)
         {
             object objectValue = EventList.Items.Objects[EventList.Selected];
-            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue)).ViewLocation();
+            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook[ObjectToInt(objectValue)].ViewLocation();
         }
     }
 

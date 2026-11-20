@@ -110,7 +110,7 @@ public class CombatUnit : CombatObject
 
             if (u.GetAbilityEnabled(52))
             {
-                ability = GamePack.Current.AbilityControl.GetAbility(52);
+                ability = GamePack.Current.AbilityControl[52];
                 ability.TacticalBattleGetDamageValues(this, target, ref values);
                 if (values.SourceDamage > 0)
                 {
@@ -205,7 +205,7 @@ public class CombatUnit : CombatObject
     public override sbyte GetHits() => Troop is not null ? Troop.GetHits() : (sbyte)0;// { Direct field test retains the receiver. }// { No cast temporary. }
 
     // Combat.pas:1289
-    public override sbyte GetHitPoints() => Troop is not null ? Troop.GetHitPoints() : (sbyte)0;// { Direct field test retains the receiver. }// { No cast temporary. }
+    public override sbyte HitPoints => Troop is not null ? Troop.GetHitPoints() : (sbyte)0;// { Direct field test retains the receiver. }// { No cast temporary. }
 
     // Combat.pas:1296
     public override void SetHitPoints(byte value)
@@ -217,16 +217,16 @@ public class CombatUnit : CombatObject
     public override Alignment GetAlignment() => Troop.GetAlignment();
 
     // Combat.pas:1257
-    public override int GetMoves() => Troop.GetMoves();
+    public override int Moves => Troop.Moves;
 
     // Combat.pas:1477
-    public override int GetExperience() => Troop.GetExperience();
+    public override int Experience => Troop.GetExperience();
 
     // Combat.pas:1480
     public override void SetExperience(int value) => Troop.SetExperience(value);
 
     // Combat.pas:1483
-    public override byte GetLevel() => (byte)Troop.GetUnitLevel();
+    public override byte Level => (byte)Troop.UnitLevel;
 
     // Combat.pas:1095
     public override int GetVisibilityRange()
@@ -264,7 +264,7 @@ public class CombatUnit : CombatObject
     public override int GetAbilityCount() => Troop is not null ? Troop.GetAbilityCount() : 0;
 
     // Combat.pas:1263
-    public override AbilityOwner GetAbilityOwner() => Troop;
+    public override AbilityOwner AbilityOwner => Troop;
 
     // Combat.pas:1178
     public override void Activate(Battle combat)
@@ -386,7 +386,7 @@ public class CombatUnit : CombatObject
             while (i != 0 && !result)
             {
                 i -= 1;
-                result = Troop.GetAbilityEnabled(i) && modes.Contains(GamePack.Current.AbilityControl.GetAbility(i).GetCombatMode(Troop));
+                result = Troop.GetAbilityEnabled(i) && modes.Contains(GamePack.Current.AbilityControl[i].GetCombatMode(Troop));
             }
         }
         else
@@ -406,22 +406,22 @@ public class CombatUnit : CombatObject
         switch (sound)
         {
             case 0:
-                int unitGraphicsResourceIndex = Troop.GetUnitGraphicsResourceIndex();
+                int unitGraphicsResourceIndex = Troop.UnitGraphicsResourceIndex;
                 UnitGraphicsResource unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
                 _ = unitGraphicsResource.SfxLibraries[2].Play(0);
                 break;
             case 1:
-                int fUnitUnitGraphicsResourceIndex = Troop.GetUnitGraphicsResourceIndex();
+                int fUnitUnitGraphicsResourceIndex = Troop.UnitGraphicsResourceIndex;
                 UnitGraphicsResource fUnitGraphicsResourcesUnitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(fUnitUnitGraphicsResourceIndex);
                 _ = fUnitGraphicsResourcesUnitGraphicsResource.SfxLibraries[2].Play(1);
                 break;
             case 2:
-                int unitGraphicsResourceIndex2 = Troop.GetUnitGraphicsResourceIndex();
+                int unitGraphicsResourceIndex2 = Troop.UnitGraphicsResourceIndex;
                 UnitGraphicsResource unitGraphicsResource2 = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex2);
                 _ = unitGraphicsResource2.SfxLibraries[3].Play(0);
                 break;
             case 3:
-                int unitGraphicsResourceIndex3 = Troop.GetUnitGraphicsResourceIndex();
+                int unitGraphicsResourceIndex3 = Troop.UnitGraphicsResourceIndex;
                 UnitGraphicsResource unitGraphicsResource3 = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex3);
                 _ = unitGraphicsResource3.SfxLibraries[4].Play(0);
                 break;
@@ -524,7 +524,7 @@ public class CombatUnit : CombatObject
     // Combat.pas:1544
     public override void Surrender()
     {
-        if (GetHitPoints() != 0)
+        if (HitPoints != 0)
         {
             SetHitPoints(0);
         }
@@ -546,7 +546,7 @@ public class CombatUnit : CombatObject
     // Combat.pas:1525
     public override void DestroyObject()
     {
-        if (GetHitPoints() != 0)
+        if (HitPoints != 0)
         {
             SetHitPoints(0);
         }
@@ -559,7 +559,7 @@ public class CombatUnit : CombatObject
             {
                 if (Troop.GetAbilityEnabled(i))
                 {
-                    GamePack.Current.AbilityControl.GetAbility(i).CombatObjectDestroyed(this);
+                    GamePack.Current.AbilityControl[i].CombatObjectDestroyed(this);
                 }
             }
         }
@@ -709,7 +709,7 @@ public class CombatUnit : CombatObject
     public void UpdateUnitGraphicsResource()
     {
         Troop u = Troop;
-        int index = u is not null ? u.GetUnitGraphicsResourceIndex() : -1;
+        int index = u is not null ? u.UnitGraphicsResourceIndex : -1;
 
         if (index != _unitGraphicsResourceIndex)
         {

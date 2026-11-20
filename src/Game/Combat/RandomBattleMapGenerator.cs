@@ -704,7 +704,7 @@ public class RandomBattleMapGenerator : IDisposable
 
                             if (_homePosition == -1)
                             {
-                                if (u.GetSide() == CombatSideIndex.Defender)
+                                if (u.Side == CombatSideIndex.Defender)
                                 {
                                     if (StrategicMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.Location.MapLevel].Field[CombatMap.Current.Combat.CombatData.Location.X, CombatMap.Current.Combat.CombatData.Location.Y].FindNoneTransparentHexSprite(typeof(City)) is not null)
                                     {
@@ -717,7 +717,7 @@ public class RandomBattleMapGenerator : IDisposable
                                 u.PositionGroup = 0;
                             }
 
-                            CombatSideIndex side = u.GetSide();
+                            CombatSideIndex side = u.Side;
                             CombatMap.Current.PositionStatus[u.PositionGroup] = (byte)side;
                         }
                     }
@@ -971,9 +971,9 @@ public class RandomBattleMapGenerator : IDisposable
         _ = CombatMap.Current.PlaceHex(unitHexSprite, hexX, hexY, 0);
         if (HexGeometry.DeltaHexToHexNumber(CombatMap.Current.Combat.CombatData.Location.X, CombatMap.Current.Combat.CombatData.Location.Y, CombatMap.Current.Combat.CombatData.AttackerLocation.X, CombatMap.Current.Combat.CombatData.AttackerLocation.Y) == position && CombatMap.Current.Players.GetPlayers(unitHexSprite.Unit.CombatPlayer).LastX == 0)
         {
-            sbyte xhx = unitHexSprite.GetHexX();
+            sbyte xhx = unitHexSprite.HexX;
             CombatMap.Current.Players.GetPlayers(unitHexSprite.Unit.CombatPlayer).LastX = xhx;
-            sbyte yhx = unitHexSprite.GetHexY();
+            sbyte yhx = unitHexSprite.HexY;
             CombatMap.Current.Players.GetPlayers(unitHexSprite.Unit.CombatPlayer).LastY = yhx;
         }
     }

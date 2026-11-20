@@ -860,7 +860,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
                 IntToStr(castingPointsMax)
             });
         }
-        Spell spell = GamePack.Current.SpellControl.GetSpell(dialog.Caster.CasterSpellId);
+        Spell spell = GamePack.Current.SpellControl[dialog.Caster.CasterSpellId];
         dialog.SpellNameLabel.Text = spell.SpellName;
         int number = hero.CastingMana(spell);
         string text2 = dialog.UI.Engine.TranslateResourceString(GameText.CastingCostText);

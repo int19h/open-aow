@@ -38,7 +38,7 @@ public class SpellTokenEvent(CustomNode owner) : TokenEvent(owner)
     }
 
     // NetworkE.pas:230
-    public Troop GetSource() => StrategicMap.Current.UnitControl.FindUnit(EventSourceId);
+    public Troop Source => StrategicMap.Current.UnitControl.FindUnit(EventSourceId);
 
     public virtual bool Validate(Hero source)
     {
@@ -46,16 +46,16 @@ public class SpellTokenEvent(CustomNode owner) : TokenEvent(owner)
         return (byte)source.Player == EventPlayerIndex && source.CanCastSpellInstantly(EventSpellId, EventMana, ref reason);
     }
 
-    public virtual bool Process(Troop source, int value) => GamePack.Current.SpellControl.GetSpell(EventSpellId).ExecuteTokenEvent(this, source, value);
+    public virtual bool Process(Troop source, int value) => GamePack.Current.SpellControl[EventSpellId].ExecuteTokenEvent(this, source, value);
 
     public virtual void PlayDefaultCastEffects(int unused1, int unused2)
     {
-        MapCoordinate coordinate10 = GetSource().GetLocation();
+        MapCoordinate coordinate10 = Source.GetLocation();
         sbyte x = coordinate10.X;
         sbyte y = coordinate10.Y;
         sbyte l = coordinate10.MapLevel;
-        Spell spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
-        spell.PlayDefaultCastEffects(GetSource().Player, x, y, l);
+        Spell spell = GamePack.Current.SpellControl[EventSpellId];
+        spell.PlayDefaultCastEffects(Source.Player, x, y, l);
     }
 
     public override ExecuteResult Execute(TokenExecutor executor)

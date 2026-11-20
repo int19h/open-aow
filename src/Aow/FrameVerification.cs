@@ -35,7 +35,7 @@ internal static class FrameVerification
             Surface screen = controller.GetSurface(0);
             Surface back = controller.GetSurface(1);
             Check(screen.Width == 640 && screen.Height == 480 && back.Width == 640 && back.Height == 480, "screen and back sizes");
-            Check(controller.GetSurfaceCount() == 1 && controller.GetSurface(2) is null, "double buffering");
+            Check(controller.SurfaceCount == 1 && controller.GetSurface(2) is null, "double buffering");
             LockedSurface lockedSurface = default;
             Check(back.Lock(ref lockedSurface) == GraphicsResult.Ok && lockedSurface.PixelFormatId == PixelFormat.Rgb555, "555 back surface");
             _ = back.Unlock();

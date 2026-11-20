@@ -13,7 +13,7 @@ public class NewDayEventLog(CustomNode owner) : TextEventLog(owner)
     public new const int ClassId = 131813;
 
     // EventLog.pas:812
-    public override int GetLeftIcon() => 18;
+    public override int LeftIcon => 18;
 
     // EventLog.pas:815
     public override void PlayLoggedSfx(EventLogbook logbook)

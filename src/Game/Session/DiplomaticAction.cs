@@ -346,7 +346,7 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
             otherRace = "";
         }
         Player players4 = StrategicMap.Current.Players.GetPlayers(source);
-        Alignment alignment = GamePack.Current.RaceResources.GetRaceResource(players4.PlayerRace).GetAlignment();
+        Alignment alignment = GamePack.Current.RaceResources.GetRaceResource(players4.PlayerRace).Alignment;
         proposal.DefaultMessage(new DiplomaticMessageText(alignment: (!Set<Alignment>.Of(
         [
             Alignment.PureGood,

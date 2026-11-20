@@ -20,7 +20,7 @@ public record class FastBattleCommand
     // AIGroup.pas:6710
     public virtual string GetName()
     {
-        string result = GamePack.Current.AbilityControl.GetAbility(AbilityId).GetName(null);
+        string result = GamePack.Current.AbilityControl[AbilityId].GetName(null);
         return Target is not null ? $"{result} on {Target.IdString()}" : result;
     }
 }

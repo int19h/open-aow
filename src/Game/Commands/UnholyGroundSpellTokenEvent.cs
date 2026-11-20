@@ -27,7 +27,7 @@ public class UnholyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTo
         _ = base.Process(source, value);
         CreateUnholyGround(source);
         _ = StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 1);
-        GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
+        GamePack.Current.SpellControl[EventSpellId].CastingDone(source, EventMana);
         return false;
     }
 
@@ -57,7 +57,7 @@ public class UnholyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTo
                     {
                         ground.Mode = Set<UnholySummoning>.Of(UnholySummoning.Summoning);
                         ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
-                        animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(14).CastImages.ImageSequences[0]);
+                        animation.SetImageSequence(GamePack.Current.SpellControl[14].CastImages.ImageSequences[0]);
                         animation.OnShow += ground.ShowSummonAnimation;
                         animation.OnNewFrame += ground.NewFrameSummonAnimation;
                         animation.FrameCounter = -StrategicMap.Current.Random(15);

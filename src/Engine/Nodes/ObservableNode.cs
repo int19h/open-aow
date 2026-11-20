@@ -867,9 +867,9 @@ public class ObservableNode(CustomNode owner) : CustomNode(owner)
                         if (children.List[i] is not null)
                         {
                             EngineObject node = children.List[i];
-                            if (node.GetLastMessage() != message.Sequence)
+                            if (node.LastMessage != message.Sequence)
                             {
-                                node.SetLastMessage(message.Sequence);
+                                node.LastMessage = message.Sequence;
                                 node.MessageProc(ref message, this);
                             }
                         }
@@ -882,9 +882,9 @@ public class ObservableNode(CustomNode owner) : CustomNode(owner)
                         if (children.List[i] is not null)
                         {
                             EngineObject node = children[i];
-                            if (node.GetLastMessage() != message.Sequence && node.Owner == this)
+                            if (node.LastMessage != message.Sequence && node.Owner == this)
                             {
-                                node.SetLastMessage(message.Sequence);
+                                node.LastMessage = message.Sequence;
                                 node.MessageProc(ref message, this);
                             }
                         }
@@ -929,9 +929,9 @@ public class ObservableNode(CustomNode owner) : CustomNode(owner)
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
                         EngineObject node = children.List[i];
-                        if (node.GetLastMessage() != message.Sequence)
+                        if (node.LastMessage != message.Sequence)
                         {
-                            node.SetLastMessage(message.Sequence);
+                            node.LastMessage = message.Sequence;
                             node.MessageProc(ref message, this);
                         }
                     }
@@ -941,9 +941,9 @@ public class ObservableNode(CustomNode owner) : CustomNode(owner)
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
                         EngineObject node = children[i];
-                        if (node.GetLastMessage() != message.Sequence && node.Owner == this)
+                        if (node.LastMessage != message.Sequence && node.Owner == this)
                         {
-                            node.SetLastMessage(message.Sequence);
+                            node.LastMessage = message.Sequence;
                             node.MessageProc(ref message, this);
                         }
                     }

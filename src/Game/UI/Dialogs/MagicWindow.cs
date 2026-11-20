@@ -294,7 +294,7 @@ public partial class MagicWindow(UIContext ui) : UIModule(ui)
         PlayerMagicControl magic = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl;
         if (magic.ResearchSpellId != 0)
         {
-            Spell spell = GamePack.Current.SpellControl.GetSpell(magic.ResearchSpellId);
+            Spell spell = GamePack.Current.SpellControl[magic.ResearchSpellId];
             if (spell is not null)
             {
                 if (spell.CastImages.GetImageSequence(10) is not null)
@@ -546,7 +546,7 @@ public partial class MagicWindow(UIContext ui) : UIModule(ui)
             window.ResearchPointsLabel.Text = IntToStr(netPowerToResearch);
             if (control.ResearchSpellId != 0)
             {
-                Spell spell = GamePack.Current.SpellControl.GetSpell(control.ResearchSpellId);
+                Spell spell = GamePack.Current.SpellControl[control.ResearchSpellId];
                 window.SpellNameLabel.Text = spell.SpellName;
                 string magicSphere = window.UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
                 string level = window.UI.Engine.TranslateResourceString(GameText.LevelText);

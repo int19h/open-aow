@@ -49,12 +49,12 @@ public class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(ow
         if (value == 0)
         {
             _angle = 0;
-            Spell spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
-            GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
+            Spell spell = GamePack.Current.SpellControl[EventSpellId];
+            GamePack.Current.SpellControl[EventSpellId].CastingDone(source, spell.BaseManaCost);
             _ = StrategicMap.Current.ValidateObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 2);
             if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(Location.X, Location.Y, Location.MapLevel, 2))
             {
-                _ = GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
+                _ = GamePack.Current.SpellControl[EventSpellId].CastSounds.Play(0);
             }
 
             Animation animation = new(null) { Holder = CreationHolder() };
@@ -162,7 +162,7 @@ public class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(ow
                     {
                         int x = Round((double)Math.Cos(angle) * radius) + xShift;
                         int y = Round((double)((double)Math.Sin(angle) * radius) / 1.75) + height;
-                        _ = GamePack.Current.SpellControl.GetSpell(70).CastImages.Show(0, pixelX + x, pixelY - y, 0, lockedSurface);
+                        _ = GamePack.Current.SpellControl[70].CastImages.Show(0, pixelX + x, pixelY - y, 0, lockedSurface);
                         angle = (float)((double)0.035 + angle);
                     }
                 }

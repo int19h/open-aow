@@ -36,7 +36,7 @@ public partial class UnitBanner(UIContext ui) : UIModule(ui)
             sbyte hits = UI.General.SelectedUnit.GetHits();
             HitsLabel.Text = $"{IntToStr(hitPoints)}/{IntToStr(hits)}";
             sbyte movePoints = UI.General.SelectedUnit.GetMovePoints();
-            sbyte moves = UI.General.SelectedUnit.GetMoves();
+            sbyte moves = UI.General.SelectedUnit.Moves;
             MovesLabel.Text = $"{IntToStr(movePoints)}/{IntToStr(moves)}";
             sbyte attack = UI.General.SelectedUnit.GetAttack();
             AttackLabel.Text = IntToStr(attack);
@@ -54,7 +54,7 @@ public partial class UnitBanner(UIContext ui) : UIModule(ui)
             for (int i = 0, last = UI.General.Abilities.Count - 1; i <= last; i++)
             {
                 CombatAbilityRef a = UI.General.Abilities[i];
-                string name2 = GamePack.Current.AbilityControl.GetAbility(a.Ability).GetName(UI.General.SelectedUnit);
+                string name2 = GamePack.Current.AbilityControl[a.Ability].GetName(UI.General.SelectedUnit);
                 _ = AbilityList.Items.Add(name2);
             }
 
@@ -100,7 +100,7 @@ public partial class UnitBanner(UIContext ui) : UIModule(ui)
             {
                 CombatAbilityRef ability = UI.General.Abilities[AbilityList.Selected];
                 string reason = "";
-                _ = GamePack.Current.AbilityControl.GetAbility(ability.Ability).Activate(UI.General.SelectedUnit, ref reason);
+                _ = GamePack.Current.AbilityControl[ability.Ability].Activate(UI.General.SelectedUnit, ref reason);
                 BannerMenu.Visible = false;
             }
             else

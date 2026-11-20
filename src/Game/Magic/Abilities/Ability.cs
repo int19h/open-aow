@@ -74,7 +74,7 @@ public class Ability : EngineObject
     }
 
     // Ability.PAS:1477
-    public virtual bool GetHidden() => false;
+    public virtual bool Hidden => false;
 
     // Ability.PAS:1563
     public virtual AbilityType GetAbilityType() => 0;
@@ -125,8 +125,8 @@ public class Ability : EngineObject
     // { Original leaves Reserved untouched. }
     public virtual bool FastBattleValidRoundDistance(CombatObject source, CombatObject target)
     {
-        int distance = source.Combat.GetRoundDistance();
-        if (source.GetMoves() >= 32)
+        int distance = source.Combat.RoundDistance;
+        if (source.Moves >= 32)
         {
             distance += 2;
         }
@@ -134,7 +134,7 @@ public class Ability : EngineObject
         bool value = distance >= target.FastBattleRoundDistance();
         if (value && source is CombatUnit sourceUnit && sourceUnit.Troop is Hero)
         {
-            value = value && ((((byte)source.Status.Image) & 16) != 0 || source.FastBattleRoundDistance() <= source.Combat.GetRoundDistance() + 2);
+            value = value && ((((byte)source.Status.Image) & 16) != 0 || source.FastBattleRoundDistance() <= source.Combat.RoundDistance + 2);
         }
 
         return value;

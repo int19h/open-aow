@@ -246,12 +246,12 @@ public partial class GameSettings : DelphiRegistry
     }
 
     // AoWReg.pas:307
-    public bool GetDeveloper() => false;
-
-    // AoWReg.pas:312
-    public void SetDeveloper(bool value)
-        /* TODO: Implement Registry.DeleteValue in the platform or editor service. */
-        => throw new NotImplementedException();
+    public bool Developer
+    {
+        get => false;
+        // AoWReg.pas:312
+        set => throw new NotImplementedException();
+    }
 
     // AoWReg.pas:329
     public bool GetSkipIntro()

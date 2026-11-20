@@ -37,10 +37,13 @@ public class CombatFire(CustomNode owner) : SingleHexSprite(owner)
     }
 
     // CombatFire.pas:83
-    public override byte GetLevel() => 27;
+    public override byte Level => 27;
 
     // CombatFire.pas:70
-    public override void SetVisible(bool value) => base.SetVisible(value);
+    public override bool Visible
+    {
+        set => base.Visible = value;
+    }
 
     // CombatFire.pas:86
     public override int GetShowPriority() => 1811939328;
@@ -98,15 +101,15 @@ public class CombatFire(CustomNode owner) : SingleHexSprite(owner)
                 param[0] = this;
                 message.Param = param;
                 message.Result = -1;
-                sbyte yhx = GetHexY();
-                sbyte xhx = GetHexX();
+                sbyte yhx = HexY;
+                sbyte xhx = HexX;
                 CombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).SendMapFieldMessage(ref message);
                 int hexX = default;
                 int hexY = default;
                 for (int i = 1; i <= 6; i++)
                 {
-                    sbyte hexY2 = GetHexY();
-                    HexGeometry.CenterHexNumberToHex(GetHexX(), hexY2, i, ref hexX, ref hexY);
+                    sbyte hexY2 = HexY;
+                    HexGeometry.CenterHexNumberToHex(HexX, hexY2, i, ref hexX, ref hexY);
                     if (hexX > 0 && hexY > 0)
                     {
                         EffectPaths.CreateFire(50, hexX, hexY, engine: GetEngine());

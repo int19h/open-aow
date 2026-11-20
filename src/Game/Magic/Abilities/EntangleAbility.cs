@@ -102,9 +102,9 @@ public class EntangleAbility : TouchAbility
         if (wallSituation == WallSituation.None && CanTouch(attacker, defender) && attacker is CombatUnit attackerUnit)
         {
             float probability = CombatTouchRoleProbability(attackerUnit, defender);
-            sbyte hitPoints = defender.GetHitPoints();
+            sbyte hitPoints = defender.HitPoints;
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
-            sbyte defenderHitPoints = defender.GetHitPoints();
+            sbyte defenderHitPoints = defender.HitPoints;
             damageValues.SourceCost = defenderHitPoints;
             int strikeDamageValue = CombatObject.StrikeDamageValue(defender, attacker);
             damageValues.TargetDamage = Round(strikeDamageValue * ((double)1 - probability));

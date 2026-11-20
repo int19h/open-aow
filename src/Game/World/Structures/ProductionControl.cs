@@ -269,7 +269,7 @@ public partial class ProductionControl : EngineObject
         _ = eventValue.Location.X;
         _ = eventValue.Location.Y;
         _ = eventValue.Location.MapLevel;
-        MapCoordinate coordinate35 = GetLocation();
+        MapCoordinate coordinate35 = Location;
         sbyte x = coordinate35.X;
         sbyte y = coordinate35.Y;
         sbyte mapLevel = coordinate35.MapLevel;
@@ -279,19 +279,19 @@ public partial class ProductionControl : EngineObject
     }
 
     // Structur.PAS:776
-    public virtual MapCoordinate GetLocation() => MapCoordinate.None;
+    public virtual MapCoordinate Location => MapCoordinate.None;
 
     // intf_P1_02.inc:133
     public virtual sbyte GetPlayer() => throw AbstractErrorException.Create("Abstract Error");
 
     // Structur.PAS:279
-    public virtual int GetQueueSizeMax() => 5;
+    public virtual int QueueSizeMax => 5;
 
     // Structur.PAS:282
     public virtual bool GetQueueLocked()
     {
         int i = Queue.Count;
-        bool result = i >= GetQueueSizeMax();
+        bool result = i >= QueueSizeMax;
         while (!result && i != 0)
         {
             i -= 1;

@@ -42,12 +42,12 @@ public class UnitEnchantment : Enchantment
         {
             Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
             return source is not null
-                ? GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(source)
-                : GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(null);
+                ? GamePack.Current.AbilityControl[EnchantmentAbilityId].GetName(source)
+                : GamePack.Current.AbilityControl[EnchantmentAbilityId].GetName(null);
         }
         else
         {
-            return GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(null);
+            return GamePack.Current.AbilityControl[EnchantmentAbilityId].GetName(null);
         }
     }
 
@@ -59,12 +59,15 @@ public class UnitEnchantment : Enchantment
     }
 
     // AoWAb.PAS:820
-    public override int GetAIUpkeepPriority()
+    public override int AIUpkeepPriority
     {
-        Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        return source is not null
-            ? GamePack.Current.AbilityControl.GetAbility<UnitEnchantmentAbility>(EnchantmentAbilityId).GetAIUpkeepPriority(source)
-            : 0;
+        get
+        {
+            Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+            return source is not null
+                ? GamePack.Current.AbilityControl.GetAbility<UnitEnchantmentAbility>(EnchantmentAbilityId).GetAIUpkeepPriority(source)
+                : 0;
+        }
     }
 
     // AoWAb.PAS:859

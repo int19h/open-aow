@@ -33,7 +33,7 @@ public class OverviewUnitHexSprite(CustomNode owner) : UnitHexSprite(owner)
         if (_troop is not null)
         {
             _ = _troop.AddRef();
-            SetUnitGraphicsResourceIndex(_troop.GetUnitGraphicsResourceIndex());
+            SetUnitGraphicsResourceIndex(_troop.UnitGraphicsResourceIndex);
         }
     }
 }

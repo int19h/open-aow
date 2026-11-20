@@ -87,7 +87,7 @@ public partial class TerrainMapObject(CustomNode owner) : MultiHexMapObject(owne
     public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         bool result = base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
-        if (result && !GetEditMode())
+        if (result && !EditMode)
         {
             OverrideTerrain();
         }
@@ -116,9 +116,9 @@ public partial class TerrainMapObject(CustomNode owner) : MultiHexMapObject(owne
 
             if (found)
             {
-                int hexX = GetHexX();
-                int hexY = GetHexY();
-                int hexLevel = GetHexLevel();
+                int hexX = HexX;
+                int hexY = HexY;
+                int hexLevel = HexLevel;
                 GameMap map = Owner.Owner.Map;
                 TerrainList terrainList = Resource.TerrainList;
                 Dispose();
@@ -183,7 +183,7 @@ public partial class TerrainMapObject(CustomNode owner) : MultiHexMapObject(owne
     {
         bool result = true;
         MapLevel level = Owner.Owner;
-        int count = GetTerrainCount();
+        int count = TerrainCount;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, 0);
         while (walk.HexNumber < count && result)
         {

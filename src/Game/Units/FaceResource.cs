@@ -115,9 +115,12 @@ public class FaceResource(CustomNode owner) : EngineResource(owner)
     }
 
     // Ability.PAS:503
-    public LibraryImage GetFaceImage()
+    public LibraryImage FaceImage
     {
-        CustomImageLibrary images = _imageLibrary;
-        return images?[_imageIndex];
+        get
+        {
+            CustomImageLibrary images = _imageLibrary;
+            return images?[_imageIndex];
+        }
     }
 }

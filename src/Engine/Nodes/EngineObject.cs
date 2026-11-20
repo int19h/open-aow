@@ -77,11 +77,13 @@ public class EngineObject : IDisposable, IPersistable, IOwned
     public virtual GameEngine GetEngine() => _owner is not null ? _owner.GetEngine() : Holder?.GetEngine();
 
     // Engine.pas:2502
-    public virtual int GetLastMessage() => 2147483647;
-
-    // Engine.pas:2507
-    public virtual void SetLastMessage(int value)
+    public virtual int LastMessage
     {
+        get => 2147483647;
+        // Engine.pas:2507
+        set
+        {
+        }
     }
 
     // Engine.pas:2590
@@ -179,7 +181,7 @@ public class EngineObject : IDisposable, IPersistable, IOwned
     {
         if (message.MessageId == 1)
         {
-            SetLastMessage(2147483647);
+            LastMessage = 2147483647;
         }
     }
 
@@ -241,5 +243,4 @@ public class EngineObject : IDisposable, IPersistable, IOwned
     }
 
     public string EngineObjectPath => GetEngineObjectPath();
-    public int LastMessage { get => GetLastMessage(); set => SetLastMessage(value); }
 }

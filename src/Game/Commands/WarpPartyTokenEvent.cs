@@ -69,17 +69,17 @@ public class WarpPartyTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
         bool showSource = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(x, y, layer, StrategicMap.Current.SeatedPlayer);
         bool showTarget = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(field.HexX, field.HexY, field.HexLevel, StrategicMap.Current.SeatedPlayer);
         ImageSequenceAnimation animation;
-        if (showSource && GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] is not null)
+        if (showSource && GamePack.Current.SpellControl[EventSpellId].CastImages.ImageSequences[0] is not null)
         {
             animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
-            animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
+            animation.SetImageSequence(GamePack.Current.SpellControl[EventSpellId].CastImages.ImageSequences[0]);
             _ = StrategicMap.Current.PlaceHex(animation, x, y, layer);
         }
 
-        if (showTarget && GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] is not null)
+        if (showTarget && GamePack.Current.SpellControl[EventSpellId].CastImages.ImageSequences[0] is not null)
         {
             animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
-            animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
+            animation.SetImageSequence(GamePack.Current.SpellControl[EventSpellId].CastImages.ImageSequences[0]);
             _ = StrategicMap.Current.PlaceHex(animation, field.HexX, field.HexY, field.HexLevel);
         }
 
@@ -94,11 +94,11 @@ public class WarpPartyTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
 
         if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(x, y, layer, 0) || StrategicMap.Current.Watching(field.HexX, field.HexY, field.HexLevel, 0))
         {
-            _ = GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
+            _ = GamePack.Current.SpellControl[EventSpellId].CastSounds.Play(0);
         }
 
-        Spell spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
-        GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
+        Spell spell = GamePack.Current.SpellControl[EventSpellId];
+        GamePack.Current.SpellControl[EventSpellId].CastingDone(source, spell.BaseManaCost);
         return false;
     }
 }

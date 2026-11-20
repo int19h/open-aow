@@ -70,7 +70,7 @@ public class HexSpriteMapViewer : Component
             StaticSurface = null;
         }
 
-        if (StaticSurface is null || StaticSurface.GetWidth() != _sceneWidth || StaticSurface.GetHeight() != _sceneHeight)
+        if (StaticSurface is null || StaticSurface.Width != _sceneWidth || StaticSurface.Height != _sceneHeight)
         {
             if (StaticSurface is null)
             {
@@ -147,7 +147,7 @@ public class HexSpriteMapViewer : Component
                 value = 16;
             }
 
-            _sceneX = _hexSpriteMap.GetMaxPixelX() < _sceneWidth + value + 16 ? _hexSpriteMap.GetMaxPixelX() - _sceneWidth - 16 : value;
+            _sceneX = _hexSpriteMap.MaxPixelX < _sceneWidth + value + 16 ? _hexSpriteMap.MaxPixelX - _sceneWidth - 16 : value;
         }
     }
 
@@ -161,7 +161,7 @@ public class HexSpriteMapViewer : Component
                 value = 16;
             }
 
-            _sceneY = _hexSpriteMap.GetMaxPixelY() - 16 < _sceneHeight + value ? _hexSpriteMap.GetMaxPixelY() - _sceneHeight - 16 : value;
+            _sceneY = _hexSpriteMap.MaxPixelY - 16 < _sceneHeight + value ? _hexSpriteMap.MaxPixelY - _sceneHeight - 16 : value;
         }
     }
 
@@ -215,7 +215,7 @@ public class HexSpriteMapViewer : Component
 
                 // Port extension: a scene larger than the map draws as the original does into
                 // FCenteredSurface, then ShowCenteredMap centers the map on Target and fills the rest black.
-                if (GetSceneExceedsMap())
+                if (SceneExceedsMap)
                 {
                     surface = VerifyCenteredSurface(target);
                     X = 0;
@@ -294,7 +294,7 @@ public class HexSpriteMapViewer : Component
 
     // Port extension: the original never showed a scene wider or taller than the map. SceneX and
     // SceneY keep the original clamp there, so the view port and the saved view stay the original's.
-    public bool GetSceneExceedsMap() => _hexSpriteMap is not null && (_sceneWidth > _hexSpriteMap.GetMaxPixelX() - 32 || _sceneHeight > _hexSpriteMap.GetMaxPixelY() - 32);
+    public bool SceneExceedsMap => _hexSpriteMap is not null && (_sceneWidth > _hexSpriteMap.MaxPixelX - 32 || _sceneHeight > _hexSpriteMap.MaxPixelY - 32);
 
     // Port extension: the part of the scene that shows the map under the original clamp. On an axis
     // where the scene fits inside the map it spans the scene.
@@ -305,8 +305,8 @@ public class HexSpriteMapViewer : Component
         {
             r.Left = Math.Max(16 - _sceneX, 0);
             r.Top = Math.Max(16 - _sceneY, 0);
-            r.Right = Math.Min(_hexSpriteMap.GetMaxPixelX() - 16 - _sceneX, _sceneWidth);
-            r.Bottom = Math.Min(_hexSpriteMap.GetMaxPixelY() - 16 - _sceneY, _sceneHeight);
+            r.Right = Math.Min(_hexSpriteMap.MaxPixelX - 16 - _sceneX, _sceneWidth);
+            r.Bottom = Math.Min(_hexSpriteMap.MaxPixelY - 16 - _sceneY, _sceneHeight);
         }
 
         return r;
@@ -330,7 +330,7 @@ public class HexSpriteMapViewer : Component
     // which the map mouse takes. A point outside the centered map gives false.
     public bool SceneToMapMouse(ref int X, ref int Y)
     {
-        if (!GetSceneExceedsMap())
+        if (!SceneExceedsMap)
         {
             return true;
         }
@@ -360,7 +360,7 @@ public class HexSpriteMapViewer : Component
         {
             CenteredSurface = new DataSurface(_sceneWidth, _sceneHeight, surface.GetPixelFormatId(), null);
         }
-        else if (CenteredSurface.GetWidth() != _sceneWidth || CenteredSurface.GetHeight() != _sceneHeight)
+        else if (CenteredSurface.Width != _sceneWidth || CenteredSurface.Height != _sceneHeight)
         {
             _ = CenteredSurface.Resize(_sceneWidth, _sceneHeight);
         }

@@ -18,9 +18,9 @@ internal static class MovementTables
     internal static MoveArmyTokenEvent MoveArmyMapCoordinate(sbyte player, ArmyHexSprite army, byte selection, sbyte X, sbyte Y, sbyte L, MoveAction action, bool force)
     {
         MoveControlSettings settings = new(null) { Holder = army };
-        sbyte hexLevel = army.GetHexLevel();
-        sbyte hexY = army.GetHexY();
-        settings.SetSourcePosition(army.GetHexX(), hexY, hexLevel);
+        sbyte hexLevel = army.HexLevel;
+        sbyte hexY = army.HexY;
+        settings.SetSourcePosition(army.HexX, hexY, hexLevel);
         settings.Player = army.Army.Player;
         settings.ArmyHexSprite = army;
         settings.Selection = selection;

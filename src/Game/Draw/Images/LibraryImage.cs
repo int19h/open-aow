@@ -65,10 +65,10 @@ public class LibraryImage : Persistent, ILibraryImageClass
     public virtual Palette GetPalette() => null;
 
     // ImageLib.pas:1888
-    public virtual Palette GetRemapPalette() => null;
+    public virtual Palette RemapPalette => null;
 
     // ImageLib.pas:1893
-    public virtual bool GetTransparent() => false;
+    public virtual bool Transparent => false;
 
     // ImageLib.pas:1656
     public virtual void SetReloadingEnabled(bool value)
@@ -285,7 +285,7 @@ public class LibraryImage : Persistent, ILibraryImageClass
     public virtual string Info()
     {
         string result = $"{Name()} {IntToStr(_width)}x{IntToStr(_height)}";
-        if (GetTransparent())
+        if (Transparent)
         {
             result += " Transparent";
         }
@@ -599,8 +599,6 @@ public class LibraryImage : Persistent, ILibraryImageClass
     public int FileIndex { get => _fileIndex; set => _fileIndex = value; }
     public ShowInfo ShowInfo { get => ShowInfoValue; set => SetDefaultShowInfo(value); }
     public Palette Palette => GetPalette();
-    public Palette RemapPalette => GetRemapPalette();
-    public bool Transparent => GetTransparent();
 
     public static void WriteImageToStream(LibraryImage image, Stream stream)
     {

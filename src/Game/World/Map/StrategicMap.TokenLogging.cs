@@ -40,7 +40,7 @@ public partial class StrategicMap
         {
             try
             {
-                _tokenLog = RtlHost.Files.Open($"{GetEngine().StartupDirectory}Debug\\SYNC_LOG{DelphiConversions.IntToStr(PixelFormats.GetElapsedMilliseconds())}.TXT", DelphiStreams.fmCreate);
+                _tokenLog = RtlHost.Files.Open($"{GetEngine().StartupDirectory}Debug\\SYNC_LOG{DelphiConversions.IntToStr(PixelFormats.ElapsedMilliseconds)}.TXT", DelphiStreams.fmCreate);
             }
             catch (IOException) { }
             catch (UnauthorizedAccessException) { }

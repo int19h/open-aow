@@ -27,7 +27,7 @@ public class HolyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetSpellToke
         _ = base.Process(source, value);
         CreateHolyGround(source);
         _ = StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 1);
-        GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
+        GamePack.Current.SpellControl[EventSpellId].CastingDone(source, EventMana);
         return false;
     }
 
@@ -56,7 +56,7 @@ public class HolyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetSpellToke
                         {
                             ground.Mode = Set<HolySummoning>.Of(HolySummoning.Summoning);
                             ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
-                            animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(13).CastImages.ImageSequences[0]);
+                            animation.SetImageSequence(GamePack.Current.SpellControl[13].CastImages.ImageSequences[0]);
                             animation.OnShow += ground.ShowSummonAnimation;
                             animation.OnNewFrame += ground.NewFrameSummonAnimation;
                             animation.FrameCounter = -StrategicMap.Current.Random(15);

@@ -40,7 +40,7 @@ public class UnitEnchantmentAbility : AdjustableAbility
                     if (GetDuration(owner) != 0)
                     {
                         byte duration = GetDuration(owner);
-                        sbyte totalDuration = GetTotalDuration();
+                        sbyte totalDuration = TotalDuration;
                         string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationDaysFormat), [IntToStr(duration), IntToStr(totalDuration)]);
                         return $"{result} {format}";
                     }
@@ -48,7 +48,7 @@ public class UnitEnchantmentAbility : AdjustableAbility
                     break;
                 case DurationMode.CombatTurn:
                     byte duration2 = GetDuration(owner);
-                    sbyte totalDuration2 = GetTotalDuration();
+                    sbyte totalDuration2 = TotalDuration;
                     string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationCombatTurnFormat), [IntToStr(duration2), IntToStr(totalDuration2)]);
                     return $"{base.GetName(owner)} {formattedText}";
                 case DurationMode.EntireCombat:
@@ -134,7 +134,7 @@ public class UnitEnchantmentAbility : AdjustableAbility
             {
                 Holder = CreationHolder(),
                 EnchantmentAbilityId = (ushort)AbilityId,
-                EnchantmentDuration = GetTotalDuration()
+                EnchantmentDuration = TotalDuration
             };
             UnitEnchantment enchantment = CreateEnchantment();
             data.Enchantment = enchantment;
@@ -146,7 +146,7 @@ public class UnitEnchantmentAbility : AdjustableAbility
         }
         else
         {
-            data.EnchantmentDuration = GetTotalDuration();
+            data.EnchantmentDuration = TotalDuration;
         }
 
         return false;
@@ -180,7 +180,7 @@ public class UnitEnchantmentAbility : AdjustableAbility
     {
         if (GetDurationMode() == DurationMode.CombatTurn)
         {
-            UnitEnchantmentAbilityData data = combatObject.GetAbilityOwner().GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
+            UnitEnchantmentAbilityData data = combatObject.AbilityOwner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
             if (data is not null)
             {
                 if (data.EnchantmentDuration > 0 && player == data.EnchantmentPlayerIndex)
@@ -188,13 +188,13 @@ public class UnitEnchantmentAbility : AdjustableAbility
                     data.EnchantmentDuration = (sbyte)(data.EnchantmentDuration - 1);
                     if (data.EnchantmentDuration == 0)
                     {
-                        _ = combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
+                        _ = combatObject.AbilityOwner.RemoveAbility(AbilityId);
                     }
                 }
             }
             else
             {
-                _ = combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
+                _ = combatObject.AbilityOwner.RemoveAbility(AbilityId);
             }
         }
     }
@@ -206,7 +206,7 @@ public class UnitEnchantmentAbility : AdjustableAbility
         {
             case DurationMode.CombatTurn:
             case DurationMode.EntireCombat:
-                _ = combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
+                _ = combatObject.AbilityOwner.RemoveAbility(AbilityId);
                 break;
             case DurationMode.None:
             case DurationMode.Day:
@@ -229,7 +229,7 @@ public class UnitEnchantmentAbility : AdjustableAbility
     public virtual int GetAIUpkeepPriority(AbilityOwner owner) => 0;
 
     // AoWAb.PAS:730
-    public virtual sbyte GetTotalDuration() => -1;
+    public virtual sbyte TotalDuration => -1;
 
     // AoWAb.PAS:663
     public virtual UnitEnchantment CreateEnchantment() => new(null) { Holder = CreationHolder() };

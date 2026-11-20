@@ -96,9 +96,9 @@ public sealed class GraphicsConstructionTests
         }
         if (value is DisplayController displayController)
         {
-            Assert.NotNull(displayController.GetInverseMatrix());
-            Assert.Equal((byte)4, Field(displayController.GetInverseMatrix(), "Width"));
-            Assert.Equal((byte)4, Field(displayController.GetInverseMatrix(), "Height"));
+            Assert.NotNull(displayController.InverseMatrix);
+            Assert.Equal((byte)4, Field(displayController.InverseMatrix, "Width"));
+            Assert.Equal((byte)4, Field(displayController.InverseMatrix, "Height"));
         }
         if (value is CustomImageLibrary library)
         {

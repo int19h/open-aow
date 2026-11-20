@@ -51,7 +51,7 @@ public partial class AIPlayerControl
                         done = MoveExecutor.Process();
                     }
 
-                    if (!done && executor.GetProcessTimeLeft() <= 0)
+                    if (!done && executor.ProcessTimeLeft <= 0)
                     {
                         done = true;
                     }
@@ -98,7 +98,7 @@ public partial class AIPlayerControl
                         done = MoveExecutor.Process();
                     }
 
-                    if (!done && executor.GetProcessTimeLeft() <= 0)
+                    if (!done && executor.ProcessTimeLeft <= 0)
                     {
                         done = true;
                     }

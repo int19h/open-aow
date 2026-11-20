@@ -83,16 +83,16 @@ public class Spell : EngineObject
         if (StrategicMap.Current.Visible(X, Y, layer, 0))
         {
             _ = StrategicMap.Current.ValidateObservation(player, X, Y, layer, 0);
-            if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0) is not null)
+            if (GamePack.Current.SpellControl[SpellId].CastImages.GetImageSequence(0) is not null)
             {
                 ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
-                animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0));
+                animation.SetImageSequence(GamePack.Current.SpellControl[SpellId].CastImages.GetImageSequence(0));
                 _ = StrategicMap.Current.PlaceHex(animation, X, Y, layer);
             }
 
             if (StrategicMap.Current.SeatedPlayer == player || StrategicMap.Current.Watching(X, Y, layer, 0))
             {
-                _ = GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
+                _ = GamePack.Current.SpellControl[SpellId].CastSounds.Play(0);
             }
         }
     }
@@ -109,7 +109,7 @@ public class Spell : EngineObject
     public virtual bool AIExecuteCastSpellAction(Troop source) => false;
 
     // Spells.PAS:27
-    public virtual bool GetEnabled() => true;
+    public virtual bool Enabled => true;
 
     // Spells.PAS:43
     public virtual bool CanActivate(Troop source, ref string messageText)

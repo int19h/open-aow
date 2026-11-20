@@ -31,7 +31,7 @@ public class GroupControlAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
         {
             bool busy = false;
             bool done = false;
-            while (!done && !busy && StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0)
+            while (!done && !busy && StrategicMap.Current.AIExecutor.ProcessTimeLeft > 0)
             {
                 if (_groupControl is null)
                 {

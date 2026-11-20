@@ -178,12 +178,12 @@ public sealed class ObjectCastCrashTests
         }
         finally
         {
-            if (control.GetSpell(17) is not null)
+            if (control[17] is not null)
             {
                 control.UnregisterSpellId(17);
             }
 
-            if (control.GetSpell(56) is not null)
+            if (control[56] is not null)
             {
                 control.UnregisterSpellId(56);
             }
@@ -360,7 +360,7 @@ public sealed class ObjectCastCrashTests
     public void MasteryGuardianDefaultsNeedNoSummonedSpell()
     {
         // MasterySpellCast and TSummonSpell read these through GetSpell(155), which has no spell.
-        Assert.Null(GamePack.Current.SpellControl.GetSpell(155));
+        Assert.Null(GamePack.Current.SpellControl[155]);
         Unit unit = new(null)
         {
             Holder = EngineFixture.Engine,

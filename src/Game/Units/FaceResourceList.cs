@@ -29,7 +29,7 @@ public class FaceResourceList : ResourceCollection, IChildList<FaceResource>
         {
             result -= 1;
             FaceResource face = this[result];
-            if (face is not null && face.GetFaceImage() == image)
+            if (face is not null && face.FaceImage == image)
             {
                 return result;
             }
@@ -45,7 +45,7 @@ public class FaceResourceList : ResourceCollection, IChildList<FaceResource>
     public int PreviousFace(int index)
     {
         int result = index;
-        bool developer = GetEngine().Registry.GetDeveloper();
+        bool developer = GetEngine().Registry.Developer;
         // { Original assumes the list contains a selectable face. }
         do
         {
@@ -63,7 +63,7 @@ public class FaceResourceList : ResourceCollection, IChildList<FaceResource>
     public int NextFace(int index)
     {
         int result = index;
-        bool developer = GetEngine().Registry.GetDeveloper();
+        bool developer = GetEngine().Registry.Developer;
         // { Original assumes the list contains a selectable face. }
         do
         {

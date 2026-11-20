@@ -144,14 +144,14 @@ public class RaceResource(CustomNode owner) : EngineResource(owner)
     {
         _ = AddRef();
         CustomImageLibrary images = _faceLibrary;
-        LibraryImage result = images?.GetSafe(GetRaceIndex());
+        LibraryImage result = images?.GetSafe(RaceIndex);
 
         _ = Release();
         return result;
     }
 
     // PlayerC.PAS:1763
-    public int GetRaceIndex() => EditIndex;
+    public int RaceIndex => EditIndex;
 
     // PlayerC.PAS:1766
     public void LinkToImageLibrary()
@@ -219,20 +219,17 @@ public class RaceResource(CustomNode owner) : EngineResource(owner)
     }
 
     // PlayerC.PAS:1875
-    public Alignment GetAlignment()
-    {
-        return Alignments == AlignmentTables.PureGoodAlignments
-            ? Alignment.PureGood
-            : Alignments == AlignmentTables.GoodAlignments
-            ? Alignment.Good
-            : Alignments == AlignmentTables.NeutralAlignments
-                ? Alignment.Neutral
-                : Alignments == AlignmentTables.EvilAlignments
-                    ? Alignment.Evil
-                    : Alignments == AlignmentTables.PureEvilAlignments
-                        ? Alignment.PureEvil
-                        : Alignments == s_pureNeutralAlignments ? Alignment.PureNeutral : Alignment.None;
-    }
+    public Alignment Alignment => Alignments == AlignmentTables.PureGoodAlignments
+        ? Alignment.PureGood
+        : Alignments == AlignmentTables.GoodAlignments
+        ? Alignment.Good
+        : Alignments == AlignmentTables.NeutralAlignments
+            ? Alignment.Neutral
+            : Alignments == AlignmentTables.EvilAlignments
+                ? Alignment.Evil
+                : Alignments == AlignmentTables.PureEvilAlignments
+                    ? Alignment.PureEvil
+                    : Alignments == s_pureNeutralAlignments ? Alignment.PureNeutral : Alignment.None;
 
     // PlayerC.PAS:1815
     public override string ResourceEditName() => "Race";

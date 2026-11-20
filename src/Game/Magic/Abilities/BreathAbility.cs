@@ -34,11 +34,11 @@ public class BreathAbility : RangedAttackAbility
             DelphiList<CombatObject> targets = new();
             CombatObject target = command.Target;
             CombatObject other;
-            for (int i = combat.Sides[(int)target.GetSide()].GetCount() - 1; i >= 0; i--)
+            for (int i = combat.Sides[(int)target.Side].GetCount() - 1; i >= 0; i--)
             {
-                CombatSideIndex side = target.GetSide();
+                CombatSideIndex side = target.Side;
                 other = combat.Sides[(int)side].GetObjects(i);
-                bool condition = other != target && other.GetEnabled() && (int)(((uint)other.Position) >> 4) == (int)(((uint)target.Position) >> 4) && other.FastBattleRoundDistance() <= combat.GetRoundDistance();
+                bool condition = other != target && other.GetEnabled() && (int)(((uint)other.Position) >> 4) == (int)(((uint)target.Position) >> 4) && other.FastBattleRoundDistance() <= combat.RoundDistance;
                 if (condition)
                 {
                     Set<DamageType> immunityTypes = other.GetImmunityTypes();
@@ -86,11 +86,11 @@ public class BreathAbility : RangedAttackAbility
         {
             Battle combat = attacker.Combat;
             int count = 0;
-            for (int i = combat.Sides[(int)defender.GetSide()].GetCount() - 1; i >= 0; i--)
+            for (int i = combat.Sides[(int)defender.Side].GetCount() - 1; i >= 0; i--)
             {
-                CombatSideIndex side = defender.GetSide();
+                CombatSideIndex side = defender.Side;
                 CombatObject target = combat.Sides[(int)side].GetObjects(i);
-                bool condition = target != defender && target.GetEnabled() && (int)(((uint)target.Position) >> 4) == (int)(((uint)defender.Position) >> 4) && target.FastBattleRoundDistance() <= combat.GetRoundDistance();
+                bool condition = target != defender && target.GetEnabled() && (int)(((uint)target.Position) >> 4) == (int)(((uint)defender.Position) >> 4) && target.FastBattleRoundDistance() <= combat.RoundDistance;
                 if (condition)
                 {
                     Set<DamageType> immunityTypes = target.GetImmunityTypes();

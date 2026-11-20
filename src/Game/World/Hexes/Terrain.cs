@@ -95,7 +95,7 @@ public class Terrain(CustomNode owner) : TerrainMapObject(owner)
             return;
         }
 
-        UpdateTerrain(Owner.Owner, GetHexX(), GetHexY());
+        UpdateTerrain(Owner.Owner, HexX, HexY);
         MapField owner = Owner;
         RemoveFromMap();
         SetResource(resource);

@@ -15,12 +15,12 @@ public class IncomeSource(CustomNode owner) : EngineObject(owner)
     public virtual int Income() => 0;
 
     // Player.PAS:212
-    public virtual MapCoordinate GetLocation() => MapCoordinate.None;
+    public virtual MapCoordinate Location => MapCoordinate.None;
 
     // Player.PAS:219
     public virtual void CenterToLocation()
     {
-        MapCoordinate coordinate33 = GetLocation();
+        MapCoordinate coordinate33 = Location;
         sbyte x = coordinate33.X;
         sbyte y = coordinate33.Y;
         sbyte l = coordinate33.MapLevel;

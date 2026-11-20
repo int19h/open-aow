@@ -36,7 +36,7 @@ public class SummonedAbility : UnitEnchantmentAbility
     {
         return owner is not Troop troop
             ? 0
-            : troop.GetUnitLevel() switch
+            : troop.UnitLevel switch
             {
                 1 => 250,
                 2 => 250,
@@ -49,10 +49,10 @@ public class SummonedAbility : UnitEnchantmentAbility
     // PassiveAb.pas:1108
     // Static: the original calls this and GetDefaultDispelResistance on the nil result of GetSpell(155)
     // (PrdPlace.pas:336, SummonSpells.pas:258), which works there because they read only the unit argument.
-    public static int GetDefaultManaUpkeep(Troop troop) => troop is Unit ? (troop.GetUnitLevel() + 1) * 2 : 0;
+    public static int GetDefaultManaUpkeep(Troop troop) => troop is Unit ? (troop.UnitLevel + 1) * 2 : 0;
 
     // PassiveAb.pas:1115
-    public static int GetDefaultDispelResistance(Troop troop) => troop is Unit ? troop.GetUnitLevel() + 3 : 0;
+    public static int GetDefaultDispelResistance(Troop troop) => troop is Unit ? troop.UnitLevel + 3 : 0;
 
     // PassiveAb.pas:1147
     public int UnitIndexToAIUpkeepPriority(int unitIndex)

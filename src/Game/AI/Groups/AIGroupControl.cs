@@ -484,7 +484,7 @@ public class AIGroupControl : EngineObject
             try
             {
                 bool busy = false;
-                while (!busy && !Group.Status.Contains(AIGroupStatusElement.Done) && StrategicMap.Current.AIExecutor.GetProcessTimeLeft() >= 0 && MoveExecutor.Status != AIMoveExecutorStatus.Busy)
+                while (!busy && !Group.Status.Contains(AIGroupStatusElement.Done) && StrategicMap.Current.AIExecutor.ProcessTimeLeft >= 0 && MoveExecutor.Status != AIMoveExecutorStatus.Busy)
                 {
                     if (_aiGroupTask is not null)
                     {
@@ -492,7 +492,7 @@ public class AIGroupControl : EngineObject
                         if (!busy)
                         {
                             DeactivatePlugin();
-                            if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() >= 0 && !Group.Status.Contains(AIGroupStatusElement.Done))
+                            if (StrategicMap.Current.AIExecutor.ProcessTimeLeft >= 0 && !Group.Status.Contains(AIGroupStatusElement.Done))
                             {
                                 MainProcessStates(looped);
                             }

@@ -36,7 +36,7 @@ public class FrozenWaterHexSprite(CustomNode owner) : SingleHexSprite(owner)
     }
 
     // Structur.PAS:4482
-    public override byte GetLevel() => 28;
+    public override byte Level => 28;
 
     // Structur.PAS:4503
     public override void TerrainChanged(in HexSpriteTerrainInfo info)

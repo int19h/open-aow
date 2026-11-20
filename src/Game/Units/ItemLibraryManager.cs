@@ -65,7 +65,7 @@ public class ItemLibraryManager : EngineObject
     }
 
     // Army.PAS:5002
-    public ItemLibrary GetLibrary(int index) => Libraries.GetChildInRange<ItemLibrary>(index);
+    public ItemLibrary this[int index] => Libraries.GetChildInRange<ItemLibrary>(index);
 
     // Army.PAS:5007
     public int GetCount() => Libraries.Count;
@@ -97,7 +97,7 @@ public class ItemLibraryManager : EngineObject
     {
         for (int i = 1, last = Libraries.Count - 1; i <= last; i++)
         {
-            ItemLibrary itemLibrary = GetLibrary(i);
+            ItemLibrary itemLibrary = this[i];
             string name = itemLibrary.GetName();
             itemLibrary.SaveToFile($"{GetEngine().StartupDirectory}User\\{name}{FileBoundary.WriteExtension(DocumentKind.ItemList)}");
         }
@@ -162,11 +162,11 @@ public class ItemLibraryManager : EngineObject
     {
         if (index < Libraries.Count && index > 0)
         {
-            string name = GetLibrary(index).GetName();
+            string name = this[index].GetName();
             // The list goes in both forms, so an original of the same name does not return.
             _ = DeleteFile($"{GetEngine().StartupDirectory}User\\{name}{DocumentKind.ItemList.OriginalExtension}");
             _ = DeleteFile($"{GetEngine().StartupDirectory}User\\{name}{DocumentKind.ItemList.OwnExtension}");
-            GetLibrary(index)?.Dispose();
+            this[index]?.Dispose();
         }
     }
 }

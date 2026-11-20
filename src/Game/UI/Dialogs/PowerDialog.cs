@@ -49,7 +49,7 @@ public partial class PowerDialog(UIContext ui) : UIModule(ui)
         if (spellId != 0)
         {
             int turns = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchTurns(researchPower, pointsLeft);
-            Spell spell = GamePack.Current.SpellControl.GetSpell(spellId);
+            Spell spell = GamePack.Current.SpellControl[spellId];
             SpellNameLabel.Text = spell.SpellName;
             string formatTurnsString = FormatTurnsString(UI.Engine, turns: turns);
             ResearchLeftLabel.Text = formatTurnsString;

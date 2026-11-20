@@ -403,7 +403,7 @@ public class AIMoveExecutor : EngineObject
                     DeactivateMoveExecutorControl();
                 }
 
-                timeLeft = StrategicMap.Current.AIExecutor.GetProcessTimeLeft();
+                timeLeft = StrategicMap.Current.AIExecutor.ProcessTimeLeft;
             }
 
             if (Control is null && ControlQueue.Count != 0 && Status == AIMoveExecutorStatus.Busy)

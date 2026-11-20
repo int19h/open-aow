@@ -21,7 +21,7 @@ public class SlowEnchantmentAbility : UnitEnchantmentAbility
     }
 
     // PassiveAb.pas:615
-    public override void CombatDone(CombatObject combatObject) => combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
+    public override void CombatDone(CombatObject combatObject) => combatObject.AbilityOwner.RemoveAbility(AbilityId);
 
     // PassiveAb.pas:609
     public override UnitEnchantment CreateEnchantment()

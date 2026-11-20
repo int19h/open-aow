@@ -168,7 +168,7 @@ public class SmokeCloud : MultiHexMapObject
         {
             _ = Enchantment.Deactivate((byte)Enchantment.PlayerIndex);
         }
-        UpdateConcealment(hexLevel: GetHexLevel(), hexY: GetHexY(), hexX: GetHexX());
+        UpdateConcealment(hexLevel: HexLevel, hexY: HexY, hexX: HexX);
     }
 
     // SmokeCloud.pas:238
@@ -216,9 +216,9 @@ public class SmokeCloud : MultiHexMapObject
     // SmokeCloud.pas:253
     public void UpdateVisibleForSeatedPlayer()
     {
-        sbyte hexLevel = GetHexLevel();
-        sbyte hexY = GetHexY();
-        sbyte hexX = GetHexX();
+        sbyte hexLevel = HexLevel;
+        sbyte hexY = HexY;
+        sbyte hexX = HexX;
         bool visible = StrategicMap.Current.Visible(hexX, hexY, hexLevel, 3) || Enchantment.PlayerIndex == StrategicMap.Current.SeatedPlayer;
         if (_visibleForSeatedPlayer ^ visible)
         {
@@ -233,8 +233,8 @@ public class SmokeCloud : MultiHexMapObject
         int hexX = default;
         int hexY = default;
         MapLevel level = Owner.Owner;
-        sbyte yhx = GetHexY();
-        HexGeometry.CenterHexNumberToHex(GetHexX(), yhx, direction, ref hexX, ref hexY);
+        sbyte yhx = HexY;
+        HexGeometry.CenterHexNumberToHex(HexX, yhx, direction, ref hexX, ref hexY);
         HexGeometry.CenterHexNumberToHex(hexX, hexY, direction, ref hexX, ref hexY);
         return hexX >= 10 && hexY >= 10 && level.Width >= hexX + 10 && level.Height >= hexY + 10;
     }
@@ -285,11 +285,11 @@ public class SmokeCloud : MultiHexMapObject
                 if (valid)
                 {
                     _direction = (byte)direction;
-                    int hexLevel = GetHexLevel();
-                    sbyte yhx = GetHexY();
+                    int hexLevel = HexLevel;
+                    sbyte yhx = HexY;
                     int hexX = default;
                     int hexY = default;
-                    HexGeometry.CenterHexNumberToHex(GetHexX(), yhx, direction, ref hexX, ref hexY);
+                    HexGeometry.CenterHexNumberToHex(HexX, yhx, direction, ref hexX, ref hexY);
                     HexGeometry.CenterHexNumberToHex(hexX, hexY, direction, ref hexX, ref hexY);
                     Disconnect();
                     UpdateConcealment(StoredHexX, StoredHexY, (sbyte)hexLevel);

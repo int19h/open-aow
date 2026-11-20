@@ -112,10 +112,10 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
                     _maxStructures = stats.TurnInfo.GetTurnInfo(j).Structures;
                 }
 
-                int superiority = stats.TurnInfo.GetTurnInfo(j).GetSuperiority();
+                int superiority = stats.TurnInfo.GetTurnInfo(j).Superiority;
                 if (_maxStrength < superiority)
                 {
-                    _maxStrength = stats.TurnInfo.GetTurnInfo(j).GetSuperiority();
+                    _maxStrength = stats.TurnInfo.GetTurnInfo(j).Superiority;
                 }
             }
         }
@@ -295,7 +295,7 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
         TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
-            _ = values.Add(info.GetTurnInfo(i).GetSuperiority());
+            _ = values.Add(info.GetTurnInfo(i).Superiority);
         }
 
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);

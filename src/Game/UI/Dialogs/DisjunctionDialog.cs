@@ -98,13 +98,13 @@ public partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
     {
         DisjunctionManaLabel.TextColor = _caster.GetEnoughMana() ? 12632256 : 255;
 
-        Spell spell = GamePack.Current.SpellControl.GetSpell(51);
+        Spell spell = GamePack.Current.SpellControl[51];
         int mana = _caster.GetMana();
-        Spell fSpellControlSpell = GamePack.Current.SpellControl.GetSpell(51);
+        Spell fSpellControlSpell = GamePack.Current.SpellControl[51];
         int fCasterMana = _caster.GetMana();
         DisjunctionManaLabel.Text = $"{IntToStr(spell.BaseManaCost)}+{IntToStr(mana)}={IntToStr(fSpellControlSpell.BaseManaCost + fCasterMana)}";
         DisjunctionChanceLabel.Text = $"{IntToStr(_caster.DispelChance)}%";
-        int dispelChanceMax = _caster.GetDispelChanceMax();
+        int dispelChanceMax = _caster.DispelChanceMax;
         ChanceSlider.Max = dispelChanceMax;
         ChanceSlider.Position = _caster.DispelChance;
     }
@@ -132,7 +132,7 @@ public partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
             if (Location.X == -1)
             {
                 {
-                    MapCoordinate coordinate41 = _caster.GetSource().GetLocation();
+                    MapCoordinate coordinate41 = _caster.Source.GetLocation();
                     sbyte coordinateX = coordinate41.X;
                     sbyte coordinateY = coordinate41.Y;
                     sbyte coordinateMapLevel = coordinate41.MapLevel;

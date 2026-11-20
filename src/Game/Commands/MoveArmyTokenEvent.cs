@@ -209,9 +209,9 @@ public class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
                 StrategicMap.Current.SelectedArmy.Update();
                 if (Mode.Contains(ArmyMoveModeElement.SelectEndLocation))
                 {
-                    sbyte hexLevel = ArmyHexSprite.GetHexLevel();
-                    sbyte hexY = ArmyHexSprite.GetHexY();
-                    sbyte hexX = ArmyHexSprite.GetHexX();
+                    sbyte hexLevel = ArmyHexSprite.HexLevel;
+                    sbyte hexY = ArmyHexSprite.HexY;
+                    sbyte hexX = ArmyHexSprite.HexX;
                     StrategicMap.Current.Selection.SelectLocationHex(hexX, hexY, hexLevel);
                 }
             }
@@ -241,9 +241,9 @@ public class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
                 bool condition = ArmyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer;
                 if (!condition)
                 {
-                    sbyte hexLevel = ArmyHexSprite.GetHexLevel();
-                    sbyte hexY = ArmyHexSprite.GetHexY();
-                    sbyte hexX = ArmyHexSprite.GetHexX();
+                    sbyte hexLevel = ArmyHexSprite.HexLevel;
+                    sbyte hexY = ArmyHexSprite.HexY;
+                    sbyte hexX = ArmyHexSprite.HexX;
                     condition = StrategicMap.Current.Watching(hexX, hexY, hexLevel, 0);
                 }
 
@@ -419,7 +419,7 @@ public class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
     {
         bool visible = MoveVisible(index);
         bool result = visible && StrategicMap.Current.ShowIndependentMoves && (StrategicMap.Current.SeatedPlayer != ArmyHexSprite.Army.Player || StrategicMap.Current.Players.GetPlayers((sbyte)(byte)StrategicMap.Current.SeatedPlayer).PlayerType != PlayerType.Human);
-        if (result && StrategicMap.Current.TokenManager.TokenExecutor.GetExecutingTokenEvent() is MultiMoveTokenEvent eventValue && eventValue.Simultaneous)
+        if (result && StrategicMap.Current.TokenManager.TokenExecutor.ExecutingTokenEvent is MultiMoveTokenEvent eventValue && eventValue.Simultaneous)
         {
             visible = this == eventValue.Events[0];
             return visible;

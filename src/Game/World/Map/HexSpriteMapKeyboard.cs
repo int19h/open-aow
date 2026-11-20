@@ -171,7 +171,7 @@ public class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
 
                             break;
                         case 65:
-                            if (GetEngine().Registry.GetDeveloper() && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).PlayerType != PlayerType.Human)
+                            if (GetEngine().Registry.Developer && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).PlayerType != PlayerType.Human)
                             {
                                 _ = StrategicMap.Current.AIExecutor.ActivatePlayer(StrategicMap.Current.SeatedPlayer);
                             }

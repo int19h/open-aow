@@ -35,7 +35,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
         Entrance = CaveEntrance.Idle;
         if (Status.Contains(MapObjectStatusElement.PlacedOnMap) && Owner is not null)
         {
-            if (!GetEditMode())
+            if (!EditMode)
             {
                 Cave partner;
                 if (oldEntrance == CaveEntrance.Up)
@@ -126,7 +126,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
         bool result = base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
         if (result)
         {
-            if (!GetEditMode())
+            if (!EditMode)
             {
                 if (Entrance == CaveEntrance.Down)
                 {
@@ -221,11 +221,11 @@ public partial class Cave(CustomNode owner) : Structure(owner)
         ArmyHexSprite armyHexSprite = placedArmy;
         if (armyHexSprite is not null)
         {
-            int l = Entrance == CaveEntrance.Down ? GetHexLevel() + 1 : GetHexLevel() - 1;
+            int l = Entrance == CaveEntrance.Down ? HexLevel + 1 : HexLevel - 1;
 
             byte visibilityRange = armyHexSprite.Army.VisibilityRange();
-            sbyte hexY = armyHexSprite.GetHexY();
-            sbyte hexX = armyHexSprite.GetHexX();
+            sbyte hexY = armyHexSprite.HexY;
+            sbyte hexX = armyHexSprite.HexX;
             _ = StrategicMap.Current.MapContainer.GetMapLevel(l).ExploreArea(hexX, hexY, armyHexSprite.Army.Player, visibilityRange);
         }
     }
@@ -233,9 +233,9 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     // Cave.pas:292
     public sbyte EnterMovePoints(Army army, byte selection)
     {
-        int l = Entrance == CaveEntrance.Down ? GetHexLevel() + 1 : GetHexLevel() - 1;
-        sbyte hexY = GetHexY();
-        sbyte hexX = GetHexX();
+        int l = Entrance == CaveEntrance.Down ? HexLevel + 1 : HexLevel - 1;
+        sbyte hexY = HexY;
+        sbyte hexX = HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, l);
         return (sbyte)army.MoveOnMovePoints(selection, field.TerrainType, field.OverlayType);
     }
@@ -243,10 +243,10 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     // Cave.pas:300
     public byte CanEnterSelection(UnitCollection units)
     {
-        int l = Entrance == CaveEntrance.Down ? GetHexLevel() + 1 : GetHexLevel() - 1;
+        int l = Entrance == CaveEntrance.Down ? HexLevel + 1 : HexLevel - 1;
 
-        sbyte hexY = GetHexY();
-        sbyte hexX = GetHexX();
+        sbyte hexY = HexY;
+        sbyte hexX = HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, l);
         byte result = 0;
         for (int i = 0, last = units.Count - 1; i <= last; i++)
@@ -281,21 +281,21 @@ public partial class Cave(CustomNode owner) : Structure(owner)
             switch (Entrance)
             {
                 case CaveEntrance.Down:
-                    l = (sbyte)(GetHexLevel() + 1);
+                    l = (sbyte)(HexLevel + 1);
                     break;
                 case CaveEntrance.Up:
-                    l = (sbyte)(GetHexLevel() - 1);
+                    l = (sbyte)(HexLevel - 1);
                     break;
                 case CaveEntrance.Idle:
                 default:
                     break;
             }
-            _ = path.AddMapCoordinate(y: GetHexY(), x: GetHexX(), mapLevel: l);
+            _ = path.AddMapCoordinate(y: HexY, x: HexX, mapLevel: l);
             sbyte enterMovePoints = EnterMovePoints(armyHexSprite.Army, selection);
             path.List[0] = path.List[0] with { MoveCost = enterMovePoints };
-            _ = path.AddMapCoordinate(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX());
-            sbyte hexY3 = GetHexY();
-            sbyte hexX = GetHexX();
+            _ = path.AddMapCoordinate(mapLevel: HexLevel, y: HexY, x: HexX);
+            sbyte hexY3 = HexY;
+            sbyte hexX = HexX;
             MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY3, l);
             bool condition = field.GetMoveAction(armyHexSprite.Army.Player) != MoveAction.Attack || field.GetPlayer() <= 0;
             if (!condition)

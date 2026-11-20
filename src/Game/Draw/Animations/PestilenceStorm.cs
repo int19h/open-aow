@@ -25,8 +25,8 @@ public class PestilenceStorm(CustomNode owner) : Storm(owner)
     // Storms.pas:644
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        sbyte hexY = GetHexY();
-        HexGeometry.HexToPixel(GetHexX(), hexY, out int x, out int y);
+        sbyte hexY = HexY;
+        HexGeometry.HexToPixel(HexX, hexY, out int x, out int y);
         x = x - pixelXSurface + 8;
         y -= pixelYSurface;
         ImageSequence sequence = _cloudResource.ImageSequenceList.ImageSequences[0];
@@ -35,7 +35,7 @@ public class PestilenceStorm(CustomNode owner) : Storm(owner)
             int frame = sequence.GetUnloopedFrameIndex(FrameCounter);
             if (frame != -1 && sequence.ImageLibrary.ImageExist(frame))
             {
-                int blend = sequence.GetTotalSequenceFrames();
+                int blend = sequence.TotalSequenceFrames;
                 blend = blend != 0 ? FrameCounter * 100 / blend : 100;
 
                 sequence.ImageLibrary[frame].ShowBlended(x + sequence.OffsetX, y + sequence.OffsetY, lockedSurface, GraphicsState.ShadowBlendTable.LookupTables[blend]);
@@ -73,7 +73,7 @@ public class PestilenceStorm(CustomNode owner) : Storm(owner)
         _ = StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, 2);
         if (StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.TerrainVisible(X, Y, L, 2))
         {
-            _ = GamePack.Current.SpellControl.GetSpell(9).CastSounds.Play(0);
+            _ = GamePack.Current.SpellControl[9].CastSounds.Play(0);
         }
 
         _ = PlaceHex(StrategicMap.Current.MapContainer, X, Y, L);
@@ -95,9 +95,9 @@ public class PestilenceStorm(CustomNode owner) : Storm(owner)
             PoisonCloud cloud = _cloudResource.CreateResourceUser<PoisonCloud>();
             cloud.TurnsRemaining = 3;
             cloud.Player = StrategicMap.Current.CurrentPlayer;
-            sbyte hexLevel = GetHexLevel();
-            sbyte hexY = GetHexY();
-            sbyte hexX = GetHexX();
+            sbyte hexLevel = HexLevel;
+            sbyte hexY = HexY;
+            sbyte hexX = HexX;
             if (StrategicMap.Current.PlaceHex(cloud, hexX, hexY, hexLevel))
             {
                 cloud.TriggerDamage();

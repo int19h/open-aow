@@ -71,7 +71,7 @@ public partial class ArmyEventLog : EventLog
     public override string GetText() => ArmyText;
 
     // Army.PAS:174
-    public override int GetLeftIcon() => ArmyView.Player > 0 ? StrategicMap.Current.Players.GetPlayers(ArmyView.Player).PlayerRace : 12;
+    public override int LeftIcon => ArmyView.Player > 0 ? StrategicMap.Current.Players.GetPlayers(ArmyView.Player).PlayerRace : 12;
 
     // Army.PAS:218
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)

@@ -74,7 +74,7 @@ public partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
         WizardsTower wizardsTower = _event.Tower;
         if (wizardsTower.SpellId != 0)
         {
-            Spell s = GamePack.Current.SpellControl.GetSpell(wizardsTower.SpellId);
+            Spell s = GamePack.Current.SpellControl[wizardsTower.SpellId];
             if (s is not null)
             {
                 if (s.CastImages.GetImageSequence(10) is not null)
@@ -107,7 +107,7 @@ public partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
             int buyCost = dialog._event.Tower.BuyCost();
             string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.ForGoldFormat), [IntToStr(buyCost)]);
             dialog.PriceLabel.Text = $"{format}.";
-            Spell spell = GamePack.Current.SpellControl.GetSpell(tower.SpellId);
+            Spell spell = GamePack.Current.SpellControl[tower.SpellId];
             dialog.SpellNameLabel.Text = spell.SpellName;
             string magicSphere = dialog.UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
             string level = dialog.UI.Engine.TranslateResourceString(GameText.LevelText);

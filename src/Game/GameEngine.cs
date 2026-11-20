@@ -222,20 +222,26 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     public string TranslateResourceString(string S) => Dictionary.Language > 0 ? Dictionary.Translate(S) : CompareText(S, s_undeadPluralText) == 0 ? s_undeadText : S;
 
     // Army.PAS:5915
-    public int GetMajorVersion() => ((int)(((uint)Version) >> 24)) & 255;
+    public int MajorVersion => ((int)(((uint)Version) >> 24)) & 255;
 
     // Army.PAS:5918
-    public int GetMinorVersion()
+    public int MinorVersion
     {
-        int result = ((int)(((uint)Version) >> 16)) & 255;
-        return result > 99 ? 99 : result;
+        get
+        {
+            int result = ((int)(((uint)Version) >> 16)) & 255;
+            return result > 99 ? 99 : result;
+        }
     }
 
     // Army.PAS:5924
-    public int GetBuildNumber()
+    public int BuildNumber
     {
-        int result = Version & 65535;
-        return result > 9999 ? 9999 : result;
+        get
+        {
+            int result = Version & 65535;
+            return result > 9999 ? 9999 : result;
+        }
     }
 
     // Army.PAS:5930
@@ -277,11 +283,11 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     // Army.PAS:5941
     public string GetVersionString()
     {
-        string result = $"{IntToStr(GetMajorVersion())}.";
-        int version = GetMinorVersion();
+        string result = $"{IntToStr(MajorVersion)}.";
+        int version = MinorVersion;
         result = version < 10 ? $"{result}0{IntToStr(version)}." : $"{result}{IntToStr(version)}.";
 
-        version = GetBuildNumber();
+        version = BuildNumber;
         if (version < 1000)
         {
             result += "0";

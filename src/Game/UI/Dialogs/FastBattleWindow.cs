@@ -212,11 +212,11 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
             {
                 if (HasWall(0, 4))
                 {
-                    HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent(hits: wall.GetHits(), hitPoints: wall.GetHitPoints()), x: X + 250, y: Y + 332 - 45, surface: surface);
+                    HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent(hits: wall.GetHits(), hitPoints: wall.HitPoints), x: X + 250, y: Y + 332 - 45, surface: surface);
                 }
                 else
                 {
-                    HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent(hits: wall.GetHits(), hitPoints: wall.GetHitPoints()), x: X + 250, y: Y + 218 - 45, surface: surface);
+                    HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent(hits: wall.GetHits(), hitPoints: wall.HitPoints), x: X + 250, y: Y + 218 - 45, surface: surface);
                 }
             }
         }
@@ -432,7 +432,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
                     }
 
                     {
-                        int endPosition = _viewer.GetEndPosition();
+                        int endPosition = _viewer.EndPosition;
                         if (_viewer.Position >= endPosition)
                         {
                             SetPhase(2);
@@ -506,7 +506,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
         CombatViewer viewer = _viewer;
         if (viewer is not null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
-            viewer.SetPosition(viewer.GetEndPosition() + 1);
+            viewer.SetPosition(viewer.EndPosition + 1);
             SetPhase(3);
         }
     }
@@ -662,10 +662,10 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
 
         dialog._viewer.Play();
         dialog.MainWindow.Drawn = false;
-        int endPosition = dialog._viewer.GetEndPosition();
+        int endPosition = dialog._viewer.EndPosition;
         dialog.SequencePositionSlider.Max = endPosition;
         dialog.SequenceSpeedSlider.Position = 20 - dialog._viewer.Delay;
-        if (dialog._viewer.GetEndPosition() != -1)
+        if (dialog._viewer.EndPosition != -1)
         {
             dialog.SetPhase(0);
         }

@@ -42,7 +42,7 @@ public class LifeMastery : GlobalEnchantmentSpell
         sbyte l = coordinate73.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
         TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
-        twinkle.Setup(GamePack.Current.SpellControl.GetSpell(61).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 100, 64, 50, 30);
+        twinkle.Setup(GamePack.Current.SpellControl[61].CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 100, 64, 50, 30);
         _ = StrategicMap.Current.PlaceHex(twinkle, x, y, l);
         _ = CastSounds.Play(0);
         CastingDone(source, eventValue.EventMana);

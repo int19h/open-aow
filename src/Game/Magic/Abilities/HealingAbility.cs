@@ -238,7 +238,7 @@ public class HealingAbility : TouchAbility
     {
         bool result = base.CanTouch(source, target);
         return result
-            ? source is CombatUnit && target is CombatUnit targetUnit && Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(targetUnit.Troop.GetUnitType()) && (target.GetHits() != target.GetHitPoints() || target.GetAbilityEnabled(96) || target.GetAbilityEnabled(53) || target.GetAbilityEnabled(108))
+            ? source is CombatUnit && target is CombatUnit targetUnit && Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(targetUnit.Troop.GetUnitType()) && (target.GetHits() != target.HitPoints || target.GetAbilityEnabled(96) || target.GetAbilityEnabled(53) || target.GetAbilityEnabled(108))
             : result;
     }
 
@@ -271,7 +271,7 @@ public class HealingAbility : TouchAbility
     // AoWAb.PAS:3675
     public int GetHealHitPoints(CombatObject target)
     {
-        int result = target.GetHits() - target.GetHitPoints();
+        int result = target.GetHits() - target.HitPoints;
         return result > 5 ? 5 : result;
     }
 

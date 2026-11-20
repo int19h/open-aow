@@ -172,7 +172,7 @@ public class TokenControl : IDisposable
     public void ClearEvents() => Events.Clear();
 
     // NetworkE.pas:1228
-    public TokenEvent GetEvent(int index) => Events[index];
+    public TokenEvent this[int index] => Events[index];
 
     // NetworkE.pas:1233
     public int GetCount() => Events.Count;

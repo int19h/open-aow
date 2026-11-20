@@ -30,16 +30,19 @@ public partial class EnterArenaEventLog(CustomNode owner) : EventLog(owner)
     public int GetCount() => UnitIds.Count;
 
     // Arena.pas:274
-    public Troop GetUnit(int index)
+    public Troop this[int index]
     {
-        if (index >= 0 && index < UnitIds.Count)
+        get
         {
-            int unitId = UnitIds[index];
-            return StrategicMap.Current.UnitControl.FindUnit(unitId);
-        }
-        else
-        {
-            return null;
+            if (index >= 0 && index < UnitIds.Count)
+            {
+                int unitId = UnitIds[index];
+                return StrategicMap.Current.UnitControl.FindUnit(unitId);
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 

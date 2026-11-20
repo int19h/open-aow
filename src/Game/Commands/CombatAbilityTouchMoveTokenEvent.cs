@@ -295,7 +295,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                                 {
                                     // GetAbility asserts on a negative id. The touch switch did nothing for one, so a negative id stays off that lookup.
                                     CombatAction touchAction = AbilityId >= 0
-                                        ? GamePack.Current.AbilityControl.GetAbility(AbilityId)?.CreateTouchMoveCombatAction(Unit, target: PreviousUnit)
+                                        ? GamePack.Current.AbilityControl[AbilityId]?.CreateTouchMoveCombatAction(Unit, target: PreviousUnit)
                                         : null;
                                     if (touchAction is not null)
                                     {
@@ -304,7 +304,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                                         _ = touchAction.Release();
                                         if (touchAction is PossessCombatAction)
                                         {
-                                            int unitGraphicsResourceIndex = Unit.Troop.GetUnitGraphicsResourceIndex();
+                                            int unitGraphicsResourceIndex = Unit.Troop.UnitGraphicsResourceIndex;
                                             Unit.UnitHexSprite.SetUnitGraphicsResourceIndex(unitGraphicsResourceIndex);
                                             if (!PreviousUnit.GetEnabled())
                                             {
@@ -326,7 +326,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                                 }
                                 else
                                 {
-                                    if (!_successful && PreviousUnit is not null && PreviousUnit.GetEnabled() && !PreviousUnit.GetLocked() && CombatObject.MeleeDamageTypes(PreviousUnit) != Set<DamageType>.Of() && PreviousUnit.GetSide() != Unit.GetSide())
+                                    if (!_successful && PreviousUnit is not null && PreviousUnit.GetEnabled() && !PreviousUnit.GetLocked() && CombatObject.MeleeDamageTypes(PreviousUnit) != Set<DamageType>.Of() && PreviousUnit.Side != Unit.Side)
                                     {
                                         RandSeed = StrategicMap.Current.Random(16777215);
                                         Strike = CombatObject.CreateStrikeCombatAction(PreviousUnit, Unit, true);

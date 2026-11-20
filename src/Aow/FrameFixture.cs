@@ -370,13 +370,13 @@ internal sealed class FrameFixture
             TaskBar taskbar = form.UI.TaskBar;
             ControlWindow controls = form.UI.ControlWindow;
             File.WriteAllText(Path.Combine(output, "controls.json"), $"{JsonSerializer.Serialize(new[] { controls.Unit1CheckBox.Text, controls.Unit2CheckBox.Text, controls.MovesLabel.Text })}\n");
-            ArmyHexSprite? selected = StrategicMap.Current?.SelectedArmy?.GetArmyHexSprite();
+            ArmyHexSprite? selected = StrategicMap.Current?.SelectedArmy?.ArmyHexSprite;
             if (StrategicMap.Current is { } world)
             {
                 List<object> heroes = [];
                 for (int i = 0; i < world.HeroControl.GetCount(); i++)
                 {
-                    Hero hero = world.HeroControl.GetHero(i);
+                    Hero hero = world.HeroControl[i];
                     MapCoordinate coordinate1 = hero.GetLocation();
                     sbyte x = coordinate1.X;
                     sbyte y = coordinate1.Y;
@@ -436,7 +436,7 @@ internal sealed class FrameFixture
                 {
                     if (data.GetObjects(i) is TacticalBattleUnit unit && unit.UnitHexSprite is { } sprite)
                     {
-                        HexGeometry.HexToPixel(sprite.GetHexX(), sprite.GetHexY(), out int x, out int y);
+                        HexGeometry.HexToPixel(sprite.HexX, sprite.HexY, out int x, out int y);
                         units.Add(new
                         {
                             FID = unit.Id,
@@ -445,8 +445,8 @@ internal sealed class FrameFixture
                             status = unit.Status.Image,
                             hits = unit.Troop.GetHits(),
                             hit_points = unit.Troop.GetHitPoints(),
-                            hx = sprite.GetHexX(),
-                            hy = sprite.GetHexY(),
+                            hx = sprite.HexX,
+                            hy = sprite.HexY,
                             screen_x = x - viewer.SceneX + 12,
                             screen_y = y - viewer.SceneY + 12
                         });
@@ -464,9 +464,9 @@ internal sealed class FrameFixture
             File.WriteAllText(Path.Combine(output, "selection.json"), JsonSerializer.Serialize(new
             {
                 count = StrategicMap.Current?.SelectedArmy?.MoveSettingsList?.Count,
-                x = selected?.GetHexX(),
-                y = selected?.GetHexY(),
-                level = selected?.GetHexLevel(),
+                x = selected?.HexX,
+                y = selected?.HexY,
+                level = selected?.HexLevel,
                 units = selected?.Army?.Units.Count
             }) + "\n");
             if (fixture._values.GetValueOrDefault("save_state") == "true")

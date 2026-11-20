@@ -10,5 +10,5 @@ public class ArmyHSList(CustomNode owner) : ObservableEventList(owner)
 
     // Army.PAS:3562
     // The list stores army sprites. A child of another class throws, the same way the old cast did.
-    public ArmyHexSprite GetArmyHexSprite(int index) => GetChild<ArmyHexSprite>(index);
+    public ArmyHexSprite this[int index] => GetChild<ArmyHexSprite>(index);
 }

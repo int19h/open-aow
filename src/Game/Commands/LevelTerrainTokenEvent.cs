@@ -22,8 +22,8 @@ public class LevelTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEv
         _ = base.Process(source, value);
         PlayDefaultEffects(Location.X, Location.Y, Location.MapLevel);
         LevelTerrain();
-        Spell spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
-        GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
+        Spell spell = GamePack.Current.SpellControl[EventSpellId];
+        GamePack.Current.SpellControl[EventSpellId].CastingDone(source, spell.BaseManaCost);
         return false;
     }
 
@@ -37,7 +37,7 @@ public class LevelTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEv
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 MapField mapField = level.Field[walk.X, walk.Y];
-                if (((GlobalTargetSpell)(object)GamePack.Current.SpellControl.GetSpell(18)).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() is null)
+                if (((GlobalTargetSpell)(object)GamePack.Current.SpellControl[18]).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() is null)
                 {
                     StrategicMap.Current.ClearTerrain(walk.X, walk.Y, Location.MapLevel, 0, -1);
                     if (mapField.TerrainType == (int)TerrainType.Earth)

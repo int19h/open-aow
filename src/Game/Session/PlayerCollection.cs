@@ -43,7 +43,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     {
         // Assign's source is EngineObject. This override copies a player collection, and the cast stays.
         PlayerCollection other = (PlayerCollection)source;
-        SetNumberOfPlayers(other.GetNumberOfPlayers());
+        SetNumberOfPlayers(other.NumberOfPlayers);
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
             Player players = other.GetPlayers(i);
@@ -231,7 +231,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     }
 
     // Player.PAS:1617
-    public byte GetNumberOfPlayers() => (byte)(Count - 1);
+    public byte NumberOfPlayers => (byte)(Count - 1);
 
     // Player.PAS:1622
     public int RaceToPlayer(sbyte race)
@@ -388,7 +388,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
         {
             if (GetPlayers(i).Status == PlayerStatus.Playing)
             {
-                int value = GetPlayers(i).GetSuperiority();
+                int value = GetPlayers(i).Superiority;
                 if (value > maximum)
                 {
                     maximum = value;

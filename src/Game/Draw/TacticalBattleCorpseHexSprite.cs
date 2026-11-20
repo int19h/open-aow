@@ -31,7 +31,7 @@ public class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexSprite(o
     private int _sequenceFrame;
 
     // AoWTC.pas:4007
-    public override byte GetLevel() => 26;
+    public override byte Level => 26;
 
     // AoWTC.pas:4012
     public override int GetShowPriority() => 1744830464 + (OffsetY << 13) + OffsetX;
@@ -84,15 +84,15 @@ public class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexSprite(o
             BattleEffectSprite effect;
             if (message.MessageId == 200712 && message.HexNumber == 0)
             {
-                sbyte hexY = GetHexY();
-                sbyte hexX = GetHexX();
+                sbyte hexY = HexY;
+                sbyte hexX = HexX;
                 if (CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2228484) is null)
                 {
-                    sbyte hexY2 = GetHexY();
-                    sbyte hexX2 = GetHexX();
+                    sbyte hexY2 = HexY;
+                    sbyte hexX2 = HexX;
                     CombatMap.Current.MakeVisible(hexX2, hexY2, 0, 5);
-                    sbyte hexY3 = GetHexY();
-                    HexGeometry.HexToPixel(GetHexX(), hexY3, out x, out y);
+                    sbyte hexY3 = HexY;
+                    HexGeometry.HexToPixel(HexX, hexY3, out x, out y);
                     for (int ring = 1; ring <= 3; ring++)
                     {
                         n = Random(5);
@@ -124,12 +124,12 @@ public class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexSprite(o
 
             if (message.MessageId == 200713 && message.HexNumber == 0)
             {
-                sbyte hexY = GetHexY();
-                sbyte hexX = GetHexX();
+                sbyte hexY = HexY;
+                sbyte hexX = HexX;
                 if (CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2228484) is null)
                 {
-                    sbyte hexY2 = GetHexY();
-                    HexGeometry.HexToPixel(GetHexX(), hexY2, out x, out y);
+                    sbyte hexY2 = HexY;
+                    HexGeometry.HexToPixel(HexX, hexY2, out x, out y);
                     n = Random(6) + 25;
                     for (int i = 1; i <= n - 1; i++)
                     {
@@ -150,13 +150,13 @@ public class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexSprite(o
                     {
                         case 130:
                             RandSeed = StrategicMap.Current.Random(16777215);
-                            CombatAction animateAction = GamePack.Current.SpellControl.GetSpell(130).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                            CombatAction animateAction = GamePack.Current.SpellControl[130].CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
                             CombatMap.Current.Combat.ExecuteCombatAction(animateAction);
                             _ = animateAction.Release();
                             break;
                         case 129:
                             RandSeed = StrategicMap.Current.Random(16777215);
-                            CombatAction raiseAction = GamePack.Current.SpellControl.GetSpell(129).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                            CombatAction raiseAction = GamePack.Current.SpellControl[129].CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
                             CombatMap.Current.Combat.ExecuteCombatAction(raiseAction);
                             _ = raiseAction.Release();
                             break;
@@ -169,8 +169,8 @@ public class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexSprite(o
                         TacticalBattleUnitHexSprite unitHexSprite = new(null) { Holder = CreationHolder() };
                         unitHexSprite.Initialize(Unit);
                         unitHexSprite.SetDirection((byte)(Random(6) + 1));
-                        sbyte hexY3 = GetHexY();
-                        sbyte hexX2 = GetHexX();
+                        sbyte hexY3 = HexY;
+                        sbyte hexX2 = HexX;
                         _ = CombatMap.Current.PlaceHex(unitHexSprite, hexX2, hexY3, 0);
                     }
 
@@ -205,7 +205,7 @@ public class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexSprite(o
     public void NewFrame(object sender)
     {
         ImageSequence sequence = GamePack.Current.ImageSequences.ImageSequences[SequenceIndex];
-        int totalSequenceFrames = sequence.GetTotalSequenceFrames();
+        int totalSequenceFrames = sequence.TotalSequenceFrames;
         if (_sequenceFrame + 1 < totalSequenceFrames)
         {
             _sequenceFrame += 1;

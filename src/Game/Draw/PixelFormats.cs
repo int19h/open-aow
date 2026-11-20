@@ -15,9 +15,9 @@ public static class PixelFormats
 
     internal static void RepMovsdBlitRectangle(SurfaceView source, SurfaceView destination, int width, int height) => Blit.RepMovsdBlitRectangle(source, destination, width, height);
 
-    internal static int GetElapsedMilliseconds() => (int)Clock.TickCount;
+    internal static int ElapsedMilliseconds => (int)Clock.TickCount;
 
-    internal static int GetElapsedMicroseconds() => (int)Clock.TickCount * 1000;
+    internal static int ElapsedMicroseconds => (int)Clock.TickCount * 1000;
 
     internal static bool ValidImageFile(string fileName)
     {

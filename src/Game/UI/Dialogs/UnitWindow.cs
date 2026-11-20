@@ -179,7 +179,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
     public void PreDrawAbilityItem(UIComponent sender, in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
     {
         object objectValue = AbilityAbilityList.Items.Objects[drawItem];
-        Ability a = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+        Ability a = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
         bool enabled;
         if (StrategicMap.Current.CombatMap is null)
         {
@@ -191,15 +191,15 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
             if (condition)
             {
                 object objectValue2 = AbilityAbilityList.Items.Objects[drawItem];
-                condition = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue2)).GetControlType(UI.General.CombatUnit.Unit.Troop).Contains(AbilityControlTypeElement.CombatAction);
+                condition = GamePack.Current.AbilityControl[ObjectToInt(objectValue2)].GetControlType(UI.General.CombatUnit.Unit.Troop).Contains(AbilityControlTypeElement.CombatAction);
             }
 
             bool test = condition && UI.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && UI.General.CombatUnit.Unit.MovePoints > 0;
             if (test)
             {
                 object objectValue2 = AbilityAbilityList.Items.Objects[drawItem];
-                CombatMode combatMode = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue2)).GetCombatMode(UI.General.CombatUnit.Unit.Troop);
-                test = !(Set<CombatMode>.Of(CombatMode.ShortRange, CombatMode.MediumRange, CombatMode.LongRange).Contains(combatMode) || ObjectToInt(AbilityAbilityList.Items.Objects[drawItem]) == 52) || UI.General.CombatUnit.Unit.Troop.GetMoves() == UI.General.CombatUnit.Unit.MovePoints;
+                CombatMode combatMode = GamePack.Current.AbilityControl[ObjectToInt(objectValue2)].GetCombatMode(UI.General.CombatUnit.Unit.Troop);
+                test = !(Set<CombatMode>.Of(CombatMode.ShortRange, CombatMode.MediumRange, CombatMode.LongRange).Contains(combatMode) || ObjectToInt(AbilityAbilityList.Items.Objects[drawItem]) == 52) || UI.General.CombatUnit.Unit.Troop.Moves == UI.General.CombatUnit.Unit.MovePoints;
             }
 
             enabled = test;
@@ -222,7 +222,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
             if (UI.General.SelectedUnit.Player == StrategicMap.Current.SeatedPlayer && AbilityAbilityList.Selected > -1)
             {
                 object objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
-                Ability a = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+                Ability a = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
                 if (a is not null && a.GetEnabled(UI.General.SelectedUnit))
                 {
                     if (StrategicMap.Current.CombatMap is null)
@@ -233,11 +233,11 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
                     else
                     {
                         object objectValue2 = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
-                        bool condition = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue2)).GetCombatMode(UI.General.SelectedUnit) != CombatMode.None;
+                        bool condition = GamePack.Current.AbilityControl[ObjectToInt(objectValue2)].GetCombatMode(UI.General.SelectedUnit) != CombatMode.None;
                         if (condition)
                         {
                             object objectValue3 = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
-                            condition = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue3)).GetCombatMode(UI.General.SelectedUnit) != CombatMode.Melee;
+                            condition = GamePack.Current.AbilityControl[ObjectToInt(objectValue3)].GetCombatMode(UI.General.SelectedUnit) != CombatMode.Melee;
                         }
 
                         AbilityUseButton.Visible = condition;
@@ -266,22 +266,22 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
             if (condition)
             {
                 object objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
-                condition = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue)).GetControlType(UI.General.CombatUnit.Unit.Troop).Contains(AbilityControlTypeElement.CombatAction);
+                condition = GamePack.Current.AbilityControl[ObjectToInt(objectValue)].GetControlType(UI.General.CombatUnit.Unit.Troop).Contains(AbilityControlTypeElement.CombatAction);
             }
 
             bool test = condition && UI.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && UI.General.CombatUnit.Unit.MovePoints > 0;
             if (test)
             {
                 object objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
-                CombatMode combatMode = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue)).GetCombatMode(UI.General.CombatUnit.Unit.Troop);
-                test = !(Set<CombatMode>.Of(CombatMode.ShortRange, CombatMode.MediumRange, CombatMode.LongRange).Contains(combatMode) || ObjectToInt(AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected]) == 52) || UI.General.CombatUnit.Unit.Troop.GetMoves() == UI.General.CombatUnit.Unit.MovePoints;
+                CombatMode combatMode = GamePack.Current.AbilityControl[ObjectToInt(objectValue)].GetCombatMode(UI.General.CombatUnit.Unit.Troop);
+                test = !(Set<CombatMode>.Of(CombatMode.ShortRange, CombatMode.MediumRange, CombatMode.LongRange).Contains(combatMode) || ObjectToInt(AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected]) == 52) || UI.General.CombatUnit.Unit.Troop.Moves == UI.General.CombatUnit.Unit.MovePoints;
             }
 
             if (test)
             {
                 AbilityUseButton.Visible = true;
                 object objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
-                string name = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue)).GetName(UI.General.CombatUnit.Unit.Troop);
+                string name = GamePack.Current.AbilityControl[ObjectToInt(objectValue)].GetName(UI.General.CombatUnit.Unit.Troop);
                 string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_useFormat), [name]);
                 AbilityUseButton.Text = format;
             }
@@ -407,7 +407,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
     {
         UI.General.PlayButtonSound(0);
         object objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
-        Ability a = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+        Ability a = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
         if (a is not null && a.GetEnabled(UI.General.SelectedUnit))
         {
             if (StrategicMap.Current.CombatMap is null)
@@ -652,7 +652,7 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
         if (button == MouseButton.Right && UI.General.SelectedUnit is not null && AbilityAbilityList.Selected != -1)
         {
             object objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
-            Ability a = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+            Ability a = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
             if (a is not null)
             {
                 InfoBanner.SetInfoBanner(caption: a.GetName(null), banner: UI.InfoBanner, description: a.Description);
@@ -743,8 +743,8 @@ public partial class UnitWindow(UIContext ui) : UIModule(ui)
 
     private int CompareUnitAbilities(string s1, string s2, object o1, object o2)
     {
-        Ability ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(o1));
-        Ability ability2 = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(o2));
+        Ability ability = GamePack.Current.AbilityControl[ObjectToInt(o1)];
+        Ability ability2 = GamePack.Current.AbilityControl[ObjectToInt(o2)];
         int number = (ability.GetEnabled(UI.General.SelectedUnit) && ability.GetControlType(UI.General.SelectedUnit).Contains(AbilityControlTypeElement.Action)) ? 10 : 0;
         int number2 = (ability2.GetEnabled(UI.General.SelectedUnit) && ability2.GetControlType(UI.General.SelectedUnit).Contains(AbilityControlTypeElement.Action)) ? 10 : 0;
         int number3 = number2 - number;

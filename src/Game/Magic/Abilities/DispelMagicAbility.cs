@@ -375,7 +375,7 @@ public class DispelMagicAbility : TouchAbility
     {
         DispelMagicAbilityCombatAction result = new(null) { Holder = CreationHolder() };
         result.Generate(source, target, GetDispelMana(source.Troop));
-        bool successful = source.GetSide() == target.GetSide() || CombatTouchRole(source, target);
+        bool successful = source.Side == target.Side || CombatTouchRole(source, target);
 
         if (!successful)
         {

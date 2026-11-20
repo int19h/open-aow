@@ -39,15 +39,15 @@ public class AntiMagicShell : CityEnchantmentSpell
         bool condition = source.Player == StrategicMap.Current.SeatedPlayer;
         if (!condition)
         {
-            sbyte hexLevel = targetCity.GetHexLevel();
-            sbyte hexY = targetCity.GetHexY();
-            sbyte hexX = targetCity.GetHexX();
+            sbyte hexLevel = targetCity.HexLevel;
+            sbyte hexY = targetCity.HexY;
+            sbyte hexX = targetCity.HexX;
             condition = StrategicMap.Current.WatchingTerrain(hexX, hexY, hexLevel, 1);
         }
 
         if (condition)
         {
-            _ = GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(1, -1, false, 30, SamplePanning.Center, null);
+            _ = GamePack.Current.SpellControl[SpellId].CastSounds.Play(1, -1, false, 30, SamplePanning.Center, null);
         }
     }
 }

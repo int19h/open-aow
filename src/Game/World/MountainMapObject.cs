@@ -40,7 +40,7 @@ public class MountainMapObject(CustomNode owner) : Hexes.Terrain(owner)
                     HexSprite hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
                     valid = hexSprite is not null && hexSprite.EngineClass.ClassId == 131432
                         ? ValidMountainOverlap(mapField, list.Overlay[i])
-                        : hexSprite is null || hexSprite.GetLevel() < 10;
+                        : hexSprite is null || hexSprite.Level < 10;
                 }
             }
 

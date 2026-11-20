@@ -46,7 +46,7 @@ public class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
                 TerrainType = info.TerrainType;
                 ImageIndex = GetTerrainTypeImage(info.TerrainType);
                 HexSprite hexSprite = info.MapField.GetMaxLevelNoneTransparentHexSprite();
-                if ((hexSprite is not null && hexSprite.GetLevel() > GetLevel() && hexSprite is not AbstractRoad) || (info.OverlayType is >= 0 and not 4))
+                if ((hexSprite is not null && hexSprite.Level > Level && hexSprite is not AbstractRoad) || (info.OverlayType is >= 0 and not 4))
                 {
                     Dispose();
                 }
@@ -104,7 +104,7 @@ public class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     {
         MapField field = mapContainer.GetField(hexX, hexY, hexLevel);
         HexSprite hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
-        return field.FindOwnedHexSprite(typeof(Fire)) is null && (hexSprite is null || hexSprite.GetLevel() < 10 || hexSprite is AbstractRoad);
+        return field.FindOwnedHexSprite(typeof(Fire)) is null && (hexSprite is null || hexSprite.Level < 10 || hexSprite is AbstractRoad);
     }
 
     // Crops.pas:228

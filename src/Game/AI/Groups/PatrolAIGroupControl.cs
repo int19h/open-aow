@@ -316,7 +316,7 @@ public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
             DoubleItemList<MapField> selectedList = lists[heading];
             int random = StrategicMap.Current.Random(selectedList.Count);
             mapField = selectedList.List[random].First;
-            MapCoordinate mapCoordinate = mapField.GetMapCoordinate();
+            MapCoordinate mapCoordinate = mapField.MapCoordinate;
             group.PatrolTo = mapCoordinate;
             result = true;
         }

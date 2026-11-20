@@ -23,10 +23,10 @@ public class DecayAbility : DurationAbility
     // PassiveAb.pas:855
     public override void NewCombatTurn(CombatObject combatObject, sbyte player)
     {
-        DurationAbilityData data = GetData(combatObject.GetAbilityOwner());
+        DurationAbilityData data = GetData(combatObject.AbilityOwner);
         if (data is not null && data.PlayerIndex == player)
         {
-            if (combatObject.GetAbilityOwner() is Troop)
+            if (combatObject.AbilityOwner is Troop)
             {
                 _ = combatObject.ExecuteDamage(1);
             }

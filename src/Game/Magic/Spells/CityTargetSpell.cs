@@ -87,10 +87,10 @@ public class CityTargetSpell : Spell
     public virtual void PlayDefaultCityEffects(Troop source, City targetCity)
     {
         bool playSound = false;
-        sbyte hexLevel = targetCity.GetHexLevel();
+        sbyte hexLevel = targetCity.HexLevel;
         MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(hexLevel);
-        sbyte hexY = targetCity.GetHexY();
-        sbyte hexX = targetCity.GetHexX();
+        sbyte hexY = targetCity.HexY;
+        sbyte hexX = targetCity.HexX;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
         while (walk.HexNumber < targetCity.Resource.TerrainList.Count)
         {
@@ -99,7 +99,7 @@ public class CityTargetSpell : Spell
                 bool condition = source.Player == StrategicMap.Current.SeatedPlayer;
                 if (!condition)
                 {
-                    sbyte targetCityHexLevel = targetCity.GetHexLevel();
+                    sbyte targetCityHexLevel = targetCity.HexLevel;
                     condition = StrategicMap.Current.TerrainVisible((sbyte)walk.X, (sbyte)walk.Y, targetCityHexLevel, 0);
                 }
 
@@ -107,15 +107,15 @@ public class CityTargetSpell : Spell
                 {
                     // { Original passes the city layer before the radius. }
                     ImageSequenceAnimation a = new(null) { Holder = CreationHolder() };
-                    a.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
+                    a.SetImageSequence(GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[0]);
                     a.FrameCounter = Random(5);
                     a.AnimationLevel = 27;
-                    sbyte targetCityHexLevel = targetCity.GetHexLevel();
+                    sbyte targetCityHexLevel = targetCity.HexLevel;
                     _ = StrategicMap.Current.PlaceHex(a, walk.X, walk.Y, targetCityHexLevel);
                     bool test = source.Player == StrategicMap.Current.SeatedPlayer;
                     if (!test)
                     {
-                        sbyte hexLevel2 = targetCity.GetHexLevel();
+                        sbyte hexLevel2 = targetCity.HexLevel;
                         test = StrategicMap.Current.WatchingTerrain((sbyte)walk.X, (sbyte)walk.Y, hexLevel2, 0);
                     }
 
@@ -131,7 +131,7 @@ public class CityTargetSpell : Spell
 
         if (playSound)
         {
-            _ = GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
+            _ = GamePack.Current.SpellControl[SpellId].CastSounds.Play(0);
         }
     }
 
@@ -144,9 +144,9 @@ public class CityTargetSpell : Spell
         targetSelection.Text.Text = format;
         targetSelection.Title = SpellName;
         targetSelection.CancelText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CancelText);
-        targetSelection.SourceImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[20].GetPreviewImage();
-        targetSelection.ValidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[21].GetPreviewImage();
-        targetSelection.InvalidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[22].GetPreviewImage();
+        targetSelection.SourceImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[20].GetPreviewImage();
+        targetSelection.ValidTargetImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[21].GetPreviewImage();
+        targetSelection.InvalidTargetImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[22].GetPreviewImage();
         MapCoordinate coordinate58 = source.GetLocation();
         sbyte x = coordinate58.X;
         sbyte y = coordinate58.Y;

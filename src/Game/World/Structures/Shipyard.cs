@@ -15,7 +15,7 @@ public partial class Shipyard(CustomNode owner) : ProductionPlace(owner)
     public override void UpdateAITarget(in AITargetInfo info, ref AITargetData data) => base.UpdateAITarget(info, ref data);
 
     // Shipyard.pas:52
-    public override int GetBaseIncome() => 0;
+    public override int BaseIncome => 0;
 
     public new class Resource : ProductionPlaceResource
     {

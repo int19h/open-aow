@@ -206,7 +206,7 @@ public partial class ProductionPlace : PlayerStructure
             return Player > 0
                 ? GetMagicSphere() != MagicSphere.None
                     ? GetPower() != 0 ? AbilityRules.TranslateResourceString(GetEngine(), GameText.GeneratingExtraPowerText) : "-"
-                    : GetBaseIncome() != 0
+                    : BaseIncome != 0
                         ? AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducingMerchandiseText)
                         : AbilityRules.TranslateResourceString(GetEngine(), GameTables.NoneText)
                 : LowerCase(AbilityRules.TranslateResourceString(GetEngine(), GameTables.NoneText));
@@ -344,7 +344,7 @@ public partial class ProductionPlace : PlayerStructure
     // PrdPlace.pas:375
     public override int GetIncome()
     {
-        int income = GetBaseIncome();
+        int income = BaseIncome;
         if (GetMagicSphere() == MagicSphere.None)
         {
             if (ProductionControl.Status != ProductionControlStatus.Producing || ProductionControl.Queue.GetItem(0).Order is Trade)
@@ -361,7 +361,7 @@ public partial class ProductionPlace : PlayerStructure
     {
         int result;
         // { The original tests msCosmos, rather than msNone, here. }
-        if (Player > 0 && GetMagicSphere() != MagicSphere.Cosmos && !GetRazed() && !GetBuilding())
+        if (Player > 0 && GetMagicSphere() != MagicSphere.Cosmos && !GetRazed() && !Building)
         {
             MagicSphere magicSphere = GetMagicSphere();
             result = StrategicMap.Current.Players.GetPlayers(Player).Leader.GetSpherePicks(magicSphere);
@@ -376,7 +376,7 @@ public partial class ProductionPlace : PlayerStructure
     // PrdPlace.pas:543
     public override void StructureCaptured(sbyte oldPlayer, sbyte newPlayer)
     {
-        if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !Resource.Claimed)
+        if (!GetRazed() && !Building && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !Resource.Claimed)
         {
             ProductionPlaceEventLog log = new(null)
             {
@@ -439,7 +439,7 @@ public partial class ProductionPlace : PlayerStructure
     }
 
     // PrdPlace.pas:369
-    public virtual int GetBaseIncome() => RazedState != 1 && !GetBuilding() ? 10 : 0;
+    public virtual int BaseIncome => RazedState != 1 && !Building ? 10 : 0;
 
     // PrdPlace.pas:303
     public virtual MagicSphere GetMagicSphere() => MagicSphere.None;
@@ -449,14 +449,14 @@ public partial class ProductionPlace : PlayerStructure
     {
         if (GetMagicSphere() == MagicSphere.None)
         {
-            if (GetBaseIncome() > 0)
+            if (BaseIncome > 0)
             {
                 _ = names.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.BaseIncomeText));
-                _ = values.Add(IntToStr(GetBaseIncome()));
-                if (ProductionControl.Status != ProductionControlStatus.Producing || (ProductionControl.Queue.GetItem(0).Order is Trade && GetBaseIncome() > 0))
+                _ = values.Add(IntToStr(BaseIncome));
+                if (ProductionControl.Status != ProductionControlStatus.Producing || (ProductionControl.Queue.GetItem(0).Order is Trade && BaseIncome > 0))
                 {
                     _ = names.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducingMerchandiseText));
-                    _ = values.Add(IntToStr(Round(GetBaseIncome() * 0.25)));
+                    _ = values.Add(IntToStr(Round(BaseIncome * 0.25)));
                 }
             }
         }
@@ -516,7 +516,7 @@ public partial class ProductionPlace : PlayerStructure
                     if (StrategicMap.Current.Visible(hexX, armyHexSpriteHexY, armyHexSprite.HexLevel, 0))
                     {
                         ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
-                        animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(29).CastImages.GetImageSequence(0));
+                        animation.SetImageSequence(GamePack.Current.SpellControl[29].CastImages.GetImageSequence(0));
                         sbyte hexY2 = HexY;
                         sbyte hexX2 = HexX;
                         _ = StrategicMap.Current.PlaceHex(animation, hexX2, hexY2, HexLevel);
@@ -575,7 +575,7 @@ public partial class ProductionPlace : PlayerStructure
         }
         else
         {
-            return GetBaseIncome() != 0;
+            return BaseIncome != 0;
         }
 
         return false;

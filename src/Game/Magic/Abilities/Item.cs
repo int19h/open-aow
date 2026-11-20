@@ -121,17 +121,17 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
         // only for its owner name, and that only inside an item library, and never visits the
         // library name.
         bool translating = PersistSupport.Translating(persister);
-        if (!translating || !GetLibraryItem())
+        if (!translating || !LibraryItem)
         {
             _itemGraphicsIndex = persister.Int32("ItemGraphicsIndex", value: _itemGraphicsIndex);
         }
 
-        if (!translating || Owner is ItemLibrary || !GetLibraryItem())
+        if (!translating || Owner is ItemLibrary || !LibraryItem)
         {
             OwnerName = persister.String("OwnerName", value: OwnerName);
         }
 
-        if (translating && GetLibraryItem())
+        if (translating && LibraryItem)
         {
             return;
         }
@@ -241,7 +241,7 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
             else
             {
                 result = false;
-                Spell spell = GamePack.Current.SpellControl.GetSpell(_spellId);
+                Spell spell = GamePack.Current.SpellControl[_spellId];
                 reason = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_itemSpellAlreadyResearchedFormat), [spell.SpellName]);
             }
         }
@@ -290,7 +290,7 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
                     if (StrategicMap.Current.SeatedPlayer == hero.Player)
                     {
                         _ = AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB01.WAV");
-                        Spell spell = GamePack.Current.SpellControl.GetSpell(_spellId);
+                        Spell spell = GamePack.Current.SpellControl[_spellId];
                         string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_itemSpellResearchedFormat), [spell.SpellName]);
                         StrategicMap.Current.ShowMessage(format);
                     }
@@ -319,7 +319,7 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
         if (graphics is not null)
         {
             _ = graphics.AddRef();
-            graphics.GetItemImage().Show(X, Y, surface);
+            graphics.ItemImage.Show(X, Y, surface);
             _ = graphics.Release();
         }
     }
@@ -351,7 +351,7 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
     public MapCoordinate GetLocation() => Owner is IItemHolder holder ? holder.GetLocation() : MapCoordinate.None;
 
     // Army.PAS:4353
-    public int GetCampaignTransferPoints() => GetObtainValue();
+    public int CampaignTransferPoints => ObtainValue;
 
     // Army.PAS:4356
     public LibraryImage GetImage()
@@ -361,7 +361,7 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
         if (graphics is not null)
         {
             _ = graphics.AddRef();
-            result = graphics.GetItemImage();
+            result = graphics.ItemImage;
             _ = graphics.Release();
         }
         else
@@ -373,7 +373,7 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
     }
 
     // Army.PAS:4369
-    public bool GetLibraryItem() => LibraryId != -1;
+    public bool LibraryItem => LibraryId != -1;
 
     // Army.PAS:4372
     public string GetLibraryName()
@@ -435,7 +435,7 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
     }
 
     // Army.PAS:4443
-    public int GetObtainValue() => _obtainValue > 10 ? _obtainValue : 10;
+    public int ObtainValue => _obtainValue > 10 ? _obtainValue : 10;
 
     // Army.PAS:4474
     public bool PlaceOnMap(GameMap map, sbyte x, sbyte y, sbyte level)

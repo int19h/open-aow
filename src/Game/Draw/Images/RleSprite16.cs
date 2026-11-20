@@ -344,12 +344,12 @@ public class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryIma
                     surface = new DataSurface(R.Right - R.Left, R.Bottom - R.Top, PixelFormat.Rgb565, null);
                     gr.Left = 0;
                     gr.Top = 0;
-                    int width = surface.GetWidth();
+                    int width = surface.Width;
                     gr.Right = width;
-                    int height = surface.GetHeight();
+                    int height = surface.Height;
                     gr.Bottom = height;
                     _ = surface.Lock(ref lSD);
-                    if (LockedSurface.RemapSurfacePart(width: surface.GetWidth(), height: surface.GetHeight(), source: lockedSurface, sourceX: R.Left, sourceY: R.Top, destination: lSD, destinationX: 0, destinationY: 0) != 0)
+                    if (LockedSurface.RemapSurfacePart(width: surface.Width, height: surface.Height, source: lockedSurface, sourceX: R.Left, sourceY: R.Top, destination: lSD, destinationX: 0, destinationY: 0) != 0)
                     {
                         throw new ArgumentException("Invalid PixelFormat");
                     }

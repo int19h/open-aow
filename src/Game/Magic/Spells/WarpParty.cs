@@ -159,7 +159,7 @@ public class WarpParty : Spell
 
             if (found)
             {
-                result = field.GetMapCoordinate();
+                result = field.MapCoordinate;
             }
             else
             {

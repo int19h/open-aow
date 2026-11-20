@@ -56,7 +56,7 @@ public class TownQuake : CityTargetSpell
                 _ = targetCity.ListArmies(armies);
                 for (int i = 0, last = armies.Count - 1; i <= last; i++)
                 {
-                    TriggerArmyDamage(source, armies.GetArmyHexSprite(i));
+                    TriggerArmyDamage(source, armies[i]);
                 }
 
                 armies?.Dispose();
@@ -115,7 +115,7 @@ public class TownQuake : CityTargetSpell
             if (damaged)
             {
                 log.ValidateGameOver();
-                EventLog.DistributeLocationEventLog(y: army.GetHexY(), level: army.GetHexLevel(), x: army.GetHexX(), log: log, player: army.Army.Player, execute: true);
+                EventLog.DistributeLocationEventLog(y: army.HexY, level: army.HexLevel, x: army.HexX, log: log, player: army.Army.Player, execute: true);
             }
 
             _ = log.Release();

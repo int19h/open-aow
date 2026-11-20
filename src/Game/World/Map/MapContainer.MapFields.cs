@@ -10,7 +10,7 @@ public partial class MapContainer
 
     public void RemoveHexSprite(int x, int y, int level, HexSprite sprite)
     {
-        if (GetMapLevel(level).GetField(x, y).RemoveHexSprite(sprite) != -1 && sprite.GetLevel() <= 15)
+        if (GetMapLevel(level).GetField(x, y).RemoveHexSprite(sprite) != -1 && sprite.Level <= 15)
         {
             Map.InvalidateStaticScene(x, y, level);
         }
@@ -19,7 +19,7 @@ public partial class MapContainer
     public void InsertHexSprite(int x, int y, int level, HexSprite sprite, int hexNumber)
     {
         _ = GetMapLevel(level).GetField(x, y).AddHexSprite(sprite, hexNumber);
-        if (sprite.GetLevel() <= 15)
+        if (sprite.Level <= 15)
         {
             Map.InvalidateStaticScene(x, y, level);
         }

@@ -35,7 +35,7 @@ public class AIProductionLocationFinder : AIGroupTask
     }
 
     // AIGroup.pas:2315
-    public override bool GetBusy() => Selector.Status == AIMoveTargetSelectorStatus.Searching;
+    public override bool Busy => Selector.Status == AIMoveTargetSelectorStatus.Searching;
 
     // AIGroup.pas:2365
     public override bool Activate(AIGroupControl control)

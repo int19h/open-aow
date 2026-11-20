@@ -81,8 +81,8 @@ public class ResurrectHero : Spell
                     Player = source.Player,
                     Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), s_resurrectedFormat), [hero.HeroName])
                 };
-                log.SetLocation(level: army.GetHexLevel(), y: army.GetHexY(), x: army.GetHexX());
-                EventLog.DistributeLocationEventLog(y: army.GetHexY(), level: army.GetHexLevel(), x: army.GetHexX(), log: log, player: source.Player, execute: false);
+                log.SetLocation(level: army.HexLevel, y: army.HexY, x: army.HexX);
+                EventLog.DistributeLocationEventLog(y: army.HexY, level: army.HexLevel, x: army.HexX, log: log, player: source.Player, execute: false);
                 _ = log.Release();
                 if (hero.OfferToJoin(source.Player))
                 {

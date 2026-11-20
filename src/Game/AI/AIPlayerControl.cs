@@ -190,7 +190,7 @@ public partial class AIPlayerControl : EngineObject
         if (Player.PlayerIndex == 0)
         {
             int random = Random(10);
-            StrategicMapIndependentAIMode independentAIMode = StrategicMap.Current.GetIndependentAIMode();
+            StrategicMapIndependentAIMode independentAIMode = StrategicMap.Current.IndependentAIMode;
             return s_independentGroupBehaviorTable[(int)independentAIMode][random];
         }
         else
@@ -246,7 +246,7 @@ public partial class AIPlayerControl : EngineObject
                         Troop troop = group.Units.GetUnit(j);
                         if (troop is not Hero)
                         {
-                            int unitPriority = troop.GetMoves();
+                            int unitPriority = troop.Moves;
                             if (troop.GetMoveTypes().Contains(MoveType.Flying))
                             {
                                 unitPriority += 15;
@@ -578,7 +578,7 @@ public partial class AIPlayerControl : EngineObject
         if (CanOfferPeace(player) && Player.DiplomaticRelations.GetDiplomaticRelation((sbyte)player) == DiplomaticRelation.Peace)
         {
             result = StrategicMap.Current.Day > 10;
-            int lastModifiedOnDay = Player.DiplomaticRelations.GetHistory((sbyte)player).GetLastModifiedOnDay();
+            int lastModifiedOnDay = Player.DiplomaticRelations.GetHistory((sbyte)player).LastModifiedOnDay;
             if (StrategicMap.Current.Day - lastModifiedOnDay < 8)
             {
                 result = false;

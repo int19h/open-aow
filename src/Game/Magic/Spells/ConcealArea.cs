@@ -104,7 +104,7 @@ public class ConcealArea : Spell
     }
 
     // GlobalSpells.pas:297
-    public override bool GetEnabled() => StrategicMap.Current.ExplorationEnabled;
+    public override bool Enabled => StrategicMap.Current.ExplorationEnabled;
 
     // GlobalSpells.pas:368
     public override bool CanActivate(Troop source, ref string messageText)

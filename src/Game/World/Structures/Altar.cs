@@ -127,9 +127,9 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
         if (player == Player && (phase is 1 or 2))
         {
             Storm storm = CreateStorm();
-            sbyte hexLevel = GetHexLevel();
-            sbyte hexY = GetHexY();
-            if (storm.GetBestTarget(player, GetHexX(), hexY, hexLevel, 12, out MapCoordinate target, out StormDamageInfo damage))
+            sbyte hexLevel = HexLevel;
+            sbyte hexY = HexY;
+            if (storm.GetBestTarget(player, HexX, hexY, hexLevel, 12, out MapCoordinate target, out StormDamageInfo damage))
             {
                 int value = damage.EnemyDamage - damage.FriendlyDamage;
                 if (value > TargetMana() * 0.75)
@@ -140,14 +140,14 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
                     {
                         BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo friendly, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                         friendly.EnemyRelations = Set<byte>.WithBounds(0, 7);
-                        sbyte hexLevel2 = GetHexLevel();
-                        sbyte hexY2 = GetHexY();
-                        sbyte hexX = GetHexX();
+                        sbyte hexLevel2 = HexLevel;
+                        sbyte hexY2 = HexY;
+                        sbyte hexX = HexX;
                         StrategicMap.Current.RetrieveBattleFieldInfo(hexX, hexY2, hexLevel2, 1, ref friendly);
                         BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo enemy, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
-                        sbyte hexLevel3 = GetHexLevel();
-                        sbyte hexY3 = GetHexY();
-                        sbyte hexX2 = GetHexX();
+                        sbyte hexLevel3 = HexLevel;
+                        sbyte hexY3 = HexY;
+                        sbyte hexX2 = HexX;
                         StrategicMap.Current.RetrieveBattleFieldInfo(hexX2, hexY3, hexLevel3, 8, ref enemy);
                         if (friendly.FriendlyStrength < enemy.Strength || value > 100)
                         {
@@ -182,7 +182,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     }
 
     // Altar.pas:65
-    public override int GetDefaultAITargetPriority() => (RechargeDays * 10) + 10;
+    public override int DefaultAITargetPriority => (RechargeDays * 10) + 10;
 
     // Altar.pas:62
     public virtual Storm CreateStorm() => null;
@@ -234,7 +234,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
         {
             selection.Initialize(this);
             selection.TargetMode += Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
-            selection.SourceLocation = new MapCoordinate(GetHexX(), GetHexY(), GetHexLevel());
+            selection.SourceLocation = new MapCoordinate(HexX, HexY, HexLevel);
             selection.Range = 12;
             selection.Changed += OnTargetSelectionChange;
             _storm = CreateStorm();
@@ -262,7 +262,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     // Altar.pas:202
     public virtual bool CancelTargeting()
     {
-        if (GetTargeting())
+        if (Targeting)
         {
             StrategicMap.Current.TargetSelection.Deactivate();
             return true;
@@ -306,7 +306,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     }
 
     // Altar.pas:196
-    public bool GetTargeting() => StrategicMap.Current.TargetSelection.Status.Contains(TargetSelectionStatusElement.Activated) && this == StrategicMap.Current.TargetSelection.Source;
+    public bool Targeting => StrategicMap.Current.TargetSelection.Status.Contains(TargetSelectionStatusElement.Activated) && this == StrategicMap.Current.TargetSelection.Source;
 
     private static readonly string s_chargingText = "Charging";
     private static readonly string s_readyText = "Ready";

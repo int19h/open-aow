@@ -338,7 +338,7 @@ public class MapControl : Component
         try
         {
             HexSpriteSelection selection = StrategicMap.Current.Selection;
-            if (OnArmySelected is not null && selection.EventHexSprite is ArmyHexSprite armyHexSprite && StrategicMap.Current.SelectedArmy.GetArmyHexSprite() is not null)
+            if (OnArmySelected is not null && selection.EventHexSprite is ArmyHexSprite armyHexSprite && StrategicMap.Current.SelectedArmy.ArmyHexSprite is not null)
             {
                 OnArmySelected(armyHexSprite.Army);
             }

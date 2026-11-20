@@ -99,7 +99,7 @@ public partial class Dungeon : ExplorationSite
     }
 
     // Dungeon.pas:111
-    public override bool GetExplored() => Prisoners.Units.Count == 0;
+    public override bool Explored => Prisoners.Units.Count == 0;
 
     // Dungeon.pas:121
     public override void SetupCombat(Battle combat, ArmyHexSprite army)
@@ -117,7 +117,7 @@ public partial class Dungeon : ExplorationSite
             PrisonersJoinEventLog log = new(null)
             {
                 Holder = CreationHolder(),
-                Location = new MapCoordinate(GetHexX(), GetHexY(), GetHexLevel()),
+                Location = new MapCoordinate(HexX, HexY, HexLevel),
                 Player = army.Army.Player,
                 Selection = 255,
                 Gold = 0,
@@ -180,16 +180,16 @@ public partial class Dungeon : ExplorationSite
         };
         string name = GetName();
         locationLog.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), s_exploredFormat), [name]);
-        locationLog.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());
-        EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), log: locationLog, player: player, x: GetHexX(), execute: false);
+        locationLog.SetLocation(level: HexLevel, y: HexY, x: HexX);
+        EventLog.DistributeLocationEventLog(y: HexY, level: HexLevel, log: locationLog, player: player, x: HexX, execute: false);
         _ = locationLog.Release();
         ArmyInfoEventLog armyLog = new(null) { Holder = CreationHolder() };
         armyLog.ArmyView.Setup(Prisoners, 255);
-        sbyte hexX = GetHexX();
+        sbyte hexX = HexX;
         armyLog.ArmyView.Location = armyLog.ArmyView.Location with { X = hexX };
-        sbyte hexY3 = GetHexY();
+        sbyte hexY3 = HexY;
         armyLog.ArmyView.Location = armyLog.ArmyView.Location with { Y = hexY3 };
-        sbyte hexLevel3 = GetHexLevel();
+        sbyte hexLevel3 = HexLevel;
         armyLog.ArmyView.Location = armyLog.ArmyView.Location with { MapLevel = hexLevel3 };
         armyLog.Selection = 255;
         armyLog.Player = GetPlayer();
@@ -222,14 +222,14 @@ public partial class Dungeon : ExplorationSite
             string format = Format(AbilityRules.TranslateResourceString(GetEngine(), s_afterLiberationJoinedForcesFormat), [hero.HeroName, name2]);
             armyLog.Messages.Text = format;
         }
-        EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), log: armyLog, player: -1, x: GetHexX(), execute: false);
+        EventLog.DistributeLocationEventLog(y: HexY, level: HexLevel, log: armyLog, player: -1, x: HexX, execute: false);
         _ = armyLog.Release();
         ArmyHexSprite army = new(null) { Holder = CreationHolder() };
         using (army.Army.BeginUpdate())
         {
             army.Army.SetPlayer(player);
             _ = army.Army.AddUnits(Prisoners.Units);
-            _ = army.Place(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX(), mode: Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea));
+            _ = army.Place(mapLevel: HexLevel, y: HexY, x: HexX, mode: Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea));
             army.Activate();
         }
     }

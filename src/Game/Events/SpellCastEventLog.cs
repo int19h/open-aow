@@ -29,7 +29,7 @@ public class SpellCastEventLog(CustomNode owner) : EventLog(owner)
     // Spells.PAS:855
     public override string GetText()
     {
-        Spell spell = GamePack.Current.SpellControl.GetSpell(SpellId);
+        Spell spell = GamePack.Current.SpellControl[SpellId];
         return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_castingReadyFormat), [spell.SpellName]);
     }
 
@@ -45,7 +45,7 @@ public class SpellCastEventLog(CustomNode owner) : EventLog(owner)
             if (hero is not null && hero.CastingSpellId == SpellId && hero.CastingReady())
             {
                 string reason = "";
-                _ = GamePack.Current.AbilityControl.GetAbility(52).Activate(hero, ref reason);
+                _ = GamePack.Current.AbilityControl[52].Activate(hero, ref reason);
             }
         }
 

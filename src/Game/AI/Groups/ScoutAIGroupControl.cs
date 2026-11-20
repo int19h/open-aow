@@ -64,7 +64,7 @@ public class ScoutAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                 bool condition = Group.Player != 0;
                 if (!condition)
                 {
-                    StrategicMapIndependentAIMode independentAIMode = StrategicMap.Current.GetIndependentAIMode();
+                    StrategicMapIndependentAIMode independentAIMode = StrategicMap.Current.IndependentAIMode;
                     condition = StrategicMap.Current.Random(3) < (int)independentAIMode;
                 }
 

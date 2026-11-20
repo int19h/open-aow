@@ -30,7 +30,7 @@ public class HolyFear : DurationAbility
     }
 
     // PassiveAb.pas:827
-    public override int GetTotalDuration() => 3;
+    public override int TotalDuration => 3;
 
     private static readonly string s_holyFearText = "Holy Fear";
 }

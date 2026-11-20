@@ -24,7 +24,7 @@ public readonly struct ArmyCollection : IReadOnlyList<Army>
 
     // Player.PAS:6. The army in slot index, read as the original reads the list, without a range
     // check.
-    public Army GetArmy(int index) => Holder.GetArmy(index);
+    public Army GetArmy(int index) => Holder[index];
 
     public Army this[int index] => GetArmy(index);
 

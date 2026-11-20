@@ -48,7 +48,7 @@ public class TransportMoveExecutorControl(CustomNode owner) : AIMoveExecutorCont
                         _ = MoveControl.CanMove(settings);
                         if (MoveControl.Status != AIMoveControlStatus.Processing)
                         {
-                            timeLeft = StrategicMap.Current.AIExecutor.GetProcessTimeLeft();
+                            timeLeft = StrategicMap.Current.AIExecutor.ProcessTimeLeft;
                         }
 
                         _ = settings.Release();
@@ -242,7 +242,7 @@ public class TransportMoveExecutorControl(CustomNode owner) : AIMoveExecutorCont
                                 army.SetStatus(255, AIMoveExecutorUnitStatus.Done);
                             }
 
-                            timeLeft = StrategicMap.Current.AIExecutor.GetProcessTimeLeft();
+                            timeLeft = StrategicMap.Current.AIExecutor.ProcessTimeLeft;
                         }
                     }
 

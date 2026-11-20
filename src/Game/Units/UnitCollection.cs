@@ -216,7 +216,7 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
     private static int CompareUnits(Troop item1, Troop item2)
     {
         Troop troop = item1;
-        int s1 = troop.GetUnitLevel();
+        int s1 = troop.UnitLevel;
         if (troop.GetTransporter())
         {
             s1 += 500;
@@ -232,7 +232,7 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
         }
 
         Troop troop2 = item2;
-        int s2 = troop2.GetUnitLevel();
+        int s2 = troop2.UnitLevel;
         if (troop2.GetTransporter())
         {
             s2 += 500;
@@ -259,7 +259,7 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
 
         if (result == 0)
         {
-            result = item2.GetUnitGraphicsResourceIndex() - item1.GetUnitGraphicsResourceIndex();
+            result = item2.UnitGraphicsResourceIndex - item1.UnitGraphicsResourceIndex;
             if (result == 0)
             {
                 return item2.UnitId - item1.UnitId;
@@ -269,5 +269,5 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
         return result;
     }
 
-    private static int CompareUnitMoves(Troop item1, Troop item2) => item2.GetMoves() - item1.GetMoves();
+    private static int CompareUnitMoves(Troop item1, Troop item2) => item2.Moves - item1.Moves;
 }

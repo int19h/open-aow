@@ -69,14 +69,14 @@ public partial class ArmyCombatMoveTokenEvent
         StrategicMap.Current.LockGameOverEvent();
         Battle combat = _combatType == CombatType.Fast ? StrategicMap.Current.CreateCombat(131760) : StrategicMap.Current.CreateCombat(2228496);
 
-        sbyte hexY = ArmyHexSprite.GetHexY();
-        sbyte hexLevel = ArmyHexSprite.GetHexLevel();
+        sbyte hexY = ArmyHexSprite.HexY;
+        sbyte hexLevel = ArmyHexSprite.HexLevel;
         sbyte player = field.GetPlayer();
         byte independentRelation = field.GetIndependentRelation();
         PathStep item = Path[0];
         PathStep fPathItem = Path[0];
         PathStep item2 = Path[0];
-        sbyte hexX = ArmyHexSprite.GetHexX();
+        sbyte hexX = ArmyHexSprite.HexX;
         _ = combat.Setup((byte)ArmyHexSprite.Army.Player, (byte)ArmyHexSprite.Army.IndependentRelation, hexX, hexY, hexLevel, (byte)player, independentRelation, item.Location.X, fPathItem.Location.Y, item2.Location.MapLevel, _combatType == CombatType.Fast);
         combat.SetExecutedHandler(CombatExecuted);
         message.MessageId = 4359;
@@ -90,9 +90,9 @@ public partial class ArmyCombatMoveTokenEvent
         field.SendMapFieldMessage(ref message);
         if (message.Result.Int == 0)
         {
-            sbyte fArmyHexSpriteHexLevel = ArmyHexSprite.GetHexLevel();
-            sbyte fArmyHexSpriteHexY = ArmyHexSprite.GetHexY();
-            sbyte fArmyHexSpriteHexX = ArmyHexSprite.GetHexX();
+            sbyte fArmyHexSpriteHexLevel = ArmyHexSprite.HexLevel;
+            sbyte fArmyHexSpriteHexY = ArmyHexSprite.HexY;
+            sbyte fArmyHexSpriteHexX = ArmyHexSprite.HexX;
             combat.InitializeDefaultArmies(ArmyHexSprite.Army, fArmyHexSpriteHexX, fArmyHexSpriteHexY, fArmyHexSpriteHexLevel);
         }
 

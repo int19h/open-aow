@@ -78,7 +78,7 @@ public partial class WallCrushingAbility : TouchAbility
     {
         if (CanTouch(attacker, defender))
         {
-            sbyte hitPoints = defender.GetHitPoints();
+            sbyte hitPoints = defender.HitPoints;
             sbyte defense = defender.GetDefense();
             sbyte resistance = defender.GetResistance();
             Set<DamageType> immunityTypes = defender.GetImmunityTypes();
@@ -105,7 +105,7 @@ public partial class WallCrushingAbility : TouchAbility
     {
         if (CanTouch(attacker, defender))
         {
-            sbyte hitPoints = defender.GetHitPoints();
+            sbyte hitPoints = defender.HitPoints;
             sbyte defense = defender.GetDefense();
             sbyte resistance = defender.GetResistance();
             Set<DamageType> immunityTypes = defender.GetImmunityTypes();

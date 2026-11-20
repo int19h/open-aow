@@ -97,11 +97,11 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         DefenseBaseLabel.Text = IntToStr(inherentDefense);
         sbyte inherentDamage = _hero.GetInherentDamage();
         DamageBaseLabel.Text = IntToStr(inherentDamage);
-        sbyte inherentResistance = _hero.GetInherentResistance();
+        sbyte inherentResistance = _hero.InherentResistance;
         ResistanceBaseLabel.Text = IntToStr(inherentResistance);
         sbyte hits = _hero.GetHits();
         HitsBaseLabel.Text = IntToStr(hits);
-        sbyte moves = _hero.GetMoves();
+        sbyte moves = _hero.Moves;
         MovesBaseLabel.Text = IntToStr(moves);
         AttackAddedLabel.Text = IntToStr(_editedHero.UnitAttack - _hero.UnitAttack);
         DefenseAddedLabel.Text = IntToStr(_editedHero.UnitDefense - _hero.UnitDefense);
@@ -115,11 +115,11 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         DefenseValueLabel.Text = IntToStr(fEditedHeroInherentDefense);
         sbyte fEditedHeroInherentDamage = _editedHero.GetInherentDamage();
         DamageValueLabel.Text = IntToStr(fEditedHeroInherentDamage);
-        sbyte fEditedHeroInherentResistance = _editedHero.GetInherentResistance();
+        sbyte fEditedHeroInherentResistance = _editedHero.InherentResistance;
         ResistanceValueLabel.Text = IntToStr(fEditedHeroInherentResistance);
         sbyte fEditedHeroHits = _editedHero.GetHits();
         HitsValueLabel.Text = IntToStr(fEditedHeroHits);
-        sbyte fEditedHeroMoves = _editedHero.GetMoves();
+        sbyte fEditedHeroMoves = _editedHero.Moves;
         MovesValueLabel.Text = IntToStr(fEditedHeroMoves);
         int skillPoints = _editedHero.GetSkillPoints();
         int fHeroSkillPoints = _hero.GetSkillPoints();
@@ -181,7 +181,7 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         Ability ability;
         for (int i = 1, last = GamePack.Current.AbilityControl.GetCount() - 1; i <= last; i++)
         {
-            ability = GamePack.Current.AbilityControl.GetAbility(i);
+            ability = GamePack.Current.AbilityControl[i];
             if (ability is not null && ability.CanExpand(_editedHero) && ability.SelectionTypes.Contains(AbilitySelectionType.HeroUpgrade))
             {
                 string expandName = ability.ExpandName(_editedHero);
@@ -193,11 +193,11 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
 
         SelectedAbilitiesList.Items.Clear();
         SelectedAbilitiesCostList.Items.Clear();
-        for (int i = 1, last = _editedHero.GetOwnAbilityCount() - 1; i <= last; i++)
+        for (int i = 1, last = _editedHero.OwnAbilityCount - 1; i <= last; i++)
         {
             if (_editedHero.GetInherentAbility(i))
             {
-                ability = GamePack.Current.AbilityControl.GetAbility(i);
+                ability = GamePack.Current.AbilityControl[i];
                 string name = ability.GetName(_editedHero);
                 string cost;
                 if (_hero.GetOwnAbilityEnabled(i) && _hero.GetInherentAbilityLevel(i) == _editedHero.GetInherentAbilityLevel(i))
@@ -238,7 +238,7 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWHeroUpgradeDlg.pas:212
-    public bool CanAddAbility(int abilityId) => GamePack.Current.AbilityControl.GetAbility(abilityId).CanExpand(_editedHero) && GamePack.Current.AbilityControl.GetAbility(abilityId).ExpandCost(_editedHero) <= _editedHero.GetSkillPoints();
+    public bool CanAddAbility(int abilityId) => GamePack.Current.AbilityControl[abilityId].CanExpand(_editedHero) && GamePack.Current.AbilityControl[abilityId].ExpandCost(_editedHero) <= _editedHero.GetSkillPoints();
 
     // AoWHeroUpgradeDlg.pas:302
     public void CloseClick()
@@ -514,7 +514,7 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         if (button == MouseButton.Right && AvailableAbilitiesList.Selected != -1)
         {
             object objectValue = AvailableAbilitiesList.Items.Objects[AvailableAbilitiesList.Selected];
-            Ability ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+            Ability ability = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
             if (ability is not null)
             {
                 InfoBanner.SetInfoBanner(caption: ability.GetName(null), banner: UI.InfoBanner, description: ability.Description);
@@ -528,7 +528,7 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         if (button == MouseButton.Right && SelectedAbilitiesList.Selected != -1)
         {
             object objectValue = SelectedAbilitiesList.Items.Objects[SelectedAbilitiesList.Selected];
-            Ability ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+            Ability ability = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
             if (ability is not null)
             {
                 InfoBanner.SetInfoBanner(caption: ability.GetName(null), banner: UI.InfoBanner, description: ability.Description);

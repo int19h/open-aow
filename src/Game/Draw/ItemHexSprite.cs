@@ -56,7 +56,7 @@ public partial class ItemHexSprite : SingleHexSprite
     }
 
     // Army.PAS:5235
-    public override byte GetLevel() => 26;
+    public override byte Level => 26;
 
     // Army.PAS:5240
     public override int GetShowPriority()

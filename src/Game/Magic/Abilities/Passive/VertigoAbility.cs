@@ -26,7 +26,7 @@ public class VertigoAbility : DurationAbility
     public override sbyte GetDefense(AbilityOwner owner) => -2;
 
     // PassiveAb.pas:963
-    public override int GetTotalDuration() => 3;
+    public override int TotalDuration => 3;
 
     private static readonly string s_vertigoText = "Vertigo";
 }

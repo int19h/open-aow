@@ -51,7 +51,7 @@ public class FountainOfLife : CityEnchantmentSpell
             };
             a.OnShow += ShowFountain;
             a.AnimationMap = StrategicMap.Current;
-            a.Tag = (int)(((uint)(int)targetCity.GetHexX()) | ((uint)(targetCity.GetHexY() << 8)));
+            a.Tag = (int)(((uint)(int)targetCity.HexX) | ((uint)(targetCity.HexY << 8)));
             a.Activate();
         }
 
@@ -79,7 +79,7 @@ public class FountainOfLife : CityEnchantmentSpell
                 int deltaY = (vy * t) - Round((double)(t * 0.25) * t);
                 if (t > 0)
                 {
-                    _ = GamePack.Current.SpellControl.GetSpell(52).CastImages.Show(0, cx + deltaX + offset, cy - deltaY, 0, lockedSurface);
+                    _ = GamePack.Current.SpellControl[52].CastImages.Show(0, cx + deltaX + offset, cy - deltaY, 0, lockedSurface);
                 }
             }
         }

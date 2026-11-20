@@ -93,7 +93,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             city.Mode = state.War ? city.Mode + war : city.Mode - war;
         }
         Assert.Equal(state.Razed, structure.GetRazed());
-        Assert.Equal(state.Building, structure.GetBuilding());
+        Assert.Equal(state.Building, structure.Building);
     }
 
     // Each GetRazed override reads a field of its own.
@@ -116,7 +116,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     // AoWInfoWin.pas:616 ShowStructureInfo.
     private static string OldInfoPanel(Structure structure, sbyte seated)
     {
-        return structure.GetBuilding()
+        return structure.Building
             ? "Building"
             : structure.GetRazed()
             ? "Razed"

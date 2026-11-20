@@ -46,7 +46,7 @@ public class BirdsView : Spell
     }
 
     // GlobalSpells.pas:500
-    public override bool GetEnabled() => StrategicMap.Current.ExplorationEnabled;
+    public override bool Enabled => StrategicMap.Current.ExplorationEnabled;
 
     // GlobalSpells.pas:518
     public override bool CanActivate(Troop source, ref string messageText)

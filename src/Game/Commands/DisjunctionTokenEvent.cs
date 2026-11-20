@@ -60,9 +60,9 @@ public class DisjunctionTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
         sbyte layer = coordinate7.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, layer, 0);
         TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
-        twinkle.Setup(GamePack.Current.SpellControl.GetSpell(51).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Expand, TwinkleModeElement.Explode), EventMana + 50, 192, 50, 30);
+        twinkle.Setup(GamePack.Current.SpellControl[51].CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Expand, TwinkleModeElement.Explode), EventMana + 50, 192, 50, 30);
         _ = StrategicMap.Current.PlaceHex(twinkle, x, y, layer);
-        _ = GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
+        _ = GamePack.Current.SpellControl[EventSpellId].CastSounds.Play(0);
         int mana = Round((double)(enchantment.DispelMana * 0.02) * DispelChance);
         Player player = StrategicMap.Current.Players.GetPlayers(source.Player);
         StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.SetMana(player.MagicControl.Mana - mana);
@@ -88,7 +88,7 @@ public class DisjunctionTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
             }
         }
 
-        GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
+        GamePack.Current.SpellControl[EventSpellId].CastingDone(source, EventMana);
         return false;
     }
 

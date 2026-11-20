@@ -88,7 +88,7 @@ public partial class DeformFaceDialog(UIContext ui) : UIModule(ui)
         {
             FaceResource resource = GamePack.Current.FaceResources.GetFaceResource(face);
             _ = resource.AddRef();
-            resource.GetFaceImage().ShowStretched(r, lockedSurface);
+            resource.FaceImage.ShowStretched(r, lockedSurface);
             _ = resource.Release();
         }
     }

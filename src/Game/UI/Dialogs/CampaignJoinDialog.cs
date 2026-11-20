@@ -72,7 +72,7 @@ public partial class CampaignJoinDialog(UIContext ui) : UIModule(ui)
         if (leaderSetupControl.Status == LeaderSetupControl.LeaderSetupStatus.Done)
         {
             Leader leader = leaderSetupControl.OriginalLeader.Copy<Leader>(UI.Engine);
-            UI.WorldMap.GetCampaign().TransferSettings.SetLeader(leader);
+            UI.WorldMap.Campaign.TransferSettings.SetLeader(leader);
             _ = leader.Release();
             FinishSelection();
         }
@@ -146,7 +146,7 @@ public partial class CampaignJoinDialog(UIContext ui) : UIModule(ui)
     // AoWCampaignJoin.pas:91
     public void DefaultBtnClick()
     {
-        UI.WorldMap.GetCampaign().TransferSettings.SetLeader(Leader);
+        UI.WorldMap.Campaign.TransferSettings.SetLeader(Leader);
         FinishSelection();
     }
 

@@ -330,8 +330,8 @@ public class CombatMap : GameMap
             i -= 1;
             if (Combat.CombatData.GetObjects(i) is TacticalBattleUnit unit && unit.Troop == hero)
             {
-                x = unit.UnitHexSprite.GetHexX();
-                y = unit.UnitHexSprite.GetHexY();
+                x = unit.UnitHexSprite.HexX;
+                y = unit.UnitHexSprite.HexY;
                 l = 0;
             }
         }
@@ -455,9 +455,9 @@ public class CombatMap : GameMap
                     TacticalBattleUnit u = GetNextUnit(null, true, true);
                     if (u is not null)
                     {
-                        sbyte hexX = u.UnitHexSprite.GetHexX();
+                        sbyte hexX = u.UnitHexSprite.HexX;
                         Players.GetPlayers(CurrentCombatPlayer).LastX = hexX;
-                        sbyte hexY = u.UnitHexSprite.GetHexY();
+                        sbyte hexY = u.UnitHexSprite.HexY;
                         Players.GetPlayers(CurrentCombatPlayer).LastY = hexY;
                         if (ExplorationEnabled)
                         {
@@ -465,9 +465,9 @@ public class CombatMap : GameMap
                             {
                                 if (CurrentCombatPlayer != i)
                                 {
-                                    sbyte fUnitHexSpriteHexX = u.UnitHexSprite.GetHexX();
+                                    sbyte fUnitHexSpriteHexX = u.UnitHexSprite.HexX;
                                     Players.GetPlayers((sbyte)i).LastX = fUnitHexSpriteHexX;
-                                    sbyte fUnitHexSpriteHexY = u.UnitHexSprite.GetHexY();
+                                    sbyte fUnitHexSpriteHexY = u.UnitHexSprite.HexY;
                                     Players.GetPlayers((sbyte)i).LastY = fUnitHexSpriteHexY;
                                 }
                             }
@@ -625,7 +625,7 @@ public class CombatMap : GameMap
         }
         else
         {
-            if (UnitSelection.GetTacticalBattleUnitHexSprite() is not null)
+            if (UnitSelection.TacticalBattleUnitHexSprite is not null)
             {
                 UnitSelection.UpdateMoveCursor();
             }
@@ -663,14 +663,14 @@ public class CombatMap : GameMap
             TacticalBattleUnit u = GetNextUnit(Players.GetPlayers(SeatedCombatPlayer).LastUnit, false, forward);
             if (u is not null)
             {
-                if (UnitSelection.GetTacticalBattleUnitHexSprite() != u.UnitHexSprite)
+                if (UnitSelection.TacticalBattleUnitHexSprite != u.UnitHexSprite)
                 {
                     Players.GetPlayers(SeatedCombatPlayer).LastUnit = u;
-                    sbyte hexY = u.UnitHexSprite.GetHexY();
-                    CenterViewTo(u.UnitHexSprite.GetHexX(), hexY, 0);
+                    sbyte hexY = u.UnitHexSprite.HexY;
+                    CenterViewTo(u.UnitHexSprite.HexX, hexY, 0);
                     Selection.UnselectLocation();
-                    sbyte fUnitHexSpriteHexY = u.UnitHexSprite.GetHexY();
-                    HexGeometry.HexToPixel(u.UnitHexSprite.GetHexX(), fUnitHexSpriteHexY, out int x, out int y);
+                    sbyte fUnitHexSpriteHexY = u.UnitHexSprite.HexY;
+                    HexGeometry.HexToPixel(u.UnitHexSprite.HexX, fUnitHexSpriteHexY, out int x, out int y);
                     Selection.SelectLocation(x, y, 0);
                 }
             }
@@ -690,8 +690,8 @@ public class CombatMap : GameMap
         {
             if (Combat.CombatData.GetObjects(i) is TacticalBattleUnit combatUnit && combatUnit.Troop == unit && Combat.CombatData.GetObjects(i).GetEnabled())
             {
-                x = combatUnit.UnitHexSprite.GetHexX();
-                y = combatUnit.UnitHexSprite.GetHexY();
+                x = combatUnit.UnitHexSprite.HexX;
+                y = combatUnit.UnitHexSprite.HexY;
                 level = 0;
                 i = Combat.CombatData.GetCount();
             }

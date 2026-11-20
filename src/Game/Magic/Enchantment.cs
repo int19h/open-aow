@@ -68,7 +68,7 @@ public class Enchantment(CustomNode owner) : EngineObject(owner)
     }
 
     // Spells.PAS:1759
-    public virtual int GetAIUpkeepPriority() => 0;
+    public virtual int AIUpkeepPriority => 0;
 
     // Spells.PAS:1704
     public virtual MapCoordinate GetLocation() => MapCoordinate.None;

@@ -166,35 +166,35 @@ public class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
                 switch (EffectType)
                 {
                     case WorldEffectType.EMParticle:
-                        sequence = GamePack.Current.SpellControl.GetSpell(64).CastImages.GetImageSequence(0);
+                        sequence = GamePack.Current.SpellControl[64].CastImages.GetImageSequence(0);
                         ShowGlobal(false, false);
                         break;
                     case WorldEffectType.WMParticle:
-                        sequence = GamePack.Current.SpellControl.GetSpell(45).CastImages.GetImageSequence(0);
+                        sequence = GamePack.Current.SpellControl[45].CastImages.GetImageSequence(0);
                         ShowGlobal(false, false);
                         break;
                     case WorldEffectType.WMLParticle:
                         if (StrategicMap.Current.ViewMapLevel == Layer)
                         {
-                            sequence = GamePack.Current.SpellControl.GetSpell(75).CastImages.GetImageSequence(1);
+                            sequence = GamePack.Current.SpellControl[75].CastImages.GetImageSequence(1);
                             ShowLocal(false);
                         }
 
                         break;
                     case WorldEffectType.HatredParticle:
-                        sequence = GamePack.Current.SpellControl.GetSpell(46).CastImages.GetImageSequence(0);
+                        sequence = GamePack.Current.SpellControl[46].CastImages.GetImageSequence(0);
                         ShowGlobal(true, false);
                         break;
                     case WorldEffectType.TranqParticle:
-                        sequence = GamePack.Current.SpellControl.GetSpell(47).CastImages.GetImageSequence(0);
+                        sequence = GamePack.Current.SpellControl[47].CastImages.GetImageSequence(0);
                         ShowGlobal(false, false);
                         break;
                     case WorldEffectType.SWParticle:
-                        sequence = GamePack.Current.SpellControl.GetSpell(65).CastImages.GetImageSequence(1);
+                        sequence = GamePack.Current.SpellControl[65].CastImages.GetImageSequence(1);
                         ShowGlobal(false, true);
                         break;
                     case WorldEffectType.SWBeamParticle:
-                        sequence = GamePack.Current.SpellControl.GetSpell(65).CastImages.GetImageSequence(1);
+                        sequence = GamePack.Current.SpellControl[65].CastImages.GetImageSequence(1);
                         ShowGlobal(false, false);
                         break;
                     case WorldEffectType.Hatred:
@@ -353,7 +353,7 @@ public class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owne
                         case >= 0 and <= 199:
                             if (Frame % 5 == 0)
                             {
-                                _ = GamePack.Current.SpellControl.GetSpell(45).CastSounds.Play(1);
+                                _ = GamePack.Current.SpellControl[45].CastSounds.Play(1);
                                 count2 = Random(10) + 100;
                                 for (int j = 0; j <= count2; j++)
                                 {

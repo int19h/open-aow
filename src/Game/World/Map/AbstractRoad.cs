@@ -11,7 +11,7 @@ public class AbstractRoad(CustomNode owner) : MapObject(owner)
     public new const int ClassId = 65906;
 
     // MAPOBJ.PAS:803
-    public override byte GetLevel() => 10;
+    public override byte Level => 10;
 
     // MAPOBJ.PAS:808
     public override int GetShowPriority()
@@ -27,22 +27,22 @@ public class AbstractRoad(CustomNode owner) : MapObject(owner)
         if (message.HexNumber == 0 && GetTerrain(0) != message.TerrainType)
         {
             int classId = Resource.EngineClass.ClassId;
-            MapObjectResource r = Resource.GetTerrainControl().GetRandomResource(message.TerrainType, classId);
+            MapObjectResource r = Resource.TerrainControl.GetRandomResource(message.TerrainType, classId);
             if (r is not null)
             {
                 SetResource(r);
                 UpdateTransitions();
-                sbyte hexLevel = GetHexLevel();
-                sbyte hexY = GetHexY();
-                sbyte hexX = GetHexX();
+                sbyte hexLevel = HexLevel;
+                sbyte hexY = HexY;
+                sbyte hexX = HexX;
                 Resource.Engine.HexSpriteMap.MapContainer.Map.InvalidateStaticScene(hexX, hexY, hexLevel);
             }
             else
             {
-                sbyte hexLevel = GetHexLevel();
-                sbyte hexY = GetHexY();
-                sbyte hexX = GetHexX();
-                if (Resource.GetTerrainControl().Place(Owner.Owner.Owner, hexX, hexY, hexLevel, message.TerrainType) is null)
+                sbyte hexLevel = HexLevel;
+                sbyte hexY = HexY;
+                sbyte hexX = HexX;
+                if (Resource.TerrainControl.Place(Owner.Owner.Owner, hexX, hexY, hexLevel, message.TerrainType) is null)
                 {
                     Dispose();
                 }
@@ -69,7 +69,7 @@ public class AbstractRoad(CustomNode owner) : MapObject(owner)
         if (condition)
         {
             HexSprite hexSprite = mapContainer.GetField(hexX, hexY, hexLevel).GetMaxLevelNoneTransparentHexSprite();
-            return hexSprite is null || hexSprite.GetLevel() < 10 || hexSprite is AbstractRoad;
+            return hexSprite is null || hexSprite.Level < 10 || hexSprite is AbstractRoad;
         }
         else
         {

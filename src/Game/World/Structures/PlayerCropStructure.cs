@@ -53,7 +53,7 @@ public class PlayerCropStructure : PlayerStructure
     // Crops.pas:534
     public override void Remove()
     {
-        if (!GetEditMode())
+        if (!EditMode)
         {
             SetCropCount(0);
         }
@@ -71,7 +71,7 @@ public class PlayerCropStructure : PlayerStructure
             StrategicMap.Current.Players.GetPlayers(player).RegisterIncomeSource(_incomeSource);
         }
 
-        if (!GetEditMode())
+        if (!EditMode)
         {
             LinkToCrops();
             UpdateCrops();
@@ -94,7 +94,7 @@ public class PlayerCropStructure : PlayerStructure
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         bool result = base.CanPlace(mapContainer, hexX, hexY, hexLevel);
-        if (result && !GetEditMode())
+        if (result && !EditMode)
         {
             MapLevel mapLevel = mapContainer.GetMapLevel(hexLevel);
             int i = Resource.CropLocations.Count;
@@ -129,7 +129,7 @@ public class PlayerCropStructure : PlayerStructure
         bool result = base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
         if (result)
         {
-            if (!GetEditMode())
+            if (!EditMode)
             {
                 UpdateCrops();
             }
@@ -181,7 +181,7 @@ public class PlayerCropStructure : PlayerStructure
             if (result)
             {
                 HexSprite hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
-                result = hexSprite is null || hexSprite.GetLevel() < 26;
+                result = hexSprite is null || hexSprite.Level < 26;
             }
 
             if (result)
@@ -198,7 +198,7 @@ public class PlayerCropStructure : PlayerStructure
     }
 
     // Crops.pas:320
-    public virtual bool CropsEnabled() => !GetRazed() && !GetBuilding();
+    public virtual bool CropsEnabled() => !GetRazed() && !Building;
 
     // Crops.pas:314
     public virtual void RegrowCrops()
@@ -212,7 +212,7 @@ public class PlayerCropStructure : PlayerStructure
     // Crops.pas:332
     public virtual void UpdateIncome()
     {
-        if (!GetRazed() && !GetBuilding())
+        if (!GetRazed() && !Building)
         {
             SetIncome((byte)(GetCropCount() * 2));
         }
@@ -225,7 +225,7 @@ public class PlayerCropStructure : PlayerStructure
     // Crops.pas:401
     public virtual void UpdateCrops()
     {
-        if (!GetEditMode() && Status.Contains(MapObjectStatusElement.Activated))
+        if (!EditMode && Status.Contains(MapObjectStatusElement.Activated))
         {
             if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
             {
@@ -397,7 +397,7 @@ public class PlayerCropStructure : PlayerStructure
     {
         int x = default;
         int y = default;
-        if (GetEditMode())
+        if (EditMode)
         {
             return;
         }

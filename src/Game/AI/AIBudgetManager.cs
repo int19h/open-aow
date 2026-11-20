@@ -168,7 +168,7 @@ public class AIBudgetManager : EngineObject
         ProductionGoldUpkeep = 0;
         for (int i = Player.ProductionControls.Count - 1; i >= 0; i--)
         {
-            ProductionControl control = Player.ProductionControls.GetPC(i);
+            ProductionControl control = Player.ProductionControls[i];
             if (control.Status == ProductionControlStatus.Producing && control.Queue.GetItem(0).Order is ProduceUnit && control.Settings.Unit is not null)
             {
                 ProductionGoldUpkeep += control.Settings.GoldUpkeep;

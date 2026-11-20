@@ -20,7 +20,7 @@ public class EntangleSpellCombatAction(CustomNode owner) : ExclusiveCombatSpellC
         {
             CombatObject source = combat.CombatData.FindId(SourceId);
             CombatUnit target = combat.CombatData.FindId<CombatUnit>(TargetId);
-            _ = GamePack.Current.AbilityControl.GetAbility(94).Expand(target.Troop);
+            _ = GamePack.Current.AbilityControl[94].Expand(target.Troop);
             UnitEnchantmentAbilityData data = target.Troop.GetAbilityData<UnitEnchantmentAbilityData>(94);
             data?.EnchantmentPlayerIndex = source.CombatPlayer;
         }

@@ -122,7 +122,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     }
 
     // HSEngine.pas:1938
-    public MapCoordinate GetMapCoordinate() => Location;
+    public MapCoordinate MapCoordinate => Location;
 
     // HSEngine.pas:1955
     public int HexSpriteListDataSize() => (Capacity << 2) + ((Capacity + 3) & 252);
@@ -192,7 +192,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         byte last = StaticCount;
         for (int i = StoredCount - 1; i >= last; i--)
         {
-            _hexSpriteList[i].SetVisible(false);
+            _hexSpriteList[i].Visible = false;
         }
     }
 
@@ -201,7 +201,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     {
         for (int i = StaticCount - 1; i >= 0; i--)
         {
-            _hexSpriteList[i].SetVisible(false);
+            _hexSpriteList[i].Visible = false;
         }
     }
 
@@ -217,7 +217,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         bool done = false;
         while (!done && i >= 0)
         {
-            int level = _hexSpriteList[i].GetLevel();
+            int level = _hexSpriteList[i].Level;
             if (level <= maxLevel)
             {
                 if (level >= minLevel)
@@ -315,7 +315,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
             for (int i = StoredCount - 1; i >= 0; i--)
             {
                 HexSprite sprite = _hexSpriteList[i];
-                if (sprite.GetLastMessage() == message.Sequence)
+                if (sprite.LastMessage == message.Sequence)
                 {
                     continue;
                 }
@@ -325,7 +325,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
                     continue;
                 }
 
-                sprite.SetLastMessage(message.Sequence);
+                sprite.LastMessage = message.Sequence;
                 sprite.MessageProc(ref message, this);
             }
         }

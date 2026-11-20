@@ -24,7 +24,7 @@ public class SelfDestructCombatAction(CustomNode owner) : DamageCombatAction(own
             _ = target.ExecuteDamageEffects(Effects);
         }
 
-        _ = source.ExecuteDamage(source.GetHitPoints());
+        _ = source.ExecuteDamage(source.HitPoints);
     }
 
     // AoWAb.PAS:2127
@@ -33,7 +33,7 @@ public class SelfDestructCombatAction(CustomNode owner) : DamageCombatAction(own
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if ((objectValue.Id == TargetId || objectValue.Id == SourceId) && viewer.Time >= viewer.Delay - 2)
         {
-            _ = GamePack.Current.AbilityControl.GetAbility(65).ImageSequences.Show(40, X + 32, Y + 32, viewer.Time, surface);
+            _ = GamePack.Current.AbilityControl[65].ImageSequences.Show(40, X + 32, Y + 32, viewer.Time, surface);
         }
     }
 }

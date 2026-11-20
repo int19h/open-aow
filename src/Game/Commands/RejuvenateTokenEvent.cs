@@ -26,19 +26,19 @@ public class RejuvenateTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEven
         if (StrategicMap.Current.TerrainVisible((sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2))
         {
             TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
-            twinkle.Setup(GamePack.Current.SpellControl.GetSpell(41).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 100, 64, 50, 30);
+            twinkle.Setup(GamePack.Current.SpellControl[41].CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 100, 64, 50, 30);
             _ = StrategicMap.Current.PlaceHex(twinkle, Location.X, Location.Y, Location.MapLevel);
         }
 
         // Use the map's seated player.
         if (StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.WatchingTerrain((sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2))
         {
-            _ = GamePack.Current.SpellControl.GetSpell(41).CastSounds.Play(0);
+            _ = GamePack.Current.SpellControl[41].CastSounds.Play(0);
         }
 
         _ = StrategicMap.Current.ChangeTerrain(null, Location.X, Location.Y, Location.MapLevel, 2, RejuvenateTerrain, null);
-        Spell spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
-        GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
+        Spell spell = GamePack.Current.SpellControl[EventSpellId];
+        GamePack.Current.SpellControl[EventSpellId].CastingDone(source, spell.BaseManaCost);
         // The original event result is zero.
         return false;
     }

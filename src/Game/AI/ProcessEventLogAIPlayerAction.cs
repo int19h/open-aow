@@ -33,7 +33,7 @@ public class ProcessEventLogAIPlayerAction(CustomNode owner) : AIPlayerAction(ow
             int count = Control.Player.EventLogbook.GetCount();
             if (_logIndex < count)
             {
-                EventLog log = Control.Player.EventLogbook.GetLogs(_logIndex);
+                EventLog log = Control.Player.EventLogbook[_logIndex];
                 log.ExecuteAI(Control.Player.PlayerIndex);
             }
             else

@@ -65,8 +65,8 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
         bool result = base.PlaceOnMap();
         if (result)
         {
-            sbyte hexY = GetHexY();
-            sbyte hexX = GetHexX();
+            sbyte hexY = HexY;
+            sbyte hexX = HexX;
             UpdateMapFields(Owner.Owner, hexX, hexY);
         }
 
@@ -200,8 +200,8 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     {
         MapFieldMessage message = default;
         MapLevel level = Owner.Owner;
-        sbyte hexY = GetHexY();
-        sbyte hexX = GetHexX();
+        sbyte hexY = HexY;
+        sbyte hexX = HexX;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData hexNumberWalkData, hexX, hexY, 0);
         message.MessageId = 4432;
         MapFieldMessageParameters param = message.Param;
@@ -231,8 +231,8 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
         int hexX = default;
         int hexY = default;
         MapLevel level = Owner.Owner;
-        sbyte yhx = GetHexY();
-        HexGeometry.CenterHexNumberToHex(GetHexX(), yhx, direction, ref hexX, ref hexY);
+        sbyte yhx = HexY;
+        HexGeometry.CenterHexNumberToHex(HexX, yhx, direction, ref hexX, ref hexY);
         HexGeometry.CenterHexNumberToHex(hexX, hexY, direction, ref hexX, ref hexY);
         return hexX >= 10 && hexY >= 10 && hexX + 10 <= level.Width && hexY + 10 <= level.Height;
     }
@@ -282,14 +282,14 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
 
                 if (valid)
                 {
-                    int oldHexX = GetHexX();
-                    int oldHexY = GetHexY();
+                    int oldHexX = HexX;
+                    int oldHexY = HexY;
                     _direction = (byte)direction;
-                    int hexLevel = GetHexLevel();
-                    sbyte yhx = GetHexY();
+                    int hexLevel = HexLevel;
+                    sbyte yhx = HexY;
                     int hexX = default;
                     int hexY = default;
-                    HexGeometry.CenterHexNumberToHex(GetHexX(), yhx, direction, ref hexX, ref hexY);
+                    HexGeometry.CenterHexNumberToHex(HexX, yhx, direction, ref hexX, ref hexY);
                     HexGeometry.CenterHexNumberToHex(hexX, hexY, direction, ref hexX, ref hexY);
                     Disconnect();
                     UpdateMapFields(StrategicMap.Current.MapContainer.GetMapLevel(hexLevel), oldHexX, oldHexY);

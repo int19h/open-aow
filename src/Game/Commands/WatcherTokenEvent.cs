@@ -23,7 +23,7 @@ public class WatcherTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(o
         PlayDefaultEffects(Location.X, Location.Y, Location.MapLevel);
         WatcherHexSprite watcher = new(null) { Holder = CreationHolder() };
         watcher.Enchantment.PlayerIndex = source.Player;
-        Spell spell = GamePack.Current.SpellControl.GetSpell(57);
+        Spell spell = GamePack.Current.SpellControl[57];
         watcher.Enchantment.EnchantmentManaUpkeep = spell.ManaUpkeep;
         _ = StrategicMap.Current.PlaceHex(watcher, Location.X, Location.Y, Location.MapLevel);
         if ((byte)StrategicMap.Current.SeatedPlayer == EventPlayerIndex)
@@ -31,8 +31,8 @@ public class WatcherTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(o
             watcher.StartAnimation(Location.X, Location.Y, Location.MapLevel);
         }
 
-        Spell fSpellControlSpell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
-        GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, fSpellControlSpell.BaseManaCost);
+        Spell fSpellControlSpell = GamePack.Current.SpellControl[EventSpellId];
+        GamePack.Current.SpellControl[EventSpellId].CastingDone(source, fSpellControlSpell.BaseManaCost);
         return false;
     }
 }

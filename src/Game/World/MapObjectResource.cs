@@ -141,7 +141,7 @@ public class MapObjectResource : EngineResource
         if (mapObject is not null)
         {
             mapObject.SetResource(this);
-            mapObject.SetResourceLinked(true);
+            mapObject.ResourceLinked = true;
         }
 
         return mapObject;
@@ -223,7 +223,7 @@ public class MapObjectResource : EngineResource
 
     // The control of this resource kind, null for a resource with none. Hexagon resources answer
     // the hexagon control, road resources the road control.
-    public virtual MapObjectResourceTerrainControl GetTerrainControl() => null;
+    public virtual MapObjectResourceTerrainControl TerrainControl => null;
 
     // MAPOBJ.PAS:507
     public void ShowComplexImage(int X, int Y, in LockedSurface lockedSurface, int index, uint offset)

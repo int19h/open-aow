@@ -483,7 +483,7 @@ public class Int32List : Persistent
                 condition = types.Contains(unit.GetUnitType());
             }
 
-            return condition && unit.GetUnitLevel() <= level && units.CanAddUnit(unit);
+            return condition && unit.UnitLevel <= level && units.CanAddUnit(unit);
         }
 
         Unit testUnit = new(null) { Holder = units.Holder };
@@ -552,7 +552,7 @@ public class Int32List : Persistent
                 condition = types.Contains(unit.GetUnitType());
             }
 
-            return condition && unit.GetUnitLevel() <= level;
+            return condition && unit.UnitLevel <= level;
         }
 
         Unit testUnit = new(null) { Holder = engine };

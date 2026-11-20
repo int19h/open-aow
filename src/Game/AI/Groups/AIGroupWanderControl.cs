@@ -124,7 +124,7 @@ public class AIGroupWanderControl : AIGroupTask
                     {
                         // { Original reads the list item before GetXYL. }
                         int targetWeight = fields[i].Second;
-                        MapCoordinate location = field.GetMapCoordinate();
+                        MapCoordinate location = field.MapCoordinate;
                         _ = _control.Group.SetupTarget(location, targetWeight, AIGroupTargetStatus.Execute, 1, -1, 0, 0);
                         State += 1;
                     }

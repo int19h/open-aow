@@ -138,7 +138,7 @@ public class HeroControl : EngineObject
     }
 
     // Hero.PAS:2458
-    public Hero GetHero(int index) => _heroes[index];
+    public Hero this[int index] => _heroes[index];
 
     // Hero.PAS:2461
     public int GetCount() => _heroes.GetCount();

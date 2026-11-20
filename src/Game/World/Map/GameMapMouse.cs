@@ -86,7 +86,7 @@ public class GameMapMouse : HexSpriteMapMouse
     }
 
     // AoWHSMap.PAS:1071
-    public bool GetSelectingRectangle() => SelectionRectangle.Left != -1 && (SelectionRectangle.Left != SelectionRectangle.Right || SelectionRectangle.Top != SelectionRectangle.Bottom);
+    public bool SelectingRectangle => SelectionRectangle.Left != -1 && (SelectionRectangle.Left != SelectionRectangle.Right || SelectionRectangle.Top != SelectionRectangle.Bottom);
 
     // AoWHSMap.PAS:1079
     public void StartRectangleSelection(int pixelX, int pixelY)

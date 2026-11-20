@@ -171,16 +171,13 @@ public class ImageSequence(ImageSequenceList owner) : IDisposable
     }
 
     // ImageLib.pas:8666
-    public int GetTotalSequenceFrames()
+    public int TotalSequenceFrames => _sequenceMode switch
     {
-        return _sequenceMode switch
-        {
-            SequenceMode.FrameTable => FrameTable.Count * (_sequenceSpeed + 1),
-            SequenceMode.Up => ImageLibrary.Count * (_sequenceSpeed + 1),
-            SequenceMode.UpDown => ImageLibrary.Count * (_sequenceSpeed + 1) * 2,
-            SequenceMode.None or SequenceMode.Random or SequenceMode.RandomFrameTable or _ => _sequenceSpeed + 1,
-        };
-    }
+        SequenceMode.FrameTable => FrameTable.Count * (_sequenceSpeed + 1),
+        SequenceMode.Up => ImageLibrary.Count * (_sequenceSpeed + 1),
+        SequenceMode.UpDown => ImageLibrary.Count * (_sequenceSpeed + 1) * 2,
+        SequenceMode.None or SequenceMode.Random or SequenceMode.RandomFrameTable or _ => _sequenceSpeed + 1,
+    };
 
     // ImageLib.pas:8677
     public int GetFrameIndex(int frame, int offset)

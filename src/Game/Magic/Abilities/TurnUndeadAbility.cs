@@ -204,7 +204,7 @@ public class TurnUndeadAbility : TouchAbility
         if (wallSituation == WallSituation.None && CanTouch(attacker, defender) && attacker is CombatUnit attackerUnit)
         {
             float probability = CombatTouchRoleProbability(attackerUnit, defender);
-            int hitPoints = defender.GetHitPoints();
+            int hitPoints = defender.HitPoints;
             damageValues.SourceCost = hitPoints;
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
             int strikeDamageValue = CombatObject.StrikeDamageValue(defender, attacker);

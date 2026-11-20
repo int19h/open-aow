@@ -31,7 +31,7 @@ public class FireAura : UnitSpell
         base.PlayDefaultCastEffects(player, X, Y, layer);
         if (player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(X, Y, layer, 0))
         {
-            _ = GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(1);
+            _ = GamePack.Current.SpellControl[SpellId].CastSounds.Play(1);
         }
     }
 

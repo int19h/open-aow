@@ -56,7 +56,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
             _ = player.MagicControl.Spells.Add(SpellId);
             if (StrategicMap.Current.SeatedPlayer == tokenEvent.Param)
             {
-                Spell spell = GamePack.Current.SpellControl.GetSpell(SpellId);
+                Spell spell = GamePack.Current.SpellControl[SpellId];
                 string format = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), s_theyTaughtYouSpellFormat), [spell.SpellName]);
                 StrategicMap.Current.ShowMessage(format);
             }
@@ -87,7 +87,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
             int i = 0;
             int cost = BuyCost();
             bool found = false;
-            MapCoordinate location = HexGeometry.PackMapCoordinate(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX());
+            MapCoordinate location = HexGeometry.PackMapCoordinate(mapLevel: HexLevel, y: HexY, x: HexX);
             while (!found && i != army.Units.Count)
             {
                 group = army.Units.GetUnit(i).Group;
@@ -109,7 +109,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     // WizardsTower.pas:107
     public override void UpdateAITarget(in AITargetInfo info, ref AITargetData data)
     {
-        if (!GetRazed() || GetBuilding())
+        if (!GetRazed() || Building)
         {
             switch (info.Mode)
             {
@@ -145,7 +145,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     public override bool CanDoubleClick() => CanEnter(StrategicMap.Current.SeatedPlayer);
 
     // WizardsTower.pas:99
-    public bool ValidAITarget(sbyte player) => player > 0 && !GetRazed() && SpellId != 0 && StrategicMap.Current.Players.GetPlayers(player).MagicControl.Spells.IndexOf(SpellId) == -1 && GamePack.Current.SpellControl.GetSpell(SpellId).CastDuration > 0;
+    public bool ValidAITarget(sbyte player) => player > 0 && !GetRazed() && SpellId != 0 && StrategicMap.Current.Players.GetPlayers(player).MagicControl.Spells.IndexOf(SpellId) == -1 && GamePack.Current.SpellControl[SpellId].CastDuration > 0;
 
     // WizardsTower.pas:163
     public void GenerateSettings() => SpellId = GamePack.Current.SpellControl.GetRandomSpell(_spellLevel, _spellLevel, _magicSpheres);
@@ -178,7 +178,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     }
 
     // WizardsTower.pas:215
-    public int BuyCost() => SpellId != 0 ? GamePack.Current.SpellControl.GetSpell(SpellId).ResearchCost : -1;
+    public int BuyCost() => SpellId != 0 ? GamePack.Current.SpellControl[SpellId].ResearchCost : -1;
 
     // WizardsTower.pas:221
     public bool CanBuy(sbyte player, ref string reason)

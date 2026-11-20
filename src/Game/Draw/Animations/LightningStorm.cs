@@ -29,8 +29,8 @@ public class LightningStorm(CustomNode owner) : Storm(owner)
         int frame = FrameCounter % _stormImages.Count;
         if (_stormImages[frame] is not null)
         {
-            sbyte hexY = GetHexY();
-            HexGeometry.HexToPixel(GetHexX(), hexY, out int x, out int y);
+            sbyte hexY = HexY;
+            HexGeometry.HexToPixel(HexX, hexY, out int x, out int y);
             LibraryImage stormImageWidth = _stormImages[frame];
             x = x - (int)(((uint)stormImageWidth.Width) >> 1) + 20;
             LibraryImage stormImageHeight = _stormImages[frame];
@@ -59,7 +59,7 @@ public class LightningStorm(CustomNode owner) : Storm(owner)
         Rect r = default;
         base.InitializeStorm(player, X, Y, L);
         _stormImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "EFFECTS\\LIGHTN.ILB");
-        if (GetVisible())
+        if (Visible)
         {
             _stormImages.LoadDiscardableImageData();
         }
@@ -83,7 +83,7 @@ public class LightningStorm(CustomNode owner) : Storm(owner)
         }
         if (_stormImages.Count == FrameCounter)
         {
-            AbilityRules.TriggerStormDamage(mapLevel: GetHexLevel(), y: GetHexY(), storm: StormType.Lightning, x: GetHexX(), innerRadius: 0, outerRadius: 1, player: StrategicMap.Current.CurrentPlayer);
+            AbilityRules.TriggerStormDamage(mapLevel: HexLevel, y: HexY, storm: StormType.Lightning, x: HexX, innerRadius: 0, outerRadius: 1, player: StrategicMap.Current.CurrentPlayer);
             return false;
         }
         else

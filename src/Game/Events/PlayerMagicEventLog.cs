@@ -44,7 +44,7 @@ public partial class PlayerMagicEventLog(CustomNode owner) : EventLog(owner)
         switch (Mode)
         {
             case EventMode.SpellResearched:
-                Spell spell = GamePack.Current.SpellControl.GetSpell(SpellId);
+                Spell spell = GamePack.Current.SpellControl[SpellId];
                 return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_researchedFormat), [spell.SpellName]);
             case EventMode.OutOfMana:
                 return StrategicMap.Current.SeatedPlayer == Player

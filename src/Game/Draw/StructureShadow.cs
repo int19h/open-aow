@@ -27,16 +27,15 @@ public class StructureShadow(CustomNode owner) : HexSprite(owner)
         base.Dispose();
     }
 
-    // Structur.PAS:940
-    public override void SetVisible(bool value)
+    // Structur.PAS:946
+    public override bool Visible
     {
-        ShadowStatus = value
+        get => ShadowStatus.Contains(StructureShadowStatusElement.Visible);
+        // Structur.PAS:940
+        set => ShadowStatus = value
             ? ShadowStatus + Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Visible)
             : ShadowStatus - Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Visible);
     }
-
-    // Structur.PAS:946
-    public override bool GetVisible() => ShadowStatus.Contains(StructureShadowStatusElement.Visible);
 
     // Structur.PAS:995
     public override int GetShowPriority() => (Structure.GetShowPriority() & 67108863) + 805306368;
@@ -47,7 +46,7 @@ public class StructureShadow(CustomNode owner) : HexSprite(owner)
         if (!ShadowStatus.Contains(StructureShadowStatusElement.Connected))
         {
             ShadowStatus += Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Connected);
-            int count = Structure.GetTerrainCount();
+            int count = Structure.TerrainCount;
             MapLevel level = Structure.Owner.Owner;
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Structure.StoredHexX, Structure.StoredHexY, 0);
             while (walk.HexNumber < count)
@@ -67,7 +66,7 @@ public class StructureShadow(CustomNode owner) : HexSprite(owner)
     {
         if (ShadowStatus.Contains(StructureShadowStatusElement.Connected))
         {
-            int count = Structure.GetTerrainCount();
+            int count = Structure.TerrainCount;
             ShadowStatus -= Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Connected);
             MapLevel level = Structure.Owner.Owner;
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Structure.StoredHexX, Structure.StoredHexY, 0);

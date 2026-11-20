@@ -46,10 +46,10 @@ public partial class DataSurface : Surface
     public override PixelFormat GetPixelFormatId() => _pixelFormatId;
 
     // GFXE.pas:12415
-    public override int GetWidth() => _width;
+    public override int Width => _width;
 
     // GFXE.pas:12420
-    public override int GetHeight() => _height;
+    public override int Height => _height;
 
     // GFXE.pas:12441
     public override GraphicsResult Unlock() => GraphicsResult.Ok;

@@ -54,14 +54,14 @@ public class SummonSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
             ArmyHexSprite army = u.Place(x, y, l, source.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
             if (army is not null)
             {
-                sbyte hexY = army.GetHexY();
-                sbyte hexX = army.GetHexX();
+                sbyte hexY = army.HexY;
+                sbyte hexX = army.HexX;
                 if (HexGeometry.DeltaHexToRadius(x, y, hexX, hexY) <= 2)
                 {
                     if (u.ExpandAbility(155))
                     {
                         UnitEnchantment enchantment = u.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
-                        enchantment.SetUpkeep(GamePack.Current.SpellControl.GetSpell(EventSpellId).ManaUpkeep);
+                        enchantment.SetUpkeep(GamePack.Current.SpellControl[EventSpellId].ManaUpkeep);
                         enchantment.SetSource(source.Player);
                         enchantment.DispelResistance = (sbyte)GamePack.Current.SpellControl.GetSpell<SummonSpell>(EventSpellId).GetDispelResistance(u);
                         AIGroup group = source.Group;
@@ -89,21 +89,21 @@ public class SummonSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
             _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
             if (StrategicMap.Current.Visible(x, y, l, 0))
             {
-                if (GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] is not null)
+                if (GamePack.Current.SpellControl[EventSpellId].CastImages.ImageSequences[0] is not null)
                 {
                     ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
-                    animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
+                    animation.SetImageSequence(GamePack.Current.SpellControl[EventSpellId].CastImages.ImageSequences[0]);
                     _ = StrategicMap.Current.PlaceHex(animation, x, y, l);
                 }
 
                 if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(x, y, l, 0))
                 {
-                    _ = GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
+                    _ = GamePack.Current.SpellControl[EventSpellId].CastSounds.Play(0);
                 }
             }
 
-            Spell spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
-            GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
+            Spell spell = GamePack.Current.SpellControl[EventSpellId];
+            GamePack.Current.SpellControl[EventSpellId].CastingDone(source, spell.BaseManaCost);
         }
         else
         {

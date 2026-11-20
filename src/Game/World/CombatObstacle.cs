@@ -142,7 +142,7 @@ public class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
     {
         if (_shadow is not null)
         {
-            if (GetVisible())
+            if (Visible)
             {
                 _ = CombatMap.Current.DynamicVisibleHexSprite.RemoveChild(_shadow);
             }
@@ -178,7 +178,7 @@ public class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
     {
         if (_overlay is not null)
         {
-            if (GetVisible())
+            if (Visible)
             {
                 _ = CombatMap.Current.DynamicVisibleHexSprite.RemoveChild(_overlay);
             }

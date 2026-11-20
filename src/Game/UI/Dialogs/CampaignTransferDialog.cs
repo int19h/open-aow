@@ -164,7 +164,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
     {
         Book.Visible = false;
         _ = AudioPlayback.PlaySample("Sfx\\Int\\BookClse.wav");
-        WorldMapCampaign campaign = UI.WorldMap.GetCampaign();
+        WorldMapCampaign campaign = UI.WorldMap.Campaign;
         campaign.State += 1;
         UI.WorldMap.UpdateCampaignState();
     }
@@ -175,7 +175,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
         Book.Visible = false;
         UI.Engine.Campaign.ResetNextScenario();
         _ = AudioPlayback.PlaySample("Sfx\\Int\\BookClse.wav");
-        UI.WorldMap.GetCampaign().State = 1;
+        UI.WorldMap.Campaign.State = 1;
         UI.WorldMap.UpdateCampaignState();
     }
 
@@ -499,7 +499,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
 
             UI.Graphics.CampaignTransfer[31].Show(r.Left + 10, r.Top + 55, lockedSurface);
             UI.Fonts.Age8.Color = 16777215;
-            int campaignTransferPoints = objectValue.GetCampaignTransferPoints();
+            int campaignTransferPoints = objectValue.CampaignTransferPoints;
             UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
         }
     }
@@ -526,7 +526,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
 
                 UI.Graphics.CampaignTransfer[31].Show(r.Left + 10, r.Top + 55, lockedSurface);
                 UI.Fonts.Age8.Color = 16777215;
-                int campaignTransferPoints = objectValue.GetCampaignTransferPoints();
+                int campaignTransferPoints = objectValue.CampaignTransferPoints;
                 UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
             }
         }

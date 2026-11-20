@@ -175,6 +175,6 @@ internal static class FrameFixtureChecks
 
         public override void CalculateShowPriority() { }
 
-        public override sbyte GetHexLevel() => 0;
+        public override sbyte HexLevel => 0;
     }
 }

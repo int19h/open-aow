@@ -427,7 +427,7 @@ public class Battle : EngineObject
     }
 
     // Combat.pas:6094
-    public bool GetLogCombatActions() => Status.Contains(CombatStatusElement.LogCombatActions);
+    public bool LogCombatActions => Status.Contains(CombatStatusElement.LogCombatActions);
 
     // Combat.pas:6097
     public void SetLogCombatActions(byte value)
@@ -438,21 +438,24 @@ public class Battle : EngineObject
     }
 
     // Combat.pas:6112
-    public int GetRound() => CombatData.Round;
+    public int Round => CombatData.Round;
 
     // Combat.pas:6115
     // The tactical AI's damage estimates call these through an unchecked TFastCombat cast in the
     // original. They read only the combat data, so they live on TCombat for both combat kinds.
     // AIGroup.pas:7133
-    public int GetRoundDistance()
+    public int RoundDistance
     {
-        int distance = (CombatData.Round - 1) * 2;
-        if (CombatData.Players.GetPlayers((sbyte)CombatData.CurrentPlayer).SideIndex == 0)
+        get
         {
-            distance += 1;
-        }
+            int distance = (CombatData.Round - 1) * 2;
+            if (CombatData.Players.GetPlayers((sbyte)CombatData.CurrentPlayer).SideIndex == 0)
+            {
+                distance += 1;
+            }
 
-        return distance;
+            return distance;
+        }
     }
 
     // AIGroup.pas:7180
@@ -483,7 +486,7 @@ public class Battle : EngineObject
     public WallSituation GetWallSituation(CombatObject source, CombatObject target)
     {
         return GetWallInBetween(source.Position, target.Position)
-            ? source.GetSide() == CombatSideIndex.Defender ? WallSituation.Source : WallSituation.Target
+            ? source.Side == CombatSideIndex.Defender ? WallSituation.Source : WallSituation.Target
             : WallSituation.None;
     }
 

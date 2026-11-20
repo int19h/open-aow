@@ -175,7 +175,7 @@ public class FastBattle(CustomNode owner) : Battle(owner)
         NewRound();
         bool idle = true;
         CombatObjectList objects = new();
-        int round = GetRound();
+        int round = Round;
         SetLogbookHeader(AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_roundFormat), [IntToStr(round)]));
         for (int playerIndex = 0, last = CombatData.TurnOrder.Count - 1; playerIndex <= last; playerIndex++)
         {
@@ -215,7 +215,7 @@ public class FastBattle(CustomNode owner) : Battle(owner)
 
         if (idle)
         {
-            if (GetRound() > GetRoundDistanceMax())
+            if (Round > GetRoundDistanceMax())
             {
                 Terminate();
             }

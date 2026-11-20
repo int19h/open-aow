@@ -98,10 +98,10 @@ public class TouchAbility : AdjustableAbility
     // AoWAb.PAS:1916
     public virtual bool CanTouch(CombatObject source, CombatObject target)
     {
-        bool result = source.GetSide() == CombatSideIndex.Defender
+        bool result = source.Side == CombatSideIndex.Defender
             ? !source.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing)
             : !target.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || source.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
-        return source.GetSide() != target.GetSide() ? result && (!target.GetAbilityEnabled(1) || source.GetAbilityEnabled(1)) : result;
+        return source.Side != target.Side ? result && (!target.GetAbilityEnabled(1) || source.GetAbilityEnabled(1)) : result;
     }
 
     // AoWAb.PAS:1937

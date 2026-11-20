@@ -224,7 +224,8 @@ public class Component : Persistent
 
     public virtual void GetChildren(GetChildProc action, Component root) { }
 
-    public virtual Component? GetParentComponent() => null;
+    public virtual Component? ParentComponent => null;
+
     public virtual bool HasParent() => false;
 
     public virtual void SetChildOrder(Component child, int order) { }

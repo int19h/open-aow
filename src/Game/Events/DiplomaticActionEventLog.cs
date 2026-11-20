@@ -117,50 +117,56 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
     }
 
     // Diplomacy.pas:1333
-    public override int GetLeftIcon()
+    public override int LeftIcon
     {
-        DiplomaticAction action = Action;
-        if (!action.Proposal.SignedAsOtherPlayer)
+        get
         {
-            bool condition = action.Source > 0;
-            if (condition)
+            DiplomaticAction action = Action;
+            if (!action.Proposal.SignedAsOtherPlayer)
             {
-                int count = StrategicMap.Current.Players.Count;
-                condition = action.Source < count;
-            }
+                bool condition = action.Source > 0;
+                if (condition)
+                {
+                    int count = StrategicMap.Current.Players.Count;
+                    condition = action.Source < count;
+                }
 
-            return condition ? StrategicMap.Current.Players.GetPlayers(action.Source).PlayerRace : -1;
-        }
-        else
-        {
-            bool condition = action.OtherPlayer > 0;
-            if (condition)
+                return condition ? StrategicMap.Current.Players.GetPlayers(action.Source).PlayerRace : -1;
+            }
+            else
             {
-                int count = StrategicMap.Current.Players.Count;
-                condition = action.OtherPlayer < count;
-            }
+                bool condition = action.OtherPlayer > 0;
+                if (condition)
+                {
+                    int count = StrategicMap.Current.Players.Count;
+                    condition = action.OtherPlayer < count;
+                }
 
-            return condition ? StrategicMap.Current.Players.GetPlayers(action.OtherPlayer).PlayerRace : -1;
+                return condition ? StrategicMap.Current.Players.GetPlayers(action.OtherPlayer).PlayerRace : -1;
+            }
         }
     }
 
     // Diplomacy.pas:1379
     // { DCC32 folds JMP-to-RET; keep the original branch over the 11-byte arms. }
-    public override int GetRightIcon()
+    public override int RightIcon
     {
-        DiplomaticAction action = Action;
-        bool condition = action.Target > 0;
-        if (condition)
+        get
         {
-            int count = StrategicMap.Current.Players.Count;
-            condition = action.Target < count;
-        }
+            DiplomaticAction action = Action;
+            bool condition = action.Target > 0;
+            if (condition)
+            {
+                int count = StrategicMap.Current.Players.Count;
+                condition = action.Target < count;
+            }
 
-        return condition ? StrategicMap.Current.Players.GetPlayers(action.Target).PlayerRace : -1;
+            return condition ? StrategicMap.Current.Players.GetPlayers(action.Target).PlayerRace : -1;
+        }
     }
 
     // Diplomacy.pas:1225
-    public override bool GetVisible() => true;
+    public override bool Visible => true;
 
     // Diplomacy.pas:1208
     public override void PlayLoggedSfx(EventLogbook logbook) => AudioPlayback.PlaySample(Action.Proposal.LoggedSample);
@@ -207,7 +213,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
         }
     }
 
-    public override int GetMiddleIcon() => Action.Proposal.MiddleIcon(Action);
+    public override int MiddleIcon => Action.Proposal.MiddleIcon(Action);
 
     private static ReadOnlySpan<int> RaceColors => [14693424, 6726911, 11520812, 16702087, 6352705, 1441277, 10863076, 16252925, 11759804, 5263593, 4351675, 7960728, 11053224];
 

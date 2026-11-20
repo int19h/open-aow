@@ -32,7 +32,7 @@ public class CombatSpellCombatAction(CustomNode owner) : DamageCombatAction(owne
         if (ManaCost != 0 && combat.Status.Contains(CombatStatusElement.Executing))
         {
             CombatObject source = combat.CombatData.FindId(SourceId);
-            GamePack.Current.SpellControl.GetSpell(SpellId).CombatCastingDone(source, ManaCost);
+            GamePack.Current.SpellControl[SpellId].CombatCastingDone(source, ManaCost);
         }
     }
 
@@ -41,7 +41,7 @@ public class CombatSpellCombatAction(CustomNode owner) : DamageCombatAction(owne
     {
         if (viewer.Time == 0)
         {
-            _ = GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
+            _ = GamePack.Current.SpellControl[SpellId].CastSounds.Play(0);
         }
 
         if (viewer.Delay == viewer.Time)
@@ -58,14 +58,14 @@ public class CombatSpellCombatAction(CustomNode owner) : DamageCombatAction(owne
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == SourceId)
         {
-            Spell spell = GamePack.Current.SpellControl.GetSpell(SpellId);
+            Spell spell = GamePack.Current.SpellControl[SpellId];
             GetEngine().CombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.SpellName, surface);
         }
         else
         {
             if (objectValue.Id == TargetId)
             {
-                _ = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.Show(11, X + 32, Y + 32, viewer.Time, surface);
+                _ = GamePack.Current.SpellControl[SpellId].CastImages.Show(11, X + 32, Y + 32, viewer.Time, surface);
             }
         }
     }
@@ -77,14 +77,14 @@ public class CombatSpellCombatAction(CustomNode owner) : DamageCombatAction(owne
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == SourceId)
         {
-            Spell spell = GamePack.Current.SpellControl.GetSpell(SpellId);
+            Spell spell = GamePack.Current.SpellControl[SpellId];
             GetEngine().CombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.SpellName, surface);
         }
         else
         {
             if (objectValue.Id == TargetId)
             {
-                _ = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.Show(11, X + 32, Y + 32, viewer.Time, surface);
+                _ = GamePack.Current.SpellControl[SpellId].CastImages.Show(11, X + 32, Y + 32, viewer.Time, surface);
             }
         }
     }

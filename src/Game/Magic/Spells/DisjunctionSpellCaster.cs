@@ -33,7 +33,7 @@ public class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owner)
                 {
                     if (source is Hero hero)
                     {
-                        Spell spell = GamePack.Current.SpellControl.GetSpell(51);
+                        Spell spell = GamePack.Current.SpellControl[51];
                         int mana = GetMana();
                         if (StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + hero.CastingProgress >= spell.BaseManaCost + mana)
                         {
@@ -75,7 +75,7 @@ public class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owner)
             if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
             {
                 DisjunctionTokenEvent eventValue = new(null) { Holder = CreationHolder() };
-                Spell spell = GamePack.Current.SpellControl.GetSpell(51);
+                Spell spell = GamePack.Current.SpellControl[51];
                 eventValue.Initialize(CasterSpellId, (byte)source.Player, source.UnitId, spell.BaseManaCost);
                 eventValue.EnchantmentId = EnchantmentId;
                 eventValue.DispelChance = DispelChance;
@@ -129,7 +129,7 @@ public class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owner)
     }
 
     // GlobalSpells.pas:846
-    public int GetDispelChanceMax() => 75;
+    public int DispelChanceMax => 75;
 
     // GlobalSpells.pas:851
     public bool GetEnoughMana()
@@ -143,7 +143,7 @@ public class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owner)
                 if (source is Hero hero)
                 {
                     int mana2 = StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + hero.CastingProgress;
-                    Spell spell = GamePack.Current.SpellControl.GetSpell(51);
+                    Spell spell = GamePack.Current.SpellControl[51];
                     int mana = GetMana();
                     if (mana2 >= spell.BaseManaCost + mana)
                     {

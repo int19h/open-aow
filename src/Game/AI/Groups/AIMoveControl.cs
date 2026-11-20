@@ -87,7 +87,7 @@ public class AIMoveControl : EngineObject
                 else
                 {
                     _state += 1;
-                    if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 6)
+                    if (StrategicMap.Current.AIExecutor.ProcessTimeLeft > 6)
                     {
                         ProcessCanMove();
                     }
@@ -206,7 +206,7 @@ public class AIMoveControl : EngineObject
                 if (points == -1)
                 {
                     _state += 1;
-                    if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 6)
+                    if (StrategicMap.Current.AIExecutor.ProcessTimeLeft > 6)
                     {
                         ProcessTransporterCanMove();
                     }
@@ -243,7 +243,7 @@ public class AIMoveControl : EngineObject
                         MapCoordinate location = Settings.TransportSource;
                         _pathSettings.SetDestinationPosition(location);
 
-                        if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
+                        if (StrategicMap.Current.AIExecutor.ProcessTimeLeft > 1)
                         {
                             ProcessTransporterCanMove();
                         }
@@ -265,7 +265,7 @@ public class AIMoveControl : EngineObject
                 if (points == -1)
                 {
                     _state = 3;
-                    if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 6)
+                    if (StrategicMap.Current.AIExecutor.ProcessTimeLeft > 6)
                     {
                         ProcessTransporterCanMove();
                     }
@@ -280,7 +280,7 @@ public class AIMoveControl : EngineObject
                         _pathSettings.SetDestinationPosition(location);
 
                         _multipleTransportGaps = false;
-                        if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
+                        if (StrategicMap.Current.AIExecutor.ProcessTimeLeft > 1)
                         {
                             ProcessTransporterCanMove();
                         }
@@ -311,7 +311,7 @@ public class AIMoveControl : EngineObject
 
                         _multipleTransportGaps = false;
                         _state = 2;
-                        if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
+                        if (StrategicMap.Current.AIExecutor.ProcessTimeLeft > 1)
                         {
                             ProcessTransporterCanMove();
                         }
@@ -376,7 +376,7 @@ public class AIMoveControl : EngineObject
             if (Settings.Source.MapLevel == Settings.Destination.MapLevel)
             {
                 _state = 0;
-                if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
+                if (StrategicMap.Current.AIExecutor.ProcessTimeLeft > 1)
                 {
                     ProcessCanMove();
                 }
@@ -396,7 +396,7 @@ public class AIMoveControl : EngineObject
             if (Settings.Source.MapLevel == Settings.Destination.MapLevel)
             {
                 _state = 0;
-                if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
+                if (StrategicMap.Current.AIExecutor.ProcessTimeLeft > 1)
                 {
                     ProcessTransporterCanMove();
                 }

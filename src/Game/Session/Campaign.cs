@@ -162,7 +162,7 @@ public class Campaign : EngineObject
             {
                 for (int j = 0, lastJ = GamePack.Current.SpellControl.GetCount() - 1; j <= lastJ; j++)
                 {
-                    Spell spell = GamePack.Current.SpellControl.GetSpell(j);
+                    Spell spell = GamePack.Current.SpellControl[j];
                     bool condition = spell is not null && spell.SpellLevel <= level;
                     if (condition)
                     {
@@ -323,7 +323,7 @@ public class Campaign : EngineObject
     }
 
     // Diplomacy.pas:2292
-    public bool GetContainsMap() => Stream.Length != 0;
+    public bool ContainsMap => Stream.Length != 0;
 }
 
 public enum CampaignDifficultyLevel : byte

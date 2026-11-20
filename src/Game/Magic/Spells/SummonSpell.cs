@@ -41,7 +41,7 @@ public class SummonSpell : Spell
     {
         if (AIBasePriority != -1)
         {
-            bool canCast = AIRequestCastSpellExpense(upkeep: GetAIUpkeepPriority(), source: source, budget: BaseManaCost, mana: ManaUpkeep);
+            bool canCast = AIRequestCastSpellExpense(upkeep: AIUpkeepPriority, source: source, budget: BaseManaCost, mana: ManaUpkeep);
             string reason = "";
             canCast = canCast && source.CanCastSpell(SpellId, ref reason);
             if (canCast)
@@ -60,7 +60,7 @@ public class SummonSpell : Spell
         string reason = "";
         if (source.CanCastSpell(SpellId, ref reason))
         {
-            _ = AICastSpellExpenseMade(upkeep: GetAIUpkeepPriority(), source: source, budget: BaseManaCost, mana: ManaUpkeep);
+            _ = AICastSpellExpenseMade(upkeep: AIUpkeepPriority, source: source, budget: BaseManaCost, mana: ManaUpkeep);
             if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
                 return Activate(source);
@@ -112,10 +112,13 @@ public class SummonSpell : Spell
     }
 
     // SummonSpells.pas:283
-    public int GetAIUpkeepPriority()
+    public int AIUpkeepPriority
     {
-        int unitIndex = UnitIndices[0];
-        return GamePack.Current.AbilityControl.GetAbility<SummonedAbility>(155).UnitIndexToAIUpkeepPriority(unitIndex);
+        get
+        {
+            int unitIndex = UnitIndices[0];
+            return GamePack.Current.AbilityControl.GetAbility<SummonedAbility>(155).UnitIndexToAIUpkeepPriority(unitIndex);
+        }
     }
 
     // SummonSpells.pas:255

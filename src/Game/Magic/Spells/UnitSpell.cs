@@ -285,7 +285,7 @@ public class UnitSpell : Spell
             {
                 if (action.Mana != 0 && (((byte)combat.Status.Image) & 1) != 0)
                 {
-                    GamePack.Current.SpellControl.GetSpell(SpellId).CombatCastingDone(source, action.Mana);
+                    GamePack.Current.SpellControl[SpellId].CombatCastingDone(source, action.Mana);
                 }
             }
         }
@@ -299,7 +299,7 @@ public class UnitSpell : Spell
         {
             if (ValidTargetUnit(source, targets.GetUnit(i)) && targets.GetUnit(i).GetUnitType() != UnitType.Machine)
             {
-                int value = targets.GetUnit(i).GetUnitLevel() + AIValue;
+                int value = targets.GetUnit(i).UnitLevel + AIValue;
                 _ = list.AddAbility(targets.GetUnit(i), value);
             }
         }
@@ -412,9 +412,9 @@ public class UnitSpell : Spell
         control.Title = SpellName;
         control.CancelText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CancelText);
         control.SourceUnitId = source.UnitId;
-        control.SourceImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(20).GetPreviewImage();
-        control.ValidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(21).GetPreviewImage();
-        control.InvalidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(22).GetPreviewImage();
+        control.SourceImage = GamePack.Current.SpellControl[SpellId].CastImages.GetImageSequence(20).GetPreviewImage();
+        control.ValidTargetImage = GamePack.Current.SpellControl[SpellId].CastImages.GetImageSequence(21).GetPreviewImage();
+        control.InvalidTargetImage = GamePack.Current.SpellControl[SpellId].CastImages.GetImageSequence(22).GetPreviewImage();
     }
 
     private static ReadOnlySpan<byte> SelectionMasks => [0, 1, 3, 7, 15, 31, 63, 127, 255];

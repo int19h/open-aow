@@ -119,8 +119,9 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
 
     private sealed class ScreenSurface(IDisplayHost host) : Surface
     {
-        public override int GetWidth() => host.ClientSize.Width;
-        public override int GetHeight() => host.ClientSize.Height;
+        public override int Width => host.ClientSize.Width;
+        public override int Height => host.ClientSize.Height;
+
         public override PixelFormat GetPixelFormatId() => PixelFormat.Rgb555;
         public override GraphicsResult Lock(ref LockedSurface descriptor) => GraphicsResult.NotSupported;
     }

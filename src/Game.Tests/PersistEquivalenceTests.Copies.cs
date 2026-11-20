@@ -190,7 +190,7 @@ public sealed partial class PersistEquivalenceTests
             PlayerCollection viaTree = new(null) { Holder = EngineFixture.Engine };
             PlayerCollection viaStream = new(null) { Holder = EngineFixture.Engine };
             viaTree.Assign(source, engine: EngineFixture.Engine);
-            viaStream.SetNumberOfPlayers(source.GetNumberOfPlayers());
+            viaStream.SetNumberOfPlayers(source.NumberOfPlayers);
             for (int index = 0; index < viaStream.Count; index++)
             {
                 StreamAssign(viaStream.GetPlayers(index), source.GetPlayers(index));

@@ -34,7 +34,7 @@ public class CursedAbility : DurationAbility
     }
 
     // PassiveAb.pas:1003
-    public override int GetTotalDuration() => 3;
+    public override int TotalDuration => 3;
 
     private static readonly string s_cursedText = "Cursed";
 }

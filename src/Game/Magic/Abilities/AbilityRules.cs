@@ -124,12 +124,12 @@ public static class AbilityRules
         if (target.GetTargetPriority() != 0)
         {
             int targetPriority = target.GetTargetPriority();
-            sbyte hitPoints = target.GetHitPoints();
+            sbyte hitPoints = target.HitPoints;
             result = target.GetTargetPriority() + Round(targetPriority * ((double)sourceDamageValue / (hitPoints * 100)));
             if (targetDamageValue != 0)
             {
                 int sourceTargetPriority = source.GetTargetPriority();
-                sbyte sourceHitPoints = source.GetHitPoints();
+                sbyte sourceHitPoints = source.HitPoints;
                 result -= source.GetTargetPriority() + Round(sourceTargetPriority * ((double)targetDamageValue / (sourceHitPoints * 100)));
             }
         }
@@ -364,7 +364,7 @@ public static class AbilityRules
                 -3 => Alignment.Neutral,
                 _ => Alignment.Neutral,
             }
-            : GamePack.Current.RaceResources.GetRaceResource(relation).GetAlignment();
+            : GamePack.Current.RaceResources.GetRaceResource(relation).Alignment;
     }
 
     internal static DiplomaticRelation DiplomaticRelation(sbyte player, sbyte independentRelation, sbyte otherPlayer, sbyte otherIndependentRelation)
@@ -382,11 +382,11 @@ public static class AbilityRules
             if (race == -1 || otherRace == -1)
             {
                 Alignment alignment = race != -1
-                    ? GamePack.Current.RaceResources.GetRaceResource(race).GetAlignment()
+                    ? GamePack.Current.RaceResources.GetRaceResource(race).Alignment
                     : IndependentRelationToAlignment(independentRelation);
 
                 Alignment otherAlignment = otherRace != -1
-                    ? GamePack.Current.RaceResources.GetRaceResource(otherRace).GetAlignment()
+                    ? GamePack.Current.RaceResources.GetRaceResource(otherRace).Alignment
                     : IndependentRelationToAlignment(otherIndependentRelation);
 
                 return AlignmentTables.AlignmentToDiplomaticRelation(alignment, otherAlignment);

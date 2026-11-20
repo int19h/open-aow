@@ -42,7 +42,7 @@ public partial class UnitSpellCaster : SpellCaster
                     int mana = GetRequiredMana();
                     if (hero.CastingReady() && hero.CastingSpellId == CasterSpellId)
                     {
-                        mana -= GamePack.Current.SpellControl.GetSpell(CasterSpellId).BaseManaCost;
+                        mana -= GamePack.Current.SpellControl[CasterSpellId].BaseManaCost;
                     }
 
                     if (mana <= hero.GetCastingPoints())

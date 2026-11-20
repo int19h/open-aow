@@ -33,8 +33,8 @@ public class CommandAbility : TouchAbility
     public override void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
     {
         AbilityDamageValues values = default;
-        int distance = commands.Combat.GetRoundDistance();
-        if (commands.Source.GetMoves() >= 32)
+        int distance = commands.Combat.RoundDistance;
+        if (commands.Source.Moves >= 32)
         {
             distance += 2;
         }
@@ -152,9 +152,9 @@ public class CommandAbility : TouchAbility
         if (CanTouch(attacker, defender) && attacker is CombatUnit attackerUnit && defender is CombatUnit defenderUnit && defenderUnit.Troop is not Leader)
         {
             float probability = CombatTouchRoleProbability(attackerUnit, defender);
-            sbyte hitPoints = defender.GetHitPoints();
+            sbyte hitPoints = defender.HitPoints;
             damageValues.SourceDamage = Round((double)(hitPoints * 200) * probability);
-            sbyte defenderHitPoints = defender.GetHitPoints();
+            sbyte defenderHitPoints = defender.HitPoints;
             damageValues.SourceCost = defenderHitPoints * 2;
             int strikeDamageValue = CombatObject.StrikeDamageValue(defender, attacker);
             damageValues.TargetDamage = Round(strikeDamageValue * ((double)1 - probability));
@@ -182,7 +182,7 @@ public class CommandAbility : TouchAbility
     }
 
     // AoWAb.PAS:5102
-    public override void CombatDone(CombatObject combatObject) => combatObject.GetAbilityOwner().RemoveAbilityDataId(AbilityId);
+    public override void CombatDone(CombatObject combatObject) => combatObject.AbilityOwner.RemoveAbilityDataId(AbilityId);
 
     // AoWAb.PAS:5176
     public override bool CanTouch(CombatObject source, CombatObject target) => base.CanTouch(source, target) && source is CombatUnit && target is CombatUnit targetUnit && targetUnit.Troop.GetUnitType() != UnitType.Machine && !target.GetAbilityEnabled(107);
@@ -268,7 +268,7 @@ public class CommandAbility : TouchAbility
                 target.SetCombatPlayer(data.OriginalCombatPlayer);
             }
 
-            _ = GamePack.Current.AbilityControl.GetAbility(CommandedAbilityId).Remove(target.Troop);
+            _ = GamePack.Current.AbilityControl[CommandedAbilityId].Remove(target.Troop);
             if (source is not null)
             {
                 CommandAbilityData sourceData = GetData(source.Troop);

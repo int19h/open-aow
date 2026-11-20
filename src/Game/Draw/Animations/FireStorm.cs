@@ -26,8 +26,8 @@ public class FireStorm(CustomNode owner) : Storm(owner)
     // Storms.pas:527
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        sbyte hexY = GetHexY();
-        HexGeometry.HexToPixel(GetHexX(), hexY, out int x, out int y);
+        sbyte hexY = HexY;
+        HexGeometry.HexToPixel(HexX, hexY, out int x, out int y);
         x = x - pixelXSurface + 8;
         y -= pixelYSurface;
         ImageSequence sequence = GamePack.Current.ImageSequences.ImageSequences[0];
@@ -77,10 +77,10 @@ public class FireStorm(CustomNode owner) : Storm(owner)
         NewFrame();
         if (FrameCounter == 20)
         {
-            AbilityRules.TriggerStormDamage(mapLevel: GetHexLevel(), y: GetHexY(), storm: StormType.Fire, x: GetHexX(), innerRadius: 0, outerRadius: 2, player: StrategicMap.Current.CurrentPlayer);
-            sbyte hexLevel2 = GetHexLevel();
-            sbyte hexY2 = GetHexY();
-            sbyte hexX = GetHexX();
+            AbilityRules.TriggerStormDamage(mapLevel: HexLevel, y: HexY, storm: StormType.Fire, x: HexX, innerRadius: 0, outerRadius: 2, player: StrategicMap.Current.CurrentPlayer);
+            sbyte hexLevel2 = HexLevel;
+            sbyte hexY2 = HexY;
+            sbyte hexX = HexX;
             _ = StrategicMap.Current.ChangeTerrain(this, hexX, hexY2, hexLevel2, 2, ChangeStormTerrain, null);
         }
 
@@ -97,9 +97,9 @@ public class FireStorm(CustomNode owner) : Storm(owner)
             bool condition = StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer;
             if (!condition)
             {
-                sbyte hexLevel = GetHexLevel();
-                sbyte hexY = GetHexY();
-                sbyte hexX = GetHexX();
+                sbyte hexLevel = HexLevel;
+                sbyte hexY = HexY;
+                sbyte hexX = HexX;
                 condition = StrategicMap.Current.TerrainVisible(hexX, hexY, hexLevel, 2);
             }
 
