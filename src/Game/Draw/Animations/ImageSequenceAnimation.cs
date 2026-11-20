@@ -1,9 +1,7 @@
 #nullable disable
 // Translated from Animation.pas.
 using Aow.Engine.Nodes;
-
 using Aow.Game.Draw.Images;
-
 using Aow.Game.World.Map;
 using Aow.Rtl;
 
@@ -92,7 +90,7 @@ public sealed class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
         ImageSequence sequence = ImageSequence;
         while (sequence is not null)
         {
-            sequence.GetDimensions(out Rect r);
+            Rect r = sequence.GetDimensions();
             Rect input = Dimensions;
             _ = input.Union(right: r, result: out Rect dimensions5);
             Dimensions = dimensions5;

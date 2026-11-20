@@ -3,18 +3,13 @@
 
 using Aow.Engine.Nodes;
 using Aow.Formats;
-
 using Aow.Game.Draw;
-
 using Aow.Game.Saves;
-
 using Aow.Game.Units;
 using Aow.Game.World;
 using Aow.Game.World.Hexes;
 using Aow.Game.World.Map;
-
 using Aow.Game.World.Structures;
-
 using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
@@ -774,7 +769,7 @@ public sealed class RandomBattleMapGenerator : IDisposable
         {
             if (CombatMap.Current.Combat.Sides[(int)CombatSideIndex.Attacker].GetObjects(position).GetEnabled())
             {
-                SetupUnit(CombatSideIndex.Attacker, index: position, ref direction);
+                direction = SetupUnit(CombatSideIndex.Attacker, index: position, direction);
             }
         }
 
@@ -786,7 +781,7 @@ public sealed class RandomBattleMapGenerator : IDisposable
             {
                 if (CombatMap.Current.Combat.Sides[(int)CombatSideIndex.Defender].GetObjects(position).GetEnabled())
                 {
-                    SetupUnit(CombatSideIndex.Defender, index: position, ref direction);
+                    direction = SetupUnit(CombatSideIndex.Defender, index: position, direction);
                 }
             }
         }
@@ -837,7 +832,7 @@ public sealed class RandomBattleMapGenerator : IDisposable
     }
 
     // AoWTC.pas:4610
-    public void SetupUnit(CombatSideIndex side, int index, ref int direction)
+    public int SetupUnit(CombatSideIndex side, int index, int direction)
     {
         int hexX = default;
         int hexY = default;
@@ -976,6 +971,7 @@ public sealed class RandomBattleMapGenerator : IDisposable
             sbyte yhx = unitHexSprite.HexY;
             CombatMap.Current.Players.GetPlayers(unitHexSprite.Unit.CombatPlayer).LastY = yhx;
         }
+        return direction;
     }
 
     // AoWTC.pas:4667

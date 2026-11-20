@@ -1,9 +1,7 @@
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
-
 using Aow.Game.World.Map;
-
 using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
@@ -67,12 +65,13 @@ public sealed class AIGroupControlTarget(CustomNode owner) : EngineObject(owner)
     public int TargetMana => 0;
 
     // AIGroup.pas:676
-    public void GetDebugInfo(out string text)
+    public string GetDebugInfo()
     {
-        text = $"Target({((int)Location.X).ToString(CultureInfo.InvariantCulture)},{((int)Location.Y).ToString(CultureInfo.InvariantCulture)},{((int)Location.MapLevel).ToString(CultureInfo.InvariantCulture)}): Prio:{Data.Priority.ToString(CultureInfo.InvariantCulture)}";
+        string text = $"Target({((int)Location.X).ToString(CultureInfo.InvariantCulture)},{((int)Location.Y).ToString(CultureInfo.InvariantCulture)},{((int)Location.MapLevel).ToString(CultureInfo.InvariantCulture)}): Prio:{Data.Priority.ToString(CultureInfo.InvariantCulture)}";
         if (TransporterId != -1)
         {
             text = $"{text}/Transporter({TransporterId.ToString(CultureInfo.InvariantCulture)})";
         }
+        return text;
     }
 }

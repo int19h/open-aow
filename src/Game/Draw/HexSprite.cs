@@ -1,7 +1,6 @@
 #nullable disable
 // Translated from HSEngine.pas.
 using Aow.Engine.Nodes;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Rtl;
@@ -235,7 +234,7 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     }
 
     // HXSPRITE.PAS:82
-    public virtual void GetBaseHex(out int mapCoordinate) => mapCoordinate = Owner.HexX + (Owner.HexY << 8) + (Owner.Owner.HexLevel << 16);
+    public virtual int GetBaseHex() => Owner.HexX + (Owner.HexY << 8) + (Owner.Owner.HexLevel << 16);
 
     // HXSPRITE.PAS:57
     public virtual bool CanSelect(int pixelX, int pixelY) => Owner is not null && Owner.Owner.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting);

@@ -183,9 +183,9 @@ public struct LockedSurface
         }
     }
 
-    public static void CreateFrom(in LockedSurface source, in Rect R, out LockedSurface destination)
+    public static LockedSurface CreateFrom(in LockedSurface source, in Rect R)
     {
-        destination = source;
+        LockedSurface destination = source;
         _ = destination.ClipRectangle;
         _ = source.ClipRectangle.Intersect(right: R, result: out Rect clipRectangle);
         destination.ClipRectangle = clipRectangle;
@@ -202,6 +202,7 @@ public struct LockedSurface
         Rect clipRectangle5 = destination.ClipRectangle;
         clipRectangle5.Bottom -= R.Top;
         destination.ClipRectangle = clipRectangle5;
+        return destination;
     }
 
     internal static void MinimizeTransparentRectangle(in LockedSurface lockedSurface, in Rect R, int transparentColor, out Rect result)

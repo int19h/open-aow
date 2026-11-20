@@ -2,16 +2,11 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-
 using Aow.Game.Draw;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-
 using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
@@ -120,7 +115,7 @@ public sealed class AIMoveTargetSelector : EngineObject
         }
 
         _ = MovePointTable;
-        army.Army.CreateMovePointTable(selection, table: out MovePointTable movePointTable);
+        MovePointTable movePointTable = army.Army.CreateMovePointTable(selection);
         MovePointTable = movePointTable;
         return true;
     }

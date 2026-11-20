@@ -343,20 +343,21 @@ public sealed class ImageSequenceList(ImageLibraryManager aILManager, CustomImag
     }
 
     // ImageLib.pas:9247
-    public void GetDimensions(int index, out Rect R)
+    public Rect GetDimensions(int index)
     {
         // The out value is assigned before its members are written.
-        R = default;
+        Rect R = default;
         if (index < Count && index >= 0)
         {
             ImageSequence sequence = List[index];
             while (sequence is not null)
             {
-                sequence.GetDimensions(out Rect sr);
+                Rect sr = sequence.GetDimensions();
                 _ = R.Union(right: sr, result: out R);
                 sequence = sequence.Next;
             }
         }
+        return R;
     }
 
     // ImageLib.pas:9270

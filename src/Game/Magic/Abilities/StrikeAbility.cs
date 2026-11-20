@@ -1,12 +1,9 @@
 #nullable disable
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
-
 using Aow.Game.World.Map;
-
 using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
@@ -101,7 +98,7 @@ public class StrikeAbility : AdjustableAbility
             if (action is not null)
             {
                 source.Combat.ExecuteCombatAction(action);
-                round.GetMeleeStrike(i, out MeleeRound.Strike strike);
+                MeleeRound.Strike strike = round.GetMeleeStrike(i);
                 switch (strike.Side)
                 {
                     case CombatSideIndex.Attacker:

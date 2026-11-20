@@ -3,7 +3,6 @@
 using System.Globalization;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
-
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
@@ -11,7 +10,6 @@ using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-
 using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Game.UI.Dialogs;
@@ -179,7 +177,7 @@ public sealed partial class ArenaDialog(UIContext ui) : UIModule(ui)
             y = 16;
         }
 
-        LockedSurface.CreateFrom(lockedSurface, r, destination: out LockedSurface mapSurfaceDescription);
+        LockedSurface mapSurfaceDescription = LockedSurface.CreateFrom(lockedSurface, r);
         sbyte hexLevel = _event.Arena.HexLevel;
         _ = StrategicMap.Current.SetViewPort(x, y, lHitPoints: hexLevel, r.Right - r.Left, r.Bottom - r.Top);
         StrategicMap.Current.UpdateStaticScene();

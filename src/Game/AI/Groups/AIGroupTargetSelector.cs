@@ -4,19 +4,13 @@ using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Buffers;
 using Aow.Engine.Nodes;
-
 using Aow.Game.Combat;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Session;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
-
 using Aow.Rtl;
 using static Aow.Rtl.DelphiRounding;
 
@@ -1093,7 +1087,7 @@ public class AIGroupTargetSelector : AIGroupTask
         for (int i = 0, last = GroupControl.Targets.Count - 1; i <= last; i++)
         {
             AIGroupControlTarget target = GroupControl.Targets.GetTargets(i);
-            target.GetDebugInfo(out string text);
+            string text = target.GetDebugInfo();
             text = $"{text}/TS_Prio:{target.DataA.ToString(CultureInfo.InvariantCulture)}";
             text = $"{text}/MPBFS:{target.PathStrength.ToString(CultureInfo.InvariantCulture)}";
             text = $"{text}/TG:{target.TargetGold.ToString(CultureInfo.InvariantCulture)}";

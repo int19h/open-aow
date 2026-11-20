@@ -250,7 +250,7 @@ public sealed partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
             y = 16;
         }
 
-        LockedSurface.CreateFrom(lockedSurface, r, destination: out LockedSurface mapSurfaceDescription);
+        LockedSurface mapSurfaceDescription = LockedSurface.CreateFrom(lockedSurface, r);
         _ = StrategicMap.Current.SetViewPort(x, y, lHitPoints: Location.MapLevel, r.Right - r.Left, r.Bottom - r.Top);
         StrategicMap.Current.UpdateStaticScene();
         StrategicMap.Current.UpdateDynamicScene();

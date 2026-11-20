@@ -103,7 +103,7 @@ public class LibraryImage : Persistent, ILibraryImageClass
     public virtual void SetHeight(int value) => _height = value;
 
     // ImageLib.pas:1640
-    public virtual void GetVisualDimensions(out Rect R) => R = new() { Left = 0, Right = _width, Top = 0, Bottom = _height };
+    public virtual Rect GetVisualDimensions() => new() { Left = 0, Right = _width, Top = 0, Bottom = _height };
 
     // ImageLib.pas:1702
     public virtual void ReadImageData(Stream stream)
@@ -565,7 +565,7 @@ public class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1648
-    public void GetDimensions(out Rect R) => R = new() { Left = 0, Right = _width, Top = 0, Bottom = _height };
+    public Rect GetDimensions() => new() { Left = 0, Right = _width, Top = 0, Bottom = _height };
 
     // ImageLib.pas:2061
     public void ShowClipped(int X, int Y, in LockedSurface lockedSurface) => Show(X, Y, lockedSurface);

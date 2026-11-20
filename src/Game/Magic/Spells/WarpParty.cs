@@ -2,12 +2,9 @@
 // Translated from GlobalSpells.pas.
 
 using Aow.Engine.Nodes;
-
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
@@ -96,7 +93,7 @@ public class WarpParty : Spell
     {
         MapFieldMessage message = default;
         DelphiList<MapField> candidates = new();
-        army.Army.CreateMovePointTable(255, out MovePointTable table);
+        MovePointTable table = army.Army.CreateMovePointTable(255);
         sbyte hexY = army.HexY;
         sbyte hexX = army.HexX;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 10);

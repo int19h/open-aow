@@ -96,7 +96,7 @@ public sealed class EngineSupportTests
     public void SetTransferUsesTheDelphiImageAndItsLowByte()
     {
         Set<Flag> value = default;
-        SetImage.TransferSet(ref value, size: 1, id: 17, (bytes, size, id) =>
+        value = SetImage.TransferSet(value, size: 1, id: 17, (bytes, size, id) =>
         {
             Assert.Equal(1, size);
             Assert.Equal(17, id);
@@ -106,7 +106,7 @@ public sealed class EngineSupportTests
         Assert.True(value.Contains(Flag.Third));
         Assert.False(value.Contains(Flag.Second));
         Set<OffsetFlag> offset = default;
-        SetImage.TransferSet(ref offset, size: 1, id: 0, transfer: (bytes, _, _) => bytes[0] = 5, low: 8);
+        offset = SetImage.TransferSet(offset, size: 1, id: 0, transfer: (bytes, _, _) => bytes[0] = 5, low: 8);
         Assert.True(offset.Contains(OffsetFlag.First));
         Assert.True(offset.Contains(OffsetFlag.Third));
     }

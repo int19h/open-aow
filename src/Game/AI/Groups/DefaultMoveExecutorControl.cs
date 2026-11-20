@@ -1,9 +1,7 @@
 #nullable disable
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-
 using Aow.Game.World.Movement;
-
 using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
@@ -28,7 +26,7 @@ public class DefaultMoveExecutorControl(CustomNode owner) : AIMoveExecutorContro
                         ? Set<CreateMoveModeElement>.Of(CreateMoveModeElement.Surround)
                         : Set<CreateMoveModeElement>.Of();
 
-                    move = CreateMove(armies.GetArmies(0), selection: 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode, out moveResult);
+                    (move, moveResult) = CreateMove(armies.GetArmies(0), selection: 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode);
                     if (move is not null)
                     {
                         if (!Executor.Mode.Contains(AIMoveExecutorModeElement.Simultaneous) || (Executor.Mode.Contains(AIMoveExecutorModeElement.Attack) && moveResult == 2))
@@ -70,7 +68,7 @@ public class DefaultMoveExecutorControl(CustomNode owner) : AIMoveExecutorContro
                 armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
                 while (cannotMove && i != armies.Count)
                 {
-                    move = CreateMove(armies.GetArmies(i), selection: 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode: Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue, CreateMoveModeElement.Surround), out moveResult);
+                    (move, moveResult) = CreateMove(armies.GetArmies(i), selection: 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode: Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue, CreateMoveModeElement.Surround));
                     cannotMove = moveResult != 0;
                     move?.Dispose();
 
@@ -83,7 +81,7 @@ public class DefaultMoveExecutorControl(CustomNode owner) : AIMoveExecutorContro
                     move = null;
                     while (move is null && i != armies.Count)
                     {
-                        move = CreateMove(armies.GetArmies(i), selection: 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode: Set<CreateMoveModeElement>.Of(), moveResult: out _);
+                        (move, _) = CreateMove(armies.GetArmies(i), selection: 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode: Set<CreateMoveModeElement>.Of());
                         if (move is not null)
                         {
                             Executor.ExecuteMoves();

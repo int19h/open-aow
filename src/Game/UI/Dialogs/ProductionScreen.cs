@@ -4,7 +4,6 @@ using System.Globalization;
 using Aow.Engine.Collections;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
-
 using Aow.Game.Events;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
@@ -984,7 +983,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
                 _viewY = 16;
             }
 
-            LockedSurface.CreateFrom(lockedSurface, r, destination: out LockedSurface viewSurfaceDescription);
+            LockedSurface viewSurfaceDescription = LockedSurface.CreateFrom(lockedSurface, r);
             _preview.SetExplorationEnabled(false);
             _preview.SetFogEnabled(false);
             _ = _preview.SetViewPort(_viewX, _viewY, lHitPoints: 0, width, r.Bottom - r.Top);

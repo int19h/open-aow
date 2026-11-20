@@ -93,7 +93,7 @@ public sealed class SystemTests
             : pointer.IsNull
                 ? Resized("", length: 5)
                 : Cp1252.Decode(pointer.Array.AsSpan(pointer.Index, length: 5).ToArray()));
-        SetString(out string value, source: pointer + 1, length: 3);
+        string value = SetString(source: pointer + 1, length: 3);
         Assert.Equal("b\0c", value);
         pointer[1] = 99;
         Assert.Equal("b\0c", value);

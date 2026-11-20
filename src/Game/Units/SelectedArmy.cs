@@ -3,22 +3,16 @@
 using System.Collections.Immutable;
 using System.Globalization;
 using System.Runtime.CompilerServices;
-
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
-
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Session;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-
 using Aow.Rtl;
 
 namespace Aow.Game.Units;
@@ -162,7 +156,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
             }
 
             _ = MoveControlSettings.MovePointTable;
-            armyHexSprite.Army.CreateMovePointTable((byte)settings.Selection, table: out MovePointTable movePointTable);
+            MovePointTable movePointTable = armyHexSprite.Army.CreateMovePointTable((byte)settings.Selection);
             MoveControlSettings.MovePointTable = movePointTable;
             StrategicMap.Current.MoveControl.ProcessMove(MoveControlSettings);
             if (MoveControlSettings.Path.Count != 0)
@@ -606,7 +600,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
         {
             byte selection = Selection;
             _ = MoveControlSettings.MovePointTable;
-            ArmyHexSprite.Army.CreateMovePointTable(selection, table: out MovePointTable movePointTable);
+            MovePointTable movePointTable = ArmyHexSprite.Army.CreateMovePointTable(selection);
             MoveControlSettings.MovePointTable = movePointTable;
         }
 

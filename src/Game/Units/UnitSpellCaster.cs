@@ -1,11 +1,8 @@
 #nullable disable
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Magic.Spells;
-
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Units;
@@ -147,7 +144,7 @@ public partial class UnitSpellCaster : SpellCaster
     {
         byte value = selection;
         Troop source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
-        GamePack.Current.SpellControl.GetSpell<UnitSpell>(CasterSpellId).ValidateUnitSelection(source, targets: TargetUnits, selection: ref value);
+        value = GamePack.Current.SpellControl.GetSpell<UnitSpell>(CasterSpellId).ValidateUnitSelection(source, targets: TargetUnits, selection: value);
         SelectionMask = value;
     }
 }

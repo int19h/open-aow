@@ -58,7 +58,7 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
             AITargetInfo info = message.Param[0].As<AITargetQuery>().Info;
             AITargetData data = message.Param[0].As<AITargetQuery>().Data;
             int priority = data.Priority;
-            UpdateAITarget(in info, ref priority);
+            priority = UpdateAITarget(in info, priority);
             message.Param[0].As<AITargetQuery>().Info = info;
             data.Priority = priority;
             message.Param[0].As<AITargetQuery>().Data = data;
@@ -105,7 +105,7 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     }
 
     // Gems.pas:74
-    public void UpdateAITarget(ref readonly AITargetInfo info, ref int priority)
+    public int UpdateAITarget(ref readonly AITargetInfo info, int priority)
     {
         switch (info.Mode)
         {
@@ -131,6 +131,7 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
             default:
                 break;
         }
+        return priority;
     }
 
     // Gems.pas:99

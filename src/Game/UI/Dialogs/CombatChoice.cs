@@ -3,13 +3,11 @@
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Events;
-
 using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-
 using static Aow.Rtl.DelegateRoutines;
 
 namespace Aow.Game.UI.Dialogs;
@@ -111,7 +109,7 @@ public sealed partial class CombatChoice(UIContext ui) : UIModule(ui)
             y = 16;
         }
 
-        LockedSurface.CreateFrom(lockedSurface, r, destination: out LockedSurface viewSurfaceDescription);
+        LockedSurface viewSurfaceDescription = LockedSurface.CreateFrom(lockedSurface, r);
         _ = StrategicMap.Current.SetViewPort(x, y, lHitPoints: _request.Location.MapLevel, r.Right - r.Left, r.Bottom - r.Top);
         StrategicMap.Current.UpdateStaticScene();
         StrategicMap.Current.UpdateDynamicScene();

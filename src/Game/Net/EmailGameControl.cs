@@ -2,15 +2,10 @@
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
-
 using Aow.Formats;
-
 using Aow.Game.Draw;
-
 using Aow.Game.Session;
-
 using Aow.Game.World.Map;
-
 using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiStreams;
@@ -137,7 +132,7 @@ public sealed class EmailGameControl : EngineObject
     }
 
     // Diplomacy.pas:2576
-    public void ValidateIncomingGame(string fileName, ref string destination)
+    public string ValidateIncomingGame(string fileName, string destination)
     {
         // { Addressability survives elimination of this assignment. }
         try
@@ -222,6 +217,7 @@ public sealed class EmailGameControl : EngineObject
         catch
         {
         }
+        return destination;
     }
 
     private static int GetFileCrc32(string fileName)

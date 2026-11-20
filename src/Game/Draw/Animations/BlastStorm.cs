@@ -1,17 +1,12 @@
 #nullable disable
 // Translated from Storms.pas.
 using Aow.Engine.Nodes;
-
 using Aow.Game.Audio;
 using Aow.Game.Combat;
-
 using Aow.Game.Draw.Images;
-
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
-
 using Aow.Game.World.Map;
-
 using Aow.Rtl;
 
 namespace Aow.Game.Draw.Animations;
@@ -35,7 +30,11 @@ public class BlastStorm(CustomNode owner) : Storm(owner)
     }
 
     // Storms.pas:358
-    public override void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info) => AbilityRules.RetrieveStormDamageInfo(player, storm: StormType(), X, Y, L, innerRadius: 0, outerRadius: 4, out info);
+    public override StormDamageInfo GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, StormDamageInfo info)
+    {
+        AbilityRules.RetrieveStormDamageInfo(player, storm: StormType(), X, Y, L, innerRadius: 0, outerRadius: 4, out info);
+        return info;
+    }
 
     // Storms.pas:349
     public override void UpdateTargetSelection(TargetSelectionControl selection)

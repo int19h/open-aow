@@ -5,27 +5,17 @@ using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.Combat;
-
 using Aow.Game.Commands;
-
 using Aow.Game.Draw.Animations;
-
 using Aow.Game.Events;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Magic.Spells;
-
 using Aow.Game.Session;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
-
 using Aow.Rtl;
-
 using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Game.Draw;
@@ -885,7 +875,7 @@ public partial class ArmyHexSprite : UnitHexSprite
         settings.Selection = selection;
         settings.SetDestinationPosition(X, Y, L);
         _ = settings.MovePointTable;
-        army.Army.CreateMovePointTable(selection, table: out MovePointTable movePointTable);
+        MovePointTable movePointTable = army.Army.CreateMovePointTable(selection);
         settings.MovePointTable = movePointTable;
         StrategicMap.Current.MoveControl.ProcessMove(settings);
         bool result = settings.Path.Count != 0 && MoveArmy(army, selection, settings.Path, mode: Set<ArmyMoveModeElement>.Of(), force);

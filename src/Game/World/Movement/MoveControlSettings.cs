@@ -153,7 +153,7 @@ public partial class MoveControlSettings : EngineObject
         Source = new MapCoordinate(army.HexX, army.HexY, army.HexLevel);
         Player = army.Army.Player;
         _ = MovePointTable;
-        army.Army.CreateMovePointTable(selection, table: out MovePointTable movePointTable);
+        MovePointTable movePointTable = army.Army.CreateMovePointTable(selection);
         MovePointTable = movePointTable;
         if (StrategicMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human)
         {

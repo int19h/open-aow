@@ -60,7 +60,7 @@ public class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObject(owner
                 CrystalAIInfo info = new() { Player = query.Info.Player, OtherPlayer = query.Info.IndependentRelation, Kind = (byte)query.Info.Mode };
                 AITargetData data = query.Data;
                 int priority = data.Priority;
-                UpdateAITarget(info, ref priority);
+                priority = UpdateAITarget(info, priority);
                 data.Priority = priority;
                 query.Data = data;
                 AITargetInfo info2 = query.Info;
@@ -115,7 +115,7 @@ public class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     }
 
     // ManaCrystals.pas:100
-    public void UpdateAITarget(in CrystalAIInfo info, ref int priority)
+    public int UpdateAITarget(in CrystalAIInfo info, int priority)
     {
         switch (info.Kind)
         {
@@ -133,6 +133,7 @@ public class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObject(owner
             default:
                 break;
         }
+        return priority;
     }
 
     // ManaCrystals.pas:125

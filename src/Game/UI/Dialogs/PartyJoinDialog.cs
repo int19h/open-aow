@@ -3,7 +3,6 @@
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Events;
-
 using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
@@ -234,7 +233,7 @@ public sealed partial class PartyJoinDialog(UIContext ui) : UIModule(ui)
         {
             dialog._units.Clear();
             dialog._faceUnit = StrategicMap.Current.UnitControl.FindUnit(dialog._joinEvent.FirstUnitId);
-            dialog._joinEvent.ListJoinUnits(dialog._units, out dialog._selection);
+            dialog._selection = dialog._joinEvent.ListJoinUnits(dialog._units);
             string text = dialog._joinEvent.JoinMessage.Text;
             dialog.JoinMemo.Items.Text = text;
         }

@@ -2,31 +2,21 @@
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine;
-
 using Aow.Engine.Nodes;
-
 using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
-
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-
 using Aow.Game.Events;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Magic.Spells;
-
 using Aow.Game.Session;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
-
 using Aow.Rtl;
-
 using static Aow.Rtl.DelphiAssert;
 using static Aow.Rtl.DelphiRandom;
 
@@ -1505,10 +1495,10 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
     }
 
     // Army.PAS:1469
-    public void CreateMovePointTable(byte selection, out MovePointTable table)
+    public MovePointTable CreateMovePointTable(byte selection)
     {
         int count = 0;
-        table = default;
+        MovePointTable table = default;
         table.Fill(1);
         Troop transport = Transporter(selection);
         if (transport is not null)
@@ -1535,6 +1525,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
         {
             table.Fill(-1);
         }
+        return table;
     }
 
     // Army.PAS:1494

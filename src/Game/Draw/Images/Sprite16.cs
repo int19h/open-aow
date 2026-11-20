@@ -89,11 +89,12 @@ public sealed class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibrar
     }
 
     // ImageLib.pas:4294
-    public override void GetVisualDimensions(out Rect R)
+    public override Rect GetVisualDimensions()
     {
         int left = Xshift + _spriteX;
         int top = Yshift + _spriteY;
-        R = new() { Left = left, Right = left + _spriteWidth, Top = top, Bottom = top + _spriteHeight };
+        Rect R = new() { Left = left, Right = left + _spriteWidth, Top = top, Bottom = top + _spriteHeight };
+        return R;
     }
 
     // ImageLib.pas:4315

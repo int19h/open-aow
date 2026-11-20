@@ -1,14 +1,10 @@
 #nullable disable
 // Translated from CombatTE.pas.
 using Aow.Engine.Nodes;
-
 using Aow.Game.Combat;
-
 using Aow.Game.Draw;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-
 using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.RtlHost;
@@ -114,7 +110,7 @@ public class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : CombatMoveTok
                 case TokenStep.InitializeStrike:
                     try
                     {
-                        _meleeRound.GetMeleeStrike(_strikeIndex - 1, out strike);
+                        strike = _meleeRound.GetMeleeStrike(_strikeIndex - 1);
                         int x;
                         int y;
                         if (strike.Side == CombatSideIndex.Defender && PreviousUnit.UnitHexSprite.ActionDone)
@@ -140,7 +136,7 @@ public class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : CombatMoveTok
                         }
                         else
                         {
-                            _meleeRound.GetMeleeStrike(_strikeIndex - 1, out strike);
+                            strike = _meleeRound.GetMeleeStrike(_strikeIndex - 1);
                             if (strike.Side == CombatSideIndex.Attacker && Unit.UnitHexSprite.ActionDone)
                             {
                                 if (Strike.Damage > 0)
@@ -179,7 +175,7 @@ public class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : CombatMoveTok
                         }
                         else
                         {
-                            _meleeRound.GetMeleeStrike(_strikeIndex - 1, out strike);
+                            strike = _meleeRound.GetMeleeStrike(_strikeIndex - 1);
                             if (strike.Side == CombatSideIndex.Attacker && PreviousUnit.UnitHexSprite.ActionDone)
                             {
                                 CombatMap.Current.Combat.ExecuteCombatAction(Strike);
@@ -261,7 +257,7 @@ public class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : CombatMoveTok
         bool locked = true;
         while (locked && _strikeIndex < _meleeRound.Count)
         {
-            _meleeRound.GetMeleeStrike(_strikeIndex, out MeleeRound.Strike strike);
+            MeleeRound.Strike strike = _meleeRound.GetMeleeStrike(_strikeIndex);
             locked = strike.Side == CombatSideIndex.Attacker ? Unit.GetLocked() : PreviousUnit.GetLocked();
 
             if (locked)
@@ -289,7 +285,7 @@ public class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : CombatMoveTok
 
         RandSeed = StrategicMap.Current.Random(16777215);
         Strike = _meleeRound.CreateStrikeCombatAction(_strikeIndex);
-        _meleeRound.GetMeleeStrike(_strikeIndex, out MeleeRound.Strike strike);
+        MeleeRound.Strike strike = _meleeRound.GetMeleeStrike(_strikeIndex);
         if (strike.Side == CombatSideIndex.Attacker)
         {
             if (Strike.Damage == 0)

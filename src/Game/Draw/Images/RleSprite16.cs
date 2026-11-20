@@ -1,7 +1,6 @@
 #nullable disable
 // Translated from ImageLib.pas.
 using System.Buffers.Binary;
-
 using Aow.Graphics;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiPaths;
@@ -76,11 +75,12 @@ public class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryIma
     }
 
     // ImageLib.pas:2928
-    public override void GetVisualDimensions(out Rect R)
+    public override Rect GetVisualDimensions()
     {
         int left = Xshift + _spriteX;
         int top = Yshift + _spriteY;
-        R = new() { Left = left, Right = left + _spriteWidth, Top = top, Bottom = top + _spriteHeight };
+        Rect R = new() { Left = left, Right = left + _spriteWidth, Top = top, Bottom = top + _spriteHeight };
+        return R;
     }
 
     // ImageLib.pas:2936

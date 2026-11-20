@@ -3,15 +3,10 @@ using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Session;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
-
 using Aow.Rtl;
 
 namespace Aow.Game.Events;
@@ -86,7 +81,7 @@ public class JoinEventLog(CustomNode owner) : EventLog(owner)
     }
 
     // Diplomacy.pas:80
-    public virtual void ListJoinUnits(UnitUserList units, out byte selection)
+    public virtual byte ListJoinUnits(UnitUserList units)
     {
         for (int i = 0, last = UnitIds.Count - 1; i <= last; i++)
         {
@@ -95,7 +90,8 @@ public class JoinEventLog(CustomNode owner) : EventLog(owner)
             _ = units.AddUnit(troop);
         }
 
-        selection = Selection;
+        byte selection = Selection;
+        return selection;
     }
 
     // Diplomacy.pas:93

@@ -241,7 +241,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         {
             int x = -1, y = -1;
             Display.GetMousePosition(ref x, ref y);
-            GetCursorRectangle(x, y, out Rect rectangle);
+            Rect rectangle = GetCursorRectangle(x, y);
             FCursorChanged |= (StrategicMap.Current is not null && StrategicMap.Current.Mouse.CursorVisible) ||
                 FLastCursorRectangle.Left != rectangle.Left || FLastCursorRectangle.Top != rectangle.Top ||
                 FLastCursorRectangle.Right != rectangle.Right || FLastCursorRectangle.Bottom != rectangle.Bottom;
@@ -284,12 +284,12 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
     private int CursorIndex => FCursor == 9999 && StrategicMap.Current is not null ? StrategicMap.Current.Mouse.Cursor : FCursor;
 
-    public void GetCursorRectangle(int x, int y, out Rect rectangle)
+    public Rect GetCursorRectangle(int x, int y)
     {
-        rectangle = default;
+        Rect rectangle = default;
         if (x == -1)
         {
-            return;
+            return rectangle;
         }
 
         void Include(LibraryImage image, int dx, int dy)
@@ -299,7 +299,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
                 return;
             }
 
-            image.GetVisualDimensions(out Rect bounds);
+            Rect bounds = image.GetVisualDimensions();
             bounds.Left += x + dx;
             bounds.Right += x + dx;
             bounds.Top += y + dy;
@@ -321,6 +321,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         }
 
         rectangle = _cursorBounds;
+        return rectangle;
     }
 
     private Rect _cursorBounds;

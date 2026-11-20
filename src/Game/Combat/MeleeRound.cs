@@ -2,15 +2,10 @@
 // Translated from AoWE.pas.
 using System.Diagnostics.CodeAnalysis;
 using Aow.Engine.Nodes;
-
 using Aow.Game.Combat.Actions;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
-
 using Aow.Rtl;
 
 namespace Aow.Game.Combat;
@@ -72,7 +67,7 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
     }
 
     // AoWAb.PAS:1513
-    public void GetMeleeStrike(int index, out Strike strike) => strike = _strikes[index];
+    public Strike GetMeleeStrike(int index) => _strikes[index];
 
     // AoWAb.PAS:1518
     public void Reset()
