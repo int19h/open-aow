@@ -1,8 +1,8 @@
+using System.Globalization;
 using System.Text;
 using Xunit.Abstractions;
 using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiFormat;
-using static Aow.Rtl.DelphiStrings;
 using static Aow.Rtl.DelphiTextCompare;
 using Assert = Xunit.Assert;
 
@@ -23,7 +23,7 @@ public sealed class SysUtilsProbeTests
 
         foreach ((string? label, string? text) in new (string, string)[] { ("space", "  abc  "), ("controls", "\0\t\n\rabc\x1f "), ("all", "\0\t "), ("empty", ""), ("high", "\xa0" + "abc\xa0"), ("inner", " a b ") })
         {
-            Bytes($"trim_{label}", s: Trim(text));
+            Bytes($"trim_{label}", s: DelphiStrings.TrimLeft(DelphiStrings.TrimRight((string?)text)));
         }
 
         foreach ((string? label, string? text) in new (string, string)[] {
@@ -42,7 +42,7 @@ public sealed class SysUtilsProbeTests
         }
         foreach ((string? label, int value) in new[] { ("zero", 0), ("min", int.MinValue), ("max", int.MaxValue), ("negative", -42) })
         {
-            Bytes($"inttostr_{label}", s: IntToStr(value));
+            Bytes($"inttostr_{label}", s: value.ToString(CultureInfo.InvariantCulture));
         }
 
         foreach ((string? label, int value, int digits) in new[] { ("byte", 255, 2), ("pad", 255, 6), ("narrow", 256, 1), ("negative", -1, 2), ("zero_width", 0, 0) })
@@ -70,7 +70,7 @@ public sealed class SysUtilsProbeTests
         {
             for (int b = 0; b < 256; b++)
             {
-                int expected = int.Parse(probe.Current.Split(' ')[2], provider: System.Globalization.CultureInfo.InvariantCulture);
+                int expected = int.Parse(probe.Current.Split(' ')[2], provider: CultureInfo.InvariantCulture);
                 int actual = Math.Sign(AnsiCompareText(Cp1252.Text((byte)a), Cp1252.Text((byte)b)));
                 Assert.Equal(expected == 0, actual: actual == 0);
                 if (actual != expected)

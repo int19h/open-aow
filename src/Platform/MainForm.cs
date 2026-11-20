@@ -159,7 +159,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         }
 
         WindowActions.RestoreWindowLayout(UI.General);
-        _ = DelphiFiles.SetCurrentDir(UI.Engine.StartupDirectory);
+        _ = RtlHost.Files.SetCurrentDirectory(UI.Engine.StartupDirectory);
         UI.Engine.CombatFont = UI.Fonts.Age8;
     }
 
@@ -171,9 +171,9 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
     {
         AudioHost.SongPlayer.SetSongChangeHandler(_ => UI.SoundDialog.SongChange());
         UI.Engine.OutputDebugString($"ParamStr: {argument}");
-        if (argument.Length != 0 && DelphiFiles.FileExists(argument) && IsSaveName(argument))
+        if (argument.Length != 0 && RtlHost.Files.FileExists(argument) && IsSaveName(argument))
         {
-            WindowActions.ShowTitleScene(UI.TitleScene, music: false);
+            UI.TitleScene.ShowScene(false);
             GameHost.DeferredSetupAction = 2;
             UI.FileDialogWindow.LastFileName = argument;
             return;
@@ -184,7 +184,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         }
         else
         {
-            WindowActions.ShowTitleScene(UI.TitleScene, music: true);
+            UI.TitleScene.ShowScene(true);
         }
     }
 
@@ -304,7 +304,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             bounds.Right += x + dx;
             bounds.Top += y + dy;
             bounds.Bottom += y + dy;
-            _ = RectRoutines.UnionRect(out _cursorBounds, _cursorBounds, bounds);
+            _ = _cursorBounds.Union(right: bounds, result: out _cursorBounds);
         }
         _cursorBounds = default;
         if (StrategicMap.Current is not null)

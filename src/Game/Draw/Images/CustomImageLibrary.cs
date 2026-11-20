@@ -1,7 +1,6 @@
 #nullable disable
 // Translated from ImageLib.pas.
 using Aow.Rtl;
-using static Aow.Rtl.DelphiFiles;
 using static Aow.Rtl.DelphiMemory;
 using static Aow.Rtl.DelphiPaths;
 using static Aow.Rtl.DelphiStreams;
@@ -86,7 +85,7 @@ public partial class CustomImageLibrary : Component
     internal void SetFileName(string value)
     {
         string path = ImageLibraries.BaseImageLibraryPath;
-        value = ExtractRelativePath(path, destination: value);
+        value = RtlHost.Files.ExtractRelativePath(path, destination: value);
         if ((ComponentState.Contains(Rtl.ComponentState.Designing) || ComponentState.Contains(Rtl.ComponentState.Loading)) && value != _fileName)
         {
             _fileName = value;
@@ -308,7 +307,7 @@ public partial class CustomImageLibrary : Component
         ImageLibraryHeader header = default;
         int startPosition = (int)stream.Position;
         string swapName = $"{ExtractFilePath(Application.ExeName)}\\SWAP.$$$";
-        Stream swap = OpenFile(swapName, mode: 65535);
+        Stream swap = OpenFile(swapName, mode: FileOpenMode.Create);
         try
         {
             Status += Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Saving);
@@ -347,7 +346,7 @@ public partial class CustomImageLibrary : Component
         {
             Status -= Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Saving);
             swap?.Dispose();
-            _ = DeleteFile(swapName);
+            _ = RtlHost.Files.DeleteFile(swapName);
         }
     }
 
@@ -385,7 +384,7 @@ public partial class CustomImageLibrary : Component
         }
 
         Status += Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.SavingToFile);
-        Stream stream = OpenFile(name, mode: 65535);
+        Stream stream = OpenFile(name, mode: FileOpenMode.Create);
         try
         {
             SaveToStream(stream);

@@ -10,20 +10,7 @@ namespace Aow.Engine.Nodes;
 
 internal static class StringSorting
 {
-    internal static void SortStrings(DelphiStringCollection strings, StringsSortCompare compare)
-    {
-        SortStringsContext context = default;
-        if (strings.Count != 0)
-        {
-            context.Strings = strings;
-            context.Compare = compare;
-            context.ExchangeProc = null;
-            int count = strings.Count;
-            SortStringsContext.QuickSortStrings(ref context, L: 0, R: count - 1);
-        }
-    }
-
-    internal static void SortStrings(DelphiStringCollection strings, StringsSortCompare compare, ReadOnlySpan<DelphiStringCollection> linkedStrings)
+    internal static void SortStrings(this DelphiStringCollection strings, StringsSortCompare compare, ReadOnlySpan<DelphiStringCollection> linkedStrings)
     {
         SortStringsContext context = default;
         if (strings.Count != 0)
@@ -66,13 +53,13 @@ internal static class StringSorting
         }
     }
 
-    internal static void SortStringsAscending(DelphiStringCollection strings, ReadOnlySpan<DelphiStringCollection> linkedStrings) => SortStrings(strings, compare: CompareAscending, linkedStrings);
+    internal static void SortStringsAscending(this DelphiStringCollection strings, ReadOnlySpan<DelphiStringCollection> linkedStrings) => strings.SortStrings(compare: CompareAscending, linkedStrings: linkedStrings);
 
-    internal static void SortStringsDescending(DelphiStringCollection strings, ReadOnlySpan<DelphiStringCollection> linkedStrings) => SortStrings(strings, compare: CompareDescending, linkedStrings);
+    internal static void SortStringsDescending(this DelphiStringCollection strings, ReadOnlySpan<DelphiStringCollection> linkedStrings) => strings.SortStrings(compare: CompareDescending, linkedStrings: linkedStrings);
 
-    internal static void SortStringsNumericalAscending(DelphiStringCollection strings, ReadOnlySpan<DelphiStringCollection> linkedStrings) => SortStrings(strings, compare: CompareNumericalAscending, linkedStrings);
+    internal static void SortStringsNumericalAscending(this DelphiStringCollection strings, ReadOnlySpan<DelphiStringCollection> linkedStrings) => strings.SortStrings(compare: CompareNumericalAscending, linkedStrings: linkedStrings);
 
-    internal static void SortStringsNumericalDescending(DelphiStringCollection strings, ReadOnlySpan<DelphiStringCollection> linkedStrings) => SortStrings(strings, compare: CompareNumericalDescending, linkedStrings);
+    internal static void SortStringsNumericalDescending(this DelphiStringCollection strings, ReadOnlySpan<DelphiStringCollection> linkedStrings) => strings.SortStrings(compare: CompareNumericalDescending, linkedStrings: linkedStrings);
 
     internal static int CompareAscending(string s1, string s2, object o1, object o2)
     {

@@ -15,7 +15,7 @@ public sealed partial class IntroScene(UIContext ui) : UIModule(ui)
     {
         ReleaseSound();
         Window.Visible = false;
-        WindowActions.ShowTitleScene(UI.TitleScene, music: true);
+        UI.TitleScene.ShowScene(true);
     }
 
     // AoWIntroScene.pas:192

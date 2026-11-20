@@ -257,7 +257,7 @@ public sealed class LayeredFileSystem : IFileSystem
     public Stream Open(string path, int mode)
     {
         string relative = Relative(path);
-        bool create = mode == DelphiStreams.fmCreate;
+        bool create = mode == (int)FileOpenMode.Create;
         FileAccess access = create ? FileAccess.ReadWrite : (mode & 3) switch { 0 => FileAccess.Read, 1 => FileAccess.Write, 2 => FileAccess.ReadWrite, _ => throw new ArgumentException("Invalid open mode.") };
         string target;
         if (access == FileAccess.Read)
@@ -276,7 +276,7 @@ public sealed class LayeredFileSystem : IFileSystem
             _userListings.Clear();
         }
         return new FileStream(target, mode: create ? FileMode.Create : FileMode.Open, access,
-            share: (mode & 0xF0) == DelphiStreams.fmShareDenyWrite ? FileShare.Read : FileShare.ReadWrite);
+            share: (mode & 0xF0) == (int)FileOpenMode.ShareDenyWrite ? FileShare.Read : FileShare.ReadWrite);
     }
 
     public bool FileExists(string path) => ReadLocation(Relative(path)) is { } p && File.Exists(p);

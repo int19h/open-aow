@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWTC.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 
@@ -11,7 +12,6 @@ using Aow.Game.World.Movement;
 
 using Aow.Game.World.Terrain;
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.PCharStrings;
 using static Aow.Rtl.RtlHost;
 
@@ -1467,7 +1467,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                         }
                         catch
                         {
-                            _ = MessageBox(0, text: "Error during Spell Check", caption: NullTerminatedText($"Error - TCAI {IntToStr(ability)} {IntToStr(spell)}"), flags: 0);
+                            _ = MessageBox(0, text: "Error during Spell Check", caption: NullTerminatedText($"Error - TCAI {ability.ToString(CultureInfo.InvariantCulture)} {spell.ToString(CultureInfo.InvariantCulture)}"), flags: 0);
                         }
 
                         break;
@@ -1598,7 +1598,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                     }
                                     catch
                                     {
-                                        _ = MessageBox(0, text: "Error during Touch Check", caption: NullTerminatedText($"Error - TCAI {IntToStr(ability)} {IntToStr(spell)}"), flags: 0);
+                                        _ = MessageBox(0, text: "Error during Touch Check", caption: NullTerminatedText($"Error - TCAI {ability.ToString(CultureInfo.InvariantCulture)} {spell.ToString(CultureInfo.InvariantCulture)}"), flags: 0);
                                     }
                                 }
 
@@ -1871,7 +1871,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                 }
                                 catch
                                 {
-                                    _ = MessageBox(0, text: "Error during Ranged Check", caption: NullTerminatedText($"Error - TCAI {IntToStr(ability)} {IntToStr(spell)}"), flags: 0);
+                                    _ = MessageBox(0, text: "Error during Ranged Check", caption: NullTerminatedText($"Error - TCAI {ability.ToString(CultureInfo.InvariantCulture)} {spell.ToString(CultureInfo.InvariantCulture)}"), flags: 0);
                                 }
 
                                 break;
@@ -2016,9 +2016,9 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                             }
                         }
 
-                        Creator.GetEngine().OutputDebugString($"AI found {IntToStr(_units.Count)} Own units.");
-                        Creator.GetEngine().OutputDebugString($"AI found {IntToStr(_allies.Count)} Ally units.");
-                        Creator.GetEngine().OutputDebugString($"AI found {IntToStr(_enemies.Count)} Enemy units.");
+                        Creator.GetEngine().OutputDebugString($"AI found {_units.Count.ToString(CultureInfo.InvariantCulture)} Own units.");
+                        Creator.GetEngine().OutputDebugString($"AI found {_allies.Count.ToString(CultureInfo.InvariantCulture)} Ally units.");
+                        Creator.GetEngine().OutputDebugString($"AI found {_enemies.Count.ToString(CultureInfo.InvariantCulture)} Enemy units.");
                         _ignoreWalls = _side == CombatSideIndex.Attacker;
                         _flee = _side == CombatSideIndex.Attacker && CombatMap.Current.Combat.CombatData.WallType != 0 && !CombatMap.Current.Combat.CombatData.WallBreached;
                         _minMoves = 100;
@@ -2383,8 +2383,8 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                 }
 
                                 _unitIndex = 0;
-                                Creator.GetEngine().OutputDebugString($"AI calculated {IntToStr(_units.Count * _enemies.Count)} Attack paths.");
-                                Creator.GetEngine().OutputDebugString($"AI calculated {IntToStr(_moves.Count)} Moves.");
+                                Creator.GetEngine().OutputDebugString($"AI calculated {(_units.Count * _enemies.Count).ToString(CultureInfo.InvariantCulture)} Attack paths.");
+                                Creator.GetEngine().OutputDebugString($"AI calculated {_moves.Count.ToString(CultureInfo.InvariantCulture)} Moves.");
                             }
                             catch
                             {
@@ -2543,8 +2543,8 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                             _currentMove += 1;
                             _walls.Clear();
                             _unitIndex = 0;
-                            Creator.GetEngine().OutputDebugString($"AI calculated {IntToStr(_units.Count * _enemies.Count)} Attack paths.");
-                            Creator.GetEngine().OutputDebugString($"AI calculated {IntToStr(_moves.Count)} Moves.");
+                            Creator.GetEngine().OutputDebugString($"AI calculated {(_units.Count * _enemies.Count).ToString(CultureInfo.InvariantCulture)} Attack paths.");
+                            Creator.GetEngine().OutputDebugString($"AI calculated {_moves.Count.ToString(CultureInfo.InvariantCulture)} Moves.");
                         }
 
                         _unitLimit = 0;
@@ -2872,7 +2872,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                         }
 
                                                         // { Original repeats X. }
-                                                        Creator.GetEngine().OutputDebugString($"AI moves to X: {IntToStr(move.X)} Y: {IntToStr(move.X)}");
+                                                        Creator.GetEngine().OutputDebugString($"AI moves to X: {((int)move.X).ToString(CultureInfo.InvariantCulture)} Y: {((int)move.X).ToString(CultureInfo.InvariantCulture)}");
                                                         moved = TacticalBattleUnit.MoveCombatUnit(move.UnitHexSprite.Unit, path: pathStepList);
                                                         if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
                                                         {
@@ -2914,7 +2914,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                             if (pathStepList[^2].MoveCost <= move.UnitHexSprite.Unit.MovePoints)
                                             {
                                                 // { Original repeats X in the debug text. }
-                                                Creator.GetEngine().OutputDebugString($"AI touches at X: {IntToStr(move.X)} Y: {IntToStr(move.X)}");
+                                                Creator.GetEngine().OutputDebugString($"AI touches at X: {((int)move.X).ToString(CultureInfo.InvariantCulture)} Y: {((int)move.X).ToString(CultureInfo.InvariantCulture)}");
                                                 moved = move.UnitHexSprite.MeleeMoveTacticalBattle(pathStepList);
                                                 if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
                                                 {
@@ -2957,7 +2957,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                             {
                                                 move.UnitHexSprite.SelectedAbility = move.Ability;
                                                 // { Original repeats X in the debug text. }
-                                                Creator.GetEngine().OutputDebugString($"AI melees at X: {IntToStr(move.X)} Y: {IntToStr(move.X)}");
+                                                Creator.GetEngine().OutputDebugString($"AI melees at X: {((int)move.X).ToString(CultureInfo.InvariantCulture)} Y: {((int)move.X).ToString(CultureInfo.InvariantCulture)}");
                                                 moved = move.UnitHexSprite.AbilityTouchMoveTacticalBattle(pathStepList);
                                                 if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
                                                 {
@@ -2975,7 +2975,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                     move.UnitHexSprite.SelectedAbility = move.Ability;
                                     move.UnitHexSprite.SelectedSpell = move.Spell;
                                     // { Original repeats X in the debug text. }
-                                    Creator.GetEngine().OutputDebugString($"AI ranged at X: {IntToStr(move.X)} Y: {IntToStr(move.X)}");
+                                    Creator.GetEngine().OutputDebugString($"AI ranged at X: {((int)move.X).ToString(CultureInfo.InvariantCulture)} Y: {((int)move.X).ToString(CultureInfo.InvariantCulture)}");
                                     moved = move.UnitHexSprite.AbilityRangedTacticalBattle(move.X, move.Y);
                                     if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
                                     {

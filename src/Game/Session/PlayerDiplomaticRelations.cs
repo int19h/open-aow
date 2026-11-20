@@ -38,10 +38,10 @@ public sealed class PlayerDiplomaticRelations : EngineObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.ByteList(persister, name: "Relations", list: _relations);
+        persister.ByteList(name: "Relations", list: _relations);
         persister.Object("History", _history);
         // The translate stream's mode holds read, so the original ReadWrite resets it there too.
-        if (persister.Loading || PersistSupport.Translating(persister))
+        if (persister.Loading || persister.Translating())
         {
             _relations.Default = (byte)DiplomaticRelation.Unknown;
         }

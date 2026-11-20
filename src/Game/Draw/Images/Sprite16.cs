@@ -159,12 +159,12 @@ public sealed class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibrar
             switch (pixelFormatId)
             {
                 case PixelFormat.Rgb565:
-                    PixelRemap.RemapSurface555To565(View, destination: View, _spriteWidth, _spriteHeight);
+                    Blit.RemapSurface555To565(View, d: View, w: _spriteWidth, h: _spriteHeight);
                     _colorKey = PixelRemap.RemapPixelInfo(_colorKey, sourcePixelFormatId: PixelFormat.Rgb555, sourcePalette: null, destinationPixelFormatId: PixelFormat.Rgb565, destinationPalette: null);
                     PixelFormatId = PixelFormat.Rgb565;
                     break;
                 case PixelFormat.Rgb555:
-                    PixelRemap.RemapSurface565To555(View, destination: View, _spriteWidth, _spriteHeight);
+                    Blit.RemapSurface565To555(View, d: View, w: _spriteWidth, h: _spriteHeight);
                     _colorKey = PixelRemap.RemapPixelInfo(_colorKey, sourcePixelFormatId: PixelFormat.Rgb565, sourcePalette: null, destinationPixelFormatId: PixelFormat.Rgb555, destinationPalette: null);
                     PixelFormatId = PixelFormat.Rgb555;
                     break;
@@ -244,7 +244,7 @@ public sealed class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibrar
                     destination = lockedSurface.View((destinationX << 1) + (lockedSurface.Pitch * destinationY));
                     if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
-                        BlitRects.BlitColorKey16(source, destination, w, h, _colorKey);
+                        Blit.BlitColorKey16(source, d: destination, w: w, h: h, key: _colorKey);
                     }
                     else
                     {
@@ -253,7 +253,7 @@ public sealed class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibrar
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        BlitRects.BlitColorKey16(source, destination, w, h, _colorKey);
+                        Blit.BlitColorKey16(source, d: destination, w: w, h: h, key: _colorKey);
                     }
 
                     if (LoadMode == LoadMode.LoadFreeOnDemand)
@@ -267,7 +267,7 @@ public sealed class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibrar
                     destination = lockedSurface.View((destinationX << 1) + (lockedSurface.Pitch * destinationY));
                     if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
-                        BlitRects.BlitColorKey16(source, destination, w, h, _colorKey);
+                        Blit.BlitColorKey16(source, d: destination, w: w, h: h, key: _colorKey);
                     }
                     else
                     {
@@ -276,7 +276,7 @@ public sealed class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibrar
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        BlitRects.BlitColorKey16(source, destination, w, h, _colorKey);
+                        Blit.BlitColorKey16(source, d: destination, w: w, h: h, key: _colorKey);
                     }
                 }
             }

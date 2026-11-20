@@ -69,7 +69,7 @@ public class Storm(CustomNode owner) : Animation(owner)
                     if (info.EnemyDamage - info.FriendlyDamage < candidate.EnemyDamage - candidate.FriendlyDamage)
                     {
                         info = candidate;
-                        target = HexGeometry.PackMapCoordinate((sbyte)walk.X, (sbyte)walk.Y, (sbyte)L);
+                        target = new MapCoordinate((sbyte)walk.X, (sbyte)walk.Y, (sbyte)L);
                         result = true;
                     }
                 }

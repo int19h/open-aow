@@ -80,7 +80,7 @@ public sealed class FilesProbeTests
 
         foreach ((string? tag, string? path) in new[] { ("empty", ""), ("dot", "."), ("parent", ".."), ("file", "probe-files\\alpha.TXT"), ("collapse", ".\\probe-files\\d00\\..\\Beta.txt"), ("back_to_base", "probe-files\\.."), ("nonexistent", "probe-files\\missing\\..\\new.txt"), ("forward", "probe-files/alpha.TXT") })
         {
-            string full = ExpandFileName(path).ToString(), root = GetCurrentDir();
+            string full = ExpandFileName(path).ToString(), root = Files.CurrentDirectory;
             string relative = full.Length == 0 ? "" : full == root ? "." : full == Path.GetDirectoryName(root) ? ".." : $".\\{Path.GetRelativePath(root, path: full).Replace('/', '\\')}";
             p.Fact($"expand_{tag}_input", value: path);
             p.Fact($"expand_{tag}_relative", value: relative);

@@ -1,4 +1,5 @@
 #nullable disable
+using System.Globalization;
 using Aow.Game.Combat;
 
 using Aow.Game.Draw.Images;
@@ -8,7 +9,6 @@ using Aow.Game.Host;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.PCharStrings;
 using static Aow.Rtl.RtlHost;
 
@@ -636,7 +636,7 @@ public sealed partial class BattleEffectSprite
         catch
         {
             // { Original puts the diagnostic in the message-box caption. }
-            _ = MessageBox(0, text: "Error during Show", caption: NullTerminatedText($"Error - fxHS {IntToStr(AbilityIndex)} {IntToStr(SpellIndex)}"), flags: 0);
+            _ = MessageBox(0, text: "Error during Show", caption: NullTerminatedText($"Error - fxHS {AbilityIndex.ToString(CultureInfo.InvariantCulture)} {SpellIndex.ToString(CultureInfo.InvariantCulture)}"), flags: 0);
         }
     }
 }

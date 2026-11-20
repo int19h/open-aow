@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWWizardsTowerDlg.pas.
+using System.Globalization;
 using Aow.Game.Draw;
 
 using Aow.Game.Events;
@@ -11,8 +12,6 @@ using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -105,16 +104,16 @@ public sealed partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
         if (tower.SpellId != 0)
         {
             int buyCost = dialog._event.Tower.BuyCost();
-            string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.ForGoldFormat), arguments: [IntToStr(buyCost)]);
+            string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.ForGoldFormat), arguments: [buyCost.ToString(CultureInfo.InvariantCulture)]);
             dialog.PriceLabel.Text = $"{format}.";
             Spell spell = GamePack.Current.SpellControl[tower.SpellId];
             dialog.SpellNameLabel.Text = spell.SpellName;
             string magicSphere = dialog.UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
             string level = dialog.UI.Engine.TranslateResourceString(GameText.LevelText);
-            dialog.SpellClassLabel.Text = $"{magicSphere}, {level} {IntToStr(spell.SpellLevel)}";
+            dialog.SpellClassLabel.Text = $"{magicSphere}, {level} {((int)spell.SpellLevel).ToString(CultureInfo.InvariantCulture)}";
             string castingCost = dialog.UI.Engine.TranslateResourceString(GameText.CastingCostText);
             string mana = dialog.UI.Engine.TranslateResourceString(GameText.ManaText);
-            dialog.SpellCostLabel.Text = $"{castingCost}: {IntToStr(spell.BaseManaCost)} {mana}";
+            dialog.SpellCostLabel.Text = $"{castingCost}: {spell.BaseManaCost.ToString(CultureInfo.InvariantCulture)} {mana}";
             string text = spell.SpellText.Text;
             dialog.ResearchMemo.Items.Text = text;
         }

@@ -26,6 +26,6 @@ public class ArenaTokenEvent(CustomNode owner) : StructureTokenEvent(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.Int32List(persister, name: "UnitIds", list: UnitIds);
+        persister.Int32List(name: "UnitIds", list: UnitIds);
     }
 }

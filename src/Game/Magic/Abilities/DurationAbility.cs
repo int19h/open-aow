@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine;
 
 using Aow.Engine.Nodes;
@@ -7,8 +8,6 @@ using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 
 using Aow.Game.World.Map;
-
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -31,7 +30,7 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
                     {
                         byte duration = GetDuration(owner);
                         int totalDuration = TotalDuration;
-                        string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DurationDaysFormat), arguments: [IntToStr(duration), IntToStr(totalDuration)]);
+                        string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DurationDaysFormat), arguments: [((int)duration).ToString(CultureInfo.InvariantCulture), totalDuration.ToString(CultureInfo.InvariantCulture)]);
                         return $"{result} {format}";
                     }
 
@@ -39,7 +38,7 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
                 case DurationMode.CombatTurn:
                     byte duration2 = GetDuration(owner);
                     int totalDuration2 = TotalDuration;
-                    string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DurationCombatTurnFormat), arguments: [IntToStr(duration2), IntToStr(totalDuration2)]);
+                    string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DurationCombatTurnFormat), arguments: [((int)duration2).ToString(CultureInfo.InvariantCulture), totalDuration2.ToString(CultureInfo.InvariantCulture)]);
                     return $"{base.GetName(owner)} {formattedText}";
                 case DurationMode.EntireCombat:
                     string name = base.GetName(owner);

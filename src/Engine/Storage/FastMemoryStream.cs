@@ -245,7 +245,7 @@ public class FastMemoryStream : Stream
     // FMemStr.pas:113
     public void LoadFromFile(string fileName)
     {
-        Stream stream = OpenFile(fileName, mode: 0);
+        Stream stream = OpenFile(fileName, mode: FileOpenMode.Read);
         try
         {
             LoadFromStream(stream);
@@ -268,7 +268,7 @@ public class FastMemoryStream : Stream
     // FMemStr.pas:78
     public void SaveToFile(string fileName)
     {
-        Stream stream = OpenFile(fileName, mode: 65535);
+        Stream stream = OpenFile(fileName, mode: FileOpenMode.Create);
         try
         {
             SaveToStream(stream);

@@ -103,7 +103,7 @@ public sealed partial class TitleWindow(UIContext ui) : UIModule(ui)
         if (key == 27)
         {
             HideSplash();
-            WindowActions.ShowTitleScene(UI.TitleScene, music: false);
+            UI.TitleScene.ShowScene(false);
         }
         else
         {

@@ -144,7 +144,7 @@ public sealed class AtomicReplacementTests : IDisposable
         public Stream Open(string path, int mode)
         {
             Stream stream = inner.Open(path, mode);
-            return failWrite && mode == DelphiStreams.fmCreate ? new BrokenStream(stream) : stream;
+            return failWrite && mode == (int)FileOpenMode.Create ? new BrokenStream(stream) : stream;
         }
 
         public bool FileExists(string path) => inner.FileExists(path);

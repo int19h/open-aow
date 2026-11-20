@@ -1,4 +1,5 @@
 // Translated from Farm.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.AI;
@@ -7,7 +8,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiFormat;
 
 namespace Aow.Game.World.Structures;
@@ -63,7 +63,7 @@ public partial class Farm(CustomNode owner) : PlayerCropStructure(owner)
     public override string GetCurrentActivityText()
     {
         int income = GetIncome();
-        return Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.ProducingIncomeFormat), args: [IntToStr(income)]);
+        return Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.ProducingIncomeFormat), args: [income.ToString(CultureInfo.InvariantCulture)]);
     }
 
     // Farm.pas:111

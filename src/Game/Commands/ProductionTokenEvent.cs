@@ -40,8 +40,8 @@ public class ProductionTokenEvent(CustomNode owner) : TokenEvent(owner)
     {
         base.PersistFields(persister);
         Command = persister.Int32("Command", value: Command);
-        Location = PersistSupport.Coordinate(persister, name: "Location", value: Location, width: CoordinateWidth.Byte);
-        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        Location = persister.Coordinate(name: "Location", value: Location, width: CoordinateWidth.Byte);
+        Player = persister.UnsignedByte(name: "Player", value: Player);
         Item = persister.Created("Item", objectValue: Item);
         Index = persister.Int32("Index", value: Index);
         // Delphi TProductionTE.FReserved (id 27) is always 0 (omitted) and never read.

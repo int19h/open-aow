@@ -1,7 +1,7 @@
 #nullable disable
 // Translated from ImageLib.pas.
+using System.Globalization;
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.Draw.Images;
 
@@ -284,7 +284,7 @@ public class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:1979
     public virtual string Info()
     {
-        string result = $"{Name()} {IntToStr(_width)}x{IntToStr(_height)}";
+        string result = $"{Name()} {_width.ToString(CultureInfo.InvariantCulture)}x{_height.ToString(CultureInfo.InvariantCulture)}";
         if (Transparent)
         {
             result += " Transparent";

@@ -53,9 +53,9 @@ public class MapObjectResource : EngineResource
         ShowPriorityOffset = persister.Int32("ShowPriorityOffset", value: ShowPriorityOffset);
         _level = persister.Byte("Level", value: _level);
         Name = persister.String("Name", value: Name);
-        PersistSupport.TerrainList(persister, name: "TerrainList", list: TerrainList);
+        persister.TerrainList(name: "TerrainList", list: TerrainList);
         _ = ImageLibrary.ReduceCount();
-        PersistSupport.ImageLibrary(persister, name: "ImageLibrary", library: ImageLibrary);
+        persister.ImageLibrary(name: "ImageLibrary", library: ImageLibrary);
         if (persister.Loading)
         {
             complex = persister.Boolean("Complex", value: complex);
@@ -77,7 +77,7 @@ public class MapObjectResource : EngineResource
 
         if (complex)
         {
-            PersistSupport.ImageSequences(persister, name: "ImageSequenceList", list: ImageSequenceList);
+            persister.ImageSequences(name: "ImageSequenceList", list: ImageSequenceList);
         }
     }
 

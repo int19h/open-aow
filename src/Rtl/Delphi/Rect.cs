@@ -7,25 +7,19 @@ public struct Rect(int left, int top, int right, int bottom)
     public int Top { get; set; } = top;
     public int Right { get; set; } = right;
     public int Bottom { get; set; } = bottom;
-}
 
-public static class RectRoutines
-{
-
-    public static bool EqualRect(in Rect left, in Rect right) => left.Left == right.Left && left.Top == right.Top && left.Right == right.Right && left.Bottom == right.Bottom;
-
-    public static bool IntersectRect(out Rect result, in Rect left, in Rect right)
+    public readonly bool Intersect(in Rect right, out Rect result)
     {
-        Rect intersection = new() { Left = Math.Max(left.Left, right.Left), Top = Math.Max(left.Top, right.Top), Right = Math.Min(left.Right, right.Right), Bottom = Math.Min(left.Bottom, right.Bottom) };
+        Rect intersection = new() { Left = Math.Max(Left, right.Left), Top = Math.Max(Top, right.Top), Right = Math.Min(Right, right.Right), Bottom = Math.Min(Bottom, right.Bottom) };
         bool nonempty = intersection.Right > intersection.Left && intersection.Bottom > intersection.Top;
         result = nonempty ? intersection : default;
         return nonempty;
     }
 
-    public static bool UnionRect(out Rect result, in Rect left, in Rect right)
+    public readonly bool Union(in Rect right, out Rect result)
     {
-        bool a = left.Right > left.Left && left.Bottom > left.Top, b = right.Right > right.Left && right.Bottom > right.Top;
-        result = !a ? b ? right : default : !b ? left : new Rect { Left = Math.Min(left.Left, right.Left), Top = Math.Min(left.Top, right.Top), Right = Math.Max(left.Right, right.Right), Bottom = Math.Max(left.Bottom, right.Bottom) };
+        bool a = Right > Left && Bottom > Top, b = right.Right > right.Left && right.Bottom > right.Top;
+        result = !a ? b ? right : default : !b ? this : new Rect { Left = Math.Min(Left, right.Left), Top = Math.Min(Top, right.Top), Right = Math.Max(Right, right.Right), Bottom = Math.Max(Bottom, right.Bottom) };
         return a || b;
     }
 }

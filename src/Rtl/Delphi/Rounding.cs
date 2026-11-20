@@ -22,9 +22,4 @@ public static class DelphiRounding
 
     private static int ToInteger(double value) => double.IsFinite(value) && value is >= int.MinValue and <= int.MaxValue
         ? (int)value : throw new ArithmeticException("Invalid floating point operation");
-
-    public static double Int(double value) => Math.Truncate(value);
-
-    public static double Frac(double value) => double.IsInfinity(value)
-        ? throw new ArithmeticException("Invalid floating point operation") : value - Math.Truncate(value);
 }

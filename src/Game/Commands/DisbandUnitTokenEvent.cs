@@ -26,7 +26,7 @@ public class DisbandUnitTokenEvent(CustomNode owner) : TokenEvent(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        Player = persister.UnsignedByte(name: "Player", value: Player);
         UnitId = persister.Int32("UnitId", value: UnitId);
     }
 

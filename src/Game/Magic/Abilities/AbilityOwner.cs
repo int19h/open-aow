@@ -40,7 +40,7 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
             }
 
             Int32List ids = new();
-            PersistSupport.Int32List(persister, name: "AbilityDataIds", list: ids);
+            persister.Int32List(name: "AbilityDataIds", list: ids);
             AbilityData previous = null;
             for (int i = 0; i < ids.Count; i++)
             {
@@ -58,7 +58,7 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
 
         // Under the translate stream the original takes its read branch, and the stream's empty
         // property table holds no ability bits, so no ability data is visited.
-        if (AbilityData is null || PersistSupport.Translating(persister))
+        if (AbilityData is null || persister.Translating())
         {
             return;
         }
@@ -69,7 +69,7 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
             _ = stored.Add(data.GetAbilityId());
         }
 
-        PersistSupport.Int32List(persister, name: "AbilityDataIds", list: stored);
+        persister.Int32List(name: "AbilityDataIds", list: stored);
         for (AbilityData data = AbilityData; data is not null; data = data.Next)
         {
             _ = persister.CreatedSlot("AbilityData", slot: data.GetAbilityId(), objectValue: data);

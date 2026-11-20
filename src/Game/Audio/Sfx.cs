@@ -15,7 +15,7 @@ public sealed class Sfx(CustomNode owner) : EngineObject(owner)
     {
         base.PersistFields(persister);
         // The original ReadWrite leaves out the file name under text only (the translate stream).
-        if (!PersistSupport.Translating(persister))
+        if (!persister.Translating())
         {
             FileName = persister.String("FileName", value: FileName);
         }

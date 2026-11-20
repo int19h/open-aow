@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWWorldMap.pas.
+using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats;
@@ -20,9 +21,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
-using static Aow.Rtl.DelphiFiles;
 using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.UI.Dialogs;
@@ -102,7 +100,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
 
                     if (condition)
                     {
-                        _ = SetCurrentDir($"{UI.Engine.StartupDirectory}\\Int\\Scenes");
+                        _ = RtlHost.Files.SetCurrentDirectory($"{UI.Engine.StartupDirectory}\\Int\\Scenes");
                         WorldMapCampaign campaign2 = Campaign;
                         WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(Campaign, index: campaign2.CurrentScenarioId);
                         WorldMapCampaign campaign3 = Campaign;
@@ -345,7 +343,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
                         Book.Visible = false;
                         UI.Engine.CloseCampaign();
                         UI.TitleScene.ResetScene();
-                        WindowActions.ShowTitleScene(UI.TitleScene, music: true);
+                        UI.TitleScene.ShowScene(true);
                     }
 
                     break;
@@ -420,7 +418,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
                         campaign2.State += 1;
                         WorldMapCampaign campaign3 = Campaign;
                         Campaign.StartScenario(campaign3.NextScenarioId, progress: null);
-                        _ = SetCurrentDir($"{UI.Engine.StartupDirectory}Scenario\\Campaign\\");
+                        _ = RtlHost.Files.SetCurrentDirectory($"{UI.Engine.StartupDirectory}Scenario\\Campaign\\");
                         WorldMapCampaign campaign4 = Campaign;
                         WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(Campaign, index: campaign4.CurrentScenarioId);
                         General.LoadGame(UI.General, name: FileBoundary.ReadName(campaignScenario.FileName));
@@ -450,7 +448,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
     // AoWWorldMap.pas:347
     public void ShowIntroPages(int index)
     {
-        _ = SetCurrentDir($"{UI.Engine.StartupDirectory}Int\\Scenes");
+        _ = RtlHost.Files.SetCurrentDirectory($"{UI.Engine.StartupDirectory}Int\\Scenes");
         WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(Campaign, index);
         WorldMapCampaign campaign = Campaign;
         CampaignScenarioPage campaignPage = GetCampaignPage(campaignScenario.IntroPages, index: campaign.Page);
@@ -565,7 +563,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
         UI.LeaderSetupWindow.DefaultButton.Visible = false;
         UI.LeaderSetupWindow.PreviousButton.Visible = false;
         UI.LeaderSetupWindow.SetFixedSpheres(picks);
-        string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_assignNewSpheresFormat), arguments: [IntToStr(2)]);
+        string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_assignNewSpheresFormat), arguments: [2.ToString(CultureInfo.InvariantCulture)]);
         UI.LeaderSetupWindow.Phase3Header.Text = format;
         control.OnDone += SpheresDone;
         _ = control.Release();
@@ -1221,7 +1219,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
         dialog.DescriptionLabel.Text = "";
         dialog.UI.General.Manager.OverlayPriority = 249;
         _ = AudioHost.SongPlayer.Stop(false);
-        _ = SetCurrentDir(dialog.UI.Engine.StartupDirectory);
+        _ = RtlHost.Files.SetCurrentDirectory(dialog.UI.Engine.StartupDirectory);
         WorldMapCampaign campaign = dialog.Campaign;
         string song;
         if (IsEmpty(WorldMapCampaign.GetCampaignScenario(dialog.Campaign, index: campaign.CurrentScenarioId).ImageLibrary))

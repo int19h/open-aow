@@ -36,7 +36,7 @@ public sealed class CombatParty : EngineObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Location = PersistSupport.Coordinate(persister, name: "Location", value: Location, width: CoordinateWidth.Int32);
+        Location = persister.Coordinate(name: "Location", value: Location, width: CoordinateWidth.Int32);
         PlayerIndex = persister.Byte("PlayerIndex", value: PlayerIndex);
         Wall = persister.RawByte("Wall", value: Wall);
         Position = persister.Byte("Position", value: Position);

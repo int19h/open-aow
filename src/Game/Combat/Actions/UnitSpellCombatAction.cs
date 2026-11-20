@@ -31,7 +31,7 @@ public class UnitSpellCombatAction(CustomNode owner) : CombatAction(owner)
         SpellId = persister.Int32("SpellId", SpellId);
         SourceId = persister.Byte("SourceId", SourceId);
         TargetId = persister.Byte("TargetId", TargetId);
-        PersistSupport.Int32Array(persister, name: "SpellData", values: SpellData);
+        persister.Int32Array(name: "SpellData", values: SpellData);
         Mana = persister.Int32("Mana", Mana);
     }
 

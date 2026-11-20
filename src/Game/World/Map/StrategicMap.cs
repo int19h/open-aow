@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Buffers;
 using Aow.Engine.Collections;
@@ -35,8 +36,6 @@ using Aow.Game.World.Structures;
 using Aow.Rtl;
 
 using static Aow.Rtl.DelphiAssert;
-using static Aow.Rtl.DelphiConversions;
-using static Aow.Rtl.DelphiFiles;
 using static Aow.Rtl.DelphiPaths;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
@@ -502,10 +501,10 @@ public sealed partial class StrategicMap : GameMap
     {
         if (persister.Loading)
         {
-            PersistSupport.ShowProgress(persister, sender: this, message: AbilityRules.TranslateResourceString(GetEngine(), S: s_oneMomentPleaseText), percent: 0);
+            persister.ShowProgress(sender: this, message: AbilityRules.TranslateResourceString(GetEngine(), S: s_oneMomentPleaseText), percent: 0);
         }
 
-        bool translating = PersistSupport.Translating(persister);
+        bool translating = persister.Translating();
         if (!persister.Loading && !translating)
         {
             ResetModified();
@@ -516,7 +515,7 @@ public sealed partial class StrategicMap : GameMap
         {
             // The original sets the editor's handler on every stream it runs on. A tree load takes the
             // handler its caller passes, and the translate stream still takes it here.
-            PersistSupport.SetTranslateErrorHandler(persister, handler: OnStreamError);
+            persister.SetTranslateErrorHandler(handler: OnStreamError);
         }
 
         ConnectionType = persister.Enum("ConnectionType", value: ConnectionType);
@@ -540,12 +539,12 @@ public sealed partial class StrategicMap : GameMap
         }
 
         _author = persister.String("Author", value: _author);
-        PersistSupport.Lines(persister, name: "Description", lines: Description);
-        PersistSupport.Lines(persister, name: "Objectives", lines: _objectives);
+        persister.Lines(name: "Description", lines: Description);
+        persister.Lines(name: "Objectives", lines: _objectives);
         _independentAIMode = persister.Enum("IndependentAIMode", value: _independentAIMode);
-        CurrentPlayer = PersistSupport.UnsignedByte(persister, name: "CurrentPlayer", value: CurrentPlayer);
+        CurrentPlayer = persister.UnsignedByte(name: "CurrentPlayer", value: CurrentPlayer);
         TurnOrderMode = persister.Enum("TurnOrderMode", value: TurnOrderMode);
-        PersistSupport.ByteList(persister, name: "TurnOrder", list: TurnOrder);
+        persister.ByteList(name: "TurnOrder", list: TurnOrder);
         Day = persister.Int32("Day", value: Day);
         _sessionName = persister.String("SessionName", value: _sessionName);
         persister.Object("Players", objectValue: Players);
@@ -562,7 +561,7 @@ public sealed partial class StrategicMap : GameMap
 
         MapName = persister.String("MapName", value: MapName);
         FogEnabled = persister.Boolean("FogEnabled", value: FogEnabled);
-        HeroCountMax = PersistSupport.UnsignedByte(persister, name: "HeroCountMax", value: HeroCountMax);
+        HeroCountMax = persister.UnsignedByte(name: "HeroCountMax", value: HeroCountMax);
         DefendersSeed = persister.Int32("DefendersSeed", value: DefendersSeed);
         // The original leaves the songs out under text only, which the translate stream's mode holds.
         if (!persister.Preview && !translating)
@@ -634,7 +633,7 @@ public sealed partial class StrategicMap : GameMap
                 ? $"{GetEngine().StartupDirectory}Dict\\CampMaps.mld"
                 : $"{GetEngine().StartupDirectory}Dict\\CustMaps.mld";
 
-            if (FileExists(fileName))
+            if (RtlHost.Files.FileExists(fileName))
             {
                 GetEngine().TranslateEngineObjectFromFile(this, fileName);
             }
@@ -811,7 +810,7 @@ public sealed partial class StrategicMap : GameMap
                     total = progress.Percent + (progress.Level * 100);
                     percent = Round((double)((double)total / 3) / MapContainer.LevelCount);
                     text = GetEngine().Debug
-                        ? AbilityRules.TranslateResourceString(GetEngine(), S: s_loadingLevelText) + IntToStr(progress.Level)
+                        ? AbilityRules.TranslateResourceString(GetEngine(), S: s_loadingLevelText) + progress.Level.ToString(CultureInfo.InvariantCulture)
                         : defaultText;
 
                     RaiseProgress(this, message: text, progression: percent);
@@ -820,7 +819,7 @@ public sealed partial class StrategicMap : GameMap
                     total = progress.Percent + (progress.Level * 100);
                     percent = Round((double)((double)(total / 4.5) / MapContainer.LevelCount) + ((double)100 / 3));
                     text = GetEngine().Debug
-                        ? AbilityRules.TranslateResourceString(GetEngine(), S: s_initializingLevelText) + IntToStr(progress.Level)
+                        ? AbilityRules.TranslateResourceString(GetEngine(), S: s_initializingLevelText) + progress.Level.ToString(CultureInfo.InvariantCulture)
                         : defaultText;
 
                     RaiseProgress(this, message: text, progression: percent);
@@ -829,7 +828,7 @@ public sealed partial class StrategicMap : GameMap
                     total = progress.Percent + (progress.Level * 100);
                     percent = Round((double)((double)(total / 4.5) / MapContainer.LevelCount) + ((double)500 / 9));
                     text = GetEngine().Debug
-                        ? AbilityRules.TranslateResourceString(GetEngine(), S: s_updatingTerrainLevelText) + IntToStr(progress.Level)
+                        ? AbilityRules.TranslateResourceString(GetEngine(), S: s_updatingTerrainLevelText) + progress.Level.ToString(CultureInfo.InvariantCulture)
                         : defaultText;
 
                     RaiseProgress(this, message: text, progression: percent);
@@ -838,18 +837,18 @@ public sealed partial class StrategicMap : GameMap
                     total = progress.Percent + (progress.Level * 100);
                     percent = Round((double)((double)(total / 4.5) / MapContainer.LevelCount) + ((double)700 / 9));
                     text = GetEngine().Debug
-                        ? AbilityRules.TranslateResourceString(GetEngine(), S: s_activatingLevelText) + IntToStr(progress.Level)
+                        ? AbilityRules.TranslateResourceString(GetEngine(), S: s_activatingLevelText) + progress.Level.ToString(CultureInfo.InvariantCulture)
                         : defaultText;
 
                     RaiseProgress(this, message: text, progression: percent);
                     break;
                 case MapProgressType.Saving:
                     string savingLevel = AbilityRules.TranslateResourceString(GetEngine(), S: s_savingLevelText);
-                    RaiseProgress(this, message: savingLevel + IntToStr(progress.Level), progression: progress.Percent);
+                    RaiseProgress(this, message: savingLevel + progress.Level.ToString(CultureInfo.InvariantCulture), progression: progress.Percent);
                     break;
                 case MapProgressType.Destroying:
                     string translatedText = AbilityRules.TranslateResourceString(GetEngine(), S: s_destroyingLevelText);
-                    RaiseProgress(this, message: translatedText + IntToStr(progress.Level), progression: progress.Percent);
+                    RaiseProgress(this, message: translatedText + progress.Level.ToString(CultureInfo.InvariantCulture), progression: progress.Percent);
                     break;
                 default:
                     break;

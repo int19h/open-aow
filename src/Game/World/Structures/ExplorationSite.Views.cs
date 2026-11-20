@@ -1,6 +1,5 @@
+using System.Globalization;
 using Aow.Game.Combat;
-
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Structures;
@@ -25,7 +24,7 @@ public partial class ExplorationSite
         }
 
         site.TakesCombatItems = takesItems;
-        string stem = prefix + IntToStr(Random(variants));
+        string stem = prefix + Random(variants).ToString(CultureInfo.InvariantCulture);
         for (int i = 1; i <= 6; i += 1)
         {
             site.FixTag(i);

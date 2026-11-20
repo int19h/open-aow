@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine;
 
 using Aow.Engine.Nodes;
@@ -27,7 +28,6 @@ using Aow.Game.World.Structures;
 using Aow.Rtl;
 
 using static Aow.Rtl.DelphiAssert;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Units;
@@ -93,18 +93,18 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
-        Location = PersistSupport.Coordinate(persister, name: "Location", value: Location, width: CoordinateWidth.Byte);
+        Player = persister.UnsignedByte(name: "Player", value: Player);
+        Location = persister.Coordinate(name: "Location", value: Location, width: CoordinateWidth.Byte);
         if (persister.Loading || StrategicMap.Current is null || StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
         {
-            Destination = PersistSupport.Coordinate(persister, name: "Destination", value: Destination, width: CoordinateWidth.Byte);
+            Destination = persister.Coordinate(name: "Destination", value: Destination, width: CoordinateWidth.Byte);
             UserMode = persister.Set("UserMode", value: UserMode);
         }
 
         OldAIBehavior = persister.Enum("OldAIBehavior", value: OldAIBehavior);
         Mode = persister.Set("Mode", value: Mode);
         // The translate stream's mode holds read, so the original clears the flag there too.
-        if ((persister.Loading || PersistSupport.Translating(persister)) && Mode.Contains(ArmyModeElement.Moving))
+        if ((persister.Loading || persister.Translating()) && Mode.Contains(ArmyModeElement.Moving))
         {
             Mode -= Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
         }
@@ -2362,7 +2362,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
         log.Description = AbilityRules.TranslateResourceString(GetEngine(), S: s_leaderOfPartyStepsForwardText);
         log.Text = count == 1
             ? AbilityRules.TranslateResourceString(GetEngine(), S: s_oneUnitDesertedText)
-            : AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_unitsDesertedFormat), arguments: [IntToStr(count)]);
+            : AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_unitsDesertedFormat), arguments: [count.ToString(CultureInfo.InvariantCulture)]);
 
         if (StrategicMap.Current.Players.GetPlayers(Player).Gems == 0 && StrategicMap.Current.Players.GetPlayers(Player).GetUpkeep() > StrategicMap.Current.Players.GetPlayers(Player).Income)
         {
@@ -2749,7 +2749,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                             }
                             else
                             {
-                                log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_unitsJoinedFormat), arguments: [IntToStr(joinCount)]);
+                                log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_unitsJoinedFormat), arguments: [joinCount.ToString(CultureInfo.InvariantCulture)]);
                                 int selectionCount = SelectionCount(selection);
                                 string name = StrategicMap.Current.Players.GetPlayers(offer.Player).GetName();
                                 string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_unitsJoinedForcesFormat), arguments: [selectionCount, name]);

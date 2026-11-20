@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWLeaderSetup.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 using Aow.Game.Magic;
@@ -9,8 +10,6 @@ using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.UI.Dialogs;
@@ -192,17 +191,17 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         Leader leader = Setup.OriginalLeader;
         LeaderNameLabel.Text = leader.HeroName;
         sbyte inherentAttack = leader.GetInherentAttack();
-        UnitAttackLabel.Text = IntToStr(inherentAttack);
+        UnitAttackLabel.Text = ((int)inherentAttack).ToString(CultureInfo.InvariantCulture);
         sbyte inherentDefense = leader.GetInherentDefense();
-        UnitDefenseLabel.Text = IntToStr(inherentDefense);
+        UnitDefenseLabel.Text = ((int)inherentDefense).ToString(CultureInfo.InvariantCulture);
         sbyte inherentDamage = leader.GetInherentDamage();
-        UnitDamageLabel.Text = IntToStr(inherentDamage);
+        UnitDamageLabel.Text = ((int)inherentDamage).ToString(CultureInfo.InvariantCulture);
         sbyte inherentResistance = leader.InherentResistance;
-        UnitResistanceLabel.Text = IntToStr(inherentResistance);
+        UnitResistanceLabel.Text = ((int)inherentResistance).ToString(CultureInfo.InvariantCulture);
         sbyte hits = leader.GetHits();
-        UnitHitsLabel.Text = IntToStr(hits);
+        UnitHitsLabel.Text = ((int)hits).ToString(CultureInfo.InvariantCulture);
         sbyte moves = leader.Moves;
-        UnitMovesLabel.Text = IntToStr(moves);
+        UnitMovesLabel.Text = ((int)moves).ToString(CultureInfo.InvariantCulture);
         UnitAbilitiesList.Items.Clear();
         leader.ListAbilities(UnitAbilitiesList.Items);
         string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[leader.Race]);
@@ -217,37 +216,37 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         int skillPoints = Leader.GetSkillPoints();
         string skillPointsText = UI.Engine.TranslateResourceString(s_skillPointsText);
         int skillPointsMax = Leader.SkillPointsMax;
-        SkillPointsLabel.Text = $"{skillPointsText} {IntToStr(skillPoints)}/{IntToStr(skillPointsMax)}";
+        SkillPointsLabel.Text = $"{skillPointsText} {skillPoints.ToString(CultureInfo.InvariantCulture)}/{skillPointsMax.ToString(CultureInfo.InvariantCulture)}";
     }
 
     // AoWLeaderSetup.pas:781
     public void UpdateStatistics()
     {
         HeroResource resource = Leader.HeroResource;
-        AttackBaseLabel.Text = IntToStr(resource.Attack);
-        DefenseBaseLabel.Text = IntToStr(resource.Defense);
-        DamageBaseLabel.Text = IntToStr(resource.Damage);
-        ResistanceBaseLabel.Text = IntToStr(resource.Resistance);
-        HitsBaseLabel.Text = IntToStr(resource.Hits);
-        MovesBaseLabel.Text = IntToStr(resource.Moves);
-        AttackAddedLabel.Text = IntToStr(Leader.UnitAttack);
-        DefenseAddedLabel.Text = IntToStr(Leader.UnitDefense);
-        DamageAddedLabel.Text = IntToStr(Leader.UnitDamage);
-        ResistanceAddedLabel.Text = IntToStr(Leader.UnitResistance);
-        HitsAddedLabel.Text = IntToStr(Leader.UnitHits);
-        MovesAddedLabel.Text = IntToStr(Leader.UnitMoves);
+        AttackBaseLabel.Text = ((int)resource.Attack).ToString(CultureInfo.InvariantCulture);
+        DefenseBaseLabel.Text = ((int)resource.Defense).ToString(CultureInfo.InvariantCulture);
+        DamageBaseLabel.Text = ((int)resource.Damage).ToString(CultureInfo.InvariantCulture);
+        ResistanceBaseLabel.Text = ((int)resource.Resistance).ToString(CultureInfo.InvariantCulture);
+        HitsBaseLabel.Text = ((int)resource.Hits).ToString(CultureInfo.InvariantCulture);
+        MovesBaseLabel.Text = ((int)resource.Moves).ToString(CultureInfo.InvariantCulture);
+        AttackAddedLabel.Text = ((int)Leader.UnitAttack).ToString(CultureInfo.InvariantCulture);
+        DefenseAddedLabel.Text = ((int)Leader.UnitDefense).ToString(CultureInfo.InvariantCulture);
+        DamageAddedLabel.Text = ((int)Leader.UnitDamage).ToString(CultureInfo.InvariantCulture);
+        ResistanceAddedLabel.Text = ((int)Leader.UnitResistance).ToString(CultureInfo.InvariantCulture);
+        HitsAddedLabel.Text = ((int)Leader.UnitHits).ToString(CultureInfo.InvariantCulture);
+        MovesAddedLabel.Text = ((int)Leader.UnitMoves).ToString(CultureInfo.InvariantCulture);
         sbyte inherentAttack = Leader.GetInherentAttack();
-        AttackValueLabel.Text = IntToStr(inherentAttack);
+        AttackValueLabel.Text = ((int)inherentAttack).ToString(CultureInfo.InvariantCulture);
         sbyte inherentDefense = Leader.GetInherentDefense();
-        DefenseValueLabel.Text = IntToStr(inherentDefense);
+        DefenseValueLabel.Text = ((int)inherentDefense).ToString(CultureInfo.InvariantCulture);
         sbyte inherentDamage = Leader.GetInherentDamage();
-        DamageValueLabel.Text = IntToStr(inherentDamage);
+        DamageValueLabel.Text = ((int)inherentDamage).ToString(CultureInfo.InvariantCulture);
         sbyte inherentResistance = Leader.InherentResistance;
-        ResistanceValueLabel.Text = IntToStr(inherentResistance);
+        ResistanceValueLabel.Text = ((int)inherentResistance).ToString(CultureInfo.InvariantCulture);
         sbyte hits = Leader.GetHits();
-        HitsValueLabel.Text = IntToStr(hits);
+        HitsValueLabel.Text = ((int)hits).ToString(CultureInfo.InvariantCulture);
         sbyte moves = Leader.Moves;
-        MovesValueLabel.Text = IntToStr(moves);
+        MovesValueLabel.Text = ((int)moves).ToString(CultureInfo.InvariantCulture);
         UpdateSkillPoints();
     }
 
@@ -265,16 +264,16 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         switch (_selectedSort)
         {
             case 0:
-                StringSorting.SortStringsAscending(SelectedAbilitiesList.Items, linkedStrings: [SelectedAbilitiesCostList.Items]);
+                SelectedAbilitiesList.Items.SortStringsAscending(linkedStrings: [SelectedAbilitiesCostList.Items]);
                 break;
             case 1:
-                StringSorting.SortStringsDescending(SelectedAbilitiesList.Items, linkedStrings: [SelectedAbilitiesCostList.Items]);
+                SelectedAbilitiesList.Items.SortStringsDescending(linkedStrings: [SelectedAbilitiesCostList.Items]);
                 break;
             case 2:
-                StringSorting.SortStringsNumericalAscending(SelectedAbilitiesCostList.Items, linkedStrings: [SelectedAbilitiesList.Items]);
+                SelectedAbilitiesCostList.Items.SortStringsNumericalAscending(linkedStrings: [SelectedAbilitiesList.Items]);
                 break;
             case 3:
-                StringSorting.SortStringsNumericalDescending(SelectedAbilitiesCostList.Items, linkedStrings: [SelectedAbilitiesList.Items]);
+                SelectedAbilitiesCostList.Items.SortStringsNumericalDescending(linkedStrings: [SelectedAbilitiesList.Items]);
                 break;
             default:
                 break;
@@ -287,16 +286,16 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         switch (_availableSort)
         {
             case 0:
-                StringSorting.SortStringsAscending(AvailableAbilitiesList.Items, linkedStrings: [AvailableAbilitiesCostList.Items]);
+                AvailableAbilitiesList.Items.SortStringsAscending(linkedStrings: [AvailableAbilitiesCostList.Items]);
                 break;
             case 1:
-                StringSorting.SortStringsDescending(AvailableAbilitiesList.Items, linkedStrings: [AvailableAbilitiesCostList.Items]);
+                AvailableAbilitiesList.Items.SortStringsDescending(linkedStrings: [AvailableAbilitiesCostList.Items]);
                 break;
             case 2:
-                StringSorting.SortStringsNumericalAscending(AvailableAbilitiesCostList.Items, linkedStrings: [AvailableAbilitiesList.Items]);
+                AvailableAbilitiesCostList.Items.SortStringsNumericalAscending(linkedStrings: [AvailableAbilitiesList.Items]);
                 break;
             case 3:
-                StringSorting.SortStringsNumericalDescending(AvailableAbilitiesCostList.Items, linkedStrings: [AvailableAbilitiesList.Items]);
+                AvailableAbilitiesCostList.Items.SortStringsNumericalDescending(linkedStrings: [AvailableAbilitiesList.Items]);
                 break;
             default:
                 break;
@@ -317,7 +316,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
                     string expandName = GamePack.Current.AbilityControl[i].ExpandName(Leader);
                     _ = AvailableAbilitiesList.Items.AddObject(expandName, item: IntToObject(i));
                     int expandCost = GamePack.Current.AbilityControl[i].ExpandCost(Leader);
-                    _ = AvailableAbilitiesCostList.Items.Add(IntToStr(expandCost));
+                    _ = AvailableAbilitiesCostList.Items.Add(expandCost.ToString(CultureInfo.InvariantCulture));
                 }
             }
         }
@@ -338,7 +337,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
                 }
                 else
                 {
-                    cost = IntToStr(ability.GetSkillPoints(Leader) - ability.GetSkillPoints(Leader.HeroResource.Abilities));
+                    cost = (ability.GetSkillPoints(Leader) - ability.GetSkillPoints(Leader.HeroResource.Abilities)).ToString(CultureInfo.InvariantCulture);
                 }
 
                 _ = SelectedAbilitiesCostList.Items.Add(cost);
@@ -513,7 +512,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
 
         int sphereCount = Leader.SphereCount;
         string selectedSpheres = UI.Engine.TranslateResourceString(s_selectedSpheresText);
-        SelectedSpheresLabel.Text = $"{selectedSpheres} ({IntToStr(sphereCount)}/{IntToStr(Leader.SpherePicksMax)})";
+        SelectedSpheresLabel.Text = $"{selectedSpheres} ({sphereCount.ToString(CultureInfo.InvariantCulture)}/{((int)Leader.SpherePicksMax).ToString(CultureInfo.InvariantCulture)})";
         if (Leader.CanAddSphere(MagicSphere.Life))
         {
             SelectLifeButton.ImageLibraryIndexUp = 27;

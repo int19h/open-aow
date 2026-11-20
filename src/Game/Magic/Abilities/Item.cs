@@ -120,7 +120,7 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
         // Under the text-only mode of the translate stream the original visits an item of a library
         // only for its owner name, and that only inside an item library, and never visits the
         // library name.
-        bool translating = PersistSupport.Translating(persister);
+        bool translating = persister.Translating();
         if (!translating || !LibraryItem)
         {
             _itemGraphicsIndex = persister.Int32("ItemGraphicsIndex", value: _itemGraphicsIndex);
@@ -138,14 +138,14 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
 
         Name = persister.String("Name", value: Name);
         Availability = persister.Enum("Availability", value: Availability);
-        Attack = PersistSupport.UnsignedByte(persister, name: "Attack", value: Attack);
-        Defense = PersistSupport.UnsignedByte(persister, name: "Defense", value: Defense);
-        Damage = PersistSupport.UnsignedByte(persister, name: "Damage", value: Damage);
-        Resistance = PersistSupport.UnsignedByte(persister, name: "Resistance", value: Resistance);
+        Attack = persister.UnsignedByte(name: "Attack", value: Attack);
+        Defense = persister.UnsignedByte(name: "Defense", value: Defense);
+        Damage = persister.UnsignedByte(name: "Damage", value: Damage);
+        Resistance = persister.UnsignedByte(name: "Resistance", value: Resistance);
         ItemType = persister.Enum("ItemType", value: ItemType);
         _hidden = persister.Boolean("Hidden", value: _hidden);
         ItemId = persister.Int32("ItemId", value: ItemId);
-        PersistSupport.Lines(persister, name: "Description", lines: _description);
+        persister.Lines(name: "Description", lines: _description);
         _obtainValue = persister.Int32("ObtainValue", value: _obtainValue);
         _spellId = persister.Int32("SpellId", value: _spellId);
         LibraryId = persister.Int32("LibraryId", value: LibraryId, fallback: -1);

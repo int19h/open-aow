@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 
@@ -17,8 +18,6 @@ using Aow.Game.Saves;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiPaths;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiStrings;
@@ -184,12 +183,12 @@ public class PlayerControl(CustomNode owner) : EngineObject(owner)
                 {
                     if (player == 0)
                     {
-                        GetEngine().SaveHsm($"{GetEngine().StartupDirectory}DEBUG\\{StrategicMap.Current.MapName}{IntToStr(StrategicMap.Current.Day)}_p{IntToStr(StrategicMap.Current.SeatedPlayer)}{FileBoundary.WriteExtension(DocumentKind.Save)}", progress: null, profile: GameProfile.WorldMap);
+                        GetEngine().SaveHsm($"{GetEngine().StartupDirectory}DEBUG\\{StrategicMap.Current.MapName}{StrategicMap.Current.Day.ToString(CultureInfo.InvariantCulture)}_p{((int)StrategicMap.Current.SeatedPlayer).ToString(CultureInfo.InvariantCulture)}{FileBoundary.WriteExtension(DocumentKind.Save)}", progress: null, profile: GameProfile.WorldMap);
                     }
                 }
                 else
                 {
-                    GetEngine().SaveHsm($"{GetEngine().StartupDirectory}DEBUG\\{StrategicMap.Current.MapName}{IntToStr(StrategicMap.Current.Day)}-{IntToStr(player)}_p{IntToStr(StrategicMap.Current.SeatedPlayer)}{FileBoundary.WriteExtension(DocumentKind.Save)}", progress: null, profile: GameProfile.WorldMap);
+                    GetEngine().SaveHsm($"{GetEngine().StartupDirectory}DEBUG\\{StrategicMap.Current.MapName}{StrategicMap.Current.Day.ToString(CultureInfo.InvariantCulture)}-{((int)player).ToString(CultureInfo.InvariantCulture)}_p{((int)StrategicMap.Current.SeatedPlayer).ToString(CultureInfo.InvariantCulture)}{FileBoundary.WriteExtension(DocumentKind.Save)}", progress: null, profile: GameProfile.WorldMap);
                 }
             }
             catch
@@ -574,7 +573,7 @@ public class PlayerControl(CustomNode owner) : EngineObject(owner)
         PlayerCommunicationControl playerCommunicationControl = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl;
         for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            string text = $"Player {IntToStr(i)}";
+            string text = $"Player {i.ToString(CultureInfo.InvariantCulture)}";
             int race = StrategicMap.Current.Players.GetPlayers(i).PlayerRace;
             if (race != -1)
             {
@@ -582,7 +581,7 @@ public class PlayerControl(CustomNode owner) : EngineObject(owner)
                 text = $"{text}({raceNamesPlural})";
             }
 
-            text = $"{text} at system {IntToStr(playerCommunicationControl.Players[i].SystemId)}";
+            text = $"{text} at system {playerCommunicationControl.Players[i].SystemId.ToString(CultureInfo.InvariantCulture)}";
             _ = (strings?.Add(text));
 
             GetEngine().OutputDebugString(text);

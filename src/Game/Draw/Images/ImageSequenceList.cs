@@ -1,10 +1,9 @@
 #nullable disable
 // Translated from ImageLib.pas.
+using System.Globalization;
 using Aow.Formats.Tree;
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiStrings;
-using static Aow.Rtl.RectRoutines;
 
 namespace Aow.Game.Draw.Images;
 
@@ -32,7 +31,7 @@ public sealed class ImageSequenceList(ImageLibraryManager aILManager, CustomImag
         {
             if (List[i] is not null)
             {
-                result = $"{result}{IntToStr(i)},";
+                result = $"{result}{i.ToString(CultureInfo.InvariantCulture)},";
             }
         }
 
@@ -354,7 +353,7 @@ public sealed class ImageSequenceList(ImageLibraryManager aILManager, CustomImag
             while (sequence is not null)
             {
                 sequence.GetDimensions(out Rect sr);
-                _ = UnionRect(out R, R, sr);
+                _ = R.Union(right: sr, result: out R);
                 sequence = sequence.Next;
             }
         }

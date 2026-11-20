@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from CombatTE.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Combat;
@@ -10,7 +11,6 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Terrain;
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.RtlHost;
 
@@ -136,7 +136,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                     }
                     catch
                     {
-                        _ = MessageBox(0, text: "Error during Token Start", caption: $"Error - TCTouchToken {IntToStr(AbilityId)}", flags: 0);
+                        _ = MessageBox(0, text: "Error during Token Start", caption: $"Error - TCTouchToken {AbilityId.ToString(CultureInfo.InvariantCulture)}", flags: 0);
                     }
 
                     break;
@@ -151,7 +151,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                     }
                     catch
                     {
-                        _ = MessageBox(0, text: "Error during Token StepUp", caption: $"Error - TCTouchToken {IntToStr(AbilityId)}", flags: 0);
+                        _ = MessageBox(0, text: "Error during Token StepUp", caption: $"Error - TCTouchToken {AbilityId.ToString(CultureInfo.InvariantCulture)}", flags: 0);
                     }
 
                     break;
@@ -213,7 +213,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                     }
                     catch
                     {
-                        _ = MessageBox(0, text: "Error during Token InitStrike", caption: $"Error - TCTouchToken {IntToStr(AbilityId)}", flags: 0);
+                        _ = MessageBox(0, text: "Error during Token InitStrike", caption: $"Error - TCTouchToken {AbilityId.ToString(CultureInfo.InvariantCulture)}", flags: 0);
                     }
 
                     break;
@@ -385,7 +385,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                     }
                     catch
                     {
-                        _ = MessageBox(0, text: "Error during Token ExeStrike", caption: $"Error - TCTouchToken {IntToStr(AbilityId)}", flags: 0);
+                        _ = MessageBox(0, text: "Error during Token ExeStrike", caption: $"Error - TCTouchToken {AbilityId.ToString(CultureInfo.InvariantCulture)}", flags: 0);
                     }
 
                     break;
@@ -417,7 +417,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                     }
                     catch
                     {
-                        _ = MessageBox(0, text: "Error during Token StrikeBack", caption: $"Error - TCTouchToken {IntToStr(AbilityId)}", flags: 0);
+                        _ = MessageBox(0, text: "Error during Token StrikeBack", caption: $"Error - TCTouchToken {AbilityId.ToString(CultureInfo.InvariantCulture)}", flags: 0);
                     }
 
                     break;
@@ -444,7 +444,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                     }
                     catch
                     {
-                        _ = MessageBox(0, text: "Error during Token ExeStrikeBack", caption: $"Error - TCTouchToken {IntToStr(AbilityId)}", flags: 0);
+                        _ = MessageBox(0, text: "Error during Token ExeStrikeBack", caption: $"Error - TCTouchToken {AbilityId.ToString(CultureInfo.InvariantCulture)}", flags: 0);
                     }
 
                     break;
@@ -481,7 +481,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
         }
         catch
         {
-            _ = MessageBox(0, text: "Error during Token", caption: $"Error - TCTouchToken {IntToStr(AbilityId)}", flags: 0);
+            _ = MessageBox(0, text: "Error during Token", caption: $"Error - TCTouchToken {AbilityId.ToString(CultureInfo.InvariantCulture)}", flags: 0);
         }
 
         return result;

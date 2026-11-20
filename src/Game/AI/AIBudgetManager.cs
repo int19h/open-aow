@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 
@@ -8,8 +9,6 @@ using Aow.Formats.Tree;
 using Aow.Game.Session;
 
 using Aow.Game.World.Structures;
-
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.AI;
@@ -337,7 +336,7 @@ public sealed class AIBudgetManager : EngineObject
 
         if (gold > 0 || mana > 0)
         {
-            GetEngine().OutputDebugMessage(DebugChannel.Temporary, S: $"RETURNING FROM BUDGETS (GOLD:{IntToStr(gold)}/MANA:{IntToStr(mana)})");
+            GetEngine().OutputDebugMessage(DebugChannel.Temporary, S: $"RETURNING FROM BUDGETS (GOLD:{gold.ToString(CultureInfo.InvariantCulture)}/MANA:{mana.ToString(CultureInfo.InvariantCulture)})");
             ReturnFromBudgets(gold, mana);
         }
     }
@@ -352,9 +351,9 @@ public sealed class AIBudgetManager : EngineObject
 
         int groupsGoldBudget = GetGroupsGoldBudget();
         int groupsManaBudget = GetGroupsManaBudget();
-        GetEngine().OutputDebugMessage(DebugChannel.Temporary, S: $"GROUPS BUDGET (GOLD:{IntToStr(groupsGoldBudget)}/MANA:{IntToStr(groupsManaBudget)})");
-        GetEngine().OutputDebugMessage(DebugChannel.Temporary, S: $"POOL (GOLD:{IntToStr(Gold)}/MANA:{IntToStr(Mana)})");
-        GetEngine().OutputDebugMessage(DebugChannel.Temporary, S: $"REAL (GOLD:{IntToStr(Player.Gems)}/MANA:{IntToStr(Player.MagicControl.Mana)})");
+        GetEngine().OutputDebugMessage(DebugChannel.Temporary, S: $"GROUPS BUDGET (GOLD:{groupsGoldBudget.ToString(CultureInfo.InvariantCulture)}/MANA:{groupsManaBudget.ToString(CultureInfo.InvariantCulture)})");
+        GetEngine().OutputDebugMessage(DebugChannel.Temporary, S: $"POOL (GOLD:{Gold.ToString(CultureInfo.InvariantCulture)}/MANA:{Mana.ToString(CultureInfo.InvariantCulture)})");
+        GetEngine().OutputDebugMessage(DebugChannel.Temporary, S: $"REAL (GOLD:{Player.Gems.ToString(CultureInfo.InvariantCulture)}/MANA:{Player.MagicControl.Mana.ToString(CultureInfo.InvariantCulture)})");
     }
 
     // AI.pas:1954

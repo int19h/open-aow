@@ -31,48 +31,48 @@ public sealed class FilesAndStreamsTests
         try
         {
             Files = new PhysicalFileSystem();
-            Assert.Equal(directory.Root, GetCurrentDir());
-            Assert.False(FileExists("a"));
-            Assert.False(DirectoryExists("a"));
-            Assert.False(DeleteFile("a"));
-            Assert.False(RenameFile("a", target: "b"));
+            Assert.Equal(directory.Root, Files.CurrentDirectory);
+            Assert.False(Files.FileExists("a"));
+            Assert.False(Files.DirectoryExists("a"));
+            Assert.False(Files.DeleteFile("a"));
+            Assert.False(Files.RenameFile("a", target: "b"));
             Assert.Equal(-1, FileAge("a"));
-            Assert.False(CreateDir("absent/child"));
-            Assert.True(CreateDir("a"));
-            Assert.False(CreateDir("a"));
-            Assert.True(DirectoryExists("a"));
-            Assert.False(FileExists("a"));
-            using (Stream f = OpenFile("a/test.bin", mode: fmCreate))
+            Assert.False(Files.CreateDirectory("absent/child"));
+            Assert.True(Files.CreateDirectory("a"));
+            Assert.False(Files.CreateDirectory("a"));
+            Assert.True(Files.DirectoryExists("a"));
+            Assert.False(Files.FileExists("a"));
+            using (Stream f = OpenFile("a/test.bin", mode: FileOpenMode.Create))
             {
                 f.WriteBuffer([1, 2, 3]);
             }
 
-            Assert.True(FileExists("a\\test.bin"));
-            Assert.True(FileExists("A/TEST.BIN"));
-            Assert.False(DirectoryExists("a/test.bin"));
+            Assert.True(Files.FileExists("a\\test.bin"));
+            Assert.True(Files.FileExists("A/TEST.BIN"));
+            Assert.False(Files.DirectoryExists("a/test.bin"));
             DateTime modified = new(2024, 2, 29, 12, 34, 56);
             File.SetLastWriteTime("a/test.bin", lastWriteTime: modified);
             // The native file API uses the current Windows time-zone bias.
             DateTime nativeTime = OperatingSystem.IsWindows() ? modified.ToUniversalTime() + TimeZoneInfo.Local.GetUtcOffset(DateTime.Now) : modified;
             Assert.Equal(EncodeDate(nativeTime.Year, nativeTime.Month, nativeTime.Day) + EncodeTime(nativeTime.Hour, nativeTime.Minute, nativeTime.Second, millisecond: 0), FileDateToDateTime(FileAge("a/test.bin")));
-            Assert.True(RenameFile("a/test.bin", target: "a/new.bin"));
-            Assert.False(FileExists("a/test.bin"));
-            using (Stream readwrite = OpenFile("a/new.bin", mode: fmOpenReadWrite))
+            Assert.True(Files.RenameFile("a/test.bin", target: "a/new.bin"));
+            Assert.False(Files.FileExists("a/test.bin"));
+            using (Stream readwrite = OpenFile("a/new.bin", mode: FileOpenMode.ReadWrite))
             {
                 readwrite.Position = 1;
                 readwrite.Write([4]);
                 Assert.Equal(2L, readwrite.Position);
             }
 
-            using (Stream write = OpenFile("a/new.bin", mode: fmOpenWrite))
+            using (Stream write = OpenFile("a/new.bin", mode: FileOpenMode.Write))
             {
                 _ = Assert.Throws<NotSupportedException>(() => write.Read(new byte[1]));
             }
 
-            Assert.True(DeleteFile("a/new.bin"));
-            Assert.False(DeleteFile("a/new.bin"));
-            Assert.Equal("Cannot open file missing", Assert.Throws<FileNotFoundException>(() => OpenFile("missing", mode: fmOpenRead)).Message);
-            Assert.Equal("Cannot create file absent/file", Assert.Throws<IOException>(() => OpenFile("absent/file", mode: fmCreate)).Message);
+            Assert.True(Files.DeleteFile("a/new.bin"));
+            Assert.False(Files.DeleteFile("a/new.bin"));
+            Assert.Equal("Cannot open file missing", Assert.Throws<FileNotFoundException>(() => OpenFile("missing", mode: FileOpenMode.Read)).Message);
+            Assert.Equal("Cannot create file absent/file", Assert.Throws<IOException>(() => OpenFile("absent/file", mode: FileOpenMode.Create)).Message);
             Assert.Empty(Files.FindEntries("absent\\*", attributes: faAnyFile));
             File.WriteAllBytes("a/hidden", bytes: []);
             File.SetAttributes("a/hidden", fileAttributes: FileAttributes.Hidden);
@@ -160,14 +160,14 @@ public sealed class FilesAndStreamsTests
         try
         {
             Files = files;
-            Assert.Equal("fake", GetCurrentDir());
+            Assert.Equal("fake", Files.CurrentDirectory);
             Assert.Equal("fake/a", ExpandFileName("a"));
-            Assert.True(FileExists("a"));
-            Assert.True(DirectoryExists("a"));
-            Assert.True(CreateDir("a"));
-            Assert.True(DeleteFile("a"));
-            Assert.True(RenameFile("a", target: "b"));
-            using (Stream stream = OpenFile("virtual", mode: fmCreate))
+            Assert.True(Files.FileExists("a"));
+            Assert.True(Files.DirectoryExists("a"));
+            Assert.True(Files.CreateDirectory("a"));
+            Assert.True(Files.DeleteFile("a"));
+            Assert.True(Files.RenameFile("a", target: "b"));
+            using (Stream stream = OpenFile("virtual", mode: FileOpenMode.Create))
             {
                 stream.WriteBuffer([7]);
                 Assert.Equal(new byte[] { 7 }, files.Opened.ToArray());
@@ -326,11 +326,11 @@ public sealed class FilesAndStreamsTests
         destination.LoadFromStream(source);
         Assert.Equal(0L, destination.Length);
         Assert.Equal(0L, destination.Position);
-        using Stream file = OpenFile("memory.bin", mode: fmOpenRead | fmShareDenyWrite);
+        using Stream file = OpenFile("memory.bin", mode: FileOpenMode.Read | FileOpenMode.ShareDenyWrite);
         // .NET enforces share modes between opens only on Windows.
         if (OperatingSystem.IsWindows())
         {
-            _ = Assert.Throws<IOException>(() => OpenFile("memory.bin", mode: fmOpenWrite));
+            _ = Assert.Throws<IOException>(() => OpenFile("memory.bin", mode: FileOpenMode.Write));
         }
 
         _ = Assert.Throws<NotSupportedException>(() => file.SetLength(2));

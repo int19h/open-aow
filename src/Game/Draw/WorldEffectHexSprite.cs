@@ -1,4 +1,5 @@
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Draw.Images;
@@ -6,8 +7,6 @@ using Aow.Game.Draw.Images;
 using Aow.Game.Host;
 
 using Aow.Game.World.Map;
-
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
 using static Aow.Rtl.RtlHost;
@@ -210,7 +209,7 @@ public sealed class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSpri
         }
         catch
         {
-            _ = MessageBox(0, text: "Error during Show", caption: $"Error - WorldfxHS {IntToStr((int)EffectType)}", flags: 0);
+            _ = MessageBox(0, text: "Error during Show", caption: $"Error - WorldfxHS {((int)EffectType).ToString(CultureInfo.InvariantCulture)}", flags: 0);
         }
     }
 
@@ -526,7 +525,7 @@ public sealed class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSpri
         }
         catch
         {
-            _ = MessageBox(0, text: $"Error - WorldfxHS {IntToStr((int)EffectType)}", caption: "Error during NewFrame", flags: 0);
+            _ = MessageBox(0, text: $"Error - WorldfxHS {((int)EffectType).ToString(CultureInfo.InvariantCulture)}", caption: "Error during NewFrame", flags: 0);
         }
     }
 }

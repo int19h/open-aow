@@ -40,7 +40,7 @@ public abstract class DelphiStringCollection : Persistent
     public IndexedProperty<int, string> Names => new(i =>
     {
         string s = this[i];
-        return Copy(s, index: 1, count: AnsiPos("=", value: s) - 1);
+        return Copy(s, index: 1, count: Pos((string?)"=", haystack: (string?)s) - 1);
     });
 
     public IndexedProperty<string, string> Values => new(name =>
@@ -109,7 +109,7 @@ public abstract class DelphiStringCollection : Persistent
         for (int i = 0; i < Count; i++)
         {
             string s = this[i];
-            int p = AnsiPos("=", value: s);
+            int p = Pos((string?)"=", haystack: (string?)s);
             if (p > 0 && AnsiCompareText(Copy(s, index: 1, count: p - 1), name) == 0)
             {
                 return i;
@@ -407,13 +407,13 @@ public abstract class DelphiStringCollection : Persistent
     // CLASSES.PAS TStrings.LoadFromFile and SaveToFile.
     public void LoadFromFile(string name)
     {
-        using Stream stream = OpenFile(name, mode: fmOpenRead);
+        using Stream stream = OpenFile(name, mode: FileOpenMode.Read);
         LoadFromStream(stream);
     }
 
     public void SaveToFile(string name)
     {
-        using Stream stream = OpenFile(name, mode: fmCreate);
+        using Stream stream = OpenFile(name, mode: FileOpenMode.Create);
         SaveToStream(stream);
     }
 

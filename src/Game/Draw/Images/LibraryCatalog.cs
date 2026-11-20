@@ -4,10 +4,6 @@ namespace Aow.Game.Draw.Images;
 
 internal static class LibraryCatalog
 {
-    internal static LibraryImageClass GetLibraryImageClass(int index) => ImageLibraries.LibraryImageClasses[index];
-
-    internal static int LibraryImageClassCount() => ImageLibraries.LibraryImageClasses.Count;
-
     internal static LibraryImageClass FindLibraryImageClass(int classId)
     {
         bool found = false;

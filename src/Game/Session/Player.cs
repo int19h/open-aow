@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Buffers;
 using Aow.Engine.Collections;
@@ -28,7 +29,6 @@ using Aow.Game.World.Structures;
 using Aow.Rtl;
 
 using static Aow.Rtl.DelphiAssert;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
 using static Aow.Rtl.DelphiStrings;
@@ -409,8 +409,8 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
         // The translate stream's mode is read and text only. The original ReadWrite leaves out the
         // settings there, visits and registers the leader, keeps the view, visits the leader setup
         // and does the work of the read branch.
-        bool translating = PersistSupport.Translating(persister);
-        PlayerRace = PersistSupport.UnsignedByte(persister, name: "PlayerRace", value: PlayerRace);
+        bool translating = persister.Translating();
+        PlayerRace = persister.UnsignedByte(name: "PlayerRace", value: PlayerRace);
         PlayerType = persister.Enum("PlayerType", value: PlayerType);
         Participating = persister.Boolean("Participating", value: Participating);
         InitialGold = persister.Int32("InitialGold", value: InitialGold);
@@ -423,7 +423,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
 
         _description = persister.String("Description", value: _description);
         Gems = persister.Int32("Gems", value: Gems);
-        PlayerIndex = PersistSupport.UnsignedByte(persister, name: "PlayerIndex", value: PlayerIndex);
+        PlayerIndex = persister.UnsignedByte(name: "PlayerIndex", value: PlayerIndex);
         if ((GetEngine().Status & Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm, HexSpriteEngineStatusElement.SavingHsm)) != Set<HexSpriteEngineStatusElement>.Of() || translating)
         {
             if (persister.Loading || translating)
@@ -447,12 +447,12 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
             {
                 StrategicMap.Current.GetViewCenter(out int x, out int y, out int l);
                 View = new MapCoordinate(unchecked((sbyte)(byte)x), unchecked((sbyte)(byte)y), unchecked((sbyte)(byte)l));
-                View = PersistSupport.Coordinate(persister, name: "View", value: View, width: CoordinateWidth.Byte);
+                View = persister.Coordinate(name: "View", value: View, width: CoordinateWidth.Byte);
             }
         }
         else
         {
-            View = PersistSupport.Coordinate(persister, name: "View", value: View, width: CoordinateWidth.Byte);
+            View = persister.Coordinate(name: "View", value: View, width: CoordinateWidth.Byte);
         }
 
         if (!persister.Preview)
@@ -468,10 +468,10 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
         GameOverStatus = persister.Enum("GameOverStatus", value: GameOverStatus);
         if (persister.Loading)
         {
-            PersistSupport.ByteList(persister, name: "LegacyNewRelations", list: LegacyNewRelations);
+            persister.ByteList(name: "LegacyNewRelations", list: LegacyNewRelations);
         }
 
-        MoraleValue = PersistSupport.UnsignedByte(persister, name: "MoraleValue", value: MoraleValue);
+        MoraleValue = persister.UnsignedByte(name: "MoraleValue", value: MoraleValue);
         persister.Object("AIControl", objectValue: AIControl);
         Behavior = persister.Enum("Behavior", value: Behavior);
         if (PlayerIndex != 0)
@@ -491,8 +491,8 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
         }
 
         persister.Object("MagicControl", objectValue: MagicControl);
-        PersistSupport.Int32List(persister, name: "FirstDaySeen", list: FirstDaySeen);
-        PersistSupport.Int32List(persister, name: "LastDaySeen", list: _lastDaySeen);
+        persister.Int32List(name: "FirstDaySeen", list: FirstDaySeen);
+        persister.Int32List(name: "LastDaySeen", list: _lastDaySeen);
         Day = persister.Int32("Day", value: Day);
         persister.Object("Statistics", objectValue: Statistics);
         BaseHeroJoinLevel = persister.Int32("BaseHeroJoinLevel", value: BaseHeroJoinLevel);
@@ -506,16 +506,16 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
             LegacyNewRelations.Default = (int)DiplomaticRelation.Unknown;
         }
 
-        PersistSupport.Lines(persister, name: "Messages", lines: _messages);
+        persister.Lines(name: "Messages", lines: _messages);
         if (persister.Loading)
         {
-            PersistSupport.ByteList(persister, name: "LegacyRelations", list: LegacyRelations);
+            persister.ByteList(name: "LegacyRelations", list: LegacyRelations);
         }
 
         EmergingHeroId = persister.Int32("EmergingHeroId", value: EmergingHeroId);
         persister.Object("AIBudget", objectValue: AIBudget);
         persister.Object("DiplomaticActions", objectValue: DiplomaticActions);
-        BitListImage attackPlayers = PersistSupport.BitList(persister, name: "AIValidAttackPlayers", list: AIValidAttackPlayers);
+        BitListImage attackPlayers = persister.BitList(name: "AIValidAttackPlayers", list: AIValidAttackPlayers);
         persister.Object("PbemSettings", objectValue: PbemSettings);
         HeroEmerging = persister.Boolean("HeroEmerging", value: HeroEmerging);
         if (persister.Loading || translating || StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
@@ -528,7 +528,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
         // from PbemSettings on, into the bits past a stored count that does not fill 32 bits.
         if (attackPlayers != null)
         {
-            PersistSupport.BitListOverRead(persister, list: AIValidAttackPlayers, stored: attackPlayers, owner: this, following: tail =>
+            persister.BitListOverRead(list: AIValidAttackPlayers, stored: attackPlayers, owner: this, following: tail =>
             {
                 tail.Object("PbemSettings", objectValue: PbemSettings);
                 _ = tail.Boolean("HeroEmerging", value: HeroEmerging);
@@ -723,14 +723,14 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
             {
                 string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.RaceNamesPluralTexts[PlayerRace]);
                 string name = GetName();
-                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_gameOverDefeatMessageFormat), arguments: [IntToStr(StrategicMap.Current.Day), raceNamesPlural, name]);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_gameOverDefeatMessageFormat), arguments: [StrategicMap.Current.Day.ToString(CultureInfo.InvariantCulture), raceNamesPlural, name]);
                 eventValue.Message.Text = format;
             }
             else
             {
                 string raceNamesPluralText = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.RaceNamesPluralTexts[PlayerRace]);
                 string name = GetName();
-                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_gameOverVictoryMessageFormat), arguments: [IntToStr(StrategicMap.Current.Day), raceNamesPluralText, name]);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_gameOverVictoryMessageFormat), arguments: [StrategicMap.Current.Day.ToString(CultureInfo.InvariantCulture), raceNamesPluralText, name]);
                 eventValue.Message.Text = format;
             }
 
@@ -1007,7 +1007,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
 
             if (IsEmpty(result))
             {
-                return $"{AbilityRules.TranslateResourceString(GetEngine(), S: s_playerText)} {IntToStr(PlayerIndex)}";
+                return $"{AbilityRules.TranslateResourceString(GetEngine(), S: s_playerText)} {((int)PlayerIndex).ToString(CultureInfo.InvariantCulture)}";
             }
         }
         else

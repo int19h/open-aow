@@ -5,19 +5,16 @@ namespace Aow.Rtl;
 
 public static class DelphiStreams
 {
-    public const int fmCreate = 65535, fmOpenRead = 0, fmOpenWrite = 1, fmOpenReadWrite = 2;
-    public const int fmShareCompat = 0, fmShareExclusive = 16, fmShareDenyWrite = 32, fmShareDenyRead = 48, fmShareDenyNone = 64;
-
     // CLASSES.PAS TFileStream.Create. The host maps the mode. These messages stay the Delphi ones.
-    public static Stream OpenFile(string name, int mode)
+    public static Stream OpenFile(string name, FileOpenMode mode)
     {
         try
         {
-            return Files.Open(name, mode);
+            return Files.Open(name, mode: (int)mode);
         }
         catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException)
         {
-            if (mode == fmCreate)
+            if (mode == FileOpenMode.Create)
             {
                 throw new IOException($"Cannot create file {name}");
             }
@@ -139,13 +136,13 @@ public static class StreamExtensions
 
     public static void LoadFromFile(this MemoryStream stream, string name)
     {
-        using Stream file = DelphiStreams.OpenFile(name, mode: DelphiStreams.fmOpenRead);
+        using Stream file = DelphiStreams.OpenFile(name, mode: FileOpenMode.Read);
         stream.LoadFromStream(file);
     }
 
     public static void SaveToFile(this MemoryStream stream, string name)
     {
-        using Stream file = DelphiStreams.OpenFile(name, mode: DelphiStreams.fmCreate);
+        using Stream file = DelphiStreams.OpenFile(name, mode: FileOpenMode.Create);
         stream.WriteTo(file);
     }
 

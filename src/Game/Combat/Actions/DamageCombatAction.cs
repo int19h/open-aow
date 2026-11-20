@@ -33,8 +33,8 @@ public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(own
     {
         base.PersistFields(persister);
         Damage = persister.Byte("Damage", value: Damage);
-        Effects = PersistSupport.Record<PackedDamageTypes, Set<DamageType>>(persister, name: "Effects", value: Effects);
-        DamageTypes = PersistSupport.Record<PackedDamageTypes, Set<DamageType>>(persister, name: "DamageTypes", value: DamageTypes);
+        Effects = persister.Record<PackedDamageTypes, Set<DamageType>>(name: "Effects", value: Effects);
+        DamageTypes = persister.Record<PackedDamageTypes, Set<DamageType>>(name: "DamageTypes", value: DamageTypes);
     }
 
     // Combat2.pas:817

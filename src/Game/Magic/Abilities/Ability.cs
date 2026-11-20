@@ -1,6 +1,7 @@
 #nullable disable
 // Translated from AoWE.pas.
 using System.Collections.Immutable;
+using System.Globalization;
 using Aow.Engine;
 
 using Aow.Engine.Nodes;
@@ -18,8 +19,6 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Magic.Abilities;
@@ -61,10 +60,10 @@ public class Ability : EngineObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.Lines(persister, name: "Description", lines: Description);
+        persister.Lines(name: "Description", lines: Description);
         SkillPointCost = persister.Int32("SkillPointCost", value: SkillPointCost);
         persister.Object("SfxLibrary", objectValue: SfxLibrary);
-        PersistSupport.ImageSequences(persister, name: "ImageSequences", list: ImageSequences);
+        persister.ImageSequences(name: "ImageSequences", list: ImageSequences);
         SelectionTypes = persister.Set("SelectionTypes", value: SelectionTypes);
     }
 
@@ -313,29 +312,29 @@ public class Ability : EngineObject
         _ = text.Add("-------------------------------------------------");
         if (mode.Contains(AbilityInfoModeElement.Id))
         {
-            _ = text.Add($"ID: {IntToStr(AbilityId)}");
+            _ = text.Add($"ID: {AbilityId.ToString(CultureInfo.InvariantCulture)}");
         }
 
         AbilityType abilityType = GetAbilityType();
         _ = text.Add($"Type: {AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.AbilityTypeTexts[(int)abilityType])}");
         if (GetAttack(null) != 0)
         {
-            _ = text.Add($"Attack modifier: {IntToStr(GetAttack(null))}");
+            _ = text.Add($"Attack modifier: {((int)GetAttack(null)).ToString(CultureInfo.InvariantCulture)}");
         }
 
         if (GetDefense(null) != 0)
         {
-            _ = text.Add($"Defense modifier: {IntToStr(GetDefense(null))}");
+            _ = text.Add($"Defense modifier: {((int)GetDefense(null)).ToString(CultureInfo.InvariantCulture)}");
         }
 
         if (GetDamage(null) != 0)
         {
-            _ = text.Add($"Damage modifier: {IntToStr(GetDamage(null))}");
+            _ = text.Add($"Damage modifier: {((int)GetDamage(null)).ToString(CultureInfo.InvariantCulture)}");
         }
 
         if (GetResistance(null) != 0)
         {
-            _ = text.Add($"Resistance modifier: {IntToStr(GetResistance(null))}");
+            _ = text.Add($"Resistance modifier: {((int)GetResistance(null)).ToString(CultureInfo.InvariantCulture)}");
         }
 
         if (mode.Contains(AbilityInfoModeElement.Description))
@@ -356,17 +355,17 @@ public class Ability : EngineObject
             GetCombatInfo(null, ref info);
             if (info.Attack != -1)
             {
-                _ = text.Add($"Attack: {IntToStr(info.Attack)}");
+                _ = text.Add($"Attack: {((int)info.Attack).ToString(CultureInfo.InvariantCulture)}");
             }
 
             if (info.Damage != -1)
             {
-                _ = text.Add($"Damage: {IntToStr(info.Damage)}");
+                _ = text.Add($"Damage: {((int)info.Damage).ToString(CultureInfo.InvariantCulture)}");
             }
 
             if (info.RepeatCount != -1)
             {
-                _ = text.Add($"Repeat: {IntToStr(info.RepeatCount)}");
+                _ = text.Add($"Repeat: {((int)info.RepeatCount).ToString(CultureInfo.InvariantCulture)}");
             }
 
             if (info.DamageTypes != Set<DamageType>.Of())
@@ -397,7 +396,7 @@ public class Ability : EngineObject
             GetOffensiveStrength(null, ref strength, ref types);
             if (strength != 0)
             {
-                _ = text.Add($"Strength: {IntToStr(strength)}");
+                _ = text.Add($"Strength: {strength.ToString(CultureInfo.InvariantCulture)}");
             }
         }
     }

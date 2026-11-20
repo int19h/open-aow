@@ -39,7 +39,7 @@ public sealed partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
     {
         UI.Graphics.FactionWindow.ReleaseDiscardableImageData();
         UI.TitleWindow.MainWindow.Visible = false;
-        WindowActions.ShowTitleScene(UI.TitleScene, music: true);
+        UI.TitleScene.ShowScene(true);
         FactionPanel.Visible = false;
         Fade = 0;
     }

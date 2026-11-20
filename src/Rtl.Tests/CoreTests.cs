@@ -2,7 +2,6 @@ using System.Runtime.InteropServices;
 using Aow.Rtl.Tests.Generated;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiStrings;
-using static Aow.Rtl.PCharStrings;
 using Assert = Xunit.Assert;
 
 namespace Aow.Rtl.Tests;
@@ -78,10 +77,10 @@ public sealed class CoreTests
     {
         using StringMode mode = new(false);
         string? nil = null;
-        Assert.Equal(0, Length(nil));
+        Assert.Equal(0, RequireString(nil).Length);
         Assert.True(IsEmpty(nil));
         Assert.Equal((byte)0, Ptr<byte>.Unbox("").Value);
-        Assert.Equal("", StrPas(default));
+        Assert.Equal("", PCharStrings.FromPChar(default));
         byte[] buffer = [0, 65, 128, 255];
         string value = Cp1252.Decode(buffer);
         buffer[1] = 99;
@@ -102,7 +101,7 @@ public sealed class CoreTests
         pointer[1] = 10;
         Assert.Equal('\u0001', full[1]);
         Assert.Equal(0, pointer[256]);
-        Assert.Equal("ab", StrPas(Ptr<byte>.Unbox("ab\0cd")));
+        Assert.Equal("ab", PCharStrings.FromPChar(Ptr<byte>.Unbox("ab\0cd")));
         string original = "abc";
         Assert.Equal("abc\0\0", Resized(original, length: 5));
         Assert.Equal("abc", original);

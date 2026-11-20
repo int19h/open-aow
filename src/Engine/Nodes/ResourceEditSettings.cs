@@ -1,9 +1,8 @@
 // Translated from Engine.pas.
+using System.Globalization;
 using Aow.Formats.Tree;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.IntegerObjects;
 
@@ -52,7 +51,7 @@ public sealed class ResourceEditSettings(CustomNode owner) : ControlStyleObject(
         string s = name;
         while (Editors.IndexOf(s) != -1)
         {
-            s = name + IntToStr(Random(268435455));
+            s = name + Random(268435455).ToString(CultureInfo.InvariantCulture);
         }
 
         return s;
@@ -93,9 +92,9 @@ public sealed class ResourceEditSettings(CustomNode owner) : ControlStyleObject(
     {
         base.PersistFields(persister);
         // The original ReadWrite leaves out the editors under text only (the translate stream).
-        if (!PersistSupport.Translating(persister))
+        if (!persister.Translating())
         {
-            PersistSupport.LinesWithValues(persister, name: "Editors", lines: Editors);
+            persister.LinesWithValues(name: "Editors", lines: Editors);
         }
     }
 

@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWMagic.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Draw;
@@ -16,8 +17,6 @@ using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -107,22 +106,22 @@ public sealed partial class MagicWindow(UIContext ui) : UIModule(ui)
         switch (_enchantmentSort)
         {
             case 0:
-                StringSorting.SortStringsAscending(EnchantmentList.Items, linkedStrings: [BindingList.Items, UpkeepList.Items]);
+                EnchantmentList.Items.SortStringsAscending(linkedStrings: [BindingList.Items, UpkeepList.Items]);
                 break;
             case 1:
-                StringSorting.SortStringsDescending(EnchantmentList.Items, linkedStrings: [BindingList.Items, UpkeepList.Items]);
+                EnchantmentList.Items.SortStringsDescending(linkedStrings: [BindingList.Items, UpkeepList.Items]);
                 break;
             case 2:
-                StringSorting.SortStringsAscending(BindingList.Items, linkedStrings: [EnchantmentList.Items, UpkeepList.Items]);
+                BindingList.Items.SortStringsAscending(linkedStrings: [EnchantmentList.Items, UpkeepList.Items]);
                 break;
             case 3:
-                StringSorting.SortStringsDescending(BindingList.Items, linkedStrings: [EnchantmentList.Items, UpkeepList.Items]);
+                BindingList.Items.SortStringsDescending(linkedStrings: [EnchantmentList.Items, UpkeepList.Items]);
                 break;
             case 4:
-                StringSorting.SortStringsNumericalAscending(UpkeepList.Items, linkedStrings: [EnchantmentList.Items, BindingList.Items]);
+                UpkeepList.Items.SortStringsNumericalAscending(linkedStrings: [EnchantmentList.Items, BindingList.Items]);
                 break;
             case 5:
-                StringSorting.SortStringsNumericalDescending(UpkeepList.Items, linkedStrings: [EnchantmentList.Items, BindingList.Items]);
+                UpkeepList.Items.SortStringsNumericalDescending(linkedStrings: [EnchantmentList.Items, BindingList.Items]);
                 break;
             default:
                 break;
@@ -135,22 +134,22 @@ public sealed partial class MagicWindow(UIContext ui) : UIModule(ui)
         switch (_globalEnchantmentSort)
         {
             case 0:
-                StringSorting.SortStringsAscending(GlobalEnchantmentList.Items, linkedStrings: [GlobalNameList.Items, GlobalUpkeepList.Items]);
+                GlobalEnchantmentList.Items.SortStringsAscending(linkedStrings: [GlobalNameList.Items, GlobalUpkeepList.Items]);
                 break;
             case 1:
-                StringSorting.SortStringsDescending(GlobalEnchantmentList.Items, linkedStrings: [GlobalNameList.Items, GlobalUpkeepList.Items]);
+                GlobalEnchantmentList.Items.SortStringsDescending(linkedStrings: [GlobalNameList.Items, GlobalUpkeepList.Items]);
                 break;
             case 2:
-                StringSorting.SortStringsAscending(GlobalNameList.Items, linkedStrings: [GlobalEnchantmentList.Items, GlobalUpkeepList.Items]);
+                GlobalNameList.Items.SortStringsAscending(linkedStrings: [GlobalEnchantmentList.Items, GlobalUpkeepList.Items]);
                 break;
             case 3:
-                StringSorting.SortStringsDescending(GlobalNameList.Items, linkedStrings: [GlobalEnchantmentList.Items, GlobalUpkeepList.Items]);
+                GlobalNameList.Items.SortStringsDescending(linkedStrings: [GlobalEnchantmentList.Items, GlobalUpkeepList.Items]);
                 break;
             case 4:
-                StringSorting.SortStringsNumericalAscending(GlobalUpkeepList.Items, linkedStrings: [GlobalEnchantmentList.Items, GlobalNameList.Items]);
+                GlobalUpkeepList.Items.SortStringsNumericalAscending(linkedStrings: [GlobalEnchantmentList.Items, GlobalNameList.Items]);
                 break;
             case 5:
-                StringSorting.SortStringsNumericalDescending(GlobalUpkeepList.Items, linkedStrings: [GlobalEnchantmentList.Items, GlobalNameList.Items]);
+                GlobalUpkeepList.Items.SortStringsNumericalDescending(linkedStrings: [GlobalEnchantmentList.Items, GlobalNameList.Items]);
                 break;
             default:
                 break;
@@ -163,16 +162,16 @@ public sealed partial class MagicWindow(UIContext ui) : UIModule(ui)
         switch (_powerSort)
         {
             case 0:
-                StringSorting.SortStringsAscending(PowerSourceList.Items, linkedStrings: [PowerValueList.Items]);
+                PowerSourceList.Items.SortStringsAscending(linkedStrings: [PowerValueList.Items]);
                 break;
             case 1:
-                StringSorting.SortStringsDescending(PowerSourceList.Items, linkedStrings: [PowerValueList.Items]);
+                PowerSourceList.Items.SortStringsDescending(linkedStrings: [PowerValueList.Items]);
                 break;
             case 2:
-                StringSorting.SortStringsNumericalAscending(PowerValueList.Items, linkedStrings: [PowerSourceList.Items]);
+                PowerValueList.Items.SortStringsNumericalAscending(linkedStrings: [PowerSourceList.Items]);
                 break;
             case 3:
-                StringSorting.SortStringsNumericalDescending(PowerValueList.Items, linkedStrings: [PowerSourceList.Items]);
+                PowerValueList.Items.SortStringsNumericalDescending(linkedStrings: [PowerSourceList.Items]);
                 break;
             default:
                 break;
@@ -518,7 +517,7 @@ public sealed partial class MagicWindow(UIContext ui) : UIModule(ui)
                 string binding = control.Enchantments.GetEnchantments(i).GetBinding();
                 _ = window.BindingList.Items.Add(binding);
                 Enchantment enchantmentUpkeep = control.Enchantments.GetEnchantments(i);
-                _ = window.UpkeepList.Items.Add(IntToStr(enchantmentUpkeep.Upkeep));
+                _ = window.UpkeepList.Items.Add(enchantmentUpkeep.Upkeep.ToString(CultureInfo.InvariantCulture));
             }
 
             window.PowerSourceList.Items.Clear();
@@ -531,29 +530,29 @@ public sealed partial class MagicWindow(UIContext ui) : UIModule(ui)
                     PowerSource powerSource = control.PowerSources.GetItems(i);
                     _ = window.PowerSourceList.Items.AddObject(name, item: powerSource);
                     int power = control.PowerSources.GetItems(i).Power();
-                    _ = window.PowerValueList.Items.Add(IntToStr(power));
+                    _ = window.PowerValueList.Items.Add(power.ToString(CultureInfo.InvariantCulture));
                 }
             }
 
             int controlPower = control.GetPower();
-            window.PowerLabel.Text = IntToStr(controlPower);
+            window.PowerLabel.Text = controlPower.ToString(CultureInfo.InvariantCulture);
             int manaIncome = control.GetManaIncome();
             int manaUpkeep = control.GetManaUpkeep();
             int controlManaIncome = control.GetManaIncome();
             int controlManaUpkeep = control.GetManaUpkeep();
-            window.NetManaLabel.Text = $"{IntToStr(manaIncome)}-{IntToStr(manaUpkeep)}={IntToStr(controlManaIncome - controlManaUpkeep)}";
+            window.NetManaLabel.Text = $"{manaIncome.ToString(CultureInfo.InvariantCulture)}-{manaUpkeep.ToString(CultureInfo.InvariantCulture)}={(controlManaIncome - controlManaUpkeep).ToString(CultureInfo.InvariantCulture)}";
             int netPowerToResearch = control.GetNetPowerToResearch();
-            window.ResearchPointsLabel.Text = IntToStr(netPowerToResearch);
+            window.ResearchPointsLabel.Text = netPowerToResearch.ToString(CultureInfo.InvariantCulture);
             if (control.ResearchSpellId != 0)
             {
                 Spell spell = GamePack.Current.SpellControl[control.ResearchSpellId];
                 window.SpellNameLabel.Text = spell.SpellName;
                 string magicSphere = window.UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
                 string level = window.UI.Engine.TranslateResourceString(GameText.LevelText);
-                window.SpellClassLabel.Text = $"{magicSphere}, {level} {IntToStr(spell.SpellLevel)}";
+                window.SpellClassLabel.Text = $"{magicSphere}, {level} {((int)spell.SpellLevel).ToString(CultureInfo.InvariantCulture)}";
                 string castingCost = window.UI.Engine.TranslateResourceString(GameText.CastingCostText);
                 string mana = window.UI.Engine.TranslateResourceString(GameText.ManaText);
-                window.SpellCostLabel.Text = $"{castingCost}: {IntToStr(spell.BaseManaCost)} {mana}";
+                window.SpellCostLabel.Text = $"{castingCost}: {spell.BaseManaCost.ToString(CultureInfo.InvariantCulture)} {mana}";
                 int turns = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.GetResearchTurnsLeft();
                 if (turns < 999)
                 {
@@ -597,7 +596,7 @@ public sealed partial class MagicWindow(UIContext ui) : UIModule(ui)
                 Player player = StrategicMap.Current.Players.GetPlayers(enchantmentPlayerIndex.PlayerIndex);
                 _ = window.GlobalNameList.Items.Add(player.Leader.HeroName);
                 int upkeep = control.Enchantments.GetEnchantments(i).GetUpkeep();
-                _ = window.GlobalUpkeepList.Items.Add(IntToStr(upkeep));
+                _ = window.GlobalUpkeepList.Items.Add(upkeep.ToString(CultureInfo.InvariantCulture));
             }
         }
 

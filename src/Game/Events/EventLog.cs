@@ -53,7 +53,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     {
         base.PersistFields(persister);
         Day = persister.Int32("Day", value: Day);
-        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        Player = persister.UnsignedByte(name: "Player", value: Player);
         Id = persister.Int32("Id", value: Id);
     }
 

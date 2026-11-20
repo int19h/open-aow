@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from Gems.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.AI;
@@ -9,7 +10,6 @@ using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiFormat;
 
 namespace Aow.Game.World.Terrain;
@@ -159,7 +159,7 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
             {
                 Holder = CreationHolder(),
                 Player = armyHexSprite.Army.Player,
-                Text = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_goldFoundFormat), args: [IntToStr(_amount)])
+                Text = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_goldFoundFormat), args: [_amount.ToString(CultureInfo.InvariantCulture)])
             };
             eventValue.SetLocation(level: HexLevel, y: HexY, x: HexX);
             StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(eventValue);

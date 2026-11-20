@@ -80,7 +80,7 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     public virtual sbyte HexLevel => (sbyte)Owner.Owner.HexLevel;
 
     // HXSPRITE.PAS:102
-    public virtual MapCoordinate MapCoordinate => HexGeometry.PackMapCoordinate(HexX, HexY, HexLevel);
+    public virtual MapCoordinate MapCoordinate => new(HexX, HexY, HexLevel);
 
     // HXSPRITE.PAS:153
     public virtual bool EditMode

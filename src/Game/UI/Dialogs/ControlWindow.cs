@@ -1,7 +1,7 @@
 #nullable disable
 // Translated from AOWControlWin.pas.
 using System.Collections.Immutable;
-
+using System.Globalization;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Magic.Abilities;
@@ -11,8 +11,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -235,7 +233,7 @@ public sealed partial class ControlWindow(UIContext ui) : UIModule(ui)
         MoveIcon.CurrentImage = moveTypesToInt32;
         byte fSelectedArmySelection = StrategicMap.Current.SelectedArmy.Selection;
         sbyte movePoints = UI.General.UnitList.MovePoints(fSelectedArmySelection);
-        MovesLabel.Text = IntToStr(movePoints);
+        MovesLabel.Text = ((int)movePoints).ToString(CultureInfo.InvariantCulture);
         byte selection2 = StrategicMap.Current.SelectedArmy.Selection;
         Army.PartyStatus partyStatus = StrategicMap.Current.SelectedArmy.ArmyHexSprite.Army.GetPartyStatus(selection2);
         string partyStatusText = UI.Engine.TranslateResourceString(s_partyStatusTexts[(int)partyStatus]);

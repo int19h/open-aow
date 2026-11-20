@@ -13,8 +13,6 @@ using Aow.Game.Saves;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiFiles;
 using static Aow.Rtl.DelphiPaths;
 using static Aow.Rtl.DelphiStrings;
 using static Aow.Rtl.DelphiTextCompare;
@@ -233,7 +231,7 @@ public sealed class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owne
     // PlayerC.PAS:893
     public void SendEmailGameAutomatedCallback(SmtpEventLog log)
     {
-        _ = DeleteFile(log.FileName);
+        _ = RtlHost.Files.DeleteFile(log.FileName);
         if (!log.Success)
         {
             SendEmailGameEventLog sendLog = new(null)

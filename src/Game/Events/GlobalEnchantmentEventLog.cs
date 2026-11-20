@@ -18,7 +18,7 @@ public class GlobalEnchantmentEventLog(CustomNode owner) : LocationTextEventLog(
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        EnchantmentPlayer = PersistSupport.UnsignedByte(persister, name: "EnchantmentPlayer", value: EnchantmentPlayer);
+        EnchantmentPlayer = persister.UnsignedByte(name: "EnchantmentPlayer", value: EnchantmentPlayer);
     }
 
     // Spells.PAS:2665

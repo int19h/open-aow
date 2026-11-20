@@ -1,11 +1,10 @@
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Game.Combat;
 
 using Aow.Game.World.Structures;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.World.Map;
 
@@ -38,7 +37,7 @@ public sealed class AowHexSpriteMapMouse : GameMapMouse
         {
             int hexX = HexX;
             int hexY = HexY;
-            HexSpriteMap.GetEngine().OutputDebugString($"Location ({IntToStr(hexX)},{IntToStr(hexY)}) selected");
+            HexSpriteMap.GetEngine().OutputDebugString($"Location ({hexX.ToString(CultureInfo.InvariantCulture)},{hexY.ToString(CultureInfo.InvariantCulture)}) selected");
         }
     }
 

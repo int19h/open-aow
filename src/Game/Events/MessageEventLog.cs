@@ -44,7 +44,7 @@ public partial class MessageEventLog : EventLog
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.Lines(persister, name: "Message", lines: Message);
+        persister.Lines(name: "Message", lines: Message);
         Layout = persister.Enum("Layout", value: Layout);
         Buttons = persister.Enum("Buttons", value: Buttons);
         Title = persister.String("Title", value: Title);

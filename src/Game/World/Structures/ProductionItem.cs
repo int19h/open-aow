@@ -30,7 +30,7 @@ public sealed class ProductionItem(CustomNode owner) : EngineObject(owner), IOwn
         parameter = persister.Int32("Parameter", value: parameter);
         groupId = persister.Int32("GroupId", value: groupId);
         // The translate stream's mode holds read, so the original sets the order there too.
-        if (persister.Loading || PersistSupport.Translating(persister))
+        if (persister.Loading || persister.Translating())
         {
             Order = ProductionOrder.FromFields(kind, parameter, groupId);
         }

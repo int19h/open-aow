@@ -31,7 +31,7 @@ public sealed class TutorialControl(CustomNode owner) : EngineObject(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.Int32List(persister, name: "ShownMessages", list: _shownMessages);
+        persister.Int32List(name: "ShownMessages", list: _shownMessages);
     }
 
     // AoWHSMap.PAS:16

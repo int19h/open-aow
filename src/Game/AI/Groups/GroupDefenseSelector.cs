@@ -42,7 +42,7 @@ public sealed class GroupDefenseSelector : IDisposable
     public bool GetDefenders(sbyte player, sbyte X, sbyte Y, sbyte L, UnitUserList units)
     {
         bool result = false;
-        MapCoordinate location = HexGeometry.PackMapCoordinate(X, Y, L);
+        MapCoordinate location = new(X, Y, L);
         DefensePriority priority = (DefensePriority)StrategicMap.Current.MapContainer.GetField(X, Y, L).GetDefensePriority();
         Player p = StrategicMap.Current.Players.GetPlayers(player);
         for (int i = p.AIGroups.Count - 1; i >= 0; i--)

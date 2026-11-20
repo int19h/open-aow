@@ -12,8 +12,6 @@ using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiFiles;
 using static Aow.Rtl.DelphiPaths;
 
 namespace Aow.Game.UI.Dialogs;
@@ -71,7 +69,7 @@ public sealed partial class PyreScreen(UIContext ui) : UIModule(ui)
         _ = GameOverEvent.AddRef();
         Done = done;
         SavedSongStatus = AudioPlayback.BackupSongStatus();
-        AudioPlayback.FadeMusicVolume(0, speed: 1);
+        _ = (AudioHost.SoundSystem?.FadeMusicVolume(0, speed: 1));
         UI.General.Manager.OverlayPriority = 249;
         switch (StrategicMap.Current.Players.GetPlayers(eventValue.Player).GameOverStatus)
         {
@@ -94,7 +92,7 @@ public sealed partial class PyreScreen(UIContext ui) : UIModule(ui)
         VideoDialog.SetVideoMode(UI.VideoDialog, fullScreen: VideoDialog.ScreenMode.Title);
         UI.VideoDialog.ApplyMode();
         UI.TitleWindow.MainWindow.Visible = true;
-        _ = SetCurrentDir(ExtractFileDir(LegacyApplication.Application.ExeName));
+        _ = RtlHost.Files.SetCurrentDirectory(ExtractFileDir(LegacyApplication.Application.ExeName));
     }
 
     // AOWPyreScrn.pas:48
@@ -201,7 +199,7 @@ public sealed partial class PyreScreen(UIContext ui) : UIModule(ui)
             ? AudioPlayback.PlaySong("Songs\\Special\\end2.s3m", fadeOut: 2, fadeIn: 2, loop: true)
             : AudioPlayback.PlaySong("Songs\\Special\\Sunset.it", fadeOut: 2, fadeIn: 2, loop: true);
 
-        AudioPlayback.SetMusicVolume(0);
+        _ = (AudioHost.SoundSystem?.SetMusicVolume(0));
         AudioPlayback.FadeMusicVolume(window.UI.SoundDialog.MusicVolumeSlider.Position, speed: 1);
         window.Players.Clear();
         for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)

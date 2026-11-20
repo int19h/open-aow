@@ -42,7 +42,7 @@ public class Leader(CustomNode owner) : Hero(owner)
     {
         base.PersistFields(persister);
         SpherePicksMax = persister.Byte("SpherePicksMax", value: SpherePicksMax, fallback: 5);
-        PersistSupport.ByteList(persister, name: "Spheres", list: _spheres);
+        persister.ByteList(name: "Spheres", list: _spheres);
     }
 
     // Hero.PAS:2845

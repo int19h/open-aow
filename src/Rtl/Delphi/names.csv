@@ -81,7 +81,6 @@ type,DiplomaticMessageText,Aow.Game.Session.DiplomaticMessageText
 type,DiplomaticProposal,Aow.Game.Session.DiplomaticProposal
 type,DiplomaticProposalCases,Aow.Game.Saves.DiplomaticProposalCases
 type,DirectedInputs,Aow.Headless.DirectedInputs
-type,DisplayCodes,Aow.Game.Draw.DisplayCodes
 type,DisplayDialogs,Aow.Platform.SdlHost.DisplayDialogs
 type,DisplayViewport,Aow.Game.Host.DisplayViewport
 type,DocPath,Aow.Formats.DocumentNodePath

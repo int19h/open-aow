@@ -1,6 +1,7 @@
 #nullable disable
 // Translated from Engine.pas.
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using Aow.Engine;
 using Aow.Engine.Collections;
@@ -28,7 +29,6 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Game.World.Terrain;
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiPaths;
 using static Aow.Rtl.DelphiStreams;
 using static Aow.Rtl.DelphiStrings;
@@ -198,7 +198,7 @@ public partial class GameEngine : OwningNode
     public virtual EngineClass GetEngineClass(int classId)
     {
         return !ClassTable.TryGetValue(classId, out EngineClass result) || result is null
-            ? throw new KeyNotFoundException($"Unregistered E-ClassID found ({IntToStr(classId)})")
+            ? throw new KeyNotFoundException($"Unregistered E-ClassID found ({classId.ToString(CultureInfo.InvariantCulture)})")
             : result;
     }
 
@@ -388,7 +388,7 @@ public partial class GameEngine : OwningNode
     public void WriteToFile(string fileName, EngineObject objectValue, Engine.ProgressEvent progress)
     {
         byte[] image = WriteObjectImage(objectValue, progress: progress, classTable: "game");
-        Stream f = OpenFile(fileName, mode: 65535);
+        Stream f = OpenFile(fileName, mode: FileOpenMode.Create);
         try
         {
             f.Write(image);
@@ -403,7 +403,7 @@ public partial class GameEngine : OwningNode
     public void ReadFromFile(string fileName, EngineObject objectValue, Engine.ProgressEvent progress)
     {
         MemoryStream m = new();
-        Stream f = OpenFile(fileName, mode: 0 | 0b0010_0000);
+        Stream f = OpenFile(fileName, mode: FileOpenMode.Read | FileOpenMode.ShareDenyWrite);
         try
         {
             m.LoadFromStream(f);
@@ -435,7 +435,7 @@ public partial class GameEngine : OwningNode
             int crc1 = EngineServices.GetCrc32(size: (int)m.Length, buffer: m.GetBuffer());
             m.Write(Bytes.Of(ref crc1));
             int crc2 = EngineServices.GetCrc32(size: (int)m.Length, buffer: m.GetBuffer());
-            Stream f = OpenFile(fileName, mode: 65535);
+            Stream f = OpenFile(fileName, mode: FileOpenMode.Create);
             try
             {
                 f.Write(Bytes.Of(ref crc2));
@@ -456,7 +456,7 @@ public partial class GameEngine : OwningNode
     public bool ReadFromFileCrc(string fileName, EngineObject objectValue, Engine.ProgressEvent progress, string classTable = "game")
     {
         MemoryStream m = new();
-        Stream f = OpenFile(fileName, mode: 0 | 0b0010_0000);
+        Stream f = OpenFile(fileName, mode: FileOpenMode.Read | FileOpenMode.ShareDenyWrite);
         try
         {
             m.LoadFromStream(f);

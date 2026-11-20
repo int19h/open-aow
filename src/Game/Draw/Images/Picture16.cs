@@ -207,11 +207,11 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
             switch (pixelFormatId)
             {
                 case PixelFormat.Rgb565:
-                    PixelRemap.RemapSurface555To565(View, destination: View, DataWidth, DataHeight);
+                    Blit.RemapSurface555To565(View, d: View, w: DataWidth, h: DataHeight);
                     PixelFormatId = PixelFormat.Rgb565;
                     break;
                 case PixelFormat.Rgb555:
-                    PixelRemap.RemapSurface565To555(View, destination: View, DataWidth, DataHeight);
+                    Blit.RemapSurface565To555(View, d: View, w: DataWidth, h: DataHeight);
                     PixelFormatId = PixelFormat.Rgb555;
                     break;
                 case PixelFormat.None:
@@ -285,7 +285,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                     destination = lockedSurface.View((destinationX << 1) + (lockedSurface.Pitch * destinationY));
                     if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
-                        BlitRects.BlitRectangle(source, destination, w * 2, h);
+                        Blit.BlitRectangle(source, d: destination, w: w * 2, h: h);
                     }
                     else
                     {
@@ -294,7 +294,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        BlitRects.BlitRectangle(source, destination, w * 2, h);
+                        Blit.BlitRectangle(source, d: destination, w: w * 2, h: h);
                     }
 
                     if (LoadMode == LoadMode.LoadFreeOnDemand)
@@ -308,7 +308,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                     destination = lockedSurface.View((destinationX << 1) + (lockedSurface.Pitch * destinationY));
                     if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
-                        BlitRects.BlitRectangle(source, destination, w * 2, h);
+                        Blit.BlitRectangle(source, d: destination, w: w * 2, h: h);
                     }
                     else
                     {
@@ -317,7 +317,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        BlitRects.BlitRectangle(source, destination, w * 2, h);
+                        Blit.BlitRectangle(source, d: destination, w: w * 2, h: h);
                     }
                 }
             }

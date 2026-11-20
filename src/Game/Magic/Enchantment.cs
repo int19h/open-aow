@@ -24,8 +24,8 @@ public class Enchantment(CustomNode owner) : EngineObject(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        DispelResistance = PersistSupport.UnsignedByte(persister, name: "DispelResistance", value: DispelResistance);
-        Source = PersistSupport.UnsignedByte(persister, name: "Source", value: Source);
+        DispelResistance = persister.UnsignedByte(name: "DispelResistance", value: DispelResistance);
+        Source = persister.UnsignedByte(name: "Source", value: Source);
         Upkeep = persister.Int32("Upkeep", value: Upkeep);
         EnchantmentId = persister.Int32("EnchantmentId", value: EnchantmentId);
     }

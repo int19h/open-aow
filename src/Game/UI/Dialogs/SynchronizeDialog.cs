@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWSyncDlg.pas.
+using System.Globalization;
 using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
@@ -7,8 +8,6 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -72,7 +71,7 @@ public sealed partial class SynchronizeDialog(UIContext ui) : UIModule(ui)
             }
 
             string day = UI.Engine.TranslateResourceString(GameText.DayText);
-            TurnLabel.Text = $"{day} {IntToStr(day2)}";
+            TurnLabel.Text = $"{day} {day2.ToString(CultureInfo.InvariantCulture)}";
             LeftShield.CurrentImage = settings.Race + 26;
             RightShield.CurrentImage = settings.Race + 26;
         }

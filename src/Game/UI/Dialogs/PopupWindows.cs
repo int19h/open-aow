@@ -1,7 +1,7 @@
 #nullable disable
 // Translated from AoWPWindows.pas.
 using System.Collections.Immutable;
-
+using System.Globalization;
 using Aow.Game.Combat;
 using Aow.Game.Events;
 using Aow.Game.Host;
@@ -123,7 +123,7 @@ public sealed partial class PopupWindows(UIContext ui) : UIModule(ui)
             case 2:
                 // The original switches to windowed mode first. The port runs borderless
                 // fullscreen, and the browser opens over it.
-                RtlHost.OpenUrl(AgeOfWondersUrl);
+                (RtlHost.Shell ?? throw new InvalidOperationException($"No shell service opens {AgeOfWondersUrl}")).OpenUrl(AgeOfWondersUrl);
                 break;
             default:
                 break;
@@ -218,7 +218,7 @@ public sealed partial class PopupWindows(UIContext ui) : UIModule(ui)
         if (StrategicMap.Current.DayLimit > 0)
         {
             string s3 = dialog.UI.Engine.TranslateResourceString(s_dayLimitFormat);
-            FormatArg value3 = (FormatArg)DelphiConversions.IntToStr(StrategicMap.Current.DayLimit);
+            FormatArg value3 = (FormatArg)StrategicMap.Current.DayLimit.ToString(CultureInfo.InvariantCulture);
             string text6 = AbilityRules.Format(s3, arguments: new ReadOnlySpan<FormatArg>(ref value3));
             _ = dialog.RightPageMemo.Items.Add(text6);
         }
@@ -240,15 +240,15 @@ public sealed partial class PopupWindows(UIContext ui) : UIModule(ui)
         }
         int count = StrategicMap.Current.Players.GetCount();
         string s6 = dialog.UI.Engine.TranslateResourceString(s_playersOnMapFormat);
-        FormatArg value6 = (FormatArg)DelphiConversions.IntToStr(count - 1);
+        FormatArg value6 = (FormatArg)(count - 1).ToString(CultureInfo.InvariantCulture);
         string text11 = AbilityRules.Format(s6, arguments: new ReadOnlySpan<FormatArg>(ref value6));
         _ = dialog.RightPageMemo.Items.Add(text11);
         string s7 = dialog.UI.Engine.TranslateResourceString(s_maximumSphereLevelFormat);
-        FormatArg value7 = (FormatArg)DelphiConversions.IntToStr(StrategicMap.Current.SphereCount);
+        FormatArg value7 = (FormatArg)StrategicMap.Current.SphereCount.ToString(CultureInfo.InvariantCulture);
         string text12 = AbilityRules.Format(s7, arguments: new ReadOnlySpan<FormatArg>(ref value7));
         _ = dialog.RightPageMemo.Items.Add(text12);
         string s8 = dialog.UI.Engine.TranslateResourceString(s_maximumPlayerHeroesFormat);
-        FormatArg value8 = (FormatArg)DelphiConversions.IntToStr(StrategicMap.Current.HeroCountMax);
+        FormatArg value8 = (FormatArg)((int)StrategicMap.Current.HeroCountMax).ToString(CultureInfo.InvariantCulture);
         string text13 = AbilityRules.Format(s8, arguments: new ReadOnlySpan<FormatArg>(ref value8));
         _ = dialog.RightPageMemo.Items.Add(text13);
         if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Local && StrategicMap.Current.RequestCombatType)

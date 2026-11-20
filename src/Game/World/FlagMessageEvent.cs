@@ -33,7 +33,7 @@ public class FlagMessageEvent(CustomNode owner) : FlagEvent(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.Lines(persister, name: "Message", lines: _message);
+        persister.Lines(name: "Message", lines: _message);
         _helpFileName = persister.String("HelpFileName", value: _helpFileName);
     }
 

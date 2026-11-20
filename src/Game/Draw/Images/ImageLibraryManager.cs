@@ -2,7 +2,6 @@
 // Translated from ImageLib.pas.
 using Aow.Rtl;
 using Aow.Rtl.Host;
-using static Aow.Rtl.DelphiFiles;
 using static Aow.Rtl.DelphiTextCompare;
 using static Aow.Rtl.RtlHost;
 
@@ -85,10 +84,10 @@ public sealed class ImageLibraryManager : Component
             SearchPath += "\\";
         }
 
-        string directory = GetCurrentDir();
-        _ = SetCurrentDir(path);
+        string directory = Files.CurrentDirectory;
+        _ = Files.SetCurrentDirectory(path);
         SearchDirectory("");
-        _ = SetCurrentDir(directory);
+        _ = Files.SetCurrentDirectory(directory);
     }
 
     // ImageLib.pas:8331

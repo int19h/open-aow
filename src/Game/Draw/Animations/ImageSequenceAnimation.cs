@@ -6,7 +6,6 @@ using Aow.Game.Draw.Images;
 
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Rtl.RectRoutines;
 
 namespace Aow.Game.Draw.Animations;
 
@@ -95,7 +94,7 @@ public sealed class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
         {
             sequence.GetDimensions(out Rect r);
             Rect input = Dimensions;
-            _ = UnionRect(out Rect dimensions5, input, r);
+            _ = input.Union(right: r, result: out Rect dimensions5);
             Dimensions = dimensions5;
             sequence = sequence.Next;
         }

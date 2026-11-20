@@ -1,6 +1,4 @@
 
-using Aow.Game.Host;
-
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Rtl;
@@ -256,9 +254,5 @@ public static class WindowActions
     }
 
     public static void OriginalAssert(string message, string fileName, int lineNumber) => Assert(false, message, file: fileName, line: lineNumber);
-
-    internal static void SetMainCursor(IGameHost form, int cursor) => form.FCursor = (short)Math.Abs(cursor);
-
-    internal static void ShowTitleScene(TitleScene scene, bool music) => scene.ShowScene(music);
 
 }

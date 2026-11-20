@@ -47,11 +47,11 @@ public sealed class ImageClassTests
                 LibraryImageClass.Of<Picture16>(), LibraryImageClass.Of<TransparentPicture16>(),
                 LibraryImageClass.Of<RleSprite16>(), LibraryImageClass.Of<TransparentRleSprite16>(),
                 LibraryImageClass.Of<Shadow>(), LibraryImageClass.Of<ImageNode>(), LibraryImageClass.Of<Sprite16>()]);
-            Assert.Equal(baseline.Length, LibraryCatalog.LibraryImageClassCount());
+            Assert.Equal(baseline.Length, ImageLibraries.LibraryImageClasses.Count);
             for (int i = 0; i < baseline.Length; i++)
             {
                 Baseline expected = baseline[i];
-                LibraryImageClass descriptor = LibraryCatalog.GetLibraryImageClass(i);
+                LibraryImageClass descriptor = ImageLibraries.LibraryImageClasses[i];
                 Assert.Equal(expected.Type, descriptor.Type.FullName);
                 Assert.Equal(expected.ClassId, descriptor.ClassId);
                 Assert.Equal(expected.ClassVersion, descriptor.ClassVersion);

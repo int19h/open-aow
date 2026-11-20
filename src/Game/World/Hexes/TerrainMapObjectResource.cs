@@ -17,7 +17,7 @@ public class TerrainMapObjectResource(CustomNode owner) : MultiHexMapObjectResou
     {
         base.PersistFields(persister);
         TerrainType = persister.Byte("TerrainType", value: TerrainType);
-        DecorationType = PersistSupport.UnsignedByte(persister, name: "DecorationType", value: DecorationType);
+        DecorationType = persister.UnsignedByte(name: "DecorationType", value: DecorationType);
     }
 
     // Terrain.pas:322

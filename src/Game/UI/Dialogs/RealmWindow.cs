@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWRealm.pas.
+using System.Globalization;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Magic.Abilities;
@@ -10,8 +11,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.UI.Dialogs;
@@ -70,14 +69,14 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
     public void UpdateIncome()
     {
         Player playerGems = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
-        TreasuryLabel.Text = IntToStr(playerGems.Gems);
+        TreasuryLabel.Text = playerGems.Gems.ToString(CultureInfo.InvariantCulture);
         int upkeep = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetUpkeep();
         Player playerIncome = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
-        NetIncomeLabel.Text = IntToStr(playerIncome.Income - upkeep);
+        NetIncomeLabel.Text = (playerIncome.Income - upkeep).ToString(CultureInfo.InvariantCulture);
         Player player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
-        IncomeLabel.Text = IntToStr(player.Income);
+        IncomeLabel.Text = player.Income.ToString(CultureInfo.InvariantCulture);
         int upkeep2 = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetUpkeep();
-        UpkeepLabel.Text = IntToStr(upkeep2);
+        UpkeepLabel.Text = upkeep2.ToString(CultureInfo.InvariantCulture);
         IncomeMemo.Items.Clear();
         IncomeValueMemo.Items.Clear();
         UpkeepValueMemo.Items.Clear();
@@ -86,7 +85,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
         {
             string externalIncome = UI.Engine.TranslateResourceString(s_externalIncomeText);
             _ = IncomeMemo.Items.Add(externalIncome);
-            _ = IncomeValueMemo.Items.Add(IntToStr(value));
+            _ = IncomeValueMemo.Items.Add(value.ToString(CultureInfo.InvariantCulture));
         }
 
         value = CityIncome(StrategicMap.Current.SeatedPlayer);
@@ -94,7 +93,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
         {
             string cities = UI.Engine.TranslateResourceString(s_citiesText);
             _ = IncomeMemo.Items.Add(cities);
-            _ = IncomeValueMemo.Items.Add(IntToStr(value));
+            _ = IncomeValueMemo.Items.Add(value.ToString(CultureInfo.InvariantCulture));
         }
 
         value = FarmIncome(StrategicMap.Current.SeatedPlayer);
@@ -102,7 +101,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
         {
             string farms = UI.Engine.TranslateResourceString(s_farmsText);
             _ = IncomeMemo.Items.Add(farms);
-            _ = IncomeValueMemo.Items.Add(IntToStr(value));
+            _ = IncomeValueMemo.Items.Add(value.ToString(CultureInfo.InvariantCulture));
         }
 
         value = MineIncome(StrategicMap.Current.SeatedPlayer);
@@ -110,7 +109,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
         {
             string mines = UI.Engine.TranslateResourceString(s_minesText);
             _ = IncomeMemo.Items.Add(mines);
-            _ = IncomeValueMemo.Items.Add(IntToStr(value));
+            _ = IncomeValueMemo.Items.Add(value.ToString(CultureInfo.InvariantCulture));
         }
 
         value = BuildersGuildIncome(StrategicMap.Current.SeatedPlayer);
@@ -118,11 +117,11 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
         {
             string buildersGuilds = UI.Engine.TranslateResourceString(s_buildersGuildsText);
             _ = IncomeMemo.Items.Add(buildersGuilds);
-            _ = IncomeValueMemo.Items.Add(IntToStr(value));
+            _ = IncomeValueMemo.Items.Add(value.ToString(CultureInfo.InvariantCulture));
         }
 
         Player playerArmyUpkeep = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
-        _ = UpkeepValueMemo.Items.Add(IntToStr(playerArmyUpkeep.ArmyUpkeep));
+        _ = UpkeepValueMemo.Items.Add(playerArmyUpkeep.ArmyUpkeep.ToString(CultureInfo.InvariantCulture));
     }
 
     // AoWRealm.pas:178
@@ -148,8 +147,8 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
                 _ = CityNameList.Items.AddObject(name, item: c);
                 string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[c.Race]);
                 _ = CityRaceList.Items.Add(raceNamesPlural);
-                _ = CityIncomeList.Items.Add(IntToStr(c.Income));
-                _ = CityLevelList.Items.Add(IntToStr(c.UpgradeLevel));
+                _ = CityIncomeList.Items.Add(((int)c.Income).ToString(CultureInfo.InvariantCulture));
+                _ = CityLevelList.Items.Add(((int)c.UpgradeLevel).ToString(CultureInfo.InvariantCulture));
                 _ = c.WallType switch
                 {
                     1 => CityWallList.Items.Add("1"),
@@ -178,7 +177,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
 
                 _ = CityEnchantmentList.Items.Add("-");
                 int size = c.Size;
-                _ = CitySizeList.Items.Add(IntToStr(size));
+                _ = CitySizeList.Items.Add(size.ToString(CultureInfo.InvariantCulture));
             }
         }
     }
@@ -219,9 +218,9 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
                     _ = HeroNameList.Items.AddObject(name, item: army);
                     sbyte hitPoints = u.GetHitPoints();
                     sbyte hits = u.GetHits();
-                    _ = HeroHealthList.Items.AddObject($"{IntToStr(hitPoints)}/{IntToStr(hits)}", item: hero);
+                    _ = HeroHealthList.Items.AddObject($"{((int)hitPoints).ToString(CultureInfo.InvariantCulture)}/{((int)hits).ToString(CultureInfo.InvariantCulture)}", item: hero);
                     sbyte level = hero.GetLevel();
-                    _ = HeroLevelList.Items.Add(IntToStr(level));
+                    _ = HeroLevelList.Items.Add(((int)level).ToString(CultureInfo.InvariantCulture));
                 }
             }
         }

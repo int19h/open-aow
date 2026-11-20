@@ -33,8 +33,8 @@ public class StructureTokenEvent(CustomNode owner) : TokenEvent(owner)
     {
         base.PersistFields(persister);
         Action = persister.Int32("Action", value: Action);
-        Location = PersistSupport.Coordinate(persister, name: "Location", value: Location, width: CoordinateWidth.Byte);
-        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        Location = persister.Coordinate(name: "Location", value: Location, width: CoordinateWidth.Byte);
+        Player = persister.UnsignedByte(name: "Player", value: Player);
         _structureClassId = persister.Int32("StructureClassId", value: _structureClassId);
         _razed = persister.Boolean("Razed", value: _razed);
         Param = persister.Int32("Param", value: Param);

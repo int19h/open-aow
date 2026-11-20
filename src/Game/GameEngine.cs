@@ -2,6 +2,7 @@
 // Translated from AoWE.pas.
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
@@ -25,8 +26,6 @@ using Aow.Game.World.Movement;
 using Aow.Game.World.Terrain;
 using Aow.Rtl;
 using Aow.Rtl.Localize;
-using static Aow.Rtl.DelphiConversions;
-using static Aow.Rtl.DelphiFiles;
 using static Aow.Rtl.DelphiStreams;
 using static Aow.Rtl.DelphiStrings;
 using static Aow.Rtl.DelphiTextCompare;
@@ -177,7 +176,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     // Army.PAS:5660
     public void TranslateEngineObjectFromFile(EngineObject objectValue, string fileName)
     {
-        if (FileExists(fileName))
+        if (RtlHost.Files.FileExists(fileName))
         {
             IvBinaryDictionary dictionary = new();
             try
@@ -283,9 +282,9 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     // Army.PAS:5941
     public string GetVersionString()
     {
-        string result = $"{IntToStr(MajorVersion)}.";
+        string result = $"{MajorVersion.ToString(CultureInfo.InvariantCulture)}.";
         int version = MinorVersion;
-        result = version < 10 ? $"{result}0{IntToStr(version)}." : $"{result}{IntToStr(version)}.";
+        result = version < 10 ? $"{result}0{version.ToString(CultureInfo.InvariantCulture)}." : $"{result}{version.ToString(CultureInfo.InvariantCulture)}.";
 
         version = BuildNumber;
         if (version < 1_000)
@@ -303,7 +302,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
             result += "0";
         }
 
-        return result + IntToStr(version);
+        return result + version.ToString(CultureInfo.InvariantCulture);
     }
 
     // Army.PAS:5983
@@ -313,7 +312,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         {
             MemoryStream memory = new();
             // { Original leaks Mem if opening or loading the file raises. }
-            Stream fileStream = OpenFile($"{StartupDirectory}RELEASE\\GENERAL.PFS", mode: 0 | 0b0010_0000);
+            Stream fileStream = OpenFile($"{StartupDirectory}RELEASE\\GENERAL.PFS", mode: FileOpenMode.Read | FileOpenMode.ShareDenyWrite);
             try
             {
                 memory.LoadFromStream(fileStream);
@@ -385,7 +384,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
                 for (int i = 1; i <= 4; i++)
                 {
-                    string hex = IntToHex((Cp1252.Byte(text[i - 1]) * value) + i, digits: 6);
+                    string hex = unchecked((uint)((Cp1252.Byte(text[i - 1]) * value) + i)).ToString("X6", provider: CultureInfo.InvariantCulture);
                     result += hex[^1].ToString();
                     value += Cp1252.Byte(hex[^1]) + Cp1252.Byte(hex[0]);
                 }

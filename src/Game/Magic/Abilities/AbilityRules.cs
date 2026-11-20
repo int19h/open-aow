@@ -1,6 +1,7 @@
 #nullable disable
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using Aow.Engine;
 using Aow.Game.Combat;
 using Aow.Game.Commands;
@@ -12,7 +13,6 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
 
@@ -222,31 +222,8 @@ public static class AbilityRules
                 ? 0
                 : 16_777_215;
 
-            engine.CombatFont.SetTextCentered(x + 34, y + 36, text: IntToStr(damage), lockedSurface: surface);
+            engine.CombatFont.SetTextCentered(x + 34, y + 36, text: damage.ToString(CultureInfo.InvariantCulture), lockedSurface: surface);
         }
-    }
-
-    internal static int MoraleToMoraleValue(int value)
-    {
-        switch (value & 0b0111_1111)
-        {
-            case 0:
-                return 10;
-            case 1:
-                return 30;
-            case 2:
-                return 50;
-            case 3:
-                return 70;
-            case 4:
-                return 90;
-            default:
-                // { Original leaks the exception without raising it. }
-                _ = new ArgumentException("Invalid TMoral Value");
-                break;
-        }
-
-        return 50;
     }
 
     internal static Troop.Morale MoraleValueToMorale(int value)
@@ -280,26 +257,6 @@ public static class AbilityRules
         }
 
         return Troop.Morale.Ok;
-    }
-
-    internal static Status AlignmentsToStatus(Set<Alignment> A, Set<Alignment> B) => A == B ? Status.Friendly : (A & B) == Set<Alignment>.Of() ? Status.Hostile : Status.Neutral;
-
-    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The stubbed Delphi AlignmentsToInt32 signature keeps alignments.")]
-    internal static int AlignmentsToInt32(Set<Alignment> alignments)
-    {
-        /* TODO: Implement cell or array backing for this address. */
-        throw new NotImplementedException();
-        int result;
-        return result;
-    }
-
-    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The stubbed Delphi ToAlignments signature keeps value.")]
-    internal static Set<Alignment> ToAlignments(int value)
-    {
-        /* TODO: Implement cell or array backing for this address. */
-        throw new NotImplementedException();
-        Set<Alignment> result;
-        return result;
     }
 
     internal static int PlaceRandomUnits(int X, int Y, int L, sbyte player, UnitIndexList units, int level, int value, Set<UnitType> types, GameEngine engine)
@@ -437,21 +394,6 @@ public static class AbilityRules
         for (int i = 1; i <= text.Length; i++)
         {
             result += Cp1252.Text((byte)(Cp1252.Byte(text[i - 1]) ^ ((text.Length + i + 5) & 0xFF)));
-        }
-
-        return result;
-    }
-
-    internal static Set<DamageType> InvertDamageTypes(Set<DamageType> types)
-    {
-        Set<DamageType> result = Set<DamageType>.Of();
-        for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.None; damageTypeOrdinal++)
-        {
-            DamageType damageType = (DamageType)damageTypeOrdinal;
-            if (!types.Contains(damageType))
-            {
-                result += Set<DamageType>.Of(damageType);
-            }
         }
 
         return result;
@@ -621,16 +563,6 @@ public static class AbilityRules
         return true;
     }
 
-    internal static int OffensiveStrength(int attack, int damage, int repeats)
-    {
-        if (damage > 10)
-        {
-            damage = 10;
-        }
-
-        return attack * damage * repeats / 2;
-    }
-
     internal static bool CanConstructRoad(sbyte player, MapField field)
     {
         bool result = player == field.GetPlayer() || field.GetPlayer() == -1;
@@ -680,8 +612,6 @@ public static class AbilityRules
             info = query.Info;
         }
     }
-
-    internal static Set<MoveType> ToMoveTypes(int value) => Set<MoveType>.FromMask((byte)value);
 
     internal static Set<DamageType> AllDamageTypes { get; } = Set<DamageType>.FromMask(1023UL);
 

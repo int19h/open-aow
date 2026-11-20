@@ -4,7 +4,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Rtl;
-using static Aow.Rtl.DelphiFiles;
 using static Aow.Rtl.DelphiStrings;
 using static Aow.Rtl.LegacyApplication;
 
@@ -93,7 +92,7 @@ public sealed partial class MultiWindow(UIContext ui) : UIModule(ui)
 
         UI.TitleWindow.MainWindow.Visible = false;
         MultiPanel.Visible = false;
-        WindowActions.ShowTitleScene(UI.TitleScene, music: true);
+        UI.TitleScene.ShowScene(true);
     }
 
     // AOWMultiWin.pas:142
@@ -254,7 +253,7 @@ public sealed partial class MultiWindow(UIContext ui) : UIModule(ui)
     {
         UI.FileDialogWindow.Mode = 0;
         UI.FileDialogWindow.Window.Visible = true;
-        _ = SetCurrentDir($"{UI.Engine.StartupDirectory}EmailIn\\");
+        _ = RtlHost.Files.SetCurrentDirectory($"{UI.Engine.StartupDirectory}EmailIn\\");
         UI.FileDialogWindow.FindFiles();
     }
 

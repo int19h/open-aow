@@ -64,7 +64,7 @@ public partial class AIMoveExecutorControl : EngineObject
                     {
                         if (CanMoveTo(army, selection, (sbyte)walk.X, (sbyte)walk.Y, mapLevel) == selection)
                         {
-                            _ = candidates.Add(new SurroundCandidate(Location: HexGeometry.PackMapCoordinate((sbyte)walk.X, (sbyte)walk.Y, mapLevel), MovePoints: points));
+                            _ = candidates.Add(new SurroundCandidate(Location: new MapCoordinate((sbyte)walk.X, (sbyte)walk.Y, mapLevel), MovePoints: points));
                         }
                     }
                 }

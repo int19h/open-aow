@@ -153,7 +153,7 @@ public partial class Surface : IDisposable
 
                     SurfaceView s = sourceSurface.View((sourceRectangle.Value.Left * sourceSurface.BitCount / 8) + (sourceRectangle.Value.Top * sourceSurface.Pitch));
                     SurfaceView d = destinationSurface.View((X * destinationSurface.BitCount / 8) + (Y * destinationSurface.Pitch));
-                    BlitRects.BlitRectangle(s, destination: d, (sourceRectangle.Value.Right - sourceRectangle.Value.Left) * destinationSurface.BitCount / 8, sourceRectangle.Value.Bottom - sourceRectangle.Value.Top);
+                    Graphics.Blit.BlitRectangle(s, d: d, w: (sourceRectangle.Value.Right - sourceRectangle.Value.Left) * destinationSurface.BitCount / 8, h: sourceRectangle.Value.Bottom - sourceRectangle.Value.Top);
                     _ = Unlock();
                     result = GraphicsResult.Ok;
                 }
@@ -279,7 +279,7 @@ public partial class Surface : IDisposable
 
                     SurfaceView s = sourceSurface.View((sourceRectangle.Value.Left * sourceSurface.BitCount / 8) + (sourceRectangle.Value.Top * sourceSurface.Pitch));
                     SurfaceView d = destinationSurface.View((X * destinationSurface.BitCount / 8) + (Y * destinationSurface.Pitch));
-                    BlitRects.BlitColorKey16(s, destination: d, sourceRectangle.Value.Right - sourceRectangle.Value.Left, sourceRectangle.Value.Bottom - sourceRectangle.Value.Top, colorKey);
+                    Graphics.Blit.BlitColorKey16(s, d: d, w: sourceRectangle.Value.Right - sourceRectangle.Value.Left, h: sourceRectangle.Value.Bottom - sourceRectangle.Value.Top, key: colorKey);
                     result = GraphicsResult.Ok;
                     _ = Unlock();
                 }

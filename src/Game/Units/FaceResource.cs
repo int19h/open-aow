@@ -30,7 +30,7 @@ public sealed class FaceResource(CustomNode owner) : EngineResource(owner)
     {
         base.PersistFields(persister);
         // The original leaves the library name out under the text-only mode of the translate stream.
-        if (!PersistSupport.Translating(persister))
+        if (!persister.Translating())
         {
             _imageLibraryName = persister.String("ImageLibraryName", value: _imageLibraryName);
         }

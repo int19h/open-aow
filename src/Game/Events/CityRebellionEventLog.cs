@@ -27,7 +27,7 @@ public partial class CityRebellionEventLog(CustomNode owner) : EventLog(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Location = PersistSupport.Coordinate(persister, name: "Location", value: Location, width: CoordinateWidth.Int32);
+        Location = persister.Coordinate(name: "Location", value: Location, width: CoordinateWidth.Int32);
         CityName = persister.String("CityName", value: CityName);
     }
 

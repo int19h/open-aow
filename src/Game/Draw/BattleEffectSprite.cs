@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWTC.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
@@ -9,8 +10,6 @@ using Aow.Game.Draw.Images;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
 using static Aow.Rtl.PCharStrings;
@@ -1746,7 +1745,7 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
         catch
         {
             // { Original puts the diagnostic in the message-box caption. }
-            _ = MessageBox(0, text: "Error during NewFrame", caption: NullTerminatedText($"Error - fxHS {IntToStr(AbilityIndex)} {IntToStr(SpellIndex)}"), flags: 0);
+            _ = MessageBox(0, text: "Error during NewFrame", caption: NullTerminatedText($"Error - fxHS {AbilityIndex.ToString(CultureInfo.InvariantCulture)} {SpellIndex.ToString(CultureInfo.InvariantCulture)}"), flags: 0);
         }
     }
 }

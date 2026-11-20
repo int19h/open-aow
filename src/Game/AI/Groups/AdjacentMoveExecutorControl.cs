@@ -466,7 +466,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
         if (mapCoordinate == MapCoordinate.None)
         {
             MapCoordinate location = Executor.Destination;
-            mapCoordinate = HexGeometry.PackMapCoordinate(location.X, location.Y, location.MapLevel);
+            mapCoordinate = new MapCoordinate(location.X, location.Y, location.MapLevel);
         }
 
         AIMoveExecutorArmyList armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready));

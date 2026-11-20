@@ -1,10 +1,9 @@
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 
 using Aow.Formats.Tree;
-
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.AI;
@@ -50,7 +49,7 @@ public class AIBudget(CustomNode owner) : EngineObject(owner)
     public virtual bool Ready => RequiredGold == Gold && RequiredMana == Mana;
 
     // AI.pas:1678
-    public virtual void OutputDebugInfo() => GetEngine().OutputDebugMessage(DebugChannel.Temporary, S: $"{GetType().Name} Gold:{IntToStr(Gold)}/{IntToStr(RequiredGold)} Mana:{IntToStr(Mana)}/{IntToStr(RequiredMana)}");
+    public virtual void OutputDebugInfo() => GetEngine().OutputDebugMessage(DebugChannel.Temporary, S: $"{GetType().Name} Gold:{Gold.ToString(CultureInfo.InvariantCulture)}/{RequiredGold.ToString(CultureInfo.InvariantCulture)} Mana:{Mana.ToString(CultureInfo.InvariantCulture)}/{RequiredMana.ToString(CultureInfo.InvariantCulture)}");
 
     // AI.pas:1675
     public virtual void Done()

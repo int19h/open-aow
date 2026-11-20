@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from ManaCrystals.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.AI;
@@ -9,7 +10,6 @@ using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiFormat;
 
 namespace Aow.Game.World.Terrain;
@@ -164,7 +164,7 @@ public class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         {
             Holder = CreationHolder(),
             Player = (sbyte)(byte)armyHexSprite.Army.Player,
-            Text = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_manaCrystalsFoundFormat), args: [IntToStr(_amount)])
+            Text = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_manaCrystalsFoundFormat), args: [_amount.ToString(CultureInfo.InvariantCulture)])
         };
         log.SetLocation(level: HexLevel, y: HexY, x: HexX);
         StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(log);

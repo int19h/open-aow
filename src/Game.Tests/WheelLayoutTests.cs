@@ -249,7 +249,7 @@ public sealed class WheelLayoutTests(WheelLayoutTests.Host host) : IClassFixture
             dialog.Mode = 2;
             dialog.FileNameEdit.Text = "valley.map";
             dialog.SaveFileNameEdit.Text = "stale.asg";
-            Assert.True(DelphiFiles.SetCurrentDir("one"));
+            Assert.True(RtlHost.Files.SetCurrentDirectory("one"));
             dialog.FindFiles();
             Assert.Equal(["alpha", "aaa.asg", "zzz.asg"], Names(dialog.FileList));
             Assert.Equal("valley.map", dialog.FileNameEdit.Text);

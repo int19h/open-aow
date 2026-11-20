@@ -31,7 +31,7 @@ public class CommandAbilityData(CustomNode owner) : AbilityData(owner)
     {
         base.PersistFields(persister);
         AbilityId = persister.Int32("AbilityId", value: AbilityId);
-        PersistSupport.ByteList(persister, name: "CommandedUnits", list: CommandedUnits);
+        persister.ByteList(name: "CommandedUnits", list: CommandedUnits);
     }
 
     // AoWAb.PAS:4963

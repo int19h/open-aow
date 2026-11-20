@@ -133,7 +133,7 @@ public sealed class Cp1252Tests
             Assert.Equal(DelphiTextCompare.UpperCase(ansi), DelphiTextCompare.UpperCase(text));
             Assert.Equal(DelphiTextCompare.LowerCase(ansi), DelphiTextCompare.LowerCase(text));
             Assert.Equal(Cp1252.Char(DelphiOrdinals.UpCase((byte)b)), DelphiOrdinals.UpCase(Cp1252.Char((byte)b)));
-            Assert.Equal(b, DelphiOrdinals.Ord(Cp1252.Char((byte)b)));
+            Assert.Equal(b, Cp1252.Byte(Cp1252.Char((byte)b)));
         }
         Assert.Equal("\u00b5", DelphiTextCompare.AnsiUpperCase("\u00b5"));
     }
@@ -147,15 +147,15 @@ public sealed class Cp1252Tests
             Assert.Equal(text, DelphiFormat.Format("%s", text));
             Assert.Equal(text, DelphiFormat.Format("%s", text[0]));
             Assert.Equal(text, DelphiFormat.Format("%s", (byte)b));
-            Assert.Equal(text, DelphiFormat.Format("%s", PCharStrings.StrPas(Ptr<byte>.Unbox(text))));
+            Assert.Equal(text, DelphiFormat.Format("%s", PCharStrings.FromPChar(Ptr<byte>.Unbox(text))));
             Assert.Equal($"[{text}\0{text}]", DelphiFormat.Format("[%s]", text + "\0" + text));
         }
         // A char outside the table stays itself in a string or char argument. It meets the table
         // where it becomes a byte, as in a PChar, which reaches Format through StrPas.
         Assert.Equal("\u2603", DelphiFormat.Format("%s", '\u2603'));
         Assert.Equal("\u0080", DelphiFormat.Format("%s", "\u0080"));
-        Assert.Equal("?", DelphiFormat.Format("%s", PCharStrings.StrPas(Ptr<byte>.Unbox("\u2603"))));
-        Assert.Equal("?", DelphiFormat.Format("%s", PCharStrings.StrPas(Ptr<byte>.Unbox("\u0080"))));
+        Assert.Equal("?", DelphiFormat.Format("%s", PCharStrings.FromPChar(Ptr<byte>.Unbox("\u2603"))));
+        Assert.Equal("?", DelphiFormat.Format("%s", PCharStrings.FromPChar(Ptr<byte>.Unbox("\u0080"))));
     }
 
     [Fact]

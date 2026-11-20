@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas and AoWTC.pas.
+using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Game.Audio;
@@ -12,7 +13,6 @@ using Aow.Game.Units;
 using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.Combat;
 
@@ -297,7 +297,7 @@ public class CombatMap : GameMap
                 switch (AI.Status)
                 {
                     case BattleAI.AIStatus.Idle:
-                        GetEngine().OutputDebugString($"AI for Player {IntToStr(CurrentPlayer)} turn begins.");
+                        GetEngine().OutputDebugString($"AI for Player {((int)CurrentPlayer).ToString(CultureInfo.InvariantCulture)} turn begins.");
                         AI.BeginTurn();
                         break;
                     case BattleAI.AIStatus.Busy:
@@ -307,7 +307,7 @@ public class CombatMap : GameMap
                         if (EndTurn(true))
                         {
                             AI.Status = BattleAI.AIStatus.Idle;
-                            GetEngine().OutputDebugString($"AI for Player {IntToStr(CurrentPlayer)} turn ends.");
+                            GetEngine().OutputDebugString($"AI for Player {((int)CurrentPlayer).ToString(CultureInfo.InvariantCulture)} turn ends.");
                         }
 
                         break;

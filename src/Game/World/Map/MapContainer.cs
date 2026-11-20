@@ -46,7 +46,7 @@ public partial class MapContainer(CustomNode owner) : OwningNode(owner), IChildL
         if (persister.Loading)
         {
             Map = Owner;
-            _engine = PersistSupport.Engine(persister);
+            _engine = persister.Engine();
             Map.MapContainer = this;
         }
 

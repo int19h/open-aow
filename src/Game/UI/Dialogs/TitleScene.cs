@@ -18,8 +18,6 @@ using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiFiles;
 using static Aow.Rtl.DelphiPaths;
 using static Aow.Rtl.DelphiTextCompare;
 
@@ -677,7 +675,7 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
 
         _ = AudioHost.SongPlayer.Stop(false);
         AudioHost.SongPlayer.Songs.Clear();
-        AudioPlayback.FadeMusicVolume(0, speed: 1);
+        _ = (AudioHost.SoundSystem?.FadeMusicVolume(0, speed: 1));
         controller.UI.Engine.LoadHsm(fileName, edit: false, progress: (_, message, progression) => controller.MapProgress(message, progression), profile: GameProfile.WorldMap);
         if (controller.UI.Engine.Demo && StrategicMap.Current is not null && !StrategicMap.Current.ShowAllPlayers)
         {
@@ -813,12 +811,12 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
         controller.UI.CombatScanner.Scanner.SetMap(null);
         _ = AudioHost.SongPlayer.Stop(false);
         AudioHost.SongPlayer.Songs.Clear();
-        _ = SetCurrentDir(controller.UI.Engine.StartupDirectory);
+        _ = RtlHost.Files.SetCurrentDirectory(controller.UI.Engine.StartupDirectory);
         HideGameWindows(controller.UI.General);
         controller.UI.TaskBar.TaskWindow.Visible = false;
         controller.UI.TitleWindow.MainWindow.Visible = false;
         controller.UI.TitleScene.ResetScene();
-        WindowActions.ShowTitleScene(controller.UI.TitleScene, music: true);
+        controller.UI.TitleScene.ShowScene(true);
     }
 
     private static readonly string s_loadingText = "Loading";

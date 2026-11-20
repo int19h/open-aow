@@ -31,7 +31,7 @@ public partial class GameOverEventLog(CustomNode owner) : EventLog(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.Lines(persister, name: "Message", lines: Message);
+        persister.Lines(name: "Message", lines: Message);
     }
 
     // EventLog.pas:783

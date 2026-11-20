@@ -519,7 +519,7 @@ public class FortifyAIGroupControl : AIGroupControl
         settings.MovePointsMax = radius;
         settings.ArmyHexSprite = null;
         settings.Selection = 0;
-        int moveTypesToInt32 = MovementTables.MoveTypesToInt32(Set<MoveType>.Of(MoveType.Flying));
+        int moveTypesToInt32 = (byte)Set<MoveType>.Of(MoveType.Flying).Image;
         settings.MovePointTable = MovementTables.MovePointTables[moveTypesToInt32];
         StrategicMap.Current.MoveControl.ProcessMove(settings);
         BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, Group.Player, relation: Group.IndependentRelation, requests: Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents), damageTypes: AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));

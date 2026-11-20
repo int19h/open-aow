@@ -23,7 +23,7 @@ public class PlayerStructureResource(CustomNode owner) : StructureResource(owner
     {
         base.PersistFields(persister);
         // The translate stream's mode holds read, so the original generates the positions there too.
-        if (persister.Loading || PersistSupport.Translating(persister))
+        if (persister.Loading || persister.Translating())
         {
             GenerateFlagPositions();
         }

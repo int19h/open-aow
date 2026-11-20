@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -9,7 +10,6 @@ using Aow.Game.World.Map;
 using Aow.Rtl;
 
 using static Aow.Rtl.DelphiAssert;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.Magic.Spells;
@@ -82,7 +82,7 @@ public sealed class SpellControl(CustomNode owner) : EngineObject(owner)
         {
             if (id < RegisteredSpells.Count && RegisteredSpells[id] is not null)
             {
-                throw new InvalidOperationException($"Spell already registered ({IntToStr(id)})");
+                throw new InvalidOperationException($"Spell already registered ({id.ToString(CultureInfo.InvariantCulture)})");
             }
 
             while (RegisteredSpells.Count <= id)
@@ -107,7 +107,7 @@ public sealed class SpellControl(CustomNode owner) : EngineObject(owner)
         {
             if (id < 0 || id >= RegisteredSpells.Count || RegisteredSpells[id] != spell)
             {
-                throw new InvalidOperationException($"Cannot Unregister Spell ({IntToStr(id)})");
+                throw new InvalidOperationException($"Cannot Unregister Spell ({id.ToString(CultureInfo.InvariantCulture)})");
             }
 
             if (RegisteredSpells[id] is not null)

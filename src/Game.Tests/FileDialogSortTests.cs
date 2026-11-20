@@ -20,7 +20,7 @@ public sealed class FileDialogSortTests
         WithDialog((dialog, settingsDirectory) =>
         {
             Assert.False(EngineFixture.Engine.Registry.GetFileDialogSortByDate());
-            Assert.True(DelphiFiles.SetCurrentDir("one"));
+            Assert.True(RtlHost.Files.SetCurrentDirectory("one"));
             dialog.FindFiles();
             Assert.Equal(["alpha", "beta", "aaa.asg", "zzz.asg"], Names(dialog.FileList));
             Assert.Equal(Names(dialog.FileList), Names(dialog.SaveList));
@@ -36,14 +36,14 @@ public sealed class FileDialogSortTests
             Assert.NotEqual("", dialog.DateList.Items[2]);
             Assert.Equal(-1, dialog.FileList.Selected);
 
-            Assert.True(DelphiFiles.SetCurrentDir("..\\two"));
+            Assert.True(RtlHost.Files.SetCurrentDirectory("..\\two"));
             dialog.FindFiles();
             Assert.Equal(["gamma", "yyy.asg", "bbb.asg"], Names(dialog.FileList));
 
             RtlHost.Settings = new JsonSettingsStore(settingsDirectory);
             EngineFixture.Engine.Registry = new GameSettings();
             Assert.True(EngineFixture.Engine.Registry.GetFileDialogSortByDate());
-            Assert.True(DelphiFiles.SetCurrentDir("..\\one"));
+            Assert.True(RtlHost.Files.SetCurrentDirectory("..\\one"));
             dialog.FindFiles();
             Assert.Equal(["alpha", "beta", "zzz.asg", "aaa.asg"], Names(dialog.FileList));
         });
@@ -61,7 +61,7 @@ public sealed class FileDialogSortTests
 
         WithDialog((dialog, _) =>
         {
-            Assert.True(DelphiFiles.SetCurrentDir("one"));
+            Assert.True(RtlHost.Files.SetCurrentDirectory("one"));
             dialog.FindFiles();
             dialog.FileList.Selected = dialog.FileList.Items.IndexOf("aaa.asg");
             dialog.SortByDate();
@@ -93,7 +93,7 @@ public sealed class FileDialogSortTests
             dialog.Mode = 2;
             dialog.FileNameEdit.Text = "valley.map";
             dialog.SaveFileNameEdit.Text = "stale.asg";
-            Assert.True(DelphiFiles.SetCurrentDir("one"));
+            Assert.True(RtlHost.Files.SetCurrentDirectory("one"));
             dialog.FindFiles();
             Assert.Equal(["alpha", "beta", "aaa.asg", "zzz.asg"], Names(dialog.FileList));
             Assert.Equal("valley.map", dialog.FileNameEdit.Text);

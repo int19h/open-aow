@@ -41,7 +41,4 @@ public static class DelegateRoutines
         IEnumerable<Expression> arguments = parameters.Select((p, i) => (Expression)Expression.Convert(p, type: inputs[i].ParameterType));
         return Expression.Lambda<T>(Expression.Invoke(Expression.Constant(value), arguments), parameters).Compile();
     }
-
-    public static MethodInfo? MethodCode(Delegate? value) => value?.Method;
-    public static object? MethodTarget(Delegate? value) => value?.Target;
 }

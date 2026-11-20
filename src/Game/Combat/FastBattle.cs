@@ -1,12 +1,11 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Magic.Abilities;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.Combat;
 
@@ -176,7 +175,7 @@ public sealed class FastBattle(CustomNode owner) : Battle(owner)
         bool idle = true;
         CombatObjectList objects = new();
         int round = Round;
-        SetLogbookHeader(AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_roundFormat), arguments: [IntToStr(round)]));
+        SetLogbookHeader(AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_roundFormat), arguments: [round.ToString(CultureInfo.InvariantCulture)]));
         for (int playerIndex = 0, last = CombatData.TurnOrder.Count - 1; playerIndex <= last; playerIndex++)
         {
             NewTurn(CombatData.TurnOrder[playerIndex]);

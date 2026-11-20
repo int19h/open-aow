@@ -1,15 +1,14 @@
 #nullable disable
 // Translated from Engine.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 
 using Aow.Rtl;
 
 using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiFormat;
-using static Aow.Rtl.DelphiMemory;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiStrings;
-using static Aow.Rtl.Heap;
 
 namespace Aow.Engine.Collections;
 
@@ -68,7 +67,7 @@ public class ByteList : Persistent
 
         if (newCount > _count)
         {
-            FillBytes(_list.AsSpan(_count, length: newCount - _count), value: Default);
+            _list.AsSpan(_count, length: newCount - _count).Fill(unchecked((byte)(int)Default));
         }
 
         _count = newCount;
@@ -80,7 +79,7 @@ public class ByteList : Persistent
         string result = "";
         for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            result = $"{result}{IntToStr(_list[i])},";
+            result = $"{result}{((int)_list[i]).ToString(CultureInfo.InvariantCulture)},";
         }
 
         return !IsEmpty(result) ? Copy(result, index: 1, count: result.Length - 1) : result;
@@ -296,7 +295,7 @@ public class ByteList : Persistent
     }
 
     // Engine.pas:3806
-    public bool Compare(ByteList list) => list._count == _count && CompareMem(_list.AsSpan(0, length: _count * 1), list._list.AsSpan(0, length: _count * 1), count: _count * 1);
+    public bool Compare(ByteList list) => list._count == _count && _list.AsSpan(0, length: _count * 1).SequenceEqual(list._list.AsSpan(0, length: _count * 1));
 
     // Engine.pas:3920
     public int RandomChanceItem(int bonus)

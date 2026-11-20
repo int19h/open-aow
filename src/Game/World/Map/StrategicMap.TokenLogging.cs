@@ -1,4 +1,5 @@
 #nullable disable
+using System.Globalization;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
@@ -40,13 +41,13 @@ public sealed partial class StrategicMap
         {
             try
             {
-                _tokenLog = RtlHost.Files.Open($"{GetEngine().StartupDirectory}Debug\\SYNC_LOG{DelphiConversions.IntToStr(PixelFormats.ElapsedMilliseconds)}.TXT", mode: DelphiStreams.fmCreate);
+                _tokenLog = RtlHost.Files.Open($"{GetEngine().StartupDirectory}Debug\\SYNC_LOG{PixelFormats.ElapsedMilliseconds.ToString(CultureInfo.InvariantCulture)}.TXT", mode: (int)FileOpenMode.Create);
             }
             catch (IOException) { }
             catch (UnauthorizedAccessException) { }
             WriteTokenLog($"Map Session: {MapName}");
             int player = Current.Players.LocalHumanPlayers[0];
-            WriteTokenLog($"Local Player: {DelphiConversions.IntToStr(player)}");
+            WriteTokenLog($"Local Player: {player.ToString(CultureInfo.InvariantCulture)}");
             WriteTokenLog($"Local Race: {AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.RaceNamesPluralTexts[Current.Players.GetPlayers((sbyte)player).PlayerRace])}");
             TokenEventLogging = true;
         }
@@ -78,7 +79,7 @@ public sealed partial class StrategicMap
 
         if (TokenEventLogging && TokenManager.TokenExecutor.ExecuteCount == 0)
         {
-            WriteTokenLog($"{token.GetType().Name} (P:{DelphiConversions.IntToStr(TokenManager.TokenExecutor.ActiveTacticalBattleIndex)}/T:{DelphiConversions.IntToStr(token.TokenCounter)}/S:{DelphiConversions.IntToStr(DefendersSeed)}/D:{DelphiConversions.IntToStr(Current.Day)}/AIPC:{DelphiConversions.IntToStr(Current.AIExecutor.ProcessCycles)}", flush: true);
+            WriteTokenLog($"{token.GetType().Name} (P:{TokenManager.TokenExecutor.ActiveTacticalBattleIndex.ToString(CultureInfo.InvariantCulture)}/T:{token.TokenCounter.ToString(CultureInfo.InvariantCulture)}/S:{DefendersSeed.ToString(CultureInfo.InvariantCulture)}/D:{Current.Day.ToString(CultureInfo.InvariantCulture)}/AIPC:{Current.AIExecutor.ProcessCycles.ToString(CultureInfo.InvariantCulture)}", flush: true);
         }
     }
 

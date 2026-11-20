@@ -55,7 +55,7 @@ public class HeroResource : TroopResource
     {
         base.PersistFields(persister);
         Name = persister.String("Name", value: Name);
-        Race = PersistSupport.UnsignedByte(persister, name: "Race", value: Race);
+        Race = persister.UnsignedByte(name: "Race", value: Race);
         HeroType = persister.Enum("HeroType", value: HeroType);
         Alignment = persister.Enum("Alignment", value: Alignment);
         if (Alignment > Alignment.None)
@@ -64,12 +64,12 @@ public class HeroResource : TroopResource
         }
 
         Hidden = persister.Boolean("Hidden", value: Hidden);
-        Attack = PersistSupport.UnsignedByte(persister, name: "Attack", value: Attack);
-        Defense = PersistSupport.UnsignedByte(persister, name: "Defense", value: Defense);
-        Damage = PersistSupport.UnsignedByte(persister, name: "Damage", value: Damage);
-        Hits = PersistSupport.UnsignedByte(persister, name: "Hits", value: Hits);
-        Moves = PersistSupport.UnsignedByte(persister, name: "Moves", value: Moves);
-        Resistance = PersistSupport.UnsignedByte(persister, name: "Resistance", value: Resistance);
+        Attack = persister.UnsignedByte(name: "Attack", value: Attack);
+        Defense = persister.UnsignedByte(name: "Defense", value: Defense);
+        Damage = persister.UnsignedByte(name: "Damage", value: Damage);
+        Hits = persister.UnsignedByte(name: "Hits", value: Hits);
+        Moves = persister.UnsignedByte(name: "Moves", value: Moves);
+        Resistance = persister.UnsignedByte(name: "Resistance", value: Resistance);
         persister.Object("Abilities", objectValue: Abilities);
         FaceIndex = persister.Int32("FaceIndex", value: FaceIndex);
     }

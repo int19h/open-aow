@@ -82,9 +82,9 @@ public sealed class PhysicalFileSystem : IFileSystem
         return current;
     }
 
-    public Stream Open(string path, int mode) => new FileStream(Resolve(path), mode: mode == DelphiStreams.fmCreate ? FileMode.Create : FileMode.Open,
-        access: mode == DelphiStreams.fmCreate ? FileAccess.ReadWrite : (mode & 3) switch { 0 => FileAccess.Read, 1 => FileAccess.Write, _ => FileAccess.ReadWrite },
-        share: (mode & 0xF0) == DelphiStreams.fmShareDenyWrite ? FileShare.Read : FileShare.ReadWrite);
+    public Stream Open(string path, int mode) => new FileStream(Resolve(path), mode: mode == (int)FileOpenMode.Create ? FileMode.Create : FileMode.Open,
+        access: mode == (int)FileOpenMode.Create ? FileAccess.ReadWrite : (mode & 3) switch { 0 => FileAccess.Read, 1 => FileAccess.Write, _ => FileAccess.ReadWrite },
+        share: (mode & 0xF0) == (int)FileOpenMode.ShareDenyWrite ? FileShare.Read : FileShare.ReadWrite);
 
     public bool FileExists(string path) => File.Exists(Resolve(path));
     public bool DirectoryExists(string path) => Directory.Exists(Resolve(path));

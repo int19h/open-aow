@@ -34,7 +34,7 @@ public class SummonSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.UnitIndexList(persister, name: "UnitIndices", list: UnitIndices);
+        persister.UnitIndexList(name: "UnitIndices", list: UnitIndices);
     }
 
     // SummonSpells.pas:182

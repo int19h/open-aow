@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWNewTurnDialog.pas.
+using System.Globalization;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Events;
@@ -9,7 +10,6 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -79,7 +79,7 @@ public sealed partial class NewTurnDialog(UIContext ui) : UIModule(ui)
                 int day2 = StrategicMap.Current.Day > 0 ? StrategicMap.Current.Day : 1;
 
                 string day = UI.Engine.TranslateResourceString(GameText.DayText);
-                TurnLabel.Text = $"{day} {IntToStr(day2)}";
+                TurnLabel.Text = $"{day} {day2.ToString(CultureInfo.InvariantCulture)}";
                 sbyte race = StrategicMap.Current.Players.GetPlayers(eventValue.TurnPlayer).PlayerRace;
                 if (race == -1)
                 {

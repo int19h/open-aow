@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWFileDialog.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Formats;
 
@@ -20,10 +21,7 @@ using Aow.Game.World.Map;
 
 using Aow.Rtl;
 using Aow.Rtl.Host;
-
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiDateTime;
-using static Aow.Rtl.DelphiFiles;
 using static Aow.Rtl.DelphiPaths;
 using static Aow.Rtl.DelphiStrings;
 using static Aow.Rtl.DelphiTextCompare;
@@ -127,7 +125,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                         UI.TitleScene.HideScene();
                         UI.General.HideWindows();
                         UI.TaskBar.TaskWindow.Visible = false;
-                        string relativePath = ExtractRelativePath(UI.Engine.StartupDirectory, destination: name);
+                        string relativePath = RtlHost.Files.ExtractRelativePath(UI.Engine.StartupDirectory, destination: name);
                         UI.MultiWindow.Execute(relativePath);
                     }
                 }
@@ -191,7 +189,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
         SavedSizeLabel.Text = "";
         SavedTownsLabel.Text = "";
         SavedTurnsLabel.Text = "";
-        string directory = GetCurrentDir();
+        string directory = RtlHost.Files.CurrentDirectory;
         if (Copy(directory, index: directory.Length, count: 1) == "\\")
         {
             directory = Copy(directory, index: 1, count: directory.Length - 1);
@@ -284,14 +282,14 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
         int count = Directories.Count;
         if (FileList.Selected < count && FileList.Selected > -1)
         {
-            string directory = GetCurrentDir();
+            string directory = RtlHost.Files.CurrentDirectory;
             if (Copy(directory, index: directory.Length, count: 1) == "\\")
             {
                 directory = Copy(directory, index: 1, count: directory.Length - 1);
             }
 
             string item = FileList.Items[FileList.Selected];
-            if (SetCurrentDir($"{directory}\\{item}"))
+            if (RtlHost.Files.SetCurrentDirectory($"{directory}\\{item}"))
             {
                 FindFiles();
             }
@@ -300,7 +298,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
         }
         else
         {
-            string path = GetCurrentDir();
+            string path = RtlHost.Files.CurrentDirectory;
             if (path.Length > 0 && path[^1] != 92)
             {
                 path += "\\";
@@ -309,7 +307,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
             switch (Mode)
             {
                 case 0:
-                    if (!IsEmpty(SaveFileNameEdit.Text) && FileExists(SaveFileNameEdit.Text))
+                    if (!IsEmpty(SaveFileNameEdit.Text) && RtlHost.Files.FileExists(SaveFileNameEdit.Text))
                     {
                         if (StrategicMap.Current is not null)
                         {
@@ -393,7 +391,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
 
                     break;
                 case 2:
-                    if (!IsEmpty(FileNameEdit.Text) && FileExists(FileNameEdit.Text))
+                    if (!IsEmpty(FileNameEdit.Text) && RtlHost.Files.FileExists(FileNameEdit.Text))
                     {
                         PickScenarioMap(UI.ScenarioSetup, name: FileNameEdit.Text);
                         LastFileName = FileNameEdit.Text;
@@ -410,7 +408,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
     public void UpDirBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        if (SetCurrentDir(".."))
+        if (RtlHost.Files.SetCurrentDirectory(".."))
         {
             FindFiles();
         }
@@ -420,7 +418,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
     public void DriveCmbChange()
     {
         string item = DriveComboBox.Items[DriveComboBox.Selected];
-        if (SetCurrentDir(Copy(DriveComboBox.Items[DriveComboBox.Selected], index: item.Length - 3, count: 3)))
+        if (RtlHost.Files.SetCurrentDirectory(Copy(DriveComboBox.Items[DriveComboBox.Selected], index: item.Length - 3, count: 3)))
         {
             FindFiles();
         }
@@ -447,7 +445,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                 if (map is not null)
                 {
                     int count = map.Players.GetCount();
-                    SavedPlayersLabel.Text = IntToStr(count - 1);
+                    SavedPlayersLabel.Text = (count - 1).ToString(CultureInfo.InvariantCulture);
                     switch (map.MapContainer.Width)
                     {
                         case 48:
@@ -472,8 +470,8 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                             break;
                     }
 
-                    SavedTownsLabel.Text = IntToStr(map.StructureControl.CityCount);
-                    SavedTurnsLabel.Text = IntToStr(map.Day);
+                    SavedTownsLabel.Text = map.StructureControl.CityCount.ToString(CultureInfo.InvariantCulture);
+                    SavedTurnsLabel.Text = map.Day.ToString(CultureInfo.InvariantCulture);
                     map?.Dispose();
                 }
                 else
@@ -521,7 +519,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
         switch (Mode)
         {
             case 0:
-                _ = SetCurrentDir(Directory);
+                _ = RtlHost.Files.SetCurrentDirectory(Directory);
                 string fileName = ExtractFileName(LastFileName);
                 SaveFileNameEdit.Text = fileName;
                 FileNameEdit.Text = SaveFileNameEdit.Text;
@@ -534,7 +532,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                 NewPanel.Visible = false;
                 break;
             case 1:
-                _ = SetCurrentDir(Directory);
+                _ = RtlHost.Files.SetCurrentDirectory(Directory);
                 string fileName2 = ExtractFileName(LastFileName);
                 SaveFileNameEdit.Text = fileName2;
                 if (Pos(".", haystack: SaveFileNameEdit.Text) != 0)
@@ -571,7 +569,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                     FileNameEdit.Text = "";
                 }
 
-                _ = SetCurrentDir($"{UI.Engine.StartupDirectory}Scenario\\Custom\\");
+                _ = RtlHost.Files.SetCurrentDirectory($"{UI.Engine.StartupDirectory}Scenario\\Custom\\");
                 string selectAMap = UI.Engine.TranslateResourceString(s_selectMapText);
                 UI.FileDialogWindow.TitleLabel.Text = selectAMap;
                 string select = UI.Engine.TranslateResourceString(s_selectText);
@@ -629,14 +627,14 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
 
         if (Mode is 1 or 0)
         {
-            StringSorting.SortStringsAscending(SaveList.Items, linkedStrings: [DateList.Items, FileList.Items]);
+            SaveList.Items.SortStringsAscending(linkedStrings: [DateList.Items, FileList.Items]);
             FileList.Items.Assign(SaveList.Items);
         }
         else
         {
             if (Mode == 2)
             {
-                StringSorting.SortStringsAscending(FileList.Items, linkedStrings: [DateList.Items, SaveList.Items]);
+                FileList.Items.SortStringsAscending(linkedStrings: [DateList.Items, SaveList.Items]);
             }
         }
 
@@ -680,7 +678,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                 SaveList.Items.Objects[i] = objectValue;
             }
 
-            StringSorting.SortStrings(SaveList.Items, compare: CompareFileDates, linkedStrings: [DateList.Items, FileList.Items]);
+            SaveList.Items.SortStrings(compare: CompareFileDates, linkedStrings: [DateList.Items, FileList.Items]);
         }
         else
         {
@@ -692,7 +690,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                     FileList.Items.Objects[i] = objectValue;
                 }
 
-                StringSorting.SortStrings(FileList.Items, compare: CompareFileDates, linkedStrings: [DateList.Items, SaveList.Items]);
+                FileList.Items.SortStrings(compare: CompareFileDates, linkedStrings: [DateList.Items, SaveList.Items]);
             }
         }
 
@@ -793,7 +791,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
 
                 _ = AudioHost.SongPlayer.Stop(false);
                 AudioHost.SongPlayer.Songs.Clear();
-                AudioPlayback.FadeMusicVolume(0, speed: 1);
+                _ = (AudioHost.SoundSystem?.FadeMusicVolume(0, speed: 1));
                 controller.UI.Engine.LoadCampaignMap((_, message, progression) => controller.MapProgress(message, progression));
                 controller.UI.General.Manager.OverlayPriority = 0;
                 controller.UI.ProgressDialog.Window.Visible = false;
@@ -814,8 +812,8 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
 
     private static void PickScenarioMap(ScenarioSetup dialog, string name)
     {
-        string currentDirectory = GetCurrentDir();
-        name = ExtractRelativePath(dialog.UI.Engine.StartupDirectory, destination: $"{currentDirectory}\\{name}");
+        string currentDirectory = RtlHost.Files.CurrentDirectory;
+        name = RtlHost.Files.ExtractRelativePath(dialog.UI.Engine.StartupDirectory, destination: $"{currentDirectory}\\{name}");
         dialog.UI.FileDialogWindow.Window.Visible = false;
         _ = dialog.SetupControl.PickMap(name);
     }
@@ -831,7 +829,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
         dialog.Window.Visible = true;
         if (!IsEmpty(eventValue.Directory))
         {
-            _ = SetCurrentDir(eventValue.Directory);
+            _ = RtlHost.Files.SetCurrentDirectory(eventValue.Directory);
         }
 
         dialog.SaveFileNameEdit.Text = eventValue.DefaultName;

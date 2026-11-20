@@ -1,21 +1,13 @@
 #nullable disable
 
 using System.Collections.Immutable;
-using System.Diagnostics.CodeAnalysis;
 
 using Aow.Rtl;
-using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Engine.Nodes;
 
 public static class EngineServices
 {
-    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi clipboard stub keeps stream and format in its signature.")]
-    internal static int CopyStreamToClipboard(Stream stream, string format) => 0;
-
-    [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi clipboard stub keeps stream and format in its signature.")]
-    internal static int PasteStreamFromClipboard(Stream stream, string format) => 0;
-
     internal const int MaxListSize = 134_217_727;
 
     internal const ControlStyleElement Stored = 0;
@@ -25,20 +17,6 @@ public static class EngineServices
     internal const ControlStyleElement Reserved2 = ControlStyleElement.VerifyFixedChildren;
 
     internal const ControlStyleElement KeepIndex = ControlStyleElement.ArrayMode;
-
-    internal static string ReplaceText(string S, string old, string newValue)
-    {
-        string result = "";
-        int p = Pos(old, haystack: S);
-        while (p != 0)
-        {
-            result = result + Copy(S, index: 1, count: p - 1) + newValue;
-            S = Copy(S, index: p + old.Length, count: S.Length - p - old.Length + 1);
-            p = Pos(old, haystack: S);
-        }
-
-        return result + S;
-    }
 
     // The CRC-32 table of the reflected polynomial 0xEDB88320, built once.
     private static readonly ImmutableArray<int> s_crc32Table = BuildCrc32Table();
@@ -52,13 +30,6 @@ public static class EngineServices
         }
 
         return crc ^ -1;
-    }
-
-    internal static void StringToStream(string S, Stream stream)
-    {
-        int length = S.Length;
-        stream.Write(Bytes.Of(ref length));
-        stream.Write(Cp1252.Encode(S).AsSpan()[..length]);
     }
 
     internal static void ExchangeLinkedStrings(DelphiList<DelphiStringCollection> lists, int I, int J)

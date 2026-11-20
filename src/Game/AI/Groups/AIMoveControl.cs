@@ -348,7 +348,7 @@ public sealed class AIMoveControl : EngineObject
             Troop transporter = Settings.Transporter;
             if (transporter is not null)
             {
-                int moveTypesToInt32 = MovementTables.MoveTypesToInt32(transporter.GetMoveTypes());
+                int moveTypesToInt32 = (byte)transporter.GetMoveTypes().Image;
                 _transportMovePointTable = MovementTables.MovePointTables[moveTypesToInt32];
             }
         }

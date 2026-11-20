@@ -19,7 +19,7 @@ public class GameOverTokenEvent(CustomNode owner) : TokenEvent(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        Player = persister.UnsignedByte(name: "Player", value: Player);
         GameOverStatus = persister.Enum("GameOverStatus", value: GameOverStatus);
     }
 

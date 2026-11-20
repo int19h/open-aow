@@ -1,11 +1,10 @@
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.AI.Groups;
 
@@ -70,10 +69,10 @@ public sealed class AIGroupControlTarget(CustomNode owner) : EngineObject(owner)
     // AIGroup.pas:676
     public void GetDebugInfo(out string text)
     {
-        text = $"Target({IntToStr(Location.X)},{IntToStr(Location.Y)},{IntToStr(Location.MapLevel)}): Prio:{IntToStr(Data.Priority)}";
+        text = $"Target({((int)Location.X).ToString(CultureInfo.InvariantCulture)},{((int)Location.Y).ToString(CultureInfo.InvariantCulture)},{((int)Location.MapLevel).ToString(CultureInfo.InvariantCulture)}): Prio:{Data.Priority.ToString(CultureInfo.InvariantCulture)}";
         if (TransporterId != -1)
         {
-            text = $"{text}/Transporter({IntToStr(TransporterId)})";
+            text = $"{text}/Transporter({TransporterId.ToString(CultureInfo.InvariantCulture)})";
         }
     }
 }

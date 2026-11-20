@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Audio;
@@ -13,8 +14,6 @@ using Aow.Game.Magic.Spells;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Session;
@@ -403,7 +402,7 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
             _ = StrategicMap.Current.AIExecutor.ActivatePlayer(StrategicMap.Current.CurrentPlayer);
         }
 
-        GetEngine().OutputDebugString($"Random Seed: {IntToStr(StrategicMap.Current.DefendersSeed)}");
+        GetEngine().OutputDebugString($"Random Seed: {StrategicMap.Current.DefendersSeed.ToString(CultureInfo.InvariantCulture)}");
     }
 
     // PlayerC.PAS:683

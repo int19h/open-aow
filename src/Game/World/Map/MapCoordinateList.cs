@@ -100,7 +100,7 @@ public sealed class MapCoordinateList : DefaultItemList<MapCoordinate>
                     if (!reached[i])
                     {
                         MapCoordinate item = locations[i];
-                        MapCoordinate packMapCoordinate = HexGeometry.PackMapCoordinate((sbyte)walk.X, (sbyte)walk.Y, mapCoordinate.MapLevel);
+                        MapCoordinate packMapCoordinate = new((sbyte)walk.X, (sbyte)walk.Y, mapCoordinate.MapLevel);
                         if (item == packMapCoordinate)
                         {
                             reached[i] = true;

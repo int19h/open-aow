@@ -71,9 +71,9 @@ public sealed class PluginControl : EngineObject
         base.PersistFields(persister);
         // The original ReadWrite leaves out the used plug-ins under translate (the translate
         // stream), so a translated name does not reach the plug-in check of the list's change.
-        if (!PersistSupport.Translating(persister))
+        if (!persister.Translating())
         {
-            PersistSupport.Lines(persister, name: "UsedPlugins", lines: _usedPlugins);
+            persister.Lines(name: "UsedPlugins", lines: _usedPlugins);
         }
     }
 

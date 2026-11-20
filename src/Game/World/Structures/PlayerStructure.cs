@@ -47,8 +47,8 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
-        _ = PersistSupport.BitList(persister, name: "VictoryLocations", list: _victoryLocations);
+        Player = persister.UnsignedByte(name: "Player", value: Player);
+        _ = persister.BitList(name: "VictoryLocations", list: _victoryLocations);
         ProductionPriority = persister.Byte("ProductionPriority", value: ProductionPriority);
     }
 

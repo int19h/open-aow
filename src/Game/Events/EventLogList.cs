@@ -31,7 +31,7 @@ public class EventLogList(CustomNode owner) : OwningNode(owner), IChildList<Even
     {
         // The translate visit does not load, so the original main visit does not clear around the visit
         // with BeginUpdate and EndUpdate there too, and releases no log.
-        bool translating = PersistSupport.Translating(persister);
+        bool translating = persister.Translating();
         if (persister.Loading || translating)
         {
             BeginUpdate();

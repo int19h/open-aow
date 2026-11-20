@@ -34,7 +34,7 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Destination = PersistSupport.Coordinate(persister, name: "Destination", value: Destination, width: CoordinateWidth.Byte);
+        Destination = persister.Coordinate(name: "Destination", value: Destination, width: CoordinateWidth.Byte);
         State = persister.Set("State", value: State);
     }
 

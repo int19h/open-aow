@@ -1,12 +1,12 @@
 #nullable disable
 // Translated from AoWUnitBanner.pas.
+using System.Globalization;
 using Aow.Game.Combat;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -34,18 +34,18 @@ public sealed partial class UnitBanner(UIContext ui) : UIModule(ui)
             BannerMenu.Aligned = false;
             sbyte hitPoints = UI.General.SelectedUnit.GetHitPoints();
             sbyte hits = UI.General.SelectedUnit.GetHits();
-            HitsLabel.Text = $"{IntToStr(hitPoints)}/{IntToStr(hits)}";
+            HitsLabel.Text = $"{((int)hitPoints).ToString(CultureInfo.InvariantCulture)}/{((int)hits).ToString(CultureInfo.InvariantCulture)}";
             sbyte movePoints = UI.General.SelectedUnit.GetMovePoints();
             sbyte moves = UI.General.SelectedUnit.Moves;
-            MovesLabel.Text = $"{IntToStr(movePoints)}/{IntToStr(moves)}";
+            MovesLabel.Text = $"{((int)movePoints).ToString(CultureInfo.InvariantCulture)}/{((int)moves).ToString(CultureInfo.InvariantCulture)}";
             sbyte attack = UI.General.SelectedUnit.GetAttack();
-            AttackLabel.Text = IntToStr(attack);
+            AttackLabel.Text = ((int)attack).ToString(CultureInfo.InvariantCulture);
             sbyte damage = UI.General.SelectedUnit.GetDamage();
-            DamageLabel.Text = IntToStr(damage);
+            DamageLabel.Text = ((int)damage).ToString(CultureInfo.InvariantCulture);
             sbyte defense = UI.General.SelectedUnit.GetDefense();
-            DefenseLabel.Text = IntToStr(defense);
+            DefenseLabel.Text = ((int)defense).ToString(CultureInfo.InvariantCulture);
             sbyte resistance = UI.General.SelectedUnit.GetResistance();
-            ResistanceLabel.Text = IntToStr(resistance);
+            ResistanceLabel.Text = ((int)resistance).ToString(CultureInfo.InvariantCulture);
             Set<MoveType> moveTypes = UI.General.SelectedUnit.GetMoveTypes();
             int moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
             MovesIcon.CurrentImage = moveTypesToInt32;

@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 
 using Aow.Formats;
@@ -11,9 +12,6 @@ using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
-using static Aow.Rtl.DelphiFiles;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiStreams;
 using static Aow.Rtl.DelphiStrings;
@@ -53,7 +51,7 @@ public sealed class EmailGameControl : EngineObject
     {
         _games.Clear();
         string fileName = $"{GetEngine().StartupDirectory}EmailIn\\egames.pfs";
-        if (FileExists(fileName))
+        if (RtlHost.Files.FileExists(fileName))
         {
             if (GetFileCrc32(fileName) == GetEngine().Registry.GetEmailGamesCrc())
             {
@@ -165,7 +163,7 @@ public sealed class EmailGameControl : EngineObject
                         if (map.Day > localGame.LastDay)
                         {
                             name = map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.EmailGame.Name;
-                            if (FileExists($"{GetEngine().StartupDirectory}EmailIn\\{name}.asg"))
+                            if (RtlHost.Files.FileExists($"{GetEngine().StartupDirectory}EmailIn\\{name}.asg"))
                             {
                                 StrategicMap previousMap = GetEngine().CreatePreviewHsm<StrategicMap>($"{GetEngine().StartupDirectory}EmailIn\\{name}.asg", profile: GameProfile.WorldMap);
                                 if (previousMap is not null)
@@ -210,10 +208,10 @@ public sealed class EmailGameControl : EngineObject
                     {
                         int i = 0;
                         destination = $"{GetEngine().StartupDirectory}EmailIn\\{name}.asg";
-                        while (!overwrite && FileExists(destination))
+                        while (!overwrite && RtlHost.Files.FileExists(destination))
                         {
                             i += 1;
-                            destination = $"{GetEngine().StartupDirectory}EmailIn\\{name}{IntToStr(i)}.asg";
+                            destination = $"{GetEngine().StartupDirectory}EmailIn\\{name}{i.ToString(CultureInfo.InvariantCulture)}.asg";
                         }
                     }
                 }
@@ -231,7 +229,7 @@ public sealed class EmailGameControl : EngineObject
         MemoryStream value = new();
         try
         {
-            Stream value2 = OpenFile(fileName, mode: 0);
+            Stream value2 = OpenFile(fileName, mode: FileOpenMode.Read);
             try
             {
                 StreamExtensions.LoadFromStream(value, source: value2);

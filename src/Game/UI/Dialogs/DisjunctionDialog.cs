@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWDisjunctionDlg.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 using Aow.Game.Magic;
@@ -9,8 +10,6 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.UI.Dialogs;
@@ -77,16 +76,16 @@ public sealed partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
         switch (_sortOrder)
         {
             case 0:
-                StringSorting.SortStringsAscending(EnchantmentList.Items, linkedStrings: [OwnerList.Items]);
+                EnchantmentList.Items.SortStringsAscending(linkedStrings: [OwnerList.Items]);
                 break;
             case 1:
-                StringSorting.SortStringsDescending(EnchantmentList.Items, linkedStrings: [OwnerList.Items]);
+                EnchantmentList.Items.SortStringsDescending(linkedStrings: [OwnerList.Items]);
                 break;
             case 2:
-                StringSorting.SortStringsAscending(OwnerList.Items, linkedStrings: [EnchantmentList.Items]);
+                OwnerList.Items.SortStringsAscending(linkedStrings: [EnchantmentList.Items]);
                 break;
             case 3:
-                StringSorting.SortStringsDescending(OwnerList.Items, linkedStrings: [EnchantmentList.Items]);
+                OwnerList.Items.SortStringsDescending(linkedStrings: [EnchantmentList.Items]);
                 break;
             default:
                 break;
@@ -102,8 +101,8 @@ public sealed partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
         int mana = _caster.GetMana();
         Spell fSpellControlSpell = GamePack.Current.SpellControl[51];
         int fCasterMana = _caster.GetMana();
-        DisjunctionManaLabel.Text = $"{IntToStr(spell.BaseManaCost)}+{IntToStr(mana)}={IntToStr(fSpellControlSpell.BaseManaCost + fCasterMana)}";
-        DisjunctionChanceLabel.Text = $"{IntToStr(_caster.DispelChance)}%";
+        DisjunctionManaLabel.Text = $"{spell.BaseManaCost.ToString(CultureInfo.InvariantCulture)}+{mana.ToString(CultureInfo.InvariantCulture)}={(fSpellControlSpell.BaseManaCost + fCasterMana).ToString(CultureInfo.InvariantCulture)}";
+        DisjunctionChanceLabel.Text = $"{_caster.DispelChance.ToString(CultureInfo.InvariantCulture)}%";
         int dispelChanceMax = _caster.DispelChanceMax;
         ChanceSlider.Max = dispelChanceMax;
         ChanceSlider.Position = _caster.DispelChance;

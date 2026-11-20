@@ -207,7 +207,7 @@ public sealed class Picture08(CustomImageLibrary owner) : Image08(owner), ILibra
         SurfaceView destination = lockedSurface.View(destinationX + (destinationY * lockedSurface.Pitch));
         if (lockedSurface.PixelFormatId == PixelFormat.Pal8)
         {
-            BlitRects.BlitRectangle(source, destination, width, height);
+            Blit.BlitRectangle(source, d: destination, w: width, h: height);
         }
         else
         {

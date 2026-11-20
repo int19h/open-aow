@@ -20,7 +20,7 @@ public sealed class MapCoordinateEqualityTests
     {
         MapCoordinate location = new(X: 3, Y: 4, MapLevel: 1);
         PathStep step = new(Location: location, MoveCost: 7);
-        Assert.True(location == HexGeometry.PackMapCoordinate(x: 3, y: 4, mapLevel: 1));
+        Assert.True(location == new MapCoordinate(3, 4, 1));
         Assert.True(step != new PathStep(Location: location, MoveCost: 0));
         Assert.Equal(0x0701_0403, PathStepImage.From(step).ToInt32());
         Assert.Equal(step, PathStepImage.From(step).ToValue());
@@ -60,7 +60,7 @@ public sealed class MapCoordinateEqualityTests
         // HexLevel shl 16. For a map position, whose components are not negative, those are the bytes.
         foreach ((sbyte x, sbyte y, sbyte level) in new (sbyte, sbyte, sbyte)[] { (0, 0, 0), (113, 97, 2), (127, 127, 4) })
         {
-            Assert.Equal(x + (y << 8) + (level << 16), StoredCoordinateImage.From(HexGeometry.PackMapCoordinate(x, y, level)).ToInt32());
+            Assert.Equal(x + (y << 8) + (level << 16), StoredCoordinateImage.From(new MapCoordinate(x, y, level)).ToInt32());
         }
     }
 }

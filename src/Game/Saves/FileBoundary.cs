@@ -196,7 +196,7 @@ public static class FileBoundary
         byte[] head;
         try
         {
-            using Stream stream = files.Open(fileName, mode: DelphiStreams.fmOpenRead | DelphiStreams.fmShareDenyWrite);
+            using Stream stream = files.Open(fileName, mode: (int)(FileOpenMode.Read | FileOpenMode.ShareDenyWrite));
             head = new byte[count];
             int total = 0, read;
             while (total < count && (read = stream.Read(head, offset: total, count: count - total)) > 0)
@@ -412,16 +412,16 @@ public static class FileBoundary
 
         if (kind.IsOwnExtension(extension))
         {
-            if (DelphiFiles.FileExists(fileName))
+            if (RtlHost.Files.FileExists(fileName))
             {
                 return fileName;
             }
 
             string original = DelphiPaths.ChangeFileExt(fileName, extension: kind.OriginalExtension);
-            return DelphiFiles.FileExists(original) ? original : fileName;
+            return RtlHost.Files.FileExists(original) ? original : fileName;
         }
         string own = DelphiPaths.ChangeFileExt(fileName, extension: kind.OwnExtension);
-        return DelphiFiles.FileExists(own) ? own : fileName;
+        return RtlHost.Files.FileExists(own) ? own : fileName;
     }
 
     /// <summary>Whether a file lies directly in an EmailIn directory.</summary>
@@ -478,7 +478,7 @@ public static class FileBoundary
         bool replaced = false;
         try
         {
-            using (Stream stream = files.Open(temporary, mode: DelphiStreams.fmCreate))
+            using (Stream stream = files.Open(temporary, mode: (int)FileOpenMode.Create))
             {
                 stream.Write(bytes);
                 // The temporary reaches the disk before it replaces the old file.
@@ -509,7 +509,7 @@ public static class FileBoundary
 
     private static byte[] ReadAll(IFileSystem files, string fileName)
     {
-        using Stream stream = files.Open(fileName, mode: DelphiStreams.fmOpenRead | DelphiStreams.fmShareDenyWrite);
+        using Stream stream = files.Open(fileName, mode: (int)(FileOpenMode.Read | FileOpenMode.ShareDenyWrite));
         using MemoryStream memory = new();
         stream.CopyTo(memory);
         return memory.ToArray();

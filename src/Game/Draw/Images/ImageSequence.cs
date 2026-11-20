@@ -4,7 +4,6 @@ using Aow.Formats.Tree;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiStrings;
-using static Aow.Rtl.RectRoutines;
 
 namespace Aow.Game.Draw.Images;
 
@@ -132,7 +131,7 @@ public sealed class ImageSequence(ImageSequenceList owner) : IDisposable
                             if (image is not null)
                             {
                                 image.GetVisualDimensions(out ir);
-                                _ = UnionRect(out R, R, ir);
+                                _ = R.Union(right: ir, result: out R);
                             }
                         }
                     }
@@ -148,7 +147,7 @@ public sealed class ImageSequence(ImageSequenceList owner) : IDisposable
                             if (image is not null)
                             {
                                 image.GetVisualDimensions(out ir);
-                                _ = UnionRect(out R, R, ir);
+                                _ = R.Union(right: ir, result: out R);
                             }
                         }
                     }

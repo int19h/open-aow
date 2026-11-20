@@ -1,5 +1,4 @@
 using System.Collections.Immutable;
-using Aow.Game.World.Movement;
 using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Game.World.Map;
@@ -13,20 +12,6 @@ public static class HexGeometry
     }
 
     internal static int RadiusToHexNumber(int radius) => radius <= 10 ? RadiusToHexNumberTable[radius] : ((radius - 1) * radius * 3) + 1;
-
-    internal static int InverseHexNumber(int hexNumber)
-    {
-        if (hexNumber < 37)
-        {
-            return InverseHexNumberTable[hexNumber];
-        }
-        else
-        {
-            int r = ((int)Math.Sqrt(((hexNumber - 1) * 12) + 9) + 3) / 6;
-            int n = r * 6;
-            return ((hexNumber - ((r - 1) * r * 3) - 1 + (n >>> 1)) % n) + ((r - 1) * r * 3) + 1;
-        }
-    }
 
     internal static void CenterHexNumberToHex(int hexX, int hexY, int hexNumber, ref int newHexX, ref int newHexY)
     {
@@ -97,55 +82,6 @@ public static class HexGeometry
 
         newHexX = hexX + dX;
         newHexY = hexY + dY;
-    }
-
-    internal static void TranslateZeroHex(int hexX, int hexY, int deltaHexX, int deltaHexY, out int newHexX, out int newHexY)
-    {
-        newHexY = (hexX & 1) != 0 && (deltaHexX & 1) != 0 ? deltaHexY + hexY + 1 : deltaHexY + hexY;
-
-        newHexX = deltaHexX + hexX;
-    }
-
-    internal static void GenerateWalkAroundRoute(int hexX, int hexY, WalkAroundRouteCallBack callback)
-    {
-        int nHexY = default;
-        bool cancel = false;
-        int nHexX = 65_535;
-        bool found = false;
-        int hexNumber = 0;
-        while (!found && hexNumber != 6 && !cancel)
-        {
-            hexNumber += 1;
-            CenterHexNumberToHex(hexX, hexY, hexNumber, ref nHexX, ref nHexY);
-            found = callback(nHexX, nHexY, ref cancel);
-        }
-
-        if (found && !cancel)
-        {
-            hexX = nHexX;
-            hexY = nHexY;
-            int tHexX = default;
-            int tHexY = default;
-            while (!cancel)
-            {
-                hexNumber += 2;
-                if (hexNumber > 6)
-                {
-                    hexNumber -= 6;
-                }
-
-                do
-                {
-                    CenterHexNumberToHex(hexX, hexY, hexNumber, ref tHexX, ref tHexY);
-                    hexNumber -= 1;
-                    // { the original asks for NXhx, NYhx here, not for the hexagon it just stepped to }
-                    found = callback(nHexX, nHexY, ref cancel);
-                }
-                while (!(found && !cancel));
-                hexX = tHexX;
-                hexY = tHexY;
-            }
-        }
     }
 
     internal static MapCoordinate PackMapCoordinate(sbyte x, sbyte y, sbyte mapLevel) => new(x, y, mapLevel);
@@ -230,12 +166,6 @@ public static class HexGeometry
         int column = (horizontal - 8) >> 5;
         x = column;
         y = (vertical - ((column & 1) * 16)) >> 5;
-    }
-
-    internal static int PixelToHexNumber(int pixelX, int pixelY)
-    {
-        PixelToHex(pixelX, vertical: pixelY, out pixelX, out pixelY);
-        return HexToHexNumber(pixelX, pixelY);
     }
 
     internal static int HexToV(int x, int y) => ((x + 1) >> 1) + y;

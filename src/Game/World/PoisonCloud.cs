@@ -34,7 +34,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        Player = persister.UnsignedByte(name: "Player", value: Player);
         TurnsRemaining = persister.Int32("TurnsRemaining", value: TurnsRemaining);
         _drifting = persister.Boolean("Drifting", value: _drifting);
         _direction = persister.Byte("Direction", value: _direction);

@@ -70,7 +70,7 @@ public partial class MapLevel
         bool loading = persister.Loading;
         if (loading)
         {
-            Engine = PersistSupport.Engine(persister);
+            Engine = persister.Engine();
             MapContainer = Owner;
             Map = MapContainer.Map;
         }
@@ -84,7 +84,7 @@ public partial class MapLevel
             ProgressType = loading ? MapProgressType.Loading : MapProgressType.Saving,
         };
         // The translate stream notifies no progress, as the original's test of Translate says.
-        bool notify = !PersistSupport.Translating(persister);
+        bool notify = !persister.Translating();
         if (notify)
         {
             Map.NotifyProgress(progress);

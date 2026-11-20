@@ -36,8 +36,8 @@ public class UnitSpellTokenEvent : SpellTokenEvent
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.Int32List(persister, name: "TargetUnitIds", list: TargetUnitIds);
-        PersistSupport.Int32Array(persister, name: "SpellData", values: SpellData);
+        persister.Int32List(name: "TargetUnitIds", list: TargetUnitIds);
+        persister.Int32Array(name: "SpellData", values: SpellData);
         TargetPlayer = persister.Byte("TargetPlayer", TargetPlayer);
     }
 

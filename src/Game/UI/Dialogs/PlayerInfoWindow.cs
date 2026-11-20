@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWPInfoWin.pas.
+using System.Globalization;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Events;
@@ -9,8 +10,6 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.UI.Dialogs;
@@ -41,7 +40,7 @@ public sealed partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
             }
 
             string day = UI.Engine.TranslateResourceString(GameText.DayText);
-            UI.PlayerInfoWindow.TurnLabel.Text = $"{day} {IntToStr(StrategicMap.Current.Day)}";
+            UI.PlayerInfoWindow.TurnLabel.Text = $"{day} {StrategicMap.Current.Day.ToString(CultureInfo.InvariantCulture)}";
             int raceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).PlayerRace;
             if (raceIndex == -1)
             {

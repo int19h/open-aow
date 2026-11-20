@@ -83,7 +83,7 @@ public sealed partial class DataSurface : Surface
                     SetPalette(lockedSurface.Palette);
                     X = R.Value.Left;
                     Y = R.Value.Top;
-                    BlitRects.BlitRectangle(lockedSurface.View((Y * lockedSurface.Pitch) + ((X * _bitCount) >>> 3)), destination: new SurfaceView(Data, start: 0, Pitch), (_width * _bitCount) >>> 3, _height);
+                    Graphics.Blit.BlitRectangle(lockedSurface.View((Y * lockedSurface.Pitch) + ((X * _bitCount) >>> 3)), d: new SurfaceView(Data, start: 0, Pitch), w: (_width * _bitCount) >>> 3, h: _height);
                 }
             }
             catch

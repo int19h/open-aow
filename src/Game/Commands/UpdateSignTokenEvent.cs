@@ -31,8 +31,8 @@ public class UpdateSignTokenEvent(CustomNode owner) : TokenEvent(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.Lines(persister, name: "Text", lines: Text);
-        Location = PersistSupport.Coordinate(persister, name: "Location", value: Location, width: CoordinateWidth.Byte);
+        persister.Lines(name: "Text", lines: Text);
+        Location = persister.Coordinate(name: "Location", value: Location, width: CoordinateWidth.Byte);
     }
 
     // Sign.pas:214

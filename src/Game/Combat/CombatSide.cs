@@ -1,12 +1,11 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.Combat;
 
@@ -97,7 +96,7 @@ public sealed class CombatSide(CustomNode owner) : OwningNode(owner), IChildList
             string idString = GetObjects(i).IdString();
             int targetPriority = GetObjects(i).GetTargetPriority();
             int targetStrength = GetObjects(i).GetTargetStrength();
-            string s = $"({IntToStr(i)}):{idString} (Priority:{IntToStr(targetPriority)}/Strength:{IntToStr(targetStrength)})";
+            string s = $"({i.ToString(CultureInfo.InvariantCulture)}):{idString} (Priority:{targetPriority.ToString(CultureInfo.InvariantCulture)}/Strength:{targetStrength.ToString(CultureInfo.InvariantCulture)})";
             GetEngine().OutputDebugMessage(DebugChannel.Combat, s);
         }
     }

@@ -1,4 +1,5 @@
 // Translated from AoWReg.pas.
+using System.Globalization;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiStrings;
@@ -149,7 +150,7 @@ public sealed partial class GameSettings : DelphiRegistry
         if (index >= 0)
         {
             result = default;
-            Rectangle("General\\rectangles", IntToStr(index), ref result, mode: ReadWriteMode.Read);
+            Rectangle("General\\rectangles", index.ToString(CultureInfo.InvariantCulture), ref result, mode: ReadWriteMode.Read);
         }
         else
         {
@@ -164,7 +165,7 @@ public sealed partial class GameSettings : DelphiRegistry
     {
         if (index >= 0)
         {
-            Rectangle("General\\rectangles", IntToStr(index), ref value, mode: ReadWriteMode.Write);
+            Rectangle("General\\rectangles", index.ToString(CultureInfo.InvariantCulture), ref value, mode: ReadWriteMode.Write);
         }
     }
 
@@ -175,7 +176,7 @@ public sealed partial class GameSettings : DelphiRegistry
         // { Original leaves Result uninitialized for a missing nonnegative index. }
         if (index >= 0)
         {
-            Boolean("General\\booleans", name: IntToStr(index), value: ref result, mode: ReadWriteMode.Read);
+            Boolean("General\\booleans", name: index.ToString(CultureInfo.InvariantCulture), value: ref result, mode: ReadWriteMode.Read);
         }
         else
         {
@@ -190,7 +191,7 @@ public sealed partial class GameSettings : DelphiRegistry
     {
         if (index >= 0)
         {
-            Boolean("General\\booleans", name: IntToStr(index), ref value, mode: ReadWriteMode.Write);
+            Boolean("General\\booleans", name: index.ToString(CultureInfo.InvariantCulture), ref value, mode: ReadWriteMode.Write);
         }
     }
 
@@ -200,7 +201,7 @@ public sealed partial class GameSettings : DelphiRegistry
         string result = "";
         if (index >= 0)
         {
-            String("General\\strings", IntToStr(index), ref result, mode: ReadWriteMode.Read);
+            String("General\\strings", index.ToString(CultureInfo.InvariantCulture), ref result, mode: ReadWriteMode.Read);
         }
         else
         {
@@ -215,7 +216,7 @@ public sealed partial class GameSettings : DelphiRegistry
     {
         if (index >= 0)
         {
-            String("General\\strings", IntToStr(index), ref value, mode: ReadWriteMode.Write);
+            String("General\\strings", index.ToString(CultureInfo.InvariantCulture), ref value, mode: ReadWriteMode.Write);
         }
     }
 
@@ -226,7 +227,7 @@ public sealed partial class GameSettings : DelphiRegistry
         // { Original leaves Result uninitialized for a missing nonnegative index. }
         if (index >= 0)
         {
-            Int32("General\\integers", IntToStr(index), ref result, mode: ReadWriteMode.Read);
+            Int32("General\\integers", index.ToString(CultureInfo.InvariantCulture), ref result, mode: ReadWriteMode.Read);
         }
         else
         {
@@ -241,7 +242,7 @@ public sealed partial class GameSettings : DelphiRegistry
     {
         if (index >= 0)
         {
-            Int32("General\\integers", IntToStr(index), ref value, mode: ReadWriteMode.Write);
+            Int32("General\\integers", index.ToString(CultureInfo.InvariantCulture), ref value, mode: ReadWriteMode.Write);
         }
     }
 
@@ -673,7 +674,7 @@ public sealed partial class GameSettings : DelphiRegistry
     // AoWReg.pas:783
     public void SetEmailGamesCrc(int value)
     {
-        string s = $"4G5F6JHH-{IntToHex(value, digits: 8)}-6AG66554-98LK0FG3";
+        string s = $"4G5F6JHH-{unchecked((uint)value).ToString("X8", provider: CultureInfo.InvariantCulture)}-6AG66554-98LK0FG3";
         String("General", "Serial number", ref s, mode: ReadWriteMode.Write);
     }
 
@@ -736,13 +737,13 @@ public sealed partial class GameSettings : DelphiRegistry
     {
         return string.Concat(new string[7]
         {
-            IntToStr(R.Left),
+            R.Left.ToString(CultureInfo.InvariantCulture),
             ",",
-            IntToStr(R.Top),
+            R.Top.ToString(CultureInfo.InvariantCulture),
             ",",
-            IntToStr(R.Right),
+            R.Right.ToString(CultureInfo.InvariantCulture),
             ",",
-            IntToStr(R.Bottom)
+            R.Bottom.ToString(CultureInfo.InvariantCulture)
         });
     }
 

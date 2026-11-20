@@ -165,7 +165,7 @@ public class TownGate : CityTargetSpell
                 TownGateTokenEvent townGateEvent = (TownGateTokenEvent)eventValue;
                 ArmyId id = army.Army.CreateId(selection);
                 townGateEvent.ArmyId = id;
-                MapCoordinate packMapCoordinate = HexGeometry.PackMapCoordinate((sbyte)walk.X, (sbyte)walk.Y, (sbyte)L);
+                MapCoordinate packMapCoordinate = new((sbyte)walk.X, (sbyte)walk.Y, (sbyte)L);
                 townGateEvent.TeleportLocation = packMapCoordinate;
                 return true;
             }

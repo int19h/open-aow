@@ -1,10 +1,10 @@
 #nullable disable
 // Translated from AoWVideoDlg.pas.
+using System.Globalization;
 using Aow.Game.Draw;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiTextCompare;
 using static Aow.Rtl.IntegerObjects;
 
@@ -58,7 +58,7 @@ public sealed partial class VideoDialog(UIContext ui) : UIModule(ui)
             if (mode.Width >= 640 && mode.Height >= 480)
             {
                 string fullScreen = UI.Engine.TranslateResourceString(s_fullScreenText);
-                _ = DisplayModesList.Items.AddObject($"{fullScreen}:{IntToStr(mode.Width)}x{IntToStr(mode.Height)}", item: IntToObject(i));
+                _ = DisplayModesList.Items.AddObject($"{fullScreen}:{mode.Width.ToString(CultureInfo.InvariantCulture)}x{mode.Height.ToString(CultureInfo.InvariantCulture)}", item: IntToObject(i));
             }
         }
 

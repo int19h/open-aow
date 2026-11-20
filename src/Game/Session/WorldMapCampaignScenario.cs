@@ -41,7 +41,7 @@ public sealed class WorldMapCampaignScenario : CampaignScenario
     {
         base.PersistFields(persister);
         // The original ReadWrite leaves out the image library under text only (the translate stream).
-        if (!PersistSupport.Translating(persister))
+        if (!persister.Translating())
         {
             ImageLibrary = persister.String("ImageLibrary", value: ImageLibrary);
         }
@@ -54,7 +54,7 @@ public sealed class WorldMapCampaignScenario : CampaignScenario
         MapY = persister.Int32("MapY", value: MapY);
         persister.Object("IntroPages", objectValue: IntroPages);
         persister.Object("OutroPages", objectValue: OutroPages);
-        PersistSupport.Int32List(persister, name: "Paths", list: Paths);
+        persister.Int32List(name: "Paths", list: Paths);
         MapKind = persister.RawByte("MapKind", value: MapKind);
     }
 

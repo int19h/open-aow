@@ -135,7 +135,7 @@ internal sealed class RunFiles(string gameRoot, string runDirectory, string? inp
 
     public Stream Open(string path, int mode)
     {
-        bool writing = mode == DelphiStreams.fmCreate || (mode & 3) != 0;
+        bool writing = mode == (int)FileOpenMode.Create || (mode & 3) != 0;
         // The command-line save is an explicit read-only input outside the virtual drive.
         return !writing && IsInput(path)
             ? File.Open(_input!, mode: FileMode.Open, access: FileAccess.Read, share: FileShare.Read)

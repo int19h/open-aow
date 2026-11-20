@@ -1,6 +1,7 @@
 #nullable disable
 // Translated from AoWE.pas.
 using System.Collections.Immutable;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 
 using Aow.Engine.Collections;
@@ -19,8 +20,6 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.Units;
 
@@ -188,7 +187,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
                         if (settings.Path.Count != 0)
                         {
                             int roadConstructionCost = AbilityRules.RoadConstructionCost(ArmyHexSprite.Army.Player, settings.Path, settings.MovePoints);
-                            string format = AbilityRules.Format(AbilityRules.TranslateResourceString(Creator.GetEngine(), S: s_armyRoadConstructionCostFormat), arguments: [IntToStr(roadConstructionCost)]);
+                            string format = AbilityRules.Format(AbilityRules.TranslateResourceString(Creator.GetEngine(), S: s_armyRoadConstructionCostFormat), arguments: [roadConstructionCost.ToString(CultureInfo.InvariantCulture)]);
                             StrategicMap.Current.ShowMessage(format);
                         }
                     }
@@ -662,13 +661,13 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
     {
         for (int i = 0, last = ArmyHexSprite.Army.Units.Count - 1; i <= last; i++)
         {
-            string text = $"{ArmyHexSprite.Army.Units.GetUnit(i).GetName()}(ID:{IntToStr(ArmyHexSprite.Army.Units.GetUnit(i).UnitId)})";
+            string text = $"{ArmyHexSprite.Army.Units.GetUnit(i).GetName()}(ID:{ArmyHexSprite.Army.Units.GetUnit(i).UnitId.ToString(CultureInfo.InvariantCulture)})";
             AIGroup group = ArmyHexSprite.Army.Units.GetUnit(i).Group;
             if (group is not null)
             {
                 GroupBehavior behavior = group.GroupClass.Behavior;
                 MapCoordinate target = group.TargetLocation ?? MapCoordinate.None;
-                text = $"{text}{s_groupBehaviorTexts[(int)behavior]}(GID:{IntToStr(group.GroupId)}/Target:{IntToStr(target.X)},{IntToStr(target.Y)},{IntToStr(target.MapLevel)}/Budget:{IntToStr(group.GoldBudget)}/MP:{IntToStr(group.TargetMovePoints)})";
+                text = $"{text}{s_groupBehaviorTexts[(int)behavior]}(GID:{group.GroupId.ToString(CultureInfo.InvariantCulture)}/Target:{((int)target.X).ToString(CultureInfo.InvariantCulture)},{((int)target.Y).ToString(CultureInfo.InvariantCulture)},{((int)target.MapLevel).ToString(CultureInfo.InvariantCulture)}/Budget:{group.GoldBudget.ToString(CultureInfo.InvariantCulture)}/MP:{group.TargetMovePoints.ToString(CultureInfo.InvariantCulture)})";
                 if (group.TargetType == AIGroupTargetStatus.Setup)
                 {
                     text += "-setup";
@@ -692,7 +691,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
         }
 
         int strengthMax = ArmyHexSprite.Army.Units.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.None));
-        Creator.GetEngine().OutputDebugString($"Army strength: {IntToStr(strengthMax)}");
+        Creator.GetEngine().OutputDebugString($"Army strength: {strengthMax.ToString(CultureInfo.InvariantCulture)}");
     }
 
     // Army.PAS:4090
@@ -898,11 +897,11 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
                     moves.GetEngine().OutputDebugString(string.Concat(new string[6]
                     {
                         "Moving to: ",
-                        IntToStr(mapCoordinate.X),
+                        ((int)mapCoordinate.X).ToString(CultureInfo.InvariantCulture),
                         ",",
-                        IntToStr(mapCoordinate2.Y),
+                        ((int)mapCoordinate2.Y).ToString(CultureInfo.InvariantCulture),
                         ",",
-                        IntToStr(mapCoordinate3.MapLevel)
+                        ((int)mapCoordinate3.MapLevel).ToString(CultureInfo.InvariantCulture)
                     }));
                     if (armyDefaultMoveTokenEvent.Setup((ArmyHexSprite)moveSettingsLocal.MoveObject, selection: (byte)moveSettingsLocal.Selection, path: movePath, mode: Set<ArmyMoveModeElement>.Of([])))
                     {

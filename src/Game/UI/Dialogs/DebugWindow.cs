@@ -1,6 +1,6 @@
+using System.Globalization;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
-using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -11,7 +11,7 @@ public sealed class DebugWindow(UIContext ui, Window window, Label frameRateLabe
 {
     public void Show() => window.Visible = true;
 
-    public void ShowFrameRate(int frameRate) => frameRateLabel.Text = DelphiConversions.IntToStr(frameRate);
+    public void ShowFrameRate(int frameRate) => frameRateLabel.Text = frameRate.ToString(CultureInfo.InvariantCulture);
 
     // AOWDialogWin.pas:113
     public void AddMessage(string text)

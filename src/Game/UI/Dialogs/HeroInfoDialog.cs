@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWHeroInfoDlg.pas.
+using System.Globalization;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Events;
@@ -9,7 +10,6 @@ using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiAssert;
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -167,7 +167,7 @@ public sealed partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
         {
             dialog.HeroNameLabel.Text = hero.HeroName;
             sbyte level = hero.GetLevel();
-            string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.LevelFormat), arguments: [IntToStr(level)]);
+            string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.LevelFormat), arguments: [((int)level).ToString(CultureInfo.InvariantCulture)]);
             dialog.HeroLevelLabel.Text = format;
         }
         else

@@ -5,7 +5,6 @@ using Aow.Game.Draw.Images;
 using Aow.Game.UI.Controls;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiConversions;
-using static Aow.Rtl.DelphiFiles;
 using static Aow.Rtl.DelphiPaths;
 using static Aow.Rtl.DelphiStrings;
 using static Aow.Rtl.DelphiTextCompare;
@@ -452,7 +451,7 @@ public sealed partial class HtmlMemo : BaseWindow
                         case IntegerParseMode.Background:
                             if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(c))
                             {
-                                if (FileExists(ExtractFilePath(LegacyApplication.Application.ExeName) + Copy(item, index: tagStart + 1, count: j - tagStart)))
+                                if (Files.FileExists(ExtractFilePath(LegacyApplication.Application.ExeName) + Copy(item, index: tagStart + 1, count: j - tagStart)))
                                 {
                                     string filePath = ExtractFilePath(LegacyApplication.Application.ExeName);
                                     _images.LoadFromFile(filePath + Copy(item, index: tagStart + 1, count: j - tagStart));
@@ -902,7 +901,7 @@ public sealed partial class HtmlMemo : BaseWindow
     // AoWHTMLMemo.pas:165
     public void SetFileName(string value)
     {
-        if (value != _fileName && FileExists(value))
+        if (value != _fileName && Files.FileExists(value))
         {
             _fileName = value;
             Items.LoadFromFile(_fileName);
@@ -927,7 +926,7 @@ public sealed partial class HtmlMemo : BaseWindow
             i += 1;
         }
 
-        if (font is null && FileExists(fileName))
+        if (font is null && Files.FileExists(fileName))
         {
             font = new ImageLibraryFont(this)
             {

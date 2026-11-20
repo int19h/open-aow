@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWResultsWin.pas.
+using System.Globalization;
 using Aow.Engine.Collections;
 using Aow.Game.Audio;
 using Aow.Game.Draw;
@@ -12,8 +13,6 @@ using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.UI.Dialogs;
@@ -121,7 +120,7 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
         }
 
         string turn = UI.Engine.TranslateResourceString(s_turnText);
-        TurnLabel.Text = $"{turn} {IntToStr(_maxTurns)}";
+        TurnLabel.Text = $"{turn} {_maxTurns.ToString(CultureInfo.InvariantCulture)}";
     }
 
     // AoWResultsWin.pas:250
@@ -221,7 +220,7 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
         DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, turns: _maxTurns, maximum: _maxGold, R, surface);
         values?.Dispose();
-        KeyMaximumLabel.Text = IntToStr(_maxGold);
+        KeyMaximumLabel.Text = _maxGold.ToString(CultureInfo.InvariantCulture);
     }
 
     // AoWResultsWin.pas:175
@@ -237,7 +236,7 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
         DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, turns: _maxTurns, maximum: _maxMana, R, surface);
         values?.Dispose();
-        KeyMaximumLabel.Text = IntToStr(_maxMana);
+        KeyMaximumLabel.Text = _maxMana.ToString(CultureInfo.InvariantCulture);
     }
 
     // AoWResultsWin.pas:190
@@ -253,7 +252,7 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
         DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, turns: _maxTurns, maximum: _maxHeroes, R, surface);
         values?.Dispose();
-        KeyMaximumLabel.Text = IntToStr(_maxHeroes);
+        KeyMaximumLabel.Text = _maxHeroes.ToString(CultureInfo.InvariantCulture);
     }
 
     // AoWResultsWin.pas:205
@@ -269,7 +268,7 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
         DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, turns: _maxTurns, maximum: _maxArmies, R, surface);
         values?.Dispose();
-        KeyMaximumLabel.Text = IntToStr(_maxArmies);
+        KeyMaximumLabel.Text = _maxArmies.ToString(CultureInfo.InvariantCulture);
     }
 
     // AoWResultsWin.pas:220
@@ -285,7 +284,7 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
         DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, turns: _maxTurns, maximum: _maxStructures, R, surface);
         values?.Dispose();
-        KeyMaximumLabel.Text = IntToStr(_maxStructures);
+        KeyMaximumLabel.Text = _maxStructures.ToString(CultureInfo.InvariantCulture);
     }
 
     // AoWResultsWin.pas:235
@@ -302,7 +301,7 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
         DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, turns: _maxTurns, maximum: _maxStrength, R, surface);
         values?.Dispose();
         // { Original strength graph labels the structures maximum. }
-        KeyMaximumLabel.Text = IntToStr(_maxStructures);
+        KeyMaximumLabel.Text = _maxStructures.ToString(CultureInfo.InvariantCulture);
     }
 
     // AoWResultsWin.pas:270

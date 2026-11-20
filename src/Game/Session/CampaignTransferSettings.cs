@@ -82,7 +82,7 @@ public sealed class CampaignTransferSettings : EngineObject
         persister.Object("Heroes", objectValue: Heroes);
         persister.Object("Items", objectValue: Items);
         persister.Object("Units", objectValue: Units);
-        PersistSupport.Int32List(persister, name: "Spells", list: _spells);
+        persister.Int32List(name: "Spells", list: _spells);
         _researchSpellId = persister.Int32("ResearchSpellId", value: _researchSpellId);
         _researchPointsLeft = persister.Int32("ResearchPointsLeft", value: _researchPointsLeft);
         _researchPercentage = persister.Int32("ResearchPercentage", value: _researchPercentage);
