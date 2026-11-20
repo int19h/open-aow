@@ -77,6 +77,11 @@ tool that generates C# emits code that follows them.
   `EnforceCodeStyleInBuild`, so a rule at warning fails the build. A rule at suggestion has
   remaining sites and names its fix group in the `.editorconfig` comment next to it.
 - Code that works with data uses pattern matching and deconstruction where they make it clearer.
+- Numeric literals group their digits with `_`: decimal by thousands (`1_000`, `16_000_000`),
+  hex and binary by the unit that fits the context, a byte, a word or a double word (`0xFF_FF_FF`
+  for a color, `0xFFFF_0000` for a word mask, `0b0110_1000`). A mask is written in hex when every
+  group of four bits is all ones or all zeros, so that only `F` and `0` appear (`0xFF`, `0xFFFF`,
+  `0x0F_F0`), and in binary otherwise (`0b0110`). A named constant still names a mask with a meaning.
 - Calls use named arguments. A call with one argument needs none. From the second argument on,
   name the arguments, except where a strong positional convention carries the meaning (`x, y`,
   `x, y, z`, `width, height` and the like). A boolean argument is always named unless it is the
